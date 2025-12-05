@@ -111152,7 +111152,732 @@ it('should throw NotFoundException when user not found', async () => {
             ],
           },
           {
-            topic: "Modules in NestJS",
+            topic: "Decorators",
+            tags: ["Metadata", "Reflect", "Annotations", "DI", "Routing", "Validation", "Reflection"],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;"> Decorators are a fundamental TypeScript/JavaScript feature that NestJS leverages extensively to implement its declarative, metadata-driven architecture. Decorators are special kinds of declarations that can be attached to classes, methods, properties, or parameters to modify their behavior or add metadata. In NestJS, decorators are the primary mechanism for defining routes, dependency injection, validation, guards, interceptors, and virtually all framework features. They provide a clean, readable syntax while enabling powerful runtime behavior through the Reflect Metadata API. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Why Decorators? (The Core Philosophy and Architectural Necessity) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> NestJS's entire architecture is built on <strong>metadata-driven programming</strong>, and decorators are the vehicle for this approach. The <strong>why</strong> behind decorators in NestJS is multi-faceted: 1) <strong>Declarative Programming:</strong> Decorators allow developers to express <em>what</em> their code does rather than <em>how</em> it does it. Instead of configuring routes in a separate configuration file, you declare them directly on methods with <code>@Get()</code> or <code>@Post()</code>. 2) <strong>Metadata Attachment:</strong> Decorators attach metadata to classes and their members using the Reflect Metadata API. This metadata is then read at runtime by NestJS to understand the structure and behavior of your application without requiring manual configuration. 3) <strong>Framework Extensibility:</strong> Decorators create extension points for middleware, guards, pipes, and interceptors to hook into. 4) <strong>Clean Separation of Concerns:</strong> By using decorators, framework concerns (routing, validation, dependency injection) are separated from business logic, making code more maintainable and testable. 5) <strong>Type Safety:</strong> TypeScript decorators work with the type system, providing compile-time validation of decorator usage. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> What Are Decorators? (Complete Technical Definition and Metadata Flow) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> At their core, decorators are <strong>higher-order functions</strong> that receive details about the decorated target and can modify or annotate it. In NestJS, decorators primarily serve to <strong>attach metadata</strong> rather than modify behavior directly. This metadata is stored using the <code>Reflect.defineMetadata()</code> API and retrieved at runtime using <code>Reflect.getMetadata()</code>. The <strong>what</strong> includes: <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;"> <li><strong>Metadata Storage:</strong> Key-value pairs attached to classes, methods, properties, or parameters.</li> <li><strong>Reflection API Integration:</strong> The <code>reflect-metadata</code> polyfill enables reading type information and custom metadata at runtime.</li> <li><strong>TypeScript Compiler Configuration:</strong> Requires <code>experimentalDecorators: true</code> and <code>emitDecoratorMetadata: true</code> in tsconfig.json.</li> <li><strong>Decorator Factories:</strong> Functions that return the actual decorator function, allowing parameterization (e.g., <code>@Controller('users')</code>).</li> <li><strong>Metadata Keys:</strong> Unique symbols or strings used as keys for storing different types of metadata (e.g., 'design:type', 'design:paramtypes', 'path', 'method').</li> </ul> The metadata flow is: 1) Decorators execute at class definition time (not instantiation time). 2) They store metadata via Reflect API. 3) NestJS runtime reads this metadata during application bootstrap. 4) The framework uses the metadata to configure routing, dependency injection, validation, etc. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> How Decorators Work: The Complete Flow (From Source Code to Runtime Behavior) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Understanding the <strong>how</strong> requires examining the multi-stage transformation from TypeScript decorators to runtime behavior: <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;"> <li><strong>Compilation Phase (TypeScript):</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>TypeScript compiler encounters decorator syntax in source code.</li> <li>With <code>emitDecoratorMetadata: true</code>, TypeScript emits three special metadata keys: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li><code>design:type</code> - The type of the decorated property/method.</li> <li><code>design:paramtypes</code> - Array of parameter types for methods.</li> <li><code>design:returntype</code> - Return type of methods.</li> </ul> </li> <li>TypeScript transforms decorators into function calls in the compiled JavaScript.</li> </ol> </li> <li><strong>Decorator Execution Phase (At Class Definition):</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>When the JavaScript class is defined (not instantiated), all decorators execute.</li> <li>Decorator functions receive specific arguments based on what they decorate: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li><strong>Class decorators:</strong> Receive the constructor function.</li> <li><strong>Method decorators:</strong> Receive target class, method name, property descriptor.</li> <li><strong>Property decorators:</strong> Receive target class, property name.</li> <li><strong>Parameter decorators:</strong> Receive target class, method name, parameter index.</li> </ul> </li> <li>Decorators call <code>Reflect.defineMetadata()</code> to attach metadata to the target.</li> </ol> </li> <li><strong>NestJS Bootstrap Phase:</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>During application startup, NestJS scans all modules and their components.</li> <li>It uses <code>Reflect.getMetadata()</code> to read metadata from classes.</li> <li>Based on the metadata, NestJS builds: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li>Dependency injection graph (from <code>@Injectable()</code> and <code>@Inject()</code>)</li> <li>Route mapping tables (from <code>@Controller()</code>, <code>@Get()</code>, <code>@Post()</code>, etc.)</li> <li>Validation rules (from <code>@IsEmail()</code>, <code>@MinLength()</code>, etc.)</li> <li>Guard, interceptor, and pipe configurations</li> </ul> </li> </ol> </li> <li><strong>Runtime Request Handling Phase:</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>When a request arrives, NestJS matches it to a controller method using route metadata.</li> <li>It resolves dependencies using <code>design:paramtypes</code> metadata.</li> <li>It validates and transforms parameters using pipe metadata.</li> <li>Guards and interceptors execute based on their metadata.</li> </ol> </li> </ol> This metadata-driven approach enables NestJS to provide a highly declarative API while maintaining excellent performance through pre-computed configuration. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> TypeScript Configuration Requirements </h4> <p style="line-height: 1.75; margin-top: 1rem;"> For decorators to work properly in NestJS, specific TypeScript compiler options must be set: </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-json">// tsconfig.json { "compilerOptions": { // Essential for decorators "experimentalDecorators": true, "emitDecoratorMetadata": true,
+  
+// Required for reflect-metadata to work
+"target": "ES2017" /* or higher */,
+
+// Other recommended settings
+"module": "commonjs",
+"lib": ["ES2017", "ESNext.AsyncIterable"],
+"strict": true,
+"skipLibCheck": true
+}
+}</code></pre>
+
+</div> <p style="line-height: 1.75; margin-top: 1rem;"> Additionally, you must install and import the reflect-metadata polyfill: </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// main.ts or a polyfills file import 'reflect-metadata';
+// This polyfill adds Reflect.defineMetadata and Reflect.getMetadata
+// to the global Reflect object, enabling metadata storage and retrieval.</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Reflect Metadata API: The Engine Behind Decorators </h4> <p style="line-height: 1.75; margin-top: 1rem;"> The Reflect Metadata API (spec proposal) provides the foundation for decorator metadata. Key methods: </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">defineMetadata(metadataKey, metadataValue, target, propertyKey?):</span> Stores metadata on a class or class member. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">getMetadata(metadataKey, target, propertyKey?):</span> Retrieves metadata stored on a class or class member. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">getOwnMetadata(metadataKey, target, propertyKey?):</span> Retrieves metadata without checking prototype chain. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">hasMetadata(metadataKey, target, propertyKey?):</span> Checks if metadata exists. </li> </ol> <p style="line-height: 1.75; margin-top: 1rem;"> NestJS uses these methods internally. For example, when you use <code>@Get('users')</code>, NestJS calls: </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Simplified internal implementation function Get(path: string) { return (target: any, propertyKey: string) => { Reflect.defineMetadata('path', path, target, propertyKey); Reflect.defineMetadata('method', 'GET', target, propertyKey); }; }
+// Later, during route registration
+const path = Reflect.getMetadata('path', controllerInstance, 'methodName');
+const method = Reflect.getMetadata('method', controllerInstance, 'methodName');</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Types of Decorators in NestJS (Detailed Classification) </h4> <h5 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.025em;"> 1. Class Decorators (Applied to Class Constructors) </h5> <p style="line-height: 1.75; margin-top: 1rem;"> Class decorators receive the class constructor as their only argument. They're executed when the class is defined. </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Module():</span> Defines a NestJS module - groups related controllers, providers, imports, and exports. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Module({ controllers: [UsersController], providers: [UsersService], imports: [DatabaseModule], exports: [UsersService] }) export class UsersModule {}</code></pre> </div> <p style="margin-top: 0.5rem;"><strong>Metadata stored:</strong> Module configuration including controllers, providers, imports, exports.</p> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Controller():</span> Marks a class as a controller and optionally defines a route prefix. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Controller('users') // Prefix: /users export class UsersController {}</code></pre> </div> <p style="margin-top: 0.5rem;"><strong>Metadata stored:</strong> Route prefix, controller options (version, host restrictions).</p> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Injectable():</span> Marks a class as a provider that can be managed by the NestJS DI container. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Injectable() export class UsersService {}</code></pre> </div> <p style="margin-top: 0.5rem;"><strong>Metadata stored:</strong> DI scope information, marks class as injectable.</p> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Middleware():</span> (Custom/Third-party) Marks a class as middleware. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Interceptor():</span> Marks a class as an interceptor. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Pipe():</span> Marks a class as a pipe. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Guard():</span> Marks a class as a guard. </li> </ol> <h5 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.025em;"> 2. Method Decorators (Applied to Class Methods) </h5> <p style="line-height: 1.75; margin-top: 1rem;"> Method decorators receive three arguments: target class, method name, and property descriptor. They're commonly used for defining HTTP routes and applying middleware. </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">HTTP Method Decorators:</span> Define HTTP routes. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Get('profile') // GET /users/profile @Post() // POST /users @Put(':id') // PUT /users/:id @Delete(':id') // DELETE /users/:id @Patch(':id') // PATCH /users/:id @All('catch-all') // All methods to /users/catch-all @Options() // OPTIONS /users @Head() // HEAD /users</code></pre> </div> <p style="margin-top: 0.5rem;"><strong>Metadata stored:</strong> HTTP method, route path, route-specific options.</p> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@UseGuards():</span> Applies guards to a route or controller. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@UseGuards(AuthGuard, RolesGuard) @Get('admin') getAdminData() {}</code></pre> </div> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@UseInterceptors():</span> Applies interceptors to a route or controller. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@UseInterceptors(LoggingInterceptor, TransformInterceptor) @Get() findAll() {}</code></pre> </div> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@UsePipes():</span> Applies pipes to a route or controller. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Render():</span> Specifies a template to render (for server-side rendering). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Header():</span> Sets HTTP response headers. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Header('Cache-Control', 'no-cache') @Get() findAll() {}</code></pre> </div> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@HttpCode():</span> Sets HTTP status code for response. </li> </ol> <h5 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.025em;"> 3. Property Decorators (Applied to Class Properties) </h5> <p style="line-height: 1.75; margin-top: 1rem;"> Property decorators receive two arguments: target class and property name. They're used for dependency injection and metadata attachment. </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Inject():</span> Injects a dependency by token (class, string, or symbol). <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Inject(UsersService) private usersService: UsersService;
+@Inject('CONFIG')
+private config: any;
+
+@Inject(Symbol('LOGGER'))
+private logger: any;</code></pre>
+</div>
+<p style="margin-top: 0.5rem;"><strong>Metadata stored:</strong> Injection token tied to the property.</p>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">@Optional():</span> Marks a dependency as optional (won't throw error if not found).
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Optional()
+@Inject('CACHE_MANAGER')
+private cacheManager?: Cache;</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Validation Decorators (class-validator):</span> Attach validation rules to properties.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@IsEmail()
+email: string;
+
+@IsString()
+@MinLength(6)
+password: string;
+
+@IsNumber()
+@Min(0)
+@Max(100)
+age: number;</code></pre>
+</div>
+<p style="margin-top: 0.5rem;"><strong>Metadata stored:</strong> Validation constraints for the property.</p>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Transformation Decorators (class-transformer):</span> Define how to transform property values.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Type(() => Date)
+createdAt: Date;
+
+@Transform(({ value }) => value.toLowerCase())
+email: string;
+
+@Expose()
+publicField: string;
+
+@Exclude()
+privateField: string;</code></pre>
+</div>
+</li>
+
+</ol> <h5 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.025em;"> 4. Parameter Decorators (Applied to Method Parameters) </h5> <p style="line-height: 1.75; margin-top: 1rem;"> Parameter decorators receive three arguments: target class, method name, and parameter index. They extract data from HTTP requests and define how parameters should be processed. </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Param():</span> Extracts route parameters. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Get(':id') findOne(@Param('id') id: string) {}
+// All parameters
+@Get(':userId/orders/:orderId')
+getOrder(@Param() params: any) {}
+
+// With pipe for transformation
+@Get(':id')
+findOne(@Param('id', ParseIntPipe) id: number) {}</code></pre>
+</div>
+<p style="margin-top: 0.5rem;"><strong>Metadata stored:</strong> Parameter index and extraction source ('params').</p>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">@Query():</span> Extracts query string parameters.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Get()
+findAll(@Query() pagination: PaginationDto) {}
+
+// Specific query parameter
+@Get('search')
+search(@Query('q') query: string) {}
+
+// With default value pipe
+@Get()
+findAll(@Query('page', new DefaultValuePipe(1)) page: number) {}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">@Body():</span> Extracts request body.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Post()
+create(@Body() createUserDto: CreateUserDto) {}
+
+// Specific property from body
+@Post()
+create(@Body('email') email: string) {}
+
+// With validation pipe
+@Post()
+create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">@Headers():</span> Extracts HTTP headers.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Get()
+findAll(@Headers('authorization') auth: string) {}
+
+// All headers
+@Get()
+findAll(@Headers() headers: any) {}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">@Ip():</span> Extracts client IP address.
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">@Session():</span> Extracts session object.
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">@UploadedFile():</span> Extracts uploaded file (with multer).
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Post('upload')
+@UseInterceptors(FileInterceptor('file'))
+uploadFile(@UploadedFile() file: Express.Multer.File) {}</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Decorator Composition and Execution Order </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Multiple decorators can be applied to the same target, and they execute in a specific order: </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Parameter Decorators:</span> Execute first, for each parameter from bottom to top (right to left in parameter list). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Method Decorators:</span> Execute second, from bottom to top (decorators closest to method execute last). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Property Decorators:</span> Execute for each property. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Class Decorators:</span> Execute last, from top to bottom (decorators closest to class execute first). </li> </ol> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Controller('users') // 4. Executes first (closest to class) @UseGuards(AuthGuard) // 3. Executes second @ApiTags('users') // 2. Executes third export class UsersController {
+@Get('profile') // 2. Executes (method decorator)
+@UseInterceptors(LoggingInterceptor) // 1. Executes first (farthest from method)
+getProfile(
+@Req() request: Request, // 1. Executes first (parameter decorator)
+@User() user: User // 2. Executes second (parameter decorator)
+) {
+// Method body
+}
+}</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Custom Decorator Creation (Advanced Usage) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Creating custom decorators allows you to encapsulate reusable patterns and metadata. There are three main approaches: </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Simple Decorator (No Parameters):</span> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Method decorator that logs execution export function LogExecution() { return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => { const originalMethod = descriptor.value;
+  
+descriptor.value = function(...args: any[]) {
+  console.log(Executing $ { propertyKey } with args:, args);
+  const result = originalMethod.apply(this, args);
+  console.log(Result: , result);
+  return result;
+};
+
+return descriptor;
+};
+}
+
+// Usage
+@Controller('users')
+export class UsersController {
+@Get()
+@LogExecution()
+findAll() {
+return this.usersService.findAll();
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Parameterized Decorator (Decorator Factory):</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// Custom parameter decorator with metadata
+export function User(param?: string) {
+return (target: any, propertyKey: string, parameterIndex: number) => {
+// Store metadata about this parameter
+Reflect.defineMetadata(
+'custom:userParam',
+{ param, index: parameterIndex },
+target,
+propertyKey
+);
+};
+}
+
+// Usage - extracts user from request
+@Get('profile')
+getProfile(@User() user: UserEntity) {
+return user;
+}
+
+// With parameter
+@Get('profile')
+getProfile(@User('id') userId: string) {
+return this.usersService.findOne(userId);
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Composite Decorator (Combining Multiple):</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// Combines multiple decorators for common patterns
+export function AdminOnly() {
+return applyDecorators(
+UseGuards(AuthGuard, AdminGuard),
+ApiBearerAuth(),
+ApiForbiddenResponse({ description: 'Admin access required' }),
+SetMetadata('roles', ['admin'])
+);
+}
+
+// Usage
+@Controller('admin')
+export class AdminController {
+@Get('dashboard')
+@AdminOnly()
+getDashboard() {
+return { message: 'Admin dashboard' };
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Metadata-Only Decorator (Most Common in NestJS):</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// Custom decorator that only attaches metadata
+import { SetMetadata } from '@nestjs/common';
+
+export const ROLES_KEY = 'roles';
+export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
+
+// Usage
+@Controller('users')
+export class UsersController {
+@Get('admin')
+@Roles('admin', 'superadmin')
+getAdminData() {
+return this.usersService.getAdminData();
+}
+}
+
+// Guard that reads this metadata
+@Injectable()
+export class RolesGuard implements CanActivate {
+constructor(private reflector: Reflector) {}
+
+canActivate(context: ExecutionContext): boolean {
+const requiredRoles = this.reflector.get<string[]>(
+ROLES_KEY,
+context.getHandler()
+);
+
+  
+if (!requiredRoles) {
+  return true;
+}
+
+const { user } = context.switchToHttp().getRequest();
+return requiredRoles.some((role) => user.roles?.includes(role));
+}
+}</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Decorator Metadata in Dependency Injection </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Decorators play a crucial role in NestJS's dependency injection system: </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Injectable() export class UsersService { constructor( // TypeScript emits 'design:paramtypes' metadata private repository: UsersRepository, // Inferred type: UsersRepository @Inject('CONFIG') private config: any, // Custom token @Optional() private cache?: Cache // Optional dependency ) {} }
+// What TypeScript emits (simplified):
+Reflect.defineMetadata(
+'design:paramtypes',
+[UsersRepository, Object, Cache], // Types of parameters
+UsersService
+);
+
+// What @Inject() does:
+Reflect.defineMetadata(
+'custom:inject',
+['CONFIG'], // Custom injection token for second parameter
+UsersService
+);
+
+// What @Optional() does:
+Reflect.defineMetadata(
+'custom:optional',
+[false, true, true], // Which parameters are optional
+UsersService
+);
+
+// At runtime, NestJS reads all this metadata to:
+// 1. Know what dependencies UsersService needs
+// 2. Know how to resolve each dependency (by type or custom token)
+// 3. Know which dependencies are optional</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Performance Considerations and Best Practices </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Decorator Execution Time:</span> Decorators execute at class definition time (when the module is loaded), not at request time. This means the metadata setup overhead occurs once during application startup, not per request. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Metadata Storage Overhead:</span> The reflect-metadata API stores metadata in WeakMaps, which have minimal memory overhead and don't prevent garbage collection. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Avoid Heavy Logic in Decorators:</span> Since decorators execute at module loading time, avoid expensive operations (database calls, network requests) in decorator functions. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Use SetMetadata for Custom Metadata:</span> For custom metadata, use NestJS's <code>SetMetadata</code> function rather than directly using <code>Reflect.defineMetadata</code> for consistency. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Leverage Existing Decorators:</span> Before creating custom decorators, check if NestJS already provides what you need (e.g., <code>@SetMetadata()</code>, <code>applyDecorators()</code>). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Type Safety with Custom Decorators:</span> Use generic types in custom decorators to maintain TypeScript type safety. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Decorator Composition:</span> Use <code>applyDecorators()</code> to combine multiple decorators into one for cleaner code. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Testing Considerations:</span> When testing, decorator metadata is still attached. Mock the <code>Reflector</code> service to test guards and interceptors that read metadata. </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Common Decorator Patterns and Anti-patterns </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Good Pattern: Metadata-Only Decorators</span> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// GOOD: Decorator only attaches metadata export const Public = () => SetMetadata('isPublic', true);
+// Usage - marks route as publicly accessible
+@Controller('auth')
+export class AuthController {
+@Get('login')
+@Public()
+login() {
+// Public endpoint
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Anti-pattern: Business Logic in Decorators</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// BAD: Decorator contains business logic
+export function ValidateUser() {
+return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+const originalMethod = descriptor.value;
+
+  
+descriptor.value = function(...args: any[]) {
+  // Business logic in decorator (BAD)
+  const user = args[0];
+  if (!user.isActive) {
+    throw new Error('User is not active');
+  }
+  // More business logic...
+  
+  return originalMethod.apply(this, args);
+};
+
+return descriptor;
+};
+}
+
+// This should be in a guard, pipe, or service instead</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Good Pattern: Parameter Transformation Decorator</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// GOOD: Decorator that works with pipes
+export function Trim() {
+return (target: any, propertyKey: string, parameterIndex: number) => {
+// Attach metadata that a pipe can read
+const existingTransformations =
+Reflect.getMetadata('custom:transformations', target, propertyKey) || [];
+
+  
+existingTransformations[parameterIndex] = 'trim';
+
+Reflect.defineMetadata(
+  'custom:transformations',
+  existingTransformations,
+  target,
+  propertyKey
+);
+};
+}
+
+// Usage
+@Post()
+createUser(@Body() @Trim() createUserDto: CreateUserDto) {
+// createUserDto properties are automatically trimmed
+return this.usersService.create(createUserDto);
+}
+
+// Pipe that reads this metadata
+@Injectable()
+export class TrimPipe implements PipeTransform {
+transform(value: any, metadata: ArgumentMetadata) {
+const transformations = Reflect.getMetadata(
+'custom:transformations',
+metadata.metatype,
+metadata.data
+);
+
+  
+if (transformations?.[metadata.index] === 'trim') {
+  // Trim string values
+  return this.trimValues(value);
+}
+
+return value;
+}
+}</code></pre>
+</div>
+</li>
+</ol> </div>`,
+
+            examples: [`// Complete Example: Custom Decorators in Action import { Controller, Get, Post, Body, Param, UseGuards, createParamDecorator, ExecutionContext, SetMetadata, applyDecorators } from '@nestjs/common'; import { Reflector } from '@nestjs/core'; import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+// 1. Custom Parameter Decorator
+export const User = createParamDecorator(
+(data: string, ctx: ExecutionContext) => {
+const request = ctx.switchToHttp().getRequest();
+const user = request.user;
+
+  
+return data ? user?.[data] : user;
+}
+);
+
+// 2. Custom Method Decorator (Metadata only)
+export const Roles = (...roles: string[]) => SetMetadata('roles', roles);
+
+// 3. Composite Decorator
+export function Auth(...roles: string[]) {
+return applyDecorators(
+SetMetadata('roles', roles),
+UseGuards(AuthGuard, RolesGuard),
+ApiBearerAuth(),
+ApiResponse({ status: 403, description: 'Forbidden' })
+);
+}
+
+// 4. Custom Property Decorator
+export function LogProperty() {
+return (target: any, propertyKey: string) => {
+let value = target[propertyKey];
+
+  
+const getter = () => {
+  console.log(\`Getting \${propertyKey}: \${value}\`);
+  return value;
+};
+
+const setter = (newVal: any) => {
+  console.log(\`Setting \${propertyKey} to: \${newVal}\`);
+  value = newVal;
+};
+
+Object.defineProperty(target, propertyKey, {
+  get: getter,
+  set: setter,
+  enumerable: true,
+  configurable: true
+});
+};
+}
+
+// 5. Service using custom decorators
+@Injectable()
+export class UsersService {
+@LogProperty()
+private cache: Map<string, any> = new Map();
+
+async findOne(id: string) {
+// Business logic
+return { id, name: 'John' };
+}
+}
+
+// 6. Controller using all custom decorators
+@Controller('users')
+export class UsersController {
+constructor(private usersService: UsersService) {}
+
+@Get('profile')
+@Auth('user', 'admin') // Composite decorator
+getProfile(@User() user: any) {
+return { profile: user };
+}
+
+@Get(':id')
+@Roles('admin') // Metadata decorator
+getUser(@Param('id') id: string, @User('id') userId: string) {
+// userId comes from the authenticated user
+return this.usersService.findOne(id);
+}
+
+@Post('admin-action')
+@Auth('admin') // Reuse composite decorator
+adminAction(@Body() data: any, @User('email') adminEmail: string) {
+console.log(Admin $ {adminEmail} performed action , data);
+return { success: true };
+}
+}
+
+// 7. Guard that reads metadata from decorators
+@Injectable()
+export class RolesGuard implements CanActivate {
+constructor(private reflector: Reflector) {}
+
+canActivate(context: ExecutionContext): boolean {
+// Read roles metadata set by @Roles() or @Auth() decorators
+const requiredRoles = this.reflector.get<string[]>(
+'roles',
+context.getHandler()
+);
+
+  
+if (!requiredRoles) {
+  return true; // No roles required
+}
+
+const request = context.switchToHttp().getRequest();
+const user = request.user;
+
+return requiredRoles.some((role) => user.roles?.includes(role));
+}
+}`,
+
+
+              `// Advanced Example: Building a Custom Validation Decorator System
+import {
+registerDecorator, ValidationOptions,
+ValidationArguments, ValidatorConstraint,
+ValidatorConstraintInterface
+} from 'class-validator';
+import { Injectable } from '@nestjs/common';
+import { UsersService } from './users.service';
+
+// 1. Custom validator constraint
+@ValidatorConstraint({ name: 'isUniqueEmail', async: true })
+@Injectable()
+export class IsUniqueEmailConstraint implements ValidatorConstraintInterface {
+constructor(private usersService: UsersService) {}
+
+async validate(email: string, args: ValidationArguments) {
+const user = await this.usersService.findByEmail(email);
+return !user; // Valid if no user exists with this email
+}
+
+defaultMessage(args: ValidationArguments) {
+return Email $ {args.value} is already registered;
+}
+}
+
+// 2. Custom decorator using the constraint
+export function IsUniqueEmail(validationOptions?: ValidationOptions) {
+return function (object: Object, propertyName: string) {
+registerDecorator({
+target: object.constructor,
+propertyName: propertyName,
+options: validationOptions,
+constraints: [],
+validator: IsUniqueEmailConstraint,
+});
+};
+}
+
+// 3. Another custom validator - matches confirm password
+export function IsEqualTo(
+property: string,
+validationOptions?: ValidationOptions
+) {
+return (object: any, propertyName: string) => {
+registerDecorator({
+name: 'isEqualTo',
+target: object.constructor,
+propertyName: propertyName,
+constraints: [property],
+options: validationOptions,
+validator: {
+validate(value: any, args: ValidationArguments) {
+const [relatedPropertyName] = args.constraints;
+const relatedValue = (args.object as any)[relatedPropertyName];
+return value === relatedValue;
+},
+defaultMessage(args: ValidationArguments) {
+const [relatedPropertyName] = args.constraints;
+return $ { propertyName } must match $ { relatedPropertyName };
+},
+},
+});
+};
+}
+
+// 4. DTO using custom decorators
+export class CreateUserDto {
+@IsEmail()
+@IsUniqueEmail({ message: 'Email already exists' })
+email: string;
+
+@IsString()
+@MinLength(6)
+password: string;
+
+@IsString()
+@IsEqualTo('password', { message: 'Passwords do not match' })
+confirmPassword: string;
+
+@IsCustomDomain() // Another hypothetical custom decorator
+@IsOptional()
+domain?: string;
+}
+
+// 5. Controller using the DTO
+@Controller('auth')
+export class AuthController {
+@Post('register')
+register(@Body() createUserDto: CreateUserDto) {
+// Validation happens automatically via ValidationPipe
+// Custom decorators are executed as part of validation
+return this.authService.register(createUserDto);
+}
+}`,
+
+              `// Real-world Example: Decorator-based Feature Flagging System
+import { SetMetadata, Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { Observable } from 'rxjs';
+
+// 1. Feature flag decorator
+export const FEATURE_FLAG_KEY = 'featureFlag';
+export const FeatureFlag = (flagName: string) => SetMetadata(FEATURE_FLAG_KEY, flagName);
+
+// 2. Feature flag service (checks if feature is enabled)
+@Injectable()
+export class FeatureFlagService {
+private flags = new Map<string, boolean>([
+['new-ui', process.env.FEATURE_NEW_UI === 'true'],
+['beta-features', process.env.FEATURE_BETA === 'true'],
+['experimental-api', false],
+['maintenance-mode', false]
+]);
+
+isEnabled(flagName: string): boolean {
+return this.flags.get(flagName) || false;
+}
+
+setFlag(flagName: string, enabled: boolean): void {
+this.flags.set(flagName, enabled);
+}
+}
+
+// 3. Feature flag guard
+@Injectable()
+export class FeatureFlagGuard implements CanActivate {
+constructor(
+private reflector: Reflector,
+private featureFlagService: FeatureFlagService
+) {}
+
+canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+const requiredFlag = this.reflector.get<string>(
+FEATURE_FLAG_KEY,
+context.getHandler()
+);
+
+  
+if (!requiredFlag) {
+  return true; // No feature flag required
+}
+
+return this.featureFlagService.isEnabled(requiredFlag);
+}
+}
+
+// 4. Controller using feature flags
+@Controller('api')
+@UseGuards(FeatureFlagGuard)
+export class ApiController {
+@Get('v1/data')
+getDataV1() {
+return { version: 'v1', data: 'legacy data' };
+}
+
+@Get('v2/data')
+@FeatureFlag('new-ui') // Only accessible if new-ui feature flag is enabled
+getDataV2() {
+return { version: 'v2', data: 'new improved data' };
+}
+
+@Get('experimental')
+@FeatureFlag('experimental-api') // Gated behind experimental-api flag
+getExperimental() {
+return { message: 'Experimental feature' };
+}
+
+@Post('admin/feature-flags')
+@FeatureFlag('beta-features') // Admin endpoint also gated
+updateFeatureFlags(@Body() updates: Record<string, boolean>) {
+Object.entries(updates).forEach(([flag, enabled]) => {
+this.featureFlagService.setFlag(flag, enabled);
+});
+
+  
+return { success: true, updated: updates };
+}
+}
+
+// 5. Module configuration
+@Module({
+providers: [
+FeatureFlagService,
+FeatureFlagGuard,
+{
+provide: APP_GUARD,
+useClass: FeatureFlagGuard, // Apply globally
+},
+],
+controllers: [ApiController],
+})
+export class ApiModule {}`
+            ],
+            questions: [
+              {
+                question: "Explain how the Reflect Metadata API works with decorators in NestJS. Trace the complete flow from when a decorator is applied in TypeScript code to when its metadata is used at runtime.",
+                solution: "<p><strong>Complete Metadata Flow:</strong>1. <strong>TypeScript Compilation:</strong> With < code > emitDecoratorMetadata: true</code >, TypeScript emits < code > design: type</code >, <code>design:paramtypes</code>, and < code > design: returntype</code > metadata for decorated elements.2. <strong>Decorator Execution:</strong> When the JavaScript class is defined(not instantiated), decorator functions execute.For example, <code>@Get('users')</code> calls < code > Reflect.defineMetadata('path', 'users', target, propertyKey)</code >. 3. < strong > Metadata Storage:</strong > The reflect - metadata polyfill stores metadata in WeakMaps: <code>MetadataStorage.set(target, propertyKey, metadataKey, value)</code>. 4. < strong > Application Bootstrap:</strong > During NestJS startup, the framework scans classes and uses < code > Reflect.getMetadata()</code > to discover: - Controllers and their routes(<code>@Controller()</code>, <code>@Get()</code>) - Dependency injection requirements(<code>design:paramtypes</code> from < code > @Injectable() </code >)- Validation rules(<code>@IsEmail()</code>, <code>@MinLength()</code>) 5. < strong > Runtime Usage:</strong > When a request arrives: - Router matches URL using route metadata - DI container resolves dependencies using paramtype metadata - Pipes validate data using validation metadata - Guards check permissions using custom metadata(<code>@Roles()</code>, <code>@SetMetadata()</code>) 6. < strong > Performance:</strong > Metadata is read once during bootstrap and cached, not per request.</p > "
+              },
+              {
+                question: "Compare and contrast class decorators, method decorators, property decorators, and parameter decorators in NestJS. What arguments does each receive, when do they execute, and what are their primary use cases?",
+                solution: "<p><strong>Class Decorators:</strong> Receive the class constructor function. Execute when class is defined. Used for: <code>@Module()</code> (module configuration), <code>@Controller()</code> (route prefix), <code>@Injectable()</code> (DI registration), <code>@Middleware()</code>, <code>@Interceptor()</code>, <code>@Pipe()</code>, <code>@Guard()</code>. < strong > Method Decorators:</strong > Receive three arguments: target class, method name, property descriptor.Execute after parameter decorators but before class decorators. Used for: <code>@Get()</code>, <code>@Post()</code> (HTTP methods), <code>@UseGuards()</code>, <code>@UseInterceptors()</code>, <code>@UsePipes()</code>, <code>@Header()</code>, <code>@HttpCode()</code>, <code>@Render()</code>. <strong>Property Decorators:</strong> Receive two arguments: target class, property name.Execute for each property.Used for: <code>@Inject()</code> (dependency injection), <code>@Optional()</code> (optional dependencies), validation decorators(<code>@IsEmail()</code>, <code>@MinLength()</code>), transformation decorators(<code>@Type()</code>, <code>@Transform()</code>). < strong > Parameter Decorators:</strong > Receive three arguments: target class, method name, parameter index.Execute first(from right to left in parameter list).Used for: <code>@Param()</code>, <code>@Query()</code>, <code>@Body()</code>, <code>@Headers()</code>, <code>@Ip()</code>, <code>@Session()</code>, <code>@UploadedFile()</code>, custom parameter decorators. < strong > Execution Order:</strong > 1) Parameter decorators, 2) Method decorators, 3) Property decorators, 4) Class decorators.</p > "
+              },
+              {
+                question: "How does NestJS use the 'design:paramtypes' metadata emitted by TypeScript for dependency injection? What happens when a parameter uses @Inject() with a custom token instead of type-based injection?",
+                solution: "<p><strong>Type-based DI with design:paramtypes:</strong> When TypeScript compiles with <code>emitDecoratorMetadata: true</code>, it emits <code>design:paramtypes</code> metadata containing an array of constructor parameter types. NestJS reads this metadata during DI container initialization to know what types to inject. Example: <code>constructor(private service: UserService)</code> emits <code>[UserService]</code> as paramtypes. < strong > Custom Token with @Inject():</strong > When < code > @Inject('CUSTOM_TOKEN') </code > is used, NestJS stores additional metadata that overrides the type - based resolution.The DI container: 1. First checks for custom injection metadata(<code>Reflect.getMetadata('custom:inject')</code>) 2. If found, uses the custom token instead of the type from<code>design:paramtypes</code > 3. Looks up the custom token in the provider registry < strong > Combination:</strong > Both can coexist.Type metadata is always emitted, but < code > @Inject() </code > metadata takes precedence.This allows injecting non - class values (strings, symbols) or different implementations of the same interface. < strong > Example:</strong > <code>constructor(@Inject('CONFIG') config: any, private service: UserService)</code> - first parameter uses custom token 'CONFIG', second uses type - based injection with UserService.</p > "
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/custom-decorators",
+              "https://www.typescriptlang.org/docs/handbook/decorators.html",
+              "https://rbuckton.github.io/reflect-metadata/",
+              "https://docs.nestjs.com/fundamentals/execution-context",
+              "https://docs.nestjs.com/guards",
+              "https://docs.nestjs.com/interceptors",
+              "https://docs.nestjs.com/pipes",
+              "https://github.com/typestack/class-validator",
+              "https://github.com/typestack/class-transformer"
+            ]
+          },
+          {
+            topic: "Modules",
             tags: ["Organization", "Encapsulation", "Reusability", "DI"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -111225,406 +111950,730 @@ it('should throw NotFoundException when user not found', async () => {
       <span style="font-weight: 600;">Keep root module clean:</span> Import feature modules into AppModule, but keep AppModule itself minimal.
      </li>
    </ol>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Modules Matter?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Define Scope of Providers:</span> Modules determine which providers are available within their scope and control dependency injection boundaries.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Control Exports and Imports:</span> They explicitly define what gets exported for other modules to use and what external functionality gets imported.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Prevent Circular Dependencies:</span> Proper module structure helps avoid circular dependency issues by creating clear dependency hierarchies.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Module Basics
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Module() Decorator:</span> Defines a module with metadata including providers, controllers, imports, and exports.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-typescript">import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],      // Other modules this module depends on
+  controllers: [],  // Controllers defined in this module
+  providers: [],    // Services/providers available in this module
+  exports: []       // Providers to make available to other modules
+})
+export class AppModule {}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Root Module:</span> Every application has at least one root module (conventionally AppModule) that serves as the starting point.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-typescript">import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3000);
+}
+bootstrap();</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Feature Modules:</span> Organize code by feature domain, encapsulating related functionality.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-typescript">@Module({
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService]  // Make service available to other modules
+})
+export class UsersModule {}</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Module Properties
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">imports:</span> List of modules whose exported providers should be available in this module.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-typescript">@Module({
+  imports: [UsersModule, DatabaseModule],
+  // Can now use exported providers from UsersModule and DatabaseModule
+})
+export class OrdersModule {}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">controllers:</span> Controllers that handle HTTP requests and should be instantiated by this module.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-typescript">@Module({
+  controllers: [UsersController, ProfileController],
+})</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">providers:</span> Services and other providers that can be injected within this module's scope.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-typescript">@Module({
+  providers: [UsersService, UsersRepository, EmailService],
+})</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">exports:</span> Subset of providers that should be available to other modules that import this module.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-typescript">@Module({
+  providers: [UsersService, InternalHelper],
+  exports: [UsersService]  // Only UsersService is accessible to importers
+})</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Feature Module Structure
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-typescript">// users/users.module.ts
+import { Module } from '@nestjs/common';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+import { UsersRepository } from './users.repository';
+import { DatabaseModule } from '../database/database.module';
+
+@Module({
+  imports: [DatabaseModule],           // Import database functionality
+  controllers: [UsersController],      // Handle /users routes
+  providers: [UsersService, UsersRepository],  // Services for DI
+  exports: [UsersService]              // Make UsersService available to other modules
+})
+export class UsersModule {}</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Shared Module
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-typescript">// shared/shared.module.ts
+@Module({
+  providers: [ConfigService, LoggerService, CacheService],
+  exports: [ConfigService, LoggerService, CacheService]
+})
+export class SharedModule {}
+
+// app.module.ts
+@Module({
+  imports: [
+    SharedModule,  // All exported providers now available
+    UsersModule,
+    OrdersModule
+  ],
+})
+export class AppModule {}</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Global Modules
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-typescript">// Use @Global() to make a module available everywhere without importing
+import { Module, Global } from '@nestjs/common';
+
+@Global()
+@Module({
+  providers: [DatabaseService],
+  exports: [DatabaseService]
+})
+export class DatabaseModule {}
+
+// Now DatabaseService is available in all modules without explicit import
+// Still need to import DatabaseModule in root AppModule once</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Dynamic Modules
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-typescript">// config/config.module.ts
+@Module({})
+export class ConfigModule {
+  static forRoot(options: ConfigOptions): DynamicModule {
+    return {
+      module: ConfigModule,
+      providers: [
+        {
+          provide: 'CONFIG_OPTIONS',
+          useValue: options,
+        },
+        ConfigService,
+      ],
+      exports: [ConfigService],
+      global: options.isGlobal ?? false
+    };
+  }
+}
+
+// Usage in AppModule
+@Module({
+  imports: [
+    ConfigModule.forRoot({ 
+      isGlobal: true,
+      envPath: '.env'
+    })
+  ]
+})</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Module Re-exporting
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-typescript">// common/common.module.ts
+// Re-export entire modules to create convenience bundles
+@Module({
+  imports: [LoggerModule, CacheModule, ConfigModule],
+  exports: [LoggerModule, CacheModule, ConfigModule]
+})
+export class CommonModule {}
+
+// app.module.ts
+@Module({
+  imports: [
+    CommonModule,  // Get all three modules at once
+    UsersModule
+  ]
+})</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Feature Organization:</span> Group related controllers, services, and repositories by business domain.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shared Functionality:</span> Create common modules for utilities used across the application.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Third-party Integration:</span> Wrap external libraries in modules for consistent configuration.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Microservices:</span> Organize each microservice domain as a separate module.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Testing:</span> Module encapsulation makes unit testing easier by limiting scope.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lazy Loading:</span> Load modules on-demand for better application startup performance.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">One Feature Per Module:</span> Each module should represent a single feature or domain.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Explicit Exports:</span> Only export what other modules need; keep internal providers private.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoid Circular Dependencies:</span> Structure modules in a way that prevents circular imports.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Global Modules Sparingly:</span> Only make truly universal services global to avoid tight coupling.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consistent Naming:</span> Name modules after their feature domain (e.g., UsersModule, OrdersModule).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Module Folder Structure:</span> Keep all related files (controller, service, entities) in the module's folder.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Patterns
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Core Module:</span> Contains fundamental services used throughout the app (database, config, logging).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shared Module:</span> Provides common utilities, pipes, guards, and decorators.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Feature Modules:</span> Domain-specific modules for each business capability.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Modules:</span> Modules configured at runtime with forRoot() or forFeature() methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Barrel Modules:</span> Re-export multiple modules for convenience importing.
+     </li>
+   </ol>
+
 </div>
 `,
             examples: [
-              `<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// EXAMPLE 1: Feature Module
-// users/users.module.ts
+              `// Complete Module Example with Best Practices
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
+import { User } from './entities/user.entity';
+import { EmailModule } from '../email/email.module';
+
 @Module({
-imports: [
-// Import TypeOrmModule for User entity
-TypeOrmModule.forFeature([User]),
-],
-controllers: [UsersController],
-providers: [
-UsersService,
-UsersRepository, // Custom repository
-],
-exports: [
-UsersService, // Export so other modules can inject UsersService
-],
+  imports: [
+    TypeOrmModule.forFeature([User]),  // Register entities
+    EmailModule                         // Import email functionality
+  ],
+  controllers: [UsersController],
+  providers: [
+    UsersService,
+    UsersRepository,
+    // Custom provider example
+    {
+      provide: 'USER_CONFIG',
+      useValue: { maxUsers: 1000 }
+    }
+  ],
+  exports: [UsersService]  // Make service available to other modules
 })
 export class UsersModule {}
-// Now AuthModule can import UsersModule and inject UsersService
-// auth/auth.module.ts
-import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UsersModule } from '../users/users.module'; // Import the module
-@Module({
-imports: [UsersModule], // Import UsersModule to access UsersService
-controllers: [AuthController],
-providers: [AuthService],
-exports: [AuthService],
-})
-export class AuthModule {}
-// auth/auth.service.ts
-import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service'; // Can now inject
-@Injectable()
-export class AuthService {
-constructor(
-private usersService: UsersService, // Injected from UsersModule
-) {}
-async validateUser(email: string, password: string) {
-const user = await this.usersService.findByEmail(email);
-// Validation logic...
-return user;
-}
-}
-// EXAMPLE 2: Shared Module
-// shared/shared.module.ts
-import { Module, Global } from '@nestjs/common';
-import { LoggerService } from './services/logger.service';
-import { UtilsService } from './services/utils.service';
-import { EmailService } from './services/email.service';
-@Module({
-providers: [
-LoggerService,
-UtilsService,
-EmailService,
-],
-exports: [
-// Export all services so other modules can use them
-LoggerService,
-UtilsService,
-EmailService,
-],
-})
-export class SharedModule {}
-// Any module that needs these services must import SharedModule
-// products/products.module.ts
-import { Module } from '@nestjs/common';
-import { SharedModule } from '../shared/shared.module';
-import { ProductsController } from './products.controller';
-import { ProductsService } from './products.service';
-@Module({
-imports: [SharedModule], // Import to use LoggerService, etc.
-controllers: [ProductsController],
-providers: [ProductsService],
-})
-export class ProductsModule {}
-// products/products.service.ts
-import { Injectable } from '@nestjs/common';
-import { LoggerService } from '../shared/services/logger.service';
-@Injectable()
-export class ProductsService {
-constructor(
-private logger: LoggerService, // Injected from SharedModule
-) {}
-async findAll() {
-this.logger.log('Fetching all products');
-// Logic...
-}
-}
-// EXAMPLE 3: Global Module
-// common/common.module.ts
-import { Module, Global } from '@nestjs/common';
-import { ConfigService } from './services/config.service';
-import { DatabaseService } from './services/database.service';
-import { LoggerService } from './services/logger.service';
-@Global() // Make this module global
-@Module({
-providers: [ConfigService, DatabaseService, LoggerService],
-exports: [ConfigService, DatabaseService, LoggerService],
-})
-export class CommonModule {}
-// Now ANY module can inject ConfigService without importing CommonModule
-// users/users.service.ts
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '../common/services/config.service';
+
+// users.service.ts
+import { Injectable, Inject } from '@nestjs/common';
+import { UsersRepository } from './users.repository';
+import { EmailService } from '../email/email.service';
+
 @Injectable()
 export class UsersService {
-constructor(
-private configService: ConfigService, // Available without importing CommonModule
-) {
-const dbHost = this.configService.get('DB_HOST');
+  constructor(
+    private usersRepository: UsersRepository,
+    private emailService: EmailService,  // From EmailModule
+    @Inject('USER_CONFIG') private config: any
+  ) {}
+
+  async createUser(userData: any) {
+    const user = await this.usersRepository.create(userData);
+    await this.emailService.sendWelcomeEmail(user.email);
+    return user;
+  }
+
+  async findAll() {
+    return this.usersRepository.findAll();
+  }
 }
-}
-// BUT you must import CommonModule in AppModule once
-// app.module.ts
+
+// users.controller.ts
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { UsersService } from './users.service';
+
+@Controller('users')
+export class UsersController {
+  constructor(private usersService: UsersService) {}
+
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
+
+  @Post()
+  create(@Body() userData: any) {
+    return this.usersService.createUser(userData);
+  }
+}`,
+
+              `// Application Structure Example
+// app.module.ts (Root Module)
 import { Module } from '@nestjs/common';
-import { CommonModule } from './common/common.module';
+import { ConfigModule } from './config/config.module';
+import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
-import { ProductsModule } from './products/products.module';
+import { OrdersModule } from './orders/orders.module';
+import { AuthModule } from './auth/auth.module';
+import { SharedModule } from './shared/shared.module';
+
 @Module({
-imports: [
-CommonModule, // Import once, available everywhere
-UsersModule,
-ProductsModule,
-],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    DatabaseModule,
+    SharedModule,
+    UsersModule,
+    OrdersModule,
+    AuthModule
+  ],
 })
 export class AppModule {}
-// EXAMPLE 4: Dynamic Module - Basic forRoot pattern
-// cache/cache.module.ts
-import { Module, DynamicModule } from '@nestjs/common';
-import { CacheService } from './cache.service';
-export interface CacheModuleOptions {
-ttl: number;
-max: number;
-isGlobal?: boolean;
-}
-@Module({})
-export class CacheModule {
-static forRoot(options: CacheModuleOptions): DynamicModule {
-return {
-module: CacheModule,
-global: options.isGlobal ?? false,
-providers: [
-{
-provide: 'CACHE_OPTIONS',
-useValue: options,
-},
-CacheService,
-],
-exports: [CacheService],
-};
-}
-}
-// cache/cache.service.ts
-import { Injectable, Inject } from '@nestjs/common';
-import { CacheModuleOptions } from './cache.module';
+
+// orders/orders.module.ts (Feature Module)
+@Module({
+  imports: [
+    UsersModule,     // Need UsersService
+    SharedModule     // Need shared utilities
+  ],
+  controllers: [OrdersController],
+  providers: [OrdersService, OrdersRepository],
+  exports: [OrdersService]
+})
+export class OrdersModule {}
+
+// orders/orders.service.ts
+import { Injectable } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
+import { LoggerService } from '../shared/logger.service';
+import { OrdersRepository } from './orders.repository';
+
 @Injectable()
-export class CacheService {
-private cache = new Map();
-constructor(
-@Inject('CACHE_OPTIONS') private options: CacheModuleOptions,
-) {
-console.log('Cache configured with TTL:', this.options.ttl);
-}
-set(key: string, value: any) {
-this.cache.set(key, value);
-setTimeout(() => this.cache.delete(key), this.options.ttl * 1000);
-}
-get(key: string) {
-return this.cache.get(key);
-}
-}
-// Usage in AppModule
-@Module({
-imports: [
-CacheModule.forRoot({
-ttl: 60, // 60 seconds
-max: 100,
-isGlobal: true,
-}),
-],
-})
-export class AppModule {}
-// EXAMPLE 5: Dynamic Module - Advanced forRootAsync pattern
+export class OrdersService {
+  constructor(
+    private ordersRepository: OrdersRepository,
+    private usersService: UsersService,      // From UsersModule
+    private logger: LoggerService            // From SharedModule
+  ) {}
+
+  async createOrder(userId: string, items: any[]) {
+    const user = await this.usersService.findById(userId);
+    
+    if (!user) {
+      this.logger.warn(\`User \${userId} not found\`);
+      throw new Error('User not found');
+    }
+
+    const order = await this.ordersRepository.create({
+      userId,
+      items,
+      total: this.calculateTotal(items)
+    });
+
+    this.logger.log(\`Order \${order.id} created for user \${userId}\`);
+    return order;
+  }
+
+  private calculateTotal(items: any[]): number {
+    return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }
+}`,
+
+              `// Dynamic Module Pattern
 // database/database.module.ts
-import { Module, DynamicModule, Provider } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
-export interface DatabaseModuleAsyncOptions {
-useFactory: (...args: any[]) => Promise<any> | any;
-inject?: any[];
-imports?: any[];
+import { Module, DynamicModule, Global } from '@nestjs/common';
+import { DatabaseService } from './database.service';
+
+export interface DatabaseOptions {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+  isGlobal?: boolean;
 }
+
 @Module({})
 export class DatabaseModule {
-// Synchronous configuration
-static forRoot(options: any): DynamicModule {
-return {
-module: DatabaseModule,
-imports: [TypeOrmModule.forRoot(options)],
-exports: [TypeOrmModule],
-};
+  static forRoot(options: DatabaseOptions): DynamicModule {
+    return {
+      module: DatabaseModule,
+      global: options.isGlobal ?? false,
+      providers: [
+        {
+          provide: 'DATABASE_OPTIONS',
+          useValue: options,
+        },
+        DatabaseService,
+      ],
+      exports: [DatabaseService],
+    };
+  }
+
+  static forFeature(entities: any[]): DynamicModule {
+    const providers = entities.map(entity => ({
+      provide: \`\${entity.name}Repository\`,
+      useFactory: (db: DatabaseService) => db.getRepository(entity),
+      inject: [DatabaseService],
+    }));
+
+    return {
+      module: DatabaseModule,
+      providers,
+      exports: providers,
+    };
+  }
 }
-// Asynchronous configuration (for environment variables, etc.)
-static forRootAsync(options: DatabaseModuleAsyncOptions): DynamicModule {
-return {
-module: DatabaseModule,
-imports: [
-...(options.imports || []),
-TypeOrmModule.forRootAsync({
-useFactory: options.useFactory,
-inject: options.inject || [],
-}),
-],
-exports: [TypeOrmModule],
-};
-}
-}
-// Usage with ConfigService
+
+// Usage in app.module.ts
 @Module({
-imports: [
-ConfigModule.forRoot({ isGlobal: true }),
-DatabaseModule.forRootAsync({
-imports: [ConfigModule],
-useFactory: (configService: ConfigService) => ({
-type: 'postgres',
-host: configService.get('DB_HOST'),
-port: configService.get('DB_PORT'),
-username: configService.get('DB_USERNAME'),
-password: configService.get('DB_PASSWORD'),
-database: configService.get('DB_NAME'),
-entities: [__dirname + '/**/*.entity{.ts,.js}'],
-synchronize: configService.get('NODE_ENV') !== 'production',
-}),
-inject: [ConfigService],
-}),
-],
+  imports: [
+    DatabaseModule.forRoot({
+      host: 'localhost',
+      port: 5432,
+      username: 'admin',
+      password: 'password',
+      database: 'myapp',
+      isGlobal: true
+    }),
+    UsersModule,
+  ],
 })
 export class AppModule {}
-// EXAMPLE 6: Module Re-exporting
-// Sometimes you want to re-export an imported module
-// core/core.module.ts
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { CommonModule } from '../common/common.module';
+
+// Usage in feature module
 @Module({
-imports: [
-ConfigModule.forRoot({ isGlobal: true }),
-TypeOrmModule.forRoot({ /* config */ }),
-CommonModule,
-],
-exports: [
-// Re-export imported modules
-ConfigModule,
-TypeOrmModule,
-CommonModule,
-],
+  imports: [DatabaseModule.forFeature([User, Profile])],
+  providers: [UsersService],
 })
-export class CoreModule {}
-// Now other modules can import CoreModule instead of individual modules
+export class UsersModule {}`,
+
+              `// Avoiding Circular Dependencies
+// ❌ BAD: Circular dependency
+// users/users.module.ts
 @Module({
-imports: [CoreModule], // Gets ConfigModule, TypeOrmModule, CommonModule
+  imports: [OrdersModule],  // UsersModule imports OrdersModule
+  providers: [UsersService],
+  exports: [UsersService]
 })
 export class UsersModule {}
-// EXAMPLE 7: Handling Circular Dependencies with forwardRef
-// Sometimes you have circular dependencies: A needs B, B needs A
+
+// orders/orders.module.ts
+@Module({
+  imports: [UsersModule],  // OrdersModule imports UsersModule
+  providers: [OrdersService],
+  exports: [OrdersService]
+})
+export class OrdersModule {}
+
+// ✅ GOOD: Use forwardRef to resolve circular dependency
 // users/users.module.ts
 import { Module, forwardRef } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { PostsModule } from '../posts/posts.module';
+import { OrdersModule } from '../orders/orders.module';
+
 @Module({
-imports: [
-forwardRef(() => PostsModule), // Use forwardRef to break circular dependency
-],
-providers: [UsersService],
-exports: [UsersService],
+  imports: [forwardRef(() => OrdersModule)],
+  providers: [UsersService],
+  exports: [UsersService]
 })
 export class UsersModule {}
-// posts/posts.module.ts
+
+// orders/orders.module.ts
 import { Module, forwardRef } from '@nestjs/common';
-import { PostsService } from './posts.service';
 import { UsersModule } from '../users/users.module';
+
 @Module({
-imports: [
-forwardRef(() => UsersModule), // Use forwardRef here too
-],
-providers: [PostsService],
-exports: [PostsService],
+  imports: [forwardRef(() => UsersModule)],
+  providers: [OrdersService],
+  exports: [OrdersService]
 })
-export class PostsModule {}
-// EXAMPLE 8: Module with Custom Providers
-// email/email.module.ts
-import { Module } from '@nestjs/common';
-import { EmailService } from './email.service';
-// Factory provider
-const emailConfigFactory = {
-provide: 'EMAIL_CONFIG',
-useFactory: () => ({
-host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-port: parseInt(process.env.EMAIL_PORT) || 587,
-secure: process.env.EMAIL_SECURE === 'true',
-}),
-};
-// Class provider with custom token
-const emailTransportProvider = {
-provide: 'EMAIL_TRANSPORT',
-useClass: EmailService,
-};
-// Value provider
-const emailTemplatesProvider = {
-provide: 'EMAIL_TEMPLATES',
-useValue: {
-welcome: 'Welcome to our app!',
-resetPassword: 'Reset your password',
-},
-};
+export class OrdersModule {}
+
+// ✅ BETTER: Extract shared functionality to avoid circular dependency
+// Create a new SharedModule with common functionality
 @Module({
-providers: [
-EmailService,
-emailConfigFactory,
-emailTransportProvider,
-emailTemplatesProvider,
-],
-exports: [EmailService, 'EMAIL_CONFIG'],
+  providers: [UserHelperService],
+  exports: [UserHelperService]
 })
-export class EmailModule {}
-// Injecting custom providers
-import { Injectable, Inject } from '@nestjs/common';
+export class UserSharedModule {}
+
+// Both modules can now import UserSharedModule without circular dependency
+@Module({
+  imports: [UserSharedModule],
+  providers: [UsersService],
+})
+export class UsersModule {}
+
+@Module({
+  imports: [UserSharedModule],
+  providers: [OrdersService],
+})
+export class OrdersModule {}`,
+
+              `// Global Module Example
+// core/core.module.ts
+import { Module, Global } from '@nestjs/common';
+import { LoggerService } from './logger.service';
+import { ConfigService } from './config.service';
+import { CacheService } from './cache.service';
+
+@Global()  // Make this module global
+@Module({
+  providers: [LoggerService, ConfigService, CacheService],
+  exports: [LoggerService, ConfigService, CacheService]
+})
+export class CoreModule {}
+
+// app.module.ts
+@Module({
+  imports: [
+    CoreModule,  // Register global module once
+    UsersModule,
+    OrdersModule
+  ],
+})
+export class AppModule {}
+
+// users/users.service.ts
+// No need to import CoreModule, services are available globally
+import { Injectable } from '@nestjs/common';
+import { LoggerService } from '../core/logger.service';
+import { ConfigService } from '../core/config.service';
+
 @Injectable()
-export class SomeService {
-constructor(
-@Inject('EMAIL_CONFIG') private emailConfig: any,
-@Inject('EMAIL_TEMPLATES') private templates: any,
-) {
-console.log('Email host:', this.emailConfig.host);
-console.log('Templates:', this.templates);
-}
-}
-// EXAMPLE 9: Testing Modules
+export class UsersService {
+  constructor(
+    private logger: LoggerService,    // Available without importing CoreModule
+    private config: ConfigService     // Available without importing CoreModule
+  ) {}
+
+  findAll() {
+    this.logger.log('Finding all users');
+    const maxResults = this.config.get('MAX_RESULTS');
+    return [];
+  }
+}`,
+
+              `// Module Testing Example
 // users/users.module.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersModule } from './users.module';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+
 describe('UsersModule', () => {
-let module: TestingModule;
-beforeEach(async () => {
-module = await Test.createTestingModule({
-imports: [UsersModule],
-})
-.overrideProvider(getRepositoryToken(User))
-.useValue({
-// Mock repository
-find: jest.fn(),
-findOne: jest.fn(),
-save: jest.fn(),
-})
-.compile();
+  let module: TestingModule;
+
+  beforeEach(async () => {
+    module = await Test.createTestingModule({
+      imports: [UsersModule],
+    }).compile();
+  });
+
+  it('should be defined', () => {
+    expect(module).toBeDefined();
+  });
+
+  it('should have UsersController', () => {
+    const controller = module.get<UsersController>(UsersController);
+    expect(controller).toBeDefined();
+  });
+
+  it('should have UsersService', () => {
+    const service = module.get<UsersService>(UsersService);
+    expect(service).toBeDefined();
+  });
 });
-it('should be defined', () => {
-expect(module).toBeDefined();
-});
-it('should have UsersService', () => {
-const service = module.get<UsersService>(UsersService);
-expect(service).toBeDefined();
-});
-it('should have UsersController', () => {
-const controller = module.get<UsersController>(UsersController);
-expect(controller).toBeDefined();
-});
-});
-</code></pre>
-</div>
-`,
+
+// users/users.service.spec.ts - Testing with module dependencies
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersService } from './users.service';
+import { UsersRepository } from './users.repository';
+import { EmailService } from '../email/email.service';
+
+describe('UsersService', () => {
+  let service: UsersService;
+  let repository: UsersRepository;
+  let emailService: EmailService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UsersService,
+        {
+          provide: UsersRepository,
+          useValue: {
+            create: jest.fn(),
+            findAll: jest.fn(),
+          },
+        },
+        {
+          provide: EmailService,
+          useValue: {
+            sendWelcomeEmail: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
+
+    service = module.get<UsersService>(UsersService);
+    repository = module.get<UsersRepository>(UsersRepository);
+    emailService = module.get<EmailService>(EmailService);
+  });
+
+  it('should create a user and send email', async () => {
+    const userData = { name: 'John', email: 'john@example.com' };
+    const createdUser = { id: '1', ...userData };
+    
+    jest.spyOn(repository, 'create').mockResolvedValue(createdUser);
+    jest.spyOn(emailService, 'sendWelcomeEmail').mockResolvedValue(undefined);
+
+    const result = await service.createUser(userData);
+
+    expect(repository.create).toHaveBeenCalledWith(userData);
+    expect(emailService.sendWelcomeEmail).toHaveBeenCalledWith(userData.email);
+    expect(result).toEqual(createdUser);
+  });
+});`,
             ],
             questions: [
               {
-                question:
-                  "What happens if you don't export a provider from a module?",
+                question: "What is the difference between 'imports' and 'exports' in a module?",
                 solution:
-                  "<p>If you don't export a provider from a module, it becomes private to that module and cannot be injected in other modules, even if they import the module. For example, if UsersModule has UsersService as a provider but doesn't export it, and AuthModule imports UsersModule, AuthModule still cannot inject UsersService - you'll get a dependency resolution error at runtime. This is by design for encapsulation. Only providers listed in the 'exports' array of the @Module() decorator are part of the module's public API. To make UsersService available to other modules, you must explicitly add it to the exports array: exports: [UsersService]. This gives you fine-grained control over what's public vs private in your module. It's a key feature of NestJS's dependency injection system that enforces proper boundaries and prevents tight coupling.</p>",
+                  "<p>'imports' brings in providers from other modules that this module needs to use internally. It makes external functionality available within the current module's scope. 'exports' makes providers from this module available to other modules that import it. A module must list a provider in its 'providers' array before it can export it. Only exported providers can be injected in other modules - providers not in the exports array remain private to the module.</p>",
               },
+              {
+                question: "When should you use a Global module versus a regular module?",
+                solution:
+                  "<p>Use @Global() modules for truly universal services needed everywhere in your application, like logging, configuration, or database connections. However, use them sparingly as they can create tight coupling. Regular modules should be preferred for most cases as they make dependencies explicit and maintain better separation of concerns. Global modules should only be registered once in the root module, while regular modules must be explicitly imported wherever they're needed.</p>",
+              },
+              {
+                question: "How do you prevent circular dependencies between modules?",
+                solution:
+                  "<p>Prevent circular dependencies by: (1) Creating a clear module hierarchy where dependencies flow in one direction. (2) Extracting shared functionality into a separate common module that both modules can import. (3) Using the forwardRef() function as a temporary solution when circular dependencies are unavoidable. (4) Restructuring your modules to better reflect bounded contexts - circular dependencies often indicate poor module boundaries. (5) Using events or message patterns to decouple modules that need to communicate bidirectionally.</p>",
+              },
+              {
+                question: "What is a Dynamic Module and when would you use one?",
+                solution:
+                  "<p>A Dynamic Module is a module that can be configured at runtime using a static method (commonly forRoot() or forFeature()). It returns a DynamicModule object with the module definition. Use dynamic modules when you need to: (1) Configure a module with different options in different contexts. (2) Create reusable modules that adapt to different environments. (3) Provide different implementations based on configuration. Common examples include database modules, configuration modules, and authentication modules that need environment-specific settings.</p>",
+              },
+              {
+                question: "Why should each feature be its own module?",
+                solution:
+                  "<p>Each feature should be its own module because: (1) It provides clear boundaries and encapsulation for related functionality. (2) It makes the codebase more maintainable by organizing code by business domain. (3) It enables better testing by allowing you to test features in isolation. (4) It supports lazy loading where modules can be loaded on-demand. (5) It prevents unintended dependencies by making imports explicit. (6) It makes it easier to understand the application structure and locate code. This follows the principle of high cohesion and low coupling.</p>",
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/modules",
+              "https://docs.nestjs.com/fundamentals/dynamic-modules",
+              "https://docs.nestjs.com/fundamentals/circular-dependency",
+              "https://docs.nestjs.com/fundamentals/module-reference",
             ],
           },
           {
-            topic: "Controllers in NestJS",
+            topic: "Controllers",
             tags: ["Routing", "HTTP", "Endpoints", "Request Handling"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -111739,6 +112788,489 @@ expect(controller).toBeDefined();
       <span style="font-weight: 600;">Group Related Routes:</span> Organize related endpoints in the same controller with meaningful path prefixes.
      </li>
    </ol>
+
+   <p style="line-height: 1.75; margin-top: 1.5rem;"> Controllers are the fundamental building blocks for handling HTTP requests in NestJS applications. They serve as the entry point for incoming requests, define routing mechanisms, validate incoming data, and orchestrate the flow between the client and your business logic. Decorated with <code>@Controller()</code>, these classes receive requests, delegate processing to services, and return appropriate responses. Controllers implement the Model-View-Controller (MVC) pattern's "C" component, focusing solely on handling HTTP concerns while delegating business logic to providers (services). </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Why Controllers? (The Core Philosophy and Architectural Role) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Controllers exist to enforce a clean separation of concerns in web applications. Without controllers, routing logic would be scattered throughout the application, mixing HTTP concerns with business logic. NestJS controllers provide a <strong>declarative, decorator-based approach</strong> to routing that is both intuitive and powerful. The <strong>why</strong> behind controllers includes: establishing clear API boundaries, centralizing request/response handling, enabling consistent request validation and transformation, and providing a testable interface for your application's HTTP layer. By abstracting HTTP details, controllers allow services to remain framework-agnostic, focusing purely on business logic. This separation enables you to change transport mechanisms (from HTTP to WebSockets, gRPC, or GraphQL) with minimal impact on your core business logic. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> What is a Controller? (Complete Definition, Components, and Responsibilities) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> A controller is a TypeScript class that uses decorators to define routes and handle HTTP requests. It serves as the <strong>public API interface</strong> of your application, translating HTTP semantics into method calls on your services. The <strong>what</strong> encompasses: <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;"> <li><strong>Route Definitions:</strong> URL patterns and HTTP methods (GET, POST, PUT, DELETE, PATCH, etc.) mapped to handler methods.</li> <li><strong>Request Processing Pipeline:</strong> Entry point for middleware, guards, interceptors, and pipes that transform and validate requests.</li> <li><strong>Parameter Extraction:</strong> Automatic parsing of route parameters, query strings, request bodies, and headers.</li> <li><strong>Response Transformation:</strong> Shaping output data with proper status codes, headers, and serialization.</li> <li><strong>Error Handling Boundary:</strong> Centralized exception handling and HTTP error response generation.</li> <li><strong>Documentation Hub:</strong> Integration point for OpenAPI/Swagger documentation through decorators.</li> </ul> Controllers work in concert with the NestJS execution context, which provides access to platform-specific objects (Express/Fastify request/response objects) while maintaining framework independence. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> How It Works: The Complete Flow (Request Lifecycle from Ingress to Egress) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Understanding the <strong>how</strong> requires tracing an HTTP request through NestJS's layered architecture: <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;"> <li><strong>Request Ingress:</strong> HTTP request arrives at the underlying platform (Express or Fastify).</li> <li><strong>Global Middleware Execution:</strong> Any global middleware configured in <code>main.ts</code> processes the request first.</li> <li><strong>Route Matching:</strong> NestJS router matches the request URL and HTTP method against registered controller routes. <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>Checks route path prefixes from <code>@Controller('prefix')</code> decorators.</li> <li>Matches specific route handlers based on method decorators (<code>@Get()</code>, <code>@Post()</code>, etc.).</li> <li>Resolves route parameters (<code>:id</code>) and wildcards.</li> </ol> </li> <li><strong>Middleware Chain (Module/Route Level):</strong> Middleware specific to the matched route executes.</li> <li><strong>Guard Execution:</strong> Route guards check authorization and permissions, throwing <code>ForbiddenException</code> if unauthorized.</li> <li><strong>Interceptor Pre-processing:</strong> Interceptors wrap the handler execution, allowing pre-handler logic.</li> <li><strong>Pipe Transformation & Validation:</strong> Pipes transform and validate route parameters, query strings, and request bodies. <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li><code>@Param()</code> extracts route parameters with optional validation.</li> <li><code>@Query()</code> extracts and validates query string parameters.</li> <li><code>@Body()</code> extracts, validates, and transforms request body using DTOs.</li> <li><code>@Headers()</code> extracts specific headers.</li> </ul> </li> <li><strong>Controller Handler Execution:</strong> The actual controller method runs with all injected dependencies and parsed parameters. <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>Business logic delegated to injected services.</li> <li>Database operations, external API calls, etc.</li> <li>Result generation.</li> </ol> </li> <li><strong>Interceptor Post-processing:</strong> Interceptors transform the response (modify data, add headers, etc.).</li> <li><strong>Exception Filter Handling:</strong> If any exception was thrown, exception filters catch and transform them into proper HTTP responses.</li> <li><strong>Response Serialization:</strong> The result is serialized according to content-type (JSON by default).</li> <li><strong>Response Egress:</strong> HTTP response sent back to client with appropriate status code, headers, and body.</li> </ol> This sophisticated pipeline ensures consistent request handling, security, validation, and error management across all endpoints. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Controller Decorators and Routing (Core Syntax) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> NestJS uses a rich set of decorators to define controller behavior: </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Controller() - Class Decorator:</span> Marks a class as a controller and optionally defines a route prefix. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Basic controller @Controller() export class AppController {}
+// Controller with route prefix
+@Controller('users') // All routes in this controller start with /users
+export class UsersController {}
+
+// Controller with versioning prefix
+@Controller({ path: 'users', version: '1' })
+export class UsersControllerV1 {}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">HTTP Method Decorators:</span> Define which HTTP method handles the route.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Get() // GET /users
+@Post() // POST /users
+@Put() // PUT /users/:id
+@Delete() // DELETE /users/:id
+@Patch() // PATCH /users/:id
+@Options() // OPTIONS /users
+@Head() // HEAD /users
+@All() // All HTTP methods</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Route Parameter Decorators:</span> Extract data from incoming requests.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Param() // Route parameters: /users/:id
+@Query() // Query string: /users?page=1&limit=10
+@Body() // Request body (JSON, form data, etc.)
+@Headers() // HTTP headers
+@Ip() // Client IP address
+@Session() // Session object
+@HostParam() // Host parameter</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Request and Response Handling (Detailed Patterns) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Controllers provide multiple patterns for handling requests and shaping responses: </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Route Parameters and Wildcards:</span> Flexible path matching with parameters and patterns. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Controller('users') export class UsersController { // Basic parameter @Get(':id') findOne(@Param('id') id: string) { return this.usersService.findOne(id); }
+// Multiple parameters
+@Get(':userId/orders/:orderId')
+getOrder(
+@Param('userId') userId: string,
+@Param('orderId') orderId: string
+) {
+return this.ordersService.findUserOrder(userId, orderId);
+}
+
+// Wildcard routes
+@Get('files/*')
+getFile(@Param('0') path: string) {
+// path contains everything after /files/
+return this.fileService.getFile(path);
+}
+
+// Optional parameters
+@Get('search/:term?')
+search(@Param('term') term?: string) {
+return term
+? this.usersService.search(term)
+: this.usersService.findAll();
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Request Body and DTOs:</span> Type-safe request body handling with Data Transfer Objects.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// DTO (Data Transfer Object) for validation
+export class CreateUserDto {
+@IsEmail()
+email: string;
+
+@IsString()
+@MinLength(6)
+password: string;
+
+@IsString()
+@IsOptional()
+name?: string;
+}
+
+@Controller('users')
+export class UsersController {
+@Post()
+// Validation happens automatically via ValidationPipe
+create(@Body() createUserDto: CreateUserDto) {
+return this.usersService.create(createUserDto);
+}
+
+// Partial updates with PATCH
+@Patch(':id')
+update(
+@Param('id') id: string,
+@Body() updateUserDto: UpdateUserDto
+) {
+return this.usersService.update(id, updateUserDto);
+}
+
+// Multiple body parameters (rare, but possible)
+@Post('bulk')
+bulkCreate(@Body('users') users: CreateUserDto[]) {
+return this.usersService.bulkCreate(users);
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Query Parameters:</span> Handling URL query strings with validation.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// Query parameter DTO
+export class PaginationQueryDto {
+@IsOptional()
+@IsInt()
+@Min(1)
+page?: number = 1;
+
+@IsOptional()
+@IsInt()
+@Min(1)
+@Max(100)
+limit?: number = 10;
+
+@IsOptional()
+@IsString()
+sortBy?: string = 'createdAt';
+
+@IsOptional()
+@IsIn(['ASC', 'DESC'])
+order?: 'ASC' | 'DESC' = 'DESC';
+}
+
+@Controller('users')
+export class UsersController {
+@Get()
+findAll(@Query() paginationQuery: PaginationQueryDto) {
+return this.usersService.findAll(paginationQuery);
+}
+
+// Specific query parameters
+@Get('search')
+search(
+@Query('q') query: string,
+@Query('filter') filter?: string
+) {
+return this.usersService.search(query, filter);
+}
+
+// Transform query parameters (boolean strings to booleans)
+@Get('active')
+findActive(@Query('active', ParseBoolPipe) active: boolean) {
+return this.usersService.findActive(active);
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Response Control:</span> Full control over HTTP responses.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">import { Response, HttpStatus, Header, Redirect } from '@nestjs/common';
+
+@Controller('users')
+export class UsersController {
+// Explicit status code
+@Post()
+@HttpCode(HttpStatus.CREATED) // 201
+create(@Body() createUserDto: CreateUserDto) {
+return this.usersService.create(createUserDto);
+}
+
+// Custom headers
+@Get(':id')
+@Header('Cache-Control', 'max-age=3600')
+findOne(@Param('id') id: string) {
+return this.usersService.findOne(id);
+}
+
+// No content (204)
+@Delete(':id')
+@HttpCode(HttpStatus.NO_CONTENT)
+async remove(@Param('id') id: string) {
+await this.usersService.remove(id);
+}
+
+// Redirects
+@Get('old-route')
+@Redirect('/users/new-route', 301)
+oldRoute() {
+// Optional: dynamic redirect
+return { url: '/users/new-route', statusCode: 301 };
+}
+
+// Library-specific response handling (Express/Fastify)
+@Get('download/:filename')
+download(
+@Param('filename') filename: string,
+@Response() res: any // Platform-specific response object
+) {
+const file = this.fileService.getFile(filename);
+res.header('Content-Type', 'application/octet-stream');
+res.header('Content-Disposition', attachment; filename=" $ {filename}");
+return res.send(file);
+}
+
+// Stream responses
+@Get('stream')
+@Header('Content-Type', 'text/event-stream')
+@Header('Cache-Control', 'no-cache')
+stream() {
+return new Observable(observer => {
+observer.next({ data: 'Streaming data...' });
+// ... streaming logic
+});
+}
+}</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Controller Scopes and Lifecycle </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Unlike providers, controllers have a simpler scope model but participate in the application lifecycle: </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Singleton Scope (Default):</span> Controllers are instantiated once when the application starts and reused for all requests. This is efficient but means controller instances should be stateless. Any request-specific state should be stored in request-scoped services or passed as method parameters. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">REQUEST Scope (Rare):</span> Controllers can technically be request-scoped, but this is highly discouraged due to significant performance overhead (new instance per request) and limited practical benefits. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Hooks:</span> Controllers can implement the same lifecycle interfaces as providers (<code>OnModuleInit</code>, <code>OnApplicationBootstrap</code>, etc.), but this is uncommon since initialization logic typically belongs in services. </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Advanced Routing Techniques </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Route Versioning:</span> API versioning strategies for evolving APIs. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// URI Versioning (default) @Controller({ path: 'users', version: '1' }) export class UsersControllerV1 {}
+@Controller({ path: 'users', version: '2' })
+export class UsersControllerV2 {}
+
+// Header Versioning
+@Controller('users')
+@Version('1')
+export class UsersControllerV1 {}
+
+// Media Type Versioning
+@Controller('users')
+@Version('1')
+export class UsersControllerV1 {}
+
+// Multiple versions per handler
+@Controller('users')
+export class UsersController {
+@Get()
+@Version(['1', '2'])
+findAll() {
+return this.usersService.findAll();
+}
+
+@Get(':id')
+@Version('2')
+findOneV2(@Param('id') id: string) {
+return this.usersService.findOneWithDetails(id);
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Async Operations:</span> Handling asynchronous operations with Promises, Observables, and Streams.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Controller('data')
+export class DataController {
+// Promise-based (common)
+@Get('promise')
+async getWithPromise(): Promise<any> {
+const data = await this.dataService.fetchData();
+return data;
+}
+
+// Observable (RxJS) - for streams or cancellable operations
+@Get('observable')
+getWithObservable(): Observable<any> {
+return this.dataService.getDataStream();
+}
+
+// Multiple concurrent requests
+@Get('parallel')
+async getParallelData() {
+const [users, products, orders] = await Promise.all([
+this.userService.findAll(),
+this.productService.findAll(),
+this.orderService.findAll()
+]);
+return { users, products, orders };
+}
+
+// Timeout handling
+@Get('timeout')
+@Timeout(5000) // 5 second timeout
+async getWithTimeout() {
+return this.dataService.getSlowData();
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Subdomain Routing:</span> Routing based on subdomains.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">@Controller({ host: 'api.example.com' })
+export class ApiController {
+@Get()
+getApiInfo() {
+return { message: 'API Subdomain' };
+}
+}
+
+@Controller({ host: 'admin.example.com' })
+export class AdminController {
+@Get()
+getAdminDashboard() {
+return { message: 'Admin Subdomain' };
+}
+}
+
+// Dynamic subdomain parameters
+@Controller({ host: ':tenant.example.com' })
+export class TenantController {
+@Get()
+getTenantInfo(@HostParam('tenant') tenant: string) {
+return { tenant, message: Tenant-specific content for $ {tenant} };
+}
+}</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Controller Composition and Organization </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Well-structured controllers follow organizational patterns: </p> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Feature-based Organization:</span> Group related endpoints by business feature. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// users.controller.ts - All user-related endpoints @Controller('users') export class UsersController { // User CRUD operations }
+// auth.controller.ts - All authentication endpoints
+@Controller('auth')
+export class AuthController {
+// Login, logout, registration, password reset
+}
+
+// orders.controller.ts - All order-related endpoints
+@Controller('orders')
+export class OrdersController {
+// Order management
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">CRUD Controllers:</span> Standardized CRUD operations using NestJS CRUD utilities.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">import { Crud, CrudController } from '@nestjsx/crud';
+import { User } from './user.entity';
+
+@Crud({
+model: { type: User },
+query: {
+limit: 10,
+maxLimit: 100,
+cache: 2000,
+},
+routes: {
+only: ['getManyBase', 'getOneBase', 'createOneBase'],
+exclude: ['replaceOneBase', 'deleteOneBase'],
+},
+})
+@Controller('users')
+export class UsersController implements CrudController<User> {
+constructor(public service: UsersService) {}
+}
+
+// Generates standard endpoints:
+// GET /users - getManyBase
+// GET /users/:id - getOneBase
+// POST /users - createOneBase</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Base Controller Classes:</span> Shared functionality through inheritance.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// base.controller.ts
+export abstract class BaseController<T> {
+constructor(protected readonly service: any) {}
+
+protected createSuccessResponse(data: T, message = 'Success') {
+return {
+success: true,
+message,
+data,
+timestamp: new Date().toISOString(),
+};
+}
+
+protected createPaginatedResponse(
+data: T[],
+total: number,
+page: number,
+limit: number
+) {
+return {
+success: true,
+data,
+pagination: {
+total,
+page,
+limit,
+pages: Math.ceil(total / limit),
+},
+};
+}
+}
+
+// users.controller.ts
+@Controller('users')
+export class UsersController extends BaseController<User> {
+constructor(private usersService: UsersService) {
+super(usersService);
+}
+
+@Get()
+async findAll(@Query() pagination: PaginationQueryDto) {
+const [data, total] = await this.usersService.findAll(pagination);
+return this.createPaginatedResponse(
+data,
+total,
+pagination.page,
+pagination.limit
+);
+}
+
+@Get(':id')
+async findOne(@Param('id') id: string) {
+const user = await this.usersService.findOne(id);
+return this.createSuccessResponse(user);
+}
+}</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Best Practices (Production-Grade Guidelines) </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Keep Controllers Thin:</span> Controllers should only handle HTTP concerns - request validation, response formatting, error handling. Delegate all business logic to services. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Use DTOs for Input Validation:</span> Always define Data Transfer Objects for request bodies and use class-validator decorators for automatic validation via <code>ValidationPipe</code>. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Follow RESTful Conventions:</span> Use appropriate HTTP methods (GET for retrieval, POST for creation, PUT/PATCH for updates, DELETE for removal) and status codes (200 OK, 201 Created, 204 No Content, 404 Not Found). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Implement Consistent Error Handling:</span> Use exception filters for consistent error responses. Throw appropriate HTTP exceptions (<code>NotFoundException</code>, <code>BadRequestException</code>, etc.) from controllers. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Document Your API:</strong> Use <code>@ApiTags()</code>, <code>@ApiOperation()</code>, <code>@ApiResponse()</code> decorators from <code>@nestjs/swagger</code> for automatic OpenAPI documentation. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Version Your API:</span> Implement versioning strategies early to avoid breaking changes for clients. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Use Route Guards for Authorization:</span> Protect routes with guards rather than checking permissions in controller methods. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Implement Rate Limiting:</span> Use interceptors or dedicated middleware for rate limiting to prevent abuse. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Handle File Uploads Properly:</span> Use <code>FileInterceptor</code> and <code>UploadedFile()</code> decorator for file uploads with proper validation and storage. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Test Controllers Thoroughly:</span> Write unit tests for controllers using <code>@nestjs/testing</code> utilities, mocking all dependencies. </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Common Patterns and Anti-patterns </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Good Pattern: Thin Controllers with Service Delegation</span> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// GOOD: Controller handles HTTP concerns only @Controller('users') export class UsersController { constructor(private usersService: UsersService) {}
+@Post()
+@HttpCode(HttpStatus.CREATED)
+async create(@Body() createUserDto: CreateUserDto) {
+const user = await this.usersService.create(createUserDto);
+return { id: user.id, email: user.email }; // Only return necessary fields
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Anti-pattern: Fat Controllers with Business Logic</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// BAD: Controller contains business logic
+@Controller('users')
+export class UsersController {
+constructor(private usersRepository: Repository<User>) {}
+
+@Post()
+async create(@Body() createUserDto: any) {
+// Business logic in controller (BAD)
+if (createUserDto.password.length < 6) {
+throw new Error('Password too short');
+}
+
+  
+const hashedPassword = await hashPassword(createUserDto.password);
+const user = this.usersRepository.create({
+  ...createUserDto,
+  password: hashedPassword,
+});
+
+// More business logic
+await sendWelcomeEmail(user.email);
+
+return this.usersRepository.save(user);
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Good Pattern: Consistent Error Responses</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// GOOD: Using HTTP exceptions for consistent errors
+@Controller('users')
+export class UsersController {
+constructor(private usersService: UsersService) {}
+
+@Get(':id')
+async findOne(@Param('id') id: string) {
+const user = await this.usersService.findOne(id);
+if (!user) {
+throw new NotFoundException(User with ID $ {id} not found);
+}
+return user;
+}
+}</code></pre>
+</div>
+</li>
+
+</ol>
+
 </div>
 `,
             examples: [
@@ -112162,7 +113694,7 @@ describe('UsersController', () => {
             ],
           },
           {
-            topic: "Providers in NestJS",
+            topic: "Providers",
             tags: [
               "Services",
               "Dependency Injection",
@@ -112298,6 +113830,335 @@ describe('UsersController', () => {
       <span style="font-weight: 600;">Lazy Loading:</span> Use lazy providers for expensive initialization that might not be needed immediately.
      </li>
    </ol>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;"> Providers are the fundamental concept in NestJS and form the backbone of dependency injection. A provider is simply a class annotated with the @Injectable() decorator, which tells NestJS that this class can be managed by the IoC (Inversion of Control) container. Providers can be services, repositories, factories, helpers, or any other class that can be injected as a dependency. The beauty of providers lies in their ability to decouple your code - instead of manually creating instances and managing their lifecycles, you declare dependencies in constructors and let NestJS handle the rest. This promotes loose coupling, easier testing, and better code organization. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Why Providers? (The Core Philosophy and Design Rationale) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> NestJS's entire architecture is built around the principle of <strong>Inversion of Control (IoC)</strong> through <strong>Dependency Injection (DI)</strong>. This architectural pattern fundamentally changes how objects obtain their dependencies. In traditional programming, classes create their own dependencies or fetch them from global state, leading to tight coupling that makes code difficult to test, maintain, and modify. Providers solve this by inverting this responsibility: they delegate object creation and lifecycle management to the NestJS runtime container. This is <strong>why</strong> providers exist - to enable true modular design where components are loosely coupled, dependencies are explicit, and testing becomes straightforward through simple mocking. The container acts as a centralized factory and registry, allowing for powerful patterns like dynamic provider swapping (for different environments), lazy loading, and clean separation of concerns that would be cumbersome to implement manually. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> What is a Provider? (Complete Definition, Types, and Roles) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> At its core, a provider is a <strong>registration</strong> in the NestJS DI system that associates an <strong>injection token</strong> (a unique identifier, typically a class reference, string, or symbol) with a <strong>provider definition</strong> (instructions on how to create or obtain the value). When a class requests a dependency via its constructor, the container uses the token to look up the provider definition and returns the appropriate instance. The <strong>what</strong> encompasses several distinct but related concepts: <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;"> <li><strong>Injectable Services:</strong> The most common type - classes containing business logic, application rules, or coordination logic (e.g., UserService, OrderProcessor, TaxCalculator). These are the workhorses of your application.</li> <li><strong>Repositories/DAOs:</strong> Data access abstractions that encapsulate database operations, providing a clean separation between business logic and persistence concerns (e.g., UserRepository, ProductDAO).</li> <li><strong>Factories/Builders:</strong> Providers that create complex objects with runtime-dependent configurations or that require assembly of multiple parts (e.g., DocumentBuilder, ReportGenerator).</li> <li><strong>Values/Constants:</strong> Static values, configuration objects, API keys, or feature flags that need to be injected rather than imported directly (e.g., app settings, environment variables).</li> <li><strong>Existing Instances/Aliases:</strong> References to already instantiated providers, useful for providing multiple interfaces to the same implementation or for backward compatibility during refactoring.</li> <li><strong>External Libraries/Adapters:</strong> Wrappers around third-party libraries that integrate them into the DI system, ensuring consistent initialization and configuration management.</li> </ul> </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> How It Works: The Complete Flow (From Registration to Injection) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Understanding the <strong>how</strong> requires examining the multi-stage process that occurs behind the scenes. This flow is executed by the NestJS runtime and DI container, which operates as a sophisticated dependency graph manager: <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;"> <li><strong>Declaration & Registration:</strong> During module compilation, NestJS processes all classes listed in the module's <code>providers</code> array. For standard class providers, it creates an internal mapping from the class token to a factory that knows how to instantiate it. For custom providers (<code>useValue</code>, <code>useFactory</code>, etc.), it stores the exact creation logic.</li> <li><strong>Dependency Graph Construction:</strong> The container analyzes constructor signatures throughout the application. It builds a directed graph where nodes are providers and edges are dependencies. This graph is validated for circular dependencies (which can be resolved with <code>forwardRef</code> but indicate design issues).</li> <li><strong>Token Resolution & Instance Creation:</strong> When a class (e.g., a Controller) is instantiated and its constructor requests a dependency: <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>The container identifies the injection token from the constructor parameter's type annotation or <code>@Inject()</code> decorator.</li> <li>It checks its internal registry for a provider definition matching that token.</li> <li>If the provider hasn't been instantiated (based on its scope), the container executes the provider's creation logic: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li>For class providers: Creates a new instance using <code>new</code>, but first recursively resolves all of its constructor dependencies.</li> <li>For factory providers: Calls the factory function, injecting any dependencies specified in the <code>inject</code> array.</li> <li>For value providers: Returns the pre-defined value directly.</li> <li>For existing providers: Looks up and returns the instance associated with the aliased token.</li> </ul> </li> <li>The container applies scope-specific caching: DEFAULT-scoped instances are cached globally; REQUEST-scoped instances are cached per request context; TRANSIENT instances are never cached.</li> </ol> </li> <li><strong>Lifecycle Hook Execution:</strong> If the provider implements lifecycle interfaces (<code>OnModuleInit</code>, <code>OnApplicationBootstrap</code>), these hooks are called at the appropriate times in the application lifecycle, allowing for async initialization, connection establishment, or cleanup logic.</li> <li><strong>Dependency Injection:</strong> The fully constructed instance (or cached instance) is passed to the requesting class's constructor parameter, completing the injection.</li> <li><strong>Garbage Collection & Cleanup:</strong> For REQUEST-scoped providers, instances are marked for garbage collection once the HTTP request completes. For all providers, <code>OnApplicationShutdown</code> hooks are called during graceful shutdown.</li> </ol> This sophisticated orchestration ensures that all objects are properly wired before use, eliminates manual dependency management overhead, and provides predictable initialization order. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Dependency Injection Fundamentals (Deep Dive) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Dependency Injection (DI) is a specific form of Inversion of Control where dependencies are "injected" into consuming classes rather than being created internally. NestJS implements <strong>constructor-based injection</strong> as its primary mechanism, which offers several advantages: dependencies are explicitly declared, making the class's requirements clear; dependencies are immutable once injected (when using private/protected readonly); and the class cannot be instantiated in an invalid state (missing required dependencies). The container examines TypeScript type metadata (preserved when <code>emitDecoratorMetadata</code> is enabled) to determine which providers to inject. When it encounters a parameter like <code>private usersService: UsersService</code>, it looks for a provider registered with the token <code>UsersService</code>. This metadata-based resolution is why interfaces cannot be used directly as tokens (they disappear at runtime) without additional decoration or custom tokens. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Provider Scopes (Comprehensive Analysis) </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">DEFAULT (Singleton):</span> A single instance is created when first requested, then cached and reused throughout the application's lifetime. This is the most performant and memory-efficient scope. The instance is stored in the root injector's cache. Perfect for: <ul style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: circle;"> <li>Stateless services (business logic that doesn't store request-specific data)</li> <li>Configuration services that read environment variables or config files once</li> <li>Database connection pools or HTTP client instances (shared resources)</li> <li>Utility classes (validators, transformers, formatters)</li> </ul> Important nuance: When a singleton service depends on a REQUEST-scoped service, the singleton effectively becomes request-scoped for that dependency chain, or you must use special techniques like the <code>REQUEST</code> object or <code>@Inject(REQUEST)</code>. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">REQUEST:</span> A completely new instance is created for each incoming HTTP request (or GraphQL query, WebSocket message, etc.). The instance lives only for the duration of that request and is garbage collected afterward. Crucial for: <ul style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: circle;"> <li>Storing request-specific context (authenticated user, request ID, language preference)</li> <li>Maintaining per-request caching or memoization</li> <li>Tracking request lifecycle for logging or auditing</li> <li>Isolating mutable state that shouldn't leak between requests</li> </ul> Performance consideration: Each new instance requires memory allocation and constructor execution. In high-traffic applications with many REQUEST-scoped providers, this can significantly impact throughput and memory pressure. Use judiciously and consider async local storage patterns as alternatives for some use cases. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">TRANSIENT:</span> A brand new instance is created every time the provider is injected, regardless of context. No caching occurs. Each consumer receives its own dedicated instance. Appropriate for: <ul style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: circle;"> <li>Providers that maintain mutable state specific to each consumer</li> <li>Factory-like objects that produce other objects and need isolated configuration</li> <li>When you need to avoid shared state between multiple consumers of the same service</li> <li>Temporary workers or processors that should not interfere with each other</li> </ul> This is the least common scope and should be used only when you have a clear requirement for complete instance isolation. It can lead to significant overhead if the provider has expensive initialization or many dependencies. </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Provider Registration Patterns (Detailed Implementation Guide) </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Standard Provider (Class Provider Shorthand):</span> <code>providers: [UsersService]</code> is syntactic sugar for <code>{ provide: UsersService, useClass: UsersService }</code>. The container uses the class itself as both the token and the blueprint for instantiation. This is the default and most straightforward pattern for typical services. Under the hood, NestJS creates a factory that calls <code>new UsersService(deps...)</code> with resolved dependencies. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Value Provider (useValue):</span> Directly provides a concrete value that the container will return when the token is requested. The value can be any JavaScript primitive, object, array, function, or instance. This pattern is essential for: <ul style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: circle;"> <li>Configuration objects read from JSON/YAML files</li> <li>Mock implementations during unit testing (override real services with test doubles)</li> <li>Third-party library instances that you've configured manually</li> <li>Constants or feature flags that might change based on environment</li> </ul> Example: <code>{ provide: 'APP_CONFIG', useValue: { timeout: 5000, retries: 3 } }</code>. Injection: <code>constructor(@Inject('APP_CONFIG') private config)</code>. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Class Provider (useClass):</span> Provides a different class implementation than the token suggests. This enables polymorphism and strategy patterns where the container selects the appropriate implementation at runtime. The container instantiates the provided class, not the token class. Common use cases: <ul style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: circle;"> <li>Environment-specific implementations (development vs production)</li> <li>A/B testing or feature flag-based service switching</li> <li>Providing mock implementations in test modules</li> <li>Strategy pattern where different algorithms implement the same interface</li> </ul> Example: <code>{ provide: Logger, useClass: process.env.NODE_ENV === 'test' ? TestLogger : ProductionLogger }</code>. The consumer injects <code>Logger</code> but receives an instance of the selected class. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Factory Provider (useFactory):</span> The most flexible registration type. You provide a factory function that returns the provider instance. The factory can: <ul style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: circle;"> <li>Be synchronous or asynchronous (returning a Promise)</li> <li>Have its own dependencies injected via the <code>inject</code> array</li> <li>Make runtime decisions based on configuration, environment, or other services</li> <li>Perform complex initialization logic that doesn't fit in a constructor</li> <li>Create instances of classes that aren't decorated with <code>@Injectable()</code></li> </ul> The <code>inject</code> array specifies tokens for dependencies that should be passed to the factory function as arguments in the same order. This pattern is crucial for integrating libraries that don't follow NestJS conventions or require complex setup. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Alias Provider (useExisting):</span> Creates an alias - an alternative token that resolves to the same instance as another token. No new instance is created. This is useful for: <ul style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: circle;"> <li>Refactoring: Gradually migrating from an old service name to a new one</li> <li>Providing multiple interfaces/abstractions for the same concrete implementation</li> <li>Creating semantic aliases for better readability in different contexts</li> <li>Backward compatibility in libraries or shared modules</li> </ul> Example: <code>{ provide: 'OldLogger', useExisting: NewLogger }</code>. Both <code>@Inject('OldLogger')</code> and <code>@Inject(NewLogger)</code> yield the same instance. </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Best Practices (Production-Grade Guidelines) </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Always use @Injectable():</span> Even for classes with zero dependencies currently, decorating with <code>@Injectable()</code> future-proofs your code and clearly communicates the class's role in the DI system. It ensures TypeScript emits necessary metadata for reflection. Without it, the class cannot participate in dependency injection (unless registered via <code>useFactory</code> or <code>useValue</code>). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Prefer constructor injection:</span> This makes dependencies explicit, required, and immutable (when combined with <code>private readonly</code>). The class clearly declares what it needs to function. Property injection (<code>@Inject()</code> on properties) makes dependencies optional and mutable, reducing testability and introducing temporal coupling (the property might be <code>undefined</code> until something sets it). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Use DEFAULT scope by default:</span> Singleton providers are more performant, memory-efficient, and predictable. Only deviate to REQUEST or TRANSIENT scope when you have a verified, specific requirement for per-request or per-consumer isolation. Profile your application to understand the performance impact before committing to non-DEFAULT scopes in production. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Keep providers focused and cohesive:</span> Follow the Single Responsibility Principle. A provider should have one primary reason to change. If you find a service with many unrelated methods or injected dependencies, split it into smaller, focused services. This improves testability (smaller units are easier to mock and test), readability, and maintainability. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Use abstraction tokens for flexibility:</span> While you can inject concrete classes, consider using abstract classes or injection tokens for key dependencies. This decouples consumers from specific implementations, making it easier to swap implementations for testing, different environments, or evolving requirements. Example: <code>abstract class PaymentGateway</code> with <code>{ provide: PaymentGateway, useClass: StripeGateway }</code>. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Avoid circular dependencies:</span> When Provider A depends on B and B depends on A, you have a circular dependency. This often indicates a design flaw - consider extracting common logic to a third provider C. If unavoidable, use <code>forwardRef(() => Class)</code> in both providers' constructors, but understand this adds complexity and can mask architectural issues. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Export providers explicitly:</span> Only export providers from a module that need to be consumed by other modules. This enforces module encapsulation and clear public APIs. Avoid using global providers (<code>@Global()</code>) unless the provider is truly application-wide (like a configuration service or database connection). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Use custom tokens for non-class values:</span> When injecting configuration objects, constants, or primitive values, use string or symbol tokens rather than trying to misuse class tokens. Symbols are preferred over strings to avoid naming collisions. Example: <code>export const CONFIG_TOKEN = Symbol('CONFIG');</code> </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Leverage lifecycle hooks appropriately:</span> Implement <code>OnModuleInit</code> for async initialization that must complete before the application starts handling requests. Use <code>OnApplicationBootstrap</code> for setup that depends on other modules being fully initialized. Implement <code>OnApplicationShutdown</code> for graceful cleanup (closing database connections, flushing buffers). </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Provider Basics (Core Syntax and Mechanics) </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">@Injectable() Decorator - The Entry Point:</span> This decorator does three key things: 1) Marks the class as participating in the DI system, 2) Ensures TypeScript emits design-time type metadata (<code>emitDecoratorMetadata: true</code> required in tsconfig.json), 3) Allows specification of scope via optional argument. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">import { Injectable, Scope } from '@nestjs/common';
+// Basic usage - DEFAULT scope
+@Injectable()
+export class UsersService {
+// ...
+}
+
+// With explicit scope
+@Injectable({ scope: Scope.REQUEST })
+export class RequestContext {
+// ...
+}
+
+// With lifecycle hooks
+@Injectable()
+export class DatabaseService implements OnModuleInit {
+async onModuleInit() {
+// Called after all modules are initialized
+await this.connect();
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Constructor Injection - The Standard Pattern:</span> Dependencies are declared as constructor parameters. TypeScript's type annotations provide the injection tokens (for class providers). The container resolves these tokens, creates/retrieves instances, and passes them to the constructor.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">import { Injectable } from '@nestjs/common';
+import { UsersRepository } from './users.repository';
+import { EmailService } from './email.service';
+import { ConfigService } from '@nestjs/config';
+
+@Injectable()
+export class OrdersService {
+// All dependencies are injected automatically
+// 'private readonly' makes them immutable and class-scoped
+constructor(
+private readonly usersService: UsersService, // Class token
+private readonly emailService: EmailService, // Class token
+private readonly configService: ConfigService, // Class token
+@Inject('API_ENDPOINT') private readonly apiEndpoint: string // Custom token
+) {}
+
+async placeOrder(userId: number) {
+// All dependencies are available and ready to use
+const user = await this.usersService.findById(userId);
+const order = await this.createOrder(user);
+await this.emailService.sendConfirmation(user.email, order);
+return order;
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Provider Registration & Module Encapsulation:</span> Providers are registered in a module's <code>providers</code> array, making them available within that module's context. The <code>exports</code> array controls which providers are visible to other modules - this is crucial for encapsulation.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">import { Module } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
+import { EmailModule } from '../email/email.module';
+
+@Module({
+imports: [EmailModule], // Import other modules
+controllers: [UsersController],
+providers: [
+UsersService, // Standard class provider (shorthand)
+{ provide: 'USER_OPTIONS', useValue: { maxLoginAttempts: 5 } }, // Value provider
+{
+provide: 'LOGGER',
+useFactory: (config) => new CustomLogger(config.level), // Factory provider
+inject: ['APP_CONFIG']
+}
+],
+exports: [
+UsersService, // Only UsersService is accessible to importing modules
+// 'USER_OPTIONS' and 'LOGGER' are private to this module
+]
+})
+export class UsersModule {}</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Custom Provider Syntax (Detailed Implementation Examples) </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">useValue - Injecting Pre-Constructed Values:</span> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Configuration object provider const appConfig = { apiTimeout: 5000, maxRetries: 3, features: { enableCache: true, enableLogging: process.env.NODE_ENV !== 'production' } };
+// In module providers array
+{
+provide: 'APP_CONFIG', // String token (could also use Symbol)
+useValue: appConfig // The actual object
+}
+
+// Alternative: Factory function that returns configuration
+{
+provide: 'DYNAMIC_CONFIG',
+useValue: (() => {
+// Can execute logic at module initialization time
+const env = process.env.NODE_ENV;
+return {
+apiUrl: env === 'production'
+? 'https://api.prod.com'
+: 'https://api.dev.com'
+};
+})() // Immediately invoked
+}
+
+// Injection in a service
+@Injectable()
+export class ApiClient {
+constructor(
+@Inject('APP_CONFIG') private config: any,
+@Inject('DYNAMIC_CONFIG') private dynamicConfig: any
+) {
+console.log(config.apiTimeout); // 5000
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">useClass - Polymorphic Implementations:</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// Abstract base class or interface (serves as token)
+export abstract class DataStore {
+abstract save(data: any): Promise<void>;
+abstract find(id: string): Promise<any>;
+}
+
+// Concrete implementations
+export class DatabaseStore implements DataStore {
+constructor(private connection: Connection) {}
+
+async save(data: any) {
+await this.connection.query('INSERT ...', [data]);
+}
+
+async find(id: string) {
+return this.connection.query('SELECT ...', [id]);
+}
+}
+
+export class InMemoryStore implements DataStore {
+private storage = new Map();
+
+async save(data: any) {
+this.storage.set(data.id, data);
+}
+
+async find(id: string) {
+return this.storage.get(id);
+}
+}
+
+// Provider definition - decides implementation at registration time
+{
+provide: DataStore, // Token is the abstract class
+useClass: process.env.USE_IN_MEMORY_STORAGE === 'true'
+? InMemoryStore
+: DatabaseStore
+}
+
+// Alternative: Environment-based configuration
+const storeConfig = {
+development: InMemoryStore,
+test: InMemoryStore,
+production: DatabaseStore
+};
+
+{
+provide: DataStore,
+useClass: storeConfig[process.env.NODE_ENV] || DatabaseStore
+}
+
+// Consumer injects the abstract type, gets concrete implementation
+@Injectable()
+export class UserService {
+constructor(private dataStore: DataStore) {} // Injected as DataStore
+
+async saveUser(user: User) {
+await this.dataStore.save(user); // Calls appropriate implementation
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">useFactory - Dynamic Creation with Dependencies:</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">import { ConfigService } from '@nestjs/config';
+import { createConnection, Connection } from 'typeorm';
+import { createClient, RedisClientType } from 'redis';
+
+// Example 1: Database connection with async initialization
+{
+provide: 'DATABASE_CONNECTION',
+useFactory: async (configService: ConfigService): Promise<Connection> => {
+// Factory can be async
+const connection = await createConnection({
+type: 'postgres',
+host: configService.get('DB_HOST'),
+port: configService.get('DB_PORT'),
+username: configService.get('DB_USER'),
+password: configService.get('DB_PASS'),
+database: configService.get('DB_NAME'),
+entities: [User, Product, Order],
+synchronize: configService.get('DB_SYNC') === 'true',
+});
+
+ 
+// Can perform additional setup
+await connection.runMigrations();
+return connection;
+},
+inject: [ConfigService] // Factory's dependencies
+}
+
+// Example 2: Redis client with reconnection logic
+{
+provide: 'REDIS_CLIENT',
+useFactory: (configService: ConfigService): RedisClientType => {
+const client = createClient({
+url: configService.get('REDIS_URL'),
+socket: {
+reconnectStrategy: (retries) => {
+// Custom reconnection logic
+if (retries > 10) {
+throw new Error('Max reconnection attempts exceeded');
+}
+return Math.min(retries * 100, 3000);
+}
+}
+});
+
+ 
+// Set up event handlers
+client.on('error', (err) => console.error('Redis Client Error', err));
+client.on('connect', () => console.log('Redis connected'));
+
+// Note: Connection happens elsewhere (maybe in onModuleInit hook)
+return client;
+},
+inject: [ConfigService]
+}
+
+// Example 3: Factory that chooses implementation based on runtime value
+{
+provide: 'PAYMENT_PROCESSOR',
+useFactory: (
+configService: ConfigService,
+stripeService: StripeService,
+paypalService: PayPalService
+) => {
+const processorType = configService.get('PAYMENT_PROCESSOR');
+
+ 
+switch (processorType) {
+  case 'stripe':
+    return stripeService;
+  case 'paypal':
+    return paypalService;
+  default:
+    throw new Error(Unknown processor: processorType );
+}
+},
+inject: [ConfigService, StripeService, PayPalService] // Multiple dependencies
+}
+
+// Example 4: Factory creating non-Injectable classes
+class ThirdPartyLib {
+constructor(apiKey: string, options: any) {}
+}
+
+{
+provide: 'THIRD_PARTY_CLIENT',
+useFactory: (configService: ConfigService) => {
+// Creates instance of class not decorated with @Injectable()
+return new ThirdPartyLib(
+configService.get('API_KEY'),
+{ timeout: 5000, retries: 3 }
+);
+},
+inject: [ConfigService]
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">useExisting - Alias Creation:</span>
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// Main service implementation
+@Injectable()
+export class AdvancedLogger {
+log(message: string, metadata?: any) {
+console.log([ new Date().toISOString()}] message, metadata);
+}
+}
+
+// Alias provider definitions
+{
+provide: 'SimpleLogger', // Alternative interface/token
+useExisting: AdvancedLogger // Points to same instance
+},
+{
+provide: 'AuditLogger', // Another alternative
+useExisting: AdvancedLogger // Same instance again
+}
+
+// Different consumers can use different tokens
+@Injectable()
+export class UserService {
+// Uses the 'simple' interface
+constructor(@Inject('SimpleLogger') private logger: AdvancedLogger) {}
+
+createUser(user: User) {
+this.logger.log(Creating user: user.email );
+// ...
+}
+}
+
+@Injectable()
+export class AuditService {
+// Uses the 'audit' interface (same instance)
+constructor(@Inject('AuditLogger') private logger: AdvancedLogger) {}
+
+recordAction(action: string) {
+this.logger.log(Audit: action , { timestamp: Date.now() });
+}
+}
+
+// Both services share the same AdvancedLogger instance
+// Changes to logger configuration affect all consumers</code></pre>
+</div>
+</li>
+
+</ol>
 </div>
 `,
             examples: [
@@ -112705,26 +114566,2365 @@ export class DatabaseModule {}
 `,
             ],
             questions: [
-              {
-                question:
-                  "What is the difference between @Injectable() scope DEFAULT, REQUEST, and TRANSIENT in NestJS?",
-                solution:
-                  "<p><strong>DEFAULT (Singleton) Scope:</strong> A single instance of the provider is created when the application starts and is shared across the entire application. All consumers receive the same instance. This is the default scope and is ideal for stateless services, repositories, utilities, and services that don't hold request-specific data. It's the most efficient as instances are reused.</p><p><strong>REQUEST Scope:</strong> A new instance is created for each incoming HTTP request. All classes that depend on this provider within the same request receive the same instance, but different requests get different instances. This is useful for services that need request-specific data like user context, request ID, or transaction management. Note that REQUEST-scoped providers cannot be injected into middleware as middleware runs before the request context is established.</p><p><strong>TRANSIENT Scope:</strong> A new instance is created each time the provider is injected. No instance sharing occurs, even within the same request. This is useful when you need completely fresh state for each consumer, want to avoid side effects, or when the service holds temporary data. It's less efficient than singleton but provides better isolation.</p><p>Choosing the right scope is important for performance and correctness. Use DEFAULT for most services, REQUEST for request-specific data, and TRANSIENT only when necessary for isolation.</p>",
+              { question: "Describe the complete instantiation process when a Controller requests a Service with multiple layered dependencies, including scope considerations.", solution: "<p>When a Controller is instantiated and requests a Service (e.g., <code>UserService</code>), the DI container executes a recursive resolution process: <strong>1. Controller Creation Trigger:</strong> NestJS begins instantiating the Controller due to an incoming request. <strong>2. Dependency Analysis:</strong> The container examines the Controller's constructor and sees <code>UserService</code> as a dependency. <strong>3. Token Resolution:</strong> It looks up <code>UserService</code> in the provider registry. <strong>4. Scope Check:</strong> If <code>UserService</code> is DEFAULT-scoped and already cached, it returns the cached instance immediately. Otherwise, proceeds to instantiation. <strong>5. Dependency Resolution:</strong> The container examines <code>UserService</code>'s constructor dependencies (e.g., <code>UserRepository</code>, <code>EmailService</code>, <code>ConfigService</code>). <strong>6. Recursive Process:</strong> For each dependency, repeat steps 2-5, creating a dependency tree. <strong>7. Order of Instantiation:</strong> Leaf dependencies (those with no dependencies) are instantiated first, then their dependents, working up the tree. <strong>8. Constructor Execution:</strong> Once all dependencies are resolved, <code>UserService</code>'s constructor is called with the resolved instances. <strong>9. Caching:</strong> If DEFAULT-scoped, the instance is cached. <strong>10. Injection:</strong> The fully constructed <code>UserService</code> is injected into the Controller. <strong>Scope Considerations:</strong> If any dependency in the chain is REQUEST-scoped, the entire resolution chain becomes request-specific. If a singleton depends on a REQUEST-scoped service, you must use property injection or the <code>@Inject(REQUEST)</code> pattern to avoid scope mismatch errors.</p>" }, {
+                question: "Explain howuseFactory` providers handle asynchronous initialization and error scenarios during application bootstrap.",
+                solution: "<p><code>useFactory</code> providers can return Promises, enabling asynchronous initialization. During application bootstrap: <strong>1. Async Factory Execution:</strong> When the container needs the provider, it awaits the factory function if it returns a Promise. <strong>2. Dependency Injection First:</strong> The factory's dependencies (specified in <code>inject</code>) are resolved synchronously first. <strong>3. Factory Execution:</strong> The factory function is called with the resolved dependencies as arguments. <strong>4. Awaiting Resolution:</strong> If the factory returns a Promise, the container waits for it to resolve before caching or providing the value. <strong>5. Error Handling:</strong> If the async factory throws or rejects, the container cannot complete initialization, causing the application to fail fast during startup. This is generally desirable for critical dependencies (database connections). <strong>6. Retry Patterns:</strong> For resilience, wrap the factory in retry logic: <code>useFactory: async () => { let lastError; for (let i = 0; i < 3; i++) { try { return await createConnection(); } catch (err) { lastError = err; await sleep(1000); } } throw lastError; }</code>. <strong>7. Lazy Initialization Alternative:</strong> For non-critical dependencies, consider returning a proxy or wrapper that initializes on first use rather than at startup. <strong>8. Health Checks:</strong> Use the <code>OnModuleInit</code> lifecycle hook to verify async providers are functioning after bootstrap completes.</p>"
               },
               {
-                question:
-                  "How does NestJS resolve dependencies when multiple providers have the same token?",
-                solution:
-                  "<p>When multiple providers are registered with the same injection token in NestJS, the last registered provider wins and is used for injection. This behavior allows for:</p><p><strong>1. Provider Overriding:</strong> You can override providers in testing by registering a mock with the same token. The testing module will use your mock instead of the real service.</p><p><strong>2. Environment-Specific Implementations:</strong> You can register different implementations based on environment variables or configuration.</p><p><strong>3. Module-Level Overrides:</strong> Importing modules can override providers from imported modules if they provide the same token.</p><p>Example: If you register <code>{ provide: 'LOGGER', useClass: ConsoleLogger }</code> and then <code>{ provide: 'LOGGER', useClass: FileLogger }</code>, <code>FileLogger</code> will be injected because it was registered last. This is particularly useful in testing:</p><p><strong>Testing Example:</strong> <code>Test.createTestingModule({ providers: [ { provide: UsersService, useClass: MockUsersService } ] })</code> will override the real <code>UsersService</code> with <code>MockUsersService</code> for all injections in the test context.</p><p>However, be cautious with this feature as it can lead to confusing behavior if overused. Document overrides clearly and use meaningful provider tokens to avoid conflicts.</p>",
+                question: "Compare and contrast the performance characteristics of DEFAULT, REQUEST, and TRANSIENT scopes in a high-traffic API scenario.",
+                solution: "<p><strong>DEFAULT (Singleton) Scope:</strong> <em>Performance:</em> Excellent. One instance created once, cached forever. Minimal memory overhead, zero instantiation overhead after first request. <em>Memory:</em> Constant regardless of traffic. <em>Garbage Collection:</em> Minimal pressure - instance lives for application lifetime. <em>Best for:</em> Stateless services, configuration, shared resources (DB connections, HTTP clients).< strong > REQUEST Scope:</strong> <em>Performance:</em> Variable overhead.New instance per request means: constructor execution per request, dependency resolution per request, memory allocation per request. < em > Memory:</em > Scales linearly with concurrent requests.Each instance lives until request completes(increased heap usage). < em > Garbage Collection:</em> High pressure - many short - lived objects trigger frequent GC cycles. < em > Optimization:</em > Keep REQUEST - scoped providers lightweight, minimal dependencies, avoid heavy initialization.Consider async local storage with singletons as alternative.<em>Best for:</em> Request - specific state that cannot be passed as parameters.< strong > TRANSIENT Scope:</strong > <em>Performance:</em> Highest overhead.New instance every time injected, even within same request / component.If Service A has 5 Transient dependencies, each gets its own instance. < em > Memory:</em > Can grow rapidly if transient services are injected many times. < em > Garbage Collection:</em> Very high pressure - extremely short - lived objects. < em > Best for:</em > Rare cases requiring complete instance isolation, stateful workers, or when shared mutable state would cause bugs. < em > Recommendation:</strong > In high - traffic APIs, prefer DEFAULT scope exclusively.Use REQUEST only when absolutely necessary and measure impact.Avoid TRANSIENT in performance - critical paths.</p > "
               },
+              {
+                question: "How does the DI container resolve provider tokens when the same token is provided in multiple modules? Describe the resolution hierarchy and potential conflicts.",
+                solution: "<p>NestJS uses a hierarchical module system with clear resolution rules: <strong>1. Current Module First:</strong> When a class in Module A requests a token, the container first looks in Module A's <code>providers</code> array. If found, it uses that provider definition regardless of other modules. <strong>2. Imported Module Exports:</strong> If not found in current module, it checks the <code>exports</code> arrays of modules imported by Module A (in the order they're imported in the <code>imports</code> array). <strong>3. Global Providers:</strong> Finally, it checks providers marked with <code>@Global()</code> decorator or registered with <code>global: true</code>. <strong>Conflict Scenarios:</strong> a) <em>Same token in current module and imported module:</em> Current module wins (shadowing). b) <em>Same token in multiple imported modules:</em> First module in the <code>imports</code> array wins. c) <em>Same token with different implementations in different modules:</em> The resolution order determines which implementation is used, potentially causing inconsistent behavior. <strong>Best Practices:</strong> 1) Avoid duplicate token registrations. 2) Use unique tokens (Symbols help). 3) Be explicit about exports - only export what's needed. 4) Use <code>@Global()</code> sparingly. 5) When overriding providers for testing, do it in the test module specifically. <strong>Debugging:</strong> Use <code>ModuleRef</code> to inspect available providers or enable verbose logging during bootstrap to see resolution decisions.</p>"
+              },
+              {
+                question: "Design a provider configuration for a multi-tenant application where each tenant requires a separate database connection with isolated connection pools.",
+                solution: "<p>For multi-tenancy with isolated database connections: <strong>1. Tenant Context Provider (REQUEST-scoped):</strong> <code>@Injectable({ scope: Scope.REQUEST }) export class TenantContext { private tenantId: string; setTenant(id: string) { this.tenantId = id; } getTenantId() { return this.tenantId; } }</code> <strong>2. Connection Factory Provider:</strong> <code>{ provide: 'TENANT_CONNECTION', useFactory: async (tenantContext: TenantContext, configService: ConfigService) => { const tenantId = tenantContext.getTenantId(); if (!tenantId) throw new Error('No tenant context'); // Look up tenant-specific config from cache or config service const tenantConfig = await getTenantConfig(tenantId); return createConnection({ name: tenantId, // Named connection ...tenantConfig }); }, inject: [TenantContext, ConfigService] }</code> <strong>3. Connection Pool Manager (Singleton):</strong> <code>@Injectable() export class ConnectionPoolManager { private pools = new Map<string, Connection>(); async getConnection(tenantId: string): Promise<Connection> { if (!this.pools.has(tenantId)) { const config = await getTenantConfig(tenantId); this.pools.set(tenantId, await createConnection(config)); } return this.pools.get(tenantId); } }</code> <strong>4. Repository Factory:</strong> <code>@Injectable() export class TenantAwareRepositoryFactory { constructor(private connectionPoolManager: ConnectionPoolManager) {} createRepository<T>(tenantId: string): Repository<T> { const connection = await this.connectionPoolManager.getConnection(tenantId); return connection.getRepository(T); } }</code> <strong>5. Middleware/Guard:</strong> Sets tenant ID in <code>TenantContext</code> early in request pipeline. <strong>Key Considerations:</strong> a) Connection pooling per tenant, b) Cache tenant configurations, c) Cleanup idle connections, d) Tenant isolation enforcement at DI level, e) Fallback to default tenant for non-tenant routes.</p>"
+              },
+              {
+                question: "What happens when a singleton service depends on a REQUEST-scoped service? Explain the problem and present three solutions with their trade-offs.",
+                solution: "<p><strong>The Problem:</strong> By default, NestJS prohibits this because a singleton (lives forever) cannot inject a REQUEST-scoped instance (lives only for one request). This causes <code>Error: A dependency injection error occurred</code> regarding scope mismatch. <strong>Solution 1: Change Singleton to REQUEST Scope</strong> - Make the consuming service REQUEST-scoped too. <em>Trade-off:</em> Loss of singleton performance benefits, increased memory/GC pressure. <strong>Solution 2: Property Injection with @Inject(REQUEST)</strong> - Inject the raw request object instead: <code>@Inject(REQUEST) private request: Request</code>. Then extract needed data from request object directly. <em>Trade-off:</em> Loses type safety of the REQUEST-scoped service, couples consumer to HTTP layer. <strong>Solution 3: Provider Pattern with Factory</strong> - Don't inject the REQUEST-scoped service directly. Instead, inject a factory that can create/provide it when needed: <code>{ provide: 'REQUEST_CONTEXT_FACTORY', useFactory: (moduleRef: ModuleRef) => ({ getContext: () => moduleRef.get(RequestContextService, { strict: false }) }), inject: [ModuleRef] }</code>. Then in singleton: <code>const requestContext = this.factory.getContext()</code>. <em>Trade-off:</em> More complex, runtime overhead, must handle missing context when called outside request. <strong>Solution 4: Async Local Storage (Preferred):</strong> Use Node.js <code>AsyncLocalStorage</code> to store request context. Singleton services can access it via static method. <em>Trade-off:</em> More advanced pattern, requires careful context propagation. <strong>Recommendation:</strong> For most cases, redesign to avoid this dependency altogether - pass request-specific data as method parameters rather than injecting request-scoped services into singletons.</p>"
+              },
+              {
+                question: "How do you implement a provider that needs to be dynamically registered/unregistered at runtime based on configuration changes?",
+                solution: "<p>NestJS's DI container is primarily static (configured at startup), but dynamic registration is possible: <strong>1. ModuleRef Approach:</strong> Use <code>ModuleRef</code> to dynamically create providers: <code>constructor(private moduleRef: ModuleRef) {}</code> then <code>const { instance } = await this.moduleRef.create(MyDynamicProvider);</code>. <strong>2. Factory Registry Pattern:</strong> Create a registry service that manages dynamic instances: <code>@Injectable() export class DynamicProviderRegistry { private instances = new Map<string, any>(); register(key: string, factory: () => any) { this.instances.set(key, factory()); } get(key: string) { return this.instances.get(key); } }</code>. <strong>3. Configuration Watcher:</strong> Combine with configuration service that watches for changes: <code>@Injectable() export class DynamicConfigManager { constructor(private configService: ConfigService, private registry: DynamicProviderRegistry) { this.configService.watch('features').subscribe(features => { this.updateProviders(features); }); } }</code>. <strong>4. Dynamic Module Pattern:</strong> For more complex cases, create modules dynamically: <code>export class DynamicModule { static register(options): DynamicModule { return { module: DynamicModule, providers: [ { provide: 'DYNAMIC_CONFIG', useValue: options } ] }; } }</code>. <strong>5. Important Limitations:</strong> Dynamically created providers won't be automatically cleaned up, may not participate in lifecycle hooks consistently, and can cause memory leaks if not properly managed. Use for truly dynamic, plugin-like architectures where providers come and go at runtime.</p>"
+              }
             ],
             links: [
               "https://docs.nestjs.com/providers",
               "https://docs.nestjs.com/fundamentals/custom-providers",
               "https://docs.nestjs.com/fundamentals/injection-scopes",
               "https://docs.nestjs.com/fundamentals/dependency-injection",
+              "https://docs.nestjs.com/fundamentals/circular-dependency",
+              "https://docs.nestjs.com/fundamentals/module-ref",
+              "https://docs.nestjs.com/fundamentals/lifecycle-events",
+              "https://docs.nestjs.com/fundamentals/dynamic-modules",
+              "https://docs.nestjs.com/techniques/configuration",
+              "https://docs.nestjs.com/security/authentication"
             ],
           },
+          {
+            topic: "Guards",
+            tags: ["Authorization", "Authentication", "Security", "ExecutionContext", "Middleware", "RBAC", "Pipes", "Interceptors"],
+            explanation: `
+    <div><p style="line-height: 1.75; margin-top: 1.5rem;"> Guards are a crucial security layer in NestJS that determine whether a request should be processed or rejected. They implement authorization logic and access control, executing after middleware but before pipes and interceptors in the request lifecycle. Guards have access to the ExecutionContext, which provides detailed information about the current request, allowing them to make intelligent decisions about whether to allow or deny access. Think of guards as security checkpoints that validate if the requester has the necessary permissions to access a specific route or resource. Every guard must implement the CanActivate interface and return either a boolean value or a Promise that resolves to a boolean - true allows the request to proceed, false blocks it with a 403 Forbidden response. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Why Guards? (The Security Boundary Philosophy) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Guards exist to enforce <strong>authorization boundaries</strong> in a clean, declarative way. The <strong>why</strong> behind guards is fundamental to application security: 1) <strong>Separation of Concerns:</strong> Guards extract authorization logic from controllers and services, keeping business logic focused on business rules rather than security checks. 2) <strong>Early Rejection:</strong> By positioning guards early in the request lifecycle (after middleware but before pipes/interceptors), unauthorized requests are rejected before expensive operations like database queries, validation, or business logic execution. 3) <strong>Declarative Security:</strong> Using decorators like <code>@UseGuards()</code> and <code>@Roles()</code>, security requirements become part of the API contract, making it clear which endpoints require which permissions. 4) <strong>Reusability:</strong> Guards can be applied at method, controller, or global levels, ensuring consistent security policies across the application. 5) <strong>Testability:</strong> Guards are pure functions (input: ExecutionContext, output: boolean) that can be unit tested in isolation. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> What Are Guards? (Complete Definition and Core Components) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> A guard is a class that implements the <code>CanActivate</code> interface and is decorated with <code>@Injectable()</code>. It acts as a <strong>gatekeeper</strong> that inspects the request context and decides whether to allow passage. The <strong>what</strong> includes: <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;"> <li><strong>CanActivate Interface:</strong> The single method <code>canActivate(context: ExecutionContext)</code> that returns <code>boolean | Promise&lt;boolean&gt; | Observable&lt;boolean&gt;</code>.</li> <li><strong>ExecutionContext Access:</strong> Provides complete request context including HTTP request/response, WebSocket client, or RPC context.</li> <li><strong>Metadata Integration:</strong> Works with Reflector to read custom metadata attached via decorators (e.g., <code>@Roles()</code>, <code>@Public()</code>).</li> <li><strong>Dependency Injection Support:</strong> Guards participate in NestJS DI system, allowing injection of services, repositories, or configuration.</li> <li><strong>Transport Layer Agnostic:</strong> Works with HTTP, WebSockets, gRPC, and other transport layers through ExecutionContext abstraction.</li> </ul> Guards are not for authentication (verifying identity) but for authorization (verifying permissions). They assume authentication has already occurred and user identity is available in the request context. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> How Guards Work: The Complete Flow (From Request Ingress to Guard Execution) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Understanding the <strong>how</strong> requires tracing the precise execution flow through NestJS's layered architecture: <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;"> <li><strong>Request Ingress & Middleware Processing:</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>HTTP request arrives and goes through global middleware (app.use())</li> <li>Route-specific middleware executes (if any)</li> <li>Authentication middleware (e.g., Passport JWT strategy) validates credentials and attaches user to <code>request.user</code></li> <li>Other middleware may add additional context (request ID, language, tenant info)</li> </ol> </li> <li><strong>Guard Execution Phase:</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>NestJS checks if route has guards applied (global, controller, or method level)</li> <li>For each guard in order of application: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li>Guard's <code>canActivate()</code> method is called with ExecutionContext</li> <li>Guard extracts request via <code>context.switchToHttp().getRequest()</code></li> <li>Guard reads metadata via Reflector if needed</li> <li>Guard performs authorization logic (synchronous or async)</li> <li>If guard returns <code>false</code> or throws exception → immediate termination</li> <li>If guard returns <code>true</code> → continues to next guard</li> </ul> </li> <li>All guards must return <code>true</code> for request to proceed</li> </ol> </li> <li><strong>Post-Guard Flow (If All Guards Pass):</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>Interceptors' pre-handler logic executes (if any interceptors applied)</li> <li>Pipes validate and transform parameters</li> <li>Route handler executes with business logic</li> <li>Interceptors' post-handler logic transforms response</li> <li>Exception filters handle any thrown exceptions</li> <li>Response sent to client</li> </ol> </li> <li><strong>Guard Failure Flow (If Any Guard Fails):</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>Immediate termination of request pipeline</li> <li>No interceptors, pipes, or handlers execute</li> <li>If guard threw exception → exception filters process it</li> <li>If guard returned <code>false</code> → NestJS throws <code>ForbiddenException</code></li> <li>Error response sent to client (403 Forbidden or custom status)</li> </ol> </li> </ol> This precise positioning makes guards efficient security checkpoints - they prevent wasted computation on unauthorized requests while having access to all authentication results from middleware. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Guard Anatomy and Implementation Details </h4> <p style="line-height: 1.75; margin-top: 1rem;"> A guard is a class decorated with <code>@Injectable()</code> that implements the <code>CanActivate</code> interface. The interface requires a single method: <code>canActivate(context: ExecutionContext)</code>, which must return a boolean, <code>Promise&lt;boolean&gt;</code>, or <code>Observable&lt;boolean&gt;</code>. Inside this method, you extract the request object from the ExecutionContext, examine relevant properties (user roles, permissions, tokens), and decide whether to grant access. Guards can be synchronous or asynchronous, allowing you to perform database lookups, external API calls, or complex business logic before making authorization decisions. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Complete guard implementation with all possible return types import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'; import { Observable, of } from 'rxjs'; import { map, catchError } from 'rxjs/operators';
+@Injectable()
+export class ComprehensiveGuard implements CanActivate {
+// Synchronous implementation
+canActivateSync(context: ExecutionContext): boolean {
+const request = context.switchToHttp().getRequest();
+return !!request.user && request.user.role === 'admin';
+}
+
+// Async/Promise implementation
+async canActivateAsync(context: ExecutionContext): Promise<boolean> {
+const request = context.switchToHttp().getRequest();
+// Simulate async operation (database query, API call)
+const user = await this.userService.findById(request.user.id);
+return user.isActive && user.role === 'admin';
+}
+
+// Observable implementation (RxJS)
+canActivateObservable(context: ExecutionContext): Observable<boolean> {
+const request = context.switchToHttp().getRequest();
+return this.authService.validateTokenObservable(request.token).pipe(
+map(isValid => isValid && request.user.role === 'admin'),
+catchError(() => of(false))
+);
+}
+
+// The actual canActivate method - can use any of the above patterns
+canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+// Choose implementation based on needs
+return this.canActivateAsync(context);
+}
+}</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> ExecutionContext Deep Dive: The Guard's Window into the Request </h4> <p style="line-height: 1.75; margin-top: 1rem;"> The <code>ExecutionContext</code> is a powerful abstraction that provides access to the current execution details. It extends <code>ArgumentsHost</code> and adds methods like <code>getHandler()</code> and <code>getClass()</code> to retrieve metadata about the controller method and class being executed. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">import { ExecutionContext } from '@nestjs/common';
+export class DebugGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+// 1. Switch to appropriate transport layer
+const httpContext = context.switchToHttp();
+const wsContext = context.switchToWs(); // For WebSockets
+const rpcContext = context.switchToRpc(); // For microservices
+
+ 
+// 2. Get request/response objects
+const request = httpContext.getRequest();
+const response = httpContext.getResponse();
+
+// 3. Get handler and class metadata
+const handler = context.getHandler(); // The route handler function
+const controllerClass = context.getClass(); // The controller class
+
+// 4. Get handler arguments
+const args = context.getArgs(); // Original arguments array
+const argHost = context.getArgByIndex(0); // Get specific argument
+
+// 5. Access everything available in the request
+console.log('Request Method:', request.method);
+console.log('Request URL:', request.url);
+console.log('Request Headers:', request.headers);
+console.log('Request User:', request.user); // From authentication middleware
+console.log('Request Params:', request.params);
+console.log('Request Query:', request.query);
+console.log('Request Body:', request.body);
+console.log('Request IP:', request.ip);
+console.log('Request Session:', request.session);
+
+// 6. Handler metadata
+console.log('Handler Name:', handler.name);
+console.log('Controller:', controllerClass.name);
+
+return true;
+}
+}</code></pre>
+
+</div> <p style="line-height: 1.75; margin-top: 1rem;"> <strong>Key Insight:</strong> Guards run <em>after</em> middleware, so <code>request.user</code> should already be populated by authentication middleware (e.g., Passport JWT strategy). This is why guards focus on authorization (what you can do) not authentication (who you are). </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Guard Binding Scopes: Method, Controller, and Global </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Method-scoped Guards:</span> Applied to individual route handlers using <code>@UseGuards()</code> decorator. Provides fine-grained control over specific endpoints. Only affects the decorated method. <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">@Controller('users') export class UsersController { // Public endpoint - no guard @Get('public') getPublicData() { return { message: 'Anyone can access this' }; }
+// Protected endpoint - method-scoped guard
+@Get('profile')
+@UseGuards(AuthGuard) // Only this method is protected
+getProfile() {
+return { message: 'Only authenticated users' };
+}
+
+// Multiple guards on single method
+@Get('admin')
+@UseGuards(AuthGuard, AdminGuard, AuditGuard) // All three must pass
+getAdminData() {
+return { message: 'Admin only data' };
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Controller-scoped Guards:</span> Applied at the controller level, protecting all routes within that controller. Reduces duplication when all endpoints share the same authorization requirements.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// All routes in this controller require authentication
+@Controller('admin')
+@UseGuards(AuthGuard) // Applied to all methods in controller
+export class AdminController {
+@Get('dashboard')
+getDashboard() {
+return { message: 'Admin dashboard' };
+}
+
+@Get('users')
+getUsers() {
+return { message: 'User list' };
+}
+
+// Can override at method level
+@Get('public-stats')
+@UseGuards(PublicGuard) // Overrides controller guard
+getPublicStats() {
+return { message: 'Public stats' };
+}
+}</code></pre>
+</div>
+</li>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.1rem;">Global Guards:</span> Applied to every route in the application using <code>app.useGlobalGuards()</code> or <code>APP_GUARD</code> provider. Perfect for universal requirements like authentication checks. Can be overridden by method-specific guards.
+<div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+<pre><code class="language-typescript">// Method 1: In main.ts (no dependency injection)
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { AuthGuard } from './guards/auth.guard';
+
+async function bootstrap() {
+const app = await NestFactory.create(AppModule);
+
+// Global guard - applies to ALL routes
+app.useGlobalGuards(new AuthGuard());
+// Problem: Can't inject dependencies into AuthGuard
+
+await app.listen(3000);
+}
+
+// Method 2: Using APP_GUARD provider (preferred - enables DI)
+import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './guards/auth.guard';
+import { UserService } from './users/user.service';
+
+@Module({
+providers: [
+UserService,
+{
+provide: APP_GUARD,
+useClass: AuthGuard, // Now AuthGuard can inject UserService
+},
+],
+})
+export class AppModule {}</code></pre>
+</div>
+</li>
+
+</ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Authentication vs Authorization: The Critical Distinction </h4> <p style="line-height: 1.75; margin-top: 1rem;"> This is a critical distinction that frequently appears in interviews. <strong>Authentication (AuthN)</strong> is the process of verifying WHO the user is - confirming their identity through credentials like username/password, JWT tokens, OAuth, or biometrics. This is typically handled by authentication strategies (Passport strategies in NestJS) and middleware that attach user information to the request. <strong>Authorization (AuthZ)</strong> is determining WHAT the authenticated user can do - checking if they have permission to access specific resources or perform certain actions. This is where Guards excel. Guards assume authentication has already occurred (user is identified) and focus on permission checking (can this user access this resource?). For example, a JWT strategy authenticates the user by validating their token, while a RolesGuard checks if that authenticated user has the 'admin' role required to access an endpoint. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// AUTHENTICATION (WHO) - Usually in middleware or Passport strategy // This happens BEFORE guards in the request lifecycle
+// JWT Strategy (Passport) - Authentication
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+constructor() {
+super({
+jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+secretOrKey: 'secret',
+});
+}
+
+async validate(payload: any) {
+// Verify JWT and return user
+return { id: payload.sub, email: payload.email, roles: payload.roles };
+// This gets attached to request.user by Passport
+}
+}
+
+// AUTHENTICATION MIDDLEWARE - Attaches user to request
+// This runs BEFORE guards
+app.use((req, res, next) => {
+const token = req.headers.authorization?.split(' ')[1];
+if (token) {
+try {
+const user = jwt.verify(token, 'secret');
+req.user = user; // Authentication complete
+} catch {
+req.user = null;
+}
+}
+next();
+});
+
+// AUTHORIZATION (WHAT) - Guard checks permissions
+// This runs AFTER authentication middleware
+@Injectable()
+export class RolesGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const request = context.switchToHttp().getRequest();
+const user = request.user; // Already authenticated by middleware
+
+ 
+// Authorization check: does user have admin role?
+return user?.roles?.includes('admin'); // true/false
+}
+}</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Role-Based Access Control (RBAC) Implementation Pattern </h4> <p style="line-height: 1.75; margin-top: 1rem;"> RBAC is one of the most common use cases for guards. You define roles (admin, user, moderator) and assign them to users. Guards then check if the current user's role matches the required role(s) for a route. This typically involves: (1) Creating a custom decorator (<code>@Roles('admin')</code>) to specify required roles on route handlers, (2) Using Reflector in the guard to read the metadata set by the decorator, (3) Comparing the user's roles (from <code>request.user</code>) against the required roles, (4) Returning true if there's a match, false otherwise. This pattern is flexible and can be extended to more complex permission systems with hierarchical roles or fine-grained permissions. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Step 1: Create custom decorator to attach metadata import { SetMetadata } from '@nestjs/common';
+export const ROLES_KEY = 'roles';
+export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
+
+// Step 2: Implement the RolesGuard
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+
+@Injectable()
+export class RolesGuard implements CanActivate {
+constructor(private reflector: Reflector) {}
+
+canActivate(context: ExecutionContext): boolean {
+// Read metadata from handler AND controller (handler overrides controller)
+const requiredRoles = this.reflector.getAllAndOverride<string[]>(
+ROLES_KEY,
+[context.getHandler(), context.getClass()]
+);
+
+ 
+// If no roles required, allow access
+if (!requiredRoles) {
+  return true;
+}
+
+// Get user from request (already authenticated by middleware)
+const request = context.switchToHttp().getRequest();
+const user = request.user;
+
+// Check if user has at least one of the required roles
+return requiredRoles.some((role) => user?.roles?.includes(role));
+}
+}
+
+// Step 3: Use in controller
+@Controller('users')
+@UseGuards(AuthGuard('jwt'), RolesGuard) // Auth first, then role check
+export class UsersController {
+@Get()
+@Roles('user', 'admin') // User OR admin can access
+findAll() {
+return this.usersService.findAll();
+}
+
+@Post()
+@Roles('admin') // Only admin can create
+create(@Body() createUserDto: CreateUserDto) {
+return this.usersService.create(createUserDto);
+}
+
+@Delete(':id')
+@Roles('superadmin') // Only superadmin can delete
+remove(@Param('id') id: string) {
+return this.usersService.remove(id);
+}
+}
+
+// Flow when GET /users is called:
+// 1. AuthGuard('jwt') validates JWT, attaches user to request
+// 2. RolesGuard reads @Roles('user', 'admin') metadata
+// 3. Checks if request.user.roles includes 'user' OR 'admin'
+// 4. Returns true/false based on check</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Request Lifecycle Position: Before and After Guards </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Understanding where guards fit in the request lifecycle is crucial for interviews and practical implementation. The complete order with examples: </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Complete request lifecycle demonstration import { Controller, Get, UseGuards, UseInterceptors, UsePipes, Body, ValidationPipe, createParamDecorator } from '@nestjs/common'; import { LoggingInterceptor, TransformInterceptor } from './interceptors'; import { AuthGuard, RolesGuard } from './guards';
+// Custom middleware (executes BEFORE guards)
+const AuthenticationMiddleware = (req, res, next) => {
+console.log('1. Middleware: Authenticating user...');
+req.user = { id: 1, roles: ['user'] }; // Simulate authentication
+next();
+};
+
+// Custom pipe (executes AFTER guards if they pass)
+const ValidationPipeExample = {
+transform(value: any, metadata) {
+console.log('4. Pipe: Validating and transforming data...');
+return value;
+}
+};
+
+@Controller('demo')
+export class DemoController {
+@Get('protected')
+@UseGuards(AuthGuard, RolesGuard) // 2. Guards execute here
+@UseInterceptors(LoggingInterceptor) // 3. Interceptors (before handler)
+@UsePipes(ValidationPipeExample) // 4. Pipes
+getProtectedData() {
+console.log('5. Handler: Executing business logic...');
+return { data: 'protected' };
+}
+}
+
+// Request lifecycle when calling GET /demo/protected:
+// 1. AuthenticationMiddleware executes → attaches user to request
+// 2. AuthGuard checks if user exists → passes
+// 3. RolesGuard checks if user has required role → passes
+// 4. LoggingInterceptor pre-handler logic executes
+// 5. ValidationPipe validates/transforms parameters
+// 6. Route handler executes business logic
+// 7. LoggingInterceptor post-handler logic executes
+// 8. Response sent to client
+
+// If AuthGuard returns false:
+// 1. AuthenticationMiddleware executes
+// 2. AuthGuard returns false → REQUEST STOPS HERE
+// 3. No interceptors, pipes, or handlers execute
+// 4. 403 Forbidden response sent immediately</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Custom Metadata and Reflector: Making Guards Configurable </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Guards often need to access custom metadata attached to routes via decorators. The <code>Reflector</code> class provides methods to retrieve this metadata. You inject Reflector into your guard's constructor and use <code>reflector.get()</code> or <code>reflector.getAllAndOverride()</code> to read metadata keys. For example, a <code>@Public()</code> decorator might set metadata indicating a route should skip authentication. Your guard reads this metadata and returns true immediately for public routes. This pattern makes guards highly configurable and allows you to express authorization rules declaratively in your controllers rather than hardcoding logic in the guard itself. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Advanced metadata usage with Reflector import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'; import { Reflector } from '@nestjs/core'; import { SetMetadata } from '@nestjs/common';
+// Multiple custom decorators for different metadata
+export const IS_PUBLIC_KEY = 'isPublic';
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+
+export const PERMISSIONS_KEY = 'permissions';
+export const RequirePermissions = (...perms: string[]) =>
+SetMetadata(PERMISSIONS_KEY, perms);
+
+export const RESOURCE_KEY = 'resource';
+export const Resource = (resource: string) => SetMetadata(RESOURCE_KEY, resource);
+
+@Injectable()
+export class AdvancedGuard implements CanActivate {
+constructor(private reflector: Reflector) {}
+
+async canActivate(context: ExecutionContext): Promise<boolean> {
+// Check if route is marked as public
+const isPublic = this.reflector.getAllAndOverride<boolean>(
+IS_PUBLIC_KEY,
+[context.getHandler(), context.getClass()]
+);
+
+ 
+if (isPublic) {
+  return true; // Skip all checks for public routes
+}
+
+const request = context.switchToHttp().getRequest();
+const user = request.user;
+
+// Get required permissions from metadata
+const requiredPermissions = this.reflector.getAllAndOverride<string[]>(
+  PERMISSIONS_KEY,
+  [context.getHandler(), context.getClass()]
+);
+
+// Get resource type from metadata
+const resourceType = this.reflector.getAllAndOverride<string>(
+  RESOURCE_KEY,
+  [context.getHandler(), context.getClass()]
+);
+
+// Complex authorization logic based on metadata
+if (requiredPermissions) {
+  const hasAllPermissions = requiredPermissions.every(perm =>
+    user.permissions?.includes(perm)
+  );
+  if (!hasAllPermissions) {
+    return false;
+  }
+}
+
+if (resourceType) {
+  // Check if user can access this resource type
+  const canAccess = await this.checkResourceAccess(user, resourceType);
+  if (!canAccess) {
+    return false;
+  }
+}
+
+return true;
+}
+
+private async checkResourceAccess(user: any, resourceType: string): Promise<boolean> {
+// Complex business logic, database queries, etc.
+return true;
+}
+}
+
+// Usage with multiple metadata decorators
+@Controller('articles')
+@UseGuards(AdvancedGuard)
+export class ArticlesController {
+@Get()
+@Public() // Skip guard entirely
+findAll() {
+return this.articlesService.findAll();
+}
+
+@Get(':id')
+@Resource('article') // Guard checks article resource access
+findOne(@Param('id') id: string) {
+return this.articlesService.findOne(id);
+}
+
+@Post()
+@RequirePermissions('article:write') // Guard checks permission
+create(@Body() createArticleDto: CreateArticleDto) {
+return this.articlesService.create(createArticleDto);
+}
+}</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Error Handling in Guards: Return false vs Throw Exception </h4> <p style="line-height: 1.75; margin-top: 1rem;"> When a guard denies access, you have two options: return <code>false</code> (results in a generic 403 Forbidden response) or throw an exception (allows custom error messages and status codes). Throwing exceptions is generally preferred in production because it provides better feedback to clients. You can throw <code>UnauthorizedException</code> (401) if the user isn't authenticated, <code>ForbiddenException</code> (403) if they're authenticated but lack permissions, or custom exceptions with detailed messages. Guards should throw exceptions rather than return false when you need to provide context about why access was denied. NestJS's exception filters will handle these exceptions and format appropriate error responses. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException, HttpException, HttpStatus } from '@nestjs/common';
+@Injectable()
+export class ErrorHandlingGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const request = context.switchToHttp().getRequest();
+const user = request.user;
+
+ 
+// Option 1: Return false (not recommended for production)
+// Results in generic 403 Forbidden with no details
+if (!user) {
+  return false; // Generic 403
+}
+
+// Option 2: Throw UnauthorizedException (401)
+// Use when user is not authenticated at all
+if (!user) {
+  throw new UnauthorizedException('Please login to access this resource');
+}
+
+// Option 3: Throw ForbiddenException (403)
+// Use when user is authenticated but lacks permissions
+if (!user.roles?.includes('admin')) {
+  throw new ForbiddenException(
+    'Admin role required to access this endpoint',
+    'ADMIN_REQUIRED' // Custom error code
+  );
+}
+
+// Option 4: Throw custom HttpException with any status code
+if (user.accountLocked) {
+  throw new HttpException(
+    {
+      statusCode: 423,
+      message: 'Account is locked. Contact support.',
+      errorCode: 'ACCOUNT_LOCKED',
+      supportEmail: 'support@example.com'
+    },
+    HttpStatus.LOCKED
+  );
+}
+
+// Option 5: Throw custom business exception
+if (user.subscriptionExpired) {
+  throw new SubscriptionRequiredException(
+    'Premium subscription required',
+    { plan: 'premium', upgradeUrl: '/upgrade' }
+  );
+}
+
+return true;
+}
+}
+
+// Custom exception for business logic
+export class SubscriptionRequiredException extends HttpException {
+constructor(message: string, metadata: any) {
+super(
+{
+message,
+...metadata,
+statusCode: 402, // Payment Required
+error: 'SUBSCRIPTION_REQUIRED'
+},
+402
+);
+}
+}
+
+// Usage - clients get detailed error responses
+@Controller('premium')
+@UseGuards(ErrorHandlingGuard)
+export class PremiumController {
+@Get('content')
+getContent() {
+return { content: 'premium' };
+}
+}
+
+// Client receives detailed error if unauthorized:
+// {
+// "statusCode": 402,
+// "message": "Premium subscription required",
+// "plan": "premium",
+// "upgradeUrl": "/upgrade",
+// "error": "SUBSCRIPTION_REQUIRED"
+// }</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Combining Multiple Guards: Execution Order and Composition </h4> <p style="line-height: 1.75; margin-top: 1rem;"> You can apply multiple guards to a single route using <code>@UseGuards(Guard1, Guard2, Guard3)</code>. They execute in the order specified, and ALL must return <code>true</code> for the request to proceed. If any guard returns <code>false</code> or throws an exception, processing stops immediately. This allows you to compose complex authorization logic from simple, single-purpose guards. For example, you might have an AuthGuard to verify the user is logged in, followed by a RolesGuard to check their role, followed by a SubscriptionGuard to verify they have an active subscription. Each guard focuses on one concern, making them easier to test and maintain. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Example of guard composition import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+// Guard 1: Check authentication
+@Injectable()
+export class AuthGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const request = context.switchToHttp().getRequest();
+console.log('AuthGuard: Checking authentication...');
+return !!request.user; // Must have user object
+}
+}
+
+// Guard 2: Check role
+@Injectable()
+export class RolesGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const request = context.switchToHttp().getRequest();
+console.log('RolesGuard: Checking roles...');
+return request.user?.roles?.includes('admin');
+}
+}
+
+// Guard 3: Check subscription
+@Injectable()
+export class SubscriptionGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const request = context.switchToHttp().getRequest();
+console.log('SubscriptionGuard: Checking subscription...');
+return request.user?.hasActiveSubscription;
+}
+}
+
+// Guard 4: Check ownership
+@Injectable()
+export class OwnershipGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const request = context.switchToHttp().getRequest();
+console.log('OwnershipGuard: Checking ownership...');
+return request.user?.id === request.params.userId;
+}
+}
+
+// Using multiple guards in sequence
+@Controller('premium-content')
+export class PremiumContentController {
+// All 4 guards execute in order
+@Get('admin-content')
+@UseGuards(AuthGuard, RolesGuard, SubscriptionGuard)
+getAdminContent() {
+console.log('Handler: Returning admin content...');
+return { content: 'admin premium content' };
+}
+
+// Different combination for different endpoint
+@Get('user-content/:userId')
+@UseGuards(AuthGuard, OwnershipGuard, SubscriptionGuard)
+getUserContent(@Param('userId') userId: string) {
+console.log('Handler: Returning user content...');
+return { content: 'user premium content' };
+}
+
+// Single guard for simple case
+@Get('free-content')
+@UseGuards(AuthGuard) // Only authentication required
+getFreeContent() {
+return { content: 'free content' };
+}
+}
+
+// Execution flow for GET /premium-content/admin-content:
+// 1. AuthGuard executes → checks authentication → passes
+// 2. RolesGuard executes → checks admin role → passes
+// 3. SubscriptionGuard executes → checks subscription → passes
+// 4. Handler executes → returns content
+
+// If any guard fails, execution stops immediately:
+// 1. AuthGuard executes → no user → returns false
+// 2. EXECUTION STOPS - RolesGuard and SubscriptionGuard never run
+// 3. 403 Forbidden response sent</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Integration with Passport: Authentication + Authorization </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Passport is the de facto authentication library for Node.js, and NestJS provides seamless integration through <code>@nestjs/passport</code>. <code>AuthGuard('jwt')</code> or <code>AuthGuard('local')</code> are built-in guards that trigger Passport strategies. When you use <code>@UseGuards(AuthGuard('jwt'))</code>, NestJS invokes the JWT strategy to validate the token, extract user information, and attach it to <code>request.user</code>. This is authentication, not authorization - the guard ensures the user is who they claim to be. You then combine this with custom authorization guards to check permissions. For example, <code>@UseGuards(AuthGuard('jwt'), RolesGuard)</code> first authenticates the user, then checks their role. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Complete authentication + authorization with Passport import { Controller, Get, UseGuards, Request } from '@nestjs/common'; import { AuthGuard } from '@nestjs/passport'; import { RolesGuard } from './roles.guard'; import { Roles } from './roles.decorator';
+// JWT Strategy (authentication)
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+constructor() {
+super({
+jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+secretOrKey: process.env.JWT_SECRET,
+});
+}
+
+async validate(payload: any) {
+// This is authentication: verify JWT and return user
+return {
+userId: payload.sub,
+email: payload.email,
+roles: payload.roles,
+permissions: payload.permissions
+};
+// Passport automatically attaches this to request.user
+}
+}
+
+// RolesGuard (authorization)
+@Injectable()
+export class RolesGuard implements CanActivate {
+constructor(private reflector: Reflector) {}
+
+canActivate(context: ExecutionContext): boolean {
+const requiredRoles = this.reflector.get<string[]>('roles', context.getHandler());
+if (!requiredRoles) return true;
+
+ 
+const request = context.switchToHttp().getRequest();
+const user = request.user; // Already populated by AuthGuard('jwt')
+
+return requiredRoles.some(role => user?.roles?.includes(role));
+}
+}
+
+// Controller using both
+@Controller('secure')
+export class SecureController {
+// Authentication + Authorization combined
+@Get('admin-data')
+@UseGuards(AuthGuard('jwt'), RolesGuard) // AuthN then AuthZ
+@Roles('admin')
+getAdminData(@Request() req) {
+// req.user is available because AuthGuard('jwt') authenticated
+return { data: 'admin only', user: req.user };
+}
+
+// Just authentication (no specific role required)
+@Get('user-data')
+@UseGuards(AuthGuard('jwt')) // Only authentication
+getUserData(@Request() req) {
+return { data: 'any authenticated user', user: req.user };
+}
+
+// Custom authentication guard with options
+@Get('optional-auth')
+@UseGuards(OptionalJwtAuthGuard) // Custom guard that doesn't fail if no token
+getOptionalData(@Request() req) {
+return { data: 'works with or without auth', user: req.user || null };
+}
+}
+
+// Optional JWT guard for public/private hybrid endpoints
+@Injectable()
+export class OptionalJwtAuthGuard extends AuthGuard('jwt') {
+handleRequest(err, user, info, context) {
+// Don't throw error if no token - just return null user
+if (err || !user) {
+return null; // No user, but don't fail the guard
+}
+return user;
+}
+}
+
+// Flow for GET /secure/admin-data:
+// 1. AuthGuard('jwt') executes → validates JWT via JwtStrategy
+// 2. JwtStrategy.validate() returns user object
+// 3. AuthGuard attaches user to request.user
+// 4. RolesGuard executes → reads @Roles('admin') metadata
+// 5. Checks if request.user.roles includes 'admin'
+// 6. If yes → handler executes, if no → 403 Forbidden</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Best Practices (Production-Grade Guidelines) </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Single Responsibility:</span> Each guard should check one concern (authentication, role, ownership, subscription). Compose multiple guards instead of creating complex mega-guards. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Throw Exceptions for Context:</span> Prefer throwing exceptions over returning false to provide meaningful error messages to clients. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Use Metadata for Configuration:</span> Define authorization requirements declaratively with custom decorators rather than hardcoding rules. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Inject Dependencies:</span> Guards are part of the DI system - inject services, repositories, or configuration as needed for complex checks. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Handle Edge Cases:</span> Always check if request.user exists before accessing properties to avoid runtime errors. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Test Guards Thoroughly:</span> Unit test guards with mocked ExecutionContext to verify they handle all scenarios correctly. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Document Authorization Rules:</span> Make it clear which guards protect which endpoints and why. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Consider Performance:</span> Guards run on every request. Cache expensive operations (database queries) when possible. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Use APP_GUARD for Global Guards:</span> Enables dependency injection compared to app.useGlobalGuards(). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600;">Order Guards Logically:</strong> Place authentication guards before authorization guards in <code>@UseGuards()</code> lists. </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Common Guard Patterns and Real-World Examples </h4> <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;"> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Authentication Guard:</span> Verifies user is logged in by checking for valid JWT token or session. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Role Guard:</span> Checks if authenticated user has required role(s) to access the resource. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Ownership Guard:</span> Verifies user owns the resource they're trying to access (e.g., own profile, own orders). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Throttle Guard:</span> Rate limiting to prevent abuse (though @nestjs/throttler is preferred). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Feature Flag Guard:</span> Enables/disables features based on configuration or A/B testing. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Permission Guard:</span> Fine-grained permissions checking (can_read, can_write, can_delete). </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Tenant Guard:</span> Multi-tenancy - ensures user only accesses their tenant's data. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Subscription Guard:</span> Checks if user has active/appropriate subscription plan. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">IP Whitelist Guard:</span> Restricts access to specific IP addresses or ranges. </li> <li style="margin-top: 0.5rem;"> <span style="font-weight: 600; font-size: 1.1rem;">Time-based Guard:</span> Restricts access based on time of day or date ranges. </li> </ol> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Performance Considerations and Optimization </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Guards run on every request, so performance matters. Avoid heavy computations or slow database queries in guards when possible. Cache frequently accessed data like user roles or permissions. Use efficient database queries with proper indexing if you must query the database. Consider using Redis or in-memory caching for permission lookups. Keep guards fast because they block the entire request pipeline - a slow guard affects every downstream component. If complex authorization logic is needed, consider moving some checks to the service layer where you have more flexibility to optimize and parallelize operations. </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-typescript">// Optimized guard with caching import { Injectable, CanActivate, ExecutionContext, Inject } from '@nestjs/common'; import { CACHE_MANAGER } from '@nestjs/cache-manager'; import { Cache } from 'cache-manager';
+@Injectable()
+export class OptimizedRolesGuard implements CanActivate {
+constructor(
+@Inject(CACHE_MANAGER) private cacheManager: Cache,
+private userService: UserService
+) {}
+
+async canActivate(context: ExecutionContext): Promise<boolean> {
+const request = context.switchToHttp().getRequest();
+const user = request.user;
+
+ 
+if (!user) {
+  return false;
+}
+
+// Cache user roles to avoid database hit on every request
+const cacheKey =  user: $ { user.id }: roles;
+let roles = await this.cacheManager.get<string[]>(cacheKey);
+
+if (!roles) {
+  // Database query only on cache miss
+  roles = await this.userService.getUserRoles(user.id);
+  // Cache for 5 minutes
+  await this.cacheManager.set(cacheKey, roles, 300000);
+}
+
+// Check roles (now from cache or DB)
+const requiredRoles = ['admin', 'moderator'];
+return requiredRoles.some(role => roles.includes(role));
+}
+}
+
+// Lazy-loaded guard for expensive operations
+@Injectable()
+export class LazyAuthorizationGuard implements CanActivate {
+constructor(private permissionService: PermissionService) {}
+
+async canActivate(context: ExecutionContext): Promise<boolean> {
+const request = context.switchToHttp().getRequest();
+
+ 
+// Quick checks first
+if (!request.user) {
+  return false;
+}
+
+// Expensive check only if quick checks pass
+const resourceId = request.params.id;
+const hasAccess = await this.permissionService.checkAccess(
+  request.user.id,
+  resourceId
+);
+
+return hasAccess;
+}
+}</code></pre>
+
+</div></div>`,
+            examples: [`// Complete Real-World Guard Implementation: Multi-Tenant SaaS Application import { Injectable, CanActivate, ExecutionContext, ForbiddenException, Inject } from '@nestjs/common'; import { Reflector } from '@nestjs/core'; import { CACHE_MANAGER } from '@nestjs/cache-manager'; import { Cache } from 'cache-manager'; import { TenantService } from '../tenants/tenant.service'; import { SubscriptionService } from '../subscriptions/subscription.service';
+// Custom metadata decorators
+export const TENANT_ACCESS_KEY = 'tenantAccess';
+export const TenantAccess = (accessLevel: 'read' | 'write' | 'admin') =>
+SetMetadata(TENANT_ACCESS_KEY, accessLevel);
+
+export const FEATURE_FLAG_KEY = 'featureFlag';
+export const FeatureFlag = (feature: string) =>
+SetMetadata(FEATURE_FLAG_KEY, feature);
+
+export const SUBSCRIPTION_PLAN_KEY = 'subscriptionPlan';
+export const RequiresPlan = (plan: string) =>
+SetMetadata(SUBSCRIPTION_PLAN_KEY, plan);
+
+@Injectable()
+export class SaaSGuard implements CanActivate {
+constructor(
+private reflector: Reflector,
+@Inject(CACHE_MANAGER) private cacheManager: Cache,
+private tenantService: TenantService,
+private subscriptionService: SubscriptionService
+) {}
+
+async canActivate(context: ExecutionContext): Promise<boolean> {
+const request = context.switchToHttp().getRequest();
+const user = request.user;
+
+ 
+// === STEP 1: BASIC AUTHENTICATION CHECK ===
+if (!user) {
+  throw new ForbiddenException({
+    code: 'AUTH_REQUIRED',
+    message: 'Authentication required',
+    hint: 'Please login with valid credentials'
+  });
+}
+
+// === STEP 2: TENANT CONTEXT VALIDATION ===
+// Extract tenant ID from request (header, subdomain, or JWT)
+const tenantId = this.extractTenantId(request);
+if (!tenantId) {
+  throw new ForbiddenException({
+    code: 'TENANT_REQUIRED',
+    message: 'Tenant context required',
+    hint: 'Include X-Tenant-ID header or use tenant subdomain'
+  });
+}
+
+// Check if user belongs to this tenant (cached)
+const userTenantsCacheKey = user:$ {user.id}:tenants;
+let userTenants = await this.cacheManager.get<string[]>(userTenantsCacheKey);
+
+if (!userTenants) {
+  userTenants = await this.tenantService.getUserTenants(user.id);
+  await this.cacheManager.set(userTenantsCacheKey, userTenants, 300000); // 5 min
+}
+
+if (!userTenants.includes(tenantId)) {
+  throw new ForbiddenException({
+    code: 'TENANT_ACCESS_DENIED',
+    message: 'You do not have access to this tenant',
+    tenantId,
+    hint: 'Contact your tenant administrator for access'
+  });
+}
+
+// Attach tenant context to request for downstream use
+request.tenant = { id: tenantId };
+
+// === STEP 3: TENANT ACCESS LEVEL CHECK ===
+const requiredAccessLevel = this.reflector.getAllAndOverride<'read' | 'write' | 'admin'>(
+  TENANT_ACCESS_KEY,
+  [context.getHandler(), context.getClass()]
+);
+
+if (requiredAccessLevel) {
+  const userAccessLevel = await this.getUserAccessLevel(user.id, tenantId);
+  if (!this.hasRequiredAccess(userAccessLevel, requiredAccessLevel)) {
+    throw new ForbiddenException({
+      code: 'INSUFFICIENT_ACCESS',
+      message: \`\$ {requiredAccessLevel} access level required\`,
+      currentLevel: userAccessLevel,
+      requiredLevel: requiredAccessLevel
+    });
+  }
+}
+
+// === STEP 4: SUBSCRIPTION PLAN CHECK ===
+const requiredPlan = this.reflector.getAllAndOverride<string>(
+  SUBSCRIPTION_PLAN_KEY,
+  [context.getHandler(), context.getClass()]
+);
+
+if (requiredPlan) {
+  const activePlan = await this.subscriptionService.getActivePlan(tenantId);
+  if (activePlan !== requiredPlan && activePlan !== 'enterprise') {
+    throw new ForbiddenException({
+      code: 'PLAN_REQUIRED',
+      message: \`\$ {requiredPlan} plan required for this feature\`,
+      currentPlan: activePlan,
+      upgradeUrl: \`/billing/upgrade?plan=\$ {requiredPlan}\`
+    });
+  }
+}
+
+// === STEP 5: FEATURE FLAG CHECK ===
+const requiredFeature = this.reflector.getAllAndOverride<string>(
+  FEATURE_FLAG_KEY,
+  [context.getHandler(), context.getClass()]
+);
+
+if (requiredFeature) {
+  const isFeatureEnabled = await this.isFeatureEnabled(tenantId, requiredFeature);
+  if (!isFeatureEnabled) {
+    throw new ForbiddenException({
+      code: 'FEATURE_DISABLED',
+      message: \`Feature "\$ {requiredFeature}" is not enabled for your tenant\`,
+      feature: requiredFeature,
+      hint: 'Contact support to enable this feature'
+    });
+  }
+}
+
+// === STEP 6: RATE LIMITING (Simplified) ===
+const rateLimitKey = user:$ {user.id}:$ {context.getHandler().name}:requests;
+const requestCount = await this.cacheManager.get<number>(rateLimitKey) || 0;
+
+if (requestCount > 100) { // 100 requests per minute
+  throw new ForbiddenException({
+    code: 'RATE_LIMIT_EXCEEDED',
+    message: 'Rate limit exceeded',
+    limit: 100,
+    resetIn: '1 minute'
+  });
+}
+
+await this.cacheManager.set(rateLimitKey, requestCount + 1, 60000); // 1 minute TTL
+
+return true;
+}
+
+private extractTenantId(request: any): string {
+// Check multiple sources for tenant ID
+return (
+request.headers['x-tenant-id'] ||
+request.user?.tenantId || // From JWT
+request.subdomains?.[0] || // From subdomain
+request.query.tenantId
+);
+}
+
+private async getUserAccessLevel(userId: string, tenantId: string): Promise<string> {
+const cacheKey = user:$ {userId}:tenant:$ {tenantId}:access;$ 
+const cached = await this.cacheManager.get<string>(cacheKey);
+
+ 
+if (cached) {
+  return cached;
+}
+
+const accessLevel = await this.tenantService.getUserAccessLevel(userId, tenantId);
+await this.cacheManager.set(cacheKey, accessLevel, 300000); // 5 min
+
+return accessLevel;
+}
+
+private hasRequiredAccess(userLevel: string, requiredLevel: string): boolean {
+const levels = { 'read': 1, 'write': 2, 'admin': 3 };
+return levels[userLevel] >= levels[requiredLevel];
+}
+
+private async isFeatureEnabled(tenantId: string, feature: string): Promise<boolean> {
+const cacheKey = tenant:$ {tenantId}:feature:$ {feature};
+const cached = await this.cacheManager.get<boolean>(cacheKey);
+
+ 
+if (cached !== undefined) {
+  return cached;
+}
+
+const enabled = await this.tenantService.isFeatureEnabled(tenantId, feature);
+await this.cacheManager.set(cacheKey, enabled, 300000); // 5 min
+
+return enabled;
+}
+}
+
+// Usage in a multi-tenant SaaS controller
+@Controller('api/v1')
+@UseGuards(AuthGuard('jwt'), SaaSGuard)
+export class TenantAwareController {
+// Public tenant info (read access required)
+@Get('tenants/:id')
+@TenantAccess('read')
+getTenant(@Param('id') id: string) {
+return this.tenantService.getTenant(id);
+}
+
+// Update tenant settings (write access required)
+@Put('tenants/:id/settings')
+@TenantAccess('write')
+updateSettings(@Param('id') id: string, @Body() settings: any) {
+return this.tenantService.updateSettings(id, settings);
+}
+
+// Admin-only tenant operations
+@Delete('tenants/:id')
+@TenantAccess('admin')
+deleteTenant(@Param('id') id: string) {
+return this.tenantService.deleteTenant(id);
+}
+
+// Premium feature (requires 'premium' plan)
+@Get('analytics')
+@RequiresPlan('premium')
+getAnalytics() {
+return this.analyticsService.getData();
+}
+
+// Beta feature (requires feature flag)
+@Get('beta-feature')
+@FeatureFlag('beta_dashboard')
+getBetaFeature() {
+return { data: 'beta feature' };
+}
+
+// Enterprise-only feature
+@Get('enterprise-reports')
+@RequiresPlan('enterprise')
+@TenantAccess('admin')
+getEnterpriseReports() {
+return this.reportService.getEnterpriseReports();
+}
+}`,
+
+
+              `// Comprehensive Testing Suite for Guards
+import { Test, TestingModule } from '@nestjs/testing';
+import { ExecutionContext } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { RolesGuard } from './roles.guard';
+import { SaaSGuard } from './saas.guard';
+
+describe('RolesGuard', () => {
+let guard: RolesGuard;
+let reflector: Reflector;
+
+// Mock implementations
+const mockReflector = {
+getAllAndOverride: jest.fn(),
+};
+
+const mockCacheManager = {
+get: jest.fn(),
+set: jest.fn(),
+};
+
+const mockTenantService = {
+getUserTenants: jest.fn(),
+getUserAccessLevel: jest.fn(),
+isFeatureEnabled: jest.fn(),
+};
+
+const mockSubscriptionService = {
+getActivePlan: jest.fn(),
+};
+
+beforeEach(async () => {
+const module: TestingModule = await Test.createTestingModule({
+providers: [
+RolesGuard,
+{ provide: Reflector, useValue: mockReflector },
+SaaSGuard,
+{ provide: CACHE_MANAGER, useValue: mockCacheManager },
+{ provide: 'TenantService', useValue: mockTenantService },
+{ provide: 'SubscriptionService', useValue: mockSubscriptionService },
+],
+}).compile();
+
+ 
+guard = module.get<RolesGuard>(RolesGuard);
+reflector = module.get<Reflector>(Reflector);
+});
+
+describe('canActivate', () => {
+it('should allow access when no roles are required', () => {
+// Arrange
+mockReflector.getAllAndOverride.mockReturnValue(undefined);
+const context = createMockContext({ user: { id: 1, roles: ['user'] } });
+
+ 
+  // Act
+  const result = guard.canActivate(context);
+
+  // Assert
+  expect(result).toBe(true);
+  expect(mockReflector.getAllAndOverride).toHaveBeenCalledWith(
+    'roles',
+    [expect.any(Function), expect.any(Function)]
+  );
+});
+
+it('should allow access when user has required role', () => {
+  // Arrange
+  mockReflector.getAllAndOverride.mockReturnValue(['admin']);
+  const context = createMockContext({ user: { id: 1, roles: ['admin', 'user'] } });
+
+  // Act
+  const result = guard.canActivate(context);
+
+  // Assert
+  expect(result).toBe(true);
+});
+
+it('should deny access when user lacks required role', () => {
+  // Arrange
+  mockReflector.getAllAndOverride.mockReturnValue(['admin']);
+  const context = createMockContext({ user: { id: 1, roles: ['user'] } });
+
+  // Act
+  const result = guard.canActivate(context);
+
+  // Assert
+  expect(result).toBe(false);
+});
+
+it('should deny access when user is not authenticated', () => {
+  // Arrange
+  mockReflector.getAllAndOverride.mockReturnValue(['user']);
+  const context = createMockContext({ user: null });
+
+  // Act
+  const result = guard.canActivate(context);
+
+  // Assert
+  expect(result).toBe(false);
+});
+
+it('should check handler metadata before class metadata', () => {
+  // Arrange
+  mockReflector.getAllAndOverride.mockImplementation((key, targets) => {
+    // Simulate handler overriding class metadata
+    if (targets[0].name === 'handlerMethod') {
+      return ['admin'];
+    }
+    return ['user'];
+  });
+
+  const context = createMockContext(
+    { user: { id: 1, roles: ['admin'] } },
+    'handlerMethod'
+  );
+
+  // Act
+  const result = guard.canActivate(context);
+
+  // Assert
+  expect(result).toBe(true);
+  expect(mockReflector.getAllAndOverride).toHaveBeenCalledWith(
+    'roles',
+    [expect.any(Function), expect.any(Function)]
+  );
+});
+});
+});
+
+describe('SaaSGuard', () => {
+let guard: SaaSGuard;
+let reflector: Reflector;
+let cacheManager: any;
+let tenantService: any;
+let subscriptionService: any;
+
+beforeEach(async () => {
+// Reset all mocks
+jest.clearAllMocks();
+
+ 
+const module: TestingModule = await Test.createTestingModule({
+  providers: [
+    SaaSGuard,
+    {
+      provide: Reflector,
+      useValue: {
+        getAllAndOverride: jest.fn(),
+      },
+    },
+    {
+      provide: CACHE_MANAGER,
+      useValue: {
+        get: jest.fn(),
+        set: jest.fn(),
+      },
+    },
+    {
+      provide: 'TenantService',
+      useValue: {
+        getUserTenants: jest.fn(),
+        getUserAccessLevel: jest.fn(),
+        isFeatureEnabled: jest.fn(),
+      },
+    },
+    {
+      provide: 'SubscriptionService',
+      useValue: {
+        getActivePlan: jest.fn(),
+      },
+    },
+  ],
+}).compile();
+
+guard = module.get<SaaSGuard>(SaaSGuard);
+reflector = module.get<Reflector>(Reflector);
+cacheManager = module.get(CACHE_MANAGER);
+tenantService = module.get('TenantService');
+subscriptionService = module.get('SubscriptionService');
+});
+
+it('should throw ForbiddenException when user is not authenticated', async () => {
+// Arrange
+const context = createMockContext({ user: null });
+
+ 
+// Act & Assert
+await expect(guard.canActivate(context)).rejects.toThrow('Authentication required');
+});
+
+it('should validate tenant access successfully', async () => {
+// Arrange
+const mockUser = { id: 'user-123', roles: ['admin'] };
+const mockTenantId = 'tenant-456';
+
+ 
+const context = createMockContext(
+  { 
+    user: mockUser,
+    headers: { 'x-tenant-id': mockTenantId }
+  }
+);
+
+// Mock reflector to return no metadata (no special requirements)
+reflector.getAllAndOverride.mockReturnValue(undefined);
+
+// Mock tenant service to return user's tenants
+tenantService.getUserTenants.mockResolvedValue([mockTenantId, 'tenant-789']);
+cacheManager.get.mockResolvedValue(undefined); // Cache miss
+cacheManager.set.mockResolvedValue(undefined);
+
+// Act
+const result = await guard.canActivate(context);
+
+// Assert
+expect(result).toBe(true);
+expect(tenantService.getUserTenants).toHaveBeenCalledWith('user-123');
+expect(cacheManager.set).toHaveBeenCalledWith(
+  'user:user-123:tenants',
+  [mockTenantId, 'tenant-789'],
+  300000
+);
+});
+
+it('should check subscription plan when required', async () => {
+// Arrange
+const mockUser = { id: 'user-123' };
+const mockTenantId = 'tenant-456';
+
+ 
+const context = createMockContext(
+  { 
+    user: mockUser,
+    headers: { 'x-tenant-id': mockTenantId }
+  }
+);
+
+// Mock tenant access
+tenantService.getUserTenants.mockResolvedValue([mockTenantId]);
+cacheManager.get.mockResolvedValue(undefined);
+
+// Mock subscription plan requirement
+reflector.getAllAndOverride
+  .mockReturnValueOnce(undefined) // For tenantAccess
+  .mockReturnValueOnce('premium') // For subscriptionPlan
+  .mockReturnValueOnce(undefined); // For featureFlag
+
+// Mock subscription service
+subscriptionService.getActivePlan.mockResolvedValue('premium');
+
+// Act
+const result = await guard.canActivate(context);
+
+// Assert
+expect(result).toBe(true);
+expect(subscriptionService.getActivePlan).toHaveBeenCalledWith('tenant-456');
+});
+
+it('should throw when subscription plan does not match', async () => {
+// Arrange
+const mockUser = { id: 'user-123' };
+const mockTenantId = 'tenant-456';
+
+ 
+const context = createMockContext(
+  { 
+    user: mockUser,
+    headers: { 'x-tenant-id': mockTenantId }
+  }
+);
+
+// Mock tenant access
+tenantService.getUserTenants.mockResolvedValue([mockTenantId]);
+cacheManager.get.mockResolvedValue(undefined);
+
+// Mock subscription plan requirement
+reflector.getAllAndOverride
+  .mockReturnValueOnce(undefined)
+  .mockReturnValueOnce('enterprise') // Requires enterprise
+  .mockReturnValueOnce(undefined);
+
+// Mock subscription service returns basic plan
+subscriptionService.getActivePlan.mockResolvedValue('basic');
+
+// Act & Assert
+await expect(guard.canActivate(context)).rejects.toThrow('enterprise plan required');
+});
+
+it('should use cache for tenant lookup', async () => {
+// Arrange
+const mockUser = { id: 'user-123' };
+const mockTenantId = 'tenant-456';
+
+ 
+const context = createMockContext(
+  { 
+    user: mockUser,
+    headers: { 'x-tenant-id': mockTenantId }
+  }
+);
+
+// Mock cache hit
+cacheManager.get.mockResolvedValue([mockTenantId]);
+reflector.getAllAndOverride.mockReturnValue(undefined);
+
+// Act
+const result = await guard.canActivate(context);
+
+// Assert
+expect(result).toBe(true);
+expect(tenantService.getUserTenants).not.toHaveBeenCalled(); // Should use cache
+expect(cacheManager.get).toHaveBeenCalledWith('user:user-123:tenants');
+});
+});
+
+// Helper function to create mock ExecutionContext
+function createMockContext(requestData: any, handlerName: string = 'testHandler'): ExecutionContext {
+return {
+switchToHttp: () => ({
+getRequest: () => ({
+user: requestData.user,
+headers: requestData.headers || {},
+params: requestData.params || {},
+query: requestData.query || {},
+body: requestData.body || {},
+method: requestData.method || 'GET',
+url: requestData.url || '/test',
+}),
+getResponse: () => ({}),
+}),
+getHandler: () => ({
+name: handlerName,
+}),
+getClass: () => ({
+name: 'TestController',
+}),
+getArgs: () => [],
+getArgByIndex: () => ({}),
+} as any;
+}
+
+// Test different error scenarios
+describe('Guard Error Scenarios', () => {
+it('should handle database errors gracefully', async () => {
+// Test that guards handle service failures without crashing
+});
+
+it('should validate rate limiting', async () => {
+// Test rate limiting logic
+});
+
+it('should test edge cases for access level hierarchy', async () => {
+// Test that 'admin' > 'write' > 'read'
+});
+}`,
+
+
+              `// Advanced Guard Composition and Factory Pattern
+import { Injectable, CanActivate, ExecutionContext, Type } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
+
+// Guard Factory - creates guards dynamically based on configuration
+export class GuardFactory {
+static createGuard(config: GuardConfig): Type<CanActivate> {
+@Injectable()
+class DynamicGuard implements CanActivate {
+async canActivate(context: ExecutionContext): Promise<boolean> {
+// Dynamic logic based on config
+return this.evaluateRules(config.rules, context);
+}
+
+ 
+  private async evaluateRules(rules: Rule[], context: ExecutionContext): Promise<boolean> {
+    for (const rule of rules) {
+      const result = await this.evaluateRule(rule, context);
+      if (!result) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private async evaluateRule(rule: Rule, context: ExecutionContext): Promise<boolean> {
+    switch (rule.type) {
+      case 'role':
+        return this.checkRole(rule, context);
+      case 'permission':
+        return this.checkPermission(rule, context);
+      case 'time':
+        return this.checkTimeWindow(rule);
+      case 'ip':
+        return this.checkIP(rule, context);
+      case 'custom':
+        return this.customCheck(rule, context);
+      default:
+        return true;
+    }
+  }
+
+  private checkRole(rule: RoleRule, context: ExecutionContext): boolean {
+    const request = context.switchToHttp().getRequest();
+    return request.user?.roles?.includes(rule.role);
+  }
+
+  // ... other rule check implementations
+}
+
+return DynamicGuard;
+}
+}
+
+// Usage: Create guards dynamically based on configuration
+const adminGuard = GuardFactory.createGuard({
+name: 'AdminGuard',
+rules: [
+{ type: 'role', role: 'admin' },
+{ type: 'time', start: '09:00', end: '17:00' },
+{ type: 'ip', allowedIPs: ['192.168.1.0/24'] }
+]
+});
+
+const premiumUserGuard = GuardFactory.createGuard({
+name: 'PremiumUserGuard',
+rules: [
+{ type: 'role', role: 'user' },
+{ type: 'permission', permission: 'premium_access' },
+{ type: 'custom', handler: 'checkSubscription' }
+]
+});
+
+// Apply dynamically created guards
+@Controller('dynamic')
+export class DynamicController {
+@Get('admin')
+@UseGuards(adminGuard)
+getAdminData() {
+return { data: 'admin' };
+}
+
+@Get('premium')
+@UseGuards(premiumUserGuard)
+getPremiumData() {
+return { data: 'premium' };
+}
+}
+
+// Conditional Guard Application based on Environment
+export function ConditionalGuard(...guards: Type<CanActivate>[]) {
+return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+// Only apply guards in production
+if (process.env.NODE_ENV === 'production') {
+const originalMethod = descriptor.value;
+
+ 
+  // Wrap with guard logic
+  descriptor.value = async function(...args: any[]) {
+    const context = this.getExecutionContext(); // Get context somehow
+    
+    for (const GuardClass of guards) {
+      const guard = new GuardClass();
+      const canActivate = await guard.canActivate(context);
+      
+      if (!canActivate) {
+        throw new ForbiddenException('Access denied');
+      }
+    }
+    
+    return originalMethod.apply(this, args);
+  };
+}
+
+return descriptor;
+};
+}
+
+// Usage of conditional guard
+@Controller('conditional')
+export class ConditionalController {
+@Get('sensitive')
+@ConditionalGuard(AuthGuard, RolesGuard) // Only in production
+getSensitiveData() {
+return { data: 'sensitive' };
+}
+}`,
+            ],
+            questions: [
+              {
+                question: "Explain the complete request lifecycle in NestJS, detailing exactly when guards execute relative to middleware, pipes, and interceptors. Provide a concrete example with timing.",
+                solution: `<p><strong>Complete Request Lifecycle with Timing Example:</strong>
+1. <strong>Request Ingress(0ms):</strong> HTTP request arrives at server.
+2. < strong > Global Middleware(1 - 10ms):</strong > <code>app.use()</code> middleware executes(logging, CORS, helmet).
+3. < strong > Route - specific Middleware(11 - 20ms):</strong > Module / route middleware executes.
+4. < strong > Authentication Middleware(21 - 30ms):</strong > Passport / JWT middleware validates credentials, attaches < code > request.user</code >.
+5. < strong > GUARDS EXECUTE(31 - 50ms):</strong > All applicable guards run in order:
+        - Global guards(from < code > APP_GUARD</code >)
+        - Controller guards(from < code > @UseGuards() </code > on controller)
+        - Method guards(from < code > @UseGuards() </code > on handler)
+        - Each guard's <code>canActivate()</code> is called
+        - If any returns < code > false</code > → immediate termination
+6. < strong > Interceptors Pre - handler(51 - 60ms):</strong > <code>intercept()</code> before logic executes.
+7. < strong > Pipes(61 - 80ms):</strong > Parameter validation and transformation.
+8. < strong > Route Handler(81 - 100ms):</strong > Controller method executes business logic.
+9. < strong > Interceptors Post - handler(101 - 110ms):</strong > <code>intercept()</code> after logic transforms response.
+10. < strong > Exception Filters(if error):</strong > Catch and format errors.
+11. < strong > Response Egress(111 - 120ms):</strong > HTTP response sent.
+
+< strong > Why This Order Matters:</strong > Guards execute AFTER authentication middleware(so they have < code > request.user</code >) but BEFORE pipes and business logic(so unauthorized requests don't waste resources on validation/computation).`
+              },
+              {
+                question: "How do you implement a guard that checks both role-based permissions AND resource ownership? Provide a complete example with database queries and caching.",
+                solution: `<p><strong>Combined Role + Ownership Guard Implementation:</strong></p><div style='padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;'><pre><code class='language-typescript'>import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+    import { Reflector } from '@nestjs/core';
+        import { InjectRepository } from '@nestjs/typeorm';
+        import { Repository } from 'typeorm';
+        import { Post } from './post.entity';
+        import { CACHE_MANAGER } from '@nestjs/cache-manager';
+        import { Cache } from 'cache-manager';
+        import { SetMetadata } from '@nestjs/common';
+
+        export const RESOURCE_OWNER_KEY = 'resourceOwner';
+        export const ResourceOwner = (resourceType: string) =>
+            SetMetadata(RESOURCE_OWNER_KEY, resourceType);
+
+    @Injectable()
+    export class RoleAndOwnershipGuard implements CanActivate {
+        constructor(
+            private reflector: Reflector,
+            @InjectRepository(Post) private postRepository: Repository<Post>,
+            @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        ) { }
+
+        async canActivate(context: ExecutionContext): Promise<boolean> {
+            const request = context.switchToHttp().getRequest();
+            const user = request.user;
+
+
+            // Check 1: Basic authentication
+            if (!user) {
+                throw new ForbiddenException('Authentication required');
+            }
+
+            // Check 2: Role-based permission
+            const requiredRoles = this.reflector.get < string[] > ('roles', context.getHandler());
+            if (requiredRoles) {
+                const hasRole = requiredRoles.some(role => user.roles?.includes(role));
+                if (!hasRole) {
+                    throw new ForbiddenException('Insufficient role permissions');
+                }
+            }
+
+            // Check 3: Resource ownership (if required)
+            const resourceType = this.reflector.get < string > (RESOURCE_OWNER_KEY, context.getHandler());
+            if (resourceType && this.requiresOwnershipCheck(request, resourceType)) {
+                const resourceId = this.extractResourceId(request, resourceType);
+                if (resourceId) {
+                    const isOwner = await this.checkOwnership(resourceType, resourceId, user.id);
+                    if (!isOwner && !user.roles?.includes('admin')) {
+                        throw new ForbiddenException('You do not own this resource');
+                    }
+
+                    // Attach resource to request for handler use
+                    request.resource = await this.getResource(resourceType, resourceId);
+                }
+            }
+
+            return true;
+        }
+
+        private requiresOwnershipCheck(request: any, resourceType: string): boolean {
+            // Only check ownership for mutating operations
+            const mutatingMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
+            return mutatingMethods.includes(request.method) ||
+                request.query.forceOwnershipCheck === 'true';
+        }
+
+        private extractResourceId(request: any, resourceType: string): string | null {
+            // Extract ID based on resource type and route pattern
+            switch (resourceType) {
+                case 'post':
+                    return request.params.postId || request.params.id;
+                case 'comment':
+                    return request.params.commentId;
+                case 'user':
+                    return request.params.userId;
+                default:
+                    return request.params.id;
+            }
+        }
+
+        private async checkOwnership(resourceType: string, resourceId: string, userId: string): Promise<boolean> {
+            // Cache ownership checks to reduce database load
+            const cacheKey = ownership: $ { resourceType }: $ { resourceId }: $ { userId };
+            const cached = await this.cacheManager.get < boolean > (cacheKey);
+
+
+            if (cached !== undefined) {
+                return cached;
+            }
+
+            let isOwner = false;
+
+            switch (resourceType) {
+                case 'post':
+                    const post = await this.postRepository.findOne({
+                        where: { id: resourceId, authorId: userId },
+                        select: ['id'] // Only select ID for performance
+                    });
+                    isOwner = !!post;
+                    break;
+                // Add other resource types...
+            }
+
+            // Cache result for 5 minutes
+            await this.cacheManager.set(cacheKey, isOwner, 300000);
+            return isOwner;
+        }
+
+        private async getResource(resourceType: string, resourceId: string): Promise<any> {
+            // Get full resource for handler use
+            switch (resourceType) {
+                case 'post':
+                    return this.postRepository.findOne({ where: { id: resourceId } });
+                default:
+                    return null;
+            }
+        }
+    }
+
+    // Usage in controller
+    @Controller('posts')
+    @UseGuards(RoleAndOwnershipGuard)
+    export class PostsController {
+        @Get()
+        findAll() {
+            // No ownership check for listing
+            return this.postsService.findAll();
+        }
+
+        @Get(':id')
+        findOne(@Param('id') id: string) {
+            // No ownership check for reading
+            return this.postsService.findOne(id);
+        }
+
+        @Put(':id')
+        @ResourceOwner('post') // Triggers ownership check
+        update(
+            @Param('id') id: string,
+            @Body() updateDto: UpdatePostDto,
+            @Request() req
+        ) {
+            // req.resource contains the post (fetched by guard)
+            return this.postsService.update(id, updateDto);
+        }
+
+        @Delete(':id')
+        @ResourceOwner('post')
+        remove(@Param('id') id: string) {
+            return this.postsService.remove(id);
+        }
+    }</code ></pre ></div > <p>This guard combines: 1) Role checking via metadata, 2) Ownership verification with database queries, 3) Caching for performance, 4) Resource pre-fetching for handler use.</p>"
+},
+    {
+        question: "What are the performance implications of using global guards versus method-specific guards? When would you choose each approach?",
+        solution: "<p><strong>Performance Implications:</strong>
+            < strong > Global Guards(APP_GUARD):</strong > Execute on < em > every</em > request, including static assets, health checks, and public endpoints.This adds overhead even when unnecessary.However, they benefit from shared caching and singleton instantiation.
+< strong > Method - specific Guards:</strong > Execute only when their specific route is hit.More efficient for selective protection but can lead to guard duplication and inconsistent security if not carefully managed.
+
+< strong > When to Choose Global Guards:</strong >
+    1. < strong > Universal Requirements:</strong > When ALL endpoints need the same check(e.g., JWT authentication in an internal API).
+2. < strong > Security Critical:</strong > When forgetting to add a guard would be a security vulnerability.
+3. < strong > Performance Optimization:</strong > When guard initialization is expensive and singleton reuse is beneficial.
+4. < strong > Consistency:</strong > To ensure uniform security policies.
+
+< strong > When to Choose Method - specific Guards:</strong >
+    1. < strong > Mixed Public / Private APIs:</strong > When some endpoints are public(no auth) and others private.
+2. < strong > Granular Permissions:</strong > When different endpoints need different permission checks.
+3. < strong > Performance Critical Paths:</strong > When certain endpoints must avoid guard overhead.
+4. < strong > Legacy Integration:</strong > When gradually adding security to existing APIs.
+
+< strong > Hybrid Approach(Best Practice):</strong > Use global guard for universal checks(authentication) with <code>@Public()</code> decorator to skip it for public endpoints.Add method - specific guards for additional authorization(roles, permissions).This gives both security consistency and performance optimization.</p > `
+              },
+              {
+                question: "How do you test guards that depend on ExecutionContext, Reflector, and external services? Provide a complete testing strategy with mocks.",
+                solution: `<p><strong>Complete Guard Testing Strategy:</strong></p><div style='padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;'><pre><code class='language-typescript'>import { Test, TestingModule } from '@nestjs/testing';
+    import { ExecutionContext, ForbiddenException } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { RolesGuard } from './roles.guard';
+
+describe('RolesGuard', () => {
+    let guard: RolesGuard;
+    let reflector: Reflector;
+
+    // Mock factory functions
+    const createMockReflector = (metadataValue: any) => ({
+        getAllAndOverride: jest.fn().mockReturnValue(metadataValue),
+    });
+
+    const createMockContext = (requestData: any = {}, handlerName = 'testHandler') => ({
+        switchToHttp: () => ({
+            getRequest: () => ({
+                user: requestData.user || null,
+                headers: requestData.headers || {},
+                params: requestData.params || {},
+                query: requestData.query || {},
+            }),
+        }),
+        getHandler: () => ({ name: handlerName }),
+        getClass: () => ({ name: 'TestController' }),
+    } as ExecutionContext);
+
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [
+                RolesGuard,
+                {
+                    provide: Reflector,
+                    useValue: createMockReflector(undefined),
+                },
+            ],
+        }).compile();
+
+
+        guard = module.get < RolesGuard > (RolesGuard);
+        reflector = module.get < Reflector > (Reflector);
+    });
+
+    // Test Suite 1: Basic functionality
+    describe('Basic Functionality', () => {
+        it('should allow access when no roles are required', () => {
+            const context = createMockContext({ user: { roles: ['user'] } });
+            expect(guard.canActivate(context)).toBe(true);
+        });
+
+
+        it('should allow access when user has required role', () => {
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['admin']);
+            const context = createMockContext({ user: { roles: ['admin', 'user'] } });
+            expect(guard.canActivate(context)).toBe(true);
+        });
+
+        it('should deny access when user lacks required role', () => {
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['admin']);
+            const context = createMockContext({ user: { roles: ['user'] } });
+            expect(guard.canActivate(context)).toBe(false);
+        });
+
+        it('should deny access when user is not authenticated', () => {
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['user']);
+            const context = createMockContext({ user: null });
+            expect(guard.canActivate(context)).toBe(false);
+        });
+    });
+
+    // Test Suite 2: Metadata handling
+    describe('Metadata Handling', () => {
+        it('should check handler metadata before class metadata', () => {
+            const mockHandler = { name: 'specificHandler' };
+            const mockClass = { name: 'ControllerClass' };
+
+
+            const mockReflector = {
+                getAllAndOverride: jest.fn((key, targets) => {
+                    // Simulate handler overriding class
+                    if (targets[0] === mockHandler) return ['admin'];
+                    if (targets[1] === mockClass) return ['user'];
+                    return undefined;
+                }),
+            };
+
+            const guardWithCustomReflector = new RolesGuard(mockReflector as any);
+            const context = {
+                switchToHttp: () => ({ getRequest: () => ({ user: { roles: ['admin'] } }) }),
+                getHandler: () => mockHandler,
+                getClass: () => mockClass,
+            } as ExecutionContext;
+
+            expect(guardWithCustomReflector.canActivate(context)).toBe(true);
+            expect(mockReflector.getAllAndOverride).toHaveBeenCalledWith(
+                'roles',
+                [mockHandler, mockClass]
+            );
+        });
+
+        it('should handle undefined metadata gracefully', () => {
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(undefined);
+            const context = createMockContext({ user: { roles: ['user'] } });
+            expect(guard.canActivate(context)).toBe(true);
+        });
+    });
+
+    // Test Suite 3: Edge cases
+    describe('Edge Cases', () => {
+        it('should handle empty roles array in user', () => {
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['admin']);
+            const context = createMockContext({ user: { roles: [] } });
+            expect(guard.canActivate(context)).toBe(false);
+        });
+
+
+        it('should handle null roles in user', () => {
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['admin']);
+            const context = createMockContext({ user: {} }); // No roles property
+            expect(guard.canActivate(context)).toBe(false);
+        });
+
+        it('should handle multiple required roles (OR logic)', () => {
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['admin', 'moderator']);
+            const context = createMockContext({ user: { roles: ['moderator'] } });
+            expect(guard.canActivate(context)).toBe(true);
+        });
+    });
+
+    // Test Suite 4: Integration with other services
+    describe('Integration Tests', () => {
+        it('should work with async guards', async () => {
+            const asyncGuard = new (class extends RolesGuard {
+                async canActivate(context: ExecutionContext): Promise<boolean> {
+                    await new Promise(resolve => setTimeout(resolve, 10)); // Simulate async work
+                    return super.canActivate(context);
+                }
+            })(reflector);
+
+
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['admin']);
+            const context = createMockContext({ user: { roles: ['admin'] } });
+
+            const result = await asyncGuard.canActivate(context);
+            expect(result).toBe(true);
+        });
+
+        it('should throw ForbiddenException when configured to do so', () => {
+            const throwingGuard = new (class extends RolesGuard {
+                canActivate(context: ExecutionContext): boolean {
+                    const allowed = super.canActivate(context);
+                    if (!allowed) {
+                        throw new ForbiddenException('Custom message');
+                    }
+                    return true;
+                }
+            })(reflector);
+
+            jest.spyOn(reflector, 'getAllAndOverride').mockReturnValue(['admin']);
+            const context = createMockContext({ user: { roles: ['user'] } });
+
+            expect(() => throwingGuard.canActivate(context)).toThrow(ForbiddenException);
+            expect(() => throwingGuard.canActivate(context)).toThrow('Custom message');
+        });
+    });
+});
+
+// Testing guards with external dependencies
+describe('Guard with External Dependencies', () => {
+    it('should inject and use external services', async () => {
+        const mockUserService = {
+            getUserPermissions: jest.fn().mockResolvedValue(['read:data', 'write:data']),
+        };
+
+
+        const module: TestingModule = await Test.createTestingModule({
+            providers: [
+                {
+                    provide: 'UserService',
+                    useValue: mockUserService,
+                },
+                // Guard that injects UserService...
+            ],
+        }).compile();
+
+        // Test guard with mocked service...
+    });
+});</code ></pre ></div > <p><strong>Testing Strategy:</strong> 1) Unit test guard logic in isolation with mocked dependencies. 2) Test all code paths (happy path, error conditions, edge cases). 3) Test metadata handling (handler vs class). 4) Test with different ExecutionContext scenarios. 5) Test async guards. 6) Integration test with real services in e2e tests.</p>`
+              },
+              {
+                question: "Explain how to implement a guard that works across different transport layers (HTTP, WebSockets, gRPC) using ExecutionContext abstraction.",
+                solution: `<p><strong>Multi-Transport Guard Implementation:</strong></p><div style='padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;'><pre><code class='language-typescript'>import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+    import { WsException } from '@nestjs/websockets';
+    import { RpcException } from '@nestjs/microservices';
+
+    export interface User {
+        id: string;
+        roles: string[];
+        permissions: string[];
+    }
+
+    export interface AuthResult {
+        user: User | null;
+        error?: string;
+    }
+
+    @Injectable()
+    export class UniversalAuthGuard implements CanActivate {
+        constructor(private authService: AuthService) { }
+
+        async canActivate(context: ExecutionContext): Promise<boolean> {
+            // Determine transport type and extract authentication data
+            const authData = this.extractAuthData(context);
+
+
+            // Authenticate using the extracted data
+            const authResult = await this.authService.authenticate(authData);
+
+            if (!authResult.user) {
+                this.throwTransportSpecificException(context, authResult.error || 'Unauthorized');
+                return false;
+            }
+
+            // Attach user to appropriate context
+            this.attachUserToContext(context, authResult.user);
+
+            return true;
+        }
+
+        private extractAuthData(context: ExecutionContext): any {
+            // Handle different transport layers
+            switch (context.getType()) {
+                case 'http':
+                    return this.extractHttpAuthData(context);
+                case 'ws':
+                    return this.extractWsAuthData(context);
+                case 'rpc':
+                    return this.extractRpcAuthData(context);
+                default:
+                    throw new Error(Unsupported transport type: $ {context.getType()});
+            }
+        }
+
+        private extractHttpAuthData(context: ExecutionContext): any {
+            const request = context.switchToHttp().getRequest();
+            return {
+                transport: 'http',
+                token: request.headers.authorization?.replace('Bearer ', ''),
+                cookies: request.cookies,
+                session: request.session,
+                ip: request.ip,
+            };
+        }
+
+        private extractWsAuthData(context: ExecutionContext): any {
+            const client = context.switchToWs().getClient();
+            return {
+                transport: 'ws',
+                token: client.handshake?.auth?.token ||
+                    client.handshake?.headers?.authorization?.replace('Bearer ', ''),
+                query: client.handshake?.query,
+                // WebSocket connection metadata
+            };
+        }
+
+        private extractRpcAuthData(context: ExecutionContext): any {
+            const data = context.switchToRpc().getData();
+            const metadata = context.switchToRpc().getContext();
+
+
+            return {
+                transport: 'rpc',
+                metadata: metadata.getMap(), // gRPC metadata
+                data: data, // RPC payload
+                // Extract token from metadata or data
+                token: metadata.get('authorization')?.[0] || data?.token,
+            };
+        }
+
+        private attachUserToContext(context: ExecutionContext, user: User): void {
+            switch (context.getType()) {
+                case 'http':
+                    const request = context.switchToHttp().getRequest();
+                    request.user = user;
+                    break;
+                case 'ws':
+                    const client = context.switchToWs().getClient();
+                    client.user = user; // Attach to WebSocket client
+                    break;
+                case 'rpc':
+                    const rpcContext = context.switchToRpc().getContext();
+                    // For gRPC, we might attach to metadata or context
+                    rpcContext.user = user;
+                    break;
+            }
+        }
+
+        private throwTransportSpecificException(context: ExecutionContext, message: string): void {
+            switch (context.getType()) {
+                case 'http':
+                    throw new UnauthorizedException(message);
+                case 'ws':
+                    throw new WsException(message);
+                case 'rpc':
+                    throw new RpcException(message);
+                default:
+                    throw new Error(message);
+            }
+        }
+    }
+
+    // Supporting Auth Service
+    @Injectable()
+    export class AuthService {
+        async authenticate(authData: any): Promise<AuthResult> {
+            // Universal authentication logic
+            const token = authData.token;
+
+
+            if (!token) {
+                return { user: null, error: 'No authentication token provided' };
+            }
+
+            try {
+                // Verify token (JWT, session token, etc.)
+                const payload = await this.verifyToken(token, authData.transport);
+
+                // Get user from database
+                const user = await this.getUserById(payload.sub);
+
+                if (!user) {
+                    return { user: null, error: 'User not found' };
+                }
+
+                // Additional transport-specific checks
+                switch (authData.transport) {
+                    case 'http':
+                        // HTTP-specific checks (rate limiting, IP restrictions)
+                        break;
+                    case 'ws':
+                        // WebSocket-specific checks (connection limits)
+                        break;
+                    case 'rpc':
+                        // RPC-specific checks (service-to-service auth)
+                        break;
+                }
+
+                return { user };
+            } catch (error) {
+                return { user: null, error: error.message };
+            }
+        }
+
+        private async verifyToken(token: string, transport: string): Promise<any> {
+            // Token verification logic that might differ by transport
+            // e.g., HTTP uses Bearer tokens, WS might use query params, RPC uses metadata
+            return jwt.verify(token, process.env.JWT_SECRET);
+        }
+
+        private async getUserById(userId: string): Promise<User | null> {
+            // Database lookup
+            return { id: userId, roles: ['user'], permissions: [] };
+        }
+    }
+
+    // Usage in different types of controllers
+    @Controller('http-api')
+    @UseGuards(UniversalAuthGuard)
+    export class HttpController {
+        @Get('data')
+        getData(@Request() req) {
+            // req.user is available
+            return { data: 'http', user: req.user };
+        }
+    }
+
+    @WebSocketGateway()
+    @UseGuards(UniversalAuthGuard)
+    export class WsController {
+        @SubscribeMessage('message')
+        handleMessage(@ConnectedSocket() client: any) {
+            // client.user is available (attached by guard)
+            return { event: 'response', data: Hello $ {client.user.id} };
+        }
+    }
+
+    @MessagePattern('rpc_command')
+    @UseGuards(UniversalAuthGuard)
+    export class RpcController {
+        async handleRpcCommand(data: any, @Ctx() context: any) {
+            // context.user is available
+            return { result: 'rpc response', user: context.user };
+        }
+    }</code ></pre ></div > <p>This guard: 1) Detects transport type via <code>context.getType()</code>, 2) Extracts auth data transport-appropriately, 3) Uses a unified auth service, 4) Attaches user to the appropriate context object, 5) Throws transport-specific exceptions. The same guard logic works across HTTP, WebSockets, and gRPC with transport-specific adaptations.</p>"
+},
+{
+    question: "How do you handle authorization for GraphQL endpoints in NestJS? Compare and contrast with REST guard implementation.",
+        solution: "<p><strong>GraphQL Authorization vs REST Guards:</strong>
+            < strong > REST Approach:</strong > Guards are applied per route / endpoint via < code > @UseGuards() </code >.Each HTTP endpoint has its own guard configuration.
+< strong > GraphQL Challenge:</strong > Single endpoint(<code>/graphql</code>) handles all operations via queries / mutations.Need field - level or resolver - level authorization.
+
+< strong > GraphQL Authorization Strategies:</strong >
+        1. < strong > Resolver - level Guards:</strong > Apply guards to GraphQL resolvers similar to REST controllers.
+2. < strong > Field - level Authorization:</strong > Use custom decorators on resolver methods or field resolvers.
+3. < strong > Schema - level Directives:</strong > Use GraphQL schema directives(<code>@auth</code>, <code>@role</code>).
+4. < strong > Middleware / Interceptors:</strong > Use GraphQL middleware in Apollo Server.
+
+< strong > Implementation Examples:</strong ></p ><div style='padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;'><pre><code class='language-typescript'>// Option 1: Resolver-level guards (similar to REST)
+@Resolver(() => User)
+@UseGuards(GqlAuthGuard)
+export class UserResolver {
+@Query(() => [User])
+@UseGuards(RolesGuard)
+@Roles('admin')
+users() {
+return this.usersService.findAll();
+}
+
+@Query(() => User)
+@UseGuards(OwnershipGuard)
+user(@Args('id') id: string, @Context() context) {
+return this.usersService.findOne(id);
+}
+
+@Mutation(() => User)
+@UseGuards(RolesGuard)
+@Roles('admin')
+createUser(@Args('data') data: CreateUserInput) {
+return this.usersService.create(data);
+}
+}
+
+// GQL-specific guard that works with GraphQL context
+@Injectable()
+export class GqlAuthGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const gqlContext = GqlExecutionContext.create(context);
+const ctx = gqlContext.getContext();
+const user = ctx.req.user; // User from HTTP middleware
+
+ 
+if (!user) {
+  throw new ForbiddenException('Authentication required for GraphQL');
+}
+
+// Attach to GraphQL context for field resolvers
+ctx.user = user;
+return true;
+}
+}
+
+// Option 2: Field-level authorization with custom decorators
+@Resolver(() => User)
+export class UserResolver {
+@Query(() => [User])
+users(@Context() context) {
+// Check permissions in resolver
+if (!this.authService.canViewUsers(context.user)) {
+throw new ForbiddenException('Cannot view users');
+}
+return this.usersService.findAll();
+}
+
+@ResolveField(() => [Order])
+@UseGuards(FieldOwnershipGuard)
+orders(@Parent() user: User, @Context() context) {
+// Field-level guard ensures user can only see their own orders
+return this.ordersService.findByUserId(user.id);
+}
+}
+
+// Field-level guard
+@Injectable()
+export class FieldOwnershipGuard implements CanActivate {
+canActivate(context: ExecutionContext): boolean {
+const gqlContext = GqlExecutionContext.create(context);
+const info = gqlContext.getInfo();
+const parent = gqlContext.getArgs().parent;
+const ctx = gqlContext.getContext();
+
+ 
+// Check if user can access this field on this parent
+if (info.fieldName === 'orders' && parent.id !== ctx.user.id) {
+  throw new ForbiddenException('Cannot access other users\' orders');
+}
+
+return true;
+}
+}
+
+// Option 3: Schema directives (advanced)
+const authDirective = new GraphQLDirective({
+name: 'auth',
+locations: [DirectiveLocation.FIELD_DEFINITION, DirectiveLocation.OBJECT],
+args: {
+requires: { type: GraphQLString },
+},
+});
+
+// In schema
+type User @auth(requires: "admin") {
+id: ID!
+email: String! @auth(requires: "owner")
+orders: [Order]
+}
+
+// Option 4: Apollo middleware
+const authMiddleware = {
+async resolve(resolver, parent, args, context, info) {
+// Check authorization before resolver executes
+const fieldAuth = getFieldAuth(info);
+if (fieldAuth && !context.user.roles.includes(fieldAuth.role)) {
+throw new ForbiddenException('Unauthorized field access');
+}
+
+ 
+return resolver(parent, args, context, info);
+}
+};
+
+// Comparison:
+// REST: Per-endpoint guards, simple, clear separation
+// GraphQL: More complex due to single endpoint, need field/resolver-level checks
+// Best Practice: Use GqlAuthGuard for overall authentication + resolver/field guards for specific checks</code></pre></div><p><strong>Key Differences:</strong> GraphQL requires context-aware guards that understand GraphQL execution context (<code>GqlExecutionContext</code>). Field-level authorization is often needed. The same guard logic can be reused but must be adapted for GraphQL's execution model.</p>"
+},
+{
+    question: "What are the security considerations when implementing guards? Discuss common vulnerabilities and mitigation strategies.",
+        solution: "<p><strong>Security Considerations for Guards:</strong>
+    1. < strong > Authentication Bypass:</strong > Ensure guards actually validate credentials, not just check for presence of user object.Use cryptographic verification(JWT signature checking).
+2. < strong > Privilege Escalation:</strong > Implement proper role / permission hierarchy.Always check the server - side, never trust client - provided role claims.
+3. < strong > IDOR(Insecure Direct Object Reference):</strong > Ownership guards must verify the authenticated user actually owns requested resources.Never use client - provided IDs without verification.
+4. < strong > Rate Limiting:</strong > Guards without rate limiting can enable brute force attacks.Implement request throttling.
+5. < strong > Information Leakage:</strong > Different error messages for 'user not found' vs 'access denied' can reveal information.Use generic error messages.
+6. < strong > Cache Poisoning:</strong > Cached authorization decisions must be user - specific and time - limited.Include user ID in cache keys.
+7. < strong > JWT Vulnerabilities:</strong > Validate JWT signatures, expiration, issuer, audience.Don't trust unsigned or self-signed tokens.
+    8. < strong > Session Fixation:</strong > For session - based auth, regenerate session ID after login.
+
+< strong > Mitigation Strategies:</strong ></p > <div style='padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;'><pre><code class='language-typescript'>// Secure guard implementation with mitigations
+        @Injectable()
+        export class SecureGuard implements CanActivate {
+            constructor(
+                private jwtService: JwtService,
+        private rateLimitService: RateLimitService,
+        private auditService: AuditService
+        ) { }
+
+        async canActivate(context: ExecutionContext): Promise<boolean> {
+const request = context.switchToHttp().getRequest();
+            const ip = request.ip;
+
+
+            // 1. Rate limiting to prevent brute force
+            const isRateLimited = await this.rateLimitService.isRateLimited(ip, 'auth');
+            if (isRateLimited) {
+                await this.auditService.logSecurityEvent('rate_limit_exceeded', { ip });
+            throw new ForbiddenException('Too many requests');
+}
+
+            // 2. Extract and validate JWT securely
+            const token = this.extractToken(request);
+            if (!token) {
+  // Generic error to avoid information leakage
+  throw new UnauthorizedException('Authentication required');
+}
+
+            try {
+  // 3. Validate JWT with all security checks
+  const payload = await this.jwtService.verifyAsync(token, {
+                secret: process.env.JWT_SECRET,
+            issuer: 'my-app',
+            audience: 'my-app-users',
+            clockTolerance: 30, // 30 seconds leeway
+            maxAge: '2h' // Token maximum age
+  });
+
+            // 4. Check token is not blacklisted (for logout functionality)
+            const isBlacklisted = await this.isTokenBlacklisted(token);
+            if (isBlacklisted) {
+                await this.auditService.logSecurityEvent('blacklisted_token_used', { userId: payload.sub });
+            throw new UnauthorizedException('Invalid token');
+  }
+
+            // 5. Get user from database (not trusting JWT claims alone)
+            const user = await this.userService.findById(payload.sub);
+            if (!user || !user.isActive) {
+    // Generic error
+    throw new UnauthorizedException('Authentication failed');
+  }
+
+            // 6. Check if password was recently changed (invalidate old tokens)
+            if (user.passwordChangedAt && payload.iat * 1000 < user.passwordChangedAt.getTime()) {
+                await this.auditService.logSecurityEvent('stale_token_used', { userId: user.id });
+            throw new UnauthorizedException('Session expired');
+  }
+
+            // 7. Attach minimal user info to request
+            request.user = {
+                id: user.id,
+            roles: user.roles,
+            permissions: await this.getUserPermissions(user.id), // Fresh from DB
+            sessionId: payload.jti // JWT ID for session tracking
+  };
+
+            // 8. Log successful authentication
+            await this.auditService.logAuthentication(user.id, ip, true);
+
+            return true;
+} catch (error) {
+                // 9. Log failed authentication attempts
+                await this.auditService.logAuthentication('unknown', ip, false, error.message);
+
+            // 10. Generic error message to avoid information leakage
+            throw new UnauthorizedException('Authentication failed');
+}
+}
+
+            private extractToken(request: any): string | null {
+// Securely extract token from multiple sources
+const authHeader = request.headers.authorization;
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+return authHeader.substring(7);
+}
+
+
+            // Also check cookies (for CSRF-protected endpoints)
+            const cookieToken = request.cookies?.access_token;
+            if (cookieToken) {
+  // Validate cookie has appropriate flags (HttpOnly, Secure, SameSite)
+  return cookieToken;
+}
+
+            return null;
+}
+
+            private async isTokenBlacklisted(token: string): Promise<boolean> {
+// Check Redis/DB for blacklisted tokens (for logout functionality)
+const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+                return this.cacheManager.get(blacklist:$ {tokenHash}) !== null;
+}
+
+                private async getUserPermissions(userId: string): Promise<string[]> {
+// Fresh permissions from database, not from JWT
+// Cache with short TTL for performance
+const cacheKey = user:$ {userId}:permissions;
+                const cached = await this.cacheManager.get<string[]>(cacheKey);
+
+
+                if (cached) {
+  return cached;
+}
+
+                const permissions = await this.permissionService.getUserPermissions(userId);
+                await this.cacheManager.set(cacheKey, permissions, 300000); // 5 minutes
+
+                return permissions;
+}
+}
+
+// Additional security measures:
+// - Use HTTPS only in production
+// - Implement CORS properly
+// - Add security headers (Helmet middleware)
+// - Validate all inputs (even in guards)
+// - Use parameterized queries to prevent SQL injection
+// - Regular security audits and penetration testing
+// - Keep dependencies updated
+// - Implement proper logging and monitoring</code></pre></div>`
+              }
+            ],
+            links: [
+              "https://docs.nestjs.com/guards",
+              "https://docs.nestjs.com/security/authorization",
+              "https://docs.nestjs.com/fundamentals/execution-context",
+              "https://docs.nestjs.com/security/authentication",
+              "https://docs.nestjs.com/recipes/passport",
+              "https://docs.nestjs.com/graphql/guards",
+              "https://docs.nestjs.com/security/cors",
+              "https://docs.nestjs.com/techniques/security",
+              "https://docs.nestjs.com/techniques/caching"
+            ]
+          }
         ],
       },
     ],
