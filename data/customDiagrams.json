@@ -1,0 +1,207 @@
+{
+  "Javascript": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "React": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "Node": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "Typescript": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "AWS S3": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "Next": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "SQL": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "RabbitMQ": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "OOP": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "python": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "redis": {
+    "nodes": [],
+    "connections": [],
+    "lastModified": null
+  },
+  "nest": {
+    "nodes": [
+      {
+        "id": "node_1764919564393",
+        "x": 717.9542824074074,
+        "y": 359.5196759259259,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764919565278",
+        "x": 717.9542824074074,
+        "y": 359.5196759259259,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764919565656",
+        "x": 717.9542824074074,
+        "y": 359.5196759259259,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764919566018",
+        "x": 717.9542824074074,
+        "y": 359.5196759259259,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764919566208",
+        "x": 717.9542824074074,
+        "y": 359.5196759259259,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764919566360",
+        "x": 717.9542824074074,
+        "y": 359.5196759259259,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764919578661",
+        "x": 567.8530092592592,
+        "y": 475.4384358723958,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931945339",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931946664",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931947080",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931947276",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931947800",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931947948",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931948113",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931948248",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      },
+      {
+        "id": "node_1764931951354",
+        "x": 1638.6718749999995,
+        "y": 825.7812499999997,
+        "text": "New Concept",
+        "type": "custom",
+        "color": "#FFF0F5",
+        "borderColor": "#8B0045"
+      }
+    ],
+    "connections": [],
+    "lastModified": "2025-12-05T10:56:09.505Z"
+  }
+}
