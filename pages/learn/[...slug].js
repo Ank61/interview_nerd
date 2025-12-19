@@ -26,7 +26,7 @@ export default function Learn({
   nextTopic,
   theme,
   category,
-  example
+  example,
 }) {
   const router = useRouter();
   const [hydrated, setHydrated] = React.useState(false);
@@ -227,7 +227,7 @@ export default function Learn({
                   onClick={() => router.push(`/category/${category}`)}
                   className="hover:text-gray-700 transition-colors"
                 >
-                  {category}
+                  {category[0].toUpperCase() + category.slice(1)}
                 </button>
                 <span>/</span>
                 <span className="text-gray-900 font-medium">{topic}</span>
@@ -304,9 +304,10 @@ export default function Learn({
             className={`
               fixed left-0 top-16 transform transition-all duration-300 ease-in-out z-[50]
               ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-              ${isLargeScreen && sidebarOpen
-                ? "block"
-                : isLargeScreen
+              ${
+                isLargeScreen && sidebarOpen
+                  ? "block"
+                  : isLargeScreen
                   ? "hidden"
                   : ""
               }
@@ -316,9 +317,10 @@ export default function Learn({
               w-80 sm:w-80 md:w-80 lg:w-80 xl:w-80
               
               /* Mobile specific adjustments - Improved for iPhone */
-              ${typeof window !== "undefined" && window.innerWidth <= 480
-                ? "w-[85vw] max-w-[320px]"
-                : ""
+              ${
+                typeof window !== "undefined" && window.innerWidth <= 480
+                  ? "w-[85vw] max-w-[320px]"
+                  : ""
               }
               
               /* Tablet specific adjustments */
@@ -389,9 +391,10 @@ export default function Learn({
                             className={`
                               p-3 rounded-lg cursor-pointer transition-all duration-200
                               hover:scale-[1.02] hover:shadow-md active:scale-[0.98]
-                              ${isActive
-                                ? "shadow-md ring-2"
-                                : "hover:shadow-sm"
+                              ${
+                                isActive
+                                  ? "shadow-md ring-2"
+                                  : "hover:shadow-sm"
                               }
                               touch-manipulation
                             `}
@@ -422,8 +425,9 @@ export default function Learn({
                               )}
                               <div className="flex-1 min-w-0">
                                 <h4
-                                  className={`text-sm font-medium leading-5 mb-1 ${isActive ? "font-semibold" : ""
-                                    }`}
+                                  className={`text-sm font-medium leading-5 mb-1 ${
+                                    isActive ? "font-semibold" : ""
+                                  }`}
                                   style={{
                                     color: isActive
                                       ? theme?.textColor || "#374151"
@@ -705,7 +709,7 @@ export async function getStaticProps({ params }) {
       nextTopic: nextTopic || "",
       theme: themeColor,
       category: category,
-      example
+      example,
     },
   };
 }

@@ -10195,9 +10195,15 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
         label: "Advance",
         concepts: [
           {
-            "topic": "Error Boundaries Advanced",
-            "tags": ["React", "Error Handling", "Error Boundaries", "Fallback UI", "Component Lifecycle"],
-            "explanation": `<div>
+            topic: "Error Boundaries Advanced",
+            tags: [
+              "React",
+              "Error Handling",
+              "Error Boundaries",
+              "Fallback UI",
+              "Component Lifecycle",
+            ],
+            explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
      Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. They are React's way of handling errors gracefully in the component tree and preventing entire applications from breaking due to a single component failure.
    </p>
@@ -10649,7 +10655,7 @@ export default App;</code></pre>
    </ol>
 </div>
 `,
-            "examples": [
+            examples: [
               `// Complete Error Boundary Implementation with Recovery
 import React, { Component } from 'react';
 
@@ -11016,42 +11022,58 @@ function App() {
   );
 }
 
-export default App;`
+export default App;`,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are the limitations of Error Boundaries in React?",
-                "solution": "<p>Error Boundaries have several limitations: 1) They only catch errors in the render phase, lifecycle methods, and constructors of child components. 2) They don't catch errors in event handlers (use try/catch instead). 3) They don't catch errors in asynchronous code (setTimeout, promises). 4) They don't catch errors in the error boundary itself. 5) They don't work with server-side rendering. 6) They can't catch errors in error boundaries higher up in the tree.</p>"
+                question:
+                  "What are the limitations of Error Boundaries in React?",
+                solution:
+                  "<p>Error Boundaries have several limitations: 1) They only catch errors in the render phase, lifecycle methods, and constructors of child components. 2) They don't catch errors in event handlers (use try/catch instead). 3) They don't catch errors in asynchronous code (setTimeout, promises). 4) They don't catch errors in the error boundary itself. 5) They don't work with server-side rendering. 6) They can't catch errors in error boundaries higher up in the tree.</p>",
               },
               {
-                "question": "How do you implement error recovery in Error Boundaries?",
-                "solution": "<p>Error recovery can be implemented by: 1) Providing a retry mechanism that resets the error state. 2) Using a key prop to force remounting of problematic components. 3) Implementing fallback data or default states. 4) Allowing users to refresh specific sections. 5) Providing alternative UI flows. The key is to update state to clear the error and give the component another chance to render successfully.</p>"
+                question:
+                  "How do you implement error recovery in Error Boundaries?",
+                solution:
+                  "<p>Error recovery can be implemented by: 1) Providing a retry mechanism that resets the error state. 2) Using a key prop to force remounting of problematic components. 3) Implementing fallback data or default states. 4) Allowing users to refresh specific sections. 5) Providing alternative UI flows. The key is to update state to clear the error and give the component another chance to render successfully.</p>",
               },
               {
-                "question": "When should you use multiple Error Boundaries vs a single global one?",
-                "solution": "<p>Use multiple Error Boundaries when you want to isolate failures to specific sections of your app. This prevents the entire application from crashing due to one component's error. Use a global Error Boundary as a safety net for unexpected errors. Best practice is to use both: specific boundaries for known problematic areas and a global boundary to catch everything else. This provides both granular error handling and overall application stability.</p>"
+                question:
+                  "When should you use multiple Error Boundaries vs a single global one?",
+                solution:
+                  "<p>Use multiple Error Boundaries when you want to isolate failures to specific sections of your app. This prevents the entire application from crashing due to one component's error. Use a global Error Boundary as a safety net for unexpected errors. Best practice is to use both: specific boundaries for known problematic areas and a global boundary to catch everything else. This provides both granular error handling and overall application stability.</p>",
               },
               {
-                "question": "How can you test Error Boundaries in your application?",
-                "solution": "<p>Test Error Boundaries by: 1) Creating test components that throw errors. 2) Using testing libraries like Jest and React Testing Library. 3) Simulating errors in different lifecycle methods. 4) Verifying the fallback UI is displayed. 5) Testing error recovery mechanisms. 6) Mocking error reporting services. 7) Testing both expected and unexpected error scenarios to ensure robust error handling.</p>"
+                question:
+                  "How can you test Error Boundaries in your application?",
+                solution:
+                  "<p>Test Error Boundaries by: 1) Creating test components that throw errors. 2) Using testing libraries like Jest and React Testing Library. 3) Simulating errors in different lifecycle methods. 4) Verifying the fallback UI is displayed. 5) Testing error recovery mechanisms. 6) Mocking error reporting services. 7) Testing both expected and unexpected error scenarios to ensure robust error handling.</p>",
               },
               {
-                "question": "What's the difference between getDerivedStateFromError and componentDidCatch?",
-                "solution": "<p>getDerivedStateFromError is a static method called during the render phase to update state and show fallback UI. It should be pure and only used to derive state from errors. componentDidCatch is called during the commit phase and is used for side effects like logging errors, reporting to services, or performing cleanup. Use getDerivedStateFromError to control what users see, and componentDidCatch for error handling logic and monitoring.</p>"
-              }
+                question:
+                  "What's the difference between getDerivedStateFromError and componentDidCatch?",
+                solution:
+                  "<p>getDerivedStateFromError is a static method called during the render phase to update state and show fallback UI. It should be pure and only used to derive state from errors. componentDidCatch is called during the commit phase and is used for side effects like logging errors, reporting to services, or performing cleanup. Use getDerivedStateFromError to control what users see, and componentDidCatch for error handling logic and monitoring.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary",
               "https://reactjs.org/docs/error-boundaries.html",
               "https://www.npmjs.com/package/react-error-boundary",
               "https://kentcdodds.com/blog/use-react-error-boundary-to-handle-errors-in-react",
-              "https://www.smashingmagazine.com/2020/06/react-error-handling-reporting-error-boundaries/"
-            ]
+              "https://www.smashingmagazine.com/2020/06/react-error-handling-reporting-error-boundaries/",
+            ],
           },
           {
-            "topic": "UseMemo Hook",
-            "tags": ["React", "Hooks", "Performance", "Memoization", "Optimization"],
-            "explanation": `<div>
+            topic: "UseMemo Hook",
+            tags: [
+              "React",
+              "Hooks",
+              "Performance",
+              "Memoization",
+              "Optimization",
+            ],
+            explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
      The useMemo hook is a React performance optimization tool that memoizes expensive computations. It returns a memoized value that only changes when one of its dependencies has changed. This prevents expensive calculations from running on every render, significantly improving performance for compute-intensive operations.
    </p>
@@ -11425,7 +11447,7 @@ const callbackWithUseMemo = useMemo(() => () => doSomething(a, b), [a, b]);</cod
    </ol>
 </div>
 `,
-            "examples": [
+            examples: [
               `// Complete useMemo Examples with Performance Monitoring
 import React, { useMemo, useState, useEffect } from 'react';
 
@@ -11782,37 +11804,44 @@ function DebuggableComponent({ data, filter, sortBy }) {
       </div>
     </div>
   );
-}`
+}`,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What's the difference between useMemo and useEffect?",
-                "solution": "<p>useMemo is for memoizing values and computations during render, while useEffect is for side effects after render. useMemo returns a value synchronously and runs during rendering, whereas useEffect runs asynchronously after the render is committed to the screen. Use useMemo for expensive calculations that should be cached, and useEffect for operations like API calls, subscriptions, or DOM manipulations.</p>"
+                question:
+                  "What's the difference between useMemo and useEffect?",
+                solution:
+                  "<p>useMemo is for memoizing values and computations during render, while useEffect is for side effects after render. useMemo returns a value synchronously and runs during rendering, whereas useEffect runs asynchronously after the render is committed to the screen. Use useMemo for expensive calculations that should be cached, and useEffect for operations like API calls, subscriptions, or DOM manipulations.</p>",
               },
               {
-                "question": "When should you avoid using useMemo?",
-                "solution": "<p>Avoid useMemo when: 1) The computation is cheap and fast. 2) The dependencies change on every render anyway. 3) You're memoizing very large objects that consume significant memory. 4) It's used prematurely without actual performance issues. 5) For simple value assignments or basic arithmetic. Always measure performance before adding useMemo to ensure it provides actual benefits.</p>"
+                question: "When should you avoid using useMemo?",
+                solution:
+                  "<p>Avoid useMemo when: 1) The computation is cheap and fast. 2) The dependencies change on every render anyway. 3) You're memoizing very large objects that consume significant memory. 4) It's used prematurely without actual performance issues. 5) For simple value assignments or basic arithmetic. Always measure performance before adding useMemo to ensure it provides actual benefits.</p>",
               },
               {
-                "question": "How does useMemo help with React.memo optimization?",
-                "solution": "<p>useMemo provides stable object/array references that prevent unnecessary re-renders in React.memo components. When you pass memoized values as props to React.memo components, the component only re-renders when the props actually change. Without useMemo, new object/array references are created on every render, causing React.memo to always re-render even if the data is functionally the same.</p>"
+                question: "How does useMemo help with React.memo optimization?",
+                solution:
+                  "<p>useMemo provides stable object/array references that prevent unnecessary re-renders in React.memo components. When you pass memoized values as props to React.memo components, the component only re-renders when the props actually change. Without useMemo, new object/array references are created on every render, causing React.memo to always re-render even if the data is functionally the same.</p>",
               },
               {
-                "question": "What happens if you forget dependencies in useMemo?",
-                "solution": "<p>If you forget dependencies in useMemo, the memoized value might become stale and not update when needed. This can lead to bugs where the UI shows outdated information. The eslint-plugin-react-hooks package includes an exhaustive-deps rule that warns about missing dependencies. Always include all values from the component scope that are used in the memoized calculation to ensure correctness.</p>"
+                question: "What happens if you forget dependencies in useMemo?",
+                solution:
+                  "<p>If you forget dependencies in useMemo, the memoized value might become stale and not update when needed. This can lead to bugs where the UI shows outdated information. The eslint-plugin-react-hooks package includes an exhaustive-deps rule that warns about missing dependencies. Always include all values from the component scope that are used in the memoized calculation to ensure correctness.</p>",
               },
               {
-                "question": "Can useMemo be used for functions? How does it compare to useCallback?",
-                "solution": "<p>Yes, useMemo can be used for functions by returning a function from the factory: <code>useMemo(() => () => {...}, deps)</code>. This is functionally equivalent to useCallback. However, useCallback is more semantic and clearer for function memoization. useMemo is more general-purpose for any type of value, while useCallback is specifically designed for functions and makes the code more readable.</p>"
-              }
+                question:
+                  "Can useMemo be used for functions? How does it compare to useCallback?",
+                solution:
+                  "<p>Yes, useMemo can be used for functions by returning a function from the factory: <code>useMemo(() => () => {...}, deps)</code>. This is functionally equivalent to useCallback. However, useCallback is more semantic and clearer for function memoization. useMemo is more general-purpose for any type of value, while useCallback is specifically designed for functions and makes the code more readable.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://react.dev/reference/react/useMemo",
               "https://kentcdodds.com/blog/usememo-and-usecallback",
               "https://dmitripavlutin.com/react-usememo-hook/",
               "https://www.joshwcomeau.com/react/usememo-and-usecallback/",
-              "https://reactjs.org/docs/hooks-reference.html#usememo"
-            ]
+              "https://reactjs.org/docs/hooks-reference.html#usememo",
+            ],
           },
           {
             topic: "UseCallback Hook",
@@ -100481,7 +100510,7 @@ ORDER BY value_segment, frequency_segment, recency_segment;`,
         label: "Beginner",
         concepts: [
           {
-            topic: "Redis Introduction",
+            topic: "Introduction",
             tags: ["In-Memory", "NoSQL", "Cache", "Data Structures"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -101529,7 +101558,260 @@ app.post('/api/posts', async (req, res) => {
             ],
           },
           {
-            topic: "Redis Strings",
+            topic: "Basic Commands",
+            tags: ["Key-Value Store", "In-Memory Database", "Caching", "NoSQL"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Redis (Remote Dictionary Server) is an open-source, in-memory data structure store used as a database, cache, message broker, and streaming engine. It supports various data structures like strings, hashes, lists, sets, and sorted sets, making it highly versatile for different use cases.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Redis?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blazing Fast Performance:</span> In-memory storage provides sub-millisecond response times.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Rich Data Structures:</span> Supports strings, lists, sets, sorted sets, hashes, bitmaps, and more.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Persistence Options:</span> Can save data to disk for durability while maintaining speed.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Built-in Replication:</span> Supports master-slave replication for high availability.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Atomic Operations:</span> All operations are atomic, ensuring data consistency.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Pub/Sub Messaging:</span> Built-in publish/subscribe pattern for real-time messaging.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Key Operations
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SET:</span> Store a key-value pair.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SET user:1000 "John Doe"
+SET counter 100
+SET session:abc123 "user_data" EX 3600  # Expires in 1 hour</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">GET:</span> Retrieve the value of a key.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">GET user:1000  # Returns "John Doe"
+GET counter    # Returns "100"</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DEL:</span> Delete one or more keys.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">DEL user:1000           # Returns 1 if deleted
+DEL key1 key2 key3      # Delete multiple keys</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">EXISTS:</span> Check if a key exists.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">EXISTS user:1000        # Returns 1 if exists, 0 if not
+EXISTS key1 key2        # Returns count of existing keys</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">EXPIRE:</span> Set a timeout on a key (in seconds).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">EXPIRE session:abc123 3600    # Expires in 1 hour
+PEXPIRE session:xyz 60000     # Expires in 60 seconds (milliseconds)</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TTL:</span> Get the remaining time to live of a key (in seconds).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">TTL session:abc123     # Returns remaining seconds
+# Returns -1 if key exists but has no expiry
+# Returns -2 if key doesn't exist
+PTTL session:abc123    # Returns remaining milliseconds</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">PERSIST:</span> Remove the expiration from a key.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">PERSIST session:abc123  # Returns 1 if timeout removed, 0 if not</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Additional Useful Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">KEYS:</span> Find all keys matching a pattern (use cautiously in production).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">KEYS user:*            # Find all keys starting with "user:"
+KEYS *                 # Get all keys (dangerous in production!)</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SCAN:</span> Iteratively scan keys (safer alternative to KEYS).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SCAN 0 MATCH user:* COUNT 10</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">INCR/DECR:</span> Increment or decrement integer values atomically.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">INCR counter           # Increment by 1
+INCRBY counter 5       # Increment by 5
+DECR counter           # Decrement by 1
+DECRBY counter 3       # Decrement by 3</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TYPE:</span> Determine the data type stored at a key.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">TYPE user:1000         # Returns "string", "list", "set", etc.</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Session Management
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Create a session that expires in 30 minutes
+SET session:user123 "{"userId": 123, "role": "admin"}" EX 1800
+
+# Check if session exists
+EXISTS session:user123  # Returns 1
+
+# Get remaining time
+TTL session:user123     # Returns remaining seconds
+
+# Extend session (reset expiration)
+EXPIRE session:user123 1800
+
+# Make session permanent
+PERSIST session:user123
+
+# Delete session
+DEL session:user123</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Meaningful Key Names:</span> Follow a naming convention like "object:id" or "namespace:entity:id".
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Set Expiration Times:</span> Always set TTL for cache data to prevent memory bloat.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoid KEYS in Production:</span> Use SCAN instead for iterating over keys safely.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Monitor Memory Usage:</span> Use INFO command to track memory consumption.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Atomic Operations:</span> Leverage Redis's atomic commands for thread-safe operations.
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `// Node.js Redis Example
+const redis = require('redis');
+const client = redis.createClient();
+
+async function sessionExample() {
+  // Set session with expiration
+  await client.set('session:user456', JSON.stringify({
+    userId: 456,
+    username: 'johndoe',
+    loginTime: Date.now()
+  }), {
+    EX: 3600  // Expires in 1 hour
+  });
+
+  // Get session
+  const session = await client.get('session:user456');
+  console.log(JSON.parse(session));
+
+  // Check TTL
+  const ttl = await client.ttl('session:user456');
+  console.log(\`Session expires in \${ttl} seconds\`);
+
+  // Extend session
+  await client.expire('session:user456', 7200);
+
+  // Check if session exists
+  const exists = await client.exists('session:user456');
+  console.log(\`Session exists: \${exists === 1}\`);
+
+  // Delete session (logout)
+  await client.del('session:user456');
+}
+
+// Counter example
+async function counterExample() {
+  await client.set('page:views', 0);
+  
+  // Increment page views
+  await client.incr('page:views');
+  await client.incr('page:views');
+  await client.incrBy('page:views', 5);
+  
+  const views = await client.get('page:views');
+  console.log(\`Total page views: \${views}\`);  // Output: 7
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between DEL and UNLINK commands?",
+                solution:
+                  "<p>DEL is a blocking command that removes keys synchronously, which can cause performance issues with large keys. UNLINK is non-blocking and removes keys asynchronously in a different thread, making it safer for production use when deleting large data structures. UNLINK returns immediately while the actual deletion happens in the background.</p>",
+              },
+              {
+                question:
+                  "When should you use EXPIRE vs setting expiration with SET?",
+                solution:
+                  "<p>Use the EX or PX options with SET when creating a new key with expiration in a single atomic operation (e.g., SET key value EX 3600). Use EXPIRE as a separate command when you need to add or modify the expiration time of an existing key. The SET option is more efficient as it's a single operation, while EXPIRE requires a separate command.</p>",
+              },
+              {
+                question: "What does TTL return for different key states?",
+                solution: `<p>TTL returns different values based on the key state:</p>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+              <li>Positive integer: Remaining seconds until expiration</li>
+              <li>-1: Key exists but has no expiration set</li>
+              <li>-2: Key does not exist</li>
+            </ul>
+            <p style="margin-top: 0.5rem;">You can use PTTL to get the result in milliseconds instead of seconds.</p>`,
+              },
+              {
+                question:
+                  "Why should you avoid using KEYS command in production?",
+                solution:
+                  "<p>The KEYS command blocks the Redis server while it scans through all keys in the database to find matches. This can cause significant performance degradation in production environments with large datasets. Instead, use the SCAN command, which iteratively returns keys in chunks without blocking the server, allowing other operations to proceed concurrently.</p>",
+              },
+            ],
+            links: [
+              "https://redis.io/docs/latest/commands/",
+              "https://redis.io/docs/latest/develop/use/keyspace/",
+              "https://redis.io/docs/latest/develop/connect/cli/",
+              "https://developer.redis.com/howtos/quick-start/",
+            ],
+          },
+          {
+            topic: "Strings",
             tags: [
               "Strings",
               "Counters",
@@ -101542,6 +101824,197 @@ app.post('/api/posts', async (req, res) => {
                Redis Strings are the most basic and versatile data type in Redis. Despite being called "strings," they are binary-safe, meaning they can store any kind of data including text, integers, floats, serialized objects, images, or even binary data. Strings can be up to 512MB in size and support a rich set of operations beyond simple get/set.
              </p>
           
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use String Operations?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Atomic Counters:</span> INCR and DECR provide thread-safe counter operations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Efficient Text Operations:</span> Append and modify strings without retrieving entire values.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Efficiency:</span> Partial updates with SETRANGE avoid transferring large strings.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">High Performance:</span> All string operations are O(1) complexity (except APPEND which is amortized O(1)).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Versatility:</span> Store caching data, session information, counters, or rate limiting data.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     String Operations Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">INCR:</span> Increment the integer value of a key by 1 (atomic operation).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SET counter 10
+INCR counter           # Returns 11
+INCR counter           # Returns 12
+INCR newcounter        # Creates key with value 1 if doesn't exist</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">INCRBY:</span> Increment by a specific integer value.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">INCRBY counter 5       # Increment by 5
+INCRBYFLOAT price 2.5  # Increment by float value</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DECR:</span> Decrement the integer value of a key by 1 (atomic operation).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SET counter 10
+DECR counter           # Returns 9
+DECR counter           # Returns 8</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DECRBY:</span> Decrement by a specific integer value.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">DECRBY counter 3       # Decrement by 3</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">APPEND:</span> Append a value to an existing string. Returns the length of the string after append.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SET message "Hello"
+APPEND message " World"     # Returns 11
+GET message                 # Returns "Hello World"
+APPEND newkey "value"       # Creates key if doesn't exist</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">GETRANGE:</span> Get a substring of the string stored at a key (zero-based indexing).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SET mykey "Hello World"
+GETRANGE mykey 0 4          # Returns "Hello"
+GETRANGE mykey 6 10         # Returns "World"
+GETRANGE mykey 0 -1         # Returns entire string
+GETRANGE mykey -5 -1        # Returns "World" (last 5 chars)</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SETRANGE:</span> Overwrite part of a string at a specified offset. Returns the length of the string.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SET mykey "Hello World"
+SETRANGE mykey 6 "Redis"    # Returns 11
+GET mykey                   # Returns "Hello Redis"
+SETRANGE mykey 15 "!"       # Pads with zero-bytes if offset > length</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Additional String Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">STRLEN:</span> Get the length of the string value.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SET mykey "Hello World"
+STRLEN mykey               # Returns 11</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">MSET/MGET:</span> Set or get multiple keys in a single operation.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">MSET key1 "value1" key2 "value2" key3 "value3"
+MGET key1 key2 key3        # Returns ["value1", "value2", "value3"]</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SETNX:</span> Set a key only if it doesn't already exist.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SETNX lock "process1"      # Returns 1 if set, 0 if key exists</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Page View Counter
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Initialize counter
+SET page:home:views 0
+
+# Increment on each page view
+INCR page:home:views
+INCR page:home:views
+INCRBY page:home:views 10
+
+# Get current count
+GET page:home:views         # Returns "12"
+
+# Reset counter
+SET page:home:views 0</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Log Appending
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Create initial log entry
+SET log:user:123 "2024-01-01 10:00 - User logged in\n"
+
+# Append new entries
+APPEND log:user:123 "2024-01-01 10:15 - User updated profile\n"
+APPEND log:user:123 "2024-01-01 10:30 - User logged out\n"
+
+# Get full log
+GET log:user:123
+
+# Get partial log (first 50 characters)
+GETRANGE log:user:123 0 49</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Counters:</span> Page views, likes, download counts, API rate limiting.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Caching:</span> Store serialized JSON, HTML fragments, API responses.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Session Storage:</span> Store user session data with expiration.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Log Aggregation:</span> Append log entries efficiently without reading entire logs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Feature Flags:</span> Store boolean flags as "0" or "1" strings.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Atomic Operations:</span> Prefer INCR/DECR over GET-then-SET for counters to avoid race conditions.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Batch Operations:</span> Use MSET/MGET for multiple keys to reduce network round-trips.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">String Size Limits:</span> Keep strings under 512 MB; consider using other data types for large data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Management:</span> APPEND reallocates memory; for frequent appends, consider Lists instead.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Handling:</span> INCR/DECR fail if the value is not an integer; handle these errors appropriately.
+     </li>
+   </ol> 
+
              <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
                1. Binary-Safe Strings
              </h4>
@@ -102185,6 +102658,27 @@ app.post('/api/posts', async (req, res) => {
                 </code></pre>
                 <p><strong>Memory Savings Example:</strong> Storing 1000 player stats (3 values each) using bitfields uses ~3KB, while using separate keys would use ~100KB+ due to Redis overhead.</p>`,
               },
+              {
+                question:
+                  "What happens if you use INCR on a non-integer value?",
+                solution:
+                  "<p>If you try to use INCR or DECR on a key that contains a value that cannot be represented as an integer, Redis will return an error: '(error) ERR value is not an integer or out of range'. The operation will fail and the value will remain unchanged. Always ensure the key contains a valid integer before using increment/decrement operations.</p>",
+              },
+              {
+                question: "Is APPEND operation efficient for large strings?",
+                solution:
+                  "<p>APPEND has amortized O(1) time complexity, making it generally efficient. However, when the string grows beyond certain thresholds, Redis may need to reallocate memory, which can cause occasional performance spikes. For frequently appending large amounts of data, consider using Redis Lists instead, which are optimized for such operations. APPEND is best for occasional additions to moderately-sized strings.</p>",
+              },
+              {
+                question: "How do negative indices work in GETRANGE?",
+                solution:
+                  "<p>In GETRANGE, negative indices count from the end of the string. -1 represents the last character, -2 the second-to-last, and so on. For example, GETRANGE mykey -5 -1 returns the last 5 characters. You can mix positive and negative indices: GETRANGE mykey 0 -1 returns the entire string, while GETRANGE mykey 6 -1 returns from index 6 to the end.</p>",
+              },
+              {
+                question: "What is the difference between SET and SETRANGE?",
+                solution:
+                  "<p>SET replaces the entire value of a key with a new value, while SETRANGE only modifies a portion of the existing string starting at a specified offset. SET is O(1) regardless of string size, whereas SETRANGE is O(1) for small changes but can be O(N) if it needs to pad the string with zero-bytes when the offset is beyond the current string length. Use SETRANGE when you need to update specific parts of a large string without replacing the entire value.</p>",
+              },
             ],
             links: [
               "https://redis.io/docs/data-types/strings/",
@@ -102197,7 +102691,7 @@ app.post('/api/posts', async (req, res) => {
             ],
           },
           {
-            topic: "Redis Lists",
+            topic: "Lists",
             tags: [
               "Lists",
               "Queues",
@@ -102209,6 +102703,271 @@ app.post('/api/posts', async (req, res) => {
     <p style="line-height: 1.75; margin-top: 1.5rem;">
       Redis Lists are ordered collections of strings, sorted by insertion order. They are implemented as linked lists, making them extremely efficient for operations at the head and tail, regardless of list size. Lists support pushing and popping elements from both ends, making them ideal for implementing queues, stacks, and many other data structures.
     </p>
+
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Redis Lists?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Fast Queue Operations:</span> O(1) push and pop operations at both ends.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Flexible Data Structures:</span> Implement queues, stacks, or timelines easily.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blocking Operations:</span> Built-in support for blocking pops (BLPOP, BRPOP) for producer-consumer patterns.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Capped Collections:</span> Easy to maintain fixed-size lists by trimming.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Ordered Storage:</span> Maintains insertion order, perfect for activity feeds or logs.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     List Operations Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LPUSH:</span> Insert one or more values at the head (left) of the list. Returns the length after push.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">LPUSH mylist "world"        # Returns 1
+LPUSH mylist "hello"        # Returns 2, list is now ["hello", "world"]
+LPUSH mylist "a" "b" "c"    # Push multiple values, returns 5</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">RPUSH:</span> Insert one or more values at the tail (right) of the list. Returns the length after push.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">RPUSH mylist "hello"        # Returns 1
+RPUSH mylist "world"        # Returns 2, list is now ["hello", "world"]
+RPUSH mylist "x" "y" "z"    # Push multiple values, returns 5</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LPOP:</span> Remove and return the first element from the head of the list.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">LPUSH mylist "one" "two" "three"
+LPOP mylist                 # Returns "three"
+LPOP mylist 2               # Remove and return 2 elements: ["two", "one"]
+LPOP emptylist              # Returns nil if list is empty</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">RPOP:</span> Remove and return the last element from the tail of the list.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">RPUSH mylist "one" "two" "three"
+RPOP mylist                 # Returns "three"
+RPOP mylist 2               # Remove and return 2 elements: ["two", "one"]
+RPOP emptylist              # Returns nil if list is empty</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LRANGE:</span> Get a range of elements from the list (inclusive, zero-based indexing).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">RPUSH mylist "one" "two" "three" "four" "five"
+LRANGE mylist 0 2           # Returns ["one", "two", "three"]
+LRANGE mylist 0 -1          # Returns all elements
+LRANGE mylist -3 -1         # Returns last 3 elements
+LRANGE mylist 0 9999        # Returns all available elements</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LLEN:</span> Get the length of the list.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">RPUSH mylist "one" "two" "three"
+LLEN mylist                 # Returns 3
+LLEN nonexistent            # Returns 0</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Additional List Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LINDEX:</span> Get an element by index (zero-based).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">LINDEX mylist 0             # Get first element
+LINDEX mylist -1            # Get last element</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LSET:</span> Set the value of an element at a specific index.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">LSET mylist 0 "newvalue"    # Update first element</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LTRIM:</span> Trim list to specified range (keep only elements in range).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">LTRIM mylist 0 99           # Keep only first 100 elements
+LTRIM mylist -100 -1        # Keep only last 100 elements</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">BLPOP/BRPOP:</span> Blocking versions that wait for an element if list is empty.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">BLPOP mylist 10             # Wait up to 10 seconds for an element
+BRPOP mylist 0              # Wait indefinitely</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">RPOPLPUSH:</span> Atomically pop from one list and push to another (useful for reliable queues).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">RPOPLPUSH source destination</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Task Queue (FIFO)
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Producer adds tasks to the queue
+RPUSH task:queue "process-image-1.jpg"
+RPUSH task:queue "send-email-user@example.com"
+RPUSH task:queue "generate-report-Q1"
+
+# Check queue length
+LLEN task:queue             # Returns 3
+
+# Consumer processes tasks from the queue
+LPOP task:queue             # Returns "process-image-1.jpg"
+LPOP task:queue             # Returns "send-email-user@example.com"
+
+# View pending tasks without removing
+LRANGE task:queue 0 -1      # Returns ["generate-report-Q1"]</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Activity Feed (Latest First)
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Add new activities (most recent at the head)
+LPUSH feed:user:123 "User liked post #456"
+LPUSH feed:user:123 "User commented on post #789"
+LPUSH feed:user:123 "User followed @john"
+
+# Get latest 10 activities
+LRANGE feed:user:123 0 9
+
+# Keep only latest 100 activities (trim old ones)
+LTRIM feed:user:123 0 99
+
+# Get feed size
+LLEN feed:user:123</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Stack (LIFO)
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Push to stack
+LPUSH stack:undo "action1"
+LPUSH stack:undo "action2"
+LPUSH stack:undo "action3"
+
+# Pop from stack (LIFO - Last In First Out)
+javascriptLPOP stack:undo            # Returns "action3"
+LPOP stack:undo            # Returns "action2"
+
+# Peek at top of stack without removing
+LINDEX stack:undo 0        # Returns "action1"</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Message Queues:</span> Background job processing, task scheduling.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Activity Feeds:</span> Social media timelines, notification lists.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Recent Items:</span> Latest searches, recently viewed products.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Leaderboards:</span> Top scores, rankings (combined with sorted sets).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Undo/Redo Functionality:</span> Stack-based operation history.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Log Storage:</span> Application logs, audit trails.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Characteristics
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LPUSH/RPUSH:</span> O(1) for each element added.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LPOP/RPOP:</span> O(1) for each element removed.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LLEN:</span> O(1) - Redis maintains the length.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LRANGE:</span> O(S+N) where S is the start offset and N is the number of elements.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LINDEX:</span> O(N) where N is the number of elements to traverse.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cap List Size:</span> Use LTRIM to prevent unbounded growth in feeds or logs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoid Middle Operations:</span> Operations in the middle of large lists (LINSERT, LREM) are O(N) and slow.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Blocking Operations:</span> BLPOP/BRPOP are more efficient than polling with LPOP for queue consumers.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Choose Correct End:</span> Use LPUSH+RPOP or RPUSH+LPOP for queues; LPUSH+LPOP for stacks.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Batch Operations:</span> Push multiple elements at once to reduce network round-trips.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Consideration:</span> Lists with millions of small elements are memory efficient due to Redis's encoding.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Queue Patterns
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Simple Queue (FIFO):</span> RPUSH to add, LPOP to consume.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Stack (LIFO):</span> LPUSH to add, LPOP to consume.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blocking Queue:</span> RPUSH to add, BLPOP to consume (waits for items).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reliable Queue:</span> Use RPOPLPUSH to move items to a processing list, remove after completion.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Circular List:</span> Use RPOPLPUSH on the same list to rotate elements.
+     </li>
+   </ol>
 
     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
       1. Basic List Operations
@@ -103451,6 +104210,34 @@ setInterval(async () => {
         <li>Comprehensive error handling</li>
       </ul>`,
               },
+              {
+                question: "What is the difference between LPUSH and RPUSH?",
+                solution:
+                  "<p>LPUSH inserts elements at the head (left/beginning) of the list, while RPUSH inserts elements at the tail (right/end) of the list. When using LPUSH, the most recently added element becomes the first element (index 0). With RPUSH, newly added elements are appended to the end. The choice depends on your use case: use LPUSH for stacks or when you want newest items first (like activity feeds), and RPUSH for queues where you want to maintain insertion order.</p>",
+              },
+              {
+                question:
+                  "How do you implement a FIFO queue using Redis Lists?",
+                solution:
+                  "<p>To implement a FIFO (First In, First Out) queue, use RPUSH to add items to the tail of the list and LPOP to remove items from the head. This ensures that the first item added is the first one removed. For example: RPUSH queue:jobs 'task1', RPUSH queue:jobs 'task2', then LPOP queue:jobs returns 'task1'. For a more robust queue with blocking capability, use BRPOP instead of LPOP, which waits for items to become available rather than returning immediately when the list is empty.</p>",
+              },
+              {
+                question:
+                  "Why is LRANGE more efficient than multiple LINDEX calls?",
+                solution:
+                  "<p>LRANGE retrieves multiple elements in a single operation with O(S+N) complexity, where S is the start offset and N is the number of elements. Multiple LINDEX calls would require separate network round-trips for each element, resulting in higher latency and network overhead. Additionally, LINDEX has O(N) complexity for each call where N is the traversal distance. For retrieving consecutive elements, LRANGE is significantly more efficient both in terms of time complexity and network communication.</p>",
+              },
+              {
+                question:
+                  "What happens when you LPOP or RPOP from an empty list?",
+                solution:
+                  "<p>When you call LPOP or RPOP on an empty list or a non-existent key, Redis returns nil (null). The key is not created, and no error is thrown. This behavior allows you to safely poll empty queues. If you want to wait for elements instead of getting nil immediately, use the blocking variants BLPOP or BRPOP, which will wait for a specified timeout until an element becomes available or the timeout expires.</p>",
+              },
+              {
+                question: "How do you maintain a capped list of recent items?",
+                solution:
+                  "<p>Use LTRIM after adding new items to maintain a fixed-size list. For example, to keep only the 100 most recent items: First, add the new item with LPUSH mylist 'new_item', then trim the list with LTRIM mylist 0 99. This keeps elements at indices 0 through 99 and removes everything else. This pattern is commonly used for activity feeds, recent searches, or log storage where you only want to keep the N most recent entries to prevent unbounded memory growth.</p>",
+              },
             ],
             links: [
               "https://redis.io/docs/data-types/lists/",
@@ -103463,7 +104250,771 @@ setInterval(async () => {
             ],
           },
           {
-            topic: "Redis Sets",
+            topic: "Hash",
+            tags: [
+              "hash-operations",
+              "hset",
+              "hget",
+              "hmget",
+              "hgetall",
+              "hincrby",
+              "field-operations",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
+     Redis Hash operations provide powerful tools for manipulating field-value pairs within hash objects. Each operation serves specific use cases with different performance characteristics, from single-field updates to batch operations and atomic counters.
+   </p>
+
+   <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #8B5CF6;">
+     <h4 style="margin: 0 0 1rem 0; font-size: 1.2rem;">Key Insight</h4>
+     <p style="margin: 0; line-height: 1.6;">Understanding the performance characteristics and appropriate use cases for each hash operation is crucial for building efficient Redis applications. Choose the right operation based on your data access patterns.</p>
+   </div>
+
+   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
+     HSET: Setting Field Values
+   </h4>
+
+   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
+     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Command Syntax and Variations</h5>
+     <p style="line-height: 1.6; margin-bottom: 1rem;">HSET is the primary command for setting field values in Redis hashes, with multiple syntax variations for different use cases:</p>
+     
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Basic HSET Syntax</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HSET key field value<br/>
+           HSET user:1001 name "John Doe"<br/>
+           HSET user:1001 email "john@example.com"
+         </div>
+       </div>
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Multiple Fields (Redis 4.0+)</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HSET key field1 value1 field2 value2<br/>
+           HSET user:1001 name "John" age 30 city "NY"
+         </div>
+       </div>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Return Value and Behavior</h6>
+     <ul style="line-height: 1.6;">
+       <li><strong>Return value:</strong> Number of fields that were added (not updated)</li>
+       <li><strong>New field:</strong> Returns 1 when adding a new field</li>
+       <li><strong>Existing field:</strong> Returns 0 when updating existing field</li>
+       <li><strong>Atomic operation:</strong> Entire command succeeds or fails</li>
+     </ul>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Characteristics</h6>
+     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
+       <ul style="line-height: 1.6;">
+         <li><strong>Time Complexity:</strong> O(1) for each field/value pair added</li>
+         <li><strong>Memory Impact:</strong> Minimal for new fields, in-place update for existing</li>
+         <li><strong>Network Efficiency:</strong> Better for multiple fields in single command</li>
+         <li><strong>Use Case:</strong> Individual field updates or small batch updates</li>
+       </ul>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
+     HGET: Retrieving Single Field Values
+   </h4>
+
+   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
+     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Command Syntax and Usage</h5>
+     <p style="line-height: 1.6; margin-bottom: 1rem;">HGET retrieves the value of a specific field from a hash, providing efficient access to individual attributes:</p>
+     
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Basic HGET Syntax</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HGET key field<br/>
+           HGET user:1001 name<br/>
+           # Returns: "John Doe"
+         </div>
+       </div>
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Field Not Found</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HGET user:1001 nonexistent<br/>
+           # Returns: (nil)
+         </div>
+       </div>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance and Use Cases</h6>
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+       <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e9ecef;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Advantages</h6>
+         <ul style="line-height: 1.4;">
+           <li>O(1) time complexity</li>
+           <li>Minimal network transfer</li>
+           <li>No client-side parsing needed</li>
+           <li>Efficient for single field access</li>
+         </ul>
+       </div>
+       <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e9ecef;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Best For</h6>
+         <ul style="line-height: 1.4;">
+           <li>Frequently accessed fields</li>
+           <li>Large hashes with sparse access</li>
+           <li>Real-time field updates</li>
+           <li>Selective data retrieval</li>
+         </ul>
+       </div>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Comparison with HGETALL</h6>
+     <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
+       <p style="margin: 0; line-height: 1.6;"><strong>Use HGET when:</strong> You need specific known fields from large hashes. <strong>Use HGETALL when:</strong> You need all fields from small hashes or don't know which fields you need.</p>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
+     HMGET: Retrieving Multiple Field Values
+   </h4>
+
+   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
+     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Batch Field Retrieval</h5>
+     <p style="line-height: 1.6; margin-bottom: 1rem;">HMGET allows retrieving multiple field values in a single command, reducing network round trips and improving efficiency:</p>
+     
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">HMGET Syntax</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HMGET key field1 field2 field3<br/>
+           HMGET user:1001 name email age<br/>
+           # Returns: ["John Doe", "john@example.com", "30"]
+         </div>
+       </div>
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Missing Fields</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HMGET user:1001 name nonexistent age<br/>
+           # Returns: ["John Doe", nil, "30"]
+         </div>
+       </div>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Analysis</h6>
+     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
+       <table style="width: 100%; border-collapse: collapse;">
+         <thead>
+           <tr>
+             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Scenario</th>
+             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Multiple HGET</th>
+             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Single HMGET</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Network Round Trips</td>
+             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">N (one per field)</td>
+             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">1</td>
+           </tr>
+           <tr>
+             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Redis Processing</td>
+             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">N × O(1)</td>
+             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(N)</td>
+           </tr>
+           <tr>
+             <td style="padding: 0.5rem;">Total Efficiency</td>
+             <td style="padding: 0.5rem;">Lower for N > 1</td>
+             <td style="padding: 0.5rem;">Higher for N > 1</td>
+           </tr>
+         </tbody>
+       </table>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Optimal Use Cases</h6>
+     <ul style="line-height: 1.6;">
+       <li><strong>Object partial retrieval:</strong> When you need specific known fields</li>
+       <li><strong>Reducing latency:</strong> When network round trips are expensive</li>
+       <li><strong>Batch processing:</strong> When processing multiple related fields</li>
+       <li><strong>API responses:</strong> When building responses with selected fields</li>
+     </ul>
+   </div>
+
+   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
+     HGETALL: Retrieving All Fields and Values
+   </h4>
+
+   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
+     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Complete Hash Retrieval</h5>
+     <p style="line-height: 1.6; margin-bottom: 1rem;">HGETALL returns all field-value pairs from a hash in a flat array format, providing complete object serialization:</p>
+     
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">HGETALL Syntax</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HGETALL key<br/>
+           HGETALL user:1001<br/>
+           # Returns: ["name", "John Doe", "email", "john@example.com", "age", "30"]
+         </div>
+       </div>
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Empty Hash</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HGETALL empty:hash<br/>
+           # Returns: [] (empty list)
+         </div>
+       </div>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Considerations</h6>
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+       <div style="background: #d4edda; padding: 1rem; border-radius: 6px; border: 1px solid #c3e6cb;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Advantages</h6>
+         <ul style="line-height: 1.4;">
+           <li>Single network round trip</li>
+           <li>Complete object retrieval</li>
+           <li>No need to know field names</li>
+           <li>Good for small hashes</li>
+         </ul>
+       </div>
+       <div style="background: #f8d7da; padding: 1rem; border-radius: 6px; border: 1px solid #f5c6cb;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Disadvantages</h6>
+         <ul style="line-height: 1.4;">
+           <li>O(N) time complexity</li>
+           <li>Large network payload for big hashes</li>
+           <li>Client must parse flat array</li>
+           <li>Blocks Redis during serialization</li>
+         </ul>
+       </div>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">When to Use HGETALL</h6>
+     <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
+       <ul style="line-height: 1.6;">
+         <li><strong>Small hashes:</strong> When hash has &lt; 100 fields</li>
+         <li><strong>Complete object needed:</strong> When you need all fields</li>
+         <li><strong>Unknown schema:</strong> When field names are dynamic</li>
+         <li><strong>Infrequent access:</strong> When performance impact is acceptable</li>
+         <li><strong>Alternative for large hashes:</strong> Use HSCAN for incremental retrieval</li>
+       </ul>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
+     HINCRBY: Atomic Integer Operations
+   </h4>
+
+   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
+     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Atomic Counter Operations</h5>
+     <p style="line-height: 1.6; margin-bottom: 1rem;">HINCRBY provides atomic increment/decrement operations on integer fields within hashes, ensuring consistency in concurrent environments:</p>
+     
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">HINCRBY Syntax</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HINCRBY key field increment<br/>
+           HINCRBY user:1001:stats page_views 1<br/>
+           # Returns: new value (e.g., 156)
+         </div>
+       </div>
+       <div>
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Decrement Operations</h6>
+         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
+           HINCRBY product:1001 stock -1<br/>
+           HINCRBY user:1001 points -10<br/>
+           # Negative increments for decrement
+         </div>
+       </div>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Atomicity Guarantees</h6>
+     <ul style="line-height: 1.6;">
+       <li><strong>Thread-safe:</strong> No race conditions between concurrent clients</li>
+       <li><strong>Consistent:</strong> Operations complete fully or not at all</li>
+       <li><strong>No external locks:</strong> Built-in atomicity eliminates need for locking</li>
+       <li><strong>Return value:</strong> Returns new value after increment</li>
+     </ul>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Use Cases and Patterns</h6>
+     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Analytics Tracking</h6>
+         <p style="margin: 0; font-size: 0.9rem;">Page views, click counts, user engagement metrics</p>
+       </div>
+       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Inventory Management</h6>
+         <p style="margin: 0; font-size: 0.9rem;">Stock levels, reserved items, sold quantities</p>
+       </div>
+       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Gaming & Scoring</h6>
+         <p style="margin: 0; font-size: 0.9rem;">Player scores, experience points, achievements</p>
+       </div>
+       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Rate Limiting</h6>
+         <p style="margin: 0; font-size: 0.9rem;">API calls, login attempts, request quotas</p>
+       </div>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
+     Operation Comparison and Best Practices
+   </h4>
+
+   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
+     <div style="overflow-x: auto; margin: 1.5rem 0;">
+       <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
+         <thead style="background: #f8f9fa;">
+           <tr>
+             <th style="padding: 1rem; text-align: left; font-weight: bold;">Operation</th>
+             <th style="padding: 1rem; text-align: left; font-weight: bold;">Time Complexity</th>
+             <th style="padding: 1rem; text-align: left; font-weight: bold;">Network Efficiency</th>
+             <th style="padding: 1rem; text-align: left; font-weight: bold;">Best Use Case</th>
+             <th style="padding: 1rem; text-align: left; font-weight: bold;">Return Value</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr style="border-bottom: 1px solid #e9ecef;">
+             <td style="padding: 1rem; font-weight: 600;">HSET</td>
+             <td style="padding: 1rem;">O(1) per field</td>
+             <td style="padding: 1rem;">Good for batches</td>
+             <td style="padding: 1rem;">Field updates, object creation</td>
+             <td style="padding: 1rem;">Number of new fields</td>
+           </tr>
+           <tr style="border-bottom: 1px solid #e9ecef;">
+             <td style="padding: 1rem; font-weight: 600;">HGET</td>
+             <td style="padding: 1rem;">O(1)</td>
+             <td style="padding: 1rem;">Excellent</td>
+             <td style="padding: 1rem;">Single field access</td>
+             <td style="padding: 1rem;">Field value or nil</td>
+           </tr>
+           <tr style="border-bottom: 1px solid #e9ecef;">
+             <td style="padding: 1rem; font-weight: 600;">HMGET</td>
+             <td style="padding: 1rem;">O(N)</td>
+             <td style="padding: 1rem;">Excellent for N > 1</td>
+             <td style="padding: 1rem;">Multiple known fields</td>
+             <td style="padding: 1rem;">Array of values</td>
+           </tr>
+           <tr style="border-bottom: 1px solid #e9ecef;">
+             <td style="padding: 1rem; font-weight: 600;">HGETALL</td>
+             <td style="padding: 1rem;">O(N)</td>
+             <td style="padding: 1rem;">Poor for large N</td>
+             <td style="padding: 1rem;">Small hashes, complete objects</td>
+             <td style="padding: 1rem;">Array of field-value pairs</td>
+           </tr>
+           <tr>
+             <td style="padding: 1rem; font-weight: 600;">HINCRBY</td>
+             <td style="padding: 1rem;">O(1)</td>
+             <td style="padding: 1rem;">Excellent</td>
+             <td style="padding: 1rem;">Atomic counters, statistics</td>
+             <td style="padding: 1rem;">New integer value</td>
+           </tr>
+         </tbody>
+       </table>
+     </div>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Optimization Guidelines</h6>
+     <ul style="line-height: 1.6;">
+       <li><strong>Use HSET for multiple fields:</strong> When updating several fields together</li>
+       <li><strong>Prefer HMGET over multiple HGET:</strong> For retrieving 2+ known fields</li>
+       <li><strong>Avoid HGETALL for large hashes:</strong> Use HSCAN for incremental access</li>
+       <li><strong>Use HINCRBY for counters:</strong> Instead of HGET + HSET for atomicity</li>
+       <li><strong>Pipeline unrelated operations:</strong> When multiple hash operations are needed</li>
+     </ul>
+
+     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Memory and Encoding Considerations</h6>
+     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
+       <ul style="line-height: 1.6;">
+         <li><strong>Ziplist encoding:</strong> Operations are O(N) but efficient for small N</li>
+         <li><strong>Hash table encoding:</strong> Operations are O(1) but use more memory</li>
+         <li><strong>Field name optimization:</strong> Shorter field names reduce memory usage</li>
+         <li><strong>Batch operations:</strong> Reduce memory fragmentation</li>
+       </ul>
+     </div>
+   </div>
+
+   <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #28a745;">
+     <h5 style="margin: 0 0 1rem 0;">Real-World Implementation: E-commerce Analytics</h5>
+     <p style="margin: 0; line-height: 1.6;"><strong>Scenario:</strong> Tracking user behavior and product statistics in real-time with concurrent updates from multiple services.</p>
+     <p style="margin: 0.5rem 0 0 0; line-height: 1.6;"><strong>Solution:</strong> Use HSET for user profile updates, HMGET for retrieving user preferences, HINCRBY for atomic counter updates (page views, cart additions), and HGETALL for small configuration hashes. Avoid HGETALL for large user activity hashes, using HSCAN instead.</p>
+   </div>
+</div>`,
+            examples: [
+              `# =================================
+# REDIS HASH OPERATIONS EXAMPLES
+# =================================
+
+# 1. HSET OPERATIONS
+# Setting individual fields
+HSET user:1001 name "Alice Johnson"
+HSET user:1001 email "alice@example.com"
+HSET user:1001 age 28
+
+# Setting multiple fields in one command (Redis 4.0+)
+HSET user:1002 name "Bob Smith" email "bob@example.com" age 35
+
+# HSET return values
+HSET user:1001 city "Boston"        # Returns: 1 (new field)
+HSET user:1001 city "New York"      # Returns: 0 (updated field)
+
+# 2. HGET OPERATIONS
+# Retrieving single fields
+HGET user:1001 name                 # Returns: "Alice Johnson"
+HGET user:1001 email                # Returns: "alice@example.com"
+HGET user:1001 nonexistent          # Returns: (nil)
+
+# Practical use case - checking specific attributes
+user_name = HGET user:1001 name
+user_email = HGET user:1001 email
+
+# 3. HMGET OPERATIONS
+# Retrieving multiple fields
+HMGET user:1001 name email age
+# Returns: ["Alice Johnson", "alice@example.com", "28"]
+
+# With missing fields
+HMGET user:1001 name salary age
+# Returns: ["Alice Johnson", nil, "28"]
+
+# Efficient batch retrieval for API responses
+user_data = HMGET user:1001 name email phone city
+
+# 4. HGETALL OPERATIONS
+# Retrieving entire hash
+HGETALL user:1001
+# Returns: ["name", "Alice Johnson", "email", "alice@example.com", "age", "28", "city", "New York"]
+
+# Empty hash case
+HGETALL user:9999
+# Returns: [] (empty list)
+
+# Client-side processing example (Python-like pseudocode)
+fields_and_values = HGETALL user:1001
+user_dict = {}
+for i in range(0, len(fields_and_values), 2):
+    field = fields_and_values[i]
+    value = fields_and_values[i+1]
+    user_dict[field] = value
+
+# 5. HINCRBY OPERATIONS
+# Setting up counters
+HSET product:2001:stats views 0 purchases 0 cart_adds 0
+
+# Atomic increments
+HINCRBY product:2001:stats views 1        # Returns: 1
+HINCRBY product:2001:stats views 5        # Returns: 6
+HINCRBY product:2001:stats cart_adds 1    # Returns: 1
+
+# Atomic decrements (negative increments)
+HINCRBY product:2001:stats stock -1       # Returns: -1 (if started at 0)
+HINCRBY user:1001:points -10              # Deduct 10 points
+
+# 6. REAL-WORLD INTEGRATED EXAMPLES
+# E-commerce user session tracking
+HSET session:abc123 user_id "1001" created "2024-01-15T10:00:00Z"
+HINCRBY session:abc123 page_views 1
+HINCRBY session:abc123 cart_items 1
+
+# Get session summary
+HMGET session:abc123 user_id page_views cart_items
+# Returns: ["1001", "1", "1"]
+
+# 7. ANALYTICS AND COUNTER PATTERNS
+# Daily product analytics
+HSET analytics:product:2001:2024-01-15 views 0 clicks 0 purchases 0
+
+# Real-time updates from multiple workers
+HINCRBY analytics:product:2001:2024-01-15 views 1    # Worker 1
+HINCRBY analytics:product:2001:2024-01-15 clicks 1   # Worker 2
+HINCRBY analytics:product:2001:2024-01-15 purchases 1 # Worker 3
+
+# Get final analytics
+HGETALL analytics:product:2001:2024-01-15
+# Returns: ["views", "156", "clicks", "45", "purchases", "12"]
+
+# 8. CONFIGURATION MANAGEMENT
+# Application settings hash
+HSET config:app:production 
+  database.host "db.prod.com" 
+  database.port "5432" 
+  cache.enabled "true" 
+  cache.ttl "3600"
+
+# Retrieve specific configuration groups
+HMGET config:app:production database.host database.port
+# Returns: ["db.prod.com", "5432"]
+
+# 9. USER PREFERENCE STORAGE
+HSET user:1001:preferences 
+  theme "dark" 
+  language "en" 
+  notifications "true" 
+  timezone "UTC"
+
+# Update single preference
+HSET user:1001:preferences theme "light"
+
+# Check current preferences
+HGET user:1001:preferences theme        # Returns: "light"
+
+# 10. COMPLEX OPERATION PATTERNS
+# Inventory management with atomic operations
+HSET product:3001 inventory 100 reserved 0 sold 0
+
+# Customer purchases one item
+HINCRBY product:3001 inventory -1    # Reduce inventory
+HINCRBY product:3001 sold 1          # Increase sold count
+
+# Check current status
+HMGET product:3001 inventory sold
+# Returns: ["99", "1"]
+
+# 11. ERROR HANDLING AND EDGE CASES
+# Handling non-existent hashes
+HGET non:existent:hash field          # Returns: (nil)
+HGETALL non:existent:hash             # Returns: []
+
+# Handling non-integer fields with HINCRBY
+HSET user:1001 name "Alice"
+HINCRBY user:1001 name 1              # Returns: error
+
+# 12. PERFORMANCE COMPARISON EXAMPLES
+# Inefficient: Multiple HGET calls
+name = HGET user:1001 name
+email = HGET user:1001 email
+age = HGET user:1001 age
+# 3 network round trips
+
+# Efficient: Single HMGET call
+name, email, age = HMGET user:1001 name email age
+# 1 network round trip
+
+# Even better for multiple updates: HSET with multiple fields
+HSET user:1001 name "Alice" email "alice@example.com" age 29
+# Single command for multiple updates`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the performance implications of using HGETALL versus HMGET for retrieving data from large Redis hashes, and when should you choose one over the other?",
+                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+  <h4 style="margin-top: 0;">HGETALL vs HMGET Performance Analysis</h4>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Performance Characteristics Comparison</h5>
+  <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">Aspect</th>
+          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">HGETALL</th>
+          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">HMGET</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Time Complexity</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(N) - N = total fields</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(M) - M = requested fields</td>
+        </tr>
+        <tr>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Network Payload</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">All fields + values</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Only requested fields</td>
+        </tr>
+        <tr>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Redis Memory Pressure</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">High for large hashes</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Low to moderate</td>
+        </tr>
+        <tr>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Client Processing</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Must parse all data</td>
+          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Only processes needed data</td>
+        </tr>
+        <tr>
+          <td style="padding: 0.5rem;">Blocking Time</td>
+          <td style="padding: 0.5rem;">Proportional to hash size</td>
+          <td style="padding: 0.5rem;">Proportional to requested fields</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Practical Performance Scenarios</h5>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
+      <h6 style="margin: 0 0 0.5rem 0;">Use HGETALL When:</h6>
+      <ul style="line-height: 1.4;">
+        <li>Hash has &lt; 100 fields</li>
+        <li>You need all fields (unknown schema)</li>
+        <li>Performance impact is acceptable</li>
+        <li>Hash is accessed infrequently</li>
+        <li>Simplifies client code</li>
+      </ul>
+    </div>
+    
+    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
+      <h6 style="margin: 0 0 0.5rem 0;">Use HMGET When:</h6>
+      <ul style="line-height: 1.4;">
+        <li>Hash has &gt; 100 fields</li>
+        <li>You only need specific known fields</li>
+        <li>Performance is critical</li>
+        <li>Hash is accessed frequently</li>
+        <li>Reducing network traffic is important</li>
+      </ul>
+    </div>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Quantitative Analysis Example</h5>
+  <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
+    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Scenario: Hash with 1,000 fields, each field name = 10 bytes, each value = 50 bytes</p>
+    <ul style="line-height: 1.6;">
+      <li><strong>HGETALL payload:</strong> ~60KB (1,000 fields × 60 bytes)</li>
+      <li><strong>HMGET (10 fields):</strong> ~600 bytes (10 fields × 60 bytes)</li>
+      <li><strong>Performance difference:</strong> 100x smaller network payload</li>
+      <li><strong>Redis processing:</strong> HGETALL scans 1,000 fields vs HMGET scans 10 fields</li>
+    </ul>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Alternative: HSCAN for Very Large Hashes</h5>
+  <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
+    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">For hashes with &gt; 1,000 fields, consider HSCAN:</p>
+    <div style="font-family: monospace; font-size: 0.9rem; background: white; padding: 0.5rem; border-radius: 4px;">
+      # Incremental retrieval<br/>
+      HSCAN large:hash 0 COUNT 100<br/>
+      HSCAN large:hash 12345 COUNT 100<br/>
+      # Non-blocking, memory-efficient
+    </div>
+    <p style="margin: 0.5rem 0 0 0;">HSCAN provides the best of both worlds for very large hashes: selective retrieval without knowing field names in advance.</p>
+  </div>
+  
+  <div style="background: #d1ecf1; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+    <strong>Decision Framework:</strong>
+    <ul style="line-height: 1.6; margin-top: 0.5rem;">
+      <li><strong>&lt; 100 fields:</strong> HGETALL is usually fine</li>
+      <li><strong>100-1,000 fields:</strong> Use HMGET if you know which fields you need</li>
+      <li><strong>&gt; 1,000 fields:</strong> Use HSCAN for incremental access</li>
+      <li><strong>Unknown fields needed:</strong> HSCAN is your only option for large hashes</li>
+    </ul>
+  </div>
+</div>`,
+              },
+              {
+                question:
+                  "How does HINCRBY ensure atomicity in concurrent environments, and what are the practical implications for building distributed systems?",
+                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+  <h4 style="margin-top: 0;">HINCRBY Atomicity and Distributed Systems</h4>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Atomic Operation Guarantees</h5>
+  <p style="line-height: 1.6; margin-bottom: 1rem;">HINCRBY provides strong atomicity guarantees that are crucial for distributed systems:</p>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
+      <h6 style="margin: 0 0 0.5rem 0;">What Atomicity Means</h6>
+      <ul style="line-height: 1.4;">
+        <li><strong>All-or-nothing:</strong> Operation completes fully or not at all</li>
+        <li><strong>Isolation:</strong> No intermediate states visible to other clients</li>
+        <li><strong>Consistency:</strong> Maintains data integrity</li>
+        <li><strong>No race conditions:</strong> Safe for concurrent access</li>
+      </ul>
+    </div>
+    
+    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
+      <h6 style="margin: 0 0 0.5rem 0;">How Redis Achieves This</h6>
+      <ul style="line-height: 1.4;">
+        <li><strong>Single-threaded:</strong> No context switching during operations</li>
+        <li><strong>Command queue:</strong> Operations processed sequentially</li>
+        <li><strong>Memory operations:</strong> Fast in-place updates</li>
+        <li><strong>Return value:</strong> Guaranteed to reflect the update</li>
+      </ul>
+    </div>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Concurrent Access Scenarios</h5>
+  <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
+    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Scenario: Multiple clients incrementing the same counter</p>
+    <div style="font-family: monospace; font-size: 0.9rem; background: #f8f9fa; padding: 0.5rem; border-radius: 4px;">
+      # Initial value: counter = 100<br/>
+      # Client A: HINCRBY stats:views 1  # Returns: 101<br/>
+      # Client B: HINCRBY stats:views 1  # Returns: 102<br/>
+      # Client C: HINCRBY stats:views 1  # Returns: 103<br/>
+      # Final value: 103 (no lost increments)
+    </div>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Comparison with Non-Atomic Approach</h5>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+    <div style="background: #f8d7da; padding: 1rem; border-radius: 6px;">
+      <h6 style="margin: 0 0 0.5rem 0; color: #721c24;">Non-Atomic (Problematic)</h6>
+      <div style="font-family: monospace; font-size: 0.8rem;">
+        current = HGET counter<br/>
+        new_value = current + 1<br/>
+        HSET counter new_value<br/>
+        # Race condition: lost updates possible
+      </div>
+    </div>
+    
+    <div style="background: #d1edf1; padding: 1rem; border-radius: 6px;">
+      <h6 style="margin: 0 0 0.5rem 0; color: #0c5460;">Atomic (Correct)</h6>
+      <div style="font-family: monospace; font-size: 0.8rem;">
+        HINCRBY counter 1<br/>
+        # No race condition, guaranteed consistency
+      </div>
+    </div>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Practical Implications for Distributed Systems</h5>
+  <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
+    <ul style="line-height: 1.6;">
+      <li><strong>No distributed locks needed:</strong> Eliminates lock management complexity</li>
+      <li><strong>Simplified application logic:</strong> No need for retry mechanisms for basic counters</li>
+      <li><strong>Predictable performance:</strong> Consistent behavior under load</li>
+      <li><strong>Scalability:</strong> Handles high concurrent update rates</li>
+      <li><strong>Reliability:</strong> No lost updates in failure scenarios</li>
+    </ul>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Use Cases Benefiting from HINCRBY Atomicity</h5>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Analytics & Metrics</h6>
+      <p style="margin: 0; font-size: 0.9rem;">Page views, click tracking, user engagement</p>
+    </div>
+    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Inventory Systems</h6>
+      <p style="margin: 0; font-size: 0.9rem;">Stock management, reservation systems</p>
+    </div>
+    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Rate Limiting</h6>
+      <p style="margin: 0; font-size: 0.9rem;">API quotas, usage tracking</p>
+    </div>
+    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
+      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Gaming & Scoring</h6>
+      <p style="margin: 0; font-size: 0.9rem;">Leaderboards, point systems</p>
+    </div>
+  </div>
+  
+  <h5 style="margin: 1rem 0 0.5rem 0;">Limitations and Considerations</h5>
+  <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
+    <ul style="line-height: 1.6;">
+      <li><strong>Integer values only:</strong> HINCRBY works only with integer fields</li>
+      <li><strong>No conditional logic:</strong> Cannot implement "increment if" logic atomically</li>
+      <li><strong>Single field:</strong> Cannot atomically update multiple counters</li>
+      <li><strong>Redis cluster:</strong> All operations on a hash must go to the same node</li>
+      <li><strong>For complex atomic operations:</strong> Use Lua scripts or Redis transactions</li>
+    </ul>
+  </div>
+  
+  <div style="background: #d4edda; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
+    <strong>Best Practice:</strong> Always use HINCRBY for counter operations in distributed systems. It eliminates race conditions without requiring complex locking mechanisms and provides predictable performance under concurrent access patterns.
+  </div>
+</div>`,
+              },
+            ],
+            links: [
+              "https://redis.io/commands/hset/",
+              "https://redis.io/commands/hget/",
+              "https://redis.io/commands/hmget/",
+              "https://redis.io/commands/hgetall/",
+              "https://redis.io/commands/hincrby/",
+              "https://redis.io/topics/pipelining",
+            ],
+          },
+          {
+            topic: "Sets",
             tags: [
               "Sets",
               "Set Operations",
@@ -103475,6 +105026,276 @@ setInterval(async () => {
     <p style="line-height: 1.75; margin-top: 1.5rem;">
       Redis Sets are unordered collections of unique strings. They are perfect for representing relationships, tracking unique items, and performing set algebra operations like unions, intersections, and differences. Sets are implemented using hash tables, providing O(1) lookups and insertions regardless of set size.
     </p>
+
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Redis Sets?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Uniqueness:</span> Duplicate values are automatically ignored.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Fast Membership Testing:</span> O(1) check if an element exists in the set.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Set Operations:</span> Built-in support for intersection, union, and difference operations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Random Selection:</span> Efficient random element selection for sampling.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Relationship Tracking:</span> Perfect for modeling many-to-many relationships.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Set Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SADD:</span> Add one or more members to a set. Returns the number of elements actually added (excluding duplicates).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SADD myset "apple"              # Returns 1
+SADD myset "banana" "cherry"    # Returns 2, set now has 3 elements
+SADD myset "apple"              # Returns 0 (duplicate, not added)
+SADD tags:post:1 "redis" "database" "nosql"</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SREM:</span> Remove one or more members from a set. Returns the number of members actually removed.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SREM myset "banana"             # Returns 1
+SREM myset "grape" "orange"     # Returns 0 if elements don't exist
+SREM tags:post:1 "nosql"        # Remove specific tag</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SMEMBERS:</span> Get all members of a set. Returns an array of all elements.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SADD fruits "apple" "banana" "cherry" "date"
+SMEMBERS fruits                 # Returns all 4 fruits (unordered)
+SMEMBERS emptyset               # Returns empty array []</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SISMEMBER:</span> Check if a member exists in the set. Returns 1 if exists, 0 if not.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SISMEMBER fruits "apple"        # Returns 1 (true)
+SISMEMBER fruits "grape"        # Returns 0 (false)
+SISMEMBER users:online "user123" # Check if user is online</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SCARD:</span> Get the number of members in a set (cardinality).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SCARD fruits                    # Returns 4
+SCARD emptyset                  # Returns 0</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Set Operation Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SINTER:</span> Return the intersection of multiple sets (common members).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SADD set1 "a" "b" "c" "d"
+SADD set2 "c" "d" "e" "f"
+SADD set3 "c" "d" "g"
+SINTER set1 set2                # Returns ["c", "d"]
+SINTER set1 set2 set3           # Returns ["c", "d"] (common to all)</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SUNION:</span> Return the union of multiple sets (all unique members).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SADD set1 "a" "b" "c"
+SADD set2 "c" "d" "e"
+SUNION set1 set2                # Returns ["a", "b", "c", "d", "e"]
+SUNION set1 set2 set3           # All unique elements from all sets</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SDIFF:</span> Return the difference between sets (elements in first set but not in others).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SADD set1 "a" "b" "c" "d"
+SADD set2 "c" "d" "e"
+SDIFF set1 set2                 # Returns ["a", "b"] (in set1 but not set2)
+SDIFF set2 set1                 # Returns ["e"] (in set2 but not set1)</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SINTERSTORE/SUNIONSTORE/SDIFFSTORE:</span> Store result of set operation in a destination key.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SINTERSTORE result set1 set2    # Store intersection in 'result'
+SUNIONSTORE result set1 set2    # Store union in 'result'
+SDIFFSTORE result set1 set2     # Store difference in 'result'</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Additional Useful Commands
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SPOP:</span> Remove and return random member(s) from the set.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SPOP myset                      # Remove and return 1 random element
+SPOP myset 3                    # Remove and return 3 random elements</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SRANDMEMBER:</span> Get random member(s) without removing them.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SRANDMEMBER myset               # Get 1 random element
+SRANDMEMBER myset 5             # Get 5 random unique elements
+SRANDMEMBER myset -5            # Get 5 random elements (may repeat)</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SMOVE:</span> Move a member from one set to another atomically.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-bash">SMOVE source destination "member"  # Returns 1 if moved, 0 if not</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: User Tags
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Add tags to users
+SADD user:123:tags "python" "redis" "backend"
+SADD user:456:tags "javascript" "redis" "frontend"
+SADD user:789:tags "python" "backend" "ml"
+
+# Check if user has a specific tag
+SISMEMBER user:123:tags "redis"     # Returns 1
+
+# Find common interests between users
+SINTER user:123:tags user:456:tags  # Returns ["redis"]
+SINTER user:123:tags user:789:tags  # Returns ["python", "backend"]
+
+# Get all users interested in either Python or JavaScript
+SUNION user:123:tags user:456:tags user:789:tags
+
+# Remove a tag
+SREM user:123:tags "backend"</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Online Users Tracking
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># User comes online
+SADD users:online "user123"
+SADD users:online "user456"
+SADD users:online "user789"
+
+# Check if user is online
+SISMEMBER users:online "user123"    # Returns 1
+
+# Get count of online users
+SCARD users:online                  # Returns 3
+
+# User goes offline
+SREM users:online "user456"
+
+# Get all online users
+SMEMBERS users:online               # Returns ["user123", "user789"]</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Friend Recommendations
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-bash"># Store friends for each user
+SADD friends:user1 "user2" "user3" "user4"
+SADD friends:user2 "user1" "user5" "user6"
+SADD friends:user3 "user1" "user5" "user7"
+
+# Find mutual friends between user1 and user2
+SINTER friends:user1 friends:user2  # Returns common friends
+
+# Find potential friend recommendations (friends of friends not already friends)
+# Get all friends of user1's friends
+SUNION friends:user2 friends:user3 friends:user4
+# Then exclude user1's existing friends
+SDIFF result friends:user1          # Potential new friends</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Tagging Systems:</span> Product tags, article categories, user interests.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Social Networks:</span> Friends lists, followers, mutual connections.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Online Presence:</span> Track active users, online status.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Access Control:</span> User permissions, roles, feature flags.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Unique Tracking:</span> Unique visitors, unique IP addresses, deduplication.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Recommendation Engines:</span> Similar items, common interests, collaborative filtering.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Characteristics
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SADD/SREM/SISMEMBER:</span> O(1) for each element.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SCARD:</span> O(1) - Redis maintains the cardinality.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SMEMBERS:</span> O(N) where N is the set size. Use carefully on large sets.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SINTER/SUNION/SDIFF:</span> O(N*M) where N is size of smallest set and M is number of sets.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SPOP/SRANDMEMBER:</span> O(1) for single element, O(N) for multiple elements.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoid SMEMBERS on Large Sets:</span> Use SSCAN for iterating through large sets instead.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use SISMEMBER for Checks:</span> More efficient than fetching all members to check existence.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Store Results:</span> Use SINTERSTORE/SUNIONSTORE for expensive operations used multiple times.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Batch Operations:</span> Add multiple elements with single SADD to reduce round-trips.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Set Size Monitoring:</span> Monitor set sizes to prevent unbounded growth.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consider Sorted Sets:</span> If you need ordering or scoring, use sorted sets instead.
+     </li>
+   </ol>
 
     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
       1. Basic Set Operations
@@ -105373,7 +107194,7 @@ console.log('Trending items:', trending);
             ],
           },
           {
-            topic: "Redis Sorted Sets",
+            topic: "Sorted Sets",
             tags: [
               "sorted-sets",
               "ranking",
@@ -105671,7 +107492,6 @@ console.log('Trending items:', trending);
   </div > `,
             examples: [
               `
-  < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
     <pre><code className="language-javascript">
       # REDIS SORTED SETS DEEP DIVE EXAMPLES
       # =================================
@@ -105976,695 +107796,9 @@ console.log('Trending items:', trending);
             ],
           },
           {
-            topic: "Redis Hashes",
-            tags: [
-              "hashes",
-              "object-storage",
-              "field-value",
-              "hset",
-              "hget",
-              "memory-optimization",
-            ],
-            explanation: `
-     <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
-       Redis Hashes are field-value maps that provide an efficient way to store objects with multiple attributes. They are perfect for representing objects like user profiles, product catalogs, or configuration settings, allowing you to access, update, or retrieve individual fields without transferring the entire object.
-     </p>
-  
-     <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #e83e8c;">
-       <h4 style="margin: 0 0 1rem 0; font-size: 1.2rem;">Key Insight</h4>
-       <p style="margin: 0; line-height: 1.6;">Redis Hashes use a dual encoding system - ziplist for small hashes and hash table for larger ones - providing excellent memory efficiency for small objects while maintaining O(1) performance for field operations.</p>
-     </div>
-  
-     <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFE8F0; padding-bottom: 0.5rem;">
-       Internal Implementation: Ziplist vs Hash Table
-     </h4>
-  
-     <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-       <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Dual Encoding Strategy</h5>
-       <p style="line-height: 1.6; margin-bottom: 1rem;">Redis optimizes hash storage by automatically switching between two different encodings based on size and configuration:</p>
-       
-       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Ziplist Encoding (Small Hashes)</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>Structure:</strong> Sequential memory block</li>
-             <li><strong>Memory:</strong> No pointer overhead, compact storage</li>
-             <li><strong>Limits:</strong> hash-max-ziplist-entries (default: 512)</li>
-             <li><strong>Operations:</strong> O(N) for most operations</li>
-             <li><strong>Best for:</strong> Small objects with few fields</li>
-           </ul>
-         </div>
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Hash Table Encoding (Large Hashes)</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>Structure:</strong> Redis dictionary (hash table)</li>
-             <li><strong>Memory:</strong> Pointer overhead but O(1) operations</li>
-             <li><strong>Performance:</strong> O(1) average case for field operations</li>
-             <li><strong>Scaling:</strong> Handles thousands of fields efficiently</li>
-             <li><strong>Best for:</strong> Large objects or frequent updates</li>
-           </ul>
-         </div>
-       </div>
-  
-       <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Ziplist Memory Layout</h6>
-       <p style="line-height: 1.6; margin-bottom: 1rem;">In ziplist encoding, fields and values are stored sequentially in a compact memory block:</p>
-       <ul style="line-height: 1.6;">
-         <li><strong>Field1 length + Field1 value + Value1 length + Value1 value</strong></li>
-         <li><strong>Field2 length + Field2 value + Value2 length + Value2 value</strong></li>
-         <li><strong>No pointers between elements</strong></li>
-         <li><strong>Automatic conversion to hash table when limits exceeded</strong></li>
-       </ul>
-     </div>
-  
-     <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFE8F0; padding-bottom: 0.5rem;">
-       Object Storage Patterns
-     </h4>
-  
-     <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-       <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">User Profile Storage</h5>
-       <p style="line-height: 1.6; margin-bottom: 1rem;">Hashes are ideal for storing user profiles where you need to access individual attributes efficiently:</p>
-       
-       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Basic Field Operations</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>HSET key field value:</strong> Set field value</li>
-             <li><strong>HGET key field:</strong> Get field value</li>
-             <li><strong>HDEL key field:</strong> Delete field</li>
-             <li><strong>HEXISTS key field:</strong> Check field existence</li>
-             <li><strong>HLEN key:</strong> Get number of fields</li>
-           </ul>
-         </div>
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Batch Operations</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>HMSET key field1 value1 field2 value2:</strong> Set multiple fields</li>
-             <li><strong>HMGET key field1 field2:</strong> Get multiple fields</li>
-             <li><strong>HGETALL key:</strong> Get all fields and values</li>
-             <li><strong>HKEYS key:</strong> Get all field names</li>
-             <li><strong>HVALS key:</strong> Get all values</li>
-           </ul>
-         </div>
-       </div>
-  
-       <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Atomic Numeric Operations</h6>
-       <p style="line-height: 1.6; margin-bottom: 1rem;">Hashes support atomic numeric operations on field values:</p>
-       <ul style="line-height: 1.6;">
-         <li><strong>HINCRBY key field increment:</strong> Atomic integer increment</li>
-         <li><strong>HINCRBYFLOAT key field increment:</strong> Atomic float increment</li>
-         <li><strong>Use cases:</strong> Counters, statistics, ratings within objects</li>
-       </ul>
-     </div>
-  
-     <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFE8F0; padding-bottom: 0.5rem;">
-       Field-Value Pair Optimization
-     </h4>
-  
-     <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-       <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Memory Efficiency Patterns</h5>
-       <p style="line-height: 1.6; margin-bottom: 1rem;">Hashes provide several mechanisms to optimize memory usage and performance for field-value storage:</p>
-       
-       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Field Name Optimization</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>Short field names:</strong> Use "fn" instead of "first_name"</li>
-             <li><strong>Consistent naming:</strong> Standardize across objects</li>
-             <li><strong>Numeric fields:</strong> Consider using numeric identifiers</li>
-             <li><strong>Memory impact:</strong> Field names stored with each hash</li>
-           </ul>
-         </div>
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Value Optimization</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>Data types:</strong> Store appropriate data types</li>
-             <li><strong>Serialization:</strong> Consider serialization for complex data</li>
-             <li><strong>Compression:</strong> For large text fields when appropriate</li>
-             <li><strong>Normalization:</strong> Reference shared data instead of duplicating</li>
-           </ul>
-         </div>
-       </div>
-  
-       <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">HSET vs HMSET Performance</h6>
-       <p style="line-height: 1.6; margin-bottom: 1rem;">Understanding when to use single vs multiple field operations:</p>
-       <ul style="line-height: 1.6;">
-         <li><strong>HSET for individual updates:</strong> When updating single fields frequently</li>
-         <li><strong>HMSET for batch creation:</strong> When creating objects with multiple fields</li>
-         <li><strong>Pipeline multiple HSET:</strong> For multiple unrelated field updates</li>
-         <li><strong>Network efficiency:</strong> Fewer round trips with batch operations</li>
-       </ul>
-     </div>
-  
-     <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFE8F0; padding-bottom: 0.5rem;">
-       Advanced Hash Patterns
-     </h4>
-  
-     <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-       <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Nested Object Representation</h5>
-       <p style="line-height: 1.6; margin-bottom: 1rem;">While Redis doesn't support nested structures natively, you can represent complex objects using various patterns:</p>
-       
-       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Flattened Structure</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>Prefix fields:</strong> address:street, address:city</li>
-             <li><strong>Dot notation:</strong> profile.name, profile.email</li>
-             <li><strong>Advantage:</strong> Single hash operations</li>
-             <li><strong>Limitation:</strong> No true nesting support</li>
-           </ul>
-         </div>
-         <div>
-           <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Reference-based Structure</h6>
-           <ul style="line-height: 1.6;">
-             <li><strong>Separate hashes:</strong> user:1001:profile, user:1001:address</li>
-             <li><strong>ID references:</strong> Store related object IDs as fields</li>
-             <li><strong>Advantage:</strong> True separation of concerns</li>
-             <li><strong>Limitation:</strong> Multiple operations needed</li>
-           </ul>
-         </div>
-       </div>
-  
-       <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Counter Patterns within Hashes</h6>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
-         <p style="margin: 0 0 0.5rem 0; font-weight: 600;">User Session Tracking:</p>
-         <p style="margin: 0; line-height: 1.6;">Track multiple counters (page views, clicks, time spent) within a single user session hash using HINCRBY.</p>
-       </div>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
-         <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Product Inventory:</p>
-         <p style="margin: 0; line-height: 1.6;">Maintain stock levels, sold counts, and reserved quantities for products in a single inventory hash.</p>
-       </div>
-     </div>
-  
-     <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFE8F0; padding-bottom: 0.5rem;">
-       Performance Characteristics and Memory Optimization
-     </h4>
-  
-     <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-       <div style="overflow-x: auto; margin: 1.5rem 0;">
-         <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
-           <thead style="background: #f8f9fa;">
-             <tr>
-               <th style="padding: 1rem; text-align: left; font-weight: bold;">Operation</th>
-               <th style="padding: 1rem; text-align: left; font-weight: bold;">Time Complexity</th>
-               <th style="padding: 1rem; text-align: left; font-weight: bold;">Best For</th>
-               <th style="padding: 1rem; text-align: left; font-weight: bold;">Notes</th>
-             </tr>
-           </thead>
-           <tbody>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">HSET, HGET, HDEL, HEXISTS</td>
-               <td style="padding: 1rem;">O(1)</td>
-               <td style="padding: 1rem;">Individual field operations</td>
-               <td style="padding: 1rem;">Most efficient operations</td>
-             </tr>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">HGETALL, HKEYS, HVALS</td>
-               <td style="padding: 1rem;">O(N)</td>
-               <td style="padding: 1rem;">Small hashes, infrequent access</td>
-               <td style="padding: 1rem;">Use HSCAN for large hashes</td>
-             </tr>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">HLEN</td>
-               <td style="padding: 1rem;">O(1)</td>
-               <td style="padding: 1rem;">Field counting</td>
-               <td style="padding: 1rem;">Maintains count internally</td>
-             </tr>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">HINCRBY, HINCRBYFLOAT</td>
-               <td style="padding: 1rem;">O(1)</td>
-               <td style="padding: 1rem;">Atomic counters</td>
-               <td style="padding: 1rem;">No race conditions</td>
-             </tr>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">HMSET, HMGET</td>
-               <td style="padding: 1rem;">O(N)</td>
-               <td style="padding: 1rem;">Batch operations</td>
-               <td style="padding: 1rem;">N = number of fields</td>
-             </tr>
-             <tr>
-               <td style="padding: 1rem; font-weight: 600;">HSCAN</td>
-               <td style="padding: 1rem;">O(1) per call</td>
-               <td style="padding: 1rem;">Large hash iteration</td>
-               <td style="padding: 1rem;">Incremental, non-blocking</td>
-             </tr>
-           </tbody>
-         </table>
-       </div>
-  
-       <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Memory Optimization Strategies</h6>
-       <ul style="line-height: 1.6;">
-         <li><strong>Use ziplist encoding:</strong> Configure hash-max-ziplist-entries and hash-max-ziplist-value</li>
-         <li><strong>Optimize field names:</strong> Use short, consistent field names</li>
-         <li><strong>Use HGET instead of HGETALL:</strong> When you need specific fields</li>
-         <li><strong>Consider data types:</strong> Store numbers as integers when possible</li>
-         <li><strong>Use HSCAN for large hashes:</strong> Instead of HGETALL for iteration</li>
-         <li><strong>Set appropriate TTL:</strong> For transient data to auto-expire</li>
-       </ul>
-  
-       <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Configuration Parameters</h6>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-         hash-max-ziplist-entries 512    # Max fields for ziplist encoding<br/>
-         hash-max-ziplist-value 64       # Max field/value size for ziplist (bytes)<br/>
-         # Adjust based on your typical object sizes
-       </div>
-     </div>
-  
-     <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #28a745;">
-       <h5 style="margin: 0 0 1rem 0;">Real-World Implementation: E-commerce Product Catalog</h5>
-       <p style="margin: 0; line-height: 1.6;"><strong>Scenario:</strong> Online store with thousands of products, each with multiple attributes that need frequent updates and partial retrievals.</p>
-       <p style="margin: 0.5rem 0 0 0; line-height: 1.6;"><strong>Solution:</strong> Use Hashes for product storage with fields for price, stock, description, and ratings. Use HINCRBY for inventory management, HGET for specific attribute access, and HMSET for batch updates during product imports.</p>
-     </div>
-  
-     <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFE8F0; padding-bottom: 0.5rem;">
-       Hash vs String Storage Comparison
-     </h4>
-  
-     <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-       <div style="overflow-x: auto; margin: 1.5rem 0;">
-         <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
-           <thead style="background: #f8f9fa;">
-             <tr>
-               <th style="padding: 1rem; text-align: left; font-weight: bold;">Aspect</th>
-               <th style="padding: 1rem; text-align: left; font-weight: bold;">Hash Storage</th>
-               <th style="padding: 1rem; text-align: left; font-weight: bold;">String Storage</th>
-             </tr>
-           </thead>
-           <tbody>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">Memory Usage</td>
-               <td style="padding: 1rem;">More efficient for small objects</td>
-               <td style="padding: 1rem;">Less efficient (multiple keys)</td>
-             </tr>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">Field Access</td>
-               <td style="padding: 1rem;">O(1) per field</td>
-               <td style="padding: 1rem;">O(1) but multiple network calls</td>
-             </tr>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">Batch Operations</td>
-               <td style="padding: 1rem;">HMSET/HMGET efficient</td>
-               <td style="padding: 1rem;">MSET/MGET efficient but limited</td>
-             </tr>
-             <tr style="border-bottom: 1px solid #e9ecef;">
-               <td style="padding: 1rem; font-weight: 600;">Atomic Updates</td>
-               <td style="padding: 1rem;">Per-field atomicity</td>
-               <td style="padding: 1rem;">Per-key atomicity</td>
-             </tr>
-             <tr>
-               <td style="padding: 1rem; font-weight: 600;">Use Case</td>
-               <td style="padding: 1rem;">Objects with multiple attributes</td>
-               <td style="padding: 1rem;">Simple values, cache items</td>
-             </tr>
-           </tbody>
-         </table>
-       </div>
-  
-       <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">When to Choose Hashes vs Multiple Strings</h6>
-       <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-         <ul style="line-height: 1.6;">
-           <li><strong>Use Hashes when:</strong> You have logical objects with multiple attributes that are accessed together</li>
-           <li><strong>Use Multiple Strings when:</strong> Attributes are accessed independently and have different TTL requirements</li>
-           <li><strong>Memory consideration:</strong> Hashes are more memory-efficient for small to medium objects</li>
-           <li><strong>Network consideration:</strong> Hashes reduce network round trips for multiple attribute access</li>
-         </ul>
-       </div>
-     </div>
-  </div > `,
-            examples: [
-              `
-  < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
-    <pre><code className="language-javascript">
-      # REDIS HASHES DEEP DIVE EXAMPLES
-      # =================================
-
-      # 1. BASIC HASH OPERATIONS
-      # User profile storage
-      HSET user:1001 name "John Doe" email "john@example.com" age 30
-      HSET user:1001 city "New York" country "USA"
-
-      # Get individual fields
-      HGET user:1001 name          # Returns: "John Doe"
-      HGET user:1001 email         # Returns: "john@example.com"
-
-      # Check field existence
-      HEXISTS user:1001 age        # Returns: 1 (true)
-      HEXISTS user:1001 salary     # Returns: 0 (false)
-
-      # Get multiple fields
-      HMGET user:1001 name email age
-      # Returns: ["John Doe", "john@example.com", "30"]
-
-      # 2. BATCH OPERATIONS AND ITERATION
-      # Get all fields and values
-      HGETALL user:1001
-      # Returns: ["name", "John Doe", "email", "john@example.com", "age", "30", "city", "New York", "country", "USA"]
-
-      # Get only field names
-      HKEYS user:1001
-      # Returns: ["name", "email", "age", "city", "country"]
-
-      # Get only values
-      HVALS user:1001
-      # Returns: ["John Doe", "john@example.com", "30", "New York", "USA"]
-
-      # Get field count
-      HLEN user:1001               # Returns: 5
-
-      # 3. ATOMIC NUMERIC OPERATIONS
-      # User counters within hash
-      HSET user:1001:stats page_views 0 login_count 0 cart_adds 0
-
-      # Atomic increments
-      HINCRBY user:1001:stats page_views 1      # Increment by 1
-      HINCRBY user:1001:stats login_count 1     # Increment by 1
-      HINCRBY user:1001:stats cart_adds 2       # Increment by 2
-
-      # Float increments
-      HINCRBYFLOAT user:1001:stats average_rating 4.5
-
-      # Check updated values
-      HGETALL user:1001:stats
-      # Returns: ["page_views", "1", "login_count", "1", "cart_adds", "2", "average_rating", "4.5"]
-
-      # 4. MEMORY-EFFICIENT FIELD NAMES
-      # Using short field names for better memory usage
-      HSET product:1001 n "iPhone 15" p 999.99 s 50 c "electronics"
-      HSET product:1001 r 4.5 dc "Latest model with advanced camera"
-
-      # vs verbose field names (uses more memory)
-      # HSET product:1001 name "iPhone 15" price 999.99 stock 50 category "electronics"
-
-      # 5. LARGE HASH ITERATION WITH HSCAN
-      # Safe iteration of large hashes
-      HSCAN user:large:data 0 COUNT 100
-      HSCAN user:large:data 123456789 COUNT 100 MATCH "pref:*"
-
-      # 6. REAL-WORLD E-COMMERCE PATTERNS
-      # Product catalog with inventory management
-      HMSET product:2001
-      name "Wireless Headphones"
-      price 199.99
-      category "electronics"
-      brand "AudioTech"
-      stock 25
-      weight 0.3
-
-      # Update inventory atomically
-      HINCRBY product:2001 stock -1    # Sell one item
-      HINCRBY product:2001 sold 1      # Increment sold counter
-
-      # Check low stock
-      HGET product:2001 stock          # Returns: "24"
-
-      # 7. USER SESSION MANAGEMENT
-      # Session data with multiple attributes
-      HMSET session:abc123
-      user_id "1001"
-      created_at "2024-01-15T10:00:00Z"
-      last_activity "2024-01-15T10:30:00Z"
-      page_views 15
-      cart_items 3
-
-      # Update session activity
-      HINCRBY session:abc123 page_views 1
-      HSET session:abc123 last_activity "2024-01-15T10:31:00Z"
-
-      # 8. CONFIGURATION STORAGE
-      # Application settings
-      HMSET config:app:production
-      database.host "db.prod.example.com"
-      database.port "5432"
-      cache.ttl "3600"
-      features.advanced "true"
-      limits.max_users "10000"
-
-      # Get specific configuration groups
-      HGET config:app:production database.host    # Returns: "db.prod.example.com"
-      HSCAN config:app:production 0 MATCH "database.*"
-
-      # 9. FLATTENED NESTED OBJECTS
-      # Representing nested objects with flat structure
-      HMSET order:5001
-      id "5001"
-      customer.name "Alice Smith"
-      customer.email "alice@example.com"
-      shipping.address "123 Main St"
-      shipping.city "Boston"
-      billing.address "456 Corp Ave"
-      billing.city "New York"
-      total_amount 299.97
-      status "processing"
-
-      # Get customer information
-      HMGET order:5001 customer.name customer.email
-      # Returns: ["Alice Smith", "alice@example.com"]
-
-      # Get all shipping fields
-      HSCAN order:5001 0 MATCH "shipping.*"
-
-      # 10. COUNTER AGGREGATION PATTERN
-      # Multiple counters in single hash for analytics
-      HMSET analytics:daily:2024-01-15
-      visits 1500
-      unique_visitors 850
-      page_views 4500
-      conversions 45
-      revenue 2250.50
-
-      # Update throughout the day
-      HINCRBY analytics:daily:2024-01-15 visits 1
-      HINCRBY analytics:daily:2024-01-15 page_views 5
-      HINCRBYFLOAT analytics:daily:2024-01-15 revenue 49.99
-
-      # 11. COMPLEX FIELD MANIPULATION
-      # Delete specific fields
-      HDEL user:1001 temporary_field old_preference
-
-      # Check remaining fields
-      HKEYS user:1001
-
-      # Conditional updates (application logic)
-      # Check if field exists, then update
-      if HEXISTS user:1001 preferences:
-      HSET user:1001 preferences "updated_value"
-
-      # 12. HASHES FOR CACHING COMPLEX OBJECTS
-      # Cache API responses with metadata
-      HMSET cache:api:users:1001
-      data "{\\"id\\":1001,\\"name\\":\\"John\\",\\"email\\":\\"john@example.com\\"}"
-      cached_at "2024-01-15T10:00:00Z"
-      expires_at "2024-01-15T11:00:00Z"
-      hit_count 0
-
-      # Update cache statistics
-      HINCRBY cache:api:users:1001 hit_count 1
-
-      # Check cache validity
-      HGET cache:api:users:1001 expires_at
-    </code>
-    </pre>
-  </div >
-  `,
-            ],
-            questions: [
-              {
-                question:
-                  "What are the memory implications of using HGETALL on large Redis Hashes, and what are the recommended alternatives for iterating through large hash objects?",
-                solution: `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
-    <h4 style="margin-top: 0;">HGETALL Performance and Alternatives for Large Hashes</h4>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">HGETALL Limitations with Large Hashes</h5>
-    <ul style="line-height: 1.6;">
-      <li><strong>Time Complexity:</strong> O(N) where N is number of fields</li>
-      <li><strong>Memory Impact:</strong> Entire hash loaded into Redis output buffer</li>
-      <li><strong>Network Impact:</strong> Large response payload transferred to client</li>
-      <li><strong>Blocking:</strong> Redis single thread blocked during serialization</li>
-      <li><strong>Client Impact:</strong> Client must handle large data structures in memory</li>
-    </ul>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Performance Impact Examples</h5>
-    <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
-      <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Hash with 10,000 fields (~5MB):</p>
-      <ul style="line-height: 1.6;">
-        <li><strong>HGETALL:</strong> Blocks Redis for ~5-10ms, sends 5MB response</li>
-        <li><strong>Memory spike:</strong> Output buffer allocation</li>
-        <li><strong>Network time:</strong> Significant transfer time over slow connections</li>
-        <li><strong>Client processing:</strong> Must allocate large memory buffer</li>
-      </ul>
-    </div>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Alternative: HSCAN for Large Hashes</h5>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-      <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
-        <h6 style="margin: 0 0 0.5rem 0;">HSCAN Advantages</h6>
-        <ul style="line-height: 1.4;">
-          <li><strong>Incremental:</strong> Processes in configurable batches</li>
-          <li><strong>Non-blocking:</strong> Doesn't block Redis for long periods</li>
-          <li><strong>Memory efficient:</strong> Small, manageable response payloads</li>
-          <li><strong>Resumable:</strong> Can continue from any cursor position</li>
-          <li><strong>Pattern matching:</strong> MATCH option for field filtering</li>
-        </ul>
-      </div>
-      
-      <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
-        <h6 style="margin: 0 0 0.5rem 0;">HSCAN Usage Patterns</h6>
-        <div style="font-family: monospace; font-size: 0.9rem; background: #f8f9fa; padding: 0.5rem; border-radius: 4px;">
-          HSCAN large:hash 0 COUNT 100<br/>
-          HSCAN large:hash 12345 COUNT 100 MATCH "user:*"<br/>
-          HSCAN large:hash 0 MATCH "config:*" COUNT 50
-        </div>
-        <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">Cursor 0 starts iteration, returns next cursor for continuation</p>
-      </div>
-    </div>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">When to Use Each Approach</h5>
-    <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-      <ul style="line-height: 1.6;">
-        <li><strong>Use HGETALL when:</strong> Hash has &lt; 1000 fields and you need all data at once</li>
-        <li><strong>Use HSCAN when:</strong> Hash has &gt; 1000 fields or when processing incrementally</li>
-        <li><strong>Use HMGET when:</strong> You only need specific known fields</li>
-        <li><strong>Use HKEYS/HVALS when:</strong> You only need keys or values (still O(N))</li>
-        <li><strong>Consider restructuring when:</strong> You frequently need all fields of very large hashes</li>
-      </ul>
-    </div>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Practical HSCAN Implementation</h5>
-    <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-      <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Python example for safe hash iteration:</p>
-      <div style="font-family: monospace; font-size: 0.8rem; background: white; padding: 0.5rem; border-radius: 4px;">
-        def iterate_large_hash(redis_client, hash_key, batch_size=100):<br/>
-        &nbsp;&nbsp;cursor = 0<br/>
-        &nbsp;&nbsp;while True:<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;cursor, data = redis_client.hscan(hash_key, cursor, count=batch_size)<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;for field, value in data.items():<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;process_field(field, value)<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;if cursor == 0:<br/>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break
-      </div>
-    </div>
-  </div > `,
-              },
-              {
-                question:
-                  "How does Redis optimize memory usage for small hashes using ziplist encoding, and what configuration parameters control this optimization?",
-                solution: `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
-    <h4 style="margin-top: 0;">Ziplist Encoding for Memory Optimization</h4>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Ziplist Structure and Benefits</h5>
-    <p style="line-height: 1.6; margin-bottom: 1rem;">Ziplist is a memory-efficient encoding that stores hash fields and values sequentially in a single memory block:</p>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-      <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
-        <h6 style="margin: 0 0 0.5rem 0;">Ziplist Memory Layout</h6>
-        <ul style="line-height: 1.4;">
-          <li><strong>Sequential storage:</strong> No pointers between elements</li>
-          <li><strong>Compact:</strong> Minimal metadata overhead</li>
-          <li><strong>Linear access:</strong> O(N) search but fast for small N</li>
-          <li><strong>Automatic conversion:</strong> To hash table when limits exceeded</li>
-        </ul>
-      </div>
-      
-      <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
-        <h6 style="margin: 0 0 0.5rem 0;">Memory Savings</h6>
-        <ul style="line-height: 1.4;">
-          <li><strong>No pointers:</strong> Saves 8-16 bytes per field-value pair</li>
-          <li><strong>Reduced metadata:</strong> Minimal structural overhead</li>
-          <li><strong>Better cache locality:</strong> Sequential memory access</li>
-          <li><strong>Typical savings:</strong> 50-80% for small hashes</li>
-        </ul>
-      </div>
-    </div>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Configuration Parameters</h5>
-    <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
-      <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr>
-            <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">Parameter</th>
-            <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">Default Value</th>
-            <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">Description</th>
-            <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">Recommendation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">hash-max-ziplist-entries</td>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">512</td>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Max number of fields</td>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">512-1024 for most use cases</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">hash-max-ziplist-value</td>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">64</td>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Max size per field/value in bytes</td>
-            <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">64-128 for balanced performance</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Performance Trade-offs</h5>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
-      <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
-        <h6 style="margin: 0 0 0.5rem 0;">Ziplist Advantages</h6>
-        <ul style="line-height: 1.4;">
-          <li><strong>Memory efficient:</strong> Significant space savings</li>
-          <li><strong>Fast for small N:</strong> O(N) but small constant factors</li>
-          <li><strong>Cache friendly:</strong> Sequential memory access</li>
-          <li><strong>Automatic:</strong> No application changes needed</li>
-        </ul>
-      </div>
-      
-      <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #dc3545;">
-        <h6 style="margin: 0 0 0.5rem 0;">Ziplist Disadvantages</h6>
-        <ul style="line-height: 1.4;">
-          <li><strong>O(N) operations:</strong> Linear search time</li>
-          <li><strong>Memory reallocation:</strong> On size changes</li>
-          <li><strong>Conversion overhead:</strong> When switching to hash table</li>
-          <li><strong>Size limits:</strong> Restricted field and value sizes</li>
-        </ul>
-      </div>
-    </div>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Practical Configuration Guidelines</h5>
-    <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-      <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Based on your use case:</p>
-      <ul style="line-height: 1.6;">
-        <li><strong>Memory-constrained environments:</strong> Increase limits to keep more hashes in ziplist</li>
-        <li><strong>Performance-critical applications:</strong> Decrease limits to use hash tables more aggressively</li>
-        <li><strong>Mixed workloads:</strong> Monitor and adjust based on actual hash sizes</li>
-        <li><strong>Large value storage:</strong> Increase hash-max-ziplist-value if storing larger strings</li>
-      </ul>
-    </div>
-    
-    <h5 style="margin: 1rem 0 0.5rem 0;">Monitoring and Tuning</h5>
-    <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-      <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Redis INFO command insights:</p>
-      <div style="font-family: monospace; font-size: 0.9rem; background: white; padding: 0.5rem; border-radius: 4px;">
-        redis-cli info memory | grep -i ziplist<br/>
-        # Look for metrics like:<br/>
-        # used_memory_peak_human<br/>
-        # mem_fragmentation_ratio<br/>
-        # Monitor conversion rates between encodings
-      </div>
-      <p style="margin: 0.5rem 0 0 0;">Adjust configuration based on monitoring data and performance requirements.</p>
-    </div>
-  </div > `,
-              },
-            ],
-            links: [
-              "https://redis.io/docs/data-types/hashes/",
-              "https://redis.io/commands/hset/",
-              "https://redis.io/commands/hget/",
-              "https://redis.io/commands/hgetall/",
-              "https://redis.io/commands/hscan/",
-              "https://redis.io/topics/memory-optimization",
-            ],
-          },
-          {
-            topic: "Redis Specialized Data Structures",
+            topic: "Specialized Data Structures",
             tags: ["Bitmaps", "HyperLogLog", "Geospatial", "Streams"],
-            explanation: `< div >
+            explanation: `
              <p style="line-height: 1.75; margin-top: 1.5rem;">
                Redis provides specialized data structures beyond the basic strings, lists, sets, and hashes. These advanced structures are optimized for specific use cases like analytics, location-based services, and real-time data processing, offering memory-efficient solutions for complex problems.
              </p>
@@ -106846,7 +107980,6 @@ console.log('Trending items:', trending);
           </div > `,
             examples: [
               `
-  < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
     <pre><code className="language-javascript">
           // Node.js Example: User Activity Tracking with Bitmaps
       const redis = require('redis');
@@ -106872,7 +108005,6 @@ console.log('Trending items:', trending);
             </div >
   `,
               `
-  < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
     <pre><code className="language-javascript">
               // Node.js Example: Unique Visitor Tracking with HyperLogLog
       const redis = require('redis');
@@ -106896,7 +108028,6 @@ console.log('Trending items:', trending);
     </pre>
             </div > `,
               `
-  < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
     <pre><code className="language-javascript">
       // Node.js Example: Location-Based Service with Geospatial
       const redis = require('redis');
@@ -106930,7 +108061,6 @@ console.log('Trending items:', trending);
             </div >
   `,
               `
-  < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
     <pre><code className="language-javascript">
               // Node.js Example: Event Streaming with Redis Streams
       const redis = require('redis');
@@ -107106,3118 +108236,6 @@ console.log('Trending items:', trending);
               "https://redis.io/docs/data-types/streams/",
               "https://redis.io/docs/data-types/",
               "https://medium.com/@stockholmux/redis-streams-in-action-part-1-intro-and-overview-135f66d3ab58",
-            ],
-          },
-          {
-            topic: "Basic Redis Commands & Operations",
-            tags: ["Key-Value Store", "In-Memory Database", "Caching", "NoSQL"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Redis (Remote Dictionary Server) is an open-source, in-memory data structure store used as a database, cache, message broker, and streaming engine. It supports various data structures like strings, hashes, lists, sets, and sorted sets, making it highly versatile for different use cases.
-   </p>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Why Use Redis?
-   </h4>
-
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Blazing Fast Performance:</span> In-memory storage provides sub-millisecond response times.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Rich Data Structures:</span> Supports strings, lists, sets, sorted sets, hashes, bitmaps, and more.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Persistence Options:</span> Can save data to disk for durability while maintaining speed.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Built-in Replication:</span> Supports master-slave replication for high availability.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Atomic Operations:</span> All operations are atomic, ensuring data consistency.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Pub/Sub Messaging:</span> Built-in publish/subscribe pattern for real-time messaging.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Basic Key Operations
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SET:</span> Store a key-value pair.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SET user:1000 "John Doe"
-SET counter 100
-SET session:abc123 "user_data" EX 3600  # Expires in 1 hour</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">GET:</span> Retrieve the value of a key.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">GET user:1000  # Returns "John Doe"
-GET counter    # Returns "100"</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">DEL:</span> Delete one or more keys.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">DEL user:1000           # Returns 1 if deleted
-DEL key1 key2 key3      # Delete multiple keys</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">EXISTS:</span> Check if a key exists.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">EXISTS user:1000        # Returns 1 if exists, 0 if not
-EXISTS key1 key2        # Returns count of existing keys</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">EXPIRE:</span> Set a timeout on a key (in seconds).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">EXPIRE session:abc123 3600    # Expires in 1 hour
-PEXPIRE session:xyz 60000     # Expires in 60 seconds (milliseconds)</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">TTL:</span> Get the remaining time to live of a key (in seconds).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">TTL session:abc123     # Returns remaining seconds
-# Returns -1 if key exists but has no expiry
-# Returns -2 if key doesn't exist
-PTTL session:abc123    # Returns remaining milliseconds</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">PERSIST:</span> Remove the expiration from a key.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">PERSIST session:abc123  # Returns 1 if timeout removed, 0 if not</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Additional Useful Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">KEYS:</span> Find all keys matching a pattern (use cautiously in production).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">KEYS user:*            # Find all keys starting with "user:"
-KEYS *                 # Get all keys (dangerous in production!)</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SCAN:</span> Iteratively scan keys (safer alternative to KEYS).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SCAN 0 MATCH user:* COUNT 10</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">INCR/DECR:</span> Increment or decrement integer values atomically.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">INCR counter           # Increment by 1
-INCRBY counter 5       # Increment by 5
-DECR counter           # Decrement by 1
-DECRBY counter 3       # Decrement by 3</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">TYPE:</span> Determine the data type stored at a key.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">TYPE user:1000         # Returns "string", "list", "set", etc.</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Session Management
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Create a session that expires in 30 minutes
-SET session:user123 "{"userId": 123, "role": "admin"}" EX 1800
-
-# Check if session exists
-EXISTS session:user123  # Returns 1
-
-# Get remaining time
-TTL session:user123     # Returns remaining seconds
-
-# Extend session (reset expiration)
-EXPIRE session:user123 1800
-
-# Make session permanent
-PERSIST session:user123
-
-# Delete session
-DEL session:user123</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Best Practices
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use Meaningful Key Names:</span> Follow a naming convention like "object:id" or "namespace:entity:id".
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Set Expiration Times:</span> Always set TTL for cache data to prevent memory bloat.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Avoid KEYS in Production:</span> Use SCAN instead for iterating over keys safely.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Monitor Memory Usage:</span> Use INFO command to track memory consumption.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use Atomic Operations:</span> Leverage Redis's atomic commands for thread-safe operations.
-     </li>
-   </ol>
-</div>
-`,
-            examples: [
-              `// Node.js Redis Example
-const redis = require('redis');
-const client = redis.createClient();
-
-async function sessionExample() {
-  // Set session with expiration
-  await client.set('session:user456', JSON.stringify({
-    userId: 456,
-    username: 'johndoe',
-    loginTime: Date.now()
-  }), {
-    EX: 3600  // Expires in 1 hour
-  });
-
-  // Get session
-  const session = await client.get('session:user456');
-  console.log(JSON.parse(session));
-
-  // Check TTL
-  const ttl = await client.ttl('session:user456');
-  console.log(\`Session expires in \${ttl} seconds\`);
-
-  // Extend session
-  await client.expire('session:user456', 7200);
-
-  // Check if session exists
-  const exists = await client.exists('session:user456');
-  console.log(\`Session exists: \${exists === 1}\`);
-
-  // Delete session (logout)
-  await client.del('session:user456');
-}
-
-// Counter example
-async function counterExample() {
-  await client.set('page:views', 0);
-  
-  // Increment page views
-  await client.incr('page:views');
-  await client.incr('page:views');
-  await client.incrBy('page:views', 5);
-  
-  const views = await client.get('page:views');
-  console.log(\`Total page views: \${views}\`);  // Output: 7
-}`,
-            ],
-            questions: [
-              {
-                question:
-                  "What is the difference between DEL and UNLINK commands?",
-                solution:
-                  "<p>DEL is a blocking command that removes keys synchronously, which can cause performance issues with large keys. UNLINK is non-blocking and removes keys asynchronously in a different thread, making it safer for production use when deleting large data structures. UNLINK returns immediately while the actual deletion happens in the background.</p>",
-              },
-              {
-                question:
-                  "When should you use EXPIRE vs setting expiration with SET?",
-                solution:
-                  "<p>Use the EX or PX options with SET when creating a new key with expiration in a single atomic operation (e.g., SET key value EX 3600). Use EXPIRE as a separate command when you need to add or modify the expiration time of an existing key. The SET option is more efficient as it's a single operation, while EXPIRE requires a separate command.</p>",
-              },
-              {
-                question: "What does TTL return for different key states?",
-                solution: `<p>TTL returns different values based on the key state:</p>
-            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-              <li>Positive integer: Remaining seconds until expiration</li>
-              <li>-1: Key exists but has no expiration set</li>
-              <li>-2: Key does not exist</li>
-            </ul>
-            <p style="margin-top: 0.5rem;">You can use PTTL to get the result in milliseconds instead of seconds.</p>`,
-              },
-              {
-                question:
-                  "Why should you avoid using KEYS command in production?",
-                solution:
-                  "<p>The KEYS command blocks the Redis server while it scans through all keys in the database to find matches. This can cause significant performance degradation in production environments with large datasets. Instead, use the SCAN command, which iteratively returns keys in chunks without blocking the server, allowing other operations to proceed concurrently.</p>",
-              },
-            ],
-            links: [
-              "https://redis.io/docs/latest/commands/",
-              "https://redis.io/docs/latest/develop/use/keyspace/",
-              "https://redis.io/docs/latest/develop/connect/cli/",
-              "https://developer.redis.com/howtos/quick-start/",
-            ],
-          },
-          {
-            topic: "String Operations",
-            tags: [
-              "Strings",
-              "Counters",
-              "Atomic Operations",
-              "Text Manipulation",
-            ],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Redis strings are the most basic data type in Redis, representing sequences of bytes. Despite being called "strings", they can store any kind of data including text, integers, floats, serialized objects, and even binary data like images. String values can be up to 512 MB in size.
-   </p>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Why Use String Operations?
-   </h4>
-
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Atomic Counters:</span> INCR and DECR provide thread-safe counter operations.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Efficient Text Operations:</span> Append and modify strings without retrieving entire values.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Memory Efficiency:</span> Partial updates with SETRANGE avoid transferring large strings.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">High Performance:</span> All string operations are O(1) complexity (except APPEND which is amortized O(1)).
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Versatility:</span> Store caching data, session information, counters, or rate limiting data.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     String Operations Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">INCR:</span> Increment the integer value of a key by 1 (atomic operation).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SET counter 10
-INCR counter           # Returns 11
-INCR counter           # Returns 12
-INCR newcounter        # Creates key with value 1 if doesn't exist</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">INCRBY:</span> Increment by a specific integer value.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">INCRBY counter 5       # Increment by 5
-INCRBYFLOAT price 2.5  # Increment by float value</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">DECR:</span> Decrement the integer value of a key by 1 (atomic operation).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SET counter 10
-DECR counter           # Returns 9
-DECR counter           # Returns 8</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">DECRBY:</span> Decrement by a specific integer value.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">DECRBY counter 3       # Decrement by 3</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">APPEND:</span> Append a value to an existing string. Returns the length of the string after append.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SET message "Hello"
-APPEND message " World"     # Returns 11
-GET message                 # Returns "Hello World"
-APPEND newkey "value"       # Creates key if doesn't exist</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">GETRANGE:</span> Get a substring of the string stored at a key (zero-based indexing).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SET mykey "Hello World"
-GETRANGE mykey 0 4          # Returns "Hello"
-GETRANGE mykey 6 10         # Returns "World"
-GETRANGE mykey 0 -1         # Returns entire string
-GETRANGE mykey -5 -1        # Returns "World" (last 5 chars)</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SETRANGE:</span> Overwrite part of a string at a specified offset. Returns the length of the string.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SET mykey "Hello World"
-SETRANGE mykey 6 "Redis"    # Returns 11
-GET mykey                   # Returns "Hello Redis"
-SETRANGE mykey 15 "!"       # Pads with zero-bytes if offset > length</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Additional String Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">STRLEN:</span> Get the length of the string value.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SET mykey "Hello World"
-STRLEN mykey               # Returns 11</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">MSET/MGET:</span> Set or get multiple keys in a single operation.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">MSET key1 "value1" key2 "value2" key3 "value3"
-MGET key1 key2 key3        # Returns ["value1", "value2", "value3"]</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SETNX:</span> Set a key only if it doesn't already exist.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SETNX lock "process1"      # Returns 1 if set, 0 if key exists</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Page View Counter
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Initialize counter
-SET page:home:views 0
-
-# Increment on each page view
-INCR page:home:views
-INCR page:home:views
-INCRBY page:home:views 10
-
-# Get current count
-GET page:home:views         # Returns "12"
-
-# Reset counter
-SET page:home:views 0</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Log Appending
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Create initial log entry
-SET log:user:123 "2024-01-01 10:00 - User logged in\n"
-
-# Append new entries
-APPEND log:user:123 "2024-01-01 10:15 - User updated profile\n"
-APPEND log:user:123 "2024-01-01 10:30 - User logged out\n"
-
-# Get full log
-GET log:user:123
-
-# Get partial log (first 50 characters)
-GETRANGE log:user:123 0 49</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Use Cases
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Counters:</span> Page views, likes, download counts, API rate limiting.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Caching:</span> Store serialized JSON, HTML fragments, API responses.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Session Storage:</span> Store user session data with expiration.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Log Aggregation:</span> Append log entries efficiently without reading entire logs.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Feature Flags:</span> Store boolean flags as "0" or "1" strings.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Best Practices
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use Atomic Operations:</span> Prefer INCR/DECR over GET-then-SET for counters to avoid race conditions.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Batch Operations:</span> Use MSET/MGET for multiple keys to reduce network round-trips.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">String Size Limits:</span> Keep strings under 512 MB; consider using other data types for large data.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Memory Management:</span> APPEND reallocates memory; for frequent appends, consider Lists instead.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Error Handling:</span> INCR/DECR fail if the value is not an integer; handle these errors appropriately.
-     </li>
-   </ol>
-</div>
-`,
-            examples: [
-              `// Node.js Redis String Operations Example
-const redis = require('redis');
-const client = redis.createClient();
-
-async function stringOperationsExample() {
-  // Counter operations
-  await client.set('downloads', 0);
-  await client.incr('downloads');           // 1
-  await client.incrBy('downloads', 5);      // 6
-  await client.decr('downloads');           // 5
-  const count = await client.get('downloads');
-  console.log(\`Total downloads: \${count}\`);
-
-  // String manipulation
-  await client.set('greeting', 'Hello');
-  await client.append('greeting', ' World');
-  const message = await client.get('greeting');
-  console.log(message);  // "Hello World"
-
-  // Partial string operations
-  await client.set('article', 'Redis is awesome for caching');
-  const preview = await client.getRange('article', 0, 15);
-  console.log(\`Preview: \${preview}\`);  // "Redis is awesome"
-
-  // Modify part of string
-  await client.setRange('article', 10, 'great');
-  const modified = await client.get('article');
-  console.log(modified);  // "Redis is great for caching"
-}
-
-// Rate limiting example
-async function rateLimitExample(userId) {
-  const key = \`rate:\${userId}:\${Date.now() / 60000 | 0}\`;
-  const requests = await client.incr(key);
-  await client.expire(key, 60);  // Expire after 1 minute
-  
-  if (requests > 100) {
-    throw new Error('Rate limit exceeded');
-  }
-  return requests;
-}
-
-// Analytics counter
-async function trackEvent(eventName) {
-  const today = new Date().toISOString().split('T')[0];
-  const key = \`analytics:\${eventName}:\${today}\`;
-  await client.incr(key);
-  await client.expire(key, 86400 * 30);  // Keep for 30 days
-}`,
-            ],
-            questions: [
-              {
-                question:
-                  "What happens if you use INCR on a non-integer value?",
-                solution:
-                  "<p>If you try to use INCR or DECR on a key that contains a value that cannot be represented as an integer, Redis will return an error: '(error) ERR value is not an integer or out of range'. The operation will fail and the value will remain unchanged. Always ensure the key contains a valid integer before using increment/decrement operations.</p>",
-              },
-              {
-                question: "Is APPEND operation efficient for large strings?",
-                solution:
-                  "<p>APPEND has amortized O(1) time complexity, making it generally efficient. However, when the string grows beyond certain thresholds, Redis may need to reallocate memory, which can cause occasional performance spikes. For frequently appending large amounts of data, consider using Redis Lists instead, which are optimized for such operations. APPEND is best for occasional additions to moderately-sized strings.</p>",
-              },
-              {
-                question: "How do negative indices work in GETRANGE?",
-                solution:
-                  "<p>In GETRANGE, negative indices count from the end of the string. -1 represents the last character, -2 the second-to-last, and so on. For example, GETRANGE mykey -5 -1 returns the last 5 characters. You can mix positive and negative indices: GETRANGE mykey 0 -1 returns the entire string, while GETRANGE mykey 6 -1 returns from index 6 to the end.</p>",
-              },
-              {
-                question: "What is the difference between SET and SETRANGE?",
-                solution:
-                  "<p>SET replaces the entire value of a key with a new value, while SETRANGE only modifies a portion of the existing string starting at a specified offset. SET is O(1) regardless of string size, whereas SETRANGE is O(1) for small changes but can be O(N) if it needs to pad the string with zero-bytes when the offset is beyond the current string length. Use SETRANGE when you need to update specific parts of a large string without replacing the entire value.</p>",
-              },
-            ],
-            links: [
-              "https://redis.io/docs/latest/commands/?group=string",
-              "https://redis.io/docs/latest/develop/data-types/strings/",
-              "https://redis.io/docs/latest/develop/use/patterns/counter/",
-              "https://redis.io/docs/latest/develop/use/patterns/rate-limiter/",
-            ],
-          },
-          {
-            topic: "List Operations",
-            tags: ["Lists", "Queues", "Stacks", "Collections"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Redis Lists are linked lists of string values, ordered by insertion order. They are optimized for operations at the head and tail of the list, making them ideal for implementing queues, stacks, and message processing systems. Lists can contain millions of elements with constant-time operations at both ends.
-   </p>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Why Use Redis Lists?
-   </h4>
-
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Fast Queue Operations:</span> O(1) push and pop operations at both ends.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Flexible Data Structures:</span> Implement queues, stacks, or timelines easily.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Blocking Operations:</span> Built-in support for blocking pops (BLPOP, BRPOP) for producer-consumer patterns.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Capped Collections:</span> Easy to maintain fixed-size lists by trimming.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Ordered Storage:</span> Maintains insertion order, perfect for activity feeds or logs.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     List Operations Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LPUSH:</span> Insert one or more values at the head (left) of the list. Returns the length after push.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">LPUSH mylist "world"        # Returns 1
-LPUSH mylist "hello"        # Returns 2, list is now ["hello", "world"]
-LPUSH mylist "a" "b" "c"    # Push multiple values, returns 5</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">RPUSH:</span> Insert one or more values at the tail (right) of the list. Returns the length after push.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">RPUSH mylist "hello"        # Returns 1
-RPUSH mylist "world"        # Returns 2, list is now ["hello", "world"]
-RPUSH mylist "x" "y" "z"    # Push multiple values, returns 5</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LPOP:</span> Remove and return the first element from the head of the list.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">LPUSH mylist "one" "two" "three"
-LPOP mylist                 # Returns "three"
-LPOP mylist 2               # Remove and return 2 elements: ["two", "one"]
-LPOP emptylist              # Returns nil if list is empty</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">RPOP:</span> Remove and return the last element from the tail of the list.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">RPUSH mylist "one" "two" "three"
-RPOP mylist                 # Returns "three"
-RPOP mylist 2               # Remove and return 2 elements: ["two", "one"]
-RPOP emptylist              # Returns nil if list is empty</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LRANGE:</span> Get a range of elements from the list (inclusive, zero-based indexing).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">RPUSH mylist "one" "two" "three" "four" "five"
-LRANGE mylist 0 2           # Returns ["one", "two", "three"]
-LRANGE mylist 0 -1          # Returns all elements
-LRANGE mylist -3 -1         # Returns last 3 elements
-LRANGE mylist 0 9999        # Returns all available elements</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LLEN:</span> Get the length of the list.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">RPUSH mylist "one" "two" "three"
-LLEN mylist                 # Returns 3
-LLEN nonexistent            # Returns 0</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Additional List Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LINDEX:</span> Get an element by index (zero-based).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">LINDEX mylist 0             # Get first element
-LINDEX mylist -1            # Get last element</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LSET:</span> Set the value of an element at a specific index.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">LSET mylist 0 "newvalue"    # Update first element</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LTRIM:</span> Trim list to specified range (keep only elements in range).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">LTRIM mylist 0 99           # Keep only first 100 elements
-LTRIM mylist -100 -1        # Keep only last 100 elements</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">BLPOP/BRPOP:</span> Blocking versions that wait for an element if list is empty.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">BLPOP mylist 10             # Wait up to 10 seconds for an element
-BRPOP mylist 0              # Wait indefinitely</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">RPOPLPUSH:</span> Atomically pop from one list and push to another (useful for reliable queues).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">RPOPLPUSH source destination</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Task Queue (FIFO)
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Producer adds tasks to the queue
-RPUSH task:queue "process-image-1.jpg"
-RPUSH task:queue "send-email-user@example.com"
-RPUSH task:queue "generate-report-Q1"
-
-# Check queue length
-LLEN task:queue             # Returns 3
-
-# Consumer processes tasks from the queue
-LPOP task:queue             # Returns "process-image-1.jpg"
-LPOP task:queue             # Returns "send-email-user@example.com"
-
-# View pending tasks without removing
-LRANGE task:queue 0 -1      # Returns ["generate-report-Q1"]</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Activity Feed (Latest First)
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Add new activities (most recent at the head)
-LPUSH feed:user:123 "User liked post #456"
-LPUSH feed:user:123 "User commented on post #789"
-LPUSH feed:user:123 "User followed @john"
-
-# Get latest 10 activities
-LRANGE feed:user:123 0 9
-
-# Keep only latest 100 activities (trim old ones)
-LTRIM feed:user:123 0 99
-
-# Get feed size
-LLEN feed:user:123</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Stack (LIFO)
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Push to stack
-LPUSH stack:undo "action1"
-LPUSH stack:undo "action2"
-LPUSH stack:undo "action3"
-
-# Pop from stack (LIFO - Last In First Out)
-javascriptLPOP stack:undo            # Returns "action3"
-LPOP stack:undo            # Returns "action2"
-
-# Peek at top of stack without removing
-LINDEX stack:undo 0        # Returns "action1"</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Use Cases
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Message Queues:</span> Background job processing, task scheduling.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Activity Feeds:</span> Social media timelines, notification lists.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Recent Items:</span> Latest searches, recently viewed products.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Leaderboards:</span> Top scores, rankings (combined with sorted sets).
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Undo/Redo Functionality:</span> Stack-based operation history.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Log Storage:</span> Application logs, audit trails.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Performance Characteristics
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LPUSH/RPUSH:</span> O(1) for each element added.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LPOP/RPOP:</span> O(1) for each element removed.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LLEN:</span> O(1) - Redis maintains the length.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LRANGE:</span> O(S+N) where S is the start offset and N is the number of elements.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">LINDEX:</span> O(N) where N is the number of elements to traverse.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Best Practices
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Cap List Size:</span> Use LTRIM to prevent unbounded growth in feeds or logs.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Avoid Middle Operations:</span> Operations in the middle of large lists (LINSERT, LREM) are O(N) and slow.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use Blocking Operations:</span> BLPOP/BRPOP are more efficient than polling with LPOP for queue consumers.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Choose Correct End:</span> Use LPUSH+RPOP or RPUSH+LPOP for queues; LPUSH+LPOP for stacks.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Batch Operations:</span> Push multiple elements at once to reduce network round-trips.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Memory Consideration:</span> Lists with millions of small elements are memory efficient due to Redis's encoding.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Queue Patterns
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Simple Queue (FIFO):</span> RPUSH to add, LPOP to consume.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Stack (LIFO):</span> LPUSH to add, LPOP to consume.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Blocking Queue:</span> RPUSH to add, BLPOP to consume (waits for items).
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Reliable Queue:</span> Use RPOPLPUSH to move items to a processing list, remove after completion.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Circular List:</span> Use RPOPLPUSH on the same list to rotate elements.
-     </li>
-   </ol>
-</div>
-`,
-            examples: [
-              `// Node.js Redis List Operations Example
-const redis = require('redis');
-const client = redis.createClient();
-
-// Simple Queue Implementation (FIFO)
-class RedisQueue {
-  constructor(queueName) {
-    this.queueName = queueName;
-  }
-
-  async enqueue(item) {
-    // Add to the tail of the list
-    await client.rPush(this.queueName, JSON.stringify(item));
-  }
-
-  async dequeue() {
-    // Remove from the head of the list
-    const item = await client.lPop(this.queueName);
-    return item ? JSON.parse(item) : null;
-  }
-
-  async size() {
-    return await client.lLen(this.queueName);
-  }
-
-  async peek(count = 10) {
-    const items = await client.lRange(this.queueName, 0, count - 1);
-    return items.map(item => JSON.parse(item));
-  }
-}
-
-// Usage Example
-async function queueExample() {
-  const taskQueue = new RedisQueue('tasks');
-
-  // Add tasks
-  await taskQueue.enqueue({ id: 1, action: 'send-email', to: 'user@example.com' });
-  await taskQueue.enqueue({ id: 2, action: 'process-image', file: 'photo.jpg' });
-  await taskQueue.enqueue({ id: 3, action: 'generate-report', type: 'monthly' });
-
-  console.log(\`Queue size: \${await taskQueue.size()}\`);  // 3
-
-  // Process tasks
-  const task1 = await taskQueue.dequeue();
-  console.log('Processing:', task1);  // { id: 1, action: 'send-email', ... }
-
-  // View remaining tasks
-  const remaining = await taskQueue.peek();
-  console.log('Remaining tasks:', remaining);
-}
-
-// Activity Feed Implementation
-async function activityFeedExample() {
-  const userId = 'user:123';
-  const feedKey = \`feed:\${userId}\`;
-
-  // Add new activities (most recent first)
-  await client.lPush(feedKey, JSON.stringify({
-    type: 'post',
-    message: 'User created a new post',
-    timestamp: Date.now()
-  }));
-
-  await client.lPush(feedKey, JSON.stringify({
-    type: 'like',
-    message: 'User liked a photo',
-    timestamp: Date.now()
-  }));
-
-  // Keep only latest 50 items
-  await client.lTrim(feedKey, 0, 49);
-
-  // Get latest 10 activities
-  const activities = await client.lRange(feedKey, 0, 9);
-  const parsedActivities = activities.map(a => JSON.parse(a));
-  console.log('Recent activities:', parsedActivities);
-}
-
-// Blocking Queue Consumer (Worker Pattern)
-async function workerExample() {
-  const queueKey = 'jobs:processing';
-
-  console.log('Worker waiting for jobs...');
-
-  while (true) {
-    // Block for up to 30 seconds waiting for a job
-    const result = await client.blPop(queueKey, 30);
-    
-    if (result) {
-      const job = JSON.parse(result.element);
-      console.log('Processing job:', job);
-      
-      // Process the job...
-      await processJob(job);
-      
-      console.log('Job completed:', job.id);
-    } else {
-      console.log('No jobs available, waiting...');
-    }
-  }
-}
-
-async function processJob(job) {
-  // Simulate job processing
-  return new Promise(resolve => setTimeout(resolve, 1000));
-}
-
-// Reliable Queue Pattern
-async function reliableQueueExample() {
-  const pendingQueue = 'jobs:pending';
-  const processingQueue = 'jobs:processing';
-
-  // Move job from pending to processing
-  const job = await client.rPopLPush(pendingQueue, processingQueue);
-  
-  if (job) {
-    try {
-      // Process the job
-      await processJob(JSON.parse(job));
-      
-      // Remove from processing queue on success
-      await client.lRem(processingQueue, 1, job);
-      console.log('Job completed and removed');
-    } catch (error) {
-      // On failure, job remains in processing queue
-      // Can be re-queued or moved to dead letter queue
-      console.error('Job failed:', error);
-      await client.rPopLPush(processingQueue, 'jobs:failed');
-    }
-  }
-}
-
-// Recent Items List (Capped)
-async function recentItemsExample(userId, item) {
-  const key = \`recent:items:\${userId}\`;
-  const maxItems = 20;
-
-  // Add new item to the front
-  await client.lPush(key, JSON.stringify(item));
-
-  // Keep only most recent 20 items
-  await client.lTrim(key, 0, maxItems - 1);
-
-  // Get all recent items
-  const items = await client.lRange(key, 0, -1);
-  return items.map(i => JSON.parse(i));
-}
-
-// Stack Implementation (LIFO)
-async function stackExample() {
-  const stackKey = 'undo:actions';
-
-  // Push actions onto stack
-  await client.lPush(stackKey, JSON.stringify({ action: 'delete', item: 'file1.txt' }));
-  await client.lPush(stackKey, JSON.stringify({ action: 'edit', item: 'doc1.txt' }));
-  await client.lPush(stackKey, JSON.stringify({ action: 'create', item: 'file2.txt' }));
-
-  // Undo last action (pop from stack)
-  const lastAction = await client.lPop(stackKey);
-  console.log('Undoing:', JSON.parse(lastAction));  // { action: 'create', ... }
-
-  // Peek at next action without removing
-  const nextAction = await client.lIndex(stackKey, 0);
-  console.log('Next to undo:', JSON.parse(nextAction));  // { action: 'edit', ... }
-}`,
-            ],
-            questions: [
-              {
-                question: "What is the difference between LPUSH and RPUSH?",
-                solution:
-                  "<p>LPUSH inserts elements at the head (left/beginning) of the list, while RPUSH inserts elements at the tail (right/end) of the list. When using LPUSH, the most recently added element becomes the first element (index 0). With RPUSH, newly added elements are appended to the end. The choice depends on your use case: use LPUSH for stacks or when you want newest items first (like activity feeds), and RPUSH for queues where you want to maintain insertion order.</p>",
-              },
-              {
-                question:
-                  "How do you implement a FIFO queue using Redis Lists?",
-                solution:
-                  "<p>To implement a FIFO (First In, First Out) queue, use RPUSH to add items to the tail of the list and LPOP to remove items from the head. This ensures that the first item added is the first one removed. For example: RPUSH queue:jobs 'task1', RPUSH queue:jobs 'task2', then LPOP queue:jobs returns 'task1'. For a more robust queue with blocking capability, use BRPOP instead of LPOP, which waits for items to become available rather than returning immediately when the list is empty.</p>",
-              },
-              {
-                question:
-                  "Why is LRANGE more efficient than multiple LINDEX calls?",
-                solution:
-                  "<p>LRANGE retrieves multiple elements in a single operation with O(S+N) complexity, where S is the start offset and N is the number of elements. Multiple LINDEX calls would require separate network round-trips for each element, resulting in higher latency and network overhead. Additionally, LINDEX has O(N) complexity for each call where N is the traversal distance. For retrieving consecutive elements, LRANGE is significantly more efficient both in terms of time complexity and network communication.</p>",
-              },
-              {
-                question:
-                  "What happens when you LPOP or RPOP from an empty list?",
-                solution:
-                  "<p>When you call LPOP or RPOP on an empty list or a non-existent key, Redis returns nil (null). The key is not created, and no error is thrown. This behavior allows you to safely poll empty queues. If you want to wait for elements instead of getting nil immediately, use the blocking variants BLPOP or BRPOP, which will wait for a specified timeout until an element becomes available or the timeout expires.</p>",
-              },
-              {
-                question: "How do you maintain a capped list of recent items?",
-                solution:
-                  "<p>Use LTRIM after adding new items to maintain a fixed-size list. For example, to keep only the 100 most recent items: First, add the new item with LPUSH mylist 'new_item', then trim the list with LTRIM mylist 0 99. This keeps elements at indices 0 through 99 and removes everything else. This pattern is commonly used for activity feeds, recent searches, or log storage where you only want to keep the N most recent entries to prevent unbounded memory growth.</p>",
-              },
-            ],
-            links: [
-              "https://redis.io/docs/latest/commands/?group=list",
-              "https://redis.io/docs/latest/develop/data-types/lists/",
-              "https://redis.io/docs/latest/develop/use/patterns/queues/",
-              "https://redis.io/docs/latest/develop/use/patterns/streams/",
-            ],
-          },
-          {
-            topic: "Set Operations",
-            tags: ["Sets", "Collections", "Unique Values", "Set Theory"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Redis Sets are unordered collections of unique string values. They provide efficient membership testing and set operations like intersection, union, and difference. Sets are ideal for tracking unique items, implementing tags, managing relationships, and performing set-based queries with O(1) add/remove/check operations.
-   </p>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Why Use Redis Sets?
-   </h4>
-
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Uniqueness:</span> Duplicate values are automatically ignored.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Fast Membership Testing:</span> O(1) check if an element exists in the set.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Set Operations:</span> Built-in support for intersection, union, and difference operations.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Random Selection:</span> Efficient random element selection for sampling.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Relationship Tracking:</span> Perfect for modeling many-to-many relationships.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Basic Set Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SADD:</span> Add one or more members to a set. Returns the number of elements actually added (excluding duplicates).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SADD myset "apple"              # Returns 1
-SADD myset "banana" "cherry"    # Returns 2, set now has 3 elements
-SADD myset "apple"              # Returns 0 (duplicate, not added)
-SADD tags:post:1 "redis" "database" "nosql"</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SREM:</span> Remove one or more members from a set. Returns the number of members actually removed.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SREM myset "banana"             # Returns 1
-SREM myset "grape" "orange"     # Returns 0 if elements don't exist
-SREM tags:post:1 "nosql"        # Remove specific tag</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SMEMBERS:</span> Get all members of a set. Returns an array of all elements.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SADD fruits "apple" "banana" "cherry" "date"
-SMEMBERS fruits                 # Returns all 4 fruits (unordered)
-SMEMBERS emptyset               # Returns empty array []</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SISMEMBER:</span> Check if a member exists in the set. Returns 1 if exists, 0 if not.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SISMEMBER fruits "apple"        # Returns 1 (true)
-SISMEMBER fruits "grape"        # Returns 0 (false)
-SISMEMBER users:online "user123" # Check if user is online</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SCARD:</span> Get the number of members in a set (cardinality).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SCARD fruits                    # Returns 4
-SCARD emptyset                  # Returns 0</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Set Operation Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SINTER:</span> Return the intersection of multiple sets (common members).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SADD set1 "a" "b" "c" "d"
-SADD set2 "c" "d" "e" "f"
-SADD set3 "c" "d" "g"
-SINTER set1 set2                # Returns ["c", "d"]
-SINTER set1 set2 set3           # Returns ["c", "d"] (common to all)</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SUNION:</span> Return the union of multiple sets (all unique members).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SADD set1 "a" "b" "c"
-SADD set2 "c" "d" "e"
-SUNION set1 set2                # Returns ["a", "b", "c", "d", "e"]
-SUNION set1 set2 set3           # All unique elements from all sets</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SDIFF:</span> Return the difference between sets (elements in first set but not in others).
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SADD set1 "a" "b" "c" "d"
-SADD set2 "c" "d" "e"
-SDIFF set1 set2                 # Returns ["a", "b"] (in set1 but not set2)
-SDIFF set2 set1                 # Returns ["e"] (in set2 but not set1)</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SINTERSTORE/SUNIONSTORE/SDIFFSTORE:</span> Store result of set operation in a destination key.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SINTERSTORE result set1 set2    # Store intersection in 'result'
-SUNIONSTORE result set1 set2    # Store union in 'result'
-SDIFFSTORE result set1 set2     # Store difference in 'result'</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Additional Useful Commands
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SPOP:</span> Remove and return random member(s) from the set.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SPOP myset                      # Remove and return 1 random element
-SPOP myset 3                    # Remove and return 3 random elements</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SRANDMEMBER:</span> Get random member(s) without removing them.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SRANDMEMBER myset               # Get 1 random element
-SRANDMEMBER myset 5             # Get 5 random unique elements
-SRANDMEMBER myset -5            # Get 5 random elements (may repeat)</code></pre>
-      </div>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SMOVE:</span> Move a member from one set to another atomically.
-      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
-        <pre><code className="language-bash">SMOVE source destination "member"  # Returns 1 if moved, 0 if not</code></pre>
-      </div>
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: User Tags
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Add tags to users
-SADD user:123:tags "python" "redis" "backend"
-SADD user:456:tags "javascript" "redis" "frontend"
-SADD user:789:tags "python" "backend" "ml"
-
-# Check if user has a specific tag
-SISMEMBER user:123:tags "redis"     # Returns 1
-
-# Find common interests between users
-SINTER user:123:tags user:456:tags  # Returns ["redis"]
-SINTER user:123:tags user:789:tags  # Returns ["python", "backend"]
-
-# Get all users interested in either Python or JavaScript
-SUNION user:123:tags user:456:tags user:789:tags
-
-# Remove a tag
-SREM user:123:tags "backend"</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Online Users Tracking
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># User comes online
-SADD users:online "user123"
-SADD users:online "user456"
-SADD users:online "user789"
-
-# Check if user is online
-SISMEMBER users:online "user123"    # Returns 1
-
-# Get count of online users
-SCARD users:online                  # Returns 3
-
-# User goes offline
-SREM users:online "user456"
-
-# Get all online users
-SMEMBERS users:online               # Returns ["user123", "user789"]</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Example: Friend Recommendations
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-     <pre><code className="language-bash"># Store friends for each user
-SADD friends:user1 "user2" "user3" "user4"
-SADD friends:user2 "user1" "user5" "user6"
-SADD friends:user3 "user1" "user5" "user7"
-
-# Find mutual friends between user1 and user2
-SINTER friends:user1 friends:user2  # Returns common friends
-
-# Find potential friend recommendations (friends of friends not already friends)
-# Get all friends of user1's friends
-SUNION friends:user2 friends:user3 friends:user4
-# Then exclude user1's existing friends
-SDIFF result friends:user1          # Potential new friends</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Use Cases
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Tagging Systems:</span> Product tags, article categories, user interests.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Social Networks:</span> Friends lists, followers, mutual connections.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Online Presence:</span> Track active users, online status.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Access Control:</span> User permissions, roles, feature flags.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Unique Tracking:</span> Unique visitors, unique IP addresses, deduplication.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Recommendation Engines:</span> Similar items, common interests, collaborative filtering.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Performance Characteristics
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SADD/SREM/SISMEMBER:</span> O(1) for each element.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SCARD:</span> O(1) - Redis maintains the cardinality.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SMEMBERS:</span> O(N) where N is the set size. Use carefully on large sets.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SINTER/SUNION/SDIFF:</span> O(N*M) where N is size of smallest set and M is number of sets.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">SPOP/SRANDMEMBER:</span> O(1) for single element, O(N) for multiple elements.
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Best Practices
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Avoid SMEMBERS on Large Sets:</span> Use SSCAN for iterating through large sets instead.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use SISMEMBER for Checks:</span> More efficient than fetching all members to check existence.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Store Results:</span> Use SINTERSTORE/SUNIONSTORE for expensive operations used multiple times.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Batch Operations:</span> Add multiple elements with single SADD to reduce round-trips.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Set Size Monitoring:</span> Monitor set sizes to prevent unbounded growth.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Consider Sorted Sets:</span> If you need ordering or scoring, use sorted sets instead.
-     </li>
-   </ol>
-</div>
-`,
-            examples: [
-              `// Node.js Redis Set Operations Example
-const redis = require('redis');
-const client = redis.createClient();
-
-// Tagging System Implementation
-class TaggingSystem {
-  async addTags(itemId, tags) {
-    const key = \`item:\$ {itemId}:tags\`;
-    await client.sAdd(key, tags);
-    
-    // Also maintain reverse index: tag -> items
-    for (const tag of tags) {
-      await client.sAdd(\`tag:\${tag}:items\`, itemId);
-    }
-  }
-
-  async removeTags(itemId, tags) {
-    const key = \`item:\$ {itemId}:tags\`;
-    await client.sRem(key, tags);
-    
-    for (const tag of tags) {
-      await client.sRem(\`tag:\${tag}:items\`, itemId);
-    }
-  }
-
-  async getTags(itemId) {
-    return await client.sMembers(\`item:\$ {itemId}:tags\`);
-  }
-
-  async hasTag(itemId, tag) {
-    const exists = await client.sIsMember(\`item:\$ {itemId}:tags\`, tag);
-    return exists === 1;
-  }
-
-  async getItemsByTag(tag) {
-    return await client.sMembers(\`tag:\${tag}:items\`);
-  }
-
-  async getItemsWithAllTags(tags) {
-    // Find items that have ALL specified tags (intersection)
-    const keys = tags.map(tag => \`tag:\${tag}:items\`);
-    return await client.sInter(keys);
-  }
-
-  async getItemsWithAnyTag(tags) {
-    // Find items that have ANY of the specified tags (union)
-    const keys = tags.map(tag => \`tag:\${tag}:items\`);
-    return await client.sUnion(keys);
-  }
-}
-
-// Usage Example
-async function taggingExample() {
-  const tagging = new TaggingSystem();
-
-  // Add tags to articles
-  await tagging.addTags('article:1', ['redis', 'database', 'nosql']);
-  await tagging.addTags('article:2', ['redis', 'caching', 'performance']);
-  await tagging.addTags('article:3', ['mongodb', 'database', 'nosql']);
-
-  // Check if article has a tag
-  const hasRedis = await tagging.hasTag('article:1', 'redis');
-  console.log('Article 1 has redis tag:', hasRedis);  // true
-
-  // Find articles with both 'redis' and 'database' tags
-  const redisDbArticles = await tagging.getItemsWithAllTags(['redis', 'database']);
-  console.log('Articles with redis AND database:', redisDbArticles);
-
-  // Find articles with either 'redis' or 'mongodb' tags
-  const dbArticles = await tagging.getItemsWithAnyTag(['redis', 'mongodb']);
-  console.log('Articles with redis OR mongodb:', dbArticles);
-}
-
-// Online Users Tracker
-class OnlineUsersTracker {
-  constructor() {
-    this.onlineKey = 'users:online';
-  }
-
-  async userOnline(userId) {
-    await client.sAdd(this.onlineKey, userId);
-  }
-
-  async userOffline(userId) {
-    await client.sRem(this.onlineKey, userId);
-  }
-
-  async isOnline(userId) {
-    const online = await client.sIsMember(this.onlineKey, userId);
-    return online === 1;
-  }
-
-  async getOnlineCount() {
-    return await client.sCard(this.onlineKey);
-  }
-
-  async getOnlineUsers() {
-    return await client.sMembers(this.onlineKey);
-  }
-
-  async getOnlineFriends(userId) {
-    const friendsKey = \`user:\${userId}:friends\`;
-    // Get friends who are currently online
-    return await client.sInter([friendsKey, this.onlineKey]);
-  }
-}
-
-// Social Network - Friend Recommendations
-async function friendRecommendationExample(userId) {
-  const userFriendsKey = \`user:\${userId}:friends\`;
-  
-  // Get user's friends
-  const friends = await client.sMembers(userFriendsKey);
-  
-  // Get friends of friends
-  const friendsOfFriendsKeys = friends.map(f => \`user:\${f}:friends\`);
-  const friendsOfFriends = await client.sUnion(friendsOfFriendsKeys);
-  
-  // Remove existing friends and self
-  const recommendations = friendsOfFriends.filter(
-    id => id !== userId && !friends.includes(id)
-  );
-  
-  return recommendations;
-}
-
-// Access Control System
-class AccessControl {
-  async grantPermission(userId, permission) {
-    await client.sAdd(\`user:\${userId}:permissions\`, permission);
-  }
-
-  async revokePermission(userId, permission) {
-    await client.sRem(\`user:\${userId}:permissions\`, permission);
-  }
-
-  async hasPermission(userId, permission) {
-    const has = await client.sIsMember(\`user:\${userId}:permissions\`, permission);
-    return has === 1;
-  }
-
-  async getUserPermissions(userId) {
-    return await client.sMembers(\`user:\${userId}:permissions\`);
-  }
-
-  async hasAllPermissions(userId, requiredPermissions) {
-    const userPerms = await this.getUserPermissions(userId);
-    return requiredPermissions.every(perm => userPerms.includes(perm));
-  }
-
-  async hasAnyPermission(userId, permissions) {
-    const userPerms = await this.getUserPermissions(userId);
-    return permissions.some(perm => userPerms.includes(perm));
-  }
-}
-
-// Unique Visitor Tracking
-async function uniqueVisitorExample(date, visitorId) {
-  const key = \`visitors:\${date}\`;
-  
-  // Add visitor (automatically handles duplicates)
-  await client.sAdd(key, visitorId);
-  
-  // Get unique visitor count
-  const uniqueCount = await client.sCard(key);
-  console.log(\`Unique visitors on \${date}: \${uniqueCount}\`);
-  
-  // Compare visitors across days
-  const yesterday = '2024-01-01';
-  const today = '2024-01-02';
-  
-  // Visitors who came both days
-  const returning = await client.sInter([\`visitors:\${yesterday}\`, \`visitors:\${today}\`]);
-  
-  // New visitors today
-  const newVisitors = await client.sDiff([\`visitors:\${today}\`, \`visitors:\${yesterday}\`]);
-  
-  console.log('Returning visitors:', returning.length);
-  console.log('New visitors:', newVisitors.length);
-}
-
-// Random Selection (e.g., lottery, random prizes)
-async function randomSelectionExample() {
-  const participantsKey = 'lottery:participants';
-  
-  // Add participants
-  await client.sAdd(participantsKey, ['user1', 'user2', 'user3', 'user4', 'user5']);
-  
-  // Pick 3 random winners (remove them so they can't win twice)
-  const winners = await client.sPop(participantsKey, 3);
-  console.log('Winners:', winners);
-  
-  // Or just view random participants without removing
-  const sample = await client.sRandMember(participantsKey, 2);
-  console.log('Random sample:', sample);
-}
-
-// Common Interests Finder
-async function findCommonInterestsExample(user1Id, user2Id) {
-  const user1Interests = \`user:\${user1Id}:interests\`;
-  const user2Interests = \`user:\${user2Id}:interests\`;
-  
-  // Find common interests
-  const commonInterests = await client.sInter([user1Interests, user2Interests]);
-  console.log('Common interests:', commonInterests);
-  
-  // Find all interests (union)
-  const allInterests = await client.sUnion([user1Interests, user2Interests]);
-  console.log('All interests:', allInterests);
-  
-  // Find interests unique to user1
-  const uniqueToUser1 = await client.sDiff([user1Interests, user2Interests]);
-  console.log('Unique to user1:', uniqueToUser1);
-  
-  // Calculate similarity (Jaccard index)
-  const similarity = commonInterests.length / allInterests.length;
-  console.log('Similarity score:', similarity);
-}`,
-            ],
-            questions: [
-              {
-                question:
-                  "What is the difference between SMEMBERS and SISMEMBER?",
-                solution:
-                  "<p>SMEMBERS returns all members of a set as an array and has O(N) complexity, making it expensive for large sets. SISMEMBER checks if a specific member exists in the set and returns 1 (true) or 0 (false) with O(1) complexity. Use SISMEMBER when you only need to check membership, and reserve SMEMBERS for small sets or when you actually need all members. For iterating through large sets, use SSCAN instead of SMEMBERS to avoid blocking the server.</p>",
-              },
-              {
-                question:
-                  "How do you find common elements between multiple sets?",
-                solution:
-                  "<p>Use the SINTER command followed by multiple set keys to find the intersection (common elements). For example: SINTER set1 set2 set3 returns only elements that exist in all three sets. The time complexity is O(N*M) where N is the cardinality of the smallest set and M is the number of sets. If you need to use the result multiple times, use SINTERSTORE to save the intersection to a new key, avoiding repeated computation.</p>",
-              },
-              {
-                question:
-                  "When should you use SDIFF versus SINTER for set comparisons?",
-                solution:
-                  "<p>Use SINTER when you want elements common to all sets (intersection), such as finding users who like both Product A AND Product B. Use SDIFF when you want elements in the first set but not in subsequent sets (difference), such as finding users who like Product A but NOT Product B. SDIFF is particularly useful for exclusion queries like 'find users who have permission X but not permission Y' or 'new visitors who didn't visit yesterday'.</p>",
-              },
-              {
-                question: "Why would you use SRANDMEMBER instead of SPOP?",
-                solution:
-                  "<p>SRANDMEMBER returns random elements without removing them from the set, while SPOP removes elements. Use SRANDMEMBER when you need random sampling but want to preserve the set, such as showing random product recommendations, selecting random items for display, or A/B testing user groups. Use SPOP when you need to consume elements, such as distributing tasks, selecting lottery winners, or implementing a random draw where each element can only be selected once.</p>",
-              },
-              {
-                question:
-                  "How can you implement a simple recommendation system using Redis Sets?",
-                solution:
-                  "<p>Store user interests or item tags as sets. For collaborative filtering, find users with similar interests using SINTER to identify common tags, then use SDIFF to recommend items they have that the target user doesn't. For example: SINTER user:123:interests user:456:interests finds common interests. Then SDIFF user:456:interests user:123:interests shows what user456 likes that user123 doesn't, which could be recommendations. You can also use SUNION to aggregate all interests from similar users for broader recommendations.</p>",
-              },
-            ],
-            links: [
-              "https://redis.io/docs/latest/commands/?group=set",
-              "https://redis.io/docs/latest/develop/data-types/sets/",
-              "https://redis.io/docs/latest/develop/use/patterns/social-network/",
-            ],
-          },
-          {
-            topic: "Hash Operations",
-            tags: [
-              "hash-operations",
-              "hset",
-              "hget",
-              "hmget",
-              "hgetall",
-              "hincrby",
-              "field-operations",
-            ],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
-     Redis Hash operations provide powerful tools for manipulating field-value pairs within hash objects. Each operation serves specific use cases with different performance characteristics, from single-field updates to batch operations and atomic counters.
-   </p>
-
-   <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #8B5CF6;">
-     <h4 style="margin: 0 0 1rem 0; font-size: 1.2rem;">Key Insight</h4>
-     <p style="margin: 0; line-height: 1.6;">Understanding the performance characteristics and appropriate use cases for each hash operation is crucial for building efficient Redis applications. Choose the right operation based on your data access patterns.</p>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
-     HSET: Setting Field Values
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Command Syntax and Variations</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">HSET is the primary command for setting field values in Redis hashes, with multiple syntax variations for different use cases:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Basic HSET Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HSET key field value<br/>
-           HSET user:1001 name "John Doe"<br/>
-           HSET user:1001 email "john@example.com"
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Multiple Fields (Redis 4.0+)</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HSET key field1 value1 field2 value2<br/>
-           HSET user:1001 name "John" age 30 city "NY"
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Return Value and Behavior</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>Return value:</strong> Number of fields that were added (not updated)</li>
-       <li><strong>New field:</strong> Returns 1 when adding a new field</li>
-       <li><strong>Existing field:</strong> Returns 0 when updating existing field</li>
-       <li><strong>Atomic operation:</strong> Entire command succeeds or fails</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Characteristics</h6>
-     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-       <ul style="line-height: 1.6;">
-         <li><strong>Time Complexity:</strong> O(1) for each field/value pair added</li>
-         <li><strong>Memory Impact:</strong> Minimal for new fields, in-place update for existing</li>
-         <li><strong>Network Efficiency:</strong> Better for multiple fields in single command</li>
-         <li><strong>Use Case:</strong> Individual field updates or small batch updates</li>
-       </ul>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
-     HGET: Retrieving Single Field Values
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Command Syntax and Usage</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">HGET retrieves the value of a specific field from a hash, providing efficient access to individual attributes:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Basic HGET Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HGET key field<br/>
-           HGET user:1001 name<br/>
-           # Returns: "John Doe"
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Field Not Found</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HGET user:1001 nonexistent<br/>
-           # Returns: (nil)
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance and Use Cases</h6>
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-       <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e9ecef;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Advantages</h6>
-         <ul style="line-height: 1.4;">
-           <li>O(1) time complexity</li>
-           <li>Minimal network transfer</li>
-           <li>No client-side parsing needed</li>
-           <li>Efficient for single field access</li>
-         </ul>
-       </div>
-       <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e9ecef;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Best For</h6>
-         <ul style="line-height: 1.4;">
-           <li>Frequently accessed fields</li>
-           <li>Large hashes with sparse access</li>
-           <li>Real-time field updates</li>
-           <li>Selective data retrieval</li>
-         </ul>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Comparison with HGETALL</h6>
-     <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-       <p style="margin: 0; line-height: 1.6;"><strong>Use HGET when:</strong> You need specific known fields from large hashes. <strong>Use HGETALL when:</strong> You need all fields from small hashes or don't know which fields you need.</p>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
-     HMGET: Retrieving Multiple Field Values
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Batch Field Retrieval</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">HMGET allows retrieving multiple field values in a single command, reducing network round trips and improving efficiency:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">HMGET Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HMGET key field1 field2 field3<br/>
-           HMGET user:1001 name email age<br/>
-           # Returns: ["John Doe", "john@example.com", "30"]
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Missing Fields</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HMGET user:1001 name nonexistent age<br/>
-           # Returns: ["John Doe", nil, "30"]
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Analysis</h6>
-     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-       <table style="width: 100%; border-collapse: collapse;">
-         <thead>
-           <tr>
-             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Scenario</th>
-             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Multiple HGET</th>
-             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Single HMGET</th>
-           </tr>
-         </thead>
-         <tbody>
-           <tr>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Network Round Trips</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">N (one per field)</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">1</td>
-           </tr>
-           <tr>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Redis Processing</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">N × O(1)</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(N)</td>
-           </tr>
-           <tr>
-             <td style="padding: 0.5rem;">Total Efficiency</td>
-             <td style="padding: 0.5rem;">Lower for N > 1</td>
-             <td style="padding: 0.5rem;">Higher for N > 1</td>
-           </tr>
-         </tbody>
-       </table>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Optimal Use Cases</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>Object partial retrieval:</strong> When you need specific known fields</li>
-       <li><strong>Reducing latency:</strong> When network round trips are expensive</li>
-       <li><strong>Batch processing:</strong> When processing multiple related fields</li>
-       <li><strong>API responses:</strong> When building responses with selected fields</li>
-     </ul>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
-     HGETALL: Retrieving All Fields and Values
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Complete Hash Retrieval</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">HGETALL returns all field-value pairs from a hash in a flat array format, providing complete object serialization:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">HGETALL Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HGETALL key<br/>
-           HGETALL user:1001<br/>
-           # Returns: ["name", "John Doe", "email", "john@example.com", "age", "30"]
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Empty Hash</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HGETALL empty:hash<br/>
-           # Returns: [] (empty list)
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Considerations</h6>
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-       <div style="background: #d4edda; padding: 1rem; border-radius: 6px; border: 1px solid #c3e6cb;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Advantages</h6>
-         <ul style="line-height: 1.4;">
-           <li>Single network round trip</li>
-           <li>Complete object retrieval</li>
-           <li>No need to know field names</li>
-           <li>Good for small hashes</li>
-         </ul>
-       </div>
-       <div style="background: #f8d7da; padding: 1rem; border-radius: 6px; border: 1px solid #f5c6cb;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Disadvantages</h6>
-         <ul style="line-height: 1.4;">
-           <li>O(N) time complexity</li>
-           <li>Large network payload for big hashes</li>
-           <li>Client must parse flat array</li>
-           <li>Blocks Redis during serialization</li>
-         </ul>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">When to Use HGETALL</h6>
-     <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-       <ul style="line-height: 1.6;">
-         <li><strong>Small hashes:</strong> When hash has &lt; 100 fields</li>
-         <li><strong>Complete object needed:</strong> When you need all fields</li>
-         <li><strong>Unknown schema:</strong> When field names are dynamic</li>
-         <li><strong>Infrequent access:</strong> When performance impact is acceptable</li>
-         <li><strong>Alternative for large hashes:</strong> Use HSCAN for incremental retrieval</li>
-       </ul>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
-     HINCRBY: Atomic Integer Operations
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Atomic Counter Operations</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">HINCRBY provides atomic increment/decrement operations on integer fields within hashes, ensuring consistency in concurrent environments:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">HINCRBY Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HINCRBY key field increment<br/>
-           HINCRBY user:1001:stats page_views 1<br/>
-           # Returns: new value (e.g., 156)
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Decrement Operations</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           HINCRBY product:1001 stock -1<br/>
-           HINCRBY user:1001 points -10<br/>
-           # Negative increments for decrement
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Atomicity Guarantees</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>Thread-safe:</strong> No race conditions between concurrent clients</li>
-       <li><strong>Consistent:</strong> Operations complete fully or not at all</li>
-       <li><strong>No external locks:</strong> Built-in atomicity eliminates need for locking</li>
-       <li><strong>Return value:</strong> Returns new value after increment</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Use Cases and Patterns</h6>
-     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Analytics Tracking</h6>
-         <p style="margin: 0; font-size: 0.9rem;">Page views, click counts, user engagement metrics</p>
-       </div>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Inventory Management</h6>
-         <p style="margin: 0; font-size: 0.9rem;">Stock levels, reserved items, sold quantities</p>
-       </div>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Gaming & Scoring</h6>
-         <p style="margin: 0; font-size: 0.9rem;">Player scores, experience points, achievements</p>
-       </div>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Rate Limiting</h6>
-         <p style="margin: 0; font-size: 0.9rem;">API calls, login attempts, request quotas</p>
-       </div>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #F0E8FF; padding-bottom: 0.5rem;">
-     Operation Comparison and Best Practices
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <div style="overflow-x: auto; margin: 1.5rem 0;">
-       <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
-         <thead style="background: #f8f9fa;">
-           <tr>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Operation</th>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Time Complexity</th>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Network Efficiency</th>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Best Use Case</th>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Return Value</th>
-           </tr>
-         </thead>
-         <tbody>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">HSET</td>
-             <td style="padding: 1rem;">O(1) per field</td>
-             <td style="padding: 1rem;">Good for batches</td>
-             <td style="padding: 1rem;">Field updates, object creation</td>
-             <td style="padding: 1rem;">Number of new fields</td>
-           </tr>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">HGET</td>
-             <td style="padding: 1rem;">O(1)</td>
-             <td style="padding: 1rem;">Excellent</td>
-             <td style="padding: 1rem;">Single field access</td>
-             <td style="padding: 1rem;">Field value or nil</td>
-           </tr>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">HMGET</td>
-             <td style="padding: 1rem;">O(N)</td>
-             <td style="padding: 1rem;">Excellent for N > 1</td>
-             <td style="padding: 1rem;">Multiple known fields</td>
-             <td style="padding: 1rem;">Array of values</td>
-           </tr>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">HGETALL</td>
-             <td style="padding: 1rem;">O(N)</td>
-             <td style="padding: 1rem;">Poor for large N</td>
-             <td style="padding: 1rem;">Small hashes, complete objects</td>
-             <td style="padding: 1rem;">Array of field-value pairs</td>
-           </tr>
-           <tr>
-             <td style="padding: 1rem; font-weight: 600;">HINCRBY</td>
-             <td style="padding: 1rem;">O(1)</td>
-             <td style="padding: 1rem;">Excellent</td>
-             <td style="padding: 1rem;">Atomic counters, statistics</td>
-             <td style="padding: 1rem;">New integer value</td>
-           </tr>
-         </tbody>
-       </table>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Optimization Guidelines</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>Use HSET for multiple fields:</strong> When updating several fields together</li>
-       <li><strong>Prefer HMGET over multiple HGET:</strong> For retrieving 2+ known fields</li>
-       <li><strong>Avoid HGETALL for large hashes:</strong> Use HSCAN for incremental access</li>
-       <li><strong>Use HINCRBY for counters:</strong> Instead of HGET + HSET for atomicity</li>
-       <li><strong>Pipeline unrelated operations:</strong> When multiple hash operations are needed</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Memory and Encoding Considerations</h6>
-     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-       <ul style="line-height: 1.6;">
-         <li><strong>Ziplist encoding:</strong> Operations are O(N) but efficient for small N</li>
-         <li><strong>Hash table encoding:</strong> Operations are O(1) but use more memory</li>
-         <li><strong>Field name optimization:</strong> Shorter field names reduce memory usage</li>
-         <li><strong>Batch operations:</strong> Reduce memory fragmentation</li>
-       </ul>
-     </div>
-   </div>
-
-   <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #28a745;">
-     <h5 style="margin: 0 0 1rem 0;">Real-World Implementation: E-commerce Analytics</h5>
-     <p style="margin: 0; line-height: 1.6;"><strong>Scenario:</strong> Tracking user behavior and product statistics in real-time with concurrent updates from multiple services.</p>
-     <p style="margin: 0.5rem 0 0 0; line-height: 1.6;"><strong>Solution:</strong> Use HSET for user profile updates, HMGET for retrieving user preferences, HINCRBY for atomic counter updates (page views, cart additions), and HGETALL for small configuration hashes. Avoid HGETALL for large user activity hashes, using HSCAN instead.</p>
-   </div>
-</div>`,
-            examples: [
-              `# =================================
-# REDIS HASH OPERATIONS EXAMPLES
-# =================================
-
-# 1. HSET OPERATIONS
-# Setting individual fields
-HSET user:1001 name "Alice Johnson"
-HSET user:1001 email "alice@example.com"
-HSET user:1001 age 28
-
-# Setting multiple fields in one command (Redis 4.0+)
-HSET user:1002 name "Bob Smith" email "bob@example.com" age 35
-
-# HSET return values
-HSET user:1001 city "Boston"        # Returns: 1 (new field)
-HSET user:1001 city "New York"      # Returns: 0 (updated field)
-
-# 2. HGET OPERATIONS
-# Retrieving single fields
-HGET user:1001 name                 # Returns: "Alice Johnson"
-HGET user:1001 email                # Returns: "alice@example.com"
-HGET user:1001 nonexistent          # Returns: (nil)
-
-# Practical use case - checking specific attributes
-user_name = HGET user:1001 name
-user_email = HGET user:1001 email
-
-# 3. HMGET OPERATIONS
-# Retrieving multiple fields
-HMGET user:1001 name email age
-# Returns: ["Alice Johnson", "alice@example.com", "28"]
-
-# With missing fields
-HMGET user:1001 name salary age
-# Returns: ["Alice Johnson", nil, "28"]
-
-# Efficient batch retrieval for API responses
-user_data = HMGET user:1001 name email phone city
-
-# 4. HGETALL OPERATIONS
-# Retrieving entire hash
-HGETALL user:1001
-# Returns: ["name", "Alice Johnson", "email", "alice@example.com", "age", "28", "city", "New York"]
-
-# Empty hash case
-HGETALL user:9999
-# Returns: [] (empty list)
-
-# Client-side processing example (Python-like pseudocode)
-fields_and_values = HGETALL user:1001
-user_dict = {}
-for i in range(0, len(fields_and_values), 2):
-    field = fields_and_values[i]
-    value = fields_and_values[i+1]
-    user_dict[field] = value
-
-# 5. HINCRBY OPERATIONS
-# Setting up counters
-HSET product:2001:stats views 0 purchases 0 cart_adds 0
-
-# Atomic increments
-HINCRBY product:2001:stats views 1        # Returns: 1
-HINCRBY product:2001:stats views 5        # Returns: 6
-HINCRBY product:2001:stats cart_adds 1    # Returns: 1
-
-# Atomic decrements (negative increments)
-HINCRBY product:2001:stats stock -1       # Returns: -1 (if started at 0)
-HINCRBY user:1001:points -10              # Deduct 10 points
-
-# 6. REAL-WORLD INTEGRATED EXAMPLES
-# E-commerce user session tracking
-HSET session:abc123 user_id "1001" created "2024-01-15T10:00:00Z"
-HINCRBY session:abc123 page_views 1
-HINCRBY session:abc123 cart_items 1
-
-# Get session summary
-HMGET session:abc123 user_id page_views cart_items
-# Returns: ["1001", "1", "1"]
-
-# 7. ANALYTICS AND COUNTER PATTERNS
-# Daily product analytics
-HSET analytics:product:2001:2024-01-15 views 0 clicks 0 purchases 0
-
-# Real-time updates from multiple workers
-HINCRBY analytics:product:2001:2024-01-15 views 1    # Worker 1
-HINCRBY analytics:product:2001:2024-01-15 clicks 1   # Worker 2
-HINCRBY analytics:product:2001:2024-01-15 purchases 1 # Worker 3
-
-# Get final analytics
-HGETALL analytics:product:2001:2024-01-15
-# Returns: ["views", "156", "clicks", "45", "purchases", "12"]
-
-# 8. CONFIGURATION MANAGEMENT
-# Application settings hash
-HSET config:app:production 
-  database.host "db.prod.com" 
-  database.port "5432" 
-  cache.enabled "true" 
-  cache.ttl "3600"
-
-# Retrieve specific configuration groups
-HMGET config:app:production database.host database.port
-# Returns: ["db.prod.com", "5432"]
-
-# 9. USER PREFERENCE STORAGE
-HSET user:1001:preferences 
-  theme "dark" 
-  language "en" 
-  notifications "true" 
-  timezone "UTC"
-
-# Update single preference
-HSET user:1001:preferences theme "light"
-
-# Check current preferences
-HGET user:1001:preferences theme        # Returns: "light"
-
-# 10. COMPLEX OPERATION PATTERNS
-# Inventory management with atomic operations
-HSET product:3001 inventory 100 reserved 0 sold 0
-
-# Customer purchases one item
-HINCRBY product:3001 inventory -1    # Reduce inventory
-HINCRBY product:3001 sold 1          # Increase sold count
-
-# Check current status
-HMGET product:3001 inventory sold
-# Returns: ["99", "1"]
-
-# 11. ERROR HANDLING AND EDGE CASES
-# Handling non-existent hashes
-HGET non:existent:hash field          # Returns: (nil)
-HGETALL non:existent:hash             # Returns: []
-
-# Handling non-integer fields with HINCRBY
-HSET user:1001 name "Alice"
-HINCRBY user:1001 name 1              # Returns: error
-
-# 12. PERFORMANCE COMPARISON EXAMPLES
-# Inefficient: Multiple HGET calls
-name = HGET user:1001 name
-email = HGET user:1001 email
-age = HGET user:1001 age
-# 3 network round trips
-
-# Efficient: Single HMGET call
-name, email, age = HMGET user:1001 name email age
-# 1 network round trip
-
-# Even better for multiple updates: HSET with multiple fields
-HSET user:1001 name "Alice" email "alice@example.com" age 29
-# Single command for multiple updates`,
-            ],
-            questions: [
-              {
-                question:
-                  "What are the performance implications of using HGETALL versus HMGET for retrieving data from large Redis hashes, and when should you choose one over the other?",
-                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
-  <h4 style="margin-top: 0;">HGETALL vs HMGET Performance Analysis</h4>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Performance Characteristics Comparison</h5>
-  <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
-    <table style="width: 100%; border-collapse: collapse;">
-      <thead>
-        <tr>
-          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">Aspect</th>
-          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">HGETALL</th>
-          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">HMGET</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Time Complexity</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(N) - N = total fields</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(M) - M = requested fields</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Network Payload</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">All fields + values</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Only requested fields</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Redis Memory Pressure</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">High for large hashes</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Low to moderate</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Client Processing</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Must parse all data</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Only processes needed data</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem;">Blocking Time</td>
-          <td style="padding: 0.5rem;">Proportional to hash size</td>
-          <td style="padding: 0.5rem;">Proportional to requested fields</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Practical Performance Scenarios</h5>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
-      <h6 style="margin: 0 0 0.5rem 0;">Use HGETALL When:</h6>
-      <ul style="line-height: 1.4;">
-        <li>Hash has &lt; 100 fields</li>
-        <li>You need all fields (unknown schema)</li>
-        <li>Performance impact is acceptable</li>
-        <li>Hash is accessed infrequently</li>
-        <li>Simplifies client code</li>
-      </ul>
-    </div>
-    
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
-      <h6 style="margin: 0 0 0.5rem 0;">Use HMGET When:</h6>
-      <ul style="line-height: 1.4;">
-        <li>Hash has &gt; 100 fields</li>
-        <li>You only need specific known fields</li>
-        <li>Performance is critical</li>
-        <li>Hash is accessed frequently</li>
-        <li>Reducing network traffic is important</li>
-      </ul>
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Quantitative Analysis Example</h5>
-  <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Scenario: Hash with 1,000 fields, each field name = 10 bytes, each value = 50 bytes</p>
-    <ul style="line-height: 1.6;">
-      <li><strong>HGETALL payload:</strong> ~60KB (1,000 fields × 60 bytes)</li>
-      <li><strong>HMGET (10 fields):</strong> ~600 bytes (10 fields × 60 bytes)</li>
-      <li><strong>Performance difference:</strong> 100x smaller network payload</li>
-      <li><strong>Redis processing:</strong> HGETALL scans 1,000 fields vs HMGET scans 10 fields</li>
-    </ul>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Alternative: HSCAN for Very Large Hashes</h5>
-  <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">For hashes with &gt; 1,000 fields, consider HSCAN:</p>
-    <div style="font-family: monospace; font-size: 0.9rem; background: white; padding: 0.5rem; border-radius: 4px;">
-      # Incremental retrieval<br/>
-      HSCAN large:hash 0 COUNT 100<br/>
-      HSCAN large:hash 12345 COUNT 100<br/>
-      # Non-blocking, memory-efficient
-    </div>
-    <p style="margin: 0.5rem 0 0 0;">HSCAN provides the best of both worlds for very large hashes: selective retrieval without knowing field names in advance.</p>
-  </div>
-  
-  <div style="background: #d1ecf1; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-    <strong>Decision Framework:</strong>
-    <ul style="line-height: 1.6; margin-top: 0.5rem;">
-      <li><strong>&lt; 100 fields:</strong> HGETALL is usually fine</li>
-      <li><strong>100-1,000 fields:</strong> Use HMGET if you know which fields you need</li>
-      <li><strong>&gt; 1,000 fields:</strong> Use HSCAN for incremental access</li>
-      <li><strong>Unknown fields needed:</strong> HSCAN is your only option for large hashes</li>
-    </ul>
-  </div>
-</div>`,
-              },
-              {
-                question:
-                  "How does HINCRBY ensure atomicity in concurrent environments, and what are the practical implications for building distributed systems?",
-                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
-  <h4 style="margin-top: 0;">HINCRBY Atomicity and Distributed Systems</h4>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Atomic Operation Guarantees</h5>
-  <p style="line-height: 1.6; margin-bottom: 1rem;">HINCRBY provides strong atomicity guarantees that are crucial for distributed systems:</p>
-  
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
-      <h6 style="margin: 0 0 0.5rem 0;">What Atomicity Means</h6>
-      <ul style="line-height: 1.4;">
-        <li><strong>All-or-nothing:</strong> Operation completes fully or not at all</li>
-        <li><strong>Isolation:</strong> No intermediate states visible to other clients</li>
-        <li><strong>Consistency:</strong> Maintains data integrity</li>
-        <li><strong>No race conditions:</strong> Safe for concurrent access</li>
-      </ul>
-    </div>
-    
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
-      <h6 style="margin: 0 0 0.5rem 0;">How Redis Achieves This</h6>
-      <ul style="line-height: 1.4;">
-        <li><strong>Single-threaded:</strong> No context switching during operations</li>
-        <li><strong>Command queue:</strong> Operations processed sequentially</li>
-        <li><strong>Memory operations:</strong> Fast in-place updates</li>
-        <li><strong>Return value:</strong> Guaranteed to reflect the update</li>
-      </ul>
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Concurrent Access Scenarios</h5>
-  <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
-    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Scenario: Multiple clients incrementing the same counter</p>
-    <div style="font-family: monospace; font-size: 0.9rem; background: #f8f9fa; padding: 0.5rem; border-radius: 4px;">
-      # Initial value: counter = 100<br/>
-      # Client A: HINCRBY stats:views 1  # Returns: 101<br/>
-      # Client B: HINCRBY stats:views 1  # Returns: 102<br/>
-      # Client C: HINCRBY stats:views 1  # Returns: 103<br/>
-      # Final value: 103 (no lost increments)
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Comparison with Non-Atomic Approach</h5>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-    <div style="background: #f8d7da; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; color: #721c24;">Non-Atomic (Problematic)</h6>
-      <div style="font-family: monospace; font-size: 0.8rem;">
-        current = HGET counter<br/>
-        new_value = current + 1<br/>
-        HSET counter new_value<br/>
-        # Race condition: lost updates possible
-      </div>
-    </div>
-    
-    <div style="background: #d1edf1; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; color: #0c5460;">Atomic (Correct)</h6>
-      <div style="font-family: monospace; font-size: 0.8rem;">
-        HINCRBY counter 1<br/>
-        # No race condition, guaranteed consistency
-      </div>
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Practical Implications for Distributed Systems</h5>
-  <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-    <ul style="line-height: 1.6;">
-      <li><strong>No distributed locks needed:</strong> Eliminates lock management complexity</li>
-      <li><strong>Simplified application logic:</strong> No need for retry mechanisms for basic counters</li>
-      <li><strong>Predictable performance:</strong> Consistent behavior under load</li>
-      <li><strong>Scalability:</strong> Handles high concurrent update rates</li>
-      <li><strong>Reliability:</strong> No lost updates in failure scenarios</li>
-    </ul>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Use Cases Benefiting from HINCRBY Atomicity</h5>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
-    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Analytics & Metrics</h6>
-      <p style="margin: 0; font-size: 0.9rem;">Page views, click tracking, user engagement</p>
-    </div>
-    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Inventory Systems</h6>
-      <p style="margin: 0; font-size: 0.9rem;">Stock management, reservation systems</p>
-    </div>
-    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Rate Limiting</h6>
-      <p style="margin: 0; font-size: 0.9rem;">API quotas, usage tracking</p>
-    </div>
-    <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Gaming & Scoring</h6>
-      <p style="margin: 0; font-size: 0.9rem;">Leaderboards, point systems</p>
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Limitations and Considerations</h5>
-  <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-    <ul style="line-height: 1.6;">
-      <li><strong>Integer values only:</strong> HINCRBY works only with integer fields</li>
-      <li><strong>No conditional logic:</strong> Cannot implement "increment if" logic atomically</li>
-      <li><strong>Single field:</strong> Cannot atomically update multiple counters</li>
-      <li><strong>Redis cluster:</strong> All operations on a hash must go to the same node</li>
-      <li><strong>For complex atomic operations:</strong> Use Lua scripts or Redis transactions</li>
-    </ul>
-  </div>
-  
-  <div style="background: #d4edda; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-    <strong>Best Practice:</strong> Always use HINCRBY for counter operations in distributed systems. It eliminates race conditions without requiring complex locking mechanisms and provides predictable performance under concurrent access patterns.
-  </div>
-</div>`,
-              },
-            ],
-            links: [
-              "https://redis.io/commands/hset/",
-              "https://redis.io/commands/hget/",
-              "https://redis.io/commands/hmget/",
-              "https://redis.io/commands/hgetall/",
-              "https://redis.io/commands/hincrby/",
-              "https://redis.io/topics/pipelining",
-            ],
-          },
-          {
-            topic: "Sorted Set Operations",
-            tags: [
-              "sorted-set-operations",
-              "zadd",
-              "zrange",
-              "zrank",
-              "zincrby",
-              "zrem",
-              "ranking",
-              "leaderboards",
-            ],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
-     Redis Sorted Set operations provide powerful tools for managing ordered collections with scores. These operations enable efficient ranking systems, leaderboards, range queries, and priority queues with logarithmic time complexity for most operations.
-   </p>
-
-   <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #E91E63;">
-     <h4 style="margin: 0 0 1rem 0; font-size: 1.2rem;">Key Insight</h4>
-     <p style="margin: 0; line-height: 1.6;">Sorted Set operations leverage Redis's skip list + hash table dual structure to provide both efficient ordering and fast member lookups, making them ideal for ranking systems and range-based queries.</p>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFF0F5; padding-bottom: 0.5rem;">
-     ZADD: Adding and Updating Members
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Command Syntax and Options</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">ZADD is the primary command for adding members to sorted sets or updating their scores, with several options for different use cases:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Basic ZADD Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZADD key score member [score member ...]<br/>
-           ZADD leaderboard 1500 "player:alice"<br/>
-           ZADD leaderboard 1800 "player:bob" 1200 "player:charlie"
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Advanced Options</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZADD key [NX|XX] [CH] [INCR] score member<br/>
-           ZADD leaderboard NX 1600 "player:alice"<br/>
-           ZADD leaderboard XX CH 1700 "player:bob"<br/>
-           ZADD leaderboard INCR 100 "player:charlie"
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Option Flags Explained</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>NX:</strong> Only add new elements, don't update existing</li>
-       <li><strong>XX:</strong> Only update existing elements, don't add new</li>
-       <li><strong>CH:</strong> Return number of changed elements (new + updated)</li>
-       <li><strong>INCR:</strong> Increment score like ZINCRBY, return new score</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Return Values and Performance</h6>
-     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-       <ul style="line-height: 1.6;">
-         <li><strong>Time Complexity:</strong> O(log N) for each item added</li>
-         <li><strong>Return value:</strong> Number of new elements added (without CH)</li>
-         <li><strong>With CH:</strong> Number of elements added or updated</li>
-         <li><strong>With INCR:</strong> New score of the member</li>
-         <li><strong>Use Case:</strong> Leaderboard updates, score tracking</li>
-       </ul>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFF0F5; padding-bottom: 0.5rem;">
-     ZRANGE: Retrieving Members by Rank
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Range Retrieval Operations</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">ZRANGE retrieves members from sorted sets by their rank position, supporting both ascending and descending order with various options:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Basic ZRANGE Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZRANGE key start stop [WITHSCORES]<br/>
-           ZRANGE leaderboard 0 2<br/>
-           # Returns top 3 players<br/>
-           ZRANGE leaderboard -3 -1<br/>
-           # Returns bottom 3 players
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">With Scores and Reverse</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZRANGE leaderboard 0 2 WITHSCORES<br/>
-           # Returns: ["player:charlie", "1200", ...]<br/>
-           ZREVRANGE leaderboard 0 2 WITHSCORES<br/>
-           # Returns top 3 in descending order
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Rank Indexing System</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>0-based indexing:</strong> First element is at index 0</li>
-       <li><strong>Negative indices:</strong> -1 = last element, -2 = second last, etc.</li>
-       <li><strong>Range inclusive:</strong> Both start and stop indices are included</li>
-       <li><strong>Out of bounds:</strong> Automatically clamped to valid range</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance and Use Cases</h6>
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-       <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e9ecef;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Advantages</h6>
-         <ul style="line-height: 1.4;">
-           <li>O(log N + M) time complexity</li>
-           <li>Efficient pagination support</li>
-           <li>Flexible range specifications</li>
-           <li>Built-in reverse ordering</li>
-         </ul>
-       </div>
-       <div style="background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e9ecef;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Best For</h6>
-         <ul style="line-height: 1.4;">
-           <li>Leaderboard displays</li>
-           <li>Pagination of ranked data</li>
-           <li>Top N or bottom N queries</li>
-           <li>Rank-based filtering</li>
-         </ul>
-       </div>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFF0F5; padding-bottom: 0.5rem;">
-     ZRANK: Determining Member Position
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Rank Position Queries</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">ZRANK and ZREVRANK determine the position of a member within a sorted set, providing efficient ranking information:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">ZRANK Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZRANK key member<br/>
-           ZRANK leaderboard "player:alice"<br/>
-           # Returns: 2 (3rd position, 0-based)<br/>
-           ZREVRANK leaderboard "player:alice"<br/>
-           # Returns: 1 (2nd from top)
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Member Not Found</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZRANK leaderboard "player:nonexistent"<br/>
-           # Returns: (nil)<br/>
-           <br/>
-           ZRANK empty:set "any:member"<br/>
-           # Returns: (nil)
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Ranking Systems Explained</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>ZRANK:</strong> Returns rank in ascending order (lowest score = rank 0)</li>
-       <li><strong>ZREVRANK:</strong> Returns rank in descending order (highest score = rank 0)</li>
-       <li><strong>0-based indexing:</strong> First position is 0, not 1</li>
-       <li><strong>Ties:</strong> Members with same score are ordered lexicographically</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Characteristics</h6>
-     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-       <table style="width: 100%; border-collapse: collapse;">
-         <thead>
-           <tr>
-             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Operation</th>
-             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Time Complexity</th>
-             <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #b3d9ff;">Best For</th>
-           </tr>
-         </thead>
-         <tbody>
-           <tr>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">ZRANK / ZREVRANK</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(log N)</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Individual rank queries</td>
-           </tr>
-           <tr>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">ZRANGE 0 -1</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(log N + N)</td>
-             <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Complete ranking list</td>
-           </tr>
-           <tr>
-             <td style="padding: 0.5rem;">Multiple ZRANK calls</td>
-             <td style="padding: 0.5rem;">M × O(log N)</td>
-             <td style="padding: 0.5rem;">Multiple individual ranks</td>
-           </tr>
-         </tbody>
-       </table>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFF0F5; padding-bottom: 0.5rem;">
-     ZINCRBY: Atomic Score Updates
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Atomic Increment Operations</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">ZINCRBY provides atomic increment/decrement operations on member scores, ensuring consistency in concurrent environments:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">ZINCRBY Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZINCRBY key increment member<br/>
-           ZINCRBY leaderboard 100 "player:alice"<br/>
-           # Returns: "1600" (new score)<br/>
-           ZINCRBY leaderboard -50 "player:bob"<br/>
-           # Returns: "1750" (after decrement)
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">New Member Creation</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZINCRBY leaderboard 500 "player:new"<br/>
-           # Returns: "500"<br/>
-           # Creates member with initial score 0 + increment
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Atomicity Guarantees</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>Thread-safe:</strong> No race conditions between concurrent clients</li>
-       <li><strong>Consistent ordering:</strong> Automatic reordering after score changes</li>
-       <li><strong>Return value:</strong> New score after increment</li>
-       <li><strong>Member creation:</strong> Creates member if it doesn't exist</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Use Cases and Patterns</h6>
-     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Gaming Leaderboards</h6>
-         <p style="margin: 0; font-size: 0.9rem;">Real-time score updates with automatic ranking</p>
-       </div>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Voting Systems</h6>
-         <p style="margin: 0; font-size: 0.9rem;">Upvote/downvote with immediate ranking changes</p>
-       </div>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Priority Queues</h6>
-         <p style="margin: 0; font-size: 0.9rem;">Dynamic priority adjustments</p>
-       </div>
-       <div style="background: #f8f9fa; padding: 1rem; border-radius: 6px;">
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Analytics</h6>
-         <p style="margin: 0; font-size: 0.9rem;">Incremental metric tracking with ranking</p>
-       </div>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFF0F5; padding-bottom: 0.5rem;">
-     ZREM: Removing Members
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <h5 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Member Removal Operations</h5>
-     <p style="line-height: 1.6; margin-bottom: 1rem;">ZREM removes members from sorted sets, supporting single or multiple member removal with efficient rebalancing:</p>
-     
-     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0;">
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">ZREM Syntax</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZREM key member [member ...]<br/>
-           ZREM leaderboard "player:charlie"<br/>
-           # Returns: 1 (removed)<br/>
-           ZREM leaderboard "player:alice" "player:bob"<br/>
-           # Returns: 2 (both removed)
-         </div>
-       </div>
-       <div>
-         <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Non-existent Members</h6>
-         <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; font-family: monospace; font-size: 0.9rem;">
-           ZREM leaderboard "player:nonexistent"<br/>
-           # Returns: 0 (not found)<br/>
-           ZREM empty:set "any:member"<br/>
-           # Returns: 0
-         </div>
-       </div>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Related Removal Operations</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>ZREMRANGEBYRANK:</strong> Remove by rank range (e.g., bottom 10%)</li>
-       <li><strong>ZREMRANGEBYSCORE:</strong> Remove by score range (e.g., scores below threshold)</li>
-       <li><strong>ZPOPMIN / ZPOPMAX:</strong> Remove and return lowest/highest scoring members</li>
-       <li><strong>BZPOPMIN / BZPOPMAX:</strong> Blocking versions of pop operations</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance and Use Cases</h6>
-     <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-       <ul style="line-height: 1.6;">
-         <li><strong>Time Complexity:</strong> O(M * log N) for M members to remove</li>
-         <li><strong>Memory Reclamation:</strong> Automatic memory cleanup</li>
-         <li><strong>Use Case:</strong> User removal from leaderboards, data expiration</li>
-         <li><strong>Batch Efficiency:</strong> More efficient than multiple single removals</li>
-         <li><strong>Return Value:</strong> Number of members actually removed</li>
-       </ul>
-     </div>
-   </div>
-
-   <h4 style="margin-top: 2rem; font-size: 1.3rem; font-weight: 700; border-bottom: 2px solid #FFF0F5; padding-bottom: 0.5rem;">
-     Operation Comparison and Best Practices
-   </h4>
-
-   <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border: 1px solid #e9ecef;">
-     <div style="overflow-x: auto; margin: 1.5rem 0;">
-       <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden;">
-         <thead style="background: #f8f9fa;">
-           <tr>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Operation</th>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Time Complexity</th>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Return Value</th>
-             <th style="padding: 1rem; text-align: left; font-weight: bold;">Best Use Case</th>
-           </tr>
-         </thead>
-         <tbody>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">ZADD</td>
-             <td style="padding: 1rem;">O(log N) per item</td>
-             <td style="padding: 1rem;">Number of new elements</td>
-             <td style="padding: 1rem;">Adding/updating scores</td>
-           </tr>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">ZRANGE</td>
-             <td style="padding: 1rem;">O(log N + M)</td>
-             <td style="padding: 1rem;">Array of members/scores</td>
-             <td style="padding: 1rem;">Rank-based retrieval</td>
-           </tr>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">ZRANK</td>
-             <td style="padding: 1rem;">O(log N)</td>
-             <td style="padding: 1rem;">Rank position or nil</td>
-             <td style="padding: 1rem;">Finding member position</td>
-           </tr>
-           <tr style="border-bottom: 1px solid #e9ecef;">
-             <td style="padding: 1rem; font-weight: 600;">ZINCRBY</td>
-             <td style="padding: 1rem;">O(log N)</td>
-             <td style="padding: 1rem;">New score value</td>
-             <td style="padding: 1rem;">Atomic score updates</td>
-           </tr>
-           <tr>
-             <td style="padding: 1rem; font-weight: 600;">ZREM</td>
-             <td style="padding: 1rem;">O(M * log N)</td>
-             <td style="padding: 1rem;">Number removed</td>
-             <td style="padding: 1rem;">Member removal</td>
-           </tr>
-         </tbody>
-       </table>
-     </div>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Performance Optimization Guidelines</h6>
-     <ul style="line-height: 1.6;">
-       <li><strong>Use ZADD for multiple updates:</strong> Batch score updates in single command</li>
-       <li><strong>Prefer ZINCRBY for counters:</strong> Instead of ZADD for atomic increments</li>
-       <li><strong>Use ZRANGE with limits:</strong> Avoid retrieving entire sorted set unnecessarily</li>
-       <li><strong>Batch ZREM operations:</strong> Remove multiple members in single command</li>
-       <li><strong>Consider ZREMRANGEBYSCORE:</strong> For bulk removal by score criteria</li>
-     </ul>
-
-     <h6 style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Common Patterns and Anti-patterns</h6>
-     <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-       <ul style="line-height: 1.6;">
-         <li><strong>Good:</strong> Use ZINCRBY for real-time score updates in gaming</li>
-         <li><strong>Good:</strong> Use ZRANGE 0 9 WITHSCORES for top 10 leaderboards</li>
-         <li><strong>Bad:</strong> Using ZRANK + ZRANGE to find surrounding players (use ZRANGEBYSCORE instead)</li>
-         <li><strong>Bad:</strong> Multiple ZADD calls instead of single batch ZADD</li>
-         <li><strong>Bad:</strong> Using ZRANGE 0 -1 on large sorted sets for pagination</li>
-       </ul>
-     </div>
-   </div>
-
-   <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #28a745;">
-     <h5 style="margin: 0 0 1rem 0;">Real-World Implementation: Multi-player Gaming Leaderboard</h5>
-     <p style="margin: 0; line-height: 1.6;"><strong>Scenario:</strong> Real-time gaming platform with thousands of concurrent players, dynamic score updates, and live leaderboard displays.</p>
-     <p style="margin: 0.5rem 0 0 0; line-height: 1.6;"><strong>Solution:</strong> Use ZADD for initial player registration, ZINCRBY for atomic score updates during gameplay, ZRANGE for leaderboard displays, ZRANK for individual player positioning, and ZREM for player removal or cleanup. Implement pagination with ZRANGE to handle large player bases efficiently.</p>
-   </div>
-</div>`,
-            examples: [
-              `# =================================
-# REDIS SORTED SET OPERATIONS EXAMPLES
-# =================================
-
-# 1. ZADD OPERATIONS
-# Basic leaderboard setup
-ZADD leaderboard 1500 "player:alice"
-ZADD leaderboard 1800 "player:bob" 1200 "player:charlie" 1700 "player:diana"
-
-# Using options
-ZADD leaderboard NX 1600 "player:alice"        # No update if exists
-ZADD leaderboard XX CH 1700 "player:bob"       # Only update if exists, return changed count
-ZADD leaderboard INCR 100 "player:charlie"     # Increment like ZINCRBY
-
-# Check results
-ZCARD leaderboard                               # Returns: 4
-ZSCORE leaderboard "player:alice"               # Returns: "1500"
-
-# 2. ZRANGE OPERATIONS
-# Get top 3 players
-ZRANGE leaderboard 0 2 WITHSCORES
-# Returns: ["player:charlie", "1200", "player:alice", "1500", "player:diana", "1700"]
-
-# Get bottom 2 players
-ZRANGE leaderboard 0 1 WITHSCORES
-# Returns: ["player:charlie", "1200", "player:alice", "1500"]
-
-# Get reverse order (top players first)
-ZREVRANGE leaderboard 0 2 WITHSCORES
-# Returns: ["player:bob", "1800", "player:diana", "1700", "player:alice", "1500"]
-
-# Pagination example - page 2 (items 10-19)
-ZRANGE leaderboard 10 19 WITHSCORES
-
-# 3. ZRANK OPERATIONS
-# Find player positions
-ZRANK leaderboard "player:alice"                # Returns: 2 (3rd from bottom)
-ZRANK leaderboard "player:bob"                  # Returns: 3 (4th from bottom)
-ZREVRANK leaderboard "player:alice"             # Returns: 1 (2nd from top)
-
-# Non-existent member
-ZRANK leaderboard "player:nonexistent"          # Returns: (nil)
-
-# 4. ZINCRBY OPERATIONS
-# Atomic score updates
-ZINCRBY leaderboard 100 "player:alice"          # Returns: "1600"
-ZINCRBY leaderboard -50 "player:bob"            # Returns: "1750"
-ZINCRBY leaderboard 200 "player:newplayer"      # Returns: "200" (creates new)
-
-# Verify updates
-ZSCORE leaderboard "player:alice"               # Returns: "1600"
-ZREVRANGE leaderboard 0 -1 WITHSCORES
-# Shows updated order
-
-# 5. ZREM OPERATIONS
-# Remove single player
-ZREM leaderboard "player:charlie"               # Returns: 1
-
-# Remove multiple players
-ZREM leaderboard "player:alice" "player:bob"    # Returns: 2
-
-# Remove non-existent player
-ZREM leaderboard "player:nonexistent"           # Returns: 0
-
-# Check remaining players
-ZCARD leaderboard                               # Returns: 2
-ZRANGE leaderboard 0 -1 WITHSCORES
-# Returns: ["player:diana", "1700", "player:newplayer", "200"]
-
-# 6. REAL-WORLD GAMING SCENARIO
-# Game session with multiple operations
-
-# Initial setup
-ZADD game:scores 0 "user:1001" 0 "user:1002" 0 "user:1003"
-
-# During gameplay - atomic score updates
-ZINCRBY game:scores 100 "user:1001"             # User 1001 gains 100 points
-ZINCRBY game:scores 50 "user:1002"              # User 1002 gains 50 points
-ZINCRBY game:scores 200 "user:1003"             # User 1003 gains 200 points
-
-# Display current leaderboard
-ZREVRANGE game:scores 0 2 WITHSCORES
-# Returns: ["user:1003", "200", "user:1001", "100", "user:1002", "50"]
-
-# Find specific user's rank
-ZREVRANK game:scores "user:1001"                # Returns: 1 (2nd place)
-
-# User leaves game
-ZREM game:scores "user:1002"                    # Returns: 1
-
-# 7. E-COMMERCE PRODUCT RANKING
-# Product popularity based on views
-ZADD products:popularity 150 "product:1001" 89 "product:1002" 203 "product:1003"
-
-# Increment view counts
-ZINCRBY products:popularity 1 "product:1001"    # Product 1001 gets another view
-ZINCRBY products:popularity 5 "product:1002"    # Product 1002 gets 5 views
-
-# Get top 10 popular products
-ZREVRANGE products:popularity 0 9 WITHSCORES
-
-# Remove discontinued product
-ZREM products:popularity "product:1003"
-
-# 8. TIME-SERIES WITH SCORES
-# Using timestamps as scores for ordered events
-ZADD events 1642252800 "event:user:login:1001"
-ZADD events 1642252860 "event:order:create:5001"
-ZADD events 1642252920 "event:payment:success:5001"
-
-# Get events in time range
-ZRANGEBYSCORE events 1642252800 1642252900
-# Returns events between two timestamps
-
-# 9. PRIORITY QUEUE IMPLEMENTATION
-# Task queue with priorities (lower score = higher priority)
-ZADD tasks 1 "task:critical:backup"
-ZADD tasks 3 "task:normal:email"
-ZADD tasks 2 "task:high:cleanup
-Process highest priority task
-ZPOPMIN tasks 1                                 # Returns: ["task:critical:backup", "1"]
-
-# Add new task and check queue
-ZADD tasks 1 "task:new:critical"
-ZRANGE tasks 0 -1 WITHSCORES
-
-# 10. COMPLEX OPERATION PATTERNS
-# Multi-step ranking update
-
-# Current scores
-ZADD rankings 100 "team:A" 150 "team:B" 120 "team:C"
-
-# Team A wins against Team B
-ZINCRBY rankings 10 "team:A"                    # Winner gets +10
-ZINCRBY rankings -5 "team:B"                    # Loser gets -5
-
-# Check new rankings
-ZREVRANGE rankings 0 -1 WITHSCORES
-# Returns updated order
-
-# Remove inactive teams
-ZREMRANGEBYSCORE rankings -inf 50               # Remove teams with score <= 50
-
-# 11. PERFORMANCE COMPARISON
-# Inefficient: Multiple individual operations
-ZADD leaderboard 1000 "player:1"
-ZADD leaderboard 1100 "player:2"
-ZADD leaderboard 1200 "player:3"
-# 3 network round trips
-
-# Efficient: Batch operation
-ZADD leaderboard 1000 "player:1" 1100 "player:2" 1200 "player:3"
-# 1 network round trip
-
-# 12. ERROR HANDLING
-# Handling non-existent sorted sets
-ZRANGE empty:sorted:set 0 -1                    # Returns: (empty list or set)
-ZRANK empty:sorted:set "any:member"             # Returns: (nil)
-
-# Handling invalid scores
-ZADD leaderboard "not_a_number" "player:test"   # Returns: error`,
-            ],
-            questions: [
-              {
-                question:
-                  "What are the performance differences between using ZADD with INCR option versus ZINCRBY for score updates, and when should you choose one over the other?",
-                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
-  <h4 style="margin-top: 0;">ZADD INCR vs ZINCRBY Performance Analysis</h4>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Technical Comparison</h5>
-  <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
-    <table style="width: 100%; border-collapse: collapse;">
-      <thead>
-        <tr>
-          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">Aspect</th>
-          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">ZADD with INCR</th>
-          <th style="padding: 0.5rem; text-align: left; border-bottom: 1px solid #e9ecef;">ZINCRBY</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Time Complexity</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(log N)</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">O(log N)</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Atomicity</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Fully atomic</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Fully atomic</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Return Value</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">New score as bulk string</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">New score as bulk string</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Member Creation</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Creates if not exists</td>
-          <td style="padding: 0.5rem; border-bottom: 1px solid #e9ecef;">Creates if not exists</td>
-        </tr>
-        <tr>
-          <td style="padding: 0.5rem;">Multiple Operations</td>
-          <td style="padding: 0.5rem;">Cannot combine with other ZADD operations</td>
-          <td style="padding: 0.5rem;">Single purpose command</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">When to Use Each Approach</h5>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
-      <h6 style="margin: 0 0 0.5rem 0;">Use ZADD with INCR When:</h6>
-      <ul style="line-height: 1.4;">
-        <li>You're already using ZADD with other options</li>
-        <li>You need conditional logic with NX/XX flags</li>
-        <li>You want to track changed elements with CH flag</li>
-        <li>Your codebase primarily uses ZADD patterns</li>
-      </ul>
-    </div>
-    
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
-      <h6 style="margin: 0 0 0.5rem 0;">Use ZINCRBY When:</h6>
-      <ul style="line-height: 1.4;">
-        <li>You only need simple increment operations</li>
-        <li>Code clarity and intention are important</li>
-        <li>You're not using other ZADD options</li>
-        <li>Teaching or documenting Redis operations</li>
-      </ul>
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Practical Examples Comparison</h5>
-  <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">ZADD with INCR:</p>
-    <div style="font-family: monospace; font-size: 0.9rem; background: white; padding: 0.5rem; border-radius: 4px;">
-      ZADD leaderboard INCR 100 "player:alice"<br/>
-      # Clear intent: increment operation specifically
-    </div>
-    
-    <p style="margin: 1rem 0 0.5rem 0; font-weight: 600;">ZINCRBY:</p>
-    <div style="font-family: monospace; font-size: 0.9rem; background: white; padding: 0.5rem; border-radius: 4px;">
-      ZINCRBY leaderboard 100 "player:alice"<br/>
-      # Also clear intent, dedicated command
-    </div>
-    
-    <p style="margin: 1rem 0 0.5rem 0; font-weight: 600;">Complex ZADD with conditions:</p>
-    <div style="font-family: monospace; font-size: 0.9rem; background: white; padding: 0.5rem; border-radius: 4px;">
-      ZADD leaderboard NX INCR 100 "player:alice"<br/>
-      # Only increment if player doesn't exist<br/>
-      # This combination only works with ZADD
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Performance Considerations</h5>
-  <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-    <ul style="line-height: 1.6;">
-      <li><strong>No performance difference:</strong> Both have O(log N) complexity</li>
-      <li><strong>Network identical:</strong> Same command size and response format</li>
-      <li><strong>Redis processing:</strong> Same internal implementation</li>
-      <li><strong>Memory usage:</strong> Identical memory footprint</li>
-      <li><strong>The decision is about:</strong> Code clarity and use case requirements, not performance</li>
-    </ul>
-  </div>
-  
-  <div style="background: #d1ecf1; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-    <strong>Recommendation:</strong> Use ZINCRBY for simple increment operations as it clearly communicates intent. Use ZADD with INCR when you need to combine increment operations with other ZADD options like NX, XX, or CH for conditional logic.
-  </div>
-</div>`,
-              },
-              {
-                question:
-                  "How does Redis handle members with identical scores in sorted sets, and what strategies can be used to ensure deterministic ordering for ranking systems?",
-                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
-  <h4 style="margin-top: 0;">Handling Identical Scores and Deterministic Ordering</h4>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Redis Default Behavior for Ties</h5>
-  <p style="line-height: 1.6; margin-bottom: 1rem;">When multiple members have identical scores, Redis orders them lexicographically (alphabetically) by their member names:</p>
-  
-  <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
-    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Example of Default Tie-breaking:</p>
-    <div style="font-family: monospace; font-size: 0.9rem;">
-      ZADD leaderboard 100 "charlie" 100 "alice" 100 "bob"<br/>
-      ZRANGE leaderboard 0 -1 WITHSCORES<br/>
-      # Returns: ["alice", "100", "bob", "100", "charlie", "100"]<br/>
-      # Ordered alphabetically by member name
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Strategies for Deterministic Ordering</h5>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0;">
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #28a745;">
-      <h6 style="margin: 0 0 0.5rem 0;">Composite Scores</h6>
-      <p style="margin: 0; font-size: 0.9rem;">Encode secondary criteria into the score</p>
-      <div style="font-family: monospace; font-size: 0.8rem; background: #f8f9fa; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">
-        # Format: primary.secondary<br/>
-        ZADD leaderboard 1500.1642252800 "team:A"<br/>
-        ZADD leaderboard 1500.1642252860 "team:B"<br/>
-        # Earlier timestamp = higher priority
-      </div>
-    </div>
-    
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #007bff;">
-      <h6 style="margin: 0 0 0.5rem 0;">Composite Members</h6>
-      <p style="margin: 0; font-size: 0.9rem;">Encode ordering criteria in member names</p>
-      <div style="font-family: monospace; font-size: 0.8rem; background: #f8f9fa; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">
-        # Format: secondary:primary<br/>
-        ZADD leaderboard 100 "2024-01-15T10:00:00:user:A"<br/>
-        ZADD leaderboard 100 "2024-01-15T10:00:01:user:B"<br/>
-        # Lexicographical order preserves time order
-      </div>
-    </div>
-    
-    <div style="background: white; padding: 1rem; border-radius: 6px; border-left: 4px solid #6f42c1;">
-      <h6 style="margin: 0 0 0.5rem 0;">Floating Point Precision</h6>
-      <p style="margin: 0; font-size: 0.9rem;">Use micro-precision for secondary ordering</p>
-      <div style="font-family: monospace; font-size: 0.8rem; background: #f8f9fa; padding: 0.5rem; border-radius: 4px; margin-top: 0.5rem;">
-        base_score = 1500.0<br/>
-        secondary = sequence / 1000000.0<br/>
-        final_score = base_score + secondary<br/>
-        # Creates: 1500.000001, 1500.000002, etc.
-      </div>
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Advanced Techniques for Complex Ranking</h5>
-  <div style="background: #e7f3ff; padding: 1rem; border-radius: 4px;">
-    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Multi-criteria Ranking with Score Composition:</p>
-    <div style="font-family: monospace; font-size: 0.9rem; background: white; padding: 0.5rem; border-radius: 4px;">
-      # Factors: points, timestamp, bonus<br/>
-      base_points = 1500<br/>
-      time_factor = (max_timestamp - actual_timestamp) / 1000000.0<br/>
-      bonus_points = bonus * 0.001<br/>
-      final_score = base_points + time_factor + bonus_points<br/>
-      <br/>
-      # Earlier timestamps get slightly higher scores<br/>
-      # Bonus points create small score differences
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Lexicographical Ordering with ZRANGEBYLEX</h5>
-  <p style="line-height: 1.6; margin-bottom: 1rem;">When all members have the same score, you can use lexicographical range operations for more control:</p>
-  <div style="background: white; padding: 1rem; border-radius: 6px; margin: 1rem 0; border: 1px solid #e9ecef;">
-    <div style="font-family: monospace; font-size: 0.9rem;">
-      ZADD myset 0 "apple" 0 "banana" 0 "cherry"<br/>
-      ZRANGEBYLEX myset [a [c           # Returns: ["apple", "banana"]<br/>
-      ZRANGEBYLEX myset [b [d           # Returns: ["banana", "cherry"]<br/>
-      ZRANGEBYLEX myset - +             # Returns all in lex order
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Application-Level Solutions</h5>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
-    <div style="background: white; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Client-Side Sorting</h6>
-      <ul style="line-height: 1.4;">
-        <li>Retrieve range with ZRANGE</li>
-        <li>Sort by secondary criteria in application</li>
-        <li>Good for small datasets</li>
-        <li>Flexible but less efficient</li>
-      </ul>
-    </div>
-    
-    <div style="background: white; padding: 1rem; border-radius: 6px;">
-      <h6 style="margin: 0 0 0.5rem 0; font-weight: 600;">Multiple Sorted Sets</h6>
-      <ul style="line-height: 1.4;">
-        <li>Maintain separate sets for different criteria</li>
-        <li>Use ZINTERSTORE for combined ranking</li>
-        <li>More complex but powerful</li>
-        <li>Good for multi-factor ranking</li>
-      </ul>
-    </div>
-  </div>
-  
-  <h5 style="margin: 1rem 0 0.5rem 0;">Practical Implementation Example</h5>
-  <div style="background: #fff3cd; padding: 1rem; border-radius: 4px;">
-    <p style="margin: 0 0 0.5rem 0; font-weight: 600;">Gaming Leaderboard with Time-based Tie-breaking:</p>
-    <div style="font-family: monospace; font-size: 0.8rem; background: white; padding: 0.5rem; border-radius: 4px;">
-      # Calculate score with time component<br/>
-      base_score = player_points<br/>
-      time_component = (max_timestamp - achieve_time) / 1000000000.0<br/>
-      final_score = base_score + time_component<br/>
-      <br/>
-      # Earlier achievements get slightly higher scores<br/>
-      ZADD leaderboard final_score player_id<br/>
-      <br/>
-      # Display with original points<br/>
-      leaderboard_data = ZREVRANGE leaderboard 0 9 WITHSCORES<br/>
-      for player, score in leaderboard_data:<br/>
-      &nbsp;&nbsp;display_points = int(score)  # Remove time component for display
-    </div>
-  </div>
-  
-  <div style="background: #d4edda; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
-    <strong>Best Practice:</strong> For most ranking systems, use composite scores with floating-point precision for tie-breaking. This approach maintains Redis's efficient ordering while providing deterministic results. Ensure your secondary criteria are properly normalized to avoid interfering with different primary score ranges.
-  </div>
-</div>`,
-              },
-            ],
-            links: [
-              "https://redis.io/commands/zadd/",
-              "https://redis.io/commands/zrange/",
-              "https://redis.io/commands/zrank/",
-              "https://redis.io/commands/zincrby/",
-              "https://redis.io/commands/zrem/",
-              "https://redis.io/topics/data-types-sorted-sets",
             ],
           },
         ],

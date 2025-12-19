@@ -804,7 +804,9 @@ export default function BasicTabs({
                   Home
                 </button>
                 <span>/</span>
-                <span className="text-gray-900 font-medium">{topic}</span>
+                <span className="text-gray-900 font-medium">
+                  {topic[0].toUpperCase() + topic.slice(1)}
+                </span>
               </nav>
             </div>
 
