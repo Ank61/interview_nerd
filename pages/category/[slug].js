@@ -20,7 +20,14 @@ import { Tabs as MuiTabs } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import { motion, AnimatePresence } from "framer-motion";
 import Box from "@mui/material/Box";
-import { ArrowLeft, Home, User, Settings, BookCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Home,
+  User,
+  Settings,
+  BookCheck,
+  Network,
+} from "lucide-react";
 import { useRouter } from "next/router";
 import { Hash, X, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 import {
@@ -50,6 +57,7 @@ import MCQDailyChallenge from "@/components/gamification/MCQDailyChallenge";
 import QuestionFeedback from "@/components/questions/QuestionFeedback";
 import { useGamification } from "@/hooks/useGamification";
 import { Button } from "@/components/ui/button";
+import DiagramCanvas from "@/components/DiagramCanvas";
 
 export async function getStaticPaths() {
   const topics = [
@@ -555,6 +563,7 @@ export default function BasicTabs({
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
+  const [isDiagramOpen, setIsDiagramOpen] = React.useState(false);
 
   // Pagination states
   const [beginnerPage, setBeginnerPage] = React.useState(1);
@@ -824,6 +833,19 @@ export default function BasicTabs({
               >
                 <BookCheck size={16} />
                 <span>Practice MCQ</span>
+              </Button>
+
+              <Button
+                onClick={() => setIsDiagramOpen(true)}
+                variant="outline"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm hover:shadow-md transition-all duration-200"
+                style={{
+                  borderColor: themeColors?.border,
+                  color: themeColors?.text,
+                }}
+              >
+                <Network size={16} />
+                <span>Visual Summary</span>
               </Button>
 
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
@@ -1599,6 +1621,62 @@ export default function BasicTabs({
             question={selectedQuestion}
             topic={topic}
           />
+
+          {/* Diagram Canvas */}
+          {/* <DiagramCanvas
+            isOpen={isDiagramOpen}
+            onClose={() => setIsDiagramOpen(false)}
+            topicData={selectedTopicData}
+            topic={topic}
+            themeColors={themeColors}
+          /> */}
+
+          <AnimatePresence>
+            {isDiagramOpen && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsDiagramOpen(false)}
+                  className="fixed inset-0 bg-black bg-opacity-50 z-50"
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                  className="fixed inset-4 z-50 flex items-center justify-center p-0"
+                >
+                  <div className="bg-white rounded-xl shadow-2xl w-full h-full max-w-6xl max-h-[90vh] flex flex-col">
+                    <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        {topic.charAt(0).toUpperCase() + topic.slice(1)} -
+                        Visual Summary
+                      </h3>
+                      <button
+                        onClick={() => setIsDiagramOpen(false)}
+                        className="p-1 rounded-full hover:bg-gray-100"
+                      >
+                        <X className="w-5 h-5 text-gray-500" />
+                      </button>
+                    </div>
+                    <div className="flex-1 overflow-hidden">
+                      <div className="w-full h-full">
+                        <DiagramCanvas
+                          topicData={selectedTopicData}
+                          topic={topic}
+                          themeColors={themeColors}
+                          isOpen={isDiagramOpen}
+                          onClose={() => setIsDiagramOpen(false)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </Box>
     </>
