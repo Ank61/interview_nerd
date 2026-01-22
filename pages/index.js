@@ -28,6 +28,7 @@ import {
   Database,
   Workflow,
   FileCode2,
+  FileCode,
   CheckCircle,
   Target,
   Award,
@@ -44,6 +45,7 @@ import {
   FileText,
   Trophy,
 } from "lucide-react";
+// import snippetsData from "../data/snippets.json";
 import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
 
@@ -99,6 +101,12 @@ export default function Home() {
                 className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
               >
                 Features
+              </a>
+              <a
+                href="#snippets"
+                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
+              >
+                Snippets
               </a>
               <a
                 href="#categories"
@@ -250,6 +258,13 @@ export default function Home() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Features
+                </a>
+                <a
+                  href="#snippets"
+                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Snippets
                 </a>
                 <a
                   href="#categories"
@@ -1742,6 +1757,14 @@ export default function Home() {
                     className="text-gray-300 hover:text-white transition-colors"
                   >
                     Features
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#snippets"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Snippets
                   </a>
                 </li>
                 <li>

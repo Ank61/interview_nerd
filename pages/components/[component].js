@@ -13,10 +13,13 @@ import {
   User,
   Settings,
   Home,
+  FileCode,
+  SquareDashedBottom,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { SnippetFolder } from "@mui/icons-material";
 
 // Icon mapping for serializable data
 const iconMap = {
@@ -27,6 +30,8 @@ const iconMap = {
   Zap,
   Code,
   BookOpen,
+  FileCode,
+  SquareDashedBottom,
 };
 
 // Component data with major topics (serializable)
@@ -99,9 +104,9 @@ const componentData = {
     iconColor: "text-purple-600",
     topics: [
       {
-        name: "Scalability Patterns",
+        name: "Design Patterns",
         description:
-          "Horizontal vs vertical scaling, load balancing, and caching strategies",
+          "Design patterns, architecture patterns, and best practices",
         questions: 10,
         iconName: "Zap",
         color: "bg-purple-100",
@@ -137,6 +142,13 @@ const componentData = {
         questions: 5,
         iconName: "Cloud",
         color: "bg-orange-100",
+      },
+      {
+        name: "System Design Snippets",
+        description: "Small snippets for system design",
+        questions: 6,
+        iconName: "SquareDashedBottom",
+        color: "bg-blue-100",
       },
     ],
   },
@@ -249,6 +261,64 @@ const componentData = {
       },
     ],
   },
+  Snippets: {
+    title: "Code Snippets",
+    description:
+      "Quick reference code examples and implementation patterns for common interview topics and real-world scenarios.",
+    iconName: "FileCode",
+    color: "bg-indigo-50 border-indigo-200",
+    iconColor: "text-indigo-600",
+    topics: [
+      {
+        name: "Authentication",
+        description:
+          "JWT tokens, OAuth 2.0, session management, and security best practices",
+        questions: 8,
+        iconName: "Shield",
+        color: "bg-blue-100",
+      },
+      {
+        name: "Authorization",
+        description:
+          "RBAC, ABAC, permission systems, and access control patterns",
+        questions: 6,
+        iconName: "Shield",
+        color: "bg-green-100",
+      },
+      {
+        name: "SQL vs NoSQL",
+        description:
+          "Database selection criteria, trade-offs, and implementation patterns",
+        questions: 10,
+        iconName: "Database",
+        color: "bg-purple-100",
+      },
+      {
+        name: "Caching Strategies",
+        description:
+          "Redis, cache-aside patterns, invalidation, and performance optimization",
+        questions: 7,
+        iconName: "Zap",
+        color: "bg-yellow-100",
+      },
+      {
+        name: "API Design",
+        description:
+          "RESTful APIs, GraphQL, versioning, and documentation best practices",
+        questions: 9,
+        iconName: "Code",
+        color: "bg-indigo-100",
+      },
+      {
+        name: "Microservices",
+        description:
+          "Service communication, API gateways, and distributed architecture patterns",
+        questions: 8,
+        iconName: "Server",
+        color: "bg-orange-100",
+      },
+    ],
+  },
 };
 
 // Static generation functions
@@ -291,9 +361,19 @@ export default function ComponentPage({ componentData, componentName }) {
     if (topic.customLink) {
       router.push(topic.customLink);
     } else {
-      router.push(
-        `/category/${componentName}/${topic.name.replace(/\s+/g, "")}`
-      );
+      // Special routing for Snippets component
+      if (componentName === "Snippets") {
+        router.push("/snippets");
+      } else if (
+        componentName === "SystemDesign" &&
+        topic.name === "System Design Snippets"
+      ) {
+        router.push("/snippets");
+      } else {
+        router.push(
+          `/category/${componentName}/${topic.name.replace(/\s+/g, "")}`,
+        );
+      }
     }
   };
 
@@ -346,10 +426,7 @@ export default function ComponentPage({ componentData, componentName }) {
                   className="p-2 rounded-lg"
                   style={{ backgroundColor: "#f3f4f6" }}
                 >
-                  <BookOpen
-                    size={24}
-                    style={{ color: "#374151" }}
-                  />
+                  <BookOpen size={24} style={{ color: "#374151" }} />
                 </div>
                 <div>
                   <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -368,7 +445,9 @@ export default function ComponentPage({ componentData, componentName }) {
                   Home
                 </button>
                 <span>/</span>
-                <span className="text-gray-900 font-medium">System Design</span>
+                <span className="text-gray-900 font-medium">
+                  {componentData.title}
+                </span>
               </nav>
             </div>
 
