@@ -11874,7 +11874,7 @@ function ProductCard({ product }) {
   return (
     &lt;div&gt;
       &lt;h3&gt;{product.name}&lt;/h3&gt;
-      &lt;p&gt;${product.price}&lt;/p&gt;
+      &lt;p&gt;$ {product.price}&lt;/p&gt;
       &lt;button onClick={() =&gt; addItem(product)}&gt;Add to Cart&lt;/button&gt;
     &lt;/div&gt;
   );
@@ -11892,7 +11892,7 @@ function CartSummary() {
           &lt;button onClick={() =&gt; removeItem(item.id)}&gt;Remove&lt;/button&gt;
         &lt;/div&gt;
       ))}
-      &lt;p&gt;Total: ${totalPrice.toFixed(2)}&lt;/p&gt;
+      &lt;p&gt;Total: $ {totalPrice.toFixed(2)}&lt;/p&gt;
     &lt;/div&gt;
   );
 }
@@ -12179,7 +12179,7 @@ function AuthProvider({ children }) {
         const token = localStorage.getItem('authToken');
         if (token) {
           const response = await fetch('/api/auth/me', {
-            headers: { Authorization: \`Bearer \${token}\` }
+            headers: { Authorization: \`Bearer \$ {token}\` }
           });
           if (response.ok) {
             const userData = await response.json();
@@ -12234,7 +12234,7 @@ function AuthProvider({ children }) {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: \`Bearer \${localStorage.getItem('authToken')}\`
+          Authorization: \`Bearer \$ {localStorage.getItem('authToken')}\`
         },
         body: JSON.stringify(updates)
       });
@@ -12908,7 +12908,7 @@ function ProgressBar({ progress }) {
   
   const fillStyle = {
     height: '100%',
-    width: \`\${progress}%\`,
+    width: \`\$ {progress}%\`,
     backgroundColor: progress < 30 ? '#f44336' : progress < 70 ? '#ff9800' : '#4caf50',
     transition: 'width 0.3s ease, background-color 0.3s ease'
   };
@@ -12923,10 +12923,10 @@ function ProgressBar({ progress }) {
 // Computed styles based on calculations
 function Card({ index, total }) {
   const cardStyle = {
-    transform: \`translateX(\${index * 20}px) rotate(\${index * 2}deg)\`,
+    transform: \`translateX(\$ {index * 20}px) rotate(\$ {index * 2}deg)\`,
     zIndex: total - index,
     opacity: 1 - (index * 0.1),
-    boxShadow: \`0 \${2 + index}px \${8 + index * 2}px rgba(0,0,0,\${0.1 + index * 0.05})\`
+    boxShadow: \`0 \$ {2 + index}px \$ {8 + index * 2}px rgba(0,0,0,\$ {0.1 + index * 0.05})\`
   };
   
   return &lt;div style={cardStyle}&gt;Card {index + 1}&lt;/div&gt;;
@@ -13064,7 +13064,7 @@ const mixins = {
   },
   
   shadow: (depth = 1) =&gt; ({
-    boxShadow: \`0 \${depth * 2}px \${depth * 4}px rgba(0,0,0,\${depth * 0.1})\`
+    boxShadow: \`0 \$ {depth * 2}px \$ {depth * 4}px rgba(0,0,0,\$ {depth * 0.1})\`
   }),
   
   rounded: (size = 'medium') =&gt; {
@@ -13371,8 +13371,8 @@ function Spinner({ size = 40, color = '#007bff' }) {
   const spinnerStyle = {
     width: size,
     height: size,
-    border: \`\${size / 10}px solid #f3f3f3\`,
-    borderTop: \`\${size / 10}px solid \${color}\`,
+    border: \`\$ {size / 10}px solid #f3f3f3\`,
+    borderTop: \`\$ {size / 10}px solid \$ {color}\`,
     borderRadius: '50%',
     animation: 'spin 1s linear infinite'
   };
@@ -13394,7 +13394,7 @@ function StatusBadge({ status }) {
   const badgeStyle = {
     backgroundColor: colors.bg,
     color: colors.text,
-    border: \`1px solid \${colors.border}\`,
+    border: \`1px solid \$ {colors.border}\`,
     padding: '4px 8px',
     borderRadius: '4px',
     fontSize: '12px',
@@ -13413,7 +13413,7 @@ function Avatar({ name, size = 40 }) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
     const hue = hash % 360;
-    return \`hsl(\${hue}, 70%, 60%)\`;
+    return \`hsl(\$ {hue}, 70%, 60%)\`;
   };
   
   const initials = name.split(' ').map(n =&gt; n[0]).join('').toUpperCase();
@@ -13453,7 +13453,7 @@ function Skeleton({ width, height, borderRadius = 4 }) {
 // Pattern 5: Gradient backgrounds
 function GradientCard({ direction = 'to right', colors = ['#667eea', '#764ba2'] }) {
   const cardStyle = {
-    background: \`linear-gradient(\${direction}, \${colors.join(', ')})\`,
+    background: \`linear-gradient(\$ {direction}, \$ {colors.join(', ')})\`,
     padding: '30px',
     borderRadius: '12px',
     color: '#fff',
@@ -13564,7 +13564,7 @@ function StyledComponent({ color = 'primary', padding = 10, rounded = false }: S
   
   const style: CSSProperties = {
     backgroundColor: colorMap[color],
-    padding: \`\${padding}px\`,
+    padding: \`\$ {padding}px\`,
     borderRadius: rounded ? '8px' : '0',
     color: '#fff'
   };
@@ -13823,7 +13823,7 @@ function AutoPrefixedComponent() {
                 question:
                   "How do you create dynamic styles based on props in React?",
                 answer:
-                  "Use JavaScript expressions within the style object, typically with ternary operators, template literals, or object lookups. Access props and compute styles conditionally. For example: backgroundColor: primary ? '#007bff' : '#6c757d' or width: `${progress}%`. You can use spread operators to conditionally include style properties. This dynamic nature is one of the main advantages of inline styles over static CSS.",
+                  "Use JavaScript expressions within the style object, typically with ternary operators, template literals, or object lookups. Access props and compute styles conditionally. For example: backgroundColor: primary ? '#007bff' : '#6c757d' or width: `$ {progress}%`. You can use spread operators to conditionally include style properties. This dynamic nature is one of the main advantages of inline styles over static CSS.",
               },
               {
                 question:
@@ -13955,7 +13955,7 @@ function Button({ variant = 'primary', disabled, children }) {
   
   return (
     &lt;button 
-      className={\`\${styles.button} \${styles[variant]}\`}
+      className={\`\$ {styles.button} \$ {styles[variant]}\`}
       disabled={disabled}
     &gt;
       {children}
@@ -14056,10 +14056,10 @@ import styles from './Card.module.css';
 // Method 1: Template literals (simple and readable)
 function Card({ elevated, clickable, large, children }) {
   const className = \`
-    \${styles.card} 
-    \${elevated ? styles.elevated : ''} 
-    \${clickable ? styles.clickable : ''}
-    \${large ? styles.large : ''}
+    \$ {styles.card} 
+    \$ {elevated ? styles.elevated : ''} 
+    \$ {clickable ? styles.clickable : ''}
+    \$ {large ? styles.large : ''}
   \`.trim();
   
   return &lt;div className={className}&gt;{children}&lt;/div&gt;;
@@ -15091,8 +15091,8 @@ import clsx from 'clsx';
 function Card({ variant, size, elevated, children }) {
   const cardClass = clsx(
     styles.card,
-    styles[\`card\${variant.charAt(0).toUpperCase() + variant.slice(1)}\`],
-    styles[\`size\${size.charAt(0).toUpperCase() + size.slice(1)}\`],
+    styles[\`card\$ {variant.charAt(0).toUpperCase() + variant.slice(1)}\`],
+    styles[\`size\$ {size.charAt(0).toUpperCase() + size.slice(1)}\`],
     { [styles.elevated]: elevated }
   );
   
@@ -15283,7 +15283,7 @@ const Styled = styled.div\`padding: 20px; background: blue;\`;
                 question:
                   "How do you apply multiple conditional classes with CSS Modules?",
                 answer:
-                  "There are several approaches: template literals with ternaries (`${styles.card} ${active ? styles.active : ''}`), array filter join (classes.filter(Boolean).join(' ')), or utility libraries like classnames/clsx. The classnames library is most popular: classNames(styles.card, { [styles.active]: active, [styles.large]: large }). clsx is a lightweight alternative. These approaches handle conditional classes cleanly and are more readable than manual string concatenation.",
+                  "There are several approaches: template literals with ternaries (`$ {styles.card} $ {active ? styles.active : ''}`), array filter join (classes.filter(Boolean).join(' ')), or utility libraries like classnames/clsx. The classnames library is most popular: classNames(styles.card, { [styles.active]: active, [styles.large]: large }). clsx is a lightweight alternative. These approaches handle conditional classes cleanly and are more readable than manual string concatenation.",
               },
               {
                 question:
@@ -15464,12 +15464,12 @@ One of the most powerful features of Styled Components is the ability to adapt s
 <pre><code className="language-javascript">
 // Basic prop interpolation
 const Button = styled.button\`
-  background-color: \${props => props.primary ? '#007bff' : '#6c757d'};
+  background-color: \$ {props => props.primary ? '#007bff' : '#6c757d'};
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  font-size: \${props => props.large ? '18px' : '14px'};
+  font-size: \$ {props => props.large ? '18px' : '14px'};
   cursor: pointer;
 \`;
 
@@ -15484,7 +15484,7 @@ const Alert = styled.div\`
   border-radius: 4px;
   margin-bottom: 20px;
   
-  background-color: \${props => {
+  background-color: \$ {props => {
     switch (props.variant) {
       case 'success': return '#d4edda';
       case 'warning': return '#fff3cd';
@@ -15493,7 +15493,7 @@ const Alert = styled.div\`
     }
   }};
   
-  color: \${props => {
+  color: \$ {props => {
     switch (props.variant) {
       case 'success': return '#155724';
       case 'warning': return '#856404';
@@ -15502,7 +15502,7 @@ const Alert = styled.div\`
     }
   }};
   
-  border: 1px solid \${props => {
+  border: 1px solid \$ {props => {
     switch (props.variant) {
       case 'success': return '#c3e6cb';
       case 'warning': return '#ffeaa7';
@@ -15526,11 +15526,11 @@ const getButtonSize = (size) => {
 };
 
 const SizedButton = styled.button\`
-  \${props => {
+  \$ {props => {
     const { padding, fontSize } = getButtonSize(props.size);
     return \`
-      padding: \${padding};
-      font-size: \${fontSize};
+      padding: \$ {padding};
+      font-size: \$ {fontSize};
     \`;
   }}
   background-color: #007bff;
@@ -15545,12 +15545,12 @@ const Card = styled.div\`
   background: white;
   border-radius: 8px;
   
-  \${props => props.elevated && \`
+  \$ {props => props.elevated && \`
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     transform: translateY(-5px);
   \`}
   
-  \${props => props.clickable && \`
+  \$ {props => props.clickable && \`
     cursor: pointer;
     transition: all 0.3s ease;
     
@@ -15645,7 +15645,7 @@ const LinkButton = Button.withComponent('a');
 
 // Extending with prop modifications
 const ReversedButton = styled(Button)\`
-  background-color: \${props => props.primary ? '#6c757d' : '#007bff'};
+  background-color: \$ {props => props.primary ? '#6c757d' : '#007bff'};
 \`;
 </code></pre>
 </div>
@@ -15695,7 +15695,7 @@ const Heading = styled.h2\`
 \`;
 
 function DynamicHeading({ level, children }) {
-  return &lt;Heading as={\`h\${level}\`}&gt;{children}&lt;/Heading&gt;;
+  return &lt;Heading as={\`h\$ {level}\`}&gt;{children}&lt;/Heading&gt;;
 }
 
 // Usage
@@ -15768,14 +15768,14 @@ const darkTheme = {
 
 // Use theme in styled components
 const Button = styled.button\`
-  background-color: \${props => props.theme.colors.primary};
+  background-color: \$ {props => props.theme.colors.primary};
   color: white;
-  padding: \${props => props.theme.spacing.sm} \${props => props.theme.spacing.md};
+  padding: \$ {props => props.theme.spacing.sm} \$ {props => props.theme.spacing.md};
   border: none;
-  border-radius: \${props => props.theme.borderRadius};
-  font-family: \${props => props.theme.fonts.body};
+  border-radius: \$ {props => props.theme.borderRadius};
+  font-family: \$ {props => props.theme.fonts.body};
   cursor: pointer;
-  box-shadow: \${props => props.theme.shadows.small};
+  box-shadow: \$ {props => props.theme.shadows.small};
   
   &:hover {
     filter: brightness(0.9);
@@ -15783,11 +15783,11 @@ const Button = styled.button\`
 \`;
 
 const Container = styled.div\`
-  background-color: \${props => props.theme.colors.background};
-  color: \${props => props.theme.colors.text};
-  padding: \${props => props.theme.spacing.lg};
-  border: 1px solid \${props => props.theme.colors.border};
-  border-radius: \${props => props.theme.borderRadius};
+  background-color: \$ {props => props.theme.colors.background};
+  color: \$ {props => props.theme.colors.text};
+  padding: \$ {props => props.theme.spacing.lg};
+  border: 1px solid \$ {props => props.theme.colors.border};
+  border-radius: \$ {props => props.theme.borderRadius};
   min-height: 100vh;
 \`;
 
@@ -15837,7 +15837,7 @@ interface Theme {
 }
 
 const Button = styled.button&lt;{ variant?: 'primary' | 'secondary' }&gt;\`
-  background-color: \${props => 
+  background-color: \$ {props => 
     props.variant === 'secondary' 
       ? props.theme.colors.secondary 
       : props.theme.colors.primary
@@ -15936,11 +15936,11 @@ const Button = styled.button\`
   border: none;
   border-radius: 4px;
   
-  \${Icon} {
+  \$ {Icon} {
     color: yellow;
   }
   
-  &:hover \${Icon} {
+  &:hover \$ {Icon} {
     transform: scale(1.2);
   }
 \`;
@@ -16048,7 +16048,7 @@ const slideIn = keyframes\`
 
 // Use animations in styled components
 const FadeInDiv = styled.div\`
-  animation: \${fadeIn} 0.5s ease-out;
+  animation: \$ {fadeIn} 0.5s ease-out;
 \`;
 
 const Spinner = styled.div\`
@@ -16057,7 +16057,7 @@ const Spinner = styled.div\`
   border: 4px solid #f3f3f3;
   border-top: 4px solid #007bff;
   border-radius: 50%;
-  animation: \${spin} 1s linear infinite;
+  animation: \$ {spin} 1s linear infinite;
 \`;
 
 const PulseButton = styled.button\`
@@ -16066,7 +16066,7 @@ const PulseButton = styled.button\`
   color: white;
   border: none;
   border-radius: 4px;
-  animation: \${pulse} 2s ease-in-out infinite;
+  animation: \$ {pulse} 2s ease-in-out infinite;
 \`;
 
 const SlideInModal = styled.div\`
@@ -16076,26 +16076,26 @@ const SlideInModal = styled.div\`
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.5);
-  animation: \${slideIn} 0.3s ease-out;
+  animation: \$ {slideIn} 0.3s ease-out;
 \`;
 
 // Conditional animations based on props
 const AnimatedBox = styled.div\`
-  \${props => props.animate && \`
-    animation: \${fadeIn} 0.5s ease-out;
+  \$ {props => props.animate && \`
+    animation: \$ {fadeIn} 0.5s ease-out;
   \`}
 \`;
 
 // Multiple animations
 const ComplexAnimation = styled.div\`
   animation: 
-    \${fadeIn} 0.5s ease-out,
-    \${pulse} 2s ease-in-out 0.5s infinite;
+    \$ {fadeIn} 0.5s ease-out,
+    \$ {pulse} 2s ease-in-out 0.5s infinite;
 \`;
 
 // Dynamic animation duration
 const DynamicSpinner = styled.div\`
-  animation: \${spin} \${props => props.speed || '1s'} linear infinite;
+  animation: \$ {spin} \$ {props => props.speed || '1s'} linear infinite;
 \`;
 
 // Usage
@@ -16141,8 +16141,8 @@ const GlobalStyle = createGlobalStyle\`
   
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background-color: \${props => props.theme.colors.background};
-    color: \${props => props.theme.colors.text};
+    background-color: \$ {props => props.theme.colors.background};
+    color: \$ {props => props.theme.colors.text};
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -16155,7 +16155,7 @@ const GlobalStyle = createGlobalStyle\`
   }
   
   a {
-    color: \${props => props.theme.colors.primary};
+    color: \$ {props => props.theme.colors.primary};
     text-decoration: none;
   }
   
@@ -16232,8 +16232,8 @@ function App() {
 // Global styles with props
 const ThemedGlobalStyle = createGlobalStyle\`
   body {
-    background: \${props => props.isDark ? '#1a1a1a' : '#ffffff'};
-    color: \${props => props.isDark ? '#f8f9fa' : '#333333'};
+    background: \$ {props => props.isDark ? '#1a1a1a' : '#ffffff'};
+    color: \$ {props => props.isDark ? '#f8f9fa' : '#333333'};
   }
 \`;
 
@@ -16267,55 +16267,55 @@ const sharedStyles = css\`
 \`;
 
 const Button = styled.button\`
-  \${sharedStyles}
+  \$ {sharedStyles}
   background: #007bff;
   color: white;
 \`;
 
 const Card = styled.div\`
-  \${sharedStyles}
+  \$ {sharedStyles}
   background: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 \`;
 
 // Conditional CSS blocks with props
 const dynamicStyles = css\`
-  \${props => props.large && \`
+  \$ {props => props.large && \`
     padding: 15px 30px;
     font-size: 18px;
   \`}
   
-  \${props => props.outlined && \`
+  \$ {props => props.outlined && \`
     background: transparent;
     border: 2px solid currentColor;
   \`}
 \`;
 
 const FlexibleButton = styled.button\`
-  \${sharedStyles}
-  \${dynamicStyles}
+  \$ {sharedStyles}
+  \$ {dynamicStyles}
   background: #007bff;
   color: white;
 \`;
 
 // Mixins with parameters
 const truncate = (width = '250px') => css\`
-  width: \${width};
+  width: \$ {width};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 \`;
 
 const boxShadow = (depth = 1) => css\`
-  box-shadow: 0 \${depth * 2}px \${depth * 4}px rgba(0,0,0,\${depth * 0.1});
+  box-shadow: 0 \$ {depth * 2}px \$ {depth * 4}px rgba(0,0,0,\$ {depth * 0.1});
 \`;
 
 const Text = styled.p\`
-  \${truncate('200px')}
+  \$ {truncate('200px')}
 \`;
 
 const ElevatedCard = styled.div\`
-  \${boxShadow(3)}
+  \$ {boxShadow(3)}
   padding: 20px;
   background: white;
   border-radius: 8px;
@@ -16331,23 +16331,23 @@ const sizes = {
 
 const media = {
   mobile: (...args) => css\`
-    @media (min-width: \${sizes.mobile}) {
-      \${css(...args)}
+    @media (min-width: \$ {sizes.mobile}) {
+      \$ {css(...args)}
     }
   \`,
   tablet: (...args) => css\`
-    @media (min-width: \${sizes.tablet}) {
-      \${css(...args)}
+    @media (min-width: \$ {sizes.tablet}) {
+      \$ {css(...args)}
     }
   \`,
   desktop: (...args) => css\`
-    @media (min-width: \${sizes.desktop}) {
-      \${css(...args)}
+    @media (min-width: \$ {sizes.desktop}) {
+      \$ {css(...args)}
     }
   \`,
   wide: (...args) => css\`
-    @media (min-width: \${sizes.wide}) {
-      \${css(...args)}
+    @media (min-width: \$ {sizes.wide}) {
+      \$ {css(...args)}
     }
   \`
 };
@@ -16357,15 +16357,15 @@ const ResponsiveGrid = styled.div\`
   grid-template-columns: 1fr;
   gap: 20px;
   
-  \${media.tablet\`
+  \$ {media.tablet\`
     grid-template-columns: repeat(2, 1fr);
   \`}
   
-  \${media.desktop\`
+  \$ {media.desktop\`
     grid-template-columns: repeat(3, 1fr);
   \`}
   
-  \${media.wide\`
+  \$ {media.wide\`
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
   \`}
@@ -16390,7 +16390,7 @@ const Input = styled.input.attrs(props => ({
 // Dynamic attributes based on props
 const RotatingDiv = styled.div.attrs(props => ({
   style: {
-    transform: \`rotate(\${props.rotation}deg)\`
+    transform: \`rotate(\$ {props.rotation}deg)\`
   }
 }))\`
   width: 100px;
@@ -16421,7 +16421,7 @@ interface ButtonProps {
 
 // Typed styled component
 const Button = styled.button&lt;ButtonProps&gt;\`
-  padding: \${props => {
+  padding: \$ {props => {
     switch (props.size) {
       case 'small': return '5px 10px';
       case 'large': return '15px 30px';
@@ -16429,12 +16429,12 @@ const Button = styled.button&lt;ButtonProps&gt;\`
     }
   }};
   
-  background-color: \${props => props.primary ? '#007bff' : '#6c757d'};
+  background-color: \$ {props => props.primary ? '#007bff' : '#6c757d'};
   color: white;
   border: none;
   border-radius: 4px;
-  cursor: \${props => props.disabled ? 'not-allowed' : 'pointer'};
-  opacity: \${props => props.disabled ? 0.6 : 1};
+  cursor: \$ {props => props.disabled ? 'not-allowed' : 'pointer'};
+  opacity: \$ {props => props.disabled ? 0.6 : 1};
 \`;
 
 // Usage with type checking
@@ -16447,7 +16447,7 @@ interface ExtendedButtonProps extends ButtonProps {
 }
 
 const ExtendedButton = styled(Button)&lt;ExtendedButtonProps&gt;\`
-  \${props => props.variant === 'outlined' && \`
+  \$ {props => props.variant === 'outlined' && \`
     background-color: transparent;
     border: 2px solid currentColor;
   \`}
@@ -16476,9 +16476,9 @@ declare module 'styled-components' {
 
 // Now theme is fully typed
 const ThemedButton = styled.button\`
-  background-color: \${props => props.theme.colors.primary};
-  padding: \${props => props.theme.spacing.md};
-  border-radius: \${props => props.theme.borderRadius};
+  background-color: \$ {props => props.theme.colors.primary};
+  padding: \$ {props => props.theme.spacing.md};
+  border-radius: \$ {props => props.theme.borderRadius};
 \`;
 
 // Generic styled component
@@ -16489,7 +16489,7 @@ interface ContainerProps&lt;T = any&gt; {
 
 const Container = styled.div&lt;ContainerProps&gt;\`
   padding: 20px;
-  background: \${props => props.variant === 'dark' ? '#333' : '#fff'};
+  background: \$ {props => props.variant === 'dark' ? '#333' : '#fff'};
 \`;
 
 // With forwardRef
@@ -16498,7 +16498,7 @@ interface InputProps {
 }
 
 const Input = styled.input&lt;InputProps&gt;\`
-  border: 1px solid \${props => props.error ? 'red' : '#ddd'};
+  border: 1px solid \$ {props => props.error ? 'red' : '#ddd'};
   padding: 8px;
 \`;
 
@@ -16583,10 +16583,10 @@ app.get('/', (req, res) => {
       &lt;!DOCTYPE html&gt;
       &lt;html&gt;
         &lt;head&gt;
-          \${styleTags}
+          \$ {styleTags}
         &lt;/head&gt;
         &lt;body&gt;
-          &lt;div id="root"&gt;\${html}&lt;/div&gt;
+          &lt;div id="root"&gt;\$ {html}&lt;/div&gt;
         &lt;/body&gt;
       &lt;/html&gt;
     \`);
@@ -16651,7 +16651,7 @@ function BadDynamic() {
 
 // Good: Use styled-components props
 const DynamicComponent = styled.div\`
-  color: \${props => props.color};
+  color: \$ {props => props.color};
 \`;
 
 function GoodDynamic() {
@@ -16660,11 +16660,11 @@ function GoodDynamic() {
 
 // Memoization for expensive computations
 const ExpensiveComponent = styled.div\`
-  \${props => {
+  \$ {props => {
     // Expensive calculation
     const computedValue = expensiveFunction(props.data);
     return \`
-      background: \${computedValue};
+      background: \$ {computedValue};
     \`;
   }}
 \`;
@@ -16677,13 +16677,13 @@ function OptimizedComponent({ data }) {
 }
 
 const SimpleComponent = styled.div\`
-  background: \${props => props.bg};
+  background: \$ {props => props.bg};
 \`;
 
 // Use attrs for frequently changing props
 const ScrollContainer = styled.div.attrs(props => ({
   style: {
-    transform: \`translateY(\${props.scrollY}px)\`
+    transform: \`translateY(\$ {props.scrollY}px)\`
   }
 }))\`
   width: 100%;
@@ -16884,7 +16884,7 @@ import { css } from '@emotion/react';
                 question:
                   "How do you create dynamic styles based on props in Styled Components?",
                 answer:
-                  "Use interpolation functions within the template literal: ${props => props.primary ? '#007bff' : '#6c757d'}. You can access any prop and return CSS values. For complex logic, extract to helper functions or use the css helper for conditional style blocks. Props are fully typed with TypeScript, and you can use ternaries, switches, or any JavaScript expression to compute styles dynamically.",
+                  "Use interpolation functions within the template literal: $ {props => props.primary ? '#007bff' : '#6c757d'}. You can access any prop and return CSS values. For complex logic, extract to helper functions or use the css helper for conditional style blocks. Props are fully typed with TypeScript, and you can use ternaries, switches, or any JavaScript expression to compute styles dynamically.",
               },
               {
                 question:
@@ -16907,7 +16907,7 @@ import { css } from '@emotion/react';
                 question:
                   "How do animations and keyframes work in Styled Components?",
                 answer:
-                  "Import keyframes from styled-components to create animations: const fadeIn = keyframes`from { opacity: 0 } to { opacity: 1 }`. Use the keyframe in styled components via interpolation: animation: ${fadeIn} 0.5s ease-out. Keyframes are automatically scoped and get unique names to prevent conflicts. You can make animations dynamic based on props, create animation libraries, and combine multiple animations.",
+                  "Import keyframes from styled-components to create animations: const fadeIn = keyframes`from { opacity: 0 } to { opacity: 1 }`. Use the keyframe in styled components via interpolation: animation: $ {fadeIn} 0.5s ease-out. Keyframes are automatically scoped and get unique names to prevent conflicts. You can make animations dynamic based on props, create animation libraries, and combine multiple animations.",
               },
               {
                 question:
@@ -16954,7 +16954,7 @@ import { css } from '@emotion/react';
                 question:
                   "What is the difference between component selectors and string selectors?",
                 answer:
-                  "Component selectors reference other styled components directly (${Icon} { color: red; }), creating a dependency relationship that styled-components manages. String selectors use traditional CSS selectors (.classname { }). Component selectors are type-safe, refactor-friendly, and automatically updated when components change. String selectors are more flexible but lose type safety and require manual class name management. Prefer component selectors for internal component relationships.",
+                  "Component selectors reference other styled components directly ($ {Icon} { color: red; }), creating a dependency relationship that styled-components manages. String selectors use traditional CSS selectors (.classname { }). Component selectors are type-safe, refactor-friendly, and automatically updated when components change. String selectors are more flexible but lose type safety and require manual class name management. Prefer component selectors for internal component relationships.",
               },
               {
                 question:
@@ -17399,7 +17399,7 @@ function ProductCard({ product, onAddToCart }) {
   return (
     &lt;div&gt;
       &lt;h3&gt;{product.name}&lt;/h3&gt;
-      &lt;p&gt;${product.price}&lt;/p&gt;
+      &lt;p&gt;$ {product.price}&lt;/p&gt;
       &lt;button onClick={() => onAddToCart(product)}&gt;Add to Cart&lt;/button&gt;
     &lt;/div&gt;
   );
@@ -17425,7 +17425,7 @@ function CartSummary({ items, total }) {
   return (
     &lt;div&gt;
       &lt;h3&gt;Cart ({items.length} items)&lt;/h3&gt;
-      &lt;p&gt;Total: ${total.toFixed(2)}&lt;/p&gt;
+      &lt;p&gt;Total: $ {total.toFixed(2)}&lt;/p&gt;
     &lt;/div&gt;
   );
 }
@@ -17798,9 +17798,9 @@ function TotalDisplay({ price, quantity, taxRate }) {
   
   return (
     &lt;div&gt;
-      &lt;p&gt;Subtotal: ${subtotal.toFixed(2)}&lt;/p&gt;
-      &lt;p&gt;Tax ({(taxRate * 100).toFixed(0)}%): ${tax.toFixed(2)}&lt;/p&gt;
-      &lt;p&gt;&lt;strong&gt;Total: ${total.toFixed(2)}&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Subtotal: $ {subtotal.toFixed(2)}&lt;/p&gt;
+      &lt;p&gt;Tax ({(taxRate * 100).toFixed(0)}%): $ {tax.toFixed(2)}&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Total: $ {total.toFixed(2)}&lt;/strong&gt;&lt;/p&gt;
     &lt;/div&gt;
   );
 }
@@ -18107,7 +18107,7 @@ function ProductCard({ product, onAddToCart }) {
   return (
     &lt;div&gt;
       &lt;h3&gt;{product.name}&lt;/h3&gt;
-      &lt;p&gt;${product.price}&lt;/p&gt;
+      &lt;p&gt;$ {product.price}&lt;/p&gt;
       &lt;button onClick={() => onAddToCart(product)}&gt;Add to Cart&lt;/button&gt;
     &lt;/div&gt;
   );
@@ -18142,7 +18142,7 @@ function Cart({ items, onUpdateQuantity, onRemove, onClear }) {
           onRemove={onRemove}
         /&gt;
       ))}
-      &lt;p&gt;Total: ${total.toFixed(2)}&lt;/p&gt;
+      &lt;p&gt;Total: $ {total.toFixed(2)}&lt;/p&gt;
       &lt;button onClick={onClear}&gt;Clear Cart&lt;/button&gt;
     &lt;/div&gt;
   );
@@ -23020,7 +23020,7 @@ function ItemDetail({ item }) {
     &lt;div&gt;
       &lt;h2&gt;{item.name}&lt;/h2&gt;
       &lt;p&gt;{item.description}&lt;/p&gt;
-      &lt;p&gt;Price: ${item.price}&lt;/p&gt;
+      &lt;p&gt;Price: $ {item.price}&lt;/p&gt;
     &lt;/div&gt;
   );
 }
@@ -23183,7 +23183,7 @@ function CartItem({ item, quantity, onQuantityChange }) {
         quantity={quantity}
         onChange={onQuantityChange}
       /&gt;
-      &lt;span&gt;${item.price * quantity}&lt;/span&gt;
+      &lt;span&gt;$ {item.price * quantity}&lt;/span&gt;
     &lt;/div&gt;
   );
 }
@@ -23216,7 +23216,7 @@ function Cart() {
           onQuantityChange={(q) => handleQuantityChange(item.id, q)}
         /&gt;
       ))}
-      &lt;div&gt;Total: ${total}&lt;/div&gt;
+      &lt;div&gt;Total: $ {total}&lt;/div&gt;
     &lt;/div&gt;
   );
 }
@@ -25994,7 +25994,7 @@ function DataProcessingExample() {
       const categories = ['Electronics', 'Books', 'Clothing', 'Food'];
       return Array.from({ length: 1000 }, (_, i) => ({
         id: i + 1,
-        name: \`Product \${i + 1}\`,
+        name: \`Product \$ {i + 1}\`,
         category: categories[i % categories.length],
         price: Math.random() * 1000,
         rating: Math.floor(Math.random() * 5) + 1,
@@ -26043,7 +26043,7 @@ function DataProcessingExample() {
     };
 
     const processingTime = performance.now() - startTime;
-    console.log(\`Data processing took \${processingTime.toFixed(2)}ms\`);
+    console.log(\`Data processing took \$ {processingTime.toFixed(2)}ms\`);
 
     return {
       displayedData: sorted.slice(0, 50), // Show first 50 for performance
@@ -26142,12 +26142,12 @@ function useDebugMemo(factory, deps, label = 'Unknown') {
   
   const value = useMemo(() => {
     countRef.current++;
-    console.log(\`[useDebugMemo] \${label}: Computing (run #\${countRef.current})\`);
-    console.log(\`[useDebugMemo] \${label}: Previous deps:\`, prevDepsRef.current);
-    console.log(\`[useDebugMemo] \${label}: Current deps:\`, deps);
+    console.log(\`[useDebugMemo] \$ {label}: Computing (run #\$ {countRef.current})\`);
+    console.log(\`[useDebugMemo] \$ {label}: Previous deps:\`, prevDepsRef.current);
+    console.log(\`[useDebugMemo] \$ {label}: Current deps:\`, deps);
     
     const result = factory();
-    console.log(\`[useDebugMemo] \${label}: Result:\`, result);
+    console.log(\`[useDebugMemo] \$ {label}: Result:\`, result);
     
     prevDepsRef.current = deps;
     return result;
@@ -26838,7 +26838,7 @@ function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
   
   const fetchUser = useCallback(() => {
-    fetch(\`/api/users/\${userId}\`)
+    fetch(\`/api/users/\$ {userId}\`)
       .then(res => res.json())
       .then(setUser);
   }, [userId]); // Recreate when userId changes
@@ -26857,7 +26857,7 @@ function UserProfile({ userId }) {
   useEffect(() => {
     // Function defined inside useEffect
     const fetchUser = () => {
-      fetch(\`/api/users/\${userId}\`)
+      fetch(\`/api/users/\$ {userId}\`)
         .then(res => res.json())
         .then(setUser);
     };
@@ -26877,7 +26877,7 @@ function Component({ id }) {
   
   // Shared callback for multiple effects
   const fetchData = useCallback((endpoint, setter) => {
-    fetch(\`/api/\${endpoint}/\${id}\`)
+    fetch(\`/api/\$ {endpoint}/\$ {id}\`)
       .then(res => res.json())
       .then(setter);
   }, [id]);
@@ -26899,7 +26899,7 @@ function SearchComponent() {
   const [results, setResults] = useState([]);
   
   const search = useCallback((term) => {
-    fetch(\`/api/search?q=\${term}\`)
+    fetch(\`/api/search?q=\$ {term}\`)
       .then(res => res.json())
       .then(setResults);
   }, []); // No dependencies
@@ -27186,7 +27186,7 @@ function useAsync(asyncFunction) {
 // Usage
 function UserProfile({ userId }) {
   const fetchUser = useCallback(() => {
-    return fetch(\`/api/users/\${userId}\`).then(r => r.json());
+    return fetch(\`/api/users/\$ {userId}\`).then(r => r.json());
   }, [userId]);
   
   const { execute, status, data, error } = useAsync(fetchUser);
@@ -27574,7 +27574,7 @@ function Component({ userId }) {
   
   // ✅ Worth it - prevents unnecessary fetches
   const fetchData = useCallback(() => {
-    fetch(\`/api/users/\${userId}\`)
+    fetch(\`/api/users/\$ {userId}\`)
       .then(r => r.json())
       .then(setData);
   }, [userId]);
@@ -27649,7 +27649,7 @@ function Component({ items }) {
   // total is the number
   // Can use: total
   
-  return &lt;div&gt;Total: ${total}&lt;/div&gt;;
+  return &lt;div&gt;Total: $ {total}&lt;/div&gt;;
 }
 
 // When to use each:
@@ -27844,7 +27844,7 @@ function Editor({ documentId }) {
   }, []);
   
   useEffect(() => {
-    const ws = new WebSocket(\`wss://server/doc/\${documentId}\`);
+    const ws = new WebSocket(\`wss://server/doc/\$ {documentId}\`);
     wsRef.current = ws;
     
     ws.onmessage = (event) => {
@@ -28780,11 +28780,11 @@ function onRenderCallback(
   commitTime,
   interactions
 ) {
-  console.log(\`\${id} (\${phase}) took \${actualDuration}ms\`);
+  console.log(\`\$ {id} (\$ {phase}) took \$ {actualDuration}ms\`);
   
   // Log slow renders
   if (actualDuration > 16) { // 60fps threshold
-    console.warn(\`Slow render in \${id}: \${actualDuration}ms\`);
+    console.warn(\`Slow render in \$ {id}: \$ {actualDuration}ms\`);
   }
 }
 
@@ -28964,8 +28964,8 @@ function OptimizedSearch() {
     // Simulate API call
     const mockData = Array.from({ length: 1000 }, (_, i) => ({
       id: i + 1,
-      name: \`Item \${i + 1}\`,
-      category: \`Category \${(i % 5) + 1}\`
+      name: \`Item \$ {i + 1}\`,
+      category: \`Category \$ {(i % 5) + 1}\`
     }));
     
     startTransition(() => {
@@ -29008,7 +29008,7 @@ function withProfiler(WrappedComponent, id) {
   return function ProfilerWrapper(props) {
     const onRender = (id, phase, actualDuration, baseDuration) => {
       if (actualDuration > 10) {
-        console.warn(\`\${id} took \${actualDuration.toFixed(2)}ms to \${phase}\`);
+        console.warn(\`\$ {id} took \$ {actualDuration.toFixed(2)}ms to \$ {phase}\`);
       }
     };
 
@@ -78296,7 +78296,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     deposit(amount) {
       if (amount > 0) {
         this.#balance += amount;
-        console.log(\`Deposited $\${amount}. New balance: $\${this.#balance}\`);
+        console.log(\`Deposited $\$ {amount}. New balance: $\$ {this.#balance}\`);
       } else {
         console.log("Deposit amount must be positive");
       }
@@ -78306,7 +78306,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     withdraw(amount) {
       if (amount > 0 && amount <= this.#balance) {
         this.#balance -= amount;
-        console.log(\`Withdrawn $\${amount}. New balance: $\${this.#balance}\`);
+        console.log(\`Withdrawn $\$ {amount}. New balance: $\$ {this.#balance}\`);
       } else {
         console.log("Invalid withdrawal amount");
       }
@@ -78732,7 +78732,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     
     // Concrete method - shared implementation
     displayInfo() {
-      console.log(\`Color: \${this.color}, Area: \${this.calculateArea()}\`);
+      console.log(\`Color: \$ {this.color}, Area: \$ {this.calculateArea()}\`);
     }
   }
   
@@ -78804,7 +78804,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
       if (amount > 0) {
         this.#balance += amount;
         this.#addTransaction("Deposit", amount);
-        return \`Deposited $\${amount}. New balance: $\${this.#balance}\`;
+        return \`Deposited $\$ {amount}. New balance: $\$ {this.#balance}\`;
       }
       throw new Error("Invalid deposit amount");
     }
@@ -78813,7 +78813,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
       if (amount > 0 && amount <= this.#balance) {
         this.#balance -= amount;
         this.#addTransaction("Withdrawal", amount);
-        return \`Withdrawn $\${amount}. New balance: $\${this.#balance}\`;
+        return \`Withdrawn $\$ {amount}. New balance: $\$ {this.#balance}\`;
       }
       throw new Error("Invalid withdrawal amount or insufficient funds");
     }
@@ -79131,7 +79131,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
   class CreditCardProcessor extends PaymentProcessor {
     processPayment(amount, cardNumber) {
       if (!this.validatePayment(amount)) return false;
-      console.log(\`Processing $\${amount} via Credit Card: ***\${cardNumber.slice(-4)}\`);
+      console.log(\`Processing $\$ {amount} via Credit Card: ***\$ {cardNumber.slice(-4)}\`);
       return true;
     }
   }
@@ -79139,7 +79139,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
   class PayPalProcessor extends PaymentProcessor {
     processPayment(amount, email) {
       if (!this.validatePayment(amount)) return false;
-      console.log(\`Processing $\${amount} via PayPal: \${email}\`);
+      console.log(\`Processing $\$ {amount} via PayPal: \$ {email}\`);
       return true;
     }
   }`,
@@ -79309,13 +79309,13 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     }
     
     draw() {
-      console.log(\`Drawing rectangle: \${this.width}x\${this.height}\`);
+      console.log(\`Drawing rectangle: \$ {this.width}x\$ {this.height}\`);
     }
     
     resize(newWidth, newHeight) {
       this.width = newWidth;
       this.height = newHeight;
-      console.log(\`Rectangle resized to \${this.width}x\${this.height}\`);
+      console.log(\`Rectangle resized to \$ {this.width}x\$ {this.height}\`);
     }
   }
   
@@ -79324,7 +79324,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     move(x, y) {
       this.x = x;
       this.y = y;
-      console.log(\`Moved to position (\${x}, \${y})\`);
+      console.log(\`Moved to position (\$ {x}, \$ {y})\`);
     }
   };
   
@@ -79368,8 +79368,8 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     
     // Template method using abstract methods
     display() {
-      console.log(\`Color: \${this.getColor()}\`);
-      console.log(\`Area: \${this.calculateArea()}\`);
+      console.log(\`Color: \$ {this.getColor()}\`);
+      console.log(\`Area: \$ {this.calculateArea()}\`);
       this.draw();
     }
   }
@@ -79385,7 +79385,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     }
     
     draw() {
-      console.log(\`Drawing a \${this.color} circle with radius \${this.radius}\`);
+      console.log(\`Drawing a \$ {this.color} circle with radius \$ {this.radius}\`);
     }
   }
   
@@ -79400,7 +79400,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
     }
     
     draw() {
-      console.log(\`Drawing a \${this.color} square with side \${this.side}\`);
+      console.log(\`Drawing a \$ {this.color} square with side \$ {this.side}\`);
     }
   }
   </code></pre>
@@ -79866,11 +79866,11 @@ class Animal {
   }
   
   speak() {
-    console.log(\`\${this.name} makes a sound\`);
+    console.log(\`\$ {this.name} makes a sound\`);
   }
   
   info() {
-    console.log(\`\${this.name} is a \${this.species}\`);
+    console.log(\`\$ {this.name} is a \$ {this.species}\`);
   }
 }
 
@@ -79883,12 +79883,12 @@ class Dog extends Animal {
   
   // Method overriding
   speak() {
-    console.log(\`\${this.name} barks: Woof! Woof!\`);
+    console.log(\`\$ {this.name} barks: Woof! Woof!\`);
   }
   
   // New method specific to Dog
   wagTail() {
-    console.log(\`\${this.name} wags tail happily!\`);
+    console.log(\`\$ {this.name} wags tail happily!\`);
   }
 }
 
@@ -79900,11 +79900,11 @@ class Cat extends Animal {
   }
   
   speak() {
-    console.log(\`\${this.name} meows: Meow!\`);
+    console.log(\`\$ {this.name} meows: Meow!\`);
   }
   
   purr() {
-    console.log(\`\${this.name} purrs contentedly\`);
+    console.log(\`\$ {this.name} purrs contentedly\`);
   }
 }
 
@@ -79936,11 +79936,11 @@ function Vehicle(make, model, year) {
 
 // Adding methods to prototype
 Vehicle.prototype.getInfo = function() {
-  return \`\${this.year} \${this.make} \${this.model}\`;
+  return \`\$ {this.year} \$ {this.make} \$ {this.model}\`;
 };
 
 Vehicle.prototype.start = function() {
-  console.log(\`\${this.getInfo()} is starting...\`);
+  console.log(\`\$ {this.getInfo()} is starting...\`);
 };
 
 // Child constructor function
@@ -79957,7 +79957,7 @@ Car.prototype.constructor = Car;
 
 // Override parent method
 Car.prototype.start = function() {
-  console.log(\`\${this.getInfo()} car with \${this.doors} doors is starting...\`);
+  console.log(\`\$ {this.getInfo()} car with \$ {this.doors} doors is starting...\`);
 };
 
 // Add new method
@@ -81468,15 +81468,15 @@ class Vehicle {
     }
 
     start() {
-        console.log(\`\${this.brand} \${this.model} is starting...\`);
+        console.log(\`\$ {this.brand} \$ {this.model} is starting...\`);
     }
 
     stop() {
-        console.log(\`\${this.brand} \${this.model} has stopped.\`);
+        console.log(\`\$ {this.brand} \$ {this.model} has stopped.\`);
     }
 
     getInfo() {
-        return \`\${this.year} \${this.brand} \${this.model}\`;
+        return \`\$ {this.year} \$ {this.brand} \$ {this.model}\`;
     }
 }
 
@@ -81493,7 +81493,7 @@ class Car extends Vehicle {
 
     // Override parent method
     start() {
-        console.log(\`Car \${this.brand} \${this.model} engine started with key.\`);
+        console.log(\`Car \$ {this.brand} \$ {this.model} engine started with key.\`);
     }
 }
 
@@ -81510,7 +81510,7 @@ class Motorcycle extends Vehicle {
 
     // Override parent method
     start() {
-        console.log(\`Motorcycle \${this.brand} \${this.model} kick-started.\`);
+        console.log(\`Motorcycle \$ {this.brand} \$ {this.model} kick-started.\`);
     }
 }
 
@@ -81522,12 +81522,12 @@ class Truck extends Vehicle {
     }
 
     loadCargo() {
-        console.log(\`Truck can load up to \${this.loadCapacity} tons.\`);
+        console.log(\`Truck can load up to \$ {this.loadCapacity} tons.\`);
     }
 
     // Override parent method
     start() {
-        console.log(\`Truck \${this.brand} \${this.model} diesel engine started.\`);
+        console.log(\`Truck \$ {this.brand} \$ {this.model} diesel engine started.\`);
     }
 }
 
@@ -81755,29 +81755,29 @@ for shape in shapes:
   // Mixin 1
   const VehicleMixin = {
       startEngine() {
-          return \`\${this.brand} \${this.model} engine started!\`;
+          return \`\$ {this.brand} \$ {this.model} engine started!\`;
       },
       
       stopEngine() {
-          return \`\${this.brand} \${this.model} engine stopped!\`;
+          return \`\$ {this.brand} \$ {this.model} engine stopped!\`;
       }
   };
   
   // Mixin 2
   const ElectricMixin = {
       chargeBattery() {
-          return \`Battery charging... Capacity: \${this.batteryCapacity}kWh\`;
+          return \`Battery charging... Capacity: \$ {this.batteryCapacity}kWh\`;
       },
       
       batteryStatus() {
-          return \`Battery capacity: \${this.batteryCapacity}kWh\`;
+          return \`Battery capacity: \$ {this.batteryCapacity}kWh\`;
       }
   };
   
   // Mixin 3
   const GPSMixin = {
       navigate(destination) {
-          return \`GPS \${this.gpsVersion}: Navigating to \${destination}\`;
+          return \`GPS \$ {this.gpsVersion}: Navigating to \$ {destination}\`;
       },
       
       currentLocation() {
@@ -81803,11 +81803,11 @@ for shape in shapes:
       }
       
       carInfo() {
-          return \`\${this.brand} \${this.model} - Range: \${this.rangeKm}km\`;
+          return \`\$ {this.brand} \$ {this.model} - Range: \$ {this.rangeKm}km\`;
       }
       
       ecoMode() {
-          return \`\${this.brand} \${this.model} switched to eco mode for better efficiency\`;
+          return \`\$ {this.brand} \$ {this.model} switched to eco mode for better efficiency\`;
       }
   }
   
@@ -82060,11 +82060,11 @@ for shape in shapes:
       }
       
       makeSound() {
-          return \`\${this.name} makes a sound\`;
+          return \`\$ {this.name} makes a sound\`;
       }
       
       basicInfo() {
-          return \`\${this.name} is a \${this.species}\`;
+          return \`\$ {this.name} is a \$ {this.species}\`;
       }
   }
   
@@ -82076,11 +82076,11 @@ for shape in shapes:
       }
       
       giveBirth() {
-          return \`\${this.name} gives birth to live young\`;
+          return \`\$ {this.name} gives birth to live young\`;
       }
       
       regulateTemperature() {
-          return \`\${this.name} regulates body temperature\`;
+          return \`\$ {this.name} regulates body temperature\`;
       }
   }
   
@@ -82092,42 +82092,42 @@ for shape in shapes:
       }
       
       fly() {
-          return \`\${this.name} flies with \${this.wingspan}cm wingspan\`;
+          return \`\$ {this.name} flies with \$ {this.wingspan}cm wingspan\`;
       }
       
       layEggs() {
-          return \`\${this.name} lays eggs\`;
+          return \`\$ {this.name} lays eggs\`;
       }
   }
   
   // Mixin behaviors
   const CarnivoreMixin = {
       hunt() {
-          return \`\${this.name} hunts for prey\`;
+          return \`\$ {this.name} hunts for prey\`;
       },
       
       eatMeat() {
-          return \`\${this.name} eats meat\`;
+          return \`\$ {this.name} eats meat\`;
       }
   };
   
   const HerbivoreMixin = {
       graze() {
-          return \`\${this.name} grazes on plants\`;
+          return \`\$ {this.name} grazes on plants\`;
       },
       
       eatPlants() {
-          return \`\${this.name} eats plants\`;
+          return \`\$ {this.name} eats plants\`;
       }
   };
   
   const SwimmerMixin = {
       swim() {
-          return \`\${this.name} swims in water\`;
+          return \`\$ {this.name} swims in water\`;
       },
       
       dive() {
-          return \`\${this.name} dives underwater\`;
+          return \`\$ {this.name} dives underwater\`;
       }
   };
   
@@ -82139,11 +82139,11 @@ for shape in shapes:
       }
       
       roar() {
-          return \`\${this.name} roars loudly!\`;
+          return \`\$ {this.name} roars loudly!\`;
       }
       
       leadPride() {
-          return \`\${this.name} leads a pride of \${this.prideSize} lions\`;
+          return \`\$ {this.name} leads a pride of \$ {this.prideSize} lions\`;
       }
   }
   
@@ -82157,16 +82157,16 @@ for shape in shapes:
       }
       
       slideOnIce() {
-          return \`\${this.name} slides on ice\`;
+          return \`\$ {this.name} slides on ice\`;
       }
       
       huddleForWarmth() {
-          return \`\${this.name} huddles with \${this.colonySize} other penguins\`;
+          return \`\$ {this.name} huddles with \$ {this.colonySize} other penguins\`;
       }
       
       // Method overriding
       fly() {
-          return \`\${this.name} cannot fly but swims excellently\`;
+          return \`\$ {this.name} cannot fly but swims excellently\`;
       }
   }
   
@@ -82180,15 +82180,15 @@ for shape in shapes:
       }
       
       echolocation() {
-          return \`\${this.name} uses echolocation to navigate\`;
+          return \`\$ {this.name} uses echolocation to navigate\`;
       }
       
       communicate() {
-          return \`\${this.name} communicates with \${this.podSize} pod members\`;
+          return \`\$ {this.name} communicates with \$ {this.podSize} pod members\`;
       }
       
       jump() {
-          return \`\${this.name} jumps out of water\`;
+          return \`\$ {this.name} jumps out of water\`;
       }
   }
   
@@ -82209,11 +82209,11 @@ for shape in shapes:
       }
       
       glide() {
-          return \`\${this.name} glides above water for short distances\`;
+          return \`\$ {this.name} glides above water for short distances\`;
       }
       
       escapePredators() {
-          return \`\${this.name} escapes by flying out of water\`;
+          return \`\$ {this.name} escapes by flying out of water\`;
       }
   }
   
@@ -82496,15 +82496,15 @@ for shape in shapes:
       }
       
       makeSound() {
-          return \`\${this.name} makes a sound\`;
+          return \`\$ {this.name} makes a sound\`;
       }
       
       move() {
-          return \`\${this.name} is moving\`;
+          return \`\$ {this.name} is moving\`;
       }
       
       info() {
-          return \`\${this.name} is a \${this.species}\`;
+          return \`\$ {this.name} is a \$ {this.species}\`;
       }
   }
   
@@ -82517,23 +82517,23 @@ for shape in shapes:
       
       // Method overriding - providing specific implementation
       makeSound() {
-          return \`\${this.name} barks: Woof! Woof!\`;
+          return \`\$ {this.name} barks: Woof! Woof!\`;
       }
       
       // Method overriding with calling parent method
       move() {
           const parentMove = super.move();
-          return \`\${parentMove} by running on four legs\`;
+          return \`\$ {parentMove} by running on four legs\`;
       }
       
       // Adding new method specific to Dog
       fetch() {
-          return \`\${this.name} is fetching the ball\`;
+          return \`\$ {this.name} is fetching the ball\`;
       }
       
       // Getter method
       get breedInfo() {
-          return \`\${this.name} is a \${this.breed}\`;
+          return \`\$ {this.name} is a \$ {this.breed}\`;
       }
   }
   
@@ -82546,11 +82546,11 @@ for shape in shapes:
       
       // Method overriding
       makeSound() {
-          return \`\${this.name} chirps: Tweet! Tweet!\`;
+          return \`\$ {this.name} chirps: Tweet! Tweet!\`;
       }
       
       move() {
-          return \`\${this.name} is flying with \${this.wingSpan}cm wingspan\`;
+          return \`\$ {this.name} is flying with \$ {this.wingSpan}cm wingspan\`;
       }
   }
   
@@ -82637,14 +82637,14 @@ for shape in shapes:
   // Mixin for flying behavior
   const Flyable = {
       fly() {
-          return \`\${this.name} is flying through the air\`;
+          return \`\$ {this.name} is flying through the air\`;
       }
   };
   
   // Mixin for swimming behavior
   const Swimmable = {
       swim() {
-          return \`\${this.name} is swimming in water\`;
+          return \`\$ {this.name} is swimming in water\`;
       }
   };
   
@@ -82663,12 +82663,12 @@ for shape in shapes:
       
       // Method overriding
       makeSound() {
-          return \`\${this.name} quacks: Quack! Quack!\`;
+          return \`\$ {this.name} quacks: Quack! Quack!\`;
       }
       
       // This will be overridden by the mixin
       fly() {
-          return \`\${this.name} is flying over the pond\`;
+          return \`\$ {this.name} is flying over the pond\`;
       }
   }
   
@@ -82677,7 +82677,7 @@ for shape in shapes:
   
   // Override the mixin method
   Duck.prototype.fly = function() {
-      return \`\${this.name} is gracefully flying over the pond\`;
+      return \`\$ {this.name} is gracefully flying over the pond\`;
   };
   
   const duck = new Duck("Donald");
@@ -82773,15 +82773,15 @@ for shape in shapes:
       }
       
       start() {
-          return \`\${this.brand} \${this.model} is starting\`;
+          return \`\$ {this.brand} \$ {this.model} is starting\`;
       }
       
       stop() {
-          return \`\${this.brand} \${this.model} has stopped\`;
+          return \`\$ {this.brand} \$ {this.model} has stopped\`;
       }
       
       getInfo() {
-          return \`\${this.brand} \${this.model}\`;
+          return \`\$ {this.brand} \$ {this.model}\`;
       }
   }
   
@@ -82793,11 +82793,11 @@ for shape in shapes:
       
       // Method overriding
       start() {
-          return \`\${super.start()} - Engine running\`;
+          return \`\$ {super.start()} - Engine running\`;
       }
       
       honk() {
-          return \`\${this.getInfo()} goes Beep! Beep!\`;
+          return \`\$ {this.getInfo()} goes Beep! Beep!\`;
       }
   }
   
@@ -82809,11 +82809,11 @@ for shape in shapes:
       
       // Method overriding
       start() {
-          return \`\${super.start()} - \${this.engineSize}cc engine roaring\`;
+          return \`\$ {super.start()} - \$ {this.engineSize}cc engine roaring\`;
       }
       
       wheelie() {
-          return \`\${this.getInfo()} is doing a wheelie!\`;
+          return \`\$ {this.getInfo()} is doing a wheelie!\`;
       }
   }
   
@@ -82963,11 +82963,11 @@ for shape in shapes:
       constructor(name, species) {
           this.name = name;
           this.species = species;
-          console.log(\`Animal constructor called: \${name}\`);
+          console.log(\`Animal constructor called: \$ {name}\`);
       }
       
       makeSound() {
-          console.log(\`\${this.name} makes a sound\`);
+          console.log(\`\$ {this.name} makes a sound\`);
       }
   }
   
@@ -82976,11 +82976,11 @@ for shape in shapes:
           // Constructor chaining - calling parent constructor
           super(name, species);
           this.furColor = furColor;
-          console.log(\`Mammal constructor called: \${furColor} fur\`);
+          console.log(\`Mammal constructor called: \$ {furColor} fur\`);
       }
       
       feedMilk() {
-          console.log(\`\${this.name} feeds milk to babies\`);
+          console.log(\`\$ {this.name} feeds milk to babies\`);
       }
   }
   
@@ -82989,15 +82989,15 @@ for shape in shapes:
           // Constructor chaining - calling parent constructor
           super(name, "Canis lupus", furColor);
           this.breed = breed;
-          console.log(\`Dog constructor called: \${breed} breed\`);
+          console.log(\`Dog constructor called: \$ {breed} breed\`);
       }
       
       makeSound() {
-          console.log(\`\${this.name} barks: Woof!\`);
+          console.log(\`\$ {this.name} barks: Woof!\`);
       }
       
       fetch() {
-          console.log(\`\${this.name} fetches the ball\`);
+          console.log(\`\$ {this.name} fetches the ball\`);
       }
   }
   
@@ -83075,7 +83075,7 @@ for shape in shapes:
       constructor(name, age) {
           this.name = name;
           this.age = age;
-          console.log(\`Person constructor: \${name}, \${age}\`);
+          console.log(\`Person constructor: \$ {name}, \$ {age}\`);
       }
   }
   
@@ -83083,7 +83083,7 @@ for shape in shapes:
       constructor(name, age, studentId) {
           super(name, age); // Constructor chaining
           this.studentId = studentId;
-          console.log(\`Student constructor: ID \${studentId}\`);
+          console.log(\`Student constructor: ID \$ {studentId}\`);
       }
   }
   
@@ -83091,7 +83091,7 @@ for shape in shapes:
       constructor(name, age, studentId, thesisTopic) {
           super(name, age, studentId); // Constructor chaining
           this.thesisTopic = thesisTopic;
-          console.log(\`Graduate constructor: \${thesisTopic}\`);
+          console.log(\`Graduate constructor: \$ {thesisTopic}\`);
       }
   }
   
@@ -83250,7 +83250,7 @@ for shape in shapes:
       }
       
       describe() {
-          return \`This shape has area \${this.area()} and perimeter \${this.perimeter()}\`;
+          return \`This shape has area \$ {this.area()} and perimeter \$ {this.perimeter()}\`;
       }
   }
   
@@ -83307,9 +83307,9 @@ for shape in shapes:
   // Polymorphism in action
   function processShapes(shapes) {
       shapes.forEach(shape => {
-          console.log(\`\${shape.constructor.name}: \${shape.describe()}\`);
-          console.log(\`Area: \${shape.area().toFixed(2)}\`);
-          console.log(\`Perimeter: \${shape.perimeter().toFixed(2)}\`);
+          console.log(\`\$ {shape.constructor.name}: \$ {shape.describe()}\`);
+          console.log(\`Area: \$ {shape.area().toFixed(2)}\`);
+          console.log(\`Perimeter: \$ {shape.perimeter().toFixed(2)}\`);
           console.log("-".repeat(40));
       });
   }
@@ -83712,7 +83712,7 @@ class StringProcessor {
             // Template string with replacements
             let template = args[0];
             for (let i = 1; i < args.length; i++) {
-                template = template.replace(\`{{\${i-1}}}\`, args[i]);
+                template = template.replace(\`{{\$ {i-1}}}\`, args[i]);
             }
             return template;
         }
@@ -83867,15 +83867,15 @@ class Shape {
     }
     
     calculateArea() {
-        return \`\${this.name}: Area calculation not implemented\`;
+        return \`\$ {this.name}: Area calculation not implemented\`;
     }
     
     getPerimeter() {
-        return \`\${this.name}: Perimeter calculation not implemented\`;
+        return \`\$ {this.name}: Perimeter calculation not implemented\`;
     }
     
     displayInfo() {
-        console.log(\`Shape: \${this.name}\`);
+        console.log(\`Shape: \$ {this.name}\`);
         console.log(this.calculateArea());
         console.log(this.getPerimeter());
     }
@@ -83890,13 +83890,13 @@ class Circle extends Shape {
     // Method overriding
     calculateArea() {
         const area = Math.PI * this.radius * this.radius;
-        return \`Circle area: \${area.toFixed(2)} square units\`;
+        return \`Circle area: \$ {area.toFixed(2)} square units\`;
     }
     
     // Method overriding
     getPerimeter() {
         const perimeter = 2 * Math.PI * this.radius;
-        return \`Circle circumference: \${perimeter.toFixed(2)} units\`;
+        return \`Circle circumference: \$ {perimeter.toFixed(2)} units\`;
     }
 }
 
@@ -83910,13 +83910,13 @@ class Rectangle extends Shape {
     // Method overriding
     calculateArea() {
         const area = this.width * this.height;
-        return \`Rectangle area: \${area} square units\`;
+        return \`Rectangle area: \$ {area} square units\`;
     }
     
     // Method overriding
     getPerimeter() {
         const perimeter = 2 * (this.width + this.height);
-        return \`Rectangle perimeter: \${perimeter} units\`;
+        return \`Rectangle perimeter: \$ {perimeter} units\`;
     }
 }
 
@@ -83933,13 +83933,13 @@ class Triangle extends Shape {
     // Method overriding
     calculateArea() {
         const area = 0.5 * this.base * this.height;
-        return \`Triangle area: \${area} square units\`;
+        return \`Triangle area: \$ {area} square units\`;
     }
     
     // Method overriding
     getPerimeter() {
         const perimeter = this.side1 + this.side2 + this.side3;
-        return \`Triangle perimeter: \${perimeter} units\`;
+        return \`Triangle perimeter: \$ {perimeter} units\`;
     }
 }
 
@@ -84045,31 +84045,31 @@ class MediaPlayer {
     }
     
     play() {
-        return \`Playing \${this.filename}\`;
+        return \`Playing \$ {this.filename}\`;
     }
     
     stop() {
-        return \`Stopping \${this.filename}\`;
+        return \`Stopping \$ {this.filename}\`;
     }
 }
 
 class AudioPlayer extends MediaPlayer {
     play() {  // Override
-        return \`🎵 Playing audio: \${this.filename}\`;
+        return \`🎵 Playing audio: \$ {this.filename}\`;
     }
     
     stop() {  // Override
-        return \`⏹️ Audio stopped: \${this.filename}\`;
+        return \`⏹️ Audio stopped: \$ {this.filename}\`;
     }
 }
 
 class VideoPlayer extends MediaPlayer {
     play() {  // Override
-        return \`🎬 Playing video: \${this.filename}\`;
+        return \`🎬 Playing video: \$ {this.filename}\`;
     }
     
     stop() {  // Override
-        return \`⏹️ Video stopped: \${this.filename}\`;
+        return \`⏹️ Video stopped: \$ {this.filename}\`;
     }
 }
 
@@ -84386,7 +84386,7 @@ class Vector {
     
     // Control string conversion
     toString() {
-        return \`Vector(\${this.x}, \${this.y})\`;
+        return \`Vector(\$ {this.x}, \$ {this.y})\`;
     }
     
     // Control numeric conversion (limited use)
@@ -84415,7 +84415,7 @@ class Money {
             return this.amount;
         }
         if (hint === 'string') {
-            return \`\${this.amount} \${this.currency}\`;
+            return \`\$ {this.amount} \$ {this.currency}\`;
         }
         return this.amount; // default
     }
@@ -84425,7 +84425,7 @@ const money1 = new Money(100);
 const money2 = new Money(50);
 
 console.log(money1 + money2); // 150 (numeric conversion)
-console.log(\`I have \${money1}\`); // "I have 100 USD" (string conversion)`,
+console.log(\`I have \$ {money1}\`); // "I have 100 USD" (string conversion)`,
             ],
             questions: [
               {
@@ -84472,14 +84472,14 @@ class Temperature {
     }
     
     toString() {
-        return \`\${this.celsius}°C\`;
+        return \`\$ {this.celsius}°C\`;
     }
 }
 
 const temp1 = new Temperature(25);
 const temp2 = new Temperature(15);
 console.log(temp1 + temp2); // 40 (uses valueOf)
-console.log(\`Today is \${temp1}\`); // "Today is 25°C" (uses toString)
+console.log(\`Today is \$ {temp1}\`); // "Today is 25°C" (uses toString)
               </code></pre>
               <p>For true operator overloading, you need to define explicit methods like 'add()', 'subtract()', etc.</p>`,
               },
@@ -84680,12 +84680,12 @@ class Vehicle {
          * Dynamic dispatch will call the appropriate version
          */
         this.isRunning = true;
-        return \`\${this.brand} \${this.model} is starting...\`;
+        return \`\$ {this.brand} \$ {this.model} is starting...\`;
     }
     
     stop() {
         this.isRunning = false;
-        return \`\${this.brand} \${this.model} has stopped.\`;
+        return \`\$ {this.brand} \$ {this.model} has stopped.\`;
     }
     
     getInfo() {
@@ -84695,11 +84695,11 @@ class Vehicle {
          */
         const startMessage = this.start();
         const status = this.isRunning ? "running" : "stopped";
-        return \`\${this.year} \${this.brand} \${this.model} - Status: \${status}. \${startMessage}\`;
+        return \`\$ {this.year} \$ {this.brand} \$ {this.model} - Status: \$ {status}. \$ {startMessage}\`;
     }
     
     performMaintenance() {
-        return \`Performing basic maintenance on \${this.brand} \${this.model}\`;
+        return \`Performing basic maintenance on \$ {this.brand} \$ {this.model}\`;
     }
 }
 
@@ -84716,22 +84716,22 @@ class Car extends Vehicle {
          * even when called from parent class methods
          */
         this.isRunning = true;
-        return \`\${this.brand} \${this.model} engine roars to life with a powerful rumble!\`;
+        return \`\$ {this.brand} \$ {this.model} engine roars to life with a powerful rumble!\`;
     }
     
     stop() {
         this.isRunning = false;
-        return \`\${this.brand} \${this.model} engine shuts down with a final purr.\`;
+        return \`\$ {this.brand} \$ {this.model} engine shuts down with a final purr.\`;
     }
     
     honk() {
-        return \`\${this.brand} \${this.model} goes BEEP BEEP!\`;
+        return \`\$ {this.brand} \$ {this.model} goes BEEP BEEP!\`;
     }
     
     performMaintenance() {
         // Calls parent method and adds car-specific maintenance
         const basicMaintenance = super.performMaintenance();
-        return \`\${basicMaintenance}. Checking oil, brakes, and tire pressure.\`;
+        return \`\$ {basicMaintenance}. Checking oil, brakes, and tire pressure.\`;
     }
 }
 
@@ -84749,22 +84749,22 @@ class ElectricCar extends Car {
          * This overridden method will be called via dynamic dispatch
          */
         this.isRunning = true;
-        return \`\${this.brand} \${this.model} silently powers on - no engine noise!\`;
+        return \`\$ {this.brand} \$ {this.model} silently powers on - no engine noise!\`;
     }
     
     stop() {
         this.isRunning = false;
-        return \`\${this.brand} \${this.model} powers down silently.\`;
+        return \`\$ {this.brand} \$ {this.model} powers down silently.\`;
     }
     
     charge() {
         this.batteryLevel = 100;
-        return \`\${this.brand} \${this.model} battery charged to 100%\`;
+        return \`\$ {this.brand} \$ {this.model} battery charged to 100%\`;
     }
     
     performMaintenance() {
         // Electric cars have different maintenance needs
-        return \`Performing electric vehicle maintenance on \${this.brand} \${this.model}: 
+        return \`Performing electric vehicle maintenance on \$ {this.brand} \$ {this.model}: 
                 checking battery health, updating software, inspecting charging port.\`;
     }
 }
@@ -84781,12 +84781,12 @@ class Motorcycle extends Vehicle {
          * Motorcycles have their own starting characteristics
          */
         this.isRunning = true;
-        return \`\${this.brand} \${this.model} (\${this.engineSize}cc) kicks to life with a thunderous roar!\`;
+        return \`\$ {this.brand} \$ {this.model} (\$ {this.engineSize}cc) kicks to life with a thunderous roar!\`;
     }
     
     wheelie() {
         if (this.isRunning) {
-            return \`\${this.brand} \${this.model} pops a wheelie! 🏍️\`;
+            return \`\$ {this.brand} \$ {this.model} pops a wheelie! 🏍️\`;
         }
         return "Can't do a wheelie while stopped!";
     }
@@ -84810,7 +84810,7 @@ class VehicleManager {
          */
         console.log("\\n=== Starting All Vehicles ===");
         this.vehicles.forEach((vehicle, index) => {
-            console.log(\`\${index + 1}. \${vehicle.start()}\`);
+            console.log(\`\$ {index + 1}. \$ {vehicle.start()}\`);
         });
     }
     
@@ -84821,7 +84821,7 @@ class VehicleManager {
          */
         console.log("\\n=== Vehicle Information (with Dynamic Dispatch) ===");
         this.vehicles.forEach((vehicle, index) => {
-            console.log(\`\${index + 1}. \${vehicle.getInfo()}\`);
+            console.log(\`\$ {index + 1}. \$ {vehicle.getInfo()}\`);
         });
     }
     
@@ -84831,7 +84831,7 @@ class VehicleManager {
          */
         console.log("\\n=== Maintenance Schedule ===");
         this.vehicles.forEach((vehicle, index) => {
-            console.log(\`\${index + 1}. \${vehicle.performMaintenance()}\`);
+            console.log(\`\$ {index + 1}. \$ {vehicle.performMaintenance()}\`);
         });
     }
     
@@ -84843,20 +84843,20 @@ class VehicleManager {
         console.log("\\n=== Polymorphism Demonstration ===");
         
         this.vehicles.forEach((vehicle) => {
-            console.log(\`\\n--- \${vehicle.constructor.name}: \${vehicle.brand} \${vehicle.model} ---\`);
-            console.log(\`Start: \${vehicle.start()}\`);
-            console.log(\`Stop: \${vehicle.stop()}\`);
+            console.log(\`\\n--- \$ {vehicle.constructor.name}: \$ {vehicle.brand} \$ {vehicle.model} ---\`);
+            console.log(\`Start: \$ {vehicle.start()}\`);
+            console.log(\`Stop: \$ {vehicle.stop()}\`);
             
             // Check for type-specific methods using duck typing
             if (typeof vehicle.honk === 'function') {
-                console.log(\`Horn: \${vehicle.honk()}\`);
+                console.log(\`Horn: \$ {vehicle.honk()}\`);
             }
             if (typeof vehicle.charge === 'function') {
-                console.log(\`Charging: \${vehicle.charge()}\`);
+                console.log(\`Charging: \$ {vehicle.charge()}\`);
             }
             if (typeof vehicle.wheelie === 'function') {
                 vehicle.start(); // Make sure it's running
-                console.log(\`Trick: \${vehicle.wheelie()}\`);
+                console.log(\`Trick: \$ {vehicle.wheelie()}\`);
             }
         });
     }
@@ -85038,24 +85038,24 @@ class Plugin {
     
     activate() {
         this.isActive = true;
-        return \`\${this.name} v\${this.version}: Plugin activated\`;
+        return \`\$ {this.name} v\$ {this.version}: Plugin activated\`;
     }
     
     deactivate() {
         this.isActive = false;
-        return \`\${this.name} v\${this.version}: Plugin deactivated\`;
+        return \`\$ {this.name} v\$ {this.version}: Plugin deactivated\`;
     }
     
     execute(data) {
         // Base implementation - should be overridden
-        return \`\${this.name}: Processing data with base functionality\`;
+        return \`\$ {this.name}: Processing data with base functionality\`;
     }
     
     getInfo() {
         // Uses dynamic dispatch when calling execute()
         const status = this.isActive ? "Active" : "Inactive";
         const execution = this.execute("sample data");
-        return \`\${this.name} v\${this.version} - Status: \${status}\\nExecution: \${execution}\`;
+        return \`\$ {this.name} v\$ {this.version} - Status: \$ {status}\\nExecution: \$ {execution}\`;
     }
 }
 
@@ -85067,16 +85067,16 @@ class SecurityPlugin extends Plugin {
     
     activate() {
         this.isActive = true;
-        return \`\${this.name} v\${this.version}: Security plugin activated with \${this.securityLevel} security level 🛡️\`;
+        return \`\$ {this.name} v\$ {this.version}: Security plugin activated with \$ {this.securityLevel} security level 🛡️\`;
     }
     
     execute(data) {
         if (!this.isActive) return "Security plugin not active";
-        return \`\${this.name}: Scanning and securing data - \${this.securityLevel} level checks passed  \`;
+        return \`\$ {this.name}: Scanning and securing data - \$ {this.securityLevel} level checks passed  \`;
     }
     
     performSecurityScan() {
-        return \`\${this.name}: Comprehensive security scan completed\`;
+        return \`\$ {this.name}: Comprehensive security scan completed\`;
     }
 }
 
@@ -85088,16 +85088,16 @@ class PerformancePlugin extends Plugin {
     
     activate() {
         this.isActive = true;
-        return \`\${this.name} v\${this.version}: Performance plugin activated with \${this.optimizationLevel} optimization ⚡\`;
+        return \`\$ {this.name} v\$ {this.version}: Performance plugin activated with \$ {this.optimizationLevel} optimization ⚡\`;
     }
     
     execute(data) {
         if (!this.isActive) return "Performance plugin not active";
-        return \`\${this.name}: Optimizing data processing with \${this.optimizationLevel} level optimization 🚀\`;
+        return \`\$ {this.name}: Optimizing data processing with \$ {this.optimizationLevel} level optimization 🚀\`;
     }
     
     generateReport() {
-        return \`\${this.name}: Performance report generated\`;
+        return \`\$ {this.name}: Performance report generated\`;
     }
 }
 
@@ -85111,18 +85111,18 @@ class LoggingPlugin extends Plugin {
     activate() {
         this.isActive = true;
         this.log("Plugin activated");
-        return \`\${this.name} v\${this.version}: Logging plugin activated with \${this.logLevel} level 📝\`;
+        return \`\$ {this.name} v\$ {this.version}: Logging plugin activated with \$ {this.logLevel} level 📝\`;
     }
     
     execute(data) {
         if (!this.isActive) return "Logging plugin not active";
-        this.log(\`Processing: \${data}\`);
-        return \`\${this.name}: Data logged at \${this.logLevel} level\`;
+        this.log(\`Processing: \$ {data}\`);
+        return \`\$ {this.name}: Data logged at \$ {this.logLevel} level\`;
     }
     
     log(message) {
         const timestamp = new Date().toISOString();
-        this.logs.push(\`[\${timestamp}] \${this.logLevel}: \${message}\`);
+        this.logs.push(\`[\$ {timestamp}] \$ {this.logLevel}: \$ {message}\`);
     }
     
     getLogs() {
@@ -85138,7 +85138,7 @@ class PluginManager {
     
     registerPlugin(plugin) {
         this.plugins.set(plugin.name, plugin);
-        return \`Registered: \${plugin.name}\`;
+        return \`Registered: \$ {plugin.name}\`;
     }
     
     activateAll() {
@@ -92928,7 +92928,7 @@ class Square extends Shape {
 
 // Now both can be used interchangeably as Shape
 function printShapeInfo(shape) {
-    return \`Area: \${shape.getArea()}, Perimeter: \${shape.getPerimeter()}\`;
+    return \`Area: \$ {shape.getArea()}, Perimeter: \$ {shape.getPerimeter()}\`;
 }
 
 const rectangle = new Rectangle(5, 4);
@@ -93039,7 +93039,7 @@ class AudioPlayer extends MediaPlayer {
     }
     
     play() {
-        return \`Playing audio: \${this.audioFile}\`;
+        return \`Playing audio: \$ {this.audioFile}\`;
     }
     
     pause() {
@@ -93063,7 +93063,7 @@ class VideoPlayer extends MediaPlayer {
     }
     
     play() {
-        return \`Playing video: \${this.videoFile}\`;
+        return \`Playing video: \$ {this.videoFile}\`;
     }
     
     pause() {
@@ -93087,7 +93087,7 @@ class MediaController {
     
     startPlayback() {
         const duration = this.player.getDuration();
-        return \`\${this.player.play()} - Duration: \${duration} seconds\`;
+        return \`\$ {this.player.play()} - Duration: \$ {duration} seconds\`;
     }
     
     pausePlayback() {
@@ -93591,7 +93591,7 @@ class AudioPlayer extends Playable {
     
     seek(position) {
         this.position = position;
-        return \`Seeking to \${position}\`;
+        return \`Seeking to \$ {position}\`;
     }
     
     getCurrentPosition() {
@@ -93600,7 +93600,7 @@ class AudioPlayer extends Playable {
     
     setVolume(level) {
         this.volume = Math.max(0, Math.min(100, level));
-        return \`Volume set to \${this.volume}\`;
+        return \`Volume set to \$ {this.volume}\`;
     }
     
     getVolume() {
@@ -93822,7 +93822,7 @@ print(user_service_mongo.create_user("Bob"))      # Uses MongoDB
 // Low-level module
 class EmailService {
     sendEmail(to, subject, body) {
-        return \`Sending email to \${to}: \${subject}\`;
+        return \`Sending email to \$ {to}: \$ {subject}\`;
     }
 }
 
@@ -93834,13 +93834,13 @@ class NotificationService {
     
     sendWelcomeNotification(user) {
         const subject = "Welcome!";
-        const body = \`Welcome \${user.name}!\`;
+        const body = \`Welcome \$ {user.name}!\`;
         return this.emailService.sendEmail(user.email, subject, body);
     }
     
     sendPasswordResetNotification(user) {
         const subject = "Password Reset";
-        const body = \`Reset your password, \${user.name}\`;
+        const body = \`Reset your password, \$ {user.name}\`;
         return this.emailService.sendEmail(user.email, subject, body);
     }
 }
@@ -93866,25 +93866,25 @@ class NotificationProvider {
 // Low-level modules depend on abstraction
 class EmailProvider extends NotificationProvider {
     send(recipient, subject, message) {
-        return \`Email sent to \${recipient}: \${subject} - \${message}\`;
+        return \`Email sent to \$ {recipient}: \$ {subject} - \$ {message}\`;
     }
 }
 
 class SMSProvider extends NotificationProvider {
     send(recipient, subject, message) {
-        return \`SMS sent to \${recipient}: \${message}\`;
+        return \`SMS sent to \$ {recipient}: \$ {message}\`;
     }
 }
 
 class PushNotificationProvider extends NotificationProvider {
     send(recipient, subject, message) {
-        return \`Push notification sent to \${recipient}: \${subject}\`;
+        return \`Push notification sent to \$ {recipient}: \$ {subject}\`;
     }
 }
 
 class SlackProvider extends NotificationProvider {
     send(recipient, subject, message) {
-        return \`Slack message sent to \${recipient}: \${message}\`;
+        return \`Slack message sent to \$ {recipient}: \$ {message}\`;
     }
 }
 
@@ -93896,13 +93896,13 @@ class NotificationService {
     
     sendWelcomeNotification(user) {
         const subject = "Welcome!";
-        const message = \`Welcome to our platform, \${user.name}!\`;
+        const message = \`Welcome to our platform, \$ {user.name}!\`;
         return this.provider.send(user.contact, subject, message);
     }
     
     sendPasswordResetNotification(user) {
         const subject = "Password Reset";
-        const message = \`Hi \${user.name}, reset your password using this link.\`;
+        const message = \`Hi \$ {user.name}, reset your password using this link.\`;
         return this.provider.send(user.contact, subject, message);
     }
     
@@ -94118,39 +94118,39 @@ class CacheService {
 // Low-level implementations
 class DatabaseStorage extends ContentStorage {
     save(content) {
-        return \`Saved content "\${content.title}" to database\`;
+        return \`Saved content "\$ {content.title}" to database\`;
     }
     
     load(id) {
-        return { id, title: \`Content \${id}\`, body: "Content body..." };
+        return { id, title: \`Content \$ {id}\`, body: "Content body..." };
     }
     
     delete(id) {
-        return \`Deleted content \${id} from database\`;
+        return \`Deleted content \$ {id} from database\`;
     }
 }
 
 class FileSystemStorage extends ContentStorage {
     save(content) {
-        return \`Saved content "\${content.title}" to file system\`;
+        return \`Saved content "\$ {content.title}" to file system\`;
     }
     
     load(id) {
-        return { id, title: \`File Content \${id}\`, body: "File content..." };
+        return { id, title: \`File Content \$ {id}\`, body: "File content..." };
     }
     
     delete(id) {
-        return \`Deleted content \${id} from file system\`;
+        return \`Deleted content \$ {id} from file system\`;
     }
 }
 
 class ElasticsearchEngine extends SearchEngine {
     index(content) {
-        return \`Indexed "\${content.title}" in Elasticsearch\`;
+        return \`Indexed "\$ {content.title}" in Elasticsearch\`;
     }
     
     search(query) {
-        return [\`Result 1 for "\${query}"\`, \`Result 2 for "\${query}"\`];
+        return [\`Result 1 for "\$ {query}"\`, \`Result 2 for "\$ {query}"\`];
     }
 }
 
@@ -94166,12 +94166,12 @@ class RedisCache extends CacheService {
     
     set(key, value, ttl = 3600) {
         this.cache.set(key, value);
-        return \`Cached \${key} in Redis for \${ttl}s\`;
+        return \`Cached \$ {key} in Redis for \$ {ttl}s\`;
     }
     
     invalidate(key) {
         this.cache.delete(key);
-        return \`Invalidated cache for \${key}\`;
+        return \`Invalidated cache for \$ {key}\`;
     }
 }
 
@@ -94191,7 +94191,7 @@ class ContentManagementSystem {
         const indexResult = this.searchEngine.index(content);
         
         // Cache the content
-        const cacheResult = this.cache.set(\`content_\${content.id}\`, content);
+        const cacheResult = this.cache.set(\`content_\$ {content.id}\`, content);
         
         return {
             saved: saveResult,
@@ -94202,7 +94202,7 @@ class ContentManagementSystem {
     
     getContent(id) {
         // Try cache first
-        const cacheKey = \`content_\${id}\`;
+        const cacheKey = \`content_\$ {id}\`;
         let content = this.cache.get(cacheKey);
         
         if (!content) {
@@ -94229,7 +94229,7 @@ class ContentManagementSystem {
     
     deleteContent(id) {
         const deleteResult = this.storage.delete(id);
-        const cacheResult = this.cache.invalidate(\`content_\${id}\`);
+        const cacheResult = this.cache.invalidate(\`content_\$ {id}\`);
         
         return {
             deleted: deleteResult,
@@ -96236,11 +96236,11 @@ class MediaPlayer {
 // Adaptee - Advanced Media Player
 class AdvancedMediaPlayer {
     playVlc(fileName) {
-        return \`Playing vlc file: \${fileName}\`;
+        return \`Playing vlc file: \$ {fileName}\`;
     }
     
     playMp4(fileName) {
-        return \`Playing mp4 file: \${fileName}\`;
+        return \`Playing mp4 file: \$ {fileName}\`;
     }
 }
 
@@ -96266,12 +96266,12 @@ class MediaAdapter extends MediaPlayer {
 class AudioPlayer extends MediaPlayer {
     play(audioType, fileName) {
         if (audioType === "mp3") {
-            return \`Playing mp3 file: \${fileName}\`;
+            return \`Playing mp3 file: \$ {fileName}\`;
         } else if (audioType === "vlc" || audioType === "mp4") {
             const adapter = new MediaAdapter(audioType);
             return adapter.play(audioType, fileName);
         } else {
-            return \`Invalid media. \${audioType} format not supported\`;
+            return \`Invalid media. \$ {audioType} format not supported\`;
         }
     }
 }
@@ -96460,19 +96460,19 @@ class TextDecorator extends Text {
 // Concrete Decorators
 class BoldDecorator extends TextDecorator {
     write() {
-        return \`<b>\${this.text.write()}</b>\`;
+        return \`<b>\$ {this.text.write()}</b>\`;
     }
 }
 
 class ItalicDecorator extends TextDecorator {
     write() {
-        return \`<i>\${this.text.write()}</i>\`;
+        return \`<i>\$ {this.text.write()}</i>\`;
     }
 }
 
 class UnderlineDecorator extends TextDecorator {
     write() {
-        return \`<u>\${this.text.write()}</u>\`;
+        return \`<u>\$ {this.text.write()}</u>\`;
     }
 }
 
@@ -96483,7 +96483,7 @@ class ColorDecorator extends TextDecorator {
     }
     
     write() {
-        return \`<span style="color:\${this.color}">\${this.text.write()}</span>\`;
+        return \`<span style="color:\$ {this.color}">\$ {this.text.write()}</span>\`;
     }
 }
 
@@ -96687,14 +96687,14 @@ class RealAPIService extends APIService {
     }
     
     async fetchData(endpoint) {
-        console.log(\`Fetching data from: \${this.baseUrl}\${endpoint}\`);
+        console.log(\`Fetching data from: \$ {this.baseUrl}\$ {endpoint}\`);
         
         // Simulate API call delay
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         // Simulate API response
         return {
-            data: \`Data from \${endpoint}\`,
+            data: \`Data from \$ {endpoint}\`,
             timestamp: new Date().toISOString(),
             source: 'API'
         };
@@ -96719,7 +96719,7 @@ class CachingAPIProxy extends APIService {
             const isExpired = Date.now() - cached.timestamp > this.cacheTimeout;
             
             if (!isExpired) {
-                console.log(\`Cache hit for: \${endpoint}\`);
+                console.log(\`Cache hit for: \$ {endpoint}\`);
                 return {
                     ...cached.data,
                     source: 'Cache'
@@ -96730,7 +96730,7 @@ class CachingAPIProxy extends APIService {
         }
         
         // Fetch from API
-        console.log(\`Cache miss for: \${endpoint}\`);
+        console.log(\`Cache miss for: \$ {endpoint}\`);
         const data = await this.apiService.fetchData(endpoint);
         
         // Store in cache
@@ -96753,10 +96753,10 @@ class AccessControlProxy extends APIService {
     
     async fetchData(endpoint, userId) {
         if (!this.allowedUsers.includes(userId)) {
-            throw new Error(\`Access denied for user: \${userId}\`);
+            throw new Error(\`Access denied for user: \$ {userId}\`);
         }
         
-        console.log(\`Access granted for user: \${userId}\`);
+        console.log(\`Access granted for user: \$ {userId}\`);
         return await this.apiService.fetchData(endpoint);
     }
 }
@@ -96993,7 +96993,7 @@ class Button extends UIComponent {
     }
     
     render() {
-        return \`<button id="\${this.name}">\${this.text}</button>\`;
+        return \`<button id="\$ {this.name}">\$ {this.text}</button>\`;
     }
 }
 
@@ -97004,7 +97004,7 @@ class TextInput extends UIComponent {
     }
     
     render() {
-        return \`<input type="text" id="\${this.name}" placeholder="\${this.placeholder}" />\`;
+        return \`<input type="text" id="\$ {this.name}" placeholder="\$ {this.placeholder}" />\`;
     }
 }
 
@@ -97015,7 +97015,7 @@ class Label extends UIComponent {
     }
     
     render() {
-        return \`<label id="\${this.name}">\${this.text}</label>\`;
+        return \`<label id="\$ {this.name}">\$ {this.text}</label>\`;
     }
 }
 
@@ -97047,8 +97047,8 @@ class Panel extends UIComponent {
             .map(child => child.render())
             .join('\\n    ');
         
-        return \`<div id="\${this.name}" class="\${this.cssClass}">
-    \${childrenHtml}
+        return \`<div id="\$ {this.name}" class="\$ {this.cssClass}">
+    \$ {childrenHtml}
 </div>\`;
     }
 }
@@ -97077,8 +97077,8 @@ class Form extends UIComponent {
             .map(child => child.render())
             .join('\\n    ');
         
-        return \`<form id="\${this.name}" action="\${this.action}" method="\${this.method}">
-    \${childrenHtml}
+        return \`<form id="\$ {this.name}" action="\$ {this.action}" method="\$ {this.method}">
+    \$ {childrenHtml}
 </form>\`;
     }
 }
@@ -97447,13 +97447,13 @@ class CompressionStrategy {
 
 class ZipCompression extends CompressionStrategy {
     compress(data) {
-        return \`ZIP compressed: \${data} (reduced by 60%)\`;
+        return \`ZIP compressed: \$ {data} (reduced by 60%)\`;
     }
 }
 
 class RarCompression extends CompressionStrategy {
     compress(data) {
-        return \`RAR compressed: \${data} (reduced by 70%)\`;
+        return \`RAR compressed: \$ {data} (reduced by 70%)\`;
     }
 }
 
@@ -97664,7 +97664,7 @@ class Subject {
     attach(observer) {
         if (!this.observers.includes(observer)) {
             this.observers.push(observer);
-            console.log(\`Observer \${observer.constructor.name} attached\`);
+            console.log(\`Observer \$ {observer.constructor.name} attached\`);
         }
     }
     
@@ -97672,12 +97672,12 @@ class Subject {
         const index = this.observers.indexOf(observer);
         if (index > -1) {
             this.observers.splice(index, 1);
-            console.log(\`Observer \${observer.constructor.name} detached\`);
+            console.log(\`Observer \$ {observer.constructor.name} detached\`);
         }
     }
     
     notify() {
-        console.log(\`Notifying \${this.observers.length} observers...\`);
+        console.log(\`Notifying \$ {this.observers.length} observers...\`);
         this.observers.forEach(observer => observer.update(this));
     }
 }
@@ -97714,7 +97714,7 @@ class StockTrader extends Observer {
     update(subject) {
         const price = subject.getPrice();
         const symbol = subject.getSymbol();
-        console.log(\`\${this.name}: \${symbol} is now $\${price}. Analyzing trade opportunity...\`);
+        console.log(\`\$ {this.name}: \$ {symbol} is now $\$ {price}. Analyzing trade opportunity...\`);
     }
 }
 
@@ -97727,7 +97727,7 @@ class StockDisplay extends Observer {
     update(subject) {
         const price = subject.getPrice();
         const symbol = subject.getSymbol();
-        console.log(\`\${this.displayName} updated: \${symbol} = $\${price}\`);
+        console.log(\`\$ {this.displayName} updated: \$ {symbol} = $\$ {price}\`);
     }
 }
 
@@ -97741,7 +97741,7 @@ class PriceAlert extends Observer {
         const price = subject.getPrice();
         const symbol = subject.getSymbol();
         if (price > this.alertThreshold) {
-            console.log(\`🚨 ALERT: \${symbol} exceeded threshold! Current price: $\${price}\`);
+            console.log(\`🚨 ALERT: \$ {symbol} exceeded threshold! Current price: $\$ {price}\`);
         }
     }
 }
@@ -97860,11 +97860,11 @@ class View extends Observer {
     }
     
     update(model) {
-        console.log(\`\${this.name} updated with data:\`, model.getAllData());
+        console.log(\`\$ {this.name} updated with data:\`, model.getAllData());
     }
     
     render() {
-        console.log(\`\${this.name} is rendering...\`);
+        console.log(\`\$ {this.name} is rendering...\`);
     }
 }
 
@@ -98134,12 +98134,12 @@ class Document {
     
     write(text) {
         this.content += text;
-        console.log(\`Document content: "\${this.content}"\`);
+        console.log(\`Document content: "\$ {this.content}"\`);
     }
     
     delete(length) {
         this.content = this.content.slice(0, -length);
-        console.log(\`Document content: "\${this.content}"\`);
+        console.log(\`Document content: "\$ {this.content}"\`);
     }
     
     getContent() {
@@ -98346,22 +98346,22 @@ class FileSystem {
     
     createFile(filename) {
         this.files.add(filename);
-        console.log(\`Created file: \${filename}\`);
+        console.log(\`Created file: \$ {filename}\`);
     }
     
     deleteFile(filename) {
         this.files.delete(filename);
-        console.log(\`Deleted file: \${filename}\`);
+        console.log(\`Deleted file: \$ {filename}\`);
     }
     
     createDirectory(dirname) {
         this.directories.add(dirname);
-        console.log(\`Created directory: \${dirname}\`);
+        console.log(\`Created directory: \$ {dirname}\`);
     }
     
     deleteDirectory(dirname) {
         this.directories.delete(dirname);
-        console.log(\`Deleted directory: \${dirname}\`);
+        console.log(\`Deleted directory: \$ {dirname}\`);
     }
     
     fileExists(filename) {
@@ -98750,7 +98750,7 @@ class TrafficLight {
     }
     
     setState(state) {
-        console.log(\`State changing from \${this.currentState.getColor()} to \${state.getColor()}\`);
+        console.log(\`State changing from \$ {this.currentState.getColor()} to \$ {state.getColor()}\`);
         this.currentState = state;
         if (this.isRunning) {
             this.currentState.handle(this);
@@ -98794,7 +98794,7 @@ class CharacterState {
 
 class IdleCharacterState extends CharacterState {
     enter(character) {
-        console.log(\`\${character.name} is now idle\`);
+        console.log(\`\$ {character.name} is now idle\`);
         character.velocity = { x: 0, y: 0 };
     }
     
@@ -98822,7 +98822,7 @@ class IdleCharacterState extends CharacterState {
 
 class WalkingCharacterState extends CharacterState {
     enter(character) {
-        console.log(\`\${character.name} starts walking\`);
+        console.log(\`\$ {character.name} starts walking\`);
         character.velocity = { x: 2, y: 0 };
     }
     
@@ -98850,7 +98850,7 @@ class WalkingCharacterState extends CharacterState {
 
 class RunningCharacterState extends CharacterState {
     enter(character) {
-        console.log(\`\${character.name} starts running\`);
+        console.log(\`\$ {character.name} starts running\`);
         character.velocity = { x: 5, y: 0 };
     }
     
@@ -98865,7 +98865,7 @@ class RunningCharacterState extends CharacterState {
     }
     
     exit(character) {
-        console.log(\`\${character.name} stops running\`);
+        console.log(\`\$ {character.name} stops running\`);
     }
     
     handleInput(character, input) {
@@ -98891,7 +98891,7 @@ class JumpingCharacterState extends CharacterState {
     }
     
     enter(character) {
-        console.log(\`\${character.name} jumps!\`);
+        console.log(\`\$ {character.name} jumps!\`);
         character.velocity = { x: character.velocity.x, y: -10 };
         character.energy -= 5;
         
@@ -98997,7 +98997,7 @@ const gameLoop = setInterval(() => {
         hero.handleInput(randomInput);
     }
     
-    console.log(\`Time: \${gameTime}, Status:\`, hero.getStatus());
+    console.log(\`Time: \$ {gameTime}, Status:\`, hero.getStatus());
     
     gameTime++;
     if (gameTime > 10) {
@@ -99981,7 +99981,7 @@ class Animal {
     }
     
     info() {
-        return \`I am an \${this.species}\`;
+        return \`I am an \$ {this.species}\`;
     }
 }
 
@@ -100168,7 +100168,7 @@ class Duck extends mixinFactory(Flyable, Swimmable, Walkable)(Animal) {
     }
     
     introduce() {
-        return \`I'm \${this.name}, I can \${this.fly()}, \${this.swim()}, and \${this.walk()}\`;
+        return \`I'm \$ {this.name}, I can \$ {this.fly()}, \$ {this.swim()}, and \$ {this.walk()}\`;
     }
 }
 
@@ -100703,11 +100703,11 @@ class Door extends createComponent(class {
         this.initEvents();
         this.initStateMachine('closed');
         
-        this.addTransition('closed', 'open', () => console.log(\`\${this.name} opened\`));
-        this.addTransition('open', 'closed', () => console.log(\`\${this.name} closed\`));
+        this.addTransition('closed', 'open', () => console.log(\`\$ {this.name} opened\`));
+        this.addTransition('open', 'closed', () => console.log(\`\$ {this.name} closed\`));
         
         this.on('stateChange', (change) => {
-            console.log(\`Door \${this.name} changed from \${change.from} to \${change.to}\`);
+            console.log(\`Door \$ {this.name} changed from \$ {change.from} to \$ {change.to}\`);
         });
     }
     
@@ -100934,7 +100934,7 @@ class VirtualBase {
     
     setSharedValue(key, value) {
         this.sharedState.set(key, value);
-        console.log(\`VirtualBase: Set \${key} = \${value}\`);
+        console.log(\`VirtualBase: Set \$ {key} = \$ {value}\`);
     }
     
     getSharedValue(key) {
@@ -100943,7 +100943,7 @@ class VirtualBase {
     }
     
     getInfo() {
-        return \`VirtualBase accessed \${this.accessCount} times, has \${this.sharedState.size} values\`;
+        return \`VirtualBase accessed \$ {this.accessCount} times, has \$ {this.sharedState.size} values\`;
     }
 }
 
@@ -100951,7 +100951,7 @@ class VirtualBase {
 const VirtualInheritanceMixin = {
     initVirtualBase() {
         this._virtualBase = VirtualBase.getInstance();
-        console.log(\`\${this.constructor.name}: Connected to virtual base\`);
+        console.log(\`\$ {this.constructor.name}: Connected to virtual base\`);
     },
     
     setShared(key, value) {
@@ -100976,7 +100976,7 @@ class LeftBranch {
     
     leftMethod() {
         this.setShared("leftAccess", new Date().toISOString());
-        return \`Left method executed at \${this.getShared("leftAccess")}\`;
+        return \`Left method executed at \$ {this.getShared("leftAccess")}\`;
     }
 }
 
@@ -100989,7 +100989,7 @@ class RightBranch {
     
     rightMethod() {
         this.setShared("rightAccess", new Date().toISOString());
-        return \`Right method executed at \${this.getShared("rightAccess")}\`;
+        return \`Right method executed at \$ {this.getShared("rightAccess")}\`;
     }
 }
 
@@ -101015,7 +101015,7 @@ class DiamondChild extends LeftBranch {
     childMethod() {
         const leftTime = this.getShared("leftAccess");
         const rightTime = this.getShared("rightAccess");
-        return \`Child method - Left: \${leftTime}, Right: \${rightTime}\`;
+        return \`Child method - Left: \$ {leftTime}, Right: \$ {rightTime}\`;
     }
     
     demonstrateSharedState() {
@@ -101115,8 +101115,8 @@ const ProxiedLeft = virtualProxy.createProxy(class {
     
     leftAction() {
         const count = this.increment();
-        this.store(\`left_\${this.name}\`, count);
-        return \`Left \${this.name} action #\${count}\`;
+        this.store(\`left_\$ {this.name}\`, count);
+        return \`Left \$ {this.name} action #\$ {count}\`;
     }
 });
 
@@ -101128,8 +101128,8 @@ const ProxiedRight = virtualProxy.createProxy(class {
     
     rightAction() {
         const count = this.increment();
-        this.store(\`right_\${this.name}\`, count);
-        return \`Right \${this.name} action #\${count}\`;
+        this.store(\`right_\$ {this.name}\`, count);
+        return \`Right \$ {this.name} action #\$ {count}\`;
     }
 });
 
@@ -101312,12 +101312,12 @@ class Button extends Component {
     constructor(name) {
         super(name);
         this.on('click', (data) => {
-            console.log(\`Button \${this.name} received click: \${data}\`);
+            console.log(\`Button \$ {this.name} received click: \$ {data}\`);
         });
     }
     
     click(data) {
-        this.emit('click', \`\${this.name}: \${data}\`);
+        this.emit('click', \`\$ {this.name}: \$ {data}\`);
     }
 }
 
@@ -101325,12 +101325,12 @@ class Form extends Component {
     constructor(name) {
         super(name);
         this.on('click', (data) => {
-            console.log(\`Form \${this.name} detected click: \${data}\`);
+            console.log(\`Form \$ {this.name} detected click: \$ {data}\`);
         });
     }
     
     submit() {
-        this.emit('submit', \`Form \${this.name} submitted\`);
+        this.emit('submit', \`Form \$ {this.name} submitted\`);
     }
 }
 
@@ -117007,11 +117007,11 @@ const nearby = await client.geoRadius(
 // 7. BITMAP OPERATIONS
 // Track daily active users
 const today = '2025-10-14';
-await client.setBit(\`users:active:\${today}\`, 123, 1); // User 123 active
-await client.setBit(\`users:active:\${today}\`, 456, 1); // User 456 active
+await client.setBit(\`users:active:\$ {today}\`, 123, 1); // User 123 active
+await client.setBit(\`users:active:\$ {today}\`, 456, 1); // User 456 active
 
 // Count active users
-const activeCount = await client.bitCount(\`users:active:\${today}\`);
+const activeCount = await client.bitCount(\`users:active:\$ {today}\`);
 
 // 8. HYPERLOGLOG OPERATIONS
 // Track unique page views
@@ -117046,7 +117046,7 @@ await client.multi()
 // 11. PIPELINE (Batch commands)
 const pipeline = client.multi();
 for (let i = 0; i < 1000; i++) {
-  pipeline.set(\`key:\${i}\`, \`value\${i}\`);
+  pipeline.set(\`key:\$ {i}\`, \`value\$ {i}\`);
 }
 await pipeline.exec();
 
@@ -117201,7 +117201,7 @@ await client.quit();
       <pre><code className="language-javascript">
               // REAL-WORLD EXAMPLE 1: CACHING STRATEGY
 const getCachedUser = async (userId) => {
-  const cacheKey = \`user:\${userId}\`;
+  const cacheKey = \`user:\$ {userId}\`;
   
   // Try to get from cache
   const cached = await redis.get(cacheKey);
@@ -117222,7 +117222,7 @@ const getCachedUser = async (userId) => {
 
 // REAL-WORLD EXAMPLE 2: RATE LIMITING
 const checkRateLimit = async (userId, maxRequests = 100, windowSeconds = 60) => {
-  const key = \`rate:\${userId}:\${Math.floor(Date.now() / 1000 / windowSeconds)}\`;
+  const key = \`rate:\$ {userId}:\$ {Math.floor(Date.now() / 1000 / windowSeconds)}\`;
   
   const current = await redis.incr(key);
   
@@ -117258,7 +117258,7 @@ app.get('/api/data', async (req, res) => {
 class Leaderboard {
   constructor(redis, leaderboardName) {
     this.redis = redis;
-    this.key = \`leaderboard:\${leaderboardName}\`;
+    this.key = \`leaderboard:\$ {leaderboardName}\`;
   }
   
   // Add or update player score
@@ -117341,7 +117341,7 @@ class SessionManager {
   // Create new session
   async createSession(userId, userData) {
     const sessionId = this.generateSessionId();
-    const sessionKey = \`session:\${sessionId}\`;
+    const sessionKey = \`session:\$ {sessionId}\`;
     
     await this.redis.hSet(sessionKey, {
       userId: userId.toString(),
@@ -117352,14 +117352,14 @@ class SessionManager {
     await this.redis.expire(sessionKey, this.sessionTTL);
     
     // Track user's active sessions
-    await this.redis.sAdd(\`user:\${userId}:sessions\`, sessionId);
+    await this.redis.sAdd(\`user:\$ {userId}:sessions\`, sessionId);
     
     return sessionId;
   }
   
   // Get session data
   async getSession(sessionId) {
-    const sessionKey = \`session:\${sessionId}\`;
+    const sessionKey = \`session:\$ {sessionId}\`;
     const data = await this.redis.hGetAll(sessionKey);
     
     if (Object.keys(data).length === 0) {
@@ -117374,7 +117374,7 @@ class SessionManager {
   
   // Update session data
   async updateSession(sessionId, updates) {
-    const sessionKey = \`session:\${sessionId}\`;
+    const sessionKey = \`session:\$ {sessionId}\`;
     await this.redis.hSet(sessionKey, updates);
     await this.redis.expire(sessionKey, this.sessionTTL);
   }
@@ -117384,14 +117384,14 @@ class SessionManager {
     const session = await this.getSession(sessionId);
     if (!session) return;
     
-    const sessionKey = \`session:\${sessionId}\`;
+    const sessionKey = \`session:\$ {sessionId}\`;
     await this.redis.del(sessionKey);
-    await this.redis.sRem(\`user:\${session.userId}:sessions\`, sessionId);
+    await this.redis.sRem(\`user:\$ {session.userId}:sessions\`, sessionId);
   }
   
   // Get all sessions for a user
   async getUserSessions(userId) {
-    const sessionIds = await this.redis.sMembers(\`user:\${userId}:sessions\`);
+    const sessionIds = await this.redis.sMembers(\`user:\$ {userId}:sessions\`);
     const sessions = [];
     
     for (const sessionId of sessionIds) {
@@ -117406,13 +117406,13 @@ class SessionManager {
   
   // Destroy all sessions for a user (logout everywhere)
   async destroyAllUserSessions(userId) {
-    const sessionIds = await this.redis.sMembers(\`user:\${userId}:sessions\`);
+    const sessionIds = await this.redis.sMembers(\`user:\$ {userId}:sessions\`);
     
     for (const sessionId of sessionIds) {
-      await this.redis.del(\`session:\${sessionId}\`);
+      await this.redis.del(\`session:\$ {sessionId}\`);
     }
     
-    await this.redis.del(\`user:\${userId}:sessions\`);
+    await this.redis.del(\`user:\$ {userId}:sessions\`);
   }
   
   generateSessionId() {
@@ -117425,14 +117425,14 @@ class TaskQueue {
   constructor(redis, queueName) {
     this.redis = redis;
     this.queueName = queueName;
-    this.pendingKey = \`queue:\${queueName}:pending\`;
-    this.processingKey = \`queue:\${queueName}:processing\`;
-    this.completedKey = \`queue:\${queueName}:completed\`;
+    this.pendingKey = \`queue:\$ {queueName}:pending\`;
+    this.processingKey = \`queue:\$ {queueName}:processing\`;
+    this.completedKey = \`queue:\$ {queueName}:completed\`;
   }
   
   // Add task with priority (higher number = higher priority)
   async addTask(taskData, priority = 0) {
-    const taskId = \`task:\${Date.now()}:\${Math.random()}\`;
+    const taskId = \`task:\$ {Date.now()}:\$ {Math.random()}\`;
     const task = {
       id: taskId,
       data: taskData,
@@ -117536,8 +117536,8 @@ class DistributedLock {
   
   // Acquire lock
   async acquire(resource, ttl = 10000) {
-    const lockKey = \`lock:\${resource}\`;
-    const lockValue = \`\${Date.now()}\${Math.random()}\`;
+    const lockKey = \`lock:\$ {resource}\`;
+    const lockValue = \`\$ {Date.now()}\$ {Math.random()}\`;
     
     // Try to set lock with NX (only if not exists) and PX (expiration in ms)
     const result = await this.redis.set(lockKey, lockValue, {
@@ -117554,7 +117554,7 @@ class DistributedLock {
   
   // Release lock
   async release(resource, lockValue) {
-    const lockKey = \`lock:\${resource}\`;
+    const lockKey = \`lock:\$ {resource}\`;
     
     // Use Lua script to atomically check and delete
     const script = \`
@@ -117593,7 +117593,7 @@ class DistributedLock {
 const lock = new DistributedLock(redis);
 
 // Ensure only one server processes payment
-await lock.withLock(\`payment:\${orderId}\`, async () => {
+await lock.withLock(\`payment:\$ {orderId}\`, async () => {
   const order = await getOrder(orderId);
   if (order.status === 'pending') {
     await processPayment(order);
@@ -117612,16 +117612,16 @@ class Analytics {
     const today = new Date().toISOString().split('T')[0];
     
     // Increment total page views
-    await this.redis.incr(\`analytics:\${page}:\${today}:views\`);
+    await this.redis.incr(\`analytics:\$ {page}:\$ {today}:views\`);
     
     // Track unique visitors using HyperLogLog
     if (userId) {
-      await this.redis.pfAdd(\`analytics:\${page}:\${today}:unique\`, userId);
+      await this.redis.pfAdd(\`analytics:\$ {page}:\$ {today}:unique\`, userId);
     }
     
     // Track hourly distribution
     const hour = new Date().getHours();
-    await this.redis.hincrBy(\`analytics:\${page}:\${today}:hourly\`, hour.toString(), 1);
+    await this.redis.hincrBy(\`analytics:\$ {page}:\$ {today}:hourly\`, hour.toString(), 1);
   }
   
   // Track event
@@ -117629,21 +117629,21 @@ class Analytics {
     const timestamp = Date.now();
     
     // Add to sorted set with timestamp as score
-    await this.redis.zAdd(\`events:\${eventName}\`, {
+    await this.redis.zAdd(\`events:\$ {eventName}\`, {
       score: timestamp,
       value: JSON.stringify({ userId, ...metadata, timestamp })
     });
     
     // Keep only last 7 days
     const weekAgo = timestamp - (7 * 24 * 60 * 60 * 1000);
-    await this.redis.zRemRangeByScore(\`events:\${eventName}\`, 0, weekAgo);
+    await this.redis.zRemRangeByScore(\`events:\$ {eventName}\`, 0, weekAgo);
   }
   
   // Get page analytics
   async getPageAnalytics(page, date) {
-    const views = await this.redis.get(\`analytics:\${page}:\${date}:views\`) || 0;
-    const unique = await this.redis.pfCount(\`analytics:\${page}:\${date}:unique\`) || 0;
-    const hourly = await this.redis.hGetAll(\`analytics:\${page}:\${date}:hourly\`) || {};
+    const views = await this.redis.get(\`analytics:\$ {page}:\$ {date}:views\`) || 0;
+    const unique = await this.redis.pfCount(\`analytics:\$ {page}:\$ {date}:unique\`) || 0;
+    const hourly = await this.redis.hGetAll(\`analytics:\$ {page}:\$ {date}:hourly\`) || {};
     
     return {
       views: parseInt(views),
@@ -117655,7 +117655,7 @@ class Analytics {
   // Get real-time active users (using bitmap)
   async trackActiveUser(userId) {
     const minute = Math.floor(Date.now() / 60000);
-    const key = \`active:users:\${minute}\`;
+    const key = \`active:users:\$ {minute}\`;
     
     await this.redis.setBit(key, userId, 1);
     await this.redis.expire(key, 300); // Keep for 5 minutes
@@ -117667,7 +117667,7 @@ class Analytics {
     
     // Count active users in last 5 minutes
     for (let i = 0; i < 5; i++) {
-      const key = \`active:users:\${minute - i}\`;
+      const key = \`active:users:\$ {minute - i}\`;
       const count = await this.redis.bitCount(key);
       counts.push(count);
     }
@@ -117684,7 +117684,7 @@ class LocationService {
   
   // Add location
   async addLocation(type, id, longitude, latitude, metadata = {}) {
-    const key = \`geo:\${type}\`;
+    const key = \`geo:\$ {type}\`;
     const member = JSON.stringify({ id, ...metadata });
     
     await this.redis.geoAdd(key, {
@@ -117696,7 +117696,7 @@ class LocationService {
   
   // Find nearby locations
   async findNearby(type, longitude, latitude, radiusKm, limit = 10) {
-    const key = \`geo:\${type}\`;
+    const key = \`geo:\$ {type}\`;
     
     const results = await this.redis.geoSearch(key, 
       { longitude, latitude },
@@ -117717,7 +117717,7 @@ class LocationService {
   
   // Get distance between two locations
   async getDistance(type, id1, id2) {
-    const key = \`geo:\${type}\`;
+    const key = \`geo:\$ {type}\`;
     return await this.redis.geoDist(key, id1, id2, 'km');
   }
 }
@@ -117747,7 +117747,7 @@ class PageCache {
   getCacheKey(req) {
     const url = req.originalUrl || req.url;
     const userId = req.user?.id || 'guest';
-    return \`page:cache:\${url}:\${userId}\`;
+    return \`page:cache:\$ {url}:\$ {userId}\`;
   }
   
   // Middleware for Express
@@ -117787,7 +117787,7 @@ class PageCache {
   
   // Invalidate cache for URL pattern
   async invalidate(pattern) {
-    const keys = await this.redis.keys(\`page:cache:\${pattern}*\`);
+    const keys = await this.redis.keys(\`page:cache:\$ {pattern}*\`);
     if (keys.length > 0) {
       await this.redis.del(keys);
     }
@@ -118044,14 +118044,14 @@ async function sessionExample() {
 
   // Check TTL
   const ttl = await client.ttl('session:user456');
-  console.log(\`Session expires in \${ttl} seconds\`);
+  console.log(\`Session expires in \$ {ttl} seconds\`);
 
   // Extend session
   await client.expire('session:user456', 7200);
 
   // Check if session exists
   const exists = await client.exists('session:user456');
-  console.log(\`Session exists: \${exists === 1}\`);
+  console.log(\`Session exists: \$ {exists === 1}\`);
 
   // Delete session (logout)
   await client.del('session:user456');
@@ -118067,7 +118067,7 @@ async function counterExample() {
   await client.incrBy('page:views', 5);
   
   const views = await client.get('page:views');
-  console.log(\`Total page views: \${views}\`);  // Output: 7
+  console.log(\`Total page views: \$ {views}\`);  // Output: 7
 }`,
             ],
             questions: [
@@ -118571,27 +118571,27 @@ GETRANGE log:user:123 0 49</code></pre>
           const client = redis.createClient();
           
           async function cacheUserProfile(userId, profileData) {
-            const key = \`user:\${userId}:profile\`;
+            const key = \`user:\$ {userId}:profile\`;
             // Cache for 1 hour
             await client.setEx(key, 3600, JSON.stringify(profileData));
           }
           
           async function getUserProfile(userId) {
-            const key = \`user:\${userId}:profile\`;
+            const key = \`user:\$ {userId}:profile\`;
             const data = await client.get(key);
             return data ? JSON.parse(data) : null;
           }
           
           async function cacheMultipleUsers(users) {
             const pairs = users.flatMap(user => [
-              \`user:\${user.id}:name\`,
+              \`user:\$ {user.id}:name\`,
               user.name
             ]);
             await client.mSet(pairs);
           }
           
           async function getMultipleUsers(userIds) {
-            const keys = userIds.map(id => \`user:\${id}:name\`);
+            const keys = userIds.map(id => \`user:\$ {id}:name\`);
             return await client.mGet(keys);
           }`,
               `
@@ -118602,18 +118602,18 @@ GETRANGE log:user:123 0 49</code></pre>
           const client = redis.createClient();
           
           async function incrementPageViews(pageId) {
-            const key = \`page:views:\${pageId}\`;
+            const key = \`page:views:\$ {pageId}\`;
             return await client.incr(key);
           }
           
           async function getPageViews(pageId) {
-            const key = \`page:views:\${pageId}\`;
+            const key = \`page:views:\$ {pageId}\`;
             const views = await client.get(key);
             return parseInt(views) || 0;
           }
           
           async function rateLimiter(userId, limit = 10, windowSeconds = 60) {
-            const key = \`rate:\${userId}\`;
+            const key = \`rate:\$ {userId}\`;
             
             // Try to increment
             const current = await client.incr(key);
@@ -118626,7 +118626,7 @@ GETRANGE log:user:123 0 49</code></pre>
             // Check if limit exceeded
             if (current > limit) {
               const ttl = await client.ttl(key);
-              throw new Error(\`Rate limit exceeded. Try again in \${ttl} seconds\`);
+              throw new Error(\`Rate limit exceeded. Try again in \$ {ttl} seconds\`);
             }
             
             return { allowed: true, remaining: limit - current };
@@ -118646,26 +118646,26 @@ GETRANGE log:user:123 0 49</code></pre>
           const client = redis.createClient();
           
           async function markUserActive(userId, date) {
-            const key = \`active:users:\${date}\`;
+            const key = \`active:users:\$ {date}\`;
             await client.setBit(key, userId, 1);
             // Keep for 90 days
             await client.expire(key, 90 * 24 * 60 * 60);
           }
           
           async function isUserActive(userId, date) {
-            const key = \`active:users:\${date}\`;
+            const key = \`active:users:\$ {date}\`;
             const bit = await client.getBit(key, userId);
             return bit === 1;
           }
           
           async function getDailyActiveUsers(date) {
-            const key = \`active:users:\${date}\`;
+            const key = \`active:users:\$ {date}\`;
             return await client.bitCount(key);
           }
           
           async function getUsersActiveInBothDays(date1, date2) {
-            const key1 = \`active:users:\${date1}\`;
-            const key2 = \`active:users:\${date2}\`;
+            const key1 = \`active:users:\$ {date1}\`;
+            const key2 = \`active:users:\$ {date2}\`;
             const resultKey = 'temp:active:both';
             
             // Perform AND operation
@@ -118680,7 +118680,7 @@ GETRANGE log:user:123 0 49</code></pre>
           }
           
           async function getUsersActiveInWeek(dates) {
-            const keys = dates.map(date => \`active:users:\${date}\`);
+            const keys = dates.map(date => \`active:users:\$ {date}\`);
             const resultKey = 'temp:active:week';
             
             // Perform OR operation to find users active any day
@@ -118702,7 +118702,7 @@ GETRANGE log:user:123 0 49</code></pre>
           const client = redis.createClient();
           
           async function storeGameStats(playerId, kills, deaths, assists) {
-            const key = \`player:stats:\${playerId}\`;
+            const key = \`player:stats:\$ {playerId}\`;
             
             // Store three 16-bit unsigned integers
             // kills at offset 0, deaths at offset 16, assists at offset 32
@@ -118716,7 +118716,7 @@ GETRANGE log:user:123 0 49</code></pre>
           }
           
           async function getGameStats(playerId) {
-            const key = \`player:stats:\${playerId}\`;
+            const key = \`player:stats:\$ {playerId}\`;
             
             const result = await client.sendCommand([
               'BITFIELD',
@@ -118734,7 +118734,7 @@ GETRANGE log:user:123 0 49</code></pre>
           }
           
           async function incrementKills(playerId, amount = 1) {
-            const key = \`player:stats:\${playerId}\`;
+            const key = \`player:stats:\$ {playerId}\`;
             
             const result = await client.sendCommand([
               'BITFIELD',
@@ -118746,7 +118746,7 @@ GETRANGE log:user:123 0 49</code></pre>
           }
           
           async function storeMultipleSensors(deviceId, sensors) {
-            const key = \`device:\${deviceId}:sensors\`;
+            const key = \`device:\$ {deviceId}:sensors\`;
             
             // Store 8 sensor values (each 8-bit unsigned)
             const commands = ['BITFIELD', key];
@@ -118758,7 +118758,7 @@ GETRANGE log:user:123 0 49</code></pre>
           }
           
           async function compactCounters(prefix, counters) {
-            const key = \`counters:\${prefix}\`;
+            const key = \`counters:\$ {prefix}\`;
             
             // Store multiple 4-bit counters (0-15) with overflow protection
             const commands = ['BITFIELD', key, 'OVERFLOW', 'SAT'];
@@ -118830,7 +118830,7 @@ GETRANGE log:user:123 0 49</code></pre>
                 <pre><code className="language-javascript">
           // Fixed Window Rate Limiter
           async function fixedWindowRateLimit(userId, limit, windowSeconds) {
-            const key = \`rate:limit:\${userId}\`;
+            const key = \`rate:limit:\$ {userId}\`;
             
             // Atomically increment counter
             const count = await redis.incr(key);
@@ -118859,7 +118859,7 @@ GETRANGE log:user:123 0 49</code></pre>
           // Sliding Window Rate Limiter (more accurate)
           async function slidingWindowRateLimit(userId, limit, windowSeconds) {
             const now = Date.now();
-            const key = \`rate:sliding:\${userId}\`;
+            const key = \`rate:sliding:\$ {userId}\`;
             
             // Use sorted set for sliding window
             const pipe = redis.multi();
@@ -118871,7 +118871,7 @@ GETRANGE log:user:123 0 49</code></pre>
             pipe.zCard(key);
             
             // Add current request
-            pipe.zAdd(key, now, \`\${now}-\${Math.random()}\`);
+            pipe.zAdd(key, now, \`\$ {now}-\$ {Math.random()}\`);
             
             // Set expiration
             pipe.expire(key, windowSeconds);
@@ -118888,7 +118888,7 @@ GETRANGE log:user:123 0 49</code></pre>
           
           // Token Bucket Rate Limiter
           async function tokenBucketRateLimit(userId, capacity, refillRate) {
-            const key = \`rate:bucket:\${userId}\`;
+            const key = \`rate:bucket:\$ {userId}\`;
             const now = Date.now();
             
             const data = await redis.get(key);
@@ -119733,7 +119733,7 @@ class BlockingQueueWorker {
 
   async start(processJob) {
     this.running = true;
-    console.log(\`Worker started for queue: \${this.queueName}\`);
+    console.log(\`Worker started for queue: \$ {this.queueName}\`);
 
     while (this.running) {
       try {
@@ -119773,7 +119773,7 @@ const worker = new BlockingQueueWorker('tasks', 5);
 worker.start(async (job) => {
   // Simulate job processing
   await new Promise(resolve => setTimeout(resolve, 1000));
-  console.log(\`Processed: \${job.task}\`);
+  console.log(\`Processed: \$ {job.task}\`);
 });
 
 // Add jobs
@@ -119795,8 +119795,8 @@ const client = redis.createClient();
 class ReliableQueue {
   constructor(queueName) {
     this.queueName = queueName;
-    this.processingQueue = \`\${queueName}:processing\`;
-    this.failedQueue = \`\${queueName}:failed\`;
+    this.processingQueue = \`\$ {queueName}:processing\`;
+    this.failedQueue = \`\$ {queueName}:failed\`;
   }
 
   async enqueue(job) {
@@ -119915,7 +119915,7 @@ const client = redis.createClient();
 
 class ActivityFeed {
   constructor(userId, maxItems = 100) {
-    this.feedKey = \`feed:user:\${userId}\`;
+    this.feedKey = \`feed:user:\$ {userId}\`;
     this.maxItems = maxItems;
   }
 
@@ -119923,7 +119923,7 @@ class ActivityFeed {
     const activityData = {
       ...activity,
       timestamp: Date.now(),
-      id: \`\${Date.now()}-\${Math.random()}\`
+      id: \`\$ {Date.now()}-\$ {Math.random()}\`
     };
 
     // Use Lua script for atomic LPUSH + LTRIM
@@ -120069,11 +120069,11 @@ class RoundRobinBalancer {
         if (isHealthy) {
           healthyServers.push(server);
         } else {
-          console.log(\`Server \${server.id} is unhealthy, removing\`);
+          console.log(\`Server \$ {server.id} is unhealthy, removing\`);
           await this.removeServer(server.id);
         }
       } catch (error) {
-        console.error(\`Health check failed for \${server.id}\`, error);
+        console.error(\`Health check failed for \$ {server.id}\`, error);
       }
     }
 
@@ -120109,13 +120109,13 @@ await balancer.addServer({
 // Distribute requests in round-robin fashion
 for (let i = 0; i < 10; i++) {
   const server = await balancer.getNextServer();
-  console.log(\`Request \${i + 1} -> \${server.host}:\${server.port}\`);
+  console.log(\`Request \$ {i + 1} -> \$ {server.host}:\$ {server.port}\`);
 }
 
 // Perform health check
 setInterval(async () => {
   const healthy = await balancer.healthCheck();
-  console.log(\`Healthy servers: \${healthy.length}\`);
+  console.log(\`Healthy servers: \$ {healthy.length}\`);
 }, 30000);
 
 // Get all servers
@@ -120277,7 +120277,7 @@ async function monitorQueueDepth(queueName, maxDepth = 10000) {
   const depth = await client.lLen(queueName);
   
   if (depth > maxDepth) {
-    console.warn(\\\`Queue \${queueName} too deep: \${depth}\\\`);
+    console.warn(\\\`Queue \$ {queueName} too deep: \$ {depth}\\\`);
     
     // Implement backpressure
     throw new Error('Queue full, try again later');
@@ -120305,7 +120305,7 @@ setInterval(async () => {
   if (length > 5000) {
     // Keep only last 1000
     await client.lTrim('processed:jobs', 0, 999);
-    console.log(\\\`Cleaned up \${length - 1000} old jobs\\\`);
+    console.log(\\\`Cleaned up \$ {length - 1000} old jobs\\\`);
   }
 }, 3600000); // Every hour
       </code></pre>
@@ -120318,16 +120318,16 @@ setInterval(async () => {
       <pre><code className="language-javascript">
 class ReliableJobQueue {
   constructor(name) {
-    this.mainQueue = \\\`queue:\${name}\\\`;
-    this.processingQueue = \\\`queue:\${name}:processing\\\`;
-    this.failedQueue = \\\`queue:\${name}:failed\\\`;
-    this.deadLetterQueue = \\\`queue:\${name}:dlq\\\`;
+    this.mainQueue = \\\`queue:\$ {name}\\\`;
+    this.processingQueue = \\\`queue:\$ {name}:processing\\\`;
+    this.failedQueue = \\\`queue:\$ {name}:failed\\\`;
+    this.deadLetterQueue = \\\`queue:\$ {name}:dlq\\\`;
   }
 
   // Producer: Add job with metadata
   async addJob(jobData, options = {}) {
     const job = {
-      id: \\\`job:\${Date.now()}-\${Math.random()}\\\`,
+      id: \\\`job:\$ {Date.now()}-\$ {Math.random()}\\\`,
       data: jobData,
       attempts: 0,
       maxAttempts: options.maxAttempts || 3,
@@ -120353,7 +120353,7 @@ class ReliableJobQueue {
         if (!result) continue;
 
         const job = JSON.parse(result);
-        console.log(\\\`Processing job: \${job.id}\\\`);
+        console.log(\\\`Processing job: \$ {job.id}\\\`);
 
         try {
           // Process with timeout
@@ -120364,10 +120364,10 @@ class ReliableJobQueue {
 
           // Success: remove from processing
           await client.lRem(this.processingQueue, 1, result);
-          console.log(\\\`Job completed: \${job.id}\\\`);
+          console.log(\\\`Job completed: \$ {job.id}\\\`);
 
         } catch (error) {
-          console.error(\\\`Job failed: \${job.id}\\\`, error);
+          console.error(\\\`Job failed: \$ {job.id}\\\`, error);
           await this.handleFailedJob(job, result, error);
         }
 
@@ -120388,7 +120388,7 @@ class ReliableJobQueue {
 
     if (job.attempts < job.maxAttempts) {
       // Retry: add back to main queue with delay
-      console.log(\\\`Retrying job: \${job.id} (attempt \${job.attempts})\\\`);
+      console.log(\\\`Retrying job: \$ {job.id} (attempt \$ {job.attempts})\\\`);
       
       // Exponential backoff
       const delay = Math.min(1000 * Math.pow(2, job.attempts), 60000);
@@ -120399,7 +120399,7 @@ class ReliableJobQueue {
 
     } else {
       // Max attempts reached: move to dead letter queue
-      console.log(\\\`Job moved to DLQ: \${job.id}\\\`);
+      console.log(\\\`Job moved to DLQ: \$ {job.id}\\\`);
       await client.rPush(this.deadLetterQueue, JSON.stringify(job));
     }
   }
@@ -120414,7 +120414,7 @@ class ReliableJobQueue {
       const age = Date.now() - job.createdAt;
 
       if (age > maxAge) {
-        console.log(\\\`Recovering stuck job: \${job.id}\\\`);
+        console.log(\\\`Recovering stuck job: \$ {job.id}\\\`);
         
         // Remove from processing, add back to main queue
         await client.lRem(this.processingQueue, 1, jobStr);
@@ -120488,7 +120488,7 @@ queue.processJobs(async (jobData) => {
 // Recovery job (run every 5 minutes)
 setInterval(async () => {
   const recovered = await queue.recoverStuckJobs(300000);
-  console.log(\\\`Recovered \${recovered} stuck jobs\\\`);
+  console.log(\\\`Recovered \$ {recovered} stuck jobs\\\`);
 }, 300000);
 
 // Monitor stats
@@ -122058,7 +122058,7 @@ class TagManager {
 
   async findItemsWithAllTags(tags) {
     // Create keys for tag-to-items mapping
-    const tagKeys = tags.map(tag => \`items:tag:\${tag}\`);
+    const tagKeys = tags.map(tag => \`items:tag:\$ {tag}\`);
     
     // Find intersection (items that have ALL tags)
     return await this.client.sInter(tagKeys);
@@ -122066,7 +122066,7 @@ class TagManager {
 
   async findItemsWithAnyTag(tags) {
     // Find union (items that have ANY of the tags)
-    const tagKeys = tags.map(tag => \`items:tag:\${tag}\`);
+    const tagKeys = tags.map(tag => \`items:tag:\$ {tag}\`);
     return await this.client.sUnion(tagKeys);
   }
 
@@ -122086,7 +122086,7 @@ class TagManager {
   async tagItem(itemId, tag) {
     // Two-way relationship: item->tags and tag->items
     const itemKey = \`tags:item:\$ {itemId}\`;
-    const tagKey = \`items:tag:\${tag}\`;
+    const tagKey = \`items:tag:\$ {tag}\`;
     
     await this.client.sAdd(itemKey, tag);
     await this.client.sAdd(tagKey, itemId);
@@ -122094,7 +122094,7 @@ class TagManager {
 
   async untagItem(itemId, tag) {
     const itemKey = \`tags:item:\$ {itemId}\`;
-    const tagKey = \`items:tag:\${tag}\`;
+    const tagKey = \`items:tag:\$ {tag}\`;
     
     await this.client.sRem(itemKey, tag);
     await this.client.sRem(tagKey, itemId);
@@ -122144,48 +122144,48 @@ class SocialNetwork {
 
   async follow(userId, targetUserId) {
     // Add to user's following set
-    const followingKey = \`user:\${userId}:following\`;
+    const followingKey = \`user:\$ {userId}:following\`;
     await this.client.sAdd(followingKey, targetUserId);
     
     // Add to target's followers set
-    const followersKey = \`user:\${targetUserId}:followers\`;
+    const followersKey = \`user:\$ {targetUserId}:followers\`;
     await this.client.sAdd(followersKey, userId);
   }
 
   async unfollow(userId, targetUserId) {
-    const followingKey = \`user:\${userId}:following\`;
+    const followingKey = \`user:\$ {userId}:following\`;
     await this.client.sRem(followingKey, targetUserId);
     
-    const followersKey = \`user:\${targetUserId}:followers\`;
+    const followersKey = \`user:\$ {targetUserId}:followers\`;
     await this.client.sRem(followersKey, userId);
   }
 
   async getFollowing(userId) {
-    const key = \`user:\${userId}:following\`;
+    const key = \`user:\$ {userId}:following\`;
     return await this.client.sMembers(key);
   }
 
   async getFollowers(userId) {
-    const key = \`user:\${userId}:followers\`;
+    const key = \`user:\$ {userId}:followers\`;
     return await this.client.sMembers(key);
   }
 
   async isFollowing(userId, targetUserId) {
-    const key = \`user:\${userId}:following\`;
+    const key = \`user:\$ {userId}:following\`;
     return await this.client.sIsMember(key, targetUserId);
   }
 
   async getMutualFollowers(userId1, userId2) {
     // Users who follow both userId1 and userId2
-    const key1 = \`user:\${userId1}:followers\`;
-    const key2 = \`user:\${userId2}:followers\`;
+    const key1 = \`user:\$ {userId1}:followers\`;
+    const key2 = \`user:\$ {userId2}:followers\`;
     return await this.client.sInter([key1, key2]);
   }
 
   async getCommonFollowing(userId1, userId2) {
     // Users that both userId1 and userId2 follow
-    const key1 = \`user:\${userId1}:following\`;
-    const key2 = \`user:\${userId2}:following\`;
+    const key1 = \`user:\$ {userId1}:following\`;
+    const key2 = \`user:\$ {userId2}:following\`;
     return await this.client.sInter([key1, key2]);
   }
 
@@ -122196,7 +122196,7 @@ class SocialNetwork {
     if (following.length === 0) return [];
     
     // Get union of all following lists
-    const keys = following.map(id => \`user:\${id}:following\`);
+    const keys = following.map(id => \`user:\$ {id}:following\`);
     const fof = await this.client.sUnion(keys);
     
     // Remove the user themselves and their direct following
@@ -122213,19 +122213,19 @@ class SocialNetwork {
   }
 
   async getFollowerCount(userId) {
-    const key = \`user:\${userId}:followers\`;
+    const key = \`user:\$ {userId}:followers\`;
     return await this.client.sCard(key);
   }
 
   async getFollowingCount(userId) {
-    const key = \`user:\${userId}:following\`;
+    const key = \`user:\$ {userId}:following\`;
     return await this.client.sCard(key);
   }
 
   async getUniqueFollowers(userId, ...otherUserIds) {
     // Followers unique to userId (not shared with others)
-    const userKey = \`user:\${userId}:followers\`;
-    const otherKeys = otherUserIds.map(id => \`user:\${id}:followers\`);
+    const userKey = \`user:\$ {userId}:followers\`;
+    const otherKeys = otherUserIds.map(id => \`user:\$ {id}:followers\`);
     
     return await this.client.sDiff([userKey, ...otherKeys]);
   }
@@ -122278,76 +122278,76 @@ class PermissionSystem {
   }
 
   async grantPermission(userId, permission) {
-    const key = \`permissions:user:\${userId}\`;
+    const key = \`permissions:user:\$ {userId}\`;
     await this.client.sAdd(key, permission);
   }
 
   async revokePermission(userId, permission) {
-    const key = \`permissions:user:\${userId}\`;
+    const key = \`permissions:user:\$ {userId}\`;
     await this.client.sRem(key, permission);
   }
 
   async hasPermission(userId, permission) {
-    const key = \`permissions:user:\${userId}\`;
+    const key = \`permissions:user:\$ {userId}\`;
     return await this.client.sIsMember(key, permission);
   }
 
   async hasAllPermissions(userId, permissions) {
-    const key = \`permissions:user:\${userId}\`;
+    const key = \`permissions:user:\$ {userId}\`;
     const results = await this.client.sMIsMember(key, permissions);
     return results.every(result => result === true);
   }
 
   async hasAnyPermission(userId, permissions) {
-    const key = \`permissions:user:\${userId}\`;
+    const key = \`permissions:user:\$ {userId}\`;
     const results = await this.client.sMIsMember(key, permissions);
     return results.some(result => result === true);
   }
 
   async getUserPermissions(userId) {
-    const key = \`permissions:user:\${userId}\`;
+    const key = \`permissions:user:\$ {userId}\`;
     return await this.client.sMembers(key);
   }
 
   async assignRole(userId, role) {
-    const key = \`roles:user:\${userId}\`;
+    const key = \`roles:user:\$ {userId}\`;
     await this.client.sAdd(key, role);
     
     // Copy role permissions to user
     const rolePerms = await this.getRolePermissions(role);
     if (rolePerms.length > 0) {
-      const userKey = \`permissions:user:\${userId}\`;
+      const userKey = \`permissions:user:\$ {userId}\`;
       await this.client.sAdd(userKey, rolePerms);
     }
   }
 
   async removeRole(userId, role) {
-    const key = \`roles:user:\${userId}\`;
+    const key = \`roles:user:\$ {userId}\`;
     await this.client.sRem(key, role);
   }
 
   async getUserRoles(userId) {
-    const key = \`roles:user:\${userId}\`;
+    const key = \`roles:user:\$ {userId}\`;
     return await this.client.sMembers(key);
   }
 
   async defineRole(role, permissions) {
-    const key = \`permissions:role:\${role}\`;
+    const key = \`permissions:role:\$ {role}\`;
     if (permissions.length > 0) {
       await this.client.sAdd(key, permissions);
     }
   }
 
   async getRolePermissions(role) {
-    const key = \`permissions:role:\${role}\`;
+    const key = \`permissions:role:\$ {role}\`;
     return await this.client.sMembers(key);
   }
 
   async getEffectivePermissions(userId) {
     // Combine user permissions with role permissions
-    const userKey = \`permissions:user:\${userId}\`;
+    const userKey = \`permissions:user:\$ {userId}\`;
     const roles = await this.getUserRoles(userId);
-    const roleKeys = roles.map(role => \`permissions:role:\${role}\`);
+    const roleKeys = roles.map(role => \`permissions:role:\$ {role}\`);
     
     // Union of user permissions and all role permissions
     const allKeys = [userKey, ...roleKeys];
@@ -122388,8 +122388,8 @@ class PermissionSystem {
   }
 
   async getCommonPermissions(userId1, userId2) {
-    const key1 = \`permissions:user:\${userId1}\`;
-    const key2 = \`permissions:user:\${userId2}\`;
+    const key1 = \`permissions:user:\$ {userId1}\`;
+    const key2 = \`permissions:user:\$ {userId2}\`;
     return await this.client.sInter([key1, key2]);
   }
 }
@@ -122450,13 +122450,13 @@ class OnlineUserTracker {
     await this.client.sAdd('users:online', userId);
     
     // Set TTL for auto-cleanup
-    const sessionKey = \`session:\${userId}\`;
+    const sessionKey = \`session:\$ {userId}\`;
     await this.client.setEx(sessionKey, this.sessionTimeout, Date.now().toString());
   }
 
   async userOffline(userId) {
     await this.client.sRem('users:online', userId);
-    await this.client.del(\`session:\${userId}\`);
+    await this.client.del(\`session:\$ {userId}\`);
   }
 
   async isUserOnline(userId) {
@@ -122482,13 +122482,13 @@ class OnlineUserTracker {
 
   async getOnlineFriends(userId) {
     // Intersection of user's friends and online users
-    const friendsKey = \`user:\${userId}:friends\`;
+    const friendsKey = \`user:\$ {userId}:friends\`;
     return await this.client.sInter([friendsKey, 'users:online']);
   }
 
   async trackActivity(userId, activity) {
     // Track user activity
-    const activityKey = \`activity:\${activity}\`;
+    const activityKey = \`activity:\$ {activity}\`;
     await this.client.sAdd(activityKey, userId);
     
     // Refresh online status
@@ -122496,7 +122496,7 @@ class OnlineUserTracker {
   }
 
   async getUsersInActivity(activity) {
-    const key = \`activity:\${activity}\`;
+    const key = \`activity:\$ {activity}\`;
     return await this.client.sMembers(key);
   }
 
@@ -122539,7 +122539,7 @@ class OnlineUserTracker {
     let cleaned = 0;
     
     for (const userId of onlineUsers) {
-      const sessionKey = \`session:\${userId}\`;
+      const sessionKey = \`session:\$ {userId}\`;
       const exists = await this.client.exists(sessionKey);
       
       if (!exists) {
@@ -122613,7 +122613,7 @@ console.log('Users browsing products:', usersInActivity);
 // Cleanup inactive users (run periodically)
 setInterval(async () => {
   const cleaned = await tracker.cleanupInactiveUsers();
-  console.log(\`Cleaned up \${cleaned} inactive users\`);
+  console.log(\`Cleaned up \$ {cleaned} inactive users\`);
 }, 60000);
       </code></pre>
     </div>`,
@@ -122631,7 +122631,7 @@ class SetAnalytics {
 
   async trackEvent(userId, event, date) {
     // Track daily events
-    const key = \`event:\${event}:\${date}\`;
+    const key = \`event:\$ {event}:\$ {date}\`;
     await this.client.sAdd(key, userId);
     
     // Set expiration (keep for 90 days)
@@ -122639,14 +122639,14 @@ class SetAnalytics {
   }
 
   async getDailyActiveUsers(event, date) {
-    const key = \`event:\${event}:\${date}\`;
+    const key = \`event:\$ {event}:\$ {date}\`;
     return await this.client.sCard(key);
   }
 
   async getWeeklyActiveUsers(event, dates) {
     // Union of all days in the week
-    const keys = dates.map(date => \`event:\${event}:\${date}\`);
-    const tempKey = \`temp:wau:\${event}:\${dates[0]}\`;
+    const keys = dates.map(date => \`event:\$ {event}:\$ {date}\`);
+    const tempKey = \`temp:wau:\$ {event}:\$ {dates[0]}\`;
     
     await this.client.sUnionStore(tempKey, keys);
     const count = await this.client.sCard(tempKey);
@@ -122656,8 +122656,8 @@ class SetAnalytics {
   }
 
   async getMonthlyActiveUsers(event, dates) {
-    const keys = dates.map(date => \`event:\${event}:\${date}\`);
-    const tempKey = \`temp:mau:\${event}:\${dates[0]}\`;
+    const keys = dates.map(date => \`event:\$ {event}:\$ {date}\`);
+    const tempKey = \`temp:mau:\$ {event}:\$ {dates[0]}\`;
     
     await this.client.sUnionStore(tempKey, keys);
     const count = await this.client.sCard(tempKey);
@@ -122668,8 +122668,8 @@ class SetAnalytics {
 
   async getRetentionRate(event, cohortDate, returnDate) {
     // Users who did event on both dates
-    const cohortKey = \`event:\${event}:\${cohortDate}\`;
-    const returnKey = \`event:\${event}:\${returnDate}\`;
+    const cohortKey = \`event:\$ {event}:\$ {cohortDate}\`;
+    const returnKey = \`event:\$ {event}:\$ {returnDate}\`;
     
     const tempKey = 'temp:retention';
     await this.client.sInterStore(tempKey, [cohortKey, returnKey]);
@@ -122684,8 +122684,8 @@ class SetAnalytics {
 
   async getChurnedUsers(event, activeDate, currentDate) {
     // Users active on activeDate but not on currentDate
-    const activeKey = \`event:\${event}:\${activeDate}\`;
-    const currentKey = \`event:\${event}:\${currentDate}\`;
+    const activeKey = \`event:\$ {event}:\$ {activeDate}\`;
+    const currentKey = \`event:\$ {event}:\$ {currentDate}\`;
     
     const tempKey = 'temp:churned';
     await this.client.sDiffStore(tempKey, [activeKey, currentKey]);
@@ -122698,8 +122698,8 @@ class SetAnalytics {
 
   async getNewUsers(event, previousDate, currentDate) {
     // Users in current but not in previous
-    const prevKey = \`event:\${event}:\${previousDate}\`;
-    const currKey = \`event:\${event}:\${currentDate}\`;
+    const prevKey = \`event:\$ {event}:\$ {previousDate}\`;
+    const currKey = \`event:\$ {event}:\$ {currentDate}\`;
     
     const tempKey = 'temp:new';
     await this.client.sDiffStore(tempKey, [currKey, prevKey]);
@@ -122718,16 +122718,16 @@ class SetAnalytics {
       const { include, exclude } = criteria;
       
       // Start with intersection of all include sets
-      let keys = include.map(c => \`segment:\${c}\`);
-      const tempKey = \`temp:segment:\${segmentName}\`;
+      let keys = include.map(c => \`segment:\$ {c}\`);
+      const tempKey = \`temp:segment:\$ {segmentName}\`;
       
       if (keys.length > 0) {
         await this.client.sInterStore(tempKey, keys);
         
         // Exclude specified segments
         if (exclude && exclude.length > 0) {
-          const excludeKeys = exclude.map(c => \`segment:\${c}\`);
-          const diffKey = \`temp:diff:\${segmentName}\`;
+          const excludeKeys = exclude.map(c => \`segment:\$ {c}\`);
+          const diffKey = \`temp:diff:\$ {segmentName}\`;
           
           await this.client.sDiffStore(diffKey, [tempKey, ...excludeKeys]);
           await this.client.del(tempKey);
@@ -122750,7 +122750,7 @@ class SetAnalytics {
     let previousKey = null;
     
     for (const event of events) {
-      const eventKey = \`event:\${event}:\${date}\`;
+      const eventKey = \`event:\$ {event}:\$ {date}\`;
       const step = { event };
       
       // Total users at this step
@@ -122779,7 +122779,7 @@ class SetAnalytics {
     
     for (const cohortDate of cohortDates) {
       const cohort = { cohortDate };
-      const cohortKey = \`event:\${event}:\${cohortDate}\`;
+      const cohortKey = \`event:\$ {event}:\$ {cohortDate}\`;
       cohort.size = await this.client.sCard(cohortKey);
       cohort.retention = [];
       
@@ -122895,17 +122895,17 @@ ZSCORE leaderboard "player123"
 class ProductFilter {
   async indexProduct(productId, attributes) {
     // Index by category
-    await client.sAdd(\\\`products:category:\${attributes.category}\\\`, productId);
+    await client.sAdd(\\\`products:category:\$ {attributes.category}\\\`, productId);
     
     // Index by brand
-    await client.sAdd(\\\`products:brand:\${attributes.brand}\\\`, productId);
+    await client.sAdd(\\\`products:brand:\$ {attributes.brand}\\\`, productId);
     
     // Index by price range
-    await client.sAdd(\\\`products:price:\${attributes.priceRange}\\\`, productId);
+    await client.sAdd(\\\`products:price:\$ {attributes.priceRange}\\\`, productId);
     
     // Index by tags (multiple)
     for (const tag of attributes.tags) {
-      await client.sAdd(\\\`products:tag:\${tag}\\\`, productId);
+      await client.sAdd(\\\`products:tag:\$ {tag}\\\`, productId);
     }
   }
 
@@ -122913,17 +122913,17 @@ class ProductFilter {
     const keys = [];
     
     if (filters.category) {
-      keys.push(\\\`products:category:\${filters.category}\\\`);
+      keys.push(\\\`products:category:\$ {filters.category}\\\`);
     }
     if (filters.brand) {
-      keys.push(\\\`products:brand:\${filters.brand}\\\`);
+      keys.push(\\\`products:brand:\$ {filters.brand}\\\`);
     }
     if (filters.priceRange) {
-      keys.push(\\\`products:price:\${filters.priceRange}\\\`);
+      keys.push(\\\`products:price:\$ {filters.priceRange}\\\`);
     }
     if (filters.tags && filters.tags.length > 0) {
       filters.tags.forEach(tag => {
-        keys.push(\\\`products:tag:\${tag}\\\`);
+        keys.push(\\\`products:tag:\$ {tag}\\\`);
       });
     }
     
@@ -122938,8 +122938,8 @@ class ProductFilter {
     // Union: products matching ANY criteria
     const keys = Object.entries(filters).flatMap(([type, values]) => {
       return Array.isArray(values)
-        ? values.map(v => \\\`products:\${type}:\${v}\\\`)
-        : [\\\`products:\${type}:\${values}\\\`];
+        ? values.map(v => \\\`products:\$ {type}:\$ {v}\\\`)
+        : [\\\`products:\$ {type}:\$ {values}\\\`];
     });
     
     return await client.sUnion(keys);
@@ -122971,7 +122971,7 @@ async function advancedFilter(criteria) {
   const { include, exclude } = criteria;
   
   // Get intersection of all include criteria
-  const includeKeys = include.map(c => \\\`filter:\${c}\\\`);
+  const includeKeys = include.map(c => \\\`filter:\$ {c}\\\`);
   const tempInclude = 'temp:include';
   
   if (includeKeys.length > 1) {
@@ -122984,7 +122984,7 @@ async function advancedFilter(criteria) {
   
   // Subtract excluded criteria
   if (exclude && exclude.length > 0) {
-    const excludeKeys = exclude.map(c => \\\`filter:\${c}\\\`);
+    const excludeKeys = exclude.map(c => \\\`filter:\$ {c}\\\`);
     const tempFinal = 'temp:final';
     
     await client.sDiffStore(tempFinal, [tempInclude, ...excludeKeys]);
@@ -123018,7 +123018,7 @@ async function cachedFilter(filterKey, criteria, ttl = 300) {
   }
   
   // Compute filter
-  const keys = criteria.map(c => \\\`filter:\${c}\\\`);
+  const keys = criteria.map(c => \\\`filter:\$ {c}\\\`);
   await client.sInterStore(filterKey, keys);
   
   // Cache for 5 minutes
@@ -123234,16 +123234,16 @@ class RecommendationEngine {
   // Track user interactions
   async recordInteraction(userId, itemId, interactionType = 'view') {
     // User -> Items
-    await this.client.sAdd(\\\`user:\${userId}:\${interactionType}\\\`, itemId);
+    await this.client.sAdd(\\\`user:\$ {userId}:\$ {interactionType}\\\`, itemId);
     
     // Item -> Users (inverted index)
-    await this.client.sAdd(\\\`item:\$ {itemId}:\${interactionType}\\\`, userId);
+    await this.client.sAdd(\\\`item:\$ {itemId}:\$ {interactionType}\\\`, userId);
   }
 
   // Collaborative Filtering: Users who liked this also liked...
   async getItemBasedRecommendations(userId, limit = 10) {
     // Get items user has interacted with
-    const userItems = await this.client.sMembers(\\\`user:\${userId}:view\\\`);
+    const userItems = await this.client.sMembers(\\\`user:\$ {userId}:view\\\`);
     
     if (userItems.length === 0) return [];
     
@@ -123261,7 +123261,7 @@ class RecommendationEngine {
         if (otherUserId === userId) continue;
         
         const theirItems = await this.client.sMembers(
-          \\\`user:\${otherUserId}:view\\\`
+          \\\`user:\$ {otherUserId}:view\\\`
         );
         
         // Count recommendations
@@ -123285,7 +123285,7 @@ class RecommendationEngine {
 
   // Find similar users based on common interests
   async findSimilarUsers(userId, limit = 10) {
-    const userItems = await this.client.sMembers(\\\`user:\${userId}:view\\\`);
+    const userItems = await this.client.sMembers(\\\`user:\$ {userId}:view\\\`);
     
     if (userItems.length === 0) return [];
     
@@ -123314,8 +123314,8 @@ class RecommendationEngine {
 
   // Jaccard Similarity between two users
   async calculateJaccardSimilarity(userId1, userId2) {
-    const items1 = \\\`user:\${userId1}:view\\\`;
-    const items2 = \\\`user:\${userId2}:view\\\`;
+    const items1 = \\\`user:\$ {userId1}:view\\\`;
+    const items2 = \\\`user:\$ {userId2}:view\\\`;
     
     // Intersection (common items)
     const tempInter = 'temp:inter';
@@ -123340,7 +123340,7 @@ class RecommendationEngine {
     const similarUsers = await this.findSimilarUsers(userId, 20);
     
     // Get user's existing items
-    const userItems = await this.client.sMembers(\\\`user:\${userId}:view\\\`);
+    const userItems = await this.client.sMembers(\\\`user:\$ {userId}:view\\\`);
     const userItemsSet = new Set(userItems);
     
     const recommendations = new Map();
@@ -123348,7 +123348,7 @@ class RecommendationEngine {
     // Aggregate items from similar users
     for (const similarUserId of similarUsers) {
       const theirItems = await this.client.sMembers(
-        \\\`user:\${similarUserId}:view\\\`
+        \\\`user:\$ {similarUserId}:view\\\`
       );
       
       // Calculate similarity weight
@@ -123386,13 +123386,13 @@ class RecommendationEngine {
 
   // Content-based filtering using tags
   async getContentBasedRecommendations(userId, limit = 10) {
-    const userItems = await this.client.sMembers(\\\`user:\${userId}:view\\\`);
+    const userItems = await this.client.sMembers(\\\`user:\$ {userId}:view\\\`);
     
     if (userItems.length === 0) return [];
     
     // Collect all tags from user's items
     const tempTags = 'temp:user:tags';
-    const tagKeys = userItems.map(id => \\\`item:\${id}:tags\\\`);
+    const tagKeys = userItems.map(id => \\\`item:\$ {id}:tags\\\`);
     
     await this.client.sUnionStore(tempTags, tagKeys);
     const userTags = await this.client.sMembers(tempTags);
@@ -123401,7 +123401,7 @@ class RecommendationEngine {
     const recommendations = new Map();
     
     for (const tag of userTags) {
-      const itemsWithTag = await this.client.sMembers(\\\`tag:\${tag}:items\\\`);
+      const itemsWithTag = await this.client.sMembers(\\\`tag:\$ {tag}:items\\\`);
       
       for (const itemId of itemsWithTag) {
         if (!userItems.includes(itemId)) {
@@ -123423,7 +123423,7 @@ class RecommendationEngine {
 
   // Trending items (most interactions)
   async getTrendingItems(interactionType = 'view', limit = 10) {
-    const pattern = \\\`item:*:\${interactionType}\\\`;
+    const pattern = \\\`item:*:\$ {interactionType}\\\`;
     const items = new Map();
     
     let cursor = 0;
@@ -124283,18 +124283,18 @@ console.log('Trending items:', trending);
       const client = redis.createClient();
 
       async function trackUserActivity(userId, date) {
-            const key = \`activity:\${date}\`;
+            const key = \`activity:\$ {date}\`;
       await client.setBit(key, userId, 1);
           }
 
       async function getActiveUsersCount(date) {
-            const key = \`activity:\${date}\`;
+            const key = \`activity:\$ {date}\`;
       return await client.bitCount(key);
           }
 
       async function getUsersActiveInBothDays(day1, day2) {
             const resultKey = 'activity:both';
-      await client.bitOp('AND', resultKey, \`activity:\${day1}\`, \`activity:\${day2}\`);
+      await client.bitOp('AND', resultKey, \`activity:\$ {day1}\`, \`activity:\$ {day2}\`);
       return await client.bitCount(resultKey);
           }
     </code>
@@ -124308,17 +124308,17 @@ console.log('Trending items:', trending);
       const client = redis.createClient();
 
       async function trackUniqueVisitor(pageId, visitorId) {
-            const key = \`visitors:\${pageId}\`;
+            const key = \`visitors:\$ {pageId}\`;
       await client.pfAdd(key, visitorId);
           }
 
       async function getUniqueVisitorCount(pageId) {
-            const key = \`visitors:\${pageId}\`;
+            const key = \`visitors:\$ {pageId}\`;
       return await client.pfCount(key);
           }
 
       async function getTotalUniqueVisitors(pageIds) {
-            const keys = pageIds.map(id => \`visitors:\${id}\`);
+            const keys = pageIds.map(id => \`visitors:\$ {id}\`);
       return await client.pfCount(...keys);
           }
     </code>
@@ -124652,7 +124652,7 @@ console.log('Trending items:', trending);
     app.setGlobalPrefix('api/v1');
     
     await app.listen(3000);
-    console.log(\`Application is running on: \${await app.getUrl()}\`);
+    console.log(\`Application is running on: \$ {await app.getUrl()}\`);
   }
   bootstrap();
   
@@ -124865,7 +124865,7 @@ console.log('Trending items:', trending);
       const user = await this.usersRepository.findOne({ where: { id } });
   
       if (!user) {
-        throw new NotFoundException(\`User with ID \${id} not found\`);
+        throw new NotFoundException(\`User with ID \$ {id} not found\`);
       }
   
       return user;
@@ -125149,7 +125149,7 @@ console.log('Trending items:', trending);
           const { statusCode } = response;
           const delay = Date.now() - now;
           
-          this.logger.log(\`\${method} \${url} \${statusCode} - \${delay}ms\`);
+          this.logger.log(\`\$ {method} \$ {url} \$ {statusCode} - \$ {delay}ms\`);
         }),
       );
     }
@@ -125228,7 +125228,7 @@ console.log('Trending items:', trending);
       };
   
       this.logger.error(
-        \`\${request.method} \${request.url}\`,
+        \`\$ {request.method} \$ {request.url}\`,
         JSON.stringify(errorResponse),
       );
   
@@ -125357,7 +125357,7 @@ response.on('finish', () => {
   const contentLength = response.get('content-length');
 
   this.logger.log(
-    \`\${method} \${originalUrl} \${statusCode} \${contentLength} - \${userAgent} \${ip}\`,
+    \`\$ {method} \$ {originalUrl} \$ {statusCode} \$ {contentLength} - \$ {userAgent} \$ {ip}\`,
   );
 });
 
@@ -125900,12 +125900,12 @@ let value = target[propertyKey];
 
   
 const getter = () => {
-  console.log(\`Getting \${propertyKey}: \${value}\`);
+  console.log(\`Getting \$ {propertyKey}: \$ {value}\`);
   return value;
 };
 
 const setter = (newVal: any) => {
-  console.log(\`Setting \${propertyKey} to: \${newVal}\`);
+  console.log(\`Setting \$ {propertyKey} to: \$ {newVal}\`);
   value = newVal;
 };
 
@@ -126691,7 +126691,7 @@ export class OrdersService {
     const user = await this.usersService.findById(userId);
     
     if (!user) {
-      this.logger.warn(\`User \${userId} not found\`);
+      this.logger.warn(\`User \$ {userId} not found\`);
       throw new Error('User not found');
     }
 
@@ -126701,7 +126701,7 @@ export class OrdersService {
       total: this.calculateTotal(items)
     });
 
-    this.logger.log(\`Order \${order.id} created for user \${userId}\`);
+    this.logger.log(\`Order \$ {order.id} created for user \$ {userId}\`);
     return order;
   }
 
@@ -126743,7 +126743,7 @@ export class DatabaseModule {
 
   static forFeature(entities: any[]): DynamicModule {
     const providers = entities.map(entity => ({
-      provide: \`\${entity.name}Repository\`,
+      provide: \`\$ {entity.name}Repository\`,
       useFactory: (db: DatabaseService) => db.getRepository(entity),
       inject: [DatabaseService],
     }));
@@ -127758,7 +127758,7 @@ export class ProductsController {
   // Basic route with parameter
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return \`Product \${id}\`;
+    return \`Product \$ {id}\`;
   }
 
   // Multiple parameters
@@ -127767,19 +127767,19 @@ export class ProductsController {
     @Param('category') category: string,
     @Param('id') id: string,
   ) {
-    return \`Product \${id} in category \${category}\`;
+    return \`Product \$ {id} in category \$ {category}\`;
   }
 
   // Wildcard route
   @Get('search/*')
   search(@Param('0') path: string) {
-    return \`Searching for: \${path}\`;
+    return \`Searching for: \$ {path}\`;
   }
 
   // Optional parameter in query
   @Get()
   findAll(@Query('sort') sort?: string) {
-    return sort ? \`Sorted by \${sort}\` : 'All products';
+    return sort ? \`Sorted by \$ {sort}\` : 'All products';
   }
 }
 
@@ -127803,7 +127803,7 @@ export class UploadController {
       filename: (req, file, callback) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         const ext = extname(file.originalname);
-        callback(null, \`\${file.fieldname}-\${uniqueSuffix}\${ext}\`);
+        callback(null, \`\$ {file.fieldname}-\$ {uniqueSuffix}\$ {ext}\`);
       },
     }),
     limits: {
@@ -127841,7 +127841,7 @@ export class TasksController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return \`Get task \${id}\`;
+    return \`Get task \$ {id}\`;
   }
 
   @Post()
@@ -127851,17 +127851,17 @@ export class TasksController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateTaskDto: any) {
-    return \`Update task \${id}\`;
+    return \`Update task \$ {id}\`;
   }
 
   @Patch(':id')
   partialUpdate(@Param('id') id: string, @Body() updateTaskDto: any) {
-    return \`Partially update task \${id}\`;
+    return \`Partially update task \$ {id}\`;
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return \`Delete task \${id}\`;
+    return \`Delete task \$ {id}\`;
   }
 
   @Head(':id')
@@ -128629,7 +128629,7 @@ export class RequestScopedService {
   
   constructor(@Inject('REQUEST_ID') requestId: string) {
     this.requestId = requestId;
-    console.log(\`RequestScopedService created for request \${requestId}\`);
+    console.log(\`RequestScopedService created for request \$ {requestId}\`);
   }
   
   getRequestId() {
@@ -128643,7 +128643,7 @@ export class TransientService {
   
   constructor() {
     this.instanceId = Math.random().toString(36).substr(2, 9);
-    console.log(\`TransientService created with ID: \${this.instanceId}\`);
+    console.log(\`TransientService created with ID: \$ {this.instanceId}\`);
   }
   
   getInstanceId() {
@@ -128672,7 +128672,7 @@ export class LifecycleService implements OnModuleInit, OnApplicationBootstrap, O
   }
   
   onApplicationShutdown(signal?: string) {
-    console.log(\`Application shutting down with signal: \${signal}\`);
+    console.log(\`Application shutting down with signal: \$ {signal}\`);
     // Final cleanup, save state, notify other services, etc.
   }
   
@@ -128693,7 +128693,7 @@ export interface PaymentGateway {
 export class StripePaymentGateway implements PaymentGateway {
   async processPayment(amount: number): Promise<boolean> {
     // Stripe payment logic
-    console.log(\`Processing \${amount} via Stripe\`);
+    console.log(\`Processing \$ {amount} via Stripe\`);
     return true;
   }
   
@@ -128708,7 +128708,7 @@ export class StripePaymentGateway implements PaymentGateway {
 export class PayPalPaymentGateway implements PaymentGateway {
   async processPayment(amount: number): Promise<boolean> {
     // PayPal payment logic
-    console.log(\`Processing \${amount} via PayPal\`);
+    console.log(\`Processing \$ {amount} via PayPal\`);
     return true;
   }
   
@@ -128873,7 +128873,7 @@ export class DatabaseService {
     const port = this.configService.get<number>('DB_PORT');
     const database = this.configService.get<string>('DB_NAME');
     
-    console.log(\`Connecting to database: \${host}:\${port}/\${database}\`);
+    console.log(\`Connecting to database: \$ {host}:\$ {port}/\$ {database}\`);
     // Initialize connection
   }
   
@@ -130095,7 +130095,7 @@ export class IsUniqueEmailConstraint
   }
   
   defaultMessage(args: ValidationArguments) {
-    return \`Email \${args.value} is already registered\`;
+    return \`Email \$ {args.value} is already registered\`;
   }
 }
 </code></pre>
@@ -130163,7 +130163,7 @@ export class UserExistsPipe implements PipeTransform {
     
     if (!user) {
       throw new BadRequestException(
-        \`User with ID \${userId} not found\`
+        \`User with ID \$ {userId} not found\`
       );
     }
     
@@ -130417,8 +130417,8 @@ export class LoggingInterceptor implements NestInterceptor {
 
     // Log request details
     this.logger.log(
-      \`[REQUEST] \${method} \${url} | User: \${user} | \` +
-      \`Body: \${JSON.stringify(body)} | Query: \${JSON.stringify(query)} | Params: \${JSON.stringify(params)}\`
+      \`[REQUEST] \$ {method} \$ {url} | User: \$ {user} | \` +
+      \`Body: \$ {JSON.stringify(body)} | Query: \$ {JSON.stringify(query)} | Params: \$ {JSON.stringify(params)}\`
     );
 
     return next.handle().pipe(
@@ -130428,8 +130428,8 @@ export class LoggingInterceptor implements NestInterceptor {
           const response = context.switchToHttp().getResponse();
           
           this.logger.log(
-            \`[RESPONSE] \${method} \${url} | Status: \${response.statusCode} | \` +
-            \`Time: \${responseTime}ms | User: \${user}\`
+            \`[RESPONSE] \$ {method} \$ {url} | Status: \$ {response.statusCode} | \` +
+            \`Time: \$ {responseTime}ms | User: \$ {user}\`
           );
         },
         error: (error) => {
@@ -130437,8 +130437,8 @@ export class LoggingInterceptor implements NestInterceptor {
           const status = error.getStatus ? error.getStatus() : 500;
           
           this.logger.error(
-            \`[ERROR] \${method} \${url} | Status: \${status} | \` +
-            \`Time: \${responseTime}ms | User: \${user} | Error: \${error.message}\`,
+            \`[ERROR] \$ {method} \$ {url} | Status: \$ {status} | \` +
+            \`Time: \$ {responseTime}ms | User: \$ {user} | Error: \$ {error.message}\`,
             error.stack
           );
         }
@@ -130580,7 +130580,7 @@ export class HeadersInterceptor implements NestInterceptor {
     
     // Add request tracking headers
     const requestId = request.headers['x-request-id'] || 
-                     \`req_\${Date.now()}_\${Math.random().toString(36).substr(2, 9)}\`;
+                     \`req_\$ {Date.now()}_\$ {Math.random().toString(36).substr(2, 9)}\`;
     
     // Store request ID for logging
     request.requestId = requestId;
@@ -130598,7 +130598,7 @@ export class HeadersInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap(() => {
         // Add more headers after response is ready
-        response.setHeader('X-Process-Time', \`\${Date.now() - Number(response.getHeader('X-Response-Time'))}ms\`);
+        response.setHeader('X-Process-Time', \`\$ {Date.now() - Number(response.getHeader('X-Response-Time'))}ms\`);
       })
     );
   }
@@ -130872,7 +130872,7 @@ export class ConditionalInterceptor implements NestInterceptor {
        <p><strong>Code Example Comparison:</strong></p>
        <pre><code>// MIDDLEWARE - Simple logging (executes BEFORE routing)
 export function loggerMiddleware(req: Request, res: Response, next: NextFunction) {
-  console.log(\`[MIDDLEWARE] \${req.method} \${req.url}\`);
+  console.log(\`[MIDDLEWARE] \$ {req.method} \$ {req.url}\`);
   next(); // Pass control to next middleware or route handler
 }
 
@@ -130880,7 +130880,7 @@ export function loggerMiddleware(req: Request, res: Response, next: NextFunction
 @Injectable()
 export class TransformInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log(\`[INTERCEPTOR-BEFORE] \${context.getHandler().name}\`);
+    console.log(\`[INTERCEPTOR-BEFORE] \$ {context.getHandler().name}\`);
     
     return next.handle().pipe(
       map(data => {
@@ -130967,7 +130967,7 @@ const start = Date.now();
 return next.handle().pipe(
   tap(() => {
     const duration = Date.now() - start;
-    console.log(\`Request took \${duration}ms\`);
+    console.log(\`Request took \$ {duration}ms\`);
   })
 );
 
@@ -131083,7 +131083,7 @@ export class FileUploadInterceptor implements NestInterceptor {
     const startTime = Date.now();
     const fileCount = request.files?.length || 0;
     
-    console.log(\`[FILE UPLOAD] Starting upload of \${fileCount} files\`);
+    console.log(\`[FILE UPLOAD] Starting upload of \$ {fileCount} files\`);
     
     return next.handle().pipe(
       tap(data => {
@@ -131092,8 +131092,8 @@ export class FileUploadInterceptor implements NestInterceptor {
         const totalSize = fileSizes.reduce((sum, size) => sum + size, 0);
         
         console.log(
-          \`[FILE UPLOAD] Completed in \${duration}ms | \` +
-          \`Files: \${fileCount} | Total size: \${totalSize} bytes\`
+          \`[FILE UPLOAD] Completed in \$ {duration}ms | \` +
+          \`Files: \$ {fileCount} | Total size: \$ {totalSize} bytes\`
         );
         
         // Add file metadata to response
@@ -131117,7 +131117,7 @@ export class FileUploadInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const startTime = Date.now();
     
-    console.log(\`[REGULAR REQUEST] \${request.method} \${request.url}\`);
+    console.log(\`[REGULAR REQUEST] \$ {request.method} \$ {request.url}\`);
     
     return next.handle().pipe(
       tap(data => {
@@ -131125,8 +131125,8 @@ export class FileUploadInterceptor implements NestInterceptor {
         const responseSize = JSON.stringify(data)?.length || 0;
         
         console.log(
-          \`[REGULAR REQUEST] Completed in \${duration}ms | \` +
-          \`Response size: \${responseSize} bytes\`
+          \`[REGULAR REQUEST] Completed in \$ {duration}ms | \` +
+          \`Response size: \$ {responseSize} bytes\`
         );
       })
     );
@@ -131347,7 +131347,7 @@ export class LoggingInterceptor implements NestInterceptor {
     return next
       .handle()
       .pipe(
-        tap(() => console.log(\`After... \${Date.now() - now}ms\`)),
+        tap(() => console.log(\`After... \$ {Date.now() - now}ms\`)),
       );
   }
 }
@@ -131447,7 +131447,7 @@ export class RedisCacheInterceptor implements NestInterceptor {
   }
 
   private generateCacheKey(request: any): string {
-    return \`cache:\${request.method}:\${request.url}:\${JSON.stringify(request.query)}\`;
+    return \`cache:\$ {request.method}:\$ {request.url}:\$ {JSON.stringify(request.query)}\`;
   }
 }`,
 
@@ -131468,11 +131468,11 @@ export class TimingInterceptor implements NestInterceptor {
         const duration = Date.now() - start;
         
         // Add timing header
-        response.setHeader('X-Response-Time', \`\${duration}ms\`);
+        response.setHeader('X-Response-Time', \`\$ {duration}ms\`);
         
         // Log slow requests
         if (duration > 1000) {
-          console.warn(\`Slow request: \${request.method} \${request.url} took \${duration}ms\`);
+          console.warn(\`Slow request: \$ {request.method} \$ {request.url} took \$ {duration}ms\`);
         }
       })
     );
@@ -131610,12 +131610,12 @@ export class LoggingAspect implements NestInterceptor {
     const className = context.getClass().name;
     const start = Date.now();
 
-    console.log(\`[AOP-LOGGING] Entering: \${className}.\${handlerName}\`);
+    console.log(\`[AOP-LOGGING] Entering: \$ {className}.\$ {handlerName}\`);
 
     return next.handle().pipe(
       tap(() => {
         const duration = Date.now() - start;
-        console.log(\`[AOP-LOGGING] Exiting: \${className}.\${handlerName} (\${duration}ms)\`);
+        console.log(\`[AOP-LOGGING] Exiting: \$ {className}.\$ {handlerName} (\$ {duration}ms)\`);
       })
     );
   }
@@ -131681,7 +131681,7 @@ export class CachingAspect implements NestInterceptor {
 
   private getCacheKey(context: ExecutionContext): string {
     const request = context.switchToHttp().getRequest();
-    return \`\${request.method}:\${request.url}\`;
+    return \`\$ {request.method}:\$ {request.url}\`;
   }
 }
 
@@ -131856,7 +131856,7 @@ export class OptimizedInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     
     // Combine multiple concerns in one interceptor
-    this.logger.log(\`Request: \${request.method} \${request.url}\`);
+    this.logger.log(\`Request: \$ {request.method} \$ {request.url}\`);
     this.metricsService.increment('requests_total');
     
     const cacheKey = this.getCacheKey(request);
@@ -131876,7 +131876,7 @@ export class OptimizedInterceptor implements NestInterceptor {
             await this.cacheService.set(cacheKey, transformed, 60);
             
             const duration = Date.now() - start;
-            this.logger.log(\`Request completed in \${duration}ms\`);
+            this.logger.log(\`Request completed in \$ {duration}ms\`);
             this.metricsService.histogram('request_duration', duration);
           })
         );
