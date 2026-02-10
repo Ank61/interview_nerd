@@ -361,7 +361,6 @@ export default function ComponentPage({ componentData, componentName }) {
     if (topic.customLink) {
       router.push(topic.customLink);
     } else {
-      // Special routing for Snippets component
       if (componentName === "Snippets") {
         router.push("/snippets");
       } else if (
