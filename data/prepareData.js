@@ -10086,107 +10086,14484 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
           },
           {
             topic: "React Forms",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Forms",
+              "Controlled Components",
+              "Uncontrolled Components",
+              "Form Validation",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;"> Forms in React are essential for user interaction, handling input, validation, and submission. React forms can be implemented using two main approaches: <b>Controlled Components</b> and <b>Uncontrolled Components</b>. Understanding these approaches, along with form validation and advanced patterns, is crucial for React developers. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 1. Controlled Components </h4> <p style="line-height: 1.75;"> A controlled component is where form data is handled by React state. The input element's value is controlled by React, and changes are handled via <code>onChange</code> events. This is the recommended approach in React. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> import { useState } from 'react';
+function ControlledForm() {
+const [name, setName] = useState('');
+
+const handleSubmit = (e) => {
+e.preventDefault();
+alert('Submitted: ' + name);
+};
+
+return (
+<form onSubmit={handleSubmit}>
+<input
+type="text"
+value={name}
+onChange={(e) => setName(e.target.value)}
+/>
+<button type="submit">Submit</button>
+</form>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 2. Uncontrolled Components </h4> <p style="line-height: 1.75;"> Uncontrolled components use refs to access form data directly from the DOM. React doesn't manage the input state; instead, you rely on the DOM to handle the form data. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> import { useRef } from 'react';
+function UncontrolledForm() {
+const inputRef = useRef();
+
+const handleSubmit = (e) => {
+e.preventDefault();
+alert('Submitted: ' + inputRef.current.value);
+};
+
+return (
+<form onSubmit={handleSubmit}>
+<input
+type="text"
+ref={inputRef}
+/>
+<button type="submit">Submit</button>
+</form>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 3. Handling Multiple Inputs </h4> <p style="line-height: 1.75;"> For forms with multiple inputs, you can manage them using a single state object. Use the input's <code>name</code> attribute to update the corresponding property in state. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function MultiInputForm() { const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+const handleChange = (e) => {
+setFormData({
+...formData,
+[e.target.name]: e.target.value
+});
+};
+
+const handleSubmit = (e) => {
+e.preventDefault();
+console.log(formData);
+};
+
+return (
+<form onSubmit={handleSubmit}>
+<input
+name="username"
+value={formData.username}
+onChange={handleChange}
+/>
+<input
+name="email"
+value={formData.email}
+onChange={handleChange}
+/>
+<input
+name="password"
+type="password"
+value={formData.password}
+onChange={handleChange}
+/>
+<button type="submit">Submit</button>
+</form>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 4. Form Validation </h4> <p style="line-height: 1.75;"> Form validation can be implemented in React by checking input values on change or on submit. You can display error messages conditionally based on validation rules. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function ValidatedForm() { const [email, setEmail] = useState(''); const [error, setError] = useState('');
+const validateEmail = (email) => {
+const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+return regex.test(email);
+};
+
+const handleSubmit = (e) => {
+e.preventDefault();
+if (!validateEmail(email)) {
+setError('Invalid email address');
+return;
+}
+setError('');
+alert('Form submitted successfully');
+};
+
+return (
+<form onSubmit={handleSubmit}>
+<input
+type="email"
+value={email}
+onChange={(e) => setEmail(e.target.value)}
+/>
+{error && <p style={{color: 'red'}}>{error}</p>}
+<button type="submit">Submit</button>
+</form>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 5. Advanced Form Libraries </h4> <p style="line-height: 1.75;"> For complex forms, consider using libraries like <b>Formik</b> or <b>React Hook Form</b>. These libraries handle state management, validation, and submission efficiently. </p> <ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;"> <li><b>Formik</b>: Provides a complete solution for form state, validation, and submission.</li> <li><b>React Hook Form</b>: Focuses on performance and minimal re-renders using uncontrolled components.</li> </ul> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 6. Form Submission and Async Handling </h4> <p style="line-height: 1.75;"> Handling form submission often involves asynchronous operations like API calls. Use state to manage loading and error states during submission. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function AsyncForm() { const [data, setData] = useState(''); const [loading, setLoading] = useState(false); const [error, setError] = useState(null);
+const handleSubmit = async (e) => {
+e.preventDefault();
+setLoading(true);
+try {
+const response = await fetch('/api/submit', {
+method: 'POST',
+body: JSON.stringify({ data })
+});
+const result = await response.json();
+console.log('Success:', result);
+} catch (err) {
+setError(err.message);
+} finally {
+setLoading(false);
+}
+};
+
+return (
+<form onSubmit={handleSubmit}>
+<input
+value={data}
+onChange={(e) => setData(e.target.value)}
+/>
+<button type="submit" disabled={loading}>
+{loading ? 'Submitting...' : 'Submit'}
+</button>
+{error && <p>Error: {error}</p>}
+</form>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 7. Dynamic Forms </h4> <p style="line-height: 1.75;"> Dynamic forms allow users to add or remove form fields dynamically. This can be implemented by managing an array of field values in state. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function DynamicForm() { const [fields, setFields] = useState([{ value: '' }]);
+const addField = () => {
+setFields([...fields, { value: '' }]);
+};
+
+const removeField = (index) => {
+const newFields = fields.filter((_, i) => i !== index);
+setFields(newFields);
+};
+
+const handleChange = (index, value) => {
+const newFields = [...fields];
+newFields[index].value = value;
+setFields(newFields);
+};
+
+return (
+<form>
+{fields.map((field, index) => (
+<div key={index}>
+<input
+value={field.value}
+onChange={(e) => handleChange(index, e.target.value)}
+/>
+<button type="button" onClick={() => removeField(index)}>
+Remove
+</button>
+</div>
+))}
+<button type="button" onClick={addField}>Add Field</button>
+</form>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 8. Accessibility in Forms </h4> <p style="line-height: 1.75;"> Ensure forms are accessible by using proper HTML semantics, labels, ARIA attributes, and keyboard navigation. Always associate labels with input fields using <code>htmlFor</code> and <code>id</code>. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function AccessibleForm() { return ( &lt;form&gt; &lt;label htmlFor="name"&gt;Name:&lt;/label&gt; &lt;input id="name" type="text" aria-describedby="nameHelp" /&gt; &lt;small id="nameHelp"&gt;Enter your full name.&lt;/small&gt; &lt;/form&gt; ); } </code></pre> </div> </div>`,
+            examples: [
+              "Simple Login Form with Validation",
+              "Multi-Step Registration Form",
+              "Dynamic Survey Form with Add/Remove Fields",
+              "Form with Real-time Validation using Debouncing",
+            ],
+            questions: [
+              {
+                question:
+                  "What are the differences between controlled and uncontrolled components?",
+                answer:
+                  "Controlled components manage form data via React state, while uncontrolled components use refs to directly access DOM elements. Controlled components provide more control and are easier to validate, but uncontrolled components can be more performant for simple forms.",
+              },
+              {
+                question: "How would you handle form validation in React?",
+                answer:
+                  "Form validation can be handled manually by checking input values on change or submit, using libraries like Formik or React Hook Form, or leveraging HTML5 built-in validation attributes.",
+              },
+              {
+                question:
+                  "What are some performance considerations for large forms?",
+                answer:
+                  "For large forms, avoid re-rendering the entire form on every change. Use React.memo for components, split forms into smaller sub-components, or consider using uncontrolled components with libraries like React Hook Form.",
+              },
+              {
+                question: "How do you handle file uploads in React forms?",
+                answer:
+                  "Use <input type='file'> with either controlled or uncontrolled approach. For controlled, use File API and state; for uncontrolled, use refs. Handle uploads with FormData and async API calls.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react-dom/components/form",
+              "https://formik.org/",
+              "https://react-hook-form.com/",
+              "https://developer.mozilla.org/en-US/docs/Learn/Forms",
+            ],
           },
           {
             topic: "Fragments",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Fragment",
+              "Performance",
+              "DOM",
+              "Wrapper",
+              "Keyed Fragments",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;"> Fragments in React are a powerful feature that allow you to group multiple elements together without adding extra nodes to the DOM. They solve common patterns where you need to return multiple adjacent JSX elements from a component, which would otherwise require a wrapper element. Understanding fragments is essential for writing clean, semantic, and performant React code. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 1. Basic Syntax and Usage </h4> <p style="line-height: 1.75;"> There are two ways to use fragments in React: using the <code>&lt;React.Fragment&gt;</code> syntax or the shorthand <code>&lt;&gt;&lt;/&gt;</code> syntax. Both accomplish the same goal but have some differences in capabilities. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Using React.Fragment function ComponentA() { return ( &lt;React.Fragment&gt; &lt;h1&gt;Title&lt;/h1&gt; &lt;p&gt;Paragraph 1&lt;/p&gt; &lt;p&gt;Paragraph 2&lt;/p&gt; &lt;/React.Fragment&gt; ); }
+// Using shorthand syntax
+function ComponentB() {
+return (
+<>
+<h1>Title</h1>
+<p>Paragraph 1</p>
+<p>Paragraph 2</p>
+</>
+);
+}
+</code></pre>
+
+</div> <p style="line-height: 1.75; margin-top: 1rem;"> <b>Key Difference:</b> The shorthand syntax doesn't support keys or attributes, while <code>React.Fragment</code> does. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 2. Why Fragments are Necessary </h4> <p style="line-height: 1.75;"> Before fragments, developers had to wrap multiple elements in a container like a <code>&lt;div&gt;</code>. This could lead to unnecessary DOM nesting, which affects: </p> <ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;"> <li><b>Semantic HTML:</b> Extra divs break semantic structure (e.g., inside tables, lists)</li> <li><b>CSS Styling:</b> Extra wrappers can interfere with CSS layouts and selectors</li> <li><b>Performance:</b> More DOM nodes mean slower rendering and larger memory usage</li> <li><b>Accessibility:</b> Screen readers may interpret unnecessary wrappers incorrectly</li> </ul> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 3. Fragments with Keys </h4> <p style="line-height: 1.75;"> When mapping collections, you need to provide a <code>key</code> prop. The shorthand syntax doesn't support keys, so you must use <code>React.Fragment</code> explicitly. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function ItemList({ items }) { return items.map(item => ( &lt;React.Fragment key={item.id}&gt; &lt;h3&gt;{item.title}&lt;/h3&gt; &lt;p&gt;{item.description}&lt;/p&gt; &lt;hr /&gt; &lt;/React.Fragment&gt; )); }
+// Usage
+const items = [
+{ id: 1, title: 'Item 1', description: 'Description 1' },
+{ id: 2, title: 'Item 2', description: 'Description 2' }
+];
+
+function App() {
+return <ItemList items={items} />;
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 4. Advanced Use Cases </h4> <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> A. Table Structures </h5> <p style="line-height: 1.75;"> Fragments are essential for correct table markup where wrapper divs would break the HTML structure. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function Table() { return ( &lt;table&gt; &lt;tbody&gt; &lt;tr&gt; &lt;Columns /&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; ); }
+function Columns() {
+return (
+<React.Fragment>
+<td>Column 1</td>
+<td>Column 2</td>
+<td>Column 3</td>
+</React.Fragment>
+);
+}
+</code></pre>
+
+</div> <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> B. List Structures </h5> <p style="line-height: 1.75;"> Similarly, fragments help maintain proper list structure without extra wrappers. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function ListItems() { return ( &lt;ul&gt; &lt;ListItem item="Item 1" /&gt; &lt;ListItem item="Item 2" /&gt; &lt;/ul&gt; ); }
+function ListItem({ item }) {
+return (
+<React.Fragment>
+<li>{item}</li>
+<li>Sub-item for {item}</li>
+</React.Fragment>
+);
+}
+</code></pre>
+
+</div> <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> C. Conditional Rendering </h5> <p style="line-height: 1.75;"> Fragments can help with conditional rendering patterns where you need to return different element groupings. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function UserProfile({ user, isLoading }) { if (isLoading) { return ( &lt;React.Fragment&gt; &lt;div className="skeleton skeleton-title"&gt;&lt;/div&gt; &lt;div className="skeleton skeleton-text"&gt;&lt;/div&gt; &lt;div className="skeleton skeleton-text"&gt;&lt;/div&gt; &lt;/React.Fragment&gt; ); }
+return (
+<React.Fragment>
+<h1>{user.name}</h1>
+<p>{user.email}</p>
+<p>Joined: {user.joinDate}</p>
+</React.Fragment>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 5. Performance Benefits </h4> <p style="line-height: 1.75;"> Fragments reduce the number of DOM nodes, which leads to: </p> <ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;"> <li><b>Faster rendering:</b> Fewer nodes to create and update</li> <li><b>Reduced memory usage:</b> Smaller DOM tree size</li> <li><b>Improved layout performance:</b> Less complex CSS calculations</li> <li><b>Better garbage collection:</b> Fewer objects in memory</li> </ul> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 6. Fragment vs. Array Returns </h4> <p style="line-height: 1.75;"> React also allows returning arrays from components. While similar to fragments, arrays require keys for each element and have different syntax. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Using array (requires keys) function ArrayReturn() { return [ &lt;h1 key="title"&gt;Title&lt;/h1&gt;, &lt;p key="p1"&gt;Paragraph 1&lt;/p&gt;, &lt;p key="p2"&gt;Paragraph 2&lt;/p&gt; ]; }
+// Using fragment (cleaner syntax)
+function FragmentReturn() {
+return (
+<>
+<h1>Title</h1>
+<p>Paragraph 1</p>
+<p>Paragraph 2</p>
+</>
+);
+}
+</code></pre>
+
+</div> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 7. Common Pitfalls and Best Practices </h4> <ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;"> <li><b>Avoid unnecessary fragments:</b> Don't wrap single elements in fragments</li> <li><b>Use keys with mapped fragments:</b> Always provide keys when mapping over arrays</li> <li><b>Be mindful of CSS:</b> Fragments don't create DOM nodes, so you can't style them directly</li> <li><b>Choose syntax appropriately:</b> Use shorthand for simple cases, <code>React.Fragment</code> for keys or attributes</li> <li><b>Consider component structure:</b> Sometimes restructuring components is better than using fragments</li> </ul> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 8. Advanced Patterns </h4> <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> A. Fragment Components </h5> <p style="line-height: 1.75;"> You can create reusable fragment components for common patterns. </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> const GridFragment = ({ children }) => ( &lt;React.Fragment&gt; &lt;div className="grid-header"&gt;Header&lt;/div&gt; {children} &lt;div className="grid-footer"&gt;Footer&lt;/div&gt; &lt;/React.Fragment&gt; );
+function App() {
+return (
+<GridFragment>
+<div>Content 1</div>
+<div>Content 2</div>
+</GridFragment>
+);
+}
+</code></pre>
+
+</div> <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> B. Conditional Fragment Attributes </h5> <p style="line-height: 1.75;"> You can conditionally add attributes to fragments (only possible with <code>React.Fragment</code> syntax). </p> <div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> function ConditionalFragment({ shouldKey }) { const fragmentProps = shouldKey ? { key: 'unique-key' } : {};
+return (
+<React.Fragment {...fragmentProps}>
+<div>Content</div>
+</React.Fragment>
+);
+}
+</code></pre>
+
+</div> </div>`,
+            examples: [
+              "Table with Fragment Components",
+              "List Rendering with Keyed Fragments",
+              "Conditional Fragment Rendering",
+              "Fragment vs. Div Wrapper Performance Comparison",
+            ],
+            questions: [
+              {
+                question: "What is the main purpose of React Fragments?",
+                answer:
+                  "Fragments allow grouping multiple elements without adding extra DOM nodes, solving issues with unnecessary wrapper elements that can break semantic HTML, affect CSS styling, and impact performance.",
+              },
+              {
+                question:
+                  "When should you use React.Fragment instead of the shorthand syntax?",
+                answer:
+                  "Use React.Fragment when you need to add keys for list rendering or any other attributes to the fragment. The shorthand syntax <> </> doesn't support keys or attributes.",
+              },
+              {
+                question:
+                  "Can fragments improve React application performance? How?",
+                answer:
+                  "Yes, fragments can improve performance by reducing the number of DOM nodes, leading to faster rendering, reduced memory usage, improved layout calculations, and better garbage collection efficiency.",
+              },
+              {
+                question: "What are the limitations of using fragments?",
+                answer:
+                  "Fragments can't be styled directly, don't support all props (only key and children), and the shorthand syntax has limitations. Also, overly complex fragment usage can make code harder to read compared to component restructuring.",
+              },
+              {
+                question:
+                  "How do fragments compare to returning arrays from components?",
+                answer:
+                  "Both allow returning multiple elements, but fragments provide cleaner syntax, automatic child handling, and better developer experience. Arrays require explicit keys for each element and have more verbose syntax.",
+              },
+              {
+                question: "When would you NOT use a fragment?",
+                answer:
+                  "Don't use fragments when: 1) You only have one element to return, 2) You need to style the wrapper directly, 3) You require event handlers on the wrapper, 4) The wrapper needs specific HTML semantics that fragments don't provide.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/Fragment",
+              "https://legacy.reactjs.org/docs/fragments.html",
+              "https://developer.mozilla.org/en-US/docs/Web/HTML/Element#content_sectioning",
+              "https://reactpatterns.com/#fragment",
+            ],
           },
           {
             topic: "React Router Basics",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "React Router",
+              "Navigation",
+              "Routing",
+              "SPA",
+              "Browser Router",
+              "Routes",
+              "Links",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+React Router is the standard routing library for React applications. It enables navigation between different views or pages in a single-page application (SPA) without requiring a full page reload. React Router synchronizes the UI with the URL, manages browser history, and provides a declarative way to define application routes. Mastering React Router is essential for building modern, navigable React applications.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Core Concepts and Installation
+</h4>
+
+<p style="line-height: 1.75;">
+React Router v6 (the latest major version) introduces significant improvements over previous versions with a simpler, more intuitive API. First, install the package:
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-bash">
+npm install react-router-dom
+# or
+yarn add react-router-dom
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+The main exports you'll use are: <code>BrowserRouter</code>, <code>Routes</code>, <code>Route</code>, <code>Link</code>, <code>NavLink</code>, and various hooks like <code>useNavigate</code>, <code>useParams</code>, and <code>useLocation</code>.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Basic Router Setup
+</h4>
+
+<p style="line-height: 1.75;">
+The <code>BrowserRouter</code> component wraps your application and provides routing context. It uses the HTML5 history API to keep the UI in sync with the URL.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
+
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+        &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+        &lt;Route path="/contact" element={&lt;Contact /&gt;} /&gt;
+        &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+
+export default App;
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+<b>Key Points:</b> The <code>path</code> prop defines the URL pattern, <code>element</code> specifies what to render, and <code>path="*"</code> creates a catch-all route for 404 pages.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Navigation with Link and NavLink
+</h4>
+
+<p style="line-height: 1.75;">
+React Router provides <code>Link</code> and <code>NavLink</code> components for navigation. Unlike anchor tags, these prevent full page reloads and enable client-side navigation.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { Link, NavLink } from 'react-router-dom';
+
+function Navigation() {
+  return (
+    &lt;nav&gt;
+      {/* Basic Link */}
+      &lt;Link to="/"&gt;Home&lt;/Link&gt;
+      &lt;Link to="/about"&gt;About&lt;/Link&gt;
+      
+      {/* NavLink with active styling */}
+      &lt;NavLink 
+        to="/products" 
+        className={({ isActive }) =&gt; isActive ? 'nav-link active' : 'nav-link'}
+      &gt;
+        Products
+      &lt;/NavLink&gt;
+      
+      {/* NavLink with inline styles */}
+      &lt;NavLink 
+        to="/contact"
+        style={({ isActive }) =&gt; ({
+          color: isActive ? '#ff0000' : '#000000',
+          fontWeight: isActive ? 'bold' : 'normal'
+        })}
+      &gt;
+        Contact
+      &lt;/NavLink&gt;
+    &lt;/nav&gt;
+  );
+}
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+<b>Link vs NavLink:</b> <code>Link</code> is for basic navigation, while <code>NavLink</code> provides an <code>isActive</code> state useful for highlighting the current route.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Dynamic Routes and URL Parameters
+</h4>
+
+<p style="line-height: 1.75;">
+Dynamic routes allow you to capture values from the URL using parameters. Access these parameters with the <code>useParams</code> hook.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { Routes, Route, useParams, Link } from 'react-router-dom';
+
+// Route configuration
+function App() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/users" element={&lt;Users /&gt;} /&gt;
+      &lt;Route path="/users/:userId" element={&lt;UserProfile /&gt;} /&gt;
+      &lt;Route path="/products/:category/:productId" element={&lt;Product /&gt;} /&gt;
+    &lt;/Routes&gt;
+  );
+}
+
+// Component using URL parameters
+function UserProfile() {
+  const { userId } = useParams();
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;User Profile&lt;/h1&gt;
+      &lt;p&gt;Viewing profile for user: {userId}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Component with multiple parameters
+function Product() {
+  const { category, productId } = useParams();
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Product Details&lt;/h1&gt;
+      &lt;p&gt;Category: {category}&lt;/p&gt;
+      &lt;p&gt;Product ID: {productId}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Linking to dynamic routes
+function Users() {
+  const users = [
+    { id: 1, name: 'John' },
+    { id: 2, name: 'Jane' },
+    { id: 3, name: 'Bob' }
+  ];
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Users List&lt;/h1&gt;
+      {users.map(user =&gt; (
+        &lt;Link key={user.id} to={/users/$ {user.id}}&gt;
+          {user.name}
+        &lt;/Link&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Nested Routes and Layouts
+</h4>
+
+<p style="line-height: 1.75;">
+Nested routes allow you to create hierarchical route structures with shared layouts. Use the <code>Outlet</code> component to render child routes.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { Routes, Route, Outlet, Link } from 'react-router-dom';
+
+// Layout component with navigation
+function DashboardLayout() {
+  return (
+    &lt;div className="dashboard"&gt;
+      &lt;nav&gt;
+        &lt;Link to="/dashboard"&gt;Overview&lt;/Link&gt;
+        &lt;Link to="/dashboard/analytics"&gt;Analytics&lt;/Link&gt;
+        &lt;Link to="/dashboard/settings"&gt;Settings&lt;/Link&gt;
+      &lt;/nav&gt;
+      
+      {/* Child routes render here */}
+      &lt;main&gt;
+        &lt;Outlet /&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Route configuration with nesting
+function App() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+      
+      {/* Parent route with layout */}
+      &lt;Route path="/dashboard" element={&lt;DashboardLayout /&gt;}&gt;
+        {/* Child routes - paths are relative to parent */}
+        &lt;Route index element={&lt;DashboardOverview /&gt;} /&gt;
+        &lt;Route path="analytics" element={&lt;Analytics /&gt;} /&gt;
+        &lt;Route path="settings" element={&lt;Settings /&gt;} /&gt;
+      &lt;/Route&gt;
+    &lt;/Routes&gt;
+  );
+}
+
+// Child components
+function DashboardOverview() {
+  return &lt;h2&gt;Dashboard Overview&lt;/h2&gt;;
+}
+
+function Analytics() {
+  return &lt;h2&gt;Analytics Page&lt;/h2&gt;;
+}
+
+function Settings() {
+  return &lt;h2&gt;Settings Page&lt;/h2&gt;;
+}
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+<b>Index Routes:</b> The <code>index</code> prop creates a default child route that renders when the parent route matches exactly.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Programmatic Navigation
+</h4>
+
+<p style="line-height: 1.75;">
+The <code>useNavigate</code> hook enables programmatic navigation, useful for redirects after form submissions or based on user actions.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useNavigate } from 'react-router-dom';
+
+function LoginForm() {
+  const navigate = useNavigate();
+  
+  const handleSubmit = async (e) =&gt; {
+    e.preventDefault();
+    
+    // Perform login logic
+    const success = await loginUser();
+    
+    if (success) {
+      // Navigate to dashboard
+      navigate('/dashboard');
+      
+      // Navigate with state
+      navigate('/dashboard', { state: { from: 'login' } });
+      
+      // Navigate with replace (replaces current history entry)
+      navigate('/dashboard', { replace: true });
+    }
+  };
+  
+  const goBack = () =&gt; {
+    // Navigate back one page
+    navigate(-1);
+  };
+  
+  const goForward = () =&gt; {
+    // Navigate forward one page
+    navigate(1);
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input type="text" placeholder="Username" /&gt;
+      &lt;input type="password" placeholder="Password" /&gt;
+      &lt;button type="submit"&gt;Login&lt;/button&gt;
+      &lt;button type="button" onClick={goBack}&gt;Go Back&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Query Parameters and Location
+</h4>
+
+<p style="line-height: 1.75;">
+Use <code>useSearchParams</code> for query parameters and <code>useLocation</code> to access the current location object.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useSearchParams, useLocation, Link } from 'react-router-dom';
+
+function ProductsList() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  
+  // Get query parameters
+  const category = searchParams.get('category') || 'all';
+  const sort = searchParams.get('sort') || 'name';
+  const page = searchParams.get('page') || '1';
+  
+  // Update query parameters
+  const updateCategory = (newCategory) =&gt; {
+    setSearchParams({ category: newCategory, sort, page });
+  };
+  
+  const updateSort = (newSort) =&gt; {
+    setSearchParams({ category, sort: newSort, page });
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Products&lt;/h1&gt;
+      
+      {/* Current location info */}
+      &lt;p&gt;Current path: {location.pathname}&lt;/p&gt;
+      &lt;p&gt;Query string: {location.search}&lt;/p&gt;
+      
+      {/* Filters */}
+      &lt;div&gt;
+        &lt;button onClick={() =&gt; updateCategory('electronics')}&gt;
+          Electronics
+        &lt;/button&gt;
+        &lt;button onClick={() =&gt; updateCategory('clothing')}&gt;
+          Clothing
+        &lt;/button&gt;
+        &lt;button onClick={() =&gt; updateSort('price')}&gt;
+          Sort by Price
+        &lt;/button&gt;
+      &lt;/div&gt;
+      
+      {/* Using Link with search params */}
+      &lt;Link to="/products?category=books&amp;sort=rating"&gt;
+        Books by Rating
+      &lt;/Link&gt;
+      
+      &lt;p&gt;Showing {category} products sorted by {sort}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Protected Routes and Authentication
+</h4>
+
+<p style="line-height: 1.75;">
+Implement protected routes to restrict access based on authentication status. This is a common pattern for securing application areas.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+
+// Auth context (simplified)
+const useAuth = () =&gt; {
+  // This would typically come from a context or state management
+  const user = localStorage.getItem('user');
+  return { isAuthenticated: !!user };
+};
+
+// Protected Route Component
+function ProtectedRoute({ redirectPath = '/login' }) {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+  
+  if (!isAuthenticated) {
+    // Redirect to login, but save the location they were trying to access
+    return &lt;Navigate to={redirectPath} state={{ from: location }} replace /&gt;;
+  }
+  
+  return &lt;Outlet /&gt;;
+}
+
+// Route configuration
+function App() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/login" element={&lt;Login /&gt;} /&gt;
+      &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+      
+      {/* Protected routes */}
+      &lt;Route element={&lt;ProtectedRoute /&gt;}&gt;
+        &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+        &lt;Route path="/profile" element={&lt;Profile /&gt;} /&gt;
+        &lt;Route path="/settings" element={&lt;Settings /&gt;} /&gt;
+      &lt;/Route&gt;
+      
+      {/* Admin only routes */}
+      &lt;Route element={&lt;ProtectedRoute requiredRole="admin" /&gt;}&gt;
+        &lt;Route path="/admin" element={&lt;AdminPanel /&gt;} /&gt;
+      &lt;/Route&gt;
+    &lt;/Routes&gt;
+  );
+}
+
+// Login component that redirects after successful login
+function Login() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const from = location.state?.from?.pathname || '/dashboard';
+  
+  const handleLogin = async () =&gt; {
+    // Perform login
+    await loginUser();
+    
+    // Redirect to the page they were trying to access
+    navigate(from, { replace: true });
+  };
+  
+  return (
+    &lt;form onSubmit={handleLogin}&gt;
+      &lt;input type="text" placeholder="Username" /&gt;
+      &lt;input type="password" placeholder="Password" /&gt;
+      &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Route Matching and Patterns
+</h4>
+
+<p style="line-height: 1.75;">
+React Router v6 uses advanced path matching with support for wildcards, optional segments, and more.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+function App() {
+  return (
+    &lt;Routes&gt;
+      {/* Exact match */}
+      &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+      
+      {/* Dynamic segment */}
+      &lt;Route path="/users/:userId" element={&lt;User /&gt;} /&gt;
+      
+      {/* Multiple dynamic segments */}
+      &lt;Route path="/posts/:year/:month/:slug" element={&lt;Post /&gt;} /&gt;
+      
+      {/* Wildcard - matches everything after /files/ */}
+      &lt;Route path="/files/*" element={&lt;Files /&gt;} /&gt;
+      
+      {/* Optional segments using ? */}
+      &lt;Route path="/shop/:category?" element={&lt;Shop /&gt;} /&gt;
+      
+      {/* Catch-all 404 route */}
+      &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+    &lt;/Routes&gt;
+  );
+}
+
+// Using the wildcard parameter
+function Files() {
+  const location = useLocation();
+  // For /files/documents/2024/report.pdf
+  // location.pathname would be /files/documents/2024/report.pdf
+  const filePath = location.pathname.replace('/files/', '');
+  
+  return &lt;div&gt;Viewing file: {filePath}&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Router Types and Their Use Cases
+</h4>
+
+<p style="line-height: 1.75;">
+React Router provides different router types for different environments and use cases.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// BrowserRouter - Most common, uses HTML5 history API
+import { BrowserRouter } from 'react-router-dom';
+
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Routes&gt;{/* routes */}&lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+
+// HashRouter - Uses URL hash, good for static hosting
+import { HashRouter } from 'react-router-dom';
+
+function App() {
+  return (
+    &lt;HashRouter&gt;
+      &lt;Routes&gt;{/* routes */}&lt;/Routes&gt;
+    &lt;/HashRouter&gt;
+  );
+}
+
+// MemoryRouter - Keeps history in memory, useful for testing
+import { MemoryRouter } from 'react-router-dom';
+
+function App() {
+  return (
+    &lt;MemoryRouter initialEntries={['/dashboard']}&gt;
+      &lt;Routes&gt;{/* routes */}&lt;/Routes&gt;
+    &lt;/MemoryRouter&gt;
+  );
+}
+
+// NativeRouter - For React Native apps
+import { NativeRouter } from 'react-router-native';
+</code></pre>
+</div>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>BrowserRouter:</b> For web apps with server support for all routes</li>
+  <li><b>HashRouter:</b> For static file servers that can't handle dynamic URLs</li>
+  <li><b>MemoryRouter:</b> For testing or non-browser environments</li>
+  <li><b>NativeRouter:</b> For React Native mobile applications</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Advanced Hooks
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. useNavigationType
+</h5>
+
+<p style="line-height: 1.75;">
+Determines how the user navigated to the current page.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useNavigationType } from 'react-router-dom';
+
+function Analytics() {
+  const navigationType = useNavigationType();
+  // Returns: 'POP', 'PUSH', or 'REPLACE'
+  
+  useEffect(() =&gt; {
+    if (navigationType === 'PUSH') {
+      // User clicked a link
+      trackPageView('link_click');
+    } else if (navigationType === 'POP') {
+      // User used back/forward button
+      trackPageView('browser_navigation');
+    }
+  }, [navigationType]);
+  
+  return &lt;div&gt;Analytics Page&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. useMatch
+</h5>
+
+<p style="line-height: 1.75;">
+Check if the current URL matches a specific pattern.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useMatch } from 'react-router-dom';
+
+function Navigation() {
+  const isProductPage = useMatch('/products/:id');
+  const isCategoryPage = useMatch('/products/category/:categoryId');
+  
+  return (
+    &lt;nav&gt;
+      &lt;Link to="/products" style={{ 
+        fontWeight: isProductPage || isCategoryPage ? 'bold' : 'normal' 
+      }}&gt;
+        Products
+      &lt;/Link&gt;
+    &lt;/nav&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. useResolvedPath
+</h5>
+
+<p style="line-height: 1.75;">
+Resolve relative paths against the current location.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useResolvedPath } from 'react-router-dom';
+
+function CustomLink({ to, children }) {
+  const resolved = useResolvedPath(to);
+  // If to="../settings" and current path is /dashboard/profile
+  // resolved.pathname will be /dashboard/settings
+  
+  return &lt;Link to={resolved.pathname}&gt;{children}&lt;/Link&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Error Handling and Error Boundaries
+</h4>
+
+<p style="line-height: 1.75;">
+React Router v6.4+ supports error handling with error boundaries at the route level.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+
+function ErrorBoundary() {
+  const error = useRouteError();
+  
+  if (isRouteErrorResponse(error)) {
+    if (error.status === 404) {
+      return &lt;div&gt;This page doesn't exist!&lt;/div&gt;;
+    }
+    
+    if (error.status === 401) {
+      return &lt;div&gt;You aren't authorized to see this&lt;/div&gt;;
+    }
+    
+    if (error.status === 503) {
+      return &lt;div&gt;Looks like our API is down&lt;/div&gt;;
+    }
+  }
+  
+  return &lt;div&gt;Something went wrong!&lt;/div&gt;;
+}
+
+// Route configuration
+function App() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route 
+        path="/" 
+        element={&lt;Root /&gt;} 
+        errorElement={&lt;ErrorBoundary /&gt;}
+      &gt;
+        &lt;Route path="dashboard" element={&lt;Dashboard /&gt;} /&gt;
+      &lt;/Route&gt;
+    &lt;/Routes&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Lazy Loading Routes
+</h4>
+
+<p style="line-height: 1.75;">
+Improve performance by code-splitting routes and loading them on demand.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+// Lazy load components
+const Dashboard = lazy(() =&gt; import('./pages/Dashboard'));
+const Analytics = lazy(() =&gt; import('./pages/Analytics'));
+const Settings = lazy(() =&gt; import('./pages/Settings'));
+
+function App() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+      
+      {/* Wrap lazy routes in Suspense */}
+      &lt;Route 
+        path="/dashboard" 
+        element={
+          &lt;Suspense fallback={&lt;LoadingSpinner /&gt;}&gt;
+            &lt;Dashboard /&gt;
+          &lt;/Suspense&gt;
+        } 
+      /&gt;
+      
+      {/* Or wrap all routes */}
+      &lt;Route 
+        path="/analytics" 
+        element={
+          &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+            &lt;Analytics /&gt;
+          &lt;/Suspense&gt;
+        } 
+      /&gt;
+    &lt;/Routes&gt;
+  );
+}
+
+// Better: Create a wrapper component
+function LazyRoute({ component: Component }) {
+  return (
+    &lt;Suspense fallback={&lt;LoadingSpinner /&gt;}&gt;
+      &lt;Component /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+
+function AppWithWrapper() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/dashboard" element={&lt;LazyRoute component={Dashboard} /&gt;} /&gt;
+      &lt;Route path="/analytics" element={&lt;LazyRoute component={Analytics} /&gt;} /&gt;
+    &lt;/Routes&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+14. Common Patterns and Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Organize routes centrally:</b> Keep route configuration in a dedicated file or component</li>
+  <li><b>Use layouts for common UI:</b> Leverage nested routes and Outlet for shared layouts</li>
+  <li><b>Implement 404 pages:</b> Always include a catch-all route for unknown URLs</li>
+  <li><b>Protect sensitive routes:</b> Use wrapper components to enforce authentication</li>
+  <li><b>Lazy load heavy routes:</b> Code-split large pages to improve initial load time</li>
+  <li><b>Use relative paths in nested routes:</b> Simplifies refactoring and improves maintainability</li>
+  <li><b>Prefer declarative navigation:</b> Use Link components over programmatic navigation when possible</li>
+  <li><b>Handle loading states:</b> Provide feedback during lazy loading or data fetching</li>
+  <li><b>Preserve scroll position:</b> Consider implementing scroll restoration for better UX</li>
+  <li><b>Use URL state appropriately:</b> Store filters, pagination, and search in query params</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+15. Performance Considerations
+</h4>
+
+<p style="line-height: 1.75;">
+Optimize routing performance with these strategies:
+</p>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Code splitting:</b> Use lazy loading to reduce bundle size</li>
+  <li><b>Prefetching:</b> Preload routes that users are likely to visit next</li>
+  <li><b>Memoization:</b> Use React.memo for route components that render frequently</li>
+  <li><b>Avoid inline functions:</b> Define element props outside render or use useCallback</li>
+  <li><b>Minimize re-renders:</b> Structure routes to minimize unnecessary component updates</li>
+  <li><b>Use index routes:</b> Provide default content without redirects</li>
+</ul>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Bad: Creates new component instance on every render
+&lt;Route path="/users" element={&lt;Users data={data} /&gt;} /&gt;
+
+// Better: Memoized component
+const MemoizedUsers = React.memo(Users);
+&lt;Route path="/users" element={&lt;MemoizedUsers data={data} /&gt;} /&gt;
+
+// Best: Fetch data inside the component
+&lt;Route path="/users" element={&lt;Users /&gt;} /&gt;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+16. Migrating from v5 to v6
+</h4>
+
+<p style="line-height: 1.75;">
+Key changes when upgrading from React Router v5 to v6:
+</p>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Switch → Routes:</b> Replace Switch component with Routes</li>
+  <li><b>element prop:</b> Use element instead of component or render props</li>
+  <li><b>useHistory → useNavigate:</b> New navigation hook with different API</li>
+  <li><b>Nested routes:</b> Routes can be nested in the component tree</li>
+  <li><b>Relative paths:</b> Child routes use relative paths by default</li>
+  <li><b>No exact prop:</b> Routes match exactly by default in v6</li>
+  <li><b>Outlet:</b> New component for rendering child routes</li>
+  <li><b>useRouteMatch → useMatch:</b> Different syntax for route matching</li>
+</ul>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React Router v5
+import { Switch, Route, useHistory, useRouteMatch } from 'react-router-dom';
+
+function AppV5() {
+  const history = useHistory();
+  const match = useRouteMatch();
+  
+  return (
+    &lt;Switch&gt;
+      &lt;Route exact path="/" component={Home} /&gt;
+      &lt;Route path="/about" render={() =&gt; &lt;About title="About" /&gt;} /&gt;
+    &lt;/Switch&gt;
+  );
+}
+
+// React Router v6
+import { Routes, Route, useNavigate, useMatch } from 'react-router-dom';
+
+function AppV6() {
+  const navigate = useNavigate();
+  const match = useMatch('/products/:id');
+  
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+      &lt;Route path="/about" element={&lt;About title="About" /&gt;} /&gt;
+    &lt;/Routes&gt;
+  );
+}
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Basic Multi-Page Application with Navigation",
+              "Protected Routes with Authentication",
+              "Nested Routes with Shared Layout",
+              "Dynamic Product Catalog with URL Parameters",
+              "Search Filters with Query Parameters",
+              "Lazy Loading Routes for Performance",
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between Link and NavLink in React Router?",
+                answer:
+                  "Link is a basic navigation component that prevents page reloads, while NavLink extends Link with additional features like the isActive state that helps style the currently active route. NavLink accepts className and style props as functions that receive isActive as an argument, making it ideal for navigation menus.",
+              },
+              {
+                question:
+                  "How do you implement protected routes in React Router?",
+                answer:
+                  "Create a wrapper component that checks authentication status using a hook or context. If the user is authenticated, render an Outlet component to display child routes. If not authenticated, use the Navigate component to redirect to the login page, optionally passing the intended destination in the location state to redirect back after login.",
+              },
+              {
+                question: "What is the purpose of the Outlet component?",
+                answer:
+                  "Outlet is used in parent route components to render their child routes. It acts as a placeholder where nested route content will appear, enabling shared layouts where navigation, headers, or sidebars remain visible while the main content area changes based on the active child route.",
+              },
+              {
+                question:
+                  "How do you access URL parameters in React Router v6?",
+                answer:
+                  "Use the useParams hook, which returns an object containing all dynamic segments from the URL. For a route like /users/:userId, calling useParams() returns { userId: 'value' }. The hook automatically extracts and provides all parameters defined in the route path.",
+              },
+              {
+                question:
+                  "What are the differences between BrowserRouter and HashRouter?",
+                answer:
+                  "BrowserRouter uses the HTML5 history API creating clean URLs like /about, but requires server configuration to handle all routes. HashRouter uses URL hashes like /#/about, doesn't require server configuration, and works on static file servers, but creates less clean URLs and may have SEO limitations.",
+              },
+              {
+                question: "How do you handle 404 pages in React Router?",
+                answer:
+                  "Add a catch-all route at the end of your Routes configuration using path='*'. This wildcard matches any path that wasn't matched by previous routes. Place it as the last route to ensure all defined routes are checked first before showing the 404 page.",
+              },
+              {
+                question:
+                  "What is the difference between useNavigate and Navigate component?",
+                answer:
+                  "useNavigate is a hook that returns a function for programmatic navigation, typically used in event handlers or after async operations. Navigate is a component that navigates declaratively when rendered, useful for immediate redirects based on conditions. Navigate replaces the old Redirect component from v5.",
+              },
+              {
+                question: "How do you manage query parameters in React Router?",
+                answer:
+                  "Use the useSearchParams hook which returns an array with the current search params object and a setter function, similar to useState. The first item provides methods like get() to read parameters, and the setter function accepts an object to update the query string, automatically handling URL encoding and navigation.",
+              },
+              {
+                question: "What are index routes and when should you use them?",
+                answer:
+                  "Index routes are child routes with the index prop instead of a path prop. They render when the parent route matches exactly, serving as default content without requiring a redirect. Use them for dashboard overview pages, default tabs, or any scenario where you want content at the parent route level.",
+              },
+              {
+                question: "How do you implement lazy loading for routes?",
+                answer:
+                  "Use React.lazy() to dynamically import route components and wrap them in a Suspense component with a fallback UI. This splits code by route, reducing initial bundle size. Each lazy-loaded route is fetched only when the user navigates to it, improving initial page load performance.",
+              },
+              {
+                question: "What changed in React Router v6 compared to v5?",
+                answer:
+                  "Major changes include: Switch replaced with Routes, using element prop instead of component, useNavigate instead of useHistory, relative paths by default in nested routes, no exact prop needed (exact matching is default), introduction of Outlet for nested routes, and simplified route matching algorithm.",
+              },
+              {
+                question:
+                  "How do you pass state between routes during navigation?",
+                answer:
+                  "Use the state option in navigate() or the state prop in Link/NavLink. The receiving component can access this state using useLocation().state. This is useful for passing data like form values, previous page information, or context that shouldn't be in the URL but is needed by the destination route.",
+              },
+              {
+                question: "What is the useMatch hook used for?",
+                answer:
+                  "useMatch checks if the current URL matches a specific pattern and returns match data if it does, or null if it doesn't. It's useful for conditionally styling navigation, determining which content to show, or checking route patterns outside of Route components. It replaces useRouteMatch from v5.",
+              },
+              {
+                question: "How do you handle nested dynamic routes?",
+                answer:
+                  "Define routes with multiple parameters like /posts/:category/:postId and use useParams to access all parameters. In nested route structures, child routes inherit parameters from parent routes, and you can use relative paths to keep the routing configuration clean and maintainable.",
+              },
+              {
+                question:
+                  "What are the best practices for organizing routes in a large application?",
+                answer:
+                  "Create a centralized route configuration file, use route constants to avoid hardcoded strings, implement route-based code splitting with lazy loading, organize related routes in nested structures with shared layouts, create reusable wrapper components for common patterns like authentication, and consider using a routes manifest for type safety and autocomplete.",
+              },
+            ],
+            links: [
+              "https://reactrouter.com/en/main",
+              "https://reactrouter.com/en/main/start/tutorial",
+              "https://reactrouter.com/en/main/upgrading/v5",
+              "https://reactrouter.com/en/main/hooks/use-navigate",
+              "https://reactrouter.com/en/main/components/routes",
+              "https://github.com/remix-run/react-router",
+            ],
           },
           {
             topic: "Context API Basics",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Context API",
+              "State Management",
+              "Props Drilling",
+              "Provider",
+              "Consumer",
+              "useContext",
+              "Global State",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+The Context API is React's built-in solution for sharing data across the component tree without manually passing props through every level. It solves the "prop drilling" problem where data needs to be passed through many intermediate components that don't use it. Context is ideal for truly global data like themes, user authentication, language preferences, and application-wide settings. Understanding Context API is essential for building scalable React applications without external state management libraries.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Understanding the Problem: Props Drilling
+</h4>
+
+<p style="line-height: 1.75;">
+Before diving into Context, let's understand the problem it solves. Props drilling occurs when you need to pass data through multiple component layers.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Without Context - Props Drilling Example
+function App() {
+  const [user, setUser] = useState({ name: 'John', role: 'admin' });
+  
+  return &lt;Dashboard user={user} /&gt;;
+}
+
+function Dashboard({ user }) {
+  // Dashboard doesn't use user, just passes it down
+  return (
+    &lt;div&gt;
+      &lt;Sidebar user={user} /&gt;
+      &lt;MainContent user={user} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Sidebar({ user }) {
+  // Sidebar doesn't use user either, just passes it down
+  return &lt;Navigation user={user} /&gt;;
+}
+
+function Navigation({ user }) {
+  // Navigation doesn't use user, keeps passing down
+  return &lt;UserMenu user={user} /&gt;;
+}
+
+function UserMenu({ user }) {
+  // Finally! This component actually uses the user data
+  return &lt;div&gt;Welcome, {user.name}!&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+<b>Problems with this approach:</b> Intermediate components become tightly coupled to data they don't use, making refactoring difficult and code harder to maintain.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Creating and Using Context - Basic Setup
+</h4>
+
+<p style="line-height: 1.75;">
+Context consists of three main parts: creating the context, providing values, and consuming those values.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { createContext, useContext, useState } from 'react';
+
+// Step 1: Create a Context
+const UserContext = createContext(null);
+
+// Step 2: Create a Provider Component
+function UserProvider({ children }) {
+  const [user, setUser] = useState({ name: 'John', role: 'admin' });
+  
+  return (
+    &lt;UserContext.Provider value={{ user, setUser }}&gt;
+      {children}
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+// Step 3: Create a custom hook for easy consumption (optional but recommended)
+function useUser() {
+  const context = useContext(UserContext);
+  if (context === null) {
+    throw new Error('useUser must be used within UserProvider');
+  }
+  return context;
+}
+
+// Step 4: Wrap your app with the Provider
+function App() {
+  return (
+    &lt;UserProvider&gt;
+      &lt;Dashboard /&gt;
+    &lt;/UserProvider&gt;
+  );
+}
+
+// Step 5: Consume the context in any nested component
+function Dashboard() {
+  // No need to pass user as props anymore!
+  return (
+    &lt;div&gt;
+      &lt;Sidebar /&gt;
+      &lt;MainContent /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function UserMenu() {
+  // Directly access user data from context
+  const { user, setUser } = useUser();
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Welcome, {user.name}!&lt;/p&gt;
+      &lt;button onClick={() =&gt; setUser({ ...user, name: 'Jane' })}&gt;
+        Change Name
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Context with Default Values
+</h4>
+
+<p style="line-height: 1.75;">
+You can provide default values when creating a context. These are used when a component consumes context without a matching Provider.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Create context with default values
+const ThemeContext = createContext({
+  theme: 'light',
+  toggleTheme: () =&gt; {}
+});
+
+// Provider component
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  
+  const toggleTheme = () =&gt; {
+    setTheme(prev =&gt; prev === 'light' ? 'dark' : 'light');
+  };
+  
+  const value = {
+    theme,
+    toggleTheme
+  };
+  
+  return (
+    &lt;ThemeContext.Provider value={value}&gt;
+      {children}
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+// Custom hook
+function useTheme() {
+  return useContext(ThemeContext);
+}
+
+// Usage
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  
+  return (
+    &lt;button 
+      onClick={toggleTheme}
+      style={{ 
+        background: theme === 'light' ? '#fff' : '#333',
+        color: theme === 'light' ? '#000' : '#fff'
+      }}
+    &gt;
+      Current theme: {theme}
+    &lt;/button&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;ThemeProvider&gt;
+      &lt;div&gt;
+        &lt;Header /&gt;
+        &lt;ThemeToggle /&gt;
+        &lt;Content /&gt;
+      &lt;/div&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Multiple Contexts
+</h4>
+
+<p style="line-height: 1.75;">
+Applications often need multiple contexts for different concerns. You can nest providers or combine them.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Multiple separate contexts
+const AuthContext = createContext(null);
+const ThemeContext = createContext(null);
+const LanguageContext = createContext(null);
+
+// Individual providers
+function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const login = (userData) =&gt; setUser(userData);
+  const logout = () =&gt; setUser(null);
+  
+  return (
+    &lt;AuthContext.Provider value={{ user, login, logout }}&gt;
+      {children}
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () =&gt; setTheme(prev =&gt; prev === 'light' ? 'dark' : 'light');
+  
+  return (
+    &lt;ThemeContext.Provider value={{ theme, toggleTheme }}&gt;
+      {children}
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState('en');
+  
+  return (
+    &lt;LanguageContext.Provider value={{ language, setLanguage }}&gt;
+      {children}
+    &lt;/LanguageContext.Provider&gt;
+  );
+}
+
+// Approach 1: Nested providers
+function App() {
+  return (
+    &lt;AuthProvider&gt;
+      &lt;ThemeProvider&gt;
+        &lt;LanguageProvider&gt;
+          &lt;Dashboard /&gt;
+        &lt;/LanguageProvider&gt;
+      &lt;/ThemeProvider&gt;
+    &lt;/AuthProvider&gt;
+  );
+}
+
+// Approach 2: Combined provider (cleaner for many contexts)
+function AppProviders({ children }) {
+  return (
+    &lt;AuthProvider&gt;
+      &lt;ThemeProvider&gt;
+        &lt;LanguageProvider&gt;
+          {children}
+        &lt;/LanguageProvider&gt;
+      &lt;/ThemeProvider&gt;
+    &lt;/AuthProvider&gt;
+  );
+}
+
+function AppWithCombined() {
+  return (
+    &lt;AppProviders&gt;
+      &lt;Dashboard /&gt;
+    &lt;/AppProviders&gt;
+  );
+}
+
+// Custom hooks for each context
+function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
+  return context;
+}
+
+function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error('useTheme must be used within ThemeProvider');
+  return context;
+}
+
+function useLanguage() {
+  const context = useContext(LanguageContext);
+  if (!context) throw new Error('useLanguage must be used within LanguageProvider');
+  return context;
+}
+
+// Using multiple contexts in a component
+function UserProfile() {
+  const { user, logout } = useAuth();
+  const { theme } = useTheme();
+  const { language } = useLanguage();
+  
+  return (
+    &lt;div style={{ background: theme === 'light' ? '#fff' : '#333' }}&gt;
+      &lt;h1&gt;{language === 'en' ? 'Profile' : 'Profil'}&lt;/h1&gt;
+      &lt;p&gt;{user?.name}&lt;/p&gt;
+      &lt;button onClick={logout}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Context with useReducer for Complex State
+</h4>
+
+<p style="line-height: 1.75;">
+For complex state logic, combining Context with useReducer creates a powerful state management solution similar to Redux.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { createContext, useContext, useReducer } from 'react';
+
+// Define action types
+const ACTIONS = {
+  ADD_ITEM: 'ADD_ITEM',
+  REMOVE_ITEM: 'REMOVE_ITEM',
+  UPDATE_QUANTITY: 'UPDATE_QUANTITY',
+  CLEAR_CART: 'CLEAR_CART'
+};
+
+// Reducer function
+function cartReducer(state, action) {
+  switch (action.type) {
+    case ACTIONS.ADD_ITEM:
+      const existingItem = state.items.find(item =&gt; item.id === action.payload.id);
+      if (existingItem) {
+        return {
+          ...state,
+          items: state.items.map(item =&gt;
+            item.id === action.payload.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        };
+      }
+      return {
+        ...state,
+        items: [...state.items, { ...action.payload, quantity: 1 }]
+      };
+      
+    case ACTIONS.REMOVE_ITEM:
+      return {
+        ...state,
+        items: state.items.filter(item =&gt; item.id !== action.payload)
+      };
+      
+    case ACTIONS.UPDATE_QUANTITY:
+      return {
+        ...state,
+        items: state.items.map(item =&gt;
+          item.id === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        )
+      };
+      
+    case ACTIONS.CLEAR_CART:
+      return { items: [] };
+      
+    default:
+      return state;
+  }
+}
+
+// Create context
+const CartContext = createContext(null);
+
+// Provider component
+function CartProvider({ children }) {
+  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  
+  // Action creators
+  const addItem = (item) =&gt; {
+    dispatch({ type: ACTIONS.ADD_ITEM, payload: item });
+  };
+  
+  const removeItem = (itemId) =&gt; {
+    dispatch({ type: ACTIONS.REMOVE_ITEM, payload: itemId });
+  };
+  
+  const updateQuantity = (itemId, quantity) =&gt; {
+    dispatch({ type: ACTIONS.UPDATE_QUANTITY, payload: { id: itemId, quantity } });
+  };
+  
+  const clearCart = () =&gt; {
+    dispatch({ type: ACTIONS.CLEAR_CART });
+  };
+  
+  // Computed values
+  const totalItems = state.items.reduce((sum, item) =&gt; sum + item.quantity, 0);
+  const totalPrice = state.items.reduce((sum, item) =&gt; sum + (item.price * item.quantity), 0);
+  
+  const value = {
+    items: state.items,
+    addItem,
+    removeItem,
+    updateQuantity,
+    clearCart,
+    totalItems,
+    totalPrice
+  };
+  
+  return (
+    &lt;CartContext.Provider value={value}&gt;
+      {children}
+    &lt;/CartContext.Provider&gt;
+  );
+}
+
+// Custom hook
+function useCart() {
+  const context = useContext(CartContext);
+  if (!context) {
+    throw new Error('useCart must be used within CartProvider');
+  }
+  return context;
+}
+
+// Usage in components
+function ProductCard({ product }) {
+  const { addItem } = useCart();
+  
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{product.name}&lt;/h3&gt;
+      &lt;p&gt;${product.price}&lt;/p&gt;
+      &lt;button onClick={() =&gt; addItem(product)}&gt;Add to Cart&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function CartSummary() {
+  const { items, totalItems, totalPrice, removeItem } = useCart();
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Cart ({totalItems} items)&lt;/h2&gt;
+      {items.map(item =&gt; (
+        &lt;div key={item.id}&gt;
+          &lt;span&gt;{item.name} x {item.quantity}&lt;/span&gt;
+          &lt;button onClick={() =&gt; removeItem(item.id)}&gt;Remove&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;p&gt;Total: ${totalPrice.toFixed(2)}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Performance Optimization with Context
+</h4>
+
+<p style="line-height: 1.75;">
+Context can cause performance issues if not used carefully. Every consumer re-renders when the context value changes.
+</p>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Splitting Contexts
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: Single context with frequently changing values
+const AppContext = createContext(null);
+
+function AppProvider({ children }) {
+  const [user, setUser] = useState(null); // Changes rarely
+  const [notifications, setNotifications] = useState([]); // Changes frequently
+  
+  // Every consumer re-renders when notifications change, even if they only use user!
+  return (
+    &lt;AppContext.Provider value={{ user, setUser, notifications, setNotifications }}&gt;
+      {children}
+    &lt;/AppContext.Provider&gt;
+  );
+}
+
+// Solution: Split into separate contexts
+const UserContext = createContext(null);
+const NotificationsContext = createContext(null);
+
+function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+  return (
+    &lt;UserContext.Provider value={{ user, setUser }}&gt;
+      {children}
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+function NotificationsProvider({ children }) {
+  const [notifications, setNotifications] = useState([]);
+  return (
+    &lt;NotificationsContext.Provider value={{ notifications, setNotifications }}&gt;
+      {children}
+    &lt;/NotificationsContext.Provider&gt;
+  );
+}
+
+// Now components only re-render when their specific context changes
+function UserProfile() {
+  const { user } = useContext(UserContext); // Only re-renders when user changes
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+function NotificationBell() {
+  const { notifications } = useContext(NotificationsContext); // Only re-renders when notifications change
+  return &lt;div&gt;{notifications.length} new&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Memoizing Context Values
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useMemo } from 'react';
+
+function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [preferences, setPreferences] = useState({});
+  
+  // Without useMemo, a new object is created on every render
+  // causing all consumers to re-render even if values haven't changed
+  
+  // Bad: Creates new object reference every render
+  const badValue = { user, setUser, preferences, setPreferences };
+  
+  // Good: Memoize the value object
+  const value = useMemo(() =&gt; ({
+    user,
+    setUser,
+    preferences,
+    setPreferences
+  }), [user, preferences]); // Only create new object when dependencies change
+  
+  return (
+    &lt;UserContext.Provider value={value}&gt;
+      {children}
+    &lt;/UserContext.Provider&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Separating State and Dispatch
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Create separate contexts for state and dispatch
+const TodoStateContext = createContext(null);
+const TodoDispatchContext = createContext(null);
+
+function TodoProvider({ children }) {
+  const [state, dispatch] = useReducer(todoReducer, initialState);
+  
+  return (
+    &lt;TodoStateContext.Provider value={state}&gt;
+      &lt;TodoDispatchContext.Provider value={dispatch}&gt;
+        {children}
+      &lt;/TodoDispatchContext.Provider&gt;
+    &lt;/TodoStateContext.Provider&gt;
+  );
+}
+
+// Components that only dispatch actions don't re-render when state changes
+function AddTodoForm() {
+  const dispatch = useContext(TodoDispatchContext); // Doesn't re-render on state changes!
+  const [text, setText] = useState('');
+  
+  const handleSubmit = (e) =&gt; {
+    e.preventDefault();
+    dispatch({ type: 'ADD_TODO', payload: text });
+    setText('');
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input value={text} onChange={(e) =&gt; setText(e.target.value)} /&gt;
+      &lt;button type="submit"&gt;Add&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Components that only read state re-render when state changes
+function TodoList() {
+  const todos = useContext(TodoStateContext);
+  return (
+    &lt;ul&gt;
+      {todos.map(todo =&gt; &lt;li key={todo.id}&gt;{todo.text}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Context with TypeScript
+</h4>
+
+<p style="line-height: 1.75;">
+TypeScript adds type safety to Context, preventing runtime errors and improving developer experience.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-typescript">
+import { createContext, useContext, useState, ReactNode } from 'react';
+
+// Define types
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
+}
+
+interface AuthContextType {
+  user: User | null;
+  login: (email: string, password: string) =&gt; Promise&lt;void&gt;;
+  logout: () =&gt; void;
+  isAuthenticated: boolean;
+}
+
+// Create context with undefined as default (will be provided by AuthProvider)
+const AuthContext = createContext&lt;AuthContextType | undefined&gt;(undefined);
+
+// Provider props type
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+// Provider component
+function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState&lt;User | null&gt;(null);
+  
+  const login = async (email: string, password: string): Promise&lt;void&gt; =&gt; {
+    // API call simulation
+    const userData: User = {
+      id: '1',
+      name: 'John Doe',
+      email,
+      role: 'user'
+    };
+    setUser(userData);
+  };
+  
+  const logout = (): void =&gt; {
+    setUser(null);
+  };
+  
+  const value: AuthContextType = {
+    user,
+    login,
+    logout,
+    isAuthenticated: user !== null
+  };
+  
+  return (
+    &lt;AuthContext.Provider value={value}&gt;
+      {children}
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+// Custom hook with type checking
+function useAuth(): AuthContextType {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
+}
+
+// Usage in components
+function LoginForm() {
+  const { login } = useAuth(); // Fully typed!
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const handleSubmit = async (e: React.FormEvent) =&gt; {
+    e.preventDefault();
+    await login(email, password);
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input 
+        type="email" 
+        value={email} 
+        onChange={(e) =&gt; setEmail(e.target.value)} 
+      /&gt;
+      &lt;input 
+        type="password" 
+        value={password} 
+        onChange={(e) =&gt; setPassword(e.target.value)} 
+      /&gt;
+      &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Real-World Example: Complete Authentication System
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { createContext, useContext, useState, useEffect } from 'react';
+
+const AuthContext = createContext(null);
+
+function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  // Check for existing session on mount
+  useEffect(() =&gt; {
+    const checkAuth = async () =&gt; {
+      try {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          const response = await fetch('/api/auth/me', {
+            headers: { Authorization: \`Bearer \${token}\` }
+          });
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData);
+          }
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, []);
+  
+  const login = async (email, password) =&gt; {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+      
+      const { user, token } = await response.json();
+      localStorage.setItem('authToken', token);
+      setUser(user);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+  
+  const logout = async () =&gt; {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      localStorage.removeItem('authToken');
+      setUser(null);
+    }
+  };
+  
+  const updateProfile = async (updates) =&gt; {
+    try {
+      const response = await fetch('/api/users/profile', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: \`Bearer \${localStorage.getItem('authToken')}\`
+        },
+        body: JSON.stringify(updates)
+      });
+      
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setUser(updatedUser);
+        return { success: true };
+      }
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  };
+  
+  const value = {
+    user,
+    login,
+    logout,
+    updateProfile,
+    isAuthenticated: !!user,
+    isAdmin: user?.role === 'admin',
+    loading
+  };
+  
+  return (
+    &lt;AuthContext.Provider value={value}&gt;
+      {children}
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
+}
+
+// Protected Route Component
+function ProtectedRoute({ children, requireAdmin = false }) {
+  const { user, isAdmin, loading } = useAuth();
+  
+  if (loading) {
+    return &lt;div&gt;Loading...&lt;/div&gt;;
+  }
+  
+  if (!user) {
+    return &lt;Navigate to="/login" /&gt;;
+  }
+  
+  if (requireAdmin &amp;&amp; !isAdmin) {
+    return &lt;div&gt;Access Denied&lt;/div&gt;;
+  }
+  
+  return children;
+}
+
+// Usage
+function App() {
+  return (
+    &lt;AuthProvider&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/login" element={&lt;LoginPage /&gt;} /&gt;
+        &lt;Route 
+          path="/dashboard" 
+          element={
+            &lt;ProtectedRoute&gt;
+              &lt;Dashboard /&gt;
+            &lt;/ProtectedRoute&gt;
+          } 
+        /&gt;
+        &lt;Route 
+          path="/admin" 
+          element={
+            &lt;ProtectedRoute requireAdmin&gt;
+              &lt;AdminPanel /&gt;
+            &lt;/ProtectedRoute&gt;
+          } 
+        /&gt;
+      &lt;/Routes&gt;
+    &lt;/AuthProvider&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Context vs Props vs State Management Libraries
+</h4>
+
+<p style="line-height: 1.75;">
+Understanding when to use Context versus other options is crucial for application architecture.
+</p>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Use Props when:</b> Data flows down 1-2 levels, components are closely related, you need explicit data flow</li>
+  <li><b>Use Context when:</b> Data is truly global (theme, auth, language), many components need the same data, prop drilling becomes problematic</li>
+  <li><b>Use State Management Libraries (Redux, Zustand, Jotai) when:</b> Complex state logic with many actions, need time-travel debugging, require middleware, state updates are very frequent, need better performance optimization</li>
+</ul>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Good use cases for Context:
+// - Theme/Dark mode
+// - User authentication status
+// - Language/Internationalization
+// - Feature flags
+// - Global UI state (modals, notifications)
+
+// Poor use cases for Context (consider alternatives):
+// - Form state (use local state or form libraries)
+// - Frequently changing data (causes many re-renders)
+// - Server state (use React Query, SWR)
+// - Complex business logic (consider Redux)
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Common Patterns and Best Practices
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Always Create Custom Hooks
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Bad: Using useContext directly
+function Component() {
+  const theme = useContext(ThemeContext);
+  // No error checking, harder to refactor
+}
+
+// Good: Custom hook with error checking
+function useTheme() {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within ThemeProvider');
+  }
+  return context;
+}
+
+function Component() {
+  const theme = useTheme(); // Clean, safe, easy to refactor
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Provide Meaningful Default Values
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Bad: null or undefined makes it hard to test
+const ThemeContext = createContext(null);
+
+// Good: Provide sensible defaults
+const ThemeContext = createContext({
+  theme: 'light',
+  toggleTheme: () =&gt; console.warn('ThemeProvider not found')
+});
+
+// This allows components to work in isolation for testing
+function ThemeButton() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  // Works even without ThemeProvider (uses defaults)
+  return &lt;button onClick={toggleTheme}&gt;{theme}&lt;/button&gt;;
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Colocate Context with Related Code
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// contexts/ThemeContext.js
+import { createContext, useContext, useState } from 'react';
+
+const ThemeContext = createContext(null);
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () =&gt; setTheme(prev =&gt; prev === 'light' ? 'dark' : 'light');
+  
+  return (
+    &lt;ThemeContext.Provider value={{ theme, toggleTheme }}&gt;
+      {children}
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error('useTheme must be used within ThemeProvider');
+  return context;
+}
+
+// Everything related to theme in one file
+// Import usage: import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Testing Components with Context
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen } from '@testing-library/react';
+import { ThemeProvider, useTheme } from './ThemeContext';
+
+// Create a test wrapper
+function TestWrapper({ children }) {
+  return &lt;ThemeProvider&gt;{children}&lt;/ThemeProvider&gt;;
+}
+
+// Test component that uses context
+function ThemeDisplay() {
+  const { theme } = useTheme();
+  return &lt;div&gt;Current theme: {theme}&lt;/div&gt;;
+}
+
+// Test with wrapper
+test('displays current theme', () =&gt; {
+  render(&lt;ThemeDisplay /&gt;, { wrapper: TestWrapper });
+  expect(screen.getByText(/Current theme: light/)).toBeInTheDocument();
+});
+
+// Test with custom provider value
+test('displays dark theme', () =&gt; {
+  const CustomProvider = ({ children }) =&gt; {
+    return (
+      &lt;ThemeContext.Provider value={{ theme: 'dark', toggleTheme: () =&gt; {} }}&gt;
+        {children}
+      &lt;/ThemeContext.Provider&gt;
+    );
+  };
+  
+  render(&lt;ThemeDisplay /&gt;, { wrapper: CustomProvider });
+  expect(screen.getByText(/Current theme: dark/)).toBeInTheDocument();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Common Pitfalls and Solutions
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Creating new objects in value:</b> Always memoize context values to prevent unnecessary re-renders</li>
+  <li><b>Using Context for frequently changing values:</b> Split contexts or use state management libraries instead</li>
+  <li><b>Not providing error boundaries:</b> Wrap context consumers in error boundaries to handle failures gracefully</li>
+  <li><b>Overusing Context:</b> Not everything needs to be in Context; start with props and lift up only when needed</li>
+  <li><b>Forgetting Provider:</b> Always ensure components consuming context are wrapped in the appropriate Provider</li>
+  <li><b>Not memoizing callbacks:</b> Use useCallback for functions passed in context value to prevent re-renders</li>
+  <li><b>Putting too much in one context:</b> Split related but independent concerns into separate contexts</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Advanced Pattern: Context Composition
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Composing multiple contexts for complex features
+function FeatureProvider({ children }) {
+  return (
+    &lt;DataProvider&gt;
+      &lt;UIProvider&gt;
+        &lt;PermissionsProvider&gt;
+          {children}
+        &lt;/PermissionsProvider&gt;
+      &lt;/UIProvider&gt;
+    &lt;/DataProvider&gt;
+  );
+}
+
+// Using multiple contexts together
+function ComplexComponent() {
+  const data = useData();
+  const ui = useUI();
+  const permissions = usePermissions();
+  
+  if (!permissions.canView) {
+    return &lt;div&gt;Access Denied&lt;/div&gt;;
+  }
+  
+  return (
+    &lt;div className={ui.theme}&gt;
+      {data.items.map(item =&gt; &lt;Item key={item.id} {...item} /&gt;)}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Theme Switcher with Context",
+              "Authentication System with Context and useReducer",
+              "Shopping Cart with Complex State Management",
+              "Multi-Language Application",
+              "Global Notification System",
+              "User Preferences Manager",
+            ],
+            questions: [
+              {
+                question:
+                  "What is the Context API and what problem does it solve?",
+                answer:
+                  "Context API is React's built-in solution for sharing data across the component tree without prop drilling. It solves the problem of passing props through multiple intermediate components that don't need the data themselves. Context is ideal for truly global data like themes, authentication, language preferences, and other application-wide settings that many components need to access.",
+              },
+              {
+                question: "How do you create and use a Context in React?",
+                answer:
+                  "First, create a context using createContext(defaultValue). Then create a Provider component that wraps the context Provider with state or logic. Create a custom hook using useContext to consume the context safely with error checking. Finally, wrap your component tree with the Provider and use the custom hook in components that need the context data. This pattern provides type safety and better developer experience.",
+              },
+              {
+                question:
+                  "What is the difference between createContext's default value and Provider's value?",
+                answer:
+                  "createContext's default value is used only when a component consumes context without a matching Provider in the tree above it. The Provider's value prop is what actually gets passed to consuming components when they're wrapped in a Provider. Default values are useful for testing components in isolation and providing fallback behavior, but in production, components should always be wrapped in a Provider with an explicit value.",
+              },
+              {
+                question:
+                  "How can Context API cause performance problems and how do you fix them?",
+                answer:
+                  "Context causes all consumers to re-render whenever the context value changes, even if they only use part of the data. Fix this by: splitting contexts to separate frequently changing data from static data, memoizing the context value object using useMemo to prevent reference changes, separating state and dispatch contexts, and using composition to avoid passing objects that change frequently. For very frequent updates, consider state management libraries instead.",
+              },
+              {
+                question:
+                  "When should you use Context vs Props vs State Management Libraries?",
+                answer:
+                  "Use props when data flows 1-2 levels down and components are closely related. Use Context for truly global data (theme, auth, language) that many components need and changes infrequently. Use state management libraries like Redux when you need complex state logic with many actions, time-travel debugging, middleware, very frequent state updates, or better performance optimization with selectors. Context works well for most applications but isn't a complete Redux replacement.",
+              },
+              {
+                question:
+                  "Why should you always create custom hooks for Context?",
+                answer:
+                  "Custom hooks provide error checking to ensure the hook is used within the correct Provider, give better error messages during development, make the code easier to refactor if context structure changes, provide a single import point for TypeScript types, and can add additional logic like computed values or side effects. They improve developer experience and catch bugs early.",
+              },
+              {
+                question:
+                  "How do you combine Context with useReducer for state management?",
+                answer:
+                  "Create a reducer function that handles different action types, use useReducer in your Provider component, create action creator functions that dispatch actions, and pass both state and dispatch (or action creators) through context. This pattern is powerful for complex state logic, provides predictable state updates, and creates a Redux-like experience without external dependencies. It's especially useful for features like shopping carts, form wizards, or any feature with complex state transitions.",
+              },
+              {
+                question:
+                  "What are the best practices for organizing multiple contexts?",
+                answer:
+                  "Create separate contexts for independent concerns, nest providers in a logical order (typically auth -> theme -> feature-specific), create a combined AppProviders component to reduce nesting, keep each context file self-contained with its Provider and custom hook, and use composition patterns to combine related contexts. Avoid creating one massive context with all application state. Keep contexts focused and single-purpose.",
+              },
+              {
+                question:
+                  "How do you prevent unnecessary re-renders when using Context?",
+                answer:
+                  "Memoize the context value object using useMemo with appropriate dependencies, split contexts so components only subscribe to data they need, separate state and dispatch into different contexts, use React.memo on consumer components when appropriate, avoid creating new object or function references in the value prop, and consider using useCallback for functions passed in context. These techniques minimize re-renders and improve performance.",
+              },
+              {
+                question: "How do you properly type Context with TypeScript?",
+                answer:
+                  "Define interfaces for your context value type, create the context with the type or undefined as default, type the Provider props to accept ReactNode children, ensure the custom hook has a proper return type, and throw an error in the hook if context is undefined. This provides full type safety, better autocomplete, catches errors at compile time, and improves the developer experience significantly.",
+              },
+              {
+                question:
+                  "What is the difference between using Context.Provider and nested Providers?",
+                answer:
+                  "A single Provider supplies one context value to its children. Nested Providers allow multiple contexts to coexist, with each providing different data. Components can consume multiple contexts by using multiple useContext hooks or custom hooks. Nested providers are essential for complex applications but can create 'provider hell' if not organized properly. Using a combined AppProviders component helps manage multiple providers cleanly.",
+              },
+              {
+                question: "How do you test components that use Context?",
+                answer:
+                  "Create a test wrapper component that includes the necessary Provider(s), use the wrapper option in React Testing Library's render function, or create a custom provider with mock values for specific test cases. You can also test the custom hook independently using @testing-library/react-hooks. Providing sensible default values in createContext makes testing easier by allowing components to work without providers in isolated tests.",
+              },
+              {
+                question:
+                  "Can you update Context value from consumer components?",
+                answer:
+                  "Yes, by including setter functions or dispatch functions in the context value. The Provider manages the state using useState or useReducer and passes both the state and update functions through the value prop. Consumer components call these functions to trigger state changes. This is the standard pattern for making Context interactive rather than just read-only.",
+              },
+              {
+                question: "What are the limitations of Context API?",
+                answer:
+                  "Context doesn't have built-in selectors (all consumers re-render on any change), lacks middleware support for side effects, doesn't provide time-travel debugging, can cause performance issues with frequently updating data, has no built-in devtools for debugging, and requires manual optimization. For simple global state it works well, but complex applications might benefit from dedicated state management libraries that address these limitations.",
+              },
+              {
+                question:
+                  "How do you handle loading and error states with Context?",
+                answer:
+                  "Include loading and error state in your context value alongside the data, use async functions in your Provider to fetch data and update loading/error states appropriately, expose these states through the custom hook, and handle them in consuming components with conditional rendering. For authentication contexts, include an initializing state to prevent flickering during the initial auth check. This pattern provides a complete solution for async data in Context.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/createContext",
+              "https://react.dev/reference/react/useContext",
+              "https://react.dev/learn/passing-data-deeply-with-context",
+              "https://react.dev/learn/scaling-up-with-reducer-and-context",
+              "https://kentcdodds.com/blog/how-to-use-react-context-effectively",
+              "https://beta.reactjs.org/learn/passing-data-deeply-with-context",
+            ],
           },
           {
             topic: "Inline Styles",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Inline Styles",
+              "CSS-in-JS",
+              "Styling",
+              "Dynamic Styles",
+              "camelCase",
+              "Style Object",
+              "React Styling",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Inline styles in React are a fundamental way to apply CSS styling directly to JSX elements using JavaScript objects. Unlike traditional HTML where inline styles are strings, React inline styles use JavaScript objects with camelCased property names and JavaScript values. This approach enables dynamic styling, type safety with TypeScript, and component-scoped styles without external CSS files. Understanding inline styles is essential for React development, especially for dynamic, conditional, or component-specific styling needs.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Syntax and Usage
+</h4>
+
+<p style="line-height: 1.75;">
+In React, inline styles are defined as JavaScript objects where CSS property names are written in camelCase and values are typically strings.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Traditional HTML inline styles (string-based)
+&lt;div style="color: red; font-size: 16px; background-color: blue;"&gt;
+  HTML Style
+&lt;/div&gt;
+
+// React inline styles (object-based)
+function Component() {
+  return (
+    &lt;div style={{ color: 'red', fontSize: '16px', backgroundColor: 'blue' }}&gt;
+      React Style
+    &lt;/div&gt;
+  );
+}
+
+// Breaking down the syntax
+function DetailedExample() {
+  // Double curly braces: outer for JSX expression, inner for object literal
+  return (
+    &lt;div style={{
+      color: 'red',           // String value
+      fontSize: 16,           // Number becomes '16px'
+      backgroundColor: 'blue', // camelCase property name
+      padding: '10px 20px',   // String with multiple values
+      margin: '1rem'          // Any valid CSS unit
+    }}&gt;
+      Styled Content
+    &lt;/div&gt;
+  );
+}
+
+// Using a style object variable
+function ComponentWithVariable() {
+  const divStyle = {
+    color: 'red',
+    fontSize: 16,
+    backgroundColor: 'blue'
+  };
+  
+  return &lt;div style={divStyle}&gt;Styled Content&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+<b>Key Differences from HTML:</b> Property names use camelCase (backgroundColor vs background-color), values are typically strings or numbers, and numeric values without units default to pixels for most properties.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. CSS Property Name Conversions
+</h4>
+
+<p style="line-height: 1.75;">
+All CSS properties with hyphens are converted to camelCase in React. Understanding these conversions is crucial for correct styling.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+function PropertyConversions() {
+  const styles = {
+    // Layout & Box Model
+    backgroundColor: 'blue',        // background-color
+    borderRadius: '8px',            // border-radius
+    borderTopLeftRadius: '4px',     // border-top-left-radius
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)', // box-shadow
+    
+    // Typography
+    fontSize: '16px',               // font-size
+    fontWeight: 'bold',             // font-weight
+    lineHeight: 1.5,                // line-height
+    textAlign: 'center',            // text-align
+    textDecoration: 'underline',    // text-decoration
+    textTransform: 'uppercase',     // text-transform
+    letterSpacing: '2px',           // letter-spacing
+    
+    // Positioning
+    zIndex: 10,                     // z-index
+    
+    // Flexbox
+    flexDirection: 'column',        // flex-direction
+    justifyContent: 'center',       // justify-content
+    alignItems: 'center',           // align-items
+    flexWrap: 'wrap',               // flex-wrap
+    
+    // Grid
+    gridTemplateColumns: '1fr 1fr', // grid-template-columns
+    gridGap: '10px',                // grid-gap
+    
+    // Transforms & Animations
+    transformOrigin: 'center',      // transform-origin
+    animationDuration: '2s',        // animation-duration
+    transitionDuration: '0.3s',     // transition-duration
+    
+    // Others
+    maxWidth: '100%',               // max-width
+    minHeight: '200px',             // min-height
+    WebkitLineClamp: 3,             // -webkit-line-clamp (vendor prefix)
+    MozAppearance: 'none'           // -moz-appearance (vendor prefix)
+  };
+  
+  return &lt;div style={styles}&gt;Fully Styled Component&lt;/div&gt;;
+}
+
+// Vendor prefixes: Capitalize first letter after hyphen
+const vendorPrefixes = {
+  WebkitTransform: 'rotate(45deg)',  // -webkit-transform
+  MozTransform: 'rotate(45deg)',     // -moz-transform
+  msTransform: 'rotate(45deg)',      // -ms-transform (lowercase 'ms')
+  OTransform: 'rotate(45deg)'        // -o-transform
+};
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Numeric Values and Units
+</h4>
+
+<p style="line-height: 1.75;">
+React automatically appends 'px' to numeric values for most CSS properties, but some properties are unitless.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+function NumericValues() {
+  const styles = {
+    // These automatically get 'px' appended
+    width: 300,              // becomes '300px'
+    height: 200,             // becomes '200px'
+    padding: 10,             // becomes '10px'
+    margin: 20,              // becomes '20px'
+    fontSize: 16,            // becomes '16px'
+    borderWidth: 2,          // becomes '2px'
+    top: 50,                 // becomes '50px'
+    left: 100,               // becomes '100px'
+    
+    // Unitless properties (numbers stay as-is)
+    opacity: 0.5,            // stays 0.5
+    zIndex: 10,              // stays 10
+    lineHeight: 1.5,         // stays 1.5
+    flex: 1,                 // stays 1
+    flexGrow: 2,             // stays 2
+    flexShrink: 1,           // stays 1
+    order: 3,                // stays 3
+    fontWeight: 700,         // stays 700
+    
+    // Use strings for other units
+    width: '50%',            // percentage
+    margin: '2rem',          // rem
+    padding: '1em',          // em
+    height: '100vh',         // viewport height
+    maxWidth: '80vw',        // viewport width
+    fontSize: 'calc(1rem + 2vw)', // calc function
+    
+    // Multiple values must be strings
+    padding: '10px 20px',
+    margin: '1rem 2rem 1rem 2rem',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.05)'
+  };
+  
+  return &lt;div style={styles}&gt;Content&lt;/div&gt;;
+}
+
+// Complete list of unitless properties
+const unitlessProperties = [
+  'animationIterationCount',
+  'aspectRatio',
+  'borderImageOutset',
+  'borderImageSlice',
+  'borderImageWidth',
+  'boxFlex',
+  'boxFlexGroup',
+  'boxOrdinalGroup',
+  'columnCount',
+  'columns',
+  'flex',
+  'flexGrow',
+  'flexPositive',
+  'flexShrink',
+  'flexNegative',
+  'flexOrder',
+  'gridArea',
+  'gridRow',
+  'gridRowEnd',
+  'gridRowSpan',
+  'gridRowStart',
+  'gridColumn',
+  'gridColumnEnd',
+  'gridColumnSpan',
+  'gridColumnStart',
+  'fontWeight',
+  'lineClamp',
+  'lineHeight',
+  'opacity',
+  'order',
+  'orphans',
+  'tabSize',
+  'widows',
+  'zIndex',
+  'zoom'
+];
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Dynamic and Conditional Styling
+</h4>
+
+<p style="line-height: 1.75;">
+One of the biggest advantages of inline styles is the ability to compute styles dynamically based on props, state, or other JavaScript values.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Conditional styling based on props
+function Button({ primary, disabled, size = 'medium' }) {
+  const buttonStyle = {
+    padding: size === 'small' ? '5px 10px' : size === 'large' ? '15px 30px' : '10px 20px',
+    fontSize: size === 'small' ? '12px' : size === 'large' ? '18px' : '14px',
+    backgroundColor: disabled ? '#ccc' : primary ? '#007bff' : '#6c757d',
+    color: disabled ? '#666' : '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.6 : 1
+  };
+  
+  return &lt;button style={buttonStyle}&gt;Click Me&lt;/button&gt;;
+}
+
+// Dynamic styles based on state
+function ProgressBar({ progress }) {
+  const containerStyle = {
+    width: '100%',
+    height: '20px',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '10px',
+    overflow: 'hidden'
+  };
+  
+  const fillStyle = {
+    height: '100%',
+    width: \`\${progress}%\`,
+    backgroundColor: progress < 30 ? '#f44336' : progress < 70 ? '#ff9800' : '#4caf50',
+    transition: 'width 0.3s ease, background-color 0.3s ease'
+  };
+  
+  return (
+    &lt;div style={containerStyle}&gt;
+      &lt;div style={fillStyle} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Computed styles based on calculations
+function Card({ index, total }) {
+  const cardStyle = {
+    transform: \`translateX(\${index * 20}px) rotate(\${index * 2}deg)\`,
+    zIndex: total - index,
+    opacity: 1 - (index * 0.1),
+    boxShadow: \`0 \${2 + index}px \${8 + index * 2}px rgba(0,0,0,\${0.1 + index * 0.05})\`
+  };
+  
+  return &lt;div style={cardStyle}&gt;Card {index + 1}&lt;/div&gt;;
+}
+
+// Conditional property inclusion
+function FlexContainer({ vertical, wrap, center }) {
+  const containerStyle = {
+    display: 'flex',
+    ...(vertical && { flexDirection: 'column' }),
+    ...(wrap && { flexWrap: 'wrap' }),
+    ...(center && {
+      justifyContent: 'center',
+      alignItems: 'center'
+    })
+  };
+  
+  return &lt;div style={containerStyle}&gt;Content&lt;/div&gt;;
+}
+
+// Theme-based styling
+function ThemedComponent({ theme }) {
+  const isDark = theme === 'dark';
+  
+  const styles = {
+    backgroundColor: isDark ? '#333' : '#fff',
+    color: isDark ? '#fff' : '#333',
+    borderColor: isDark ? '#555' : '#ddd',
+    padding: '20px',
+    transition: 'all 0.3s ease'
+  };
+  
+  return &lt;div style={styles}&gt;Themed Content&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Merging and Composing Styles
+</h4>
+
+<p style="line-height: 1.75;">
+You can combine multiple style objects using the spread operator or Object.assign to create reusable style compositions.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Base styles that can be reused
+const baseStyles = {
+  padding: '10px',
+  borderRadius: '4px',
+  border: '1px solid #ddd'
+};
+
+const primaryStyles = {
+  backgroundColor: '#007bff',
+  color: '#fff',
+  borderColor: '#007bff'
+};
+
+const dangerStyles = {
+  backgroundColor: '#dc3545',
+  color: '#fff',
+  borderColor: '#dc3545'
+};
+
+// Merging styles with spread operator
+function PrimaryButton() {
+  const buttonStyle = {
+    ...baseStyles,
+    ...primaryStyles
+  };
+  
+  return &lt;button style={buttonStyle}&gt;Primary&lt;/button&gt;;
+}
+
+// Conditional style merging
+function Button({ variant = 'default', outline }) {
+  const variantStyles = {
+    default: { backgroundColor: '#6c757d', color: '#fff' },
+    primary: primaryStyles,
+    danger: dangerStyles
+  };
+  
+  const outlineStyles = outline ? {
+    backgroundColor: 'transparent',
+    color: variant === 'primary' ? '#007bff' : '#dc3545'
+  } : {};
+  
+  const finalStyle = {
+    ...baseStyles,
+    ...variantStyles[variant],
+    ...outlineStyles
+  };
+  
+  return &lt;button style={finalStyle}&gt;Button&lt;/button&gt;;
+}
+
+// Using Object.assign (less common but equivalent)
+function AlternativeButton() {
+  const buttonStyle = Object.assign({}, baseStyles, primaryStyles, {
+    fontSize: '16px' // Additional properties
+  });
+  
+  return &lt;button style={buttonStyle}&gt;Button&lt;/button&gt;;
+}
+
+// Creating a style composition utility
+function createStyles(...styles) {
+  return Object.assign({}, ...styles);
+}
+
+function ComposedComponent() {
+  const style = createStyles(
+    baseStyles,
+    primaryStyles,
+    { fontSize: '18px', fontWeight: 'bold' }
+  );
+  
+  return &lt;div style={style}&gt;Composed Styles&lt;/div&gt;;
+}
+
+// Reusable style mixins
+const mixins = {
+  centerContent: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  
+  truncateText: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  },
+  
+  shadow: (depth = 1) =&gt; ({
+    boxShadow: \`0 \${depth * 2}px \${depth * 4}px rgba(0,0,0,\${depth * 0.1})\`
+  }),
+  
+  rounded: (size = 'medium') =&gt; {
+    const radiusMap = { small: '4px', medium: '8px', large: '16px' };
+    return { borderRadius: radiusMap[size] };
+  }
+};
+
+function MixinExample() {
+  const cardStyle = {
+    ...mixins.centerContent,
+    ...mixins.shadow(2),
+    ...mixins.rounded('large'),
+    padding: '20px',
+    backgroundColor: '#fff'
+  };
+  
+  return &lt;div style={cardStyle}&gt;Card with Mixins&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Performance Considerations
+</h4>
+
+<p style="line-height: 1.75;">
+Inline styles can impact performance if not used carefully. Understanding optimization techniques is crucial for large applications.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useMemo } from 'react';
+
+// Bad: Creates new style object on every render
+function BadExample({ color }) {
+  return (
+    &lt;div style={{ backgroundColor: color, padding: '20px' }}&gt;
+      Content
+    &lt;/div&gt;
+  );
+}
+
+// Good: Memoize style object
+function GoodExample({ color }) {
+  const divStyle = useMemo(() =&gt; ({
+    backgroundColor: color,
+    padding: '20px'
+  }), [color]); // Only recreate when color changes
+  
+  return &lt;div style={divStyle}&gt;Content&lt;/div&gt;;
+}
+
+// Better: Extract static styles outside component
+const staticStyles = {
+  padding: '20px',
+  borderRadius: '8px',
+  border: '1px solid #ddd'
+};
+
+function BetterExample({ color }) {
+  const dynamicStyles = useMemo(() =&gt; ({
+    ...staticStyles,
+    backgroundColor: color
+  }), [color]);
+  
+  return &lt;div style={dynamicStyles}&gt;Content&lt;/div&gt;;
+}
+
+// Best: Define constant styles outside, merge only when needed
+const CARD_STYLES = {
+  base: {
+    padding: '20px',
+    borderRadius: '8px',
+    border: '1px solid #ddd'
+  },
+  elevated: {
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+  }
+};
+
+function BestExample({ color, elevated }) {
+  const style = useMemo(() =&gt; ({
+    ...CARD_STYLES.base,
+    ...(elevated && CARD_STYLES.elevated),
+    backgroundColor: color
+  }), [color, elevated]);
+  
+  return &lt;div style={style}&gt;Content&lt;/div&gt;;
+}
+
+// Performance comparison in lists
+function ListExample({ items }) {
+  // Bad: New style object for each item on every render
+  return items.map(item =&gt; (
+    &lt;div key={item.id} style={{ padding: '10px', backgroundColor: item.color }}&gt;
+      {item.name}
+    &lt;/div&gt;
+  ));
+}
+
+// Better: Extract to separate component with memoization
+const ListItem = React.memo(({ item }) =&gt; {
+  const itemStyle = useMemo(() =&gt; ({
+    padding: '10px',
+    backgroundColor: item.color
+  }), [item.color]);
+  
+  return &lt;div style={itemStyle}&gt;{item.name}&lt;/div&gt;;
+});
+
+function BetterListExample({ items }) {
+  return items.map(item =&gt; &lt;ListItem key={item.id} item={item} /&gt;);
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Limitations of Inline Styles
+</h4>
+
+<p style="line-height: 1.75;">
+Inline styles have several limitations that developers need to understand and work around.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Limitation 1: No pseudo-classes or pseudo-elements
+// Cannot use :hover, :focus, :active, ::before, ::after, etc.
+
+// Workaround: Use state for hover effects
+function HoverButton() {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const buttonStyle = {
+    backgroundColor: isHovered ? '#0056b3' : '#007bff',
+    color: '#fff',
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease'
+  };
+  
+  return (
+    &lt;button
+      style={buttonStyle}
+      onMouseEnter={() =&gt; setIsHovered(true)}
+      onMouseLeave={() =&gt; setIsHovered(false)}
+    &gt;
+      Hover Me
+    &lt;/button&gt;
+  );
+}
+
+// Limitation 2: No media queries
+// Workaround: Use window resize listeners or CSS-in-JS libraries
+
+function ResponsiveComponent() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  
+  useEffect(() =&gt; {
+    const handleResize = () =&gt; {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () =&gt; window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  const containerStyle = {
+    padding: isMobile ? '10px' : '20px',
+    fontSize: isMobile ? '14px' : '16px',
+    flexDirection: isMobile ? 'column' : 'row',
+    display: 'flex'
+  };
+  
+  return &lt;div style={containerStyle}&gt;Responsive Content&lt;/div&gt;;
+}
+
+// Limitation 3: No CSS animations with @keyframes
+// Workaround: Use inline transition or CSS classes for animations
+
+function TransitionExample() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const boxStyle = {
+    width: isExpanded ? '200px' : '100px',
+    height: isExpanded ? '200px' : '100px',
+    backgroundColor: '#007bff',
+    transition: 'all 0.3s ease-in-out', // Simple transitions work
+    cursor: 'pointer'
+  };
+  
+  return (
+    &lt;div 
+      style={boxStyle} 
+      onClick={() =&gt; setIsExpanded(!isExpanded)}
+    /&gt;
+  );
+}
+
+// Limitation 4: Cannot target child elements
+// Workaround: Apply styles directly to each element
+
+function ParentChild() {
+  const parentStyle = {
+    padding: '20px',
+    backgroundColor: '#f0f0f0'
+  };
+  
+  const childStyle = {
+    padding: '10px',
+    backgroundColor: '#fff',
+    marginTop: '10px'
+  };
+  
+  return (
+    &lt;div style={parentStyle}&gt;
+      Parent
+      &lt;div style={childStyle}&gt;Child 1&lt;/div&gt;
+      &lt;div style={childStyle}&gt;Child 2&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Limitation 5: Higher specificity can cause issues
+// Inline styles have very high specificity, making them hard to override
+
+// Limitation 6: No CSS cascade benefits
+// Cannot use CSS variables or inherit values easily
+
+// Limitation 7: Harder to maintain for complex layouts
+// Large style objects become unwieldy
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Inline Styles vs CSS Modules vs CSS-in-JS
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// 1. Inline Styles
+function InlineStylesExample() {
+  const style = {
+    backgroundColor: '#007bff',
+    color: '#fff',
+    padding: '10px 20px',
+    borderRadius: '4px'
+  };
+  
+  return &lt;button style={style}&gt;Inline Styles&lt;/button&gt;;
+}
+
+// Pros: Dynamic, scoped, no build step, type-safe
+// Cons: No pseudo-classes, no media queries, performance overhead, larger bundle
+
+// 2. CSS Modules (separate .module.css file)
+import styles from './Button.module.css';
+
+function CSSModulesExample() {
+  return &lt;button className={styles.button}&gt;CSS Modules&lt;/button&gt;;
+}
+
+// Pros: Scoped, full CSS features, better performance, smaller bundle
+// Cons: Separate files, less dynamic, no type safety
+
+// 3. CSS-in-JS (e.g., styled-components, emotion)
+import styled from 'styled-components';
+
+const StyledButton = styled.button\`
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: #0056b3;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 5px 10px;
+  }
+\`;
+
+function CSSInJSExample() {
+  return &lt;StyledButton&gt;CSS-in-JS&lt;/StyledButton&gt;;
+}
+
+// Pros: Dynamic, scoped, full CSS features, component-based
+// Cons: Runtime overhead, larger bundle, learning curve
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Common Patterns and Use Cases
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern 1: Loading spinner with dynamic size
+function Spinner({ size = 40, color = '#007bff' }) {
+  const spinnerStyle = {
+    width: size,
+    height: size,
+    border: \`\${size / 10}px solid #f3f3f3\`,
+    borderTop: \`\${size / 10}px solid \${color}\`,
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite'
+  };
+  
+  return &lt;div style={spinnerStyle} /&gt;;
+}
+
+// Pattern 2: Color-coded status badges
+function StatusBadge({ status }) {
+  const colorMap = {
+    success: { bg: '#d4edda', text: '#155724', border: '#c3e6cb' },
+    warning: { bg: '#fff3cd', text: '#856404', border: '#ffeaa7' },
+    error: { bg: '#f8d7da', text: '#721c24', border: '#f5c6cb' },
+    info: { bg: '#d1ecf1', text: '#0c5460', border: '#bee5eb' }
+  };
+  
+  const colors = colorMap[status] || colorMap.info;
+  
+  const badgeStyle = {
+    backgroundColor: colors.bg,
+    color: colors.text,
+    border: \`1px solid \${colors.border}\`,
+    padding: '4px 8px',
+    borderRadius: '4px',
+    fontSize: '12px',
+    fontWeight: '600',
+    display: 'inline-block'
+  };
+  
+  return &lt;span style={badgeStyle}&gt;{status}&lt;/span&gt;;
+}
+
+// Pattern 3: Avatar with initials and dynamic color
+function Avatar({ name, size = 40 }) {
+  const getColorFromName = (str) =&gt; {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const hue = hash % 360;
+    return \`hsl(\${hue}, 70%, 60%)\`;
+  };
+  
+  const initials = name.split(' ').map(n =&gt; n[0]).join('').toUpperCase();
+  
+  const avatarStyle = {
+    width: size,
+    height: size,
+    borderRadius: '50%',
+    backgroundColor: getColorFromName(name),
+    color: '#fff',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: size / 2.5,
+    fontWeight: 'bold',
+    userSelect: 'none'
+  };
+  
+  return &lt;div style={avatarStyle}&gt;{initials}&lt;/div&gt;;
+}
+
+// Pattern 4: Skeleton loading placeholder
+function Skeleton({ width, height, borderRadius = 4 }) {
+  const skeletonStyle = {
+    width: width || '100%',
+    height: height || 20,
+    backgroundColor: '#e0e0e0',
+    borderRadius,
+    animation: 'pulse 1.5s ease-in-out infinite',
+    backgroundImage: 'linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%)',
+    backgroundSize: '200% 100%'
+  };
+  
+  return &lt;div style={skeletonStyle} /&gt;;
+}
+
+// Pattern 5: Gradient backgrounds
+function GradientCard({ direction = 'to right', colors = ['#667eea', '#764ba2'] }) {
+  const cardStyle = {
+    background: \`linear-gradient(\${direction}, \${colors.join(', ')})\`,
+    padding: '30px',
+    borderRadius: '12px',
+    color: '#fff',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
+  };
+  
+  return &lt;div style={cardStyle}&gt;Gradient Card&lt;/div&gt;;
+}
+
+// Pattern 6: Tooltip positioning
+function Tooltip({ text, position = 'top' }) {
+  const positionStyles = {
+    top: { bottom: '100%', left: '50%', transform: 'translateX(-50%)' },
+    bottom: { top: '100%', left: '50%', transform: 'translateX(-50%)' },
+    left: { right: '100%', top: '50%', transform: 'translateY(-50%)' },
+    right: { left: '100%', top: '50%', transform: 'translateY(-50%)' }
+  };
+  
+  const tooltipStyle = {
+    position: 'absolute',
+    backgroundColor: '#333',
+    color: '#fff',
+    padding: '8px 12px',
+    borderRadius: '4px',
+    fontSize: '14px',
+    whiteSpace: 'nowrap',
+    zIndex: 1000,
+    ...positionStyles[position]
+  };
+  
+  return &lt;div style={tooltipStyle}&gt;{text}&lt;/div&gt;;
+}
+
+// Pattern 7: Card with hover effect using state
+function InteractiveCard({ title, description }) {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const cardStyle = {
+    padding: '20px',
+    borderRadius: '8px',
+    backgroundColor: '#fff',
+    boxShadow: isHovered 
+      ? '0 10px 30px rgba(0,0,0,0.2)' 
+      : '0 2px 8px rgba(0,0,0,0.1)',
+    transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
+    transition: 'all 0.3s ease',
+    cursor: 'pointer'
+  };
+  
+  return (
+    &lt;div 
+      style={cardStyle}
+      onMouseEnter={() =&gt; setIsHovered(true)}
+      onMouseLeave={() =&gt; setIsHovered(false)}
+    &gt;
+      &lt;h3&gt;{title}&lt;/h3&gt;
+      &lt;p&gt;{description}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. TypeScript with Inline Styles
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-typescript">
+import React, { CSSProperties } from 'react';
+
+// Type 1: Using React.CSSProperties
+interface ButtonProps {
+  variant: 'primary' | 'secondary';
+  size: 'small' | 'medium' | 'large';
+}
+
+function TypedButton({ variant, size }: ButtonProps) {
+  const buttonStyle: React.CSSProperties = {
+    backgroundColor: variant === 'primary' ? '#007bff' : '#6c757d',
+    padding: size === 'small' ? '5px 10px' : '10px 20px',
+    fontSize: size === 'small' ? 12 : 16,
+    color: '#fff',
+    border: 'none',
+    borderRadius: 4,
+    cursor: 'pointer'
+  };
+  
+  return &lt;button style={buttonStyle}&gt;Button&lt;/button&gt;;
+}
+
+// Type 2: Creating reusable style types
+type ThemeColors = 'primary' | 'secondary' | 'success' | 'danger';
+
+interface StyledComponentProps {
+  color?: ThemeColors;
+  padding?: number;
+  rounded?: boolean;
+}
+
+function StyledComponent({ color = 'primary', padding = 10, rounded = false }: StyledComponentProps) {
+  const colorMap: Record&lt;ThemeColors, string&gt; = {
+    primary: '#007bff',
+    secondary: '#6c757d',
+    success: '#28a745',
+    danger: '#dc3545'
+  };
+  
+  const style: CSSProperties = {
+    backgroundColor: colorMap[color],
+    padding: \`\${padding}px\`,
+    borderRadius: rounded ? '8px' : '0',
+    color: '#fff'
+  };
+  
+  return &lt;div style={style}&gt;Styled Content&lt;/div&gt;;
+}
+
+// Type 3: Style factory functions with types
+type Size = 'sm' | 'md' | 'lg';
+
+function createButtonStyles(size: Size): CSSProperties {
+  const sizeMap: Record&lt;Size, CSSProperties&gt; = {
+    sm: { padding: '5px 10px', fontSize: 12 },
+    md: { padding: '10px 20px', fontSize: 14 },
+    lg: { padding: '15px 30px', fontSize: 16 }
+  };
+  
+  return {
+    ...sizeMap[size],
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer'
+  };
+}
+
+// Type 4: Generic style props
+interface StyleableProps&lt;T = any&gt; {
+  style?: CSSProperties;
+  className?: string;
+  children?: React.ReactNode;
+  customData?: T;
+}
+
+function StyleableComponent&lt;T&gt;({ style, className, children }: StyleableProps&lt;T&gt;) {
+  return (
+    &lt;div style={style} className={className}&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+// Type 5: Const assertions for style objects
+const THEME_STYLES = {
+  light: {
+    backgroundColor: '#fff',
+    color: '#333'
+  },
+  dark: {
+    backgroundColor: '#333',
+    color: '#fff'
+  }
+} as const;
+
+type Theme = keyof typeof THEME_STYLES;
+
+function ThemedComponent({ theme }: { theme: Theme }) {
+  return &lt;div style={THEME_STYLES[theme]}&gt;Content&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Best Practices and Anti-Patterns
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Use inline styles for dynamic, prop-based styling</li>
+  <li><b>DO:</b> Extract static styles outside components to prevent recreation</li>
+  <li><b>DO:</b> Memoize computed style objects with useMemo</li>
+  <li><b>DO:</b> Use inline styles for component-specific styling that won't be reused</li>
+  <li><b>DON'T:</b> Create new style objects on every render</li>
+  <li><b>DON'T:</b> Use inline styles for complex layouts or responsive design</li>
+  <li><b>DON'T:</b> Try to replicate pseudo-classes with inline styles (use CSS or state)</li>
+  <li><b>DON'T:</b> Put all your styling in inline styles (use CSS for global styles)</li>
+  <li><b>DON'T:</b> Use inline styles when you need media queries or animations</li>
+</ul>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Anti-pattern: Creating style objects inside render
+function BadComponent({ color }) {
+  return (
+    &lt;div style={{ backgroundColor: color, padding: '20px', borderRadius: '8px' }}&gt;
+      Content
+    &lt;/div&gt;
+  );
+}
+
+// Good: Static styles outside, dynamic inside with memoization
+const STATIC_STYLES = {
+  padding: '20px',
+  borderRadius: '8px'
+};
+
+function GoodComponent({ color }) {
+  const dynamicStyle = useMemo(() =&gt; ({
+    ...STATIC_STYLES,
+    backgroundColor: color
+  }), [color]);
+  
+  return &lt;div style={dynamicStyle}&gt;Content&lt;/div&gt;;
+}
+
+// Anti-pattern: Huge inline style objects
+function BadComplexComponent() {
+  return (
+    &lt;div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+      margin: '10px',
+      backgroundColor: '#fff',
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      border: '1px solid #ddd',
+      fontSize: '16px',
+      fontWeight: 'bold',
+      color: '#333'
+      // ... 20 more properties
+    }}&gt;
+      Content
+    &lt;/div&gt;
+  );
+}
+
+// Good: Extract to named constants
+const CARD_CONTAINER_STYLE = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '20px',
+  margin: '10px',
+  backgroundColor: '#fff',
+  borderRadius: '8px',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+  border: '1px solid #ddd'
+};
+
+const TEXT_STYLE = {
+  fontSize: '16px',
+  fontWeight: 'bold',
+  color: '#333'
+};
+
+function GoodComplexComponent() {
+  return (
+    &lt;div style={CARD_CONTAINER_STYLE}&gt;
+      &lt;span style={TEXT_STYLE}&gt;Content&lt;/span&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Browser Compatibility and Vendor Prefixes
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React does NOT auto-prefix inline styles
+// You must add vendor prefixes manually
+
+function CrossBrowserComponent() {
+  const style = {
+    // Standard property
+    display: 'flex',
+    
+    // Vendor prefixes for flexbox (older browsers)
+    WebkitBoxOrient: 'vertical',
+    WebkitBoxDirection: 'normal',
+    
+    // Transform with prefixes
+    transform: 'rotate(45deg)',
+    WebkitTransform: 'rotate(45deg)',
+    MozTransform: 'rotate(45deg)',
+    msTransform: 'rotate(45deg)',
+    
+    // User select
+    userSelect: 'none',
+    WebkitUserSelect: 'none',
+    MozUserSelect: 'none',
+    msUserSelect: 'none',
+    
+    // Appearance
+    appearance: 'none',
+    WebkitAppearance: 'none',
+    MozAppearance: 'none'
+  };
+  
+  return &lt;div style={style}&gt;Cross-browser Content&lt;/div&gt;;
+}
+
+// Helper function for auto-prefixing
+function prefix(property, value) {
+  const prefixes = ['webkit', 'moz', 'ms', 'o'];
+  const style = { [property]: value };
+  
+  prefixes.forEach(prefix =&gt; {
+    const prefixedProp = prefix + property.charAt(0).toUpperCase() + property.slice(1);
+    style[prefixedProp] = value;
+  });
+  
+  return style;
+}
+
+function AutoPrefixedComponent() {
+  const style = {
+    ...prefix('transform', 'scale(1.5)'),
+    ...prefix('transition', 'all 0.3s ease')
+  };
+  
+  return &lt;div style={style}&gt;Auto-prefixed&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Dynamic Button Styling with Props",
+              "Progress Bar with Conditional Colors",
+              "Interactive Card with Hover State",
+              "Avatar Component with Generated Colors",
+              "Responsive Layout with Window Resize",
+              "Status Badges with Color Mapping",
+            ],
+            questions: [
+              {
+                question:
+                  "What is the syntax difference between HTML and React inline styles?",
+                answer:
+                  "HTML uses string-based inline styles with kebab-case property names (style='background-color: red'), while React uses JavaScript objects with camelCase property names (style={{ backgroundColor: 'red' }}). React requires the double curly braces: outer braces for JSX expression, inner braces for the object literal. Property values in React are typically strings or numbers, whereas HTML only accepts strings.",
+              },
+              {
+                question:
+                  "How does React handle numeric values in inline styles?",
+                answer:
+                  "React automatically appends 'px' to numeric values for most CSS properties (e.g., width: 300 becomes '300px'). However, unitless properties like opacity, zIndex, flex, lineHeight, and fontWeight remain as numbers without units. For other units (%, rem, em, vh, vw), you must provide string values. This auto-px behavior only applies to properties that typically use pixel values.",
+              },
+              {
+                question:
+                  "Why should CSS property names use camelCase in React inline styles?",
+                answer:
+                  "React inline styles are JavaScript objects, and JavaScript object keys cannot contain hyphens without quotes. CamelCase allows property names to be used as unquoted keys (backgroundColor vs 'background-color'). This convention also aligns with JavaScript's DOM API (element.style.backgroundColor). The transformation is consistent: remove hyphens and capitalize the first letter after each hyphen.",
+              },
+              {
+                question:
+                  "What are the main limitations of React inline styles?",
+                answer:
+                  "Inline styles cannot use pseudo-classes (:hover, :focus, :active), pseudo-elements (::before, ::after), media queries, CSS animations with @keyframes, or descendant selectors. They have very high specificity making them hard to override. You also lose CSS cascade benefits, cannot use CSS variables easily, and miss out on performance optimizations like CSS caching. For these features, you need external CSS, CSS modules, or CSS-in-JS libraries.",
+              },
+              {
+                question:
+                  "How do you create dynamic styles based on props in React?",
+                answer:
+                  "Use JavaScript expressions within the style object, typically with ternary operators, template literals, or object lookups. Access props and compute styles conditionally. For example: backgroundColor: primary ? '#007bff' : '#6c757d' or width: `${progress}%`. You can use spread operators to conditionally include style properties. This dynamic nature is one of the main advantages of inline styles over static CSS.",
+              },
+              {
+                question:
+                  "What performance issues can inline styles cause and how do you fix them?",
+                answer:
+                  "Creating new style objects on every render causes unnecessary re-renders and memory allocation. Fix this by extracting static styles outside components, using useMemo to memoize computed styles that depend on props/state, and only recreating style objects when their dependencies change. In lists, extract items to separate memoized components. Avoid inline object literals in JSX; define style objects in variables instead.",
+              },
+              {
+                question: "How do you merge multiple style objects in React?",
+                answer:
+                  "Use the spread operator to merge styles: {...baseStyles, ...variantStyles, ...customStyles}. Later properties override earlier ones, allowing style composition. You can also use Object.assign({}, style1, style2), but spread is more common. Create reusable style mixins as objects or functions and combine them. This pattern enables flexible style composition and reduces code duplication.",
+              },
+              {
+                question: "How do you handle hover states with inline styles?",
+                answer:
+                  "Since inline styles don't support :hover, use component state with mouse event handlers. Track hover state with useState, toggle it with onMouseEnter/onMouseLeave, and conditionally apply styles based on the state. Add CSS transitions to make the effect smooth. For complex interactions, consider using CSS classes or CSS-in-JS libraries that support pseudo-classes. The state-based approach gives you full JavaScript control but adds code complexity.",
+              },
+              {
+                question:
+                  "When should you use inline styles vs CSS classes vs CSS-in-JS?",
+                answer:
+                  "Use inline styles for truly dynamic, prop/state-dependent styling where values change frequently and unpredictably. Use CSS classes (including modules) for static styles, complex layouts, pseudo-classes, media queries, and better performance. Use CSS-in-JS libraries when you want both dynamic capabilities and full CSS features (pseudo-classes, media queries, animations) in a component-scoped way. Each has tradeoffs in bundle size, runtime performance, and developer experience.",
+              },
+              {
+                question:
+                  "How do you handle vendor prefixes in React inline styles?",
+                answer:
+                  "React does NOT auto-prefix inline styles. You must manually add vendor prefixes using camelCase with capitalized vendor names: WebkitTransform, MozTransform, msTransform (note lowercase 'ms'). For critical prefixes, provide multiple properties. Alternatively, use libraries like inline-style-prefixer or Autoprefixer with CSS-in-JS solutions. This is a significant limitation compared to build-time CSS processing which handles prefixing automatically.",
+              },
+              {
+                question:
+                  "What is the double curly brace syntax in React inline styles?",
+                answer:
+                  "The double curly braces in style={{...}} represent two things: the outer braces are JSX syntax for embedding JavaScript expressions, and the inner braces define a JavaScript object literal. It's not special syntax—you could extract the object to a variable and use single braces: const s = {...}; <div style={s}>. Understanding this helps avoid confusion and makes it clear that style accepts any JavaScript object expression.",
+              },
+              {
+                question:
+                  "How do you implement responsive design with inline styles?",
+                answer:
+                  "Since inline styles don't support media queries, use JavaScript to detect screen size. Add window resize event listeners with useEffect, track breakpoints in state, and conditionally apply different style values. Libraries like react-responsive can help. However, for complex responsive layouts, CSS with media queries is much cleaner and more performant. Inline styles work for simple responsive adjustments but become unwieldy for comprehensive responsive design.",
+              },
+              {
+                question: "Can you use CSS variables with React inline styles?",
+                answer:
+                  "Yes, you can reference CSS variables defined elsewhere using string values: style={{ color: 'var(--primary-color)' }}. However, you cannot define CSS variables in inline styles. Define them in external CSS (:root { --primary-color: blue; }) and reference them in inline styles. This allows combining the benefits of CSS variables (theming, consistency) with dynamic inline styles. The variable values are resolved by the browser at runtime.",
+              },
+              {
+                question: "How do you type inline styles with TypeScript?",
+                answer:
+                  "Use the React.CSSProperties type from React: const style: React.CSSProperties = {...}. This provides autocomplete and type checking for all valid CSS properties. Create reusable types for common style patterns, use type unions for allowed values, and leverage const assertions for style objects. TypeScript catches typos in property names, ensures correct value types, and improves the developer experience significantly with autocomplete.",
+              },
+              {
+                question:
+                  "What are common anti-patterns with inline styles and how do you avoid them?",
+                answer:
+                  "Anti-patterns include creating new objects in render (use useMemo or external constants), using inline styles for everything (use CSS for static styles), trying to implement pseudo-classes (use state or CSS), putting complex multi-property styles inline (extract to named constants), and not considering performance in lists (memoize components). Follow best practices: use inline styles selectively for dynamic values, extract static styles, memoize computed styles, and prefer CSS for complex layouts and animations.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react-dom/components/common#applying-css-styles",
+              "https://react.dev/learn/javascript-in-jsx-with-curly-braces",
+              "https://legacy.reactjs.org/docs/dom-elements.html#style",
+              "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style",
+              "https://github.com/facebook/react/blob/main/packages/react-dom-bindings/src/shared/CSSPropertyOperations.js",
+              "https://www.joshwcomeau.com/react/css-in-react/",
+            ],
           },
           {
             topic: "CSS Modules",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "CSS Modules",
+              "Scoped Styles",
+              "Local Scope",
+              "Global Scope",
+              "Composition",
+              "Class Names",
+              "Modular CSS",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+CSS Modules is a CSS file in which all class names and animation names are scoped locally by default. This eliminates the global namespace problem in traditional CSS, preventing style conflicts and enabling true component-scoped styling. CSS Modules work with standard CSS syntax, require no runtime overhead, and integrate seamlessly with build tools like Webpack and Vite. Understanding CSS Modules is essential for building maintainable, scalable React applications with predictable styling.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Concepts and Setup
+</h4>
+
+<p style="line-height: 1.75;">
+CSS Modules automatically scope CSS class names to the component that imports them, preventing naming collisions and style leakage.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Button.module.css */
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Button.jsx
+import styles from './Button.module.css';
+
+function Button({ variant = 'primary', disabled, children }) {
+  // styles is an object: { button: 'Button_button__2x8f9', primary: 'Button_primary__1a2b3', ... }
+  
+  return (
+    &lt;button 
+      className={\`\${styles.button} \${styles[variant]}\`}
+      disabled={disabled}
+    &gt;
+      {children}
+    &lt;/button&gt;
+  );
+}
+
+export default Button;
+
+// Rendered HTML:
+// &lt;button class="Button_button__2x8f9 Button_primary__1a2b3"&gt;Click Me&lt;/button&gt;
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+<b>How it works:</b> The build tool transforms class names into unique identifiers (e.g., .button becomes .Button_button__2x8f9), ensuring no conflicts between components.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. File Naming and Import Conventions
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Convention 1: .module.css suffix (most common)
+import styles from './Component.module.css';
+
+// Convention 2: .module.scss for Sass
+import styles from './Component.module.scss';
+
+// Convention 3: .module.less for Less
+import styles from './Component.module.less';
+
+// File structure example:
+// src/
+//   components/
+//     Button/
+//       Button.jsx
+//       Button.module.css
+//       Button.test.js
+//       index.js
+//     Card/
+//       Card.jsx
+//       Card.module.css
+
+// The .module.* extension tells the build tool to process it as a CSS Module
+// Without .module, it's treated as global CSS
+
+// Regular CSS (global):
+import './global-styles.css';
+
+// CSS Module (scoped):
+import styles from './Component.module.css';
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Applying Multiple Classes
+</h4>
+
+<p style="line-height: 1.75;">
+There are several ways to combine multiple CSS Module classes in React components.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Card.module.css */
+.card {
+  padding: 20px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.elevated {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.clickable:hover {
+  transform: translateY(-2px);
+}
+
+.large {
+  padding: 30px;
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import styles from './Card.module.css';
+
+// Method 1: Template literals (simple and readable)
+function Card({ elevated, clickable, large, children }) {
+  const className = \`
+    \${styles.card} 
+    \${elevated ? styles.elevated : ''} 
+    \${clickable ? styles.clickable : ''}
+    \${large ? styles.large : ''}
+  \`.trim();
+  
+  return &lt;div className={className}&gt;{children}&lt;/div&gt;;
+}
+
+// Method 2: Array join (cleaner for many classes)
+function CardWithArray({ elevated, clickable, large, children }) {
+  const classes = [
+    styles.card,
+    elevated && styles.elevated,
+    clickable && styles.clickable,
+    large && styles.large
+  ].filter(Boolean).join(' ');
+  
+  return &lt;div className={classes}&gt;{children}&lt;/div&gt;;
+}
+
+// Method 3: Using classnames library (most popular)
+import classNames from 'classnames';
+
+function CardWithClassNames({ elevated, clickable, large, children }) {
+  return (
+    &lt;div className={classNames(styles.card, {
+      [styles.elevated]: elevated,
+      [styles.clickable]: clickable,
+      [styles.large]: large
+    })}&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+// Method 4: Using clsx library (lightweight alternative)
+import clsx from 'clsx';
+
+function CardWithClsx({ elevated, clickable, large, children }) {
+  return (
+    &lt;div className={clsx(
+      styles.card,
+      elevated && styles.elevated,
+      clickable && styles.clickable,
+      large && styles.large
+    )}&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+// Method 5: Helper function
+function combineStyles(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
+function CardWithHelper({ elevated, clickable, large, children }) {
+  return (
+    &lt;div className={combineStyles(
+      styles.card,
+      elevated && styles.elevated,
+      clickable && styles.clickable,
+      large && styles.large
+    )}&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Global Styles and :global Selector
+</h4>
+
+<p style="line-height: 1.75;">
+Sometimes you need to define global styles or target elements that aren't under your control. CSS Modules provides the :global selector for this.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Component.module.css */
+
+/* Local scope (default) */
+.container {
+  padding: 20px;
+}
+
+/* Global scope using :global */
+:global(.global-class) {
+  color: red;
+}
+
+/* Mix local and global */
+.container :global(.nested-global) {
+  font-weight: bold;
+}
+
+/* Multiple global selectors */
+:global {
+  .global-one {
+    color: blue;
+  }
+  
+  .global-two {
+    color: green;
+  }
+  
+  /* Target third-party library classes */
+  .react-datepicker {
+    font-family: Arial, sans-serif;
+  }
+}
+
+/* Global animation */
+:global {
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+/* Use global animation in local class */
+.animated {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Target HTML elements globally */
+:global(body) {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Override third-party styles */
+.wrapper :global(.some-library-class) {
+  background-color: white !important;
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import styles from './Component.module.css';
+
+function Component() {
+  return (
+    &lt;div className={styles.container}&gt;
+      {/* This uses the local container class */}
+      &lt;div className="global-class"&gt;
+        {/* This uses the global class defined with :global */}
+        Global styled content
+      &lt;/div&gt;
+      
+      &lt;div className={styles.animated}&gt;
+        {/* Uses local class with global animation */}
+        Animated content
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Composition with composes
+</h4>
+
+<p style="line-height: 1.75;">
+The composes keyword allows you to inherit styles from other classes, enabling style reuse and avoiding duplication.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Button.module.css */
+
+/* Base button styles */
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+/* Compose base button into variants */
+.primary {
+  composes: button;
+  background-color: #007bff;
+  color: white;
+}
+
+.primary:hover {
+  background-color: #0056b3;
+}
+
+.secondary {
+  composes: button;
+  background-color: #6c757d;
+  color: white;
+}
+
+.danger {
+  composes: button;
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Compose multiple classes */
+.large {
+  padding: 15px 30px;
+  font-size: 18px;
+}
+
+.primaryLarge {
+  composes: primary large;
+}
+
+/* Compose from other files */
+.specialButton {
+  composes: button from './BaseStyles.module.css';
+  composes: animated from './Animations.module.css';
+  background-color: purple;
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import styles from './Button.module.css';
+
+function Button({ variant = 'primary', children }) {
+  // When you use a composed class, it includes all composed classes
+  return (
+    &lt;button className={styles[variant]}&gt;
+      {children}
+    &lt;/button&gt;
+  );
+}
+
+// Rendered HTML for variant="primary":
+// &lt;button class="Button_button__abc123 Button_primary__def456"&gt;
+
+// The primary class automatically includes button class through composition
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Real-world composition example */
+/* Typography.module.css */
+.baseText {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.heading {
+  composes: baseText;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.h1 {
+  composes: heading;
+  font-size: 2.5rem;
+}
+
+.h2 {
+  composes: heading;
+  font-size: 2rem;
+}
+
+.h3 {
+  composes: heading;
+  font-size: 1.5rem;
+}
+
+/* Layout.module.css */
+.flex {
+  display: flex;
+}
+
+.flexCenter {
+  composes: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexColumn {
+  composes: flex;
+  flex-direction: column;
+}
+
+.flexBetween {
+  composes: flex;
+  justify-content: space-between;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Working with Pseudo-classes and Pseudo-elements
+</h4>
+
+<p style="line-height: 1.75;">
+CSS Modules fully support all CSS pseudo-classes and pseudo-elements, maintaining local scope.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Link.module.css */
+.link {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+/* Pseudo-classes */
+.link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.link:active {
+  color: #003d82;
+}
+
+.link:visited {
+  color: #6c757d;
+}
+
+.link:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Input states */
+.input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.input:invalid {
+  border-color: #dc3545;
+}
+
+.input:placeholder-shown {
+  font-style: italic;
+}
+
+/* Pseudo-elements */
+.quote {
+  position: relative;
+  padding: 20px;
+  font-style: italic;
+}
+
+.quote::before {
+  content: '"';
+  font-size: 3rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ccc;
+}
+
+.quote::after {
+  content: '"';
+  font-size: 3rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #ccc;
+}
+
+/* First letter styling */
+.paragraph::first-letter {
+  font-size: 2em;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Selection styling */
+.selectable::selection {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Structural pseudo-classes */
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.listItem {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.listItem:first-child {
+  border-top: 1px solid #eee;
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listItem:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.listItem:nth-child(even) {
+  background-color: white;
+}
+
+.listItem:not(:last-child) {
+  margin-bottom: 5px;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Media Queries and Responsive Design
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* ResponsiveCard.module.css */
+.card {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Mobile first approach */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .card {
+    padding: 30px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1440px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+}
+
+/* Complex media queries */
+.sidebar {
+  width: 100%;
+  background: #f5f5f5;
+}
+
+@media (min-width: 768px) and (orientation: landscape) {
+  .sidebar {
+    width: 250px;
+    position: fixed;
+    height: 100vh;
+  }
+}
+
+/* Dark mode support */
+.container {
+  background: white;
+  color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #1a1a1a;
+    color: #f5f5f5;
+  }
+}
+
+/* Print styles */
+.article {
+  font-size: 16px;
+}
+
+@media print {
+  .article {
+    font-size: 12pt;
+    color: black;
+  }
+  
+  .noprint {
+    display: none;
+  }
+}
+
+/* Reduced motion preference */
+.animated {
+  transition: all 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated {
+    transition: none;
+    animation: none;
+  }
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. CSS Variables and Custom Properties
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Theme.module.css */
+
+/* Define CSS variables in :global */
+:global(:root) {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  --border-radius: 4px;
+  --box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Use variables in local classes */
+.button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-family: var(--font-family);
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--primary-color);
+  filter: brightness(0.9);
+}
+
+.card {
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+/* Component-specific variables */
+.container {
+  --container-bg: white;
+  --container-text: #333;
+  
+  background: var(--container-bg);
+  color: var(--container-text);
+  padding: var(--spacing-md);
+}
+
+.container[data-theme="dark"] {
+  --container-bg: #1a1a1a;
+  --container-text: #f5f5f5;
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Using CSS variables with inline style overrides
+import styles from './Component.module.css';
+
+function ThemeableComponent({ primaryColor }) {
+  return (
+    &lt;div 
+      className={styles.button}
+      style={{ '--primary-color': primaryColor }}
+    &gt;
+      Themed Button
+    &lt;/div&gt;
+  );
+}
+
+// Dynamic theme switching
+function App() {
+  const [theme, setTheme] = useState('light');
+  
+  return (
+    &lt;div className={styles.container} data-theme={theme}&gt;
+      &lt;button onClick={() =&gt; setTheme(theme === 'light' ? 'dark' : 'light')}&gt;
+        Toggle Theme
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Animations and Keyframes
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Animations.module.css */
+
+/* Local keyframes (automatically scoped) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Use local animations */
+.fadeInElement {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.pulseButton {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Global animations (reusable across components) */
+:global {
+  @keyframes slideInFromLeft {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+
+/* Use global animation in local class */
+.slideIn {
+  animation: slideInFromLeft 0.5s ease-out;
+}
+
+/* Complex animation with multiple properties */
+.notification {
+  animation: 
+    slideInFromLeft 0.3s ease-out,
+    fadeIn 0.3s ease-out,
+    pulse 2s ease-in-out 0.3s infinite;
+}
+
+/* Transition effects */
+.button {
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.modalOpen {
+  composes: modal;
+  opacity: 1;
+  transform: scale(1);
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import styles from './Animations.module.css';
+
+function AnimatedComponent() {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    &lt;&gt;
+      &lt;button 
+        className={styles.pulseButton}
+        onClick={() =&gt; setIsOpen(true)}
+      &gt;
+        Open Modal
+      &lt;/button&gt;
+      
+      {isOpen && (
+        &lt;div className={isOpen ? styles.modalOpen : styles.modal}&gt;
+          Modal Content
+        &lt;/div&gt;
+      )}
+      
+      &lt;div className={styles.fadeInElement}&gt;
+        Fades in on mount
+      &lt;/div&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Integration with Preprocessors (Sass, Less)
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-scss">
+/* Button.module.scss */
+
+// Variables
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$border-radius: 4px;
+$spacing: 10px;
+
+// Mixins
+@mixin button-base {
+  padding: $spacing ($spacing * 2);
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-variant($bg-color, $text-color: white) {
+  background-color: $bg-color;
+  color: $text-color;
+  
+  &:hover:not(:disabled) {
+    background-color: darken($bg-color, 10%);
+  }
+  
+  &:active:not(:disabled) {
+    background-color: darken($bg-color, 15%);
+  }
+}
+
+// Classes
+.button {
+  @include button-base;
+}
+
+.primary {
+  composes: button;
+  @include button-variant($primary-color);
+}
+
+.secondary {
+  composes: button;
+  @include button-variant($secondary-color);
+}
+
+// Nesting
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+  
+  .button {
+    flex: 1;
+    
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+  }
+}
+
+// Functions
+@function calculate-spacing($multiplier) {
+  @return $spacing * $multiplier;
+}
+
+.card {
+  padding: calculate-spacing(2);
+  margin-bottom: calculate-spacing(1);
+}
+
+// Loops
+@for $i from 1 through 5 {
+  .mt-#{$i} {
+    margin-top: $spacing * $i;
+  }
+}
+
+// Maps
+$theme-colors: (
+  'primary': #007bff,
+  'secondary': #6c757d,
+  'success': #28a745,
+  'danger': #dc3545,
+  'warning': #ffc107
+);
+
+@each $name, $color in $theme-colors {
+  .badge-#{$name} {
+    background-color: $color;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. TypeScript Integration
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-typescript">
+// Component.module.css.d.ts (auto-generated or manual)
+declare const styles: {
+  readonly button: string;
+  readonly primary: string;
+  readonly secondary: string;
+  readonly disabled: string;
+  readonly large: string;
+};
+
+export default styles;
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-typescript">
+// Component.tsx
+import styles from './Component.module.css';
+
+interface ButtonProps {
+  variant?: keyof typeof styles; // Type-safe variant prop
+  children: React.ReactNode;
+}
+
+function Button({ variant = 'primary', children }: ButtonProps) {
+  // TypeScript knows styles.primary exists
+  return &lt;button className={styles[variant]}&gt;{children}&lt;/button&gt;;
+}
+
+// Auto-generate type definitions with typescript-plugin-css-modules
+// Or use typed-css-modules package
+// Or configure with webpack css-loader typings option
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-json">
+// tsconfig.json
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
+  }
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Advanced Patterns and Best Practices
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* shared/BaseStyles.module.css - Shared utility classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-css">
+/* Component.module.css - Component-specific styles */
+.component {
+  composes: container from '../../shared/BaseStyles.module.css';
+  background: white;
+  border-radius: 8px;
+}
+
+.header {
+  composes: flexCenter from '../../shared/BaseStyles.module.css';
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.title {
+  composes: truncate from '../../shared/BaseStyles.module.css';
+  font-size: 24px;
+  font-weight: bold;
+}
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Conditional class application with type safety
+import styles from './Component.module.css';
+import clsx from 'clsx';
+
+function Card({ variant, size, elevated, children }) {
+  const cardClass = clsx(
+    styles.card,
+    styles[\`card\${variant.charAt(0).toUpperCase() + variant.slice(1)}\`],
+    styles[\`size\${size.charAt(0).toUpperCase() + size.slice(1)}\`],
+    { [styles.elevated]: elevated }
+  );
+  
+  return &lt;div className={cardClass}&gt;{children}&lt;/div&gt;;
+}
+
+// Pattern: Dynamic styles with data attributes
+function TabPanel({ active, children }) {
+  return (
+    &lt;div 
+      className={styles.tabPanel} 
+      data-active={active}
+      aria-hidden={!active}
+    &gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+// CSS:
+// .tabPanel[data-active="true"] { display: block; }
+// .tabPanel[data-active="false"] { display: none; }
+
+// Pattern: Style props for overrides
+interface ComponentProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+function Component({ className, children }: ComponentProps) {
+  return (
+    &lt;div className={clsx(styles.component, className)}&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+// Usage: &lt;Component className={parentStyles.customOverride}&gt;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Common Pitfalls and Solutions
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pitfall 1: Using kebab-case class names
+// Bad - JavaScript doesn't allow hyphens in property names
+import styles from './Component.module.css';
+// &lt;div className={styles.my-class}&gt; // Syntax error!
+
+// Good - Use camelCase in CSS Module files
+// .myClass { ... }
+// &lt;div className={styles.myClass}&gt;
+
+// Alternative - Use bracket notation for kebab-case
+// &lt;div className={styles['my-class']}&gt; // Works but not recommended
+
+// Pitfall 2: Forgetting .module in filename
+// Bad - Treated as global CSS
+import './Component.css';
+
+// Good - Treated as CSS Module
+import styles from './Component.module.css';
+
+// Pitfall 3: Not handling undefined classes
+// Bad - Could throw error
+&lt;div className={styles.maybeUndefined}&gt;
+
+// Good - Provide fallback
+&lt;div className={styles.maybeUndefined || ''}&gt;
+
+// Pitfall 4: Mixing global and local incorrectly
+// Bad - Won't work as expected
+.local :global .another-local { } // Won't scope properly
+
+// Good - Clear separation
+.local :global(.global-class) .anotherLocal { }
+
+// Pitfall 5: Over-nesting with composition
+// Bad - Creates very long class names
+.a { composes: b; }
+.b { composes: c; }
+.c { composes: d; }
+.d { composes: e; }
+
+// Good - Keep composition shallow
+.base { ... }
+.variant { composes: base; ... }
+
+// Pitfall 6: Not understanding specificity
+// CSS Modules don't change specificity
+// .card.elevated is more specific than .card
+.card { background: white; }
+.elevated { background: gray; } // Won't override if applied separately
+
+// Solution - Use composition or be explicit
+.cardElevated {
+  composes: card;
+  background: gray; // Will work
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+14. Performance and Bundle Size
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Zero runtime overhead:</b> All CSS processing happens at build time</li>
+  <li><b>Dead code elimination:</b> Unused classes can be tree-shaken with proper tools</li>
+  <li><b>CSS extraction:</b> Build tools extract CSS to separate files for optimal caching</li>
+  <li><b>Smaller than CSS-in-JS:</b> No runtime library needed, pure CSS output</li>
+  <li><b>Browser caching:</b> CSS files can be cached independently of JavaScript</li>
+  <li><b>Critical CSS:</b> Can be inlined for above-the-fold content</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+15. CSS Modules vs Alternatives
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// CSS Modules
+// Pros: Zero runtime, standard CSS, scoped by default, works with preprocessors
+// Cons: Separate files, less dynamic, requires build step
+import styles from './Component.module.css';
+&lt;div className={styles.container}&gt;CSS Modules&lt;/div&gt;
+
+// Inline Styles
+// Pros: Fully dynamic, no build step, TypeScript friendly
+// Cons: No pseudo-classes, no media queries, performance overhead
+&lt;div style={{ padding: '20px', backgroundColor: 'blue' }}&gt;Inline&lt;/div&gt;
+
+// CSS-in-JS (styled-components)
+// Pros: Fully dynamic, component-scoped, full CSS features
+// Cons: Runtime overhead, larger bundle, learning curve
+const Styled = styled.div\`padding: 20px; background: blue;\`;
+
+// Utility-first (Tailwind)
+// Pros: Rapid development, consistent design, small bundle
+// Cons: Verbose HTML, learning curve, harder to customize
+&lt;div className="p-5 bg-blue-500"&gt;Tailwind&lt;/div&gt;
+
+// BEM with regular CSS
+// Pros: No build step, widely understood, explicit naming
+// Cons: Manual scoping, naming conventions required, global namespace
+&lt;div className="component__element--modifier"&gt;BEM&lt;/div&gt;
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Button Component with Variants",
+              "Responsive Card Grid",
+              "Form with Validation Styles",
+              "Modal with Animations",
+              "Navigation Menu with Active States",
+              "Theme Switching System",
+            ],
+            questions: [
+              {
+                question:
+                  "What are CSS Modules and how do they solve the global namespace problem?",
+                answer:
+                  "CSS Modules are CSS files where all class names and animation names are scoped locally by default. They solve the global namespace problem by automatically generating unique class names at build time (e.g., .button becomes .Button_button__abc123), preventing naming collisions between components. This enables true component-scoped styling without worrying about class name conflicts, making styles more maintainable and predictable in large applications.",
+              },
+              {
+                question:
+                  "What is the naming convention for CSS Module files and why is it important?",
+                answer:
+                  "CSS Module files use the .module.css (or .module.scss, .module.less) extension. This extension tells the build tool to process the file as a CSS Module with local scoping. Without the .module extension, the file is treated as regular global CSS. The convention is important because it clearly distinguishes scoped styles from global styles and enables the build tool to apply the correct transformations.",
+              },
+              {
+                question:
+                  "How does the 'composes' keyword work in CSS Modules?",
+                answer:
+                  "The 'composes' keyword allows a class to inherit styles from other classes, enabling style reuse without duplication. When you write '.primary { composes: button; }', the primary class includes all styles from button plus its own. In the rendered HTML, both class names appear: class='Button_button__abc Button_primary__def'. You can compose from the same file, other files using 'composes: button from \"./other.module.css\"', or even compose multiple classes at once.",
+              },
+              {
+                question:
+                  "What is the :global selector and when should you use it?",
+                answer:
+                  "The :global selector creates global class names that aren't scoped locally. Use it for defining truly global styles, targeting third-party library classes you don't control, creating global animations/keyframes, or styling elements outside your component tree. Syntax: ':global(.class-name) { }' or ':global { .class-one { } .class-two { } }'. It's essential for integrating with libraries, but should be used sparingly to maintain the benefits of local scoping.",
+              },
+              {
+                question:
+                  "How do you apply multiple conditional classes with CSS Modules?",
+                answer:
+                  "There are several approaches: template literals with ternaries (`${styles.card} ${active ? styles.active : ''}`), array filter join (classes.filter(Boolean).join(' ')), or utility libraries like classnames/clsx. The classnames library is most popular: classNames(styles.card, { [styles.active]: active, [styles.large]: large }). clsx is a lightweight alternative. These approaches handle conditional classes cleanly and are more readable than manual string concatenation.",
+              },
+              {
+                question:
+                  "Can CSS Modules use pseudo-classes, pseudo-elements, and media queries?",
+                answer:
+                  "Yes, CSS Modules support all standard CSS features including pseudo-classes (:hover, :focus, :nth-child), pseudo-elements (::before, ::after), and media queries. These work exactly like regular CSS but maintain local scope. For example, '.button:hover { }' becomes '.Button_button__abc:hover { }'. This is a major advantage over inline styles and makes CSS Modules suitable for complex styling needs while maintaining component isolation.",
+              },
+              {
+                question:
+                  "How do CSS Modules work with CSS preprocessors like Sass or Less?",
+                answer:
+                  "CSS Modules work seamlessly with preprocessors. Use .module.scss or .module.less extensions. All preprocessor features (variables, mixins, nesting, functions, loops) work normally, and then CSS Modules applies scoping to the compiled output. You can combine Sass features with CSS Module composition for powerful styling capabilities. The build tool processes the preprocessor first, then applies CSS Module transformations to the result.",
+              },
+              {
+                question:
+                  "What are the performance characteristics of CSS Modules compared to CSS-in-JS?",
+                answer:
+                  "CSS Modules have zero runtime overhead since all transformations happen at build time, resulting in static CSS files. This is faster than CSS-in-JS libraries that generate styles at runtime. CSS Modules produce smaller bundles (no runtime library needed), enable better browser caching (CSS and JS cached separately), and have faster initial page loads. However, they're less dynamic than CSS-in-JS for truly dynamic styling based on props.",
+              },
+              {
+                question:
+                  "How do you handle class names with hyphens in CSS Modules?",
+                answer:
+                  "While CSS allows hyphens in class names, JavaScript object property names can't have hyphens without quotes. Best practice: use camelCase in CSS Module files (.myClass instead of .my-class) so you can access them as styles.myClass. If you must use hyphens, access with bracket notation: styles['my-class']. The camelCase convention is preferred because it's more JavaScript-friendly and enables better TypeScript autocomplete.",
+              },
+              {
+                question:
+                  "How do you share common styles across multiple components with CSS Modules?",
+                answer:
+                  "Create shared style files (e.g., BaseStyles.module.css) with reusable classes, then use composition: '.myClass { composes: sharedClass from \"./BaseStyles.module.css\"; }'. Alternatively, use CSS variables defined globally and reference them in local classes. For utility classes, create a utilities module and compose as needed. This promotes DRY principles while maintaining local scope and avoiding the pitfalls of global stylesheets.",
+              },
+              {
+                question:
+                  "How does TypeScript integration work with CSS Modules?",
+                answer:
+                  "TypeScript can provide type safety for CSS Modules through auto-generated type definition files (.module.css.d.ts). Tools like typescript-plugin-css-modules or typed-css-modules generate these automatically. Type definitions enable autocomplete for class names, catch typos at compile time, and allow type-safe prop definitions like variant: keyof typeof styles. This significantly improves the developer experience and catches errors early.",
+              },
+              {
+                question: "Can you use CSS variables with CSS Modules and how?",
+                answer:
+                  "Yes, define CSS variables in :global(:root) or :global(body) to make them available globally, then reference them in local classes using var(--variable-name). You can also define component-scoped variables in local classes and override them with inline styles. This combines the benefits of CSS variables (theming, consistency) with CSS Module scoping. It's particularly useful for implementing theme switching and maintaining design tokens.",
+              },
+              {
+                question:
+                  "What happens when you compose classes that have conflicting styles?",
+                answer:
+                  "When composing classes with conflicting properties, both classes are applied to the element, and standard CSS specificity and cascade rules determine which styles win. If both classes have equal specificity, the last one in the source order wins. It's important to understand that composition doesn't merge styles—it adds both class names to the HTML element. Design your composition hierarchy carefully to avoid unexpected style conflicts.",
+              },
+              {
+                question: "How do CSS Modules handle animations and keyframes?",
+                answer:
+                  "Animations and keyframes in CSS Modules are automatically scoped just like classes. Define @keyframes in your module file and use them in local classes—the animation name is automatically namespaced. For global animations reusable across components, define them in :global { @keyframes name { } }. You can then reference global animations in local classes. This scoping prevents animation name conflicts while allowing both local and global animations as needed.",
+              },
+              {
+                question:
+                  "When should you use CSS Modules vs other styling solutions?",
+                answer:
+                  "Use CSS Modules when you want component-scoped styles with zero runtime overhead, need full CSS features (pseudo-classes, media queries, animations), prefer standard CSS syntax, want to use preprocessors, and don't need highly dynamic styles. Choose CSS-in-JS for maximum dynamism and component-based theming. Choose inline styles for simple dynamic values. Choose utility-first (Tailwind) for rapid prototyping and design consistency. CSS Modules offer the best balance of performance, features, and familiarity for most React applications.",
+              },
+            ],
+            links: [
+              "https://github.com/css-modules/css-modules",
+              "https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/",
+              "https://vitejs.dev/guide/features.html#css-modules",
+              "https://webpack.js.org/loaders/css-loader/#modules",
+              "https://github.com/css-modules/postcss-modules",
+              "https://www.npmjs.com/package/classnames",
+            ],
           },
           {
             topic: "Styled Components",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Styled Components",
+              "CSS-in-JS",
+              "Tagged Template Literals",
+              "Dynamic Styles",
+              "Theming",
+              "Server-Side Rendering",
+              "Component Styling",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Styled Components is a popular CSS-in-JS library that allows you to write actual CSS code to style React components using tagged template literals. It removes the mapping between components and styles, enabling you to write CSS directly in your JavaScript files while maintaining component-level scoping. Styled Components provides dynamic styling based on props, automatic vendor prefixing, unique class name generation, and powerful theming capabilities. Understanding Styled Components is essential for building modern, maintainable React applications with sophisticated styling requirements.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Installation and Basic Setup
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-bash">
+# Install styled-components
+npm install styled-components
+
+# Or with yarn
+yarn add styled-components
+
+# Optional: Install types for TypeScript
+npm install --save-dev @types/styled-components
+
+# Optional: Babel plugin for better debugging and SSR
+npm install --save-dev babel-plugin-styled-components
+</code></pre>
+</div>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Basic usage
+import styled from 'styled-components';
+
+// Create a styled component
+const Button = styled.button\`
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  
+  &:hover {
+    background-color: #0056b3;
+  }
+  
+  &:active {
+    background-color: #004085;
+  }
+  
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+\`;
+
+// Use it like a regular component
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button&gt;Click Me&lt;/Button&gt;
+      &lt;Button disabled&gt;Disabled&lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Styled components for any HTML element
+const Title = styled.h1\`
+  font-size: 2rem;
+  color: #333;
+\`;
+
+const Container = styled.div\`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+\`;
+
+const Link = styled.a\`
+  color: #007bff;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+\`;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Props-Based Dynamic Styling
+</h4>
+
+<p style="line-height: 1.75;">
+One of the most powerful features of Styled Components is the ability to adapt styles based on props using interpolation functions.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Basic prop interpolation
+const Button = styled.button\`
+  background-color: \${props => props.primary ? '#007bff' : '#6c757d'};
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: \${props => props.large ? '18px' : '14px'};
+  cursor: pointer;
+\`;
+
+// Usage
+&lt;Button primary&gt;Primary Button&lt;/Button&gt;
+&lt;Button large&gt;Large Button&lt;/Button&gt;
+&lt;Button primary large&gt;Primary Large Button&lt;/Button&gt;
+
+// Complex prop-based styling
+const Alert = styled.div\`
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  
+  background-color: \${props => {
+    switch (props.variant) {
+      case 'success': return '#d4edda';
+      case 'warning': return '#fff3cd';
+      case 'error': return '#f8d7da';
+      default: return '#d1ecf1';
+    }
+  }};
+  
+  color: \${props => {
+    switch (props.variant) {
+      case 'success': return '#155724';
+      case 'warning': return '#856404';
+      case 'error': return '#721c24';
+      default: return '#0c5460';
+    }
+  }};
+  
+  border: 1px solid \${props => {
+    switch (props.variant) {
+      case 'success': return '#c3e6cb';
+      case 'warning': return '#ffeaa7';
+      case 'error': return '#f5c6cb';
+      default: return '#bee5eb';
+    }
+  }};
+\`;
+
+// Usage
+&lt;Alert variant="success"&gt;Success message!&lt;/Alert&gt;
+&lt;Alert variant="error"&gt;Error message!&lt;/Alert&gt;
+
+// Using helper functions
+const getButtonSize = (size) => {
+  switch (size) {
+    case 'small': return { padding: '5px 10px', fontSize: '12px' };
+    case 'large': return { padding: '15px 30px', fontSize: '18px' };
+    default: return { padding: '10px 20px', fontSize: '14px' };
+  }
+};
+
+const SizedButton = styled.button\`
+  \${props => {
+    const { padding, fontSize } = getButtonSize(props.size);
+    return \`
+      padding: \${padding};
+      font-size: \${fontSize};
+    \`;
+  }}
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+\`;
+
+// Conditional CSS blocks
+const Card = styled.div\`
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  
+  \${props => props.elevated && \`
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: translateY(-5px);
+  \`}
+  
+  \${props => props.clickable && \`
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+  \`}
+\`;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Extending Styles
+</h4>
+
+<p style="line-height: 1.75;">
+Create new styled components based on existing ones by extending their styles.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Base button
+const Button = styled.button\`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+\`;
+
+// Extend base button
+const PrimaryButton = styled(Button)\`
+  background-color: #007bff;
+  color: white;
+  
+  &:hover {
+    background-color: #0056b3;
+  }
+\`;
+
+const DangerButton = styled(Button)\`
+  background-color: #dc3545;
+  color: white;
+  
+  &:hover {
+    background-color: #c82333;
+  }
+\`;
+
+const OutlineButton = styled(Button)\`
+  background-color: transparent;
+  color: #007bff;
+  border: 2px solid #007bff;
+  
+  &:hover {
+    background-color: #007bff;
+    color: white;
+  }
+\`;
+
+// Extending third-party components
+import { Link } from 'react-router-dom';
+
+const StyledLink = styled(Link)\`
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  
+  &:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+\`;
+
+// Usage
+&lt;StyledLink to="/about"&gt;About&lt;/StyledLink&gt;
+
+// Extending with different element
+const Button = styled.button\`
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+\`;
+
+// Render as an anchor tag but keep Button styles
+const LinkButton = Button.withComponent('a');
+
+// Or use 'as' prop
+&lt;Button as="a" href="/link"&gt;Link styled as Button&lt;/Button&gt;
+
+// Extending with prop modifications
+const ReversedButton = styled(Button)\`
+  background-color: \${props => props.primary ? '#6c757d' : '#007bff'};
+\`;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. The 'as' Polymorphic Prop
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+const Button = styled.button\`
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+\`;
+
+function App() {
+  return (
+    &lt;div&gt;
+      {/* Render as button */}
+      &lt;Button&gt;Button Element&lt;/Button&gt;
+      
+      {/* Render as anchor but with button styles */}
+      &lt;Button as="a" href="/link"&gt;Link Element&lt;/Button&gt;
+      
+      {/* Render as React Router Link */}
+      &lt;Button as={Link} to="/route"&gt;Router Link&lt;/Button&gt;
+      
+      {/* Render as custom component */}
+      &lt;Button as={CustomComponent}&gt;Custom&lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Practical example: Responsive heading
+const Heading = styled.h2\`
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+\`;
+
+function DynamicHeading({ level, children }) {
+  return &lt;Heading as={\`h\${level}\`}&gt;{children}&lt;/Heading&gt;;
+}
+
+// Usage
+&lt;DynamicHeading level={1}&gt;H1 Heading&lt;/DynamicHeading&gt;
+&lt;DynamicHeading level={3}&gt;H3 Heading&lt;/DynamicHeading&gt;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Theming with ThemeProvider
+</h4>
+
+<p style="line-height: 1.75;">
+Styled Components includes a ThemeProvider component for injecting themes into all styled components in the tree.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import styled, { ThemeProvider } from 'styled-components';
+
+// Define theme objects
+const lightTheme = {
+  colors: {
+    primary: '#007bff',
+    secondary: '#6c757d',
+    success: '#28a745',
+    danger: '#dc3545',
+    background: '#ffffff',
+    text: '#333333',
+    border: '#dee2e6'
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px'
+  },
+  fonts: {
+    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    heading: 'Georgia, serif'
+  },
+  borderRadius: '4px',
+  shadows: {
+    small: '0 2px 4px rgba(0,0,0,0.1)',
+    medium: '0 4px 8px rgba(0,0,0,0.15)',
+    large: '0 8px 16px rgba(0,0,0,0.2)'
+  }
+};
+
+const darkTheme = {
+  colors: {
+    primary: '#4dabf7',
+    secondary: '#868e96',
+    success: '#51cf66',
+    danger: '#ff6b6b',
+    background: '#1a1a1a',
+    text: '#f8f9fa',
+    border: '#495057'
+  },
+  spacing: lightTheme.spacing,
+  fonts: lightTheme.fonts,
+  borderRadius: lightTheme.borderRadius,
+  shadows: {
+    small: '0 2px 4px rgba(0,0,0,0.3)',
+    medium: '0 4px 8px rgba(0,0,0,0.4)',
+    large: '0 8px 16px rgba(0,0,0,0.5)'
+  }
+};
+
+// Use theme in styled components
+const Button = styled.button\`
+  background-color: \${props => props.theme.colors.primary};
+  color: white;
+  padding: \${props => props.theme.spacing.sm} \${props => props.theme.spacing.md};
+  border: none;
+  border-radius: \${props => props.theme.borderRadius};
+  font-family: \${props => props.theme.fonts.body};
+  cursor: pointer;
+  box-shadow: \${props => props.theme.shadows.small};
+  
+  &:hover {
+    filter: brightness(0.9);
+  }
+\`;
+
+const Container = styled.div\`
+  background-color: \${props => props.theme.colors.background};
+  color: \${props => props.theme.colors.text};
+  padding: \${props => props.theme.spacing.lg};
+  border: 1px solid \${props => props.theme.colors.border};
+  border-radius: \${props => props.theme.borderRadius};
+  min-height: 100vh;
+\`;
+
+// App with theme provider
+function App() {
+  const [isDark, setIsDark] = useState(false);
+  const theme = isDark ? darkTheme : lightTheme;
+  
+  return (
+    &lt;ThemeProvider theme={theme}&gt;
+      &lt;Container&gt;
+        &lt;h1&gt;Themed Application&lt;/h1&gt;
+        &lt;Button onClick={() => setIsDark(!isDark)}&gt;
+          Toggle Theme
+        &lt;/Button&gt;
+      &lt;/Container&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+
+// Access theme in regular components
+import { useTheme } from 'styled-components';
+
+function RegularComponent() {
+  const theme = useTheme();
+  
+  return (
+    &lt;div style={{ color: theme.colors.text }}&gt;
+      Using theme in regular component
+    &lt;/div&gt;
+  );
+}
+
+// Theme with TypeScript
+interface Theme {
+  colors: {
+    primary: string;
+    secondary: string;
+    background: string;
+    text: string;
+  };
+  spacing: {
+    sm: string;
+    md: string;
+    lg: string;
+  };
+}
+
+const Button = styled.button&lt;{ variant?: 'primary' | 'secondary' }&gt;\`
+  background-color: \${props => 
+    props.variant === 'secondary' 
+      ? props.theme.colors.secondary 
+      : props.theme.colors.primary
+  };
+\`;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Nesting and Pseudo-selectors
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pseudo-classes
+const Link = styled.a\`
+  color: #007bff;
+  text-decoration: none;
+  
+  &:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  
+  &:active {
+    color: #004085;
+  }
+  
+  &:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+  
+  &:visited {
+    color: #6c757d;
+  }
+\`;
+
+// Pseudo-elements
+const Quote = styled.blockquote\`
+  position: relative;
+  padding: 20px 40px;
+  font-style: italic;
+  
+  &::before {
+    content: '"';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 3rem;
+    color: #ccc;
+  }
+  
+  &::after {
+    content: '"';
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    font-size: 3rem;
+    color: #ccc;
+  }
+\`;
+
+// Targeting child elements
+const Card = styled.div\`
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  
+  h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  
+  p {
+    color: #666;
+    line-height: 1.6;
+  }
+  
+  img {
+    width: 100%;
+    border-radius: 4px;
+  }
+\`;
+
+// Referencing other styled components
+const Icon = styled.span\`
+  margin-right: 8px;
+  font-size: 1.2em;
+\`;
+
+const Button = styled.button\`
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  
+  \${Icon} {
+    color: yellow;
+  }
+  
+  &:hover \${Icon} {
+    transform: scale(1.2);
+  }
+\`;
+
+// Usage
+&lt;Button&gt;
+  &lt;Icon&gt;★&lt;/Icon&gt;
+  Click Me
+&lt;/Button&gt;
+
+// Sibling selectors
+const ListItem = styled.li\`
+  padding: 10px;
+  
+  & + & {
+    border-top: 1px solid #eee;
+  }
+  
+  &:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  
+  &:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  
+  &:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+\`;
+
+// Ampersand for complex selectors
+const Input = styled.input\`
+  padding: 8px;
+  border: 1px solid #ddd;
+  
+  .wrapper.active & {
+    border-color: #007bff;
+  }
+  
+  &[type="checkbox"] {
+    margin-right: 8px;
+  }
+  
+  &:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+  
+  &::placeholder {
+    color: #999;
+  }
+\`;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Animations and Keyframes
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import styled, { keyframes } from 'styled-components';
+
+// Define keyframes
+const fadeIn = keyframes\`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+\`;
+
+const spin = keyframes\`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+\`;
+
+const pulse = keyframes\`
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+\`;
+
+const slideIn = keyframes\`
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+\`;
+
+// Use animations in styled components
+const FadeInDiv = styled.div\`
+  animation: \${fadeIn} 0.5s ease-out;
+\`;
+
+const Spinner = styled.div\`
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: \${spin} 1s linear infinite;
+\`;
+
+const PulseButton = styled.button\`
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  animation: \${pulse} 2s ease-in-out infinite;
+\`;
+
+const SlideInModal = styled.div\`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  animation: \${slideIn} 0.3s ease-out;
+\`;
+
+// Conditional animations based on props
+const AnimatedBox = styled.div\`
+  \${props => props.animate && \`
+    animation: \${fadeIn} 0.5s ease-out;
+  \`}
+\`;
+
+// Multiple animations
+const ComplexAnimation = styled.div\`
+  animation: 
+    \${fadeIn} 0.5s ease-out,
+    \${pulse} 2s ease-in-out 0.5s infinite;
+\`;
+
+// Dynamic animation duration
+const DynamicSpinner = styled.div\`
+  animation: \${spin} \${props => props.speed || '1s'} linear infinite;
+\`;
+
+// Usage
+&lt;DynamicSpinner speed="0.5s" /&gt;
+
+// Transition helpers
+const Button = styled.button\`
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+\`;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Global Styles and createGlobalStyle
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { createGlobalStyle } from 'styled-components';
+
+// Define global styles
+const GlobalStyle = createGlobalStyle\`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: \${props => props.theme.colors.background};
+    color: \${props => props.theme.colors.text};
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: \${props => props.theme.colors.primary};
+    text-decoration: none;
+  }
+  
+  button {
+    font-family: inherit;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  code {
+    font-family: 'Monaco', 'Courier New', monospace;
+    background-color: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+\`;
+
+// Use in app
+function App() {
+  return (
+    &lt;ThemeProvider theme={theme}&gt;
+      &lt;GlobalStyle /&gt;
+      &lt;div&gt;
+        Your app content
+      &lt;/div&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+
+// Multiple global styles
+const ResetStyles = createGlobalStyle\`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+\`;
+
+const FontStyles = createGlobalStyle\`
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+\`;
+
+const PrintStyles = createGlobalStyle\`
+  @media print {
+    body {
+      color: black;
+      background: white;
+    }
+    
+    .no-print {
+      display: none !important;
+    }
+  }
+\`;
+
+function App() {
+  return (
+    &lt;&gt;
+      &lt;ResetStyles /&gt;
+      &lt;FontStyles /&gt;
+      &lt;PrintStyles /&gt;
+      &lt;AppContent /&gt;
+    &lt;/&gt;
+  );
+}
+
+// Global styles with props
+const ThemedGlobalStyle = createGlobalStyle\`
+  body {
+    background: \${props => props.isDark ? '#1a1a1a' : '#ffffff'};
+    color: \${props => props.isDark ? '#f8f9fa' : '#333333'};
+  }
+\`;
+
+function App() {
+  const [isDark, setIsDark] = useState(false);
+  
+  return (
+    &lt;&gt;
+      &lt;ThemedGlobalStyle isDark={isDark} /&gt;
+      &lt;button onClick={() => setIsDark(!isDark)}&gt;Toggle&lt;/button&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. CSS Helper and Advanced Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import styled, { css } from 'styled-components';
+
+// CSS helper for reusable style blocks
+const sharedStyles = css\`
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s;
+\`;
+
+const Button = styled.button\`
+  \${sharedStyles}
+  background: #007bff;
+  color: white;
+\`;
+
+const Card = styled.div\`
+  \${sharedStyles}
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+\`;
+
+// Conditional CSS blocks with props
+const dynamicStyles = css\`
+  \${props => props.large && \`
+    padding: 15px 30px;
+    font-size: 18px;
+  \`}
+  
+  \${props => props.outlined && \`
+    background: transparent;
+    border: 2px solid currentColor;
+  \`}
+\`;
+
+const FlexibleButton = styled.button\`
+  \${sharedStyles}
+  \${dynamicStyles}
+  background: #007bff;
+  color: white;
+\`;
+
+// Mixins with parameters
+const truncate = (width = '250px') => css\`
+  width: \${width};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+\`;
+
+const boxShadow = (depth = 1) => css\`
+  box-shadow: 0 \${depth * 2}px \${depth * 4}px rgba(0,0,0,\${depth * 0.1});
+\`;
+
+const Text = styled.p\`
+  \${truncate('200px')}
+\`;
+
+const ElevatedCard = styled.div\`
+  \${boxShadow(3)}
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+\`;
+
+// Media query helpers
+const sizes = {
+  mobile: '576px',
+  tablet: '768px',
+  desktop: '1024px',
+  wide: '1440px'
+};
+
+const media = {
+  mobile: (...args) => css\`
+    @media (min-width: \${sizes.mobile}) {
+      \${css(...args)}
+    }
+  \`,
+  tablet: (...args) => css\`
+    @media (min-width: \${sizes.tablet}) {
+      \${css(...args)}
+    }
+  \`,
+  desktop: (...args) => css\`
+    @media (min-width: \${sizes.desktop}) {
+      \${css(...args)}
+    }
+  \`,
+  wide: (...args) => css\`
+    @media (min-width: \${sizes.wide}) {
+      \${css(...args)}
+    }
+  \`
+};
+
+const ResponsiveGrid = styled.div\`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  
+  \${media.tablet\`
+    grid-template-columns: repeat(2, 1fr);
+  \`}
+  
+  \${media.desktop\`
+    grid-template-columns: repeat(3, 1fr);
+  \`}
+  
+  \${media.wide\`
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  \`}
+\`;
+
+// Attribute helpers
+const Input = styled.input.attrs(props => ({
+  type: props.type || 'text',
+  placeholder: props.placeholder || 'Enter text...'
+}))\`
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+\`;
+
+// Dynamic attributes based on props
+const RotatingDiv = styled.div.attrs(props => ({
+  style: {
+    transform: \`rotate(\${props.rotation}deg)\`
+  }
+}))\`
+  width: 100px;
+  height: 100px;
+  background: #007bff;
+  transition: transform 0.3s;
+\`;
+
+// Usage
+&lt;RotatingDiv rotation={45} /&gt;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. TypeScript Integration
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-typescript">
+import styled from 'styled-components';
+
+// Define props interface
+interface ButtonProps {
+  primary?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+}
+
+// Typed styled component
+const Button = styled.button&lt;ButtonProps&gt;\`
+  padding: \${props => {
+    switch (props.size) {
+      case 'small': return '5px 10px';
+      case 'large': return '15px 30px';
+      default: return '10px 20px';
+    }
+  }};
+  
+  background-color: \${props => props.primary ? '#007bff' : '#6c757d'};
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: \${props => props.disabled ? 'not-allowed' : 'pointer'};
+  opacity: \${props => props.disabled ? 0.6 : 1};
+\`;
+
+// Usage with type checking
+&lt;Button primary size="large"&gt;Click Me&lt;/Button&gt;
+&lt;Button size="small" disabled&gt;Disabled&lt;/Button&gt;
+
+// Extending styled component with additional props
+interface ExtendedButtonProps extends ButtonProps {
+  variant?: 'outlined' | 'contained';
+}
+
+const ExtendedButton = styled(Button)&lt;ExtendedButtonProps&gt;\`
+  \${props => props.variant === 'outlined' && \`
+    background-color: transparent;
+    border: 2px solid currentColor;
+  \`}
+\`;
+
+// Theme typing
+interface Theme {
+  colors: {
+    primary: string;
+    secondary: string;
+    background: string;
+    text: string;
+  };
+  spacing: {
+    sm: string;
+    md: string;
+    lg: string;
+  };
+  borderRadius: string;
+}
+
+// Declare theme type
+declare module 'styled-components' {
+  export interface DefaultTheme extends Theme {}
+}
+
+// Now theme is fully typed
+const ThemedButton = styled.button\`
+  background-color: \${props => props.theme.colors.primary};
+  padding: \${props => props.theme.spacing.md};
+  border-radius: \${props => props.theme.borderRadius};
+\`;
+
+// Generic styled component
+interface ContainerProps&lt;T = any&gt; {
+  data?: T;
+  variant?: string;
+}
+
+const Container = styled.div&lt;ContainerProps&gt;\`
+  padding: 20px;
+  background: \${props => props.variant === 'dark' ? '#333' : '#fff'};
+\`;
+
+// With forwardRef
+interface InputProps {
+  error?: boolean;
+}
+
+const Input = styled.input&lt;InputProps&gt;\`
+  border: 1px solid \${props => props.error ? 'red' : '#ddd'};
+  padding: 8px;
+\`;
+
+const ForwardedInput = React.forwardRef&lt;HTMLInputElement, InputProps&gt;(
+  (props, ref) => &lt;Input ref={ref} {...props} /&gt;
+);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Server-Side Rendering (SSR)
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+
+// Next.js example
+// pages/_document.js
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
+
+export default class MyDocument extends Document {
+  static async getInitialProps(ctx) {
+    const sheet = new ServerStyleSheet();
+    const originalRenderPage = ctx.renderPage;
+
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(&lt;App {...props} /&gt;),
+        });
+
+      const initialProps = await Document.getInitialProps(ctx);
+      return {
+        ...initialProps,
+        styles: (
+          &lt;&gt;
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          &lt;/&gt;
+        ),
+      };
+    } finally {
+      sheet.seal();
+    }
+  }
+
+  render() {
+    return (
+      &lt;Html&gt;
+        &lt;Head /&gt;
+        &lt;body&gt;
+          &lt;Main /&gt;
+          &lt;NextScript /&gt;
+        &lt;/body&gt;
+      &lt;/Html&gt;
+    );
+  }
+}
+
+// Express SSR example
+import express from 'express';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
+
+const app = express();
+
+app.get('/', (req, res) => {
+  const sheet = new ServerStyleSheet();
+  
+  try {
+    const html = renderToString(
+      sheet.collectStyles(&lt;App /&gt;)
+    );
+    
+    const styleTags = sheet.getStyleTags();
+    
+    res.send(\`
+      &lt;!DOCTYPE html&gt;
+      &lt;html&gt;
+        &lt;head&gt;
+          \${styleTags}
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;div id="root"&gt;\${html}&lt;/div&gt;
+        &lt;/body&gt;
+      &lt;/html&gt;
+    \`);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    sheet.seal();
+  }
+});
+
+// Streaming SSR
+import { renderToNodeStream } from 'react-dom/server';
+
+app.get('/stream', (req, res) => {
+  const sheet = new ServerStyleSheet();
+  
+  res.write('&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;');
+  
+  const stream = sheet.interleaveWithNodeStream(
+    renderToNodeStream(
+      sheet.collectStyles(&lt;App /&gt;)
+    )
+  );
+  
+  stream.pipe(res, { end: false });
+  stream.on('end', () => {
+    res.write('&lt;/html&gt;');
+    res.end();
+  });
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Performance Optimization
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Bad: Creating styled components inside render
+function BadComponent() {
+  const Button = styled.button\`
+    background: #007bff;
+  \`; // Creates new component on every render!
+  
+  return &lt;Button&gt;Click&lt;/Button&gt;;
+}
+
+// Good: Define outside component
+const Button = styled.button\`
+  background: #007bff;
+\`;
+
+function GoodComponent() {
+  return &lt;Button&gt;Click&lt;/Button&gt;;
+}
+
+// Bad: Passing objects as props
+function BadDynamic() {
+  return &lt;StyledComponent style={{ color: 'red' }} /&gt;; // New object every render
+}
+
+// Good: Use styled-components props
+const DynamicComponent = styled.div\`
+  color: \${props => props.color};
+\`;
+
+function GoodDynamic() {
+  return &lt;DynamicComponent color="red" /&gt;;
+}
+
+// Memoization for expensive computations
+const ExpensiveComponent = styled.div\`
+  \${props => {
+    // Expensive calculation
+    const computedValue = expensiveFunction(props.data);
+    return \`
+      background: \${computedValue};
+    \`;
+  }}
+\`;
+
+// Better: Memoize in component
+function OptimizedComponent({ data }) {
+  const computedValue = useMemo(() => expensiveFunction(data), [data]);
+  
+  return &lt;SimpleComponent bg={computedValue} /&gt;;
+}
+
+const SimpleComponent = styled.div\`
+  background: \${props => props.bg};
+\`;
+
+// Use attrs for frequently changing props
+const ScrollContainer = styled.div.attrs(props => ({
+  style: {
+    transform: \`translateY(\${props.scrollY}px)\`
+  }
+}))\`
+  width: 100%;
+  transition: transform 0.1s;
+\`;
+
+// This prevents re-rendering of styled component
+
+// Bundle size optimization: Import only what you need
+import styled from 'styled-components'; // Good
+import { ThemeProvider } from 'styled-components'; // Even better for tree-shaking
+
+// Use the babel plugin for better debugging and smaller bundles
+// .babelrc
+{
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "displayName": true,
+        "fileName": true,
+        "ssr": true,
+        "minify": true,
+        "transpileTemplateLiterals": true,
+        "pure": true
+      }
+    ]
+  ]
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Testing Styled Components
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen } from '@testing-library/react';
+import { ThemeProvider } from 'styled-components';
+import 'jest-styled-components';
+
+const theme = {
+  colors: {
+    primary: '#007bff'
+  }
+};
+
+// Test basic rendering
+test('renders button', () => {
+  render(&lt;Button&gt;Click Me&lt;/Button&gt;);
+  expect(screen.getByText('Click Me')).toBeInTheDocument();
+});
+
+// Test with theme
+test('uses theme color', () => {
+  const { container } = render(
+    &lt;ThemeProvider theme={theme}&gt;
+      &lt;Button primary&gt;Click Me&lt;/Button&gt;
+    &lt;/ThemeProvider&gt;
+  );
+  
+  const button = container.firstChild;
+  expect(button).toHaveStyleRule('background-color', theme.colors.primary);
+});
+
+// Test conditional styles
+test('applies large styles when large prop is true', () => {
+  const { container } = render(&lt;Button large&gt;Click Me&lt;/Button&gt;);
+  const button = container.firstChild;
+  
+  expect(button).toHaveStyleRule('padding', '15px 30px');
+  expect(button).toHaveStyleRule('font-size', '18px');
+});
+
+// Test pseudo-classes
+test('changes color on hover', () => {
+  const { container } = render(&lt;Button&gt;Click Me&lt;/Button&gt;);
+  const button = container.firstChild;
+  
+  expect(button).toHaveStyleRule('background-color', '#0056b3', {
+    modifier: ':hover'
+  });
+});
+
+// Test media queries
+test('applies responsive styles', () => {
+  const { container } = render(&lt;ResponsiveGrid /&gt;);
+  const grid = container.firstChild;
+  
+  expect(grid).toHaveStyleRule('grid-template-columns', 'repeat(2, 1fr)', {
+    media: '(min-width: 768px)'
+  });
+});
+
+// Snapshot testing
+test('matches snapshot', () => {
+  const { container } = render(
+    &lt;ThemeProvider theme={theme}&gt;
+      &lt;Button primary large&gt;Click Me&lt;/Button&gt;
+    &lt;/ThemeProvider&gt;
+  );
+  
+  expect(container.firstChild).toMatchSnapshot();
+});
+
+// Test with custom render function
+const renderWithTheme = (component, theme) => {
+  return render(
+    &lt;ThemeProvider theme={theme}&gt;
+      {component}
+    &lt;/ThemeProvider&gt;
+  );
+};
+
+test('renders with custom theme', () => {
+  const customTheme = { colors: { primary: 'red' } };
+  const { container } = renderWithTheme(&lt;Button primary /&gt;, customTheme);
+  
+  expect(container.firstChild).toHaveStyleRule('background-color', 'red');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+14. Common Patterns and Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Define styled components outside of render functions</li>
+  <li><b>DO:</b> Use the css helper for reusable style blocks</li>
+  <li><b>DO:</b> Leverage theming for consistent design systems</li>
+  <li><b>DO:</b> Use attrs for frequently changing props to prevent re-renders</li>
+  <li><b>DO:</b> Install the Babel plugin for better debugging and SSR</li>
+  <li><b>DON'T:</b> Create styled components inside component functions</li>
+  <li><b>DON'T:</b> Overuse nesting (keep it readable)</li>
+  <li><b>DON'T:</b> Mix styled-components with other CSS solutions in the same component</li>
+  <li><b>DON'T:</b> Ignore TypeScript types for better development experience</li>
+  <li><b>DON'T:</b> Forget to configure SSR for Next.js or other SSR frameworks</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+15. Styled Components vs Alternatives
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Styled Components
+// Pros: Component-scoped, dynamic, full CSS features, theming, great DX
+// Cons: Runtime overhead, larger bundle, requires build setup
+const Button = styled.button\`
+  background: #007bff;
+  color: white;
+  &:hover { background: #0056b3; }
+\`;
+
+// CSS Modules
+// Pros: Zero runtime, standard CSS, works with preprocessors
+// Cons: Separate files, less dynamic, manual class composition
+import styles from './Button.module.css';
+&lt;button className={styles.button}&gt;Click&lt;/button&gt;
+
+// Emotion
+// Pros: Similar to SC but smaller bundle, better performance
+// Cons: Different API, less popular
+import { css } from '@emotion/react';
+&lt;button css={css\`background: #007bff;\`}&gt;Click&lt;/button&gt;
+
+// Tailwind CSS
+// Pros: Utility-first, fast development, small final bundle
+// Cons: Verbose HTML, learning curve, requires PostCSS
+&lt;button className="bg-blue-500 text-white px-4 py-2"&gt;Click&lt;/button&gt;
+
+// Inline Styles
+// Pros: Fully dynamic, no build step, simple
+// Cons: No pseudo-classes, no media queries, verbose
+&lt;button style={{ background: '#007bff', color: 'white' }}&gt;Click&lt;/button&gt;
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Themed Button Component System",
+              "Responsive Navigation Menu",
+              "Animated Modal with Transitions",
+              "Form Components with Validation",
+              "Dashboard with Dark Mode Toggle",
+              "Card Grid with Hover Effects",
+            ],
+            questions: [
+              {
+                question:
+                  "What are Styled Components and how do they differ from traditional CSS?",
+                answer:
+                  "Styled Components is a CSS-in-JS library that uses tagged template literals to write CSS directly in JavaScript. Unlike traditional CSS, styled components automatically scope styles to the component, generate unique class names, support dynamic styling based on props, enable theming, and eliminate the mapping between components and styles. They provide full CSS features (pseudo-classes, media queries, animations) while keeping styles component-scoped and maintainable.",
+              },
+              {
+                question:
+                  "How do you create dynamic styles based on props in Styled Components?",
+                answer:
+                  "Use interpolation functions within the template literal: ${props => props.primary ? '#007bff' : '#6c757d'}. You can access any prop and return CSS values. For complex logic, extract to helper functions or use the css helper for conditional style blocks. Props are fully typed with TypeScript, and you can use ternaries, switches, or any JavaScript expression to compute styles dynamically.",
+              },
+              {
+                question:
+                  "What is the purpose of the ThemeProvider and how does theming work?",
+                answer:
+                  "ThemeProvider is a context provider that injects a theme object into all styled components in the tree. Define theme objects with colors, spacing, fonts, etc., wrap your app in ThemeProvider, and access theme values via props.theme in styled components. This enables consistent design systems, easy theme switching (light/dark mode), and centralized design token management. The useTheme hook provides theme access in regular components.",
+              },
+              {
+                question: "How do you extend existing styled components?",
+                answer:
+                  "Use styled(ExistingComponent) to create a new styled component that inherits styles from the existing one. You can add new styles or override existing ones. This works with other styled components, third-party components, or any component that accepts a className prop. Use the 'as' prop to change the rendered element while keeping styles, or withComponent() for permanent element changes.",
+              },
+              {
+                question:
+                  "What is the 'css' helper and when should you use it?",
+                answer:
+                  "The css helper from styled-components creates reusable style blocks that can be shared across components. Use it for mixins, conditional style blocks based on props, media query helpers, or any styles you want to reuse. It returns a CSS object that can be interpolated into styled components. It's especially useful for creating style utilities and maintaining DRY principles while keeping styles dynamic and prop-aware.",
+              },
+              {
+                question:
+                  "How do animations and keyframes work in Styled Components?",
+                answer:
+                  "Import keyframes from styled-components to create animations: const fadeIn = keyframes`from { opacity: 0 } to { opacity: 1 }`. Use the keyframe in styled components via interpolation: animation: ${fadeIn} 0.5s ease-out. Keyframes are automatically scoped and get unique names to prevent conflicts. You can make animations dynamic based on props, create animation libraries, and combine multiple animations.",
+              },
+              {
+                question:
+                  "What is createGlobalStyle and when should you use it?",
+                answer:
+                  "createGlobalStyle creates a component that injects global styles into the document when rendered. Use it for CSS resets, body styles, font imports, or any truly global styles that shouldn't be component-scoped. It can access theme values via props.theme and supports all CSS features. Render it once at the app root, and it automatically injects/removes styles when mounted/unmounted.",
+              },
+              {
+                question:
+                  "How does Server-Side Rendering (SSR) work with Styled Components?",
+                answer:
+                  "Use ServerStyleSheet to collect styles during SSR. Create a sheet, wrap your app in sheet.collectStyles(), render to string, then extract styles with sheet.getStyleTags() or sheet.getStyleElement() and inject into the HTML head. Finally, call sheet.seal() to free resources. This ensures styles are available on initial page load, preventing flash of unstyled content (FOUC). Different frameworks (Next.js, Gatsby) have specific integration patterns.",
+              },
+              {
+                question:
+                  "What performance considerations should you keep in mind with Styled Components?",
+                answer:
+                  "Never define styled components inside render functions (creates new component every render). Use attrs for frequently changing props to avoid re-rendering. Install the Babel plugin for better optimization and smaller bundles. Avoid passing objects as props (creates new references). Memoize expensive style computations. Be mindful of bundle size impact (~15kb gzipped). For critical performance needs, consider CSS Modules or zero-runtime solutions.",
+              },
+              {
+                question:
+                  "How do you handle media queries in Styled Components?",
+                answer:
+                  "Write media queries directly in styled components using standard CSS syntax. Create helper functions using the css helper to make responsive styles reusable and maintainable. Define breakpoint constants and media query templates that can be interpolated across components. This keeps responsive logic close to components while maintaining DRY principles. Media queries work exactly like standard CSS but with the benefits of JavaScript templating.",
+              },
+              {
+                question: "What is the 'attrs' method and why is it useful?",
+                answer:
+                  "attrs() defines default props or attributes for a styled component. It's useful for setting default HTML attributes, preventing re-renders when passing frequently changing props (like style objects), or computing props once instead of on every render. Attributes from attrs are passed directly to the DOM, while interpolated props go through styled-component's style generation. This optimization can significantly improve performance for dynamic components.",
+              },
+              {
+                question:
+                  "How do you test components styled with Styled Components?",
+                answer:
+                  "Use jest-styled-components for enhanced testing capabilities. Use toHaveStyleRule() matcher to test applied styles, wrap tests in ThemeProvider for theme-dependent tests, test conditional styles by checking different prop combinations, snapshot test rendered output, and use modifier option to test pseudo-classes and media queries. Testing library integration works seamlessly, and you can test both rendered output and style application.",
+              },
+              {
+                question:
+                  "How does TypeScript integration work with Styled Components?",
+                answer:
+                  "Define prop interfaces and use generic syntax: styled.button<ButtonProps>. Install @types/styled-components for type definitions. Extend DefaultTheme interface to type your theme. Props are fully typed and checked at compile time. TypeScript provides autocomplete for theme values, catches invalid prop usage, and ensures type safety across your styled components. You can use union types, generics, and all TypeScript features for robust type safety.",
+              },
+              {
+                question:
+                  "What is the difference between component selectors and string selectors?",
+                answer:
+                  "Component selectors reference other styled components directly (${Icon} { color: red; }), creating a dependency relationship that styled-components manages. String selectors use traditional CSS selectors (.classname { }). Component selectors are type-safe, refactor-friendly, and automatically updated when components change. String selectors are more flexible but lose type safety and require manual class name management. Prefer component selectors for internal component relationships.",
+              },
+              {
+                question:
+                  "When should you use Styled Components vs other styling solutions?",
+                answer:
+                  "Use Styled Components when you need component-scoped styles with full CSS features, dynamic styling based on props/state, powerful theming capabilities, or when building a design system. It's ideal for applications where styling logic is complex and tightly coupled to component logic. Avoid it for static sites where runtime overhead matters, simple projects where inline styles suffice, or when you need the smallest possible bundle size (use CSS Modules or Tailwind instead).",
+              },
+            ],
+            links: [
+              "https://styled-components.com/",
+              "https://styled-components.com/docs/basics",
+              "https://styled-components.com/docs/advanced",
+              "https://styled-components.com/docs/api",
+              "https://github.com/styled-components/styled-components",
+              "https://www.npmjs.com/package/babel-plugin-styled-components",
+            ],
           },
           {
             topic: "State Lifting",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "State Lifting",
+              "State Management",
+              "Component Communication",
+              "Props",
+              "Shared State",
+              "Parent-Child Communication",
+              "Unidirectional Data Flow",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+State lifting is a fundamental React pattern where you move state from child components up to their closest common ancestor, allowing multiple components to share and synchronize the same state. This pattern is essential when two or more components need to reflect the same changing data. By lifting state to a common parent, you create a single source of truth that flows down through props, maintaining React's unidirectional data flow. Understanding state lifting is crucial for managing component communication, building coordinated UIs, and creating maintainable React applications.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Concept and Problem Statement
+</h4>
+
+<p style="line-height: 1.75;">
+State lifting addresses the problem of sibling components needing to share state. Since data flows down in React, siblings can't directly communicate.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: Two components need to stay in sync
+// Component A and Component B are siblings that need to share data
+
+// Before State Lifting - Components can't communicate
+function ComponentA() {
+  const [value, setValue] = useState('');
+  // How does ComponentB know about this value?
+  return &lt;input value={value} onChange={(e) => setValue(e.target.value)} /&gt;;
+}
+
+function ComponentB() {
+  // How do we access ComponentA's value here?
+  return &lt;div&gt;Value from A: ???&lt;/div&gt;;
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;ComponentA /&gt;
+      &lt;ComponentB /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// After State Lifting - State lives in common parent
+function ComponentA({ value, onChange }) {
+  return &lt;input value={value} onChange={(e) => onChange(e.target.value)} /&gt;;
+}
+
+function ComponentB({ value }) {
+  return &lt;div&gt;Value from A: {value}&lt;/div&gt;;
+}
+
+function App() {
+  const [value, setValue] = useState(''); // State lifted to parent
+  
+  return (
+    &lt;div&gt;
+      &lt;ComponentA value={value} onChange={setValue} /&gt;
+      &lt;ComponentB value={value} /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<p style="line-height: 1.75; margin-top: 1rem;">
+<b>Key Principle:</b> When multiple components need to reflect the same changing data, lift the state to their closest common ancestor.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Step-by-Step State Lifting Process
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Step 1: Identify components that need shared state
+// Temperature inputs that should stay synchronized
+
+// Initial: Each component has its own state (not synchronized)
+function CelsiusInput() {
+  const [temperature, setTemperature] = useState('');
+  
+  return (
+    &lt;div&gt;
+      &lt;label&gt;Celsius: &lt;/label&gt;
+      &lt;input 
+        value={temperature} 
+        onChange={(e) => setTemperature(e.target.value)} 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function FahrenheitInput() {
+  const [temperature, setTemperature] = useState('');
+  
+  return (
+    &lt;div&gt;
+      &lt;label&gt;Fahrenheit: &lt;/label&gt;
+      &lt;input 
+        value={temperature} 
+        onChange={(e) => setTemperature(e.target.value)} 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Step 2: Remove state from child components
+// Step 3: Add props to receive state and callbacks
+function CelsiusInput({ temperature, onTemperatureChange }) {
+  return (
+    &lt;div&gt;
+      &lt;label&gt;Celsius: &lt;/label&gt;
+      &lt;input 
+        value={temperature} 
+        onChange={(e) => onTemperatureChange(e.target.value)} 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function FahrenheitInput({ temperature, onTemperatureChange }) {
+  return (
+    &lt;div&gt;
+      &lt;label&gt;Fahrenheit: &lt;/label&gt;
+      &lt;input 
+        value={temperature} 
+        onChange={(e) => onTemperatureChange(e.target.value)} 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Step 4: Move state to common parent
+// Step 5: Pass state and handlers down as props
+function TemperatureCalculator() {
+  const [temperature, setTemperature] = useState('');
+  const [scale, setScale] = useState('celsius');
+  
+  const handleCelsiusChange = (temp) => {
+    setScale('celsius');
+    setTemperature(temp);
+  };
+  
+  const handleFahrenheitChange = (temp) => {
+    setScale('fahrenheit');
+    setTemperature(temp);
+  };
+  
+  // Convert temperatures
+  const celsius = scale === 'fahrenheit' 
+    ? ((parseFloat(temperature) - 32) * 5 / 9).toFixed(2)
+    : temperature;
+    
+  const fahrenheit = scale === 'celsius'
+    ? ((parseFloat(temperature) * 9 / 5) + 32).toFixed(2)
+    : temperature;
+  
+  return (
+    &lt;div&gt;
+      &lt;CelsiusInput 
+        temperature={celsius} 
+        onTemperatureChange={handleCelsiusChange} 
+      /&gt;
+      &lt;FahrenheitInput 
+        temperature={fahrenheit} 
+        onTemperatureChange={handleFahrenheitChange} 
+      /&gt;
+      &lt;BoilingVerdict celsius={parseFloat(celsius)} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function BoilingVerdict({ celsius }) {
+  if (celsius >= 100) {
+    return &lt;p&gt;The water would boil.&lt;/p&gt;;
+  }
+  return &lt;p&gt;The water would not boil.&lt;/p&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Common Patterns and Use Cases
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Synchronized Inputs
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Multiple inputs that need to stay synchronized
+function SearchBox({ query, onQueryChange }) {
+  return (
+    &lt;input 
+      type="text"
+      value={query}
+      onChange={(e) => onQueryChange(e.target.value)}
+      placeholder="Search..."
+    /&gt;
+  );
+}
+
+function SearchResults({ query }) {
+  const results = useSearchResults(query); // Custom hook
+  
+  return (
+    &lt;ul&gt;
+      {results.map(result => (
+        &lt;li key={result.id}&gt;{result.title}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+function SearchSummary({ query, resultCount }) {
+  return &lt;p&gt;Found {resultCount} results for "{query}"&lt;/p&gt;;
+}
+
+function SearchPage() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const results = useSearchResults(searchQuery);
+  
+  return (
+    &lt;div&gt;
+      &lt;SearchBox query={searchQuery} onQueryChange={setSearchQuery} /&gt;
+      &lt;SearchSummary query={searchQuery} resultCount={results.length} /&gt;
+      &lt;SearchResults query={searchQuery} /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Coordinated UI Components
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Tab navigation with coordinated content display
+function TabButton({ label, isActive, onClick }) {
+  return (
+    &lt;button
+      onClick={onClick}
+      style={{
+        backgroundColor: isActive ? '#007bff' : '#f0f0f0',
+        color: isActive ? 'white' : '#333'
+      }}
+    &gt;
+      {label}
+    &lt;/button&gt;
+  );
+}
+
+function TabContent({ children, isActive }) {
+  if (!isActive) return null;
+  return &lt;div&gt;{children}&lt;/div&gt;;
+}
+
+function TabPanel() {
+  const [activeTab, setActiveTab] = useState('profile');
+  
+  return (
+    &lt;div&gt;
+      &lt;div&gt;
+        &lt;TabButton 
+          label="Profile" 
+          isActive={activeTab === 'profile'}
+          onClick={() => setActiveTab('profile')}
+        /&gt;
+        &lt;TabButton 
+          label="Settings" 
+          isActive={activeTab === 'settings'}
+          onClick={() => setActiveTab('settings')}
+        /&gt;
+        &lt;TabButton 
+          label="Activity" 
+          isActive={activeTab === 'activity'}
+          onClick={() => setActiveTab('activity')}
+        /&gt;
+      &lt;/div&gt;
+      
+      &lt;TabContent isActive={activeTab === 'profile'}&gt;
+        &lt;h2&gt;Profile&lt;/h2&gt;
+        &lt;p&gt;Profile content...&lt;/p&gt;
+      &lt;/TabContent&gt;
+      
+      &lt;TabContent isActive={activeTab === 'settings'}&gt;
+        &lt;h2&gt;Settings&lt;/h2&gt;
+        &lt;p&gt;Settings content...&lt;/p&gt;
+      &lt;/TabContent&gt;
+      
+      &lt;TabContent isActive={activeTab === 'activity'}&gt;
+        &lt;h2&gt;Activity&lt;/h2&gt;
+        &lt;p&gt;Activity content...&lt;/p&gt;
+      &lt;/TabContent&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Form State Management
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Form with multiple inputs and validation
+function NameInput({ value, onChange, error }) {
+  return (
+    &lt;div&gt;
+      &lt;label&gt;Name:&lt;/label&gt;
+      &lt;input 
+        value={value} 
+        onChange={(e) => onChange(e.target.value)}
+        style={{ borderColor: error ? 'red' : '#ddd' }}
+      /&gt;
+      {error && &lt;span style={{ color: 'red' }}&gt;{error}&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+}
+
+function EmailInput({ value, onChange, error }) {
+  return (
+    &lt;div&gt;
+      &lt;label&gt;Email:&lt;/label&gt;
+      &lt;input 
+        type="email"
+        value={value} 
+        onChange={(e) => onChange(e.target.value)}
+        style={{ borderColor: error ? 'red' : '#ddd' }}
+      /&gt;
+      {error && &lt;span style={{ color: 'red' }}&gt;{error}&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+}
+
+function FormSummary({ name, email, isValid }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Form Summary&lt;/h3&gt;
+      &lt;p&gt;Name: {name || 'Not provided'}&lt;/p&gt;
+      &lt;p&gt;Email: {email || 'Not provided'}&lt;/p&gt;
+      &lt;p&gt;Status: {isValid ? '✓ Valid' : '✗ Invalid'}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+function RegistrationForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: ''
+  });
+  
+  const [errors, setErrors] = useState({
+    name: '',
+    email: ''
+  });
+  
+  const handleNameChange = (value) => {
+    setFormData(prev => ({ ...prev, name: value }));
+    setErrors(prev => ({ 
+      ...prev, 
+      name: value.length < 2 ? 'Name must be at least 2 characters' : '' 
+    }));
+  };
+  
+  const handleEmailChange = (value) => {
+    setFormData(prev => ({ ...prev, email: value }));
+    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+    setErrors(prev => ({ 
+      ...prev, 
+      email: emailRegex.test(value) ? '' : 'Invalid email format' 
+    }));
+  };
+  
+  const isValid = formData.name && formData.email && !errors.name && !errors.email;
+  
+  return (
+    &lt;form&gt;
+      &lt;NameInput 
+        value={formData.name} 
+        onChange={handleNameChange}
+        error={errors.name}
+      /&gt;
+      &lt;EmailInput 
+        value={formData.email} 
+        onChange={handleEmailChange}
+        error={errors.email}
+      /&gt;
+      &lt;FormSummary 
+        name={formData.name}
+        email={formData.email}
+        isValid={isValid}
+      /&gt;
+      &lt;button type="submit" disabled={!isValid}&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Lifting State Multiple Levels
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Sometimes state needs to be lifted through multiple levels
+// Shopping cart example with deeply nested components
+
+// Leaf component (product card)
+function ProductCard({ product, onAddToCart }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{product.name}&lt;/h3&gt;
+      &lt;p&gt;${product.price}&lt;/p&gt;
+      &lt;button onClick={() => onAddToCart(product)}&gt;Add to Cart&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Mid-level component (product list)
+function ProductList({ products, onAddToCart }) {
+  return (
+    &lt;div&gt;
+      {products.map(product => (
+        &lt;ProductCard 
+          key={product.id}
+          product={product}
+          onAddToCart={onAddToCart}
+        /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// Another mid-level component (cart summary)
+function CartSummary({ items, total }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Cart ({items.length} items)&lt;/h3&gt;
+      &lt;p&gt;Total: ${total.toFixed(2)}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Top-level component (holds the state)
+function Shop() {
+  const [cart, setCart] = useState([]);
+  const products = useProducts(); // Fetch products
+  
+  const addToCart = (product) => {
+    setCart(prev => {
+      const existing = prev.find(item => item.id === product.id);
+      if (existing) {
+        return prev.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
+  };
+  
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  
+  return (
+    &lt;div&gt;
+      &lt;CartSummary items={cart} total={total} /&gt;
+      &lt;ProductList products={products} onAddToCart={addToCart} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Problem: Too much prop drilling
+// Solution options:
+// 1. Context API for widely-used state
+// 2. State management library (Redux, Zustand)
+// 3. Component composition to reduce nesting
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. State Lifting vs Prop Drilling
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// State lifting can lead to prop drilling
+// When state is needed far down the tree, props must be passed through many levels
+
+// Example: User authentication state
+function App() {
+  const [user, setUser] = useState(null);
+  
+  return &lt;Layout user={user} setUser={setUser} /&gt;;
+}
+
+function Layout({ user, setUser }) {
+  return (
+    &lt;div&gt;
+      &lt;Header user={user} setUser={setUser} /&gt;
+      &lt;Main user={user} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Header({ user, setUser }) {
+  return (
+    &lt;header&gt;
+      &lt;Navigation user={user} setUser={setUser} /&gt;
+    &lt;/header&gt;
+  );
+}
+
+function Navigation({ user, setUser }) {
+  return user ? (
+    &lt;UserMenu user={user} onLogout={() => setUser(null)} /&gt;
+  ) : (
+    &lt;LoginButton onClick={...} /&gt;
+  );
+}
+
+// Solution 1: Context API
+const UserContext = createContext(null);
+
+function App() {
+  const [user, setUser] = useState(null);
+  
+  return (
+    &lt;UserContext.Provider value={{ user, setUser }}&gt;
+      &lt;Layout /&gt;
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+function Navigation() {
+  const { user, setUser } = useContext(UserContext);
+  // No prop drilling needed!
+}
+
+// Solution 2: Component composition
+function App() {
+  const [user, setUser] = useState(null);
+  
+  return (
+    &lt;Layout
+      header={&lt;Header user={user} setUser={setUser} /&gt;}
+      main={&lt;Main user={user} /&gt;}
+    /&gt;
+  );
+}
+
+function Layout({ header, main }) {
+  // Doesn't need to know about user
+  return (
+    &lt;div&gt;
+      {header}
+      {main}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Managing Multiple Related States
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// When lifting state, often multiple related states need to move together
+function FilterDropdown({ value, onChange, options }) {
+  return (
+    &lt;select value={value} onChange={(e) => onChange(e.target.value)}&gt;
+      {options.map(opt => (
+        &lt;option key={opt.value} value={opt.value}&gt;{opt.label}&lt;/option&gt;
+      ))}
+    &lt;/select&gt;
+  );
+}
+
+function SortDropdown({ value, onChange, options }) {
+  return (
+    &lt;select value={value} onChange={(e) => onChange(e.target.value)}&gt;
+      {options.map(opt => (
+        &lt;option key={opt.value} value={opt.value}&gt;{opt.label}&lt;/option&gt;
+      ))}
+    &lt;/select&gt;
+  );
+}
+
+function ProductGrid({ products, filter, sort }) {
+  const filtered = products.filter(p => 
+    filter === 'all' || p.category === filter
+  );
+  
+  const sorted = [...filtered].sort((a, b) => {
+    if (sort === 'price-asc') return a.price - b.price;
+    if (sort === 'price-desc') return b.price - a.price;
+    if (sort === 'name') return a.name.localeCompare(b.name);
+    return 0;
+  });
+  
+  return (
+    &lt;div&gt;
+      {sorted.map(product => (
+        &lt;ProductCard key={product.id} product={product} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// All state lives in parent
+function ProductPage() {
+  const [filter, setFilter] = useState('all');
+  const [sort, setSort] = useState('name');
+  const products = useProducts();
+  
+  const filterOptions = [
+    { value: 'all', label: 'All Products' },
+    { value: 'electronics', label: 'Electronics' },
+    { value: 'clothing', label: 'Clothing' }
+  ];
+  
+  const sortOptions = [
+    { value: 'name', label: 'Name' },
+    { value: 'price-asc', label: 'Price: Low to High' },
+    { value: 'price-desc', label: 'Price: High to Low' }
+  ];
+  
+  return (
+    &lt;div&gt;
+      &lt;div&gt;
+        &lt;FilterDropdown 
+          value={filter} 
+          onChange={setFilter}
+          options={filterOptions}
+        /&gt;
+        &lt;SortDropdown 
+          value={sort} 
+          onChange={setSort}
+          options={sortOptions}
+        /&gt;
+      &lt;/div&gt;
+      &lt;ProductGrid 
+        products={products}
+        filter={filter}
+        sort={sort}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Alternative: Use single state object for related values
+function ProductPageWithObject() {
+  const [filters, setFilters] = useState({
+    category: 'all',
+    sort: 'name',
+    priceRange: [0, 1000]
+  });
+  
+  const updateFilter = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;FilterDropdown 
+        value={filters.category}
+        onChange={(value) => updateFilter('category', value)}
+        options={filterOptions}
+      /&gt;
+      &lt;SortDropdown 
+        value={filters.sort}
+        onChange={(value) => updateFilter('sort', value)}
+        options={sortOptions}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Controlled vs Uncontrolled Components
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// State lifting creates controlled components
+// The parent controls the component's state
+
+// Uncontrolled: Component manages its own state
+function UncontrolledInput() {
+  return &lt;input type="text" defaultValue="Initial" /&gt;;
+}
+
+// Controlled: Parent controls the state
+function ControlledInput({ value, onChange }) {
+  return (
+    &lt;input 
+      type="text" 
+      value={value} 
+      onChange={(e) => onChange(e.target.value)} 
+    /&gt;
+  );
+}
+
+function Parent() {
+  const [value, setValue] = useState('');
+  
+  return (
+    &lt;div&gt;
+      &lt;ControlledInput value={value} onChange={setValue} /&gt;
+      &lt;p&gt;Current value: {value}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Hybrid: Controlled with local state
+function SearchInput({ value, onChange, placeholder }) {
+  const [localValue, setLocalValue] = useState(value);
+  
+  // Sync with external value
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
+  
+  const handleChange = (newValue) => {
+    setLocalValue(newValue);
+    // Debounce before notifying parent
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(() => {
+      onChange(newValue);
+    }, 300);
+  };
+  
+  return (
+    &lt;input
+      value={localValue}
+      onChange={(e) => handleChange(e.target.value)}
+      placeholder={placeholder}
+    /&gt;
+  );
+}
+
+// Flexible: Can be either controlled or uncontrolled
+function FlexibleInput({ value, defaultValue, onChange }) {
+  const [internalValue, setInternalValue] = useState(defaultValue || '');
+  
+  // Controlled if value prop is provided
+  const isControlled = value !== undefined;
+  const currentValue = isControlled ? value : internalValue;
+  
+  const handleChange = (newValue) => {
+    if (!isControlled) {
+      setInternalValue(newValue);
+    }
+    onChange?.(newValue);
+  };
+  
+  return (
+    &lt;input
+      value={currentValue}
+      onChange={(e) => handleChange(e.target.value)}
+    /&gt;
+  );
+}
+
+// Usage as controlled
+&lt;FlexibleInput value={value} onChange={setValue} /&gt;
+
+// Usage as uncontrolled
+&lt;FlexibleInput defaultValue="Initial" onChange={(v) => console.log(v)} /&gt;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. State Lifting with Derived State
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Often, child components need derived state from lifted state
+function PriceInput({ value, onChange }) {
+  return (
+    &lt;input
+      type="number"
+      value={value}
+      onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
+    /&gt;
+  );
+}
+
+function QuantityInput({ value, onChange }) {
+  return (
+    &lt;input
+      type="number"
+      min="1"
+      value={value}
+      onChange={(e) => onChange(parseInt(e.target.value) || 1)}
+    /&gt;
+  );
+}
+
+function TotalDisplay({ price, quantity, taxRate }) {
+  const subtotal = price * quantity;
+  const tax = subtotal * taxRate;
+  const total = subtotal + tax;
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Subtotal: ${subtotal.toFixed(2)}&lt;/p&gt;
+      &lt;p&gt;Tax ({(taxRate * 100).toFixed(0)}%): ${tax.toFixed(2)}&lt;/p&gt;
+      &lt;p&gt;&lt;strong&gt;Total: ${total.toFixed(2)}&lt;/strong&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+function InvoiceCalculator() {
+  const [price, setPrice] = useState(100);
+  const [quantity, setQuantity] = useState(1);
+  const taxRate = 0.08; // 8% tax
+  
+  return (
+    &lt;div&gt;
+      &lt;PriceInput value={price} onChange={setPrice} /&gt;
+      &lt;QuantityInput value={quantity} onChange={setQuantity} /&gt;
+      &lt;TotalDisplay price={price} quantity={quantity} taxRate={taxRate} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Complex derived state example
+function FilteredSortedList({ items }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('name');
+  const [filterCategory, setFilterCategory] = useState('all');
+  
+  // Derive filtered and sorted list
+  const processedItems = useMemo(() => {
+    let result = items;
+    
+    // Filter by search term
+    if (searchTerm) {
+      result = result.filter(item =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    // Filter by category
+    if (filterCategory !== 'all') {
+      result = result.filter(item => item.category === filterCategory);
+    }
+    
+    // Sort
+    result = [...result].sort((a, b) => {
+      if (sortBy === 'name') return a.name.localeCompare(b.name);
+      if (sortBy === 'price') return a.price - b.price;
+      if (sortBy === 'date') return new Date(b.date) - new Date(a.date);
+      return 0;
+    });
+    
+    return result;
+  }, [items, searchTerm, sortBy, filterCategory]);
+  
+  return (
+    &lt;div&gt;
+      &lt;SearchInput value={searchTerm} onChange={setSearchTerm} /&gt;
+      &lt;CategoryFilter value={filterCategory} onChange={setFilterCategory} /&gt;
+      &lt;SortSelector value={sortBy} onChange={setSortBy} /&gt;
+      &lt;ResultsCount count={processedItems.length} total={items.length} /&gt;
+      &lt;ItemList items={processedItems} /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Callback Patterns for State Updates
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Different patterns for passing update callbacks
+
+// Pattern 1: Direct setter
+function DirectSetter() {
+  const [count, setCount] = useState(0);
+  
+  return &lt;Counter value={count} onChange={setCount} /&gt;;
+}
+
+// Pattern 2: Wrapper function for validation
+function WithValidation() {
+  const [age, setAge] = useState(0);
+  
+  const handleAgeChange = (value) => {
+    if (value >= 0 && value <= 120) {
+      setAge(value);
+    }
+  };
+  
+  return &lt;AgeInput value={age} onChange={handleAgeChange} /&gt;;
+}
+
+// Pattern 3: Named handlers for multiple states
+function NamedHandlers() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  
+  const handleNameChange = (value) => {
+    setFormData(prev => ({ ...prev, name: value }));
+  };
+  
+  const handleEmailChange = (value) => {
+    setFormData(prev => ({ ...prev, email: value }));
+  };
+  
+  const handlePhoneChange = (value) => {
+    setFormData(prev => ({ ...prev, phone: value }));
+  };
+  
+  return (
+    &lt;form&gt;
+      &lt;NameInput value={formData.name} onChange={handleNameChange} /&gt;
+      &lt;EmailInput value={formData.email} onChange={handleEmailChange} /&gt;
+      &lt;PhoneInput value={formData.phone} onChange={handlePhoneChange} /&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Pattern 4: Generic field handler
+function GenericHandler() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  
+  const handleFieldChange = (field) => (value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  return (
+    &lt;form&gt;
+      &lt;NameInput value={formData.name} onChange={handleFieldChange('name')} /&gt;
+      &lt;EmailInput value={formData.email} onChange={handleFieldChange('email')} /&gt;
+      &lt;PhoneInput value={formData.phone} onChange={handleFieldChange('phone')} /&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Pattern 5: Event handler with field name
+function EventHandlerPattern() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+  
+  return (
+    &lt;form&gt;
+      &lt;input name="name" value={formData.name} onChange={handleChange} /&gt;
+      &lt;input name="email" value={formData.email} onChange={handleChange} /&gt;
+      &lt;input name="phone" value={formData.phone} onChange={handleChange} /&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Pattern 6: Callback with additional data
+function CallbackWithData() {
+  const [selectedItems, setSelectedItems] = useState([]);
+  
+  const handleToggleItem = (item, isSelected) => {
+    if (isSelected) {
+      setSelectedItems(prev => [...prev, item]);
+    } else {
+      setSelectedItems(prev => prev.filter(i => i.id !== item.id));
+    }
+  };
+  
+  return (
+    &lt;ItemList 
+      items={items}
+      selectedItems={selectedItems}
+      onToggleItem={handleToggleItem}
+    /&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. When NOT to Lift State
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Don't lift state unnecessarily - keep it as local as possible
+
+// Bad: Lifting state that only one component needs
+function BadExample() {
+  const [isModalOpen, setIsModalOpen] = useState(false); // Only Modal needs this
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Only Dropdown needs this
+  
+  return (
+    &lt;div&gt;
+      &lt;Button onClick={() => setIsModalOpen(true)}&gt;Open Modal&lt;/Button&gt;
+      &lt;Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /&gt;
+      
+      &lt;Dropdown 
+        isOpen={isDropdownOpen} 
+        onToggle={() => setIsDropdownOpen(!isDropdownOpen)}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Good: Keep state local when possible
+function Modal({ trigger }) {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    &lt;&gt;
+      {trigger({ onClick: () => setIsOpen(true) })}
+      {isOpen && (
+        &lt;ModalDialog onClose={() => setIsOpen(false)}&gt;
+          Modal content
+        &lt;/ModalDialog&gt;
+      )}
+    &lt;/&gt;
+  );
+}
+
+function GoodExample() {
+  return (
+    &lt;div&gt;
+      &lt;Modal trigger={(props) => &lt;Button {...props}&gt;Open Modal&lt;/Button&gt;} /&gt;
+      &lt;Dropdown /&gt; {/* Manages its own state */}
+    &lt;/div&gt;
+  );
+}
+
+// Only lift when:
+// 1. Multiple components need to share the state
+// 2. Components need to synchronize based on the state
+// 3. Parent needs to coordinate child components
+// 4. State needs to persist across component unmounts
+
+// Don't lift when:
+// 1. State is only used in one component
+// 2. State is purely presentational (hover, focus)
+// 3. State doesn't affect other components
+// 4. Lifting would cause excessive prop drilling
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. State Lifting with Reducers
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// For complex state, use useReducer with lifted state
+function cartReducer(state, action) {
+  switch (action.type) {
+    case 'ADD_ITEM':
+      const existing = state.items.find(item => item.id === action.payload.id);
+      if (existing) {
+        return {
+          ...state,
+          items: state.items.map(item =>
+            item.id === action.payload.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        };
+      }
+      return {
+        ...state,
+        items: [...state.items, { ...action.payload, quantity: 1 }]
+      };
+      
+    case 'REMOVE_ITEM':
+      return {
+        ...state,
+        items: state.items.filter(item => item.id !== action.payload)
+      };
+      
+    case 'UPDATE_QUANTITY':
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        )
+      };
+      
+    case 'CLEAR_CART':
+      return { ...state, items: [] };
+      
+    default:
+      return state;
+  }
+}
+
+function ProductCard({ product, onAddToCart }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{product.name}&lt;/h3&gt;
+      &lt;p&gt;${product.price}&lt;/p&gt;
+      &lt;button onClick={() => onAddToCart(product)}&gt;Add to Cart&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function CartItem({ item, onUpdateQuantity, onRemove }) {
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{item.name}&lt;/span&gt;
+      &lt;input
+        type="number"
+        value={item.quantity}
+        onChange={(e) => onUpdateQuantity(item.id, parseInt(e.target.value))}
+        min="1"
+      /&gt;
+      &lt;button onClick={() => onRemove(item.id)}&gt;Remove&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Cart({ items, onUpdateQuantity, onRemove, onClear }) {
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Cart&lt;/h2&gt;
+      {items.map(item => (
+        &lt;CartItem
+          key={item.id}
+          item={item}
+          onUpdateQuantity={onUpdateQuantity}
+          onRemove={onRemove}
+        /&gt;
+      ))}
+      &lt;p&gt;Total: ${total.toFixed(2)}&lt;/p&gt;
+      &lt;button onClick={onClear}&gt;Clear Cart&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function ShoppingApp() {
+  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  const products = useProducts();
+  
+  const addToCart = (product) => {
+    dispatch({ type: 'ADD_ITEM', payload: product });
+  };
+  
+  const removeFromCart = (id) => {
+    dispatch({ type: 'REMOVE_ITEM', payload: id });
+  };
+  
+  const updateQuantity = (id, quantity) => {
+    dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
+  };
+  
+  const clearCart = () => {
+    dispatch({ type: 'CLEAR_CART' });
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;ProductList products={products} onAddToCart={addToCart} /&gt;
+      &lt;Cart
+        items={state.items}
+        onUpdateQuantity={updateQuantity}
+        onRemove={removeFromCart}
+        onClear={clearCart}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Best Practices and Common Patterns
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Lift to the lowest common ancestor:</b> Don't lift higher than necessary</li>
+  <li><b>Keep state as local as possible:</b> Only lift when multiple components need it</li>
+  <li><b>Use descriptive callback names:</b> onTemperatureChange, not onChange</li>
+  <li><b>Pass minimal props:</b> Only pass what each component needs</li>
+  <li><b>Consider composition over lifting:</b> Use children props to avoid prop drilling</li>
+  <li><b>Use Context for deeply nested state:</b> Avoid excessive prop drilling</li>
+  <li><b>Derive state when possible:</b> Don't store computed values in state</li>
+  <li><b>Document shared state:</b> Make it clear which component owns the state</li>
+  <li><b>Use TypeScript for type safety:</b> Ensure callbacks have correct signatures</li>
+  <li><b>Keep callbacks stable:</b> Use useCallback for callbacks passed as props</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Performance Considerations
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// State lifting can cause unnecessary re-renders
+// Use optimization techniques
+
+// Problem: All children re-render when state changes
+function ExpensiveList({ items, onItemClick }) {
+  return items.map(item => (
+    &lt;ExpensiveItem key={item.id} item={item} onClick={onItemClick} /&gt;
+  ));
+}
+
+// Solution 1: Memoize child components
+const MemoizedItem = React.memo(({ item, onClick }) => {
+  return &lt;div onClick={() => onClick(item)}&gt;{item.name}&lt;/div&gt;;
+});
+
+// Solution 2: Memoize callbacks
+function OptimizedParent() {
+  const [selectedId, setSelectedId] = useState(null);
+  
+  const handleItemClick = useCallback((item) => {
+    setSelectedId(item.id);
+  }, []); // Stable reference
+  
+  return &lt;ExpensiveList items={items} onItemClick={handleItemClick} /&gt;;
+}
+
+// Solution 3: Split state to minimize re-renders
+function SplitState() {
+  const [filter, setFilter] = useState('');
+  const [sort, setSort] = useState('name');
+  
+  // These are separate, so changing one doesn't affect the other
+  return (
+    &lt;div&gt;
+      &lt;FilterInput value={filter} onChange={setFilter} /&gt;
+      &lt;SortSelector value={sort} onChange={setSort} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Solution 4: Use Context to avoid prop drilling re-renders
+const DataContext = createContext();
+
+function DataProvider({ children }) {
+  const [data, setData] = useState([]);
+  
+  return (
+    &lt;DataContext.Provider value={{ data, setData }}&gt;
+      {children}
+    &lt;/DataContext.Provider&gt;
+  );
+}
+
+// Only components that use the context re-render
+function DeepChild() {
+  const { data } = useContext(DataContext);
+  // Parent re-renders don't affect this
+}
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Temperature Converter with Synchronized Inputs",
+              "Shopping Cart with Product List",
+              "Form with Multiple Inputs and Validation",
+              "Tab Navigation with Coordinated Content",
+              "Search with Filters and Results",
+              "Todo List with Add/Remove/Toggle",
+            ],
+            questions: [
+              {
+                question:
+                  "What is state lifting and why is it necessary in React?",
+                answer:
+                  "State lifting is the pattern of moving state from child components up to their closest common ancestor. It's necessary when two or more sibling components need to share and synchronize the same changing data. Since React uses unidirectional data flow and siblings can't communicate directly, lifting state to a common parent creates a single source of truth that flows down through props, ensuring all components stay in sync.",
+              },
+              {
+                question:
+                  "What are the steps to lift state from a child to a parent component?",
+                answer:
+                  "1) Identify which components need to share state, 2) Find their closest common ancestor, 3) Remove state from child components, 4) Add state to the common parent, 5) Pass state down as props, 6) Pass callback functions to update state, 7) Replace setState calls in children with the callback props. The parent becomes the source of truth and children become controlled components.",
+              },
+              {
+                question:
+                  "What is the difference between controlled and uncontrolled components in the context of state lifting?",
+                answer:
+                  "Controlled components receive their value from props and notify changes via callbacks, giving the parent full control over their state. Uncontrolled components manage their own internal state using useState or defaultValue. State lifting creates controlled components where the parent controls the state. Controlled components enable synchronization between siblings, validation, and coordinated behavior, but require more code.",
+              },
+              {
+                question:
+                  "How does state lifting relate to prop drilling and what are the alternatives?",
+                answer:
+                  "State lifting can cause prop drilling when lifted state needs to be passed through many intermediate components that don't use it. Alternatives include: Context API for widely-shared state (theme, auth, language), component composition using children props to skip intermediate layers, state management libraries (Redux, Zustand) for complex global state, or keeping state more local and using events/callbacks for coordination. Choose based on how deeply nested and how widely used the state is.",
+              },
+              {
+                question: "When should you NOT lift state?",
+                answer:
+                  "Don't lift state when: 1) Only one component uses it, 2) It's purely presentational (hover, focus states), 3) It doesn't affect other components, 4) Lifting would cause excessive prop drilling without benefit, 5) The state is temporary UI state that doesn't need to persist. Keep state as local as possible and only lift when multiple components genuinely need to share and synchronize it.",
+              },
+              {
+                question:
+                  "How do you handle multiple related states when lifting?",
+                answer:
+                  "Group related states together in a single object using useState or useReducer. Create a generic update handler that accepts field names, or create specific named handlers for each field. Use useReducer for complex state with multiple update patterns. This keeps related data together, reduces the number of props to pass, and makes state updates more manageable and predictable.",
+              },
+              {
+                question:
+                  "What callback patterns can you use when lifting state?",
+                answer:
+                  "Common patterns include: 1) Direct setter (onChange={setState}), 2) Wrapper function for validation/transformation, 3) Named handlers for multiple fields (handleNameChange, handleEmailChange), 4) Generic field handler using closures (handleFieldChange('name')), 5) Event handler pattern reading e.target.name, 6) Callbacks with additional data (onToggle(item, isSelected)). Choose based on complexity, validation needs, and code clarity.",
+              },
+              {
+                question: "How does derived state work with lifted state?",
+                answer:
+                  "Derived state is computed from lifted state rather than stored separately. Calculate it in render or with useMemo for expensive computations. Examples include filtered/sorted lists, totals, validation status, or formatted values. Don't store derived values in separate state—compute them from the source of truth. This prevents sync issues and follows the single source of truth principle.",
+              },
+              {
+                question:
+                  "What performance issues can state lifting cause and how do you optimize?",
+                answer:
+                  "Lifting state can cause unnecessary re-renders of all children when state changes. Optimize by: 1) Memoizing child components with React.memo, 2) Stabilizing callbacks with useCallback, 3) Splitting independent states to limit re-render scope, 4) Using Context to avoid prop drilling re-renders, 5) Keeping state as local as possible, 6) Using composition to minimize affected components. Profile first, then optimize where needed.",
+              },
+              {
+                question:
+                  "How do you lift state with useReducer instead of useState?",
+                answer:
+                  "Use useReducer in the parent component for complex state with multiple update patterns. Define a reducer function with action types, create action creator functions, and pass dispatch-based callbacks to children. Children dispatch actions instead of calling setState. This centralizes state logic, makes updates more predictable, scales better for complex state, and reduces the number of callbacks to pass down.",
+              },
+              {
+                question:
+                  "What is the relationship between state lifting and component composition?",
+                answer:
+                  "Component composition can reduce the need for state lifting by using children props or render props to pass components directly rather than data. This avoids intermediate components knowing about data they don't use. Sometimes composition is a better alternative to lifting state through many layers. Use composition when you can pass components, use state lifting when you need to pass data.",
+              },
+              {
+                question:
+                  "How do you maintain type safety when lifting state with TypeScript?",
+                answer:
+                  "Define interfaces for props including value and callback types. Type callbacks with their expected parameters and return values. Use generics for reusable components. Ensure the parent's state type matches what children expect. TypeScript will catch mismatches between parent state and child prop types, callback signatures, and missing required props, providing compile-time safety for lifted state.",
+              },
+              {
+                question:
+                  "What is a single source of truth and why is it important in state lifting?",
+                answer:
+                  "Single source of truth means state exists in exactly one place and flows down from there. It's crucial because it prevents sync issues between components showing the same data, makes state updates predictable, simplifies debugging (one place to look), and ensures all UI reflects the same state. State lifting establishes the parent as the single source of truth for shared state.",
+              },
+              {
+                question:
+                  "How do you decide where to lift state in a component tree?",
+                answer:
+                  "Lift state to the lowest common ancestor of all components that need it. Don't lift higher than necessary. Consider: 1) Which components need read access, 2) Which need write access, 3) The component hierarchy, 4) Potential for prop drilling, 5) State ownership clarity. Sometimes lifting to a higher level prevents future refactoring, but start low and lift higher only when needed.",
+              },
+              {
+                question:
+                  "What are the tradeoffs between state lifting and using Context API?",
+                answer:
+                  "State lifting: Simple, explicit data flow, easy to understand, good for shallow trees, but causes prop drilling in deep trees. Context API: Avoids prop drilling, good for deeply nested or widely-used state, but adds complexity, harder to track data flow, can cause unnecessary re-renders if not structured well. Use state lifting for nearby components, Context for deeply nested or truly global state. Consider both when deciding.",
+              },
+            ],
+            links: [
+              "https://react.dev/learn/sharing-state-between-components",
+              "https://react.dev/learn/managing-state",
+              "https://react.dev/reference/react/useState",
+              "https://react.dev/learn/passing-props-to-a-component",
+              "https://kentcdodds.com/blog/application-state-management-with-react",
+              "https://react.dev/learn/thinking-in-react",
+            ],
           },
           {
             topic: "Prop Drilling",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Prop Drilling",
+              "Component Communication",
+              "Props",
+              "Context API",
+              "Component Composition",
+              "State Management",
+              "Anti-pattern",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Prop drilling (also called "threading") is the process of passing data through multiple layers of components via props, where intermediate components don't use the data but merely forward it to their children. While it's a natural consequence of React's unidirectional data flow, excessive prop drilling can make code verbose, harder to maintain, and tightly coupled. Understanding prop drilling, recognizing when it becomes problematic, and knowing various solutions (Context API, composition, state management libraries) is essential for building clean, maintainable React applications.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Understanding Prop Drilling
+</h4>
+
+<p style="line-height: 1.75;">
+Prop drilling occurs when props need to be passed through multiple intermediate components to reach a deeply nested child component.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Simple example of prop drilling
+function App() {
+  const [user, setUser] = useState({
+    name: 'John Doe',
+    email: 'john@example.com',
+    role: 'admin'
+  });
+  
+  return &lt;Dashboard user={user} /&gt;;
+}
+
+function Dashboard({ user }) {
+  // Dashboard doesn't use user, just passes it down
+  return (
+    &lt;div&gt;
+      &lt;Sidebar user={user} /&gt;
+      &lt;MainContent user={user} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Sidebar({ user }) {
+  // Sidebar doesn't use user either, keeps passing down
+  return (
+    &lt;nav&gt;
+      &lt;Navigation user={user} /&gt;
+    &lt;/nav&gt;
+  );
+}
+
+function Navigation({ user }) {
+  // Navigation doesn't use user, continues passing
+  return (
+    &lt;ul&gt;
+      &lt;UserMenu user={user} /&gt;
+    &lt;/ul&gt;
+  );
+}
+
+function UserMenu({ user }) {
+  // Finally! UserMenu actually uses the user data
+  return (
+    &lt;div&gt;
+      &lt;img src={user.avatar} alt={user.name} /&gt;
+      &lt;span&gt;{user.name}&lt;/span&gt;
+      &lt;span&gt;{user.role}&lt;/span&gt;
+    &lt;/div&gt;
+  );
+}
+
+// The problem:
+// - user prop passes through 4 components
+// - 3 intermediate components don't use it
+// - Changes to user prop structure affect all 5 components
+// - Hard to refactor and maintain
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. When Prop Drilling is Acceptable
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Shallow prop drilling (1-2 levels) is often fine and readable
+
+// Acceptable: Single level
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  return &lt;Child count={count} onIncrement={() => setCount(count + 1)} /&gt;;
+}
+
+function Child({ count, onIncrement }) {
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={onIncrement}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Acceptable: Two levels for closely related components
+function Form() {
+  const [formData, setFormData] = useState({ name: '', email: '' });
+  
+  return &lt;FormSection formData={formData} onChange={setFormData} /&gt;;
+}
+
+function FormSection({ formData, onChange }) {
+  return (
+    &lt;div&gt;
+      &lt;FormField 
+        label="Name"
+        value={formData.name}
+        onChange={(value) => onChange({ ...formData, name: value })}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function FormField({ label, value, onChange }) {
+  return (
+    &lt;div&gt;
+      &lt;label&gt;{label}&lt;/label&gt;
+      &lt;input value={value} onChange={(e) => onChange(e.target.value)} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// When shallow drilling is acceptable:
+// - Props pass through 1-2 levels
+// - Components are tightly related
+// - Component hierarchy is stable
+// - Props are used by most components in the chain
+// - Alternative solutions would add unnecessary complexity
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Problems Caused by Excessive Prop Drilling
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem 1: Tight Coupling
+// Intermediate components are coupled to props they don't use
+function IntermediateComponent({ user, theme, settings, notifications }) {
+  // This component doesn't use any of these props
+  // But it must know about them to pass them down
+  // Changes to any prop affect this component
+  return &lt;DeepChild user={user} theme={theme} settings={settings} notifications={notifications} /&gt;;
+}
+
+// Problem 2: Poor Reusability
+// Components can't be easily moved or reused
+function Sidebar({ user, theme }) {
+  // Sidebar is tightly coupled to having user and theme
+  // Can't use Sidebar elsewhere without these props
+  return &lt;SidebarContent user={user} theme={theme} /&gt;;
+}
+
+// Problem 3: Maintenance Burden
+// Adding a new prop requires changes to all intermediate components
+function addNewFeature() {
+  // Need to add 'permissions' prop
+  // Must update: App → Layout → Sidebar → Navigation → UserMenu
+  // 5 components need changes for 1 feature!
+}
+
+// Problem 4: Unclear Data Flow
+// Hard to trace where data comes from and where it's used
+function DeepComponent({ data }) {
+  // Where does this data come from?
+  // Which component is the source of truth?
+  // Who else is using this data?
+  // Hard to answer without tracing back up the tree
+}
+
+// Problem 5: Testing Complexity
+// Must provide all props even for simple tests
+function testUserMenu() {
+  // To test UserMenu, must provide all intermediate props
+  render(
+    &lt;Dashboard user={mockUser}&gt;
+      &lt;Sidebar user={mockUser}&gt;
+        &lt;Navigation user={mockUser}&gt;
+          &lt;UserMenu user={mockUser} /&gt;
+        &lt;/Navigation&gt;
+      &lt;/Sidebar&gt;
+    &lt;/Dashboard&gt;
+  );
+}
+
+// Problem 6: Prop Name Conflicts
+// Same prop name used for different purposes at different levels
+function ConflictExample({ id }) {
+  // id is user ID here
+  return &lt;ProductList id={id} /&gt;; // Passing user ID as product ID?
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Solution 1: Context API
+</h4>
+
+<p style="line-height: 1.75;">
+The Context API provides a way to pass data through the component tree without manually passing props at every level.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Before: Prop drilling
+function App() {
+  const [user, setUser] = useState(null);
+  return &lt;Dashboard user={user} setUser={setUser} /&gt;;
+}
+
+function Dashboard({ user, setUser }) {
+  return &lt;Sidebar user={user} setUser={setUser} /&gt;;
+}
+
+function Sidebar({ user, setUser }) {
+  return &lt;Navigation user={user} setUser={setUser} /&gt;;
+}
+
+function Navigation({ user, setUser }) {
+  return &lt;UserMenu user={user} setUser={setUser} /&gt;;
+}
+
+function UserMenu({ user, setUser }) {
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// After: Context API
+import { createContext, useContext, useState } from 'react';
+
+const UserContext = createContext(null);
+
+function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+  
+  return (
+    &lt;UserContext.Provider value={{ user, setUser }}&gt;
+      {children}
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+function useUser() {
+  const context = useContext(UserContext);
+  if (context === null) {
+    throw new Error('useUser must be used within UserProvider');
+  }
+  return context;
+}
+
+// Cleaner component tree
+function App() {
+  return (
+    &lt;UserProvider&gt;
+      &lt;Dashboard /&gt;
+    &lt;/UserProvider&gt;
+  );
+}
+
+function Dashboard() {
+  // No props needed!
+  return &lt;Sidebar /&gt;;
+}
+
+function Sidebar() {
+  // No props needed!
+  return &lt;Navigation /&gt;;
+}
+
+function Navigation() {
+  // No props needed!
+  return &lt;UserMenu /&gt;;
+}
+
+function UserMenu() {
+  // Directly access user context
+  const { user, setUser } = useUser();
+  
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{user?.name}&lt;/span&gt;
+      &lt;button onClick={() => setUser(null)}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Multiple contexts for different concerns
+const ThemeContext = createContext(null);
+const AuthContext = createContext(null);
+const SettingsContext = createContext(null);
+
+function App() {
+  return (
+    &lt;AuthProvider&gt;
+      &lt;ThemeProvider&gt;
+        &lt;SettingsProvider&gt;
+          &lt;Dashboard /&gt;
+        &lt;/SettingsProvider&gt;
+      &lt;/ThemeProvider&gt;
+    &lt;/AuthProvider&gt;
+  );
+}
+
+// Components consume only what they need
+function UserProfile() {
+  const { user } = useAuth(); // Only auth
+  return &lt;div&gt;{user.name}&lt;/div&gt;;
+}
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme(); // Only theme
+  return &lt;button onClick={toggleTheme}&gt;{theme}&lt;/button&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Solution 2: Component Composition
+</h4>
+
+<p style="line-height: 1.75;">
+Component composition uses children props to pass components directly rather than passing data through intermediate components.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Before: Prop drilling through Layout
+function App() {
+  const [user, setUser] = useState(null);
+  
+  return (
+    &lt;Layout user={user} setUser={setUser}&gt;
+      &lt;Dashboard user={user} /&gt;
+    &lt;/Layout&gt;
+  );
+}
+
+function Layout({ user, setUser, children }) {
+  return (
+    &lt;div&gt;
+      &lt;Header user={user} setUser={setUser} /&gt;
+      &lt;main&gt;{children}&lt;/main&gt;
+    &lt;/div&gt;
+  );
+}
+
+// After: Component composition
+function App() {
+  const [user, setUser] = useState(null);
+  
+  return (
+    &lt;Layout
+      header={&lt;Header user={user} setUser={setUser} /&gt;}
+      sidebar={&lt;Sidebar user={user} /&gt;}
+    &gt;
+      &lt;Dashboard user={user} /&gt;
+    &lt;/Layout&gt;
+  );
+}
+
+function Layout({ header, sidebar, children }) {
+  // Layout doesn't need to know about user!
+  return (
+    &lt;div&gt;
+      {header}
+      &lt;div className="content"&gt;
+        {sidebar}
+        &lt;main&gt;{children}&lt;/main&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// More advanced composition patterns
+function Page({ title, actions, content, sidebar }) {
+  return (
+    &lt;div&gt;
+      &lt;PageHeader&gt;
+        &lt;h1&gt;{title}&lt;/h1&gt;
+        {actions}
+      &lt;/PageHeader&gt;
+      &lt;PageBody&gt;
+        &lt;PageSidebar&gt;{sidebar}&lt;/PageSidebar&gt;
+        &lt;PageContent&gt;{content}&lt;/PageContent&gt;
+      &lt;/PageBody&gt;
+    &lt;/div&gt;
+  );
+}
+
+function UserDashboard() {
+  const user = useUser(); // Get from context
+  
+  return (
+    &lt;Page
+      title="Dashboard"
+      actions={&lt;UserActions user={user} /&gt;}
+      content={&lt;DashboardContent user={user} /&gt;}
+      sidebar={&lt;UserSidebar user={user} /&gt;}
+    /&gt;
+  );
+}
+
+// Render props pattern
+function DataProvider({ children }) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  return children({ data, loading, setData });
+}
+
+function App() {
+  return (
+    &lt;DataProvider&gt;
+      {({ data, loading }) => (
+        &lt;Layout&gt;
+          {loading ? &lt;Spinner /&gt; : &lt;Content data={data} /&gt;}
+        &lt;/Layout&gt;
+      )}
+    &lt;/DataProvider&gt;
+  );
+}
+
+// Specialized components pattern
+function UserLayout({ children }) {
+  const user = useUser(); // Get from context
+  
+  return (
+    &lt;div&gt;
+      &lt;UserHeader user={user} /&gt;
+      &lt;UserSidebar user={user} /&gt;
+      &lt;main&gt;{children}&lt;/main&gt;
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;UserProvider&gt;
+      &lt;UserLayout&gt;
+        &lt;Dashboard /&gt; {/* Doesn't need user prop */}
+      &lt;/UserLayout&gt;
+    &lt;/UserProvider&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Solution 3: State Management Libraries
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Using Redux
+import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { useSelector, useDispatch } from 'react-redux';
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState: { currentUser: null },
+  reducers: {
+    setUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
+    logout: (state) => {
+      state.currentUser = null;
+    }
+  }
+});
+
+const store = configureStore({
+  reducer: {
+    user: userSlice.reducer
+  }
+});
+
+// No prop drilling needed
+function UserMenu() {
+  const user = useSelector(state => state.user.currentUser);
+  const dispatch = useDispatch();
+  
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{user?.name}&lt;/span&gt;
+      &lt;button onClick={() => dispatch(userSlice.actions.logout())}&gt;
+        Logout
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Using Zustand (simpler alternative)
+import create from 'zustand';
+
+const useUserStore = create((set) => ({
+  user: null,
+  setUser: (user) => set({ user }),
+  logout: () => set({ user: null })
+}));
+
+function UserMenu() {
+  const { user, logout } = useUserStore();
+  
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{user?.name}&lt;/span&gt;
+      &lt;button onClick={logout}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Using Jotai (atomic state management)
+import { atom, useAtom } from 'jotai';
+
+const userAtom = atom(null);
+
+function UserMenu() {
+  const [user, setUser] = useAtom(userAtom);
+  
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{user?.name}&lt;/span&gt;
+      &lt;button onClick={() => setUser(null)}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Using Recoil
+import { atom, useRecoilState } from 'recoil';
+
+const userState = atom({
+  key: 'userState',
+  default: null
+});
+
+function UserMenu() {
+  const [user, setUser] = useRecoilState(userState);
+  
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{user?.name}&lt;/span&gt;
+      &lt;button onClick={() => setUser(null)}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Solution 4: Custom Hooks for Data Fetching
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Instead of passing data down, let components fetch their own data
+
+// Before: Prop drilling
+function App() {
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    fetchUser().then(setUser);
+  }, []);
+  
+  return &lt;Dashboard user={user} /&gt;;
+}
+
+function Dashboard({ user }) {
+  return &lt;UserProfile user={user} /&gt;;
+}
+
+function UserProfile({ user }) {
+  return &lt;UserDetails user={user} /&gt;;
+}
+
+function UserDetails({ user }) {
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// After: Custom hook for data fetching
+function useUser(userId) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    setLoading(true);
+    fetchUser(userId)
+      .then(setUser)
+      .finally(() => setLoading(false));
+  }, [userId]);
+  
+  return { user, loading };
+}
+
+function App() {
+  return &lt;Dashboard /&gt;;
+}
+
+function Dashboard() {
+  return &lt;UserProfile /&gt;;
+}
+
+function UserProfile() {
+  return &lt;UserDetails /&gt;;
+}
+
+function UserDetails() {
+  const { user, loading } = useUser(); // Fetch directly
+  
+  if (loading) return &lt;Spinner /&gt;;
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// Using React Query (recommended for server state)
+import { useQuery } from '@tanstack/react-query';
+
+function useUser(userId) {
+  return useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => fetchUser(userId)
+  });
+}
+
+function UserDetails() {
+  const { data: user, isLoading } = useUser();
+  
+  if (isLoading) return &lt;Spinner /&gt;;
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// Benefits:
+// - No prop drilling
+// - Automatic caching
+// - Automatic refetching
+// - Loading and error states handled
+// - Components fetch only what they need
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Choosing the Right Solution
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Decision tree for solving prop drilling
+
+// 1-2 levels deep? → Keep prop drilling (it's fine)
+function Parent() {
+  const [data, setData] = useState(null);
+  return &lt;Child data={data} /&gt;;
+}
+
+// 3-4 levels, single concern? → Context API
+function App() {
+  return (
+    &lt;ThemeProvider&gt;
+      &lt;AuthProvider&gt;
+        &lt;AppContent /&gt;
+      &lt;/AuthProvider&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+
+// Layout components? → Component composition
+function App() {
+  return (
+    &lt;Layout
+      header={&lt;Header /&gt;}
+      sidebar={&lt;Sidebar /&gt;}
+    &gt;
+      &lt;Content /&gt;
+    &lt;/Layout&gt;
+  );
+}
+
+// Server state (API data)? → React Query/SWR
+function Component() {
+  const { data } = useQuery('users', fetchUsers);
+  return &lt;UserList users={data} /&gt;;
+}
+
+// Complex global state? → Redux/Zustand
+function Component() {
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  return &lt;UserProfile user={user} /&gt;;
+}
+
+// Frequently changing state? → Zustand/Jotai (better performance than Context)
+const useCountStore = create(set => ({
+  count: 0,
+  increment: () => set(state => ({ count: state.count + 1 }))
+}));
+
+// Simple app-wide settings? → Context API
+const SettingsContext = createContext(null);
+
+// Large enterprise app? → Redux Toolkit
+const store = configureStore({
+  reducer: {
+    user: userReducer,
+    products: productsReducer,
+    cart: cartReducer
+  }
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Hybrid Approaches
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Combine multiple solutions for optimal results
+
+// Approach 1: Context + Composition
+function App() {
+  return (
+    &lt;UserProvider&gt;
+      &lt;ThemeProvider&gt;
+        &lt;Layout
+          header={&lt;AppHeader /&gt;}
+          sidebar={&lt;AppSidebar /&gt;}
+        &gt;
+          &lt;Routes /&gt;
+        &lt;/Layout&gt;
+      &lt;/ThemeProvider&gt;
+    &lt;/UserProvider&gt;
+  );
+}
+
+// Approach 2: Context for UI state, React Query for server state
+function ProductPage() {
+  // Server state from React Query
+  const { data: products } = useQuery('products', fetchProducts);
+  
+  // UI state from Context
+  const { theme } = useTheme();
+  
+  return (
+    &lt;div className={theme}&gt;
+      &lt;ProductList products={products} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Approach 3: Multiple focused contexts instead of one large context
+function App() {
+  return (
+    &lt;AuthProvider&gt;
+      &lt;ThemeProvider&gt;
+        &lt;NotificationsProvider&gt;
+          &lt;CartProvider&gt;
+            &lt;AppContent /&gt;
+          &lt;/CartProvider&gt;
+        &lt;/NotificationsProvider&gt;
+      &lt;/ThemeProvider&gt;
+    &lt;/AuthProvider&gt;
+  );
+}
+
+// Components consume only what they need
+function CartButton() {
+  const { items } = useCart(); // Only cart
+  return &lt;button&gt;Cart ({items.length})&lt;/button&gt;;
+}
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme(); // Only theme
+  return &lt;button onClick={toggleTheme}&gt;{theme}&lt;/button&gt;;
+}
+
+// Approach 4: Context for global state, props for local state
+function ProductList() {
+  // Global state from context
+  const { theme } = useTheme();
+  
+  // Local state with props
+  const [sortBy, setSortBy] = useState('name');
+  
+  return (
+    &lt;div className={theme}&gt;
+      &lt;SortSelector value={sortBy} onChange={setSortBy} /&gt;
+      &lt;Products sortBy={sortBy} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Approach 5: Wrapper components to bridge contexts and props
+function UserDashboardWrapper() {
+  const { user } = useUser();
+  const { theme } = useTheme();
+  
+  return &lt;UserDashboard user={user} theme={theme} /&gt;;
+}
+
+// UserDashboard can now be tested easily without contexts
+function UserDashboard({ user, theme }) {
+  return (
+    &lt;div className={theme}&gt;
+      &lt;h1&gt;{user.name}'s Dashboard&lt;/h1&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Performance Considerations
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Context API can cause performance issues if not used carefully
+
+// Problem: Single context with all app state
+const AppContext = createContext(null);
+
+function AppProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState('light');
+  const [notifications, setNotifications] = useState([]);
+  const [settings, setSettings] = useState({});
+  
+  // Every state change re-renders ALL consumers!
+  const value = { user, setUser, theme, setTheme, notifications, setNotifications, settings, setSettings };
+  
+  return &lt;AppContext.Provider value={value}&gt;{children}&lt;/AppContext.Provider&gt;;
+}
+
+// Solution 1: Split contexts
+const UserContext = createContext(null);
+const ThemeContext = createContext(null);
+const NotificationsContext = createContext(null);
+
+// Now components only re-render when their specific context changes
+
+// Solution 2: Memoize context value
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  
+  const value = useMemo(() => ({ theme, setTheme }), [theme]);
+  
+  return &lt;ThemeContext.Provider value={value}&gt;{children}&lt;/ThemeContext.Provider&gt;;
+}
+
+// Solution 3: Separate state and dispatch
+const StateContext = createContext(null);
+const DispatchContext = createContext(null);
+
+function Provider({ children }) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  
+  return (
+    &lt;StateContext.Provider value={state}&gt;
+      &lt;DispatchContext.Provider value={dispatch}&gt;
+        {children}
+      &lt;/DispatchContext.Provider&gt;
+    &lt;/StateContext.Provider&gt;
+  );
+}
+
+// Components that only dispatch don't re-render on state changes
+function ActionButton() {
+  const dispatch = useContext(DispatchContext); // No re-renders!
+  return &lt;button onClick={() => dispatch({ type: 'INCREMENT' })}&gt;+&lt;/button&gt;;
+}
+
+// Solution 4: Use state management library with selectors
+// Redux with selectors
+function Component() {
+  const userName = useSelector(state => state.user.name); // Only re-renders when name changes
+  return &lt;div&gt;{userName}&lt;/div&gt;;
+}
+
+// Zustand with selectors
+const useStore = create(set => ({
+  user: { name: 'John', age: 30 },
+  setUser: (user) => set({ user })
+}));
+
+function Component() {
+  const userName = useStore(state => state.user.name); // Only re-renders when name changes
+  return &lt;div&gt;{userName}&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Testing Components Without Prop Drilling
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Testing with prop drilling
+function testWithPropDrilling() {
+  const mockUser = { name: 'Test', email: 'test@example.com' };
+  
+  render(
+    &lt;Dashboard user={mockUser}&gt;
+      &lt;Sidebar user={mockUser}&gt;
+        &lt;Navigation user={mockUser}&gt;
+          &lt;UserMenu user={mockUser} /&gt; {/* Just to test this! */}
+        &lt;/Navigation&gt;
+      &lt;/Sidebar&gt;
+    &lt;/Dashboard&gt;
+  );
+}
+
+// Testing with Context
+function testWithContext() {
+  const mockUser = { name: 'Test', email: 'test@example.com' };
+  
+  render(
+    &lt;UserContext.Provider value={{ user: mockUser }}&gt;
+      &lt;UserMenu /&gt;
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+// Create test wrapper
+function createWrapper(contextValue) {
+  return ({ children }) => (
+    &lt;UserContext.Provider value={contextValue}&gt;
+      {children}
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+test('displays user name', () => {
+  const wrapper = createWrapper({ user: { name: 'Test' } });
+  
+  render(&lt;UserMenu /&gt;, { wrapper });
+  
+  expect(screen.getByText('Test')).toBeInTheDocument();
+});
+
+// Testing with custom render function
+function renderWithProviders(ui, { user = null, theme = 'light', ...options } = {}) {
+  const AllProviders = ({ children }) => (
+    &lt;UserProvider value={{ user }}&gt;
+      &lt;ThemeProvider value={{ theme }}&gt;
+        {children}
+      &lt;/ThemeProvider&gt;
+    &lt;/UserProvider&gt;
+  );
+  
+  return render(ui, { wrapper: AllProviders, ...options });
+}
+
+test('component with multiple contexts', () => {
+  renderWithProviders(&lt;UserMenu /&gt;, {
+    user: { name: 'Test' },
+    theme: 'dark'
+  });
+  
+  expect(screen.getByText('Test')).toBeInTheDocument();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Migration Strategies
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Migrating from prop drilling to Context gradually
+
+// Step 1: Identify the most drilled props
+// Find props that pass through 3+ components
+
+// Step 2: Create context for one concern at a time
+// Start with most frequently drilled prop (e.g., user)
+
+const UserContext = createContext(null);
+
+// Step 3: Add provider at appropriate level
+function App() {
+  const [user, setUser] = useState(null);
+  
+  return (
+    &lt;UserContext.Provider value={{ user, setUser }}&gt;
+      &lt;Dashboard /&gt; {/* Can still pass user as prop during migration */}
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+// Step 4: Create custom hook
+function useUser() {
+  const context = useContext(UserContext);
+  if (!context) throw new Error('useUser must be used within UserProvider');
+  return context;
+}
+
+// Step 5: Update leaf components first
+function UserMenu({ user: propUser }) {
+  // Support both prop and context during migration
+  const contextUser = useUser();
+  const user = propUser || contextUser.user;
+  
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// Step 6: Gradually remove props from intermediate components
+// Work from leaf components up to root
+
+// Step 7: Once all components use context, remove prop
+function UserMenu() {
+  const { user } = useUser(); // Only context now
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// Step 8: Repeat for other drilled props
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Best Practices and Anti-patterns
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Keep state as local as possible before lifting</li>
+  <li><b>DO:</b> Use Context for truly global state (theme, auth, language)</li>
+  <li><b>DO:</b> Use composition to avoid intermediate components</li>
+  <li><b>DO:</b> Split contexts by concern to minimize re-renders</li>
+  <li><b>DO:</b> Memoize context values to prevent unnecessary updates</li>
+  <li><b>DO:</b> Use React Query/SWR for server state</li>
+  <li><b>DON'T:</b> Put all state in one context</li>
+  <li><b>DON'T:</b> Use Context for frequently changing state</li>
+  <li><b>DON'T:</b> Over-engineer solutions for shallow prop drilling</li>
+  <li><b>DON'T:</b> Forget to consider performance implications</li>
+  <li><b>DON'T:</b> Mix server state and UI state in the same context</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+14. Real-world Example: E-commerce Application
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Complex app with multiple concerns
+
+// Auth context for user authentication
+const AuthContext = createContext(null);
+
+function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  
+  const login = async (credentials) => {
+    const user = await loginAPI(credentials);
+    setUser(user);
+  };
+  
+  const logout = () => setUser(null);
+  
+  const value = useMemo(() => ({ user, login, logout }), [user]);
+  
+  return &lt;AuthContext.Provider value={value}&gt;{children}&lt;/AuthContext.Provider&gt;;
+}
+
+// Cart context for shopping cart
+const CartContext = createContext(null);
+
+function CartProvider({ children }) {
+  const [items, dispatch] = useReducer(cartReducer, []);
+  
+  const value = useMemo(() => ({ items, dispatch }), [items]);
+  
+  return &lt;CartContext.Provider value={value}&gt;{children}&lt;/CartContext.Provider&gt;;
+}
+
+// Theme context for UI theming
+const ThemeContext = createContext(null);
+
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  
+  const value = useMemo(() => ({ theme, setTheme }), [theme]);
+  
+  return &lt;ThemeContext.Provider value={value}&gt;{children}&lt;/ThemeContext.Provider&gt;;
+}
+
+// React Query for server state
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
+// App composition
+function App() {
+  return (
+    &lt;QueryClientProvider client={queryClient}&gt;
+      &lt;AuthProvider&gt;
+        &lt;ThemeProvider&gt;
+          &lt;CartProvider&gt;
+            &lt;Layout&gt;
+              &lt;Router /&gt;
+            &lt;/Layout&gt;
+          &lt;/CartProvider&gt;
+        &lt;/ThemeProvider&gt;
+      &lt;/AuthProvider&gt;
+    &lt;/QueryClientProvider&gt;
+  );
+}
+
+// Components consume only what they need
+function ProductPage() {
+  const { data: products } = useQuery('products', fetchProducts); // Server state
+  const { theme } = useTheme(); // UI state
+  const { dispatch } = useCart(); // App state
+  
+  return (
+    &lt;div className={theme}&gt;
+      &lt;ProductList products={products} onAddToCart={(item) => dispatch({ type: 'ADD', item })} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function CartButton() {
+  const { items } = useCart();
+  return &lt;button&gt;Cart ({items.length})&lt;/button&gt;;
+}
+
+function UserMenu() {
+  const { user, logout } = useAuth();
+  return user ? &lt;button onClick={logout}&gt;Logout&lt;/button&gt; : &lt;Link to="/login"&gt;Login&lt;/Link&gt;;
+}
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "User Authentication Flow Without Prop Drilling",
+              "Shopping Cart with Context API",
+              "Multi-level Form with Component Composition",
+              "Dashboard with Theme and Settings",
+              "Product Catalog with Filters",
+              "Notification System with Context",
+            ],
+            questions: [
+              {
+                question:
+                  "What is prop drilling and why is it considered problematic?",
+                answer:
+                  "Prop drilling is passing data through multiple layers of components via props where intermediate components don't use the data but merely forward it. It's problematic because it creates tight coupling (intermediate components must know about props they don't use), reduces reusability (components can't be moved without their prop dependencies), increases maintenance burden (adding props requires updating all intermediate components), makes data flow unclear, complicates testing, and can lead to prop name conflicts.",
+              },
+              {
+                question:
+                  "When is prop drilling acceptable and when should you avoid it?",
+                answer:
+                  "Prop drilling is acceptable when: props pass through 1-2 levels, components are tightly related, the hierarchy is stable, and alternative solutions add unnecessary complexity. Avoid it when: props pass through 3+ levels, many intermediate components don't use the props, you're adding new props frequently, the component tree is likely to change, or when it makes testing difficult. Keep state as local as possible and only lift/drill when necessary.",
+              },
+              {
+                question: "How does the Context API solve prop drilling?",
+                answer:
+                  "Context API provides a way to share data across the component tree without passing props through every level. Create a context with createContext(), wrap the tree with a Provider component that holds the state, and consume the context anywhere in the tree with useContext() hook. Intermediate components don't need to know about or pass the data. This creates a direct connection between the provider and consumers, eliminating intermediate prop passing.",
+              },
+              {
+                question:
+                  "What is component composition and how does it help with prop drilling?",
+                answer:
+                  "Component composition uses children props or render props to pass components directly rather than data. Instead of passing props through Layout to reach Header, you compose them: <Layout header={<Header user={user} />}>. The Layout doesn't need to know about user—it just renders the header component. This inverts control, reduces coupling, and makes components more reusable while avoiding prop drilling.",
+              },
+              {
+                question:
+                  "What are the performance implications of using Context API to solve prop drilling?",
+                answer:
+                  "Context can cause performance issues if misused. When context value changes, all consumers re-render. Problems include: single large context causing widespread re-renders, creating new object references on every render, mixing frequently and infrequently changing state. Solutions: split contexts by concern, memoize context values with useMemo, separate state and dispatch contexts, use state management libraries with selectors for frequently changing state, or use component composition to limit context scope.",
+              },
+              {
+                question:
+                  "How do you decide between Context API, state management libraries, and component composition?",
+                answer:
+                  "Use Context API for truly global, infrequently changing state (theme, auth, language). Use component composition for layout components and to avoid intermediate components. Use state management libraries (Redux, Zustand) for complex global state, frequently changing state, or when you need middleware, devtools, and better performance with selectors. Use React Query/SWR for server state. Often combine approaches: Context for UI state, React Query for server state, composition for layouts.",
+              },
+              {
+                question:
+                  "What is the difference between server state and client state in the context of prop drilling?",
+                answer:
+                  "Server state is data fetched from APIs (products, users, posts) that should be cached, synchronized, and refetched. Client state is UI state managed in the app (theme, form inputs, modals). For server state, use React Query or SWR instead of drilling props—let components fetch their own data with automatic caching. For client state, use Context API or state management libraries. Mixing them in prop drilling or single context is an anti-pattern.",
+              },
+              {
+                question:
+                  "How do you test components that use Context API instead of props?",
+                answer:
+                  "Wrap the component in the required Provider(s) with test values. Create reusable test wrappers or custom render functions that include all necessary providers. This is often cleaner than prop drilling tests which require rendering the entire component tree. You can easily provide different context values for different test cases. Testing becomes more focused on the component's behavior rather than the prop passing infrastructure.",
+              },
+              {
+                question:
+                  "What are the common anti-patterns when solving prop drilling?",
+                answer:
+                  "Common anti-patterns include: putting all state in one large context (causes widespread re-renders), using Context for frequently changing state (bad performance), over-engineering solutions for shallow prop drilling (2 levels is fine), mixing server state and UI state in the same context, not memoizing context values (creates new references), using global state when local state would suffice, and ignoring component composition as a simpler alternative.",
+              },
+              {
+                question:
+                  "How do you migrate from prop drilling to Context API in an existing application?",
+                answer:
+                  "Migrate gradually: 1) Identify most frequently drilled props, 2) Create context for one concern at a time, 3) Add provider at appropriate level, 4) Create custom hook for safe consumption, 5) Update leaf components first to use context, 6) Support both props and context during migration, 7) Work upward removing props from intermediate components, 8) Once all use context, remove prop entirely, 9) Repeat for other drilled props. This minimizes risk and allows testing at each step.",
+              },
+              {
+                question:
+                  "What role do custom hooks play in avoiding prop drilling?",
+                answer:
+                  "Custom hooks let components fetch their own data instead of receiving it via props. For example, useUser() can fetch user data anywhere in the tree without drilling. This works especially well with React Query for server state caching. Hooks can also wrap Context consumption (useAuth(), useTheme()) providing a cleaner API, error checking, and easier refactoring. They enable data fetching to be colocated with usage rather than at the top of the tree.",
+              },
+              {
+                question:
+                  'How do you handle multiple contexts without creating "provider hell"?',
+                answer:
+                  "Combine providers into a single AppProviders component that wraps all contexts. Order providers by dependency (auth first, then theme, then features). Split contexts by concern to keep them focused. Use composition to limit provider scope to only parts of the tree that need them. Consider state management libraries that don't require providers (Zustand, Jotai). Document the provider structure and context purposes clearly.",
+              },
+              {
+                question:
+                  'What is the difference between prop drilling and "threading" or "boring"?',
+                answer:
+                  'These terms are synonymous and refer to the same pattern—passing props through intermediate components. "Threading" emphasizes the path props take through the tree. "Boring" refers to the tedious, repetitive nature of adding props to components that don\'t use them. All describe the anti-pattern of manual prop passing through multiple levels. The solution approaches are the same regardless of terminology.',
+              },
+              {
+                question:
+                  "How do you balance between keeping state local and avoiding prop drilling?",
+                answer:
+                  "Start with state as local as possible (single component). Lift only when siblings need to share state. If lifting causes drilling through 3+ levels, consider Context API for truly global state, composition for layout components, or custom hooks for data fetching. The key is finding the right level: not too local (can't share), not too global (everything re-renders). Prefer local state with drilling over global state unless truly needed across the app.",
+              },
+              {
+                question:
+                  "What are the tradeoffs between different solutions to prop drilling?",
+                answer:
+                  "Context API: Simple, built-in, but can cause re-render issues if not optimized. Component composition: Clean, performant, but requires structural changes. State management libraries: Powerful, performant with selectors, but add dependencies and complexity. Custom hooks with React Query: Great for server state, but requires setup and learning. Props drilling: Simple, explicit, but verbose and tightly coupled. Choose based on app size, team experience, state complexity, and performance requirements. Often a combination is best.",
+              },
+            ],
+            links: [
+              "https://react.dev/learn/passing-data-deeply-with-context",
+              "https://react.dev/learn/sharing-state-between-components",
+              "https://kentcdodds.com/blog/prop-drilling",
+              "https://kentcdodds.com/blog/application-state-management-with-react",
+              "https://react.dev/reference/react/useContext",
+              "https://tanstack.com/query/latest/docs/framework/react/overview",
+            ],
           },
           {
             topic: "Error Boundaries",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Error Boundaries",
+              "Error Handling",
+              "componentDidCatch",
+              "getDerivedStateFromError",
+              "Class Components",
+              "Error Recovery",
+              "Fallback UI",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the entire application. They act as a JavaScript catch block for components, preventing errors in one part of your UI from breaking the whole app. Error boundaries are implemented using class components with the componentDidCatch and getDerivedStateFromError lifecycle methods. Understanding error boundaries is crucial for building resilient, production-ready React applications with graceful error handling and better user experience.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Concept and Implementation
+</h4>
+
+<p style="line-height: 1.75;">
+Error boundaries are class components that implement componentDidCatch or getDerivedStateFromError to catch errors in their children.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Basic Error Boundary implementation
+import React from 'react';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  
+  static getDerivedStateFromError(error) {
+    // Update state so next render shows fallback UI
+    return { hasError: true };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    // Log error to error reporting service
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      // Fallback UI
+      return &lt;h1&gt;Something went wrong.&lt;/h1&gt;;
+    }
+    
+    return this.props.children;
+  }
+}
+
+// Usage
+function App() {
+  return (
+    &lt;ErrorBoundary&gt;
+      &lt;UserProfile /&gt;
+      &lt;Dashboard /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// Component that might throw an error
+function UserProfile() {
+  const [user, setUser] = useState(null);
+  
+  // This will cause an error if user is null
+  return &lt;div&gt;{user.name}&lt;/div&gt;;
+}
+
+// Without ErrorBoundary: Whole app crashes with blank screen
+// With ErrorBoundary: Shows "Something went wrong" fallback
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. getDerivedStateFromError vs componentDidCatch
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// getDerivedStateFromError: Update state for fallback UI
+// - Called during render phase
+// - Must be pure (no side effects)
+// - Returns new state or null
+// - Use for rendering fallback UI
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  
+  static getDerivedStateFromError(error) {
+    // Called during render phase
+    // Return state update
+    return { 
+      hasError: true,
+      error: error
+    };
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return &lt;FallbackUI error={this.state.error} /&gt;;
+    }
+    return this.props.children;
+  }
+}
+
+// componentDidCatch: Handle side effects
+// - Called during commit phase (after render)
+// - Can have side effects
+// - Use for logging errors
+// - Receives error and errorInfo (component stack)
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    // Called during commit phase
+    // Log to error reporting service
+    logErrorToService(error, errorInfo);
+    
+    // errorInfo contains component stack trace
+    console.log('Component stack:', errorInfo.componentStack);
+    
+    // Can perform side effects
+    this.setState({ errorCount: (this.state.errorCount || 0) + 1 });
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return &lt;h1&gt;Error occurred&lt;/h1&gt;;
+    }
+    return this.props.children;
+  }
+}
+
+// Best practice: Use both
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      hasError: false,
+      error: null,
+      errorInfo: null
+    };
+  }
+  
+  static getDerivedStateFromError(error) {
+    // Update state for fallback UI
+    return { hasError: true, error };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    // Log error details
+    this.setState({ errorInfo });
+    logErrorToService(error, errorInfo);
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return (
+        &lt;ErrorFallback 
+          error={this.state.error}
+          errorInfo={this.state.errorInfo}
+          resetError={() => this.setState({ hasError: false })}
+        /&gt;
+      );
+    }
+    return this.props.children;
+  }
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. What Error Boundaries Catch and Don't Catch
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Error boundaries CATCH these errors:
+
+// 1. Errors during rendering
+function BrokenComponent() {
+  const user = null;
+  return &lt;div&gt;{user.name}&lt;/div&gt;; // ✓ Caught: Cannot read property 'name' of null
+}
+
+// 2. Errors in lifecycle methods
+class BrokenLifecycle extends React.Component {
+  componentDidMount() {
+    throw new Error('Mount error'); // ✓ Caught
+  }
+  
+  render() {
+    return &lt;div&gt;Content&lt;/div&gt;;
+  }
+}
+
+// 3. Errors in constructors of child components
+class BrokenConstructor extends React.Component {
+  constructor(props) {
+    super(props);
+    throw new Error('Constructor error'); // ✓ Caught
+  }
+  
+  render() {
+    return &lt;div&gt;Content&lt;/div&gt;;
+  }
+}
+
+// Error boundaries DO NOT catch:
+
+// 1. Event handler errors
+function EventHandlerError() {
+  const handleClick = () => {
+    throw new Error('Click error'); // ✗ NOT caught
+  };
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+
+// Solution: Use try-catch in event handlers
+function EventHandlerFixed() {
+  const handleClick = () => {
+    try {
+      riskyOperation();
+    } catch (error) {
+      console.error('Error in handler:', error);
+      // Handle error gracefully
+    }
+  };
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+
+// 2. Async code (setTimeout, promises)
+function AsyncError() {
+  useEffect(() => {
+    setTimeout(() => {
+      throw new Error('Async error'); // ✗ NOT caught
+    }, 1000);
+  }, []);
+  
+  return &lt;div&gt;Content&lt;/div&gt;;
+}
+
+// Solution: Handle async errors manually
+function AsyncErrorFixed() {
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    fetchData()
+      .catch(error => {
+        setError(error);
+        logError(error);
+      });
+  }, []);
+  
+  if (error) return &lt;ErrorDisplay error={error} /&gt;;
+  return &lt;div&gt;Content&lt;/div&gt;;
+}
+
+// 3. Server-side rendering errors
+// ✗ NOT caught during SSR
+
+// 4. Errors in the error boundary itself
+class ErrorBoundary extends React.Component {
+  // ...
+  render() {
+    if (this.state.hasError) {
+      throw new Error('Error in fallback'); // ✗ NOT caught by itself
+      // This will crash the app!
+    }
+    return this.props.children;
+  }
+}
+
+// 5. Errors thrown in the error boundary's own children during error state
+// If fallback UI itself throws, it won't be caught
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Advanced Error Boundary Patterns
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Error Boundary with Reset Functionality
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    logErrorToService(error, errorInfo);
+  }
+  
+  resetError = () => {
+    this.setState({ hasError: false, error: null });
+  };
+  
+  render() {
+    if (this.state.hasError) {
+      return (
+        &lt;div&gt;
+          &lt;h2&gt;Something went wrong&lt;/h2&gt;
+          &lt;p&gt;{this.state.error?.message}&lt;/p&gt;
+          &lt;button onClick={this.resetError}&gt;Try Again&lt;/button&gt;
+        &lt;/div&gt;
+      );
+    }
+    
+    return this.props.children;
+  }
+}
+
+// Usage with key prop to force remount on reset
+function App() {
+  const [resetKey, setResetKey] = useState(0);
+  
+  return (
+    &lt;ErrorBoundary key={resetKey} onReset={() => setResetKey(k => k + 1)}&gt;
+      &lt;ProblematicComponent /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// Better: Reset with callback
+class ErrorBoundary extends React.Component {
+  // ... previous code
+  
+  resetError = () => {
+    this.setState({ hasError: false, error: null });
+    this.props.onReset?.();
+  };
+  
+  // ... render with reset button
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Error Boundary with Custom Fallback
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null, errorInfo: null };
+  }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    this.setState({ errorInfo });
+    logErrorToService(error, errorInfo);
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      // Use custom fallback if provided
+      if (this.props.fallback) {
+        return this.props.fallback({
+          error: this.state.error,
+          errorInfo: this.state.errorInfo,
+          resetError: () => this.setState({ hasError: false })
+        });
+      }
+      
+      // Default fallback
+      return &lt;DefaultErrorFallback error={this.state.error} /&gt;;
+    }
+    
+    return this.props.children;
+  }
+}
+
+// Usage with custom fallback
+function App() {
+  return (
+    &lt;ErrorBoundary
+      fallback={({ error, resetError }) => (
+        &lt;div className="error-container"&gt;
+          &lt;h1&gt;Oops!&lt;/h1&gt;
+          &lt;p&gt;{error.message}&lt;/p&gt;
+          &lt;button onClick={resetError}&gt;Retry&lt;/button&gt;
+        &lt;/div&gt;
+      )}
+    &gt;
+      &lt;MyComponent /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// Or with FallbackComponent prop
+&lt;ErrorBoundary FallbackComponent={CustomErrorFallback}&gt;
+  &lt;MyComponent /&gt;
+&lt;/ErrorBoundary&gt;
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Granular Error Boundaries
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Multiple error boundaries for different sections
+function App() {
+  return (
+    &lt;div&gt;
+      {/* Header error won't crash sidebar or main content */}
+      &lt;ErrorBoundary fallback={&lt;HeaderFallback /&gt;}&gt;
+        &lt;Header /&gt;
+      &lt;/ErrorBoundary&gt;
+      
+      &lt;div className="content"&gt;
+        {/* Sidebar error won't crash main content */}
+        &lt;ErrorBoundary fallback={&lt;SidebarFallback /&gt;}&gt;
+          &lt;Sidebar /&gt;
+        &lt;/ErrorBoundary&gt;
+        
+        {/* Main content error won't crash sidebar */}
+        &lt;ErrorBoundary fallback={&lt;MainContentFallback /&gt;}&gt;
+          &lt;MainContent /&gt;
+        &lt;/ErrorBoundary&gt;
+      &lt;/div&gt;
+      
+      {/* Footer always works unless it has its own error */}
+      &lt;ErrorBoundary fallback={&lt;FooterFallback /&gt;}&gt;
+        &lt;Footer /&gt;
+      &lt;/ErrorBoundary&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Feature-based boundaries
+function Dashboard() {
+  return (
+    &lt;div&gt;
+      &lt;ErrorBoundary name="UserProfile"&gt;
+        &lt;UserProfile /&gt;
+      &lt;/ErrorBoundary&gt;
+      
+      &lt;ErrorBoundary name="RecentActivity"&gt;
+        &lt;RecentActivity /&gt;
+      &lt;/ErrorBoundary&gt;
+      
+      &lt;ErrorBoundary name="Notifications"&gt;
+        &lt;Notifications /&gt;
+      &lt;/ErrorBoundary&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Error Logging and Reporting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Integration with error reporting services
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    // Log to console in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error caught:', error);
+      console.error('Component stack:', errorInfo.componentStack);
+    }
+    
+    // Send to error reporting service
+    this.logErrorToService(error, errorInfo);
+  }
+  
+  logErrorToService(error, errorInfo) {
+    // Sentry
+    if (window.Sentry) {
+      Sentry.withScope((scope) => {
+        scope.setExtras(errorInfo);
+        Sentry.captureException(error);
+      });
+    }
+    
+    // LogRocket
+    if (window.LogRocket) {
+      LogRocket.captureException(error, {
+        extra: {
+          componentStack: errorInfo.componentStack
+        }
+      });
+    }
+    
+    // Custom analytics
+    if (window.analytics) {
+      analytics.track('Error Occurred', {
+        error: error.message,
+        stack: error.stack,
+        componentStack: errorInfo.componentStack,
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Custom API endpoint
+    fetch('/api/errors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: error.message,
+        stack: error.stack,
+        componentStack: errorInfo.componentStack,
+        userAgent: navigator.userAgent,
+        url: window.location.href,
+        timestamp: new Date().toISOString()
+      })
+    }).catch(err => console.error('Failed to log error:', err));
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return &lt;ErrorFallback /&gt;;
+    }
+    return this.props.children;
+  }
+}
+
+// Enhanced error context
+class ErrorBoundary extends React.Component {
+  componentDidCatch(error, errorInfo) {
+    const errorContext = {
+      error: {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      },
+      errorInfo: {
+        componentStack: errorInfo.componentStack
+      },
+      context: {
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+        timestamp: new Date().toISOString(),
+        userId: this.props.userId, // If available
+        sessionId: this.props.sessionId // If available
+      }
+    };
+    
+    logErrorToService(errorContext);
+  }
+  
+  // ... rest of implementation
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Error Boundary with react-error-boundary Library
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Using react-error-boundary library (recommended)
+import { ErrorBoundary } from 'react-error-boundary';
+
+// Simple usage
+function App() {
+  return (
+    &lt;ErrorBoundary fallback={&lt;div&gt;Something went wrong&lt;/div&gt;}&gt;
+      &lt;MyComponent /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// With error handler
+function App() {
+  const handleError = (error, errorInfo) => {
+    console.error('Caught error:', error, errorInfo);
+    logErrorToService(error, errorInfo);
+  };
+  
+  return (
+    &lt;ErrorBoundary
+      fallback={&lt;ErrorFallback /&gt;}
+      onError={handleError}
+    &gt;
+      &lt;MyComponent /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// With FallbackComponent
+function ErrorFallback({ error, resetErrorBoundary }) {
+  return (
+    &lt;div role="alert"&gt;
+      &lt;h2&gt;Something went wrong&lt;/h2&gt;
+      &lt;pre&gt;{error.message}&lt;/pre&gt;
+      &lt;button onClick={resetErrorBoundary}&gt;Try again&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;ErrorBoundary FallbackComponent={ErrorFallback}&gt;
+      &lt;MyComponent /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// With render prop
+function App() {
+  return (
+    &lt;ErrorBoundary
+      fallbackRender={({ error, resetErrorBoundary }) => (
+        &lt;div&gt;
+          &lt;h1&gt;Error: {error.message}&lt;/h1&gt;
+          &lt;button onClick={resetErrorBoundary}&gt;Retry&lt;/button&gt;
+        &lt;/div&gt;
+      )}
+    &gt;
+      &lt;MyComponent /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// With reset keys (auto-reset when keys change)
+function App() {
+  const [user, setUser] = useState(null);
+  
+  return (
+    &lt;ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => setUser(null)}
+      resetKeys={[user]} // Reset when user changes
+    &gt;
+      &lt;UserProfile user={user} /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// useErrorHandler hook for async errors
+import { useErrorHandler } from 'react-error-boundary';
+
+function MyComponent() {
+  const handleError = useErrorHandler();
+  
+  useEffect(() => {
+    fetchData()
+      .catch(error => {
+        handleError(error); // Propagate to nearest error boundary
+      });
+  }, [handleError]);
+  
+  return &lt;div&gt;Content&lt;/div&gt;;
+}
+
+// With error handler in event handlers
+function MyComponent() {
+  const handleError = useErrorHandler();
+  
+  const handleClick = () => {
+    try {
+      riskyOperation();
+    } catch (error) {
+      handleError(error); // Propagate to error boundary
+    }
+  };
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Fallback UI Best Practices
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Simple, user-friendly fallback
+function SimpleFallback() {
+  return (
+    &lt;div style={{ padding: '20px', textAlign: 'center' }}&gt;
+      &lt;h2&gt;Oops! Something went wrong&lt;/h2&gt;
+      &lt;p&gt;We're sorry for the inconvenience. Please try refreshing the page.&lt;/p&gt;
+      &lt;button onClick={() => window.location.reload()}&gt;
+        Refresh Page
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Informative fallback with details (development only)
+function DetailedFallback({ error, errorInfo }) {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  
+  return (
+    &lt;div style={{ padding: '20px', backgroundColor: '#fee', border: '2px solid red' }}&gt;
+      &lt;h2&gt;Error Occurred&lt;/h2&gt;
+      
+      {isDevelopment && (
+        &lt;div&gt;
+          &lt;h3&gt;Error Message:&lt;/h3&gt;
+          &lt;pre&gt;{error?.message}&lt;/pre&gt;
+          
+          &lt;h3&gt;Stack Trace:&lt;/h3&gt;
+          &lt;pre&gt;{error?.stack}&lt;/pre&gt;
+          
+          &lt;h3&gt;Component Stack:&lt;/h3&gt;
+          &lt;pre&gt;{errorInfo?.componentStack}&lt;/pre&gt;
+        &lt;/div&gt;
+      )}
+      
+      {!isDevelopment && (
+        &lt;p&gt;An unexpected error occurred. Our team has been notified.&lt;/p&gt;
+      )}
+      
+      &lt;button onClick={() => window.location.reload()}&gt;
+        Reload Page
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Branded fallback matching app design
+function BrandedFallback({ error, resetErrorBoundary }) {
+  return (
+    &lt;div className="error-container"&gt;
+      &lt;img src="/error-illustration.svg" alt="Error" /&gt;
+      &lt;h1&gt;We hit a snag&lt;/h1&gt;
+      &lt;p&gt;Don't worry, it's not your fault. We've been notified and are looking into it.&lt;/p&gt;
+      
+      &lt;div className="error-actions"&gt;
+        &lt;button className="btn-primary" onClick={resetErrorBoundary}&gt;
+          Try Again
+        &lt;/button&gt;
+        &lt;button className="btn-secondary" onClick={() => window.location.href = '/'}&gt;
+          Go Home
+        &lt;/button&gt;
+      &lt;/div&gt;
+      
+      &lt;details&gt;
+        &lt;summary&gt;Error Details&lt;/summary&gt;
+        &lt;code&gt;{error?.message}&lt;/code&gt;
+      &lt;/details&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Context-aware fallback
+function ContextAwareFallback({ error, resetErrorBoundary, componentName }) {
+  const messages = {
+    'UserProfile': 'Unable to load user profile',
+    'Dashboard': 'Unable to load dashboard',
+    'ProductList': 'Unable to load products'
+  };
+  
+  return (
+    &lt;div className="error-fallback"&gt;
+      &lt;h2&gt;{messages[componentName] || 'Something went wrong'}&lt;/h2&gt;
+      &lt;p&gt;{error?.message}&lt;/p&gt;
+      &lt;button onClick={resetErrorBoundary}&gt;Retry&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Testing Error Boundaries
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen } from '@testing-library/react';
+import ErrorBoundary from './ErrorBoundary';
+
+// Component that throws an error
+function ThrowError({ shouldThrow }) {
+  if (shouldThrow) {
+    throw new Error('Test error');
+  }
+  return &lt;div&gt;No error&lt;/div&gt;;
+}
+
+describe('ErrorBoundary', () => {
+  // Suppress console.error in tests
+  beforeEach(() => {
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+  
+  afterEach(() => {
+    console.error.mockRestore();
+  });
+  
+  test('renders children when there is no error', () => {
+    render(
+      &lt;ErrorBoundary&gt;
+        &lt;ThrowError shouldThrow={false} /&gt;
+      &lt;/ErrorBoundary&gt;
+    );
+    
+    expect(screen.getByText('No error')).toBeInTheDocument();
+  });
+  
+  test('renders fallback UI when error occurs', () => {
+    render(
+      &lt;ErrorBoundary&gt;
+        &lt;ThrowError shouldThrow={true} /&gt;
+      &lt;/ErrorBoundary&gt;
+    );
+    
+    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+  });
+  
+  test('calls error logging function', () => {
+    const mockLogError = jest.fn();
+    
+    render(
+      &lt;ErrorBoundary onError={mockLogError}&gt;
+        &lt;ThrowError shouldThrow={true} /&gt;
+      &lt;/ErrorBoundary&gt;
+    );
+    
+    expect(mockLogError).toHaveBeenCalledWith(
+      expect.any(Error),
+      expect.objectContaining({
+        componentStack: expect.any(String)
+      })
+    );
+  });
+  
+  test('resets error when reset button is clicked', () => {
+    const { rerender } = render(
+      &lt;ErrorBoundary&gt;
+        &lt;ThrowError shouldThrow={true} /&gt;
+      &lt;/ErrorBoundary&gt;
+    );
+    
+    expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+    
+    const resetButton = screen.getByText(/try again/i);
+    fireEvent.click(resetButton);
+    
+    rerender(
+      &lt;ErrorBoundary&gt;
+        &lt;ThrowError shouldThrow={false} /&gt;
+      &lt;/ErrorBoundary&gt;
+    );
+    
+    expect(screen.getByText('No error')).toBeInTheDocument();
+  });
+});
+
+// Testing with react-error-boundary
+import { ErrorBoundary } from 'react-error-boundary';
+
+test('catches error with react-error-boundary', () => {
+  const mockHandler = jest.fn();
+  
+  render(
+    &lt;ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={mockHandler}
+    &gt;
+      &lt;ThrowError shouldThrow={true} /&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+  
+  expect(screen.getByRole('alert')).toBeInTheDocument();
+  expect(mockHandler).toHaveBeenCalled();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Error Boundaries in Production
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Production-ready error boundary
+class ProductionErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null,
+      errorInfo: null,
+      errorCount: 0
+    };
+  }
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  
+  componentDidCatch(error, errorInfo) {
+    this.setState(prevState => ({
+      errorInfo,
+      errorCount: prevState.errorCount + 1
+    }));
+    
+    // Log to multiple services
+    this.logError(error, errorInfo);
+    
+    // Alert if too many errors
+    if (this.state.errorCount > 5) {
+      this.alertCriticalError(error);
+    }
+  }
+  
+  logError(error, errorInfo) {
+    const errorData = {
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+      timestamp: new Date().toISOString(),
+      url: window.location.href,
+      userAgent: navigator.userAgent,
+      userId: this.getUserId(),
+      sessionId: this.getSessionId(),
+      environment: process.env.NODE_ENV
+    };
+    
+    // Sentry
+    if (window.Sentry) {
+      Sentry.captureException(error, {
+        contexts: {
+          react: {
+            componentStack: errorInfo.componentStack
+          }
+        }
+      });
+    }
+    
+    // Custom API
+    fetch('/api/errors/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(errorData)
+    }).catch(console.error);
+  }
+  
+  alertCriticalError(error) {
+    // Notify monitoring service of critical issue
+    fetch('/api/errors/critical', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Multiple errors detected',
+        count: this.state.errorCount,
+        latestError: error.message
+      })
+    });
+  }
+  
+  getUserId() {
+    // Get from auth context, localStorage, etc.
+    return localStorage.getItem('userId') || 'anonymous';
+  }
+  
+  getSessionId() {
+    // Get or generate session ID
+    let sessionId = sessionStorage.getItem('sessionId');
+    if (!sessionId) {
+      sessionId = Math.random().toString(36).substring(7);
+      sessionStorage.setItem('sessionId', sessionId);
+    }
+    return sessionId;
+  }
+  
+  resetError = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null
+    });
+  };
+  
+  render() {
+    if (this.state.hasError) {
+      return (
+        &lt;ErrorFallback
+          error={this.state.error}
+          errorInfo={this.state.errorInfo}
+          resetError={this.resetError}
+        /&gt;
+      );
+    }
+    
+    return this.props.children;
+  }
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Common Patterns and Use Cases
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern 1: Route-level error boundaries
+import { Routes, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    &lt;Routes&gt;
+      &lt;Route path="/" element={
+        &lt;ErrorBoundary fallback={&lt;HomeErrorFallback /&gt;}&gt;
+          &lt;Home /&gt;
+        &lt;/ErrorBoundary&gt;
+      } /&gt;
+      
+      &lt;Route path="/dashboard" element={
+        &lt;ErrorBoundary fallback={&lt;DashboardErrorFallback /&gt;}&gt;
+          &lt;Dashboard /&gt;
+        &lt;/ErrorBoundary&gt;
+      } /&gt;
+    &lt;/Routes&gt;
+  );
+}
+
+// Pattern 2: Data fetching boundaries
+function DataBoundary({ children, dataKey }) {
+  return (
+    &lt;ErrorBoundary
+      fallback={&lt;DataErrorFallback dataType={dataKey} /&gt;}
+      onError={(error) => logDataError(dataKey, error)}
+    &gt;
+      {children}
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;DataBoundary dataKey="users"&gt;
+        &lt;UserList /&gt;
+      &lt;/DataBoundary&gt;
+      
+      &lt;DataBoundary dataKey="products"&gt;
+        &lt;ProductList /&gt;
+      &lt;/DataBoundary&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Pattern 3: Feature flags with error boundaries
+function FeatureBoundary({ feature, children }) {
+  return (
+    &lt;ErrorBoundary
+      fallback={&lt;FeatureUnavailable feature={feature} /&gt;}
+      onError={(error) => disableFeature(feature, error)}
+    &gt;
+      {children}
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// Pattern 4: Lazy loading boundaries
+const LazyComponent = React.lazy(() => import('./LazyComponent'));
+
+function App() {
+  return (
+    &lt;ErrorBoundary fallback={&lt;LoadErrorFallback /&gt;}&gt;
+      &lt;Suspense fallback={&lt;Loading /&gt;}&gt;
+        &lt;LazyComponent /&gt;
+      &lt;/Suspense&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+
+// Pattern 5: Modal/Dialog boundaries
+function ModalWithBoundary({ children }) {
+  return (
+    &lt;Modal&gt;
+      &lt;ErrorBoundary
+        fallback={({ resetErrorBoundary }) => (
+          &lt;div&gt;
+            &lt;p&gt;Failed to load modal content&lt;/p&gt;
+            &lt;button onClick={resetErrorBoundary}&gt;Close&lt;/button&gt;
+          &lt;/div&gt;
+        )}
+      &gt;
+        {children}
+      &lt;/ErrorBoundary&gt;
+    &lt;/Modal&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Error Boundaries with Hooks (Future)
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Currently, error boundaries MUST be class components
+// But you can create wrapper hooks for convenience
+
+// Custom hook to throw errors to nearest boundary
+function useThrowAsyncError() {
+  const [, setError] = useState();
+  
+  return useCallback((error) => {
+    setError(() => {
+      throw error;
+    });
+  }, []);
+}
+
+// Usage in functional component
+function MyComponent() {
+  const throwError = useThrowAsyncError();
+  
+  useEffect(() => {
+    fetchData()
+      .catch(error => throwError(error)); // Throws to error boundary
+  }, [throwError]);
+  
+  return &lt;div&gt;Content&lt;/div&gt;;
+}
+
+// Using react-error-boundary's useErrorHandler
+import { useErrorHandler } from 'react-error-boundary';
+
+function MyComponent() {
+  const handleError = useErrorHandler();
+  
+  const handleClick = async () => {
+    try {
+      await riskyOperation();
+    } catch (error) {
+      handleError(error); // Propagates to error boundary
+    }
+  };
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+
+// Future: React may add hooks for error boundaries
+// This is speculative and not yet available
+function MyErrorBoundary({ children }) {
+  const [error, resetError] = useErrorBoundary(); // Hypothetical
+  
+  if (error) {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Error: {error.message}&lt;/h1&gt;
+        &lt;button onClick={resetError}&gt;Reset&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+  
+  return children;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Use multiple error boundaries:</b> Don't wrap entire app in one boundary</li>
+  <li><b>Place boundaries strategically:</b> At route level, feature level, and component level</li>
+  <li><b>Provide helpful fallback UI:</b> User-friendly messages, not technical jargon</li>
+  <li><b>Always log errors:</b> Send to monitoring service for debugging</li>
+  <li><b>Include reset functionality:</b> Allow users to recover without page reload</li>
+  <li><b>Handle async errors:</b> Use try-catch in event handlers and async code</li>
+  <li><b>Test error boundaries:</b> Ensure they work correctly in all scenarios</li>
+  <li><b>Don't catch errors in boundaries themselves:</b> Ensure fallback UI is error-free</li>
+  <li><b>Use react-error-boundary library:</b> Provides better API and features</li>
+  <li><b>Monitor error rates:</b> Track and alert on unusual error patterns</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Basic Error Boundary with Fallback UI",
+              "Multiple Granular Error Boundaries",
+              "Error Boundary with Reset Functionality",
+              "Production Error Boundary with Logging",
+              "Route-Level Error Boundaries",
+              "Error Boundary for Lazy Loaded Components",
+            ],
+            questions: [
+              {
+                question:
+                  "What are error boundaries in React and why are they needed?",
+                answer:
+                  "Error boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of crashing the entire application. They're needed because without them, an error in any component would cause the whole app to unmount and show a blank screen. Error boundaries act like a try-catch block for components, enabling graceful error handling and better user experience by isolating failures to specific parts of the UI.",
+              },
+              {
+                question: "How do you implement an error boundary in React?",
+                answer:
+                  "Error boundaries must be class components that implement either getDerivedStateFromError (to update state for fallback UI) or componentDidCatch (to log errors) or both. getDerivedStateFromError is called during render phase and must be pure, returning new state. componentDidCatch is called during commit phase and can have side effects like logging. The component renders children normally or fallback UI when hasError state is true. Currently, error boundaries cannot be implemented with hooks/functional components.",
+              },
+              {
+                question:
+                  "What errors do error boundaries catch and what errors do they NOT catch?",
+                answer:
+                  "Error boundaries catch: errors during rendering, errors in lifecycle methods, and errors in constructors of child components. They do NOT catch: event handler errors (use try-catch), async code errors (setTimeout, promises), errors during server-side rendering, or errors in the error boundary itself. For event handlers and async code, you must handle errors manually with try-catch or .catch() and optionally propagate them to error boundaries using state updates.",
+              },
+              {
+                question:
+                  "What is the difference between getDerivedStateFromError and componentDidCatch?",
+                answer:
+                  "getDerivedStateFromError is called during the render phase, must be pure with no side effects, and returns state updates to show fallback UI. componentDidCatch is called during commit phase after render, can have side effects, and is used for logging errors to services. Use getDerivedStateFromError to update state for rendering fallback UI, and componentDidCatch for logging, analytics, and other side effects. Best practice is to use both together.",
+              },
+              {
+                question:
+                  "How do you handle errors in event handlers since error boundaries don't catch them?",
+                answer:
+                  "Wrap event handler code in try-catch blocks. You can manually propagate errors to error boundaries by storing them in state (which triggers a re-render that the boundary can catch), using the useErrorHandler hook from react-error-boundary library, or creating a custom useThrowAsyncError hook. Example: try { riskyOperation() } catch (error) { handleError(error) } where handleError either logs it or throws it to a boundary via state update.",
+              },
+              {
+                question:
+                  "What is a good strategy for placing error boundaries in an application?",
+                answer:
+                  "Use multiple granular error boundaries rather than one app-wide boundary. Place them at: route level (each route has its own boundary), feature level (major features like dashboard, profile), component level (individual widgets), and around lazy-loaded components. This prevents errors in one section from crashing the entire app. The granularity depends on how much isolation you want—more boundaries provide better isolation but more boilerplate.",
+              },
+              {
+                question:
+                  "How do you provide a good fallback UI in error boundaries?",
+                answer:
+                  "Provide user-friendly, branded fallback UI that matches your app design. Include: a clear explanation that something went wrong, a way to recover (retry button, go home link), contact support option, and error details in development mode only. Avoid showing technical error messages to users in production. Make the fallback UI simple and error-free itself (errors in fallback UI won't be caught). Consider different fallbacks for different contexts (page-level vs component-level errors).",
+              },
+              {
+                question:
+                  "How do you implement error boundary reset functionality?",
+                answer:
+                  "Add a method to reset the error state (hasError: false) and pass it to the fallback UI via props or callback. Users can click a 'Try Again' button to reset. For better UX, use resetKeys prop (react-error-boundary library) to automatically reset when certain props change, or use the key prop on the boundary to force remount. Combine reset with clearing any problematic state that might have caused the error.",
+              },
+              {
+                question:
+                  "How do you integrate error boundaries with error logging services?",
+                answer:
+                  "In componentDidCatch, send error information to services like Sentry, LogRocket, or custom APIs. Include error message, stack trace, component stack, user context (ID, session), environment info, and timestamp. Use Sentry.captureException() for Sentry, or fetch() to custom endpoints. Log only in production or use different logging levels for development vs production. Consider rate limiting and batching to avoid overwhelming logging services.",
+              },
+              {
+                question:
+                  "What is the react-error-boundary library and why use it?",
+                answer:
+                  "react-error-boundary is a library that provides a more ergonomic API for error boundaries with additional features: declarative ErrorBoundary component (no need to write class component), FallbackComponent prop for custom UI, onError callback for logging, resetKeys for automatic reset, useErrorHandler hook for propagating errors from hooks/async code. It's recommended because it reduces boilerplate, provides better DX, handles common patterns, and is well-tested.",
+              },
+              {
+                question: "How do you test error boundaries?",
+                answer:
+                  "Create a component that throws an error conditionally based on props. Render it wrapped in the error boundary. Suppress console.error in tests with jest.spyOn(console, 'error').mockImplementation(). Test that children render when no error, fallback renders when error occurs, error logging is called with correct arguments, and reset functionality works. Use React Testing Library for rendering and assertions. Testing error boundaries ensures they work correctly before errors happen in production.",
+              },
+              {
+                question:
+                  "Can you use error boundaries with React hooks or functional components?",
+                answer:
+                  "No, error boundaries must be class components because they require componentDidCatch and getDerivedStateFromError lifecycle methods which don't have hook equivalents. However, you can use hooks within functional components to propagate errors TO error boundaries (useErrorHandler from react-error-boundary), and you can wrap functional components IN error boundaries. The boundary itself must be a class, but everything else can be functional.",
+              },
+              {
+                question:
+                  "How do you handle async errors with error boundaries?",
+                answer:
+                  "Error boundaries don't catch async errors automatically. Handle them with: try-catch in async functions, .catch() on promises, then propagate to boundaries using state updates or useErrorHandler hook. Example: fetchData().catch(error => handleError(error)) where handleError throws to boundary. For consistent handling, create a custom useAsyncError hook or use react-error-boundary's useErrorHandler. Always handle errors close to their source, then decide whether to propagate to boundaries.",
+              },
+              {
+                question:
+                  "What happens if an error occurs in the error boundary's own fallback UI?",
+                answer:
+                  "If fallback UI itself throws an error, it won't be caught by the same error boundary, causing the error to propagate up to any parent error boundary. If there's no parent boundary, the app crashes. This is why fallback UI must be simple and thoroughly tested. Keep fallback components error-free, avoid complex logic, handle all edge cases, and test them independently. Consider having a root-level error boundary as last resort.",
+              },
+              {
+                question:
+                  "What are some advanced patterns for using error boundaries in production?",
+                answer:
+                  "Production patterns include: multiple granular boundaries for isolation, error counting to detect critical issues, automatic error reporting with context (user ID, session, URL), different fallback UIs based on error type or location, automatic retry with exponential backoff, feature flagging to disable broken features, A/B testing error recovery strategies, monitoring error rates and alerting on spikes, and graceful degradation where partial functionality remains available despite errors in some components.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary",
+              "https://react.dev/reference/react/Component#static-getderivedstatefromerror",
+              "https://react.dev/reference/react/Component#componentdidcatch",
+              "https://github.com/bvaughn/react-error-boundary",
+              "https://legacy.reactjs.org/docs/error-boundaries.html",
+              "https://kentcdodds.com/blog/use-react-error-boundary-to-handle-errors-in-react",
+            ],
           },
           {
             topic: "React.memo()",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "React.memo",
+              "Memoization",
+              "Performance Optimization",
+              "Re-rendering",
+              "Shallow Comparison",
+              "Custom Comparison",
+              "Higher-Order Component",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+React.memo() is a higher-order component that optimizes functional components by preventing unnecessary re-renders. It memoizes the component output and only re-renders when props actually change, using shallow comparison by default. React.memo() wraps a functional component and returns a new memoized version that skips rendering if props are the same as the previous render. Understanding React.memo() is essential for building performant React applications, especially when dealing with expensive component renders, large lists, or complex component trees where avoiding unnecessary re-renders can significantly improve user experience.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Concept and Usage
+</h4>
+
+<p style="line-height: 1.75;">
+React.memo() wraps a functional component and prevents re-renders when props haven't changed, similar to PureComponent for class components.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Without React.memo - component re-renders on every parent render
+function ExpensiveComponent({ value, onUpdate }) {
+  console.log('ExpensiveComponent rendered');
+  
+  // Expensive calculation
+  const result = complexCalculation(value);
+  
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Result: {result}&lt;/h3&gt;
+      &lt;button onClick={onUpdate}&gt;Update&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Parent component
+function Parent() {
+  const [count, setCount] = useState(0);
+  const [otherState, setOtherState] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setOtherState(otherState + 1)}&gt;
+        Update Other State
+      &lt;/button&gt;
+      
+      {/* ExpensiveComponent re-renders even when its props don't change */}
+      &lt;ExpensiveComponent 
+        value={count} 
+        onUpdate={() => setCount(count + 1)} 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// With React.memo - component only re-renders when props change
+const MemoizedExpensiveComponent = React.memo(function ExpensiveComponent({ value, onUpdate }) {
+  console.log('MemoizedExpensiveComponent rendered');
+  
+  const result = complexCalculation(value);
+  
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Result: {result}&lt;/h3&gt;
+      &lt;button onClick={onUpdate}&gt;Update&lt;/button&gt;
+    &lt;/div&gt;
+  );
+});
+
+// Now component only re-renders when value or onUpdate changes
+// Clicking "Update Other State" won't trigger re-render
+
+// Alternative syntax - directly exporting memoized component
+export default React.memo(ExpensiveComponent);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. How React.memo() Works - Shallow Comparison
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React.memo uses shallow comparison (Object.is) for props
+// Primitive values: compares by value
+// Objects/Arrays/Functions: compares by reference
+
+// Example 1: Primitive props (works well)
+const Counter = React.memo(({ count }) => {
+  console.log('Counter rendered');
+  return &lt;div&gt;Count: {count}&lt;/div&gt;;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [otherState, setOtherState] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setOtherState(otherState + 1)}&gt;
+        Update Other
+      &lt;/button&gt;
+      {/* Counter won't re-render - count hasn't changed */}
+      &lt;Counter count={count} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example 2: Object props (problematic without stable reference)
+const UserCard = React.memo(({ user }) => {
+  console.log('UserCard rendered');
+  return &lt;div&gt;{user.name}&lt;/div&gt;;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+      
+      {/* UserCard re-renders every time! New object on each render */}
+      &lt;UserCard user={{ name: 'John', age: 30 }} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Solution: Stable object reference with useMemo
+function App() {
+  const [count, setCount] = useState(0);
+  
+  const user = useMemo(() => ({ name: 'John', age: 30 }), []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+      {/* Now UserCard won't re-render */}
+      &lt;UserCard user={user} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example 3: Function props (problematic without useCallback)
+const Button = React.memo(({ onClick, label }) => {
+  console.log('Button rendered');
+  return &lt;button onClick={onClick}&gt;{label}&lt;/button&gt;;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      {/* Button re-renders every time! New function on each render */}
+      &lt;Button 
+        onClick={() => console.log('clicked')} 
+        label="Click me" 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Solution: Stable function reference with useCallback
+function App() {
+  const [count, setCount] = useState(0);
+  
+  const handleClick = useCallback(() => {
+    console.log('clicked');
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      {/* Now Button won't re-render */}
+      &lt;Button onClick={handleClick} label="Click me" /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example 4: Array props
+const List = React.memo(({ items }) => {
+  console.log('List rendered');
+  return (
+    &lt;ul&gt;
+      {items.map(item => &lt;li key={item}&gt;{item}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  );
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+  
+  // ❌ Re-renders every time - new array reference
+  return &lt;List items={['a', 'b', 'c']} /&gt;;
+  
+  // ✅ Won't re-render - stable reference
+  const items = useMemo(() => ['a', 'b', 'c'], []);
+  return &lt;List items={items} /&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Custom Comparison Function
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React.memo accepts a second argument: custom comparison function
+// Returns true to SKIP re-render, false to allow re-render
+// (opposite of shouldComponentUpdate!)
+
+// Basic custom comparison
+const UserCard = React.memo(
+  ({ user }) => {
+    return &lt;div&gt;{user.name} - {user.age}&lt;/div&gt;;
+  },
+  (prevProps, nextProps) => {
+    // Return true if props are equal (skip re-render)
+    // Return false if props are different (allow re-render)
+    return prevProps.user.id === nextProps.user.id;
+  }
+);
+
+// Example: Deep comparison for specific props
+const ComplexComponent = React.memo(
+  ({ data, config, onUpdate }) => {
+    return &lt;div&gt;{/* complex UI */}&lt;/div&gt;;
+  },
+  (prevProps, nextProps) => {
+    // Custom comparison logic
+    const dataEqual = JSON.stringify(prevProps.data) === JSON.stringify(nextProps.data);
+    const configEqual = prevProps.config.theme === nextProps.config.theme;
+    
+    // Return true to skip re-render
+    return dataEqual && configEqual;
+    // Note: We ignore onUpdate in comparison
+  }
+);
+
+// Example: Compare only specific nested properties
+const ProductCard = React.memo(
+  ({ product }) => {
+    return (
+      &lt;div&gt;
+        &lt;h3&gt;{product.name}&lt;/h3&gt;
+        &lt;p&gt;{product.price}&lt;/p&gt;
+      &lt;/div&gt;
+    );
+  },
+  (prevProps, nextProps) => {
+    // Only re-render if name or price changed
+    return (
+      prevProps.product.name === nextProps.product.name &&
+      prevProps.product.price === nextProps.product.price
+    );
+    // Ignores other product properties
+  }
+);
+
+// Example: Array comparison by length and first item
+const SimpleList = React.memo(
+  ({ items }) => {
+    return (
+      &lt;ul&gt;
+        {items.map((item, i) => &lt;li key={i}&gt;{item}&lt;/li&gt;)}
+      &lt;/ul&gt;
+    );
+  },
+  (prevProps, nextProps) => {
+    // Simple heuristic: check length and first item
+    if (prevProps.items.length !== nextProps.items.length) {
+      return false; // Different - allow re-render
+    }
+    return prevProps.items[0] === nextProps.items[0];
+  }
+);
+
+// Example: Using lodash for deep equality
+import isEqual from 'lodash/isEqual';
+
+const DeepComparedComponent = React.memo(
+  ({ data }) => {
+    return &lt;div&gt;{JSON.stringify(data)}&lt;/div&gt;;
+  },
+  (prevProps, nextProps) => {
+    // Deep equality check
+    return isEqual(prevProps.data, nextProps.data);
+  }
+);
+
+// Warning: Custom comparison can be expensive
+// Only use when default shallow comparison isn't sufficient
+const ExpensiveComparison = React.memo(
+  ({ largeArray }) => {
+    return &lt;div&gt;{largeArray.length} items&lt;/div&gt;;
+  },
+  (prevProps, nextProps) => {
+    // This could be more expensive than just re-rendering!
+    return JSON.stringify(prevProps.largeArray) === 
+           JSON.stringify(nextProps.largeArray);
+  }
+);
+
+// Best practice: Keep comparison functions simple and fast
+const OptimizedComparison = React.memo(
+  ({ items }) => {
+    return &lt;ul&gt;{items.map(i => &lt;li key={i.id}&gt;{i.name}&lt;/li&gt;)}&lt;/ul&gt;;
+  },
+  (prevProps, nextProps) => {
+    // Fast length check first
+    if (prevProps.items.length !== nextProps.items.length) {
+      return false;
+    }
+    
+    // Check IDs only (fast)
+    for (let i = 0; i < prevProps.items.length; i++) {
+      if (prevProps.items[i].id !== nextProps.items[i].id) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. React.memo() with useCallback and useMemo
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React.memo works best with useCallback and useMemo
+// to ensure stable references for function and object props
+
+// Example: Complete optimization pattern
+const ChildComponent = React.memo(({ data, onUpdate, config }) => {
+  console.log('ChildComponent rendered');
+  
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{data.title}&lt;/h3&gt;
+      &lt;button onClick={onUpdate}&gt;Update&lt;/button&gt;
+      &lt;p&gt;Theme: {config.theme}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+});
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('Hello');
+  
+  // ❌ Without optimization - ChildComponent re-renders every time
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Increment: {count}
+      &lt;/button&gt;
+      
+      &lt;ChildComponent
+        data={{ title }} // New object every render
+        onUpdate={() => setTitle('Updated')} // New function every render
+        config={{ theme: 'dark' }} // New object every render
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function OptimizedParentComponent() {
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState('Hello');
+  
+  // ✅ Memoize object prop
+  const data = useMemo(() => ({ title }), [title]);
+  
+  // ✅ Memoize function prop
+  const handleUpdate = useCallback(() => {
+    setTitle('Updated');
+  }, []);
+  
+  // ✅ Memoize config object
+  const config = useMemo(() => ({ theme: 'dark' }), []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Increment: {count}
+      &lt;/button&gt;
+      
+      {/* Now ChildComponent only re-renders when title changes */}
+      &lt;ChildComponent
+        data={data}
+        onUpdate={handleUpdate}
+        config={config}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example: List rendering optimization
+const ListItem = React.memo(({ item, onDelete }) => {
+  console.log('ListItem rendered:', item.id);
+  
+  return (
+    &lt;li&gt;
+      {item.name}
+      &lt;button onClick={() => onDelete(item.id)}&gt;Delete&lt;/button&gt;
+    &lt;/li&gt;
+  );
+});
+
+function TodoList() {
+  const [todos, setTodos] = useState([
+    { id: 1, name: 'Task 1' },
+    { id: 2, name: 'Task 2' },
+    { id: 3, name: 'Task 3' }
+  ]);
+  
+  // ❌ Without useCallback - all items re-render on any change
+  const handleDelete = (id) => {
+    setTodos(todos.filter(t => t.id !== id));
+  };
+  
+  // ✅ With useCallback - only changed item re-renders
+  const handleDelete = useCallback((id) => {
+    setTodos(prev => prev.filter(t => t.id !== id));
+  }, []); // Empty deps because we use functional update
+  
+  return (
+    &lt;ul&gt;
+      {todos.map(todo => (
+        &lt;ListItem
+          key={todo.id}
+          item={todo}
+          onDelete={handleDelete}
+        /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Example: Complex nested components
+const Header = React.memo(({ user, onLogout }) => {
+  return (
+    &lt;header&gt;
+      &lt;span&gt;Welcome, {user.name}&lt;/span&gt;
+      &lt;button onClick={onLogout}&gt;Logout&lt;/button&gt;
+    &lt;/header&gt;
+  );
+});
+
+const Sidebar = React.memo(({ items, onNavigate }) => {
+  return (
+    &lt;aside&gt;
+      {items.map(item => (
+        &lt;button key={item.id} onClick={() => onNavigate(item.id)}&gt;
+          {item.label}
+        &lt;/button&gt;
+      ))}
+    &lt;/aside&gt;
+  );
+});
+
+const Content = React.memo(({ data }) => {
+  return &lt;main&gt;{data.content}&lt;/main&gt;;
+});
+
+function Dashboard() {
+  const [user] = useState({ name: 'John', id: 1 });
+  const [currentPage, setCurrentPage] = useState('home');
+  const [data, setData] = useState({ content: 'Home page' });
+  
+  // Memoize all callbacks and objects
+  const handleLogout = useCallback(() => {
+    console.log('Logging out...');
+  }, []);
+  
+  const sidebarItems = useMemo(() => [
+    { id: 'home', label: 'Home' },
+    { id: 'profile', label: 'Profile' },
+    { id: 'settings', label: 'Settings' }
+  ], []);
+  
+  const handleNavigate = useCallback((pageId) => {
+    setCurrentPage(pageId);
+    setData({ content: $ {pageId} page });
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      {/* Header only re-renders when user changes */}
+      &lt;Header user={user} onLogout={handleLogout} /&gt;
+      
+      {/* Sidebar only re-renders when items change */}
+      &lt;Sidebar items={sidebarItems} onNavigate={handleNavigate} /&gt;
+      
+      {/* Content only re-renders when data changes */}
+      &lt;Content data={data} /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. When to Use React.memo()
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ✅ Good use cases for React.memo()
+
+// 1. Pure functional components with expensive renders
+const ExpensiveChart = React.memo(({ data }) => {
+  // Complex calculations or heavy rendering
+  const chartData = processLargeDataset(data);
+  
+  return &lt;Canvas data={chartData} /&gt;;
+});
+
+// 2. Components that receive same props frequently
+const StatusIndicator = React.memo(({ status }) => {
+  // Status rarely changes but parent re-renders often
+  return &lt;div className={status-$ {status}}&gt;{status}&lt;/div&gt;;
+});
+
+// 3. List items that render many times
+const ListItem = React.memo(({ item, onSelect }) => {
+  return (
+    &lt;div onClick={() => onSelect(item.id)}&gt;
+      {item.name}
+    &lt;/div&gt;
+  );
+});
+
+// 4. Components deep in the tree
+const DeepNestedComponent = React.memo(({ value }) => {
+  // Prevents re-renders from ancestor state changes
+  return &lt;div&gt;{value}&lt;/div&gt;;
+});
+
+// 5. Components with many child components
+const ComplexForm = React.memo(({ formData, onChange }) => {
+  return (
+    &lt;form&gt;
+      &lt;Input name="firstName" value={formData.firstName} onChange={onChange} /&gt;
+      &lt;Input name="lastName" value={formData.lastName} onChange={onChange} /&gt;
+      &lt;Input name="email" value={formData.email} onChange={onChange} /&gt;
+      {/* Many more inputs */}
+    &lt;/form&gt;
+  );
+});
+
+// ❌ Bad use cases for React.memo()
+
+// 1. Components that always receive different props
+const Clock = ({ time }) => {
+  // time changes every second, memo adds overhead with no benefit
+  return &lt;div&gt;{time}&lt;/div&gt;;
+};
+// Don't use memo here
+
+// 2. Simple, fast-rendering components
+const SimpleLabel = ({ text }) => {
+  // Render is so cheap, memo overhead isn't worth it
+  return &lt;span&gt;{text}&lt;/span&gt;;
+};
+// Don't use memo here
+
+// 3. Components with props that are always new objects/functions
+const BadMemo = React.memo(({ onClick, data }) => {
+  return &lt;button onClick={onClick}&gt;{data.label}&lt;/button&gt;;
+});
+
+function Parent() {
+  return (
+    &lt;div&gt;
+      {/* These props are new every render, memo is useless */}
+      &lt;BadMemo
+        onClick={() => console.log('click')}
+        data={{ label: 'Click me' }}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// 4. Components that need to re-render with parent
+const SyncedComponent = ({ parentCount }) => {
+  // This SHOULD re-render with parent
+  return &lt;div&gt;Parent count: {parentCount}&lt;/div&gt;;
+};
+// Don't use memo here
+
+// ⚖️ When in doubt, measure!
+// Use React DevTools Profiler to identify actual bottlenecks
+
+function MeasuredApproach() {
+  // 1. Build without memo
+  // 2. Profile with React DevTools
+  // 3. Add memo only where it helps
+  // 4. Verify improvement
+  
+  return &lt;div&gt;{/* Your components */}&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Common Pitfalls and Solutions
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pitfall 1: Inline object props
+const Component = React.memo(({ style, data }) => {
+  return &lt;div style={style}&gt;{data.text}&lt;/div&gt;;
+});
+
+// ❌ Memo doesn't work - new object every render
+function Parent() {
+  return &lt;Component style={{ color: 'red' }} data={{ text: 'Hello' }} /&gt;;
+}
+
+// ✅ Solution: Extract to constants or useMemo
+const STYLE = { color: 'red' };
+
+function Parent() {
+  const data = useMemo(() => ({ text: 'Hello' }), []);
+  return &lt;Component style={STYLE} data={data} /&gt;;
+}
+
+// Pitfall 2: Inline function props
+const Component = React.memo(({ onClick }) => {
+  return &lt;button onClick={onClick}&gt;Click&lt;/button&gt;;
+});
+
+// ❌ Memo doesn't work - new function every render
+function Parent() {
+  return &lt;Component onClick={() => console.log('clicked')} /&gt;;
+}
+
+// ✅ Solution: useCallback
+function Parent() {
+  const handleClick = useCallback(() => {
+    console.log('clicked');
+  }, []);
+  
+  return &lt;Component onClick={handleClick} /&gt;;
+}
+
+// Pitfall 3: Array props created inline
+const List = React.memo(({ items }) => {
+  return &lt;ul&gt;{items.map(i => &lt;li key={i}&gt;{i}&lt;/li&gt;)}&lt;/ul&gt;;
+});
+
+// ❌ Memo doesn't work - new array every render
+function Parent() {
+  return &lt;List items={[1, 2, 3]} /&gt;;
+}
+
+// ✅ Solution: Move outside component or useMemo
+const ITEMS = [1, 2, 3];
+
+function Parent() {
+  return &lt;List items={ITEMS} /&gt;;
+}
+
+// Pitfall 4: Props with closures over changing values
+const Component = React.memo(({ onClick }) => {
+  return &lt;button onClick={onClick}&gt;Click&lt;/button&gt;;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  // ❌ onClick changes when count changes, even with useCallback
+  const handleClick = useCallback(() => {
+    console.log(count); // Closes over count
+  }, []); // Missing count in deps - stale closure!
+  
+  // ✅ Solution 1: Add count to dependencies
+  const handleClick = useCallback(() => {
+    console.log(count);
+  }, [count]); // Component re-renders when count changes
+  
+  // ✅ Solution 2: Use functional update to avoid dependency
+  const handleClick = useCallback(() => {
+    setCount(c => {
+      console.log(c);
+      return c;
+    });
+  }, []); // No dependencies needed
+  
+  return &lt;Component onClick={handleClick} /&gt;;
+}
+
+// Pitfall 5: Using memo with Context
+const Component = React.memo(({ value }) => {
+  const theme = useContext(ThemeContext); // Context subscription
+  
+  // Component still re-renders when context changes
+  // memo only prevents re-renders from props
+  return &lt;div style={{ color: theme.color }}&gt;{value}&lt;/div&gt;;
+});
+
+// ✅ Solution: Split context consumption
+const InnerComponent = React.memo(({ value, color }) => {
+  return &lt;div style={{ color }}&gt;{value}&lt;/div&gt;;
+});
+
+function WrapperComponent({ value }) {
+  const theme = useContext(ThemeContext);
+  return &lt;InnerComponent value={value} color={theme.color} /&gt;;
+}
+
+// Pitfall 6: Children prop
+const Container = React.memo(({ children, title }) => {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{title}&lt;/h1&gt;
+      {children}
+    &lt;/div&gt;
+  );
+});
+
+// ❌ Memo doesn't work - children are new elements each render
+function Parent() {
+  return (
+    &lt;Container title="Hello"&gt;
+      &lt;ChildComponent /&gt;
+    &lt;/Container&gt;
+  );
+}
+
+// ✅ Solution: Move children outside or use render prop
+function Parent() {
+  const child = useMemo(() => &lt;ChildComponent /&gt;, []);
+  
+  return (
+    &lt;Container title="Hello"&gt;
+      {child}
+    &lt;/Container&gt;
+  );
+}
+
+// Or better: composition
+function Parent() {
+  return (
+    &lt;Container title="Hello" content={ChildComponent} /&gt;
+  );
+}
+
+const Container = React.memo(({ title, content: Content }) => {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{title}&lt;/h1&gt;
+      &lt;Content /&gt;
+    &lt;/div&gt;
+  );
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. React.memo() vs useMemo() vs useCallback()
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React.memo() - memoizes COMPONENT output
+// Prevents re-rendering when props haven't changed
+
+const MyComponent = React.memo(({ value }) => {
+  console.log('Component rendered');
+  return &lt;div&gt;{value}&lt;/div&gt;;
+});
+
+// useMemo() - memoizes COMPUTED VALUE
+// Prevents expensive recalculation when dependencies haven't changed
+
+function MyComponent({ items }) {
+  // Only recalculates when items change
+  const total = useMemo(() => {
+    console.log('Calculating total');
+    return items.reduce((sum, item) => sum + item.price, 0);
+  }, [items]);
+  
+  return &lt;div&gt;Total: {total}&lt;/div&gt;;
+}
+
+// useCallback() - memoizes FUNCTION
+// Returns same function reference when dependencies haven't changed
+
+function MyComponent({ onUpdate }) {
+  const [count, setCount] = useState(0);
+  
+  // Same function reference until count changes
+  const handleClick = useCallback(() => {
+    onUpdate(count);
+  }, [count, onUpdate]);
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+
+// How they work together - Complete example
+const ExpensiveChild = React.memo(({ data, onUpdate }) => {
+  console.log('ExpensiveChild rendered');
+  
+  // useMemo for expensive computation
+  const processedData = useMemo(() => {
+    console.log('Processing data');
+    return data.map(item => ({
+      ...item,
+      computed: expensiveCalculation(item)
+    }));
+  }, [data]);
+  
+  return (
+    &lt;div&gt;
+      {processedData.map(item => (
+        &lt;div key={item.id}&gt;
+          {item.computed}
+          &lt;button onClick={() => onUpdate(item.id)}&gt;Update&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  const [items, setItems] = useState([
+    { id: 1, value: 10 },
+    { id: 2, value: 20 }
+  ]);
+  
+  // useMemo for stable object reference
+  const data = useMemo(() => items, [items]);
+  
+  // useCallback for stable function reference
+  const handleUpdate = useCallback((id) => {
+    setItems(prev => prev.map(item =>
+      item.id === id ? { ...item, value: item.value + 1 } : item
+    ));
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Increment count: {count}
+      &lt;/button&gt;
+      
+      {/* ExpensiveChild only re-renders when data or handleUpdate change */}
+      {/* React.memo prevents re-render when count changes */}
+      &lt;ExpensiveChild data={data} onUpdate={handleUpdate} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Summary table:
+/*
+┌──────────────────┬────────────────────┬─────────────────────────┐
+│ Hook/HOC         │ Memoizes           │ Use Case                │
+├──────────────────┼────────────────────┼─────────────────────────┤
+│ React.memo()     │ Component          │ Prevent re-renders      │
+│ useMemo()        │ Value              │ Expensive calculations  │
+│ useCallback()    │ Function           │ Stable function refs    │
+└──────────────────┴────────────────────┴─────────────────────────┘
+*/
+
+// When to use each:
+// 1. React.memo() - Wrap component to prevent re-renders
+// 2. useMemo() - Inside component for expensive calculations
+// 3. useCallback() - Inside component for functions passed to memo'd children
+
+// Typical pattern:
+function OptimizedParent() {
+  const [state, setState] = useState(initialState);
+  
+  // useMemo for derived state
+  const derivedValue = useMemo(() => 
+    expensiveComputation(state), 
+    [state]
+  );
+  
+  // useCallback for event handlers
+  const handleUpdate = useCallback(() => 
+    setState(newState), 
+    []
+  );
+  
+  return (
+    &lt;div&gt;
+      {/* React.memo for child components */}
+      &lt;MemoizedChild 
+        value={derivedValue} 
+        onUpdate={handleUpdate} 
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const MemoizedChild = React.memo(OptimizedChild);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Advanced Patterns with React.memo()
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Memoizing with Props Destructuring
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Destructure in memo'd component
+const UserCard = React.memo(({ user: { name, email }, onEdit }) => {
+  // Only re-renders if name, email, or onEdit change
+  // Changes to other user properties don't cause re-render
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{name}&lt;/h3&gt;
+      &lt;p&gt;{email}&lt;/p&gt;
+      &lt;button onClick={onEdit}&gt;Edit&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}, (prevProps, nextProps) => {
+  return (
+    prevProps.user.name === nextProps.user.name &&
+    prevProps.user.email === nextProps.user.email &&
+    prevProps.onEdit === nextProps.onEdit
+  );
+});
+
+// Or pass only what you need
+function Parent() {
+  const [user, setUser] = useState({ 
+    name: 'John', 
+    email: 'john@example.com',
+    age: 30,
+    city: 'NYC'
+  });
+  
+  const handleEdit = useCallback(() => {
+    // Edit logic
+  }, []);
+  
+  return (
+    &lt;UserCard
+      name={user.name}
+      email={user.email}
+      onEdit={handleEdit}
+    /&gt;
+  );
+}
+
+const UserCard = React.memo(({ name, email, onEdit }) => {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;{name}&lt;/h3&gt;
+      &lt;p&gt;{email}&lt;/p&gt;
+      &lt;button onClick={onEdit}&gt;Edit&lt;/button&gt;
+    &lt;/div&gt;
+  );
+});
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Conditional Memoization
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Memoize only in production
+const Component = process.env.NODE_ENV === 'production'
+  ? React.memo(ComponentImpl)
+  : ComponentImpl;
+
+function ComponentImpl({ value }) {
+  return &lt;div&gt;{value}&lt;/div&gt;;
+}
+
+// Pattern: Memoize based on feature flag
+const OptimizedComponent = shouldOptimize
+  ? React.memo(BaseComponent)
+  : BaseComponent;
+
+// Pattern: Memoize complex components only
+function createOptimizedComponent(Component, isComplex) {
+  return isComplex ? React.memo(Component) : Component;
+}
+
+const SimpleComponent = createOptimizedComponent(
+  ({ value }) => &lt;div&gt;{value}&lt;/div&gt;,
+  false
+);
+
+const ComplexComponent = createOptimizedComponent(
+  ({ data }) => &lt;ExpensiveRender data={data} /&gt;,
+  true
+);
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Memoization with Forwarding Refs
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: React.memo with forwardRef
+const FancyInput = React.memo(
+  React.forwardRef((props, ref) => {
+    return (
+      &lt;input
+        ref={ref}
+        type="text"
+        className="fancy-input"
+        {...props}
+      /&gt;
+    );
+  })
+);
+
+// Usage
+function Parent() {
+  const inputRef = useRef(null);
+  const [count, setCount] = useState(0);
+  
+  const focusInput = useCallback(() => {
+    inputRef.current?.focus();
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      
+      {/* FancyInput doesn't re-render when count changes */}
+      &lt;FancyInput ref={inputRef} placeholder="Enter text" /&gt;
+      
+      &lt;button onClick={focusInput}&gt;Focus Input&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Alternative syntax
+const FancyInput = React.forwardRef((props, ref) => {
+  return (
+    &lt;input
+      ref={ref}
+      type="text"
+      className="fancy-input"
+      {...props}
+    /&gt;
+  );
+});
+
+export default React.memo(FancyInput);
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+D. Memoizing HOC Components
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Memoize components created by HOCs
+function withLogging(Component) {
+  const ComponentWithLogging = (props) => {
+    useEffect(() => {
+      console.log('Component mounted');
+    }, []);
+    
+    return &lt;Component {...props} /&gt;;
+  };
+  
+  // Memoize the wrapped component
+  return React.memo(ComponentWithLogging);
+}
+
+const LoggedButton = withLogging(({ onClick, label }) => {
+  return &lt;button onClick={onClick}&gt;{label}&lt;/button&gt;
+});
+
+// Pattern: Memoize before and after HOC
+const BaseComponent = ({ value }) => &lt;div&gt;{value}&lt;/div&gt;;
+
+// Memoize base component
+const MemoizedBase = React.memo(BaseComponent);
+
+// Then apply HOC
+const EnhancedComponent = withSomeHOC(MemoizedBase);
+
+// Or memoize after HOC
+const Component = React.memo(withSomeHOC(BaseComponent));
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Debugging React.memo()
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Debug why memo isn't working
+
+// 1. Add console.log to check renders
+const Component = React.memo(({ value, onClick }) => {
+  console.log('Component rendered with:', { value, onClick });
+  return &lt;div onClick={onClick}&gt;{value}&lt;/div&gt;;
+});
+
+// 2. Use custom comparison with logging
+const Component = React.memo(
+  ({ value }) => &lt;div&gt;{value}&lt;/div&gt;,
+  (prevProps, nextProps) => {
+    console.log('Comparing props:', { prevProps, nextProps });
+    const areEqual = prevProps.value === nextProps.value;
+    console.log('Props are equal:', areEqual);
+    return areEqual;
+  }
+);
+
+// 3. Check if props are changing reference
+const Component = React.memo(({ data }) => {
+  useEffect(() => {
+    console.log('Data reference changed');
+  }, [data]);
+  
+  return &lt;div&gt;{JSON.stringify(data)}&lt;/div&gt;;
+});
+
+// 4. Use why-did-you-render library
+import whyDidYouRender from '@welldone-software/why-did-you-render';
+
+whyDidYouRender(React, {
+  trackAllPureComponents: true,
+});
+
+Component.whyDidYouRender = true;
+
+const Component = React.memo(({ value }) => {
+  return &lt;div&gt;{value}&lt;/div&gt;;
+});
+
+// 5. React DevTools Profiler
+// - Open React DevTools
+// - Go to Profiler tab
+// - Start recording
+// - Perform actions
+// - Check which components re-rendered and why
+
+// 6. Custom debug HOC
+function withDebug(Component, name) {
+  return React.memo((props) => {
+    const prevPropsRef = useRef();
+    
+    useEffect(() => {
+      if (prevPropsRef.current) {
+        const changedProps = Object.keys(props).reduce((acc, key) => {
+          if (props[key] !== prevPropsRef.current[key]) {
+            acc[key] = {
+              old: prevPropsRef.current[key],
+              new: props[key]
+            };
+          }
+          return acc;
+        }, {});
+        
+        if (Object.keys(changedProps).length > 0) {
+          console.log($ {name} re-rendered. Changed props:, changedProps);
+        }
+      }
+      
+      prevPropsRef.current = props;
+    });
+    
+    return &lt;Component {...props} /&gt;;
+  });
+}
+
+const DebuggedComponent = withDebug(MyComponent, 'MyComponent');
+
+// 7. Check for inline props
+function Parent() {
+  return (
+    &lt;Component
+      style={{ color: 'red' }} // ❌ New object every render
+      onClick={() => console.log('click')} // ❌ New function
+      data={{ value: 123 }} // ❌ New object
+    /&gt;
+  );
+}
+
+// Fix:
+const STYLE = { color: 'red' };
+
+function Parent() {
+  const data = useMemo(() => ({ value: 123 }), []);
+  const handleClick = useCallback(() => console.log('click'), []);
+  
+  return (
+    &lt;Component
+      style={STYLE}
+      onClick={handleClick}
+      data={data}
+    /&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Performance Benchmarking
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Measure React.memo impact
+
+// 1. Using React DevTools Profiler
+// - Record before adding memo
+// - Record after adding memo
+// - Compare render times and counts
+
+// 2. Custom performance measurement
+function withPerformanceTracking(Component, name) {
+  return React.memo((props) => {
+    const startTime = performance.now();
+    
+    useEffect(() => {
+      const endTime = performance.now();
+      console.log($ {name} render took $ {endTime - startTime}ms);
+    });
+    
+    return &lt;Component {...props} /&gt;;
+  });
+}
+
+const TrackedComponent = withPerformanceTracking(ExpensiveComponent, 'ExpensiveComponent');
+
+// 3. Count renders
+function useRenderCount(componentName) {
+  const renderCount = useRef(0);
+  
+  useEffect(() => {
+    renderCount.current += 1;
+    console.log($ {componentName} render count:, renderCount.current);
+  });
+  
+  return renderCount.current;
+}
+
+const Component = React.memo(({ value }) => {
+  const count = useRenderCount('Component');
+  
+  return (
+    &lt;div&gt;
+      Value: {value}
+      &lt;br /&gt;
+      Render count: {count}
+    &lt;/div&gt;
+  );
+});
+
+// 4. Benchmark with/without memo
+function Benchmark() {
+  const [toggle, setToggle] = useState(false);
+  
+  const WithMemo = React.memo(ExpensiveComponent);
+  const WithoutMemo = ExpensiveComponent;
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setToggle(!toggle)}&gt;
+        Toggle (irrelevant state)
+      &lt;/button&gt;
+      
+      &lt;h3&gt;Without Memo:&lt;/h3&gt;
+      &lt;WithoutMemo data={staticData} /&gt;
+      
+      &lt;h3&gt;With Memo:&lt;/h3&gt;
+      &lt;WithMemo data={staticData} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// 5. Memory profiling
+// Use browser DevTools Memory profiler
+// - Take heap snapshot before
+// - Perform actions
+// - Take heap snapshot after
+// - Compare memory usage
+
+// 6. Automated performance tests
+import { render } from '@testing-library/react';
+
+test('memo improves performance', () => {
+  let renderCount = 0;
+  
+  const Component = React.memo(() => {
+    renderCount++;
+    return &lt;div&gt;Test&lt;/div&gt;;
+  });
+  
+  const { rerender } = render(&lt;Component prop="value" /&gt;);
+  
+  expect(renderCount).toBe(1);
+  
+  // Re-render with same props
+  rerender(&lt;Component prop="value" /&gt;);
+  expect(renderCount).toBe(1); // Should still be 1
+  
+  // Re-render with different props
+  rerender(&lt;Component prop="new value" /&gt;);
+  expect(renderCount).toBe(2); // Now should be 2
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Real-World Examples
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Example 1: Data table with many rows
+const TableRow = React.memo(({ row, onEdit, onDelete }) => {
+  return (
+    &lt;tr&gt;
+      &lt;td&gt;{row.id}&lt;/td&gt;
+      &lt;td&gt;{row.name}&lt;/td&gt;
+      &lt;td&gt;{row.email}&lt;/td&gt;
+      &lt;td&gt;
+        &lt;button onClick={() => onEdit(row.id)}&gt;Edit&lt;/button&gt;
+        &lt;button onClick={() => onDelete(row.id)}&gt;Delete&lt;/button&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  );
+}, (prevProps, nextProps) => {
+  // Custom comparison for better performance
+  return (
+    prevProps.row.id === nextProps.row.id &&
+    prevProps.row.name === nextProps.row.name &&
+    prevProps.row.email === nextProps.row.email
+  );
+});
+
+function DataTable({ data }) {
+  const handleEdit = useCallback((id) => {
+    // Edit logic
+  }, []);
+  
+  const handleDelete = useCallback((id) => {
+    // Delete logic
+  }, []);
+  
+  return (
+    &lt;table&gt;
+      &lt;tbody&gt;
+        {data.map(row => (
+          &lt;TableRow
+            key={row.id}
+            row={row}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          /&gt;
+        ))}
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  );
+}
+
+// Example 2: Complex form with many inputs
+const FormField = React.memo(({ name, label, value, error, onChange }) => {
+  console.log(FormField $ {name} rendered);
+  
+  return (
+    &lt;div className="form-field"&gt;
+      &lt;label htmlFor={name}&gt;{label}&lt;/label&gt;
+      &lt;input
+        id={name}
+        name={name}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+      /&gt;
+      {error && &lt;span className="error"&gt;{error}&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+});
+
+function RegistrationForm() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  
+  const [errors, setErrors] = useState({});
+  
+  const handleChange = useCallback((name, value) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }, []);
+  
+  return (
+    &lt;form&gt;
+      &lt;FormField
+        name="firstName"
+        label="First Name"
+        value={formData.firstName}
+        error={errors.firstName}
+        onChange={handleChange}
+      /&gt;
+      &lt;FormField
+        name="lastName"
+        label="Last Name"
+        value={formData.lastName}
+        error={errors.lastName}
+        onChange={handleChange}
+      /&gt;
+      {/* More fields... */}
+    &lt;/form&gt;
+  );
+}
+
+// Example 3: Dashboard with multiple widgets
+const Widget = React.memo(({ title, data, isLoading, onRefresh }) => {
+  if (isLoading) {
+    return &lt;div className="widget loading"&gt;Loading...&lt;/div&gt;;
+  }
+  
+  return (
+    &lt;div className="widget"&gt;
+      &lt;h3&gt;{title}&lt;/h3&gt;
+      &lt;div className="widget-content"&gt;
+        {JSON.stringify(data)}
+      &lt;/div&gt;
+      &lt;button onClick={onRefresh}&gt;Refresh&lt;/button&gt;
+    &lt;/div&gt;
+  );
+});
+
+function Dashboard() {
+  const [salesData, setSalesData] = useState(null);
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [userStats, setUserStats] = useState(null);
+  const [loading, setLoading] = useState({ sales: false, analytics: false, users: false });
+  
+  const refreshSales = useCallback(() => {
+    setLoading(prev => ({ ...prev, sales: true }));
+    fetchSalesData().then(data => {
+      setSalesData(data);
+      setLoading(prev => ({ ...prev, sales: false }));
+    });
+  }, []);
+  
+  const refreshAnalytics = useCallback(() => {
+    setLoading(prev => ({ ...prev, analytics: true }));
+    fetchAnalyticsData().then(data => {
+      setAnalyticsData(data);
+      setLoading(prev => ({ ...prev, analytics: false }));
+    });
+  }, []);
+  
+  const refreshUsers = useCallback(() => {
+    setLoading(prev => ({ ...prev, users: true }));
+    fetchUserStats().then(data => {
+      setUserStats(data);
+      setLoading(prev => ({ ...prev, users: false }));
+    });
+  }, []);
+  
+  return (
+    &lt;div className="dashboard"&gt;
+      {/* Only Sales widget re-renders when sales data changes */}
+      &lt;Widget
+        title="Sales"
+        data={salesData}
+        isLoading={loading.sales}
+        onRefresh={refreshSales}
+      /&gt;
+      
+      &lt;Widget
+        title="Analytics"
+        data={analyticsData}
+        isLoading={loading.analytics}
+        onRefresh={refreshAnalytics}
+      /&gt;
+      
+      &lt;Widget
+        title="User Stats"
+        data={userStats}
+        isLoading={loading.users}
+        onRefresh={refreshUsers}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example 4: Virtualized list optimization
+const ListItem = React.memo(({ item, style, onSelect, isSelected }) => {
+  return (
+    &lt;div
+      style={style}
+      className={isSelected ? 'item selected' : 'item'}
+      onClick={() => onSelect(item.id)}
+    &gt;
+      &lt;h4&gt;{item.title}&lt;/h4&gt;
+      &lt;p&gt;{item.description}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}, (prevProps, nextProps) => {
+  // Only re-render if item data or selection state changed
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.item.title === nextProps.item.title &&
+    prevProps.item.description === nextProps.item.description &&
+    prevProps.isSelected === nextProps.isSelected
+  );
+});
+
+function VirtualList({ items }) {
+  const [selectedId, setSelectedId] = useState(null);
+  
+  const handleSelect = useCallback((id) => {
+    setSelectedId(id);
+  }, []);
+  
+  return (
+    &lt;FixedSizeList
+      height={600}
+      itemCount={items.length}
+      itemSize={100}
+    &gt;
+      {({ index, style }) => (
+        &lt;ListItem
+          item={items[index]}
+          style={style}
+          onSelect={handleSelect}
+          isSelected={items[index].id === selectedId}
+        /&gt;
+      )}
+    &lt;/FixedSizeList&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Don't memo everything:</b> Only memoize components where re-render cost is significant</li>
+  <li><b>Measure before optimizing:</b> Use React DevTools Profiler to identify actual bottlenecks</li>
+  <li><b>Combine with useCallback/useMemo:</b> Ensure props have stable references</li>
+  <li><b>Keep comparison functions simple:</b> Expensive comparisons defeat the purpose</li>
+  <li><b>Avoid inline objects/functions:</b> They create new references and break memoization</li>
+  <li><b>Use custom comparison sparingly:</b> Default shallow comparison is usually sufficient</li>
+  <li><b>Memoize leaf components:</b> Components at the end of the tree benefit most</li>
+  <li><b>Don't memo components that always change:</b> If props always differ, memo adds overhead</li>
+  <li><b>Consider composition over memo:</b> Sometimes lifting state or component structure is better</li>
+  <li><b>Test memo effectiveness:</b> Verify it actually improves performance in your use case</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Basic React.memo() Usage",
+              "React.memo() with Custom Comparison",
+              "Optimizing List Rendering with memo()",
+              "memo() with useCallback and useMemo",
+              "Complex Dashboard with Multiple Memoized Widgets",
+              "Form Optimization with Memoized Fields",
+            ],
+            questions: [
+              {
+                question: "What is React.memo() and how does it work?",
+                answer:
+                  "React.memo() is a higher-order component that memoizes functional components to prevent unnecessary re-renders. It performs a shallow comparison of props between renders - if props haven't changed (using Object.is equality), React skips rendering and reuses the last rendered output. It's similar to PureComponent for class components but works with functional components. React.memo() wraps a component and returns a new memoized version that only re-renders when props actually change.",
+              },
+              {
+                question:
+                  "When should you use React.memo() and when should you avoid it?",
+                answer:
+                  "Use React.memo() for: expensive components with complex renders, components that receive the same props frequently, list items rendered many times, or components deep in the component tree. Avoid it for: simple components where render cost is negligible, components that always receive different props, components that need to re-render with parent, or when you haven't measured and confirmed a performance problem. Always measure with React DevTools Profiler before optimizing.",
+              },
+              {
+                question:
+                  "How does React.memo() perform shallow comparison of props?",
+                answer:
+                  "React.memo() uses Object.is equality (similar to ===) to compare each prop individually. For primitive values (numbers, strings, booleans), it compares by value. For objects, arrays, and functions, it compares by reference - meaning a new object/array/function will be considered different even if it has the same content. This is why inline objects ({ }), inline arrays ([]), and inline functions (() => {}) break memoization - they create new references on every render.",
+              },
+              {
+                question:
+                  "How do you provide a custom comparison function to React.memo()?",
+                answer:
+                  "React.memo() accepts a second argument: a custom comparison function. This function receives prevProps and nextProps and should return true to SKIP re-render (props are equal) or false to ALLOW re-render (props are different). Note this is opposite to shouldComponentUpdate! Example: React.memo(Component, (prev, next) => prev.id === next.id). Use custom comparison when you need deep equality checks or want to compare only specific props, but keep the function simple to avoid expensive comparisons.",
+              },
+              {
+                question:
+                  "Why don't inline objects and functions work with React.memo()?",
+                answer:
+                  "Inline objects ({ color: 'red' }), arrays ([1, 2, 3]), and functions (() => {}) create new references on every render. Since React.memo() compares props by reference (not by value), these new references make React think props have changed, causing re-renders. Solution: extract to constants outside the component, use useMemo for objects/arrays, or use useCallback for functions to maintain stable references across renders.",
+              },
+              {
+                question:
+                  "What's the difference between React.memo(), useMemo(), and useCallback()?",
+                answer:
+                  "React.memo() memoizes the entire component output, preventing re-renders when props haven't changed. useMemo() memoizes a computed value inside a component, preventing expensive recalculations. useCallback() memoizes a function reference, returning the same function instance when dependencies haven't changed. They work together: use React.memo() to wrap child components, useMemo() for expensive calculations or to create stable object references, and useCallback() to create stable function references for props passed to memo'd children.",
+              },
+              {
+                question: "How do React.memo() and useCallback work together?",
+                answer:
+                  "React.memo() prevents re-renders based on prop changes, but if you pass inline functions as props, memo won't work because each render creates a new function reference. useCallback() solves this by memoizing the function and returning the same reference when dependencies haven't changed. Pattern: wrap child components with React.memo(), and use useCallback() in the parent for any function props passed to those children. This ensures the memo'd component only re-renders when the actual logic (dependencies) changes.",
+              },
+              {
+                question:
+                  "What happens when a memoized component uses Context?",
+                answer:
+                  "React.memo() only prevents re-renders from props changes, not from Context updates. If a memoized component uses useContext(), it will still re-render when the context value changes, regardless of memo. Solution: split context consumption into a wrapper component, or pass context values as props to the memoized component so you have more control over re-renders. The memo only optimizes prop-based re-renders, not context subscriptions.",
+              },
+              {
+                question: "How do you debug why React.memo() isn't working?",
+                answer:
+                  "Several debugging techniques: (1) Add console.log to track renders, (2) Use custom comparison function with logging to see which props are changing, (3) Use useEffect with prop dependencies to see when they change, (4) Install why-did-you-render library to automatically track re-render reasons, (5) Use React DevTools Profiler to see render counts and reasons, (6) Create a debug HOC that logs prop changes. Common issues: inline objects/functions, missing useCallback/useMemo, or props that legitimately change often.",
+              },
+              {
+                question: "Can you use React.memo() with forwardRef?",
+                answer:
+                  "Yes, combine them in either order: React.memo(React.forwardRef((props, ref) => ...)) or React.forwardRef(React.memo((props) => ...)). The common pattern is memo wrapping forwardRef. This creates a memoized component that can also accept refs. Both optimizations work together - memo prevents re-renders and forwardRef allows parent components to access the child's DOM node or imperative methods.",
+              },
+              {
+                question:
+                  "What are the performance trade-offs of using React.memo()?",
+                answer:
+                  "Benefits: prevents expensive re-renders, improves performance for complex components or large lists, reduces wasted computation. Costs: adds comparison overhead on every parent render, requires memory to store previous props, can add complexity with useCallback/useMemo dependencies. The comparison itself takes time - if render is very cheap, memo might actually be slower. Always measure with Profiler to ensure memo provides net benefit. Optimize based on data, not assumptions.",
+              },
+              {
+                question:
+                  "How do you handle the children prop with React.memo()?",
+                answer:
+                  "The children prop is problematic with memo because React elements (like <ChildComponent />) are recreated each render, giving new references. Solutions: (1) wrap children in useMemo, (2) pass component type instead of element and render inside the memo'd component, (3) use render prop pattern, or (4) restructure with composition so children stay stable. Generally, if a component heavily uses children, memo might not be effective and composition might be a better solution.",
+              },
+              {
+                question:
+                  "Should you memoize components in a large list like a data table?",
+                answer:
+                  "Yes, this is one of the best use cases for React.memo(). For lists with many rows, memoizing each row component prevents all rows from re-rendering when only one changes. Combine with useCallback for event handlers to ensure stable references. For very large lists (100s-1000s of items), also consider virtualization libraries like react-window or react-virtualized. Pattern: memo the row component, useCallback for handlers, and consider custom comparison to only check relevant props.",
+              },
+              {
+                question:
+                  "How do you decide between React.memo() and restructuring component hierarchy?",
+                answer:
+                  "Consider restructuring first: lift state closer to where it's used, split components to isolate changing state, use composition to avoid prop drilling. Use memo when: component structure is already optimal, re-renders are genuinely expensive, props change infrequently, or the performance problem is isolated to specific components. Restructuring often provides better long-term maintainability, while memo is a tactical optimization. Best approach: optimize architecture first, then add memo to remaining bottlenecks.",
+              },
+              {
+                question:
+                  "What are some common real-world patterns for React.memo()?",
+                answer:
+                  "Common patterns: (1) Data table rows to prevent unnecessary row re-renders, (2) Form fields so only the edited field re-renders, (3) Dashboard widgets to isolate updates to specific widgets, (4) List items in large lists, (5) Complex chart/graph components with expensive rendering, (6) Virtualized list items, (7) Components that receive data from Context wrapped in memo to prevent prop-based re-renders. In all cases, combine with useCallback/useMemo for stable prop references and measure performance improvement.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/memo",
+              "https://react.dev/reference/react/useMemo",
+              "https://react.dev/reference/react/useCallback",
+              "https://kentcdodds.com/blog/usememo-and-usecallback",
+              "https://react.dev/learn/render-and-commit",
+              "https://legacy.reactjs.org/docs/react-api.html#reactmemo",
+            ],
           },
           {
             topic: "State Lifting",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "State Lifting",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "State Lifting",
+              "State Management",
+              "Component Communication",
+              "Props",
+              "Shared State",
+              "Component Hierarchy",
+              "Data Flow",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+State Lifting is a fundamental React pattern where you move shared state from child components up to their closest common parent component. This allows multiple child components to share and synchronize the same state through props and callbacks. When two or more components need to reflect the same changing data, you lift the state to their common ancestor, which becomes the single source of truth. Understanding state lifting is essential for building React applications with proper data flow, component communication, and avoiding state duplication or synchronization issues.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Concept and Why Lift State
+</h4>
+
+<p style="line-height: 1.75;">
+State lifting solves the problem of sharing state between sibling components by moving it to their common parent.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: Two components need to share the same state
+// Without state lifting - each has its own state (not synchronized)
+
+function TemperatureInput() {
+  const [temperature, setTemperature] = useState('');
+  
+  return (
+    &lt;input
+      value={temperature}
+      onChange={(e) => setTemperature(e.target.value)}
+    /&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;TemperatureInput /&gt; {/* Has its own temperature */}
+      &lt;TemperatureInput /&gt; {/* Has its own temperature - NOT synchronized */}
+    &lt;/div&gt;
+  );
+}
+
+// Solution: Lift state to common parent
+// Now both inputs share the same state
+
+function TemperatureInput({ temperature, onTemperatureChange }) {
+  return (
+    &lt;input
+      value={temperature}
+      onChange={(e) => onTemperatureChange(e.target.value)}
+    /&gt;
+  );
+}
+
+function App() {
+  const [temperature, setTemperature] = useState('');
+  
+  return (
+    &lt;div&gt;
+      {/* Both inputs now share the same state */}
+      &lt;TemperatureInput
+        temperature={temperature}
+        onTemperatureChange={setTemperature}
+      /&gt;
+      &lt;TemperatureInput
+        temperature={temperature}
+        onTemperatureChange={setTemperature}
+      /&gt;
+      
+      {/* Parent can also use the shared state */}
+      &lt;p&gt;Temperature: {temperature}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Key principles:
+// 1. State moves from child to parent
+// 2. Parent owns the state (single source of truth)
+// 3. Children receive state via props
+// 4. Children notify parent of changes via callbacks
+// 5. Parent updates state, triggering re-render of all children
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Step-by-Step State Lifting Process
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Step 1: Identify components that need to share state
+
+// Before: Each component has its own state
+function SearchBar() {
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  return (
+    &lt;input
+      placeholder="Search..."
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    /&gt;
+  );
+}
+
+function ProductList() {
+  const [searchTerm, setSearchTerm] = useState(''); // Duplicate state!
+  
+  const filteredProducts = products.filter(p =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  return (
+    &lt;ul&gt;
+      {filteredProducts.map(product => (
+        &lt;li key={product.id}&gt;{product.name}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Step 2: Find the closest common parent
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;SearchBar /&gt;      {/* Sibling 1 */}
+      &lt;ProductList /&gt;   {/* Sibling 2 */}
+    &lt;/div&gt;
+  );
+}
+// App is the common parent
+
+// Step 3: Move state to the common parent
+function App() {
+  const [searchTerm, setSearchTerm] = useState(''); // Lifted state
+  
+  return (
+    &lt;div&gt;
+      &lt;SearchBar /&gt;
+      &lt;ProductList /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Step 4: Pass state down as props
+function App() {
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  return (
+    &lt;div&gt;
+      &lt;SearchBar searchTerm={searchTerm} /&gt;
+      &lt;ProductList searchTerm={searchTerm} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Step 5: Pass state updater as callback
+function App() {
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  return (
+    &lt;div&gt;
+      &lt;SearchBar
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}  // Pass updater
+      /&gt;
+      &lt;ProductList searchTerm={searchTerm} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Step 6: Update children to use props instead of local state
+function SearchBar({ searchTerm, onSearchChange }) {
+  return (
+    &lt;input
+      placeholder="Search..."
+      value={searchTerm}
+      onChange={(e) => onSearchChange(e.target.value)}
+    /&gt;
+  );
+}
+
+function ProductList({ searchTerm }) {
+  const filteredProducts = products.filter(p =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  return (
+    &lt;ul&gt;
+      {filteredProducts.map(product => (
+        &lt;li key={product.id}&gt;{product.name}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Final result: Both components now share synchronized state
+// SearchBar controls the input
+// ProductList displays filtered results
+// App owns the single source of truth
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Common State Lifting Patterns
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Controlled Components Pattern
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Lift form input state to parent
+
+// Uncontrolled (before lifting)
+function Input() {
+  const [value, setValue] = useState('');
+  
+  return (
+    &lt;input
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    /&gt;
+  );
+}
+
+// Controlled (after lifting)
+function Input({ value, onChange }) {
+  return (
+    &lt;input
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    /&gt;
+  );
+}
+
+// Parent manages all form state
+function Form() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: ''
+  });
+  
+  const handleChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  return (
+    &lt;form&gt;
+      &lt;Input
+        value={formData.firstName}
+        onChange={(value) => handleChange('firstName', value)}
+      /&gt;
+      &lt;Input
+        value={formData.lastName}
+        onChange={(value) => handleChange('lastName', value)}
+      /&gt;
+      &lt;Input
+        value={formData.email}
+        onChange={(value) => handleChange('email', value)}
+      /&gt;
+      
+      {/* Parent can easily access all values */}
+      &lt;button onClick={() => console.log(formData)}&gt;
+        Submit
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Tabs/Toggle Pattern
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Lift active tab state to parent
+
+function TabButton({ label, isActive, onClick }) {
+  return (
+    &lt;button
+      className={isActive ? 'active' : ''}
+      onClick={onClick}
+    &gt;
+      {label}
+    &lt;/button&gt;
+  );
+}
+
+function TabContent({ children, isActive }) {
+  if (!isActive) return null;
+  return &lt;div className="tab-content"&gt;{children}&lt;/div&gt;;
+}
+
+function Tabs() {
+  const [activeTab, setActiveTab] = useState('home');
+  
+  return (
+    &lt;div&gt;
+      &lt;div className="tab-buttons"&gt;
+        &lt;TabButton
+          label="Home"
+          isActive={activeTab === 'home'}
+          onClick={() => setActiveTab('home')}
+        /&gt;
+        &lt;TabButton
+          label="Profile"
+          isActive={activeTab === 'profile'}
+          onClick={() => setActiveTab('profile')}
+        /&gt;
+        &lt;TabButton
+          label="Settings"
+          isActive={activeTab === 'settings'}
+          onClick={() => setActiveTab('settings')}
+        /&gt;
+      &lt;/div&gt;
+      
+      &lt;TabContent isActive={activeTab === 'home'}&gt;
+        &lt;h2&gt;Home Content&lt;/h2&gt;
+      &lt;/TabContent&gt;
+      
+      &lt;TabContent isActive={activeTab === 'profile'}&gt;
+        &lt;h2&gt;Profile Content&lt;/h2&gt;
+      &lt;/TabContent&gt;
+      
+      &lt;TabContent isActive={activeTab === 'settings'}&gt;
+        &lt;h2&gt;Settings Content&lt;/h2&gt;
+      &lt;/TabContent&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Master-Detail Pattern
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Lift selected item to parent
+
+function ItemList({ items, selectedId, onSelect }) {
+  return (
+    &lt;ul&gt;
+      {items.map(item => (
+        &lt;li
+          key={item.id}
+          className={item.id === selectedId ? 'selected' : ''}
+          onClick={() => onSelect(item.id)}
+        &gt;
+          {item.name}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+function ItemDetail({ item }) {
+  if (!item) return &lt;p&gt;Select an item&lt;/p&gt;;
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;{item.name}&lt;/h2&gt;
+      &lt;p&gt;{item.description}&lt;/p&gt;
+      &lt;p&gt;Price: ${item.price}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  const [items] = useState([
+    { id: 1, name: 'Item 1', description: 'First item', price: 10 },
+    { id: 2, name: 'Item 2', description: 'Second item', price: 20 },
+    { id: 3, name: 'Item 3', description: 'Third item', price: 30 }
+  ]);
+  
+  const [selectedId, setSelectedId] = useState(null);
+  
+  const selectedItem = items.find(item => item.id === selectedId);
+  
+  return (
+    &lt;div className="master-detail"&gt;
+      &lt;ItemList
+        items={items}
+        selectedId={selectedId}
+        onSelect={setSelectedId}
+      /&gt;
+      &lt;ItemDetail item={selectedItem} /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+D. Filter/Sort Pattern
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Lift filter controls to parent
+
+function FilterBar({ filter, onFilterChange }) {
+  return (
+    &lt;div&gt;
+      &lt;button
+        className={filter === 'all' ? 'active' : ''}
+        onClick={() => onFilterChange('all')}
+      &gt;
+        All
+      &lt;/button&gt;
+      &lt;button
+        className={filter === 'active' ? 'active' : ''}
+        onClick={() => onFilterChange('active')}
+      &gt;
+        Active
+      &lt;/button&gt;
+      &lt;button
+        className={filter === 'completed' ? 'active' : ''}
+        onClick={() => onFilterChange('completed')}
+      &gt;
+        Completed
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function TodoList({ todos, filter }) {
+  const filteredTodos = todos.filter(todo => {
+    if (filter === 'all') return true;
+    if (filter === 'active') return !todo.completed;
+    if (filter === 'completed') return todo.completed;
+    return true;
+  });
+  
+  return (
+    &lt;ul&gt;
+      {filteredTodos.map(todo => (
+        &lt;li key={todo.id}&gt;
+          {todo.text}
+          {todo.completed && ' ✓'}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+function TodoApp() {
+  const [todos] = useState([
+    { id: 1, text: 'Learn React', completed: true },
+    { id: 2, text: 'Build project', completed: false },
+    { id: 3, text: 'Deploy app', completed: false }
+  ]);
+  
+  const [filter, setFilter] = useState('all');
+  
+  return (
+    &lt;div&gt;
+      &lt;FilterBar filter={filter} onFilterChange={setFilter} /&gt;
+      &lt;TodoList todos={todos} filter={filter} /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Multiple Levels of State Lifting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Sometimes state needs to be lifted multiple levels
+
+// Level 1: State in leaf component
+function QuantityInput() {
+  const [quantity, setQuantity] = useState(1);
+  
+  return (
+    &lt;input
+      type="number"
+      value={quantity}
+      onChange={(e) => setQuantity(e.target.value)}
+    /&gt;
+  );
+}
+
+// Level 2: Lift to immediate parent (CartItem)
+function QuantityInput({ quantity, onChange }) {
+  return (
+    &lt;input
+      type="number"
+      value={quantity}
+      onChange={(e) => onChange(e.target.value)}
+    /&gt;
+  );
+}
+
+function CartItem() {
+  const [quantity, setQuantity] = useState(1);
+  
+  return (
+    &lt;div&gt;
+      &lt;QuantityInput quantity={quantity} onChange={setQuantity} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Level 3: Lift to grandparent (Cart) to share between items
+function QuantityInput({ quantity, onChange }) {
+  return (
+    &lt;input
+      type="number"
+      value={quantity}
+      onChange={(e) => onChange(e.target.value)}
+    /&gt;
+  );
+}
+
+function CartItem({ item, quantity, onQuantityChange }) {
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{item.name}&lt;/span&gt;
+      &lt;QuantityInput
+        quantity={quantity}
+        onChange={onQuantityChange}
+      /&gt;
+      &lt;span&gt;${item.price * quantity}&lt;/span&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Cart() {
+  const [items, setItems] = useState([
+    { id: 1, name: 'Product A', price: 10, quantity: 1 },
+    { id: 2, name: 'Product B', price: 20, quantity: 2 }
+  ]);
+  
+  const handleQuantityChange = (itemId, newQuantity) => {
+    setItems(prev => prev.map(item =>
+      item.id === itemId
+        ? { ...item, quantity: parseInt(newQuantity) || 0 }
+        : item
+    ));
+  };
+  
+  const total = items.reduce((sum, item) => 
+    sum + (item.price * item.quantity), 0
+  );
+  
+  return (
+    &lt;div&gt;
+      {items.map(item => (
+        &lt;CartItem
+          key={item.id}
+          item={item}
+          quantity={item.quantity}
+          onQuantityChange={(q) => handleQuantityChange(item.id, q)}
+        /&gt;
+      ))}
+      &lt;div&gt;Total: ${total}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Level 4: Lift to App to share with checkout
+function App() {
+  const [cartItems, setCartItems] = useState([]);
+  
+  return (
+    &lt;div&gt;
+      &lt;Cart items={cartItems} setItems={setCartItems} /&gt;
+      &lt;Checkout items={cartItems} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Rule: Lift state to the lowest common ancestor that needs it
+// Don't lift higher than necessary
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. State Lifting vs Prop Drilling
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: State lifting can lead to prop drilling
+// Passing props through many intermediate components
+
+function App() {
+  const [user, setUser] = useState({ name: 'John', theme: 'dark' });
+  
+  return (
+    &lt;Layout user={user} setUser={setUser}&gt;
+      &lt;Dashboard user={user} setUser={setUser}&gt;
+        &lt;Profile user={user} setUser={setUser}&gt;
+          &lt;Settings user={user} setUser={setUser} /&gt;
+        &lt;/Profile&gt;
+      &lt;/Dashboard&gt;
+    &lt;/Layout&gt;
+  );
+}
+
+// Layout, Dashboard, and Profile don't use user/setUser
+// They just pass it down (prop drilling)
+
+// Solution 1: Component composition (children prop)
+function App() {
+  const [user, setUser] = useState({ name: 'John', theme: 'dark' });
+  
+  return (
+    &lt;Layout&gt;
+      &lt;Dashboard&gt;
+        &lt;Profile&gt;
+          {/* Only Settings receives props directly */}
+          &lt;Settings user={user} setUser={setUser} /&gt;
+        &lt;/Profile&gt;
+      &lt;/Dashboard&gt;
+    &lt;/Layout&gt;
+  );
+}
+
+// Solution 2: Context API (for deeply nested state)
+const UserContext = createContext();
+
+function App() {
+  const [user, setUser] = useState({ name: 'John', theme: 'dark' });
+  
+  return (
+    &lt;UserContext.Provider value={{ user, setUser }}&gt;
+      &lt;Layout&gt;
+        &lt;Dashboard&gt;
+          &lt;Profile&gt;
+            &lt;Settings /&gt;
+          &lt;/Profile&gt;
+        &lt;/Dashboard&gt;
+      &lt;/Layout&gt;
+    &lt;/UserContext.Provider&gt;
+  );
+}
+
+function Settings() {
+  const { user, setUser } = useContext(UserContext);
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Settings for {user.name}&lt;/h2&gt;
+      {/* Use user and setUser */}
+    &lt;/div&gt;
+  );
+}
+
+// Solution 3: Render props
+function App() {
+  const [user, setUser] = useState({ name: 'John', theme: 'dark' });
+  
+  return (
+    &lt;Layout&gt;
+      {() => (
+        &lt;Dashboard&gt;
+          {() => (
+            &lt;Profile&gt;
+              {() => &lt;Settings user={user} setUser={setUser} /&gt;}
+            &lt;/Profile&gt;
+          )}
+        &lt;/Dashboard&gt;
+      )}
+    &lt;/Layout&gt;
+  );
+}
+
+// When to use each approach:
+// - State Lifting: 1-2 levels deep, closely related components
+// - Component Composition: Avoiding prop drilling through layout components
+// - Context: Deeply nested, widely needed state (theme, auth, locale)
+// - State Management Library: Very complex, global state
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Lifting State with Multiple Children
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: One child controls state, others consume it
+
+function TemperatureInput({ scale, temperature, onTemperatureChange }) {
+  const handleChange = (e) => {
+    onTemperatureChange(e.target.value);
+  };
+  
+  return (
+    &lt;fieldset&gt;
+      &lt;legend&gt;Enter temperature in {scale}:&lt;/legend&gt;
+      &lt;input value={temperature} onChange={handleChange} /&gt;
+    &lt;/fieldset&gt;
+  );
+}
+
+function BoilingVerdict({ celsius }) {
+  if (celsius &gt;= 100) {
+    return &lt;p&gt;The water would boil.&lt;/p&gt;;
+  }
+  return &lt;p&gt;The water would not boil.&lt;/p&gt;;
+}
+
+// Conversion functions
+function toCelsius(fahrenheit) {
+  return ((fahrenheit - 32) * 5) / 9;
+}
+
+function toFahrenheit(celsius) {
+  return (celsius * 9) / 5 + 32;
+}
+
+function tryConvert(temperature, convert) {
+  const input = parseFloat(temperature);
+  if (Number.isNaN(input)) {
+    return '';
+  }
+  const output = convert(input);
+  const rounded = Math.round(output * 1000) / 1000;
+  return rounded.toString();
+}
+
+function Calculator() {
+  const [temperature, setTemperature] = useState('');
+  const [scale, setScale] = useState('c');
+  
+  const handleCelsiusChange = (temperature) => {
+    setScale('c');
+    setTemperature(temperature);
+  };
+  
+  const handleFahrenheitChange = (temperature) => {
+    setScale('f');
+    setTemperature(temperature);
+  };
+  
+  const celsius = scale === 'f'
+    ? tryConvert(temperature, toCelsius)
+    : temperature;
+    
+  const fahrenheit = scale === 'c'
+    ? tryConvert(temperature, toFahrenheit)
+    : temperature;
+  
+  return (
+    &lt;div&gt;
+      &lt;TemperatureInput
+        scale="Celsius"
+        temperature={celsius}
+        onTemperatureChange={handleCelsiusChange}
+      /&gt;
+      
+      &lt;TemperatureInput
+        scale="Fahrenheit"
+        temperature={fahrenheit}
+        onTemperatureChange={handleFahrenheitChange}
+      /&gt;
+      
+      &lt;BoilingVerdict celsius={parseFloat(celsius)} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Key points:
+// - Parent stores single source of truth (temperature + scale)
+// - Both inputs are synchronized
+// - Changing one input updates the other
+// - BoilingVerdict always uses celsius
+// - Parent handles all conversions
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. State Lifting with Complex State Objects
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Lift complex state and provide targeted updaters
+
+function UserForm() {
+  const [user, setUser] = useState({
+    personalInfo: {
+      firstName: '',
+      lastName: '',
+      email: ''
+    },
+    address: {
+      street: '',
+      city: '',
+      zipCode: ''
+    },
+    preferences: {
+      newsletter: false,
+      notifications: true
+    }
+  });
+  
+  // Targeted update functions
+  const updatePersonalInfo = (field, value) => {
+    setUser(prev => ({
+      ...prev,
+      personalInfo: {
+        ...prev.personalInfo,
+        [field]: value
+      }
+    }));
+  };
+  
+  const updateAddress = (field, value) => {
+    setUser(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        [field]: value
+      }
+    }));
+  };
+  
+  const updatePreferences = (field, value) => {
+    setUser(prev => ({
+      ...prev,
+      preferences: {
+        ...prev.preferences,
+        [field]: value
+      }
+    }));
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;PersonalInfoSection
+        data={user.personalInfo}
+        onUpdate={updatePersonalInfo}
+      /&gt;
+      
+      &lt;AddressSection
+        data={user.address}
+        onUpdate={updateAddress}
+      /&gt;
+      
+      &lt;PreferencesSection
+        data={user.preferences}
+        onUpdate={updatePreferences}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function PersonalInfoSection({ data, onUpdate }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Personal Information&lt;/h3&gt;
+      &lt;input
+        placeholder="First Name"
+        value={data.firstName}
+        onChange={(e) => onUpdate('firstName', e.target.value)}
+      /&gt;
+      &lt;input
+        placeholder="Last Name"
+        value={data.lastName}
+        onChange={(e) => onUpdate('lastName', e.target.value)}
+      /&gt;
+      &lt;input
+        placeholder="Email"
+        value={data.email}
+        onChange={(e) => onUpdate('email', e.target.value)}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function AddressSection({ data, onUpdate }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Address&lt;/h3&gt;
+      &lt;input
+        placeholder="Street"
+        value={data.street}
+        onChange={(e) => onUpdate('street', e.target.value)}
+      /&gt;
+      &lt;input
+        placeholder="City"
+        value={data.city}
+        onChange={(e) => onUpdate('city', e.target.value)}
+      /&gt;
+      &lt;input
+        placeholder="Zip Code"
+        value={data.zipCode}
+        onChange={(e) => onUpdate('zipCode', e.target.value)}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function PreferencesSection({ data, onUpdate }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Preferences&lt;/h3&gt;
+      &lt;label&gt;
+        &lt;input
+          type="checkbox"
+          checked={data.newsletter}
+          onChange={(e) => onUpdate('newsletter', e.target.checked)}
+        /&gt;
+        Newsletter
+      &lt;/label&gt;
+      &lt;label&gt;
+        &lt;input
+          type="checkbox"
+          checked={data.notifications}
+          onChange={(e) => onUpdate('notifications', e.target.checked)}
+        /&gt;
+        Notifications
+      &lt;/label&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Alternative: Use reducer for complex state updates
+function userReducer(state, action) {
+  switch (action.type) {
+    case 'UPDATE_PERSONAL_INFO':
+      return {
+        ...state,
+        personalInfo: {
+          ...state.personalInfo,
+          [action.field]: action.value
+        }
+      };
+    case 'UPDATE_ADDRESS':
+      return {
+        ...state,
+        address: {
+          ...state.address,
+          [action.field]: action.value
+        }
+      };
+    case 'UPDATE_PREFERENCES':
+      return {
+        ...state,
+        preferences: {
+          ...state.preferences,
+          [action.field]: action.value
+        }
+      };
+    default:
+      return state;
+  }
+}
+
+function UserForm() {
+  const [user, dispatch] = useReducer(userReducer, initialUser);
+  
+  return (
+    &lt;div&gt;
+      &lt;PersonalInfoSection
+        data={user.personalInfo}
+        onUpdate={(field, value) =>
+          dispatch({ type: 'UPDATE_PERSONAL_INFO', field, value })
+        }
+      /&gt;
+      {/* ... other sections */}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. State Lifting with Arrays and Lists
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Lift array state for CRUD operations
+
+function TodoItem({ todo, onToggle, onDelete }) {
+  return (
+    &lt;li&gt;
+      &lt;input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={() => onToggle(todo.id)}
+      /&gt;
+      &lt;span
+        style={{
+          textDecoration: todo.completed ? 'line-through' : 'none'
+        }}
+      &gt;
+        {todo.text}
+      &lt;/span&gt;
+      &lt;button onClick={() => onDelete(todo.id)}&gt;Delete&lt;/button&gt;
+    &lt;/li&gt;
+  );
+}
+
+function TodoList({ todos, onToggle, onDelete }) {
+  return (
+    &lt;ul&gt;
+      {todos.map(todo => (
+        &lt;TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={onToggle}
+          onDelete={onDelete}
+        /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+function AddTodo({ onAdd }) {
+  const [text, setText] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (text.trim()) {
+      onAdd(text);
+      setText('');
+    }
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Add todo..."
+      /&gt;
+      &lt;button type="submit"&gt;Add&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+function TodoApp() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'Learn React', completed: false },
+    { id: 2, text: 'Build project', completed: false }
+  ]);
+  
+  const [nextId, setNextId] = useState(3);
+  
+  // CRUD operations in parent
+  const handleAdd = (text) => {
+    setTodos(prev => [
+      ...prev,
+      { id: nextId, text, completed: false }
+    ]);
+    setNextId(prev => prev + 1);
+  };
+  
+  const handleToggle = (id) => {
+    setTodos(prev => prev.map(todo =>
+      todo.id === id
+        ? { ...todo, completed: !todo.completed }
+        : todo
+    ));
+  };
+  
+  const handleDelete = (id) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Todo List&lt;/h1&gt;
+      &lt;AddTodo onAdd={handleAdd} /&gt;
+      &lt;TodoList
+        todos={todos}
+        onToggle={handleToggle}
+        onDelete={handleDelete}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Benefits of lifting array state:
+// 1. Single source of truth for the list
+// 2. Easy to add features (filter, sort, stats)
+// 3. Parent can access full list state
+// 4. Children stay simple and reusable
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. When NOT to Lift State
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Don't lift state if it's only needed in one component
+
+// ❌ Unnecessary lifting - only Modal needs this state
+function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt;
+      &lt;Content /&gt;
+      &lt;Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ✅ Keep state in Modal component
+function Modal() {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setIsOpen(true)}&gt;Open Modal&lt;/button&gt;
+      {isOpen && (
+        &lt;div className="modal"&gt;
+          &lt;button onClick={() => setIsOpen(false)}&gt;Close&lt;/button&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// Don't lift UI-only state
+
+// ❌ Unnecessary lifting - hover state doesn't need to be shared
+function App() {
+  const [hoveredButton, setHoveredButton] = useState(null);
+  
+  return (
+    &lt;div&gt;
+      &lt;Button
+        id="1"
+        isHovered={hoveredButton === '1'}
+        onHover={(id) => setHoveredButton(id)}
+      /&gt;
+      &lt;Button
+        id="2"
+        isHovered={hoveredButton === '2'}
+        onHover={(id) => setHoveredButton(id)}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ✅ Keep hover state local to each button
+function Button({ label }) {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    &lt;button
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ backgroundColor: isHovered ? 'blue' : 'gray' }}
+    &gt;
+      {label}
+    &lt;/button&gt;
+  );
+}
+
+// Don't lift state that causes excessive re-renders
+
+// ❌ Mouse position causes entire app to re-render
+function App() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    const handleMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt;  {/* Re-renders on every mouse move! */}
+      &lt;Content /&gt; {/* Re-renders on every mouse move! */}
+      &lt;MouseTracker position={mousePosition} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ✅ Keep mouse tracking isolated
+function MouseTracker() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    const handleMove = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
+  
+  return &lt;div&gt;Mouse: {position.x}, {position.y}&lt;/div&gt;;
+}
+
+// Guidelines:
+// 1. Only lift state when multiple components need it
+// 2. Keep state as low as possible in the tree
+// 3. Consider performance impact of lifting
+// 4. Use Context for deeply nested shared state
+// 5. Keep UI-only state local when possible
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. State Lifting with Custom Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Extract state logic into custom hooks
+
+// Custom hook for form state management
+function useFormState(initialState) {
+  const [values, setValues] = useState(initialState);
+  
+  const handleChange = (name, value) => {
+    setValues(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const reset = () => {
+    setValues(initialState);
+  };
+  
+  return { values, handleChange, reset };
+}
+
+// Custom hook for list management
+function useList(initialItems = []) {
+  const [items, setItems] = useState(initialItems);
+  
+  const add = (item) => {
+    setItems(prev => [...prev, item]);
+  };
+  
+  const remove = (id) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  };
+  
+  const update = (id, updates) => {
+    setItems(prev => prev.map(item =>
+      item.id === id ? { ...item, ...updates } : item
+    ));
+  };
+  
+  const clear = () => {
+    setItems([]);
+  };
+  
+  return { items, add, remove, update, clear };
+}
+
+// Usage: Lift state with custom hooks
+function RegistrationForm() {
+  const form = useFormState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  
+  return (
+    &lt;div&gt;
+      &lt;EmailInput
+        value={form.values.email}
+        onChange={(value) => form.handleChange('email', value)}
+      /&gt;
+      &lt;PasswordInput
+        value={form.values.password}
+        onChange={(value) => form.handleChange('password', value)}
+      /&gt;
+      &lt;PasswordInput
+        value={form.values.confirmPassword}
+        onChange={(value) => form.handleChange('confirmPassword', value)}
+      /&gt;
+      &lt;button onClick={form.reset}&gt;Reset&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function TodoApp() {
+  const todos = useList([
+    { id: 1, text: 'Learn React', completed: false }
+  ]);
+  
+  return (
+    &lt;div&gt;
+      &lt;AddTodoForm onAdd={todos.add} /&gt;
+      &lt;TodoList
+        items={todos.items}
+        onToggle={(id) => todos.update(id, {
+          completed: !todos.items.find(t => t.id === id).completed
+        })}
+        onDelete={todos.remove}
+      /&gt;
+      &lt;button onClick={todos.clear}&gt;Clear All&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Custom hook for selection state
+function useSelection(items) {
+  const [selectedIds, setSelectedIds] = useState([]);
+  
+  const toggle = (id) => {
+    setSelectedIds(prev =>
+      prev.includes(id)
+        ? prev.filter(i => i !== id)
+        : [...prev, id]
+    );
+  };
+  
+  const selectAll = () => {
+    setSelectedIds(items.map(item => item.id));
+  };
+  
+  const clearSelection = () => {
+    setSelectedIds([]);
+  };
+  
+  const isSelected = (id) => selectedIds.includes(id);
+  
+  return { selectedIds, toggle, selectAll, clearSelection, isSelected };
+}
+
+// Usage
+function ItemList({ items }) {
+  const selection = useSelection(items);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={selection.selectAll}&gt;Select All&lt;/button&gt;
+      &lt;button onClick={selection.clearSelection}&gt;Clear&lt;/button&gt;
+      
+      &lt;ul&gt;
+        {items.map(item => (
+          &lt;li
+            key={item.id}
+            onClick={() => selection.toggle(item.id)}
+            style={{
+              backgroundColor: selection.isSelected(item.id) ? 'blue' : 'white'
+            }}
+          &gt;
+            {item.name}
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. State Lifting Performance Considerations
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: Lifting state can cause unnecessary re-renders
+
+function Parent() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    address: '',
+    city: '',
+    zipCode: ''
+  });
+  
+  const handleChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  // Every keystroke causes ALL inputs to re-render
+  return (
+    &lt;div&gt;
+      &lt;Input
+        value={formData.firstName}
+        onChange={(v) => handleChange('firstName', v)}
+      /&gt;
+      &lt;Input
+        value={formData.lastName}
+        onChange={(v) => handleChange('lastName', v)}
+      /&gt;
+      &lt;Input
+        value={formData.email}
+        onChange={(v) => handleChange('email', v)}
+      /&gt;
+      {/* More inputs... */}
+    &lt;/div&gt;
+  );
+}
+
+// Solution 1: Memoize child components
+const Input = React.memo(({ value, onChange }) => {
+  console.log('Input rendered');
+  return &lt;input value={value} onChange={(e) => onChange(e.target.value)} /&gt;;
+});
+
+function Parent() {
+  const [formData, setFormData] = useState({ /* ... */ });
+  
+  // Memoize callbacks
+  const handleFirstNameChange = useCallback(
+    (value) => setFormData(prev => ({ ...prev, firstName: value })),
+    []
+  );
+  
+  const handleLastNameChange = useCallback(
+    (value) => setFormData(prev => ({ ...prev, lastName: value })),
+    []
+  );
+  
+  return (
+    &lt;div&gt;
+      &lt;Input value={formData.firstName} onChange={handleFirstNameChange} /&gt;
+      &lt;Input value={formData.lastName} onChange={handleLastNameChange} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Solution 2: Split state into smaller pieces
+function Parent() {
+  // Instead of one large object, separate states
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  
+  return (
+    &lt;div&gt;
+      {/* Each input only re-renders when its own state changes */}
+      &lt;Input value={firstName} onChange={setFirstName} /&gt;
+      &lt;Input value={lastName} onChange={setLastName} /&gt;
+      &lt;Input value={email} onChange={setEmail} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Solution 3: Keep state local when possible
+function Input({ initialValue, onBlur }) {
+  const [value, setValue] = useState(initialValue);
+  
+  const handleBlur = () => {
+    onBlur(value); // Only lift on blur, not every keystroke
+  };
+  
+  return (
+    &lt;input
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={handleBlur}
+    /&gt;
+  );
+}
+
+// Solution 4: Use Context for deeply nested state
+const FormContext = createContext();
+
+function FormProvider({ children }) {
+  const [formData, setFormData] = useState({});
+  
+  return (
+    &lt;FormContext.Provider value={{ formData, setFormData }}&gt;
+      {children}
+    &lt;/FormContext.Provider&gt;
+  );
+}
+
+function Input({ name }) {
+  const { formData, setFormData } = useContext(FormContext);
+  
+  return (
+    &lt;input
+      value={formData[name] || ''}
+      onChange={(e) =>
+        setFormData(prev => ({ ...prev, [name]: e.target.value }))
+      }
+    /&gt;
+  );
+}
+
+// Performance tips:
+// 1. Memoize child components with React.memo
+// 2. Use useCallback for callback props
+// 3. Split large state objects when possible
+// 4. Consider local state for frequently changing values
+// 5. Use Context for deeply nested state
+// 6. Batch state updates when possible
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Real-World State Lifting Examples
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Example 1: E-commerce product filters
+
+function FilterBar({ filters, onFilterChange }) {
+  return (
+    &lt;div&gt;
+      &lt;select
+        value={filters.category}
+        onChange={(e) => onFilterChange('category', e.target.value)}
+      &gt;
+        &lt;option value="all"&gt;All Categories&lt;/option&gt;
+        &lt;option value="electronics"&gt;Electronics&lt;/option&gt;
+        &lt;option value="clothing"&gt;Clothing&lt;/option&gt;
+      &lt;/select&gt;
+      
+      &lt;input
+        type="range"
+        min="0"
+        max="1000"
+        value={filters.maxPrice}
+        onChange={(e) => onFilterChange('maxPrice', e.target.value)}
+      /&gt;
+      
+      &lt;label&gt;
+        &lt;input
+          type="checkbox"
+          checked={filters.inStock}
+          onChange={(e) => onFilterChange('inStock', e.target.checked)}
+        /&gt;
+        In Stock Only
+      &lt;/label&gt;
+    &lt;/div&gt;
+  );
+}
+
+function ProductGrid({ products, filters }) {
+  const filteredProducts = products.filter(product => {
+    if (filters.category !== 'all' && product.category !== filters.category) {
+      return false;
+    }
+    if (product.price &gt; filters.maxPrice) {
+      return false;
+    }
+    if (filters.inStock && !product.inStock) {
+      return false;
+    }
+    return true;
+  });
+  
+  return (
+    &lt;div className="product-grid"&gt;
+      {filteredProducts.map(product => (
+        &lt;ProductCard key={product.id} product={product} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+function ProductSearch({ searchTerm, onSearchChange }) {
+  return (
+    &lt;input
+      placeholder="Search products..."
+      value={searchTerm}
+      onChange={(e) => onSearchChange(e.target.value)}
+    /&gt;
+  );
+}
+
+function ShopPage() {
+  const [products] = useState(/* fetch products */);
+  const [filters, setFilters] = useState({
+    category: 'all',
+    maxPrice: 1000,
+    inStock: false
+  });
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const handleFilterChange = (filterName, value) => {
+    setFilters(prev => ({ ...prev, [filterName]: value }));
+  };
+  
+  // Apply search on filtered products
+  const searchedProducts = products.filter(p =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  return (
+    &lt;div&gt;
+      &lt;ProductSearch
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+      /&gt;
+      
+      &lt;FilterBar
+        filters={filters}
+        onFilterChange={handleFilterChange}
+      /&gt;
+      
+      &lt;ProductGrid
+        products={searchedProducts}
+        filters={filters}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example 2: Multi-step wizard
+
+function StepIndicator({ currentStep, totalSteps }) {
+  return (
+    &lt;div className="steps"&gt;
+      {Array.from({ length: totalSteps }, (_, i) => (
+        &lt;div
+          key={i}
+          className={i &lt;= currentStep ? 'step active' : 'step'}
+        &gt;
+          {i + 1}
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+function Step1({ data, onUpdate }) {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Step 1: Personal Info&lt;/h2&gt;
+      &lt;input
+        placeholder="Name"
+        value={data.name}
+        onChange={(e) => onUpdate('name', e.target.value)}
+      /&gt;
+      &lt;input
+        placeholder="Email"
+        value={data.email}
+        onChange={(e) => onUpdate('email', e.target.value)}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Step2({ data, onUpdate }) {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Step 2: Address&lt;/h2&gt;
+      &lt;input
+        placeholder="Street"
+        value={data.street}
+        onChange={(e) => onUpdate('street', e.target.value)}
+      /&gt;
+      &lt;input
+        placeholder="City"
+        value={data.city}
+        onChange={(e) => onUpdate('city', e.target.value)}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Step3({ data }) {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Step 3: Review&lt;/h2&gt;
+      &lt;pre&gt;{JSON.stringify(data, null, 2)}&lt;/pre&gt;
+    &lt;/div&gt;
+  );
+}
+
+function Wizard() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    street: '',
+    city: ''
+  });
+  
+  const handleUpdate = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const handleNext = () => {
+    setCurrentStep(prev => Math.min(prev + 1, 2));
+  };
+  
+  const handlePrevious = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 0));
+  };
+  
+  const steps = [
+    &lt;Step1 data={formData} onUpdate={handleUpdate} /&gt;,
+    &lt;Step2 data={formData} onUpdate={handleUpdate} /&gt;,
+    &lt;Step3 data={formData} /&gt;
+  ];
+  
+  return (
+    &lt;div&gt;
+      &lt;StepIndicator currentStep={currentStep} totalSteps={3} /&gt;
+      
+      {steps[currentStep]}
+      
+      &lt;div&gt;
+        {currentStep &gt; 0 && (
+          &lt;button onClick={handlePrevious}&gt;Previous&lt;/button&gt;
+        )}
+        {currentStep &lt; 2 && (
+          &lt;button onClick={handleNext}&gt;Next&lt;/button&gt;
+        )}
+        {currentStep === 2 && (
+          &lt;button onClick={() => console.log(formData)}&gt;Submit&lt;/button&gt;
+        )}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example 3: Collaborative editing (multiple cursors)
+
+function Editor({ content, onContentChange, cursors }) {
+  return (
+    &lt;div className="editor"&gt;
+      &lt;textarea
+        value={content}
+        onChange={(e) => onContentChange(e.target.value)}
+      /&gt;
+      {cursors.map(cursor => (
+        &lt;Cursor
+          key={cursor.userId}
+          position={cursor.position}
+          color={cursor.color}
+          name={cursor.name}
+        /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+function UserList({ users, currentUserId }) {
+  return (
+    &lt;div&gt;
+      {users.map(user => (
+        &lt;div
+          key={user.id}
+          className={user.id === currentUserId ? 'current-user' : 'user'}
+        &gt;
+          {user.name}
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+function CollaborativeEditor() {
+  const [content, setContent] = useState('');
+  const [users, setUsers] = useState([]);
+  const [cursors, setCursors] = useState([]);
+  const currentUserId = useCurrentUserId();
+  
+  // Sync with backend
+  useEffect(() => {
+    // Subscribe to content changes
+    // Subscribe to cursor positions
+    // Subscribe to user list
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;UserList users={users} currentUserId={currentUserId} /&gt;
+      &lt;Editor
+        content={content}
+        onContentChange={setContent}
+        cursors={cursors}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Lift to lowest common ancestor:</b> Don't lift higher than necessary</li>
+  <li><b>Single source of truth:</b> State should exist in only one place</li>
+  <li><b>Unidirectional data flow:</b> Data flows down via props, changes flow up via callbacks</li>
+  <li><b>Keep components controlled:</b> Child components should not maintain duplicate state</li>
+  <li><b>Use meaningful callback names:</b> onTemperatureChange, onFilterChange, etc.</li>
+  <li><b>Consider composition over lifting:</b> Sometimes restructuring is better than lifting</li>
+  <li><b>Use Context for deep nesting:</b> Avoid excessive prop drilling</li>
+  <li><b>Memoize for performance:</b> Use React.memo and useCallback when lifting causes re-renders</li>
+  <li><b>Custom hooks for reusable logic:</b> Extract common state management patterns</li>
+  <li><b>Keep UI state local:</b> Only lift state that truly needs to be shared</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Basic State Lifting with Two Sibling Components",
+              "Temperature Converter with Synchronized Inputs",
+              "Multi-Step Form Wizard",
+              "Product Filtering and Search",
+              "Todo List with CRUD Operations",
+              "Master-Detail Pattern with Selection State",
+            ],
+            questions: [
+              {
+                question:
+                  "What is state lifting in React and why is it needed?",
+                answer:
+                  "State lifting is the process of moving state from child components up to their closest common parent component. It's needed when two or more sibling components need to share and synchronize the same state. By lifting state to their common ancestor, you create a single source of truth that keeps all components in sync. The parent owns the state and passes it down via props, while children notify the parent of changes through callback props. This ensures data flows unidirectionally and prevents state duplication.",
+              },
+              {
+                question:
+                  "What are the steps to lift state from a child to a parent component?",
+                answer:
+                  "Steps to lift state: (1) Identify components that need to share state, (2) Find their closest common parent, (3) Move useState from children to the parent, (4) Pass state down to children as props, (5) Pass state updater functions to children as callback props, (6) Update children to use props instead of local state, calling callbacks to notify parent of changes. The parent becomes the single source of truth, children become controlled components that receive data via props and communicate changes via callbacks.",
+              },
+              {
+                question:
+                  "What is the difference between controlled and uncontrolled components in the context of state lifting?",
+                answer:
+                  "Controlled components have their state managed by a parent component - they receive value via props and notify changes via callbacks. Uncontrolled components manage their own internal state. Before state lifting, components are uncontrolled (each has useState). After lifting, they become controlled - parent owns state, children receive it as props and call onChange callbacks. Controlled components are 'controlled' by their parent and have no state of their own, making them predictable and easier to debug since all state is centralized.",
+              },
+              {
+                question:
+                  "How do you handle state lifting when multiple children need to update the same state?",
+                answer:
+                  "The parent component owns the state and provides update callbacks to each child. Each child calls the callback with the new value when it changes. Pattern: parent has setState, passes different callbacks to children (or same callback with different parameters). Example: temperature converter where Celsius input calls onCelsiusChange(value) and Fahrenheit input calls onFahrenheitChange(value), parent handles both, updates its state, and both inputs re-render with synchronized values. Parent is responsible for keeping derived state consistent.",
+              },
+              {
+                question:
+                  "What is the relationship between state lifting and prop drilling?",
+                answer:
+                  "State lifting often leads to prop drilling - passing props through intermediate components that don't use them, just to reach deeply nested children. While state lifting is necessary for sharing state, excessive prop drilling makes code harder to maintain. Solutions: (1) Component composition using children prop to avoid passing through layers, (2) Context API for truly global state, (3) Restructure component hierarchy, (4) Custom hooks to encapsulate state logic. Use state lifting for closely related components, Context for deeply nested or global state.",
+              },
+              {
+                question: "When should you NOT lift state?",
+                answer:
+                  "Don't lift state when: (1) Only one component needs it - keep state local, (2) It's UI-only state like hover/focus that doesn't need sharing, (3) It changes very frequently (like mouse position) and would cause excessive parent re-renders, (4) Components are far apart in the tree - use Context instead, (5) State is independent to each instance - keep it local. Only lift state when multiple components genuinely need to share and synchronize it. Lifting too much creates unnecessary coupling and performance issues.",
+              },
+              {
+                question:
+                  "How do you lift state for complex objects or arrays?",
+                answer:
+                  "For complex state, lift the entire object/array to the parent and provide targeted updater functions. Example: form with multiple sections - parent has complete form state object, passes each section's data and specific update function (updatePersonalInfo, updateAddress). For arrays, provide CRUD operations (add, remove, update). Consider using useReducer for complex state updates with actions like UPDATE_PERSONAL_INFO, ADD_TODO. This keeps children simple while parent manages all state logic centrally.",
+              },
+              {
+                question:
+                  "What are common patterns for lifting state in forms?",
+                answer:
+                  "Common form patterns: (1) Controlled components - each input receives value and onChange from parent, (2) Single handleChange function that updates state by field name, (3) Nested state objects for grouped data (personalInfo, address), (4) Validation state lifted alongside values, (5) Submit handler in parent that accesses complete form state. Parent owns entire form state as object, provides handleChange(field, value) callback, children call it with their field name. This centralizes form logic and makes submission/validation easy.",
+              },
+              {
+                question:
+                  "How does state lifting affect performance and how can you optimize it?",
+                answer:
+                  "State lifting can cause unnecessary re-renders - when parent state changes, all children re-render even if their specific props didn't change. Optimizations: (1) React.memo() on child components to skip re-renders when props unchanged, (2) useCallback() to memoize callback props, (3) Split large state objects into smaller pieces, (4) Keep frequently-changing state local (only lift on blur, not every keystroke), (5) Use Context to avoid prop drilling re-renders, (6) Consider local state with periodic sync to parent. Measure with React DevTools Profiler before optimizing.",
+              },
+              {
+                question: "How do you combine state lifting with custom hooks?",
+                answer:
+                  "Extract state management logic into custom hooks that return state and updater functions. Example: useFormState returns { values, handleChange, reset }, useList returns { items, add, remove, update }. Parent component uses the hook, passes returned values/functions to children as props. This separates state logic from presentation, makes it reusable across components, and keeps components clean. The hook encapsulates useState/useReducer logic, parent component just uses it and passes to children, maintaining single source of truth while improving code organization.",
+              },
+              {
+                question:
+                  "What is the master-detail pattern and how does state lifting apply?",
+                answer:
+                  "Master-detail shows a list (master) and details of selected item (detail). State lifting applies: parent owns selectedId state, passes it to list (to highlight selected item) and to detail (to show selected item's data). List calls onSelect(id) callback when item clicked, parent updates selectedId, both list and detail re-render. Parent finds selected item from data and passes to detail. This keeps selection state in one place, both views stay synchronized, and parent can easily access/modify selected item.",
+              },
+              {
+                question:
+                  "How do you handle state lifting with tabs or toggles?",
+                answer:
+                  "Lift activeTab state to parent that renders all tab buttons and content. Tab buttons receive isActive boolean and onClick callback from parent. Tab content receives isActive to show/hide. Parent owns activeTab state (string/number), provides setActiveTab callback to buttons. Each button calls setActiveTab with its id when clicked. This ensures only one tab active at a time, buttons and content stay synchronized, and parent knows current tab for analytics/routing.",
+              },
+              {
+                question:
+                  "What are best practices for callback naming when lifting state?",
+                answer:
+                  "Use descriptive callback names that indicate what changed: onTemperatureChange, onFilterChange, onUserSelect, onItemToggle. Pattern: on[Noun][Action] or on[Action]. Make the callback's purpose clear - onSearchChange is better than onChange. For specific fields, include field name: onEmailChange. For complex state, name by what aspect changes: onPersonalInfoUpdate, onAddressUpdate. Good names make data flow clear and help others understand component relationships. Avoid generic names like handleChange without context.",
+              },
+              {
+                question:
+                  "How do you lift state for filtering and sorting patterns?",
+                answer:
+                  "Lift filter/sort controls to parent that also renders the list. Parent owns filter state (category, priceRange, inStock) and provides callbacks to filter bar. Parent owns data array and computes filtered results based on filter state. Pattern: FilterBar receives filters and onFilterChange, ProductList receives filtered data. Parent handles filtering logic, children stay simple. This allows easy addition of features (filter count, clear filters, URL sync), and filter state is accessible for analytics/persistence.",
+              },
+              {
+                question:
+                  "What are real-world examples where state lifting is essential?",
+                answer:
+                  "Real-world examples: (1) E-commerce filters - search bar, category select, price slider all control product grid, (2) Multi-step wizard - step indicator and form steps share current step and form data, (3) Dashboard with related widgets - changing date range affects all charts, (4) Collaborative editing - multiple users' cursor positions shared across editor and user list, (5) Shopping cart - add to cart button updates cart icon count and cart page, (6) Form validation - inputs and submit button need validation state. All require single source of truth in common ancestor.",
+              },
+            ],
+            links: [
+              "https://react.dev/learn/sharing-state-between-components",
+              "https://react.dev/learn/thinking-in-react",
+              "https://legacy.reactjs.org/docs/lifting-state-up.html",
+              "https://kentcdodds.com/blog/application-state-management-with-react",
+              "https://react.dev/learn/managing-state",
+              "https://react.dev/reference/react/useState",
+            ],
           },
         ],
       },
@@ -11844,12 +26221,1933 @@ function DebuggableComponent({ data, filter, sortBy }) {
             ],
           },
           {
-            topic: "UseCallback Hook",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            topic: "useCallback Hook",
+            tags: [
+              "useCallback",
+              "Hooks",
+              "Performance Optimization",
+              "Memoization",
+              "Function Reference",
+              "Dependencies",
+              "React.memo",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+useCallback is a React Hook that returns a memoized callback function, maintaining the same function reference across renders unless its dependencies change. It prevents unnecessary re-creation of function instances on every render, which is crucial when passing callbacks to optimized child components wrapped in React.memo(). Without useCallback, inline functions and callbacks are recreated on every render with new references, causing memoized child components to re-render unnecessarily. Understanding useCallback is essential for performance optimization in React applications, especially when dealing with expensive child components, large lists, or complex callback dependencies.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Concept and Syntax
+</h4>
+
+<p style="line-height: 1.75;">
+useCallback memoizes a function, returning the same function reference between renders unless dependencies change.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useCallback } from 'react';
+
+// Basic syntax
+const memoizedCallback = useCallback(
+  () => {
+    // Function body
+    doSomething(a, b);
+  },
+  [a, b] // Dependencies
+);
+
+// Without useCallback - new function every render
+function Component() {
+  const handleClick = () => {
+    console.log('Clicked');
+  };
+  
+  // Every render creates a NEW function
+  // handleClick reference changes each time
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+
+// With useCallback - same function reference
+function Component() {
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []); // Empty deps = function never changes
+  
+  // handleClick reference stays the same across renders
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+
+// Example: Why references matter
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  // Without useCallback
+  const handleClickBad = () => {
+    console.log('Clicked');
+  };
+  // New function every render of Parent
+  
+  // With useCallback
+  const handleClickGood = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+  // Same function across renders
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      
+      {/* Child re-renders every time without useCallback */}
+      &lt;ExpensiveChild onClick={handleClickBad} /&gt;
+      
+      {/* Child only re-renders when necessary with useCallback */}
+      &lt;ExpensiveChild onClick={handleClickGood} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const ExpensiveChild = React.memo(({ onClick }) => {
+  console.log('ExpensiveChild rendered');
+  return &lt;button onClick={onClick}&gt;Child Button&lt;/button&gt;;
+});
+
+// Key points:
+// 1. useCallback returns a memoized function
+// 2. Function is only recreated when dependencies change
+// 3. Same reference means React.memo can skip re-renders
+// 4. Dependencies array controls when function updates
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Dependencies Array Explained
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Empty dependencies - function never changes
+const callback = useCallback(() => {
+  console.log('This function never changes');
+}, []); // Empty array
+
+// With dependencies - function updates when dependencies change
+function Component() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState('John');
+  
+  // Function recreated only when count changes
+  const handleCount = useCallback(() => {
+    console.log('Count is:', count);
+  }, [count]); // Depends on count
+  
+  // Function recreated when either count or name changes
+  const handleBoth = useCallback(() => {
+    console.log('Count:', count, 'Name:', name);
+  }, [count, name]); // Depends on both
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+      &lt;button onClick={() => setName('Jane')}&gt;Change Name&lt;/button&gt;
+      
+      &lt;Child onClick={handleCount} /&gt;
+      &lt;Child onClick={handleBoth} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Missing dependencies - stale closure bug!
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  // ❌ BUG: count is not in dependencies
+  const handleClick = useCallback(() => {
+    console.log('Count is:', count); // Always logs 0!
+  }, []); // Missing count dependency
+  
+  // ✅ Correct: include count in dependencies
+  const handleClickFixed = useCallback(() => {
+    console.log('Count is:', count); // Logs current count
+  }, [count]);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      &lt;button onClick={handleClick}&gt;Log Count (Broken)&lt;/button&gt;
+      &lt;button onClick={handleClickFixed}&gt;Log Count (Fixed)&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// All values from component scope used in callback should be in deps
+function Component() {
+  const [count, setCount] = useState(0);
+  const [multiplier, setMultiplier] = useState(2);
+  const offset = 10;
+  
+  const calculate = useCallback(() => {
+    return count * multiplier + offset;
+  }, [count, multiplier]); // offset is constant, doesn't need to be included
+  
+  return &lt;div&gt;{calculate()}&lt;/div&gt;;
+}
+
+// Using ESLint plugin to catch missing dependencies
+// Install: eslint-plugin-react-hooks
+// This will warn about missing dependencies automatically
+
+// Dependency array cheat sheet:
+// [] - Never recreate (no dependencies)
+// [a] - Recreate when a changes
+// [a, b] - Recreate when a OR b changes
+// No array - Recreate on every render (don't do this!)
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. useCallback with React.memo()
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useCallback's main use case: preventing re-renders in memoized components
+
+const ChildComponent = React.memo(({ onClick, data }) => {
+  console.log('ChildComponent rendered');
+  return (
+    &lt;div&gt;
+      &lt;p&gt;{data}&lt;/p&gt;
+      &lt;button onClick={onClick}&gt;Click&lt;/button&gt;
+    &lt;/div&gt;
+  );
+});
+
+// ❌ Without useCallback - child re-renders every time
+function ParentBad() {
+  const [count, setCount] = useState(0);
+  const [data] = useState('Hello');
+  
+  // New function every render
+  const handleClick = () => {
+    console.log('Clicked');
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      
+      {/* Child re-renders every time because onClick is new */}
+      &lt;ChildComponent onClick={handleClick} data={data} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ✅ With useCallback - child only re-renders when necessary
+function ParentGood() {
+  const [count, setCount] = useState(0);
+  const [data] = useState('Hello');
+  
+  // Same function reference across renders
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []); // No dependencies
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      
+      {/* Child doesn't re-render when count changes */}
+      &lt;ChildComponent onClick={handleClick} data={data} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Complex example: Multiple callbacks
+const ListItem = React.memo(({ item, onEdit, onDelete, onToggle }) => {
+  console.log('ListItem rendered:', item.id);
+  
+  return (
+    &lt;li&gt;
+      &lt;input
+        type="checkbox"
+        checked={item.completed}
+        onChange={() => onToggle(item.id)}
+      /&gt;
+      &lt;span&gt;{item.text}&lt;/span&gt;
+      &lt;button onClick={() => onEdit(item.id)}&gt;Edit&lt;/button&gt;
+      &lt;button onClick={() => onDelete(item.id)}&gt;Delete&lt;/button&gt;
+    &lt;/li&gt;
+  );
+});
+
+function TodoList() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'Task 1', completed: false },
+    { id: 2, text: 'Task 2', completed: false }
+  ]);
+  
+  // All callbacks memoized with useCallback
+  const handleEdit = useCallback((id) => {
+    console.log('Edit:', id);
+    // Edit logic
+  }, []); // No dependencies - uses functional state update
+  
+  const handleDelete = useCallback((id) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));
+  }, []); // No dependencies - uses functional state update
+  
+  const handleToggle = useCallback((id) => {
+    setTodos(prev => prev.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  }, []); // No dependencies - uses functional state update
+  
+  return (
+    &lt;ul&gt;
+      {todos.map(todo => (
+        &lt;ListItem
+          key={todo.id}
+          item={todo}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onToggle={handleToggle}
+        /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Result: Only the toggled/edited/deleted item re-renders
+// Other items stay memoized and don't re-render
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Avoiding Stale Closures
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: Stale closures with missing dependencies
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  // ❌ Stale closure - always logs initial count (0)
+  const handleClickBad = useCallback(() => {
+    console.log('Count is:', count); // Closes over initial count
+  }, []); // Missing count dependency!
+  
+  // When component re-renders with new count,
+  // handleClickBad still references old count value
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      &lt;button onClick={handleClickBad}&gt;Log Count&lt;/button&gt;
+      {/* Always logs 0 even though count increases */}
+    &lt;/div&gt;
+  );
+}
+
+// Solution 1: Include in dependencies
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  // ✅ Function updates when count changes
+  const handleClick = useCallback(() => {
+    console.log('Count is:', count);
+  }, [count]); // Include count
+  
+  // Downside: Function recreated every count change
+  // But it's correct - no stale closure
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      &lt;button onClick={handleClick}&gt;Log Count&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Solution 2: Use functional state updates
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  // ✅ No dependencies needed - uses latest state
+  const handleIncrement = useCallback(() => {
+    setCount(prevCount => prevCount + 1); // Functional update
+  }, []); // Empty deps - function never changes
+  
+  // This works because setCount always has latest state
+  // No need to close over count value
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={handleIncrement}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Solution 3: Use refs for values you don't want as dependencies
+function Component() {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(count);
+  
+  // Update ref on every render
+  useEffect(() => {
+    countRef.current = count;
+  });
+  
+  // ✅ Can access latest count without making it a dependency
+  const handleClick = useCallback(() => {
+    console.log('Count is:', countRef.current); // Always latest
+  }, []); // No dependencies
+  
+  // Use case: When you need latest value but don't want
+  // to recreate function when it changes
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      &lt;button onClick={handleClick}&gt;Log Count&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example: Stale closure with complex state
+function Form() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: ''
+  });
+  
+  // ❌ Stale closure - formData not in deps
+  const handleSubmitBad = useCallback(() => {
+    console.log('Submitting:', formData); // Stale formData!
+  }, []);
+  
+  // ✅ Include formData in deps
+  const handleSubmitGood = useCallback(() => {
+    console.log('Submitting:', formData); // Current formData
+  }, [formData]);
+  
+  // ✅ Or use ref for latest value
+  const formDataRef = useRef(formData);
+  useEffect(() => {
+    formDataRef.current = formData;
+  });
+  
+  const handleSubmitRef = useCallback(() => {
+    console.log('Submitting:', formDataRef.current);
+  }, []);
+  
+  return (
+    &lt;form onSubmit={handleSubmitGood}&gt;
+      &lt;input
+        value={formData.name}
+        onChange={(e) => setFormData(prev => ({
+          ...prev,
+          name: e.target.value
+        }))}
+      /&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ESLint rule: react-hooks/exhaustive-deps
+// Warns about missing dependencies
+// Follow its recommendations to avoid stale closures
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. useCallback vs Inline Functions
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// When to use useCallback vs inline functions
+
+// ❌ DON'T use useCallback for every function
+function Component() {
+  // Unnecessary - adds overhead without benefit
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+
+// ✅ DO use inline function (simpler, no memoization overhead)
+function Component() {
+  return &lt;button onClick={() => console.log('Clicked')}&gt;Click&lt;/button&gt;;
+}
+
+// ❌ DON'T use useCallback if child isn't memoized
+function Component() {
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+  
+  // Child is not memoized, so useCallback provides no benefit
+  return &lt;RegularChild onClick={handleClick} /&gt;;
+}
+
+function RegularChild({ onClick }) {
+  return &lt;button onClick={onClick}&gt;Click&lt;/button&gt;;
+}
+
+// ✅ DO use useCallback when child is memoized
+const MemoizedChild = React.memo(({ onClick }) => {
+  console.log('Child rendered');
+  return &lt;button onClick={onClick}&gt;Click&lt;/button&gt;;
+});
+
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  // useCallback prevents MemoizedChild from re-rendering
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;
+        Count: {count}
+      &lt;/button&gt;
+      
+      {/* Child doesn't re-render when count changes */}
+      &lt;MemoizedChild onClick={handleClick} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ✅ DO use useCallback for expensive operations
+function Component() {
+  const [items, setItems] = useState([]);
+  
+  // Callback used in expensive operation
+  const processItems = useCallback((newItems) => {
+    // Expensive processing
+    const processed = newItems.map(item => expensiveTransform(item));
+    setItems(processed);
+  }, []); // Stable reference for useEffect
+  
+  useEffect(() => {
+    fetchData().then(processItems);
+  }, [processItems]); // Won't re-run unless processItems changes
+  
+  return &lt;div&gt;{items.length} items&lt;/div&gt;;
+}
+
+// ✅ DO use useCallback in custom hooks
+function useCustomHook(value) {
+  const [state, setState] = useState(null);
+  
+  // Custom hook returns stable function reference
+  const updateState = useCallback((newValue) => {
+    setState(newValue || value);
+  }, [value]);
+  
+  return [state, updateState];
+}
+
+// Performance comparison:
+
+// Inline function:
+// Cost: Creates new function on every render
+// Benefit: No memoization overhead, simpler code
+// Use when: Child not memoized, function simple
+
+// useCallback:
+// Cost: Memoization overhead, dependency tracking
+// Benefit: Stable reference, prevents child re-renders
+// Use when: Child memoized, function in dependencies
+
+// Rule of thumb:
+// - Default to inline functions (simpler)
+// - Add useCallback when profiling shows benefit
+// - Always use with React.memo children
+// - Use in useEffect dependencies
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. useCallback in useEffect Dependencies
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useCallback creates stable references for useEffect dependencies
+
+// ❌ Problem: useEffect runs on every render
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  const fetchData = () => {
+    fetch('/api/data').then(/* ... */);
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); // fetchData is new every render!
+  
+  // This runs on EVERY render because fetchData changes
+  
+  return &lt;div&gt;{count}&lt;/div&gt;;
+}
+
+// ✅ Solution: Wrap in useCallback
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  const fetchData = useCallback(() => {
+    fetch('/api/data').then(/* ... */);
+  }, []); // Stable reference
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); // Only runs once (on mount)
+  
+  return &lt;div&gt;{count}&lt;/div&gt;;
+}
+
+// Example: Fetch with dependencies
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  
+  const fetchUser = useCallback(() => {
+    fetch(\`/api/users/\${userId}\`)
+      .then(res => res.json())
+      .then(setUser);
+  }, [userId]); // Recreate when userId changes
+  
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]); // Runs when fetchUser changes (when userId changes)
+  
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// Alternative: Put function inside useEffect
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    // Function defined inside useEffect
+    const fetchUser = () => {
+      fetch(\`/api/users/\${userId}\`)
+        .then(res => res.json())
+        .then(setUser);
+    };
+    
+    fetchUser();
+  }, [userId]); // Only userId in deps
+  
+  // Simpler when function only used in one effect
+  
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// When function used in multiple effects
+function Component({ id }) {
+  const [data1, setData1] = useState(null);
+  const [data2, setData2] = useState(null);
+  
+  // Shared callback for multiple effects
+  const fetchData = useCallback((endpoint, setter) => {
+    fetch(\`/api/\${endpoint}/\${id}\`)
+      .then(res => res.json())
+      .then(setter);
+  }, [id]);
+  
+  useEffect(() => {
+    fetchData('users', setData1);
+  }, [fetchData]);
+  
+  useEffect(() => {
+    fetchData('posts', setData2);
+  }, [fetchData]);
+  
+  return &lt;div&gt;{data1} - {data2}&lt;/div&gt;;
+}
+
+// Example: Debounced callback
+function SearchComponent() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
+  
+  const search = useCallback((term) => {
+    fetch(\`/api/search?q=\${term}\`)
+      .then(res => res.json())
+      .then(setResults);
+  }, []); // No dependencies
+  
+  useEffect(() => {
+    // Debounce logic
+    const timer = setTimeout(() => {
+      if (searchTerm) {
+        search(searchTerm);
+      }
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [searchTerm, search]); // search is stable
+  
+  return (
+    &lt;div&gt;
+      &lt;input
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      /&gt;
+      &lt;ul&gt;
+        {results.map(r => &lt;li key={r.id}&gt;{r.name}&lt;/li&gt;)}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Pattern: Event listeners with useCallback
+function Component() {
+  const handleScroll = useCallback(() => {
+    console.log('Scrolled');
+  }, []);
+  
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]); // Stable reference prevents re-subscribing
+  
+  return &lt;div&gt;Scroll the page&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. useCallback with Event Handlers
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern: Simple event handlers - no useCallback needed
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  // ✅ Inline handler is fine for simple cases
+  return (
+    &lt;button onClick={() => setCount(count + 1)}&gt;
+      Count: {count}
+    &lt;/button&gt;
+  );
+}
+
+// Pattern: Event handlers passed to memoized children
+const Button = React.memo(({ onClick, label }) => {
+  console.log('Button rendered');
+  return &lt;button onClick={onClick}&gt;{label}&lt;/button&gt;;
+});
+
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  // ✅ useCallback prevents Button from re-rendering
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+      
+      {/* Button doesn't re-render when count changes */}
+      &lt;Button onClick={handleClick} label="Do Something" /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Pattern: Event handlers with parameters
+function TodoList() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: 'Task 1' },
+    { id: 2, text: 'Task 2' }
+  ]);
+  
+  // ✅ Single memoized handler for all items
+  const handleDelete = useCallback((id) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));
+  }, []); // Uses functional update - no dependencies
+  
+  return (
+    &lt;ul&gt;
+      {todos.map(todo => (
+        &lt;TodoItem
+          key={todo.id}
+          todo={todo}
+          onDelete={handleDelete}
+        /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+const TodoItem = React.memo(({ todo, onDelete }) => {
+  return (
+    &lt;li&gt;
+      {todo.text}
+      {/* Pass id to the memoized handler */}
+      &lt;button onClick={() => onDelete(todo.id)}&gt;Delete&lt;/button&gt;
+    &lt;/li&gt;
+  );
+});
+
+// Pattern: Form submission
+function Form() {
+  const [formData, setFormData] = useState({ name: '', email: '' });
+  
+  const handleChange = useCallback((field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  }, []);
+  
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    
+    // Need access to latest formData
+    // Option 1: Include in dependencies
+    // Option 2: Use ref
+  }, [formData]); // Include formData
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        value={formData.name}
+        onChange={(e) => handleChange('name', e.target.value)}
+      /&gt;
+      &lt;input
+        value={formData.email}
+        onChange={(e) => handleChange('email', e.target.value)}
+      /&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Pattern: Multiple related handlers
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  const increment = useCallback(() => {
+    setCount(prev => prev + 1);
+  }, []);
+  
+  const decrement = useCallback(() => {
+    setCount(prev => prev - 1);
+  }, []);
+  
+  const reset = useCallback(() => {
+    setCount(0);
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;ActionButtons
+        onIncrement={increment}
+        onDecrement={decrement}
+        onReset={reset}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const ActionButtons = React.memo(({ onIncrement, onDecrement, onReset }) => {
+  console.log('ActionButtons rendered');
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={onIncrement}&gt;+&lt;/button&gt;
+      &lt;button onClick={onDecrement}&gt;-&lt;/button&gt;
+      &lt;button onClick={onReset}&gt;Reset&lt;/button&gt;
+    &lt;/div&gt;
+  );
+});
+
+// Pattern: Conditional event handlers
+function Component({ isAdmin }) {
+  const [data, setData] = useState(null);
+  
+  const handleAdminClick = useCallback(() => {
+    console.log('Admin action');
+  }, []);
+  
+  const handleUserClick = useCallback(() => {
+    console.log('User action');
+  }, []);
+  
+  // Memoize the conditional selection
+  const handleClick = useCallback(() => {
+    if (isAdmin) {
+      handleAdminClick();
+    } else {
+      handleUserClick();
+    }
+  }, [isAdmin, handleAdminClick, handleUserClick]);
+  
+  return &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. useCallback in Custom Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Custom hooks should return stable callback references
+
+// ✅ Custom hook with useCallback
+function useToggle(initialValue = false) {
+  const [value, setValue] = useState(initialValue);
+  
+  // Return stable toggle function
+  const toggle = useCallback(() => {
+    setValue(prev => !prev);
+  }, []);
+  
+  return [value, toggle];
+}
+
+// Usage
+function Component() {
+  const [isOpen, toggle] = useToggle(false);
+  
+  // toggle reference never changes
+  return (
+    &lt;div&gt;
+      &lt;button onClick={toggle}&gt;Toggle&lt;/button&gt;
+      {isOpen && &lt;Modal onClose={toggle} /&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// Custom hook for async operations
+function useAsync(asyncFunction) {
+  const [status, setStatus] = useState('idle');
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  
+  // Memoize execute function
+  const execute = useCallback((...params) => {
+    setStatus('pending');
+    setData(null);
+    setError(null);
+    
+    return asyncFunction(...params)
+      .then(response => {
+        setData(response);
+        setStatus('success');
+        return response;
+      })
+      .catch(error => {
+        setError(error);
+        setStatus('error');
+        throw error;
+      });
+  }, [asyncFunction]); // Depends on asyncFunction
+  
+  return { execute, status, data, error };
+}
+
+// Usage
+function UserProfile({ userId }) {
+  const fetchUser = useCallback(() => {
+    return fetch(\`/api/users/\${userId}\`).then(r => r.json());
+  }, [userId]);
+  
+  const { execute, status, data, error } = useAsync(fetchUser);
+  
+  useEffect(() => {
+    execute();
+  }, [execute]);
+  
+  if (status === 'pending') return &lt;div&gt;Loading...&lt;/div&gt;;
+  if (status === 'error') return &lt;div&gt;Error: {error.message}&lt;/div&gt;;
+  if (status === 'success') return &lt;div&gt;{data.name}&lt;/div&gt;;
+  
+  return null;
+}
+
+// Custom hook for local storage
+function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+  
+  // Return stable setValue function
+  const setValue = useCallback((value) => {
+    try {
+      const valueToStore = value instanceof Function
+        ? value(storedValue)
+        : value;
+      
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [key, storedValue]);
+  
+  return [storedValue, setValue];
+}
+
+// Custom hook for debounce
+function useDebounce(callback, delay) {
+  const callbackRef = useRef(callback);
+  
+  useEffect(() => {
+    callbackRef.current = callback;
+  });
+  
+  const debouncedCallback = useCallback((...args) => {
+    const timer = setTimeout(() => {
+      callbackRef.current(...args);
+    }, delay);
+    
+    return () => clearTimeout(timer);
+  }, [delay]);
+  
+  return debouncedCallback;
+}
+
+// Custom hook for form handling
+function useForm(initialValues) {
+  const [values, setValues] = useState(initialValues);
+  const [errors, setErrors] = useState({});
+  
+  const handleChange = useCallback((name, value) => {
+    setValues(prev => ({ ...prev, [name]: value }));
+    // Clear error when field changes
+    setErrors(prev => ({ ...prev, [name]: undefined }));
+  }, []);
+  
+  const handleSubmit = useCallback((onSubmit) => {
+    return (e) => {
+      e.preventDefault();
+      onSubmit(values);
+    };
+  }, [values]);
+  
+  const reset = useCallback(() => {
+    setValues(initialValues);
+    setErrors({});
+  }, [initialValues]);
+  
+  return {
+    values,
+    errors,
+    setErrors,
+    handleChange,
+    handleSubmit,
+    reset
+  };
+}
+
+// Usage
+function RegistrationForm() {
+  const form = useForm({ email: '', password: '' });
+  
+  const onSubmit = useCallback((values) => {
+    // Validate
+    if (!values.email) {
+      form.setErrors({ email: 'Required' });
+      return;
+    }
+    
+    // Submit
+    console.log('Submitting:', values);
+  }, [form]);
+  
+  return (
+    &lt;form onSubmit={form.handleSubmit(onSubmit)}&gt;
+      &lt;input
+        value={form.values.email}
+        onChange={(e) => form.handleChange('email', e.target.value)}
+      /&gt;
+      {form.errors.email && &lt;span&gt;{form.errors.email}&lt;/span&gt;}
+      
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+      &lt;button type="button" onClick={form.reset}&gt;Reset&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Common Pitfalls and Solutions
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pitfall 1: Missing dependencies (stale closure)
+
+// ❌ Problem
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  const logCount = useCallback(() => {
+    console.log(count); // Stale!
+  }, []); // Missing count
+  
+  // logCount always logs 0
+}
+
+// ✅ Solution: Add to dependencies
+const logCount = useCallback(() => {
+  console.log(count);
+}, [count]);
+
+// Pitfall 2: Object/Array dependencies
+
+// ❌ Problem - object recreated every render
+function Component({ config }) {
+  const handleClick = useCallback(() => {
+    console.log(config);
+  }, [config]); // config is new object every render!
+  
+  // handleClick recreated every render
+}
+
+// ✅ Solution: Destructure or memoize config
+function Component({ config }) {
+  const { apiUrl, timeout } = config;
+  
+  const handleClick = useCallback(() => {
+    console.log(apiUrl, timeout);
+  }, [apiUrl, timeout]); // Primitive values
+}
+
+// Or memoize the config in parent
+const config = useMemo(() => ({
+  apiUrl: 'https://api.com',
+  timeout: 5000
+}), []);
+
+// Pitfall 3: Overusing useCallback
+
+// ❌ Unnecessary - child not memoized
+function Parent() {
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+  
+  return &lt;RegularChild onClick={handleClick} /&gt;;
+}
+
+// ✅ Just use inline function
+function Parent() {
+  return &lt;RegularChild onClick={() => console.log('Clicked')} /&gt;;
+}
+
+// Pitfall 4: useCallback without React.memo
+
+// ❌ No benefit - child re-renders anyway
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  const handleClick = useCallback(() => {
+    console.log('Clicked');
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Count: {count}&lt;/button&gt;
+      &lt;Child onClick={handleClick} /&gt; {/* Not memoized! */}
+    &lt;/div&gt;
+  );
+}
+
+// ✅ Memoize child to get benefit
+const Child = React.memo(({ onClick }) => {
+  return &lt;button onClick={onClick}&gt;Click&lt;/button&gt;;
+});
+
+// Pitfall 5: Circular dependencies
+
+// ❌ Problem - infinite loop
+function Component() {
+  const [data, setData] = useState([]);
+  
+  const processData = useCallback(() => {
+    const processed = data.map(/* ... */);
+    setData(processed); // Updates data
+  }, [data]); // Depends on data
+  
+  useEffect(() => {
+    processData(); // Calls processData
+  }, [processData]); // Depends on processData
+  
+  // Loop: data changes → processData recreated → 
+  // useEffect runs → data changes → ...
+}
+
+// ✅ Solution: Use functional update
+const processData = useCallback(() => {
+  setData(prev => prev.map(/* ... */));
+}, []); // No data dependency
+
+// Pitfall 6: Function identity in conditionals
+
+// ❌ Different function references
+function Component({ isAdmin }) {
+  const handleClick = isAdmin
+    ? useCallback(() => { /* admin */ }, [])
+    : useCallback(() => { /* user */ }, []);
+  
+  // This doesn't work - can't conditionally call hooks!
+}
+
+// ✅ Single callback with conditional logic
+function Component({ isAdmin }) {
+  const handleClick = useCallback(() => {
+    if (isAdmin) {
+      // admin logic
+    } else {
+      // user logic
+    }
+  }, [isAdmin]);
+}
+
+// Pitfall 7: Not using functional updates
+
+// ❌ Needs count in dependencies
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  const increment = useCallback(() => {
+    setCount(count + 1);
+  }, [count]); // Recreated every count change
+}
+
+// ✅ Use functional update - no dependencies
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  const increment = useCallback(() => {
+    setCount(prev => prev + 1);
+  }, []); // Never recreated!
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Performance Considerations
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useCallback has overhead - use strategically
+
+// Costs of useCallback:
+// 1. Memory: Stores function and dependencies
+// 2. Comparison: Checks dependencies on every render
+// 3. Complexity: More code to maintain
+
+// Benefits:
+// 1. Prevents child re-renders (with React.memo)
+// 2. Stable references for useEffect dependencies
+// 3. Prevents expensive function recreation
+
+// ❌ Bad: useCallback everywhere
+function Component() {
+  const a = useCallback(() => {}, []);
+  const b = useCallback(() => {}, []);
+  const c = useCallback(() => {}, []);
+  const d = useCallback(() => {}, []);
+  const e = useCallback(() => {}, []);
+  // Too much overhead!
+}
+
+// ✅ Good: Strategic use
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  // Inline for simple handlers
+  const handleSimple = () => console.log('simple');
+  
+  // useCallback for memoized child
+  const handleMemoized = useCallback(() => {
+    console.log('memoized');
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={handleSimple}&gt;Simple&lt;/button&gt;
+      &lt;MemoizedChild onClick={handleMemoized} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Benchmark: When does useCallback help?
+
+// Scenario 1: Memoized child with expensive render
+const ExpensiveChild = React.memo(({ onClick }) => {
+  // Expensive computation
+  const result = expensiveCalculation();
+  return &lt;button onClick={onClick}&gt;{result}&lt;/button&gt;;
+});
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  // ✅ Worth it - prevents expensive re-render
+  const handleClick = useCallback(() => {
+    console.log('clicked');
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Count: {count}&lt;/button&gt;
+      &lt;ExpensiveChild onClick={handleClick} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Scenario 2: Large list of items
+const ListItem = React.memo(({ item, onDelete }) => {
+  return (
+    &lt;li&gt;
+      {item.name}
+      &lt;button onClick={() => onDelete(item.id)}&gt;Delete&lt;/button&gt;
+    &lt;/li&gt;
+  );
+});
+
+function LargeList({ items }) {
+  // ✅ Worth it - prevents re-rendering all items
+  const handleDelete = useCallback((id) => {
+    // delete logic
+  }, []);
+  
+  return (
+    &lt;ul&gt;
+      {items.map(item => (
+        &lt;ListItem key={item.id} item={item} onDelete={handleDelete} /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Scenario 3: useEffect dependency
+function Component({ userId }) {
+  const [data, setData] = useState(null);
+  
+  // ✅ Worth it - prevents unnecessary fetches
+  const fetchData = useCallback(() => {
+    fetch(\`/api/users/\${userId}\`)
+      .then(r => r.json())
+      .then(setData);
+  }, [userId]);
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+  
+  return &lt;div&gt;{data?.name}&lt;/div&gt;;
+}
+
+// Measuring performance:
+// 1. Use React DevTools Profiler
+// 2. Record before/after useCallback
+// 3. Compare render counts and times
+// 4. Only optimize if significant improvement
+
+// General guidelines:
+// - Don't use for every function
+// - Use when passing to React.memo children
+// - Use in useEffect dependencies
+// - Use for expensive child components
+// - Use in large lists
+// - Measure actual performance impact
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. useCallback vs useMemo
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useCallback: Memoizes the FUNCTION itself
+// useMemo: Memoizes the RESULT of a function
+
+// useCallback
+const memoizedFunction = useCallback(() => {
+  return a + b;
+}, [a, b]);
+// Returns the function
+// Equivalent to: useMemo(() => () => a + b, [a, b])
+
+// useMemo
+const memoizedValue = useMemo(() => {
+  return a + b;
+}, [a, b]);
+// Returns the value (result of function)
+
+// Example: useCallback for functions
+function Component() {
+  const [count, setCount] = useState(0);
+  
+  // useCallback - returns function
+  const increment = useCallback(() => {
+    setCount(prev => prev + 1);
+  }, []);
+  
+  // increment is the function
+  // Can call: increment()
+  
+  return &lt;button onClick={increment}&gt;Increment&lt;/button&gt;;
+}
+
+// Example: useMemo for values
+function Component({ items }) {
+  // useMemo - returns value
+  const total = useMemo(() => {
+    return items.reduce((sum, item) => sum + item.price, 0);
+  }, [items]);
+  
+  // total is the number
+  // Can use: total
+  
+  return &lt;div&gt;Total: ${total}&lt;/div&gt;;
+}
+
+// When to use each:
+
+// useCallback:
+// - Event handlers
+// - Callbacks passed to children
+// - Functions in useEffect dependencies
+// - Custom hook return values
+
+// useMemo:
+// - Expensive calculations
+// - Derived data
+// - Object/Array references for props
+// - Filtering/sorting large arrays
+
+// Example: Both together
+function ProductList({ products }) {
+  const [filter, setFilter] = useState('');
+  
+  // useMemo for computed value
+  const filteredProducts = useMemo(() => {
+    return products.filter(p =>
+      p.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [products, filter]);
+  
+  // useCallback for function
+  const handleFilterChange = useCallback((value) => {
+    setFilter(value);
+  }, []);
+  
+  return (
+    &lt;div&gt;
+      &lt;FilterInput onChange={handleFilterChange} /&gt;
+      &lt;ProductGrid products={filteredProducts} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// They're related:
+// useCallback(fn, deps) === useMemo(() => fn, deps)
+
+// Proof:
+const callback1 = useCallback(() => console.log('hello'), []);
+const callback2 = useMemo(() => () => console.log('hello'), []);
+// callback1 and callback2 are equivalent
+
+// But useCallback is clearer for functions
+// Use the right hook for clarity:
+// - useCallback for callbacks
+// - useMemo for values
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Real-World Examples
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Example 1: Data table with sorting
+
+const DataTable = React.memo(({ data, onSort, sortConfig }) => {
+  console.log('DataTable rendered');
+  
+  return (
+    &lt;table&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th onClick={() => onSort('name')}&gt;
+            Name {sortConfig.key === 'name' ? '↓' : ''}
+          &lt;/th&gt;
+          &lt;th onClick={() => onSort('age')}&gt;
+            Age {sortConfig.key === 'age' ? '↓' : ''}
+          &lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        {data.map(row => (
+          &lt;tr key={row.id}&gt;
+            &lt;td&gt;{row.name}&lt;/td&gt;
+            &lt;td&gt;{row.age}&lt;/td&gt;
+          &lt;/tr&gt;
+        ))}
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  );
+});
+
+function UserTable() {
+  const [users, setUsers] = useState([/* users */]);
+  const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'asc' });
+  
+  const handleSort = useCallback((key) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  }, []);
+  
+  const sortedUsers = useMemo(() => {
+    return [...users].sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [users, sortConfig]);
+  
+  return (
+    &lt;DataTable
+      data={sortedUsers}
+      onSort={handleSort}
+      sortConfig={sortConfig}
+    /&gt;
+  );
+}
+
+// Example 2: Infinite scroll with intersection observer
+
+function InfiniteList({ fetchMore }) {
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const observerTarget = useRef(null);
+  
+  const loadMore = useCallback(async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    const newItems = await fetchMore();
+    setItems(prev => [...prev, ...newItems]);
+    setIsLoading(false);
+  }, [isLoading, fetchMore]);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          loadMore();
+        }
+      },
+      { threshold: 1 }
+    );
+    
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+    
+    return () => observer.disconnect();
+  }, [loadMore]);
+  
+  return (
+    &lt;div&gt;
+      {items.map(item => (
+        &lt;div key={item.id}&gt;{item.name}&lt;/div&gt;
+      ))}
+      &lt;div ref={observerTarget}&gt;{isLoading && 'Loading...'}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Example 3: Collaborative editing with websockets
+
+function Editor({ documentId }) {
+  const [content, setContent] = useState('');
+  const [cursors, setCursors] = useState([]);
+  const wsRef = useRef(null);
+  
+  const handleContentChange = useCallback((newContent) => {
+    setContent(newContent);
+    
+    // Send to server
+    if (wsRef.current) {
+      wsRef.current.send(JSON.stringify({
+        type: 'content',
+        content: newContent
+      }));
+    }
+  }, []);
+  
+  const handleCursorMove = useCallback((position) => {
+    if (wsRef.current) {
+      wsRef.current.send(JSON.stringify({
+        type: 'cursor',
+        position
+      }));
+    }
+  }, []);
+  
+  useEffect(() => {
+    const ws = new WebSocket(\`wss://server/doc/\${documentId}\`);
+    wsRef.current = ws;
+    
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      
+      if (message.type === 'content') {
+        setContent(message.content);
+      } else if (message.type === 'cursor') {
+        setCursors(prev => ({
+          ...prev,
+          [message.userId]: message.position
+        }));
+      }
+    };
+    
+    return () => ws.close();
+  }, [documentId]);
+  
+  return (
+    &lt;EditorComponent
+      content={content}
+      onContentChange={handleContentChange}
+      onCursorMove={handleCursorMove}
+      cursors={cursors}
+    /&gt;
+  );
+}
+
+// Example 4: Form with validation
+
+function RegistrationForm() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [errors, setErrors] = useState({});
+  
+  const validateEmail = useCallback((email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }, []);
+  
+  const validatePassword = useCallback((password) => {
+    return password.length >= 8;
+  }, []);
+  
+  const handleChange = useCallback((field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Clear error when user types
+    setErrors(prev => ({ ...prev, [field]: undefined }));
+  }, []);
+  
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    
+    const newErrors = {};
+    
+    if (!validateEmail(formData.email)) {
+      newErrors.email = 'Invalid email';
+    }
+    
+    if (!validatePassword(formData.password)) {
+      newErrors.password = 'Password must be at least 8 characters';
+    }
+    
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    
+    // Submit form
+    console.log('Submitting:', formData);
+  }, [formData, validateEmail, validatePassword]);
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;FormField
+        name="email"
+        value={formData.email}
+        error={errors.email}
+        onChange={handleChange}
+      /&gt;
+      &lt;FormField
+        name="password"
+        type="password"
+        value={formData.password}
+        error={errors.password}
+        onChange={handleChange}
+      /&gt;
+      &lt;FormField
+        name="confirmPassword"
+        type="password"
+        value={formData.confirmPassword}
+        error={errors.confirmPassword}
+        onChange={handleChange}
+      /&gt;
+      &lt;button type="submit"&gt;Register&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+const FormField = React.memo(({ name, value, error, onChange, type = 'text' }) => {
+  return (
+    &lt;div&gt;
+      &lt;input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(name, e.target.value)}
+      /&gt;
+      {error && &lt;span className="error"&gt;{error}&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+});
+
+// Example 5: Drag and drop interface
+
+function DragDropList({ items: initialItems }) {
+  const [items, setItems] = useState(initialItems);
+  
+  const handleDragStart = useCallback((e, index) => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', index);
+  }, []);
+  
+  const handleDragOver = useCallback((e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }, []);
+  
+  const handleDrop = useCallback((e, dropIndex) => {
+    e.preventDefault();
+    
+    const dragIndex = parseInt(e.dataTransfer.getData('text/html'));
+    
+    setItems(prev => {
+      const newItems = [...prev];
+      const [removed] = newItems.splice(dragIndex, 1);
+      newItems.splice(dropIndex, 0, removed);
+      return newItems;
+    });
+  }, []);
+  
+  return (
+    &lt;ul&gt;
+      {items.map((item, index) => (
+        &lt;DraggableItem
+          key={item.id}
+          item={item}
+          index={index}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+const DraggableItem = React.memo(({
+  item,
+  index,
+  onDragStart,
+  onDragOver,
+  onDrop
+}) => {
+  return (
+    &lt;li
+      draggable
+      onDragStart={(e) => onDragStart(e, index)}
+      onDragOver={onDragOver}
+      onDrop={(e) => onDrop(e, index)}
+    &gt;
+      {item.name}
+    &lt;/li&gt;
+  );
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+13. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>Use with React.memo:</b> Primary use case is preventing re-renders in memoized children</li>
+  <li><b>Include all dependencies:</b> Use ESLint plugin to catch missing dependencies</li>
+  <li><b>Use functional updates:</b> Avoid including state in dependencies when possible</li>
+  <li><b>Don't overuse:</b> Only use when there's actual performance benefit</li>
+  <li><b>Keep callbacks simple:</b> Complex logic in dependencies defeats the purpose</li>
+  <li><b>Use in custom hooks:</b> Return stable function references from hooks</li>
+  <li><b>Stable references for useEffect:</b> Prevent infinite loops in effects</li>
+  <li><b>Measure performance:</b> Use React DevTools Profiler to verify benefit</li>
+  <li><b>Prefer composition:</b> Sometimes restructuring is better than memoization</li>
+  <li><b>Use refs for non-dependency values:</b> Access latest values without recreating function</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Basic useCallback with Event Handler",
+              "useCallback with React.memo Child Component",
+              "useCallback in useEffect Dependencies",
+              "Form Handling with useCallback",
+              "List with Memoized Item Callbacks",
+              "Custom Hook Returning Memoized Functions",
+            ],
+            questions: [
+              {
+                question: "What is useCallback and what problem does it solve?",
+                answer:
+                  "useCallback is a React Hook that returns a memoized callback function, maintaining the same function reference across renders unless dependencies change. It solves the problem of function references changing on every render, which causes issues when passing callbacks to optimized child components wrapped in React.memo(). Without useCallback, inline functions get new references each render, breaking memoization and causing unnecessary re-renders. useCallback ensures stable function references for performance optimization and dependency tracking in useEffect.",
+              },
+              {
+                question: "How does useCallback work and what is its syntax?",
+                answer:
+                  "useCallback takes two arguments: a callback function and a dependencies array. It returns a memoized version of the callback that only changes when dependencies change. Syntax: useCallback(() => { /* function body */ }, [dep1, dep2]). On first render, it stores the function. On subsequent renders, it checks if dependencies changed - if not, returns the same function reference; if yes, creates and returns a new function. The dependencies array controls when the function is recreated, similar to useEffect.",
+              },
+              {
+                question:
+                  "What are stale closures and how do you avoid them with useCallback?",
+                answer:
+                  "Stale closures occur when useCallback captures outdated values from its enclosing scope because dependencies are missing. Example: useCallback(() => console.log(count), []) always logs the initial count value. Solutions: (1) Include all used values in dependencies array, (2) Use functional state updates (setCount(prev => prev + 1)) to avoid depending on state, (3) Use refs to access latest values without making them dependencies. Always follow ESLint's exhaustive-deps rule to catch missing dependencies.",
+              },
+              {
+                question: "How do useCallback and React.memo work together?",
+                answer:
+                  "useCallback provides stable function references that React.memo can recognize as unchanged props. React.memo prevents component re-renders when props haven't changed, but functions are new references every render by default. useCallback solves this: wrap callbacks in useCallback, pass them to React.memo'd children, and the child only re-renders when the callback's dependencies actually change. Without useCallback, memo'd children re-render unnecessarily because they receive new function references each time, defeating the purpose of memoization.",
+              },
+              {
+                question:
+                  "When should you use useCallback vs inline functions?",
+                answer:
+                  "Use useCallback when: (1) passing callbacks to React.memo'd components, (2) using functions in useEffect dependencies, (3) creating custom hooks that return functions, (4) working with expensive child components or large lists. Use inline functions when: (1) child isn't memoized, (2) function is simple and cheap, (3) no performance issue exists. Don't default to useCallback everywhere - it adds overhead. Profile with React DevTools first, then optimize where needed. Inline functions are simpler and often sufficient.",
+              },
+              {
+                question:
+                  "How do you use useCallback with useEffect dependencies?",
+                answer:
+                  "useCallback creates stable function references for useEffect dependencies, preventing unnecessary effect re-runs. Without useCallback, functions in dependencies are new every render, causing effects to run constantly. Pattern: wrap function in useCallback, include it in useEffect deps. The effect only re-runs when the callback's dependencies change. Alternative: define function inside useEffect to avoid the dependency. Use useCallback when the function is used in multiple places or needs to be stable for other reasons like passing to memoized children.",
+              },
+              {
+                question:
+                  "What is the difference between useCallback and useMemo?",
+                answer:
+                  "useCallback memoizes the function itself and returns the function: useCallback(fn, deps). useMemo memoizes the result of calling a function: useMemo(() => value, deps). They're related: useCallback(fn, deps) is equivalent to useMemo(() => fn, deps). Use useCallback for event handlers, callbacks passed to children, and functions in dependencies. Use useMemo for expensive calculations, derived data, and creating stable object/array references. useCallback is syntactic sugar for memoizing functions specifically.",
+              },
+              {
+                question:
+                  "How do you avoid missing dependencies in useCallback?",
+                answer:
+                  "Use the ESLint plugin eslint-plugin-react-hooks with the exhaustive-deps rule. It automatically detects and warns about missing dependencies. Include all values from component scope used inside the callback. For state updates, use functional updates (setState(prev => ...)) to avoid depending on current state. For non-dependency values, use refs to access latest values without triggering recreation. Never ignore ESLint warnings - they prevent subtle bugs like stale closures where callbacks use outdated values.",
+              },
+              {
+                question: "What are common pitfalls when using useCallback?",
+                answer:
+                  "Common pitfalls: (1) Missing dependencies causing stale closures, (2) Object/array dependencies that change every render, (3) Overusing useCallback on every function unnecessarily, (4) Using useCallback without React.memo on children (no benefit), (5) Circular dependencies causing infinite loops, (6) Conditionally calling useCallback (violates hooks rules), (7) Not using functional state updates when possible. Always include dependencies, measure actual performance impact, and use with memoized children for real benefit.",
+              },
+              {
+                question: "How do you use useCallback in custom hooks?",
+                answer:
+                  "Custom hooks should return stable callback references using useCallback so consumers don't have to worry about function identity. Example: useToggle returns [value, toggle] where toggle is wrapped in useCallback with empty deps. This ensures the toggle function reference never changes, making it safe to use in useEffect dependencies or pass to memoized children. Pattern: wrap all returned functions in useCallback, use functional state updates to minimize dependencies, document what causes callbacks to change.",
+              },
+              {
+                question:
+                  "How does useCallback handle event handlers with parameters?",
+                answer:
+                  "Two patterns: (1) Return function from callback that captures parameters in closure: onDelete={useCallback((id) => handleDelete(id), [])}. Child calls onClick={() => onDelete(item.id)}. (2) Create inline function in child: onClick={() => onDelete(item.id)} where onDelete is memoized. The memoized callback receives the parameter when called, not when created. For list items, use pattern 1 with single memoized handler for all items, avoiding creating multiple callbacks. Use functional state updates inside to avoid dependencies.",
+              },
+              {
+                question: "What are the performance costs of useCallback?",
+                answer:
+                  "useCallback has costs: (1) Memory overhead storing function and dependencies, (2) Comparison overhead checking dependencies on every render, (3) Code complexity and maintenance burden. Benefits: prevents child re-renders, stable useEffect dependencies, fewer function allocations. Trade-off depends on context: worth it for expensive memoized children, large lists, or complex effects; not worth it for simple components or cheap renders. Always measure with React DevTools Profiler - premature optimization wastes effort and adds complexity without benefit.",
+              },
+              {
+                question:
+                  "How do you use functional state updates with useCallback to avoid dependencies?",
+                answer:
+                  "Functional updates let you update state based on previous value without depending on current state. Instead of: useCallback(() => setCount(count + 1), [count]) (recreates when count changes), use: useCallback(() => setCount(prev => prev + 1), []) (never recreates). Pattern: setState(prevState => newState). This works because setState always has access to latest state, so callback doesn't need to close over it. Use this pattern whenever possible to minimize dependencies and keep callbacks stable.",
+              },
+              {
+                question: "How do you debug useCallback issues?",
+                answer:
+                  "Debugging techniques: (1) Add console.log inside callback to see when it runs with stale values, (2) Log useCallback with console.log('callback created') to see when it's recreated, (3) Use React DevTools Profiler to check render counts, (4) Enable ESLint exhaustive-deps rule to catch missing dependencies, (5) Use why-did-you-render library to track why components re-render, (6) Add useEffect that logs when callback changes: useEffect(() => console.log('callback changed'), [callback]). Most issues are missing dependencies or unnecessary object/array dependencies.",
+              },
+              {
+                question:
+                  "What are real-world use cases where useCallback is essential?",
+                answer:
+                  "Essential use cases: (1) Large data tables with memoized rows - single callback for all rows prevents re-rendering unchanged rows, (2) Infinite scroll - stable callback for intersection observer prevents re-subscription, (3) WebSocket/real-time - stable message handlers prevent reconnecting, (4) Forms with many fields - memoized field callbacks prevent re-rendering other fields, (5) Drag-and-drop - stable event handlers for smooth interactions, (6) Custom hooks returning functions - stable API for consumers, (7) Expensive child components - any callback to React.memo'd children.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/useCallback",
+              "https://react.dev/reference/react/useMemo",
+              "https://react.dev/reference/react/memo",
+              "https://kentcdodds.com/blog/usememo-and-usecallback",
+              "https://react.dev/learn/render-and-commit",
+              "https://github.com/facebook/react/tree/main/packages/eslint-plugin-react-hooks",
+            ],
           },
           {
             topic: "UseReducer Hook",
@@ -58273,7 +74571,6 @@ helm install rabbit bitnami/rabbitmq --set auth.password=StrongPass
     themeBgColor: "#FFF7FC",
     textColor: "#300053",
     topicColor: "#300053",
-    // lightColor: "#F0FFF0",
     lightColor: "#FFF7FC",
     type: [
       {
@@ -109171,7 +125468,15 @@ it('should throw NotFoundException when user not found', async () => {
           },
           {
             topic: "Decorators",
-            tags: ["Metadata", "Reflect", "Annotations", "DI", "Routing", "Validation", "Reflection"],
+            tags: [
+              "Metadata",
+              "Reflect",
+              "Annotations",
+              "DI",
+              "Routing",
+              "Validation",
+              "Reflection",
+            ],
             explanation: `<div>
 
 <p style="line-height: 1.75; margin-top: 1.5rem;"> Decorators are a fundamental TypeScript/JavaScript feature that NestJS leverages extensively to implement its declarative, metadata-driven architecture. Decorators are special kinds of declarations that can be attached to classes, methods, properties, or parameters to modify their behavior or add metadata. In NestJS, decorators are the primary mechanism for defining routes, dependency injection, validation, guards, interceptors, and virtually all framework features. They provide a clean, readable syntax while enabling powerful runtime behavior through the Reflect Metadata API. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> Why Decorators? (The Core Philosophy and Architectural Necessity) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> NestJS's entire architecture is built on <strong>metadata-driven programming</strong>, and decorators are the vehicle for this approach. The <strong>why</strong> behind decorators in NestJS is multi-faceted: 1) <strong>Declarative Programming:</strong> Decorators allow developers to express <em>what</em> their code does rather than <em>how</em> it does it. Instead of configuring routes in a separate configuration file, you declare them directly on methods with <code>@Get()</code> or <code>@Post()</code>. 2) <strong>Metadata Attachment:</strong> Decorators attach metadata to classes and their members using the Reflect Metadata API. This metadata is then read at runtime by NestJS to understand the structure and behavior of your application without requiring manual configuration. 3) <strong>Framework Extensibility:</strong> Decorators create extension points for middleware, guards, pipes, and interceptors to hook into. 4) <strong>Clean Separation of Concerns:</strong> By using decorators, framework concerns (routing, validation, dependency injection) are separated from business logic, making code more maintainable and testable. 5) <strong>Type Safety:</strong> TypeScript decorators work with the type system, providing compile-time validation of decorator usage. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> What Are Decorators? (Complete Technical Definition and Metadata Flow) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> At their core, decorators are <strong>higher-order functions</strong> that receive details about the decorated target and can modify or annotate it. In NestJS, decorators primarily serve to <strong>attach metadata</strong> rather than modify behavior directly. This metadata is stored using the <code>Reflect.defineMetadata()</code> API and retrieved at runtime using <code>Reflect.getMetadata()</code>. The <strong>what</strong> includes: <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;"> <li><strong>Metadata Storage:</strong> Key-value pairs attached to classes, methods, properties, or parameters.</li> <li><strong>Reflection API Integration:</strong> The <code>reflect-metadata</code> polyfill enables reading type information and custom metadata at runtime.</li> <li><strong>TypeScript Compiler Configuration:</strong> Requires <code>experimentalDecorators: true</code> and <code>emitDecoratorMetadata: true</code> in tsconfig.json.</li> <li><strong>Decorator Factories:</strong> Functions that return the actual decorator function, allowing parameterization (e.g., <code>@Controller('users')</code>).</li> <li><strong>Metadata Keys:</strong> Unique symbols or strings used as keys for storing different types of metadata (e.g., 'design:type', 'design:paramtypes', 'path', 'method').</li> </ul> The metadata flow is: 1) Decorators execute at class definition time (not instantiation time). 2) They store metadata via Reflect API. 3) NestJS runtime reads this metadata during application bootstrap. 4) The framework uses the metadata to configure routing, dependency injection, validation, etc. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> How Decorators Work: The Complete Flow (From Source Code to Runtime Behavior) </h4> <p style="line-height: 1.75; margin-top: 1rem;"> Understanding the <strong>how</strong> requires examining the multi-stage transformation from TypeScript decorators to runtime behavior: <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;"> <li><strong>Compilation Phase (TypeScript):</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>TypeScript compiler encounters decorator syntax in source code.</li> <li>With <code>emitDecoratorMetadata: true</code>, TypeScript emits three special metadata keys: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li><code>design:type</code> - The type of the decorated property/method.</li> <li><code>design:paramtypes</code> - Array of parameter types for methods.</li> <li><code>design:returntype</code> - Return type of methods.</li> </ul> </li> <li>TypeScript transforms decorators into function calls in the compiled JavaScript.</li> </ol> </li> <li><strong>Decorator Execution Phase (At Class Definition):</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>When the JavaScript class is defined (not instantiated), all decorators execute.</li> <li>Decorator functions receive specific arguments based on what they decorate: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li><strong>Class decorators:</strong> Receive the constructor function.</li> <li><strong>Method decorators:</strong> Receive target class, method name, property descriptor.</li> <li><strong>Property decorators:</strong> Receive target class, property name.</li> <li><strong>Parameter decorators:</strong> Receive target class, method name, parameter index.</li> </ul> </li> <li>Decorators call <code>Reflect.defineMetadata()</code> to attach metadata to the target.</li> </ol> </li> <li><strong>NestJS Bootstrap Phase:</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>During application startup, NestJS scans all modules and their components.</li> <li>It uses <code>Reflect.getMetadata()</code> to read metadata from classes.</li> <li>Based on the metadata, NestJS builds: <ul style="margin-left: 1.5rem; margin-top: 0.25rem; list-style-type: circle;"> <li>Dependency injection graph (from <code>@Injectable()</code> and <code>@Inject()</code>)</li> <li>Route mapping tables (from <code>@Controller()</code>, <code>@Get()</code>, <code>@Post()</code>, etc.)</li> <li>Validation rules (from <code>@IsEmail()</code>, <code>@MinLength()</code>, etc.)</li> <li>Guard, interceptor, and pipe configurations</li> </ul> </li> </ol> </li> <li><strong>Runtime Request Handling Phase:</strong> <ol style="margin-left: 1.5rem; margin-top: 0.5rem; list-style-type: lower-alpha;"> <li>When a request arrives, NestJS matches it to a controller method using route metadata.</li> <li>It resolves dependencies using <code>design:paramtypes</code> metadata.</li> <li>It validates and transforms parameters using pipe metadata.</li> <li>Guards and interceptors execute based on their metadata.</li> </ol> </li> </ol> This metadata-driven approach enables NestJS to provide a highly declarative API while maintaining excellent performance through pre-computed configuration. </p> <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> TypeScript Configuration Requirements </h4> <p style="line-height: 1.75; margin-top: 1rem;"> For decorators to work properly in NestJS, specific TypeScript compiler options must be set: </p> <div style="padding: 12px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem; background-color: #f8fafc; border: 1px solid #e2e8f0;"> <pre><code class="language-json">// tsconfig.json { "compilerOptions": { // Essential for decorators "experimentalDecorators": true, "emitDecoratorMetadata": true,
@@ -109562,7 +125867,8 @@ return value;
 </li>
 </ol> </div>`,
 
-            examples: [`// Complete Example: Custom Decorators in Action import { Controller, Get, Post, Body, Param, UseGuards, createParamDecorator, ExecutionContext, SetMetadata, applyDecorators } from '@nestjs/common'; import { Reflector } from '@nestjs/core'; import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+            examples: [
+              `// Complete Example: Custom Decorators in Action import { Controller, Get, Post, Body, Param, UseGuards, createParamDecorator, ExecutionContext, SetMetadata, applyDecorators } from '@nestjs/common'; import { Reflector } from '@nestjs/core'; import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 // 1. Custom Parameter Decorator
 export const User = createParamDecorator(
 (data: string, ctx: ExecutionContext) => {
@@ -109673,7 +125979,6 @@ const user = request.user;
 return requiredRoles.some((role) => user.roles?.includes(role));
 }
 }`,
-
 
               `// Advanced Example: Building a Custom Validation Decorator System
 import {
@@ -109866,20 +126171,26 @@ useClass: FeatureFlagGuard, // Apply globally
 ],
 controllers: [ApiController],
 })
-export class ApiModule {}`
+export class ApiModule {}`,
             ],
             questions: [
               {
-                question: "Explain how the Reflect Metadata API works with decorators in NestJS. Trace the complete flow from when a decorator is applied in TypeScript code to when its metadata is used at runtime.",
-                solution: "<p><strong>Complete Metadata Flow:</strong>1. <strong>TypeScript Compilation:</strong> With < code > emitDecoratorMetadata: true</code >, TypeScript emits < code > design: type</code >, <code>design:paramtypes</code>, and < code > design: returntype</code > metadata for decorated elements.2. <strong>Decorator Execution:</strong> When the JavaScript class is defined(not instantiated), decorator functions execute.For example, <code>@Get('users')</code> calls < code > Reflect.defineMetadata('path', 'users', target, propertyKey)</code >. 3. < strong > Metadata Storage:</strong > The reflect - metadata polyfill stores metadata in WeakMaps: <code>MetadataStorage.set(target, propertyKey, metadataKey, value)</code>. 4. < strong > Application Bootstrap:</strong > During NestJS startup, the framework scans classes and uses < code > Reflect.getMetadata()</code > to discover: - Controllers and their routes(<code>@Controller()</code>, <code>@Get()</code>) - Dependency injection requirements(<code>design:paramtypes</code> from < code > @Injectable() </code >)- Validation rules(<code>@IsEmail()</code>, <code>@MinLength()</code>) 5. < strong > Runtime Usage:</strong > When a request arrives: - Router matches URL using route metadata - DI container resolves dependencies using paramtype metadata - Pipes validate data using validation metadata - Guards check permissions using custom metadata(<code>@Roles()</code>, <code>@SetMetadata()</code>) 6. < strong > Performance:</strong > Metadata is read once during bootstrap and cached, not per request.</p > "
+                question:
+                  "Explain how the Reflect Metadata API works with decorators in NestJS. Trace the complete flow from when a decorator is applied in TypeScript code to when its metadata is used at runtime.",
+                solution:
+                  "<p><strong>Complete Metadata Flow:</strong>1. <strong>TypeScript Compilation:</strong> With < code > emitDecoratorMetadata: true</code >, TypeScript emits < code > design: type</code >, <code>design:paramtypes</code>, and < code > design: returntype</code > metadata for decorated elements.2. <strong>Decorator Execution:</strong> When the JavaScript class is defined(not instantiated), decorator functions execute.For example, <code>@Get('users')</code> calls < code > Reflect.defineMetadata('path', 'users', target, propertyKey)</code >. 3. < strong > Metadata Storage:</strong > The reflect - metadata polyfill stores metadata in WeakMaps: <code>MetadataStorage.set(target, propertyKey, metadataKey, value)</code>. 4. < strong > Application Bootstrap:</strong > During NestJS startup, the framework scans classes and uses < code > Reflect.getMetadata()</code > to discover: - Controllers and their routes(<code>@Controller()</code>, <code>@Get()</code>) - Dependency injection requirements(<code>design:paramtypes</code> from < code > @Injectable() </code >)- Validation rules(<code>@IsEmail()</code>, <code>@MinLength()</code>) 5. < strong > Runtime Usage:</strong > When a request arrives: - Router matches URL using route metadata - DI container resolves dependencies using paramtype metadata - Pipes validate data using validation metadata - Guards check permissions using custom metadata(<code>@Roles()</code>, <code>@SetMetadata()</code>) 6. < strong > Performance:</strong > Metadata is read once during bootstrap and cached, not per request.</p > ",
               },
               {
-                question: "Compare and contrast class decorators, method decorators, property decorators, and parameter decorators in NestJS. What arguments does each receive, when do they execute, and what are their primary use cases?",
-                solution: "<p><strong>Class Decorators:</strong> Receive the class constructor function. Execute when class is defined. Used for: <code>@Module()</code> (module configuration), <code>@Controller()</code> (route prefix), <code>@Injectable()</code> (DI registration), <code>@Middleware()</code>, <code>@Interceptor()</code>, <code>@Pipe()</code>, <code>@Guard()</code>. < strong > Method Decorators:</strong > Receive three arguments: target class, method name, property descriptor.Execute after parameter decorators but before class decorators. Used for: <code>@Get()</code>, <code>@Post()</code> (HTTP methods), <code>@UseGuards()</code>, <code>@UseInterceptors()</code>, <code>@UsePipes()</code>, <code>@Header()</code>, <code>@HttpCode()</code>, <code>@Render()</code>. <strong>Property Decorators:</strong> Receive two arguments: target class, property name.Execute for each property.Used for: <code>@Inject()</code> (dependency injection), <code>@Optional()</code> (optional dependencies), validation decorators(<code>@IsEmail()</code>, <code>@MinLength()</code>), transformation decorators(<code>@Type()</code>, <code>@Transform()</code>). < strong > Parameter Decorators:</strong > Receive three arguments: target class, method name, parameter index.Execute first(from right to left in parameter list).Used for: <code>@Param()</code>, <code>@Query()</code>, <code>@Body()</code>, <code>@Headers()</code>, <code>@Ip()</code>, <code>@Session()</code>, <code>@UploadedFile()</code>, custom parameter decorators. < strong > Execution Order:</strong > 1) Parameter decorators, 2) Method decorators, 3) Property decorators, 4) Class decorators.</p > "
+                question:
+                  "Compare and contrast class decorators, method decorators, property decorators, and parameter decorators in NestJS. What arguments does each receive, when do they execute, and what are their primary use cases?",
+                solution:
+                  "<p><strong>Class Decorators:</strong> Receive the class constructor function. Execute when class is defined. Used for: <code>@Module()</code> (module configuration), <code>@Controller()</code> (route prefix), <code>@Injectable()</code> (DI registration), <code>@Middleware()</code>, <code>@Interceptor()</code>, <code>@Pipe()</code>, <code>@Guard()</code>. < strong > Method Decorators:</strong > Receive three arguments: target class, method name, property descriptor.Execute after parameter decorators but before class decorators. Used for: <code>@Get()</code>, <code>@Post()</code> (HTTP methods), <code>@UseGuards()</code>, <code>@UseInterceptors()</code>, <code>@UsePipes()</code>, <code>@Header()</code>, <code>@HttpCode()</code>, <code>@Render()</code>. <strong>Property Decorators:</strong> Receive two arguments: target class, property name.Execute for each property.Used for: <code>@Inject()</code> (dependency injection), <code>@Optional()</code> (optional dependencies), validation decorators(<code>@IsEmail()</code>, <code>@MinLength()</code>), transformation decorators(<code>@Type()</code>, <code>@Transform()</code>). < strong > Parameter Decorators:</strong > Receive three arguments: target class, method name, parameter index.Execute first(from right to left in parameter list).Used for: <code>@Param()</code>, <code>@Query()</code>, <code>@Body()</code>, <code>@Headers()</code>, <code>@Ip()</code>, <code>@Session()</code>, <code>@UploadedFile()</code>, custom parameter decorators. < strong > Execution Order:</strong > 1) Parameter decorators, 2) Method decorators, 3) Property decorators, 4) Class decorators.</p > ",
               },
               {
-                question: "How does NestJS use the 'design:paramtypes' metadata emitted by TypeScript for dependency injection? What happens when a parameter uses @Inject() with a custom token instead of type-based injection?",
-                solution: "<p><strong>Type-based DI with design:paramtypes:</strong> When TypeScript compiles with <code>emitDecoratorMetadata: true</code>, it emits <code>design:paramtypes</code> metadata containing an array of constructor parameter types. NestJS reads this metadata during DI container initialization to know what types to inject. Example: <code>constructor(private service: UserService)</code> emits <code>[UserService]</code> as paramtypes. < strong > Custom Token with @Inject():</strong > When < code > @Inject('CUSTOM_TOKEN') </code > is used, NestJS stores additional metadata that overrides the type - based resolution.The DI container: 1. First checks for custom injection metadata(<code>Reflect.getMetadata('custom:inject')</code>) 2. If found, uses the custom token instead of the type from<code>design:paramtypes</code > 3. Looks up the custom token in the provider registry < strong > Combination:</strong > Both can coexist.Type metadata is always emitted, but < code > @Inject() </code > metadata takes precedence.This allows injecting non - class values (strings, symbols) or different implementations of the same interface. < strong > Example:</strong > <code>constructor(@Inject('CONFIG') config: any, private service: UserService)</code> - first parameter uses custom token 'CONFIG', second uses type - based injection with UserService.</p > "
+                question:
+                  "How does NestJS use the 'design:paramtypes' metadata emitted by TypeScript for dependency injection? What happens when a parameter uses @Inject() with a custom token instead of type-based injection?",
+                solution:
+                  "<p><strong>Type-based DI with design:paramtypes:</strong> When TypeScript compiles with <code>emitDecoratorMetadata: true</code>, it emits <code>design:paramtypes</code> metadata containing an array of constructor parameter types. NestJS reads this metadata during DI container initialization to know what types to inject. Example: <code>constructor(private service: UserService)</code> emits <code>[UserService]</code> as paramtypes. < strong > Custom Token with @Inject():</strong > When < code > @Inject('CUSTOM_TOKEN') </code > is used, NestJS stores additional metadata that overrides the type - based resolution.The DI container: 1. First checks for custom injection metadata(<code>Reflect.getMetadata('custom:inject')</code>) 2. If found, uses the custom token instead of the type from<code>design:paramtypes</code > 3. Looks up the custom token in the provider registry < strong > Combination:</strong > Both can coexist.Type metadata is always emitted, but < code > @Inject() </code > metadata takes precedence.This allows injecting non - class values (strings, symbols) or different implementations of the same interface. < strong > Example:</strong > <code>constructor(@Inject('CONFIG') config: any, private service: UserService)</code> - first parameter uses custom token 'CONFIG', second uses type - based injection with UserService.</p > ",
               },
             ],
             links: [
@@ -109891,8 +126202,8 @@ export class ApiModule {}`
               "https://docs.nestjs.com/interceptors",
               "https://docs.nestjs.com/pipes",
               "https://github.com/typestack/class-validator",
-              "https://github.com/typestack/class-transformer"
-            ]
+              "https://github.com/typestack/class-transformer",
+            ],
           },
           {
             topic: "Modules",
@@ -110658,22 +126969,26 @@ describe('UsersService', () => {
             ],
             questions: [
               {
-                question: "What is the difference between 'imports' and 'exports' in a module?",
+                question:
+                  "What is the difference between 'imports' and 'exports' in a module?",
                 solution:
                   "<p>'imports' brings in providers from other modules that this module needs to use internally. It makes external functionality available within the current module's scope. 'exports' makes providers from this module available to other modules that import it. A module must list a provider in its 'providers' array before it can export it. Only exported providers can be injected in other modules - providers not in the exports array remain private to the module.</p>",
               },
               {
-                question: "When should you use a Global module versus a regular module?",
+                question:
+                  "When should you use a Global module versus a regular module?",
                 solution:
                   "<p>Use @Global() modules for truly universal services needed everywhere in your application, like logging, configuration, or database connections. However, use them sparingly as they can create tight coupling. Regular modules should be preferred for most cases as they make dependencies explicit and maintain better separation of concerns. Global modules should only be registered once in the root module, while regular modules must be explicitly imported wherever they're needed.</p>",
               },
               {
-                question: "How do you prevent circular dependencies between modules?",
+                question:
+                  "How do you prevent circular dependencies between modules?",
                 solution:
                   "<p>Prevent circular dependencies by: (1) Creating a clear module hierarchy where dependencies flow in one direction. (2) Extracting shared functionality into a separate common module that both modules can import. (3) Using the forwardRef() function as a temporary solution when circular dependencies are unavoidable. (4) Restructuring your modules to better reflect bounded contexts - circular dependencies often indicate poor module boundaries. (5) Using events or message patterns to decouple modules that need to communicate bidirectionally.</p>",
               },
               {
-                question: "What is a Dynamic Module and when would you use one?",
+                question:
+                  "What is a Dynamic Module and when would you use one?",
                 solution:
                   "<p>A Dynamic Module is a module that can be configured at runtime using a static method (commonly forRoot() or forFeature()). It returns a DynamicModule object with the module definition. Use dynamic modules when you need to: (1) Configure a module with different options in different contexts. (2) Create reusable modules that adapt to different environments. (3) Provide different implementations based on configuration. Common examples include database modules, configuration modules, and authentication modules that need environment-specific settings.</p>",
               },
@@ -112584,30 +128899,48 @@ export class DatabaseModule {}
 `,
             ],
             questions: [
-              { question: "Describe the complete instantiation process when a Controller requests a Service with multiple layered dependencies, including scope considerations.", solution: "<p>When a Controller is instantiated and requests a Service (e.g., <code>UserService</code>), the DI container executes a recursive resolution process: <strong>1. Controller Creation Trigger:</strong> NestJS begins instantiating the Controller due to an incoming request. <strong>2. Dependency Analysis:</strong> The container examines the Controller's constructor and sees <code>UserService</code> as a dependency. <strong>3. Token Resolution:</strong> It looks up <code>UserService</code> in the provider registry. <strong>4. Scope Check:</strong> If <code>UserService</code> is DEFAULT-scoped and already cached, it returns the cached instance immediately. Otherwise, proceeds to instantiation. <strong>5. Dependency Resolution:</strong> The container examines <code>UserService</code>'s constructor dependencies (e.g., <code>UserRepository</code>, <code>EmailService</code>, <code>ConfigService</code>). <strong>6. Recursive Process:</strong> For each dependency, repeat steps 2-5, creating a dependency tree. <strong>7. Order of Instantiation:</strong> Leaf dependencies (those with no dependencies) are instantiated first, then their dependents, working up the tree. <strong>8. Constructor Execution:</strong> Once all dependencies are resolved, <code>UserService</code>'s constructor is called with the resolved instances. <strong>9. Caching:</strong> If DEFAULT-scoped, the instance is cached. <strong>10. Injection:</strong> The fully constructed <code>UserService</code> is injected into the Controller. <strong>Scope Considerations:</strong> If any dependency in the chain is REQUEST-scoped, the entire resolution chain becomes request-specific. If a singleton depends on a REQUEST-scoped service, you must use property injection or the <code>@Inject(REQUEST)</code> pattern to avoid scope mismatch errors.</p>" }, {
-                question: "Explain howuseFactory` providers handle asynchronous initialization and error scenarios during application bootstrap.",
-                solution: "<p><code>useFactory</code> providers can return Promises, enabling asynchronous initialization. During application bootstrap: <strong>1. Async Factory Execution:</strong> When the container needs the provider, it awaits the factory function if it returns a Promise. <strong>2. Dependency Injection First:</strong> The factory's dependencies (specified in <code>inject</code>) are resolved synchronously first. <strong>3. Factory Execution:</strong> The factory function is called with the resolved dependencies as arguments. <strong>4. Awaiting Resolution:</strong> If the factory returns a Promise, the container waits for it to resolve before caching or providing the value. <strong>5. Error Handling:</strong> If the async factory throws or rejects, the container cannot complete initialization, causing the application to fail fast during startup. This is generally desirable for critical dependencies (database connections). <strong>6. Retry Patterns:</strong> For resilience, wrap the factory in retry logic: <code>useFactory: async () => { let lastError; for (let i = 0; i < 3; i++) { try { return await createConnection(); } catch (err) { lastError = err; await sleep(1000); } } throw lastError; }</code>. <strong>7. Lazy Initialization Alternative:</strong> For non-critical dependencies, consider returning a proxy or wrapper that initializes on first use rather than at startup. <strong>8. Health Checks:</strong> Use the <code>OnModuleInit</code> lifecycle hook to verify async providers are functioning after bootstrap completes.</p>"
+              {
+                question:
+                  "Describe the complete instantiation process when a Controller requests a Service with multiple layered dependencies, including scope considerations.",
+                solution:
+                  "<p>When a Controller is instantiated and requests a Service (e.g., <code>UserService</code>), the DI container executes a recursive resolution process: <strong>1. Controller Creation Trigger:</strong> NestJS begins instantiating the Controller due to an incoming request. <strong>2. Dependency Analysis:</strong> The container examines the Controller's constructor and sees <code>UserService</code> as a dependency. <strong>3. Token Resolution:</strong> It looks up <code>UserService</code> in the provider registry. <strong>4. Scope Check:</strong> If <code>UserService</code> is DEFAULT-scoped and already cached, it returns the cached instance immediately. Otherwise, proceeds to instantiation. <strong>5. Dependency Resolution:</strong> The container examines <code>UserService</code>'s constructor dependencies (e.g., <code>UserRepository</code>, <code>EmailService</code>, <code>ConfigService</code>). <strong>6. Recursive Process:</strong> For each dependency, repeat steps 2-5, creating a dependency tree. <strong>7. Order of Instantiation:</strong> Leaf dependencies (those with no dependencies) are instantiated first, then their dependents, working up the tree. <strong>8. Constructor Execution:</strong> Once all dependencies are resolved, <code>UserService</code>'s constructor is called with the resolved instances. <strong>9. Caching:</strong> If DEFAULT-scoped, the instance is cached. <strong>10. Injection:</strong> The fully constructed <code>UserService</code> is injected into the Controller. <strong>Scope Considerations:</strong> If any dependency in the chain is REQUEST-scoped, the entire resolution chain becomes request-specific. If a singleton depends on a REQUEST-scoped service, you must use property injection or the <code>@Inject(REQUEST)</code> pattern to avoid scope mismatch errors.</p>",
               },
               {
-                question: "Compare and contrast the performance characteristics of DEFAULT, REQUEST, and TRANSIENT scopes in a high-traffic API scenario.",
-                solution: "<p><strong>DEFAULT (Singleton) Scope:</strong> <em>Performance:</em> Excellent. One instance created once, cached forever. Minimal memory overhead, zero instantiation overhead after first request. <em>Memory:</em> Constant regardless of traffic. <em>Garbage Collection:</em> Minimal pressure - instance lives for application lifetime. <em>Best for:</em> Stateless services, configuration, shared resources (DB connections, HTTP clients).< strong > REQUEST Scope:</strong> <em>Performance:</em> Variable overhead.New instance per request means: constructor execution per request, dependency resolution per request, memory allocation per request. < em > Memory:</em > Scales linearly with concurrent requests.Each instance lives until request completes(increased heap usage). < em > Garbage Collection:</em> High pressure - many short - lived objects trigger frequent GC cycles. < em > Optimization:</em > Keep REQUEST - scoped providers lightweight, minimal dependencies, avoid heavy initialization.Consider async local storage with singletons as alternative.<em>Best for:</em> Request - specific state that cannot be passed as parameters.< strong > TRANSIENT Scope:</strong > <em>Performance:</em> Highest overhead.New instance every time injected, even within same request / component.If Service A has 5 Transient dependencies, each gets its own instance. < em > Memory:</em > Can grow rapidly if transient services are injected many times. < em > Garbage Collection:</em> Very high pressure - extremely short - lived objects. < em > Best for:</em > Rare cases requiring complete instance isolation, stateful workers, or when shared mutable state would cause bugs. < em > Recommendation:</strong > In high - traffic APIs, prefer DEFAULT scope exclusively.Use REQUEST only when absolutely necessary and measure impact.Avoid TRANSIENT in performance - critical paths.</p > "
+                question:
+                  "Explain howuseFactory` providers handle asynchronous initialization and error scenarios during application bootstrap.",
+                solution:
+                  "<p><code>useFactory</code> providers can return Promises, enabling asynchronous initialization. During application bootstrap: <strong>1. Async Factory Execution:</strong> When the container needs the provider, it awaits the factory function if it returns a Promise. <strong>2. Dependency Injection First:</strong> The factory's dependencies (specified in <code>inject</code>) are resolved synchronously first. <strong>3. Factory Execution:</strong> The factory function is called with the resolved dependencies as arguments. <strong>4. Awaiting Resolution:</strong> If the factory returns a Promise, the container waits for it to resolve before caching or providing the value. <strong>5. Error Handling:</strong> If the async factory throws or rejects, the container cannot complete initialization, causing the application to fail fast during startup. This is generally desirable for critical dependencies (database connections). <strong>6. Retry Patterns:</strong> For resilience, wrap the factory in retry logic: <code>useFactory: async () => { let lastError; for (let i = 0; i < 3; i++) { try { return await createConnection(); } catch (err) { lastError = err; await sleep(1000); } } throw lastError; }</code>. <strong>7. Lazy Initialization Alternative:</strong> For non-critical dependencies, consider returning a proxy or wrapper that initializes on first use rather than at startup. <strong>8. Health Checks:</strong> Use the <code>OnModuleInit</code> lifecycle hook to verify async providers are functioning after bootstrap completes.</p>",
               },
               {
-                question: "How does the DI container resolve provider tokens when the same token is provided in multiple modules? Describe the resolution hierarchy and potential conflicts.",
-                solution: "<p>NestJS uses a hierarchical module system with clear resolution rules: <strong>1. Current Module First:</strong> When a class in Module A requests a token, the container first looks in Module A's <code>providers</code> array. If found, it uses that provider definition regardless of other modules. <strong>2. Imported Module Exports:</strong> If not found in current module, it checks the <code>exports</code> arrays of modules imported by Module A (in the order they're imported in the <code>imports</code> array). <strong>3. Global Providers:</strong> Finally, it checks providers marked with <code>@Global()</code> decorator or registered with <code>global: true</code>. <strong>Conflict Scenarios:</strong> a) <em>Same token in current module and imported module:</em> Current module wins (shadowing). b) <em>Same token in multiple imported modules:</em> First module in the <code>imports</code> array wins. c) <em>Same token with different implementations in different modules:</em> The resolution order determines which implementation is used, potentially causing inconsistent behavior. <strong>Best Practices:</strong> 1) Avoid duplicate token registrations. 2) Use unique tokens (Symbols help). 3) Be explicit about exports - only export what's needed. 4) Use <code>@Global()</code> sparingly. 5) When overriding providers for testing, do it in the test module specifically. <strong>Debugging:</strong> Use <code>ModuleRef</code> to inspect available providers or enable verbose logging during bootstrap to see resolution decisions.</p>"
+                question:
+                  "Compare and contrast the performance characteristics of DEFAULT, REQUEST, and TRANSIENT scopes in a high-traffic API scenario.",
+                solution:
+                  "<p><strong>DEFAULT (Singleton) Scope:</strong> <em>Performance:</em> Excellent. One instance created once, cached forever. Minimal memory overhead, zero instantiation overhead after first request. <em>Memory:</em> Constant regardless of traffic. <em>Garbage Collection:</em> Minimal pressure - instance lives for application lifetime. <em>Best for:</em> Stateless services, configuration, shared resources (DB connections, HTTP clients).< strong > REQUEST Scope:</strong> <em>Performance:</em> Variable overhead.New instance per request means: constructor execution per request, dependency resolution per request, memory allocation per request. < em > Memory:</em > Scales linearly with concurrent requests.Each instance lives until request completes(increased heap usage). < em > Garbage Collection:</em> High pressure - many short - lived objects trigger frequent GC cycles. < em > Optimization:</em > Keep REQUEST - scoped providers lightweight, minimal dependencies, avoid heavy initialization.Consider async local storage with singletons as alternative.<em>Best for:</em> Request - specific state that cannot be passed as parameters.< strong > TRANSIENT Scope:</strong > <em>Performance:</em> Highest overhead.New instance every time injected, even within same request / component.If Service A has 5 Transient dependencies, each gets its own instance. < em > Memory:</em > Can grow rapidly if transient services are injected many times. < em > Garbage Collection:</em> Very high pressure - extremely short - lived objects. < em > Best for:</em > Rare cases requiring complete instance isolation, stateful workers, or when shared mutable state would cause bugs. < em > Recommendation:</strong > In high - traffic APIs, prefer DEFAULT scope exclusively.Use REQUEST only when absolutely necessary and measure impact.Avoid TRANSIENT in performance - critical paths.</p > ",
               },
               {
-                question: "Design a provider configuration for a multi-tenant application where each tenant requires a separate database connection with isolated connection pools.",
-                solution: "<p>For multi-tenancy with isolated database connections: <strong>1. Tenant Context Provider (REQUEST-scoped):</strong> <code>@Injectable({ scope: Scope.REQUEST }) export class TenantContext { private tenantId: string; setTenant(id: string) { this.tenantId = id; } getTenantId() { return this.tenantId; } }</code> <strong>2. Connection Factory Provider:</strong> <code>{ provide: 'TENANT_CONNECTION', useFactory: async (tenantContext: TenantContext, configService: ConfigService) => { const tenantId = tenantContext.getTenantId(); if (!tenantId) throw new Error('No tenant context'); // Look up tenant-specific config from cache or config service const tenantConfig = await getTenantConfig(tenantId); return createConnection({ name: tenantId, // Named connection ...tenantConfig }); }, inject: [TenantContext, ConfigService] }</code> <strong>3. Connection Pool Manager (Singleton):</strong> <code>@Injectable() export class ConnectionPoolManager { private pools = new Map<string, Connection>(); async getConnection(tenantId: string): Promise<Connection> { if (!this.pools.has(tenantId)) { const config = await getTenantConfig(tenantId); this.pools.set(tenantId, await createConnection(config)); } return this.pools.get(tenantId); } }</code> <strong>4. Repository Factory:</strong> <code>@Injectable() export class TenantAwareRepositoryFactory { constructor(private connectionPoolManager: ConnectionPoolManager) {} createRepository<T>(tenantId: string): Repository<T> { const connection = await this.connectionPoolManager.getConnection(tenantId); return connection.getRepository(T); } }</code> <strong>5. Middleware/Guard:</strong> Sets tenant ID in <code>TenantContext</code> early in request pipeline. <strong>Key Considerations:</strong> a) Connection pooling per tenant, b) Cache tenant configurations, c) Cleanup idle connections, d) Tenant isolation enforcement at DI level, e) Fallback to default tenant for non-tenant routes.</p>"
+                question:
+                  "How does the DI container resolve provider tokens when the same token is provided in multiple modules? Describe the resolution hierarchy and potential conflicts.",
+                solution:
+                  "<p>NestJS uses a hierarchical module system with clear resolution rules: <strong>1. Current Module First:</strong> When a class in Module A requests a token, the container first looks in Module A's <code>providers</code> array. If found, it uses that provider definition regardless of other modules. <strong>2. Imported Module Exports:</strong> If not found in current module, it checks the <code>exports</code> arrays of modules imported by Module A (in the order they're imported in the <code>imports</code> array). <strong>3. Global Providers:</strong> Finally, it checks providers marked with <code>@Global()</code> decorator or registered with <code>global: true</code>. <strong>Conflict Scenarios:</strong> a) <em>Same token in current module and imported module:</em> Current module wins (shadowing). b) <em>Same token in multiple imported modules:</em> First module in the <code>imports</code> array wins. c) <em>Same token with different implementations in different modules:</em> The resolution order determines which implementation is used, potentially causing inconsistent behavior. <strong>Best Practices:</strong> 1) Avoid duplicate token registrations. 2) Use unique tokens (Symbols help). 3) Be explicit about exports - only export what's needed. 4) Use <code>@Global()</code> sparingly. 5) When overriding providers for testing, do it in the test module specifically. <strong>Debugging:</strong> Use <code>ModuleRef</code> to inspect available providers or enable verbose logging during bootstrap to see resolution decisions.</p>",
               },
               {
-                question: "What happens when a singleton service depends on a REQUEST-scoped service? Explain the problem and present three solutions with their trade-offs.",
-                solution: "<p><strong>The Problem:</strong> By default, NestJS prohibits this because a singleton (lives forever) cannot inject a REQUEST-scoped instance (lives only for one request). This causes <code>Error: A dependency injection error occurred</code> regarding scope mismatch. <strong>Solution 1: Change Singleton to REQUEST Scope</strong> - Make the consuming service REQUEST-scoped too. <em>Trade-off:</em> Loss of singleton performance benefits, increased memory/GC pressure. <strong>Solution 2: Property Injection with @Inject(REQUEST)</strong> - Inject the raw request object instead: <code>@Inject(REQUEST) private request: Request</code>. Then extract needed data from request object directly. <em>Trade-off:</em> Loses type safety of the REQUEST-scoped service, couples consumer to HTTP layer. <strong>Solution 3: Provider Pattern with Factory</strong> - Don't inject the REQUEST-scoped service directly. Instead, inject a factory that can create/provide it when needed: <code>{ provide: 'REQUEST_CONTEXT_FACTORY', useFactory: (moduleRef: ModuleRef) => ({ getContext: () => moduleRef.get(RequestContextService, { strict: false }) }), inject: [ModuleRef] }</code>. Then in singleton: <code>const requestContext = this.factory.getContext()</code>. <em>Trade-off:</em> More complex, runtime overhead, must handle missing context when called outside request. <strong>Solution 4: Async Local Storage (Preferred):</strong> Use Node.js <code>AsyncLocalStorage</code> to store request context. Singleton services can access it via static method. <em>Trade-off:</em> More advanced pattern, requires careful context propagation. <strong>Recommendation:</strong> For most cases, redesign to avoid this dependency altogether - pass request-specific data as method parameters rather than injecting request-scoped services into singletons.</p>"
+                question:
+                  "Design a provider configuration for a multi-tenant application where each tenant requires a separate database connection with isolated connection pools.",
+                solution:
+                  "<p>For multi-tenancy with isolated database connections: <strong>1. Tenant Context Provider (REQUEST-scoped):</strong> <code>@Injectable({ scope: Scope.REQUEST }) export class TenantContext { private tenantId: string; setTenant(id: string) { this.tenantId = id; } getTenantId() { return this.tenantId; } }</code> <strong>2. Connection Factory Provider:</strong> <code>{ provide: 'TENANT_CONNECTION', useFactory: async (tenantContext: TenantContext, configService: ConfigService) => { const tenantId = tenantContext.getTenantId(); if (!tenantId) throw new Error('No tenant context'); // Look up tenant-specific config from cache or config service const tenantConfig = await getTenantConfig(tenantId); return createConnection({ name: tenantId, // Named connection ...tenantConfig }); }, inject: [TenantContext, ConfigService] }</code> <strong>3. Connection Pool Manager (Singleton):</strong> <code>@Injectable() export class ConnectionPoolManager { private pools = new Map<string, Connection>(); async getConnection(tenantId: string): Promise<Connection> { if (!this.pools.has(tenantId)) { const config = await getTenantConfig(tenantId); this.pools.set(tenantId, await createConnection(config)); } return this.pools.get(tenantId); } }</code> <strong>4. Repository Factory:</strong> <code>@Injectable() export class TenantAwareRepositoryFactory { constructor(private connectionPoolManager: ConnectionPoolManager) {} createRepository<T>(tenantId: string): Repository<T> { const connection = await this.connectionPoolManager.getConnection(tenantId); return connection.getRepository(T); } }</code> <strong>5. Middleware/Guard:</strong> Sets tenant ID in <code>TenantContext</code> early in request pipeline. <strong>Key Considerations:</strong> a) Connection pooling per tenant, b) Cache tenant configurations, c) Cleanup idle connections, d) Tenant isolation enforcement at DI level, e) Fallback to default tenant for non-tenant routes.</p>",
               },
               {
-                question: "How do you implement a provider that needs to be dynamically registered/unregistered at runtime based on configuration changes?",
-                solution: "<p>NestJS's DI container is primarily static (configured at startup), but dynamic registration is possible: <strong>1. ModuleRef Approach:</strong> Use <code>ModuleRef</code> to dynamically create providers: <code>constructor(private moduleRef: ModuleRef) {}</code> then <code>const { instance } = await this.moduleRef.create(MyDynamicProvider);</code>. <strong>2. Factory Registry Pattern:</strong> Create a registry service that manages dynamic instances: <code>@Injectable() export class DynamicProviderRegistry { private instances = new Map<string, any>(); register(key: string, factory: () => any) { this.instances.set(key, factory()); } get(key: string) { return this.instances.get(key); } }</code>. <strong>3. Configuration Watcher:</strong> Combine with configuration service that watches for changes: <code>@Injectable() export class DynamicConfigManager { constructor(private configService: ConfigService, private registry: DynamicProviderRegistry) { this.configService.watch('features').subscribe(features => { this.updateProviders(features); }); } }</code>. <strong>4. Dynamic Module Pattern:</strong> For more complex cases, create modules dynamically: <code>export class DynamicModule { static register(options): DynamicModule { return { module: DynamicModule, providers: [ { provide: 'DYNAMIC_CONFIG', useValue: options } ] }; } }</code>. <strong>5. Important Limitations:</strong> Dynamically created providers won't be automatically cleaned up, may not participate in lifecycle hooks consistently, and can cause memory leaks if not properly managed. Use for truly dynamic, plugin-like architectures where providers come and go at runtime.</p>"
-              }
+                question:
+                  "What happens when a singleton service depends on a REQUEST-scoped service? Explain the problem and present three solutions with their trade-offs.",
+                solution:
+                  "<p><strong>The Problem:</strong> By default, NestJS prohibits this because a singleton (lives forever) cannot inject a REQUEST-scoped instance (lives only for one request). This causes <code>Error: A dependency injection error occurred</code> regarding scope mismatch. <strong>Solution 1: Change Singleton to REQUEST Scope</strong> - Make the consuming service REQUEST-scoped too. <em>Trade-off:</em> Loss of singleton performance benefits, increased memory/GC pressure. <strong>Solution 2: Property Injection with @Inject(REQUEST)</strong> - Inject the raw request object instead: <code>@Inject(REQUEST) private request: Request</code>. Then extract needed data from request object directly. <em>Trade-off:</em> Loses type safety of the REQUEST-scoped service, couples consumer to HTTP layer. <strong>Solution 3: Provider Pattern with Factory</strong> - Don't inject the REQUEST-scoped service directly. Instead, inject a factory that can create/provide it when needed: <code>{ provide: 'REQUEST_CONTEXT_FACTORY', useFactory: (moduleRef: ModuleRef) => ({ getContext: () => moduleRef.get(RequestContextService, { strict: false }) }), inject: [ModuleRef] }</code>. Then in singleton: <code>const requestContext = this.factory.getContext()</code>. <em>Trade-off:</em> More complex, runtime overhead, must handle missing context when called outside request. <strong>Solution 4: Async Local Storage (Preferred):</strong> Use Node.js <code>AsyncLocalStorage</code> to store request context. Singleton services can access it via static method. <em>Trade-off:</em> More advanced pattern, requires careful context propagation. <strong>Recommendation:</strong> For most cases, redesign to avoid this dependency altogether - pass request-specific data as method parameters rather than injecting request-scoped services into singletons.</p>",
+              },
+              {
+                question:
+                  "How do you implement a provider that needs to be dynamically registered/unregistered at runtime based on configuration changes?",
+                solution:
+                  "<p>NestJS's DI container is primarily static (configured at startup), but dynamic registration is possible: <strong>1. ModuleRef Approach:</strong> Use <code>ModuleRef</code> to dynamically create providers: <code>constructor(private moduleRef: ModuleRef) {}</code> then <code>const { instance } = await this.moduleRef.create(MyDynamicProvider);</code>. <strong>2. Factory Registry Pattern:</strong> Create a registry service that manages dynamic instances: <code>@Injectable() export class DynamicProviderRegistry { private instances = new Map<string, any>(); register(key: string, factory: () => any) { this.instances.set(key, factory()); } get(key: string) { return this.instances.get(key); } }</code>. <strong>3. Configuration Watcher:</strong> Combine with configuration service that watches for changes: <code>@Injectable() export class DynamicConfigManager { constructor(private configService: ConfigService, private registry: DynamicProviderRegistry) { this.configService.watch('features').subscribe(features => { this.updateProviders(features); }); } }</code>. <strong>4. Dynamic Module Pattern:</strong> For more complex cases, create modules dynamically: <code>export class DynamicModule { static register(options): DynamicModule { return { module: DynamicModule, providers: [ { provide: 'DYNAMIC_CONFIG', useValue: options } ] }; } }</code>. <strong>5. Important Limitations:</strong> Dynamically created providers won't be automatically cleaned up, may not participate in lifecycle hooks consistently, and can cause memory leaks if not properly managed. Use for truly dynamic, plugin-like architectures where providers come and go at runtime.</p>",
+              },
             ],
             links: [
               "https://docs.nestjs.com/providers",
@@ -112619,12 +128952,18 @@ export class DatabaseModule {}
               "https://docs.nestjs.com/fundamentals/lifecycle-events",
               "https://docs.nestjs.com/fundamentals/dynamic-modules",
               "https://docs.nestjs.com/techniques/configuration",
-              "https://docs.nestjs.com/security/authentication"
+              "https://docs.nestjs.com/security/authentication",
             ],
           },
           {
             topic: "Pipes",
-            tags: ["Validation", "Transformation", "DTOs", "Data Processing", "Request Lifecycle"],
+            tags: [
+              "Validation",
+              "Transformation",
+              "DTOs",
+              "Data Processing",
+              "Request Lifecycle",
+            ],
             explanation: `<div>
    <h2 style="color: #2d3748; border-bottom: 2px solid #4299e1; padding-bottom: 0.5rem;">Pipes in NestJS: Complete Guide</h2>
    
@@ -113514,11 +129853,12 @@ export class CreateCompanyDto {
   @ValidateNested({ each: true })
   @Type(() => AddressDto)
   branches: AddressDto[];
-}`
+}`,
             ],
             questions: [
               {
-                question: "What happens when a pipe throws an exception in the request lifecycle?",
+                question:
+                  "What happens when a pipe throws an exception in the request lifecycle?",
                 solution: `<p><strong>Complete Exception Flow:</strong></p>
 <p>When a pipe throws an exception, the request flow immediately stops and proceeds to exception handling:</p>
 
@@ -113567,10 +129907,11 @@ async getUser(@Param('id', UserExistsPipe) id: string) {
 <li><strong>Resource Saving:</strong> No database queries or external API calls</li>
 <li><strong>Security:</strong> Prevents unauthorized data processing</li>
 <li><strong>Clean Error Handling:</strong> Consistent error responses</li>
-</ul>`
+</ul>`,
               },
               {
-                question: "How do you handle different validation rules for create vs update operations?",
+                question:
+                  "How do you handle different validation rules for create vs update operations?",
                 solution: `<p><strong>Multiple Approaches for Create vs Update Validation:</strong></p>
 
 <p><strong>1. Using Separate DTOs (Recommended)</strong></p>
@@ -113642,10 +129983,11 @@ app.useGlobalPipes(
 );
 </code></pre>
 
-<p><strong>Best Practice:</strong> Use separate DTOs with PartialType() as it's cleanest and most maintainable.</p>`
+<p><strong>Best Practice:</strong> Use separate DTOs with PartialType() as it's cleanest and most maintainable.</p>`,
               },
               {
-                question: "Explain the difference between transformation and validation in pipes with examples.",
+                question:
+                  "Explain the difference between transformation and validation in pipes with examples.",
                 solution: `<p><strong>Transformation vs Validation - Key Differences:</strong></p>
 
 <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
@@ -113723,10 +130065,11 @@ name: string;
 // "J0hn" ✗ (no numbers)
 </code></pre>
 
-<p><strong>Important:</strong> ValidationPipe does BOTH transformation and validation when transform: true is enabled.</p>`
+<p><strong>Important:</strong> ValidationPipe does BOTH transformation and validation when transform: true is enabled.</p>`,
               },
               {
-                question: "How can you create a custom validator that checks if a value exists in the database?",
+                question:
+                  "How can you create a custom validator that checks if a value exists in the database?",
                 solution: `<p><strong>Creating Async Database Validator:</strong></p>
 
 <p><strong>1. Create Custom Validator Constraint</strong></p>
@@ -113842,8 +130185,8 @@ async getUser(@Param('id', UserExistsPipe) userId: string) {
 <li>Consider caching frequently checked values</li>
 <li>Use database connection pooling</li>
 <li>Implement rate limiting for expensive validations</li>
-</ul>`
-              }
+</ul>`,
+              },
             ],
             links: [
               "https://docs.nestjs.com/pipes",
@@ -113855,7 +130198,13 @@ async getUser(@Param('id', UserExistsPipe) userId: string) {
           },
           {
             topic: "Interceptors",
-            tags: ["Request Lifecycle", "Response Transformation", "Middleware", "AOP", "Cross-cutting Concerns"],
+            tags: [
+              "Request Lifecycle",
+              "Response Transformation",
+              "Middleware",
+              "AOP",
+              "Cross-cutting Concerns",
+            ],
             explanation: `<div>
    <h2 style="color: #2d3748; border-bottom: 2px solid #4299e1; padding-bottom: 0.5rem;">Interceptors in NestJS: Complete Guide</h2>
    
@@ -115128,11 +131477,12 @@ export class TimingInterceptor implements NestInterceptor {
       })
     );
   }
-}`
+}`,
             ],
             questions: [
               {
-                question: "What is the execution order when multiple interceptors are applied?",
+                question:
+                  "What is the execution order when multiple interceptors are applied?",
                 solution: `<p><strong>Interceptor Execution Order:</strong></p>
 <p>When multiple interceptors are applied, they execute in a specific nested order (like Russian nesting dolls):</p>
 
@@ -115243,10 +131593,11 @@ export class UsersController {
   }
 }
 
-// GlobalInterceptor runs first (configured in main.ts or AppModule)</code></pre>`
+// GlobalInterceptor runs first (configured in main.ts or AppModule)</code></pre>`,
               },
               {
-                question: "How can interceptors be used for implementing AOP (Aspect-Oriented Programming) in NestJS?",
+                question:
+                  "How can interceptors be used for implementing AOP (Aspect-Oriented Programming) in NestJS?",
                 solution: `<p><strong>Interceptors as AOP Implementation:</strong></p>
 <p>Interceptors are NestJS's primary mechanism for implementing Aspect-Oriented Programming (AOP). AOP allows separating cross-cutting concerns from business logic.</p>
 
@@ -115467,10 +131818,11 @@ export class PaymentsController {
     // Clean business logic call
     return this.paymentService.processPayment(paymentDto);
   }
-}</code></pre>`
+}</code></pre>`,
               },
               {
-                question: "What are the performance considerations when using interceptors?",
+                question:
+                  "What are the performance considerations when using interceptors?",
                 solution: `<p><strong>Performance Considerations for Interceptors:</strong></p>
 <p>While interceptors are powerful, they can impact performance if not implemented carefully. Here are key considerations:</p>
 
@@ -115769,8 +132121,8 @@ export class NonBlockingLoggingInterceptor implements NestInterceptor {
 <li><strong>Batch operations</strong> - Group I/O operations together</li>
 <li><strong>Use appropriate logging levels</strong> - Disable debug logs in production</li>
 <li><strong>Monitor memory usage</strong> - Watch for memory leaks in interceptors</li>
-</ol>`
-              }
+</ol>`,
+              },
             ],
             links: [
               "https://docs.nestjs.com/interceptors",
