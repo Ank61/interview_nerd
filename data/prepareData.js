@@ -25479,7 +25479,7 @@ export default App;`,
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
      useMemo Syntax and Usage
-   </h4>
+   </h4>s
    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
      <li style="margin-top: 0.5rem;">
       <span style="font-weight: 600; font-size: 1.1rem;">Basic Usage:</span> Memoize expensive calculations.
@@ -28150,68 +28150,12635 @@ const DraggableItem = React.memo(({
             ],
           },
           {
-            topic: "UseReducer Hook",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            topic: "useReducer Hook",
+            tags: [
+              "useReducer",
+              "Hooks",
+              "State Management",
+              "Reducer",
+              "Complex State",
+              "Actions",
+              "Dispatch",
+              "State Logic",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+useReducer is a React Hook for managing complex state logic through a reducer function, similar to Redux but built into React. It provides an alternative to useState when you have complex state logic involving multiple sub-values, when the next state depends on the previous one, or when you want to optimize performance by passing dispatch down instead of callbacks. The reducer pattern centralizes state update logic, makes state transitions predictable and testable, and scales better for applications with intricate state management needs. Understanding useReducer is essential for managing complex component state and building maintainable React applications.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Syntax and Concept
+</h4>
+
+<p style="line-height: 1.75;">
+useReducer accepts a reducer function and initial state, returning the current state and a dispatch function.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useReducer } from 'react';
+
+// Basic syntax
+const [state, dispatch] = useReducer(reducer, initialState);
+
+// Reducer function: (state, action) => newState
+function reducer(state, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + 1 };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
+
+// Simple counter example
+function Counter() {
+  const initialState = { count: 0 };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {state.count}&lt;/p&gt;
+      &lt;button onClick={() => dispatch({ type: 'INCREMENT' })}&gt;+&lt;/button&gt;
+      &lt;button onClick={() => dispatch({ type: 'DECREMENT' })}&gt;-&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Key concepts:
+// - State: current state object
+// - Dispatch: function to trigger state updates
+// - Action: object describing what happened (usually has 'type' property)
+// - Reducer: pure function that calculates new state from current state and action
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. useReducer vs useState
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useState: Simple state
+function SimpleCounter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;{count}&lt;/p&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;+&lt;/button&gt;
+      &lt;button onClick={() => setCount(count - 1)}&gt;-&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// useReducer: Complex state with multiple actions
+function ComplexCounter() {
+  const [state, dispatch] = useReducer(reducer, { 
+    count: 0, 
+    step: 1,
+    history: []
+  });
+  
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'INCREMENT':
+        return {
+          ...state,
+          count: state.count + state.step,
+          history: [...state.history, 'increment']
+        };
+      case 'DECREMENT':
+        return {
+          ...state,
+          count: state.count - state.step,
+          history: [...state.history, 'decrement']
+        };
+      case 'SET_STEP':
+        return { ...state, step: action.payload };
+      case 'RESET':
+        return { count: 0, step: 1, history: [] };
+      default:
+        return state;
+    }
+  }
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {state.count}&lt;/p&gt;
+      &lt;p&gt;Step: {state.step}&lt;/p&gt;
+      &lt;button onClick={() => dispatch({ type: 'INCREMENT' })}&gt;+&lt;/button&gt;
+      &lt;button onClick={() => dispatch({ type: 'DECREMENT' })}&gt;-&lt;/button&gt;
+      &lt;button onClick={() => dispatch({ type: 'RESET' })}&gt;Reset&lt;/button&gt;
+      &lt;input 
+        type="number" 
+        value={state.step}
+        onChange={(e) => dispatch({ type: 'SET_STEP', payload: Number(e.target.value) })}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// When to use useState:
+// - Simple state (single value)
+// - Independent state updates
+// - No complex logic
+// - State doesn't depend on previous state
+
+// When to use useReducer:
+// - Complex state object with multiple sub-values
+// - State updates depend on previous state
+// - Multiple ways to update state
+// - Want to centralize state logic
+// - Need to pass dispatch down (more stable than callbacks)
+// - State transitions are complex
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Reducer Function Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern 1: Switch statement (most common)
+function reducer(state, action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        ...state,
+        todos: [...state.todos, action.payload]
+      };
+    case 'REMOVE_TODO':
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.payload)
+      };
+    case 'TOGGLE_TODO':
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.payload
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        )
+      };
+    default:
+      return state;
+  }
+}
+
+// Pattern 2: Action handlers object
+const actionHandlers = {
+  ADD_TODO: (state, action) => ({
+    ...state,
+    todos: [...state.todos, action.payload]
+  }),
+  REMOVE_TODO: (state, action) => ({
+    ...state,
+    todos: state.todos.filter(todo => todo.id !== action.payload)
+  }),
+  TOGGLE_TODO: (state, action) => ({
+    ...state,
+    todos: state.todos.map(todo =>
+      todo.id === action.payload
+        ? { ...todo, completed: !todo.completed }
+        : todo
+    )
+  })
+};
+
+function reducer(state, action) {
+  const handler = actionHandlers[action.type];
+  return handler ? handler(state, action) : state;
+}
+
+// Pattern 3: If-else (less common)
+function reducer(state, action) {
+  if (action.type === 'INCREMENT') {
+    return { count: state.count + 1 };
+  } else if (action.type === 'DECREMENT') {
+    return { count: state.count - 1 };
+  } else {
+    return state;
+  }
+}
+
+// Pattern 4: Early returns
+function reducer(state, action) {
+  if (action.type === 'RESET') {
+    return initialState;
+  }
+  
+  if (action.type === 'INCREMENT') {
+    return { ...state, count: state.count + 1 };
+  }
+  
+  // Default
+  return state;
+}
+
+// Best practices for reducers:
+// - Must be pure functions (no side effects)
+// - Must return new state object (don't mutate)
+// - Should handle default case
+// - Use descriptive action types (constants)
+// - Include payload for data when needed
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Action Types and Action Creators
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Action type constants (prevents typos)
+const ACTION_TYPES = {
+  ADD_TODO: 'ADD_TODO',
+  REMOVE_TODO: 'REMOVE_TODO',
+  TOGGLE_TODO: 'TOGGLE_TODO',
+  SET_FILTER: 'SET_FILTER'
+};
+
+// Reducer using constants
+function reducer(state, action) {
+  switch (action.type) {
+    case ACTION_TYPES.ADD_TODO:
+      return {
+        ...state,
+        todos: [...state.todos, action.payload]
+      };
+    case ACTION_TYPES.REMOVE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.payload)
+      };
+    case ACTION_TYPES.TOGGLE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.payload
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        )
+      };
+    case ACTION_TYPES.SET_FILTER:
+      return { ...state, filter: action.payload };
+    default:
+      return state;
+  }
+}
+
+// Action creators (functions that return actions)
+const actions = {
+  addTodo: (text) => ({
+    type: ACTION_TYPES.ADD_TODO,
+    payload: {
+      id: Date.now(),
+      text,
+      completed: false
+    }
+  }),
+  
+  removeTodo: (id) => ({
+    type: ACTION_TYPES.REMOVE_TODO,
+    payload: id
+  }),
+  
+  toggleTodo: (id) => ({
+    type: ACTION_TYPES.TOGGLE_TODO,
+    payload: id
+  }),
+  
+  setFilter: (filter) => ({
+    type: ACTION_TYPES.SET_FILTER,
+    payload: filter
+  })
+};
+
+// Usage in component
+function TodoApp() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [inputValue, setInputValue] = useState('');
+  
+  const handleAddTodo = () => {
+    if (inputValue.trim()) {
+      dispatch(actions.addTodo(inputValue));
+      setInputValue('');
+    }
+  };
+  
+  return (
+    &lt;div&gt;
+      &lt;input 
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      /&gt;
+      &lt;button onClick={handleAddTodo}&gt;Add&lt;/button&gt;
+      
+      {state.todos.map(todo => (
+        &lt;div key={todo.id}&gt;
+          &lt;input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => dispatch(actions.toggleTodo(todo.id))}
+          /&gt;
+          &lt;span&gt;{todo.text}&lt;/span&gt;
+          &lt;button onClick={() => dispatch(actions.removeTodo(todo.id))}&gt;
+            Delete
+          &lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Initializing State
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Method 1: Direct initial state
+const initialState = { count: 0 };
+const [state, dispatch] = useReducer(reducer, initialState);
+
+// Method 2: Lazy initialization (third argument)
+function init(initialCount) {
+  return { count: initialCount };
+}
+
+const [state, dispatch] = useReducer(reducer, 10, init);
+// init(10) is called once to create initial state
+
+// Method 3: Reading from props
+function Counter({ initialCount }) {
+  const [state, dispatch] = useReducer(
+    reducer,
+    { count: initialCount }
+  );
+  
+  return &lt;div&gt;{state.count}&lt;/div&gt;;
+}
+
+// Method 4: Lazy initialization with complex logic
+function init(userId) {
+  // Read from localStorage
+  const saved = localStorage.getItem(\`user-\${userId}\`);
+  
+  return saved ? JSON.parse(saved) : {
+    id: userId,
+    name: '',
+    preferences: {}
+  };
+}
+
+function UserProfile({ userId }) {
+  const [state, dispatch] = useReducer(reducer, userId, init);
+  
+  // Save to localStorage on changes
+  useEffect(() => {
+    localStorage.setItem(\`user-\${userId}\`, JSON.stringify(state));
+  }, [state, userId]);
+  
+  return &lt;div&gt;{state.name}&lt;/div&gt;;
+}
+
+// When to use lazy initialization:
+// - Initial state is expensive to compute
+// - Initial state depends on props
+// - Need to read from external source (localStorage, URL params)
+// - Want to reset state to initial value later
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Complex State Management Examples
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Form State Management
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+const initialState = {
+  values: {
+    name: '',
+    email: '',
+    password: ''
+  },
+  errors: {},
+  touched: {},
+  isSubmitting: false
+};
+
+function formReducer(state, action) {
+  switch (action.type) {
+    case 'SET_FIELD':
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          [action.field]: action.value
+        }
+      };
+      
+    case 'SET_TOUCHED':
+      return {
+        ...state,
+        touched: {
+          ...state.touched,
+          [action.field]: true
+        }
+      };
+      
+    case 'SET_ERRORS':
+      return {
+        ...state,
+        errors: action.errors
+      };
+      
+    case 'SET_SUBMITTING':
+      return {
+        ...state,
+        isSubmitting: action.value
+      };
+      
+    case 'RESET_FORM':
+      return initialState;
+      
+    default:
+      return state;
+  }
+}
+
+function RegistrationForm() {
+  const [state, dispatch] = useReducer(formReducer, initialState);
+  
+  const handleChange = (field) => (e) => {
+    dispatch({ type: 'SET_FIELD', field, value: e.target.value });
+  };
+  
+  const handleBlur = (field) => () => {
+    dispatch({ type: 'SET_TOUCHED', field });
+    validateField(field, state.values[field]);
+  };
+  
+  const validateField = (field, value) => {
+    const errors = {};
+    
+    if (field === 'email' && !value.includes('@')) {
+      errors.email = 'Invalid email';
+    }
+    
+    if (field === 'password' && value.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+    }
+    
+    dispatch({ type: 'SET_ERRORS', errors });
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch({ type: 'SET_SUBMITTING', value: true });
+    
+    try {
+      await submitForm(state.values);
+      dispatch({ type: 'RESET_FORM' });
+    } catch (error) {
+      dispatch({ type: 'SET_ERRORS', errors: { submit: error.message } });
+    } finally {
+      dispatch({ type: 'SET_SUBMITTING', value: false });
+    }
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        name="email"
+        value={state.values.email}
+        onChange={handleChange('email')}
+        onBlur={handleBlur('email')}
+      /&gt;
+      {state.touched.email && state.errors.email && (
+        &lt;span&gt;{state.errors.email}&lt;/span&gt;
+      )}
+      
+      &lt;button type="submit" disabled={state.isSubmitting}&gt;
+        {state.isSubmitting ? 'Submitting...' : 'Submit'}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Shopping Cart
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+const initialState = {
+  items: [],
+  total: 0
+};
+
+function cartReducer(state, action) {
+  switch (action.type) {
+    case 'ADD_ITEM': {
+      const existingItem = state.items.find(item => item.id === action.payload.id);
+      
+      if (existingItem) {
+        return {
+          ...state,
+          items: state.items.map(item =>
+            item.id === action.payload.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        };
+      }
+      
+      return {
+        ...state,
+        items: [...state.items, { ...action.payload, quantity: 1 }]
+      };
+    }
+    
+    case 'REMOVE_ITEM':
+      return {
+        ...state,
+        items: state.items.filter(item => item.id !== action.payload)
+      };
+      
+    case 'UPDATE_QUANTITY':
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        )
+      };
+      
+    case 'CLEAR_CART':
+      return initialState;
+      
+    default:
+      return state;
+  }
+}
+
+function ShoppingCart() {
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+  
+  // Compute total
+  const total = state.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Cart ({state.items.length} items)&lt;/h2&gt;
+      
+      {state.items.map(item => (
+        &lt;div key={item.id}&gt;
+          &lt;span&gt;{item.name}&lt;/span&gt;
+          &lt;input
+            type="number"
+            min="1"
+            value={item.quantity}
+            onChange={(e) => dispatch({
+              type: 'UPDATE_QUANTITY',
+              payload: { id: item.id, quantity: parseInt(e.target.value) }
+            })}
+          /&gt;
+          &lt;button onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}&gt;
+            Remove
+          &lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      
+      &lt;p&gt;Total: $ {total.toFixed(2)}&lt;/p&gt;
+      &lt;button onClick={() => dispatch({ type: 'CLEAR_CART' })}&gt;Clear Cart&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. useReducer with Context API
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Combining useReducer with Context for global state management
+import { createContext, useContext, useReducer } from 'react';
+
+// Create contexts
+const TodoStateContext = createContext(null);
+const TodoDispatchContext = createContext(null);
+
+// Reducer
+function todoReducer(state, action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [...state, action.payload];
+    case 'TOGGLE_TODO':
+      return state.map(todo =>
+        todo.id === action.payload
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      );
+    case 'REMOVE_TODO':
+      return state.filter(todo => todo.id !== action.payload);
+    default:
+      return state;
+  }
+}
+
+// Provider component
+function TodoProvider({ children }) {
+  const [todos, dispatch] = useReducer(todoReducer, []);
+  
+  return (
+    &lt;TodoStateContext.Provider value={todos}&gt;
+      &lt;TodoDispatchContext.Provider value={dispatch}&gt;
+        {children}
+      &lt;/TodoDispatchContext.Provider&gt;
+    &lt;/TodoStateContext.Provider&gt;
+  );
+}
+
+// Custom hooks
+function useTodos() {
+  const context = useContext(TodoStateContext);
+  if (context === null) {
+    throw new Error('useTodos must be used within TodoProvider');
+  }
+  return context;
+}
+
+function useTodoDispatch() {
+  const context = useContext(TodoDispatchContext);
+  if (context === null) {
+    throw new Error('useTodoDispatch must be used within TodoProvider');
+  }
+  return context;
+}
+
+// Usage in components
+function TodoList() {
+  const todos = useTodos(); // Only re-renders when todos change
+  
+  return (
+    &lt;ul&gt;
+      {todos.map(todo => (
+        &lt;TodoItem key={todo.id} todo={todo} /&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+function TodoItem({ todo }) {
+  const dispatch = useTodoDispatch(); // Doesn't re-render when todos change!
+  
+  return (
+    &lt;li&gt;
+      &lt;input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={() => dispatch({ type: 'TOGGLE_TODO', payload: todo.id })}
+      /&gt;
+      {todo.text}
+      &lt;button onClick={() => dispatch({ type: 'REMOVE_TODO', payload: todo.id })}&gt;
+        Delete
+      &lt;/button&gt;
+    &lt;/li&gt;
+  );
+}
+
+function AddTodoForm() {
+  const dispatch = useTodoDispatch();
+  const [text, setText] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({
+      type: 'ADD_TODO',
+      payload: { id: Date.now(), text, completed: false }
+    });
+    setText('');
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input value={text} onChange={(e) => setText(e.target.value)} /&gt;
+      &lt;button type="submit"&gt;Add&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// App with provider
+function App() {
+  return (
+    &lt;TodoProvider&gt;
+      &lt;AddTodoForm /&gt;
+      &lt;TodoList /&gt;
+    &lt;/TodoProvider&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Performance Optimization
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Benefit 1: dispatch is stable (doesn't change between renders)
+// This makes it safe to pass down without causing re-renders
+
+function Parent() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  
+  // dispatch is stable - child won't re-render unnecessarily
+  return &lt;Child dispatch={dispatch} /&gt;;
+}
+
+const Child = React.memo(({ dispatch }) => {
+  // Won't re-render when parent's state changes
+  return &lt;button onClick={() => dispatch({ type: 'ACTION' })}&gt;Click&lt;/button&gt;;
+});
+
+// Compare with useState callbacks (need useCallback)
+function ParentWithState() {
+  const [count, setCount] = useState(0);
+  
+  // Need useCallback to prevent Child re-renders
+  const increment = useCallback(() => setCount(c => c + 1), []);
+  
+  return &lt;Child onIncrement={increment} /&gt;;
+}
+
+// Benefit 2: Batch related state updates
+// Bad: Multiple useState calls
+function BadComponent() {
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await api.getData();
+      setData(result);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+}
+
+// Good: Single useReducer
+function GoodComponent() {
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'FETCH_START':
+          return { ...state, loading: true, error: null };
+        case 'FETCH_SUCCESS':
+          return { loading: false, data: action.payload, error: null };
+        case 'FETCH_ERROR':
+          return { loading: false, data: null, error: action.payload };
+        default:
+          return state;
+      }
+    },
+    { loading: false, data: null, error: null }
+  );
+  
+  const fetchData = async () => {
+    dispatch({ type: 'FETCH_START' });
+    try {
+      const result = await api.getData();
+      dispatch({ type: 'FETCH_SUCCESS', payload: result });
+    } catch (err) {
+      dispatch({ type: 'FETCH_ERROR', payload: err });
+    }
+  };
+}
+
+// Benefit 3: Avoid unnecessary computations in render
+// Computation happens in reducer, not in render
+function OptimizedComponent() {
+  const [state, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case 'ADD_ITEM':
+        const newItems = [...state.items, action.payload];
+        return {
+          items: newItems,
+          total: newItems.reduce((sum, item) => sum + item.price, 0) // Computed here
+        };
+      default:
+        return state;
+    }
+  }, { items: [], total: 0 });
+  
+  // No computation in render - just use state.total
+  return &lt;div&gt;Total: {state.total}&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Advanced Patterns
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Middleware Pattern
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Logging middleware
+function loggingMiddleware(reducer) {
+  return (state, action) => {
+    console.log('Previous State:', state);
+    console.log('Action:', action);
+    const newState = reducer(state, action);
+    console.log('Next State:', newState);
+    return newState;
+  };
+}
+
+// Usage
+const [state, dispatch] = useReducer(
+  loggingMiddleware(reducer),
+  initialState
+);
+
+// Multiple middleware
+function applyMiddleware(...middlewares) {
+  return (reducer) => {
+    return middlewares.reduceRight(
+      (acc, middleware) => middleware(acc),
+      reducer
+    );
+  };
+}
+
+const enhancedReducer = applyMiddleware(
+  loggingMiddleware,
+  analyticsMiddleware,
+  errorHandlingMiddleware
+)(reducer);
+
+const [state, dispatch] = useReducer(enhancedReducer, initialState);
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Immer for Immutable Updates
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useImmerReducer } from 'use-immer';
+
+// Without Immer (manual immutability)
+function reducer(state, action) {
+  switch (action.type) {
+    case 'UPDATE_NESTED':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          profile: {
+            ...state.user.profile,
+            name: action.payload
+          }
+        }
+      };
+    default:
+      return state;
+  }
+}
+
+// With Immer (mutate draft directly)
+function immerReducer(draft, action) {
+  switch (action.type) {
+    case 'UPDATE_NESTED':
+      draft.user.profile.name = action.payload;
+      break;
+    // No return needed, Immer handles immutability
+  }
+}
+
+const [state, dispatch] = useImmerReducer(immerReducer, initialState);
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Async Actions Pattern
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Pattern 1: Dispatch from event handler
+function Component() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  
+  const fetchData = async () => {
+    dispatch({ type: 'FETCH_START' });
+    
+    try {
+      const data = await api.fetchData();
+      dispatch({ type: 'FETCH_SUCCESS', payload: data });
+    } catch (error) {
+      dispatch({ type: 'FETCH_ERROR', payload: error });
+    }
+  };
+  
+  return &lt;button onClick={fetchData}&gt;Fetch&lt;/button&gt;;
+}
+
+// Pattern 2: Custom hook for async actions
+function useAsync(asyncFunction) {
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      switch (action.type) {
+        case 'LOADING':
+          return { loading: true, data: null, error: null };
+        case 'SUCCESS':
+          return { loading: false, data: action.payload, error: null };
+        case 'ERROR':
+          return { loading: false, data: null, error: action.payload };
+        default:
+          return state;
+      }
+    },
+    { loading: false, data: null, error: null }
+  );
+  
+  const execute = useCallback(async (...args) => {
+    dispatch({ type: 'LOADING' });
+    try {
+      const data = await asyncFunction(...args);
+      dispatch({ type: 'SUCCESS', payload: data });
+      return data;
+    } catch (error) {
+      dispatch({ type: 'ERROR', payload: error });
+      throw error;
+    }
+  }, [asyncFunction]);
+  
+  return { ...state, execute };
+}
+
+// Usage
+function Component() {
+  const { loading, data, error, execute } = useAsync(fetchUserData);
+  
+  useEffect(() => {
+    execute(userId);
+  }, [userId, execute]);
+  
+  if (loading) return &lt;Spinner /&gt;;
+  if (error) return &lt;Error message={error.message} /&gt;;
+  return &lt;UserProfile data={data} /&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. TypeScript Integration
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-typescript">
+import { useReducer } from 'react';
+
+// Define state type
+interface State {
+  count: number;
+  step: number;
+}
+
+// Define action types
+type Action =
+  | { type: 'INCREMENT' }
+  | { type: 'DECREMENT' }
+  | { type: 'SET_STEP'; payload: number }
+  | { type: 'RESET' };
+
+// Typed reducer
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { ...state, count: state.count + state.step };
+    case 'DECREMENT':
+      return { ...state, count: state.count - state.step };
+    case 'SET_STEP':
+      return { ...state, step: action.payload };
+    case 'RESET':
+      return { count: 0, step: 1 };
+  }
+}
+
+// Component
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, { count: 0, step: 1 });
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() => dispatch({ type: 'INCREMENT' })}&gt;+&lt;/button&gt;
+      {/* TypeScript error: Property 'payload' is missing */}
+      {/* &lt;button onClick={() => dispatch({ type: 'SET_STEP' })}&gt;Set&lt;/button&gt; */}
+      &lt;button onClick={() => dispatch({ type: 'SET_STEP', payload: 5 })}&gt;Set Step&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// More complex example with discriminated unions
+interface User {
+  id: string;
+  name: string;
+}
+
+interface State {
+  loading: boolean;
+  user: User | null;
+  error: string | null;
+}
+
+type Action =
+  | { type: 'FETCH_START' }
+  | { type: 'FETCH_SUCCESS'; payload: User }
+  | { type: 'FETCH_ERROR'; payload: string };
+
+const initialState: State = {
+  loading: false,
+  user: null,
+  error: null
+};
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'FETCH_START':
+      return { ...state, loading: true, error: null };
+    case 'FETCH_SUCCESS':
+      return { loading: false, user: action.payload, error: null };
+    case 'FETCH_ERROR':
+      return { loading: false, user: null, error: action.payload };
+  }
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Testing Reducers
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Reducers are pure functions - easy to test!
+
+describe('todoReducer', () => {
+  const initialState = [];
+  
+  test('adds a todo', () => {
+    const action = {
+      type: 'ADD_TODO',
+      payload: { id: 1, text: 'Test', completed: false }
+    };
+    
+    const newState = todoReducer(initialState, action);
+    
+    expect(newState).toEqual([
+      { id: 1, text: 'Test', completed: false }
+    ]);
+  });
+  
+  test('toggles a todo', () => {
+    const state = [
+      { id: 1, text: 'Test', completed: false }
+    ];
+    
+    const action = { type: 'TOGGLE_TODO', payload: 1 };
+    const newState = todoReducer(state, action);
+    
+    expect(newState[0].completed).toBe(true);
+  });
+  
+  test('removes a todo', () => {
+    const state = [
+      { id: 1, text: 'Test 1', completed: false },
+      { id: 2, text: 'Test 2', completed: false }
+    ];
+    
+    const action = { type: 'REMOVE_TODO', payload: 1 };
+    const newState = todoReducer(state, action);
+    
+    expect(newState).toHaveLength(1);
+    expect(newState[0].id).toBe(2);
+  });
+  
+  test('returns state for unknown action', () => {
+    const state = [{ id: 1, text: 'Test', completed: false }];
+    const action = { type: 'UNKNOWN_ACTION' };
+    const newState = todoReducer(state, action);
+    
+    expect(newState).toBe(state); // Same reference
+  });
+});
+
+// Testing component with useReducer
+import { render, screen, fireEvent } from '@testing-library/react';
+
+test('counter increments', () => {
+  render(&lt;Counter /&gt;);
+  
+  const button = screen.getByText('+');
+  fireEvent.click(button);
+  
+  expect(screen.getByText(/count: 1/i)).toBeInTheDocument();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Common Patterns and Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Use action type constants to prevent typos</li>
+  <li><b>DO:</b> Create action creator functions for complex actions</li>
+  <li><b>DO:</b> Keep reducers pure (no side effects, no mutations)</li>
+  <li><b>DO:</b> Handle default case in switch statements</li>
+  <li><b>DO:</b> Use useReducer for complex state logic</li>
+  <li><b>DO:</b> Combine with Context for global state management</li>
+  <li><b>DO:</b> Separate state and dispatch contexts for performance</li>
+  <li><b>DON'T:</b> Mutate state directly - always return new objects</li>
+  <li><b>DON'T:</b> Put side effects in reducer (use useEffect instead)</li>
+  <li><b>DON'T:</b> Use useReducer for simple state (useState is better)</li>
+  <li><b>DON'T:</b> Forget to handle all action types</li>
+  <li><b>DON'T:</b> Make actions too granular (balance is key)</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Counter with Complex State",
+              "Todo List with Add/Remove/Toggle",
+              "Form State Management",
+              "Shopping Cart with Quantities",
+              "Data Fetching with Loading/Error States",
+              "Global State with Context API",
+            ],
+            questions: [
+              {
+                question:
+                  "What is useReducer and when should you use it instead of useState?",
+                answer:
+                  "useReducer is a React Hook for managing state through a reducer function, similar to Redux. Use it when: you have complex state with multiple sub-values, the next state depends on the previous state, you have multiple ways to update state, you want to centralize state logic for better testing, or you need to pass dispatch down instead of callbacks (dispatch is stable). Use useState for simple, independent state values. useReducer scales better as state complexity grows.",
+              },
+              {
+                question:
+                  "What are the three arguments that useReducer accepts?",
+                answer:
+                  "useReducer accepts three arguments: 1) reducer function (required) - a pure function that takes current state and action, returns new state, 2) initial state (required) - the starting state value, and 3) init function (optional) - a lazy initializer function that receives the second argument and returns initial state. The init function is useful for expensive computations, reading from external sources like localStorage, or when you need to reset to initial state later.",
+              },
+              {
+                question:
+                  "What is a reducer function and what are its requirements?",
+                answer:
+                  "A reducer is a pure function with signature (state, action) => newState. Requirements: must be pure (no side effects, no API calls, no random numbers), must not mutate state (return new objects/arrays), should handle all action types with a default case, should be predictable (same inputs always produce same output). The reducer calculates the next state based on current state and the action describing what happened. It centralizes state update logic in one place.",
+              },
+              {
+                question:
+                  "What is an action object and what properties should it have?",
+                answer:
+                  "An action is a plain JavaScript object describing what happened. It must have a 'type' property (string) identifying the action. It commonly has a 'payload' property containing any data needed for the update. Example: { type: 'ADD_TODO', payload: { id: 1, text: 'Learn React' } }. Use constants for action types to prevent typos. Create action creator functions to build actions consistently. Keep actions descriptive and focused on what happened, not how to update state.",
+              },
+              {
+                question: "How do you handle async operations with useReducer?",
+                answer:
+                  "Reducers must be pure, so async operations happen outside the reducer. Dispatch actions before/after async operations: dispatch 'LOADING' before fetch, dispatch 'SUCCESS' or 'ERROR' after. Create async functions in components that dispatch actions at different stages. You can create custom hooks that wrap useReducer with async logic. Example: dispatch({ type: 'FETCH_START' }), then after await, dispatch({ type: 'FETCH_SUCCESS', payload: data }). Never put async code inside the reducer itself.",
+              },
+              {
+                question:
+                  "How do you combine useReducer with Context API for global state?",
+                answer:
+                  "Create separate contexts for state and dispatch, create a Provider component that uses useReducer and provides both contexts, create custom hooks for consuming each context. This pattern provides global state management similar to Redux. Separating state and dispatch contexts prevents unnecessary re-renders—components that only dispatch don't re-render when state changes. Pass dispatch down instead of callbacks since dispatch is stable and won't cause child re-renders.",
+              },
+              {
+                question:
+                  "What are the performance benefits of useReducer over useState?",
+                answer:
+                  "useReducer provides: 1) stable dispatch function that never changes (safe to pass down without causing re-renders), 2) centralized state updates (one reducer call vs multiple setState calls), 3) easier optimization with React.memo (pass dispatch instead of callbacks), 4) better for complex state where multiple setState calls would cause multiple re-renders, 5) ability to batch related state updates in single action. For simple state, useState is actually simpler and performs equally well.",
+              },
+              {
+                question:
+                  "How do you implement lazy initialization with useReducer?",
+                answer:
+                  "Pass a third argument (init function) to useReducer. The init function receives the second argument and returns the initial state. Use lazy initialization when: initial state is expensive to compute, you need to read from localStorage/URL/props, or you want to reset to initial state later. Example: const [state, dispatch] = useReducer(reducer, userId, init) where init = (userId) => ({ id: userId, ...loadFromStorage(userId) }). The init function runs only once on mount.",
+              },
+              {
+                question:
+                  "What are action creators and why should you use them?",
+                answer:
+                  "Action creators are functions that return action objects. They provide: consistent action structure, single source of truth for action format, easier refactoring, better TypeScript support, place for default values and validation, and more readable dispatch calls. Example: const addTodo = (text) => ({ type: 'ADD_TODO', payload: { id: Date.now(), text, completed: false } }). Use them instead of inline objects: dispatch(addTodo('Learn React')) vs dispatch({ type: 'ADD_TODO', payload: {...} }).",
+              },
+              {
+                question: "How do you handle form state with useReducer?",
+                answer:
+                  "Create a reducer that handles field changes, validation, errors, touched state, and submission state. Use actions like SET_FIELD, SET_TOUCHED, SET_ERRORS, SET_SUBMITTING, RESET_FORM. Store values, errors, touched, and isSubmitting in state. Create handler functions that dispatch appropriate actions. This centralizes all form logic in the reducer, making it easier to test and maintain. Example: dispatch({ type: 'SET_FIELD', field: 'email', value: e.target.value }).",
+              },
+              {
+                question:
+                  "What is the difference between useReducer and Redux?",
+                answer:
+                  "useReducer is built into React, local to component tree, simpler API, no middleware (by default), no devtools, and manual setup for global state with Context. Redux is external library, globally available, more complex setup, has middleware support, Redux DevTools for debugging, and better ecosystem with tools/patterns. Use useReducer for component-level complex state or with Context for simple global state. Use Redux for complex global state with middleware, advanced debugging, or large teams needing strict patterns.",
+              },
+              {
+                question: "How do you test reducers?",
+                answer:
+                  "Reducers are pure functions, making them easy to test. Test by: calling reducer with state and action, asserting the returned new state matches expected. Test each action type, test default case, test that original state isn't mutated, test edge cases. Don't need to render components—test reducer in isolation. Example: expect(reducer(state, action)).toEqual(expectedState). Pure functions mean predictable, reliable tests without mocks or setup.",
+              },
+              {
+                question: "What are some common anti-patterns with useReducer?",
+                answer:
+                  "Anti-patterns include: mutating state in reducer (breaks immutability), putting side effects in reducer (should be in useEffect), using for simple state (useState is cleaner), forgetting default case (causes bugs), making actions too granular (adds complexity), not using action constants (typos), deeply nested state updates (use Immer), mixing async logic in reducer, not separating concerns (one reducer doing too much), and using without TypeScript types when you should have them.",
+              },
+              {
+                question:
+                  "How do you handle deeply nested state updates with useReducer?",
+                answer:
+                  "Manually spreading nested objects is error-prone: {...state, user: {...state.user, profile: {...state.user.profile, name: value}}}. Solutions: 1) Use Immer library (use-immer) to write mutable-looking code that's actually immutable, 2) Flatten state structure to avoid deep nesting, 3) Normalize state (like Redux patterns), 4) Create helper functions for common update patterns. Immer is most popular: just mutate draft directly and Immer handles immutability.",
+              },
+              {
+                question: "When should you NOT use useReducer?",
+                answer:
+                  "Don't use useReducer when: state is a single primitive value (use useState), state updates are simple and independent, you're just setting values without complex logic, the component is small and state is local, or you're learning React (start with useState). useReducer adds boilerplate and complexity. Use it when you actually have complex state logic that benefits from centralization. Start with useState and refactor to useReducer when complexity grows, not preemptively.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/useReducer",
+              "https://react.dev/learn/extracting-state-logic-into-a-reducer",
+              "https://beta.reactjs.org/learn/scaling-up-with-reducer-and-context",
+              "https://kentcdodds.com/blog/should-i-usestate-or-usereducer",
+              "https://github.com/immerjs/use-immer",
+              "https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers",
+            ],
           },
           {
             topic: "Custom Hooks",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Custom Hooks",
+              "Hooks",
+              "Reusability",
+              "Code Sharing",
+              "Logic Extraction",
+              "Composition",
+              "DRY Principle",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Custom Hooks are JavaScript functions that use React Hooks and enable you to extract component logic into reusable functions. They let you share stateful logic between components without changing the component hierarchy, solving the problem of duplicated logic across components. Custom Hooks follow the naming convention of starting with "use" and can call other Hooks. They provide a powerful way to compose behavior, abstract complex logic, and build a library of reusable utilities specific to your application. Understanding custom Hooks is essential for writing clean, maintainable React code and building scalable applications.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Concept and Rules
+</h4>
+
+<p style="line-height: 1.75;">
+Custom Hooks are functions that start with "use" and can call other Hooks. They enable logic reuse across components.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Basic custom Hook structure
+function useCustomHook(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  
+  // Custom logic here
+  const increment = () => setValue(v => v + 1);
+  
+  return { value, increment };
+}
+
+// Usage in component
+function Counter() {
+  const { value, increment } = useCustomHook(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {value}&lt;/p&gt;
+      &lt;button onClick={increment}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Rules for custom Hooks:
+// 1. Name must start with "use" (convention and requirement)
+// 2. Can call other Hooks (useState, useEffect, etc.)
+// 3. Must follow Rules of Hooks (only call at top level, only in React functions)
+// 4. Each call to a custom Hook gets independent state
+// 5. Can return anything (values, functions, objects, arrays, etc.)
+
+// Multiple components using the same Hook get independent state
+function ComponentA() {
+  const { value } = useCustomHook(0); // Independent state
+  return &lt;div&gt;{value}&lt;/div&gt;;
+}
+
+function ComponentB() {
+  const { value } = useCustomHook(10); // Different independent state
+  return &lt;div&gt;{value}&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Common Use Cases and Patterns
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Form Input Handling
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: Repetitive input handling code
+function FormWithoutHook() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  return (
+    &lt;form&gt;
+      &lt;input value={name} onChange={(e) => setName(e.target.value)} /&gt;
+      &lt;input value={email} onChange={(e) => setEmail(e.target.value)} /&gt;
+      &lt;input value={password} onChange={(e) => setPassword(e.target.value)} /&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Solution: Custom Hook for form inputs
+function useInput(initialValue = '') {
+  const [value, setValue] = useState(initialValue);
+  
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+  
+  const reset = () => {
+    setValue(initialValue);
+  };
+  
+  return {
+    value,
+    onChange: handleChange,
+    reset
+  };
+}
+
+// Cleaner usage
+function FormWithHook() {
+  const name = useInput('');
+  const email = useInput('');
+  const password = useInput('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({ name: name.value, email: email.value, password: password.value });
+    name.reset();
+    email.reset();
+    password.reset();
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input {...name} placeholder="Name" /&gt;
+      &lt;input {...email} type="email" placeholder="Email" /&gt;
+      &lt;input {...password} type="password" placeholder="Password" /&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// Advanced: With validation
+function useFormInput(initialValue = '', validator) {
+  const [value, setValue] = useState(initialValue);
+  const [error, setError] = useState('');
+  const [touched, setTouched] = useState(false);
+  
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    
+    if (touched && validator) {
+      setError(validator(newValue) || '');
+    }
+  };
+  
+  const handleBlur = () => {
+    setTouched(true);
+    if (validator) {
+      setError(validator(value) || '');
+    }
+  };
+  
+  const reset = () => {
+    setValue(initialValue);
+    setError('');
+    setTouched(false);
+  };
+  
+  return {
+    value,
+    onChange: handleChange,
+    onBlur: handleBlur,
+    error,
+    touched,
+    reset
+  };
+}
+
+// Usage with validation
+function ValidatedForm() {
+  const email = useFormInput('', (value) => {
+    if (!value.includes('@')) return 'Invalid email';
+    return '';
+  });
+  
+  return (
+    &lt;div&gt;
+      &lt;input {...email} type="email" /&gt;
+      {email.touched && email.error && &lt;span&gt;{email.error}&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Data Fetching
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Custom Hook for data fetching
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    if (!url) return;
+    
+    const abortController = new AbortController();
+    
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const response = await fetch(url, {
+          signal: abortController.signal
+        });
+        
+        if (!response.ok) {
+          throw new Error(\`HTTP error! status: \${response.status}\`);
+        }
+        
+        const json = await response.json();
+        setData(json);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setError(err.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+    
+    return () => {
+      abortController.abort();
+    };
+  }, [url]);
+  
+  return { data, loading, error };
+}
+
+// Usage
+function UserProfile({ userId }) {
+  const { data: user, loading, error } = useFetch(\`/api/users/\${userId}\`);
+  
+  if (loading) return &lt;Spinner /&gt;;
+  if (error) return &lt;Error message={error} /&gt;;
+  if (!user) return null;
+  
+  return &lt;div&gt;{user.name}&lt;/div&gt;;
+}
+
+// Advanced: With refetch capability
+function useApi(url, options = {}) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(url, options);
+      const json = await response.json();
+      setData(json);
+      return json;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, [url, options]);
+  
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+  
+  return { data, loading, error, refetch: fetchData };
+}
+
+// Usage with refetch
+function DataComponent() {
+  const { data, loading, error, refetch } = useApi('/api/data');
+  
+  return (
+    &lt;div&gt;
+      {data && &lt;pre&gt;{JSON.stringify(data)}&lt;/pre&gt;}
+      &lt;button onClick={refetch} disabled={loading}&gt;
+        Refresh
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+C. Local Storage Sync
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Custom Hook for localStorage
+function useLocalStorage(key, initialValue) {
+  // Get initial value from localStorage or use provided initial value
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error(error);
+      return initialValue;
+    }
+  });
+  
+  // Return wrapped version of useState's setter that saves to localStorage
+  const setValue = (value) => {
+    try {
+      // Allow value to be a function (same API as useState)
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  // Listen for changes in other tabs/windows
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === key && e.newValue !== null) {
+        setStoredValue(JSON.parse(e.newValue));
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [key]);
+  
+  return [storedValue, setValue];
+}
+
+// Usage
+function ThemeToggle() {
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
+  
+  return (
+    &lt;button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}&gt;
+      Current theme: {theme}
+    &lt;/button&gt;
+  );
+}
+
+// Works like useState but persists to localStorage!
+function TodoApp() {
+  const [todos, setTodos] = useLocalStorage('todos', []);
+  
+  const addTodo = (text) => {
+    setTodos([...todos, { id: Date.now(), text, completed: false }]);
+  };
+  
+  return &lt;div&gt;{/* Todo UI */}&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Utility Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useToggle - Boolean state toggle
+function useToggle(initialValue = false) {
+  const [value, setValue] = useState(initialValue);
+  
+  const toggle = useCallback(() => {
+    setValue(v => !v);
+  }, []);
+  
+  return [value, toggle];
+}
+
+// Usage
+function Modal() {
+  const [isOpen, toggleOpen] = useToggle(false);
+  
+  return (
+    &lt;div&gt;
+      &lt;button onClick={toggleOpen}&gt;Open Modal&lt;/button&gt;
+      {isOpen && &lt;ModalDialog onClose={toggleOpen} /&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// useDebounce - Debounced value
+function useDebounce(value, delay = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  
+  return debouncedValue;
+}
+
+// Usage in search
+function SearchComponent() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      // API call only happens after 500ms of no typing
+      searchAPI(debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm]);
+  
+  return &lt;input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} /&gt;;
+}
+
+// usePrevious - Get previous value
+function usePrevious(value) {
+  const ref = useRef();
+  
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  
+  return ref.current;
+}
+
+// Usage
+function Counter() {
+  const [count, setCount] = useState(0);
+  const prevCount = usePrevious(count);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Current: {count}, Previous: {prevCount}&lt;/p&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// useWindowSize - Window dimensions
+function useWindowSize() {
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  return size;
+}
+
+// Usage
+function ResponsiveComponent() {
+  const { width } = useWindowSize();
+  
+  return (
+    &lt;div&gt;
+      {width < 768 ? &lt;MobileView /&gt; : &lt;DesktopView /&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// useOnClickOutside - Detect clicks outside element
+function useOnClickOutside(ref, handler) {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current || ref.current.contains(event.target)) {
+        return;
+      }
+      handler(event);
+    };
+    
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+    
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, handler]);
+}
+
+// Usage
+function Dropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef();
+  
+  useOnClickOutside(ref, () => setIsOpen(false));
+  
+  return (
+    &lt;div ref={ref}&gt;
+      &lt;button onClick={() => setIsOpen(!isOpen)}&gt;Toggle&lt;/button&gt;
+      {isOpen && &lt;DropdownMenu /&gt;}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Advanced Patterns
+</h4>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+A. Composing Hooks
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Build complex Hooks from simpler ones
+function useAuth() {
+  const [user, setUser] = useLocalStorage('user', null);
+  const [loading, setLoading] = useState(false);
+  
+  const login = async (credentials) => {
+    setLoading(true);
+    try {
+      const user = await loginAPI(credentials);
+      setUser(user);
+      return user;
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const logout = () => {
+    setUser(null);
+  };
+  
+  return { user, loading, login, logout };
+}
+
+// Compose multiple Hooks
+function useUserProfile(userId) {
+  const { data: user, loading: userLoading } = useFetch(\`/api/users/\${userId}\`);
+  const { data: posts, loading: postsLoading } = useFetch(\`/api/users/\${userId}/posts\`);
+  const prevUserId = usePrevious(userId);
+  
+  const loading = userLoading || postsLoading;
+  const hasChanged = prevUserId !== userId;
+  
+  return { user, posts, loading, hasChanged };
+}
+
+// Chain Hooks with dependencies
+function useSearchUsers(query) {
+  const debouncedQuery = useDebounce(query, 300);
+  const { data, loading, error } = useFetch(
+    debouncedQuery ? \`/api/search?q=\${debouncedQuery}\` : null
+  );
+  
+  return { results: data, loading, error };
+}
+</code></pre>
+</div>
+
+<h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+B. Hooks with Parameters
+</h5>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Hook with configuration object
+function useIntersectionObserver(options = {}) {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const [entry, setEntry] = useState(null);
+  const elementRef = useRef(null);
+  
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+    
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+      setEntry(entry);
+    }, options);
+    
+    observer.observe(element);
+    
+    return () => observer.disconnect();
+  }, [options]);
+  
+  return { ref: elementRef, isIntersecting, entry };
+}
+
+// Usage
+function LazyImage({ src, alt }) {
+  const { ref, isIntersecting } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '100px'
+  });
+  
+  return (
+    &lt;div ref={ref}&gt;
+      {isIntersecting && &lt;img src={src} alt={alt} /&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// Hook with callback parameter
+function useEventListener(eventName, handler, element = window) {
+  const savedHandler = useRef();
+  
+  useEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
+  
+  useEffect(() => {
+    const isSupported = element && element.addEventListener;
+    if (!isSupported) return;
+    
+    const eventListener = (event) => savedHandler.current(event);
+    element.addEventListener(eventName, eventListener);
+    
+    return () => {
+      element.removeEventListener(eventName, eventListener);
+    };
+  }, [eventName, element]);
+}
+
+// Usage
+function Component() {
+  useEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeModal();
+    }
+  });
+  
+  return &lt;div&gt;Content&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Async and Side Effects in Custom Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Custom Hook for async operations
+function useAsync(asyncFunction, immediate = true) {
+  const [status, setStatus] = useState('idle');
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  
+  const execute = useCallback(async (...args) => {
+    setStatus('pending');
+    setData(null);
+    setError(null);
+    
+    try {
+      const response = await asyncFunction(...args);
+      setData(response);
+      setStatus('success');
+      return response;
+    } catch (error) {
+      setError(error);
+      setStatus('error');
+      throw error;
+    }
+  }, [asyncFunction]);
+  
+  useEffect(() => {
+    if (immediate) {
+      execute();
+    }
+  }, [execute, immediate]);
+  
+  return { execute, status, data, error, loading: status === 'pending' };
+}
+
+// Usage
+function UserProfile({ userId }) {
+  const fetchUser = useCallback(
+    () => fetch(\`/api/users/\${userId}\`).then(res => res.json()),
+    [userId]
+  );
+  
+  const { data: user, loading, error } = useAsync(fetchUser);
+  
+  if (loading) return &lt;Spinner /&gt;;
+  if (error) return &lt;Error /&gt;;
+  return &lt;div&gt;{user.name}&lt;/div&gt;;
+}
+
+// Custom Hook with cleanup
+function useWebSocket(url) {
+  const [messages, setMessages] = useState([]);
+  const [isConnected, setIsConnected] = useState(false);
+  const ws = useRef(null);
+  
+  useEffect(() => {
+    ws.current = new WebSocket(url);
+    
+    ws.current.onopen = () => {
+      setIsConnected(true);
+    };
+    
+    ws.current.onmessage = (event) => {
+      setMessages(prev => [...prev, event.data]);
+    };
+    
+    ws.current.onclose = () => {
+      setIsConnected(false);
+    };
+    
+    return () => {
+      ws.current?.close();
+    };
+  }, [url]);
+  
+  const sendMessage = useCallback((message) => {
+    if (ws.current?.readyState === WebSocket.OPEN) {
+      ws.current.send(message);
+    }
+  }, []);
+  
+  return { messages, isConnected, sendMessage };
+}
+
+// Usage
+function Chat() {
+  const { messages, isConnected, sendMessage } = useWebSocket('wss://chat.example.com');
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Status: {isConnected ? 'Connected' : 'Disconnected'}&lt;/p&gt;
+      {messages.map((msg, i) => &lt;div key={i}&gt;{msg}&lt;/div&gt;)}
+      &lt;button onClick={() => sendMessage('Hello')}&gt;Send&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. TypeScript with Custom Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-typescript">
+import { useState, useEffect, useCallback } from 'react';
+
+// Generic typed Hook
+function useLocalStorage&lt;T&gt;(key: string, initialValue: T): [T, (value: T) => void] {
+  const [storedValue, setStoredValue] = useState&lt;T&gt;(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      return initialValue;
+    }
+  });
+  
+  const setValue = (value: T): void => {
+    try {
+      setStoredValue(value);
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  return [storedValue, setValue];
+}
+
+// Usage with type inference
+const [user, setUser] = useLocalStorage&lt;User | null&gt;('user', null);
+
+// Hook with complex return type
+interface FetchState&lt;T&gt; {
+  data: T | null;
+  loading: boolean;
+  error: Error | null;
+}
+
+function useFetch&lt;T&gt;(url: string): FetchState&lt;T&gt; {
+  const [state, setState] = useState&lt;FetchState&lt;T&gt;&gt;({
+    data: null,
+    loading: false,
+    error: null
+  });
+  
+  useEffect(() => {
+    let cancelled = false;
+    
+    const fetchData = async () => {
+      setState(prev => ({ ...prev, loading: true }));
+      
+      try {
+        const response = await fetch(url);
+        const data: T = await response.json();
+        
+        if (!cancelled) {
+          setState({ data, loading: false, error: null });
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setState({ data: null, loading: false, error: error as Error });
+        }
+      }
+    };
+    
+    fetchData();
+    
+    return () => {
+      cancelled = true;
+    };
+  }, [url]);
+  
+  return state;
+}
+
+// Usage
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+function UserProfile({ userId }: { userId: number }) {
+  const { data, loading, error } = useFetch&lt;User&gt;(\`/api/users/\${userId}\`);
+  
+  if (loading) return &lt;Spinner /&gt;;
+  if (error) return &lt;Error message={error.message} /&gt;;
+  if (!data) return null;
+  
+  return &lt;div&gt;{data.name}&lt;/div&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Testing Custom Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { renderHook, act } from '@testing-library/react';
+
+// Testing simple Hook
+describe('useToggle', () => {
+  test('should toggle boolean value', () => {
+    const { result } = renderHook(() => useToggle(false));
+    
+    expect(result.current[0]).toBe(false);
+    
+    act(() => {
+      result.current[1]();
+    });
+    
+    expect(result.current[0]).toBe(true);
+  });
+  
+  test('should initialize with provided value', () => {
+    const { result } = renderHook(() => useToggle(true));
+    
+    expect(result.current[0]).toBe(true);
+  });
+});
+
+// Testing Hook with dependencies
+describe('useDebounce', () => {
+  jest.useFakeTimers();
+  
+  test('should debounce value changes', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) => useDebounce(value, 500),
+      { initialProps: { value: 'initial' } }
+    );
+    
+    expect(result.current).toBe('initial');
+    
+    rerender({ value: 'updated' });
+    expect(result.current).toBe('initial'); // Not updated yet
+    
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
+    
+    expect(result.current).toBe('updated'); // Now updated
+  });
+  
+  jest.useRealTimers();
+});
+
+// Testing async Hook
+describe('useFetch', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn();
+  });
+  
+  test('should fetch data successfully', async () => {
+    const mockData = { id: 1, name: 'Test' };
+    global.fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockData
+    });
+    
+    const { result, waitForNextUpdate } = renderHook(() => 
+      useFetch('/api/test')
+    );
+    
+    expect(result.current.loading).toBe(true);
+    
+    await waitForNextUpdate();
+    
+    expect(result.current.loading).toBe(false);
+    expect(result.current.data).toEqual(mockData);
+    expect(result.current.error).toBe(null);
+  });
+  
+  test('should handle errors', async () => {
+    global.fetch.mockRejectedValueOnce(new Error('Failed to fetch'));
+    
+    const { result, waitForNextUpdate } = renderHook(() => 
+      useFetch('/api/test')
+    );
+    
+    await waitForNextUpdate();
+    
+    expect(result.current.loading).toBe(false);
+    expect(result.current.data).toBe(null);
+    expect(result.current.error).toBe('Failed to fetch');
+  });
+});
+
+// Testing Hook with wrapper (context provider)
+const wrapper = ({ children }) => (
+  &lt;ThemeProvider&gt;{children}&lt;/ThemeProvider&gt;
+);
+
+test('useTheme returns theme value', () => {
+  const { result } = renderHook(() => useTheme(), { wrapper });
+  
+  expect(result.current.theme).toBeDefined();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Real-World Examples
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useForm - Complete form management
+function useForm(initialValues, validationSchema) {
+  const [values, setValues] = useState(initialValues);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const handleChange = (name) => (event) => {
+    const value = event.target.value;
+    setValues(prev => ({ ...prev, [name]: value }));
+    
+    if (touched[name]) {
+      validateField(name, value);
+    }
+  };
+  
+  const handleBlur = (name) => () => {
+    setTouched(prev => ({ ...prev, [name]: true }));
+    validateField(name, values[name]);
+  };
+  
+  const validateField = (name, value) => {
+    if (validationSchema[name]) {
+      const error = validationSchema[name](value);
+      setErrors(prev => ({ ...prev, [name]: error }));
+    }
+  };
+  
+  const validateAll = () => {
+    const newErrors = {};
+    Object.keys(validationSchema).forEach(key => {
+      const error = validationSchema[key](values[key]);
+      if (error) newErrors[key] = error;
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  const handleSubmit = (onSubmit) => async (event) => {
+    event.preventDefault();
+    
+    if (!validateAll()) return;
+    
+    setIsSubmitting(true);
+    try {
+      await onSubmit(values);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
+  const reset = () => {
+    setValues(initialValues);
+    setErrors({});
+    setTouched({});
+  };
+  
+  return {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    reset
+  };
+}
+
+// Usage
+function RegistrationForm() {
+  const form = useForm(
+    { email: '', password: '' },
+    {
+      email: (value) => !value.includes('@') ? 'Invalid email' : '',
+      password: (value) => value.length < 8 ? 'Too short' : ''
+    }
+  );
+  
+  return (
+    &lt;form onSubmit={form.handleSubmit(submitForm)}&gt;
+      &lt;input
+        value={form.values.email}
+        onChange={form.handleChange('email')}
+        onBlur={form.handleBlur('email')}
+      /&gt;
+      {form.touched.email && form.errors.email && (
+        &lt;span&gt;{form.errors.email}&lt;/span&gt;
+      )}
+      &lt;button type="submit" disabled={form.isSubmitting}&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// useMediaQuery - Responsive breakpoints
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(
+    () => window.matchMedia(query).matches
+  );
+  
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(query);
+    const handler = (e) => setMatches(e.matches);
+    
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, [query]);
+  
+  return matches;
+}
+
+// Usage
+function ResponsiveLayout() {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1024px)');
+  const isDesktop = useMediaQuery('(min-width: 1025px)');
+  
+  return (
+    &lt;div&gt;
+      {isMobile && &lt;MobileLayout /&gt;}
+      {isTablet && &lt;TabletLayout /&gt;}
+      {isDesktop && &lt;DesktopLayout /&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// useInfiniteScroll - Infinite scrolling
+function useInfiniteScroll(callback) {
+  const [isFetching, setIsFetching] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop
+        >= document.documentElement.offsetHeight - 100
+        && !isFetching
+      ) {
+        setIsFetching(true);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isFetching]);
+  
+  useEffect(() => {
+    if (!isFetching) return;
+    
+    callback().then(() => {
+      setIsFetching(false);
+    });
+  }, [isFetching, callback]);
+  
+  return [isFetching, setIsFetching];
+}
+
+// Usage
+function InfiniteList() {
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  
+  const fetchMore = useCallback(async () => {
+    const newItems = await fetchItems(page);
+    setItems(prev => [...prev, ...newItems]);
+    setPage(prev => prev + 1);
+  }, [page]);
+  
+  const [isFetching] = useInfiniteScroll(fetchMore);
+  
+  return (
+    &lt;div&gt;
+      {items.map(item => &lt;div key={item.id}&gt;{item.name}&lt;/div&gt;)}
+      {isFetching && &lt;Spinner /&gt;}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Always prefix custom Hook names with "use"</li>
+  <li><b>DO:</b> Extract reusable logic into custom Hooks</li>
+  <li><b>DO:</b> Keep Hooks focused and single-purpose</li>
+  <li><b>DO:</b> Use descriptive names that indicate what the Hook does</li>
+  <li><b>DO:</b> Return arrays for simple Hooks, objects for complex ones</li>
+  <li><b>DO:</b> Document parameters and return values</li>
+  <li><b>DO:</b> Test custom Hooks independently</li>
+  <li><b>DON'T:</b> Call Hooks conditionally or in loops</li>
+  <li><b>DON'T:</b> Use Hooks outside React functions</li>
+  <li><b>DON'T:</b> Create overly complex Hooks (split into smaller ones)</li>
+  <li><b>DON'T:</b> Forget to handle cleanup in useEffect</li>
+  <li><b>DON'T:</b> Overuse custom Hooks for everything (balance)</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Common Patterns Library
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Collection of commonly used custom Hooks
+
+// useTimeout - Declarative setTimeout
+function useTimeout(callback, delay) {
+  const savedCallback = useRef(callback);
+  
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+  
+  useEffect(() => {
+    if (delay === null) return;
+    
+    const timer = setTimeout(() => savedCallback.current(), delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
+}
+
+// useInterval - Declarative setInterval
+function useInterval(callback, delay) {
+  const savedCallback = useRef(callback);
+  
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+  
+  useEffect(() => {
+    if (delay === null) return;
+    
+    const interval = setInterval(() => savedCallback.current(), delay);
+    return () => clearInterval(interval);
+  }, [delay]);
+}
+
+// useHover - Track hover state
+function useHover() {
+  const [isHovered, setIsHovered] = useState(false);
+  const ref = useRef(null);
+  
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+  
+  useEffect(() => {
+    const node = ref.current;
+    if (node) {
+      node.addEventListener('mouseenter', handleMouseEnter);
+      node.addEventListener('mouseleave', handleMouseLeave);
+      
+      return () => {
+        node.removeEventListener('mouseenter', handleMouseEnter);
+        node.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    }
+  }, []);
+  
+  return [ref, isHovered];
+}
+
+// useKeyPress - Detect key press
+function useKeyPress(targetKey) {
+  const [keyPressed, setKeyPressed] = useState(false);
+  
+  useEffect(() => {
+    const downHandler = ({ key }) => {
+      if (key === targetKey) setKeyPressed(true);
+    };
+    
+    const upHandler = ({ key }) => {
+      if (key === targetKey) setKeyPressed(false);
+    };
+    
+    window.addEventListener('keydown', downHandler);
+    window.addEventListener('keyup', upHandler);
+    
+    return () => {
+      window.removeEventListener('keydown', downHandler);
+      window.removeEventListener('keyup', upHandler);
+    };
+  }, [targetKey]);
+  
+  return keyPressed;
+}
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "useInput - Form Input Management",
+              "useFetch - Data Fetching with Loading/Error",
+              "useLocalStorage - Persistent State",
+              "useDebounce - Debounced Search",
+              "useToggle - Boolean State Toggle",
+              "useForm - Complete Form Management",
+            ],
+            questions: [
+              {
+                question: "What are custom Hooks and why are they useful?",
+                answer:
+                  "Custom Hooks are JavaScript functions that start with 'use' and can call other React Hooks. They enable you to extract and reuse stateful logic across components without changing component hierarchy. They solve the problem of duplicated logic, make code more maintainable, allow composition of complex behavior from simple pieces, and provide a way to share non-visual logic. Unlike HOCs or render props, custom Hooks don't add wrapper components and keep JSX clean.",
+              },
+              {
+                question:
+                  "What are the rules for creating and using custom Hooks?",
+                answer:
+                  "Rules: 1) Name must start with 'use' (enforced by linter and convention), 2) Can only call other Hooks (useState, useEffect, etc.), 3) Must follow Rules of Hooks (only call at top level, only in React functions), 4) Each call gets independent state (not shared between components), 5) Can return anything (values, functions, objects, arrays). Custom Hooks are just functions but the 'use' prefix tells React and linters to enforce Hook rules.",
+              },
+              {
+                question:
+                  "How do you share logic between components using custom Hooks?",
+                answer:
+                  "Extract the shared logic into a custom Hook function. The Hook can use useState, useEffect, and other Hooks internally. Multiple components can call the same custom Hook and each gets independent state. Example: useLocalStorage Hook can be used in multiple components, and each component gets its own localStorage-synced state. The Hook encapsulates the logic while each consumer maintains independent state. This is better than HOCs or render props because it's simpler and doesn't affect component tree.",
+              },
+              {
+                question: "What should a custom Hook return?",
+                answer:
+                  "Return depends on complexity and usage. For simple Hooks (like useToggle), return array like useState: [value, setValue]. For complex Hooks (like useFetch), return object with named properties: { data, loading, error, refetch }. Arrays are good when order matters and you might rename values (const [isOpen, toggle] = useToggle()). Objects are better when you have many values or want clear property names. Can also return single values or functions if that's all the Hook provides.",
+              },
+              {
+                question: "How do you handle async operations in custom Hooks?",
+                answer:
+                  "Handle async operations outside the Hook's synchronous body. Use useEffect for async operations triggered on mount/deps change, or return async functions that components can call. Track loading/error states with useState. Clean up with abort controllers or cancellation flags. Example: useFetch uses useEffect to fetch on mount and cleans up with AbortController, returning loading/data/error states. Never make useEffect callback async directly—create inner async function instead.",
+              },
+              {
+                question: "How do you compose multiple custom Hooks together?",
+                answer:
+                  "Call multiple Hooks within a custom Hook to build complex behavior from simple pieces. Example: useAuth might call useLocalStorage for persistence and useState for loading state. useSearchUsers might combine useDebounce with useFetch. Each Hook handles one concern and can be reused independently. This composition pattern is powerful—build a library of simple Hooks and combine them for complex features. Each Hook in the chain maintains its own state and effects.",
+              },
+              {
+                question:
+                  "What is the difference between custom Hooks and utility functions?",
+                answer:
+                  "Custom Hooks can use React Hooks (useState, useEffect, etc.) and manage component lifecycle and state. Utility functions are plain JavaScript—no Hooks, no state, just data transformation. Use custom Hooks when you need state, effects, or other Hook features. Use utility functions for pure logic with no side effects. Example: useDebounce is a Hook (uses useState, useEffect). A debounce utility function would just be a wrapper for setTimeout with no state management.",
+              },
+              {
+                question: "How do you test custom Hooks?",
+                answer:
+                  "Use @testing-library/react's renderHook and act utilities. renderHook renders the Hook in a test component and returns result.current for accessing Hook's return value. Use act for state updates. Test Hook logic independently from components. Mock dependencies like fetch. Test different input variations, state transitions, and cleanup. Example: renderHook(() => useToggle(false)), then act(() => result.current[1]()) to toggle, then assert result.current[0]. Testing Hooks in isolation makes tests focused and reliable.",
+              },
+              {
+                question: "How do you add TypeScript types to custom Hooks?",
+                answer:
+                  "Define types for parameters and return values. Use generics for flexible, reusable Hooks. Example: function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void]. TypeScript infers types from usage: const [user, setUser] = useLocalStorage<User | null>('user', null). Define interfaces for complex return objects. Type callback parameters. Use discriminated unions for state machines. Good types make Hooks self-documenting and catch errors at compile time.",
+              },
+              {
+                question:
+                  "What are some common anti-patterns with custom Hooks?",
+                answer:
+                  "Anti-patterns: calling Hooks conditionally (breaks Rules of Hooks), creating overly complex Hooks that do too much (split into smaller focused Hooks), not handling cleanup in useEffect (memory leaks), forgetting dependencies in dependency arrays (stale closures), naming without 'use' prefix (breaks linting), using Hooks outside React functions, returning too many values (makes API confusing), not documenting parameters/return values, and creating Hooks for everything (use plain functions when Hooks aren't needed).",
+              },
+              {
+                question: "How do you handle cleanup in custom Hooks?",
+                answer:
+                  "Return cleanup functions from useEffect within the Hook. Clean up subscriptions, timers, event listeners, abort controllers, and other side effects. Example: useEventListener Hook removes event listener in cleanup, useWebSocket Hook closes connection in cleanup, useFetch Hook aborts fetch request in cleanup. The cleanup runs when component unmounts or before effect re-runs. Proper cleanup prevents memory leaks and ensures effects don't run after unmount.",
+              },
+              {
+                question: "What is the useDebounce Hook and how does it work?",
+                answer:
+                  "useDebounce delays updating a value until after a specified delay has passed since the last change. It uses useState to store the debounced value and useEffect with setTimeout to update it. Each time the input value changes, the timer resets. After the delay with no new changes, the debounced value updates. Used commonly for search inputs to avoid API calls on every keystroke. The cleanup function clears the timeout to prevent memory leaks and ensure only the latest change applies.",
+              },
+              {
+                question:
+                  "How do you create a custom Hook for form management?",
+                answer:
+                  "Create a Hook that manages form state (values, errors, touched), provides handlers (handleChange, handleBlur, handleSubmit), and includes validation logic. Track which fields are touched to show errors only after user interaction. Include submit state for loading indicators. Return everything components need to wire up form inputs. Example: useForm Hook returns { values, errors, touched, handleChange, handleBlur, handleSubmit, reset }. Components spread handlers onto inputs and access state for rendering.",
+              },
+              {
+                question:
+                  "What is the benefit of separating state and dispatch contexts when using custom Hooks with Context?",
+                answer:
+                  "Separating state and dispatch into two contexts prevents unnecessary re-renders. Components that only dispatch actions don't re-render when state changes (they only consume dispatch context). Components that only read state don't need dispatch. This optimization is especially valuable with useReducer—dispatch is stable and never changes, so components using it can be memoized. Create StateContext and DispatchContext, provide both from one Provider, create custom Hooks for each. This pattern improves performance in large applications.",
+              },
+              {
+                question:
+                  "When should you create a custom Hook vs using a utility function?",
+                answer:
+                  "Create a custom Hook when you need: state management (useState), side effects (useEffect), refs (useRef), or other React features. Use utility functions for: pure data transformations, calculations without state, functions that don't need lifecycle methods. Example: useDebounce needs state and effects (Hook), but a function to format currency is just data transformation (utility function). If you find yourself wanting to use Hooks in a utility function, convert it to a custom Hook. Balance: don't over-complicate simple functions with Hooks unnecessarily.",
+              },
+            ],
+            links: [
+              "https://react.dev/learn/reusing-logic-with-custom-hooks",
+              "https://react.dev/reference/react",
+              "https://usehooks.com/",
+              "https://github.com/streamich/react-use",
+              "https://react-hooks-library.vercel.app/",
+              "https://ahooks.js.org/",
+            ],
           },
           {
             topic: "Context API Advanced",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Context",
+              "Performance",
+              "Optimization",
+              "Providers",
+              "Consumers",
+              "State Management",
+              "Memoization",
+              "Dynamic Context",
+              "Multiple Contexts",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;"> The Context API is React's built-in solution for state management that enables components to share data without prop drilling. While basic Context usage is straightforward, advanced patterns and optimizations are essential for building performant, scalable applications. Advanced Context techniques involve performance optimization, dynamic contexts, provider composition, testing strategies, and integration with other state management patterns. This comprehensive guide covers everything from intermediate to expert-level Context usage, addressing common pitfalls and providing solutions for real-world scenarios. </p><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 1. Advanced Provider Patterns </h4><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> A. Dynamic Context Creation </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Factory function for dynamic context creation function createContextWithDefault(defaultValue, displayName) { const Context = React.createContext(defaultValue); Context.displayName = displayName || 'Context';
+// Enhanced Provider with built-in state management
+const Provider = ({ children, value, initialValue }) => {
+const [internalValue, setInternalValue] = React.useState(initialValue || defaultValue);
+
+text
+const contextValue = React.useMemo(() => ({
+  state: value !== undefined ? value : internalValue,
+  setState: setInternalValue,
+  updateState: (updater) => {
+    setInternalValue(prev => 
+      typeof updater === 'function' ? updater(prev) : updater
+    );
+  }
+}), [value, internalValue]);
+
+return &lt;Context.Provider value={contextValue}&gt;{children}&lt;/Context.Provider&gt;;
+};
+
+// Enhanced Consumer hook
+const useContext = () => {
+const context = React.useContext(Context);
+if (context === undefined) {
+throw new Error(use$ {displayName} must be used within its Provider);
+}
+return context;
+};
+
+return { Context, Provider, useContext };
+}
+
+// Usage
+const { Provider: UserProvider, useContext: useUser } =
+createContextWithDefault(null, 'User');
+
+function App() {
+return (
+<UserProvider initialValue={{ name: 'John', age: 25 }}>
+<ChildComponent />
+</UserProvider>
+);
+}
+
+function ChildComponent() {
+const { state: user, updateState } = useUser();
+return <div>{user.name}</div>;
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> B. Provider Composition </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Multiple contexts composed into a single provider const UserContext = React.createContext(); const ThemeContext = React.createContext(); const FeaturesContext = React.createContext();
+function AppProvider({ children, user, theme, features }) {
+// Memoize context values to prevent unnecessary re-renders
+const userValue = React.useMemo(() => ({
+user,
+login: () => {},
+logout: () => {}
+}), [user]);
+
+const themeValue = React.useMemo(() => ({
+theme,
+toggleTheme: () => {},
+setTheme: () => {}
+}), [theme]);
+
+const featuresValue = React.useMemo(() => features, [features]);
+
+return (
+<UserContext.Provider value={userValue}>
+<ThemeContext.Provider value={themeValue}>
+<FeaturesContext.Provider value={featuresValue}>
+{children}
+</FeaturesContext.Provider>
+</ThemeContext.Provider>
+</UserContext.Provider>
+);
+}
+
+// Combined provider pattern
+function CombinedProvider({ children }) {
+const [state, setState] = React.useState({
+user: null,
+theme: 'light',
+features: {},
+isLoading: false
+});
+
+const value = React.useMemo(() => ({
+...state,
+update: setState,
+updatePartial: (partial) => setState(prev => ({ ...prev, ...partial }))
+}), [state]);
+
+return (
+<CombinedContext.Provider value={value}>
+{children}
+</CombinedContext.Provider>
+);
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> C. Provider Nesting Strategies </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Scoped providers - different values at different levels const SettingsContext = React.createContext();
+function App() {
+return (
+// Global settings
+<SettingsContext.Provider value={{ theme: 'dark', language: 'en' }}>
+<Header />
+
+text
+  {/* Section-specific settings */}
+  &lt;SettingsContext.Provider value={{ theme: 'light', language: 'es' }}&gt;
+    &lt;SpanishSection /&gt;
+  &lt;/SettingsContext.Provider&gt;
+  
+  &lt;Footer /&gt;
+&lt;/SettingsContext.Provider&gt;
+);
+}
+
+function Header() {
+const settings = React.useContext(SettingsContext);
+// Gets { theme: 'dark', language: 'en' }
+return <div>{settings.theme}</div>;
+}
+
+function SpanishSection() {
+const settings = React.useContext(SettingsContext);
+// Gets { theme: 'light', language: 'es' } - overrides parent
+return <div>{settings.language}</div>;
+}
+
+// Provider factory pattern
+function createScopedProvider(Context, value) {
+return function ScopedProvider({ children }) {
+const parentValue = React.useContext(Context);
+const mergedValue = React.useMemo(() => ({
+...parentValue,
+...value
+}), [parentValue, value]);
+
+text
+return (
+  &lt;Context.Provider value={mergedValue}&gt;
+    {children}
+  &lt;/Context.Provider&gt;
+);
+};
+}
+</code></pre>
+
+</div><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 2. Performance Optimization Techniques </h4><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> A. Memoization Patterns </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Separating state and dispatch contexts const StateContext = React.createContext(); const DispatchContext = React.createContext();
+function AppProvider({ children }) {
+const [state, dispatch] = React.useReducer(reducer, initialState);
+
+// State value changes frequently
+const stateValue = React.useMemo(() => state, [state]);
+
+// Dispatch is stable - never changes
+const dispatchValue = React.useMemo(() => dispatch, []);
+
+return (
+<StateContext.Provider value={stateValue}>
+<DispatchContext.Provider value={dispatchValue}>
+{children}
+</DispatchContext.Provider>
+</StateContext.Provider>
+);
+}
+
+// Custom hooks for selective consumption
+function useStateContext() {
+const context = React.useContext(StateContext);
+if (context === undefined) {
+throw new Error('useStateContext must be used within AppProvider');
+}
+return context;
+}
+
+function useDispatchContext() {
+const context = React.useContext(DispatchContext);
+if (context === undefined) {
+throw new Error('useDispatchContext must be used within AppProvider');
+}
+return context;
+}
+
+// Usage - components only re-render for what they need
+function DisplayComponent() {
+// Only re-renders when state changes
+const state = useStateContext();
+return <div>{state.count}</div>;
+}
+
+function ControlComponent() {
+// Never re-renders because dispatch never changes
+const dispatch = useDispatchContext();
+
+const increment = React.useCallback(() => {
+dispatch({ type: 'INCREMENT' });
+}, [dispatch]);
+
+return <button onClick={increment}>Increment</button>;
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> B. Selector Pattern (Redux-style) </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Context with selector support function createSelectorContext(initialState) { const StateContext = React.createContext(); const DispatchContext = React.createContext(); const SelectorContext = React.createContext();
+function Provider({ children }) {
+const [state, dispatch] = React.useReducer(reducer, initialState);
+
+text
+// Create selector registry
+const selectors = React.useRef(new Map());
+
+const subscribeSelector = React.useCallback((key, selectorFn) => {
+  selectors.current.set(key, selectorFn);
+}, []);
+
+const getSelectorValue = React.useCallback((key) => {
+  const selector = selectors.current.get(key);
+  return selector ? selector(state) : undefined;
+}, [state]);
+
+const selectorValue = React.useMemo(() => ({
+  subscribeSelector,
+  getSelectorValue
+}), [subscribeSelector, getSelectorValue]);
+
+return (
+  &lt;StateContext.Provider value={state}&gt;
+    &lt;DispatchContext.Provider value={dispatch}&gt;
+      &lt;SelectorContext.Provider value={selectorValue}&gt;
+        {children}
+      &lt;/SelectorContext.Provider&gt;
+    &lt;/DispatchContext.Provider&gt;
+  &lt;/StateContext.Provider&gt;
+);
+}
+
+// Hook that only re-renders when selected value changes
+function useSelector(selectorFn) {
+const state = React.useContext(StateContext);
+const selectorKey = React.useId();
+const selectorValue = React.useContext(SelectorContext);
+
+text
+const [selectedValue, setSelectedValue] = React.useState(() => 
+  selectorFn(state)
+);
+
+React.useEffect(() => {
+  selectorValue.subscribeSelector(selectorKey, selectorFn);
+}, [selectorFn, selectorKey, selectorValue]);
+
+React.useEffect(() => {
+  const newValue = selectorFn(state);
+  setSelectedValue(prev => {
+    // Shallow equality check
+    if (JSON.stringify(prev) !== JSON.stringify(newValue)) {
+      return newValue;
+    }
+    return prev;
+  });
+}, [state, selectorFn]);
+
+return selectedValue;
+}
+
+return { Provider, useSelector };
+}
+
+// Usage
+const { Provider, useSelector } = createSelectorContext(initialState);
+
+function UserName() {
+// Only re-renders when user.name changes, not on other state changes
+const userName = useSelector(state => state.user?.name);
+return <div>{userName}</div>;
+}
+
+function TodoCount() {
+// Only re-renders when todos length changes
+const todoCount = useSelector(state => state.todos.length);
+return <div>{todoCount} todos</div>;
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> C. Context Splitting </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Instead of one large context, split into smaller, focused contexts const UserPreferencesContext = React.createContext(); const UserDataContext = React.createContext(); const UIStateContext = React.createContext(); const NotificationsContext = React.createContext();
+// Each provider manages its own independent state
+function UserPreferencesProvider({ children }) {
+const [preferences, setPreferences] = React.useState({
+theme: 'light',
+language: 'en',
+notifications: true
+});
+
+const value = React.useMemo(() => ({
+preferences,
+updatePreferences: setPreferences
+}), [preferences]);
+
+return (
+<UserPreferencesContext.Provider value={value}>
+{children}
+</UserPreferencesContext.Provider>
+);
+}
+
+// Components only subscribe to what they need
+function ThemeSwitcher() {
+// Only subscribes to UserPreferencesContext
+const { preferences, updatePreferences } = React.useContext(UserPreferencesContext);
+
+const toggleTheme = React.useCallback(() => {
+updatePreferences(prev => ({
+...prev,
+theme: prev.theme === 'light' ? 'dark' : 'light'
+}));
+}, [updatePreferences]);
+
+return <button onClick={toggleTheme}>Toggle Theme</button>;
+}
+
+// Custom hook for each context
+function useUserPreferences() {
+const context = React.useContext(UserPreferencesContext);
+if (!context) throw new Error('Must be used within UserPreferencesProvider');
+return context;
+}
+
+function useUserData() {
+const context = React.useContext(UserDataContext);
+if (!context) throw new Error('Must be used within UserDataProvider');
+return context;
+}
+</code></pre>
+
+</div><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 3. Advanced Consumption Patterns </h4><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> A. Higher-Order Component Wrappers </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // HOC that injects context values as props function withContext(Context, mapContextToProps) { return function(WrappedComponent) { const WithContext = React.forwardRef((props, ref) => { const context = React.useContext(Context); const contextProps = mapContextToProps(context, props);
+text
+  return (
+    &lt;WrappedComponent
+      ref={ref}
+      {...props}
+      {...contextProps}
+    /&gt;
+  );
+});
+
+WithContext.displayName = \`withContext(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+return WithContext;
+};
+}
+
+// Usage
+const UserContext = React.createContext();
+
+function UserProfile({ user, updateUser }) {
+return (
+<div>
+<h1>{user.name}</h1>
+<button onClick={() => updateUser({ name: 'New Name' })}>
+Update
+</button>
+</div>
+);
+}
+
+const mapUserContextToProps = (context) => ({
+user: context.user,
+updateUser: context.updateUser
+});
+
+const ConnectedUserProfile = withContext(UserContext, mapUserContextToProps)(UserProfile);
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> B. Render Props with Context </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Context-based render prop component function ContextConsumer({ context, children }) { const value = React.useContext(context); return children(value); }
+// More advanced with selector support
+function SelectorConsumer({ context, selector, children }) {
+const value = React.useContext(context);
+const selectedValue = React.useMemo(() =>
+selector ? selector(value) : value
+, [value, selector]);
+
+return children(selectedValue);
+}
+
+// Usage
+function App() {
+return (
+<UserProvider>
+<SelectorConsumer
+context={UserContext}
+selector={ctx => ctx.user?.name}
+>
+{userName => <div>Hello, {userName || 'Guest'}</div>}
+</SelectorConsumer>
+</UserProvider>
+);
+}
+
+// Compound component pattern with Context
+const TabsContext = React.createContext();
+
+function Tabs({ children, defaultActive }) {
+const [activeTab, setActiveTab] = React.useState(defaultActive);
+
+const value = React.useMemo(() => ({
+activeTab,
+setActiveTab
+}), [activeTab]);
+
+return (
+<TabsContext.Provider value={value}>
+<div className="tabs">{children}</div>
+</TabsContext.Provider>
+);
+}
+
+function Tab({ id, children }) {
+const { activeTab, setActiveTab } = React.useContext(TabsContext);
+
+return (
+<button
+className={activeTab === id ? 'active' : ''}
+onClick={() => setActiveTab(id)}
+>
+{children}
+</button>
+);
+}
+
+function TabPanel({ id, children }) {
+const { activeTab } = React.useContext(TabsContext);
+
+if (activeTab !== id) return null;
+return <div className="tab-panel">{children}</div>;
+}
+
+// Compose them
+Tabs.Tab = Tab;
+Tabs.Panel = TabPanel;
+
+// Usage
+<Tabs defaultActive="tab1">
+<Tabs.Tab id="tab1">Tab 1</Tabs.Tab>
+<Tabs.Tab id="tab2">Tab 2</Tabs.Tab>
+<Tabs.Panel id="tab1">Content 1</Tabs.Panel>
+<Tabs.Panel id="tab2">Content 2</Tabs.Panel>
+</Tabs>
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> C. Context with Portals </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Context that works across portal boundaries const ModalContext = React.createContext();
+function ModalProvider({ children }) {
+const [modals, setModals] = React.useState([]);
+const portalRoot = React.useRef(
+document.getElementById('modal-root') ||
+(() => {
+const el = document.createElement('div');
+el.id = 'modal-root';
+document.body.appendChild(el);
+return el;
+})()
+);
+
+const openModal = React.useCallback((id, component) => {
+setModals(prev => [...prev, { id, component }]);
+}, []);
+
+const closeModal = React.useCallback((id) => {
+setModals(prev => prev.filter(modal => modal.id !== id));
+}, []);
+
+const value = React.useMemo(() => ({
+modals,
+openModal,
+closeModal
+}), [modals, openModal, closeModal]);
+
+return (
+<ModalContext.Provider value={value}>
+{children}
+{ReactDOM.createPortal(
+<ModalRenderer modals={modals} />,
+portalRoot.current
+)}
+</ModalContext.Provider>
+);
+}
+
+function ModalRenderer({ modals }) {
+return (
+<>
+{modals.map(({ id, component: Component }) => (
+<div key={id} className="modal-overlay">
+<Component />
+</div>
+))}
+</>
+);
+}
+
+// Usage
+function App() {
+const { openModal } = React.useContext(ModalContext);
+
+return (
+<button onClick={() => openModal('settings', SettingsModal)}>
+Open Settings
+</button>
+);
+}
+</code></pre>
+
+</div><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 4. State Management Patterns with Context </h4><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> A. Context + useReducer (Mini Redux) </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Complete state management solution function createStore(reducer, initialState, enhancer) { const StateContext = React.createContext(); const DispatchContext = React.createContext();
+function Provider({ children, preloadedState }) {
+const [state, dispatch] = React.useReducer(
+reducer,
+preloadedState || initialState
+);
+
+text
+// Middleware support
+const enhancedDispatch = React.useCallback(
+  enhancer ? enhancer({ getState: () => state })(dispatch) : dispatch,
+  [state]
+);
+
+// Memoize context values
+const stateValue = React.useMemo(() => state, [state]);
+const dispatchValue = React.useMemo(() => enhancedDispatch, [enhancedDispatch]);
+
+return (
+  &lt;StateContext.Provider value={stateValue}&gt;
+    &lt;DispatchContext.Provider value={dispatchValue}&gt;
+      {children}
+    &lt;/DispatchContext.Provider&gt;
+  &lt;/StateContext.Provider&gt;
+);
+}
+
+function useStore() {
+const state = React.useContext(StateContext);
+const dispatch = React.useContext(DispatchContext);
+
+text
+if (state === undefined || dispatch === undefined) {
+  throw new Error('useStore must be used within Provider');
+}
+
+return [state, dispatch];
+}
+
+function useSelector(selector) {
+const state = React.useContext(StateContext);
+
+text
+if (state === undefined) {
+  throw new Error('useSelector must be used within Provider');
+}
+
+const [selected, setSelected] = React.useState(() => selector(state));
+
+React.useEffect(() => {
+  const newSelected = selector(state);
+  // Custom equality check
+  if (JSON.stringify(selected) !== JSON.stringify(newSelected)) {
+    setSelected(newSelected);
+  }
+}, [state, selector]);
+
+return selected;
+}
+
+return { Provider, useStore, useSelector };
+}
+
+// Logger middleware
+const logger = (store) => (next) => (action) => {
+console.log('Dispatching:', action);
+console.log('Prev state:', store.getState());
+const result = next(action);
+console.log('Next state:', store.getState());
+return result;
+};
+
+// Thunk middleware
+const thunk = (store) => (next) => (action) => {
+if (typeof action === 'function') {
+return action(store.dispatch, store.getState);
+}
+return next(action);
+};
+
+// Usage
+const reducer = (state, action) => {
+switch (action.type) {
+case 'INCREMENT':
+return { ...state, count: state.count + 1 };
+case 'SET_USER':
+return { ...state, user: action.payload };
+default:
+return state;
+}
+};
+
+const { Provider, useSelector, useStore } = createStore(
+reducer,
+{ count: 0, user: null },
+(store) => (next) => (action) => {
+// Apply middleware
+return thunk(store)(logger(store)(next))(action);
+}
+);
+
+function Counter() {
+const count = useSelector(state => state.count);
+return <div>{count}</div>;
+}
+
+function UserComponent() {
+const [state, dispatch] = useStore();
+
+const fetchUser = React.useCallback(async () => {
+// Thunk action
+dispatch(async (dispatch) => {
+dispatch({ type: 'LOADING_START' });
+try {
+const user = await fetchUserAPI();
+dispatch({ type: 'SET_USER', payload: user });
+} catch (error) {
+dispatch({ type: 'LOADING_ERROR', payload: error });
+}
+});
+}, [dispatch]);
+
+return <button onClick={fetchUser}>Load User</button>;
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> B. Atomic State with Context </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Jotai/Recoil-style atomic state management function createAtom(initialValue) { const Context = React.createContext();
+const AtomProvider = ({ children }) => {
+const [value, setValue] = React.useState(initialValue);
+
+text
+const contextValue = React.useMemo(() => ({
+  value,
+  setValue,
+  use: () => {
+    const atomValue = React.useContext(Context);
+    if (atomValue === undefined) {
+      throw new Error('Atom must be used within its Provider');
+    }
+    return [atomValue.value, atomValue.setValue];
+  }
+}), [value]);
+
+return (
+  &lt;Context.Provider value={contextValue}&gt;
+    {children}
+  &lt;/Context.Provider&gt;
+);
+};
+
+const useAtom = () => {
+const context = React.useContext(Context);
+if (context === undefined) {
+throw new Error('useAtom must be used within AtomProvider');
+}
+return [context.value, context.setValue];
+};
+
+return { AtomProvider, useAtom };
+}
+
+// Derived atoms (computed values)
+function createDerivedAtom(atoms, computeFn) {
+const Context = React.createContext();
+
+const DerivedProvider = ({ children }) => {
+// Subscribe to all source atoms
+const values = atoms.map(({ useAtom }) => {
+const [value] = useAtom();
+return value;
+});
+
+text
+const derivedValue = React.useMemo(() => 
+  computeFn(...values),
+[values]);
+
+const contextValue = React.useMemo(() => ({
+  value: derivedValue
+}), [derivedValue]);
+
+return (
+  &lt;Context.Provider value={contextValue}&gt;
+    {children}
+  &lt;/Context.Provider&gt;
+);
+};
+
+const useDerivedAtom = () => {
+const context = React.useContext(Context);
+if (context === undefined) {
+throw new Error('useDerivedAtom must be used within DerivedProvider');
+}
+return context.value;
+};
+
+return { DerivedProvider, useDerivedAtom };
+}
+
+// Usage
+const counterAtom = createAtom(0);
+const userAtom = createAtom({ name: 'John', age: 25 });
+
+const derivedAtom = createDerivedAtom(
+[counterAtom, userAtom],
+(count, user) => ({
+doubleCount: count * 2,
+userAgeNextYear: user.age + 1
+})
+);
+
+function App() {
+return (
+<counterAtom.AtomProvider>
+<userAtom.AtomProvider>
+<derivedAtom.DerivedProvider>
+<Display />
+</derivedAtom.DerivedProvider>
+</userAtom.AtomProvider>
+</counterAtom.AtomProvider>
+);
+}
+
+function Display() {
+const [count, setCount] = counterAtom.useAtom();
+const derived = derivedAtom.useDerivedAtom();
+
+return (
+<div>
+<p>Count: {count}</p>
+<p>Double: {derived.doubleCount}</p>
+<button onClick={() => setCount(c => c + 1)}>Increment</button>
+</div>
+);
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> C. Observable Pattern with Context </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Observable store using Context function createObservableStore(initialState) { const observers = new Set(); let state = initialState;
+const store = {
+getState: () => state,
+
+text
+setState: (newState) => {
+  state = typeof newState === 'function' ? newState(state) : newState;
+  observers.forEach(observer => observer(state));
+},
+
+subscribe: (observer) => {
+  observers.add(observer);
+  return () => observers.delete(observer);
+}
+};
+
+const Context = React.createContext();
+
+function Provider({ children, initialValue }) {
+const [storeState, setStoreState] = React.useState(
+initialValue || initialState
+);
+
+text
+React.useEffect(() => {
+  // Update store when provider state changes
+  store.setState(storeState);
+}, [storeState]);
+
+React.useEffect(() => {
+  // Subscribe to store changes
+  const unsubscribe = store.subscribe((newState) => {
+    setStoreState(newState);
+  });
+  
+  return unsubscribe;
+}, []);
+
+const contextValue = React.useMemo(() => ({
+  state: storeState,
+  setState: store.setState
+}), [storeState]);
+
+return (
+  &lt;Context.Provider value={contextValue}&gt;
+    {children}
+  &lt;/Context.Provider&gt;
+);
+}
+
+function useObservableStore() {
+const context = React.useContext(Context);
+if (context === undefined) {
+throw new Error('useObservableStore must be used within Provider');
+}
+return [context.state, context.setState];
+}
+
+function useStoreSelector(selector) {
+const context = React.useContext(Context);
+const [selected, setSelected] = React.useState(() =>
+selector(context?.state)
+);
+
+text
+React.useEffect(() => {
+  if (!context) return;
+  
+  const unsubscribe = store.subscribe((newState) => {
+    const newSelected = selector(newState);
+    if (JSON.stringify(selected) !== JSON.stringify(newSelected)) {
+      setSelected(newSelected);
+    }
+  });
+  
+  return unsubscribe;
+}, [selector, context]);
+
+return selected;
+}
+
+return { Provider, useObservableStore, useStoreSelector, store };
+}
+</code></pre>
+
+</div><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 5. Testing Strategies </h4><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Testing utilities for Context function createTestWrapper(Context, value) { return function TestWrapper({ children }) { return ( &lt;Context.Provider value={value}&gt; {children} &lt;/Context.Provider&gt; ); }; }
+function renderWithContext(ui, { context, value, ...renderOptions }) {
+const Wrapper = ({ children }) => (
+<context.Provider value={value}>
+{children}
+</context.Provider>
+);
+
+return {
+...render(ui, { wrapper: Wrapper, ...renderOptions }),
+rerender: (newUi, newValue) => {
+const NewWrapper = ({ children }) => (
+<context.Provider value={newValue !== undefined ? newValue : value}>
+{children}
+</context.Provider>
+);
+return render(newUi, { wrapper: NewWrapper, ...renderOptions });
+}
+};
+}
+
+// Mock context for testing
+function createMockContext(defaultValue) {
+const mockContext = {
+...React.createContext(defaultValue),
+_currentValue: defaultValue,
+_currentValue2: defaultValue
+};
+
+return mockContext;
+}
+
+// Testing custom hooks that use Context
+function renderHookWithContext(hook, { context, value }) {
+const Wrapper = ({ children }) => (
+<context.Provider value={value}>
+{children}
+</context.Provider>
+);
+
+return renderHook(hook, { wrapper: Wrapper });
+}
+
+// Example test
+describe('UserContext', () => {
+const UserContext = React.createContext();
+
+test('hook throws error when used outside provider', () => {
+const { result } = renderHook(() => React.useContext(UserContext));
+expect(result.error).toBeUndefined();
+});
+
+test('hook returns context value', () => {
+const mockValue = { user: { name: 'John' } };
+const { result } = renderHookWithContext(
+() => React.useContext(UserContext),
+{ context: UserContext, value: mockValue }
+);
+
+text
+expect(result.current).toBe(mockValue);
+});
+
+test('component renders with context', () => {
+const mockValue = { user: { name: 'John' } };
+const TestComponent = () => {
+const { user } = React.useContext(UserContext);
+return <div>{user.name}</div>;
+};
+
+text
+const { getByText } = renderWithContext(
+  &lt;TestComponent /&gt;,
+  { context: UserContext, value: mockValue }
+);
+
+expect(getByText('John')).toBeInTheDocument();
+});
+});
+
+// Integration testing
+describe('Context integration', () => {
+test('multiple contexts work together', () => {
+const ThemeContext = React.createContext();
+const UserContext = React.createContext();
+
+text
+const TestComponent = () => {
+  const theme = React.useContext(ThemeContext);
+  const user = React.useContext(UserContext);
+  
+  return (
+    &lt;div data-testid="result"&gt;
+      {theme}-{user.name}
+    &lt;/div&gt;
+  );
+};
+
+const { getByTestId } = render(
+  &lt;ThemeContext.Provider value="dark"&gt;
+    &lt;UserContext.Provider value={{ name: 'John' }}&gt;
+      &lt;TestComponent /&gt;
+    &lt;/UserContext.Provider&gt;
+  &lt;/ThemeContext.Provider&gt;
+);
+
+expect(getByTestId('result')).toHaveTextContent('dark-John');
+});
+});
+</code></pre>
+
+</div><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 6. Real-World Advanced Examples </h4><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> A. Internationalization (i18n) Context </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Complete i18n solution with Context const I18nContext = React.createContext();
+function I18nProvider({ children, defaultLocale = 'en', translations }) {
+const [locale, setLocale] = React.useState(defaultLocale);
+const [fallbackLocale, setFallbackLocale] = React.useState('en');
+
+const translate = React.useCallback((key, params = {}) => {
+const keys = key.split('.');
+let translation = keys.reduce((obj, k) => obj?.[k], translations[locale]);
+
+text
+if (!translation && locale !== fallbackLocale) {
+  translation = keys.reduce((obj, k) => obj?.[k], translations[fallbackLocale]);
+}
+
+if (!translation) {
+  console.warn(\`Missing translation for key: \${key}\`);
+  return key;
+}
+
+// Replace params in translation string
+return Object.keys(params).reduce((str, paramKey) => {
+  return str.replace(\`{\${paramKey}}\`, params[paramKey]);
+}, translation);
+}, [locale, fallbackLocale, translations]);
+
+const formatNumber = React.useCallback((number, options) => {
+return new Intl.NumberFormat(locale, options).format(number);
+}, [locale]);
+
+const formatDate = React.useCallback((date, options) => {
+return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+}, [locale]);
+
+const value = React.useMemo(() => ({
+locale,
+setLocale,
+fallbackLocale,
+setFallbackLocale,
+t: translate,
+formatNumber,
+formatDate
+}), [locale, fallbackLocale, translate, formatNumber, formatDate]);
+
+return (
+<I18nContext.Provider value={value}>
+{children}
+</I18nContext.Provider>
+);
+}
+
+// Custom hooks for i18n
+function useTranslation() {
+const context = React.useContext(I18nContext);
+if (!context) throw new Error('useTranslation must be used within I18nProvider');
+
+return {
+t: context.t,
+locale: context.locale,
+setLocale: context.setLocale
+};
+}
+
+function useFormatNumber() {
+const context = React.useContext(I18nContext);
+if (!context) throw new Error('useFormatNumber must be used within I18nProvider');
+return context.formatNumber;
+}
+
+// Usage
+function Greeting({ name }) {
+const { t } = useTranslation();
+const formatNumber = useFormatNumber();
+
+return (
+<div>
+<h1>{t('greeting.message', { name })}</h1>
+<p>{t('greeting.description')}</p>
+<p>{t('currency.value', {
+amount: formatNumber(1234.56, { style: 'currency', currency: 'USD' })
+})}</p>
+</div>
+);
+}
+
+// Translations object
+const translations = {
+en: {
+greeting: {
+message: 'Hello, {name}!',
+description: 'Welcome to our application'
+},
+currency: {
+value: 'Amount: {amount}'
+}
+},
+es: {
+greeting: {
+message: '¡Hola, {name}!',
+description: 'Bienvenido a nuestra aplicación'
+}
+}
+};
+
+function App() {
+return (
+<I18nProvider translations={translations}>
+<Greeting name="John" />
+</I18nProvider>
+);
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> B. Authentication Context with Persistence </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Complete auth solution with Context const AuthContext = React.createContext();
+function AuthProvider({ children }) {
+const [user, setUser] = React.useState(null);
+const [loading, setLoading] = React.useState(true);
+const [error, setError] = React.useState(null);
+
+// Check for saved session on mount
+React.useEffect(() => {
+const savedUser = localStorage.getItem('auth_user');
+const savedToken = localStorage.getItem('auth_token');
+
+text
+if (savedUser && savedToken) {
+  try {
+    setUser(JSON.parse(savedUser));
+  } catch (e) {
+    localStorage.removeItem('auth_user');
+    localStorage.removeItem('auth_token');
+  }
+}
+
+setLoading(false);
+}, []);
+
+const login = React.useCallback(async (credentials) => {
+setLoading(true);
+setError(null);
+
+text
+try {
+  const response = await fetch('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials)
+  });
+  
+  if (!response.ok) {
+    throw new Error('Login failed');
+  }
+  
+  const { user, token } = await response.json();
+  
+  // Save to localStorage
+  localStorage.setItem('auth_user', JSON.stringify(user));
+  localStorage.setItem('auth_token', token);
+  
+  // Set in state
+  setUser(user);
+  return { user, token };
+} catch (err) {
+  setError(err.message);
+  throw err;
+} finally {
+  setLoading(false);
+}
+}, []);
+
+const logout = React.useCallback(async () => {
+setLoading(true);
+
+text
+try {
+  // Optional: Call logout API
+  await fetch('/api/logout', {
+    headers: {
+      'Authorization': \`Bearer \${localStorage.getItem('auth_token')}\`
+    }
+  });
+} finally {
+  // Clear storage and state
+  localStorage.removeItem('auth_user');
+  localStorage.removeItem('auth_token');
+  setUser(null);
+  setLoading(false);
+}
+}, []);
+
+const refreshToken = React.useCallback(async () => {
+const token = localStorage.getItem('auth_token');
+if (!token) return null;
+
+text
+try {
+  const response = await fetch('/api/refresh-token', {
+    method: 'POST',
+    headers: {
+      'Authorization': \`Bearer \${token}\`
+    }
+  });
+  
+  if (!response.ok) {
+    throw new Error('Token refresh failed');
+  }
+  
+  const { token: newToken } = await response.json();
+  localStorage.setItem('auth_token', newToken);
+  return newToken;
+} catch (err) {
+  logout();
+  return null;
+}
+}, [logout]);
+
+const updateUser = React.useCallback((updates) => {
+setUser(prev => {
+const updated = { ...prev, ...updates };
+localStorage.setItem('auth_user', JSON.stringify(updated));
+return updated;
+});
+}, []);
+
+const value = React.useMemo(() => ({
+user,
+loading,
+error,
+login,
+logout,
+refreshToken,
+updateUser,
+isAuthenticated: !!user
+}), [user, loading, error, login, logout, refreshToken, updateUser]);
+
+return (
+<AuthContext.Provider value={value}>
+{children}
+</AuthContext.Provider>
+);
+}
+
+// Protected route component
+function ProtectedRoute({ children }) {
+const { isAuthenticated, loading } = React.useContext(AuthContext);
+
+if (loading) {
+return <LoadingSpinner />;
+}
+
+if (!isAuthenticated) {
+return <Navigate to="/login" replace />;
+}
+
+return children;
+}
+
+// Custom hooks
+function useAuth() {
+const context = React.useContext(AuthContext);
+if (!context) throw new Error('useAuth must be used within AuthProvider');
+return context;
+}
+
+// Hook for requiring authentication
+function useRequireAuth() {
+const { isAuthenticated, loading } = useAuth();
+
+React.useEffect(() => {
+if (!loading && !isAuthenticated) {
+// Redirect to login
+window.location.href = '/login';
+}
+}, [isAuthenticated, loading]);
+
+return { isAuthenticated, loading };
+}
+</code></pre>
+
+</div><h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;"> C. Feature Flag Context </h5><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Feature flags with Context const FeatureFlagsContext = React.createContext();
+function FeatureFlagsProvider({
+children,
+initialFlags = {},
+remoteConfigUrl
+}) {
+const [flags, setFlags] = React.useState(initialFlags);
+const [loading, setLoading] = React.useState(false);
+const [error, setError] = React.useState(null);
+
+// Load remote configuration
+React.useEffect(() => {
+if (!remoteConfigUrl) return;
+
+text
+const loadRemoteFlags = async () => {
+  setLoading(true);
+  try {
+    const response = await fetch(remoteConfigUrl);
+    const remoteFlags = await response.json();
+    setFlags(prev => ({ ...prev, ...remoteFlags }));
+  } catch (err) {
+    setError(err.message);
+    console.error('Failed to load feature flags:', err);
+  } finally {
+    setLoading(false);
+  }
+};
+
+loadRemoteFlags();
+
+// Poll for updates
+const interval = setInterval(loadRemoteFlags, 5 * 60 * 1000); // 5 minutes
+
+return () => clearInterval(interval);
+}, [remoteConfigUrl]);
+
+const isEnabled = React.useCallback((flagName) => {
+return Boolean(flags[flagName]);
+}, [flags]);
+
+const enable = React.useCallback((flagName) => {
+setFlags(prev => ({ ...prev, [flagName]: true }));
+}, []);
+
+const disable = React.useCallback((flagName) => {
+setFlags(prev => ({ ...prev, [flagName]: false }));
+}, []);
+
+const toggle = React.useCallback((flagName) => {
+setFlags(prev => ({ ...prev, [flagName]: !prev[flagName] }));
+}, []);
+
+const value = React.useMemo(() => ({
+flags,
+loading,
+error,
+isEnabled,
+enable,
+disable,
+toggle,
+setFlags
+}), [flags, loading, error, isEnabled, enable, disable, toggle]);
+
+return (
+<FeatureFlagsContext.Provider value={value}>
+{children}
+</FeatureFlagsContext.Provider>
+);
+}
+
+// Custom hooks
+function useFeatureFlags() {
+const context = React.useContext(FeatureFlagsContext);
+if (!context) throw new Error('useFeatureFlags must be used within FeatureFlagsProvider');
+return context;
+}
+
+function useFeature(flagName) {
+const { isEnabled, loading } = useFeatureFlags();
+return { enabled: isEnabled(flagName), loading };
+}
+
+// Higher-order component
+function withFeature(flagName, FallbackComponent = null) {
+return function(Component) {
+return function(props) {
+const { enabled, loading } = useFeature(flagName);
+
+text
+  if (loading) {
+    return &lt;LoadingSpinner /&gt;;
+  }
+  
+  if (!enabled && FallbackComponent) {
+    return &lt;FallbackComponent {...props} /&gt;;
+  }
+  
+  if (!enabled) {
+    return null;
+  }
+  
+  return &lt;Component {...props} /&gt;;
+};
+};
+}
+
+// Usage
+const NewDashboard = withFeature('new_dashboard', OldDashboard)(DashboardComponent);
+
+function App() {
+return (
+<FeatureFlagsProvider
+initialFlags={{
+new_dashboard: false,
+beta_features: true
+}}
+remoteConfigUrl="/api/feature-flags"
+>
+<NewDashboard />
+</FeatureFlagsProvider>
+);
+}
+</code></pre>
+
+</div><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 7. Best Practices and Pitfalls </h4><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Common pitfalls and solutions
+// 1. Provider Value Changes - Memoize context values
+function BadProvider() {
+const [state] = useState({ count: 0 });
+// ❌ New object every render causes all consumers to re-render
+return <Context.Provider value={{ state }}>{children}</Context.Provider>;
+}
+
+function GoodProvider() {
+const [state] = useState({ count: 0 });
+// ✅ Memoized value prevents unnecessary re-renders
+const value = useMemo(() => ({ state }), [state]);
+return <Context.Provider value={value}>{children}</Context.Provider>;
+}
+
+// 2. Multiple Contexts - Split large contexts
+// ❌ One giant context
+const AppContext = createContext(); // Contains user, theme, cart, notifications, etc.
+
+// ✅ Multiple focused contexts
+const UserContext = createContext();
+const ThemeContext = createContext();
+const CartContext = createContext();
+
+// 3. Default Values - Provide meaningful defaults
+// ❌ No default value
+const Context = createContext(); // undefined default
+
+// ✅ Meaningful default
+const Context = createContext({
+user: null,
+login: () => { throw new Error('Not implemented') },
+logout: () => { throw new Error('Not implemented') }
+});
+
+// 4. Error Boundaries - Wrap providers in error boundaries
+function SafeProvider({ children }) {
+return (
+<ErrorBoundary>
+<Context.Provider value={value}>
+{children}
+</Context.Provider>
+</ErrorBoundary>
+);
+}
+
+// 5. Testing - Create test utilities
+const TestProvider = ({ children, value }) => (
+<Context.Provider value={value}>
+{children}
+</Context.Provider>
+);
+
+// 6. Type Safety - Use TypeScript
+interface AppContextValue {
+user: User | null;
+theme: 'light' | 'dark';
+setTheme: (theme: 'light' | 'dark') => void;
+}
+
+const AppContext = createContext<AppContextValue | undefined>(undefined);
+
+// 7. Performance Monitoring - Track context usage
+function InstrumentedProvider({ children, name }) {
+const value = useMemo(() => ({ /* ... */ }), []);
+
+useEffect(() => {
+performance.mark(context-$ {name}-provider-mounted);
+return () => {
+performance.mark(context-$ {name}-provider-unmounted);
+};
+}, [name]);
+
+return <Context.Provider value={value}>{children}</Context.Provider>;
+}
+
+// 8. Server-Side Rendering - Handle SSR
+function SSRProvider({ children, initialState }) {
+const [state, setState] = useState(() => {
+// Use initial state from server during SSR
+if (typeof window === 'undefined') {
+return initialState;
+}
+// On client, hydrate from localStorage or keep initial
+const saved = localStorage.getItem('state');
+return saved ? JSON.parse(saved) : initialState;
+});
+
+// ... rest of provider
+}
+
+// 9. Context Composition - Use composition over inheritance
+function ComposeProviders({ providers, children }) {
+return providers.reduceRight((acc, Provider) => {
+return <Provider>{acc}</Provider>;
+}, children);
+}
+
+// Usage
+<ComposeProviders providers={[
+UserProvider,
+ThemeProvider,
+FeatureFlagsProvider
+]}>
+<App />
+</ComposeProviders>
+
+// 10. Cleanup - Proper cleanup in providers
+function SubscriptionProvider({ children }) {
+useEffect(() => {
+const subscription = subscribeToData();
+
+text
+return () => {
+  subscription.unsubscribe(); // ✅ Cleanup
+};
+}, []);
+
+return <Context.Provider value={value}>{children}</Context.Provider>;
+}
+</code></pre>
+
+</div><h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;"> 8. Migration Strategies </h4><div style="padding: 2px; border-radius: 8px; font-size: 14px;"> <pre><code className="language-javascript"> // Migrating from Redux to Context function createReduxLikeContext() { const StateContext = createContext(); const DispatchContext = createContext();
+function Provider({ children, store }) {
+const [state, setState] = useState(store.getState());
+
+text
+useEffect(() => {
+  const unsubscribe = store.subscribe(() => {
+    setState(store.getState());
+  });
+  
+  return unsubscribe;
+}, [store]);
+
+return (
+  &lt;StateContext.Provider value={state}&gt;
+    &lt;DispatchContext.Provider value={store.dispatch}&gt;
+      {children}
+    &lt;/DispatchContext.Provider&gt;
+  &lt;/StateContext.Provider&gt;
+);
+}
+
+// Redux-compatible hooks
+const useDispatch = () => useContext(DispatchContext);
+const useSelector = (selector) => {
+const state = useContext(StateContext);
+return selector(state);
+};
+
+return { Provider, useDispatch, useSelector };
+}
+
+// Adapter pattern for gradual migration
+class ContextAdapter {
+constructor(context) {
+this.context = context;
+}
+
+getState() {
+return this.context.state;
+}
+
+dispatch(action) {
+return this.context.dispatch(action);
+}
+
+subscribe(listener) {
+// Implementation for subscription
+return () => {}; // unsubscribe
+}
+}
+
+// Bridge between Context and existing Redux code
+function BridgeProvider({ children, reduxStore, contextProvider: ContextProvider }) {
+const [state, setState] = useState(reduxStore.getState());
+
+useEffect(() => {
+const unsubscribe = reduxStore.subscribe(() => {
+setState(reduxStore.getState());
+});
+
+text
+return unsubscribe;
+}, [reduxStore]);
+
+// Sync state between Redux and Context
+const contextValue = useMemo(() => ({
+...state,
+dispatch: reduxStore.dispatch
+}), [state, reduxStore.dispatch]);
+
+return (
+<ContextProvider value={contextValue}>
+{children}
+</ContextProvider>
+);
+}
+
+// Progressive migration strategy
+function MigrationWrapper({ children }) {
+const [useRedux, setUseRedux] = useState(true);
+
+// Feature flag for migration
+const { enabled: useNewContext } = useFeature('new_context_system');
+
+if (useNewContext && !useRedux) {
+return <NewContextProvider>{children}</NewContextProvider>;
+}
+
+return (
+<BridgeProvider
+reduxStore={reduxStore}
+contextProvider={LegacyContext.Provider}
+>
+{children}
+<MigrationButton onClick={() => setUseRedux(false)} />
+</BridgeProvider>
+);
+}
+</code></pre>
+
+</div></div>`,
+            examples: [
+              "Multi-layered Provider Composition",
+              "Performance-optimized Context with Selectors",
+              "Internationalization (i18n) Context System",
+              "Authentication Flow with Persistence",
+              "Feature Flag Management System",
+              "Real-time Subscription Context",
+              "Form State Management with Context",
+              "Theme Switching with CSS-in-JS Integration",
+            ],
+            questions: [
+              {
+                question:
+                  "How can you optimize Context API performance to prevent unnecessary re-renders?",
+                answer:
+                  "Several optimization techniques: 1) Memoize context values with useMemo to prevent new object references on each render, 2) Split state and dispatch into separate contexts so components only subscribe to what they need, 3) Implement selector pattern to allow components to subscribe only to specific slices of state, 4) Use React.memo() on consumer components, 5) Implement shouldComponentUpdate or custom equality checks, 6) Use useMemo/useCallback in consumers to prevent child re-renders, 7) Consider using multiple smaller contexts instead of one large context, 8) For complex state, combine Context with useReducer and separate contexts for state/dispatch.",
+              },
+              {
+                question:
+                  "What is the selector pattern and how does it work with Context?",
+                answer:
+                  "The selector pattern allows components to subscribe only to specific parts of context state rather than the entire state object. Implement by creating a custom hook that takes a selector function, uses useContext to get the full state, memoizes the selector result, and only triggers re-renders when the selected value changes. This is similar to Redux's useSelector. The hook uses useMemo to compute the selected value and a custom equality check to prevent unnecessary updates. This pattern significantly reduces re-renders in large applications where different components need different pieces of state.",
+              },
+              {
+                question:
+                  "How do you handle asynchronous operations in Context providers?",
+                answer:
+                  "Handle async operations by: 1) Creating async functions in the provider that update state after completion, 2) Using useEffect for side effects like data fetching, 3) Managing loading and error states in context, 4) Implementing cleanup with abort controllers or cancellation tokens, 5) Using useCallback to memoize async functions with proper dependencies, 6) Handling race conditions with request IDs or cancellation, 7) Providing retry mechanisms and timeouts, 8) Supporting optimistic updates where appropriate, 9) Implementing proper error boundaries around async operations.",
+              },
+              {
+                question:
+                  "What are the advantages of separating state and dispatch into different contexts?",
+                answer:
+                  "Separating state and dispatch contexts provides significant performance benefits. Components that only dispatch actions (buttons, forms) can subscribe to the dispatch context, which never changes, so they never re-render. Components that only read state can subscribe to the state context. This prevents components that only dispatch from re-rendering when state changes. The dispatch function is stable (never changes) while state changes frequently. This pattern is especially useful with useReducer where dispatch is constant. It requires creating two contexts but dramatically reduces unnecessary re-renders.",
+              },
+              {
+                question:
+                  "How can you implement middleware in a Context-based state management system?",
+                answer:
+                  "Implement middleware by creating a higher-order function that wraps the dispatch function. In the provider, create an enhanced dispatch that applies middleware chain. Common middleware patterns: logging (console.log actions/state), thunks (support async actions), error handling, analytics tracking, caching, validation. The middleware receives store methods (getState, dispatch) and returns a new dispatch function. This allows for Redux-like middleware ecosystem in Context. Implementation involves creating a middleware composer function that applies middleware in sequence to the original dispatch.",
+              },
+              {
+                question:
+                  "What are compound components and how do they relate to Context?",
+                answer:
+                  "Compound components are a pattern where components work together through implicit state sharing, typically using Context. A parent component provides context, and child components consume it without explicit props. Examples: Tabs/Tab/Panel, Accordion/AccordionItem, Select/Option. The parent (Tabs) manages state in Context, children (Tab, Panel) access it via useContext. This creates a clean, declarative API where components are logically grouped. The pattern enhances reusability and maintainability by keeping related components together while allowing flexible composition.",
+              },
+              {
+                question:
+                  "How do you test Context providers and consumers effectively?",
+                answer:
+                  "Testing strategies: 1) Create custom render functions that wrap components with providers, 2) Test providers in isolation by rendering them and checking context values, 3) Test consumers by providing mock context values, 4) Use @testing-library/react's renderHook for testing custom context hooks, 5) Test error cases (missing provider), 6) Test async operations with mock APIs, 7) Test performance by verifying selectors prevent unnecessary re-renders, 8) Test edge cases like nested providers with different values, 9) Use Jest mock functions to test dispatch calls, 10) Test cleanup and unmounting behavior.",
+              },
+              {
+                question:
+                  "What are the limitations of Context API compared to state management libraries?",
+                answer:
+                  "Limitations: 1) Performance overhead with frequent updates (all consumers re-render by default), 2) No built-in devtools for debugging, 3) No middleware ecosystem out of the box, 4) No time-travel debugging, 5) Can lead to prop-drilling in opposite direction (providers at top, consumers deep), 6) No built-in persistence or rehydration, 7) Complex async handling requires manual implementation, 8) No code splitting support for state, 9) Can become difficult to maintain with many contexts, 10) No built-in selectors or memoization. However, these can be implemented manually for specific use cases.",
+              },
+              {
+                question: "How can you implement code splitting with Context?",
+                answer:
+                  "Code splitting strategies: 1) Create multiple context providers that can be loaded dynamically with React.lazy, 2) Split contexts by feature or domain, 3) Use dynamic imports for context-heavy features, 4) Implement provider composition that supports async providers, 5) Create boundary components that suspend while loading context dependencies, 6) Use Error Boundaries to handle loading failures, 7) Preload context data on route changes, 8) Implement skeleton screens while contexts load. The key is to keep provider trees shallow and split at natural boundaries (routes, features).",
+              },
+              {
+                question:
+                  "What is the optimal provider composition strategy for large applications?",
+                answer:
+                  "Optimal composition: 1) Use a single AppProvider that composes all providers in optimal order (auth -> theme -> i18n -> routing -> feature flags -> app state), 2) Place providers that change rarely at the top, frequently changing ones lower, 3) Use React.memo on providers to prevent unnecessary re-renders, 4) Implement provider merging for nested providers of same type, 5) Use context selector patterns to minimize re-renders, 6) Consider creating domain-specific providers rather than monolithic ones, 7) Implement provider factories for reusable provider patterns, 8) Use Provider composition utilities for cleaner code, 9) Profile provider renders with React DevTools.",
+              },
+              {
+                question:
+                  "How do you handle server-side rendering with Context?",
+                answer:
+                  "SSR handling: 1) Create isomorphic providers that work on server and client, 2) Pass initial state from server to client via window.__INITIAL_STATE__, 3) Use useEffect for client-only operations (localStorage, subscriptions), 4) Implement safe defaults for server rendering, 5) Handle hydration mismatches gracefully, 6) Use Next.js getServerSideProps or similar to populate context on server, 7) Implement context serialization/deserialization for cross-environment consistency, 8) Use Suspense boundaries for async context loading on server, 9) Implement context rehydration on client mount, 10) Test SSR scenarios thoroughly.",
+              },
+              {
+                question:
+                  "What are the security considerations when using Context?",
+                answer:
+                  "Security considerations: 1) Never store sensitive data (tokens, passwords) in context accessible to all components, 2) Implement proper authentication checks in context providers, 3) Use multiple contexts to separate public and private data, 4) Implement context validation for data integrity, 5) Sanitize context data from external sources, 6) Use TypeScript for type safety, 7) Implement access control at context level, 8) Encrypt sensitive context data in localStorage/sessionStorage, 9) Implement context data expiration/refresh mechanisms, 10) Audit context usage for security vulnerabilities, 11) Use React.StrictMode to detect unsafe practices.",
+              },
+              {
+                question:
+                  "How can you implement undo/redo functionality with Context?",
+                answer:
+                  "Implement undo/redo by: 1) Creating a history context that stores past states, 2) Using useReducer with history tracking, 3) Implementing commands pattern where each action is reversible, 4) Storing inverse actions alongside state changes, 5) Creating a history stack with pointer to current state, 6) Providing undo/redo actions in context, 7) Limiting history size for memory management, 8) Implementing selective undo for specific state slices, 9) Using immer for immutable updates and easy history management, 10) Persisting history to localStorage for session persistence. The context provides undo/redo functions and current history state.",
+              },
+              {
+                question:
+                  "What are the best practices for naming and organizing contexts?",
+                answer:
+                  "Best practices: 1) Use descriptive names (UserContext, ThemeContext, CartContext), 2) Group related contexts in folders by domain/feature, 3) Create index files for context exports, 4) Prefix context files with context type (context, provider, hook), 5) Use TypeScript interfaces for context values, 6) Create custom hooks for each context (useUser, useTheme), 7) Document context dependencies and requirements, 8) Follow consistent naming patterns across application, 9) Use context displayName for better devtools experience, 10) Organize contexts by stability (stable contexts higher in tree), 11) Create context factories for reusable patterns.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/useContext",
+              "https://react.dev/learn/passing-data-deeply-with-context",
+              "https://kentcdodds.com/blog/how-to-use-react-context-effectively",
+              "https://github.com/diegohaz/awesome-react-context",
+              "https://reactjs.org/docs/context.html",
+              "https://www.patterns.dev/react/context-pattern",
+              "https://blog.isquaredsoftware.com/2021/01/context-redux-differences/",
+            ],
           },
           {
             topic: "React Router Advanced",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "React Router",
+              "Advanced Routing",
+              "Route Guards",
+              "Code Splitting",
+              "Data Loading",
+              "Nested Routes",
+              "Route Configuration",
+              "Navigation Guards",
+            ],
+            explanation: `<div>
+
+        <p style="line-height: 1.75; margin-top: 1.5rem;">
+        React Router Advanced covers sophisticated routing patterns and features beyond basic navigation, including route-based code splitting, data loaders, route guards and authentication, nested route layouts, programmatic navigation patterns, route configuration objects, transitions and animations, search params and state management, error handling, and performance optimization. Mastering advanced React Router concepts enables you to build complex, production-ready applications with sophisticated routing requirements, optimized loading strategies, and seamless user experiences. Understanding these patterns is essential for building scalable single-page applications with enterprise-level routing needs.
+        </p>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        1. Route-Based Code Splitting with Lazy Loading
+        </h4>
+
+        <p style="line-height: 1.75;">
+        Code splitting routes improves initial load time by loading route components only when needed, reducing bundle size.
+        </p>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { lazy, Suspense } from 'react';
+        import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+        // Lazy load route components
+        const Home = lazy(() => import('./pages/Home'));
+        const Dashboard = lazy(() => import('./pages/Dashboard'));
+        const Profile = lazy(() => import('./pages/Profile'));
+        const Settings = lazy(() => import('./pages/Settings'));
+
+        // Loading component
+        function LoadingFallback() {
+          return (
+            &lt;div className="loading-container"&gt;
+              &lt;Spinner /&gt;
+              &lt;p&gt;Loading...&lt;/p&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // App with lazy-loaded routes
+        function App() {
+          return (
+            &lt;BrowserRouter&gt;
+              &lt;Suspense fallback={&lt;LoadingFallback /&gt;}&gt;
+                &lt;Routes&gt;
+                  &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+                  &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+                  &lt;Route path="/profile" element={&lt;Profile /&gt;} /&gt;
+                  &lt;Route path="/settings" element={&lt;Settings /&gt;} /&gt;
+                &lt;/Routes&gt;
+              &lt;/Suspense&gt;
+            &lt;/BrowserRouter&gt;
+          );
+        }
+
+        // Advanced: Nested Suspense boundaries for granular loading
+        function App() {
+          return (
+            &lt;BrowserRouter&gt;
+              &lt;Routes&gt;
+                &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+                
+                {/* Dashboard has its own Suspense boundary */}
+                &lt;Route
+                  path="/dashboard/*"
+                  element={
+                    &lt;Suspense fallback={&lt;DashboardSkeleton /&gt;}&gt;
+                      &lt;Dashboard /&gt;
+                    &lt;/Suspense&gt;
+                  }
+                /&gt;
+              &lt;/Routes&gt;
+            &lt;/BrowserRouter&gt;
+          );
+        }
+
+        // Preloading routes on hover
+        function Navigation() {
+          const preloadDashboard = () => {
+            import('./pages/Dashboard');
+          };
+          
+          return (
+            &lt;nav&gt;
+              &lt;Link to="/"&gt;Home&lt;/Link&gt;
+              &lt;Link 
+                to="/dashboard" 
+                onMouseEnter={preloadDashboard}
+              &gt;
+                Dashboard
+              &lt;/Link&gt;
+            &lt;/nav&gt;
+          );
+        }
+
+        // Error boundary for lazy loading failures
+        class LazyLoadErrorBoundary extends React.Component {
+          state = { hasError: false };
+          
+          static getDerivedStateFromError(error) {
+            return { hasError: true };
+          }
+          
+          render() {
+            if (this.state.hasError) {
+              return (
+                &lt;div&gt;
+                  &lt;h2&gt;Failed to load page&lt;/h2&gt;
+                  &lt;button onClick={() => window.location.reload()}&gt;
+                    Reload
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              );
+            }
+            
+            return this.props.children;
+          }
+        }
+
+        // Wrap app in error boundary
+        function App() {
+          return (
+            &lt;LazyLoadErrorBoundary&gt;
+              &lt;BrowserRouter&gt;
+                &lt;Suspense fallback={&lt;LoadingFallback /&gt;}&gt;
+                  &lt;Routes&gt;
+                    {/* routes */}
+                  &lt;/Routes&gt;
+                &lt;/Suspense&gt;
+              &lt;/BrowserRouter&gt;
+            &lt;/LazyLoadErrorBoundary&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        2. Route Guards and Protected Routes
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { Navigate, Outlet, useLocation } from 'react-router-dom';
+
+        // Basic protected route wrapper
+        function ProtectedRoute({ children }) {
+          const { user, loading } = useAuth();
+          const location = useLocation();
+          
+          if (loading) {
+            return &lt;LoadingSpinner /&gt;;
+          }
+          
+          if (!user) {
+            // Redirect to login, preserving intended destination
+            return &lt;Navigate to="/login" state={{ from: location }} replace /&gt;;
+          }
+          
+          return children;
+        }
+
+        // Usage
+        &lt;Route
+          path="/dashboard"
+          element={
+            &lt;ProtectedRoute&gt;
+              &lt;Dashboard /&gt;
+            &lt;/ProtectedRoute&gt;
+          }
+        /&gt;
+
+        // Advanced: Role-based access control
+        function ProtectedRoute({ children, requiredRoles = [] }) {
+          const { user, loading } = useAuth();
+          const location = useLocation();
+          
+          if (loading) {
+            return &lt;LoadingSpinner /&gt;;
+          }
+          
+          if (!user) {
+            return &lt;Navigate to="/login" state={{ from: location }} replace /&gt;;
+          }
+          
+          // Check if user has required role
+          if (requiredRoles.length > 0 && !requiredRoles.some(role => user.roles.includes(role))) {
+            return &lt;Navigate to="/unauthorized" replace /&gt;;
+          }
+          
+          return children;
+        }
+
+        // Usage with roles
+        &lt;Route
+          path="/admin"
+          element={
+            &lt;ProtectedRoute requiredRoles={['admin']}&gt;
+              &lt;AdminPanel /&gt;
+            &lt;/ProtectedRoute&gt;
+          }
+        /&gt;
+
+        // Layout-based protected routes with Outlet
+        function ProtectedLayout() {
+          const { user, loading } = useAuth();
+          const location = useLocation();
+          
+          if (loading) {
+            return &lt;LoadingSpinner /&gt;;
+          }
+          
+          if (!user) {
+            return &lt;Navigate to="/login" state={{ from: location }} replace /&gt;;
+          }
+          
+          return (
+            &lt;div&gt;
+              &lt;Header user={user} /&gt;
+              &lt;Sidebar /&gt;
+              &lt;main&gt;
+                &lt;Outlet /&gt; {/* Render child routes */}
+              &lt;/main&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Cleaner route configuration
+        &lt;Routes&gt;
+          &lt;Route path="/login" element={&lt;Login /&gt;} /&gt;
+          
+          {/* All child routes are automatically protected */}
+          &lt;Route element={&lt;ProtectedLayout /&gt;}&gt;
+            &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+            &lt;Route path="/profile" element={&lt;Profile /&gt;} /&gt;
+            &lt;Route path="/settings" element={&lt;Settings /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Routes&gt;
+
+        // Advanced: Permission-based UI rendering
+        function usePermission(permission) {
+          const { user } = useAuth();
+          return user?.permissions?.includes(permission) ?? false;
+        }
+
+        function Dashboard() {
+          const canEdit = usePermission('edit:posts');
+          const canDelete = usePermission('delete:posts');
+          
+          return (
+            &lt;div&gt;
+              {canEdit && &lt;button&gt;Edit&lt;/button&gt;}
+              {canDelete && &lt;button&gt;Delete&lt;/button&gt;}
+            &lt;/div&gt;
+          );
+        }
+
+        // Redirect after login to intended destination
+        function Login() {
+          const navigate = useNavigate();
+          const location = useLocation();
+          const { login } = useAuth();
+          
+          const handleLogin = async (credentials) => {
+            await login(credentials);
+            
+            // Redirect to intended destination or default to dashboard
+            const from = location.state?.from?.pathname || '/dashboard';
+            navigate(from, { replace: true });
+          };
+          
+          return &lt;LoginForm onSubmit={handleLogin} /&gt;;
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        3. Data Loading with Loaders (React Router v6.4+)
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { createBrowserRouter, RouterProvider, useLoaderData } from 'react-router-dom';
+
+        // Loader function - runs before component renders
+        async function userLoader({ params }) {
+          const response = await fetch(\`/api/users/\${params.userId}\`);
+          
+          if (!response.ok) {
+            throw new Response('User not found', { status: 404 });
+          }
+          
+          return response.json();
+        }
+
+        // Component using loader data
+        function UserProfile() {
+          const user = useLoaderData(); // Data from loader
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;{user.name}&lt;/h1&gt;
+              &lt;p&gt;{user.email}&lt;/p&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Router configuration with loader
+        const router = createBrowserRouter([
+          {
+            path: '/users/:userId',
+            element: &lt;UserProfile /&gt;,
+            loader: userLoader
+          }
+        ]);
+
+        function App() {
+          return &lt;RouterProvider router={router} /&gt;;
+        }
+
+        // Advanced: Parallel data loading
+        async function dashboardLoader() {
+          const [user, stats, notifications] = await Promise.all([
+            fetch('/api/user').then(r => r.json()),
+            fetch('/api/stats').then(r => r.json()),
+            fetch('/api/notifications').then(r => r.json())
+          ]);
+          
+          return { user, stats, notifications };
+        }
+
+        function Dashboard() {
+          const { user, stats, notifications } = useLoaderData();
+          
+          return (
+            &lt;div&gt;
+              &lt;UserWidget user={user} /&gt;
+              &lt;StatsPanel stats={stats} /&gt;
+              &lt;NotificationList notifications={notifications} /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Loader with authentication
+        async function protectedLoader({ request }) {
+          const token = localStorage.getItem('token');
+          
+          if (!token) {
+            throw redirect('/login');
+          }
+          
+          const response = await fetch('/api/protected-data', {
+            headers: { Authorization: \`Bearer \${token}\` }
+          });
+          
+          if (response.status === 401) {
+            throw redirect('/login');
+          }
+          
+          return response.json();
+        }
+
+        // Dependent loaders (parent-child data loading)
+        const router = createBrowserRouter([
+          {
+            path: '/projects/:projectId',
+            loader: projectLoader,
+            element: &lt;ProjectLayout /&gt;,
+            children: [
+              {
+                path: 'tasks',
+                loader: tasksLoader, // Can access parent loader data
+                element: &lt;TasksList /&gt;
+              }
+            ]
+          }
+        ]);
+
+        async function tasksLoader({ params }) {
+          // params.projectId available from parent route
+          return fetch(\`/api/projects/\${params.projectId}/tasks\`).then(r => r.json());
+        }
+
+        // Error handling in loaders
+        async function userLoader({ params }) {
+          try {
+            const response = await fetch(\`/api/users/\${params.userId}\`);
+            
+            if (!response.ok) {
+              throw new Response('Not Found', { status: 404 });
+            }
+            
+            return response.json();
+          } catch (error) {
+            throw new Response('Server Error', { status: 500 });
+          }
+        }
+
+        // Error boundary for loader errors
+        function ErrorBoundary() {
+          const error = useRouteError();
+          
+          if (error.status === 404) {
+            return &lt;NotFound /&gt;;
+          }
+          
+          if (error.status === 500) {
+            return &lt;ServerError /&gt;;
+          }
+          
+          return &lt;GenericError error={error} /&gt;;
+        }
+
+        const router = createBrowserRouter([
+          {
+            path: '/users/:userId',
+            element: &lt;UserProfile /&gt;,
+            loader: userLoader,
+            errorElement: &lt;ErrorBoundary /&gt;
+          }
+        ]);
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        4. Actions and Form Handling (React Router v6.4+)
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { Form, useActionData, redirect } from 'react-router-dom';
+
+        // Action function - handles form submissions
+        async function createPostAction({ request }) {
+          const formData = await request.formData();
+          const post = {
+            title: formData.get('title'),
+            content: formData.get('content')
+          };
+          
+          try {
+            const response = await fetch('/api/posts', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(post)
+            });
+            
+            if (!response.ok) {
+              return { error: 'Failed to create post' };
+            }
+            
+            const newPost = await response.json();
+            
+            // Redirect to the new post
+            return redirect(\`/posts/\${newPost.id}\`);
+          } catch (error) {
+            return { error: error.message };
+          }
+        }
+
+        // Component with Form
+        function CreatePost() {
+          const actionData = useActionData(); // Get action result
+          
+          return (
+            &lt;div&gt;
+              {actionData?.error && (
+                &lt;div className="error"&gt;{actionData.error}&lt;/div&gt;
+              )}
+              
+              &lt;Form method="post"&gt;
+                &lt;input name="title" placeholder="Title" required /&gt;
+                &lt;textarea name="content" placeholder="Content" required /&gt;
+                &lt;button type="submit"&gt;Create Post&lt;/button&gt;
+              &lt;/Form&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Router configuration
+        const router = createBrowserRouter([
+          {
+            path: '/posts/new',
+            element: &lt;CreatePost /&gt;,
+            action: createPostAction
+          }
+        ]);
+
+        // Advanced: Edit with loader and action
+        async function editPostLoader({ params }) {
+          const response = await fetch(\`/api/posts/\${params.postId}\`);
+          return response.json();
+        }
+
+        async function editPostAction({ request, params }) {
+          const formData = await request.formData();
+          const updates = {
+            title: formData.get('title'),
+            content: formData.get('content')
+          };
+          
+          await fetch(\`/api/posts/\${params.postId}\`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updates)
+          });
+          
+          return redirect(\`/posts/\${params.postId}\`);
+        }
+
+        function EditPost() {
+          const post = useLoaderData();
+          const actionData = useActionData();
+          
+          return (
+            &lt;Form method="post"&gt;
+              &lt;input name="title" defaultValue={post.title} /&gt;
+              &lt;textarea name="content" defaultValue={post.content} /&gt;
+              &lt;button type="submit"&gt;Update&lt;/button&gt;
+            &lt;/Form&gt;
+          );
+        }
+
+        // Delete action
+        async function deletePostAction({ params }) {
+          await fetch(\`/api/posts/\${params.postId}\`, { method: 'DELETE' });
+          return redirect('/posts');
+        }
+
+        function PostDetail() {
+          const post = useLoaderData();
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;{post.title}&lt;/h1&gt;
+              &lt;p&gt;{post.content}&lt;/p&gt;
+              
+              &lt;Form method="delete"&gt;
+                &lt;button type="submit"&gt;Delete&lt;/button&gt;
+              &lt;/Form&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Multiple actions with intent
+        async function postAction({ request, params }) {
+          const formData = await request.formData();
+          const intent = formData.get('intent');
+          
+          switch (intent) {
+            case 'delete':
+              await fetch(\`/api/posts/\${params.postId}\`, { method: 'DELETE' });
+              return redirect('/posts');
+              
+            case 'publish':
+              await fetch(\`/api/posts/\${params.postId}/publish\`, { method: 'POST' });
+              return { success: true };
+              
+            case 'unpublish':
+              await fetch(\`/api/posts/\${params.postId}/unpublish\`, { method: 'POST' });
+              return { success: true };
+              
+            default:
+              return { error: 'Invalid action' };
+          }
+        }
+
+        function PostActions() {
+          return (
+            &lt;div&gt;
+              &lt;Form method="post"&gt;
+                &lt;input type="hidden" name="intent" value="delete" /&gt;
+                &lt;button type="submit"&gt;Delete&lt;/button&gt;
+              &lt;/Form&gt;
+              
+              &lt;Form method="post"&gt;
+                &lt;input type="hidden" name="intent" value="publish" /&gt;
+                &lt;button type="submit"&gt;Publish&lt;/button&gt;
+              &lt;/Form&gt;
+            &lt;/div&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        5. Advanced Nested Routes and Layouts
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { Outlet, useParams, useMatches } from 'react-router-dom';
+
+        // Complex nested layout structure
+        const router = createBrowserRouter([
+          {
+            path: '/',
+            element: &lt;RootLayout /&gt;,
+            children: [
+              {
+                index: true,
+                element: &lt;Home /&gt;
+              },
+              {
+                path: 'dashboard',
+                element: &lt;DashboardLayout /&gt;,
+                children: [
+                  {
+                    index: true,
+                    element: &lt;DashboardHome /&gt;
+                  },
+                  {
+                    path: 'analytics',
+                    element: &lt;Analytics /&gt;
+                  },
+                  {
+                    path: 'reports',
+                    element: &lt;Reports /&gt;
+                  }
+                ]
+              },
+              {
+                path: 'projects',
+                element: &lt;ProjectsLayout /&gt;,
+                children: [
+                  {
+                    index: true,
+                    element: &lt;ProjectsList /&gt;
+                  },
+                  {
+                    path: ':projectId',
+                    element: &lt;ProjectDetail /&gt;,
+                    children: [
+                      {
+                        path: 'tasks',
+                        element: &lt;TasksList /&gt;
+                      },
+                      {
+                        path: 'team',
+                        element: &lt;TeamMembers /&gt;
+                      },
+                      {
+                        path: 'settings',
+                        element: &lt;ProjectSettings /&gt;
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]);
+
+        // Root layout with outlet
+        function RootLayout() {
+          return (
+            &lt;div&gt;
+              &lt;GlobalHeader /&gt;
+              &lt;Outlet /&gt; {/* Renders child routes */}
+              &lt;GlobalFooter /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Dashboard layout with sidebar
+        function DashboardLayout() {
+          return (
+            &lt;div className="dashboard"&gt;
+              &lt;DashboardSidebar /&gt;
+              &lt;main&gt;
+                &lt;Outlet /&gt; {/* Renders dashboard child routes */}
+              &lt;/main&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Project detail with tabs
+        function ProjectDetail() {
+          const { projectId } = useParams();
+          
+          return (
+            &lt;div&gt;
+              &lt;ProjectHeader projectId={projectId} /&gt;
+              
+              &lt;nav&gt;
+                &lt;NavLink to="tasks"&gt;Tasks&lt;/NavLink&gt;
+                &lt;NavLink to="team"&gt;Team&lt;/NavLink&gt;
+                &lt;NavLink to="settings"&gt;Settings&lt;/NavLink&gt;
+              &lt;/nav&gt;
+              
+              &lt;Outlet /&gt; {/* Renders tasks/team/settings */}
+            &lt;/div&gt;
+          );
+        }
+
+        // Using route context/data
+        function ProjectHeader({ projectId }) {
+          const matches = useMatches(); // Get all matched routes
+          const projectMatch = matches.find(m => m.pathname.includes('/projects/'));
+          const project = projectMatch?.data; // Data from loader
+          
+          return &lt;h1&gt;{project?.name || 'Loading...'}&lt;/h1&gt;;
+        }
+
+        // Persistent layouts across route changes
+        const router = createBrowserRouter([
+          {
+            element: &lt;PersistentLayout /&gt;,
+            children: [
+              { path: '/page1', element: &lt;Page1 /&gt; },
+              { path: '/page2', element: &lt;Page2 /&gt; },
+              { path: '/page3', element: &lt;Page3 /&gt; }
+            ]
+          }
+        ]);
+
+        function PersistentLayout() {
+          return (
+            &lt;div&gt;
+              &lt;PersistentSidebar /&gt; {/* Doesn't unmount on navigation */}
+              &lt;Outlet /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Conditional nested routes
+        function AdminLayout() {
+          const { user } = useAuth();
+          
+          if (!user.isAdmin) {
+            return &lt;Navigate to="/unauthorized" /&gt;;
+          }
+          
+          return (
+            &lt;div&gt;
+              &lt;AdminSidebar /&gt;
+              &lt;Outlet /&gt;
+            &lt;/div&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        6. Search Params and State Management
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { useSearchParams, useNavigate } from 'react-router-dom';
+
+        // Basic search params
+        function ProductList() {
+          const [searchParams, setSearchParams] = useSearchParams();
+          
+          const category = searchParams.get('category') || 'all';
+          const sort = searchParams.get('sort') || 'name';
+          const page = parseInt(searchParams.get('page') || '1');
+          
+          const handleCategoryChange = (newCategory) => {
+            setSearchParams({
+              category: newCategory,
+              sort, // Preserve other params
+              page: '1' // Reset to first page
+            });
+          };
+          
+          const handleSortChange = (newSort) => {
+            setSearchParams(prev => {
+              prev.set('sort', newSort);
+              return prev;
+            });
+          };
+          
+          return (
+            &lt;div&gt;
+              &lt;select value={category} onChange={(e) => handleCategoryChange(e.target.value)}&gt;
+                &lt;option value="all"&gt;All&lt;/option&gt;
+                &lt;option value="electronics"&gt;Electronics&lt;/option&gt;
+                &lt;option value="books"&gt;Books&lt;/option&gt;
+              &lt;/select&gt;
+              
+              &lt;select value={sort} onChange={(e) => handleSortChange(e.target.value)}&gt;
+                &lt;option value="name"&gt;Name&lt;/option&gt;
+                &lt;option value="price"&gt;Price&lt;/option&gt;
+              &lt;/select&gt;
+              
+              &lt;ProductGrid category={category} sort={sort} page={page} /&gt;
+              
+              &lt;Pagination 
+                currentPage={page}
+                onPageChange={(p) => setSearchParams({ category, sort, page: p })}
+              /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Advanced: Syncing search params with state
+        function useQueryState(key, initialValue) {
+          const [searchParams, setSearchParams] = useSearchParams();
+          
+          const value = searchParams.get(key) || initialValue;
+          
+          const setValue = (newValue) => {
+            setSearchParams(prev => {
+              if (newValue === initialValue || newValue === null) {
+                prev.delete(key);
+              } else {
+                prev.set(key, newValue);
+              }
+              return prev;
+            });
+          };
+          
+          return [value, setValue];
+        }
+
+        // Usage
+        function SearchPage() {
+          const [query, setQuery] = useQueryState('q', '');
+          const [filter, setFilter] = useQueryState('filter', 'all');
+          
+          return (
+            &lt;div&gt;
+              &lt;input value={query} onChange={(e) => setQuery(e.target.value)} /&gt;
+              &lt;select value={filter} onChange={(e) => setFilter(e.target.value)}&gt;
+                &lt;option value="all"&gt;All&lt;/option&gt;
+                &lt;option value="active"&gt;Active&lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Navigation state (ephemeral, doesn't persist in URL)
+        function ProductCard({ product }) {
+          const navigate = useNavigate();
+          
+          const handleClick = () => {
+            navigate(\`/products/\${product.id}\`, {
+              state: { 
+                from: 'product-list',
+                scrollPosition: window.scrollY
+              }
+            });
+          };
+          
+          return &lt;div onClick={handleClick}&gt;{product.name}&lt;/div&gt;;
+        }
+
+        function ProductDetail() {
+          const location = useLocation();
+          const navigate = useNavigate();
+          
+          const handleBack = () => {
+            if (location.state?.from === 'product-list') {
+              navigate(-1);
+              // Restore scroll position
+              window.scrollTo(0, location.state.scrollPosition || 0);
+            } else {
+              navigate('/products');
+            }
+          };
+          
+          return (
+            &lt;div&gt;
+              &lt;button onClick={handleBack}&gt;Back&lt;/button&gt;
+              {/* Product details */}
+            &lt;/div&gt;
+          );
+        }
+
+        // Complex filter state in URL
+        function AdvancedSearch() {
+          const [searchParams, setSearchParams] = useSearchParams();
+          
+          // Parse complex filter from URL
+          const filters = {
+            minPrice: parseInt(searchParams.get('minPrice') || '0'),
+            maxPrice: parseInt(searchParams.get('maxPrice') || '1000'),
+            categories: searchParams.getAll('category'), // Multiple values
+            inStock: searchParams.get('inStock') === 'true'
+          };
+          
+          const updateFilters = (updates) => {
+            const newParams = new URLSearchParams(searchParams);
+            
+            Object.entries(updates).forEach(([key, value]) => {
+              if (Array.isArray(value)) {
+                newParams.delete(key);
+                value.forEach(v => newParams.append(key, v));
+              } else if (value === null || value === undefined) {
+                newParams.delete(key);
+              } else {
+                newParams.set(key, value);
+              }
+            });
+            
+            setSearchParams(newParams);
+          };
+          
+          return (
+            &lt;div&gt;
+              &lt;input
+                type="number"
+                value={filters.minPrice}
+                onChange={(e) => updateFilters({ minPrice: e.target.value })}
+              /&gt;
+              
+              &lt;input
+                type="checkbox"
+                checked={filters.inStock}
+                onChange={(e) => updateFilters({ inStock: e.target.checked })}
+              /&gt;
+            &lt;/div&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        7. Programmatic Navigation Patterns
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { useNavigate, useNavigationType } from 'react-router-dom';
+
+        // Basic navigation
+        function Component() {
+          const navigate = useNavigate();
+          
+          // Navigate to route
+          navigate('/dashboard');
+          
+          // Navigate with replace (no history entry)
+          navigate('/login', { replace: true });
+          
+          // Navigate back/forward
+          navigate(-1); // Back
+          navigate(1);  // Forward
+          
+          // Navigate with state
+          navigate('/profile', { 
+            state: { userId: 123 } 
+          });
+        }
+
+        // Navigation after async operation
+        function CreatePost() {
+          const navigate = useNavigate();
+          
+          const handleSubmit = async (data) => {
+            try {
+              const response = await createPost(data);
+              
+              // Navigate to new post with success message
+              navigate(\`/posts/\${response.id}\`, {
+                state: { message: 'Post created successfully!' }
+              });
+            } catch (error) {
+              // Stay on page, show error
+              setError(error.message);
+            }
+          };
+          
+          return &lt;PostForm onSubmit={handleSubmit} /&gt;;
+        }
+
+        // Conditional navigation
+        function PaymentPage() {
+          const navigate = useNavigate();
+          const { cart } = useCart();
+          
+          useEffect(() => {
+            // Redirect if cart is empty
+            if (cart.items.length === 0) {
+              navigate('/cart', { replace: true });
+            }
+          }, [cart, navigate]);
+          
+          return &lt;PaymentForm /&gt;;
+        }
+
+        // Navigation with confirmation
+        function useBlocker(message, when = true) {
+          const navigate = useNavigate();
+          
+          useEffect(() => {
+            if (!when) return;
+            
+            const handleBeforeUnload = (e) => {
+              e.preventDefault();
+              e.returnValue = message;
+              return message;
+            };
+            
+            window.addEventListener('beforeunload', handleBeforeUnload);
+            
+            return () => {
+              window.removeEventListener('beforeunload', handleBeforeUnload);
+            };
+          }, [message, when]);
+        }
+
+        function EditForm() {
+          const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+          const navigate = useNavigate();
+          
+          useBlocker('You have unsaved changes. Are you sure?', hasUnsavedChanges);
+          
+          const handleNavigate = (path) => {
+            if (hasUnsavedChanges) {
+              if (window.confirm('You have unsaved changes. Continue?')) {
+                navigate(path);
+              }
+            } else {
+              navigate(path);
+            }
+          };
+          
+          return (
+            &lt;div&gt;
+              &lt;button onClick={() => handleNavigate('/dashboard')}&gt;Cancel&lt;/button&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Detecting navigation type
+        function Component() {
+          const navigationType = useNavigationType();
+          
+          useEffect(() => {
+            if (navigationType === 'POP') {
+              // User clicked back/forward
+              console.log('User navigated via browser buttons');
+            } else if (navigationType === 'PUSH') {
+              // User clicked a link or navigate() was called
+              console.log('User navigated to new page');
+            } else if (navigationType === 'REPLACE') {
+              // navigate() was called with replace: true
+              console.log('Page was replaced');
+            }
+          }, [navigationType]);
+        }
+
+        // Scroll restoration
+        function ScrollToTop() {
+          const { pathname } = useLocation();
+          
+          useEffect(() => {
+            window.scrollTo(0, 0);
+          }, [pathname]);
+          
+          return null;
+        }
+
+        // Usage in app
+        function App() {
+          return (
+            &lt;BrowserRouter&gt;
+              &lt;ScrollToTop /&gt;
+              &lt;Routes&gt;
+                {/* routes */}
+              &lt;/Routes&gt;
+            &lt;/BrowserRouter&gt;
+          );
+        }
+
+        // Breadcrumb navigation
+        function Breadcrumbs() {
+          const location = useLocation();
+          const pathnames = location.pathname.split('/').filter(x => x);
+          
+          return (
+            &lt;nav&gt;
+              &lt;Link to="/"&gt;Home&lt;/Link&gt;
+              {pathnames.map((name, index) => {
+                const to = \`/\${pathnames.slice(0, index + 1).join('/')}\`;
+                const isLast = index === pathnames.length - 1;
+                
+                return isLast ? (
+                  &lt;span key={to}&gt; / {name}&lt;/span&gt;
+                ) : (
+                  &lt;span key={to}&gt;
+                    {' / '}
+                    &lt;Link to={to}&gt;{name}&lt;/Link&gt;
+                  &lt;/span&gt;
+                );
+              })}
+            &lt;/nav&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        8. Route Configuration Objects
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Centralized route configuration
+        const routes = [
+          {
+            path: '/',
+            element: &lt;RootLayout /&gt;,
+            errorElement: &lt;ErrorPage /&gt;,
+            children: [
+              {
+                index: true,
+                element: &lt;Home /&gt;
+              },
+              {
+                path: 'about',
+                element: &lt;About /&gt;
+              },
+              {
+                path: 'dashboard',
+                element: &lt;ProtectedRoute&gt;&lt;DashboardLayout /&gt;&lt;/ProtectedRoute&gt;,
+                children: [
+                  {
+                    index: true,
+                    element: &lt;DashboardHome /&gt;
+                  },
+                  {
+                    path: 'analytics',
+                    element: &lt;Analytics /&gt;,
+                    loader: analyticsLoader
+                  },
+                  {
+                    path: 'reports',
+                    element: &lt;Reports /&gt;,
+                    loader: reportsLoader
+                  }
+                ]
+              },
+              {
+                path: 'posts',
+                children: [
+                  {
+                    index: true,
+                    element: &lt;PostsList /&gt;,
+                    loader: postsLoader
+                  },
+                  {
+                    path: 'new',
+                    element: &lt;CreatePost /&gt;,
+                    action: createPostAction
+                  },
+                  {
+                    path: ':postId',
+                    element: &lt;PostDetail /&gt;,
+                    loader: postLoader,
+                    children: [
+                      {
+                        path: 'edit',
+                        element: &lt;EditPost /&gt;,
+                        action: editPostAction
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ];
+
+        const router = createBrowserRouter(routes);
+
+        function App() {
+          return &lt;RouterProvider router={router} /&gt;;
+        }
+
+        // Dynamic route generation
+        function generateRoutes(modules) {
+          return modules.map(module => ({
+            path: module.path,
+            element: &lt;module.component /&gt;,
+            loader: module.loader,
+            action: module.action
+          }));
+        }
+
+        const dynamicRoutes = generateRoutes([
+          { path: '/users', component: Users, loader: usersLoader },
+          { path: '/products', component: Products, loader: productsLoader }
+        ]);
+
+        // Role-based route configuration
+        function getRoutesForRole(role) {
+          const baseRoutes = [
+            { path: '/', element: &lt;Home /&gt; },
+            { path: '/profile', element: &lt;Profile /&gt; }
+          ];
+          
+          const adminRoutes = role === 'admin' ? [
+            { path: '/admin', element: &lt;AdminPanel /&gt; },
+            { path: '/users', element: &lt;UserManagement /&gt; }
+          ] : [];
+          
+          return [...baseRoutes, ...adminRoutes];
+        }
+
+        function App() {
+          const { user } = useAuth();
+          const routes = getRoutesForRole(user?.role);
+          const router = createBrowserRouter(routes);
+          
+          return &lt;RouterProvider router={router} /&gt;;
+        }
+
+        // Route metadata
+        const routes = [
+          {
+            path: '/dashboard',
+            element: &lt;Dashboard /&gt;,
+            handle: {
+              crumb: 'Dashboard',
+              title: 'Dashboard - My App',
+              requiresAuth: true,
+              roles: ['user', 'admin']
+            }
+          }
+        ];
+
+        // Using route metadata
+        function Component() {
+          const matches = useMatches();
+          const currentRoute = matches[matches.length - 1];
+          
+          useEffect(() => {
+            document.title = currentRoute.handle?.title || 'My App';
+          }, [currentRoute]);
+          
+          return &lt;div&gt;{currentRoute.handle?.crumb}&lt;/div&gt;;
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        9. Performance Optimization
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Prefetching data on hover
+        import { prefetchQuery } from '@tanstack/react-query';
+
+        function ProductCard({ product }) {
+          const queryClient = useQueryClient();
+          
+          const handleMouseEnter = () => {
+            // Prefetch product details
+            queryClient.prefetchQuery({
+              queryKey: ['product', product.id],
+              queryFn: () => fetchProduct(product.id)
+            });
+          };
+          
+          return (
+            &lt;Link 
+              to={\\/products/\\$ {product.id}\\}
+              onMouseEnter={handleMouseEnter}
+            &gt;
+              {product.name}
+            &lt;/Link&gt;
+          );
+        }
+
+        // Optimistic UI updates with actions
+        async function likePostAction({ params }) {
+          // Optimistically update UI before server responds
+          const optimisticUpdate = { liked: true };
+          
+          try {
+            await fetch(\\ /api/posts/\\$ {params.postId}/like\\, { method: 'POST' });
+            return { success: true };
+          } catch (error) {
+            // Revert on error
+            return { error: error.message };
+          }
+        }
+
+        // Caching loader data
+        const queryClient = new QueryClient();
+
+        function userLoader({ params }) {
+          return queryClient.fetchQuery({
+            queryKey: ['user', params.userId],
+            queryFn: () => fetchUser(params.userId),
+            staleTime: 5 * 60 * 1000 // Cache for 5 minutes
+          });
+        }
+
+        // Revalidation strategies
+        const router = createBrowserRouter([
+          {
+            path: '/posts/:postId',
+            element: &lt;PostDetail /&gt;,
+            loader: postLoader,
+            shouldRevalidate: ({ currentUrl, nextUrl, defaultShouldRevalidate }) => {
+              // Only revalidate if postId changed
+              return currentUrl.pathname !== nextUrl.pathname;
+            }
+          }
+        ]);
+
+        // Lazy loading with preloading
+        const Dashboard = lazy(() => import('./pages/Dashboard'));
+        const preloadDashboard = () => import('./pages/Dashboard');
+
+        function Navigation() {
+          return (
+            &lt;nav&gt;
+              &lt;Link to="/dashboard" onMouseEnter={preloadDashboard}&gt;
+                Dashboard
+              &lt;/Link&gt;
+            &lt;/nav&gt;
+          );
+        }
+
+        // Route-based code splitting with named chunks
+        const Dashboard = lazy(() => 
+          import(/* webpackChunkName: "dashboard" */ './pages/Dashboard')
+        );
+
+        const Admin = lazy(() => 
+          import(/* webpackChunkName: "admin" */ './pages/Admin')
+        );
+
+        // Transition states for better UX
+        function Component() {
+          const navigation = useNavigation();
+          
+          const isLoading = navigation.state === 'loading';
+          const isSubmitting = navigation.state === 'submitting';
+          
+          return (
+            &lt;div&gt;
+              {isLoading && &lt;LoadingBar /&gt;}
+              {isSubmitting && &lt;button disabled&gt;Submitting...&lt;/button&gt;}
+            &lt;/div&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        10. Advanced Error Handling
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+
+        // Comprehensive error boundary
+        function ErrorBoundary() {
+          const error = useRouteError();
+          
+          if (isRouteErrorResponse(error)) {
+            // HTTP error responses
+            switch (error.status) {
+              case 404:
+                return (
+                  &lt;div&gt;
+                    &lt;h1&gt;404 - Not Found&lt;/h1&gt;
+                    &lt;p&gt;{error.data || 'Page not found'}&lt;/p&gt;
+                    &lt;Link to="/"&gt;Go Home&lt;/Link&gt;
+                  &lt;/div&gt;
+                );
+                
+              case 401:
+                return (
+                  &lt;div&gt;
+                    &lt;h1&gt;401 - Unauthorized&lt;/h1&gt;
+                    &lt;p&gt;Please log in to continue&lt;/p&gt;
+                    &lt;Link to="/login"&gt;Log In&lt;/Link&gt;
+                  &lt;/div&gt;
+                );
+                
+              case 403:
+                return (
+                  &lt;div&gt;
+                    &lt;h1&gt;403 - Forbidden&lt;/h1&gt;
+                    &lt;p&gt;You don't have permission to access this resource&lt;/p&gt;
+                  &lt;/div&gt;
+                );
+                
+              case 500:
+                return (
+                  &lt;div&gt;
+                    &lt;h1&gt;500 - Server Error&lt;/h1&gt;
+                    &lt;p&gt;Something went wrong on our end&lt;/p&gt;
+                    &lt;button onClick={() => window.location.reload()}&gt;Retry&lt;/button&gt;
+                  &lt;/div&gt;
+                );
+                
+              default:
+                return (
+                  &lt;div&gt;
+                    &lt;h1&gt;{error.status} - Error&lt;/h1&gt;
+                    &lt;p&gt;{error.statusText}&lt;/p&gt;
+                  &lt;/div&gt;
+                );
+            }
+          }
+          
+          // JavaScript errors
+          if (error instanceof Error) {
+            return (
+              &lt;div&gt;
+                &lt;h1&gt;Application Error&lt;/h1&gt;
+                &lt;p&gt;{error.message}&lt;/p&gt;
+                {process.env.NODE_ENV === 'development' && (
+                  &lt;pre&gt;{error.stack}&lt;/pre&gt;
+                )}
+              &lt;/div&gt;
+            );
+          }
+          
+          return &lt;div&gt;Unknown error occurred&lt;/div&gt;;
+        }
+
+        // Nested error boundaries
+        const router = createBrowserRouter([
+          {
+            path: '/',
+            element: &lt;RootLayout /&gt;,
+            errorElement: &lt;RootErrorBoundary /&gt;,
+            children: [
+              {
+                path: 'dashboard',
+                element: &lt;Dashboard /&gt;,
+                errorElement: &lt;DashboardErrorBoundary /&gt;, // More specific error UI
+                children: [
+                  {
+                    path: 'analytics',
+                    element: &lt;Analytics /&gt;,
+                    loader: analyticsLoader
+                  }
+                ]
+              }
+            ]
+          }
+        ]);
+
+        // Error throwing in loaders
+        async function userLoader({ params }) {
+          const response = await fetch(\\ /api/users/\\$ {params.userId}\\);
+          
+          if (response.status === 404) {
+            throw new Response('User not found', { status: 404 });
+          }
+          
+          if (response.status === 500) {
+            throw new Response('Server error', { status: 500 });
+          }
+          
+          if (!response.ok) {
+            throw new Error('Failed to fetch user');
+          }
+          
+          return response.json();
+        }
+
+        // Custom error classes
+        class NotFoundError extends Error {
+          constructor(message) {
+            super(message);
+            this.name = 'NotFoundError';
+            this.status = 404;
+          }
+        }
+
+        class UnauthorizedError extends Error {
+          constructor(message) {
+            super(message);
+            this.name = 'UnauthorizedError';
+            this.status = 401;
+          }
+        }
+
+        // Using custom errors
+        async function protectedLoader() {
+          const token = getToken();
+          
+          if (!token) {
+            throw new UnauthorizedError('Please log in');
+          }
+          
+          // ... fetch data
+        }
+
+        function ErrorBoundary() {
+          const error = useRouteError();
+          
+          if (error instanceof NotFoundError) {
+            return &lt;NotFoundPage message={error.message} /&gt;;
+          }
+          
+          if (error instanceof UnauthorizedError) {
+            return &lt;Navigate to="/login" /&gt;;
+          }
+          
+          return &lt;GenericError error={error} /&gt;;
+        }
+
+        // Error recovery
+        function ErrorBoundaryWithRecovery() {
+          const error = useRouteError();
+          const navigate = useNavigate();
+          
+          const handleRetry = () => {
+            navigate(0); // Reload current route
+          };
+          
+          const handleGoBack = () => {
+            navigate(-1);
+          };
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;Error Occurred&lt;/h1&gt;
+              &lt;p&gt;{error.message}&lt;/p&gt;
+              &lt;button onClick={handleRetry}&gt;Retry&lt;/button&gt;
+              &lt;button onClick={handleGoBack}&gt;Go Back&lt;/button&gt;
+              &lt;Link to="/"&gt;Go Home&lt;/Link&gt;
+            &lt;/div&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        11. Best Practices
+        </h4>
+
+        <ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+          <li><b>DO:</b> Use route-based code splitting for better performance</li>
+          <li><b>DO:</b> Implement proper error boundaries for each route section</li>
+          <li><b>DO:</b> Use loaders and actions for data fetching and mutations</li>
+          <li><b>DO:</b> Leverage search params for shareable filter states</li>
+          <li><b>DO:</b> Implement route guards for protected routes</li>
+          <li><b>DO:</b> Use nested routes and Outlet for complex layouts</li>
+          <li><b>DO:</b> Prefetch data on hover for better UX</li>
+          <li><b>DO:</b> Handle loading and transition states</li>
+          <li><b>DON'T:</b> Fetch data in components when loaders are available</li>
+          <li><b>DON'T:</b> Use navigate in render (use useEffect or event handlers)</li>
+          <li><b>DON'T:</b> Forget to handle cleanup in async operations</li>
+          <li><b>DON'T:</b> Overuse navigation state (prefer search params for shareable state)</li>
+        </ul>
+
+        </div>`,
+            examples: [
+              "Route-Based Code Splitting with Lazy Loading",
+              "Protected Routes with Role-Based Access Control",
+              "Data Loaders with Parallel Fetching",
+              "Form Actions with Optimistic Updates",
+              "Complex Nested Layouts with Outlet",
+              "Search Params for Filter Management",
+            ],
+            questions: [
+              {
+                question:
+                  "How does route-based code splitting work in React Router and why is it important?",
+                answer:
+                  "Route-based code splitting uses React.lazy() to dynamically import route components only when needed. Wrap lazy components in Suspense with a fallback. This reduces initial bundle size, improves load time, and loads code on-demand. Each route becomes a separate chunk that's downloaded when the user navigates to it. Combine with preloading on hover for instant navigation. Important for large apps where loading all routes upfront would be slow. Use webpack magic comments to name chunks for better debugging.",
+              },
+              {
+                question:
+                  "What are loaders in React Router v6.4+ and how do they differ from fetching data in useEffect?",
+                answer:
+                  "Loaders are functions that fetch data before a route renders, defined in route configuration. They run before component mounts, preventing loading flashes. useLoaderData hook accesses loader data in components. Loaders support parallel data fetching, automatic error handling, and proper loading states. Unlike useEffect, loaders prevent race conditions, can redirect before render, and integrate with router's navigation state. They make data dependencies explicit and enable better UX with loading indicators during navigation.",
+              },
+              {
+                question:
+                  "How do you implement protected routes with authentication in React Router?",
+                answer:
+                  "Create a ProtectedRoute component that checks authentication state, shows loading spinner while checking auth, redirects to login if not authenticated (preserving intended destination in location state), and renders children if authenticated. Use layout routes with Outlet for cleaner code—protect entire sections by wrapping parent route. Add role-based access by checking user.roles against required roles. Combine with loaders for server-side auth checks. Store intended destination to redirect after login: navigate(location.state?.from || '/dashboard').",
+              },
+              {
+                question:
+                  "What are actions in React Router and how do they handle form submissions?",
+                answer:
+                  "Actions handle form mutations (POST, PUT, DELETE) similar to how loaders handle GET requests. Defined in route config, actions receive FormData from Form component submissions. Use useActionData to access action results (errors, success). Actions can redirect after success, return validation errors, or update data. They prevent manual form handling, integrate with router's submission state (useNavigation), and enable optimistic UI. Use Form component instead of form to trigger actions. Support multiple actions with intent field.",
+              },
+              {
+                question:
+                  "How do nested routes and Outlet work in React Router?",
+                answer:
+                  "Nested routes create parent-child relationships where parent route's element renders and Outlet component renders matched child route. Enables persistent layouts—parent layout stays mounted while children change. Define nested routes in children array of route config. Useful for dashboards with sidebar (parent) and content area (Outlet). Params and loaders cascade down from parent to children. Index routes render when parent path exactly matches. Creates reusable layout components that wrap multiple pages.",
+              },
+              {
+                question:
+                  "What is the difference between search params and navigation state?",
+                answer:
+                  "Search params appear in URL (?key=value), are shareable/bookmarkable, persist across refreshes, and are best for filters, pagination, sorting—anything users might want to share or bookmark. Navigation state is ephemeral (doesn't appear in URL), lost on refresh, and is best for scroll positions, modal states, or temporary UI state. Use useSearchParams for URL params, location.state for ephemeral state. Search params enable deep linking; navigation state keeps URLs clean for temporary data.",
+              },
+              {
+                question: "How do you handle errors in loaders and actions?",
+                answer:
+                  "Throw errors or Response objects from loaders/actions. Define errorElement in route config to catch errors for that route and descendants. Use useRouteError to access error in error boundary. Check error type with isRouteErrorResponse for HTTP errors (status, data). Create custom error classes for specific error types. Nest error boundaries for granular error UI—root catches all, route-specific catch their errors. Throw Response with status code for HTTP-like errors. Return validation errors instead of throwing for form errors.",
+              },
+              {
+                question:
+                  "What are route configuration objects and what are their benefits?",
+                answer:
+                  "Route configuration objects define routes as plain JavaScript objects instead of JSX <Route> components. Benefits: centralized routing logic, easier to generate dynamically, testable without rendering, supports metadata/handles for breadcrumbs/titles, enables role-based route generation, cleaner code for complex nested routes, better TypeScript support. Use createBrowserRouter instead of BrowserRouter. Define loader, action, errorElement alongside path and element. Allows programmatic route manipulation before creating router.",
+              },
+              {
+                question:
+                  "How do you optimize performance in React Router applications?",
+                answer:
+                  "Performance optimizations: 1) Code split routes with lazy loading, 2) Prefetch data on hover with loaders or React Query, 3) Cache loader data with staleTime, 4) Use shouldRevalidate to prevent unnecessary data refetching, 5) Implement optimistic UI updates in actions, 6) Show loading states with useNavigation, 7) Lazy load images and heavy components, 8) Use named chunks for better caching, 9) Implement proper error boundaries to prevent full app crashes, 10) Memoize expensive route calculations.",
+              },
+              {
+                question: "What is the useNavigation hook and how is it used?",
+                answer:
+                  "useNavigation provides navigation state during route transitions: idle (no navigation), loading (loading new route), or submitting (form submission in progress). Access current navigation object with state, location (where navigating to), and formData (if submitting). Use to show global loading indicators, disable buttons during submission, or show optimistic UI. Example: navigation.state === 'loading' renders loading bar. navigation.state === 'submitting' disables submit button. Enables better UX by showing feedback during async operations.",
+              },
+              {
+                question:
+                  "How do you implement breadcrumb navigation with React Router?",
+                answer:
+                  "Use useMatches hook to get all matched routes. Add breadcrumb data to route handles. Parse pathname to build breadcrumb trail. Create Breadcrumbs component that maps over matched routes, extracting handle.crumb for each. Link to route path for each breadcrumb except last (current page). Handle dynamic segments by reading params. Example: routes have handle: { crumb: 'Dashboard' }, component uses matches.map(match => match.handle?.crumb). More advanced: use loader data for dynamic breadcrumbs like user names.",
+              },
+              {
+                question:
+                  "What is the difference between relative and absolute paths in React Router?",
+                answer:
+                  "Absolute paths start with / and always navigate from root (/dashboard). Relative paths don't start with / and navigate relative to current route (analytics from /dashboard goes to /dashboard/analytics). Use .. to go up one level (../settings from /dashboard/analytics goes to /dashboard/settings). Relative paths are better for portability—route section can be moved without updating all paths. Link and useNavigate support both. Routes use relative paths by default in nested route children.",
+              },
+              {
+                question:
+                  "How do you handle scroll restoration in React Router?",
+                answer:
+                  "React Router doesn't restore scroll by default. Solutions: 1) ScrollToTop component that scrolls to top on pathname change, 2) Save scroll position in navigation state and restore after back navigation, 3) Use sessionStorage to persist scroll positions, 4) ScrollRestoration component (v6.4+) handles it automatically, 5) Prevent scroll on certain navigations with preventScrollReset prop. For preserving scroll in lists, save scrollY in location state before navigating, restore on mount. Consider user expectations—new pages should scroll to top, back button should restore position.",
+              },
+              {
+                question:
+                  "What are the different ways to pass data between routes?",
+                answer:
+                  "Methods: 1) URL params (/users/:userId) - for resource IDs, 2) Search params (?filter=active) - for filters/pagination/state, 3) Navigation state (navigate(path, {state})) - for temporary data, 4) Loaders - fetch fresh data for route, 5) Context - for truly global data, 6) URL hash (#section) - for scroll targets. Choose based on: should it be shareable? (params/search), should it persist on refresh? (params/search), is it temporary UI state? (navigation state). Params and search are most common for data that should survive refresh.",
+              },
+              {
+                question:
+                  "How do you implement optimistic UI updates with React Router actions?",
+                answer:
+                  "In action, update UI immediately before API call (optimistic), make API request, handle success/error appropriately. If error, revert to previous state or show error. Use useNavigation.formData to show optimistic state before action completes. Example: for like button, immediately show liked state, call API, revert if fails. Use useFetchers for multiple concurrent optimistic updates. React Router revalidates loaders after actions, so updated data loads automatically. Combine with React Query's optimistic updates for more control. Better UX—users see immediate feedback.",
+              },
+            ],
+            links: [
+              "https://reactrouter.com/en/main",
+              "https://reactrouter.com/en/main/route/loader",
+              "https://reactrouter.com/en/main/route/action",
+              "https://reactrouter.com/en/main/hooks/use-navigation",
+              "https://reactrouter.com/en/main/guides/code-splitting",
+              "https://reactrouter.com/en/main/guides/deferred",
+            ],
           },
           {
             topic: "Dynamic Routing",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Dynamic Routing",
+              "URL Parameters",
+              "Route Params",
+              "Dynamic Segments",
+              "Wildcards",
+              "Optional Parameters",
+              "Catch-All Routes",
+              "useParams",
+            ],
+            explanation: `<div>
+
+        <p style="line-height: 1.75; margin-top: 1.5rem;">
+        Dynamic Routing enables creating routes with variable segments that capture values from the URL, allowing a single route component to handle multiple URL patterns. Instead of defining separate routes for each resource (like /users/1, /users/2), dynamic routes use parameters (/users/:id) to handle infinite variations. This pattern is essential for data-driven applications where content is determined by URL parameters, such as user profiles, product pages, blog posts, or any resource with unique identifiers. Understanding dynamic routing is crucial for building scalable, RESTful web applications with clean, semantic URLs.
+        </p>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        1. Basic URL Parameters
+        </h4>
+
+        <p style="line-height: 1.75;">
+        URL parameters are dynamic segments in the route path, prefixed with a colon (:), that capture values from the URL.
+        </p>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        import { Routes, Route, useParams } from 'react-router-dom';
+
+        // Define route with parameter
+        &lt;Routes&gt;
+          &lt;Route path="/users/:userId" element={&lt;UserProfile /&gt;} /&gt;
+        &lt;/Routes&gt;
+
+        // Access parameter in component
+        function UserProfile() {
+          const { userId } = useParams();
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;User Profile&lt;/h1&gt;
+              &lt;p&gt;User ID: {userId}&lt;/p&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // URLs that match:
+        // /users/123 → userId = "123"
+        // /users/abc → userId = "abc"
+        // /users/john-doe → userId = "john-doe"
+
+        // Multiple parameters
+        &lt;Route path="/posts/:category/:postId" element={&lt;Post /&gt;} /&gt;
+
+        function Post() {
+          const { category, postId } = useParams();
+          
+          return (
+            &lt;div&gt;
+              &lt;p&gt;Category: {category}&lt;/p&gt;
+              &lt;p&gt;Post ID: {postId}&lt;/p&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // URLs that match:
+        // /posts/tech/123 → category = "tech", postId = "123"
+        // /posts/news/breaking-story → category = "news", postId = "breaking-story"
+
+        // Using parameters for data fetching
+        function UserProfile() {
+          const { userId } = useParams();
+          const [user, setUser] = useState(null);
+          const [loading, setLoading] = useState(true);
+          
+          useEffect(() => {
+            async function fetchUser() {
+              setLoading(true);
+              try {
+                const response = await fetch(\`/api/users/\${userId}\`);
+                const data = await response.json();
+                setUser(data);
+              } catch (error) {
+                console.error(error);
+              } finally {
+                setLoading(false);
+              }
+            }
+            
+            fetchUser();
+          }, [userId]); // Re-fetch when userId changes
+          
+          if (loading) return &lt;LoadingSpinner /&gt;;
+          if (!user) return &lt;NotFound /&gt;;
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;{user.name}&lt;/h1&gt;
+              &lt;p&gt;{user.email}&lt;/p&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Important: Parameters are always strings
+        function ProductDetail() {
+          const { productId } = useParams();
+          
+          // Convert to number if needed
+          const id = parseInt(productId, 10);
+          
+          // Validate
+          if (isNaN(id)) {
+            return &lt;InvalidProduct /&gt;;
+          }
+          
+          return &lt;div&gt;Product {id}&lt;/div&gt;;
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        2. Optional Parameters
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Optional parameters using multiple routes
+        &lt;Routes&gt;
+          {/* With tab parameter */}
+          &lt;Route path="/profile/:tab" element={&lt;Profile /&gt;} /&gt;
+          
+          {/* Without tab parameter (default) */}
+          &lt;Route path="/profile" element={&lt;Profile /&gt;} /&gt;
+        &lt;/Routes&gt;
+
+        function Profile() {
+          const { tab = 'overview' } = useParams();
+          
+          return (
+            &lt;div&gt;
+              {tab === 'overview' && &lt;Overview /&gt;}
+              {tab === 'settings' && &lt;Settings /&gt;}
+              {tab === 'activity' && &lt;Activity /&gt;}
+            &lt;/div&gt;
+          );
+        }
+
+        // Better: Use search params for optional values
+        import { useSearchParams } from 'react-router-dom';
+
+        &lt;Route path="/products" element={&lt;ProductList /&gt;} /&gt;
+
+        function ProductList() {
+          const [searchParams] = useSearchParams();
+          
+          const category = searchParams.get('category') || 'all';
+          const sort = searchParams.get('sort') || 'name';
+          const page = parseInt(searchParams.get('page') || '1');
+          
+          return (
+            &lt;div&gt;
+              {/* /products?category=electronics&sort=price&page=2 */}
+              &lt;ProductGrid category={category} sort={sort} page={page} /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Combining params and search params
+        &lt;Route path="/users/:userId/posts" element={&lt;UserPosts /&gt;} /&gt;
+
+        function UserPosts() {
+          const { userId } = useParams(); // Required
+          const [searchParams] = useSearchParams();
+          
+          const filter = searchParams.get('filter') || 'all'; // Optional
+          const sort = searchParams.get('sort') || 'date'; // Optional
+          
+          return (
+            &lt;div&gt;
+              {/* /users/123/posts?filter=published&sort=likes */}
+              &lt;h1&gt;Posts by User {userId}&lt;/h1&gt;
+              &lt;PostList userId={userId} filter={filter} sort={sort} /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Default parameters with redirect
+        function Profile() {
+          const { tab } = useParams();
+          const navigate = useNavigate();
+          
+          useEffect(() => {
+            if (!tab) {
+              navigate('/profile/overview', { replace: true });
+            }
+          }, [tab, navigate]);
+          
+          if (!tab) return null;
+          
+          return &lt;TabContent tab={tab} /&gt;;
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        3. Wildcard and Catch-All Routes
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Catch-all route with asterisk (*)
+        &lt;Routes&gt;
+          &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+          &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+          &lt;Route path="/users/:userId" element={&lt;UserProfile /&gt;} /&gt;
+          
+          {/* Catch all unmatched routes */}
+          &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+        &lt;/Routes&gt;
+
+        // Wildcard parameter captures rest of path
+        &lt;Route path="/docs/*" element={&lt;Documentation /&gt;} /&gt;
+
+        function Documentation() {
+          const location = useLocation();
+          
+          // Extract remaining path
+          const docPath = location.pathname.replace('/docs/', '');
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;Documentation&lt;/h1&gt;
+              &lt;p&gt;Path: {docPath}&lt;/p&gt;
+              {/* /docs/getting-started/installation → getting-started/installation */}
+            &lt;/div&gt;
+          );
+        }
+
+        // Using splat parameter (*)
+        &lt;Route path="/files/*" element={&lt;FileViewer /&gt;} /&gt;
+
+        function FileViewer() {
+          const params = useParams();
+          const filePath = params['*']; // Everything after /files/
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;File Viewer&lt;/h1&gt;
+              &lt;p&gt;Path: {filePath}&lt;/p&gt;
+              {/* /files/docs/2024/report.pdf → docs/2024/report.pdf */}
+            &lt;/div&gt;
+          );
+        }
+
+        // Nested wildcard routes
+        &lt;Routes&gt;
+          &lt;Route path="/admin/*" element={&lt;AdminLayout /&gt;}&gt;
+            &lt;Route path="users/*" element={&lt;UsersSection /&gt;} /&gt;
+            &lt;Route path="settings/*" element={&lt;SettingsSection /&gt;} /&gt;
+            &lt;Route path="*" element={&lt;AdminNotFound /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Routes&gt;
+
+        // File browser with dynamic depth
+        &lt;Route path="/browse/*" element={&lt;FileBrowser /&gt;} /&gt;
+
+        function FileBrowser() {
+          const params = useParams();
+          const path = params['*'] || '';
+          const pathSegments = path.split('/').filter(Boolean);
+          
+          return (
+            &lt;div&gt;
+              &lt;Breadcrumbs segments={pathSegments} /&gt;
+              &lt;FileList path={path} /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Handling 404 with meaningful context
+        function NotFound() {
+          const location = useLocation();
+          
+          return (
+            &lt;div&gt;
+              &lt;h1&gt;404 - Page Not Found&lt;/h1&gt;
+              &lt;p&gt;The page "{location.pathname}" does not exist.&lt;/p&gt;
+              &lt;Link to="/"&gt;Go Home&lt;/Link&gt;
+            &lt;/div&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        4. Nested Dynamic Routes
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Multiple levels of dynamic segments
+        &lt;Routes&gt;
+          &lt;Route path="/projects/:projectId" element={&lt;ProjectLayout /&gt;}&gt;
+            {/* Nested dynamic routes */}
+            &lt;Route path="tasks/:taskId" element={&lt;TaskDetail /&gt;} /&gt;
+            &lt;Route path="team/:memberId" element={&lt;MemberProfile /&gt;} /&gt;
+            &lt;Route path="files/:fileId/versions/:versionId" element={&lt;FileVersion /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Routes&gt;
+
+        // Parent component with Outlet
+        function ProjectLayout() {
+          const { projectId } = useParams();
+          const [project, setProject] = useState(null);
+          
+          useEffect(() => {
+            fetchProject(projectId).then(setProject);
+          }, [projectId]);
+          
+          if (!project) return &lt;LoadingSpinner /&gt;;
+          
+          return (
+            &lt;div&gt;
+              &lt;ProjectHeader project={project} /&gt;
+              &lt;ProjectNav projectId={projectId} /&gt;
+              &lt;Outlet /&gt; {/* Renders nested routes */}
+            &lt;/div&gt;
+          );
+        }
+
+        // Child component accessing all params
+        function TaskDetail() {
+          const { projectId, taskId } = useParams();
+          
+          return (
+            &lt;div&gt;
+              &lt;h2&gt;Task {taskId}&lt;/h2&gt;
+              &lt;p&gt;In Project {projectId}&lt;/p&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Deep nesting with multiple parameters
+        function FileVersion() {
+          const { projectId, fileId, versionId } = useParams();
+          
+          // URL: /projects/123/files/456/versions/789
+          // projectId = "123"
+          // fileId = "456"
+          // versionId = "789"
+          
+          return (
+            &lt;div&gt;
+              &lt;h3&gt;File Version&lt;/h3&gt;
+              &lt;p&gt;Project: {projectId}&lt;/p&gt;
+              &lt;p&gt;File: {fileId}&lt;/p&gt;
+              &lt;p&gt;Version: {versionId}&lt;/p&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Index routes for nested structures
+        &lt;Routes&gt;
+          &lt;Route path="/users/:userId" element={&lt;UserLayout /&gt;}&gt;
+            &lt;Route index element={&lt;UserOverview /&gt;} /&gt;
+            &lt;Route path="posts" element={&lt;UserPosts /&gt;} /&gt;
+            &lt;Route path="posts/:postId" element={&lt;PostDetail /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Routes&gt;
+
+        // /users/123 → UserLayout + UserOverview
+        // /users/123/posts → UserLayout + UserPosts
+        // /users/123/posts/456 → UserLayout + PostDetail
+
+        // Accessing parent params in deeply nested components
+        function PostDetail() {
+          const { userId, postId } = useParams();
+          
+          // Can access both parent (userId) and current (postId) params
+          useEffect(() => {
+            fetchPost(userId, postId);
+          }, [userId, postId]);
+          
+          return &lt;div&gt;Post {postId} by User {userId}&lt;/div&gt;;
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        5. Parameter Validation and Type Checking
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Validating parameter format
+        function UserProfile() {
+          const { userId } = useParams();
+          const navigate = useNavigate();
+          
+          // Validate userId is a number
+          const id = parseInt(userId, 10);
+          
+          if (isNaN(id) || id <= 0) {
+            return (
+              &lt;div&gt;
+                &lt;h1&gt;Invalid User ID&lt;/h1&gt;
+                &lt;p&gt;User ID must be a positive number&lt;/p&gt;
+                &lt;button onClick={() => navigate('/users')}&gt;Browse Users&lt;/button&gt;
+              &lt;/div&gt;
+            );
+          }
+          
+          return &lt;UserData userId={id} /&gt;;
+        }
+
+        // Custom validation hook
+        function useValidatedParam(paramName, validator) {
+          const params = useParams();
+          const value = params[paramName];
+          const navigate = useNavigate();
+          
+          const isValid = validator(value);
+          
+          useEffect(() => {
+            if (!isValid) {
+              navigate('/404', { replace: true });
+            }
+          }, [isValid, navigate]);
+          
+          return isValid ? value : null;
+        }
+
+        // Usage
+        function ProductDetail() {
+          const productId = useValidatedParam('productId', (id) => {
+            const num = parseInt(id, 10);
+            return !isNaN(num) && num > 0 && num < 10000;
+          });
+          
+          if (!productId) return null;
+          
+          return &lt;Product id={productId} /&gt;;
+        }
+
+        // UUID validation
+        function DocumentViewer() {
+          const { documentId } = useParams();
+          
+          const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+          
+          if (!UUID_REGEX.test(documentId)) {
+            return &lt;InvalidDocument /&gt;;
+          }
+          
+          return &lt;Document id={documentId} /&gt;;
+        }
+
+        // Slug validation (URL-friendly strings)
+        function BlogPost() {
+          const { slug } = useParams();
+          
+          // Valid: "my-blog-post", "hello-world-2024"
+          // Invalid: "My Blog Post", "hello_world", "post#1"
+          const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+          
+          if (!SLUG_REGEX.test(slug)) {
+            return &lt;InvalidSlug /&gt;;
+          }
+          
+          return &lt;Post slug={slug} /&gt;;
+        }
+
+        // Date parameter validation
+        function CalendarView() {
+          const { date } = useParams();
+          
+          // Validate YYYY-MM-DD format
+          const dateObj = new Date(date);
+          
+          if (isNaN(dateObj.getTime())) {
+            return &lt;InvalidDate /&gt;;
+          }
+          
+          return &lt;Calendar date={dateObj} /&gt;;
+        }
+
+        // Enum validation
+        const VALID_CATEGORIES = ['tech', 'business', 'lifestyle', 'sports'];
+
+        function CategoryPosts() {
+          const { category } = useParams();
+          
+          if (!VALID_CATEGORIES.includes(category)) {
+            return &lt;Navigate to="/404" replace /&gt;;
+          }
+          
+          return &lt;PostList category={category} /&gt;;
+        }
+
+        // Combined validation
+        function EventDetail() {
+          const { year, month, eventId } = useParams();
+          
+          const yearNum = parseInt(year, 10);
+          const monthNum = parseInt(month, 10);
+          const eventIdNum = parseInt(eventId, 10);
+          
+          const isValid = (
+            !isNaN(yearNum) && yearNum >= 2020 && yearNum <= 2030 &&
+            !isNaN(monthNum) && monthNum >= 1 && monthNum <= 12 &&
+            !isNaN(eventIdNum) && eventIdNum > 0
+          );
+          
+          if (!isValid) {
+            return &lt;InvalidEvent /&gt;;
+          }
+          
+          return &lt;Event year={yearNum} month={monthNum} id={eventIdNum} /&gt;;
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        6. Dynamic Route Generation
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Generating routes from data
+        const categories = [
+          { id: 'electronics', component: Electronics },
+          { id: 'clothing', component: Clothing },
+          { id: 'books', component: Books }
+        ];
+
+        function App() {
+          return (
+            &lt;Routes&gt;
+              {categories.map(category => (
+                &lt;Route
+                  key={category.id}
+                  path={\\/categories/\\$ {category.id}\\}
+                  element={&lt;category.component /&gt;}
+                /&gt;
+              ))}
+            &lt;/Routes&gt;
+          );
+        }
+
+        // Dynamic admin routes based on permissions
+        function AdminRoutes({ permissions }) {
+          const routes = [
+            { path: 'users', component: UserManagement, permission: 'manage_users' },
+            { path: 'settings', component: Settings, permission: 'manage_settings' },
+            { path: 'reports', component: Reports, permission: 'view_reports' }
+          ];
+          
+          const allowedRoutes = routes.filter(route => 
+            permissions.includes(route.permission)
+          );
+          
+          return (
+            &lt;Routes&gt;
+              &lt;Route path="/admin" element={&lt;AdminLayout /&gt;}&gt;
+                {allowedRoutes.map(route => (
+                  &lt;Route
+                    key={route.path}
+                    path={route.path}
+                    element={&lt;route.component /&gt;}
+                  /&gt;
+                ))}
+              &lt;/Route&gt;
+            &lt;/Routes&gt;
+          );
+        }
+
+        // Multi-language routes
+        const languages = ['en', 'es', 'fr', 'de'];
+
+        function App() {
+          return (
+            &lt;Routes&gt;
+              {languages.map(lang => (
+                &lt;Route
+                  key={lang}
+                  path={\\/\\$ {lang}/*\\}
+                  element={&lt;LanguageProvider language={lang} /&gt;}
+                /&gt;
+              ))}
+              
+              {/* Redirect root to default language */}
+              &lt;Route path="/" element={&lt;Navigate to="/en" replace /&gt;} /&gt;
+            &lt;/Routes&gt;
+          );
+        }
+
+        // CMS-driven routes
+        function DynamicRoutes() {
+          const [routes, setRoutes] = useState([]);
+          
+          useEffect(() => {
+            // Fetch routes from CMS
+            fetch('/api/routes')
+              .then(res => res.json())
+              .then(setRoutes);
+          }, []);
+          
+          return (
+            &lt;Routes&gt;
+              {routes.map(route => (
+                &lt;Route
+                  key={route.id}
+                  path={route.path}
+                  element={&lt;CMSPage pageId={route.pageId} /&gt;}
+                /&gt;
+              ))}
+            &lt;/Routes&gt;
+          );
+        }
+
+        // Feature flag routes
+        const features = {
+          newDashboard: true,
+          betaFeature: false
+        };
+
+        function App() {
+          return (
+            &lt;Routes&gt;
+              {features.newDashboard ? (
+                &lt;Route path="/dashboard" element={&lt;NewDashboard /&gt;} /&gt;
+              ) : (
+                &lt;Route path="/dashboard" element={&lt;OldDashboard /&gt;} /&gt;
+              )}
+              
+              {features.betaFeature && (
+                &lt;Route path="/beta" element={&lt;BetaFeature /&gt;} /&gt;
+              )}
+            &lt;/Routes&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        7. Route Matching Patterns
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Route priority and matching order
+        &lt;Routes&gt;
+          {/* More specific routes come first */}
+          &lt;Route path="/users/new" element={&lt;CreateUser /&gt;} /&gt;
+          &lt;Route path="/users/:userId" element={&lt;UserProfile /&gt;} /&gt;
+          
+          {/* Without this order, /users/new would match :userId */}
+        &lt;/Routes&gt;
+
+        // Exact vs partial matching
+        &lt;Routes&gt;
+          {/* Exact match */}
+          &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+          
+          {/* Partial match with children */}
+          &lt;Route path="/blog" element={&lt;BlogLayout /&gt;}&gt;
+            &lt;Route path=":postId" element={&lt;BlogPost /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Routes&gt;
+
+        // Multiple parameters in different positions
+        &lt;Routes&gt;
+          &lt;Route path="/api/v:version/:resource/:id" element={&lt;APIEndpoint /&gt;} /&gt;
+        &lt;/Routes&gt;
+
+        function APIEndpoint() {
+          const { version, resource, id } = useParams();
+          
+          // /api/v2/users/123 → version="2", resource="users", id="123"
+          return &lt;div&gt;API v{version}: {resource}/{id}&lt;/div&gt;;
+        }
+
+        // Optional trailing slash handling
+        &lt;Routes&gt;
+          &lt;Route path="/users/:userId/*" element={&lt;UserProfile /&gt;} /&gt;
+        &lt;/Routes&gt;
+
+        // Matches both:
+        // /users/123
+        // /users/123/
+
+        // Complex pattern matching
+        &lt;Route path="/posts/:year-:month-:day/:slug" element={&lt;BlogPost /&gt;} /&gt;
+
+        function BlogPost() {
+          const { year, month, day, slug } = useParams();
+          
+          // /posts/2024-03-15/my-awesome-post
+          // year="2024", month="03", day="15", slug="my-awesome-post"
+          
+          return &lt;div&gt;Post from {year}-{month}-{day}: {slug}&lt;/div&gt;;
+        }
+
+        // Using matchPath for manual matching
+        import { matchPath } from 'react-router-dom';
+
+        function Component() {
+          const location = useLocation();
+          
+          const match = matchPath(
+            { path: '/users/:userId/posts/:postId' },
+            location.pathname
+          );
+          
+          if (match) {
+            console.log(match.params); // { userId: "...", postId: "..." }
+          }
+        }
+
+        // Case sensitivity
+        &lt;Routes&gt;
+          {/* Case-insensitive by default */}
+          &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+          {/* Matches: /about, /About, /ABOUT */}
+        &lt;/Routes&gt;
+
+        // Route ranking (React Router automatically ranks)
+        &lt;Routes&gt;
+          {/* Static segments rank higher than dynamic */}
+          &lt;Route path="/users/admin" element={&lt;AdminUsers /&gt;} /&gt; {/* Rank: 2 */}
+          &lt;Route path="/users/:userId" element={&lt;UserProfile /&gt;} /&gt; {/* Rank: 1 */}
+          
+          {/* More segments rank higher */}
+          &lt;Route path="/a/b/c" element={&lt;ABC /&gt;} /&gt; {/* Rank: 3 */}
+          &lt;Route path="/a/b" element={&lt;AB /&gt;} /&gt; {/* Rank: 2 */}
+          &lt;Route path="/a" element={&lt;A /&gt;} /&gt; {/* Rank: 1 */}
+        &lt;/Routes&gt;
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        8. Navigation with Dynamic Routes
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Generating dynamic links
+        function UserList({ users }) {
+          return (
+            &lt;ul&gt;
+              {users.map(user => (
+                &lt;li key={user.id}&gt;
+                  &lt;Link to={\\/users/\\$ {user.id}\\}&gt;{user.name}&lt;/Link&gt;
+                &lt;/li&gt;
+              ))}
+            &lt;/ul&gt;
+          );
+        }
+
+        // Template literal navigation
+        function Component() {
+          const navigate = useNavigate();
+          const userId = 123;
+          const postId = 456;
+          
+          const goToPost = () => {
+            navigate(\\/users/\\$ {userId}/posts/\\$ {postId}\\);
+          };
+          
+          return &lt;button onClick={goToPost}&gt;View Post&lt;/button&gt;;
+        }
+
+        // Building URLs with multiple parameters
+        function buildUserPostUrl(userId, postId, edit = false) {
+          const base = \\/users/\\$ {userId}/posts/\\$ {postId}\\;
+          return edit ? \\\\$ {base}/edit\\ : base;
+        }
+
+        function Component() {
+          return (
+            &lt;div&gt;
+              &lt;Link to={buildUserPostUrl(123, 456)}&gt;View Post&lt;/Link&gt;
+              &lt;Link to={buildUserPostUrl(123, 456, true)}&gt;Edit Post&lt;/Link&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Preserving current params while navigating
+        function Component() {
+          const { projectId } = useParams();
+          const navigate = useNavigate();
+          
+          const goToTasks = () => {
+            // Keep projectId, change to tasks section
+            navigate(\\/projects/\\$ {projectId}/tasks\\);
+          };
+          
+          return &lt;button onClick={goToTasks}&gt;View Tasks&lt;/button&gt;;
+        }
+
+        // Relative navigation with dynamic routes
+        function TaskDetail() {
+          const { projectId, taskId } = useParams();
+          const navigate = useNavigate();
+          
+          return (
+            &lt;div&gt;
+              {/* Relative to current route */}
+              &lt;Link to=".."&gt;Back to Project&lt;/Link&gt;
+              
+              {/* Navigate to sibling task */}
+              &lt;button onClick={() => navigate(\\../\\$ {Number(taskId) + 1}\\)}&gt;
+                Next Task
+              &lt;/button&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Active link styling with dynamic routes
+        function ProjectNav({ projectId }) {
+          return (
+            &lt;nav&gt;
+              &lt;NavLink
+                to={\\/projects/\\$ {projectId}/overview\\}
+                className={({ isActive }) => isActive ? 'active' : ''}
+              &gt;
+                Overview
+              &lt;/NavLink&gt;
+              
+              &lt;NavLink to={\\/projects/\\$ {projectId}/tasks\\}&gt;
+                Tasks
+              &lt;/NavLink&gt;
+              
+              &lt;NavLink to={\\/projects/\\$ {projectId}/team\\}&gt;
+                Team
+              &lt;/NavLink&gt;
+            &lt;/nav&gt;
+          );
+        }
+
+        // Programmatic navigation with state
+        function UserCard({ user }) {
+          const navigate = useNavigate();
+          
+          const viewProfile = () => {
+            navigate(\\/users/\\$ {user.id}\\, {
+              state: { 
+                from: 'user-list',
+                userName: user.name 
+              }
+            });
+          };
+          
+          return &lt;div onClick={viewProfile}&gt;{user.name}&lt;/div&gt;;
+        }
+
+        function UserProfile() {
+          const { userId } = useParams();
+          const location = useLocation();
+          const navigate = useNavigate();
+          
+          const handleBack = () => {
+            if (location.state?.from === 'user-list') {
+              navigate(-1); // Go back to list
+            } else {
+              navigate('/users'); // Default to users page
+            }
+          };
+          
+          return (
+            &lt;div&gt;
+              &lt;button onClick={handleBack}&gt;
+                {location.state?.userName ? \\Back to \\$ {location.state.userName}\\ : 'Back'}
+              &lt;/button&gt;
+            &lt;/div&gt;
+          );
+        }
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        9. Advanced Patterns
+        </h4>
+
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+        // Breadcrumbs with dynamic routes
+        function Breadcrumbs() {
+          const location = useLocation();
+          const params = useParams();
+          
+          const pathnames = location.pathname.split('/').filter(x => x);
+          
+          return (
+            &lt;nav&gt;
+              &lt;Link to="/"&gt;Home&lt;/Link&gt;
+              {pathnames.map((value, index) => {
+                const to = \\/\\$ {pathnames.slice(0, index + 1).join('/')}\\;
+                const isLast = index === pathnames.length - 1;
+                
+                // Replace param placeholders with actual values
+                const label = params[value] || value;
+                
+                return isLast ? (
+                  &lt;span key={to}&gt; / {label}&lt;/span&gt;
+                ) : (
+                  &lt;span key={to}&gt;
+                    {' / '}
+                    &lt;Link to={to}&gt;{label}&lt;/Link&gt;
+                  &lt;/span&gt;
+                );
+              })}
+            &lt;/nav&gt;
+          );
+        }
+
+        // Pagination with dynamic routes
+        function PaginatedList() {
+          const { page = '1' } = useParams();
+          const navigate = useNavigate();
+          const currentPage = parseInt(page, 10);
+          
+          const goToPage = (pageNum) => {
+            navigate(\\/posts/page/\\$ {pageNum}\\);
+          };
+          
+          return (
+            &lt;div&gt;
+              &lt;PostList page={currentPage} /&gt;
+              
+              &lt;div&gt;
+                {currentPage > 1 && (
+                  &lt;button onClick={() => goToPage(currentPage - 1)}&gt;
+                    Previous
+                  &lt;/button&gt;
+                )}
+                
+                &lt;span&gt;Page {currentPage}&lt;/span&gt;
+                
+                &lt;button onClick={() => goToPage(currentPage + 1)}&gt;
+                  Next
+                &lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Tabs with dynamic content
+        &lt;Route path="/profile/:section?" element={&lt;Profile /&gt;} /&gt;
+
+        function Profile() {
+          const { section = 'overview' } = useParams();
+          const navigate = useNavigate();
+          
+          const tabs = ['overview', 'settings', 'activity', 'security'];
+          
+          return (
+            &lt;div&gt;
+              &lt;nav&gt;
+                {tabs.map(tab => (
+                  &lt;button
+                    key={tab}
+                    className={section === tab ? 'active' : ''}
+                    onClick={() => navigate(\\/profile/\\$ {tab}\\)}
+                  &gt;
+                    {tab}
+                  &lt;/button&gt;
+                ))}
+              &lt;/nav&gt;
+              
+              &lt;div&gt;
+                {section === 'overview' && &lt;Overview /&gt;}
+                {section === 'settings' && &lt;Settings /&gt;}
+                {section === 'activity' && &lt;Activity /&gt;}
+                {section === 'security' && &lt;Security /&gt;}
+              &lt;/div&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Modal routes
+        &lt;Routes&gt;
+          &lt;Route path="/gallery" element={&lt;Gallery /&gt;}&gt;
+            &lt;Route path="photo/:photoId" element={&lt;PhotoModal /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Routes&gt;
+
+        function Gallery() {
+          const location = useLocation();
+          const background = location.state?.background;
+          
+          return (
+            &lt;div&gt;
+              &lt;PhotoGrid /&gt;
+              
+              {/* Show modal if navigated from gallery */}
+              &lt;Routes location={background || location}&gt;
+                &lt;Route path="photo/:photoId" element={&lt;PhotoModal /&gt;} /&gt;
+              &lt;/Routes&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // Hierarchical data with dynamic routes
+        &lt;Route path="/categories/:categoryId" element={&lt;Category /&gt;}&gt;
+          &lt;Route path="subcategories/:subcategoryId" element={&lt;Subcategory /&gt;}&gt;
+            &lt;Route path="products/:productId" element={&lt;Product /&gt;} /&gt;
+          &lt;/Route&gt;
+        &lt;/Route&gt;
+
+        // URL: /categories/electronics/subcategories/phones/products/123
+
+        function Product() {
+          const { categoryId, subcategoryId, productId } = useParams();
+          
+          // Access entire hierarchy
+          return (
+            &lt;div&gt;
+              &lt;Breadcrumbs 
+                category={categoryId}
+                subcategory={subcategoryId}
+                product={productId}
+              /&gt;
+              &lt;ProductDetails id={productId} /&gt;
+            &lt;/div&gt;
+          );
+        }
+
+        // A/B testing with dynamic routes
+        function ABTestRoute() {
+          const { variant } = useParams();
+          const [assignedVariant] = useState(() => 
+            variant || (Math.random() > 0.5 ? 'a' : 'b')
+          );
+          
+          return assignedVariant === 'a' ? &lt;VariantA /&gt; : &lt;VariantB /&gt;;
+        }
+
+        &lt;Route path="/experiment/:variant?" element={&lt;ABTestRoute /&gt;} /&gt;
+        </code></pre>
+        </div>
+
+        <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        10. Best Practices
+        </h4>
+
+        <ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+          <li><b>DO:</b> Use descriptive parameter names that indicate their purpose</li>
+          <li><b>DO:</b> Validate parameters before using them in data fetching</li>
+          <li><b>DO:</b> Convert string parameters to appropriate types (numbers, dates)</li>
+          <li><b>DO:</b> Place specific routes before dynamic routes in route order</li>
+          <li><b>DO:</b> Use search params for optional filters and sorting</li>
+          <li><b>DO:</b> Handle invalid parameters gracefully with error states</li>
+          <li><b>DO:</b> Use URL parameters for shareable, bookmarkable state</li>
+          <li><b>DON'T:</b> Use parameters for sensitive data (use POST or encrypted storage)</li>
+          <li><b>DON'T:</b> Forget that all params are strings—convert when needed</li>
+          <li><b>DON'T:</b> Create overly complex parameter patterns</li>
+          <li><b>DON'T:</b> Use params for data that shouldn't be in URL (temporary UI state)</li>
+          <li><b>DON'T:</b> Assume parameters will always be present—handle missing values</li>
+        </ul>
+
+        </div>`,
+            examples: [
+              "User Profile with Dynamic ID",
+              "Blog Post with Category and Slug",
+              "File Browser with Wildcard Routes",
+              "Nested Project Tasks",
+              "Pagination with Page Parameter",
+              "Multi-level Category Navigation",
+            ],
+            questions: [
+              {
+                question:
+                  "What are dynamic routes and how do they differ from static routes?",
+                answer:
+                  "Dynamic routes use parameters (segments prefixed with :) to match variable parts of the URL, allowing one route to handle multiple URL patterns. Static routes match exact paths. Example: /users/:userId matches /users/1, /users/123, etc., while /about only matches /about. Dynamic routes enable resource-based routing where content is determined by URL parameters, essential for data-driven apps. Parameters are accessed via useParams hook and are always strings that may need conversion to numbers or validation.",
+              },
+              {
+                question: "How do you access route parameters in a component?",
+                answer:
+                  "Use the useParams hook from react-router-dom. It returns an object with parameter names as keys and their values as strings. Example: const { userId, postId } = useParams() for route /users/:userId/posts/:postId. Parameters are always strings, so convert to numbers with parseInt() or parseFloat() if needed. In nested routes, useParams provides access to all parameters from parent and current route. Parameters update when URL changes, triggering component re-renders.",
+              },
+              {
+                question:
+                  "What is the difference between route parameters and search parameters?",
+                answer:
+                  "Route parameters are part of the path (/users/:userId), required for the route to match, used for resource identification, and appear in route definition. Search parameters are query strings (?filter=active), optional, used for filters/sorting/pagination, and accessed via useSearchParams. Use route params for required resource IDs that should be in URL path. Use search params for optional filters, sorting, or state that can have defaults. Route params are cleaner URLs; search params are more flexible for multiple optional values.",
+              },
+              {
+                question:
+                  "How do you handle parameter validation in dynamic routes?",
+                answer:
+                  "Validate parameters before using them: check type (parseInt, parse dates), validate format (regex for UUIDs, slugs), check ranges (positive numbers, valid dates), verify against allowed values (enums). Show error UI or redirect for invalid params. Example: validate userId is a number, check if it's positive, redirect to 404 if invalid. Create custom hooks for reusable validation. Validate early to prevent errors in data fetching. Return loading state during validation to avoid flashing invalid content.",
+              },
+              {
+                question:
+                  "What are wildcard routes and when should you use them?",
+                answer:
+                  "Wildcard routes use * to match any path segment(s). Use for: 404 catch-all routes (path='*'), file browsers with variable depth (path='/files/*'), documentation sites with nested paths, or nested routing sections. Access wildcard content via params['*']. Place wildcard routes last since they match anything. Useful when path depth is unknown or variable. Example: /docs/* matches /docs/getting-started/installation, and params['*'] = 'getting-started/installation'. Also used for migrating legacy URL structures.",
+              },
+              {
+                question:
+                  "How do nested dynamic routes work with multiple parameters?",
+                answer:
+                  "Nested dynamic routes define parent-child relationships where each level can have parameters. Parent route renders with Outlet, child routes render inside Outlet. All parameters from parent and current route are accessible via useParams. Example: /projects/:projectId/tasks/:taskId provides both projectId and taskId in child component. Parameters cascade down—children can access parent params. Useful for hierarchical data like projects/tasks, categories/products. Index routes handle when only parent path matches.",
+              },
+              {
+                question:
+                  "What is route ranking and how does React Router determine which route matches?",
+                answer:
+                  "React Router ranks routes automatically: static segments rank higher than dynamic parameters, more segments rank higher than fewer, specific routes rank higher than wildcards. Example: /users/admin ranks higher than /users/:userId, so /users/admin matches first. You don't need to manually order routes in most cases—React Router picks the most specific match. However, it's still good practice to place specific routes before dynamic ones for clarity. Use this for handling special cases before general patterns.",
+              },
+              {
+                question:
+                  "How do you create dynamic navigation links programmatically?",
+                answer:
+                  "Use template literals to build dynamic paths: <Link to={/users/$ {userId}}>User</Link> or navigate(/users/$ {userId}). Build helper functions for complex URLs: buildPostUrl(userId, postId) => /users/$ {userId}/posts/$ {postId}. For lists, map over data to generate links. Use NavLink for active styling with dynamic routes. Preserve current params when navigating to sibling routes. Combine with navigation state for additional context. Validate parameters before building URLs to avoid invalid links.",
+              },
+              {
+                question:
+                  "What are optional parameters and how do you implement them in React Router?",
+                answer:
+                  "React Router doesn't have built-in optional parameter syntax. Implement by: 1) Define multiple routes (with and without param), 2) Use search params instead (better for optional values), 3) Use wildcard with manual parsing. Example: /profile and /profile/:tab as separate routes, or /profile with ?tab=settings search param. Search params are generally better for optional values—more flexible, allow multiple optional values, easier to provide defaults. Use route params only for required resource identifiers.",
+              },
+              {
+                question: "How do you handle 404 errors with dynamic routes?",
+                answer:
+                  "Add catch-all route with path='*' at the end of routes list to catch unmatched URLs. Validate parameters and show error UI for invalid values. Check if resource exists after fetching—show 404 if not found. Use error boundaries for loader errors. Provide meaningful 404 messages with context about what wasn't found. Include links to go back or go home. Example: <Route path='*' element={<NotFound />} />. Consider separate 404s for different sections (admin, user-facing) for better UX.",
+              },
+              {
+                question:
+                  "How do you implement breadcrumb navigation with dynamic routes?",
+                answer:
+                  "Split pathname into segments, map over segments to build breadcrumb links, replace parameter values with actual data from useParams or loaded data. Use route handles/metadata for breadcrumb labels. Example: /users/123/posts/456 splits to ['users', '123', 'posts', '456'], replace '123' with user name from data. Build links progressively: /, /users, /users/123, etc. Mark last segment as current (not a link). Use useMatches for accessing parent route data. Style active breadcrumb differently.",
+              },
+              {
+                question:
+                  "What is the difference between /users/new and /users/:userId in route priority?",
+                answer:
+                  "React Router's route ranking ensures /users/new (static segment) ranks higher than /users/:userId (dynamic segment), so /users/new matches first. This prevents 'new' from being captured as a userId parameter. Always place specific static routes before dynamic routes with similar patterns. Example: if both routes exist, navigating to /users/new shows CreateUser component, not UserProfile with userId='new'. This is automatic ranking—manual order isn't strictly required but helps code clarity.",
+              },
+              {
+                question:
+                  "How do you share state between components in different dynamic routes?",
+                answer:
+                  "Methods: 1) URL parameters (shareable, persistent), 2) Search params (for filters/state), 3) Navigation state (temporary, via location.state), 4) Context (truly global state), 5) External state management (Redux, Zustand), 6) Parent component state with Outlet. Choose based on: should it be shareable/bookmarkable? (URL/search params), should it persist on refresh? (URL params), is it temporary? (navigation state). Example: pass userId in URL for sharing, use navigation state for scroll position, use Context for auth.",
+              },
+              {
+                question:
+                  "How do you implement pagination using dynamic routes?",
+                answer:
+                  "Two approaches: 1) Route parameter: /posts/page/:page, access via useParams, 2) Search parameter: /posts?page=2, access via useSearchParams. Search params are generally better—optional (default to page 1), allow combining with other filters, cleaner for multiple query params. Example: /posts?page=2&sort=date&filter=active. Use parseInt() to convert page to number, validate it's positive, provide Previous/Next navigation, update URL when page changes. Handle out-of-range pages gracefully.",
+              },
+              {
+                question:
+                  "What are some best practices for designing URL structures with dynamic routes?",
+                answer:
+                  "Best practices: Use clear, descriptive parameter names (userId not id), keep URLs RESTful and hierarchical (/users/:userId/posts/:postId), use plural nouns for collections (/users not /user), use slugs for human-readable URLs (my-post not 123), keep parameter names consistent across app, validate parameters early, use search params for optional filters, avoid exposing sensitive data in URLs, keep URLs bookmarkable/shareable, use hyphens not underscores in slugs, design for SEO when applicable, document URL patterns for team.",
+              },
+            ],
+            links: [
+              "https://reactrouter.com/en/main/route/route#dynamic-segments",
+              "https://reactrouter.com/en/main/hooks/use-params",
+              "https://reactrouter.com/en/main/hooks/use-search-params",
+              "https://reactrouter.com/en/main/route/route#splats",
+              "https://reactrouter.com/en/main/route/route#ranking-routes",
+              "https://reactrouter.com/en/main/utils/match-path",
+            ],
           },
           {
             topic: "Redux State Management",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Redux",
+              "State Management",
+              "Redux Toolkit",
+              "Store",
+              "Actions",
+              "Reducers",
+              "Middleware",
+              "Thunks",
+              "Selectors",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Redux is a predictable state container for JavaScript applications that provides centralized state management through a single store, unidirectional data flow, and strict patterns for updating state. Built on three core principles—single source of truth, state is read-only, and changes are made with pure functions—Redux enables predictable state updates, time-travel debugging, and easier testing. Modern Redux development uses Redux Toolkit (RTK), which simplifies configuration and reduces boilerplate while maintaining Redux's core benefits. Understanding Redux is essential for managing complex application state, especially in large-scale applications with intricate data flows and multiple components needing shared state.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Core Concepts and Principles
+</h4>
+
+<p style="line-height: 1.75;">
+Redux operates on three fundamental principles that guide its architecture and usage patterns.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Three Principles of Redux:
+
+// 1. Single Source of Truth
+// The entire application state is stored in a single object tree within one store
+const store = {
+  user: { id: 1, name: 'John' },
+  posts: [{ id: 1, title: 'Hello' }],
+  ui: { theme: 'dark', loading: false }
+};
+
+// 2. State is Read-Only
+// The only way to change state is to emit an action (an object describing what happened)
+const action = {
+  type: 'user/updateName',
+  payload: 'Jane'
+};
+
+// 3. Changes are Made with Pure Functions
+// Reducers are pure functions that take previous state and action, return new state
+function userReducer(state = {}, action) {
+  switch (action.type) {
+    case 'user/updateName':
+      return { ...state, name: action.payload }; // Pure: no mutations
+    default:
+      return state;
+  }
+}
+
+// Core Redux Flow:
+// 1. Component dispatches an action: dispatch({ type: 'INCREMENT' })
+// 2. Store runs reducer with current state and action
+// 3. Reducer returns new state
+// 4. Store notifies subscribers (React components)
+// 5. Components re-render with new state
+
+// Basic Redux setup (without Redux Toolkit)
+import { createStore } from 'redux';
+
+// Initial state
+const initialState = {
+  count: 0,
+  user: null,
+  loading: false
+};
+
+// Reducer
+function rootReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'INCREMENT':
+      return { ...state, count: state.count + 1 };
+    case 'DECREMENT':
+      return { ...state, count: state.count - 1 };
+    case 'SET_USER':
+      return { ...state, user: action.payload };
+    default:
+      return state;
+  }
+}
+
+// Create store
+const store = createStore(rootReducer);
+
+// Subscribe to changes
+store.subscribe(() => {
+  console.log('State updated:', store.getState());
+});
+
+// Dispatch actions
+store.dispatch({ type: 'INCREMENT' });
+store.dispatch({ type: 'SET_USER', payload: { id: 1, name: 'John' } });
+
+// Get current state
+const state = store.getState();
+console.log(state.count); // 1
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Redux Toolkit (RTK) - Modern Redux
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Redux Toolkit is the official, recommended way to write Redux
+// It includes utilities that simplify common use cases
+
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+
+// Create a slice (combines actions and reducer)
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment: (state) => {
+      // Redux Toolkit uses Immer internally, allowing "mutating" code
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload;
+    }
+  }
+});
+
+// Extract action creators and reducer
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export default counterSlice.reducer;
+
+// Configure store (replaces createStore)
+const store = configureStore({
+  reducer: {
+    counter: counterSlice.reducer
+  }
+});
+
+// Usage in React
+import { useSelector, useDispatch } from 'react-redux';
+
+function Counter() {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() => dispatch(increment())}&gt;+&lt;/button&gt;
+      &lt;button onClick={() => dispatch(decrement())}&gt;-&lt;/button&gt;
+      &lt;button onClick={() => dispatch(incrementByAmount(5))}&gt;+5&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Multiple slices
+const userSlice = createSlice({
+  name: 'user',
+  initialState: { currentUser: null, loading: false },
+  reducers: {
+    setUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
+    clearUser: (state) => {
+      state.currentUser = null;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    }
+  }
+});
+
+const postsSlice = createSlice({
+  name: 'posts',
+  initialState: { items: [], selectedPost: null },
+  reducers: {
+    setPosts: (state, action) => {
+      state.items = action.payload;
+    },
+    addPost: (state, action) => {
+      state.items.push(action.payload);
+    },
+    removePost: (state, action) => {
+      state.items = state.items.filter(post => post.id !== action.payload);
+    },
+    selectPost: (state, action) => {
+      state.selectedPost = action.payload;
+    }
+  }
+});
+
+// Combine in store
+const store = configureStore({
+  reducer: {
+    counter: counterSlice.reducer,
+    user: userSlice.reducer,
+    posts: postsSlice.reducer
+  }
+});
+
+// State shape:
+// {
+//   counter: { value: 0 },
+//   user: { currentUser: null, loading: false },
+//   posts: { items: [], selectedPost: null }
+// }
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Async Actions with createAsyncThunk
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// Create async thunk for API calls
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch('/api/users');
+      if (!response.ok) throw new Error('Failed to fetch');
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Async thunk with parameters
+export const fetchUserById = createAsyncThunk(
+  'users/fetchUserById',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await fetch(\`/api/users/\${userId}\`);
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Create user with POST
+export const createUser = createAsyncThunk(
+  'users/createUser',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      });
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Slice with extraReducers for async actions
+const usersSlice = createSlice({
+  name: 'users',
+  initialState: {
+    items: [],
+    selectedUser: null,
+    loading: false,
+    error: null
+  },
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      // Fetch users
+      .addCase(fetchUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Fetch user by ID
+      .addCase(fetchUserById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUserById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedUser = action.payload;
+      })
+      .addCase(fetchUserById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Create user
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.items.push(action.payload);
+      });
+  }
+});
+
+export const { clearError } = usersSlice.actions;
+export default usersSlice.reducer;
+
+// Usage in component
+function UserList() {
+  const { items: users, loading, error } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+  
+  if (loading) return &lt;Spinner /&gt;;
+  if (error) return &lt;Error message={error} /&gt;;
+  
+  return (
+    &lt;ul&gt;
+      {users.map(user => (
+        &lt;li key={user.id} onClick={() => dispatch(fetchUserById(user.id))}&gt;
+          {user.name}
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+// Handling multiple concurrent async operations
+export const fetchUserData = createAsyncThunk(
+  'users/fetchUserData',
+  async (userId, { dispatch }) => {
+    // Can dispatch other actions
+    const [user, posts, comments] = await Promise.all([
+      fetch(\`/api/users/\${userId}\`).then(r => r.json()),
+      fetch(\`/api/users/\${userId}/posts\`).then(r => r.json()),
+      fetch(\`/api/users/\${userId}/comments\`).then(r => r.json())
+    ]);
+    
+    return { user, posts, comments };
+  }
+);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Selectors and Memoization
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { createSelector } from '@reduxjs/toolkit';
+
+// Basic selectors
+const selectUsers = (state) => state.users.items;
+const selectPosts = (state) => state.posts.items;
+const selectFilter = (state) => state.ui.filter;
+
+// Usage
+function Component() {
+  const users = useSelector(selectUsers);
+  return &lt;UserList users={users} /&gt;;
+}
+
+// Memoized selectors with createSelector
+// Only recomputes when inputs change
+const selectFilteredUsers = createSelector(
+  [selectUsers, selectFilter],
+  (users, filter) => {
+    console.log('Computing filtered users'); // Only runs when users or filter changes
+    return users.filter(user => 
+      user.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
+);
+
+// Complex derived state
+const selectUserStats = createSelector(
+  [selectUsers],
+  (users) => ({
+    total: users.length,
+    active: users.filter(u => u.active).length,
+    inactive: users.filter(u => !u.active).length
+  })
+);
+
+// Selector with parameters
+const makeSelectUserById = () => createSelector(
+  [selectUsers, (_, userId) => userId],
+  (users, userId) => users.find(user => user.id === userId)
+);
+
+// Usage
+function UserProfile({ userId }) {
+  const selectUserById = useMemo(makeSelectUserById, []);
+  const user = useSelector(state => selectUserById(state, userId));
+  
+  return &lt;div&gt;{user?.name}&lt;/div&gt;;
+}
+
+// Composing selectors
+const selectUserPosts = createSelector(
+  [selectPosts, (state, userId) => userId],
+  (posts, userId) => posts.filter(post => post.userId === userId)
+);
+
+const selectUserPostCount = createSelector(
+  [selectUserPosts],
+  (posts) => posts.length
+);
+
+// Selector for sorted data
+const selectSortedPosts = createSelector(
+  [selectPosts, (state) => state.ui.sortBy],
+  (posts, sortBy) => {
+    return [...posts].sort((a, b) => {
+      if (sortBy === 'date') return new Date(b.date) - new Date(a.date);
+      if (sortBy === 'likes') return b.likes - a.likes;
+      return a.title.localeCompare(b.title);
+    });
+  }
+);
+
+// Reselect with multiple dependencies
+const selectSearchResults = createSelector(
+  [selectPosts, selectUsers, (state) => state.ui.searchQuery],
+  (posts, users, query) => {
+    if (!query) return [];
+    
+    const lowerQuery = query.toLowerCase();
+    
+    return posts
+      .filter(post => 
+        post.title.toLowerCase().includes(lowerQuery) ||
+        post.content.toLowerCase().includes(lowerQuery)
+      )
+      .map(post => ({
+        ...post,
+        author: users.find(u => u.id === post.userId)
+      }));
+  }
+);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Middleware and Side Effects
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Redux middleware intercepts actions before they reach reducers
+
+// Built-in middleware
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Disable if storing non-serializable data
+      thunk: true // Enabled by default
+    })
+});
+
+// Custom middleware
+const loggerMiddleware = (store) => (next) => (action) => {
+  console.log('Dispatching:', action);
+  console.log('Previous state:', store.getState());
+  
+  const result = next(action);
+  
+  console.log('Next state:', store.getState());
+  return result;
+};
+
+// Analytics middleware
+const analyticsMiddleware = (store) => (next) => (action) => {
+  if (action.type.startsWith('user/')) {
+    analytics.track('User Action', { type: action.type });
+  }
+  return next(action);
+};
+
+// Error handling middleware
+const errorMiddleware = (store) => (next) => (action) => {
+  try {
+    return next(action);
+  } catch (error) {
+    console.error('Error in action:', action, error);
+    store.dispatch({ type: 'error/set', payload: error.message });
+  }
+};
+
+// Add custom middleware
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      loggerMiddleware,
+      analyticsMiddleware,
+      errorMiddleware
+    )
+});
+
+// Redux Thunk (included by default in RTK)
+// Allows action creators to return functions instead of objects
+const fetchUserThunk = (userId) => {
+  return async (dispatch, getState) => {
+    dispatch({ type: 'users/fetchStart' });
+    
+    try {
+      const response = await fetch(\`/api/users/\${userId}\`);
+      const user = await response.json();
+      
+      dispatch({ type: 'users/fetchSuccess', payload: user });
+      
+      // Access current state
+      const state = getState();
+      console.log('Current user count:', state.users.items.length);
+    } catch (error) {
+      dispatch({ type: 'users/fetchError', payload: error.message });
+    }
+  };
+};
+
+// Conditional dispatch based on state
+const incrementIfOdd = () => (dispatch, getState) => {
+  const { counter } = getState();
+  
+  if (counter.value % 2 !== 0) {
+    dispatch(increment());
+  }
+};
+
+// Debounced search with middleware
+let searchTimeout;
+const debouncedSearchMiddleware = (store) => (next) => (action) => {
+  if (action.type === 'search/setQuery') {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      store.dispatch(performSearch(action.payload));
+    }, 300);
+  }
+  return next(action);
+};
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Redux with React Integration
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+// Setup store
+const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+    user: userReducer,
+    posts: postsReducer
+  }
+});
+
+// Provide store to app
+function App() {
+  return (
+    &lt;Provider store={store}&gt;
+      &lt;AppContent /&gt;
+    &lt;/Provider&gt;
+  );
+}
+
+// useSelector - Read state
+function Counter() {
+  // Select specific slice
+  const count = useSelector((state) => state.counter.value);
+  
+  // Select derived state
+  const isEven = useSelector((state) => state.counter.value % 2 === 0);
+  
+  // Select with custom equality function
+  const user = useSelector(
+    (state) => state.user.currentUser,
+    (prev, next) => prev?.id === next?.id // Custom comparison
+  );
+  
+  return &lt;div&gt;Count: {count}&lt;/div&gt;;
+}
+
+// useDispatch - Dispatch actions
+function TodoForm() {
+  const dispatch = useDispatch();
+  const [text, setText] = useState('');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addTodo({ id: Date.now(), text }));
+    setText('');
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input value={text} onChange={(e) => setText(e.target.value)} /&gt;
+      &lt;button type="submit"&gt;Add&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// useStore - Access store directly (rare)
+function Component() {
+  const store = useStore();
+  
+  // Direct store access (usually not needed)
+  const state = store.getState();
+  store.dispatch(action);
+}
+
+// Connecting multiple pieces of state
+function Dashboard() {
+  const { user, loading: userLoading } = useSelector((state) => state.user);
+  const { items: posts, loading: postsLoading } = useSelector((state) => state.posts);
+  const theme = useSelector((state) => state.ui.theme);
+  
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUserPosts(user.id));
+    }
+  }, [user, dispatch]);
+  
+  if (userLoading || postsLoading) return &lt;Spinner /&gt;;
+  
+  return (
+    &lt;div className={theme}&gt;
+      &lt;UserProfile user={user} /&gt;
+      &lt;PostsList posts={posts} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Optimizing with memoization
+const selectUserData = createSelector(
+  [(state) => state.user, (state) => state.posts],
+  (user, posts) => ({
+    user: user.currentUser,
+    userPosts: posts.items.filter(p => p.userId === user.currentUser?.id)
+  })
+);
+
+function OptimizedComponent() {
+  // Only re-renders when selected data actually changes
+  const { user, userPosts } = useSelector(selectUserData);
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{user?.name}&lt;/h1&gt;
+      &lt;p&gt;Posts: {userPosts.length}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Dispatching multiple actions
+function ComplexOperation() {
+  const dispatch = useDispatch();
+  
+  const handleOperation = async () => {
+    dispatch(setLoading(true));
+    
+    try {
+      const result = await api.doSomething();
+      dispatch(setData(result));
+      dispatch(showNotification('Success!'));
+    } catch (error) {
+      dispatch(setError(error.message));
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+  
+  return &lt;button onClick={handleOperation}&gt;Execute&lt;/button&gt;;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Advanced Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Normalized state structure
+const postsSlice = createSlice({
+  name: 'posts',
+  initialState: {
+    byId: {},
+    allIds: [],
+    loading: false
+  },
+  reducers: {
+    postsReceived: (state, action) => {
+      action.payload.forEach(post => {
+        state.byId[post.id] = post;
+        if (!state.allIds.includes(post.id)) {
+          state.allIds.push(post.id);
+        }
+      });
+    },
+    postUpdated: (state, action) => {
+      const { id, changes } = action.payload;
+      if (state.byId[id]) {
+        state.byId[id] = { ...state.byId[id], ...changes };
+      }
+    }
+  }
+});
+
+// Entity adapter (RTK utility for normalized state)
+import { createEntityAdapter } from '@reduxjs/toolkit';
+
+const postsAdapter = createEntityAdapter({
+  selectId: (post) => post.id,
+  sortComparer: (a, b) => b.date.localeCompare(a.date)
+});
+
+const postsSlice = createSlice({
+  name: 'posts',
+  initialState: postsAdapter.getInitialState({
+    loading: false,
+    error: null
+  }),
+  reducers: {
+    // Generated reducers: addOne, addMany, updateOne, removeOne, etc.
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        postsAdapter.setAll(state, action.payload);
+      })
+      .addCase(createPost.fulfilled, (state, action) => {
+        postsAdapter.addOne(state, action.payload);
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        postsAdapter.updateOne(state, action.payload);
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        postsAdapter.removeOne(state, action.payload);
+      });
+  }
+});
+
+// Entity selectors
+export const {
+  selectAll: selectAllPosts,
+  selectById: selectPostById,
+  selectIds: selectPostIds
+} = postsAdapter.getSelectors((state) => state.posts);
+
+// Usage
+function PostsList() {
+  const posts = useSelector(selectAllPosts);
+  const postIds = useSelector(selectPostIds);
+  
+  return (
+    &lt;div&gt;
+      {posts.map(post => &lt;Post key={post.id} post={post} /&gt;)}
+    &lt;/div&gt;
+  );
+}
+
+// Optimistic updates
+const updatePostOptimistically = createAsyncThunk(
+  'posts/update',
+  async ({ id, changes }, { dispatch, rejectWithValue }) => {
+    // Optimistically update
+    dispatch(postsSlice.actions.postUpdated({ id, changes }));
+    
+    try {
+      const response = await api.updatePost(id, changes);
+      return response;
+    } catch (error) {
+      // Revert on failure
+      dispatch(postsSlice.actions.postUpdated({ id, changes: originalPost }));
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Slice with prepare callback
+const todosSlice = createSlice({
+  name: 'todos',
+  initialState: [],
+  reducers: {
+    todoAdded: {
+      reducer: (state, action) => {
+        state.push(action.payload);
+      },
+      prepare: (text) => {
+        // Prepare payload before reducer
+        return {
+          payload: {
+            id: Date.now(),
+            text,
+            completed: false,
+            createdAt: new Date().toISOString()
+          }
+        };
+      }
+    }
+  }
+});
+
+// Usage
+dispatch(todoAdded('Learn Redux')); // Automatically gets id and createdAt
+
+// RTK Query for data fetching (advanced)
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+const api = createApi({
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  endpoints: (builder) => ({
+    getUsers: builder.query({
+      query: () => 'users'
+    }),
+    getUserById: builder.query({
+      query: (id) => \`users/\${id}\`
+    }),
+    createUser: builder.mutation({
+      query: (user) => ({
+        url: 'users',
+        method: 'POST',
+        body: user
+      })
+    })
+  })
+});
+
+export const { useGetUsersQuery, useGetUserByIdQuery, useCreateUserMutation } = api;
+
+// Usage
+function UsersList() {
+  const { data: users, isLoading, error } = useGetUsersQuery();
+  
+  if (isLoading) return &lt;Spinner /&gt;;
+  if (error) return &lt;Error /&gt;;
+  
+  return (
+    &lt;ul&gt;
+      {users.map(user => &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. DevTools and Debugging
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Redux DevTools Extension integration (automatic with configureStore)
+const store = configureStore({
+  reducer: rootReducer,
+  devTools: process.env.NODE_ENV !== 'production'
+});
+
+// Custom DevTools options
+const store = configureStore({
+  reducer: rootReducer,
+  devTools: {
+    name: 'My App',
+    trace: true,
+    traceLimit: 25
+  }
+});
+
+// Action sanitization (hide sensitive data)
+const store = configureStore({
+  reducer: rootReducer,
+  devTools: {
+    actionSanitizer: (action) => {
+      if (action.type === 'auth/login') {
+        return { ...action, payload: '<<REDACTED>>' };
+      }
+      return action;
+    },
+    stateSanitizer: (state) => ({
+      ...state,
+      auth: { ...state.auth, password: '<<REDACTED>>' }
+    })
+  }
+});
+
+// Time-travel debugging
+// Use Redux DevTools to:
+// - See all dispatched actions
+// - Jump to any previous state
+// - Replay actions
+// - Export/import state
+// - Skip actions
+// - Test action creators
+
+// Logging state changes
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat((store) => (next) => (action) => {
+      console.log('Dispatching:', action.type);
+      const result = next(action);
+      console.log('New state:', store.getState());
+      return result;
+    })
+});
+
+// State persistence
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['user', 'preferences'] // Only persist these reducers
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer
+});
+
+const persistor = persistStore(store);
+
+// Wrap app
+&lt;Provider store={store}&gt;
+  &lt;PersistGate loading={null} persistor={persistor}&gt;
+    &lt;App /&gt;
+  &lt;/PersistGate&gt;
+&lt;/Provider&gt;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing Redux
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Testing reducers (pure functions - easy to test)
+import counterReducer, { increment, decrement } from './counterSlice';
+
+describe('counterSlice', () => {
+  test('should return initial state', () => {
+    expect(counterReducer(undefined, { type: 'unknown' })).toEqual({
+      value: 0
+    });
+  });
+  
+  test('should handle increment', () => {
+    const actual = counterReducer({ value: 0 }, increment());
+    expect(actual.value).toBe(1);
+  });
+  
+  test('should handle decrement', () => {
+    const actual = counterReducer({ value: 1 }, decrement());
+    expect(actual.value).toBe(0);
+  });
+});
+
+// Testing async thunks
+import { fetchUsers } from './usersSlice';
+
+describe('fetchUsers', () => {
+  test('should fetch users successfully', async () => {
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+    
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve([{ id: 1, name: 'John' }])
+      })
+    );
+    
+    const thunk = fetchUsers();
+    await thunk(dispatch, getState, undefined);
+    
+    const { calls } = dispatch.mock;
+    expect(calls[0][0].type).toBe('users/fetchUsers/pending');
+    expect(calls[1][0].type).toBe('users/fetchUsers/fulfilled');
+  });
+});
+
+// Testing components with Redux
+import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+function renderWithRedux(
+  component,
+  {
+    preloadedState = {},
+    store = configureStore({ reducer: rootReducer, preloadedState }),
+    ...renderOptions
+  } = {}
+) {
+  function Wrapper({ children }) {
+    return &lt;Provider store={store}&gt;{children}&lt;/Provider&gt;;
+  }
+  
+  return { store, ...render(component, { wrapper: Wrapper, ...renderOptions }) };
+}
+
+test('renders counter', () => {
+  renderWithRedux(&lt;Counter /&gt;, {
+    preloadedState: {
+      counter: { value: 5 }
+    }
+  });
+  
+  expect(screen.getByText(/count: 5/i)).toBeInTheDocument();
+});
+
+// Testing actions
+import { fireEvent } from '@testing-library/react';
+
+test('increments counter on button click', () => {
+  const { store } = renderWithRedux(&lt;Counter /&gt;);
+  
+  const button = screen.getByText('+');
+  fireEvent.click(button);
+  
+  expect(store.getState().counter.value).toBe(1);
+});
+
+// Mock store for testing
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+test('dispatches correct actions', () => {
+  const store = mockStore({ counter: { value: 0 } });
+  
+  store.dispatch(increment());
+  
+  const actions = store.getActions();
+  expect(actions[0].type).toBe('counter/increment');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Use Redux Toolkit—it's the official recommended approach</li>
+  <li><b>DO:</b> Structure state by feature/domain, not by type</li>
+  <li><b>DO:</b> Keep reducers pure and free of side effects</li>
+  <li><b>DO:</b> Use createAsyncThunk for async logic</li>
+  <li><b>DO:</b> Normalize nested/relational data</li>
+  <li><b>DO:</b> Use selectors (especially memoized) for derived state</li>
+  <li><b>DO:</b> Use entity adapters for normalized state</li>
+  <li><b>DO:</b> Keep action types namespaced (feature/actionName)</li>
+  <li><b>DON'T:</b> Mutate state in reducers (RTK's Immer handles this)</li>
+  <li><b>DON'T:</b> Put functions or non-serializable values in state</li>
+  <li><b>DON'T:</b> Use Redux for all state—use local state when appropriate</li>
+  <li><b>DON'T:</b> Write logic in action creators—use thunks or middleware</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Redux vs Alternatives
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Redux vs Context API
+// Redux: Global state, time-travel debugging, middleware, better performance for frequent updates
+// Context: Simpler, built-in, good for theme/auth, but causes re-renders
+
+// Redux vs Zustand
+// Redux: More boilerplate, strict patterns, DevTools, larger ecosystem
+// Zustand: Simpler API, less boilerplate, smaller bundle, less strict
+
+// Redux vs MobX
+// Redux: Explicit, immutable updates, functional, more predictable
+// MobX: Implicit, mutable updates, reactive, less boilerplate
+
+// When to use Redux:
+// - Large applications with complex state interactions
+// - Need for time-travel debugging
+// - Team needs strict patterns and predictability
+// - Middleware requirements
+// - Need for DevTools
+
+// When NOT to use Redux:
+// - Simple applications with minimal shared state
+// - Most state is server state (use React Query/SWR instead)
+// - Small team that prefers simplicity over structure
+// - State rarely changes
+
+// Modern approach: Mix tools
+// - Redux Toolkit for complex client state
+// - React Query for server state
+// - Local useState/useReducer for component state
+// - Context for simple global state (theme, i18n)
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Counter with Redux Toolkit",
+              "User Authentication Flow",
+              "Todo List with CRUD Operations",
+              "Async Data Fetching with createAsyncThunk",
+              "Shopping Cart with Normalized State",
+              "Posts with Entity Adapter",
+            ],
+            questions: [
+              {
+                question:
+                  "What are the three core principles of Redux and why are they important?",
+                answer:
+                  "1) Single source of truth: entire app state lives in one store, making state predictable and easier to debug. 2) State is read-only: only way to change state is dispatching actions, ensuring mutations don't happen accidentally and enabling time-travel debugging. 3) Changes made with pure functions: reducers are pure functions that take previous state and action, return new state without mutations. These principles ensure predictable state management, easier debugging, time-travel capabilities, and testable code.",
+              },
+              {
+                question:
+                  "What is Redux Toolkit and why should you use it over plain Redux?",
+                answer:
+                  "Redux Toolkit (RTK) is the official, recommended way to write Redux. It includes utilities that simplify common patterns: configureStore (sets up store with good defaults), createSlice (combines actions and reducers with less boilerplate), createAsyncThunk (handles async logic), createEntityAdapter (normalizes state). RTK uses Immer internally allowing 'mutating' syntax that's actually immutable. Benefits: less boilerplate, better defaults, built-in DevTools integration, simpler API, reduced errors. Use RTK for all new Redux projects.",
+              },
+              {
+                question: "What is a reducer and what rules must it follow?",
+                answer:
+                  "A reducer is a pure function that takes current state and an action, returns new state. Rules: 1) Must be pure (same inputs always produce same output), 2) No side effects (no API calls, no mutations), 3) No mutations of state (return new objects/arrays), 4) Must handle default case. RTK's createSlice uses Immer, allowing 'mutations' that are actually safe. Example: (state, action) => { state.count += 1 } is safe with Immer. Reducers should be predictable and testable.",
+              },
+              {
+                question:
+                  "How does createAsyncThunk work and when should you use it?",
+                answer:
+                  "createAsyncThunk generates async action creators that dispatch pending/fulfilled/rejected actions automatically. Use for API calls, async operations. It takes action type prefix and async function (payload creator). Automatically dispatches pending before async call, fulfilled with result on success, rejected on error. Handle these in extraReducers with builder notation. Benefits: standardized async handling, automatic loading/error states, supports AbortController, can access getState and dispatch. Use for all async data fetching in Redux.",
+              },
+              {
+                question:
+                  "What are selectors and why should you use createSelector for memoization?",
+                answer:
+                  "Selectors are functions that extract and compute derived state from Redux store. createSelector creates memoized selectors that only recompute when input selectors' values change, preventing unnecessary recalculations. Benefits: performance optimization (expensive computations run only when needed), derived state (compute values from multiple slices), reusability (use same selector in multiple components), testability. Example: selectFilteredUsers only recomputes when users or filter changes. Use for any derived/computed state.",
+              },
+              {
+                question:
+                  "What is middleware in Redux and what is it used for?",
+                answer:
+                  "Middleware intercepts actions between dispatch and reducer, enabling side effects and extending Redux. Common uses: async logic (thunk), logging (log actions/state), analytics (track events), error handling, API calls. Middleware has access to dispatch and getState, can: stop actions, dispatch other actions, modify actions (carefully), call APIs. RTK includes thunk middleware by default. Create custom middleware for logging, analytics, crash reporting. Chain multiple middleware for complex workflows.",
+              },
+              {
+                question: "How do you integrate Redux with React components?",
+                answer:
+                  "Wrap app in Provider component with store prop. Use hooks: useSelector to read state (automatically subscribes component), useDispatch to get dispatch function. Example: const count = useSelector(state => state.counter.value); const dispatch = useDispatch(); dispatch(increment()). useSelector accepts selector function and optional equality function for custom comparison. Components only re-render when selected state changes. Use memoized selectors for performance. Avoid selecting entire state—select only what component needs.",
+              },
+              {
+                question: "What is normalized state and why is it important?",
+                answer:
+                  "Normalized state stores data in flat lookup tables (byId) with arrays of IDs (allIds), similar to database normalization. Instead of nested objects, each entity type has own slice with ID-based lookup. Benefits: no duplication, easier updates (update in one place), better performance (direct ID lookup), easier relationship management. RTK's createEntityAdapter provides utilities for normalized state: getInitialState, addOne/addMany, updateOne, removeOne, selectAll, selectById. Use for relational data like users/posts/comments.",
+              },
+              {
+                question: "How do you handle optimistic updates in Redux?",
+                answer:
+                  "Optimistic updates immediately update UI before server confirms, improving perceived performance. Pattern: 1) Immediately update state optimistically, 2) Make API call, 3) On success, keep optimistic update (or update with server response), 4) On failure, revert to previous state. Store original state before update to enable reversion. Show rollback notification on error. Use with caution—only for operations likely to succeed. Example: like button updates immediately, reverts if API fails. Enhances UX but adds complexity.",
+              },
+              {
+                question:
+                  "What is the difference between reducers and extraReducers in createSlice?",
+                answer:
+                  "reducers define slice's own action creators and how they update state—generates action creators automatically. extraReducers handle actions from other slices or async thunks—no automatic action creator generation. Use reducers for slice's own synchronous actions. Use extraReducers for: responding to actions from other slices, handling createAsyncThunk lifecycle (pending/fulfilled/rejected), cross-slice logic. Builder notation is preferred for extraReducers: builder.addCase(fetchUsers.fulfilled, (state, action) => {...}). Both update same slice state.",
+              },
+              {
+                question:
+                  "How do you test Redux reducers, actions, and thunks?",
+                answer:
+                  "Reducers: test pure functions directly—call with state and action, assert new state. Actions: test action creators return correct action objects. Thunks: mock fetch, dispatch, getState; call thunk; verify dispatched actions. Components: use custom render function with Provider and mock store, assert UI behavior, check dispatched actions. Use redux-mock-store for isolated testing. Benefits of Redux testability: pure functions, deterministic, no side effects in reducers. Test reducers independently, then integration with components.",
+              },
+              {
+                question:
+                  "What is RTK Query and how does it differ from regular Redux async?",
+                answer:
+                  "RTK Query is RTK's data fetching solution built on Redux. Auto-generates hooks for queries (GET) and mutations (POST/PUT/DELETE), handles caching, refetching, loading states automatically. Differences from createAsyncThunk: automatic caching, automatic refetching, normalized cache, optimistic updates built-in, generated hooks, less boilerplate. Use RTK Query for server state (API data), use regular Redux for client state (UI state). Similar to React Query but integrated with Redux. Ideal for apps with lots of API calls.",
+              },
+              {
+                question:
+                  "How does Redux DevTools help with debugging and what features does it provide?",
+                answer:
+                  "Redux DevTools enables time-travel debugging and state inspection. Features: action history (see all dispatched actions), state inspection (view state at any point), time travel (jump to any previous state), action replay, skip actions, export/import state, diff view (see state changes), action filtering. Automatic with configureStore. Use for debugging complex state flows, reproducing bugs (export state), understanding action sequences. Can sanitize sensitive data. Essential tool for Redux development.",
+              },
+              {
+                question:
+                  "When should you use Redux vs Context API vs local state?",
+                answer:
+                  "Use Redux for: complex global state, frequent updates, middleware needs, time-travel debugging, strict patterns, large teams. Use Context for: simple global state (theme, auth, language), infrequent updates, no middleware needed, smaller apps. Use local state for: component-only state, form inputs, UI state (hover, focus), temporary state. Modern approach: mix all three—Redux for complex client state, Context for simple global, local state for component-specific. Don't use Redux for server state—use React Query/SWR instead.",
+              },
+              {
+                question:
+                  "What are the performance implications of Redux and how do you optimize?",
+                answer:
+                  "Redux performance concerns: many components subscribing to store, expensive selector computations, unnecessary re-renders. Optimizations: 1) Use memoized selectors (createSelector), 2) Select minimal data (select only what component needs), 3) Use Entity Adapters for normalized state, 4) Batch actions when possible, 5) Use React.memo for components, 6) Avoid selecting entire state, 7) Split state into feature slices, 8) Use custom equality functions in useSelector. RTK includes good defaults. Profile with DevTools, optimize hot paths, don't premature optimize.",
+              },
+            ],
+            links: [
+              "https://redux.js.org/",
+              "https://redux-toolkit.js.org/",
+              "https://redux.js.org/tutorials/essentials/part-1-overview-concepts",
+              "https://redux-toolkit.js.org/tutorials/quick-start",
+              "https://redux-toolkit.js.org/api/createSlice",
+              "https://redux-toolkit.js.org/api/createAsyncThunk",
+            ],
           },
           {
             topic: "Recoil State Management",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Recoil",
+              "State Management",
+              "Atoms",
+              "Selectors",
+              "React State",
+              "Async Queries",
+              "State Snapshots",
+              "Atom Families",
+              "Selector Families",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Recoil is a state management library for React that provides a flexible and scalable approach to managing application state with minimal boilerplate. Unlike Redux's centralized store model, Recoil uses a distributed graph of atoms (units of state) and selectors (derived state) that components can subscribe to independently. Built by Facebook, Recoil offers fine-grained reactivity, built-in async support, derived state computation, and seamless React integration through hooks. It excels at managing complex state dependencies, handling async data fetching, and providing excellent performance through automatic optimization and minimal re-renders.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Core Concepts and Atoms
+</h4>
+
+<p style="line-height: 1.75;">
+Atoms are units of state in Recoil. Components can subscribe to atoms, and when an atom updates, all subscribed components re-render with the new value.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+
+// Basic atom definition
+const counterState = atom({
+  key: 'counterState', // unique ID (must be unique across app)
+  default: 0, // default value
+});
+
+// Atom with object
+const userState = atom({
+  key: 'userState',
+  default: {
+    id: null,
+    name: '',
+    email: '',
+    isAuthenticated: false
+  }
+});
+
+// Atom with array
+const todosState = atom({
+  key: 'todosState',
+  default: []
+});
+
+// Setup Recoil in your app
+import { RecoilRoot } from 'recoil';
+
+function App() {
+  return (
+    <RecoilRoot>
+      <AppContent />
+    </RecoilRoot>
+  );
+}
+
+// Reading and writing atoms - useRecoilState (like useState)
+function Counter() {
+  const [count, setCount] = useRecoilState(counterState);
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+}
+
+// Read-only access - useRecoilValue
+function CountDisplay() {
+  const count = useRecoilValue(counterState);
+  
+  return <p>Current count: {count}</p>;
+}
+
+// Write-only access - useSetRecoilState
+function CountControls() {
+  const setCount = useSetRecoilState(counterState);
+  
+  return (
+    <div>
+      <button onClick={() => setCount(c => c + 1)}>+</button>
+      <button onClick={() => setCount(c => c - 1)}>-</button>
+    </div>
+  );
+}
+
+// Multiple atoms
+const themeState = atom({
+  key: 'themeState',
+  default: 'light'
+});
+
+const languageState = atom({
+  key: 'languageState',
+  default: 'en'
+});
+
+function Settings() {
+  const [theme, setTheme] = useRecoilState(themeState);
+  const [language, setLanguage] = useRecoilState(languageState);
+  
+  return (
+    <div>
+      <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+      
+      <select value={language} onChange={(e) => setLanguage(e.target.value)}>
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+      </select>
+    </div>
+  );
+}
+
+// Atom with complex default
+const filtersState = atom({
+  key: 'filtersState',
+  default: {
+    searchQuery: '',
+    category: 'all',
+    sortBy: 'date',
+    showCompleted: true
+  }
+});
+
+// Updating nested state
+function FilterControls() {
+  const [filters, setFilters] = useRecoilState(filtersState);
+  
+  const updateFilter = (key, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: value
+    }));
+  };
+  
+  return (
+    <div>
+      <input
+        value={filters.searchQuery}
+        onChange={(e) => updateFilter('searchQuery', e.target.value)}
+      />
+      <select
+        value={filters.category}
+        onChange={(e) => updateFilter('category', e.target.value)}
+      >
+        <option value="all">All</option>
+        <option value="work">Work</option>
+        <option value="personal">Personal</option>
+      </select>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Selectors - Derived State
+</h4>
+
+<p style="line-height: 1.75;">
+Selectors compute derived state based on atoms or other selectors. They automatically recompute when dependencies change and are memoized.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { selector } from 'recoil';
+
+// Basic selector - derived state
+const doubleCountState = selector({
+  key: 'doubleCountState',
+  get: ({ get }) => {
+    const count = get(counterState);
+    return count * 2;
+  }
+});
+
+// Usage
+function DoubleCounter() {
+  const doubleCount = useRecoilValue(doubleCountState);
+  return <p>Double: {doubleCount}</p>;
+}
+
+// Selector with multiple dependencies
+const filteredTodosState = selector({
+  key: 'filteredTodosState',
+  get: ({ get }) => {
+    const todos = get(todosState);
+    const filters = get(filtersState);
+    
+    return todos
+      .filter(todo => {
+        if (!filters.showCompleted && todo.completed) return false;
+        if (filters.category !== 'all' && todo.category !== filters.category) return false;
+        if (filters.searchQuery && !todo.text.toLowerCase().includes(filters.searchQuery.toLowerCase())) return false;
+        return true;
+      })
+      .sort((a, b) => {
+        if (filters.sortBy === 'date') return new Date(b.createdAt) - new Date(a.createdAt);
+        if (filters.sortBy === 'priority') return b.priority - a.priority;
+        return 0;
+      });
+  }
+});
+
+// Read-write selector
+const tempFahrenheitState = atom({
+  key: 'tempFahrenheit',
+  default: 32,
+});
+
+const tempCelsiusState = selector({
+  key: 'tempCelsius',
+  get: ({ get }) => {
+    const fahrenheit = get(tempFahrenheitState);
+    return ((fahrenheit - 32) * 5) / 9;
+  },
+  set: ({ set }, newValue) => {
+    const fahrenheit = (newValue * 9) / 5 + 32;
+    set(tempFahrenheitState, fahrenheit);
+  }
+});
+
+// Usage - can read and write
+function TemperatureConverter() {
+  const [tempF, setTempF] = useRecoilState(tempFahrenheitState);
+  const [tempC, setTempC] = useRecoilState(tempCelsiusState);
+  
+  return (
+    <div>
+      <input
+        type="number"
+        value={tempF}
+        onChange={(e) => setTempF(Number(e.target.value))}
+      />
+      °F =
+      <input
+        type="number"
+        value={tempC.toFixed(1)}
+        onChange={(e) => setTempC(Number(e.target.value))}
+      />
+      °C
+    </div>
+  );
+}
+
+// Selector composing other selectors
+const todoStatsState = selector({
+  key: 'todoStatsState',
+  get: ({ get }) => {
+    const todos = get(todosState);
+    const filteredTodos = get(filteredTodosState);
+    
+    return {
+      total: todos.length,
+      completed: todos.filter(t => t.completed).length,
+      active: todos.filter(t => !t.completed).length,
+      filtered: filteredTodos.length,
+      completionRate: todos.length ? (todos.filter(t => t.completed).length / todos.length) * 100 : 0
+    };
+  }
+});
+
+function TodoStats() {
+  const stats = useRecoilValue(todoStatsState);
+  
+  return (
+    <div>
+      <p>Total: {stats.total}</p>
+      <p>Completed: {stats.completed}</p>
+      <p>Active: {stats.active}</p>
+      <p>Completion Rate: {stats.completionRate.toFixed(1)}%</p>
+    </div>
+  );
+}
+
+// Selector with parameters (using selectorFamily - covered later)
+// For now, simple selector transforming data
+const userDisplayNameState = selector({
+  key: 'userDisplayName',
+  get: ({ get }) => {
+    const user = get(userState);
+    return user.name || user.email || 'Guest';
+  }
+});
+
+// Conditional selector
+const canSubmitFormState = selector({
+  key: 'canSubmitForm',
+  get: ({ get }) => {
+    const user = get(userState);
+    const todos = get(todosState);
+    
+    return user.isAuthenticated && todos.length > 0;
+  }
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Async Queries and Data Fetching
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Async selector - fetches data
+const currentUserQuery = selector({
+  key: 'currentUserQuery',
+  get: async ({ get }) => {
+    const response = await fetch('/api/user');
+    if (!response.ok) throw new Error('Failed to fetch user');
+    return response.json();
+  }
+});
+
+// Usage with Suspense
+function UserProfile() {
+  const user = useRecoilValue(currentUserQuery);
+  // Suspends until data loads
+  
+  return <div>Welcome, {user.name}!</div>;
+}
+
+function App() {
+  return (
+    <RecoilRoot>
+      <Suspense fallback={<div>Loading...</div>}>
+        <UserProfile />
+      </Suspense>
+    </RecoilRoot>
+  );
+}
+
+// Async selector with dependencies
+const userPostsQuery = selector({
+  key: 'userPostsQuery',
+  get: async ({ get }) => {
+    const userId = get(currentUserIdState);
+    
+    const response = await fetch(\`/api/users/\${userId}/posts\`);
+    return response.json();
+  }
+});
+
+// Error handling with ErrorBoundary
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return <div>Something went wrong!</div>;
+    }
+    return this.props.children;
+  }
+}
+
+function App() {
+  return (
+    <RecoilRoot>
+      <ErrorBoundary>
+        <Suspense fallback={<Spinner />}>
+          <UserProfile />
+        </Suspense>
+      </ErrorBoundary>
+    </RecoilRoot>
+  );
+}
+
+// useRecoilValueLoadable - handle loading states manually
+import { useRecoilValueLoadable } from 'recoil';
+
+function UserProfileManual() {
+  const userLoadable = useRecoilValueLoadable(currentUserQuery);
+  
+  switch (userLoadable.state) {
+    case 'hasValue':
+      return <div>Welcome, {userLoadable.contents.name}!</div>;
+    case 'loading':
+      return <Spinner />;
+    case 'hasError':
+      return <div>Error: {userLoadable.contents.message}</div>;
+  }
+}
+
+// Async selector with parameters
+const userByIdQuery = selectorFamily({
+  key: 'userByIdQuery',
+  get: (userId) => async () => {
+    const response = await fetch(\`/api/users/\${userId}\`);
+    return response.json();
+  }
+});
+
+function UserCard({ userId }) {
+  const user = useRecoilValue(userByIdQuery(userId));
+  return <div>{user.name}</div>;
+}
+
+// Refreshing async queries
+import { useRecoilRefresher_UNSTABLE } from 'recoil';
+
+function RefreshButton() {
+  const refresh = useRecoilRefresher_UNSTABLE(currentUserQuery);
+  
+  return <button onClick={refresh}>Refresh User Data</button>;
+}
+
+// Async selector with caching
+const cachedDataQuery = selector({
+  key: 'cachedDataQuery',
+  get: async ({ get }) => {
+    const cacheKey = get(currentCacheKeyState);
+    
+    // Check cache first
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) return JSON.parse(cached);
+    
+    // Fetch if not cached
+    const response = await fetch('/api/data');
+    const data = await response.json();
+    
+    // Cache the result
+    localStorage.setItem(cacheKey, JSON.stringify(data));
+    
+    return data;
+  }
+});
+
+// Async write selector
+const createPostMutation = selector({
+  key: 'createPostMutation',
+  get: () => null,
+  set: ({ get, set }, newPost) => {
+    // Optimistically update UI
+    const posts = get(postsState);
+    set(postsState, [...posts, { ...newPost, id: Date.now(), pending: true }]);
+    
+    // Make API call
+    fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newPost)
+    })
+      .then(res => res.json())
+      .then(savedPost => {
+        // Update with server response
+        set(postsState, current => 
+          current.map(p => p.pending && p.id === newPost.id ? savedPost : p)
+        );
+      })
+      .catch(error => {
+        // Rollback on error
+        set(postsState, current => 
+          current.filter(p => p.id !== newPost.id)
+        );
+        console.error('Failed to create post:', error);
+      });
+  }
+});
+
+// Parallel async queries
+const dashboardDataQuery = selector({
+  key: 'dashboardDataQuery',
+  get: async ({ get }) => {
+    const [users, posts, stats] = await Promise.all([
+      fetch('/api/users').then(r => r.json()),
+      fetch('/api/posts').then(r => r.json()),
+      fetch('/api/stats').then(r => r.json())
+    ]);
+    
+    return { users, posts, stats };
+  }
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Atom Families - Dynamic Atoms
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { atomFamily } from 'recoil';
+
+// Atom family - creates atoms dynamically based on parameters
+const todoItemState = atomFamily({
+  key: 'todoItem',
+  default: (id) => ({
+    id,
+    text: '',
+    completed: false,
+    priority: 'medium'
+  })
+});
+
+// Usage - each ID gets its own atom
+function TodoItem({ id }) {
+  const [todo, setTodo] = useRecoilState(todoItemState(id));
+  
+  return (
+    <div>
+      <input
+        value={todo.text}
+        onChange={(e) => setTodo({ ...todo, text: e.target.value })}
+      />
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={(e) => setTodo({ ...todo, completed: e.target.checked })}
+      />
+    </div>
+  );
+}
+
+// Atom family with async default
+const userProfileState = atomFamily({
+  key: 'userProfile',
+  default: async (userId) => {
+    const response = await fetch(\`/api/users/\${userId}\`);
+    return response.json();
+  }
+});
+
+function UserProfile({ userId }) {
+  const [profile, setProfile] = useRecoilState(userProfileState(userId));
+  
+  return (
+    <Suspense fallback={<div>Loading user...</div>}>
+      <div>
+        <h2>{profile.name}</h2>
+        <p>{profile.email}</p>
+      </div>
+    </Suspense>
+  );
+}
+
+// Atom family with complex parameters
+const formFieldState = atomFamily({
+  key: 'formField',
+  default: ({ formId, fieldName }) => ''
+});
+
+function FormField({ formId, fieldName, label }) {
+  const [value, setValue] = useRecoilState(formFieldState({ formId, fieldName }));
+  
+  return (
+    <div>
+      <label>{label}</label>
+      <input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    </div>
+  );
+}
+
+// Use case: Managing multiple forms
+function ContactForm() {
+  return (
+    <form>
+      <FormField formId="contact" fieldName="name" label="Name" />
+      <FormField formId="contact" fieldName="email" label="Email" />
+      <FormField formId="contact" fieldName="message" label="Message" />
+    </form>
+  );
+}
+
+// Atom family for cache management
+const apiCacheState = atomFamily({
+  key: 'apiCache',
+  default: null
+});
+
+// Custom hook using atom family
+function useApiCache(endpoint) {
+  const [cached, setCached] = useRecoilState(apiCacheState(endpoint));
+  
+  useEffect(() => {
+    if (!cached) {
+      fetch(endpoint)
+        .then(r => r.json())
+        .then(data => setCached({ data, timestamp: Date.now() }));
+    }
+  }, [endpoint, cached, setCached]);
+  
+  return cached?.data;
+}
+
+// Atom family with validation
+const validatedInputState = atomFamily({
+  key: 'validatedInput',
+  default: (fieldName) => ({
+    value: '',
+    error: null,
+    touched: false
+  })
+});
+
+function ValidatedInput({ name, validator, label }) {
+  const [field, setField] = useRecoilState(validatedInputState(name));
+  
+  const handleChange = (value) => {
+    const error = validator(value);
+    setField({ value, error, touched: true });
+  };
+  
+  return (
+    <div>
+      <label>{label}</label>
+      <input
+        value={field.value}
+        onChange={(e) => handleChange(e.target.value)}
+      />
+      {field.touched && field.error && <span>{field.error}</span>}
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Selector Families - Dynamic Selectors
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { selectorFamily } from 'recoil';
+
+// Selector family - creates selectors with parameters
+const todoByIdSelector = selectorFamily({
+  key: 'todoById',
+  get: (todoId) => ({ get }) => {
+    const todos = get(todosState);
+    return todos.find(todo => todo.id === todoId);
+  }
+});
+
+// Usage
+function TodoItem({ todoId }) {
+  const todo = useRecoilValue(todoByIdSelector(todoId));
+  
+  if (!todo) return null;
+  return <div>{todo.text}</div>;
+}
+
+// Selector family with async query
+const userPostsSelector = selectorFamily({
+  key: 'userPosts',
+  get: (userId) => async () => {
+    const response = await fetch(\`/api/users/\${userId}/posts\`);
+    return response.json();
+  }
+});
+
+function UserPosts({ userId }) {
+  const posts = useRecoilValue(userPostsSelector(userId));
+  
+  return (
+    <ul>
+      {posts.map(post => <li key={post.id}>{post.title}</li>)}
+    </ul>
+  );
+}
+
+// Selector family with multiple dependencies
+const filteredPostsSelector = selectorFamily({
+  key: 'filteredPosts',
+  get: ({ userId, category }) => ({ get }) => {
+    const posts = get(userPostsSelector(userId));
+    
+    if (category === 'all') return posts;
+    return posts.filter(post => post.category === category);
+  }
+});
+
+function FilteredPosts({ userId, category }) {
+  const posts = useRecoilValue(filteredPostsSelector({ userId, category }));
+  
+  return (
+    <div>
+      {posts.map(post => <PostCard key={post.id} post={post} />)}
+    </div>
+  );
+}
+
+// Read-write selector family
+const todoCompletedSelector = selectorFamily({
+  key: 'todoCompleted',
+  get: (todoId) => ({ get }) => {
+    const todos = get(todosState);
+    const todo = todos.find(t => t.id === todoId);
+    return todo?.completed ?? false;
+  },
+  set: (todoId) => ({ get, set }, newCompleted) => {
+    const todos = get(todosState);
+    set(todosState, todos.map(todo => 
+      todo.id === todoId ? { ...todo, completed: newCompleted } : todo
+    ));
+  }
+});
+
+function TodoCheckbox({ todoId }) {
+  const [completed, setCompleted] = useRecoilState(todoCompletedSelector(todoId));
+  
+  return (
+    <input
+      type="checkbox"
+      checked={completed}
+      onChange={(e) => setCompleted(e.target.checked)}
+    />
+  );
+}
+
+// Selector family with caching
+const cachedApiSelector = selectorFamily({
+  key: 'cachedApi',
+  get: (endpoint) => async ({ get }) => {
+    const cache = get(apiCacheState(endpoint));
+    
+    // Return cached if fresh (< 5 minutes)
+    if (cache && Date.now() - cache.timestamp < 5 * 60 * 1000) {
+      return cache.data;
+    }
+    
+    // Fetch fresh data
+    const response = await fetch(endpoint);
+    const data = await response.json();
+    
+    return data;
+  }
+});
+
+// Selector family for search
+const searchResultsSelector = selectorFamily({
+  key: 'searchResults',
+  get: (query) => ({ get }) => {
+    if (!query) return [];
+    
+    const posts = get(postsState);
+    const users = get(usersState);
+    
+    const lowerQuery = query.toLowerCase();
+    
+    const matchedPosts = posts.filter(p => 
+      p.title.toLowerCase().includes(lowerQuery)
+    );
+    
+    const matchedUsers = users.filter(u => 
+      u.name.toLowerCase().includes(lowerQuery)
+    );
+    
+    return { posts: matchedPosts, users: matchedUsers };
+  }
+});
+
+function SearchResults({ query }) {
+  const results = useRecoilValue(searchResultsSelector(query));
+  
+  return (
+    <div>
+      <h3>Posts ({results.posts.length})</h3>
+      {results.posts.map(post => <PostCard key={post.id} post={post} />)}
+      
+      <h3>Users ({results.users.length})</h3>
+      {results.users.map(user => <UserCard key={user.id} user={user} />)}
+    </div>
+  );
+}
+
+// Composing selector families
+const todoWithAuthorSelector = selectorFamily({
+  key: 'todoWithAuthor',
+  get: (todoId) => ({ get }) => {
+    const todo = get(todoByIdSelector(todoId));
+    const author = get(userProfileState(todo.authorId));
+    
+    return { ...todo, author };
+  }
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Effects and Persistence
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Atom effects - side effects when atom changes
+const persistedThemeState = atom({
+  key: 'persistedTheme',
+  default: 'light',
+  effects: [
+    ({ onSet, setSelf }) => {
+      // Load from localStorage on init
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        setSelf(saved);
+      }
+      
+      // Save to localStorage on change
+      onSet((newValue, oldValue, isReset) => {
+        if (isReset) {
+          localStorage.removeItem('theme');
+        } else {
+          localStorage.setItem('theme', newValue);
+        }
+      });
+    }
+  ]
+});
+
+// Reusable persistence effect
+const localStorageEffect = (key) => ({ onSet, setSelf }) => {
+  const saved = localStorage.getItem(key);
+  if (saved != null) {
+    setSelf(JSON.parse(saved));
+  }
+  
+  onSet((newValue, _, isReset) => {
+    if (isReset) {
+      localStorage.removeItem(key);
+    } else {
+      localStorage.setItem(key, JSON.stringify(newValue));
+    }
+  });
+};
+
+// Use the effect
+const userPreferencesState = atom({
+  key: 'userPreferences',
+  default: {
+    notifications: true,
+    theme: 'light',
+    language: 'en'
+  },
+  effects: [localStorageEffect('user-preferences')]
+});
+
+// Validation effect
+const validationEffect = (validator) => ({ onSet }) => {
+  onSet((newValue) => {
+    const error = validator(newValue);
+    if (error) {
+      console.error('Validation error:', error);
+      // Could also throw or set error state
+    }
+  });
+};
+
+const emailState = atom({
+  key: 'email',
+  default: '',
+  effects: [
+    validationEffect((email) => {
+      if (email && !email.includes('@')) {
+        return 'Invalid email format';
+      }
+    })
+  ]
+});
+
+// Sync effect - sync with external source
+const syncWithServerEffect = (endpoint) => ({ setSelf, trigger }) => {
+  // Load from server on init
+  if (trigger === 'get') {
+    fetch(endpoint)
+      .then(r => r.json())
+      .then(data => setSelf(data));
+  }
+};
+
+const serverSyncedState = atom({
+  key: 'serverSynced',
+  default: null,
+  effects: [syncWithServerEffect('/api/settings')]
+});
+
+// Analytics effect
+const analyticsEffect = (eventName) => ({ onSet }) => {
+  onSet((newValue, oldValue) => {
+    analytics.track(eventName, {
+      oldValue,
+      newValue,
+      timestamp: Date.now()
+    });
+  });
+};
+
+const importantState = atom({
+  key: 'importantState',
+  default: 0,
+  effects: [analyticsEffect('important-state-changed')]
+});
+
+// History effect - track state history
+const historyEffect = (maxHistory = 10) => ({ onSet, setSelf, node }) => {
+  const history = [];
+  
+  onSet((newValue, oldValue) => {
+    history.push(oldValue);
+    if (history.length > maxHistory) {
+      history.shift();
+    }
+    
+    // Store in separate atom or expose via custom hook
+    window[node.key + '_history'] = history;
+  });
+};
+
+const trackableState = atom({
+  key: 'trackable',
+  default: 0,
+  effects: [historyEffect(20)]
+});
+
+// Cleanup effect
+const subscriptionEffect = ({ onSet, setSelf, node }) => {
+  // Subscribe to external source
+  const subscription = externalSource.subscribe((data) => {
+    setSelf(data);
+  });
+  
+  // Cleanup on unmount
+  return () => {
+    subscription.unsubscribe();
+  };
+};
+
+// Multiple effects
+const complexState = atom({
+  key: 'complex',
+  default: {},
+  effects: [
+    localStorageEffect('complex-data'),
+    analyticsEffect('complex-changed'),
+    validationEffect(validateComplex)
+  ]
+});
+
+// Conditional effects
+const conditionalEffect = ({ onSet, node }) => {
+  if (process.env.NODE_ENV === 'development') {
+    onSet((newValue) => {
+      console.log(\`\${node.key} changed to:\`, newValue);
+    });
+  }
+};
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Advanced Hooks and Utilities
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useRecoilCallback - Read/write Recoil state in callbacks
+import { useRecoilCallback } from 'recoil';
+
+function TodoList() {
+  const addTodo = useRecoilCallback(({ snapshot, set }) => async (text) => {
+    // Read current state
+    const todos = await snapshot.getPromise(todosState);
+    
+    // Update state
+    const newTodo = {
+      id: Date.now(),
+      text,
+      completed: false
+    };
+    
+    set(todosState, [...todos, newTodo]);
+    
+    // Make API call
+    await fetch('/api/todos', {
+      method: 'POST',
+      body: JSON.stringify(newTodo)
+    });
+  }, []);
+  
+  return <button onClick={() => addTodo('New task')}>Add Todo</button>;
+}
+
+// useRecoilCallback for complex operations
+const performComplexOperation = useRecoilCallback(
+  ({ snapshot, set, reset }) => async () => {
+    // Get multiple states
+    const user = await snapshot.getPromise(userState);
+    const todos = await snapshot.getPromise(todosState);
+    
+    // Perform calculations
+    const completedTodos = todos.filter(t => t.completed);
+    
+    // Update multiple states
+    set(statsState, { completedCount: completedTodos.length });
+    
+    // Reset a state
+    if (completedTodos.length === 0) {
+      reset(achievementsState);
+    }
+    
+    // API calls
+    await fetch('/api/stats', {
+      method: 'POST',
+      body: JSON.stringify({ userId: user.id, completed: completedTodos.length })
+    });
+  },
+  []
+);
+
+// useRecoilTransaction - Batch updates atomically
+import { useRecoilTransaction_UNSTABLE } from 'recoil';
+
+const moveItem = useRecoilTransaction_UNSTABLE(
+  ({ get, set }) => (fromList, toList, itemId) => {
+    const sourceItems = get(listState(fromList));
+    const destItems = get(listState(toList));
+    
+    const item = sourceItems.find(i => i.id === itemId);
+    
+    // Both updates happen atomically
+    set(listState(fromList), sourceItems.filter(i => i.id !== itemId));
+    set(listState(toList), [...destItems, item]);
+  },
+  []
+);
+
+// useRecoilSnapshot - Access snapshot of state
+import { useRecoilSnapshot } from 'recoil';
+
+function DebugObserver() {
+  const snapshot = useRecoilSnapshot();
+  
+  useEffect(() => {
+    console.log('State snapshot:', snapshot.getID());
+    
+    for (const node of snapshot.getNodes_UNSTABLE()) {
+      const value = snapshot.getLoadable(node);
+      console.log(node.key, value.state, value.contents);
+    }
+  }, [snapshot]);
+  
+  return null;
+}
+
+// useRecoilTransactionObserver - Observe all transactions
+import { useRecoilTransactionObserver_UNSTABLE } from 'recoil';
+
+function TransactionLogger() {
+  useRecoilTransactionObserver_UNSTABLE(({ snapshot, previousSnapshot }) => {
+    const modifiedAtoms = [];
+    
+    for (const node of snapshot.getNodes_UNSTABLE({ isModified: true })) {
+      modifiedAtoms.push(node.key);
+    }
+    
+    console.log('Modified atoms:', modifiedAtoms);
+  });
+  
+  return null;
+}
+
+// useRecoilBridgeAcrossReactRoots - Use Recoil across React roots
+import { useRecoilBridgeAcrossReactRoots_UNSTABLE } from 'recoil';
+
+function ParentComponent() {
+  const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE();
+  
+  return (
+    <RecoilBridge>
+      <ChildComponent />
+    </RecoilBridge>
+  );
+}
+
+// useResetRecoilState - Reset atom to default
+import { useResetRecoilState } from 'recoil';
+
+function ResetButton() {
+  const resetCounter = useResetRecoilState(counterState);
+  const resetUser = useResetRecoilState(userState);
+  
+  const resetAll = () => {
+    resetCounter();
+    resetUser();
+  };
+  
+  return <button onClick={resetAll}>Reset Everything</button>;
+}
+
+// useGetRecoilValueInfo - Debug info about atom
+import { useGetRecoilValueInfo_UNSTABLE } from 'recoil';
+
+function AtomDebugger({ atom }) {
+  const getInfo = useGetRecoilValueInfo_UNSTABLE();
+  const info = getInfo(atom);
+  
+  return (
+    <div>
+      <p>Subscribers: {info.subscribers.size}</p>
+      <p>Is set: {info.isSet}</p>
+    </div>
+  );
+}
+
+// Custom hook combining Recoil hooks
+function useTodoOperations() {
+  const [todos, setTodos] = useRecoilState(todosState);
+  const resetTodos = useResetRecoilState(todosState);
+  
+  const addTodo = useRecoilCallback(
+    ({ set }) => (text) => {
+      const newTodo = {
+        id: Date.now(),
+        text,
+        completed: false,
+        createdAt: new Date().toISOString()
+      };
+      
+      set(todosState, (prev) => [...prev, newTodo]);
+    },
+    []
+  );
+  
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+  
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+  
+  return {
+    todos,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    resetTodos
+  };
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. State Snapshots and Time Travel
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Time travel debugging with snapshots
+import { useRecoilSnapshot, useGotoRecoilSnapshot } from 'recoil';
+
+function TimeTravelDebugger() {
+  const [snapshots, setSnapshots] = useState([]);
+  const snapshot = useRecoilSnapshot();
+  const gotoSnapshot = useGotoRecoilSnapshot();
+  
+  useEffect(() => {
+    setSnapshots(prev => [...prev, snapshot]);
+  }, [snapshot]);
+  
+  return (
+    <div>
+      <h3>History ({snapshots.length})</h3>
+      {snapshots.map((snap, index) => (
+        <button key={index} onClick={() => gotoSnapshot(snap)}>
+          Go to snapshot {index}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// Undo/Redo functionality
+function useUndoRedo() {
+  const [past, setPast] = useState([]);
+  const [future, setFuture] = useState([]);
+  const snapshot = useRecoilSnapshot();
+  const gotoSnapshot = useGotoRecoilSnapshot();
+  
+  const saveState = useRecoilCallback(
+    ({ snapshot }) => () => {
+      setPast(prev => [...prev, snapshot]);
+      setFuture([]);
+    },
+    []
+  );
+  
+  const undo = () => {
+    if (past.length === 0) return;
+    
+    const previous = past[past.length - 1];
+    setPast(past.slice(0, -1));
+    setFuture([snapshot, ...future]);
+    gotoSnapshot(previous);
+  };
+  
+  const redo = () => {
+    if (future.length === 0) return;
+    
+    const next = future[0];
+    setFuture(future.slice(1));
+    setPast([...past, snapshot]);
+    gotoSnapshot(next);
+  };
+  
+  return {
+    undo,
+    redo,
+    saveState,
+    canUndo: past.length > 0,
+    canRedo: future.length > 0
+  };
+}
+
+// Usage
+function Editor() {
+  const [text, setText] = useRecoilState(textState);
+  const { undo, redo, saveState, canUndo, canRedo } = useUndoRedo();
+  
+  const handleChange = (newText) => {
+    setText(newText);
+    saveState();
+  };
+  
+  return (
+    <div>
+      <button onClick={undo} disabled={!canUndo}>Undo</button>
+      <button onClick={redo} disabled={!canRedo}>Redo</button>
+      <textarea
+        value={text}
+        onChange={(e) => handleChange(e.target.value)}
+      />
+    </div>
+  );
+}
+
+// Export/Import state
+function StateManager() {
+  const snapshot = useRecoilSnapshot();
+  const gotoSnapshot = useGotoRecoilSnapshot();
+  
+  const exportState = useRecoilCallback(
+    ({ snapshot }) => () => {
+      const state = {};
+      
+      for (const node of snapshot.getNodes_UNSTABLE()) {
+        const loadable = snapshot.getLoadable(node);
+        if (loadable.state === 'hasValue') {
+          state[node.key] = loadable.contents;
+        }
+      }
+      
+      const json = JSON.stringify(state, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'state-export.json';
+      a.click();
+    },
+    []
+  );
+  
+  const importState = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const state = JSON.parse(e.target.result);
+      
+      // Create new snapshot with imported state
+      // (Implementation depends on your atoms)
+      console.log('Imported state:', state);
+    };
+    reader.readAsText(file);
+  };
+  
+  return (
+    <div>
+      <button onClick={exportState}>Export State</button>
+      <input
+        type="file"
+        accept=".json"
+        onChange={(e) => importState(e.target.files[0])}
+      />
+    </div>
+  );
+}
+
+// Snapshot comparison
+function SnapshotDiff({ snapshot1, snapshot2 }) {
+  const diff = useMemo(() => {
+    const changes = [];
+    
+    for (const node of snapshot1.getNodes_UNSTABLE()) {
+      const val1 = snapshot1.getLoadable(node);
+      const val2 = snapshot2.getLoadable(node);
+      
+      if (val1.contents !== val2.contents) {
+        changes.push({
+          key: node.key,
+          before: val1.contents,
+          after: val2.contents
+        });
+      }
+    }
+    
+    return changes;
+  }, [snapshot1, snapshot2]);
+  
+  return (
+    <div>
+      <h3>Changes:</h3>
+      {diff.map(change => (
+        <div key={change.key}>
+          <strong>{change.key}:</strong>
+          {JSON.stringify(change.before)} → {JSON.stringify(change.after)}
+        </div>
+      ))}
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Performance Optimization
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Optimize with waitForAll - parallel queries
+import { waitForAll } from 'recoil';
+
+const multiDataQuery = selector({
+  key: 'multiData',
+  get: ({ get }) => {
+    // Fetch all in parallel
+    return get(waitForAll([
+      userQuery,
+      postsQuery,
+      commentsQuery
+    ]));
+  }
+});
+
+function Dashboard() {
+  const [user, posts, comments] = useRecoilValue(multiDataQuery);
+  
+  return (
+    <div>
+      <UserProfile user={user} />
+      <Posts posts={posts} />
+      <Comments comments={comments} />
+    </div>
+  );
+}
+
+// waitForNone - don't wait for any
+const optionalDataQuery = selector({
+  key: 'optionalData',
+  get: ({ get }) => {
+    const loadables = get(waitForNone([
+      userQuery,
+      postsQuery
+    ]));
+    
+    return {
+      user: loadables[0].state === 'hasValue' ? loadables[0].contents : null,
+      posts: loadables[1].state === 'hasValue' ? loadables[1].contents : []
+    };
+  }
+});
+
+// waitForAny - wait for at least one
+const partialDataQuery = selector({
+  key: 'partialData',
+  get: ({ get }) => {
+    const loadables = get(waitForAny([
+      criticalQuery,
+      optionalQuery
+    ]));
+    
+    // At least one has loaded
+    return loadables
+      .filter(l => l.state === 'hasValue')
+      .map(l => l.contents);
+  }
+});
+
+// noWait - get loadable without suspending
+import { noWait } from 'recoil';
+
+const nonBlockingQuery = selector({
+  key: 'nonBlocking',
+  get: ({ get }) => {
+    const userLoadable = get(noWait(userQuery));
+    
+    if (userLoadable.state === 'loading') {
+      return { loading: true };
+    }
+    
+    if (userLoadable.state === 'hasError') {
+      return { error: userLoadable.contents };
+    }
+    
+    return { data: userLoadable.contents };
+  }
+});
+
+// Optimize selector dependencies
+// Bad: unnecessary recomputation
+const inefficientSelector = selector({
+  key: 'inefficient',
+  get: ({ get }) => {
+    const entireState = get(bigState); // Gets everything
+    return entireState.user.name; // Only needs one field
+  }
+});
+
+// Good: minimal dependencies
+const efficientSelector = selector({
+  key: 'efficient',
+  get: ({ get }) => {
+    const user = get(userState); // Only subscribe to user
+    return user.name;
+  }
+});
+
+// Memoization within selectors
+const expensiveSelector = selector({
+  key: 'expensive',
+  get: ({ get }) => {
+    const data = get(dataState);
+    
+    // Expensive computation
+    return data.map(item => ({
+      ...item,
+      processed: expensiveProcessing(item)
+    }));
+  },
+  // Cached automatically by Recoil
+});
+
+// Optimize with selector caching
+const cachedSelector = selector({
+  key: 'cached',
+  get: ({ get }) => {
+    const input = get(inputState);
+    
+    // Only recomputes when input changes
+    return heavyComputation(input);
+  },
+  cachePolicy_UNSTABLE: {
+    eviction: 'most-recent'
+  }
+});
+
+// Split large atoms into smaller ones
+// Bad: one large atom
+const largeState = atom({
+  key: 'large',
+  default: {
+    user: {},
+    posts: [],
+    comments: [],
+    settings: {},
+    ui: {}
+  }
+});
+
+// Good: separate atoms
+const userState = atom({ key: 'user', default: {} });
+const postsState = atom({ key: 'posts', default: [] });
+const commentsState = atom({ key: 'comments', default: [] });
+const settingsState = atom({ key: 'settings', default: {} });
+const uiState = atom({ key: 'ui', default: {} });
+
+// Use React.memo with Recoil
+const ExpensiveComponent = React.memo(({ todoId }) => {
+  const todo = useRecoilValue(todoByIdSelector(todoId));
+  
+  // Only re-renders when todo changes
+  return <div>{todo.text}</div>;
+});
+
+// Batch updates
+function batchUpdates() {
+  const setUser = useSetRecoilState(userState);
+  const setPosts = useSetRecoilState(postsState);
+  const setComments = useSetRecoilState(commentsState);
+  
+  // These all happen in one render
+  React.unstable_batchedUpdates(() => {
+    setUser({ id: 1, name: 'John' });
+    setPosts([{ id: 1, text: 'Post' }]);
+    setComments([{ id: 1, text: 'Comment' }]);
+  });
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Testing Recoil
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { renderHook } from '@testing-library/react-hooks';
+import { RecoilRoot } from 'recoil';
+
+// Test atoms
+describe('counterState', () => {
+  test('has default value', () => {
+    const { result } = renderHook(() => useRecoilValue(counterState), {
+      wrapper: RecoilRoot
+    });
+    
+    expect(result.current).toBe(0);
+  });
+  
+  test('can be updated', () => {
+    const { result } = renderHook(() => useRecoilState(counterState), {
+      wrapper: RecoilRoot
+    });
+    
+    act(() => {
+      result.current[1](5);
+    });
+    
+    expect(result.current[0]).toBe(5);
+  });
+});
+
+// Test selectors
+describe('filteredTodosState', () => {
+  test('filters todos correctly', () => {
+    const wrapper = ({ children }) => (
+      <RecoilRoot
+        initializeState={({ set }) => {
+          set(todosState, [
+            { id: 1, text: 'Buy milk', completed: false },
+            { id: 2, text: 'Walk dog', completed: true }
+          ]);
+          set(filtersState, { showCompleted: false });
+        }}
+      >
+        {children}
+      </RecoilRoot>
+    );
+    
+    const { result } = renderHook(
+      () => useRecoilValue(filteredTodosState),
+      { wrapper }
+    );
+    
+    expect(result.current).toHaveLength(1);
+    expect(result.current[0].text).toBe('Buy milk');
+  });
+});
+
+// Test async selectors
+describe('userQuery', () => {
+  test('fetches user data', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ id: 1, name: 'John' })
+      })
+    );
+    
+    const { result, waitForNextUpdate } = renderHook(
+      () => useRecoilValueLoadable(userQuery),
+      { wrapper: RecoilRoot }
+    );
+    
+    expect(result.current.state).toBe('loading');
+    
+    await waitForNextUpdate();
+    
+    expect(result.current.state).toBe('hasValue');
+    expect(result.current.contents).toEqual({ id: 1, name: 'John' });
+  });
+});
+
+// Test components with Recoil
+import { render, screen, fireEvent } from '@testing-library/react';
+
+describe('Counter component', () => {
+  test('renders and updates', () => {
+    render(
+      <RecoilRoot>
+        <Counter />
+      </RecoilRoot>
+    );
+    
+    expect(screen.getByText(/count: 0/i)).toBeInTheDocument();
+    
+    fireEvent.click(screen.getByText('Increment'));
+    
+    expect(screen.getByText(/count: 1/i)).toBeInTheDocument();
+  });
+});
+
+// Test with custom initial state
+function TestWrapper({ children, initialState }) {
+  return (
+    <RecoilRoot
+      initializeState={({ set }) => {
+        Object.entries(initialState).forEach(([atom, value]) => {
+          set(atom, value);
+        });
+      }}
+    >
+      {children}
+    </RecoilRoot>
+  );
+}
+
+test('with initial state', () => {
+  render(
+    <TestWrapper initialState={{ [counterState]: 10 }}>
+      <Counter />
+    </TestWrapper>
+  );
+  
+  expect(screen.getByText(/count: 10/i)).toBeInTheDocument();
+});
+
+// Test atom families
+describe('todoItemState', () => {
+  test('creates independent atoms', () => {
+    const { result: result1 } = renderHook(
+      () => useRecoilState(todoItemState(1)),
+      { wrapper: RecoilRoot }
+    );
+    
+    const { result: result2 } = renderHook(
+      () => useRecoilState(todoItemState(2)),
+      { wrapper: RecoilRoot }
+    );
+    
+    act(() => {
+      result1.current[1]({ id: 1, text: 'First', completed: false });
+    });
+    
+    expect(result1.current[0].text).toBe('First');
+    expect(result2.current[0].text).toBe(''); // Independent
+  });
+});
+
+// Test snapshot functionality
+describe('snapshot utils', () => {
+  test('can create and restore snapshot', () => {
+    const { result } = renderHook(
+      () => ({
+        counter: useRecoilState(counterState),
+        snapshot: useRecoilSnapshot(),
+        gotoSnapshot: useGotoRecoilSnapshot()
+      }),
+      { wrapper: RecoilRoot }
+    );
+    
+    const initialSnapshot = result.current.snapshot;
+    
+    act(() => {
+      result.current.counter[1](5);
+    });
+    
+    expect(result.current.counter[0]).toBe(5);
+    
+    act(() => {
+      result.current.gotoSnapshot(initialSnapshot);
+    });
+    
+    expect(result.current.counter[0]).toBe(0);
+  });
+});
+
+// Mock Recoil for unit tests
+jest.mock('recoil', () => ({
+  ...jest.requireActual('recoil'),
+  useRecoilValue: jest.fn(),
+  useSetRecoilState: jest.fn()
+}));
+
+// Integration tests
+describe('TodoApp integration', () => {
+  test('complete workflow', async () => {
+    render(
+      <RecoilRoot>
+        <TodoApp />
+      </RecoilRoot>
+    );
+    
+    const input = screen.getByPlaceholderText('Add todo');
+    const addButton = screen.getByText('Add');
+    
+    fireEvent.change(input, { target: { value: 'Test todo' } });
+    fireEvent.click(addButton);
+    
+    expect(await screen.findByText('Test todo')).toBeInTheDocument();
+    
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+    
+    expect(checkbox).toBeChecked();
+  });
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Use atoms for independent pieces of state</li>
+  <li><b>DO:</b> Use selectors for derived/computed state</li>
+  <li><b>DO:</b> Keep atom keys unique across your entire app</li>
+  <li><b>DO:</b> Use atom families for dynamic collections of atoms</li>
+  <li><b>DO:</b> Leverage Suspense and ErrorBoundary for async queries</li>
+  <li><b>DO:</b> Use effects for persistence and side effects</li>
+  <li><b>DO:</b> Compose selectors for complex derived state</li>
+  <li><b>DO:</b> Use useRecoilCallback for complex operations</li>
+  <li><b>DON'T:</b> Put large objects in atoms if only small parts are used</li>
+  <li><b>DON'T:</b> Create atoms dynamically without atom families</li>
+  <li><b>DON'T:</b> Use Recoil for all state—use local state when appropriate</li>
+  <li><b>DON'T:</b> Forget to wrap app in RecoilRoot</li>
+  <li><b>DON'T:</b> Perform side effects in selector get functions</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Recoil vs Other State Management
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Recoil vs Redux
+// Recoil: Distributed graph, less boilerplate, better for React, atomic updates
+// Redux: Centralized store, more mature, DevTools, middleware ecosystem
+
+// Recoil vs Context API
+// Recoil: Fine-grained reactivity, async support, derived state, better performance
+// Context: Simpler, built-in, good for simple global state, causes more re-renders
+
+// Recoil vs Zustand
+// Recoil: More React-centric, atom/selector model, async built-in, snapshots
+// Zustand: Simpler API, smaller bundle, works outside React, less magic
+
+// Recoil vs Jotai
+// Recoil: More features, Facebook-backed, larger ecosystem, more complex
+// Jotai: Lighter, simpler, similar atom model, fewer features
+
+// When to use Recoil:
+// - React-only applications
+// - Complex state dependencies and derived state
+// - Need for time-travel debugging
+// - Async state management is critical
+// - Fine-grained performance optimization needed
+// - Team comfortable with atoms/selectors model
+
+// When NOT to use Recoil:
+// - Simple applications with minimal shared state
+// - Need framework-agnostic solution
+// - Team prefers simpler/more established tools
+// - Bundle size is critical (Recoil is larger than Zustand/Jotai)
+// - Most state is server state (use React Query instead)
+
+// Modern approach: Combine tools
+// - Recoil for complex client state
+// - React Query for server state
+// - Local useState for component state
+// - Context for simple theme/auth
+
+// Example: Hybrid approach
+const useUser = () => {
+  // Server state with React Query
+  const { data: user } = useQuery('user', fetchUser);
+  
+  // Client state with Recoil
+  const [preferences, setPreferences] = useRecoilState(userPreferencesState);
+  
+  return { user, preferences, setPreferences };
+};
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Counter with Atoms",
+              "Todo List with Filters",
+              "User Authentication Flow",
+              "Async Data Fetching with Suspense",
+              "Form State Management",
+              "Shopping Cart with Atom Families",
+              "Real-time Chat Application",
+              "Time Travel Debugging",
+              "Multi-step Form Wizard",
+            ],
+            questions: [
+              {
+                question:
+                  "What are atoms in Recoil and how do they differ from Redux stores?",
+                answer:
+                  "Atoms are units of state in Recoil—each atom holds a piece of state that components can subscribe to independently. Unlike Redux's single centralized store, Recoil uses a distributed graph where each atom is independent. Benefits: fine-grained subscriptions (components only re-render when specific atoms change), no boilerplate reducers/actions, direct read/write with hooks. Components subscribe using useRecoilState/useRecoilValue. Each atom has unique key and default value. Atoms can be updated directly without actions/reducers.",
+              },
+              {
+                question:
+                  "What are selectors and how do they enable derived state in Recoil?",
+                answer:
+                  "Selectors are pure functions that compute derived state from atoms or other selectors. They automatically recompute when dependencies change and are memoized. Two types: read-only (get function) and read-write (get + set functions). Use for: filtering/sorting data, combining multiple atoms, transforming data, computed values. Benefits: automatic dependency tracking, memoization (only recompute when inputs change), composability (selectors can depend on other selectors), testability. Example: filteredTodos selector depends on todos atom and filter atom, automatically updates when either changes.",
+              },
+              {
+                question:
+                  "How does Recoil handle async data fetching and what role does Suspense play?",
+                answer:
+                  "Recoil has built-in async support—selectors can be async functions that return promises. When component reads async selector, it suspends until promise resolves. Use React Suspense to show fallback UI during loading. Benefits: declarative async handling, automatic loading states, no manual loading flags needed. Use ErrorBoundary for error handling. Alternative: useRecoilValueLoadable for manual control over loading/error states without Suspense. Example: selector fetches from API, component suspends, Suspense shows spinner, component renders with data when ready.",
+              },
+              {
+                question:
+                  "What are atom families and when should you use them?",
+                answer:
+                  "Atom families create atoms dynamically based on parameters—essentially a function that returns atoms. Use for: collections of similar items (todos, users), dynamic forms (field per input), caching (atom per API endpoint), parameterized state. Each parameter combination gets its own atom instance. Benefits: avoid creating atoms manually, automatic memoization, works with selectors. Example: todoItemState(id) creates separate atom for each todo ID. Also supports async defaults for dynamic data fetching. Alternative to storing arrays in single atom.",
+              },
+              {
+                question:
+                  "How do selector families differ from regular selectors?",
+                answer:
+                  "Selector families create selectors with parameters—functions that return selectors based on input. Similar to atom families but for derived state. Use for: parameterized queries (user by ID), filtered data (posts by category), computed values with context. Example: userPostsSelector(userId) creates selector that fetches posts for specific user. Can be read-only or read-write. Benefits: memoization per parameter, automatic dependency tracking, composability. Useful for dynamic data that depends on parameters, list items, search queries.",
+              },
+              {
+                question:
+                  "What are Recoil effects and how are they used for persistence?",
+                answer:
+                  "Effects are side effects that run when atom changes. Defined in atom's effects array. Common uses: localStorage persistence, validation, analytics, external synchronization. Effects receive onSet (called when atom changes) and setSelf (set atom value). Can return cleanup function. Example: localStorage effect saves to storage on change, loads on init. Effects can be composed—multiple effects per atom. Use for: syncing with external sources, logging changes, enforcing constraints. More declarative than useEffect for state synchronization.",
+              },
+              {
+                question:
+                  "How does useRecoilCallback work and when should you use it?",
+                answer:
+                  "useRecoilCallback allows reading/writing Recoil state in callbacks without causing re-renders. Receives snapshot (read state) and set/reset (write state). Use for: complex operations involving multiple atoms, API calls with state access, batch updates, event handlers that need state but shouldn't subscribe. Benefits: no re-renders when state changes, access to current state in callbacks, can perform async operations. Example: form submission that reads form state, calls API, updates result atom. Alternative to useEffect for state-dependent side effects.",
+              },
+              {
+                question:
+                  "What is state snapshot functionality and how can it enable time travel debugging?",
+                answer:
+                  "Snapshots are immutable representations of Recoil state at specific point in time. Use useRecoilSnapshot to get current snapshot, useGotoRecoilSnapshot to restore. Use for: undo/redo, time travel debugging, state export/import, debugging state changes. Can iterate over all atoms in snapshot, compare snapshots to see changes. Example: save snapshot before each change, implement undo by restoring previous snapshot. useRecoilTransactionObserver observes all state changes. Enables Redux-like DevTools experience without centralized store.",
+              },
+              {
+                question:
+                  "How do you optimize performance in Recoil applications?",
+                answer:
+                  "Performance optimizations: 1) Split large atoms into smaller ones—components only subscribe to needed atoms, 2) Use selectors for derived state—automatic memoization, 3) waitForAll for parallel async queries, 4) noWait to avoid suspending, 5) React.memo for expensive components, 6) Minimize selector dependencies—only read what's needed, 7) Use atom/selector families instead of large collections. Recoil automatically optimizes: memoizes selectors, batches updates, only re-renders subscribed components. Profile with React DevTools, avoid premature optimization.",
+              },
+              {
+                question:
+                  "What are waitForAll, waitForNone, and waitForAny utilities?",
+                answer:
+                  "These utilities coordinate multiple async selectors: waitForAll waits for all selectors to resolve (parallel fetching), returns array of values, suspends until all complete. waitForNone doesn't wait—immediately returns loadables for all selectors, useful for optional data. waitForAny waits for at least one to complete. Use cases: loading dashboard with multiple APIs (waitForAll), showing partial data as it loads (waitForNone), critical + optional data (waitForAny). Benefits: better UX, parallel loading, flexible loading strategies. Example: dashboard loads user + posts in parallel with waitForAll.",
+              },
+              {
+                question:
+                  "How do you test Recoil atoms, selectors, and components?",
+                answer:
+                  "Testing Recoil: wrap tests in RecoilRoot, use initializeState to set initial values. Test atoms: verify default value, test updates with useRecoilState. Test selectors: set dependencies, verify computed value. Test async selectors: use useRecoilValueLoadable to check loading/hasValue/hasError states, mock fetch. Test components: render with RecoilRoot, interact with UI, verify state changes. Use renderHook from testing-library for hooks. Can mock Recoil hooks for unit tests. Integration tests: test full workflows with real RecoilRoot.",
+              },
+              {
+                question:
+                  "What is the difference between useRecoilState, useRecoilValue, and useSetRecoilState?",
+                answer:
+                  "useRecoilState returns [value, setter]—like useState, use when need both read and write. useRecoilValue returns only value—use for read-only access, avoids unnecessary setter in memory. useSetRecoilState returns only setter—use when component updates state but doesn't need current value, avoids re-renders when state changes. Choose based on needs: read+write=useRecoilState, read-only=useRecoilValue, write-only=useSetRecoilState. Performance: useRecoilValue and useSetRecoilState can prevent unnecessary re-renders by splitting concerns. Example: display component uses useRecoilValue, control component uses useSetRecoilState.",
+              },
+              {
+                question:
+                  "How does Recoil integrate with React Suspense and Error Boundaries?",
+                answer:
+                  "Recoil embraces React's Suspense and Error Boundaries for async state. When component reads async selector, it suspends until resolved—Suspense shows fallback. On error, throws to nearest ErrorBoundary. Benefits: declarative loading/error states, no manual try-catch in components, consistent UX pattern. Wrap app/sections in Suspense + ErrorBoundary. Alternative: useRecoilValueLoadable for manual control—get loadable with state (loading/hasValue/hasError) and contents. Use Suspense for simple cases, loadable for complex error handling or custom loading UI.",
+              },
+              {
+                question: "When should you use Recoil vs Redux vs Context API?",
+                answer:
+                  "Use Recoil for: React-only apps, complex derived state, async state management, fine-grained performance needs, distributed state graph preferred. Use Redux for: larger teams needing strict patterns, extensive middleware needs, mature ecosystem required, framework-agnostic solution. Use Context for: simple global state (theme, auth), infrequent updates, small apps, built-in solution preferred. Modern approach: combine tools—Recoil for complex client state, React Query for server state, Context for simple globals, local useState for component state. Recoil excels at React integration but has smaller ecosystem than Redux.",
+              },
+              {
+                question:
+                  "What are the key advantages of Recoil's atom model over centralized stores?",
+                answer:
+                  "Atom model advantages: 1) Fine-grained subscriptions—components only re-render when specific atoms change, not entire store, 2) No boilerplate—no actions/reducers/types, direct state updates, 3) Code splitting friendly—atoms can be defined near components, 4) Better for complex dependencies—selectors automatically track deps, 5) Easier incremental adoption—add atoms as needed, 6) Built-in async—selectors can be async natively. Drawbacks: less mature than Redux, harder to debug entire state, experimental API surface. Best for: apps prioritizing developer experience, React integration, and granular reactivity over centralized control.",
+              },
+            ],
+            links: [
+              "https://recoiljs.org/",
+              "https://recoiljs.org/docs/introduction/getting-started",
+              "https://recoiljs.org/docs/basic-tutorial/intro",
+              "https://recoiljs.org/docs/api-reference/core/atom",
+              "https://recoiljs.org/docs/api-reference/core/selector",
+              "https://recoiljs.org/docs/guides/asynchronous-data-queries",
+            ],
           },
           {
             topic: "Redux Middleware",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Redux",
+              "Middleware",
+              "Redux Thunk",
+              "Redux Saga",
+              "Custom Middleware",
+              "Side Effects",
+              "Async Actions",
+              "Logger",
+              "Error Handling",
+              "API Middleware",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Redux middleware provides a third-party extension point between dispatching an action and the moment it reaches the reducer. Middleware sits in the dispatch pipeline, intercepting every action before it reaches the reducer, enabling powerful capabilities like logging, crash reporting, asynchronous API calls, routing, and more. Understanding middleware is essential for handling side effects in Redux applications, as reducers must remain pure functions. Middleware can inspect, modify, delay, or even stop actions, dispatch additional actions, and access the store's state. Modern Redux development commonly uses middleware like Redux Thunk for async logic, custom middleware for logging and analytics, and specialized middleware for complex async flows.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Middleware Fundamentals
+</h4>
+
+<p style="line-height: 1.75;">
+Middleware intercepts actions in the Redux dispatch flow, providing a way to extend Redux with custom functionality.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Redux dispatch flow WITHOUT middleware:
+// Component → dispatch(action) → Reducer → New State → UI Update
+
+// Redux dispatch flow WITH middleware:
+// Component → dispatch(action) → Middleware Chain → Reducer → New State → UI Update
+
+// Middleware signature (curried function)
+const myMiddleware = (store) => (next) => (action) => {
+  // store: { getState, dispatch }
+  // next: the next middleware in chain (or reducer if last)
+  // action: the action being dispatched
+  
+  // Before action reaches reducer
+  console.log('Before:', store.getState());
+  console.log('Action:', action);
+  
+  // Pass action to next middleware/reducer
+  const result = next(action);
+  
+  // After action has been processed
+  console.log('After:', store.getState());
+  
+  return result;
+};
+
+// Setting up middleware with Redux Toolkit
+import { configureStore } from '@reduxjs/toolkit';
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(myMiddleware)
+});
+
+// Setting up middleware with legacy createStore
+import { createStore, applyMiddleware } from 'redux';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(myMiddleware, anotherMiddleware)
+);
+
+// Simple logger middleware
+const loggerMiddleware = (store) => (next) => (action) => {
+  console.group(action.type);
+  console.log('Previous State:', store.getState());
+  console.log('Action:', action);
+  
+  const result = next(action);
+  
+  console.log('Next State:', store.getState());
+  console.groupEnd();
+  
+  return result;
+};
+
+// Middleware that stops certain actions
+const blockMiddleware = (store) => (next) => (action) => {
+  if (action.type === 'BLOCKED_ACTION') {
+    console.log('Action blocked!');
+    return; // Don't call next(), action stops here
+  }
+  
+  return next(action);
+};
+
+// Middleware that modifies actions
+const transformMiddleware = (store) => (next) => (action) => {
+  if (action.type === 'ADD_TODO') {
+    // Add timestamp to action
+    return next({
+      ...action,
+      payload: {
+        ...action.payload,
+        timestamp: Date.now()
+      }
+    });
+  }
+  
+  return next(action);
+};
+
+// Middleware that dispatches other actions
+const notificationMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  
+  if (action.type === 'user/loginSuccess') {
+    // Dispatch another action
+    store.dispatch({
+      type: 'notifications/show',
+      payload: { message: 'Welcome back!' }
+    });
+  }
+  
+  return result;
+};
+
+// Conditional middleware based on state
+const validationMiddleware = (store) => (next) => (action) => {
+  if (action.type === 'cart/addItem') {
+    const state = store.getState();
+    
+    if (state.cart.items.length >= 10) {
+      store.dispatch({
+        type: 'error/show',
+        payload: 'Cart is full'
+      });
+      return; // Block the action
+    }
+  }
+  
+  return next(action);
+};
+
+// Middleware execution order
+const middleware1 = (store) => (next) => (action) => {
+  console.log('Middleware 1: Before');
+  const result = next(action);
+  console.log('Middleware 1: After');
+  return result;
+};
+
+const middleware2 = (store) => (next) => (action) => {
+  console.log('Middleware 2: Before');
+  const result = next(action);
+  console.log('Middleware 2: After');
+  return result;
+};
+
+// Order matters!
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(middleware1, middleware2)
+});
+
+// When action is dispatched:
+// Middleware 1: Before
+// Middleware 2: Before
+// Reducer executes
+// Middleware 2: After
+// Middleware 1: After
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Redux Thunk - Async Middleware
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Redux Thunk is included by default in Redux Toolkit
+// It allows action creators to return functions instead of objects
+
+// Basic thunk
+const fetchUser = (userId) => {
+  return async (dispatch, getState) => {
+    dispatch({ type: 'user/fetchStart' });
+    
+    try {
+      const response = await fetch(\`/api/users/\${userId}\`);
+      const user = await response.json();
+      
+      dispatch({ type: 'user/fetchSuccess', payload: user });
+    } catch (error) {
+      dispatch({ type: 'user/fetchError', payload: error.message });
+    }
+  };
+};
+
+// Usage
+store.dispatch(fetchUser(123));
+
+// Thunk with conditional dispatch
+const incrementIfOdd = () => (dispatch, getState) => {
+  const { counter } = getState();
+  
+  if (counter.value % 2 !== 0) {
+    dispatch({ type: 'counter/increment' });
+  }
+};
+
+// Thunk returning a promise
+const fetchUserWithPromise = (userId) => {
+  return async (dispatch) => {
+    dispatch({ type: 'user/fetchStart' });
+    
+    try {
+      const response = await fetch(\`/api/users/\${userId}\`);
+      const user = await response.json();
+      
+      dispatch({ type: 'user/fetchSuccess', payload: user });
+      return user; // Can return value
+    } catch (error) {
+      dispatch({ type: 'user/fetchError', payload: error.message });
+      throw error; // Can throw error
+    }
+  };
+};
+
+// Usage with promise
+store.dispatch(fetchUserWithPromise(123))
+  .then(user => console.log('User loaded:', user))
+  .catch(error => console.error('Failed:', error));
+
+// Thunk with multiple API calls
+const loadUserData = (userId) => {
+  return async (dispatch) => {
+    dispatch({ type: 'userData/loadStart' });
+    
+    try {
+      // Sequential calls
+      const user = await fetch(\`/api/users/\${userId}\`).then(r => r.json());
+      const posts = await fetch(\`/api/users/\${userId}/posts\`).then(r => r.json());
+      const friends = await fetch(\`/api/users/\${userId}/friends\`).then(r => r.json());
+      
+      dispatch({
+        type: 'userData/loadSuccess',
+        payload: { user, posts, friends }
+      });
+    } catch (error) {
+      dispatch({ type: 'userData/loadError', payload: error.message });
+    }
+  };
+};
+
+// Parallel API calls
+const loadDashboardData = () => {
+  return async (dispatch) => {
+    dispatch({ type: 'dashboard/loadStart' });
+    
+    try {
+      const [users, posts, stats] = await Promise.all([
+        fetch('/api/users').then(r => r.json()),
+        fetch('/api/posts').then(r => r.json()),
+        fetch('/api/stats').then(r => r.json())
+      ]);
+      
+      dispatch({ type: 'dashboard/loadSuccess', payload: { users, posts, stats } });
+    } catch (error) {
+      dispatch({ type: 'dashboard/loadError', payload: error.message });
+    }
+  };
+};
+
+// Thunk with extra argument (API client)
+const createThunkWithApi = (api) => {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: api
+        }
+      })
+  });
+};
+
+// Using extra argument
+const fetchUserWithApi = (userId) => {
+  return async (dispatch, getState, api) => {
+    const user = await api.getUser(userId);
+    dispatch({ type: 'user/fetchSuccess', payload: user });
+  };
+};
+
+// Thunk dispatching other thunks
+const loginUser = (credentials) => {
+  return async (dispatch) => {
+    const user = await fetch('/api/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials)
+    }).then(r => r.json());
+    
+    dispatch({ type: 'auth/loginSuccess', payload: user });
+    
+    // Dispatch another thunk
+    dispatch(loadUserData(user.id));
+    dispatch(fetchNotifications(user.id));
+  };
+};
+
+// Redux Toolkit createAsyncThunk (preferred over manual thunks)
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+export const fetchUserById = createAsyncThunk(
+  'users/fetchById',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await fetch(\`/api/users/\${userId}\`);
+      if (!response.ok) throw new Error('Failed to fetch');
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Accessing state in createAsyncThunk
+export const incrementIfOddAsync = createAsyncThunk(
+  'counter/incrementIfOdd',
+  async (amount, { getState }) => {
+    const state = getState();
+    if (state.counter.value % 2 !== 0) {
+      return amount;
+    }
+    return 0;
+  }
+);
+
+// Canceling thunks
+const fetchData = createAsyncThunk('data/fetch', async (arg, { signal }) => {
+  const response = await fetch('/api/data', { signal });
+  return response.json();
+});
+
+// Usage
+const promise = dispatch(fetchData());
+promise.abort(); // Cancel the request
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Custom Middleware Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Analytics middleware
+const analyticsMiddleware = (store) => (next) => (action) => {
+  // Track specific actions
+  if (action.type.startsWith('user/')) {
+    analytics.track('User Action', {
+      action: action.type,
+      payload: action.payload,
+      timestamp: Date.now()
+    });
+  }
+  
+  // Track all actions
+  analytics.event(action.type, action.payload);
+  
+  return next(action);
+};
+
+// Crash reporting middleware
+const crashReporterMiddleware = (store) => (next) => (action) => {
+  try {
+    return next(action);
+  } catch (error) {
+    console.error('Caught an exception!', error);
+    
+    // Send to error tracking service
+    errorTracker.captureException(error, {
+      extra: {
+        action,
+        state: store.getState()
+      }
+    });
+    
+    // Show error to user
+    store.dispatch({
+      type: 'error/crashed',
+      payload: error.message
+    });
+    
+    throw error;
+  }
+};
+
+// API middleware
+const apiMiddleware = (store) => (next) => (action) => {
+  // Only handle actions with api metadata
+  if (!action.meta || !action.meta.api) {
+    return next(action);
+  }
+  
+  const { endpoint, method = 'GET', body } = action.meta.api;
+  
+  // Dispatch start action
+  store.dispatch({
+    type: \`\${action.type}_START\`,
+    payload: action.payload
+  });
+  
+  // Make API call
+  fetch(endpoint, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: body ? JSON.stringify(body) : undefined
+  })
+    .then(response => response.json())
+    .then(data => {
+      store.dispatch({
+        type: \`\${action.type}_SUCCESS\`,
+        payload: data
+      });
+    })
+    .catch(error => {
+      store.dispatch({
+        type: \`\${action.type}_ERROR\`,
+        payload: error.message
+      });
+    });
+  
+  return next(action);
+};
+
+// Usage of API middleware
+dispatch({
+  type: 'FETCH_USER',
+  meta: {
+    api: {
+      endpoint: '/api/user/123',
+      method: 'GET'
+    }
+  }
+});
+
+// Debounce middleware
+const debounceMiddleware = () => {
+  const timers = {};
+  
+  return (store) => (next) => (action) => {
+    const { meta } = action;
+    
+    if (!meta || !meta.debounce) {
+      return next(action);
+    }
+    
+    const { time, key } = meta.debounce;
+    const debounceKey = key || action.type;
+    
+    if (timers[debounceKey]) {
+      clearTimeout(timers[debounceKey]);
+    }
+    
+    timers[debounceKey] = setTimeout(() => {
+      next(action);
+      delete timers[debounceKey];
+    }, time);
+  };
+};
+
+// Usage
+dispatch({
+  type: 'search/setQuery',
+  payload: 'search term',
+  meta: {
+    debounce: {
+      time: 300,
+      key: 'search'
+    }
+  }
+});
+
+// Throttle middleware
+const throttleMiddleware = () => {
+  const timers = {};
+  
+  return (store) => (next) => (action) => {
+    const { meta } = action;
+    
+    if (!meta || !meta.throttle) {
+      return next(action);
+    }
+    
+    const { time, key } = meta.throttle;
+    const throttleKey = key || action.type;
+    
+    if (timers[throttleKey]) {
+      return;
+    }
+    
+    timers[throttleKey] = setTimeout(() => {
+      delete timers[throttleKey];
+    }, time);
+    
+    return next(action);
+  };
+};
+
+// Local storage sync middleware
+const localStorageMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  
+  // Save specific slices to localStorage
+  const state = store.getState();
+  
+  if (action.type.startsWith('user/') || action.type.startsWith('auth/')) {
+    localStorage.setItem('user', JSON.stringify(state.user));
+    localStorage.setItem('auth', JSON.stringify(state.auth));
+  }
+  
+  return result;
+};
+
+// Optimistic update middleware
+const optimisticMiddleware = (store) => (next) => (action) => {
+  if (!action.meta || !action.meta.optimistic) {
+    return next(action);
+  }
+  
+  // Apply optimistic update
+  const result = next(action);
+  
+  // Make API call
+  const { endpoint, method, body } = action.meta.optimistic;
+  
+  fetch(endpoint, { method, body: JSON.stringify(body) })
+    .catch(error => {
+      // Revert on error
+      store.dispatch({
+        type: \`\${action.type}_REVERT\`,
+        payload: action.meta.optimistic.revertPayload
+      });
+    });
+  
+  return result;
+};
+
+// Promise middleware
+const promiseMiddleware = (store) => (next) => (action) => {
+  if (typeof action.payload === 'function') {
+    return action.payload(store.dispatch, store.getState);
+  }
+  
+  if (!action.payload || typeof action.payload.then !== 'function') {
+    return next(action);
+  }
+  
+  // It's a promise
+  action.payload
+    .then(result => {
+      store.dispatch({ ...action, payload: result });
+    })
+    .catch(error => {
+      store.dispatch({
+        type: \`\${action.type}_ERROR\`,
+        payload: error,
+        error: true
+      });
+    });
+};
+
+// Multi middleware - handle multiple actions
+const multiMiddleware = (store) => (next) => (action) => {
+  if (!Array.isArray(action)) {
+    return next(action);
+  }
+  
+  // Dispatch each action in array
+  return action.map(a => store.dispatch(a));
+};
+
+// Usage
+dispatch([
+  { type: 'FIRST_ACTION' },
+  { type: 'SECOND_ACTION' },
+  { type: 'THIRD_ACTION' }
+]);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Redux Saga - Advanced Async Middleware
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Redux Saga uses generator functions for complex async flows
+import { call, put, takeEvery, takeLatest, select, fork, all } from 'redux-saga/effects';
+
+// Basic saga
+function* fetchUserSaga(action) {
+  try {
+    // Put is like dispatch
+    yield put({ type: 'user/fetchStart' });
+    
+    // Call executes async function
+    const user = yield call(fetch, \`/api/users/\${action.payload}\`);
+    const data = yield call([user, 'json']);
+    
+    yield put({ type: 'user/fetchSuccess', payload: data });
+  } catch (error) {
+    yield put({ type: 'user/fetchError', payload: error.message });
+  }
+}
+
+// Watcher saga - listens for actions
+function* watchFetchUser() {
+  // takeEvery runs saga for every action
+  yield takeEvery('user/fetch', fetchUserSaga);
+}
+
+// Root saga
+function* rootSaga() {
+  yield all([
+    watchFetchUser(),
+    watchCreatePost(),
+    watchDeletePost()
+  ]);
+}
+
+// Setup with Redux Toolkit
+import createSagaMiddleware from 'redux-saga';
+
+const sagaMiddleware = createSagaMiddleware();
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware)
+});
+
+sagaMiddleware.run(rootSaga);
+
+// takeLatest - only process latest action, cancel previous
+function* watchSearch() {
+  yield takeLatest('search/query', performSearchSaga);
+}
+
+function* performSearchSaga(action) {
+  // Wait 300ms for debounce
+  yield delay(300);
+  
+  const results = yield call(api.search, action.payload);
+  yield put({ type: 'search/resultsReceived', payload: results });
+}
+
+// select - access state
+function* incrementIfOddSaga() {
+  const counter = yield select(state => state.counter.value);
+  
+  if (counter % 2 !== 0) {
+    yield put({ type: 'counter/increment' });
+  }
+}
+
+// fork - non-blocking call
+function* loginSaga(action) {
+  const user = yield call(api.login, action.payload);
+  yield put({ type: 'auth/loginSuccess', payload: user });
+  
+  // Fork runs in background
+  yield fork(loadUserDataSaga, user.id);
+  yield fork(connectWebSocketSaga, user.id);
+}
+
+// Race - multiple effects, take first to complete
+import { race, take } from 'redux-saga/effects';
+
+function* fetchWithTimeoutSaga() {
+  const { data, timeout } = yield race({
+    data: call(api.fetchData),
+    timeout: delay(5000)
+  });
+  
+  if (timeout) {
+    yield put({ type: 'fetch/timeout' });
+  } else {
+    yield put({ type: 'fetch/success', payload: data });
+  }
+}
+
+// Cancellation
+import { cancel, cancelled } from 'redux-saga/effects';
+
+function* backgroundSyncSaga() {
+  try {
+    while (true) {
+      yield call(api.sync);
+      yield delay(60000); // Every minute
+    }
+  } finally {
+    if (yield cancelled()) {
+      console.log('Sync cancelled');
+    }
+  }
+}
+
+function* watchBackgroundSync() {
+  while (true) {
+    yield take('sync/start');
+    const task = yield fork(backgroundSyncSaga);
+    
+    yield take('sync/stop');
+    yield cancel(task);
+  }
+}
+
+// Retry pattern
+function* fetchWithRetrySaga() {
+  let retries = 3;
+  
+  while (retries > 0) {
+    try {
+      const data = yield call(api.fetchData);
+      yield put({ type: 'fetch/success', payload: data });
+      return;
+    } catch (error) {
+      retries--;
+      
+      if (retries === 0) {
+        yield put({ type: 'fetch/error', payload: error.message });
+      } else {
+        yield delay(1000); // Wait before retry
+      }
+    }
+  }
+}
+
+// Parallel execution
+function* fetchAllDataSaga() {
+  const [users, posts, comments] = yield all([
+    call(api.getUsers),
+    call(api.getPosts),
+    call(api.getComments)
+  ]);
+  
+  yield put({
+    type: 'data/allReceived',
+    payload: { users, posts, comments }
+  });
+}
+
+// Sequential execution with data passing
+function* createPostWorkflowSaga(action) {
+  // Step 1: Validate
+  const isValid = yield call(validatePost, action.payload);
+  if (!isValid) {
+    yield put({ type: 'post/validationError' });
+    return;
+  }
+  
+  // Step 2: Create post
+  const post = yield call(api.createPost, action.payload);
+  yield put({ type: 'post/created', payload: post });
+  
+  // Step 3: Upload images
+  if (action.payload.images) {
+    yield call(uploadImagesSaga, post.id, action.payload.images);
+  }
+  
+  // Step 4: Notify followers
+  yield call(notifyFollowersSaga, post.id);
+  
+  yield put({ type: 'post/workflowComplete' });
+}
+
+// Channel pattern for event emitter
+import { eventChannel } from 'redux-saga';
+
+function* watchWebSocketSaga() {
+  const channel = yield call(createWebSocketChannel);
+  
+  try {
+    while (true) {
+      const message = yield take(channel);
+      yield put({ type: 'ws/messageReceived', payload: message });
+    }
+  } finally {
+    channel.close();
+  }
+}
+
+function createWebSocketChannel() {
+  return eventChannel(emitter => {
+    const ws = new WebSocket('ws://localhost:8080');
+    
+    ws.onmessage = (event) => {
+      emitter(JSON.parse(event.data));
+    };
+    
+    ws.onerror = (error) => {
+      emitter(new Error(error));
+    };
+    
+    return () => {
+      ws.close();
+    };
+  });
+}
+
+// Debounce pattern
+import { debounce } from 'redux-saga/effects';
+
+function* watchSearchDebounced() {
+  yield debounce(300, 'search/query', performSearchSaga);
+}
+
+// Throttle pattern
+import { throttle } from 'redux-saga/effects';
+
+function* watchScrollThrottled() {
+  yield throttle(100, 'ui/scroll', handleScrollSaga);
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Error Handling in Middleware
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Global error handling middleware
+const errorHandlerMiddleware = (store) => (next) => (action) => {
+  try {
+    return next(action);
+  } catch (error) {
+    console.error('Error processing action:', action, error);
+    
+    // Log to error service
+    errorLogger.log(error, {
+      action,
+      state: store.getState(),
+      timestamp: Date.now()
+    });
+    
+    // Dispatch error action
+    store.dispatch({
+      type: 'error/global',
+      payload: {
+        message: error.message,
+        stack: error.stack,
+        action: action.type
+      }
+    });
+    
+    // Don't rethrow - prevent app crash
+  }
+};
+
+// Async error handling
+const asyncErrorMiddleware = (store) => (next) => (action) => {
+  if (typeof action === 'function') {
+    return Promise.resolve(action(store.dispatch, store.getState))
+      .catch(error => {
+        store.dispatch({
+          type: 'error/async',
+          payload: error.message,
+          meta: { originalAction: action }
+        });
+      });
+  }
+  
+  return next(action);
+};
+
+// Network error handling
+const networkErrorMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  
+  if (action.type.endsWith('_ERROR') && action.payload) {
+    const error = action.payload;
+    
+    // Check for network errors
+    if (error.includes('Failed to fetch') || error.includes('Network')) {
+      store.dispatch({
+        type: 'network/offline',
+        payload: 'You appear to be offline'
+      });
+    }
+    
+    // Check for auth errors
+    if (error.includes('401') || error.includes('Unauthorized')) {
+      store.dispatch({ type: 'auth/logout' });
+      store.dispatch({
+        type: 'notification/show',
+        payload: 'Session expired, please login again'
+      });
+    }
+    
+    // Check for server errors
+    if (error.includes('500') || error.includes('Internal Server Error')) {
+      store.dispatch({
+        type: 'notification/show',
+        payload: 'Server error, please try again later'
+      });
+    }
+  }
+  
+  return result;
+};
+
+// Retry logic middleware
+const retryMiddleware = (store) => (next) => (action) => {
+  if (!action.meta || !action.meta.retry) {
+    return next(action);
+  }
+  
+  const { maxRetries, delay } = action.meta.retry;
+  let retries = 0;
+  
+  const attemptDispatch = () => {
+    return next(action).catch(error => {
+      retries++;
+      
+      if (retries < maxRetries) {
+        console.log(\`Retry attempt \${retries}/\${maxRetries}\`);
+        
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(attemptDispatch());
+          }, delay * retries); // Exponential backoff
+        });
+      }
+      
+      // Max retries reached
+      store.dispatch({
+        type: \`\${action.type}_FAILED\`,
+        payload: error,
+        meta: { retries }
+      });
+      
+      throw error;
+    });
+  };
+  
+  return attemptDispatch();
+};
+
+// Validation middleware
+const validationMiddleware = (store) => (next) => (action) => {
+  if (action.type === 'user/update' && action.payload) {
+    const { email, age } = action.payload;
+    
+    const errors = [];
+    
+    if (email && !email.includes('@')) {
+      errors.push('Invalid email format');
+    }
+    
+    if (age && (age < 0 || age > 150)) {
+      errors.push('Invalid age');
+    }
+    
+    if (errors.length > 0) {
+      store.dispatch({
+        type: 'validation/errors',
+        payload: errors
+      });
+      return; // Block invalid action
+    }
+  }
+  
+  return next(action);
+};
+
+// Circuit breaker pattern
+const circuitBreakerMiddleware = () => {
+  const failures = new Map();
+  const THRESHOLD = 5;
+  const TIMEOUT = 60000; // 1 minute
+  
+  return (store) => (next) => (action) => {
+    if (!action.meta || !action.meta.circuitBreaker) {
+      return next(action);
+    }
+    
+    const key = action.type;
+    const now = Date.now();
+    
+    if (!failures.has(key)) {
+      failures.set(key, { count: 0, openedAt: null });
+    }
+    
+    const circuit = failures.get(key);
+    
+    // Check if circuit is open
+    if (circuit.openedAt && now - circuit.openedAt < TIMEOUT) {
+      console.log('Circuit breaker: circuit open, blocking action');
+      store.dispatch({
+        type: 'error/circuitOpen',
+        payload: 'Service temporarily unavailable'
+      });
+      return;
+    }
+    
+    // Reset circuit after timeout
+    if (circuit.openedAt && now - circuit.openedAt >= TIMEOUT) {
+      circuit.count = 0;
+      circuit.openedAt = null;
+    }
+    
+    return Promise.resolve(next(action))
+      .then(result => {
+        // Success - reset count
+        circuit.count = 0;
+        return result;
+      })
+      .catch(error => {
+        // Failure - increment count
+        circuit.count++;
+        
+        if (circuit.count >= THRESHOLD) {
+          circuit.openedAt = now;
+          console.log('Circuit breaker: opening circuit');
+        }
+        
+        throw error;
+      });
+  };
+};
+
+// Safe state access middleware
+const safeStateMiddleware = (store) => (next) => (action) => {
+  try {
+    const state = store.getState();
+    
+    // Validate state structure
+    if (!state || typeof state !== 'object') {
+      console.error('Invalid state structure');
+      return;
+    }
+    
+    return next(action);
+  } catch (error) {
+    console.error('Error accessing state:', error);
+    // Continue without crashing
+  }
+};
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Logging and Debugging Middleware
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Advanced logger middleware
+const advancedLoggerMiddleware = (store) => (next) => (action) => {
+  const timestamp = new Date().toISOString();
+  const prevState = store.getState();
+  
+  console.group(\`%c \${action.type}\`, 'color: #4CAF50; font-weight: bold;');
+  console.log('%c Previous State:', 'color: #9E9E9E; font-weight: bold;', prevState);
+  console.log('%c Action:', 'color: #03A9F4; font-weight: bold;', action);
+  
+  const result = next(action);
+  
+  const nextState = store.getState();
+  console.log('%c Next State:', 'color: #4CAF50; font-weight: bold;', nextState);
+  console.log('%c Timestamp:', 'color: #FF9800;', timestamp);
+  
+  // Calculate state diff
+  const diff = calculateDiff(prevState, nextState);
+  if (Object.keys(diff).length > 0) {
+    console.log('%c State Changes:', 'color: #F44336; font-weight: bold;', diff);
+  }
+  
+  console.groupEnd();
+  
+  return result;
+};
+
+// Calculate state differences
+function calculateDiff(prev, next) {
+  const diff = {};
+  
+  for (const key in next) {
+    if (prev[key] !== next[key]) {
+      diff[key] = {
+        from: prev[key],
+        to: next[key]
+      };
+    }
+  }
+  
+  return diff;
+}
+
+// Performance monitoring middleware
+const performanceMiddleware = (store) => {
+  const metrics = new Map();
+  
+  return (next) => (action) => {
+    const start = performance.now();
+    
+    const result = next(action);
+    
+    const end = performance.now();
+    const duration = end - start;
+    
+    // Track metrics
+    if (!metrics.has(action.type)) {
+      metrics.set(action.type, {
+        count: 0,
+        totalTime: 0,
+        avgTime: 0,
+        maxTime: 0
+      });
+    }
+    
+    const metric = metrics.get(action.type);
+    metric.count++;
+    metric.totalTime += duration;
+    metric.avgTime = metric.totalTime / metric.count;
+    metric.maxTime = Math.max(metric.maxTime, duration);
+    
+    // Log slow actions
+    if (duration > 16) { // > 1 frame (60fps)
+      console.warn(\`Slow action: \${action.type} took \${duration.toFixed(2)}ms\`);
+    }
+    
+    // Expose metrics
+    window.__REDUX_METRICS__ = Object.fromEntries(metrics);
+    
+    return result;
+  };
+};
+
+// Action history middleware
+const historyMiddleware = () => {
+  const history = [];
+  const MAX_HISTORY = 50;
+  
+  return (store) => (next) => (action) => {
+    const timestamp = Date.now();
+    const prevState = store.getState();
+    
+    const result = next(action);
+    
+    const nextState = store.getState();
+    
+    history.push({
+      action,
+      prevState,
+      nextState,
+      timestamp
+    });
+    
+    // Keep history limited
+    if (history.length > MAX_HISTORY) {
+      history.shift();
+    }
+    
+    // Expose history for debugging
+    window.__REDUX_HISTORY__ = history;
+    
+    return result;
+  };
+};
+
+// Development-only logger
+const devLoggerMiddleware = (store) => (next) => (action) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Dispatching:', action);
+    const result = next(action);
+    console.log('New state:', store.getState());
+    return result;
+  }
+  
+  return next(action);
+};
+
+// Conditional logging
+const conditionalLoggerMiddleware = (filter) => (store) => (next) => (action) => {
+  const shouldLog = typeof filter === 'function' 
+    ? filter(action) 
+    : action.type.includes(filter);
+  
+  if (shouldLog) {
+    console.log('Action:', action);
+    console.log('State:', store.getState());
+  }
+  
+  return next(action);
+};
+
+// Usage
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      conditionalLoggerMiddleware('user/') // Only log user actions
+    )
+});
+
+// Redux DevTools integration
+const reduxDevToolsMiddleware = (store) => (next) => (action) => {
+  // Send action to DevTools
+  if (window.__REDUX_DEVTOOLS_EXTENSION__) {
+    window.__REDUX_DEVTOOLS_EXTENSION__.send(action, store.getState());
+  }
+  
+  return next(action);
+};
+
+// State sanitization for logging
+const sanitizeMiddleware = (store) => (next) => (action) => {
+  // Log sanitized version
+  const sanitizedAction = { ...action };
+  
+  if (action.type === 'auth/login' && action.payload?.password) {
+    sanitizedAction.payload = {
+      ...action.payload,
+      password: '***REDACTED***'
+    };
+  }
+  
+  console.log('Action:', sanitizedAction);
+  
+  return next(action);
+};
+
+// Middleware timing
+const timingMiddleware = (store) => (next) => (action) => {
+  console.time(action.type);
+  const result = next(action);
+  console.timeEnd(action.type);
+  return result;
+};
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Real-World Middleware Examples
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Authentication middleware
+const authMiddleware = (store) => (next) => (action) => {
+  // Check if user is authenticated for protected actions
+  const protectedActions = ['posts/create', 'posts/delete', 'profile/update'];
+  
+  if (protectedActions.includes(action.type)) {
+    const state = store.getState();
+    
+    if (!state.auth.isAuthenticated) {
+      store.dispatch({
+        type: 'auth/required',
+        payload: 'Please login to perform this action'
+      });
+      return; // Block action
+    }
+    
+    // Check if token is expired
+    if (state.auth.tokenExpiry < Date.now()) {
+      store.dispatch({ type: 'auth/sessionExpired' });
+      return;
+    }
+  }
+  
+  return next(action);
+};
+
+// Offline queue middleware
+const offlineMiddleware = () => {
+  let queue = [];
+  let isOnline = navigator.onLine;
+  
+  // Listen for online/offline events
+  window.addEventListener('online', () => {
+    isOnline = true;
+  });
+  
+  window.addEventListener('offline', () => {
+    isOnline = false;
+  });
+  
+  return (store) => (next) => (action) => {
+    if (!action.meta || !action.meta.offline) {
+      return next(action);
+    }
+    
+    if (!isOnline) {
+      // Queue action for later
+      queue.push(action);
+      
+      store.dispatch({
+        type: 'offline/queued',
+        payload: \`Action queued: \${action.type}\`
+      });
+      
+      return;
+    }
+    
+    // Process queued actions when back online
+    if (queue.length > 0) {
+      const queuedActions = [...queue];
+      queue = [];
+      
+      queuedActions.forEach(queuedAction => {
+        store.dispatch(queuedAction);
+      });
+    }
+    
+    return next(action);
+  };
+};
+
+// Websocket middleware
+const websocketMiddleware = () => {
+  let socket = null;
+  
+  return (store) => (next) => (action) => {
+    switch (action.type) {
+      case 'ws/connect':
+        if (socket) socket.close();
+        
+        socket = new WebSocket(action.payload.url);
+        
+        socket.onopen = () => {
+          store.dispatch({ type: 'ws/connected' });
+        };
+        
+        socket.onmessage = (event) => {
+          const message = JSON.parse(event.data);
+          store.dispatch({
+            type: 'ws/messageReceived',
+            payload: message
+          });
+        };
+        
+        socket.onerror = (error) => {
+          store.dispatch({
+            type: 'ws/error',
+            payload: error.message
+          });
+        };
+        
+        socket.onclose = () => {
+          store.dispatch({ type: 'ws/disconnected' });
+        };
+        
+        break;
+        
+      case 'ws/send':
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(action.payload));
+        }
+        break;
+        
+      case 'ws/disconnect':
+        if (socket) {
+          socket.close();
+          socket = null;
+        }
+        break;
+    }
+    
+    return next(action);
+  };
+};
+
+// Rate limiting middleware
+const rateLimitMiddleware = () => {
+  const limits = new Map();
+  
+  return (store) => (next) => (action) => {
+    if (!action.meta || !action.meta.rateLimit) {
+      return next(action);
+    }
+    
+    const { maxCalls, timeWindow, key } = action.meta.rateLimit;
+    const limitKey = key || action.type;
+    
+    const now = Date.now();
+    
+    if (!limits.has(limitKey)) {
+      limits.set(limitKey, []);
+    }
+    
+    const calls = limits.get(limitKey);
+    
+    // Remove old calls outside time window
+    const recentCalls = calls.filter(timestamp => now - timestamp < timeWindow);
+    
+    if (recentCalls.length >= maxCalls) {
+      store.dispatch({
+        type: 'rateLimit/exceeded',
+        payload: \`Rate limit exceeded for \${action.type}\`
+      });
+      return; // Block action
+    }
+    
+    recentCalls.push(now);
+    limits.set(limitKey, recentCalls);
+    
+    return next(action);
+  };
+};
+
+// Usage
+dispatch({
+  type: 'api/search',
+  payload: 'query',
+  meta: {
+    rateLimit: {
+      maxCalls: 10,
+      timeWindow: 60000, // 1 minute
+      key: 'search'
+    }
+  }
+});
+
+// Undo/Redo middleware
+const undoRedoMiddleware = () => {
+  let past = [];
+  let future = [];
+  
+  return (store) => (next) => (action) => {
+    switch (action.type) {
+      case 'UNDO':
+        if (past.length === 0) return;
+        
+        const previous = past[past.length - 1];
+        past = past.slice(0, -1);
+        
+        const currentState = store.getState();
+        future = [currentState, ...future];
+        
+        // Restore previous state
+        return next({
+          type: 'RESTORE_STATE',
+          payload: previous
+        });
+        
+      case 'REDO':
+        if (future.length === 0) return;
+        
+        const next_state = future[0];
+        future = future.slice(1);
+        
+        const current = store.getState();
+        past = [...past, current];
+        
+        return next({
+          type: 'RESTORE_STATE',
+          payload: next_state
+        });
+        
+      default:
+        // Save state before action
+        if (action.type !== 'RESTORE_STATE') {
+          const state = store.getState();
+          past = [...past, state];
+          future = []; // Clear future on new action
+          
+          // Limit history
+          if (past.length > 50) {
+            past = past.slice(-50);
+          }
+        }
+        
+        return next(action);
+    }
+  };
+};
+
+// Feature flag middleware
+const featureFlagMiddleware = (flags) => (store) => (next) => (action) => {
+  if (action.meta && action.meta.feature) {
+    const feature = action.meta.feature;
+    
+    if (!flags[feature]) {
+      console.log(\`Feature \${feature} is disabled\`);
+      return; // Block action
+    }
+  }
+  
+  return next(action);
+};
+
+// Usage
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      featureFlagMiddleware({
+        newDashboard: true,
+        betaFeature: false
+      })
+    )
+});
+
+// A/B testing middleware
+const abTestMiddleware = (store) => (next) => (action) => {
+  if (action.meta && action.meta.experiment) {
+    const { name, variants } = action.meta.experiment;
+    
+    // Assign variant
+    const userId = store.getState().user?.id;
+    const variant = assignVariant(userId, variants);
+    
+    // Track experiment
+    analytics.track('Experiment Viewed', {
+      experiment: name,
+      variant
+    });
+    
+    // Add variant to action
+    action.meta.variant = variant;
+  }
+  
+  return next(action);
+};
+
+function assignVariant(userId, variants) {
+  if (!userId) return variants[0];
+  
+  const hash = userId.split('').reduce((acc, char) => 
+    acc + char.charCodeAt(0), 0
+  );
+  
+  return variants[hash % variants.length];
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Middleware Composition and Ordering
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Middleware order matters!
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat([
+      // 1. Logging (first - see all actions)
+      loggerMiddleware,
+      
+      // 2. Error handling (catch errors early)
+      crashReporterMiddleware,
+      
+      // 3. Authentication (validate before processing)
+      authMiddleware,
+      
+      // 4. Rate limiting (prevent abuse)
+      rateLimitMiddleware,
+      
+      // 5. Validation (validate data)
+      validationMiddleware,
+      
+      // 6. API middleware (handle API calls)
+      apiMiddleware,
+      
+      // 7. Analytics (track after validation)
+      analyticsMiddleware,
+      
+      // 8. Local storage (persist after all processing)
+      localStorageMiddleware
+    ])
+});
+
+// Composing middleware
+const composeMiddleware = (...middlewares) => {
+  return (store) => (next) => (action) => {
+    return middlewares.reduceRight(
+      (composed, middleware) => middleware(store)(composed),
+      next
+    )(action);
+  };
+};
+
+// Conditional middleware
+const conditionalMiddleware = (condition, middleware) => {
+  return (store) => (next) => (action) => {
+    if (condition(action, store.getState())) {
+      return middleware(store)(next)(action);
+    }
+    return next(action);
+  };
+};
+
+// Usage
+const devOnlyLogger = conditionalMiddleware(
+  () => process.env.NODE_ENV === 'development',
+  loggerMiddleware
+);
+
+// Middleware pipeline
+const createMiddlewarePipeline = (middlewares) => {
+  return (store) => {
+    const chain = middlewares.map(middleware => middleware(store));
+    
+    return (next) => (action) => {
+      return chain.reduceRight(
+        (composed, middleware) => middleware(composed),
+        next
+      )(action);
+    };
+  };
+};
+
+// Dynamic middleware
+const dynamicMiddleware = () => {
+  let middlewares = [];
+  
+  const middleware = (store) => (next) => (action) => {
+    // Apply all registered middlewares
+    return middlewares.reduce(
+      (result, mw) => mw(store)(result),
+      next
+    )(action);
+  };
+  
+  middleware.add = (newMiddleware) => {
+    middlewares.push(newMiddleware);
+  };
+  
+  middleware.remove = (middlewareToRemove) => {
+    middlewares = middlewares.filter(mw => mw !== middlewareToRemove);
+  };
+  
+  return middleware;
+};
+
+// Middleware groups
+const createMiddlewareGroup = (name, middlewares) => {
+  const group = (store) => (next) => (action) => {
+    console.group(\`Middleware Group: \${name}\`);
+    
+    const result = middlewares.reduce(
+      (composed, middleware) => middleware(store)(composed),
+      next
+    )(action);
+    
+    console.groupEnd();
+    return result;
+  };
+  
+  return group;
+};
+
+// Usage
+const loggingGroup = createMiddlewareGroup('Logging', [
+  devLoggerMiddleware,
+  performanceMiddleware,
+  historyMiddleware
+]);
+
+const securityGroup = createMiddlewareGroup('Security', [
+  authMiddleware,
+  rateLimitMiddleware,
+  validationMiddleware
+]);
+
+// Middleware with priority
+const createPriorityMiddleware = (middlewares) => {
+  // Sort by priority (higher first)
+  const sorted = [...middlewares].sort((a, b) => 
+    (b.priority || 0) - (a.priority || 0)
+  );
+  
+  return (store) => (next) => (action) => {
+    return sorted.reduce(
+      (composed, middleware) => middleware.fn(store)(composed),
+      next
+    )(action);
+  };
+};
+
+// Usage
+const prioritizedMiddleware = createPriorityMiddleware([
+  { fn: authMiddleware, priority: 10 },
+  { fn: loggerMiddleware, priority: 1 },
+  { fn: analyticsMiddleware, priority: 5 }
+]);
+
+// Middleware factory
+const createApiMiddleware = (config) => {
+  const { baseUrl, headers, timeout } = config;
+  
+  return (store) => (next) => (action) => {
+    if (!action.meta || !action.meta.api) {
+      return next(action);
+    }
+    
+    const { endpoint, method = 'GET' } = action.meta.api;
+    const url = \`\${baseUrl}\${endpoint}\`;
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    
+    fetch(url, {
+      method,
+      headers,
+      signal: controller.signal
+    })
+      .then(response => response.json())
+      .then(data => {
+        clearTimeout(timeoutId);
+        store.dispatch({
+          type: \`\${action.type}_SUCCESS\`,
+          payload: data
+        });
+      })
+      .catch(error => {
+        clearTimeout(timeoutId);
+        store.dispatch({
+          type: \`\${action.type}_ERROR\`,
+          payload: error.message
+        });
+      });
+    
+    return next(action);
+  };
+};
+
+// Usage
+const apiMiddleware = createApiMiddleware({
+  baseUrl: 'https://api.example.com',
+  headers: { 'Content-Type': 'application/json' },
+  timeout: 5000
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing Middleware
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Testing basic middleware
+describe('loggerMiddleware', () => {
+  test('logs actions', () => {
+    const store = {
+      getState: jest.fn(() => ({ count: 0 })),
+      dispatch: jest.fn()
+    };
+    
+    const next = jest.fn();
+    const action = { type: 'INCREMENT' };
+    
+    const consoleSpy = jest.spyOn(console, 'log');
+    
+    loggerMiddleware(store)(next)(action);
+    
+    expect(next).toHaveBeenCalledWith(action);
+    expect(consoleSpy).toHaveBeenCalled();
+    
+    consoleSpy.mockRestore();
+  });
+});
+
+// Testing async middleware
+describe('apiMiddleware', () => {
+  test('handles successful API calls', async () => {
+    const store = {
+      getState: jest.fn(),
+      dispatch: jest.fn()
+    };
+    
+    const next = jest.fn();
+    const action = {
+      type: 'FETCH_USER',
+      meta: {
+        api: {
+          endpoint: '/users/1',
+          method: 'GET'
+        }
+      }
+    };
+    
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ id: 1, name: 'John' })
+      })
+    );
+    
+    apiMiddleware(store)(next)(action);
+    
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
+    expect(store.dispatch).toHaveBeenCalledWith({
+      type: 'FETCH_USER_SUCCESS',
+      payload: { id: 1, name: 'John' }
+    });
+  });
+  
+  test('handles API errors', async () => {
+    const store = {
+      getState: jest.fn(),
+      dispatch: jest.fn()
+    };
+    
+    const next = jest.fn();
+    const action = {
+      type: 'FETCH_USER',
+      meta: {
+        api: {
+          endpoint: '/users/1'
+        }
+      }
+    };
+    
+    global.fetch = jest.fn(() =>
+      Promise.reject(new Error('Network error'))
+    );
+    
+    apiMiddleware(store)(next)(action);
+    
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
+    expect(store.dispatch).toHaveBeenCalledWith({
+      type: 'FETCH_USER_ERROR',
+      payload: 'Network error'
+    });
+  });
+});
+
+// Testing Redux Thunk
+describe('fetchUser thunk', () => {
+  test('dispatches correct actions on success', async () => {
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+    
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ id: 1, name: 'John' })
+      })
+    );
+    
+    await fetchUser(1)(dispatch, getState);
+    
+    expect(dispatch).toHaveBeenCalledWith({ type: 'user/fetchStart' });
+    expect(dispatch).toHaveBeenCalledWith({
+      type: 'user/fetchSuccess',
+      payload: { id: 1, name: 'John' }
+    });
+  });
+});
+
+// Testing middleware chain
+describe('middleware chain', () => {
+  test('executes in correct order', () => {
+    const order = [];
+    
+    const middleware1 = () => (next) => (action) => {
+      order.push('m1-before');
+      const result = next(action);
+      order.push('m1-after');
+      return result;
+    };
+    
+    const middleware2 = () => (next) => (action) => {
+      order.push('m2-before');
+      const result = next(action);
+      order.push('m2-after');
+      return result;
+    };
+    
+    const store = configureStore({
+      reducer: (state = {}) => state,
+      middleware: () => [middleware1, middleware2]
+    });
+    
+    store.dispatch({ type: 'TEST' });
+    
+    expect(order).toEqual([
+      'm1-before',
+      'm2-before',
+      'm2-after',
+      'm1-after'
+    ]);
+  });
+});
+
+// Testing middleware with mock store
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
+const middlewares = [thunk, loggerMiddleware];
+const mockStore = configureMockStore(middlewares);
+
+describe('with mock store', () => {
+  test('dispatches expected actions', () => {
+    const store = mockStore({ count: 0 });
+    
+    const action = { type: 'INCREMENT' };
+    store.dispatch(action);
+    
+    const actions = store.getActions();
+    expect(actions).toEqual([action]);
+  });
+});
+
+// Testing error handling
+describe('errorHandlerMiddleware', () => {
+  test('catches errors and dispatches error action', () => {
+    const store = {
+      getState: jest.fn(),
+      dispatch: jest.fn()
+    };
+    
+    const next = jest.fn(() => {
+      throw new Error('Test error');
+    });
+    
+    const action = { type: 'FAILING_ACTION' };
+    
+    errorHandlerMiddleware(store)(next)(action);
+    
+    expect(store.dispatch).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'error/global'
+      })
+    );
+  });
+});
+
+// Integration testing
+describe('middleware integration', () => {
+  test('works with real store', () => {
+    const reducer = (state = { count: 0 }, action) => {
+      if (action.type === 'INCREMENT') {
+        return { count: state.count + 1 };
+      }
+      return state;
+    };
+    
+    const store = configureStore({
+      reducer,
+      middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(loggerMiddleware)
+    });
+    
+    store.dispatch({ type: 'INCREMENT' });
+    
+    expect(store.getState()).toEqual({ count: 1 });
+  });
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Keep middleware focused on a single responsibility</li>
+  <li><b>DO:</b> Always call next(action) unless explicitly blocking the action</li>
+  <li><b>DO:</b> Use Redux Toolkit's configureStore for automatic middleware setup</li>
+  <li><b>DO:</b> Order middleware carefully (logging first, persistence last)</li>
+  <li><b>DO:</b> Use createAsyncThunk instead of manual thunks</li>
+  <li><b>DO:</b> Handle errors gracefully in middleware</li>
+  <li><b>DO:</b> Make middleware testable and pure when possible</li>
+  <li><b>DO:</b> Use middleware for cross-cutting concerns (logging, analytics, auth)</li>
+  <li><b>DON'T:</b> Mutate actions or state in middleware</li>
+  <li><b>DON'T:</b> Perform heavy computations in middleware</li>
+  <li><b>DON'T:</b> Use middleware for business logic (use reducers or thunks)</li>
+  <li><b>DON'T:</b> Create too many custom middleware (use existing solutions)</li>
+  <li><b>DON'T:</b> Forget that middleware order affects behavior</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Performance Considerations
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Avoid expensive operations in middleware
+// Bad
+const slowMiddleware = (store) => (next) => (action) => {
+  const state = store.getState();
+  
+  // Expensive deep clone
+  const stateCopy = JSON.parse(JSON.stringify(state));
+  
+  return next(action);
+};
+
+// Good - only do what's necessary
+const fastMiddleware = (store) => (next) => (action) => {
+  // Minimal work
+  return next(action);
+};
+
+// Memoize expensive computations
+const memoizedMiddleware = () => {
+  const cache = new Map();
+  
+  return (store) => (next) => (action) => {
+    const key = JSON.stringify(action);
+    
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    
+    const result = next(action);
+    cache.set(key, result);
+    
+    return result;
+  };
+};
+
+// Batch actions to reduce middleware calls
+const batchMiddleware = (store) => (next) => (action) => {
+  if (action.type === 'BATCH') {
+    // Process all actions at once
+    return action.payload.map(a => next(a));
+  }
+  
+  return next(action);
+};
+
+// Usage
+dispatch({
+  type: 'BATCH',
+  payload: [
+    { type: 'ACTION_1' },
+    { type: 'ACTION_2' },
+    { type: 'ACTION_3' }
+  ]
+});
+
+// Lazy middleware loading
+const lazyMiddleware = (getMiddleware) => {
+  let middleware = null;
+  
+  return (store) => (next) => (action) => {
+    if (!middleware) {
+      middleware = getMiddleware()(store);
+    }
+    
+    return middleware(next)(action);
+  };
+};
+
+// Selective middleware execution
+const selectiveMiddleware = (condition, middleware) => {
+  return (store) => (next) => (action) => {
+    if (condition(action)) {
+      return middleware(store)(next)(action);
+    }
+    return next(action);
+  };
+};
+
+// Only run on specific actions
+const optimizedLogger = selectiveMiddleware(
+  (action) => action.type.startsWith('user/'),
+  loggerMiddleware
+);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+12. Middleware vs Alternatives
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// When to use middleware vs alternatives:
+
+// Use Middleware for:
+// - Cross-cutting concerns (logging, analytics)
+// - Action transformation or filtering
+// - Async side effects (API calls)
+// - Global error handling
+// - Authentication checks
+// - Rate limiting
+
+// Use Reducers for:
+// - State updates
+// - Business logic
+// - Data transformation
+// - Computing derived state
+
+// Use Thunks/createAsyncThunk for:
+// - Specific async operations
+// - Complex action logic
+// - Conditional dispatching
+// - API calls with state access
+
+// Use Redux Saga for:
+// - Complex async flows
+// - Background tasks
+// - Debouncing/throttling
+// - Race conditions
+// - Cancellation logic
+// - Testing complex async scenarios
+
+// Use useEffect in components for:
+// - Component-specific side effects
+// - Subscriptions
+// - DOM manipulation
+// - One-off operations
+
+// Example: Choosing the right tool
+// Feature: User login
+
+// Option 1: Middleware (global auth check)
+const authMiddleware = (store) => (next) => (action) => {
+  if (requiresAuth(action) && !isAuthenticated(store.getState())) {
+    return redirectToLogin();
+  }
+  return next(action);
+};
+
+// Option 2: Thunk (specific login logic)
+const loginUser = createAsyncThunk('auth/login', async (credentials) => {
+  const response = await api.login(credentials);
+  return response.data;
+});
+
+// Option 3: Saga (complex login flow)
+function* loginSaga(action) {
+  try {
+    const user = yield call(api.login, action.payload);
+    yield put(loginSuccess(user));
+    
+    // Start background tasks
+    yield fork(loadUserDataSaga, user.id);
+    yield fork(connectWebSocketSaga);
+  } catch (error) {
+    yield put(loginError(error));
+  }
+}
+
+// Option 4: Component effect (UI-specific)
+function LoginForm() {
+  useEffect(() => {
+    // Track page view
+    analytics.track('Login Page Viewed');
+  }, []);
+  
+  // ...
+}
+
+// Comparison:
+// Redux Thunk:
+// - Simple, included by default
+// - Good for basic async
+// - Easy to learn
+// - Limited power for complex flows
+
+// Redux Saga:
+// - Powerful for complex async
+// - Testable with generators
+// - Steep learning curve
+// - Best for advanced scenarios
+
+// Custom Middleware:
+// - Full control
+// - Global action interception
+// - Reusable across apps
+// - Requires understanding middleware pattern
+</code></pre>
+</div>
+
+</div>`,
+            examples: [
+              "Logger Middleware",
+              "API Call Middleware",
+              "Authentication Middleware",
+              "Error Handler Middleware",
+              "Analytics Tracking Middleware",
+              "Offline Queue Middleware",
+              "WebSocket Middleware",
+              "Rate Limiting Middleware",
+              "Redux Thunk Usage",
+              "Redux Saga Flow",
+            ],
+            questions: [
+              {
+                question:
+                  "What is Redux middleware and how does it fit into the Redux flow?",
+                answer:
+                  "Middleware provides a third-party extension point between dispatching an action and the moment it reaches the reducer. Flow: Component → dispatch(action) → Middleware Chain → Reducer → New State. Middleware can inspect, modify, delay, or stop actions; dispatch additional actions; access store state. Signature: (store) => (next) => (action) => {}. Use cases: logging, async API calls, crash reporting, analytics, authentication. Middleware is essential because reducers must be pure—side effects belong in middleware.",
+              },
+              {
+                question:
+                  "How does Redux Thunk work and when should you use it?",
+                answer:
+                  "Redux Thunk allows action creators to return functions instead of objects. The function receives dispatch and getState as arguments, enabling async logic and conditional dispatching. Instead of dispatching object, dispatch function that performs async operations then dispatches success/error actions. Benefits: access to state, conditional dispatch, promise support, simple async handling. Use for: API calls, conditional logic, accessing state before dispatch. Modern approach: use createAsyncThunk from RTK—handles pending/fulfilled/rejected automatically with less boilerplate.",
+              },
+              {
+                question:
+                  "What is the middleware signature and what are the three parameters?",
+                answer:
+                  "Middleware signature is curried function: (store) => (next) => (action) => {}. First parameter 'store' provides { getState, dispatch }—access state and dispatch actions. Second parameter 'next' is next middleware in chain (or reducer if last)—call to pass action forward. Third parameter 'action' is the dispatched action object. Pattern: do work before next(action), call next(action) to continue chain, do work after, return result. Must call next(action) unless explicitly blocking action. This signature enables composability and proper ordering.",
+              },
+              {
+                question:
+                  "How do you create custom middleware and what are common patterns?",
+                answer:
+                  "Custom middleware follows signature: (store) => (next) => (action) => { /* logic */ return next(action); }. Common patterns: 1) Logging—log before/after calling next, 2) Filtering—check action type, conditionally call next, 3) Transformation—modify action before passing to next, 4) Side effects—call APIs, dispatch other actions, 5) Error handling—wrap next in try/catch. Access state with store.getState(), dispatch with store.dispatch(). Always return next(action) result unless blocking. Make middleware focused on single responsibility.",
+              },
+              {
+                question:
+                  "What is Redux Saga and how does it differ from Redux Thunk?",
+                answer:
+                  "Redux Saga uses generator functions for complex async flows. Uses effects like call (async function), put (dispatch), takeEvery/takeLatest (listen to actions), select (access state), fork (non-blocking), race (first to complete). Differences from Thunk: more powerful for complex scenarios (debouncing, cancellation, racing), better testability (generators are easier to test), steeper learning curve, more boilerplate. Use Saga for: complex async workflows, background tasks, debouncing/throttling, cancellation, testing complex flows. Use Thunk for: simple async, basic API calls, easier learning curve.",
+              },
+              {
+                question:
+                  "Why does middleware order matter and how should you order it?",
+                answer:
+                  "Middleware executes in order: first middleware runs before all others, last runs closest to reducer. Order affects behavior: logger should be first (see all actions), error handler early (catch errors), auth/validation before processing, API calls in middle, persistence last (save final state). Example chain: logger → crash reporter → auth → rate limit → validation → API → analytics → localStorage. Execution: first middleware's 'before' code runs first, but 'after' code runs last (onion model). Test middleware order carefully—wrong order can break functionality.",
+              },
+              {
+                question: "How do you handle errors in middleware?",
+                answer:
+                  "Error handling patterns: 1) Wrap next(action) in try/catch to catch errors from downstream middleware/reducers, 2) Log error and dispatch error action for UI feedback, 3) Don't rethrow unless you want app to crash, 4) Use error boundary middleware early in chain, 5) Sanitize errors before logging (remove sensitive data), 6) Send to error tracking service (Sentry, etc). For async: catch promises, dispatch error actions, handle network failures (401, 500), implement retry logic, use circuit breaker pattern for repeated failures. Global error middleware prevents app crashes.",
+              },
+              {
+                question: "What are common use cases for custom middleware?",
+                answer:
+                  "Common use cases: 1) Logging—log all actions and state changes, 2) Analytics—track user actions, 3) API calls—centralized API handling, 4) Authentication—check auth before protected actions, 5) Crash reporting—send errors to tracking service, 6) Offline support—queue actions when offline, 7) WebSocket—manage socket connections, 8) Rate limiting—prevent excessive API calls, 9) Debouncing/throttling—delay frequent actions, 10) Local storage—persist state, 11) Undo/redo—track state history, 12) Feature flags—enable/disable features. Middleware perfect for cross-cutting concerns.",
+              },
+              {
+                question: "How do you test Redux middleware?",
+                answer:
+                  "Testing approaches: 1) Unit test with mock store/next—verify next() called correctly, check side effects, 2) Mock fetch/APIs for async middleware, 3) Test middleware chain order with execution tracking, 4) Use redux-mock-store for integration tests, 5) Test thunks by calling with mock dispatch/getState, verify actions dispatched, 6) Test Sagas with redux-saga-test-plan—step through generators, verify effects. Common assertions: next called with action, correct actions dispatched, state accessed correctly, errors handled. Keep middleware pure and testable—avoid hard dependencies.",
+              },
+              {
+                question:
+                  "What is the difference between middleware and reducers?",
+                answer:
+                  "Middleware: intercepts actions before reducer, can have side effects (API calls, logging), can dispatch multiple actions, access current state, modify/block actions, handle async logic, for cross-cutting concerns. Reducers: pure functions, update state based on actions, no side effects, synchronous only, return new state, for business logic and state updates. Use middleware for: async, side effects, action transformation, logging. Use reducers for: state updates, data transformation, derived state. They complement each other—middleware handles side effects, reducers handle state.",
+              },
+              {
+                question:
+                  "How does createAsyncThunk improve over manual thunks?",
+                answer:
+                  "createAsyncThunk benefits: 1) Automatically generates pending/fulfilled/rejected action types, 2) Handles loading states without manual dispatch, 3) Better TypeScript support, 4) Standardized error handling with rejectWithValue, 5) Built-in cancellation support via abort, 6) Less boilerplate than manual thunks, 7) Works with extraReducers in createSlice. Manual thunks require: manual action dispatching, manual error handling, more boilerplate. Use createAsyncThunk for all new async operations—it's the modern RTK approach. Manual thunks still useful for: simple sync operations, conditional logic without API calls.",
+              },
+              {
+                question:
+                  "What are the performance implications of middleware?",
+                answer:
+                  "Performance considerations: 1) Middleware runs on every action—keep work minimal, 2) Avoid expensive operations (deep cloning, heavy computation), 3) Don't call getState() unnecessarily—it's synchronous but not free, 4) Order matters—expensive middleware late in chain affects fewer actions if blocked, 5) Consider selective execution—only run for relevant actions, 6) Batch actions to reduce middleware calls, 7) Memoize expensive computations, 8) Use conditional middleware for dev-only logging. Most middleware has negligible impact, but many middleware or expensive operations can slow dispatch.",
+              },
+              {
+                question:
+                  "How do you implement debouncing and throttling with middleware?",
+                answer:
+                  "Debouncing: delay action until pause in dispatches. Store timers in closure, clear previous timer on new action, dispatch after delay. Throttling: limit action frequency. Track last execution time, block if within time window. Implementation: create middleware factory with timers Map, check action.meta for debounce/throttle config, use setTimeout for debounce, check timestamps for throttle. Use cases: debounce search input (wait for typing pause), throttle scroll events (max once per 100ms). Alternative: use Redux Saga's debounce/throttle effects for more control and testability.",
+              },
+              {
+                question:
+                  "What is the circuit breaker pattern in middleware and when to use it?",
+                answer:
+                  "Circuit breaker prevents cascade failures by temporarily blocking actions after repeated failures. Pattern: track failures per action type, open circuit after threshold (e.g., 5 failures), block actions while circuit open, close circuit after timeout (e.g., 60s), allow retry. Implementation: store failure counts and timestamps in Map, check threshold before dispatching, dispatch error action if circuit open. Use for: API endpoints that might be down, external service calls, preventing repeated failed requests, improving resilience. Benefits: fail fast, reduce load on failing services, improve UX with clear error messages, automatic recovery.",
+              },
+              {
+                question:
+                  "When should you use middleware vs useEffect in components?",
+                answer:
+                  "Use middleware for: cross-cutting concerns affecting entire app (logging, analytics, auth), global action interception, centralized logic (API calls, error handling), reusable across components, side effects based on actions not state. Use useEffect for: component-specific side effects (DOM manipulation, subscriptions), local state effects, one-off operations, side effects based on props/state not actions, cleanup on unmount. Example: use middleware for global analytics tracking, use useEffect for tracking component mount. Middleware is global and action-based; useEffect is local and state-based.",
+              },
+            ],
+            links: [
+              "https://redux.js.org/understanding/history-and-design/middleware",
+              "https://redux.js.org/tutorials/fundamentals/part-4-store#middleware",
+              "https://github.com/reduxjs/redux-thunk",
+              "https://redux-saga.js.org/",
+              "https://redux-toolkit.js.org/api/getDefaultMiddleware",
+              "https://redux.js.org/usage/writing-custom-middleware",
+            ],
           },
           {
             topic: "React Router Advanced",
