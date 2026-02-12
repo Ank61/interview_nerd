@@ -40781,28 +40781,2735 @@ function LoginForm() {
             ],
           },
           {
-            topic: "React Router Advanced",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "Dynamic Routing",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
             topic: "Jest Unit Testing",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Jest",
+              "Unit Testing",
+              "Mocking",
+              "Assertions",
+              "Test Coverage",
+              "Async Testing",
+              "Snapshot Testing",
+              "Test Suites",
+              "Matchers",
+              "Setup and Teardown",
+            ],
+            explanation: `<div>
+
+          <p style="line-height: 1.75; margin-top: 1.5rem;">
+          Jest is a delightful JavaScript testing framework with a focus on simplicity. It works seamlessly with projects using Babel, TypeScript, Node, React, Angular, Vue, and more. Jest provides a complete testing solution with built-in mocking, assertions, code coverage, and snapshot testing. Understanding Jest is essential for writing reliable, maintainable code and ensuring your applications work as expected. Modern development workflows rely heavily on automated testing, and Jest's zero-configuration philosophy, fast parallel test execution, and excellent developer experience make it the go-to choice for JavaScript testing. Jest runs tests in parallel, uses intelligent test watching, provides detailed error messages, and integrates perfectly with CI/CD pipelines.
+          </p>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          1. Jest Fundamentals and Setup
+          </h4>
+
+          <p style="line-height: 1.75;">
+          Jest provides a complete testing framework with minimal configuration required to start writing tests.
+          </p>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // Installation
+          // npm install --save-dev jest
+          // or
+          // yarn add --dev jest
+
+          // package.json configuration
+          {
+            "scripts": {
+              "test": "jest",
+              "test:watch": "jest --watch",
+              "test:coverage": "jest --coverage",
+              "test:verbose": "jest --verbose"
+            }
+          }
+
+          // jest.config.js - optional configuration
+          module.exports = {
+            // Test environment
+            testEnvironment: 'node', // or 'jsdom' for browser-like environment
+            
+            // Test match patterns
+            testMatch: [
+              '**/__tests__/**/*.js',
+              '**/?(*.)+(spec|test).js'
+            ],
+            
+            // Coverage configuration
+            collectCoverageFrom: [
+              'src/**/*.js',
+              '!src/**/*.test.js',
+              '!src/index.js'
+            ],
+            
+            // Setup files
+            setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+            
+            // Module paths
+            moduleNameMapper: {
+              '^@/(.*)$': '<rootDir>/src/$1',
+              '\\.(css|less|scss)$': 'identity-obj-proxy'
+            },
+            
+            // Transform files
+            transform: {
+              '^.+\\.jsx?$': 'babel-jest'
+            },
+            
+            // Coverage thresholds
+            coverageThreshold: {
+              global: {
+                branches: 80,
+                functions: 80,
+                lines: 80,
+                statements: 80
+              }
+            }
+          };
+
+          // Basic test structure
+          describe('Test Suite Name', () => {
+            // Runs before all tests in this describe block
+            beforeAll(() => {
+              // Setup that runs once before all tests
+            });
+            
+            // Runs before each test
+            beforeEach(() => {
+              // Setup that runs before each test
+            });
+            
+            // Individual test
+            test('test description', () => {
+              // Arrange
+              const input = 5;
+              
+              // Act
+              const result = add(input, 3);
+              
+              // Assert
+              expect(result).toBe(8);
+            });
+            
+            // Alternative syntax for test
+            it('should do something', () => {
+              expect(true).toBe(true);
+            });
+            
+            // Runs after each test
+            afterEach(() => {
+              // Cleanup after each test
+            });
+            
+            // Runs after all tests
+            afterAll(() => {
+              // Cleanup that runs once after all tests
+            });
+          });
+
+          // Grouping related tests
+          describe('Math operations', () => {
+            describe('addition', () => {
+              test('adds positive numbers', () => {
+                expect(add(2, 3)).toBe(5);
+              });
+              
+              test('adds negative numbers', () => {
+                expect(add(-2, -3)).toBe(-5);
+              });
+            });
+            
+            describe('subtraction', () => {
+              test('subtracts numbers', () => {
+                expect(subtract(5, 3)).toBe(2);
+              });
+            });
+          });
+
+          // Skipping tests
+          describe.skip('Skipped suite', () => {
+            // This entire suite will be skipped
+          });
+
+          test.skip('skipped test', () => {
+            // This test will be skipped
+          });
+
+          // Only running specific tests
+          describe.only('Only this suite', () => {
+            // Only tests in this suite will run
+          });
+
+          test.only('only this test', () => {
+            // Only this test will run
+          });
+
+          // Test with timeout
+          test('long running test', async () => {
+            // Test code
+          }, 10000); // 10 second timeout
+
+          // Concurrent tests
+          test.concurrent('test 1', async () => {
+            await delay(100);
+            expect(1).toBe(1);
+          });
+
+          test.concurrent('test 2', async () => {
+            await delay(100);
+            expect(2).toBe(2);
+          });
+
+          // Test with custom test name from data
+          test.each([
+            [1, 1, 2],
+            [1, 2, 3],
+            [2, 1, 3],
+          ])('add(%i, %i) should return %i', (a, b, expected) => {
+            expect(add(a, b)).toBe(expected);
+          });
+
+          // Describe with custom name from data
+          describe.each([
+            { a: 1, b: 1, expected: 2 },
+            { a: 1, b: 2, expected: 3 },
+            { a: 2, b: 1, expected: 3 },
+          ])('add($a, $b)', ({ a, b, expected }) => {
+            test(\`returns \${expected}\`, () => {
+              expect(add(a, b)).toBe(expected);
+            });
+          });
+
+          // Setup and teardown example
+          describe('Database operations', () => {
+            let db;
+            
+            beforeAll(async () => {
+              // Connect to database once
+              db = await connectToDatabase();
+            });
+            
+            beforeEach(async () => {
+              // Clear database before each test
+              await db.clear();
+            });
+            
+            afterEach(async () => {
+              // Optional cleanup after each test
+            });
+            
+            afterAll(async () => {
+              // Disconnect from database
+              await db.disconnect();
+            });
+            
+            test('should insert user', async () => {
+              const user = await db.insert({ name: 'John' });
+              expect(user.name).toBe('John');
+            });
+          });
+
+          // Scoped setup/teardown
+          describe('outer', () => {
+            beforeEach(() => {
+              console.log('outer beforeEach');
+            });
+            
+            afterEach(() => {
+              console.log('outer afterEach');
+            });
+            
+            test('outer test', () => {
+              console.log('outer test');
+            });
+            
+            describe('inner', () => {
+              beforeEach(() => {
+                console.log('inner beforeEach');
+              });
+              
+              afterEach(() => {
+                console.log('inner afterEach');
+              });
+              
+              test('inner test', () => {
+                console.log('inner test');
+              });
+            });
+          });
+
+          // Order of execution:
+          // outer beforeEach
+          // outer test
+          // outer afterEach
+          // outer beforeEach
+          // inner beforeEach
+          // inner test
+          // inner afterEach
+          // outer afterEach
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          2. Matchers and Assertions
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // === Common Matchers ===
+
+          // Exact equality
+          expect(2 + 2).toBe(4);
+          expect('hello').toBe('hello');
+
+          // Object equality (deep comparison)
+          expect({ name: 'John' }).toEqual({ name: 'John' });
+          expect([1, 2, 3]).toEqual([1, 2, 3]);
+
+          // Truthiness
+          expect(true).toBeTruthy();
+          expect(1).toBeTruthy();
+          expect('hello').toBeTruthy();
+
+          expect(false).toBeFalsy();
+          expect(0).toBeFalsy();
+          expect('').toBeFalsy();
+          expect(null).toBeFalsy();
+          expect(undefined).toBeFalsy();
+
+          // Null and Undefined
+          expect(null).toBeNull();
+          expect(undefined).toBeUndefined();
+          expect('hello').toBeDefined();
+          expect(null).not.toBeUndefined();
+
+          // === Number Matchers ===
+
+          expect(4).toBeGreaterThan(3);
+          expect(4).toBeGreaterThanOrEqual(4);
+          expect(3).toBeLessThan(4);
+          expect(3).toBeLessThanOrEqual(3);
+
+          // Floating point equality
+          expect(0.1 + 0.2).toBeCloseTo(0.3, 5); // 5 decimal places
+
+          // === String Matchers ===
+
+          expect('hello world').toMatch(/world/);
+          expect('hello world').toMatch('world');
+          expect('hello@example.com').toMatch(/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/);
+
+          expect('hello').not.toMatch(/goodbye/);
+
+          // Contains substring
+          expect('hello world').toContain('world');
+
+          // === Array and Iterable Matchers ===
+
+          const numbers = [1, 2, 3, 4, 5];
+
+          expect(numbers).toContain(3);
+          expect(numbers).toContainEqual(3);
+
+          expect(numbers).toHaveLength(5);
+
+          // Check if array contains object
+          const users = [{ id: 1, name: 'John' }, { id: 2, name: 'Jane' }];
+          expect(users).toContainEqual({ id: 1, name: 'John' });
+
+          // === Object Matchers ===
+
+          const user = {
+            name: 'John',
+            age: 30,
+            address: {
+              city: 'New York'
+            }
+          };
+
+          // Object has property
+          expect(user).toHaveProperty('name');
+          expect(user).toHaveProperty('name', 'John');
+          expect(user).toHaveProperty('address.city', 'New York');
+
+          // Object matches subset
+          expect(user).toMatchObject({
+            name: 'John',
+            age: 30
+          });
+
+          // Exact match
+          expect(user).toEqual({
+            name: 'John',
+            age: 30,
+            address: {
+              city: 'New York'
+            }
+          });
+
+          // Check object keys
+          expect(Object.keys(user)).toEqual(['name', 'age', 'address']);
+
+          // === Exception Matchers ===
+
+          function throwError() {
+            throw new Error('Error message');
+          }
+
+          expect(() => throwError()).toThrow();
+          expect(() => throwError()).toThrow(Error);
+          expect(() => throwError()).toThrow('Error message');
+          expect(() => throwError()).toThrow(/Error/);
+
+          // Specific error
+          class CustomError extends Error {
+            constructor(message) {
+              super(message);
+              this.name = 'CustomError';
+            }
+          }
+
+          function throwCustomError() {
+            throw new CustomError('Custom error');
+          }
+
+          expect(() => throwCustomError()).toThrow(CustomError);
+
+          // === Promise Matchers ===
+
+          // Resolves
+          await expect(Promise.resolve('success')).resolves.toBe('success');
+          await expect(fetchUser(1)).resolves.toEqual({ id: 1, name: 'John' });
+
+          // Rejects
+          await expect(Promise.reject('error')).rejects.toMatch('error');
+          await expect(fetchUser(-1)).rejects.toThrow('Invalid ID');
+
+          // === Custom Matchers ===
+
+          expect.extend({
+            toBeWithinRange(received, floor, ceiling) {
+              const pass = received >= floor && received <= ceiling;
+              if (pass) {
+                return {
+                  message: () =>
+                    \`expected \${received} not to be within range \${floor} - \${ceiling}\`,
+                  pass: true,
+                };
+              } else {
+                return {
+                  message: () =>
+                    \`expected \${received} to be within range \${floor} - \${ceiling}\`,
+                  pass: false,
+                };
+              }
+            },
+          });
+
+          test('custom matcher', () => {
+            expect(10).toBeWithinRange(5, 15);
+            expect(100).not.toBeWithinRange(5, 15);
+          });
+
+          // === Negation ===
+
+          expect(1).not.toBe(2);
+          expect('hello').not.toMatch(/goodbye/);
+          expect([1, 2, 3]).not.toContain(4);
+
+          // === Anything and Any ===
+
+          expect({ name: 'John', id: 1 }).toEqual({
+            name: 'John',
+            id: expect.any(Number)
+          });
+
+          expect(['Alice', 'Bob', 'Eve']).toEqual(
+            expect.arrayContaining(['Alice', 'Eve'])
+          );
+
+          expect({ a: 1, b: 2, c: 3 }).toEqual(
+            expect.objectContaining({ a: 1, c: 3 })
+          );
+
+          expect('hello world').toEqual(expect.stringContaining('world'));
+          expect('hello world').toEqual(expect.stringMatching(/world/));
+
+          // === Assertions Count ===
+
+          test('should make exactly 2 assertions', () => {
+            expect.assertions(2);
+            
+            expect(1).toBe(1);
+            expect(2).toBe(2);
+          });
+
+          test('should make at least 1 assertion', () => {
+            expect.hasAssertions();
+            
+            if (Math.random() > 0.5) {
+              expect(true).toBe(true);
+            }
+          });
+
+          // === Snapshot Matchers ===
+
+          test('object snapshot', () => {
+            const user = {
+              id: 1,
+              name: 'John',
+              createdAt: new Date('2023-01-01')
+            };
+            
+            expect(user).toMatchSnapshot();
+          });
+
+          // Inline snapshot
+          test('inline snapshot', () => {
+            expect({ name: 'John' }).toMatchInlineSnapshot(\`
+              {
+                "name": "John",
+              }
+            \`);
+          });
+
+          // Snapshot with property matchers
+          test('snapshot with dynamic values', () => {
+            const user = {
+              id: Math.random(),
+              createdAt: new Date(),
+              name: 'John'
+            };
+            
+            expect(user).toMatchSnapshot({
+              id: expect.any(Number),
+              createdAt: expect.any(Date)
+            });
+          });
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          3. Mocking Functions and Modules
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // === Mock Functions ===
+
+          // Create mock function
+          const mockFn = jest.fn();
+
+          // Call mock function
+          mockFn('hello');
+          mockFn('world');
+
+          // Check if called
+          expect(mockFn).toHaveBeenCalled();
+          expect(mockFn).toHaveBeenCalledTimes(2);
+
+          // Check call arguments
+          expect(mockFn).toHaveBeenCalledWith('hello');
+          expect(mockFn).toHaveBeenLastCalledWith('world');
+          expect(mockFn).toHaveBeenNthCalledWith(1, 'hello');
+
+          // Mock return values
+          const mockAdd = jest.fn();
+          mockAdd.mockReturnValue(10);
+
+          expect(mockAdd(2, 3)).toBe(10);
+          expect(mockAdd(5, 5)).toBe(10);
+
+          // Different return values
+          const mockMultiReturn = jest.fn();
+          mockMultiReturn
+            .mockReturnValueOnce(1)
+            .mockReturnValueOnce(2)
+            .mockReturnValue(3);
+
+          expect(mockMultiReturn()).toBe(1);
+          expect(mockMultiReturn()).toBe(2);
+          expect(mockMultiReturn()).toBe(3);
+          expect(mockMultiReturn()).toBe(3);
+
+          // Mock resolved promises
+          const mockAsync = jest.fn();
+          mockAsync.mockResolvedValue({ id: 1, name: 'John' });
+
+          await expect(mockAsync()).resolves.toEqual({ id: 1, name: 'John' });
+
+          // Mock rejected promises
+          const mockError = jest.fn();
+          mockError.mockRejectedValue(new Error('Failed'));
+
+          await expect(mockError()).rejects.toThrow('Failed');
+
+          // Mock implementation
+          const mockCallback = jest.fn((x) => x * 2);
+
+          expect(mockCallback(5)).toBe(10);
+          expect(mockCallback).toHaveBeenCalledWith(5);
+
+          // Different implementations
+          const mockImplementation = jest.fn();
+          mockImplementation
+            .mockImplementationOnce((x) => x * 2)
+            .mockImplementationOnce((x) => x * 3)
+            .mockImplementation((x) => x * 4);
+
+          expect(mockImplementation(5)).toBe(10);
+          expect(mockImplementation(5)).toBe(15);
+          expect(mockImplementation(5)).toBe(20);
+
+          // Mock function properties
+          const mockFn = jest.fn();
+          mockFn('hello', { id: 1 });
+
+          expect(mockFn.mock.calls).toEqual([['hello', { id: 1 }]]);
+          expect(mockFn.mock.calls.length).toBe(1);
+          expect(mockFn.mock.calls[0][0]).toBe('hello');
+
+          // Mock results
+          const mockReturn = jest.fn((x) => x * 2);
+          mockReturn(5);
+
+          expect(mockReturn.mock.results[0].value).toBe(10);
+
+          // Mock instances (for constructors)
+          const MockClass = jest.fn();
+          const instance1 = new MockClass();
+          const instance2 = new MockClass();
+
+          expect(MockClass.mock.instances).toHaveLength(2);
+          expect(MockClass.mock.instances[0]).toBe(instance1);
+
+          // Clear mock
+          const mock = jest.fn();
+          mock('call 1');
+          mock('call 2');
+
+          expect(mock).toHaveBeenCalledTimes(2);
+
+          mock.mockClear(); // Clear call history
+          expect(mock).toHaveBeenCalledTimes(0);
+
+          mock.mockReset(); // Clear + remove implementation
+          mock.mockRestore(); // Reset to original implementation
+
+          // === Spying on Methods ===
+
+          const calculator = {
+            add: (a, b) => a + b,
+            subtract: (a, b) => a - b
+          };
+
+          // Spy on method
+          const addSpy = jest.spyOn(calculator, 'add');
+
+          calculator.add(2, 3);
+
+          expect(addSpy).toHaveBeenCalledWith(2, 3);
+          expect(addSpy).toHaveReturnedWith(5);
+
+          // Mock implementation of spied method
+          addSpy.mockImplementation((a, b) => a + b + 1);
+
+          expect(calculator.add(2, 3)).toBe(6);
+
+          // Restore original implementation
+          addSpy.mockRestore();
+          expect(calculator.add(2, 3)).toBe(5);
+
+          // === Module Mocking ===
+
+          // Mock entire module
+          jest.mock('./userService');
+
+          import { getUser, createUser } from './userService';
+
+          test('mocked module', async () => {
+            getUser.mockResolvedValue({ id: 1, name: 'John' });
+            
+            const user = await getUser(1);
+            
+            expect(user).toEqual({ id: 1, name: 'John' });
+            expect(getUser).toHaveBeenCalledWith(1);
+          });
+
+          // Mock with factory function
+          jest.mock('./userService', () => ({
+            getUser: jest.fn(),
+            createUser: jest.fn()
+          }));
+
+          // Partial mock
+          jest.mock('./userService', () => ({
+            ...jest.requireActual('./userService'),
+            getUser: jest.fn() // Only mock getUser
+          }));
+
+          // Mock specific module export
+          jest.mock('./config', () => ({
+            API_URL: 'http://test-api.com'
+          }));
+
+          // Automatic mock
+          jest.mock('./complexModule');
+          // All exports become mock functions
+
+          // Manual mock
+          // Create __mocks__/moduleName.js
+          // __mocks__/axios.js
+          export default {
+            get: jest.fn(),
+            post: jest.fn(),
+            put: jest.fn(),
+            delete: jest.fn()
+          };
+
+          // Use manual mock
+          jest.mock('axios');
+          import axios from 'axios';
+
+          test('api call', async () => {
+            axios.get.mockResolvedValue({ data: { id: 1 } });
+            
+            const response = await axios.get('/users/1');
+            
+            expect(response.data).toEqual({ id: 1 });
+          });
+
+          // Mock implementation per test
+          import * as userService from './userService';
+
+          jest.mock('./userService');
+
+          test('test 1', () => {
+            userService.getUser.mockResolvedValue({ id: 1 });
+            // test code
+          });
+
+          test('test 2', () => {
+            userService.getUser.mockResolvedValue({ id: 2 });
+            // test code
+          });
+
+          // === Mocking ES6 Classes ===
+
+          class SoundPlayer {
+            constructor() {
+              this.foo = 'bar';
+            }
+            
+            playSoundFile(fileName) {
+              console.log('Playing', fileName);
+            }
+          }
+
+          // Mock the class
+          jest.mock('./SoundPlayer');
+
+          test('mock class', () => {
+            const mockPlaySound = jest.fn();
+            
+            SoundPlayer.mockImplementation(() => {
+              return {
+                playSoundFile: mockPlaySound
+              };
+            });
+            
+            const player = new SoundPlayer();
+            player.playSoundFile('song.mp3');
+            
+            expect(mockPlaySound).toHaveBeenCalledWith('song.mp3');
+          });
+
+          // === Mocking Timers ===
+
+          jest.useFakeTimers();
+
+          test('timer test', () => {
+            const callback = jest.fn();
+            
+            setTimeout(callback, 1000);
+            
+            expect(callback).not.toHaveBeenCalled();
+            
+            // Fast-forward time
+            jest.runAllTimers();
+            
+            expect(callback).toHaveBeenCalled();
+          });
+
+          test('advance timers by time', () => {
+            const callback = jest.fn();
+            
+            setTimeout(callback, 1000);
+            
+            jest.advanceTimersByTime(500);
+            expect(callback).not.toHaveBeenCalled();
+            
+            jest.advanceTimersByTime(500);
+            expect(callback).toHaveBeenCalled();
+          });
+
+          // Run only pending timers
+          test('run pending timers', () => {
+            const callback1 = jest.fn();
+            const callback2 = jest.fn();
+            
+            setTimeout(callback1, 100);
+            setTimeout(callback2, 200);
+            
+            jest.runOnlyPendingTimers();
+            
+            expect(callback1).toHaveBeenCalled();
+            expect(callback2).toHaveBeenCalled();
+          });
+
+          // Clear all timers
+          afterEach(() => {
+            jest.clearAllTimers();
+            jest.useRealTimers(); // Restore real timers
+          });
+
+          // === Mock Date ===
+
+          const RealDate = Date;
+
+          beforeAll(() => {
+            global.Date = class extends RealDate {
+              constructor() {
+                super();
+                return new RealDate('2023-01-01T00:00:00.000Z');
+              }
+            };
+          });
+
+          afterAll(() => {
+            global.Date = RealDate;
+          });
+
+          test('mocked date', () => {
+            const now = new Date();
+            expect(now.toISOString()).toBe('2023-01-01T00:00:00.000Z');
+          });
+
+          // Or use jest.setSystemTime (Jest 27+)
+          jest.useFakeTimers();
+          jest.setSystemTime(new Date('2023-01-01'));
+
+          test('with fake system time', () => {
+            expect(Date.now()).toBe(new Date('2023-01-01').getTime());
+          });
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          4. Async Testing
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // === Testing Promises ===
+
+          // Callback pattern (old way, not recommended)
+          test('callback', (done) => {
+            fetchData((data) => {
+              expect(data).toBe('result');
+              done(); // Must call done() to complete test
+            });
+          });
+
+          // Return promise
+          test('promise', () => {
+            return fetchUser(1).then((user) => {
+              expect(user.id).toBe(1);
+            });
+          });
+
+          // Async/await (preferred)
+          test('async/await', async () => {
+            const user = await fetchUser(1);
+            expect(user.id).toBe(1);
+          });
+
+          // Multiple async operations
+          test('multiple async', async () => {
+            const user = await fetchUser(1);
+            const posts = await fetchUserPosts(user.id);
+            
+            expect(posts).toHaveLength(5);
+          });
+
+          // === Testing Rejected Promises ===
+
+          // With async/await
+          test('rejected promise', async () => {
+            await expect(fetchUser(-1)).rejects.toThrow('Invalid ID');
+          });
+
+          test('rejected with try/catch', async () => {
+            expect.assertions(1);
+            
+            try {
+              await fetchUser(-1);
+            } catch (error) {
+              expect(error.message).toBe('Invalid ID');
+            }
+          });
+
+          // With .rejects matcher
+          test('rejects matcher', async () => {
+            await expect(fetchUser(-1)).rejects.toEqual({
+              message: 'Invalid ID',
+              code: 'INVALID_ID'
+            });
+          });
+
+          // === Testing Resolved Promises ===
+
+          test('resolved promise', async () => {
+            await expect(fetchUser(1)).resolves.toEqual({
+              id: 1,
+              name: 'John'
+            });
+          });
+
+          test('resolved with matcher', async () => {
+            await expect(fetchUser(1)).resolves.toMatchObject({
+              id: expect.any(Number),
+              name: expect.any(String)
+            });
+          });
+
+          // === Parallel Async Tests ===
+
+          test('parallel async', async () => {
+            const [user1, user2, user3] = await Promise.all([
+              fetchUser(1),
+              fetchUser(2),
+              fetchUser(3)
+            ]);
+            
+            expect(user1.id).toBe(1);
+            expect(user2.id).toBe(2);
+            expect(user3.id).toBe(3);
+          });
+
+          // === Testing with Mock Timers ===
+
+          function delayedFunction(callback) {
+            setTimeout(() => {
+              callback('result');
+            }, 1000);
+          }
+
+          test('delayed function', (done) => {
+            jest.useFakeTimers();
+            
+            delayedFunction((result) => {
+              expect(result).toBe('result');
+              done();
+            });
+            
+            jest.runAllTimers();
+          });
+
+          // Async with fake timers
+          test('async with timers', async () => {
+            jest.useFakeTimers();
+            
+            const promise = new Promise((resolve) => {
+              setTimeout(() => resolve('done'), 1000);
+            });
+            
+            jest.runAllTimers();
+            
+            await expect(promise).resolves.toBe('done');
+          });
+
+          // === Testing Race Conditions ===
+
+          test('race condition', async () => {
+            const promise1 = new Promise((resolve) => 
+              setTimeout(() => resolve('slow'), 1000)
+            );
+            
+            const promise2 = new Promise((resolve) => 
+              setTimeout(() => resolve('fast'), 100)
+            );
+            
+            const result = await Promise.race([promise1, promise2]);
+            
+            expect(result).toBe('fast');
+          });
+
+          // === Testing Retry Logic ===
+
+          async function fetchWithRetry(url, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+              try {
+                return await fetch(url);
+              } catch (error) {
+                if (i === retries - 1) throw error;
+                await delay(1000 * (i + 1));
+              }
+            }
+          }
+
+          test('retry logic', async () => {
+            const mockFetch = jest.fn()
+              .mockRejectedValueOnce(new Error('Fail 1'))
+              .mockRejectedValueOnce(new Error('Fail 2'))
+              .mockResolvedValueOnce({ data: 'success' });
+            
+            global.fetch = mockFetch;
+            
+            const result = await fetchWithRetry('/api/data');
+            
+            expect(result).toEqual({ data: 'success' });
+            expect(mockFetch).toHaveBeenCalledTimes(3);
+          });
+
+          // === Testing Timeouts ===
+
+          test('operation timeout', async () => {
+            const slowOperation = () => new Promise((resolve) => 
+              setTimeout(() => resolve('done'), 5000)
+            );
+            
+            await expect(
+              Promise.race([
+                slowOperation(),
+                new Promise((_, reject) => 
+                  setTimeout(() => reject(new Error('Timeout')), 1000)
+                )
+              ])
+            ).rejects.toThrow('Timeout');
+          });
+
+          // === Testing Async Iterators ===
+
+          async function* asyncGenerator() {
+            yield 1;
+            yield 2;
+            yield 3;
+          }
+
+          test('async iterator', async () => {
+            const results = [];
+            
+            for await (const value of asyncGenerator()) {
+              results.push(value);
+            }
+            
+            expect(results).toEqual([1, 2, 3]);
+          });
+
+          // === Testing Observables (RxJS) ===
+
+          import { of, throwError } from 'rxjs';
+          import { delay } from 'rxjs/operators';
+
+          test('observable', (done) => {
+            const observable = of('value').pipe(delay(100));
+            
+            observable.subscribe({
+              next: (value) => {
+                expect(value).toBe('value');
+                done();
+              }
+            });
+            
+            jest.runAllTimers();
+          });
+
+          // === Complex Async Flow ===
+
+          async function complexAsyncFlow(userId) {
+            // Step 1: Fetch user
+            const user = await fetchUser(userId);
+            
+            // Step 2: Fetch user's posts
+            const posts = await fetchUserPosts(user.id);
+            
+            // Step 3: Fetch comments for all posts (parallel)
+            const postsWithComments = await Promise.all(
+              posts.map(async (post) => ({
+                ...post,
+                comments: await fetchPostComments(post.id)
+              }))
+            );
+            
+            return {
+              user,
+              posts: postsWithComments
+            };
+          }
+
+          test('complex async flow', async () => {
+            // Mock all async functions
+            jest.mock('./api');
+            
+            fetchUser.mockResolvedValue({ id: 1, name: 'John' });
+            fetchUserPosts.mockResolvedValue([
+              { id: 1, title: 'Post 1' },
+              { id: 2, title: 'Post 2' }
+            ]);
+            fetchPostComments.mockResolvedValue([
+              { id: 1, text: 'Comment 1' }
+            ]);
+            
+            const result = await complexAsyncFlow(1);
+            
+            expect(result.user).toEqual({ id: 1, name: 'John' });
+            expect(result.posts).toHaveLength(2);
+            expect(result.posts[0].comments).toHaveLength(1);
+            
+            // Verify call order
+            expect(fetchUser).toHaveBeenCalledBefore(fetchUserPosts);
+            expect(fetchUserPosts).toHaveBeenCalledBefore(fetchPostComments);
+          });
+
+          // === Error Handling in Async Tests ===
+
+          test('handles errors properly', async () => {
+            const mockFn = jest.fn().mockRejectedValue(new Error('API Error'));
+            
+            try {
+              await mockFn();
+            } catch (error) {
+              expect(error.message).toBe('API Error');
+            }
+            
+            expect(mockFn).toHaveBeenCalled();
+          });
+
+          // === Testing Loading States ===
+
+          test('loading state', async () => {
+            const promise = fetchUser(1);
+            
+            // Immediately after calling
+            expect(getLoadingState()).toBe(true);
+            
+            await promise;
+            
+            // After promise resolves
+            expect(getLoadingState()).toBe(false);
+          });
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          5. Testing React Components
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // Installation: @testing-library/react @testing-library/jest-dom
+
+          import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+          import userEvent from '@testing-library/user-event';
+          import '@testing-library/jest-dom';
+
+          // === Basic Component Testing ===
+
+          function Button({ onClick, children }) {
+            return <button onClick={onClick}>{children}</button>;
+          }
+
+          test('renders button', () => {
+            render(<Button>Click me</Button>);
+            
+            const button = screen.getByText('Click me');
+            expect(button).toBeInTheDocument();
+          });
+
+          test('button click', () => {
+            const handleClick = jest.fn();
+            
+            render(<Button onClick={handleClick}>Click me</Button>);
+            
+            const button = screen.getByText('Click me');
+            fireEvent.click(button);
+            
+            expect(handleClick).toHaveBeenCalledTimes(1);
+          });
+
+          // === Queries ===
+
+          function UserProfile({ name, email, role }) {
+            return (
+              <div>
+                <h1>{name}</h1>
+                <p data-testid="email">{email}</p>
+                <span role="status">{role}</span>
+              </div>
+            );
+          }
+
+          test('queries', () => {
+            render(<UserProfile name="John" email="john@example.com" role="Admin" />);
+            
+            // getBy - throws error if not found
+            expect(screen.getByText('John')).toBeInTheDocument();
+            expect(screen.getByTestId('email')).toHaveTextContent('john@example.com');
+            
+            // queryBy - returns null if not found
+            expect(screen.queryByText('Not found')).not.toBeInTheDocument();
+            
+            // findBy - async, waits for element
+            await expect(screen.findByText('John')).resolves.toBeInTheDocument();
+            
+            // getByRole
+            expect(screen.getByRole('status')).toHaveTextContent('Admin');
+          });
+
+          // === Testing Forms ===
+
+          function LoginForm({ onSubmit }) {
+            const [username, setUsername] = useState('');
+            const [password, setPassword] = useState('');
+            
+            const handleSubmit = (e) => {
+              e.preventDefault();
+              onSubmit({ username, password });
+            };
+            
+            return (
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="submit">Login</button>
+              </form>
+            );
+          }
+
+          test('form submission', async () => {
+            const handleSubmit = jest.fn();
+            const user = userEvent.setup();
+            
+            render(<LoginForm onSubmit={handleSubmit} />);
+            
+            // Type in inputs
+            await user.type(screen.getByPlaceholderText('Username'), 'john');
+            await user.type(screen.getByPlaceholderText('Password'), 'secret');
+            
+            // Submit form
+            await user.click(screen.getByText('Login'));
+            
+            expect(handleSubmit).toHaveBeenCalledWith({
+              username: 'john',
+              password: 'secret'
+            });
+          });
+
+          // === Testing Async Components ===
+
+          function UserList() {
+            const [users, setUsers] = useState([]);
+            const [loading, setLoading] = useState(true);
+            
+            useEffect(() => {
+              fetchUsers().then((data) => {
+                setUsers(data);
+                setLoading(false);
+              });
+            }, []);
+            
+            if (loading) return <div>Loading...</div>;
+            
+            return (
+              <ul>
+                {users.map((user) => (
+                  <li key={user.id}>{user.name}</li>
+                ))}
+              </ul>
+            );
+          }
+
+          test('async data loading', async () => {
+            // Mock API call
+            global.fetchUsers = jest.fn().mockResolvedValue([
+              { id: 1, name: 'John' },
+              { id: 2, name: 'Jane' }
+            ]);
+            
+            render(<UserList />);
+            
+            // Check loading state
+            expect(screen.getByText('Loading...')).toBeInTheDocument();
+            
+            // Wait for data to load
+            await waitFor(() => {
+              expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+            });
+            
+            // Check rendered users
+            expect(screen.getByText('John')).toBeInTheDocument();
+            expect(screen.getByText('Jane')).toBeInTheDocument();
+          });
+
+          // === Testing Hooks ===
+
+          import { renderHook, act } from '@testing-library/react';
+
+          function useCounter(initialValue = 0) {
+            const [count, setCount] = useState(initialValue);
+            
+            const increment = () => setCount((c) => c + 1);
+            const decrement = () => setCount((c) => c - 1);
+            
+            return { count, increment, decrement };
+          }
+
+          test('custom hook', () => {
+            const { result } = renderHook(() => useCounter(5));
+            
+            expect(result.current.count).toBe(5);
+            
+            act(() => {
+              result.current.increment();
+            });
+            
+            expect(result.current.count).toBe(6);
+            
+            act(() => {
+              result.current.decrement();
+            });
+            
+            expect(result.current.count).toBe(5);
+          });
+
+          // === Testing Context ===
+
+          const ThemeContext = React.createContext();
+
+          function ThemedButton() {
+            const theme = useContext(ThemeContext);
+            return <button style={{ color: theme.color }}>Themed</button>;
+          }
+
+          test('context', () => {
+            const theme = { color: 'blue' };
+            
+            render(
+              <ThemeContext.Provider value={theme}>
+                <ThemedButton />
+              </ThemeContext.Provider>
+            );
+            
+            const button = screen.getByText('Themed');
+            expect(button).toHaveStyle({ color: 'blue' });
+          });
+
+          // === Testing Redux ===
+
+          import { Provider } from 'react-redux';
+          import { configureStore } from '@reduxjs/toolkit';
+
+          function Counter() {
+            const count = useSelector((state) => state.counter.value);
+            const dispatch = useDispatch();
+            
+            return (
+              <div>
+                <span>{count}</span>
+                <button onClick={() => dispatch(increment())}>Increment</button>
+              </div>
+            );
+          }
+
+          test('redux component', () => {
+            const store = configureStore({
+              reducer: {
+                counter: counterReducer
+              },
+              preloadedState: {
+                counter: { value: 5 }
+              }
+            });
+            
+            render(
+              <Provider store={store}>
+                <Counter />
+              </Provider>
+            );
+            
+            expect(screen.getByText('5')).toBeInTheDocument();
+            
+            fireEvent.click(screen.getByText('Increment'));
+            
+            expect(screen.getByText('6')).toBeInTheDocument();
+          });
+
+          // === Snapshot Testing ===
+
+          test('snapshot', () => {
+            const { container } = render(<UserProfile name="John" email="john@example.com" />);
+            
+            expect(container).toMatchSnapshot();
+          });
+
+          // === Custom Render with Providers ===
+
+          function renderWithProviders(
+            ui,
+            {
+              preloadedState = {},
+              store = configureStore({ reducer: rootReducer, preloadedState }),
+              ...renderOptions
+            } = {}
+          ) {
+            function Wrapper({ children }) {
+              return (
+                <Provider store={store}>
+                  <ThemeProvider>
+                    {children}
+                  </ThemeProvider>
+                </Provider>
+              );
+            }
+            
+            return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
+          }
+
+          test('with custom render', () => {
+            renderWithProviders(<Counter />, {
+              preloadedState: { counter: { value: 10 } }
+            });
+            
+            expect(screen.getByText('10')).toBeInTheDocument();
+          });
+
+          // === Testing Error Boundaries ===
+
+          class ErrorBoundary extends React.Component {
+            state = { hasError: false };
+            
+            static getDerivedStateFromError() {
+              return { hasError: true };
+            }
+            
+            render() {
+              if (this.state.hasError) {
+                return <div>Error occurred</div>;
+              }
+              return this.props.children;
+            }
+          }
+
+          function ThrowError() {
+            throw new Error('Test error');
+          }
+
+          test('error boundary', () => {
+            // Suppress console.error for this test
+            const spy = jest.spyOn(console, 'error');
+            spy.mockImplementation(() => {});
+            
+            render(
+              <ErrorBoundary>
+                <ThrowError />
+              </ErrorBoundary>
+            );
+            
+            expect(screen.getByText('Error occurred')).toBeInTheDocument();
+            
+            spy.mockRestore();
+          });
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          6. Code Coverage
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // Run tests with coverage
+          // npm test -- --coverage
+          // or
+          // jest --coverage
+
+          // jest.config.js coverage configuration
+          module.exports = {
+            collectCoverage: true,
+            
+            // Files to collect coverage from
+            collectCoverageFrom: [
+              'src/**/*.{js,jsx,ts,tsx}',
+              '!src/**/*.test.{js,jsx,ts,tsx}',
+              '!src/index.js',
+              '!src/reportWebVitals.js'
+            ],
+            
+            // Coverage thresholds
+            coverageThreshold: {
+              global: {
+                branches: 80,
+                functions: 80,
+                lines: 80,
+                statements: 80
+              },
+              // Per-file thresholds
+              './src/components/': {
+                branches: 90,
+                functions: 90,
+                lines: 90,
+                statements: 90
+              }
+            },
+            
+            // Coverage reporters
+            coverageReporters: ['text', 'lcov', 'html'],
+            
+            // Coverage directory
+            coverageDirectory: 'coverage'
+          };
+
+          // Understanding coverage metrics:
+          // - Statements: % of statements executed
+          // - Branches: % of if/else branches taken
+          // - Functions: % of functions called
+          // - Lines: % of executable lines run
+
+          // Example with low coverage
+          function calculate(a, b, operation) {
+            if (operation === 'add') {
+              return a + b;
+            } else if (operation === 'subtract') {
+              return a - b;
+            } else if (operation === 'multiply') {
+              return a * b;
+            } else {
+              return a / b;
+            }
+          }
+
+          // Only testing one branch
+          test('addition', () => {
+            expect(calculate(2, 3, 'add')).toBe(5);
+          });
+
+          // Coverage: 25% branches (only tested 1 of 4 branches)
+
+          // Better coverage
+          describe('calculate', () => {
+            test('addition', () => {
+              expect(calculate(2, 3, 'add')).toBe(5);
+            });
+            
+            test('subtraction', () => {
+              expect(calculate(5, 3, 'subtract')).toBe(2);
+            });
+            
+            test('multiplication', () => {
+              expect(calculate(2, 3, 'multiply')).toBe(6);
+            });
+            
+            test('division', () => {
+              expect(calculate(6, 3, 'divide')).toBe(2);
+            });
+          });
+
+          // Coverage: 100% branches
+
+          // Ignore coverage for specific lines
+          function complexFunction(x) {
+            /* istanbul ignore next */
+            if (x < 0) {
+              throw new Error('Negative not allowed');
+            }
+            
+            return x * 2;
+          }
+
+          // Ignore entire block
+          /* istanbul ignore next */
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Development mode');
+          }
+
+          // Coverage reporting in CI/CD
+          // .github/workflows/test.yml
+          name: Tests
+          on: [push]
+          jobs:
+            test:
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v2
+                - run: npm install
+                - run: npm test -- --coverage
+                - uses: codecov/codecov-action@v2
+                  with:
+                    files: ./coverage/lcov.info
+
+          // Viewing coverage report
+          // Open coverage/lcov-report/index.html in browser
+
+          // Coverage badges
+          // Add to README.md
+          // [![Coverage](https://codecov.io/gh/username/repo/branch/main/graph/badge.svg)]
+
+          // Focus on meaningful coverage
+          // Don't aim for 100% - focus on critical paths
+          // Test:
+          // - Business logic
+          // - Edge cases
+          // - Error handling
+          // - User interactions
+          // Don't over-test:
+          // - Simple getters/setters
+          // - Constants
+          // - Third-party code
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          7. Best Practices and Patterns
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // === Arrange-Act-Assert Pattern ===
+
+          test('AAA pattern', () => {
+            // Arrange - setup test data
+            const user = { id: 1, name: 'John' };
+            const repository = new UserRepository();
+            
+            // Act - execute the behavior
+            repository.save(user);
+            
+            // Assert - verify the outcome
+            expect(repository.findById(1)).toEqual(user);
+          });
+
+          // === Test Organization ===
+
+          describe('UserService', () => {
+            describe('createUser', () => {
+              test('should create user with valid data', () => {
+                // test code
+              });
+              
+              test('should throw error with invalid email', () => {
+                // test code
+              });
+              
+              test('should hash password before saving', () => {
+                // test code
+              });
+            });
+            
+            describe('deleteUser', () => {
+              test('should delete existing user', () => {
+                // test code
+              });
+              
+              test('should throw error if user not found', () => {
+                // test code
+              });
+            });
+          });
+
+          // === DRY Tests with Helper Functions ===
+
+          function createMockUser(overrides = {}) {
+            return {
+              id: 1,
+              name: 'John',
+              email: 'john@example.com',
+              ...overrides
+            };
+          }
+
+          test('user creation', () => {
+            const user = createMockUser({ name: 'Jane' });
+            expect(user.name).toBe('Jane');
+          });
+
+          // === Setup Common Test Data ===
+
+          describe('Cart operations', () => {
+            let cart;
+            let product1;
+            let product2;
+            
+            beforeEach(() => {
+              cart = new Cart();
+              product1 = { id: 1, name: 'Product 1', price: 10 };
+              product2 = { id: 2, name: 'Product 2', price: 20 };
+            });
+            
+            test('add item', () => {
+              cart.addItem(product1);
+              expect(cart.items).toHaveLength(1);
+            });
+            
+            test('calculate total', () => {
+              cart.addItem(product1);
+              cart.addItem(product2);
+              expect(cart.getTotal()).toBe(30);
+            });
+          });
+
+          // === Test One Thing Per Test ===
+
+          // Bad - testing multiple things
+          test('user service', () => {
+            const user = createUser({ name: 'John' });
+            expect(user.name).toBe('John');
+            
+            updateUser(user.id, { name: 'Jane' });
+            expect(user.name).toBe('Jane');
+            
+            deleteUser(user.id);
+            expect(findUser(user.id)).toBeNull();
+          });
+
+          // Good - separate tests
+          test('creates user', () => {
+            const user = createUser({ name: 'John' });
+            expect(user.name).toBe('John');
+          });
+
+          test('updates user', () => {
+            const user = createUser({ name: 'John' });
+            updateUser(user.id, { name: 'Jane' });
+            expect(user.name).toBe('Jane');
+          });
+
+          test('deletes user', () => {
+            const user = createUser({ name: 'John' });
+            deleteUser(user.id);
+            expect(findUser(user.id)).toBeNull();
+          });
+
+          // === Descriptive Test Names ===
+
+          // Bad
+          test('user', () => {});
+          test('test1', () => {});
+
+          // Good
+          test('should create user with valid email', () => {});
+          test('should throw ValidationError when email is invalid', () => {});
+          test('should hash password before saving to database', () => {});
+
+          // === Test Edge Cases ===
+
+          function divide(a, b) {
+            if (b === 0) throw new Error('Division by zero');
+            return a / b;
+          }
+
+          describe('divide', () => {
+            test('normal division', () => {
+              expect(divide(6, 2)).toBe(3);
+            });
+            
+            test('division by zero', () => {
+              expect(() => divide(6, 0)).toThrow('Division by zero');
+            });
+            
+            test('negative numbers', () => {
+              expect(divide(-6, 2)).toBe(-3);
+            });
+            
+            test('floating point', () => {
+              expect(divide(5, 2)).toBeCloseTo(2.5);
+            });
+          });
+
+          // === Avoid Testing Implementation Details ===
+
+          // Bad - testing internal state
+          test('counter implementation', () => {
+            const counter = new Counter();
+            counter.increment();
+            expect(counter._value).toBe(1); // accessing private property
+          });
+
+          // Good - testing public API
+          test('counter behavior', () => {
+            const counter = new Counter();
+            counter.increment();
+            expect(counter.getValue()).toBe(1);
+          });
+
+          // === Isolate Tests ===
+
+          // Bad - tests depend on each other
+          let sharedUser;
+
+          test('create user', () => {
+            sharedUser = createUser({ name: 'John' });
+            expect(sharedUser).toBeDefined();
+          });
+
+          test('update user', () => {
+            updateUser(sharedUser.id, { name: 'Jane' });
+            expect(sharedUser.name).toBe('Jane');
+          });
+
+          // Good - independent tests
+          test('create user', () => {
+            const user = createUser({ name: 'John' });
+            expect(user).toBeDefined();
+          });
+
+          test('update user', () => {
+            const user = createUser({ name: 'John' });
+            updateUser(user.id, { name: 'Jane' });
+            expect(user.name).toBe('Jane');
+          });
+
+          // === Mock External Dependencies ===
+
+          // Bad - calling real API in tests
+          test('fetch user', async () => {
+            const user = await fetch('https://api.example.com/users/1');
+            expect(user.id).toBe(1);
+          });
+
+          // Good - mocking API
+          test('fetch user', async () => {
+            global.fetch = jest.fn().mockResolvedValue({
+              json: () => Promise.resolve({ id: 1, name: 'John' })
+            });
+            
+            const user = await fetchUser(1);
+            expect(user.id).toBe(1);
+          });
+
+          // === Test Error Messages ===
+
+          test('validation error message', () => {
+            expect(() => createUser({ email: 'invalid' }))
+              .toThrow('Email must be valid');
+          });
+
+          // === Parameterized Tests ===
+
+          test.each([
+            [1, 2, 3],
+            [2, 3, 5],
+            [5, 5, 10],
+          ])('add(%i, %i) = %i', (a, b, expected) => {
+            expect(add(a, b)).toBe(expected);
+          });
+
+          // === Clean Up After Tests ===
+
+          describe('file operations', () => {
+            afterEach(() => {
+              // Clean up test files
+              fs.unlinkSync('test-file.txt');
+            });
+            
+            test('creates file', () => {
+              createFile('test-file.txt');
+              expect(fs.existsSync('test-file.txt')).toBe(true);
+            });
+          });
+
+          // === Fast Tests ===
+
+          // Bad - slow test
+          test('slow test', async () => {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            expect(true).toBe(true);
+          });
+
+          // Good - fast test with mocked timers
+          test('fast test', () => {
+            jest.useFakeTimers();
+            const callback = jest.fn();
+            setTimeout(callback, 5000);
+            jest.runAllTimers();
+            expect(callback).toHaveBeenCalled();
+          });
+
+          // === Test Readability ===
+
+          // Bad - unclear test
+          test('test', () => {
+            const x = new X();
+            const y = x.doStuff();
+            expect(y).toBe(5);
+          });
+
+          // Good - clear test
+          test('calculateDiscount returns 10% off for premium users', () => {
+            const user = createPremiumUser();
+            const discount = calculateDiscount(user, 100);
+            expect(discount).toBe(10);
+          });
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          8. Debugging Tests
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // === Debug Output ===
+
+          test('debug test', () => {
+            const user = { name: 'John', age: 30 };
+            
+            // Log to console
+            console.log(user);
+            
+            // Pretty print
+            console.log(JSON.stringify(user, null, 2));
+            
+            expect(user.name).toBe('John');
+          });
+
+          // === Debug with screen.debug() ===
+
+          import { render, screen } from '@testing-library/react';
+
+          test('debug component', () => {
+            render(<UserProfile name="John" />);
+            
+            // Print current DOM
+            screen.debug();
+            
+            // Print specific element
+            screen.debug(screen.getByText('John'));
+          });
+
+          // === Run Single Test ===
+
+          // Run only one test file
+          // jest UserService.test.js
+
+          // Run only one test
+          test.only('this test will run', () => {
+            expect(1).toBe(1);
+          });
+
+          test('this test will be skipped', () => {
+            expect(2).toBe(2);
+          });
+
+          // Run only one describe block
+          describe.only('this suite', () => {
+            test('will run', () => {
+              expect(1).toBe(1);
+            });
+          });
+
+          // === Interactive Debugging ===
+
+          // Add debugger statement
+          test('debug with debugger', () => {
+            const result = calculate(2, 3);
+            
+            debugger; // Execution will pause here
+            
+            expect(result).toBe(5);
+          });
+
+          // Run with Node debugger
+          // node --inspect-brk node_modules/.bin/jest --runInBand
+
+          // === VS Code Debugging ===
+
+          // .vscode/launch.json
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "type": "node",
+                "request": "launch",
+                "name": "Jest Current File",
+                "program": "${workspaceFolder}/node_modules/.bin/jest",
+                "args": [
+                  "${fileBasename}",
+                  "--config",
+                  "jest.config.js"
+                ],
+                "console": "integratedTerminal",
+                "internalConsoleOptions": "neverOpen"
+              }
+            ]
+          }
+
+          // === Verbose Output ===
+
+          // Run tests with verbose flag
+          // jest --verbose
+
+          // Shows individual test results
+          // ✓ should add numbers (5ms)
+          // ✓ should subtract numbers (3ms)
+          // ✓ should multiply numbers (2ms)
+
+          // === Test Timeout Issues ===
+
+          test('async test', async () => {
+            // Increase timeout for this test
+            jest.setTimeout(10000);
+            
+            await longRunningOperation();
+            
+            expect(result).toBe('done');
+          }, 10000); // or set timeout here
+
+          // === Mock Inspection ===
+
+          test('inspect mock calls', () => {
+            const mockFn = jest.fn();
+            
+            mockFn('arg1', 'arg2');
+            mockFn('arg3');
+            
+            // Inspect all calls
+            console.log(mockFn.mock.calls);
+            // [['arg1', 'arg2'], ['arg3']]
+            
+            // Inspect specific call
+            console.log(mockFn.mock.calls[0]);
+            // ['arg1', 'arg2']
+            
+            // Inspect results
+            console.log(mockFn.mock.results);
+          });
+
+          // === Watch Mode ===
+
+          // Run in watch mode
+          // jest --watch
+
+          // Watch mode options:
+          // › Press f to run only failed tests.
+          // › Press o to only run tests related to changed files.
+          // › Press p to filter by a filename regex pattern.
+          // › Press t to filter by a test name regex pattern.
+          // › Press q to quit watch mode.
+          // › Press Enter to trigger a test run.
+
+          // === Coverage Report ===
+
+          // Generate detailed coverage report
+          // jest --coverage --verbose
+
+          // View uncovered lines
+          // Check coverage/lcov-report/index.html
+
+          // === Error Messages ===
+
+          test('clear error messages', () => {
+            const user = { name: 'John', age: 30 };
+            
+            // Bad - unclear error
+            expect(user.age).toBe(25);
+            // Error: expect(received).toBe(expected)
+            // Expected: 25
+            // Received: 30
+            
+            // Good - custom message
+            expect(user.age).toBe(25, 'User age should be 25');
+          });
+
+          // === Snapshot Debugging ===
+
+          test('snapshot', () => {
+            const component = render(<UserProfile />);
+            
+            // View snapshot diff when it fails
+            expect(component).toMatchSnapshot();
+            
+            // Update snapshot if change is intentional
+            // jest -u
+          });
+
+          // === Async Debugging ===
+
+          test('debug async', async () => {
+            console.log('Before async operation');
+            
+            const result = await fetchData();
+            
+            console.log('After async operation:', result);
+            
+            expect(result).toBeDefined();
+          });
+
+          // === Test Timing ===
+
+          test('measure test time', () => {
+            const start = Date.now();
+            
+            // Test code
+            performOperation();
+            
+            const duration = Date.now() - start;
+            console.log(\`Test took \${duration}ms\`);
+          });
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          9. Common Testing Patterns
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // === Testing Pure Functions ===
+
+          function sum(a, b) {
+            return a + b;
+          }
+
+          test('sum', () => {
+            expect(sum(1, 2)).toBe(3);
+            expect(sum(-1, -1)).toBe(-2);
+            expect(sum(0, 0)).toBe(0);
+          });
+
+          // === Testing Classes ===
+
+          class Calculator {
+            constructor() {
+              this.result = 0;
+            }
+            
+            add(n) {
+              this.result += n;
+              return this;
+            }
+            
+            subtract(n) {
+              this.result -= n;
+              return this;
+            }
+            
+            getResult() {
+              return this.result;
+            }
+          }
+
+          describe('Calculator', () => {
+            let calculator;
+            
+            beforeEach(() => {
+              calculator = new Calculator();
+            });
+            
+            test('starts at zero', () => {
+              expect(calculator.getResult()).toBe(0);
+            });
+            
+            test('adds numbers', () => {
+              calculator.add(5);
+              expect(calculator.getResult()).toBe(5);
+            });
+            
+            test('chains operations', () => {
+              calculator.add(5).subtract(2);
+              expect(calculator.getResult()).toBe(3);
+            });
+          });
+
+          // === Testing API Calls ===
+
+          async function fetchUser(id) {
+            const response = await fetch(\`/api/users/\${id}\`);
+            return response.json();
+          }
+
+          test('fetchUser', async () => {
+            global.fetch = jest.fn().mockResolvedValue({
+              json: jest.fn().mockResolvedValue({ id: 1, name: 'John' })
+            });
+            
+            const user = await fetchUser(1);
+            
+            expect(fetch).toHaveBeenCalledWith('/api/users/1');
+            expect(user).toEqual({ id: 1, name: 'John' });
+          });
+
+          // === Testing Event Handlers ===
+
+          function Button({ onClick }) {
+            const [clicked, setClicked] = useState(false);
+            
+            const handleClick = () => {
+              setClicked(true);
+              onClick?.();
+            };
+            
+            return (
+              <button onClick={handleClick}>
+                {clicked ? 'Clicked' : 'Click me'}
+              </button>
+            );
+          }
+
+          test('button click handler', () => {
+            const handleClick = jest.fn();
+            
+            render(<Button onClick={handleClick} />);
+            
+            const button = screen.getByText('Click me');
+            fireEvent.click(button);
+            
+            expect(handleClick).toHaveBeenCalled();
+            expect(screen.getByText('Clicked')).toBeInTheDocument();
+          });
+
+          // === Testing Validation ===
+
+          function validateEmail(email) {
+            const regex = /^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/;
+            return regex.test(email);
+          }
+
+          describe('validateEmail', () => {
+            test('valid emails', () => {
+              expect(validateEmail('test@example.com')).toBe(true);
+              expect(validateEmail('user.name@example.co.uk')).toBe(true);
+            });
+            
+            test('invalid emails', () => {
+              expect(validateEmail('invalid')).toBe(false);
+              expect(validateEmail('invalid@')).toBe(false);
+              expect(validateEmail('@example.com')).toBe(false);
+            });
+          });
+
+          // === Testing Sorting ===
+
+          function sortUsers(users) {
+            return [...users].sort((a, b) => a.name.localeCompare(b.name));
+          }
+
+          test('sorts users by name', () => {
+            const users = [
+              { name: 'Charlie' },
+              { name: 'Alice' },
+              { name: 'Bob' }
+            ];
+            
+            const sorted = sortUsers(users);
+            
+            expect(sorted.map(u => u.name)).toEqual(['Alice', 'Bob', 'Charlie']);
+            expect(users[0].name).toBe('Charlie'); // Original unchanged
+          });
+
+          // === Testing Filtering ===
+
+          function filterActiveUsers(users) {
+            return users.filter(user => user.active);
+          }
+
+          test('filters active users', () => {
+            const users = [
+              { id: 1, active: true },
+              { id: 2, active: false },
+              { id: 3, active: true }
+            ];
+            
+            const active = filterActiveUsers(users);
+            
+            expect(active).toHaveLength(2);
+            expect(active.every(u => u.active)).toBe(true);
+          });
+
+          // === Testing Transformations ===
+
+          function transformUser(user) {
+            return {
+              ...user,
+              fullName: \`\${user.firstName} \${user.lastName}\`,
+              age: new Date().getFullYear() - user.birthYear
+            };
+          }
+
+          test('transforms user', () => {
+            const user = {
+              firstName: 'John',
+              lastName: 'Doe',
+              birthYear: 1990
+            };
+            
+            const transformed = transformUser(user);
+            
+            expect(transformed.fullName).toBe('John Doe');
+            expect(transformed.age).toBeGreaterThan(30);
+          });
+
+          // === Testing State Management ===
+
+          function reducer(state = { count: 0 }, action) {
+            switch (action.type) {
+              case 'INCREMENT':
+                return { count: state.count + 1 };
+              case 'DECREMENT':
+                return { count: state.count - 1 };
+              default:
+                return state;
+            }
+          }
+
+          describe('reducer', () => {
+            test('initial state', () => {
+              expect(reducer(undefined, {})).toEqual({ count: 0 });
+            });
+            
+            test('increment', () => {
+              const state = { count: 5 };
+              const newState = reducer(state, { type: 'INCREMENT' });
+              expect(newState.count).toBe(6);
+              expect(state.count).toBe(5); // immutable
+            });
+          });
+
+          // === Testing Pagination ===
+
+          function paginate(items, page, perPage) {
+            const start = (page - 1) * perPage;
+            return items.slice(start, start + perPage);
+          }
+
+          test('paginate', () => {
+            const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            
+            expect(paginate(items, 1, 3)).toEqual([1, 2, 3]);
+            expect(paginate(items, 2, 3)).toEqual([4, 5, 6]);
+            expect(paginate(items, 4, 3)).toEqual([10]);
+          });
+
+          // === Testing Caching ===
+
+          function createCache() {
+            const cache = new Map();
+            
+            return {
+              get(key) {
+                return cache.get(key);
+              },
+              set(key, value) {
+                cache.set(key, value);
+              },
+              has(key) {
+                return cache.has(key);
+              }
+            };
+          }
+
+          test('cache', () => {
+            const cache = createCache();
+            
+            cache.set('key1', 'value1');
+            
+            expect(cache.has('key1')).toBe(true);
+            expect(cache.get('key1')).toBe('value1');
+            expect(cache.has('key2')).toBe(false);
+          });
+
+          // === Testing Debounce ===
+
+          function debounce(fn, delay) {
+            let timer;
+            return function(...args) {
+              clearTimeout(timer);
+              timer = setTimeout(() => fn(...args), delay);
+            };
+          }
+
+          test('debounce', () => {
+            jest.useFakeTimers();
+            
+            const fn = jest.fn();
+            const debouncedFn = debounce(fn, 1000);
+            
+            debouncedFn('call 1');
+            debouncedFn('call 2');
+            debouncedFn('call 3');
+            
+            expect(fn).not.toHaveBeenCalled();
+            
+            jest.runAllTimers();
+            
+            expect(fn).toHaveBeenCalledTimes(1);
+            expect(fn).toHaveBeenCalledWith('call 3');
+          });
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          10. Advanced Testing Techniques
+          </h4>
+
+          <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+          // === Property-Based Testing ===
+
+          // Using fast-check library
+          import fc from 'fast-check';
+
+          test('addition is commutative', () => {
+            fc.assert(
+              fc.property(fc.integer(), fc.integer(), (a, b) => {
+                return add(a, b) === add(b, a);
+              })
+            );
+          });
+
+          // === Contract Testing ===
+
+          // Verify API contracts
+          test('API contract', async () => {
+            const user = await fetchUser(1);
+            
+            // Verify response shape
+            expect(user).toMatchObject({
+              id: expect.any(Number),
+              name: expect.any(String),
+              email: expect.any(String),
+              createdAt: expect.any(String)
+            });
+          });
+
+          // === Visual Regression Testing ===
+
+          // Using jest-image-snapshot
+          import { toMatchImageSnapshot } from 'jest-image-snapshot';
+
+          expect.extend({ toMatchImageSnapshot });
+
+          test('visual regression', async () => {
+            const image = await takeScreenshot();
+            expect(image).toMatchImageSnapshot();
+          });
+
+          // === Mutation Testing ===
+
+          // Tests the quality of tests themselves
+          // Using Stryker
+          // stryker run
+
+          // Example: mutates code to verify tests catch changes
+          function isEven(n) {
+            return n % 2 === 0; // mutated to: n % 2 === 1
+          }
+
+          // === Performance Testing ===
+
+          test('performance benchmark', () => {
+            const start = performance.now();
+            
+            // Run operation many times
+            for (let i = 0; i < 10000; i++) {
+              expensiveOperation();
+            }
+            
+            const duration = performance.now() - start;
+            
+            expect(duration).toBeLessThan(1000); // < 1 second
+          });
+
+          // === Memory Leak Testing ===
+
+          test('no memory leaks', () => {
+            const initialMemory = process.memoryUsage().heapUsed;
+            
+            // Create and destroy many objects
+            for (let i = 0; i < 1000; i++) {
+              const obj = createLargeObject();
+              processObject(obj);
+            }
+            
+            // Force garbage collection (run with --expose-gc)
+            if (global.gc) {
+              global.gc();
+            }
+            
+            const finalMemory = process.memoryUsage().heapUsed;
+            const diff = finalMemory - initialMemory;
+            
+            // Memory usage shouldn't grow significantly
+            expect(diff).toBeLessThan(1024 * 1024); // < 1MB
+          });
+
+          // === Fuzz Testing ===
+
+          test('fuzz testing', () => {
+            // Generate random inputs
+            for (let i = 0; i < 1000; i++) {
+              const randomInput = generateRandomData();
+              
+              // Should not throw
+              expect(() => {
+                processInput(randomInput);
+              }).not.toThrow();
+            }
+          });
+
+          // === Integration Testing ===
+
+          describe('User workflow', () => {
+            test('complete user registration flow', async () => {
+              // Register user
+              const user = await registerUser({
+                email: 'test@example.com',
+                password: 'password123'
+              });
+              
+              // Verify email sent
+              const emails = await getEmailQueue();
+              expect(emails).toContainEqual(
+                expect.objectContaining({
+                  to: 'test@example.com',
+                  subject: 'Verify your email'
+                })
+              );
+              
+              // Verify email
+              await verifyEmail(user.verificationToken);
+              
+              // Login
+              const session = await login('test@example.com', 'password123');
+              expect(session.userId).toBe(user.id);
+            });
+          });
+
+          // === Stress Testing ===
+
+          test('handles concurrent requests', async () => {
+            const promises = [];
+            
+            // Create 100 concurrent requests
+            for (let i = 0; i < 100; i++) {
+              promises.push(createUser({ name: \`User \${i}\` }));
+            }
+            
+            const results = await Promise.all(promises);
+            
+            expect(results).toHaveLength(100);
+            expect(results.every(r => r.id)).toBe(true);
+          });
+
+          // === Chaos Testing ===
+
+          test('handles random failures', async () => {
+            // Mock with random failures
+            fetch.mockImplementation(() => {
+              if (Math.random() > 0.7) {
+                return Promise.reject(new Error('Random failure'));
+              }
+              return Promise.resolve({ json: () => ({ data: 'success' }) });
+            });
+            
+            // Should retry and eventually succeed
+            const result = await fetchWithRetry('/api/data', 10);
+            
+            expect(result).toEqual({ data: 'success' });
+          });
+
+          // === Snapshot Testing Best Practices ===
+
+          test('component snapshot', () => {
+            const component = render(<UserProfile user={{ name: 'John' }} />);
+            
+            // Use snapshot serializers for clean snapshots
+            expect(component).toMatchSnapshot({
+              // Use matchers for dynamic values
+              createdAt: expect.any(Date)
+            });
+          });
+
+          // === Test Doubles ===
+
+          // Dummy - passed but never used
+          const dummyUser = null;
+
+          // Stub - returns canned responses
+          const stubRepository = {
+            findById: () => ({ id: 1, name: 'John' })
+          };
+
+          // Spy - records how it was called
+          const spyLogger = jest.fn();
+
+          // Mock - pre-programmed with expectations
+          const mockService = {
+            createUser: jest.fn().mockResolvedValue({ id: 1 })
+          };
+
+          // Fake - working implementation (lighter than real)
+          class FakeDatabase {
+            constructor() {
+              this.data = [];
+            }
+            
+            insert(item) {
+              this.data.push(item);
+              return item;
+            }
+            
+            findById(id) {
+              return this.data.find(item => item.id === id);
+            }
+          }
+          </code></pre>
+          </div>
+
+          <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          11. Best Practices Summary
+          </h4>
+
+          <ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+            <li><b>DO:</b> Write tests before or alongside code (TDD/BDD)</li>
+            <li><b>DO:</b> Keep tests simple, focused, and readable</li>
+            <li><b>DO:</b> Use descriptive test names that explain behavior</li>
+            <li><b>DO:</b> Follow AAA pattern (Arrange, Act, Assert)</li>
+            <li><b>DO:</b> Test edge cases and error conditions</li>
+            <li><b>DO:</b> Mock external dependencies (APIs, databases)</li>
+            <li><b>DO:</b> Aim for high coverage on critical paths</li>
+            <li><b>DO:</b> Keep tests independent and isolated</li>
+            <li><b>DO:</b> Use beforeEach/afterEach for setup/cleanup</li>
+            <li><b>DO:</b> Test behavior, not implementation</li>
+            <li><b>DON'T:</b> Write tests that depend on execution order</li>
+            <li><b>DON'T:</b> Test third-party library code</li>
+            <li><b>DON'T:</b> Aim for 100% coverage at any cost</li>
+            <li><b>DON'T:</b> Write slow tests (mock I/O, use fake timers)</li>
+            <li><b>DON'T:</b> Test multiple things in one test</li>
+            <li><b>DON'T:</b> Use real databases/APIs in unit tests</li>
+            <li><b>DON'T:</b> Ignore failing tests</li>
+            <li><b>DON'T:</b> Write tests that are harder to maintain than code</li>
+          </ul>
+
+          </div>`,
+            examples: [
+              "Basic Test Structure",
+              "Testing Async Functions",
+              "Mocking API Calls",
+              "Testing React Components",
+              "Testing Redux",
+              "Testing Hooks",
+              "Error Boundary Tests",
+              "Form Validation Tests",
+              "Snapshot Testing",
+              "Integration Tests",
+            ],
+            questions: [
+              {
+                question:
+                  "What is Jest and why use it over other testing frameworks?",
+                answer:
+                  "Jest is a JavaScript testing framework with zero configuration, built-in mocking, code coverage, and snapshot testing. Benefits: works out-of-the-box, no separate test runner/assertion library needed, parallel test execution for speed, excellent error messages, great DX with watch mode, integrates with React/TypeScript/Babel. Compared to Mocha/Chai: Jest has everything built-in vs separate libraries. Compared to Jasmine: Jest is faster, has better mocking, better maintained. Jest is industry standard for React apps, works with Node/Vue/Angular, actively maintained by Meta.",
+              },
+              {
+                question:
+                  "Explain the AAA (Arrange-Act-Assert) pattern in testing.",
+                answer:
+                  "AAA pattern organizes test code into three clear sections. Arrange: set up test data, create mocks, initialize objects—prepare everything needed for test. Act: execute the behavior being tested—call function, trigger event, perform action. Assert: verify outcome matches expectations—check return values, verify state changes, ensure side effects. Benefits: makes tests readable, enforces single responsibility, easier to debug, clear test structure. Example: Arrange: const user = { name: 'John' }; Act: const result = validateUser(user); Assert: expect(result.isValid).toBe(true). Alternative: Given-When-Then (BDD style) is conceptually similar.",
+              },
+              {
+                question:
+                  "What are Jest matchers and what are the most common ones?",
+                answer:
+                  "Matchers are methods to test values in different ways. Common matchers: toBe() for primitive equality (===), toEqual() for deep object/array equality, toBeTruthy()/toBeFalsy() for truthiness, toBeNull()/toBeUndefined()/toBeDefined() for null/undefined checks, toContain() for arrays/strings, toHaveLength() for length, toThrow() for exceptions, toMatch() for regex, toBeGreaterThan()/toBeLessThan() for numbers, toBeCloseTo() for floats, toHaveProperty() for objects. Async matchers: resolves/rejects for promises. Custom matchers: extend expect with expect.extend(). Use .not for negation: expect(x).not.toBe(y). Choose specific matchers for better error messages.",
+              },
+              {
+                question: "How do you mock functions and modules in Jest?",
+                answer:
+                  "Function mocking: jest.fn() creates mock function, track calls with .toHaveBeenCalled(), set return value with .mockReturnValue(), async with .mockResolvedValue()/.mockRejectedValue(), custom implementation with .mockImplementation(). Module mocking: jest.mock('./module') auto-mocks entire module, factory function to customize: jest.mock('./module', () => ({ func: jest.fn() })), partial mock with jest.requireActual(), spy on methods with jest.spyOn(obj, 'method'). Reset mocks: mockClear() clears call history, mockReset() clears + removes implementation, mockRestore() restores original. Mock modules in __mocks__ directory for manual mocks. Always reset mocks in beforeEach/afterEach to prevent test pollution.",
+              },
+              {
+                question:
+                  "What is the difference between beforeEach/afterEach and beforeAll/afterAll?",
+                answer:
+                  "beforeEach runs before every test in describe block—use for test isolation, reset state, create fresh mocks. afterEach runs after every test—use for cleanup, clear mocks, close connections. beforeAll runs once before all tests—use for expensive setup (database connection, server start), shared setup. afterAll runs once after all tests—use for teardown, disconnect database, stop server. Execution order: beforeAll → (beforeEach → test → afterEach) for each test → afterAll. Scoping: hooks in outer describe run for inner describe blocks too. Best practice: use beforeEach for most setup (isolation), beforeAll for expensive shared setup, always clean up in afterEach/afterAll.",
+              },
+              {
+                question: "How do you test async code in Jest?",
+                answer:
+                  "Three approaches: 1) Return promise from test—Jest waits for promise to resolve, 2) Use async/await (preferred)—cleaner syntax, better error messages, 3) Use done callback—old way, only for callbacks. For promises: await expect(promise).resolves.toBe(value) or await expect(promise).rejects.toThrow(). Common pattern: mock async functions with mockResolvedValue/mockRejectedValue, test loading states, verify multiple async operations with Promise.all, use waitFor from testing-library for React components. Pitfall: forgetting to return/await promise causes test to pass incorrectly. Use expect.assertions(n) to ensure async assertions run. Avoid: mixing callback and promise patterns.",
+              },
+              {
+                question:
+                  "What is snapshot testing and when should you use it?",
+                answer:
+                  "Snapshot testing saves component output to file, compares future renders against saved snapshot. How it works: first run creates snapshot file, subsequent runs compare against snapshot, fails if output changed. Use for: testing component render output, catching unintended UI changes, testing serializable values (configs, API responses). Update snapshots: jest -u when change is intentional. Best practices: keep snapshots small and focused, use toMatchInlineSnapshot for small outputs, use property matchers for dynamic values (dates, IDs), review snapshot diffs carefully, don't snapshot large objects, commit snapshots to git. Avoid: overusing snapshots (hard to review), snapshots for behavior testing (use specific assertions instead), large snapshots (brittle).",
+              },
+              {
+                question:
+                  "How do you achieve good test coverage and what does coverage measure?",
+                answer:
+                  "Coverage metrics: Statements (% executed), Branches (% if/else paths taken), Functions (% called), Lines (% of code lines run). Run: jest --coverage. Set thresholds in jest.config.js to enforce minimums. Good coverage tips: test all code paths (if/else, try/catch), test edge cases (null, empty, boundaries), test error handling, test async operations, test integration between modules. Coverage doesn't equal quality—can have 100% coverage with bad tests. Focus on meaningful tests: critical business logic, user interactions, error scenarios, integration points. Don't chase 100%—diminishing returns on trivial code. Exclude: config files, index files, constants, third-party code. Coverage helps find untested code but doesn't guarantee correctness.",
+              },
+              {
+                question:
+                  "What is the difference between unit, integration, and end-to-end tests?",
+                answer:
+                  "Unit tests: test single function/component in isolation, mock all dependencies, fast (milliseconds), many tests, catch logic errors. Integration tests: test multiple units working together, may use real dependencies or lighter fakes, slower (seconds), fewer tests, catch integration issues. E2E tests: test entire app from user perspective, real browser/environment, slow (minutes), few tests, catch workflow issues. Testing pyramid: many unit tests (base), moderate integration tests (middle), few E2E tests (top). Jest typically used for unit/integration. Use right tool: unit for business logic, integration for module interaction, E2E for critical user flows. Balance: unit tests give fast feedback, E2E gives confidence but slow, integration is middle ground.",
+              },
+              {
+                question:
+                  "How do you test React components with Jest and React Testing Library?",
+                answer:
+                  "Setup: import { render, screen, fireEvent } from '@testing-library/react', use @testing-library/jest-dom for matchers. Render: render(<Component />). Query: screen.getByText/getByRole/getByTestId (throws if not found), queryBy (returns null), findBy (async). Interact: fireEvent.click/change/submit or userEvent for realistic events. Assert: expect(element).toBeInTheDocument/toHaveTextContent/toHaveValue. Test behavior not implementation: don't test state/props directly, test what user sees/does. Test async: use waitFor/findBy for async state changes. Mock: jest.mock for modules, jest.fn for callbacks. Best practices: test user interactions, accessibility (use roles), error states, loading states, avoid testing implementation details, use custom render for providers.",
+              },
+              {
+                question: "What are test doubles and when to use each type?",
+                answer:
+                  "Test doubles are fake objects used in testing. Types: 1) Dummy—passed but never used (null, empty object), use when signature requires it but value doesn't matter, 2) Stub—returns pre-programmed responses, use when you need specific return values, 3) Spy—records how it was called (jest.fn()), use to verify function was called with specific arguments, 4) Mock—pre-programmed with expectations, use for complex verification, 5) Fake—working but simplified implementation (in-memory DB instead of real DB), use for integration tests when real thing is too slow/complex. In Jest: jest.fn() is spy/mock, jest.spyOn() is spy on real method, manual mocks are fakes. Choose based on need: spy for verification, stub for canned responses, fake for realistic but lightweight alternative.",
+              },
+              {
+                question: "How do you test error handling and exceptions?",
+                answer:
+                  "Test exceptions: expect(() => func()).toThrow(), match error message: toThrow('message'), match error type: toThrow(ErrorClass), use regex: toThrow(/pattern/). Async errors: await expect(asyncFunc()).rejects.toThrow(). Try/catch pattern: wrap in try, fail test if no error thrown, assert in catch block. Test error messages are meaningful, test different error types, test error recovery logic, verify errors logged/reported correctly. Common scenarios: invalid input validation, network failures, missing data, permission errors, timeout errors. Best practice: test both happy path and error paths, verify user-facing error messages, test cleanup after errors, ensure errors don't leak sensitive data, test error boundaries in React.",
+              },
+              {
+                question: "What is test isolation and why is it important?",
+                answer:
+                  "Test isolation means each test is independent—doesn't depend on other tests, doesn't affect other tests. Importance: tests can run in any order, parallel execution possible, failures isolated to specific tests, easier debugging. Achieve isolation: reset state in beforeEach, avoid global/shared variables, mock external dependencies, clear mocks after each test, use fresh instances. Common violations: tests share database state, tests depend on execution order, global variables mutated, mocks not cleared. Signs of poor isolation: tests pass individually but fail together, tests pass in one order fail in another, flaky tests. Fix: use beforeEach/afterEach for setup/teardown, create new instances per test, mock dependencies, avoid test.only/test.skip in committed code.",
+              },
+              {
+                question: "How do you use Jest with TypeScript?",
+                answer:
+                  "Setup: install @types/jest, configure ts-jest or babel-jest. Jest config: preset: 'ts-jest' or transform with babel. Write tests in .test.ts/.spec.ts files. Benefits: type safety in tests, autocomplete for Jest APIs, catch type errors early. Type test file: import { describe, test, expect } from '@jest/globals' for full types. Mock typed functions: const mockFn = jest.fn() as jest.MockedFunction<typeof originalFn>. Test types themselves: use type assertions, test discriminated unions, verify type narrowing. Common issues: ES modules with ts-jest (use transformIgnorePatterns), mocking typed modules (use jest.mocked), tsconfig.json conflicts (use separate tsconfig for tests). Best practice: keep test types strict, use type inference, don't over-type simple tests.",
+              },
+              {
+                question: "What are the common Jest configuration options?",
+                answer:
+                  "Key configs in jest.config.js: testEnvironment ('node' vs 'jsdom'), testMatch (which files to test), collectCoverageFrom (coverage files), coverageThreshold (minimum coverage), setupFilesAfterEnv (setup file like jest.setup.js), moduleNameMapper (module aliases, mock CSS/images), transform (babel/ts-jest), globals (set global variables), testTimeout (default test timeout), maxWorkers (parallel test workers). Common patterns: separate config for unit/integration, use setupFilesAfterEnv for global matchers like @testing-library/jest-dom, mock CSS modules with identity-obj-proxy, set NODE_ENV=test in globals, configure coverage thresholds per directory, use projects for monorepos. Override config: use --config flag or package.json jest field.",
+              },
+            ],
+            links: [
+              "https://jestjs.io/docs/getting-started",
+              "https://jestjs.io/docs/expect",
+              "https://jestjs.io/docs/mock-functions",
+              "https://jestjs.io/docs/asynchronous",
+              "https://testing-library.com/docs/react-testing-library/intro/",
+              "https://kentcdodds.com/blog/common-mistakes-with-react-testing-library",
+              "https://jestjs.io/docs/configuration",
+              "https://github.com/sapegin/jest-cheat-sheet",
+            ],
           },
           {
             topic: "React Testing Library",
@@ -40846,11 +43553,369 @@ function LoginForm() {
           },
           {
             topic: "Code Splitting",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Code Splitting",
+              "Lazy Loading",
+              "React.lazy",
+              "Suspense",
+              "Dynamic Import",
+              "Bundle Optimization",
+              "Performance",
+              "Webpack",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Code splitting is a technique for breaking up large JavaScript bundles into smaller chunks that are loaded on-demand, dramatically improving application load times and performance. Instead of downloading the entire application code upfront, code splitting enables loading only the code needed for the current view, with additional code fetched as users navigate. React provides built-in support through React.lazy() and Suspense, while modern bundlers like Webpack automatically optimize chunk creation. Understanding code splitting is essential for building performant, production-ready applications that scale well as they grow in size and complexity.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Why Code Splitting Matters
+</h4>
+
+<p style="line-height: 1.75;">
+Code splitting addresses the performance problem of large JavaScript bundles by loading code incrementally.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Problem: Without code splitting
+// Single bundle contains ALL application code
+// bundle.js: 2MB (Home + Dashboard + Admin + Reports + Settings + ...)
+// User loads 2MB even if they only visit Home page
+
+// Solution: With code splitting
+// main.js: 200KB (core app + Home)
+// dashboard.chunk.js: 300KB (loaded when user visits /dashboard)
+// admin.chunk.js: 500KB (loaded when user visits /admin)
+// reports.chunk.js: 400KB (loaded when needed)
+// User loads only 200KB initially, rest loads on-demand
+
+// Benefits:
+// 1. Faster initial load time
+// 2. Reduced time-to-interactive (TTI)
+// 3. Better performance on slow networks
+// 4. Improved Core Web Vitals (LCP, FID, CLS)
+// 5. Better caching (unchanged chunks stay cached)
+// 6. Reduced bandwidth usage
+
+// Impact on performance metrics:
+// Without splitting: bundle.js (2MB) → 6s load time on 3G
+// With splitting: main.js (200KB) → 0.6s load time on 3G
+// 10x improvement in initial load time!
+
+// When to use code splitting:
+// - Routes/pages (most common)
+// - Large third-party libraries
+// - Heavy components (charts, editors)
+// - Features behind permissions
+// - Modal dialogs
+// - Tabs that aren't initially visible
+// - Conditional features (A/B tests)
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. React.lazy() and Suspense Basics
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import React, { lazy, Suspense } from 'react';
+
+// Dynamic import with React.lazy()
+// Creates a separate chunk for Dashboard component
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+
+// Without lazy (eager loading - included in main bundle)
+import Dashboard from './pages/Dashboard'; // BAD for large components
+
+// With lazy (loaded on-demand - separate chunk)
+const Dashboard = lazy(() => import('./pages/Dashboard')); // GOOD
+
+// Suspense wrapper provides fallback UI while loading
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Suspense fallback={&lt;div&gt;Loading...&lt;/div&gt;}&gt;
+        &lt;Dashboard /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Better loading fallback
+function LoadingSpinner() {
+  return (
+    &lt;div className="loading-container"&gt;
+      &lt;div className="spinner"&gt;&lt;/div&gt;
+      &lt;p&gt;Loading page...&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+function App() {
+  return (
+    &lt;Suspense fallback={&lt;LoadingSpinner /&gt;}&gt;
+      &lt;Dashboard /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+
+// Multiple lazy components
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+
+function App() {
+  return (
+    &lt;Suspense fallback={&lt;LoadingSpinner /&gt;}&gt;
+      &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+        &lt;Route path="/about" element={&lt;About /&gt;} /&gt;
+        &lt;Route path="/contact" element={&lt;Contact /&gt;} /&gt;
+      &lt;/Routes&gt;
+    &lt;/Suspense&gt;
+  );
+}
+
+// Error boundary with Suspense
+class ErrorBoundary extends React.Component {
+  state = { hasError: false };
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return &lt;div&gt;Failed to load. &lt;button onClick={() => window.location.reload()}&gt;Reload&lt;/button&gt;&lt;/div&gt;;
+    }
+    return this.props.children;
+  }
+}
+
+function App() {
+  return (
+    &lt;ErrorBoundary&gt;
+      &lt;Suspense fallback={&lt;LoadingSpinner /&gt;}&gt;
+        &lt;Dashboard /&gt;
+      &lt;/Suspense&gt;
+    &lt;/ErrorBoundary&gt;
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Route-Based Code Splitting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Lazy load all route components
+const Home = lazy(() => import('./pages/Home'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Settings = lazy(() => import('./pages/Settings'));
+const Admin = lazy(() => import('./pages/Admin'));
+
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Layout&gt;
+        &lt;Suspense fallback={&lt;PageLoader /&gt;}&gt;
+          &lt;Routes&gt;
+            &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+            &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+            &lt;Route path="/profile" element={&lt;Profile /&gt;} /&gt;
+            &lt;Route path="/settings" element={&lt;Settings /&gt;} /&gt;
+            &lt;Route path="/admin/*" element={&lt;Admin /&gt;} /&gt;
+          &lt;/Routes&gt;
+        &lt;/Suspense&gt;
+      &lt;/Layout&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+
+// Webpack magic comments for named chunks
+const Dashboard = lazy(() => 
+  import(/* webpackChunkName: "dashboard" */ './pages/Dashboard')
+);
+
+// Prefetch chunk: downloads in idle time
+const Reports = lazy(() => 
+  import(/* webpackPrefetch: true */ './pages/Reports')
+);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Preloading and Prefetching
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Preload on hover for instant navigation
+const preloadDashboard = () => import('./pages/Dashboard');
+
+function Navigation() {
+  return (
+    &lt;nav&gt;
+      &lt;Link to="/"&gt;Home&lt;/Link&gt;
+      &lt;Link 
+        to="/dashboard"
+        onMouseEnter={preloadDashboard}
+        onFocus={preloadDashboard}
+      &gt;
+        Dashboard
+      &lt;/Link&gt;
+    &lt;/nav&gt;
+  );
+}
+
+// Idle-time prefetching
+function useIdlePrefetch(importFn) {
+  useEffect(() => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => importFn());
+    } else {
+      setTimeout(() => importFn(), 1000);
+    }
+  }, [importFn]);
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Best Practices
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Split routes—biggest impact with least effort</li>
+  <li><b>DO:</b> Use skeleton screens for better perceived performance</li>
+  <li><b>DO:</b> Preload chunks on hover for instant navigation</li>
+  <li><b>DO:</b> Use webpack magic comments for named chunks</li>
+  <li><b>DO:</b> Implement error boundaries for lazy components</li>
+  <li><b>DO:</b> Measure bundle sizes with webpack-bundle-analyzer</li>
+  <li><b>DON'T:</b> Split every component—focus on heavy ones</li>
+  <li><b>DON'T:</b> Create too many tiny chunks (HTTP overhead)</li>
+  <li><b>DON'T:</b> Show generic "Loading..." for long waits</li>
+  <li><b>DON'T:</b> Forget error handling for failed chunk loads</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Route-Based Code Splitting",
+              "Component-Based Lazy Loading",
+              "Modal Dialog with Code Splitting",
+              "Tab Content with Lazy Loading",
+              "Preloading on Hover",
+              "Skeleton Screen Loading State",
+            ],
+            questions: [
+              {
+                question:
+                  "What is code splitting and why is it important for React applications?",
+                answer:
+                  "Code splitting breaks large JavaScript bundles into smaller chunks that are loaded on-demand. Instead of downloading entire app upfront, only necessary code loads initially, with additional code fetched as needed. Benefits: faster initial load time (critical for mobile/slow networks), reduced time-to-interactive, improved Core Web Vitals, better caching (unchanged chunks stay cached), reduced bandwidth usage. Example: without splitting, 2MB bundle takes 6s on 3G; with splitting, 200KB main bundle takes 0.6s—10x improvement. Essential for production apps.",
+              },
+              {
+                question:
+                  "How does React.lazy() work and how do you use it with Suspense?",
+                answer:
+                  "React.lazy() enables lazy loading of components using dynamic import(). Syntax: const Component = lazy(() => import('./Component')). Returns a Promise that resolves to module with default export. Must wrap in Suspense with fallback prop for loading UI. When component renders, React suspends rendering, shows fallback while loading, renders component when loaded. Only works with default exports. Suspense can wrap multiple lazy components. Create separate chunks automatically via bundler (Webpack). Use for routes, heavy components, conditional features.",
+              },
+              {
+                question:
+                  "What is the difference between webpack's prefetch and preload?",
+                answer:
+                  "Prefetch: downloads chunks during idle time for potential future navigation. Use import(/* webpackPrefetch: true */ './Module'). Browser downloads when idle (low priority), useful for likely-needed routes. Preload: downloads chunks immediately, parallel to parent chunk. Use import(/* webpackPreload: true */ './Module'). Higher priority, for chunks needed soon. Prefetch = future navigation optimization (downloads in idle). Preload = current page optimization (downloads immediately). Prefetch is safer—won't slow initial load. Use prefetch for dashboard after login, preload for critical components.",
+              },
+              {
+                question:
+                  "When should you split code at the route level vs component level?",
+                answer:
+                  "Route-level splitting: split by pages/routes—biggest impact, easiest implementation, each route = separate chunk, users only download current route. Best for: different pages, admin sections, feature areas. Component-level splitting: split heavy components within routes—for large libraries (charts, editors, video players), modals/dialogs (only load when opened), tabs (load active tab only), conditional features. Use both: route splitting as baseline, component splitting for heavy pieces within routes. Don't split small components—overhead not worth it. Focus on components >50KB.",
+              },
+              {
+                question:
+                  "How do you handle loading states and errors with lazy loaded components?",
+                answer:
+                  "Wrap lazy components in Suspense with fallback UI (skeleton screens better than spinners). Use ErrorBoundary to catch chunk loading failures (network errors, deleted chunks). Provide retry mechanism—implement custom lazy with retry logic. Show meaningful loading states—skeleton matching final UI, progress indicators for slow loads. Set loading timeouts—show message if exceeds threshold. Handle offline scenarios—check navigator.onLine, show offline UI. Test on throttled network. Example: <ErrorBoundary><Suspense fallback={<Skeleton />}><LazyComponent /></Suspense></ErrorBoundary>.",
+              },
+              {
+                question:
+                  "What are webpack magic comments and how do they help with code splitting?",
+                answer:
+                  "Magic comments control webpack's code splitting behavior via special comments in import(). webpackChunkName: names chunk for debugging (/* webpackChunkName: 'dashboard' */). webpackPrefetch: prefetches during idle time. webpackPreload: preloads immediately. webpackMode: controls loading mode. Benefits: named chunks in DevTools, predictable chunk names, enables prefetch/preload strategies, better debugging. Example: lazy(() => import(/* webpackChunkName: 'admin', webpackPrefetch: true */ './Admin')). Produces admin.chunk.js, prefetches in idle time. Essential for production optimization.",
+              },
+              {
+                question:
+                  "How do you optimize chunk sizes and avoid creating too many small chunks?",
+                answer:
+                  "Configure webpack's splitChunks: set minSize (20KB minimum), maxSize (244KB maximum), control maxAsyncRequests. Balance: too many chunks = HTTP overhead, too few = large downloads. Aim for 10-20 chunks, each 50-200KB. Use webpack-bundle-analyzer to visualize. Group related code—don't split every component. Vendor chunks for third-party libraries. Common chunks for shared code. Route-based chunks as baseline. Monitor chunk count and sizes. Test on real networks. Goal: fast initial load + efficient subsequent navigation.",
+              },
+              {
+                question:
+                  "What is the significance of contenthash in chunk filenames?",
+                answer:
+                  "Contenthash creates unique filenames based on file content (filename: '[name].[contenthash].js'). Same content = same hash = same filename, cached by browser. Changed content = different hash = new filename = cache invalidated. Perfect caching strategy: unchanged chunks stay cached indefinitely, changed chunks get new names and download fresh. Without contenthash: users might get old cached code after updates. With contenthash: automatic cache invalidation only for changed code. Essential for production—enables aggressive caching without stale code issues.",
+              },
+              {
+                question:
+                  "How do you implement preloading for better perceived performance?",
+                answer:
+                  "Preload chunks when user signals intent, before actual navigation. Techniques: 1) Hover preload—import() on mouseEnter/focus, 2) Intersection Observer—preload when link visible, 3) Predictive preload—based on analytics (users visit dashboard 80% after login), 4) Idle time prefetch—requestIdleCallback, 5) Route-based—prefetch likely next routes. Benefits: instant navigation (chunk already loaded), better UX, no waiting. Implementation: store import promise, call on hover, chunk downloads in background, ready when clicked. Measure improvement—track navigation timing before/after.",
+              },
+              {
+                question:
+                  "What are the tradeoffs of code splitting and when might you avoid it?",
+                answer:
+                  "Tradeoffs: added complexity (Suspense, error handling), network overhead for small chunks, potential for loading jank if not handled well, harder debugging (multiple files), requires bundler configuration. Avoid when: app is already small (<200KB), all pages frequently visited, primarily static content, users on fast networks only, team unfamiliar with async patterns. Use when: large app (>500KB), distinct sections/routes, heavy libraries, slow networks common, users don't visit all features. Balance: split routes always, split components selectively, measure impact, optimize hot paths.",
+              },
+              {
+                question:
+                  "How do you debug issues with code splitting and chunk loading?",
+                answer:
+                  "Debugging tools: 1) Network tab—see chunk requests, timing, failures, 2) webpack-bundle-analyzer—visualize chunk sizes, 3) React DevTools—see Suspense boundaries, 4) Chrome Coverage—find unused code, 5) Lighthouse—measure performance impact. Common issues: 404s for chunks (wrong public path), cache issues (old chunks), network failures (timeout/offline), wrong chunk loaded. Solutions: verify publicPath in webpack config, implement retry logic, check browser console for errors, test offline scenarios, use contenthash for cache busting. Monitor chunk load times in production.",
+              },
+              {
+                question:
+                  "What is the relationship between code splitting and tree shaking?",
+                answer:
+                  "Both reduce bundle size but different techniques. Tree shaking: removes unused code from modules during build (static analysis, eliminates dead code). Code splitting: divides code into chunks loaded on-demand (runtime loading, all code eventually available). Use together: tree shaking first removes unused code, then code splitting divides remaining code into chunks. Example: import only needed functions from library (tree shaking), then lazy load library (code splitting). Configure: sideEffects: false in package.json enables aggressive tree shaking. Both essential for optimization.",
+              },
+              {
+                question:
+                  "How do you handle code splitting in server-side rendering (SSR)?",
+                answer:
+                  "SSR + code splitting is complex. Challenges: lazy components don't work server-side (import() is async), need to know which chunks to load, hydration must match server render. Solutions: 1) Use libraries like @loadable/component (SSR-compatible lazy loading), 2) Collect chunks during server render, 3) Include chunk preload tags in HTML, 4) Client hydrates with same chunks. React 18: Suspense works on server (streaming SSR). Alternative: don't split on server, only client-side. Use SSR for critical path, lazy load enhancements client-side.",
+              },
+              {
+                question:
+                  "What metrics should you track to measure code splitting effectiveness?",
+                answer:
+                  "Key metrics: 1) Initial bundle size (main chunk + critical chunks, target <200KB), 2) First Contentful Paint (FCP, target <1.8s), 3) Largest Contentful Paint (LCP, target <2.5s), 4) Time to Interactive (TTI, target <3.8s), 5) Total Blocking Time (TBT), 6) Chunk load times (per route/component), 7) Cache hit rate (for unchanged chunks). Tools: Lighthouse, Web Vitals, webpack-bundle-analyzer, performance.now() for custom timing. Compare before/after splitting. Monitor in production—real user metrics (RUM). Goal: faster initial load, smooth navigation.",
+              },
+              {
+                question:
+                  "How do you implement a retry mechanism for failed chunk loads?",
+                answer:
+                  "Chunks can fail to load due to network issues, deleted files (after deploy), browser extensions. Implement retry: wrap lazy import in Promise with retry logic, exponentially back off (1s, 2s, 4s), limit retries (3 attempts), show error after max retries, provide reload button. Example: lazy(() => retryImport(() => import('./Component'), 3, 1000)). Track failures in analytics—indicates network issues or deploy problems. Cache old chunks temporarily after deploy to prevent errors. Show user-friendly error: 'Loading failed. Check connection and retry.' Essential for production resilience.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/lazy",
+              "https://react.dev/reference/react/Suspense",
+              "https://webpack.js.org/guides/code-splitting/",
+              "https://web.dev/code-splitting-suspense/",
+              "https://developers.google.com/web/fundamentals/performance/optimizing-javascript/code-splitting",
+              "https://loadable-components.com/docs/getting-started/",
+            ],
           },
           {
             topic: "Virtualization",

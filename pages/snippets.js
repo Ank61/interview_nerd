@@ -66,6 +66,12 @@ export default function SnippetsPage() {
       if (topicData) break;
     }
 
+    const iconName = {
+      "System Design": "Database",
+      "Security": "Shield",
+    }[categoryData?.category] || "Code";
+    const HeaderIcon = iconMap[iconName] || Code;
+
     if (!topicData) {
       setSelectedTopic(null);
       return null;
@@ -121,7 +127,7 @@ export default function SnippetsPage() {
                   backgroundColor: categoryData?.lightColor || "#f3f4f6",
                 }}
               >
-                <Code
+                <HeaderIcon
                   className={`w-6 h-6`}
                   style={{ color: categoryData?.textColor || "#374151" }}
                 />
@@ -260,7 +266,11 @@ export default function SnippetsPage() {
               type.concepts.map((concept, conceptIndex) => {
                 const overallIndex =
                   categoryIndex * 100 + typeIndex * 10 + conceptIndex;
-                const IconComponent = iconMap["Database"]; // Default icon
+                const iconName = {
+                  "System Design": "Database",
+                  "Security": "Shield",
+                }[category.category] || "Database";
+                const IconComponent = iconMap[iconName];
                 return (
                   <motion.div
                     key={concept.topic}

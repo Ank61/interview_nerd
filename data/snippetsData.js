@@ -12,7 +12,7 @@ export const snippetsData = [
         label: "SQL vs NoSQL",
         concepts: [
           {
-            topic: "SQL vs NoSQL: Senior-Level Decision Framework",
+            topic: "SQL vs NoSQL",
             tags: ["database", "scalability", "consistency", "architecture"],
             explanation: `<div>
    <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: #4A148C;">Beyond Features: The Constraint-Based Decision Framework</h3>
@@ -307,6 +307,184 @@ INSERT INTO order_items (...) VALUES (...);
           },
         ],
       },
+      {
+        id: 2,
+        label: "Security",
+        concepts: [
+          {
+            topic: "Authentication vs Authorization",
+            tags: ["security", "identity", "oauth", "jwt", "rbac"],
+            explanation: `<div>
+   <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: #0D47A1;">Identity vs Permissions: The Senior Architect's View</h3>
+   
+   <p style="line-height: 1.75; margin-top: 1.5rem; color: #333;">
+     Junior engineers define them. Senior engineers <strong>decouple</strong> them. <br>
+     <strong>Authentication (AuthN)</strong> answers "Who are you?" (Identity). <br>
+     <strong>Authorization (AuthZ)</strong> answers "What can you do?" (Permissions).
+   </p>
+
+   <div style="background: #F9F9F9; padding: 1.5rem; border-radius: 8px; margin-top: 1rem; border-left: 4px solid #0D47A1;">
+     <h5 style="font-weight: 600; color: #0D47A1; margin-bottom: 1rem;">The Decoupling Mandate</h5>
+     <ul style="margin-left: 1.5rem; color: #333;">
+       <li style="margin-top: 0.5rem;"><strong>AuthN belongs at the Edge:</strong> Gateway, Load Balancer, or Sidecar. Verify identity <em>once</em>.</li>
+       <li style="margin-top: 0.5rem;"><strong>AuthZ belongs in the Service (or Policy Engine):</strong> Enforce permissions <em>everywhere</em>, close to the data.</li>
+       <li style="margin-top: 0.5rem;"><strong>The Bridge:</strong> The Identity Token (e.g., JWT) passes the result of AuthN to the AuthZ layer.</li>
+     </ul>
+   </div>
+
+   <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; color: #0D47A1;">Critical Architectural Decisions</h4>
+   
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #0D47A1;">1. Token Strategy: Reference vs. Value</h5>
+   <p style="line-height: 1.75; margin-top: 0.5rem; color: #333;">
+     <strong>Value Tokens (JWT):</strong> Stateless, self-contained. Fast validation. Hard to revoke immediately. <br>
+     <strong>Reference Tokens (Opaque):</strong> Pointer to state in Redis/DB. Immediate revocation possible. Network hop required for validation. <br>
+     <em>Senior Choice:</em> Use short-lived JWTs (5-15 mins) with long-lived Reference Refresh Tokens. Best of both worlds.
+   </p>
+
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #0D47A1;">2. Permission Granularity: RBAC vs. ABAC vs. ReBAC</h5>
+   <ul style="margin-left: 1.5rem; color: #333; margin-top: 0.5rem;">
+     <li style="margin-top: 0.5rem;"><strong>RBAC (Role-Based):</strong> "Admins can delete users." Coarse, easier to audit.</li>
+     <li style="margin-top: 0.5rem;"><strong>ABAC (Attribute-Based):</strong> "Users can delete *their own* posts if created < 24h ago." Dynamic, context-aware.</li>
+     <li style="margin-top: 0.5rem;"><strong>ReBAC (Relationship-Based):</strong> "User can edit document if they are an 'editor' of the 'parent folder'." Graph-based (like Google Zanzibar).</li>
+   </ul>
+
+   <div style="background: #E3F2FD; padding: 1rem; border-radius: 8px; margin-top: 1.5rem;">
+     <h5 style="font-weight: 600; color: #0D47A1;">The "Confused Deputy" Problem</h5>
+     <p style="color: #333; margin-top: 0.5rem;">
+       A common vulnerability where a service performs an action on behalf of a user without checking if the user actually has permission for <em>that specific target</em>. <br>
+       <strong>Fix:</strong> Always pass the original user context (delegation token) and validate AuthZ at the resource access point.
+     </p>
+   </div>
+ </div>`,
+            examples: [
+              `// PATTERN: The Modern Auth Pipeline (Node.js/Express Middleware)
+
+// 1. AuthN Middleware (Runs early, at Gateway or App Entry)
+const authenticate = async (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  
+  if (!token) return res.status(401).json({ error: 'Missing Identity' });
+
+  try {
+    // Verify signature & expiry (Stateless check)
+    // In production, use a JWKS client for key rotation
+    const decoded = jwt.verify(token, process.env.JWT_PUBLIC_KEY);
+    
+    // Attach Identity to Request Context
+    req.user = {
+      id: decoded.sub,
+      roles: decoded.roles, // Claims from Auth Provider
+      // Security Context
+      scp: decoded.scp,
+      iat: decoded.iat
+    };
+    next();
+  } catch (err) {
+    // 401 = "I don't know who you are" or "Your ID is invalid"
+    return res.status(401).json({ error: 'Invalid Token' });
+  }
+};
+
+// 2. AuthZ Middleware (Runs before Controller)
+const requirePermission = (resource, action) => {
+  return (req, res, next) => {
+    const user = req.user;
+    
+    // RBAC Check (Fast, minimal)
+    if (user.roles.includes('admin')) return next();
+    
+    // ABAC/Policy Check (Context-aware)
+    // Could call an external policy engine like OPA here
+    const hasPermission = checkPolicy({
+      subject: user,
+      resource: resource,
+      action: action,
+      environment: { time: Date.now(), ip: req.ip }
+    });
+
+    if (!hasPermission) {
+      // 403 = "I know who you are, but you can't do this"
+      return res.status(403).json({ error: 'Insufficient Privileges' });
+    }
+    
+    next();
+  };
+};
+
+// 3. Usage
+app.delete('/api/reports/:id', 
+  authenticate, 
+  requirePermission('report', 'delete'), 
+  ReportsController.delete
+);`,
+              `// SCENARIO: Handling JWT Revocation (The "Logout" Problem)
+
+/*
+  Problem: JWTs are valid until expiry. How do we ban a user *now*?
+  
+  Solution: The "Allow-list / Block-list" Hybrid cache.
+*/
+
+class TokenService {
+  constructor(redisClient) {
+    this.redis = redisClient;
+  }
+
+  // On Login
+  async createSession(userId) {
+    const sessionId = uuid();
+    const refreshToken = generateOpaqueToken(sessionId);
+    const accessToken = generateJWT({ sub: userId, sid: sessionId }, '15m');
+    
+    // Store Refresh Token in Redis (Stateful)
+    await this.redis.set(\`rt:\${refreshToken}\`, userId, 'EX', 7 * 24 * 3600);
+    
+    return { accessToken, refreshToken };
+  }
+
+  // On Logout / Security Event (e.g., Password Change)
+  async revokeSession(userId, sessionId) {
+    // 1. Kill the long-lived refresh token
+    // (User cannot get NEW access tokens)
+    await this.deleteRefreshTokensForUser(userId);
+    
+    // 2. Blacklist the specific JWT Session ID (jti/sid) until its natural expiry
+    // (Blocks the CURRENT access token immediately)
+    // TTL = Remaining time of the JWT (max 15m)
+    await this.redis.set(\`bl:\${sessionId}\`, 'revoked', 'EX', 15 * 60);
+  }
+
+  // Middleware Check
+  async isTokenRevoked(decodedJwt) {
+    const isBlacklisted = await this.redis.get(\`bl:\${decodedJwt.sid}\`);
+    if (isBlacklisted) throw new Error('Session Revoked');
+    return false;
+  }
+}`
+            ],
+            questions: [
+              {
+                question: "If JWTs are stateless, how do you handle immediate revocation (e.g., banning a fraudulent user)?",
+                solution: "<p><strong>The Senior Answer:</strong> Acknowledge the trade-off. Pure statelessness means you cannot revoke until expiry.<br><br><strong>Strategy 1 (Short Windows):</strong> Use very short JWT lifespans (5 mins). Banning kills the refresh token, resolving the issue in 5 minutes.<br><br><strong>Strategy 2 (Hybrid):</strong> Keep a 'Blocklist' of revoked JTI (JWT IDs) or `iat` (Issued At) timestamps in Redis. Middleware checks this cache. Adds a network hop (latency) but restores control.<br><br><strong>Strategy 3 (The Nuclear Option):</strong> Rotate the signing keys. Invalidates ALL tokens instantly.</p>"
+              },
+              {
+                question: "Explain OAuth 2.0 vs. OpenID Connect (OIDC) to a PM.",
+                solution: "<p><strong>Analogy:</strong><br><strong>OAuth 2.0 is the Valet Key:</strong> It gives someone permission to *drive your car* (access your API) but doesn't tell them *who you are*.<br><strong>OIDC is the Driver's License:</strong> It proves *who you are* (Identity) on top of the permission framework.<br><br><strong>Technical:</strong> OAuth produces an Access Token (for AuthZ). OIDC produces an ID Token (for AuthN).</p>"
+              },
+              {
+                question: "When would you choose ABAC (Attribute-Based) over RBAC (Role-Based)?",
+                solution: "<p><strong>RBAC</strong> is for clear-cut hierarchy (Admin, Editor, Viewer). It fails when rules depend on the <em>state</em> or <em>relationship</em> of data.<br><br><strong>Choose ABAC when:</strong><br>1. Permission depends on asset ownership ('Owner only').<br>2. Environment matters ('Access allowed only from VPN IP').<br>3. Dynamic limits ('Can only export 5 reports per day').<br><br><strong>Trade-off:</strong> ABAC is harder to audit ('Who can access X?' requires evaluating every rule) and more complex to implement.</p>"
+              }
+            ],
+            links: [
+              "https://auth0.com/blog/authentication-vs-authorization-vs-access-control/",
+              "https://oauth.net/2/",
+              "https://jwt.io/introduction",
+              "https://research.google/pubs/pub48190/ (Zanzibar: Google's Consistent Global Authorization System)"
+            ]
+          }
+        ]
+      }
     ],
   },
 ];
