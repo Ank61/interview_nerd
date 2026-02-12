@@ -42743,9 +42743,9 @@ function LoginForm() {
                 "type": "node",
                 "request": "launch",
                 "name": "Jest Current File",
-                "program": "${workspaceFolder}/node_modules/.bin/jest",
+                "program": "$ {workspaceFolder}/node_modules/.bin/jest",
                 "args": [
-                  "${fileBasename}",
+                  "$ {fileBasename}",
                   "--config",
                   "jest.config.js"
                 ],
