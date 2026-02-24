@@ -32790,7 +32790,7 @@ contextProvider={LegacyContext.Provider}
 
         // Loader function - runs before component renders
         async function userLoader({ params }) {
-          const response = await fetch(\`/api/users/\${params.userId}\`);
+          const response = await fetch(\`/api/users/\$ { params.userId}\`);
           
           if (!response.ok) {
             throw new Response('User not found', { status: 404 });
@@ -32884,13 +32884,13 @@ contextProvider={LegacyContext.Provider}
 
         async function tasksLoader({ params }) {
           // params.projectId available from parent route
-          return fetch(\`/api/projects/\${params.projectId}/tasks\`).then(r => r.json());
+          return fetch(\`/api/projects/\$ { params.projectId}/tasks\`).then(r => r.json());
         }
 
         // Error handling in loaders
         async function userLoader({ params }) {
           try {
-            const response = await fetch(\`/api/users/\${params.userId}\`);
+            const response = await fetch(\`/api/users/\$ { params.userId}\`);
             
             if (!response.ok) {
               throw new Response('Not Found', { status: 404 });
@@ -32994,7 +32994,7 @@ contextProvider={LegacyContext.Provider}
 
         // Advanced: Edit with loader and action
         async function editPostLoader({ params }) {
-          const response = await fetch(\`/api/posts/\${params.postId}\`);
+          const response = await fetch(\`/api/posts/\$ { params.postId}\`);
           return response.json();
         }
 
@@ -33005,13 +33005,13 @@ contextProvider={LegacyContext.Provider}
             content: formData.get('content')
           };
           
-          await fetch(\`/api/posts/\${params.postId}\`, {
+          await fetch(\`/api/posts/\$ { params.postId}\`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updates)
           });
           
-          return redirect(\`/posts/\${params.postId}\`);
+          return redirect(\`/posts/\$ { params.postId}\`);
         }
 
         function EditPost() {
@@ -33029,7 +33029,7 @@ contextProvider={LegacyContext.Provider}
 
         // Delete action
         async function deletePostAction({ params }) {
-          await fetch(\`/api/posts/\${params.postId}\`, { method: 'DELETE' });
+          await fetch(\`/api/posts/\$ { params.postId}\`, { method: 'DELETE' });
           return redirect('/posts');
         }
 
@@ -33055,15 +33055,15 @@ contextProvider={LegacyContext.Provider}
           
           switch (intent) {
             case 'delete':
-              await fetch(\`/api/posts/\${params.postId}\`, { method: 'DELETE' });
+              await fetch(\`/api/posts/\$ { params.postId}\`, { method: 'DELETE' });
               return redirect('/posts');
               
             case 'publish':
-              await fetch(\`/api/posts/\${params.postId}/publish\`, { method: 'POST' });
+              await fetch(\`/api/posts/\$ { params.postId}/publish\`, { method: 'POST' });
               return { success: true };
               
             case 'unpublish':
-              await fetch(\`/api/posts/\${params.postId}/unpublish\`, { method: 'POST' });
+              await fetch(\`/api/posts/\$ { params.postId}/unpublish\`, { method: 'POST' });
               return { success: true };
               
             default:
@@ -33779,7 +33779,7 @@ contextProvider={LegacyContext.Provider}
           const optimisticUpdate = { liked: true };
           
           try {
-            await fetch(\\ /api/posts/\\$ {params.postId}/like\\, { method: 'POST' });
+            await fetch(\\ /api/posts/\\$ { params.postId}/like\\, { method: 'POST' });
             return { success: true };
           } catch (error) {
             // Revert on error
@@ -33952,7 +33952,7 @@ contextProvider={LegacyContext.Provider}
 
         // Error throwing in loaders
         async function userLoader({ params }) {
-          const response = await fetch(\\ /api/users/\\$ {params.userId}\\);
+          const response = await fetch(\\ /api/users/\\$ { params.userId}\\);
           
           if (response.status === 404) {
             throw new Response('User not found', { status: 404 });
@@ -43513,43 +43513,8148 @@ function LoginForm() {
           },
           {
             topic: "React Testing Library",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "React Testing Library",
+              "Component Testing",
+              "User Events",
+              "Queries",
+              "Accessibility",
+              "Async Testing",
+              "Custom Renders",
+              "Hooks Testing",
+              "Integration Testing",
+              "DOM Testing",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+React Testing Library (RTL) is a lightweight testing utility built on top of DOM Testing Library that encourages testing React components the way users interact with them — through the DOM, not implementation details. Rather than testing internal state, props, or component instances, RTL promotes querying elements by accessible roles, labels, text, and test IDs, resulting in tests that are more resilient to refactors and more accurately reflect real user behavior. RTL is the de facto standard for React component testing, works seamlessly with Jest, and integrates tightly with accessibility best practices. It ships with utilities for rendering components, querying the DOM, firing events, and waiting for async updates, and pairs with @testing-library/user-event for realistic browser-like interactions.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Setup and Installation
+</h4>
+
+<p style="line-height: 1.75;">
+React Testing Library integrates with Create React App out of the box, and can be added to any React project with minimal configuration.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Installation
+// npm install --save-dev @testing-library/react @testing-library/jest-dom @testing-library/user-event
+
+// jest.config.js
+module.exports = {
+  testEnvironment: 'jsdom', // Required for browser-like environment
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+};
+
+// jest.setup.js - global setup
+import '@testing-library/jest-dom';
+// This adds custom matchers like toBeInTheDocument, toHaveTextContent, etc.
+
+// Basic test file structure
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+
+// Simple component
+function Greeting({ name }) {
+  return <h1>Hello, {name}!</h1>;
+}
+
+// Basic test
+test('renders greeting', () => {
+  render(<Greeting name="World" />);
+  expect(screen.getByText('Hello, World!')).toBeInTheDocument();
+});
+
+// What RTL gives you:
+// - render() - renders component into jsdom
+// - screen - queries against the rendered DOM
+// - fireEvent - simulate DOM events
+// - waitFor - wait for async changes
+// - within - scope queries to a container
+// - cleanup - auto-called after each test
+
+// RTL Philosophy:
+// ✅ Test what users see and do
+// ✅ Query by accessible roles, labels, text
+// ✅ Test behavior, not implementation
+// ❌ Don't access component instance or state
+// ❌ Don't test internal React state directly
+// ❌ Don't use enzyme-style shallow rendering
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Queries – Finding Elements
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// === Query Priority (use highest priority first) ===
+// 1. getByRole         - best for accessibility
+// 2. getByLabelText    - for form inputs
+// 3. getByPlaceholderText
+// 4. getByText         - non-interactive text
+// 5. getByDisplayValue - current value of form elements
+// 6. getByAltText      - images
+// 7. getByTitle        - title attribute
+// 8. getByTestId       - last resort, use data-testid
+
+// === Query Variants ===
+// getBy*    - throws if not found or multiple found
+// queryBy*  - returns null if not found (no throw)
+// findBy*   - async, waits for element (returns Promise)
+
+// getAllBy*  - returns array, throws if none found
+// queryAllBy* - returns array, empty array if none
+// findAllBy*  - async, returns array
+
+// === getByRole (preferred) ===
+render(
+  <div>
+    <button>Submit</button>
+    <input type="text" />
+    <input type="checkbox" />
+    <h1>Title</h1>
+    <nav>Navigation</nav>
+    <img alt="Logo" />
+    <a href="/">Link</a>
+  </div>
+);
+
+screen.getByRole('button', { name: 'Submit' });
+screen.getByRole('textbox');
+screen.getByRole('checkbox');
+screen.getByRole('heading', { level: 1 });
+screen.getByRole('navigation');
+screen.getByRole('img', { name: 'Logo' });
+screen.getByRole('link', { name: 'Link' });
+
+// Exact option
+screen.getByRole('button', { name: 'Submit', exact: true });
+
+// Hidden elements
+screen.getByRole('dialog', { hidden: true });
+
+// Common ARIA roles:
+// button, link, textbox, checkbox, radio, combobox,
+// listbox, option, menuitem, tab, tabpanel,
+// heading, img, table, row, cell, dialog,
+// alert, status, progressbar, slider, spinbutton
+
+// === getByLabelText (forms) ===
+render(
+  <div>
+    <label htmlFor="email">Email</label>
+    <input id="email" type="email" />
+    
+    <label>
+      Password
+      <input type="password" />
+    </label>
+    
+    <input aria-label="Search" type="text" />
+    <input aria-labelledby="label-id" type="text" />
+    <span id="label-id">Username</span>
+  </div>
+);
+
+screen.getByLabelText('Email');
+screen.getByLabelText('Password');
+screen.getByLabelText('Search');
+screen.getByLabelText('Username');
+
+// === getByText ===
+render(<p>Hello <strong>World</strong></p>);
+
+screen.getByText('Hello World');              // full text content
+screen.getByText(/hello/i);                  // regex, case-insensitive
+screen.getByText('World', { exact: false }); // partial match
+
+// Selector option
+screen.getByText('Submit', { selector: 'button' });
+
+// === getByPlaceholderText ===
+render(<input placeholder="Enter your name" />);
+screen.getByPlaceholderText('Enter your name');
+screen.getByPlaceholderText(/your name/i);
+
+// === getByDisplayValue ===
+render(<input value="John" readOnly />);
+screen.getByDisplayValue('John');
+
+render(
+  <select>
+    <option value="us">United States</option>
+    <option value="ca" selected>Canada</option>
+  </select>
+);
+screen.getByDisplayValue('Canada');
+
+// === getByTestId (last resort) ===
+render(<div data-testid="custom-element">Content</div>);
+screen.getByTestId('custom-element');
+
+// === queryBy (no throw when missing) ===
+const button = screen.queryByText('Optional Button');
+if (button) {
+  // Use conditionally
+}
+
+// Check element is NOT present
+expect(screen.queryByText('Error')).not.toBeInTheDocument();
+
+// === findBy (async) ===
+test('async element', async () => {
+  render(<AsyncComponent />);
+  const element = await screen.findByText('Loaded!');
+  expect(element).toBeInTheDocument();
+});
+
+// findBy accepts timeout option
+const element = await screen.findByRole('alert', {}, { timeout: 3000 });
+
+// === getAllBy / queryAllBy ===
+render(
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ul>
+);
+
+const items = screen.getAllByRole('listitem');
+expect(items).toHaveLength(3);
+
+// No matches returns empty array
+const divs = screen.queryAllByRole('dialog');
+expect(divs).toHaveLength(0);
+
+// === within (scoped queries) ===
+import { within } from '@testing-library/react';
+
+render(
+  <div>
+    <section data-testid="user-info">
+      <p>John Doe</p>
+    </section>
+    <section data-testid="product-info">
+      <p>Product Name</p>
+    </section>
+  </div>
+);
+
+const userSection = screen.getByTestId('user-info');
+expect(within(userSection).getByText('John Doe')).toBeInTheDocument();
+// Won't accidentally find 'Product Name' in the user section
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. User Events and Interactions
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// === userEvent (preferred over fireEvent) ===
+// userEvent simulates realistic browser events
+// fireEvent dispatches a single DOM event
+
+import userEvent from '@testing-library/user-event';
+
+// IMPORTANT: Always use userEvent.setup() in v14+
+const user = userEvent.setup();
+
+// === Clicking ===
+test('button click', async () => {
+  const handleClick = jest.fn();
+  render(<button onClick={handleClick}>Click me</button>);
+  
+  await user.click(screen.getByRole('button'));
+  
+  expect(handleClick).toHaveBeenCalledTimes(1);
+});
+
+// Double click
+await user.dblClick(screen.getByRole('button'));
+
+// Right click
+await user.pointer({ keys: '[MouseRight]', target: element });
+
+// Click with modifiers
+await user.keyboard('{Shift>}');
+await user.click(element);
+await user.keyboard('{/Shift}');
+
+// === Typing ===
+test('typing into input', async () => {
+  render(<input type="text" />);
+  
+  const input = screen.getByRole('textbox');
+  
+  // Type text (appends to existing value)
+  await user.type(input, 'Hello World');
+  
+  expect(input).toHaveValue('Hello World');
+});
+
+// Clear and type
+await user.clear(input);
+await user.type(input, 'New Value');
+
+// Type with special characters
+await user.type(input, 'Hello{enter}'); // press Enter
+await user.type(input, '{backspace}');  // press Backspace
+await user.type(input, '{selectall}');  // select all
+
+// Keyboard shortcuts
+await user.keyboard('{Control>}a{/Control}'); // Ctrl+A
+await user.keyboard('{Meta>}v{/Meta}');       // Cmd+V (Mac)
+
+// === Form Interactions ===
+test('form submission', async () => {
+  const handleSubmit = jest.fn(e => e.preventDefault());
+  
+  render(
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="name">Name</label>
+      <input id="name" type="text" />
+      <label htmlFor="email">Email</label>
+      <input id="email" type="email" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+  
+  await user.type(screen.getByLabelText('Name'), 'John Doe');
+  await user.type(screen.getByLabelText('Email'), 'john@example.com');
+  await user.click(screen.getByRole('button', { name: 'Submit' }));
+  
+  expect(handleSubmit).toHaveBeenCalledTimes(1);
+});
+
+// === Select Dropdown ===
+test('select option', async () => {
+  render(
+    <select>
+      <option value="">Choose...</option>
+      <option value="us">United States</option>
+      <option value="ca">Canada</option>
+    </select>
+  );
+  
+  await user.selectOptions(
+    screen.getByRole('combobox'),
+    screen.getByRole('option', { name: 'Canada' })
+  );
+  
+  expect(screen.getByRole('combobox')).toHaveValue('ca');
+});
+
+// Deselect (multi-select)
+await user.deselectOptions(select, ['option1', 'option2']);
+
+// === Checkbox & Radio ===
+test('checkbox', async () => {
+  render(<input type="checkbox" />);
+  
+  const checkbox = screen.getByRole('checkbox');
+  
+  expect(checkbox).not.toBeChecked();
+  
+  await user.click(checkbox);
+  expect(checkbox).toBeChecked();
+  
+  await user.click(checkbox);
+  expect(checkbox).not.toBeChecked();
+});
+
+test('radio buttons', async () => {
+  render(
+    <>
+      <input type="radio" name="color" value="red" id="red" />
+      <label htmlFor="red">Red</label>
+      <input type="radio" name="color" value="blue" id="blue" />
+      <label htmlFor="blue">Blue</label>
+    </>
+  );
+  
+  await user.click(screen.getByLabelText('Red'));
+  expect(screen.getByLabelText('Red')).toBeChecked();
+  expect(screen.getByLabelText('Blue')).not.toBeChecked();
+  
+  await user.click(screen.getByLabelText('Blue'));
+  expect(screen.getByLabelText('Blue')).toBeChecked();
+});
+
+// === Hover / Focus ===
+test('hover tooltip', async () => {
+  render(
+    <div>
+      <button data-testid="trigger">Hover me</button>
+      <span role="tooltip" hidden>Tooltip content</span>
+    </div>
+  );
+  
+  await user.hover(screen.getByTestId('trigger'));
+  // Tooltip visible after hover
+  
+  await user.unhover(screen.getByTestId('trigger'));
+});
+
+test('focus and blur', async () => {
+  const handleBlur = jest.fn();
+  render(<input onBlur={handleBlur} />);
+  
+  const input = screen.getByRole('textbox');
+  
+  await user.click(input);   // focuses
+  await user.tab();          // moves focus to next element
+  
+  expect(handleBlur).toHaveBeenCalled();
+});
+
+// === Tab Navigation ===
+test('tab order', async () => {
+  render(
+    <>
+      <input id="first" />
+      <input id="second" />
+      <button id="third">Submit</button>
+    </>
+  );
+  
+  await user.tab();
+  expect(document.getElementById('first')).toHaveFocus();
+  
+  await user.tab();
+  expect(document.getElementById('second')).toHaveFocus();
+  
+  await user.tab();
+  expect(document.getElementById('third')).toHaveFocus();
+  
+  // Shift+Tab goes backwards
+  await user.tab({ shift: true });
+  expect(document.getElementById('second')).toHaveFocus();
+});
+
+// === File Upload ===
+test('file upload', async () => {
+  render(<input type="file" accept="image/*" />);
+  
+  const file = new File(['hello'], 'hello.png', { type: 'image/png' });
+  const input = screen.getByRole('button');
+  
+  await user.upload(input, file);
+  
+  expect(input.files[0]).toBe(file);
+  expect(input.files).toHaveLength(1);
+});
+
+// Multiple files
+await user.upload(input, [file1, file2]);
+
+// === Paste ===
+test('paste text', async () => {
+  render(<input type="text" />);
+  
+  await user.click(screen.getByRole('textbox'));
+  await user.paste('Pasted text');
+  
+  expect(screen.getByRole('textbox')).toHaveValue('Pasted text');
+});
+
+// === fireEvent (low-level, use when userEvent overkill) ===
+import { fireEvent } from '@testing-library/react';
+
+fireEvent.click(element);
+fireEvent.change(input, { target: { value: 'new value' } });
+fireEvent.submit(form);
+fireEvent.keyDown(element, { key: 'Enter', code: 'Enter' });
+fireEvent.focus(input);
+fireEvent.blur(input);
+fireEvent.mouseOver(element);
+fireEvent.scroll(window, { target: { scrollY: 100 } });
+
+// Custom events
+fireEvent(element, new MouseEvent('click', { bubbles: true }));
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. jest-dom Matchers
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Requires: import '@testing-library/jest-dom'
+// Or: setupFilesAfterEnv: ['@testing-library/jest-dom']
+
+// === Presence / Visibility ===
+
+// Element is in the DOM
+expect(element).toBeInTheDocument();
+expect(element).not.toBeInTheDocument();
+
+// Element is visible to the user (not hidden, not display:none, etc.)
+expect(element).toBeVisible();
+expect(element).not.toBeVisible();
+
+// === Content ===
+
+// Text content
+expect(element).toHaveTextContent('Hello World');
+expect(element).toHaveTextContent(/hello/i);
+expect(element).toHaveTextContent('Hello', { normalizeWhitespace: true });
+
+// Accessible name (label, aria-label, aria-labelledby, etc.)
+expect(button).toHaveAccessibleName('Submit');
+expect(input).toHaveAccessibleName('Email Address');
+
+// Accessible description
+expect(element).toHaveAccessibleDescription('Required field');
+
+// === Form State ===
+
+// Input value
+expect(input).toHaveValue('John');
+expect(input).toHaveValue(42);           // number inputs
+expect(select).toHaveValue('option-1');
+
+// Checked state (checkbox/radio)
+expect(checkbox).toBeChecked();
+expect(radio).not.toBeChecked();
+
+// Indeterminate
+expect(checkbox).toBePartiallyChecked();
+
+// Disabled / Enabled
+expect(button).toBeDisabled();
+expect(button).toBeEnabled();
+expect(input).not.toBeDisabled();
+
+// Required
+expect(input).toBeRequired();
+expect(input).not.toBeRequired();
+
+// Valid / Invalid
+expect(input).toBeValid();
+expect(input).toBeInvalid();
+
+// Focus
+expect(input).toHaveFocus();
+expect(input).not.toHaveFocus();
+
+// === Attributes and Styles ===
+
+// HTML attributes
+expect(link).toHaveAttribute('href', '/about');
+expect(button).toHaveAttribute('type', 'submit');
+expect(img).toHaveAttribute('alt', 'Logo');
+
+// Just presence of attribute
+expect(input).toHaveAttribute('disabled');
+expect(input).not.toHaveAttribute('readonly');
+
+// CSS classes
+expect(element).toHaveClass('active');
+expect(element).toHaveClass('btn', 'btn-primary');
+expect(element).not.toHaveClass('hidden');
+
+// Exact class match
+expect(element).toHaveClass('btn active', { exact: true });
+
+// Inline styles
+expect(element).toHaveStyle({ color: 'red' });
+expect(element).toHaveStyle('display: none');
+expect(element).toHaveStyle({ display: 'flex', flexDirection: 'column' });
+
+// === Display Value ===
+
+// Currently displayed value
+expect(select).toHaveDisplayValue('Canada');
+expect(input).toHaveDisplayValue('John Doe');
+
+// === Error Message ===
+
+// aria-errormessage
+expect(input).toHaveErrorMessage('Email is required');
+
+// === Examples ===
+
+test('form validation display', () => {
+  render(
+    <form>
+      <label htmlFor="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        required
+        aria-invalid="true"
+        aria-errormessage="email-error"
+      />
+      <span id="email-error" role="alert">Invalid email address</span>
+    </form>
+  );
+  
+  const input = screen.getByLabelText('Email');
+  const error = screen.getByRole('alert');
+  
+  expect(input).toBeRequired();
+  expect(input).toBeInvalid();
+  expect(input).toHaveErrorMessage('Invalid email address');
+  expect(error).toBeInTheDocument();
+  expect(error).toHaveTextContent('Invalid email address');
+});
+
+test('styled button', () => {
+  render(
+    <button className="btn btn-primary" disabled style={{ color: 'white' }}>
+      Submit
+    </button>
+  );
+  
+  const button = screen.getByRole('button', { name: 'Submit' });
+  
+  expect(button).toBeDisabled();
+  expect(button).toHaveClass('btn', 'btn-primary');
+  expect(button).toHaveStyle({ color: 'white' });
+  expect(button).toHaveTextContent('Submit');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Async Testing and waitFor
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+
+// === waitFor ===
+// Retries callback until no error thrown or timeout reached
+// Default timeout: 1000ms, interval: 50ms
+
+test('async state update', async () => {
+  render(<AsyncCounter />);
+  
+  await waitFor(() => {
+    expect(screen.getByText('Count: 5')).toBeInTheDocument();
+  });
+});
+
+// Multiple assertions in waitFor
+await waitFor(() => {
+  expect(screen.getByText('Success')).toBeInTheDocument();
+  expect(screen.queryByText('Loading')).not.toBeInTheDocument();
+});
+
+// Custom timeout
+await waitFor(
+  () => expect(screen.getByText('Loaded')).toBeInTheDocument(),
+  { timeout: 3000, interval: 100 }
+);
+
+// === findBy (shorthand for waitFor + getBy) ===
+
+// This:
+const element = await screen.findByText('Loaded');
+
+// Is equivalent to:
+const element = await waitFor(() => screen.getByText('Loaded'));
+
+// findBy accepts query options + waitFor options
+const el = await screen.findByRole('alert', {}, { timeout: 3000 });
+
+// === waitForElementToBeRemoved ===
+
+test('loading spinner removed', async () => {
+  render(<DataLoader />);
+  
+  // Element must be present before calling waitForElementToBeRemoved
+  expect(screen.getByText('Loading...')).toBeInTheDocument();
+  
+  await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
+  
+  expect(screen.getByText('Data loaded!')).toBeInTheDocument();
+});
+
+// Can also pass element directly
+const spinner = screen.getByRole('progressbar');
+await waitForElementToBeRemoved(spinner);
+
+// === Testing Async Data Fetching ===
+
+// Mock the fetch
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    fetch(\`/api/users/\${userId}\`)
+      .then(res => res.json())
+      .then(data => { setUser(data); setLoading(false); })
+      .catch(err => { setError(err.message); setLoading(false); });
+  }, [userId]);
+  
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  return <div>{user.name}</div>;
+}
+
+test('loads and displays user', async () => {
+  global.fetch = jest.fn().mockResolvedValue({
+    json: () => Promise.resolve({ id: 1, name: 'John Doe' })
+  });
+  
+  render(<UserProfile userId={1} />);
+  
+  // Loading state
+  expect(screen.getByText('Loading...')).toBeInTheDocument();
+  
+  // Wait for data
+  expect(await screen.findByText('John Doe')).toBeInTheDocument();
+  
+  // Loading removed
+  expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+});
+
+test('handles fetch error', async () => {
+  global.fetch = jest.fn().mockRejectedValue(new Error('Network error'));
+  
+  render(<UserProfile userId={1} />);
+  
+  expect(await screen.findByText('Error: Network error')).toBeInTheDocument();
+});
+
+// === Async with MSW (Mock Service Worker) ===
+// Recommended for more realistic API mocking
+
+import { setupServer } from 'msw/node';
+import { rest } from 'msw';
+
+const server = setupServer(
+  rest.get('/api/users/:id', (req, res, ctx) => {
+    return res(ctx.json({ id: 1, name: 'John' }));
+  })
+);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+test('fetches user from server', async () => {
+  render(<UserProfile userId={1} />);
+  
+  expect(await screen.findByText('John')).toBeInTheDocument();
+});
+
+// Override handler for specific test
+test('handles server error', async () => {
+  server.use(
+    rest.get('/api/users/:id', (req, res, ctx) => {
+      return res(ctx.status(500), ctx.json({ error: 'Server Error' }));
+    })
+  );
+  
+  render(<UserProfile userId={1} />);
+  
+  expect(await screen.findByText(/error/i)).toBeInTheDocument();
+});
+
+// === act() ===
+// RTL wraps events in act() automatically
+// Only needed for manual state updates
+
+import { act } from '@testing-library/react';
+
+test('manual act wrapping', async () => {
+  render(<Counter />);
+  
+  // All userEvent and fireEvent calls are wrapped in act() automatically
+  // Use act() only for non-RTL state changes:
+  
+  await act(async () => {
+    // Manual async state update outside of user interactions
+    await someExternalStateUpdate();
+  });
+  
+  expect(screen.getByText('Updated')).toBeInTheDocument();
+});
+
+// === Testing Polling / Intervals ===
+test('polling component', async () => {
+  jest.useFakeTimers();
+  
+  global.fetch = jest.fn()
+    .mockResolvedValueOnce({ json: () => Promise.resolve({ status: 'pending' }) })
+    .mockResolvedValueOnce({ json: () => Promise.resolve({ status: 'done' }) });
+  
+  render(<PollingStatus jobId="123" />);
+  
+  expect(await screen.findByText('pending')).toBeInTheDocument();
+  
+  act(() => jest.advanceTimersByTime(5000)); // Advance polling interval
+  
+  expect(await screen.findByText('done')).toBeInTheDocument();
+  
+  jest.useRealTimers();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Testing Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { renderHook, act } from '@testing-library/react';
+
+// === renderHook ===
+
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+  
+  const increment = useCallback(() => setCount(c => c + 1), []);
+  const decrement = useCallback(() => setCount(c => c - 1), []);
+  const reset = useCallback(() => setCount(initialValue), [initialValue]);
+  
+  return { count, increment, decrement, reset };
+}
+
+test('useCounter initializes correctly', () => {
+  const { result } = renderHook(() => useCounter(10));
+  expect(result.current.count).toBe(10);
+});
+
+test('useCounter increments', () => {
+  const { result } = renderHook(() => useCounter());
+  
+  act(() => {
+    result.current.increment();
+  });
+  
+  expect(result.current.count).toBe(1);
+});
+
+test('useCounter multiple operations', () => {
+  const { result } = renderHook(() => useCounter(5));
+  
+  act(() => {
+    result.current.increment();
+    result.current.increment();
+    result.current.decrement();
+  });
+  
+  expect(result.current.count).toBe(6);
+});
+
+// === Testing hook with props ===
+
+function useMultiplier(value, multiplier) {
+  return useMemo(() => value * multiplier, [value, multiplier]);
+}
+
+test('hook with initial props', () => {
+  const { result } = renderHook(
+    ({ value, multiplier }) => useMultiplier(value, multiplier),
+    { initialProps: { value: 5, multiplier: 3 } }
+  );
+  
+  expect(result.current).toBe(15);
+});
+
+// === rerender (update hook props) ===
+
+test('hook rerenders with new props', () => {
+  const { result, rerender } = renderHook(
+    ({ value, multiplier }) => useMultiplier(value, multiplier),
+    { initialProps: { value: 5, multiplier: 3 } }
+  );
+  
+  expect(result.current).toBe(15);
+  
+  rerender({ value: 5, multiplier: 4 });
+  
+  expect(result.current).toBe(20);
+});
+
+// === Testing async hooks ===
+
+function useFetchUser(id) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    fetchUser(id).then(data => {
+      setUser(data);
+      setLoading(false);
+    });
+  }, [id]);
+  
+  return { user, loading };
+}
+
+test('async hook loads data', async () => {
+  global.fetchUser = jest.fn().mockResolvedValue({ id: 1, name: 'John' });
+  
+  const { result } = renderHook(() => useFetchUser(1));
+  
+  expect(result.current.loading).toBe(true);
+  expect(result.current.user).toBeNull();
+  
+  await waitFor(() => {
+    expect(result.current.loading).toBe(false);
+  });
+  
+  expect(result.current.user).toEqual({ id: 1, name: 'John' });
+});
+
+// === Testing hook with context ===
+
+const ThemeContext = React.createContext({ color: 'blue' });
+
+function useTheme() {
+  return useContext(ThemeContext);
+}
+
+test('hook with context', () => {
+  const wrapper = ({ children }) => (
+    <ThemeContext.Provider value={{ color: 'red' }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+  
+  const { result } = renderHook(() => useTheme(), { wrapper });
+  
+  expect(result.current.color).toBe('red');
+});
+
+// === unmount ===
+
+test('hook cleanup on unmount', () => {
+  const cleanup = jest.fn();
+  
+  function useCleanup() {
+    useEffect(() => {
+      return cleanup; // cleanup function
+    }, []);
+  }
+  
+  const { unmount } = renderHook(() => useCleanup());
+  
+  expect(cleanup).not.toHaveBeenCalled();
+  
+  unmount();
+  
+  expect(cleanup).toHaveBeenCalledTimes(1);
+});
+
+// === Testing hook errors ===
+
+function useDivide(a, b) {
+  if (b === 0) throw new Error('Cannot divide by zero');
+  return a / b;
+}
+
+test('hook throws error', () => {
+  // Suppress console.error for expected error
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+  
+  expect(() => {
+    renderHook(() => useDivide(5, 0));
+  }).toThrow('Cannot divide by zero');
+  
+  console.error.mockRestore();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Testing Context, Providers, and Redux
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// === Testing Context ===
+
+const AuthContext = React.createContext();
+
+function useAuth() {
+  return useContext(AuthContext);
+}
+
+function AuthProvider({ children, value }) {
+  const [user, setUser] = useState(value?.user || null);
+  
+  const login = (userData) => setUser(userData);
+  const logout = () => setUser(null);
+  
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+function UserGreeting() {
+  const { user, logout } = useAuth();
+  
+  if (!user) return <p>Please log in</p>;
+  
+  return (
+    <div>
+      <p>Welcome, {user.name}!</p>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+}
+
+test('shows login prompt when no user', () => {
+  render(
+    <AuthProvider>
+      <UserGreeting />
+    </AuthProvider>
+  );
+  
+  expect(screen.getByText('Please log in')).toBeInTheDocument();
+});
+
+test('shows greeting when logged in', () => {
+  render(
+    <AuthProvider value={{ user: { name: 'John' } }}>
+      <UserGreeting />
+    </AuthProvider>
+  );
+  
+  expect(screen.getByText('Welcome, John!')).toBeInTheDocument();
+});
+
+test('logout button clears user', async () => {
+  render(
+    <AuthProvider value={{ user: { name: 'John' } }}>
+      <UserGreeting />
+    </AuthProvider>
+  );
+  
+  await userEvent.setup().click(screen.getByRole('button', { name: 'Logout' }));
+  
+  expect(screen.getByText('Please log in')).toBeInTheDocument();
+});
+
+// === Custom Render with Providers ===
+// Define once, import everywhere
+
+import { render } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+function AllTheProviders({ children, options = {} }) {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } }
+  });
+  
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState: options.preloadedState
+  });
+  
+  return (
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={options.initialRoute ? [options.initialRoute] : ['/']}>
+          {children}
+        </MemoryRouter>
+      </QueryClientProvider>
+    </Provider>
+  );
+}
+
+const customRender = (ui, options = {}) =>
+  render(ui, { wrapper: (props) => <AllTheProviders {...props} options={options} />, ...options });
+
+// Re-export everything
+export * from '@testing-library/react';
+export { customRender as render };
+
+// Usage in tests
+import { render, screen } from './test-utils';
+
+test('component with all providers', () => {
+  render(<MyComponent />, {
+    preloadedState: { auth: { user: { name: 'John' } } },
+    initialRoute: '/dashboard'
+  });
+  
+  expect(screen.getByText('John')).toBeInTheDocument();
+});
+
+// === Testing Redux ===
+
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+function Counter() {
+  const count = useSelector(state => state.counter.value);
+  const dispatch = useDispatch();
+  
+  return (
+    <div>
+      <button onClick={() => dispatch(decrement())}>-</button>
+      <span>{count}</span>
+      <button onClick={() => dispatch(increment())}>+</button>
+    </div>
+  );
+}
+
+function renderWithStore(ui, { preloadedState, ...options } = {}) {
+  const store = configureStore({
+    reducer: { counter: counterReducer },
+    preloadedState
+  });
+  
+  return {
+    store,
+    ...render(<Provider store={store}>{ui}</Provider>, options)
+  };
+}
+
+test('counter with initial state', async () => {
+  const { store } = renderWithStore(<Counter />, {
+    preloadedState: { counter: { value: 5 } }
+  });
+  
+  expect(screen.getByText('5')).toBeInTheDocument();
+  
+  await userEvent.setup().click(screen.getByRole('button', { name: '+' }));
+  
+  expect(screen.getByText('6')).toBeInTheDocument();
+  expect(store.getState().counter.value).toBe(6);
+});
+
+// === Testing React Router ===
+
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/users/:id" element={<UserDetail />} />
+    </Routes>
+  );
+}
+
+test('renders home route', () => {
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <App />
+    </MemoryRouter>
+  );
+  
+  expect(screen.getByText('Home Page')).toBeInTheDocument();
+});
+
+test('renders about route', () => {
+  render(
+    <MemoryRouter initialEntries={['/about']}>
+      <App />
+    </MemoryRouter>
+  );
+  
+  expect(screen.getByText('About Page')).toBeInTheDocument();
+});
+
+test('navigates on link click', async () => {
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <App />
+    </MemoryRouter>
+  );
+  
+  await userEvent.setup().click(screen.getByRole('link', { name: 'About' }));
+  
+  expect(screen.getByText('About Page')).toBeInTheDocument();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Testing Patterns for Common Scenarios
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// === Modal / Dialog ===
+
+function ConfirmDialog({ onConfirm, onCancel }) {
+  return (
+    <div role="dialog" aria-modal="true" aria-label="Confirm Action">
+      <p>Are you sure?</p>
+      <button onClick={onConfirm}>Yes, confirm</button>
+      <button onClick={onCancel}>Cancel</button>
+    </div>
+  );
+}
+
+test('confirm dialog', async () => {
+  const onConfirm = jest.fn();
+  const onCancel = jest.fn();
+  const user = userEvent.setup();
+  
+  render(<ConfirmDialog onConfirm={onConfirm} onCancel={onCancel} />);
+  
+  const dialog = screen.getByRole('dialog');
+  expect(dialog).toBeInTheDocument();
+  expect(within(dialog).getByText('Are you sure?')).toBeInTheDocument();
+  
+  await user.click(screen.getByRole('button', { name: 'Yes, confirm' }));
+  expect(onConfirm).toHaveBeenCalledTimes(1);
+  
+  await user.click(screen.getByRole('button', { name: 'Cancel' }));
+  expect(onCancel).toHaveBeenCalledTimes(1);
+});
+
+// === Error Boundary ===
+
+class ErrorBoundary extends React.Component {
+  state = { hasError: false, error: null };
+  
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+  
+  render() {
+    if (this.state.hasError) {
+      return <p>Something went wrong: {this.state.error.message}</p>;
+    }
+    return this.props.children;
+  }
+}
+
+function Bomb() {
+  throw new Error('Boom!');
+}
+
+test('error boundary catches errors', () => {
+  const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  
+  render(
+    <ErrorBoundary>
+      <Bomb />
+    </ErrorBoundary>
+  );
+  
+  expect(screen.getByText('Something went wrong: Boom!')).toBeInTheDocument();
+  spy.mockRestore();
+});
+
+// === Conditional Rendering ===
+
+function Alert({ type, message }) {
+  if (!message) return null;
+  
+  return (
+    <div role="alert" className={\`alert alert-\${type}\`}>
+      {message}
+    </div>
+  );
+}
+
+test('renders alert when message present', () => {
+  render(<Alert type="error" message="Something went wrong" />);
+  
+  expect(screen.getByRole('alert')).toBeInTheDocument();
+  expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+  expect(screen.getByRole('alert')).toHaveClass('alert-error');
+});
+
+test('renders nothing when no message', () => {
+  render(<Alert type="error" message={null} />);
+  
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+});
+
+// === List Rendering ===
+
+function UserList({ users }) {
+  if (users.length === 0) return <p>No users found</p>;
+  
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id} data-testid={\`user-\${user.id}\`}>
+          {user.name}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+test('renders list of users', () => {
+  const users = [
+    { id: 1, name: 'Alice' },
+    { id: 2, name: 'Bob' },
+    { id: 3, name: 'Charlie' }
+  ];
+  
+  render(<UserList users={users} />);
+  
+  const items = screen.getAllByRole('listitem');
+  expect(items).toHaveLength(3);
+  expect(items[0]).toHaveTextContent('Alice');
+  expect(items[1]).toHaveTextContent('Bob');
+  expect(items[2]).toHaveTextContent('Charlie');
+});
+
+test('renders empty state', () => {
+  render(<UserList users={[]} />);
+  
+  expect(screen.getByText('No users found')).toBeInTheDocument();
+  expect(screen.queryByRole('list')).not.toBeInTheDocument();
+});
+
+// === Table ===
+
+function DataTable({ data }) {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(row => (
+          <tr key={row.id}>
+            <td>{row.name}</td>
+            <td>{row.age}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+test('table renders data', () => {
+  render(<DataTable data={[{ id: 1, name: 'John', age: 30 }]} />);
+  
+  expect(screen.getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
+  expect(screen.getByRole('cell', { name: 'John' })).toBeInTheDocument();
+  expect(screen.getByRole('cell', { name: '30' })).toBeInTheDocument();
+});
+
+// === Tabs ===
+
+test('tab navigation', async () => {
+  render(<TabComponent />);
+  const user = userEvent.setup();
+  
+  const tab1 = screen.getByRole('tab', { name: 'Tab 1' });
+  const tab2 = screen.getByRole('tab', { name: 'Tab 2' });
+  
+  expect(tab1).toHaveAttribute('aria-selected', 'true');
+  expect(screen.getByRole('tabpanel', { name: 'Tab 1' })).toBeVisible();
+  
+  await user.click(tab2);
+  
+  expect(tab2).toHaveAttribute('aria-selected', 'true');
+  expect(screen.getByRole('tabpanel', { name: 'Tab 2' })).toBeVisible();
+});
+
+// === Drag and Drop ===
+
+test('drag and drop', async () => {
+  render(<DraggableList />);
+  
+  const items = screen.getAllByRole('listitem');
+  const firstItem = items[0];
+  const secondItem = items[1];
+  
+  fireEvent.dragStart(firstItem);
+  fireEvent.dragEnter(secondItem);
+  fireEvent.dragOver(secondItem);
+  fireEvent.drop(secondItem);
+  fireEvent.dragEnd(firstItem);
+  
+  // Assert new order
+  const newItems = screen.getAllByRole('listitem');
+  expect(newItems[0]).toHaveTextContent('Item 2');
+  expect(newItems[1]).toHaveTextContent('Item 1');
+});
+
+// === Infinite Scroll ===
+
+test('loads more on scroll', async () => {
+  render(<InfiniteList />);
+  
+  // Initial items
+  expect(screen.getAllByRole('listitem')).toHaveLength(10);
+  
+  // Simulate scroll to bottom
+  fireEvent.scroll(window, { target: { scrollY: 1000 } });
+  
+  // More items loaded
+  expect(await screen.findAllByRole('listitem')).toHaveLength(20);
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Accessibility Testing
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// RTL encourages accessibility by design - querying by role
+// forces you to write accessible components
+
+// === axe-core Integration ===
+// npm install --save-dev @axe-core/react jest-axe
+
+import { axe, toHaveNoViolations } from 'jest-axe';
+expect.extend(toHaveNoViolations);
+
+test('no accessibility violations', async () => {
+  const { container } = render(<MyForm />);
+  
+  const results = await axe(container);
+  
+  expect(results).toHaveNoViolations();
+});
+
+// Test specific rules
+const results = await axe(container, {
+  rules: {
+    'color-contrast': { enabled: true },
+    'label': { enabled: true }
+  }
+});
+
+// === ARIA Attributes ===
+
+test('dialog has proper ARIA', () => {
+  render(
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="User Settings"
+      aria-describedby="dialog-desc"
+    >
+      <p id="dialog-desc">Configure your settings</p>
+    </div>
+  );
+  
+  const dialog = screen.getByRole('dialog', { name: 'User Settings' });
+  expect(dialog).toHaveAttribute('aria-modal', 'true');
+  expect(dialog).toHaveAccessibleName('User Settings');
+  expect(dialog).toHaveAccessibleDescription('Configure your settings');
+});
+
+// === Keyboard Navigation ===
+
+test('menu keyboard navigation', async () => {
+  render(<NavigationMenu />);
+  const user = userEvent.setup();
+  
+  const menuButton = screen.getByRole('button', { name: 'Menu' });
+  await user.click(menuButton);
+  
+  const menu = screen.getByRole('menu');
+  expect(menu).toBeVisible();
+  
+  // Arrow key navigation
+  await user.keyboard('{ArrowDown}');
+  expect(screen.getAllByRole('menuitem')[0]).toHaveFocus();
+  
+  await user.keyboard('{ArrowDown}');
+  expect(screen.getAllByRole('menuitem')[1]).toHaveFocus();
+  
+  // Escape closes menu
+  await user.keyboard('{Escape}');
+  expect(screen.queryByRole('menu')).not.toBeInTheDocument();
+});
+
+// === Focus Management ===
+
+test('focus moves to dialog on open', async () => {
+  render(<DialogTrigger />);
+  const user = userEvent.setup();
+  
+  await user.click(screen.getByRole('button', { name: 'Open Dialog' }));
+  
+  const dialog = screen.getByRole('dialog');
+  expect(dialog).toBeInTheDocument();
+  
+  // Focus should move inside dialog
+  expect(document.activeElement).toBe(
+    within(dialog).getByRole('button', { name: 'Close' })
+  );
+});
+
+test('focus returns after dialog close', async () => {
+  render(<DialogTrigger />);
+  const user = userEvent.setup();
+  
+  const triggerButton = screen.getByRole('button', { name: 'Open Dialog' });
+  
+  await user.click(triggerButton);
+  await user.click(screen.getByRole('button', { name: 'Close' }));
+  
+  // Focus should return to trigger
+  expect(triggerButton).toHaveFocus();
+});
+
+// === Screen Reader Text ===
+
+test('visually hidden text accessible', () => {
+  render(
+    <button>
+      <span aria-hidden="true">❤</span>
+      <span className="sr-only">Add to favorites</span>
+    </button>
+  );
+  
+  // Screen reader users see accessible name
+  expect(screen.getByRole('button', { name: 'Add to favorites' })).toBeInTheDocument();
+});
+
+// === Live Regions ===
+
+test('status announcements', async () => {
+  render(<FormWithStatus />);
+  const user = userEvent.setup();
+  
+  await user.click(screen.getByRole('button', { name: 'Submit' }));
+  
+  // Live region announces success
+  const status = screen.getByRole('status');
+  expect(status).toHaveTextContent('Form submitted successfully');
+});
+
+// Polite vs assertive
+test('error live region', async () => {
+  render(<FormWithErrors />);
+  
+  const alert = screen.getByRole('alert'); // aria-live="assertive"
+  expect(alert).toHaveTextContent('Please fix the errors');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Debugging and Troubleshooting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// === screen.debug() ===
+
+test('debug rendered output', () => {
+  render(<ComplexComponent />);
+  
+  // Print entire DOM
+  screen.debug();
+  
+  // Print specific element
+  screen.debug(screen.getByRole('form'));
+  
+  // Limit output length
+  screen.debug(undefined, 30000);
+});
+
+// === prettyDOM ===
+
+import { prettyDOM } from '@testing-library/react';
+
+test('log element', () => {
+  const { container } = render(<MyComponent />);
+  
+  console.log(prettyDOM(container));
+  console.log(prettyDOM(container.querySelector('.specific-element')));
+});
+
+// === logRoles ===
+// Shows all queryable roles in rendered output
+
+import { logRoles } from '@testing-library/react';
+
+test('see available roles', () => {
+  const { container } = render(<MyComponent />);
+  logRoles(container);
+  // Outputs: button "Submit" ...
+  //          heading level=1 "Page Title" ...
+  //          textbox "Email" ...
+});
+
+// === Common Errors and Fixes ===
+
+// Error: Unable to find role="button" with name "Submit"
+// Fix: Check actual accessible name with logRoles()
+// Fix: Element might not be in DOM yet - use findByRole
+// Fix: Check aria-label, aria-labelledby, text content
+
+// Error: Found multiple elements with role="button" and name "Submit"
+// Fix: Use within() to scope query
+// Fix: Add more specific name
+// Fix: Use getAllByRole if multiple is expected
+
+// Error: Not wrapped in act(...)
+// Fix: Wrap state updates in act() or await userEvent actions
+// Fix: Use waitFor for async state changes
+// Fix: Ensure all promises resolve before assertions
+
+// Error: Unable to find element by data-testid
+// Fix: Ensure data-testid is in the rendered DOM
+// Fix: Check conditional rendering
+// Fix: Check if element is inside a portal
+
+// === Dealing with console errors ===
+
+test('suppress expected console errors', () => {
+  // Suppress specific errors
+  const consoleSpy = jest.spyOn(console, 'error').mockImplementation((message) => {
+    if (message.includes('Warning: An update to')) return;
+    console.error(message); // Still log unexpected errors
+  });
+  
+  render(<ComponentWithKnownWarning />);
+  
+  // test...
+  
+  consoleSpy.mockRestore();
+});
+
+// === Testing portals ===
+
+function Modal({ children }) {
+  return ReactDOM.createPortal(
+    <div role="dialog">{children}</div>,
+    document.body
+  );
+}
+
+test('portal content is queryable', () => {
+  render(
+    <div>
+      <Modal>
+        <p>Modal content</p>
+      </Modal>
+    </div>
+  );
+  
+  // screen queries the entire document body, so portals are found
+  expect(screen.getByRole('dialog')).toBeInTheDocument();
+  expect(screen.getByText('Modal content')).toBeInTheDocument();
+});
+
+// === Custom queries ===
+
+import { buildQueries, queryAllByAttribute, getDefaultNormalizer } from '@testing-library/react';
+
+const queryAllByDataCy = (container, id, options) =>
+  queryAllByAttribute('data-cy', container, id, options);
+
+const [
+  queryByDataCy,
+  getAllByDataCy,
+  getByDataCy,
+  findAllByDataCy,
+  findByDataCy
+] = buildQueries(queryAllByDataCy, () => {}, () => {});
+
+// Use in tests
+const element = getByDataCy(container, 'submit-button');
+
+// === Avoiding test implementation details ===
+
+// ❌ Don't test internal state
+expect(component.state.isLoading).toBe(false);
+
+// ❌ Don't test prop passing
+expect(ChildComponent).toHaveBeenCalledWith({ name: 'John' }, {});
+
+// ❌ Don't use component refs or instances
+const instance = wrapper.instance();
+instance.handleClick();
+
+// ✅ Test what user sees and does
+expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+expect(screen.getByText('John')).toBeInTheDocument();
+await user.click(screen.getByRole('button', { name: 'Submit' }));
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Query by role first — it tests accessibility and behavior</li>
+  <li><b>DO:</b> Use userEvent over fireEvent for realistic interactions</li>
+  <li><b>DO:</b> Always await userEvent actions (they return Promises)</li>
+  <li><b>DO:</b> Use findBy for elements that appear asynchronously</li>
+  <li><b>DO:</b> Use waitFor for assertions on async state changes</li>
+  <li><b>DO:</b> Wrap all providers in a custom render utility</li>
+  <li><b>DO:</b> Test user-visible behavior, not implementation details</li>
+  <li><b>DO:</b> Use within() to scope queries in complex layouts</li>
+  <li><b>DO:</b> Use jest-axe to catch accessibility violations</li>
+  <li><b>DO:</b> Use screen.debug() when a query fails unexpectedly</li>
+  <li><b>DON'T:</b> Access component state, refs, or instances directly</li>
+  <li><b>DON'T:</b> Use data-testid when a semantic role/label exists</li>
+  <li><b>DON'T:</b> Shallow render — RTL doesn't support it by design</li>
+  <li><b>DON'T:</b> Suppress console.error blindly — investigate warnings</li>
+  <li><b>DON'T:</b> Forget to clean up after async tests</li>
+  <li><b>DON'T:</b> Use fireEvent when userEvent is available</li>
+  <li><b>DON'T:</b> Test third-party library internals</li>
+  <li><b>DON'T:</b> Write tests that only pass in a specific execution order</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Basic Component Rendering",
+              "Form Submission Testing",
+              "Async Data Loading",
+              "Custom Hook Testing",
+              "Redux Integration Testing",
+              "Context Provider Testing",
+              "Error Boundary Testing",
+              "Accessibility Testing with axe",
+              "Keyboard Navigation Testing",
+              "Modal and Dialog Testing",
+            ],
+            questions: [
+              {
+                question:
+                  "What is React Testing Library and how does it differ from Enzyme?",
+                answer:
+                  "React Testing Library (RTL) is a testing utility that renders components into a real DOM (jsdom) and encourages querying elements the way users find them — by role, label, text, and accessibility attributes. Enzyme (now largely abandoned) rendered components shallowly or fully but allowed inspecting internal state, props, component instances, and lifecycle methods. RTL's philosophy: test behavior not implementation. Key differences: RTL has no shallow rendering (always renders the full tree), RTL doesn't expose internal state or refs, RTL queries match how screen readers and users find elements, RTL tests are resilient to refactors since they don't depend on internal structure. RTL is now the recommended approach for React component testing and is included by default in Create React App.",
+              },
+              {
+                question:
+                  "What is the query priority in React Testing Library and why does it matter?",
+                answer:
+                  "RTL prioritizes queries that match how users and screen readers interact with your app. Priority order: 1) getByRole — matches ARIA roles like button, textbox, heading, link; tests accessibility directly. 2) getByLabelText — for form fields; forces you to write proper labels. 3) getByPlaceholderText — for inputs with placeholder. 4) getByText — for non-interactive text content. 5) getByDisplayValue — for current form values. 6) getByAltText — for images. 7) getByTitle — for title attribute. 8) getByTestId — last resort; use data-testid when no semantic attribute exists. Using higher-priority queries encourages accessible components. If you can only find an element by testId, your component may be missing proper roles or labels.",
+              },
+              {
+                question:
+                  "What is the difference between getBy, queryBy, and findBy queries?",
+                answer:
+                  "Three variants exist for different scenarios. getBy*: throws an error if element not found or if multiple found; use when element must be present. queryBy*: returns null if not found (no throw); use to assert element is NOT in the document with queryByX.not.toBeInTheDocument(). findBy*: returns a Promise and retries until element appears (or timeout); use for elements that appear asynchronously after data loading or user interaction. All three also have All versions (getAllBy, queryAllBy, findAllBy) for multiple matches. Common mistake: using getBy for async elements — it runs synchronously and throws before the element appears. Use findBy or waitFor with getBy instead.",
+              },
+              {
+                question:
+                  "What is the difference between userEvent and fireEvent?",
+                answer:
+                  "fireEvent dispatches a single DOM event directly — quick but not realistic. userEvent simulates real browser behavior — clicking a button also triggers mousedown, mouseup, focus, click in sequence. userEvent is preferred because: it more accurately simulates real interactions, catches bugs that fireEvent misses (e.g., disabled buttons that fireEvent can still click), and handles complex interactions like typing character-by-character. In v14+, always use userEvent.setup() to create a user instance, and await all interactions since they're async. Use fireEvent only for events that userEvent doesn't support (like scroll, drag-and-drop), or when simulating very low-level event dispatch. Install: @testing-library/user-event.",
+              },
+              {
+                question:
+                  "How do you test asynchronous components that fetch data?",
+                answer:
+                  "Three key tools: findBy (waits for element), waitFor (retries assertion), waitForElementToBeRemoved (waits for element to leave DOM). Pattern: 1) Mock the API call (jest.fn with mockResolvedValue or MSW). 2) Render the component. 3) Assert loading state with getBy. 4) Use findByText or waitFor to assert data loaded. 5) Assert loading state removed with queryBy. For MSW (Mock Service Worker): create server with setupServer, start in beforeAll, reset handlers in afterEach, stop in afterAll. MSW intercepts actual fetch/axios calls at the network level — more realistic than function mocks. Common mistake: forgetting to await async queries. Another common mistake: asserting on state before async updates complete.",
+              },
+              {
+                question:
+                  "How do you test custom React hooks with React Testing Library?",
+                answer:
+                  "Use renderHook from @testing-library/react. It renders a component that calls the hook and returns result (current value of hook return), rerender (call hook with new props), and unmount. Wrap state changes in act() from @testing-library/react — this ensures all React state updates are processed before assertions. For async hooks, use waitFor inside the hook test. For hooks that need context (like useContext), pass a wrapper option: renderHook(() => useMyHook(), { wrapper: MyProvider }). For hooks that take props, pass initialProps to renderHook and use rerender to update them. Test side effects by verifying mock functions were called. Test cleanup by calling unmount() and verifying cleanup functions ran.",
+              },
+              {
+                question:
+                  "How do you set up a custom render utility with multiple providers?",
+                answer:
+                  "Create a test-utils file that wraps render with all your providers (Redux, Router, React Query, Theme, etc.). Export customRender as render and re-export everything from @testing-library/react. Pattern: create AllTheProviders component that accepts options (like preloadedState for Redux or initialRoute for Router), pass it as wrapper to render. Import from test-utils instead of @testing-library/react in your test files. Best practices: configure React Query with retry: false to avoid retries in tests, use MemoryRouter with initialEntries for routing tests, create fresh store per test to avoid state leakage, accept options object for test-specific configuration. This pattern means you never have to wrap components manually in tests.",
+              },
+              {
+                question: "How does within() work and when should you use it?",
+                answer:
+                  "within() scopes queries to a specific container element instead of the entire document. Usage: const section = screen.getByTestId('user-card'); within(section).getByText('John'). Use when: multiple similar components render on the same page (like a list of cards), you need to assert that a specific piece of text is inside a specific container, you want to avoid false positives from other parts of the DOM. Example: testing a table row — get the row, then use within to check cells inside that row. Alternative: use more specific queries with role+name combinations. within is most useful when the same text appears multiple places and you need to disambiguate by location.",
+              },
+              {
+                question:
+                  "How do you test keyboard navigation and accessibility?",
+                answer:
+                  "RTL's query-by-role approach inherently tests accessibility. For keyboard navigation: use userEvent.tab() to move focus, userEvent.keyboard('{ArrowDown}') for arrow keys, assert focus with toHaveFocus(). For ARIA: query by role verifies correct ARIA roles, use toHaveAccessibleName/Description for label verification, toHaveAttribute for aria-* attributes. For focus management: test that dialogs move focus inside on open, test that focus returns to trigger on close. For screen reader announcements: query role=alert or role=status and assert toHaveTextContent. Use jest-axe for automated accessibility violation detection — wrap render result in axe() and expect(results).toHaveNoViolations(). Test keyboard-only usage paths, not just mouse interactions.",
+              },
+              {
+                question: "What is waitFor and how does it work?",
+                answer:
+                  "waitFor retries a callback repeatedly until it passes without throwing or until timeout (default 1000ms). It runs the callback immediately, then on a polling interval (default 50ms). Use it to wait for asynchronous DOM or state changes after actions like API calls, timers, or user events. Pattern: await waitFor(() => expect(screen.getByText('Done')).toBeInTheDocument()). Can include multiple assertions: all must pass simultaneously. Don't use waitFor with queries that throw on failure — use findBy instead (it's shorthand for waitFor + getBy). Avoid: side effects inside waitFor callback (like firing events), since it may run multiple times. For elements you expect to disappear, use waitForElementToBeRemoved — it's clearer and more efficient.",
+              },
+              {
+                question:
+                  "How do you debug failing tests in React Testing Library?",
+                answer:
+                  "Main tools: screen.debug() prints the current DOM — call it inside the failing test to see what rendered. logRoles(container) shows all queryable roles with their accessible names — use when getByRole fails. prettyDOM(element) formats a specific element for logging. screen.getByRole with wrong name: check actual accessible name by logging getByRole with no name filter. Common causes of failures: element not yet in DOM (use findBy), multiple matching elements (use within or more specific query), element hidden from accessibility tree (use { hidden: true }), async state update not awaited (add await before userEvent actions, use waitFor for assertions). console.error warnings often point to missing act() wrapping or React key issues — don't ignore them.",
+              },
+              {
+                question:
+                  "What are common anti-patterns to avoid in React Testing Library?",
+                answer:
+                  "Anti-patterns: 1) Using getByTestId when semantic queries exist — forces inaccessible components. 2) Testing implementation details — component.state, wrapper.instance(), prop spy — tests break on refactor. 3) Directly importing and testing child components separately to avoid integration — defeats the purpose. 4) Not awaiting userEvent calls — causes 'act()' warnings and unreliable tests. 5) Using fireEvent when userEvent is available — less realistic. 6) Not wrapping providers in custom render — copy-pasting provider boilerplate. 7) Querying by className or style — brittle and not user-meaningful. 8) Using shallow rendering concepts from Enzyme — RTL always renders fully. 9) Not cleaning up between tests — RTL auto-cleans but custom DOM manipulation may not. 10) Ignoring console.error warnings — they indicate real problems.",
+              },
+              {
+                question:
+                  "How do you test forms comprehensively with React Testing Library?",
+                answer:
+                  "Full form testing covers: rendering with correct labels and inputs (getByLabelText), typing with userEvent.type, selecting with userEvent.selectOptions, checking with userEvent.click on checkbox/radio, file upload with userEvent.upload, form submission with userEvent.click on submit button or keyboard {Enter}. Validation testing: trigger validation (blur, submit), assert error messages appear (getByRole('alert') or getByText), assert invalid state with toBeInvalid(). Accessibility: inputs should have labels, error messages should be associated via aria-describedby, form should have accessible name. Complex interactions: test tab navigation through fields, test that submission is blocked with validation errors, test success state after valid submission. Mock form submission handler with jest.fn() and assert toHaveBeenCalledWith correct values.",
+              },
+              {
+                question: "How do you test components that use React portals?",
+                answer:
+                  "React portals render content to a different DOM node (usually document.body). RTL's screen object queries the entire document.body by default, so portal content is automatically findable — no special setup needed. Render your component normally, then query portal content with screen.getBy*() as usual. Example: render(<ModalWrapper />) then screen.getByRole('dialog') finds the modal even though it's in a portal. For verifying portal behavior specifically, use within(document.body) to scope queries to the portal target. Portals in tests with jsdom behave identically to browsers — document.body is shared. If your portal targets a custom element (like document.getElementById('modal-root')), ensure that element exists in the test environment by adding it in beforeEach and removing in afterEach.",
+              },
+              {
+                question:
+                  "How should you structure test files and organize tests?",
+                answer:
+                  "File organization: co-locate test files with components (Component.test.jsx next to Component.jsx), or use __tests__ directories. Naming: describe block for component name, nested describe for features/scenarios, test name describes user-visible behavior in 'should...' or 'when...' format. Structure: one test file per component, group related tests with describe. Shared utilities: create helpers for common setups (renderWithProviders, createMockUser), share in test-utils.js. Setup: use beforeEach for common render setup, afterEach for cleanup, mock resets. Avoid: shared mutable state between tests, tests that depend on execution order, very large test files. Good test names: 'shows loading spinner while fetching', 'displays error when API fails', 'submits form with valid data' — describe what the user experiences.",
+              },
+            ],
+            links: [
+              "https://testing-library.com/docs/react-testing-library/intro",
+              "https://testing-library.com/docs/queries/about",
+              "https://testing-library.com/docs/user-event/intro",
+              "https://github.com/testing-library/jest-dom",
+              "https://testing-library.com/docs/react-testing-library/api#renderhook",
+              "https://mswjs.io/docs/getting-started",
+              "https://github.com/nickcolley/jest-axe",
+              "https://kentcdodds.com/blog/common-mistakes-with-react-testing-library",
+              "https://testing-library.com/docs/guiding-principles",
+              "https://testing-library.com/docs/react-testing-library/cheatsheet",
+            ],
           },
           {
             topic: "Snapshot Testing",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Snapshot Testing",
+              "Jest Snapshots",
+              "Inline Snapshots",
+              "Component Snapshots",
+              "Serializers",
+              "Snapshot Updates",
+              "Visual Regression",
+              "toMatchSnapshot",
+              "toMatchInlineSnapshot",
+              "Snapshot Files",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Snapshot testing is a Jest feature that captures the rendered output of a component (or any serializable value) and saves it to a <code>.snap</code> file. On subsequent test runs, Jest compares the current output to the stored snapshot — if they differ, the test fails. This makes snapshot testing an effective tool for detecting unintended UI regressions without manually writing assertions for every element. Snapshots work with React components (via react-test-renderer or React Testing Library), plain objects, arrays, strings, and custom serializers. They are not a substitute for behavioral tests, but complement them well for catching accidental changes to markup, structure, or data shape.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Setup and Basic Usage
+</h4>
+
+<p style="line-height: 1.75;">
+Snapshot testing is built into Jest — no additional packages are required for basic usage. For React components, you'll typically use <code>react-test-renderer</code> or <code>@testing-library/react</code>.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Installation (react-test-renderer for pure component snapshots)
+// npm install --save-dev react-test-renderer
+
+// ========================
+// Basic snapshot with react-test-renderer
+// ========================
+
+import renderer from 'react-test-renderer';
+
+function Button({ label, primary }) {
+  return (
+    <button className={primary ? 'btn-primary' : 'btn-secondary'}>
+      {label}
+    </button>
+  );
+}
+
+test('renders primary button correctly', () => {
+  const tree = renderer.create(<Button label="Submit" primary />).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+// First run: creates __snapshots__/Button.test.js.snap
+// Subsequent runs: compares against saved snapshot
+
+// ========================
+// Basic snapshot with React Testing Library
+// ========================
+
+import { render } from '@testing-library/react';
+
+test('renders button snapshot', () => {
+  const { asFragment } = render(<Button label="Submit" primary />);
+  expect(asFragment()).toMatchSnapshot();
+});
+
+// asFragment() returns a DocumentFragment — snapshots the full DOM output
+
+// ========================
+// What a snapshot file looks like
+// ========================
+
+// __snapshots__/Button.test.js.snap
+exports[\`renders primary button correctly 1\`] = \`
+<button
+  className="btn-primary"
+>
+  Submit
+</button>
+\`;
+
+// Snapshot files are auto-generated — commit them to source control
+// They live in __snapshots__ directories next to the test files
+
+// ========================
+// Updating snapshots
+// ========================
+
+// When the component intentionally changes, update snapshots:
+// jest --updateSnapshot
+// jest -u   (shorthand)
+
+// Update a specific test file:
+// jest --updateSnapshot Button.test.js
+
+// Interactive watch mode: press 'u' to update failing snapshots
+
+// ========================
+// Snapshot for non-component values
+// ========================
+
+test('user object shape', () => {
+  const user = {
+    id: 1,
+    name: 'John Doe',
+    email: 'john@example.com',
+    roles: ['admin', 'editor'],
+    createdAt: '2024-01-01T00:00:00Z',
+  };
+  expect(user).toMatchSnapshot();
+});
+
+test('array of items', () => {
+  const items = ['apple', 'banana', 'cherry'];
+  expect(items).toMatchSnapshot();
+});
+
+test('error message', () => {
+  const error = new Error('Something went wrong');
+  expect(error.message).toMatchSnapshot();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Inline Snapshots
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Inline snapshots are written directly in the test file
+// Jest auto-fills the snapshot string on first run
+// Requires: npm install --save-dev prettier (Jest uses Prettier to format)
+
+import renderer from 'react-test-renderer';
+
+// ========================
+// toMatchInlineSnapshot
+// ========================
+
+test('renders badge inline', () => {
+  const tree = renderer.create(<Badge count={5} />).toJSON();
+  
+  // On first run, Jest fills in the snapshot automatically:
+  expect(tree).toMatchInlineSnapshot(\`
+    <span
+      className="badge"
+    >
+      5
+    </span>
+  \`);
+});
+
+// Advantages of inline snapshots:
+// ✅ Snapshot visible directly in test — no need to open .snap file
+// ✅ Easier code review — reviewers see expected output in the same file
+// ✅ Great for small, focused component output
+// ✅ Self-documenting tests
+
+// Disadvantages:
+// ❌ Can clutter test files for large component trees
+// ❌ Slower to load large snapshots from test files
+
+// ========================
+// Inline snapshot for plain values
+// ========================
+
+test('formatted price', () => {
+  const price = formatCurrency(1234.56, 'USD');
+  expect(price).toMatchInlineSnapshot(\`"$1,234.56"\`);
+});
+
+test('error codes object', () => {
+  const errors = validateForm({ email: '', password: 'abc' });
+  expect(errors).toMatchInlineSnapshot(\`
+    Object {
+      "email": "Email is required",
+      "password": "Password must be at least 8 characters",
+    }
+  \`);
+});
+
+// ========================
+// When to use inline vs external snapshots
+// ========================
+
+// Use inline when:
+// - Snapshot is small (< 20 lines)
+// - The component is simple
+// - You want the expected output visible in the test
+
+// Use external (.snap file) when:
+// - Snapshot is large (complex component trees)
+// - Many snapshot tests in one file
+// - You want to separate snapshot data from test logic
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Snapshot Matchers and Options
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// toMatchSnapshot options
+// ========================
+
+test('with custom snapshot name', () => {
+  const tree = renderer.create(<Card title="Hello" />).toJSON();
+  // Hint appears in the snapshot key
+  expect(tree).toMatchSnapshot('card with title');
+});
+
+// Snapshot key becomes: "with custom snapshot name: card with title 1"
+
+// ========================
+// Property matchers — ignore dynamic values
+// ========================
+
+// Dynamic values (IDs, timestamps, random strings) break snapshots
+// Use property matchers to assert shape, not exact value
+
+test('snapshot with dynamic fields', () => {
+  const user = {
+    id: Math.random(), // Changes every run — would always fail!
+    name: 'John',
+    createdAt: new Date().toISOString(), // Changes every run
+    token: 'some-random-token',
+  };
+  
+  expect(user).toMatchSnapshot({
+    id: expect.any(Number),          // Assert type, not value
+    createdAt: expect.any(String),   // Assert type, not value
+    token: expect.any(String),
+    name: 'John',                    // Exact match for stable values
+  });
+});
+
+// Property matchers also work with objects containing nested dynamic values
+test('api response shape', () => {
+  const response = {
+    data: { id: 'abc-123', name: 'Product' },
+    meta: { requestId: 'req-456', timestamp: Date.now() }
+  };
+  
+  expect(response).toMatchSnapshot({
+    data: { id: expect.any(String), name: 'Product' },
+    meta: { requestId: expect.any(String), timestamp: expect.any(Number) }
+  });
+});
+
+// ========================
+// Matching specific parts of output
+// ========================
+
+test('only snapshot part of a component', () => {
+  const { getByTestId } = render(<ComplexPage />);
+  const header = getByTestId('page-header');
+  
+  expect(header).toMatchSnapshot(); // Only the header subtree
+});
+
+// ========================
+// toThrowErrorMatchingSnapshot
+// ========================
+
+// Snapshot the error message thrown by a function
+function parseJSON(str) {
+  if (typeof str !== 'string') throw new TypeError('Expected a string');
+  return JSON.parse(str);
+}
+
+test('throws expected error', () => {
+  expect(() => parseJSON(null)).toThrowErrorMatchingSnapshot();
+  // Snapshot: "Expected a string"
+});
+
+test('throws inline error', () => {
+  expect(() => parseJSON(null)).toThrowErrorMatchingInlineSnapshot(
+    \`"Expected a string"\`
+  );
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. react-test-renderer vs React Testing Library
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// react-test-renderer approach
+// ========================
+
+import renderer from 'react-test-renderer';
+
+function Card({ title, body, footer }) {
+  return (
+    <div className="card">
+      <h2 className="card-title">{title}</h2>
+      <p className="card-body">{body}</p>
+      {footer && <footer className="card-footer">{footer}</footer>}
+    </div>
+  );
+}
+
+test('card with all props', () => {
+  const tree = renderer.create(
+    <Card title="My Card" body="Some content" footer="Footer text" />
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+test('card without footer', () => {
+  const tree = renderer.create(
+    <Card title="My Card" body="Some content" />
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+// renderer.create() returns an instance with:
+// .toJSON()     — serializable POJO representation (for snapshots)
+// .toTree()     — full React tree including props and component info
+// .getInstance() — access component instance (class components)
+// .update()     — re-render with new props
+// .unmount()    — trigger unmount lifecycle
+
+// Simulating interactions with renderer
+const instance = renderer.create(<Counter />);
+const tree = instance.toJSON();
+
+// Trigger a click via act()
+import { act } from 'react-dom/test-utils';
+act(() => {
+  tree.props.onClick();
+});
+
+expect(instance.toJSON()).toMatchSnapshot(); // Snapshot after click
+
+// ========================
+// RTL asFragment() approach
+// ========================
+
+import { render } from '@testing-library/react';
+
+test('card snapshot with RTL', () => {
+  const { asFragment } = render(
+    <Card title="My Card" body="Content" footer="Footer" />
+  );
+  expect(asFragment()).toMatchSnapshot();
+});
+
+// asFragment() returns a DocumentFragment — a copy of the rendered DOM
+// Useful because it captures the full DOM structure including text nodes
+
+// ========================
+// Comparing the two approaches
+// ========================
+
+// react-test-renderer:
+// + Pure React output (no DOM), faster
+// + Good for component logic and rendering
+// + Works outside browser environment (no jsdom needed)
+// - Doesn't test actual DOM/browser behavior
+// - Separate package to install
+// - Output format is React's virtual tree, not real HTML
+
+// RTL asFragment():
+// + Tests real DOM output (how browser sees it)
+// + Consistent with RTL's philosophy
+// + Works with the rest of your RTL tests
+// - Requires jsdom (test environment)
+// - Slightly more verbose snapshot output
+
+// General guidance:
+// Prefer RTL's asFragment() if you already use RTL for other tests
+// Use react-test-renderer if you need pure component tree snapshots
+// without browser environment dependencies
+
+// ========================
+// Snapshot after interaction (RTL)
+// ========================
+
+test('snapshot after toggle', async () => {
+  const user = userEvent.setup();
+  const { asFragment } = render(<Accordion title="FAQ" content="Answer here" />);
+  
+  // Snapshot of closed state
+  expect(asFragment()).toMatchSnapshot('accordion closed');
+  
+  await user.click(screen.getByRole('button', { name: 'FAQ' }));
+  
+  // Snapshot of open state
+  expect(asFragment()).toMatchSnapshot('accordion open');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Custom Serializers
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Custom serializers control how values are formatted in snapshots
+// Useful for custom classes, styled components, or complex data structures
+
+// ========================
+// jest-snapshot's addSnapshotSerializer
+// ========================
+
+import { addSnapshotSerializer } from 'jest-snapshot';
+
+// Custom serializer for a Money class
+class Money {
+  constructor(amount, currency) {
+    this.amount = amount;
+    this.currency = currency;
+  }
+}
+
+addSnapshotSerializer({
+  // test: returns true if this serializer should handle the value
+  test(value) {
+    return value instanceof Money;
+  },
+  
+  // print: returns the string representation for the snapshot
+  print(value) {
+    return \`Money { \${value.amount} \${value.currency} }\`;
+  },
+});
+
+test('money snapshot', () => {
+  const price = new Money(19.99, 'USD');
+  expect(price).toMatchSnapshot();
+  // Snapshot: Money { 19.99 USD }
+  // Instead of: Money { "amount": 19.99, "currency": "USD" }
+});
+
+// ========================
+// Configuring serializers in jest.config.js
+// ========================
+
+// jest.config.js
+module.exports = {
+  snapshotSerializers: [
+    'enzyme-to-json/serializer',    // Enzyme
+    'jest-serializer-html',         // HTML strings
+    '@emotion/jest/serializer',     // Emotion CSS-in-JS
+    './src/test-utils/mySerializer' // Custom serializer
+  ]
+};
+
+// ========================
+// jest-emotion / Styled Components serializer
+// ========================
+
+// npm install --save-dev @emotion/jest
+// or: npm install --save-dev jest-styled-components
+
+// jest.config.js
+module.exports = {
+  snapshotSerializers: ['@emotion/jest/serializer'],
+};
+
+// Now snapshots include CSS class names resolved to actual styles:
+// <button
+//   className="css-abc123"
+// />
+// Becomes:
+// .css-abc123 {
+//   color: red;
+//   padding: 8px 16px;
+// }
+// <button
+//   className="css-abc123"
+// />
+
+// ========================
+// Custom serializer for API responses
+// ========================
+
+// Serializer that hides sensitive fields in snapshots
+const sensitiveFieldSerializer = {
+  test(value) {
+    return (
+      value !== null &&
+      typeof value === 'object' &&
+      ('password' in value || 'token' in value || 'secret' in value)
+    );
+  },
+  print(value, serialize) {
+    const sanitized = Object.fromEntries(
+      Object.entries(value).map(([k, v]) =>
+        ['password', 'token', 'secret'].includes(k) ? [k, '[REDACTED]'] : [k, v]
+      )
+    );
+    return serialize(sanitized);
+  },
+};
+
+expect.addSnapshotSerializer(sensitiveFieldSerializer);
+
+test('user object redacts sensitive fields', () => {
+  const user = { id: 1, name: 'John', token: 'abc-secret-xyz' };
+  expect(user).toMatchSnapshot();
+  // Snapshot: { id: 1, name: "John", token: "[REDACTED]" }
+});
+
+// ========================
+// jest-serializer-html
+// ========================
+
+// npm install --save-dev jest-serializer-html
+
+// Formats HTML strings with proper indentation in snapshots
+import serializer from 'jest-serializer-html';
+expect.addSnapshotSerializer(serializer);
+
+test('html string snapshot', () => {
+  const html = '<div><p>Hello</p><span>World</span></div>';
+  expect(html).toMatchSnapshot();
+  // Formatted output:
+  // <div>
+  //   <p>Hello</p>
+  //   <span>World</span>
+  // </div>
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Managing Snapshot Files
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Snapshot file structure
+// ========================
+
+// Auto-generated location:
+// src/components/__snapshots__/Button.test.js.snap
+
+// Multiple snapshots in one file:
+exports[\`Button renders primary 1\`] = \`
+<button className="btn-primary">Submit</button>
+\`;
+
+exports[\`Button renders secondary 1\`] = \`
+<button className="btn-secondary">Cancel</button>
+\`;
+
+exports[\`Button renders disabled 1\`] = \`
+<button
+  className="btn-primary"
+  disabled={true}
+>
+  Submit
+</button>
+\`;
+
+// ========================
+// Snapshot key naming
+// ========================
+
+// Key = "test name [hint] count"
+// Count increments for multiple snapshots in same test:
+
+test('button states', () => {
+  const tree1 = renderer.create(<Button label="A" />).toJSON();
+  expect(tree1).toMatchSnapshot(); // Key: "button states 1"
+  
+  const tree2 = renderer.create(<Button label="B" disabled />).toJSON();
+  expect(tree2).toMatchSnapshot(); // Key: "button states 2"
+});
+
+test('button with hint', () => {
+  const tree = renderer.create(<Button label="Submit" primary />).toJSON();
+  expect(tree).toMatchSnapshot('primary button'); // Key: "button with hint: primary button 1"
+});
+
+// ========================
+// Updating snapshots
+// ========================
+
+// Update ALL failing snapshots:
+// jest --updateSnapshot
+// jest -u
+
+// Update snapshot for a single file:
+// jest --updateSnapshot Button.test.js
+
+// Update snapshot for a specific test:
+// jest --updateSnapshot -t "renders primary button"
+
+// Interactive watch mode: press 'u' to update failing snapshots
+// Or press 'i' to update snapshots interactively (one by one)
+
+// ========================
+// Obsolete snapshots
+// ========================
+
+// When you delete or rename a test, its snapshot becomes "obsolete"
+// Jest warns about obsolete snapshots at the end of the test run
+
+// Remove obsolete snapshots:
+// jest --updateSnapshot  (also removes obsoletes during update)
+
+// Or remove all obsoletes without updating existing:
+// jest --ci  (fails on new snapshots, useful in CI to prevent accidental updates)
+
+// ========================
+// Snapshot count per file — keeping it manageable
+// ========================
+
+// Symptoms of snapshot overuse:
+// - Snapshot file larger than 500 lines
+// - Snapshots fail constantly during normal development
+// - Developers automatically run -u without reading the diff
+
+// Solutions:
+// 1. Scope snapshots to small, focused components
+// 2. Use inline snapshots for small outputs
+// 3. Mix snapshots with behavioral RTL tests
+// 4. Use property matchers for dynamic content
+
+// ========================
+// CI configuration
+// ========================
+
+// jest.config.js for CI
+module.exports = {
+  ci: true, // Equivalent to --ci flag
+};
+
+// --ci flag behavior:
+// - Fails if new snapshots are encountered (instead of writing them)
+// - Prevents accidentally committing empty/unreviewed snapshots
+// - Useful to enforce snapshots are always committed with the code
+
+// GitHub Actions example:
+// - run: jest --ci
+// Fails if any snapshot is missing or outdated
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Handling Dynamic Values in Snapshots
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Dynamic values — IDs, timestamps, random strings — break snapshots
+// These strategies keep snapshots stable
+
+// ========================
+// Strategy 1: Mock dynamic values
+// ========================
+
+// Mock Date to a fixed value
+beforeEach(() => {
+  jest.useFakeTimers();
+  jest.setSystemTime(new Date('2024-01-15T10:00:00Z'));
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
+
+test('snapshot with stable date', () => {
+  const tree = renderer.create(<TimestampDisplay />).toJSON();
+  expect(tree).toMatchSnapshot();
+  // Date is always "2024-01-15" — snapshot is stable
+});
+
+// Mock Math.random for IDs
+beforeEach(() => {
+  let counter = 0;
+  jest.spyOn(Math, 'random').mockImplementation(() => counter++ / 100);
+});
+
+afterEach(() => Math.random.mockRestore());
+
+// ========================
+// Strategy 2: Property matchers
+// ========================
+
+test('api response with dynamic id', () => {
+  const response = createUser({ name: 'Jane' });
+  
+  expect(response).toMatchSnapshot({
+    id: expect.any(String),           // UUID — just assert it's a string
+    createdAt: expect.any(String),    // ISO string — just assert type
+    name: 'Jane',                     // Stable — assert exact value
+    role: 'user',                     // Stable — assert exact value
+  });
+});
+
+// ========================
+// Strategy 3: Transform before snapshot
+// ========================
+
+test('sanitize dynamic fields before snapshot', () => {
+  const tree = renderer.create(<UserCard user={mockUser} />).toJSON();
+  
+  // Replace dynamic values with stable placeholders
+  const stable = JSON.parse(
+    JSON.stringify(tree, (key, value) => {
+      if (key === 'data-id') return '[ID]';
+      if (key === 'aria-describedby' && value.startsWith('tooltip-')) return 'tooltip-[ID]';
+      return value;
+    })
+  );
+  
+  expect(stable).toMatchSnapshot();
+});
+
+// ========================
+// Strategy 4: Exclude elements from snapshot
+// ========================
+
+function Avatar({ userId }) {
+  return (
+    <div>
+      <img src={\`/avatars/\${userId}.jpg\`} alt="User avatar" />
+      <span data-testid="username">John</span>
+    </div>
+  );
+}
+
+// Only snapshot the stable part
+test('avatar username only', () => {
+  const { getByTestId } = render(<Avatar userId={Math.random()} />);
+  expect(getByTestId('username')).toMatchSnapshot();
+  // Doesn't snapshot the dynamic src attribute
+});
+
+// ========================
+// Strategy 5: Replace dynamic values in rendered HTML
+// ========================
+
+test('snapshot with replaced dynamic content', () => {
+  const { container } = render(<ComponentWithUUID />);
+  
+  // Replace UUIDs with placeholder
+  const html = container.innerHTML.replace(
+    /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/g,
+    '[UUID]'
+  );
+  
+  expect(html).toMatchSnapshot();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Snapshots with Context, Redux, and Routing
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Snapshot with Context Provider
+// ========================
+
+const ThemeContext = React.createContext('light');
+
+function ThemedButton({ label }) {
+  const theme = useContext(ThemeContext);
+  return (
+    <button className={\`btn btn-\${theme}\`}>{label}</button>
+  );
+}
+
+test('themed button snapshot - light', () => {
+  const tree = renderer.create(
+    <ThemeContext.Provider value="light">
+      <ThemedButton label="Click" />
+    </ThemeContext.Provider>
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+test('themed button snapshot - dark', () => {
+  const tree = renderer.create(
+    <ThemeContext.Provider value="dark">
+      <ThemedButton label="Click" />
+    </ThemeContext.Provider>
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+// ========================
+// Snapshot with Redux
+// ========================
+
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+function renderWithStore(ui, preloadedState = {}) {
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState
+  });
+  return renderer.create(<Provider store={store}>{ui}</Provider>);
+}
+
+test('UserCard snapshot with store', () => {
+  const tree = renderWithStore(<UserCard />, {
+    auth: { user: { name: 'Alice', role: 'admin' } }
+  }).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+// ========================
+// Snapshot with React Router
+// ========================
+
+import { MemoryRouter } from 'react-router-dom';
+
+test('NavBar snapshot on home route', () => {
+  const tree = renderer.create(
+    <MemoryRouter initialEntries={['/']}>
+      <NavBar />
+    </MemoryRouter>
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+test('NavBar snapshot on about route', () => {
+  const tree = renderer.create(
+    <MemoryRouter initialEntries={['/about']}>
+      <NavBar />
+    </MemoryRouter>
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+// ========================
+// Custom render utility for snapshots
+// ========================
+
+function snapshotWithProviders(ui, options = {}) {
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState: options.preloadedState,
+  });
+  
+  return renderer.create(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[options.route || '/']}>
+        <ThemeContext.Provider value={options.theme || 'light'}>
+          {ui}
+        </ThemeContext.Provider>
+      </MemoryRouter>
+    </Provider>
+  ).toJSON();
+}
+
+test('full component snapshot', () => {
+  const tree = snapshotWithProviders(<Dashboard />, {
+    preloadedState: { user: { name: 'Bob', role: 'editor' } },
+    route: '/dashboard',
+    theme: 'dark',
+  });
+  expect(tree).toMatchSnapshot();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Snapshot Testing for Non-Component Use Cases
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Snapshot testing isn't limited to React components
+// Use it for any deterministic serializable output
+
+// ========================
+// Pure function output
+// ========================
+
+function formatAddress(address) {
+  return {
+    line1: \`\${address.number} \${address.street}\`,
+    line2: address.unit ? \`Unit \${address.unit}\` : null,
+    cityState: \`\${address.city}, \${address.state} \${address.zip}\`,
+    country: address.country.toUpperCase(),
+  };
+}
+
+test('formats US address', () => {
+  const result = formatAddress({
+    number: '123',
+    street: 'Main St',
+    city: 'Springfield',
+    state: 'IL',
+    zip: '62701',
+    country: 'us',
+  });
+  expect(result).toMatchSnapshot();
+});
+
+// ========================
+// Complex data transformations
+// ========================
+
+test('CSV parser output', () => {
+  const csv = \`name,age,email
+John,30,john@example.com
+Jane,25,jane@example.com\`;
+  
+  const parsed = parseCSV(csv);
+  expect(parsed).toMatchSnapshot();
+});
+
+test('API response transformation', () => {
+  const rawResponse = { /* complex nested API data */ };
+  const normalized = normalizeApiResponse(rawResponse);
+  expect(normalized).toMatchSnapshot();
+});
+
+// ========================
+// Configuration objects
+// ========================
+
+test('webpack config shape', () => {
+  const config = generateWebpackConfig({ mode: 'production', entry: './src/index.js' });
+  // Snapshot the config to detect unintended changes
+  expect(config).toMatchSnapshot();
+});
+
+test('babel config output', () => {
+  const config = getBabelConfig({ env: 'test', typescript: true });
+  expect(config).toMatchSnapshot();
+});
+
+// ========================
+// Error objects
+// ========================
+
+class ValidationError extends Error {
+  constructor(field, message) {
+    super(message);
+    this.name = 'ValidationError';
+    this.field = field;
+  }
+}
+
+test('validation error structure', () => {
+  const error = new ValidationError('email', 'Invalid email format');
+  expect({
+    name: error.name,
+    message: error.message,
+    field: error.field,
+  }).toMatchSnapshot();
+});
+
+// ========================
+// Regex patterns and string output
+// ========================
+
+test('generated SQL query', () => {
+  const query = buildQuery({
+    table: 'users',
+    conditions: { role: 'admin', active: true },
+    orderBy: 'name',
+    limit: 10,
+  });
+  expect(query).toMatchSnapshot();
+});
+
+test('email template output', () => {
+  const html = renderEmailTemplate('welcome', {
+    username: 'Alice',
+    activationLink: 'https://example.com/activate/[TOKEN]',
+  });
+  // Replace the dynamic token before snapshotting
+  const stable = html.replace(/activate\/[^"]+/, 'activate/[TOKEN]');
+  expect(stable).toMatchSnapshot();
+});
+
+// ========================
+// Storybook + Storyshots
+// ========================
+
+// npm install --save-dev @storybook/addon-storyshots
+
+// Automatically snapshots all your Storybook stories:
+import initStoryshots from '@storybook/addon-storyshots';
+initStoryshots();
+
+// This creates a snapshot for every story in your Storybook
+// Great for catching regressions across your entire component library
+// Update with: jest --updateSnapshot
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Snapshot Testing Best Practices and Anti-Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// ✅ Good Snapshot Practices
+// ========================
+
+// 1. Keep snapshots small and focused
+// BAD: Snapshot an entire page
+test('BAD - full page snapshot', () => {
+  const tree = renderer.create(<EntirePage />).toJSON();
+  expect(tree).toMatchSnapshot(); // 500+ lines, any change fails this
+});
+
+// GOOD: Snapshot only the component being tested
+test('GOOD - focused snapshot', () => {
+  const tree = renderer.create(<ProductCard product={mockProduct} />).toJSON();
+  expect(tree).toMatchSnapshot(); // 20 lines, meaningful diff
+});
+
+// 2. Use descriptive test names — they become snapshot keys
+// BAD:
+test('works', () => { /* ... */ });
+
+// GOOD:
+test('renders disabled state when loading prop is true', () => { /* ... */ });
+
+// 3. Combine snapshots with behavioral tests
+test('submit button renders and functions correctly', async () => {
+  const onSubmit = jest.fn();
+  const user = userEvent.setup();
+  const { asFragment } = render(<Form onSubmit={onSubmit} />);
+  
+  // Snapshot: structural regression check
+  expect(asFragment()).toMatchSnapshot('initial state');
+  
+  // Behavioral: functional correctness
+  await user.click(screen.getByRole('button', { name: 'Submit' }));
+  expect(onSubmit).toHaveBeenCalledTimes(1);
+});
+
+// 4. Review snapshot diffs carefully in code review
+// Don't automatically run -u — read the diff and understand the change
+
+// 5. Use inline snapshots for small outputs
+test('formats date', () => {
+  expect(formatDate(new Date('2024-01-15'))).toMatchInlineSnapshot(
+    \`"January 15, 2024"\`
+  );
+});
+
+// ========================
+// ❌ Snapshot Anti-Patterns
+// ========================
+
+// 1. Automatically updating snapshots without reviewing
+// "Tests were failing so I ran jest -u" — defeats the purpose
+
+// 2. Snapshotting components that change constantly
+// If a component changes every sprint, snapshot is always outdated
+
+// 3. Overly large snapshots
+// 500-line snapshots are noise — every change touches them
+
+// 4. Snapshots as the only tests
+// Snapshots catch regressions but don't verify behavior
+// Always pair with behavioral tests (RTL, assertions)
+
+// 5. Committing unreviewed snapshots
+// Generate snapshot → commit without looking at it → meaningless
+
+// 6. Snapshotting third-party component internals
+// If MUI Button changes its internal DOM, your test fails for no reason
+// Snapshot only the interface you control
+
+// 7. Dynamic values in snapshots without mocking
+// BAD:
+test('BAD - unstable snapshot', () => {
+  const tree = renderer.create(
+    <Article publishedAt={new Date().toISOString()} />
+  ).toJSON();
+  expect(tree).toMatchSnapshot(); // Fails every day!
+});
+
+// GOOD:
+test('GOOD - stable snapshot', () => {
+  const tree = renderer.create(
+    <Article publishedAt="2024-01-15T10:00:00Z" />
+  ).toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+// 8. Snapshot everything — including things that don't matter
+// Focus snapshots on components where structure matters
+// Skip trivial wrappers, layout-only containers
+
+// ========================
+// Deciding when to use snapshots
+// ========================
+
+// Use snapshots when:
+// ✅ Component renders different structures based on props/state
+// ✅ You want to catch unintended markup changes
+// ✅ Testing serializable function output (data transformation)
+// ✅ Multiple render states that are tedious to assert manually
+// ✅ Component library where API stability matters
+
+// Skip snapshots when:
+// ❌ Component is trivially simple (one element)
+// ❌ Component changes very frequently (always outdated)
+// ❌ Dynamic content that's hard to stabilize
+// ❌ Testing behavior/interactions (use RTL assertions instead)
+// ❌ Already fully covered by specific assertions
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Commit snapshot files to source control — they're part of the test</li>
+  <li><b>DO:</b> Review snapshot diffs in code review like any other code change</li>
+  <li><b>DO:</b> Use property matchers for dynamic values (IDs, timestamps)</li>
+  <li><b>DO:</b> Mock dates and random values to make snapshots deterministic</li>
+  <li><b>DO:</b> Use inline snapshots for small, readable outputs</li>
+  <li><b>DO:</b> Keep snapshots small — snapshot components, not entire pages</li>
+  <li><b>DO:</b> Use --ci flag in CI/CD to prevent unreviewed snapshot creation</li>
+  <li><b>DO:</b> Combine snapshots with behavioral tests — they serve different purposes</li>
+  <li><b>DO:</b> Use descriptive test names — they become the snapshot key</li>
+  <li><b>DO:</b> Use custom serializers for third-party or custom data structures</li>
+  <li><b>DON'T:</b> Blindly run jest -u without reading the diff</li>
+  <li><b>DON'T:</b> Snapshot entire pages — focus on the component under test</li>
+  <li><b>DON'T:</b> Use snapshots as the only form of testing — they don't verify behavior</li>
+  <li><b>DON'T:</b> Include dynamic values without mocking — snapshots will always fail</li>
+  <li><b>DON'T:</b> Snapshot third-party component internals you don't control</li>
+  <li><b>DON'T:</b> Create obsolete snapshots — run --updateSnapshot to clean up</li>
+  <li><b>DON'T:</b> Write huge snapshot tests that change with every UI tweak</li>
+  <li><b>DON'T:</b> Skip snapshot review in pull requests — they document intentional changes</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Basic Component Snapshot",
+              "Inline Snapshot",
+              "Snapshot with Property Matchers",
+              "Dynamic Value Handling",
+              "Custom Serializer",
+              "Snapshot After Interaction",
+              "Redux + Router Snapshot",
+              "Data Transformation Snapshot",
+              "Error Object Snapshot",
+              "Storyshots Integration",
+            ],
+            questions: [
+              {
+                question:
+                  "What is snapshot testing and how does it work in Jest?",
+                answer:
+                  "Snapshot testing captures a serialized representation of a value — usually a rendered React component — and saves it to a .snap file in a __snapshots__ directory. On the first run, Jest writes the snapshot. On subsequent runs, Jest compares the current output to the stored snapshot and fails if they differ. To update a snapshot intentionally, run jest --updateSnapshot or jest -u. Snapshots work with any serializable value: React components (via react-test-renderer or RTL's asFragment), plain objects, arrays, strings, and custom data structures. They're best used for detecting unintended regressions in component structure, not for testing behavior or logic.",
+              },
+              {
+                question:
+                  "What is the difference between toMatchSnapshot and toMatchInlineSnapshot?",
+                answer:
+                  "toMatchSnapshot saves the snapshot to a separate .snap file in a __snapshots__ directory. The file is auto-generated, committed to source control, and referenced by test name. toMatchInlineSnapshot writes the snapshot directly into the test file as a template literal. On first run, Jest auto-fills the string using Prettier for formatting. Inline snapshots are better for small outputs where seeing the expected structure in the test improves readability and code review. External .snap file snapshots are better for large component trees where the snapshot would clutter the test file. Both are updated with jest --updateSnapshot.",
+              },
+              {
+                question:
+                  "How do you handle dynamic values like timestamps and IDs in snapshots?",
+                answer:
+                  "Four strategies: 1) Mock dynamic values — use jest.useFakeTimers() and jest.setSystemTime() to freeze time; mock Math.random or UUID generators to return stable values. 2) Property matchers — pass an object to toMatchSnapshot() with expect.any(String) or expect.any(Number) for dynamic fields while asserting exact values for stable ones. 3) Transform before snapshot — replace dynamic values with placeholders using JSON serialization/regex before calling toMatchSnapshot. 4) Scope the snapshot — only snapshot the part of the component that's stable, not the element containing the dynamic value.",
+              },
+              {
+                question:
+                  "What is the difference between using react-test-renderer and React Testing Library for snapshots?",
+                answer:
+                  "react-test-renderer renders components to a pure JavaScript object tree (not real DOM). It's fast, doesn't require jsdom, and produces clean React-specific output. Use it when you want lightweight snapshots of component structure. React Testing Library's asFragment() renders to real DOM via jsdom and returns a DocumentFragment. The snapshot reflects actual browser DOM output, including text nodes and real HTML attributes. RTL is preferred if you already use it for behavioral tests — it keeps your testing stack consistent. react-test-renderer is useful when testing components that don't need DOM APIs or browser environment.",
+              },
+              {
+                question:
+                  "What are custom serializers and when should you use them?",
+                answer:
+                  "Custom serializers define how Jest formats a specific type of value in snapshots. They consist of a test function (returns true if this serializer should handle the value) and a print function (returns the string for the snapshot). Use them when: default serialization is too verbose or unreadable for your data types, you want to hide sensitive fields (passwords, tokens) from snapshots, you're using CSS-in-JS (Emotion, Styled Components) and want styles included in snapshots, or you have custom classes that should render in a specific way. Register them with expect.addSnapshotSerializer() or in jest.config.js via the snapshotSerializers array.",
+              },
+              {
+                question:
+                  "How should snapshot files be managed in source control and CI?",
+                answer:
+                  "Snapshot files must be committed to source control — they're part of the test suite. In CI, use the --ci flag (or ci: true in jest.config.js) which fails if new snapshots are encountered, preventing unreviewed snapshots from being committed. Review snapshot changes in pull requests like any other code change — a snapshot diff documents an intentional change to component output. Remove obsolete snapshots (from deleted or renamed tests) by running jest --updateSnapshot, which cleans up orphaned entries. Never blindly run -u in CI; always read diffs before updating.",
+              },
+              {
+                question:
+                  "What are the limitations of snapshot testing and when should you avoid it?",
+                answer:
+                  "Snapshot tests catch unintended regressions in structure but don't verify behavior — they don't test that buttons work, data loads correctly, or errors are handled properly. Limitations: snapshots become meaningless if developers reflexively run -u without reviewing diffs; large snapshots are hard to review and fail constantly; dynamic values (IDs, dates) cause noise unless carefully handled; third-party component changes fail your tests for unrelated reasons. Avoid snapshots for: components that change frequently, trivially simple components (one element), testing interactions and behavior (use RTL assertions instead), and components whose internal DOM structure changes with library upgrades you don't control.",
+              },
+              {
+                question: "How do you update and manage obsolete snapshots?",
+                answer:
+                  "Update all failing snapshots: jest --updateSnapshot or jest -u. Update for a specific file: jest --updateSnapshot MyComponent.test.js. Update a specific test: jest --updateSnapshot -t 'renders primary button'. In watch mode, press 'u' to update all failing snapshots or 'i' to update interactively one by one. Obsolete snapshots — those for deleted or renamed tests — are reported at the end of the test run. Running --updateSnapshot also removes obsoletes. You can also remove obsoletes without updating existing snapshots by using jest --ci on a passing suite. Always review changes before committing — snapshot updates should be intentional.",
+              },
+              {
+                question:
+                  "How do you snapshot components that require providers (Redux, Router, Context)?",
+                answer:
+                  "Wrap the component in its required providers inside the renderer.create() or render() call. For consistency, create a helper function like snapshotWithProviders(ui, options) that accepts preloadedState for Redux, route for Router, theme for context, and returns the .toJSON() output. This mirrors the custom render utility pattern used in RTL tests. For Redux, create a fresh store per test with configureStore and preloadedState. For Router, use MemoryRouter with initialEntries. For Context, wrap with the provider and pass the test value. Use separate test cases for each meaningful provider state combination (e.g., logged in vs logged out, light vs dark theme).",
+              },
+              {
+                question:
+                  "What is the --ci flag and why is it important for snapshot testing?",
+                answer:
+                  "The --ci flag tells Jest to fail when it encounters a new snapshot that doesn't have a corresponding .snap file entry, instead of automatically writing it. Without --ci, running tests in CI for the first time after adding a snapshot test would write the snapshot and pass — even if the output is wrong. With --ci, the test fails until a human reviews and commits the snapshot. This enforces the workflow: write test → run locally → review snapshot → commit both test and snapshot → CI passes. Set it in jest.config.js as ci: true or pass it explicitly in your CI pipeline scripts. It prevents the common mistake of committing untested or auto-generated snapshots.",
+              },
+              {
+                question: "How do property matchers work with toMatchSnapshot?",
+                answer:
+                  "Property matchers let you assert the shape or type of specific fields while still snapshotting the overall structure. Pass an object as the argument to toMatchSnapshot() where keys map to Jest matchers: expect(value).toMatchSnapshot({ id: expect.any(String), timestamp: expect.any(Number), name: 'John' }). Fields with matchers are replaced in the snapshot by the matcher description (e.g., Any<String>), while fields with exact values are stored as-is. This is useful for objects with UUIDs, timestamps, or other dynamic fields generated at runtime. The overall object structure is still snapshotted — if new fields are added or removed, the test will still detect the change.",
+              },
+              {
+                question: "How do you use toThrowErrorMatchingSnapshot?",
+                answer:
+                  "toThrowErrorMatchingSnapshot snapshots the error message thrown by a function, catching regressions in error text. Wrap the throwing call in an arrow function: expect(() => riskyFunction()).toThrowErrorMatchingSnapshot(). On first run, Jest stores the error message. On subsequent runs, it compares the thrown message to the stored one. The inline variant toThrowErrorMatchingInlineSnapshot takes the expected message as an argument. Useful for functions that throw domain errors where the message wording matters — validation errors, parsing errors, or custom error classes. Update with jest --updateSnapshot when error messages change intentionally.",
+              },
+              {
+                question:
+                  "How do snapshots interact with styled-components or Emotion CSS-in-JS?",
+                answer:
+                  "By default, CSS-in-JS snapshots only include generated class names (e.g., className='sc-abc123 hXyZqR'), making diffs meaningless — you can't see what styles changed. Install jest-styled-components (for Styled Components) or @emotion/jest (for Emotion) and add them to snapshotSerializers in jest.config.js. These serializers inject the actual CSS rules into the snapshot above the component HTML. Now diffs show style property changes clearly. With @emotion/jest, you can also use toHaveStyleRule for assertion-based style testing. This makes snapshot testing meaningful for design system components where CSS regressions matter.",
+              },
+            ],
+            links: [
+              "https://jestjs.io/docs/snapshot-testing",
+              "https://jestjs.io/docs/expect#tomatchsnapshotpropertymatchers-hint",
+              "https://jestjs.io/docs/expect#tomatchinlinesnapshotinlinesnapshot",
+              "https://jestjs.io/docs/configuration#snapshotserializers-arraystring",
+              "https://reactjs.org/docs/test-renderer.html",
+              "https://testing-library.com/docs/react-testing-library/api/#asfragment",
+              "https://github.com/emotion-js/emotion/tree/main/packages/jest",
+              "https://github.com/styled-components/jest-styled-components",
+              "https://storybook.js.org/addons/@storybook/addon-storyshots",
+              "https://jestjs.io/docs/cli#--updatesnapshot",
+            ],
           },
           {
             topic: "End-to-End Testing",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "End-to-End Testing",
+              "Cypress",
+              "Playwright",
+              "Browser Automation",
+              "Integration Testing",
+              "Test Selectors",
+              "Network Interception",
+              "Authentication Testing",
+              "Visual Testing",
+              "CI/CD Testing",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+End-to-End (E2E) testing validates entire user workflows by running tests against a real browser, simulating how a user actually navigates and interacts with your React application. Unlike unit tests (which test functions in isolation) or component tests (which test components in a DOM), E2E tests run the full stack — frontend, backend, database, and network — to verify that everything works together. The two dominant tools for React E2E testing are <strong>Cypress</strong> (a JavaScript-native tool with a built-in test runner, browser, and time-travel debugger) and <strong>Playwright</strong> (a Microsoft-built tool that supports multiple browsers, languages, and has powerful parallelization). Both tools intercept network requests, interact with the DOM, assert on page content, and handle async behavior automatically. E2E tests are slower and more expensive than unit tests but provide the highest confidence that the app works from a user's perspective.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Cypress — Setup and Basic Usage
+</h4>
+
+<p style="line-height: 1.75;">
+Cypress runs directly in the browser, has automatic waiting, real-time reloading, and an interactive test runner. It's the most beginner-friendly E2E tool for React developers.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Installation
+// npm install --save-dev cypress
+
+// package.json scripts
+// "scripts": {
+//   "cypress:open": "cypress open",     // interactive GUI
+//   "cypress:run": "cypress run"         // headless CI mode
+// }
+
+// Directory structure after first run:
+// cypress/
+//   e2e/            — test files (.cy.js)
+//   fixtures/       — static test data (JSON)
+//   support/        — commands, global config
+//     commands.js   — custom commands
+//     e2e.js        — global beforeEach, imports
+
+// cypress.config.js
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  e2e: {
+    baseUrl: 'http://localhost:3000',   // prepended to cy.visit() calls
+    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    viewportWidth: 1280,
+    viewportHeight: 720,
+    video: false,                        // set true for CI recordings
+    screenshotOnRunFailure: true,
+    defaultCommandTimeout: 4000,         // ms to wait for DOM assertions
+    requestTimeout: 5000,               // ms to wait for cy.request()
+    setupNodeEvents(on, config) {
+      // Node event listeners (plugin setup)
+    },
+  },
+});
+
+// ========================
+// First test: basic navigation
+// ========================
+
+// cypress/e2e/home.cy.js
+describe('Home Page', () => {
+  beforeEach(() => {
+    cy.visit('/');  // uses baseUrl from config
+  });
+
+  it('displays the page title', () => {
+    cy.get('h1').should('contain.text', 'Welcome');
+  });
+
+  it('has a working navigation link', () => {
+    cy.get('a[href="/about"]').click();
+    cy.url().should('include', '/about');
+    cy.get('h1').should('have.text', 'About Us');
+  });
+
+  it('renders the hero section', () => {
+    cy.get('[data-cy="hero-section"]').should('be.visible');
+    cy.get('[data-cy="cta-button"]').should('have.text', 'Get Started');
+  });
+});
+
+// ========================
+// Selector best practices
+// ========================
+
+// Priority for selecting elements in Cypress:
+
+// 1. data-cy attribute (most recommended — purpose-built for tests)
+cy.get('[data-cy="submit-button"]');
+
+// 2. data-testid (compatible with RTL conventions)
+cy.get('[data-testid="user-card"]');
+
+// 3. ARIA role / accessible name (good for accessibility)
+cy.get('[role="dialog"]');
+cy.contains('button', 'Submit');
+
+// 4. CSS selectors (OK for stable, semantic selectors)
+cy.get('form').find('button[type="submit"]');
+
+// Avoid:
+// ❌ cy.get('.btn-primary')  — brittle, CSS class changes break tests
+// ❌ cy.get('#root > div > div:nth-child(2)')  — brittle structure
+// ❌ cy.get('button')  — too generic if multiple buttons
+
+// ========================
+// Core Cypress commands
+// ========================
+
+// Navigation
+cy.visit('/login');
+cy.visit('https://external.com/page');
+cy.go('back');
+cy.go('forward');
+cy.reload();
+
+// Finding elements
+cy.get('[data-cy="header"]');             // CSS selector
+cy.contains('Submit');                     // by text content
+cy.contains('button', 'Submit');           // by element + text
+cy.find('[data-cy="item"]');               // within parent
+
+// Actions
+cy.get('[data-cy="email"]').type('user@example.com');
+cy.get('[data-cy="password"]').type('secret{enter}');  // {enter} = Enter key
+cy.get('[data-cy="submit"]').click();
+cy.get('[data-cy="checkbox"]').check();
+cy.get('[data-cy="checkbox"]').uncheck();
+cy.get('select').select('Option A');
+cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/image.png');
+cy.get('[data-cy="textarea"]').clear().type('New content');
+
+// Assertions (should / expect)
+cy.get('[data-cy="title"]').should('be.visible');
+cy.get('[data-cy="title"]').should('have.text', 'Dashboard');
+cy.get('[data-cy="count"]').should('contain.text', '5');
+cy.get('input').should('have.value', 'test@example.com');
+cy.get('[data-cy="error"]').should('not.exist');
+cy.get('[data-cy="loading"]').should('not.be.visible');
+cy.url().should('eq', 'http://localhost:3000/dashboard');
+cy.url().should('include', '/dashboard');
+
+// Wait for automatic retries (Cypress retries assertions until timeout)
+// No manual waits needed for DOM changes
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Playwright — Setup and Basic Usage
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Installation
+// npm install --save-dev @playwright/test
+// npx playwright install   — installs browsers (Chromium, Firefox, WebKit)
+
+// package.json scripts
+// "scripts": {
+//   "test:e2e": "playwright test",
+//   "test:e2e:ui": "playwright test --ui",         // interactive UI
+//   "test:e2e:debug": "playwright test --debug"    // step-through debugger
+// }
+
+// playwright.config.ts
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './e2e',
+  testMatch: '**/*.spec.ts',
+  fullyParallel: true,             // run tests in parallel
+  forbidOnly: !!process.env.CI,    // fail if test.only in CI
+  retries: process.env.CI ? 2 : 0, // retry on CI
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',      // capture trace on failure
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox',  use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit',   use: { ...devices['Desktop Safari'] } },
+    { name: 'mobile-chrome', use: { ...devices['Pixel 5'] } },
+    { name: 'mobile-safari', use: { ...devices['iPhone 13'] } },
+  ],
+  webServer: {
+    command: 'npm run start',     // auto-start dev server
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+  },
+});
+
+// ========================
+// First test: basic navigation
+// ========================
+
+// e2e/home.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('Home Page', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('displays the page title', async ({ page }) => {
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Welcome');
+  });
+
+  test('has a working navigation link', async ({ page }) => {
+    await page.getByRole('link', { name: 'About' }).click();
+    await expect(page).toHaveURL('/about');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('About Us');
+  });
+
+  test('renders the hero section', async ({ page }) => {
+    await expect(page.getByTestId('hero-section')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Get Started' })).toBeVisible();
+  });
+});
+
+// ========================
+// Playwright locators (preferred over CSS selectors)
+// ========================
+
+// Role-based (most accessible and recommended)
+page.getByRole('button', { name: 'Submit' });
+page.getByRole('textbox', { name: 'Email' });
+page.getByRole('heading', { level: 2 });
+page.getByRole('link', { name: 'Home' });
+page.getByRole('checkbox', { name: 'Remember me' });
+page.getByRole('dialog');
+page.getByRole('alert');
+
+// Label-based (great for forms)
+page.getByLabel('Email address');
+page.getByLabel('Password');
+
+// Placeholder
+page.getByPlaceholder('Enter your email');
+
+// Text content
+page.getByText('Welcome back');
+page.getByText(/logged in as/i);  // regex
+
+// Alt text (images)
+page.getByAltText('Company logo');
+
+// Title attribute
+page.getByTitle('Close dialog');
+
+// Test ID (data-testid)
+page.getByTestId('user-card');
+
+// CSS fallback (last resort)
+page.locator('[data-cy="custom-element"]');
+page.locator('form').locator('button[type="submit"]');
+
+// Chaining locators
+page.getByRole('dialog').getByRole('button', { name: 'Confirm' });
+
+// ========================
+// Core Playwright interactions
+// ========================
+
+// Navigation
+await page.goto('/login');
+await page.goBack();
+await page.goForward();
+await page.reload();
+
+// Actions
+await page.getByLabel('Email').fill('user@example.com');
+await page.getByLabel('Password').fill('secret');
+await page.getByRole('button', { name: 'Login' }).click();
+await page.getByRole('checkbox').check();
+await page.getByRole('checkbox').uncheck();
+await page.selectOption('select', 'option-value');
+await page.getByLabel('File').setInputFiles('fixtures/image.png');
+await page.keyboard.press('Enter');
+await page.keyboard.type('Hello World');
+
+// Assertions (auto-waiting built in)
+await expect(page.getByRole('heading')).toBeVisible();
+await expect(page.getByRole('heading')).toHaveText('Dashboard');
+await expect(page.getByRole('alert')).toContainText('Success');
+await expect(page.getByRole('textbox')).toHaveValue('test@example.com');
+await expect(page.getByRole('button')).toBeDisabled();
+await expect(page.getByTestId('error')).not.toBeVisible();
+await expect(page).toHaveURL('/dashboard');
+await expect(page).toHaveTitle('My App - Dashboard');
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Testing Common React Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Form submission (Cypress)
+// ========================
+
+describe('Contact Form', () => {
+  it('submits form with valid data', () => {
+    cy.visit('/contact');
+
+    cy.get('[data-cy="name"]').type('John Doe');
+    cy.get('[data-cy="email"]').type('john@example.com');
+    cy.get('[data-cy="message"]').type('Hello, I have a question.');
+    cy.get('[data-cy="submit"]').click();
+
+    cy.get('[data-cy="success-message"]')
+      .should('be.visible')
+      .and('contain.text', 'Message sent!');
+  });
+
+  it('shows validation errors on empty submit', () => {
+    cy.visit('/contact');
+
+    cy.get('[data-cy="submit"]').click();
+
+    cy.get('[data-cy="name-error"]').should('contain.text', 'Name is required');
+    cy.get('[data-cy="email-error"]').should('contain.text', 'Email is required');
+    cy.url().should('include', '/contact'); // stays on page
+  });
+
+  it('shows error for invalid email format', () => {
+    cy.visit('/contact');
+
+    cy.get('[data-cy="email"]').type('not-an-email');
+    cy.get('[data-cy="submit"]').click();
+
+    cy.get('[data-cy="email-error"]').should('contain.text', 'Invalid email');
+  });
+});
+
+// ========================
+// Form submission (Playwright)
+// ========================
+
+test('submits contact form with valid data', async ({ page }) => {
+  await page.goto('/contact');
+
+  await page.getByLabel('Name').fill('John Doe');
+  await page.getByLabel('Email').fill('john@example.com');
+  await page.getByLabel('Message').fill('Hello, I have a question.');
+  await page.getByRole('button', { name: 'Send Message' }).click();
+
+  await expect(page.getByRole('alert')).toContainText('Message sent!');
+});
+
+test('shows validation errors on empty submit', async ({ page }) => {
+  await page.goto('/contact');
+
+  await page.getByRole('button', { name: 'Send Message' }).click();
+
+  await expect(page.getByText('Name is required')).toBeVisible();
+  await expect(page.getByText('Email is required')).toBeVisible();
+  await expect(page).toHaveURL('/contact');
+});
+
+// ========================
+// Authentication flow
+// ========================
+
+// Cypress — login flow
+describe('Authentication', () => {
+  it('logs in with valid credentials', () => {
+    cy.visit('/login');
+
+    cy.get('[data-cy="email"]').type('user@example.com');
+    cy.get('[data-cy="password"]').type('password123');
+    cy.get('[data-cy="login-btn"]').click();
+
+    // Redirected to dashboard
+    cy.url().should('include', '/dashboard');
+    cy.get('[data-cy="welcome-message"]').should('contain.text', 'Welcome back');
+  });
+
+  it('shows error for wrong credentials', () => {
+    cy.visit('/login');
+
+    cy.get('[data-cy="email"]').type('user@example.com');
+    cy.get('[data-cy="password"]').type('wrongpassword');
+    cy.get('[data-cy="login-btn"]').click();
+
+    cy.get('[data-cy="auth-error"]')
+      .should('be.visible')
+      .and('contain.text', 'Invalid email or password');
+    cy.url().should('include', '/login');
+  });
+
+  it('redirects unauthenticated users to login', () => {
+    cy.visit('/dashboard');
+    cy.url().should('include', '/login');
+  });
+
+  it('logs out successfully', () => {
+    cy.login('user@example.com', 'password123'); // custom command
+    cy.visit('/dashboard');
+
+    cy.get('[data-cy="user-menu"]').click();
+    cy.get('[data-cy="logout-btn"]').click();
+
+    cy.url().should('include', '/login');
+    cy.get('[data-cy="login-btn"]').should('exist');
+  });
+});
+
+// ========================
+// Modal / Dialog
+// ========================
+
+// Cypress
+it('opens and closes modal', () => {
+  cy.visit('/items');
+
+  cy.get('[data-cy="delete-btn"]').first().click();
+
+  cy.get('[role="dialog"]').should('be.visible');
+  cy.get('[role="dialog"]').should('contain.text', 'Are you sure?');
+
+  cy.get('[data-cy="cancel-btn"]').click();
+  cy.get('[role="dialog"]').should('not.exist');
+});
+
+it('confirms deletion in modal', () => {
+  cy.visit('/items');
+
+  cy.get('[data-cy="item-list"] li').should('have.length', 5);
+  cy.get('[data-cy="delete-btn"]').first().click();
+  cy.get('[data-cy="confirm-delete"]').click();
+
+  cy.get('[data-cy="item-list"] li').should('have.length', 4);
+  cy.get('[role="alert"]').should('contain.text', 'Item deleted');
+});
+
+// Playwright
+test('opens and closes modal', async ({ page }) => {
+  await page.goto('/items');
+
+  await page.getByRole('button', { name: 'Delete' }).first().click();
+
+  const dialog = page.getByRole('dialog');
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('Are you sure?');
+
+  await page.getByRole('button', { name: 'Cancel' }).click();
+  await expect(dialog).not.toBeVisible();
+});
+
+// ========================
+// Navigation and routing
+// ========================
+
+// Cypress
+it('navigates between pages', () => {
+  cy.visit('/');
+
+  cy.get('nav').contains('Products').click();
+  cy.url().should('include', '/products');
+  cy.get('h1').should('contain.text', 'Our Products');
+
+  cy.get('[data-cy="product-card"]').first().click();
+  cy.url().should('match', /\/products\/\d+/);
+  cy.get('[data-cy="product-title"]').should('be.visible');
+
+  cy.go('back');
+  cy.url().should('include', '/products');
+});
+
+// Playwright
+test('navigates between pages', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByRole('navigation').getByRole('link', { name: 'Products' }).click();
+  await expect(page).toHaveURL('/products');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Our Products');
+
+  await page.getByTestId('product-card').first().click();
+  await expect(page).toHaveURL(/\/products\/\d+/);
+
+  await page.goBack();
+  await expect(page).toHaveURL('/products');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Network Interception and API Mocking
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Cypress — cy.intercept()
+// ========================
+
+describe('Product List with API mocking', () => {
+  it('displays products from API', () => {
+    // Intercept before visit
+    cy.intercept('GET', '/api/products', {
+      statusCode: 200,
+      body: [
+        { id: 1, name: 'Laptop', price: 999 },
+        { id: 2, name: 'Mouse', price: 29 },
+      ],
+    }).as('getProducts');
+
+    cy.visit('/products');
+
+    cy.wait('@getProducts'); // wait for the intercepted request
+
+    cy.get('[data-cy="product-card"]').should('have.length', 2);
+    cy.contains('Laptop').should('be.visible');
+  });
+
+  it('shows loading state then products', () => {
+    cy.intercept('GET', '/api/products', (req) => {
+      req.reply((res) => {
+        res.delay = 1000; // simulate slow network
+        res.send({ body: [{ id: 1, name: 'Laptop' }] });
+      });
+    }).as('slowProducts');
+
+    cy.visit('/products');
+
+    cy.get('[data-cy="loading-spinner"]').should('be.visible');
+    cy.wait('@slowProducts');
+    cy.get('[data-cy="loading-spinner"]').should('not.exist');
+    cy.get('[data-cy="product-card"]').should('have.length', 1);
+  });
+
+  it('shows error state when API fails', () => {
+    cy.intercept('GET', '/api/products', {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+    }).as('failedProducts');
+
+    cy.visit('/products');
+    cy.wait('@failedProducts');
+
+    cy.get('[data-cy="error-message"]').should('contain.text', 'Failed to load products');
+    cy.get('[data-cy="retry-btn"]').should('be.visible');
+  });
+
+  it('intercepts POST on form submit', () => {
+    cy.intercept('POST', '/api/products', {
+      statusCode: 201,
+      body: { id: 3, name: 'Keyboard', price: 79 },
+    }).as('createProduct');
+
+    cy.visit('/products/new');
+    cy.get('[data-cy="product-name"]').type('Keyboard');
+    cy.get('[data-cy="product-price"]').type('79');
+    cy.get('[data-cy="submit"]').click();
+
+    cy.wait('@createProduct').its('request.body').should('deep.equal', {
+      name: 'Keyboard',
+      price: 79,
+    });
+
+    cy.url().should('include', '/products');
+  });
+
+  // Intercept with fixture file
+  it('uses fixture for mock data', () => {
+    cy.intercept('GET', '/api/products', { fixture: 'products.json' }).as('getProducts');
+    // cypress/fixtures/products.json contains the mock response
+
+    cy.visit('/products');
+    cy.wait('@getProducts');
+    cy.get('[data-cy="product-card"]').should('have.length.gt', 0);
+  });
+
+  // Spy on request without mocking response
+  it('verifies API called with correct params', () => {
+    cy.intercept('GET', '/api/products*').as('getProducts');
+
+    cy.visit('/products');
+    cy.get('[data-cy="search"]').type('laptop');
+    cy.get('[data-cy="search-btn"]').click();
+
+    cy.wait('@getProducts').its('request.url').should('include', 'q=laptop');
+  });
+});
+
+// ========================
+// Playwright — route interception
+// ========================
+
+test('displays products from mocked API', async ({ page }) => {
+  await page.route('/api/products', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([
+        { id: 1, name: 'Laptop', price: 999 },
+        { id: 2, name: 'Mouse', price: 29 },
+      ]),
+    });
+  });
+
+  await page.goto('/products');
+
+  await expect(page.getByTestId('product-card')).toHaveCount(2);
+  await expect(page.getByText('Laptop')).toBeVisible();
+});
+
+test('shows error state when API fails', async ({ page }) => {
+  await page.route('/api/products', async (route) => {
+    await route.fulfill({ status: 500 });
+  });
+
+  await page.goto('/products');
+
+  await expect(page.getByTestId('error-message')).toContainText('Failed to load products');
+});
+
+test('intercepts and modifies response', async ({ page }) => {
+  await page.route('/api/user/profile', async (route) => {
+    const response = await route.fetch(); // let request go through
+    const json = await response.json();
+
+    // Modify the response
+    json.role = 'admin';
+
+    await route.fulfill({ json });
+  });
+
+  await page.goto('/dashboard');
+  await expect(page.getByTestId('admin-panel')).toBeVisible();
+});
+
+// Wait for a specific request
+test('verifies API request payload', async ({ page }) => {
+  const [request] = await Promise.all([
+    page.waitForRequest('/api/products'),
+    page.getByRole('button', { name: 'Load Products' }).click(),
+  ]);
+
+  expect(request.method()).toBe('GET');
+});
+
+// Wait for response
+test('waits for API response', async ({ page }) => {
+  const responsePromise = page.waitForResponse('/api/products');
+  await page.getByRole('button', { name: 'Load' }).click();
+  const response = await responsePromise;
+  expect(response.status()).toBe(200);
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Authentication Strategies
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Logging in via UI on every test is slow and tests the wrong thing
+// Best practice: bypass the UI for test setup, only test login UI once
+
+// ========================
+// Cypress — Custom login command (session-based)
+// ========================
+
+// cypress/support/commands.js
+Cypress.Commands.add('login', (email = 'user@example.com', password = 'password123') => {
+  // Option 1: Login via API (fastest)
+  cy.request({
+    method: 'POST',
+    url: '/api/auth/login',
+    body: { email, password },
+  }).then(({ body }) => {
+    // Store token in localStorage / cookie
+    window.localStorage.setItem('authToken', body.token);
+    // Or set cookie:
+    cy.setCookie('session', body.sessionId);
+  });
+});
+
+// Better: use cy.session() to cache login across tests (Cypress 10+)
+Cypress.Commands.add('loginWithSession', (email, password) => {
+  cy.session([email, password], () => {
+    cy.request('POST', '/api/auth/login', { email, password })
+      .then(({ body }) => {
+        window.localStorage.setItem('authToken', body.token);
+      });
+  });
+});
+
+// Usage in tests:
+describe('Dashboard (requires auth)', () => {
+  beforeEach(() => {
+    cy.loginWithSession('user@example.com', 'password123');
+    cy.visit('/dashboard');
+  });
+
+  it('shows user profile', () => {
+    cy.get('[data-cy="user-name"]').should('contain.text', 'John');
+  });
+});
+
+// ========================
+// Cypress — Different user roles
+// ========================
+
+Cypress.Commands.add('loginAsAdmin', () => {
+  cy.loginWithSession('admin@example.com', 'adminpass');
+});
+
+Cypress.Commands.add('loginAsViewer', () => {
+  cy.loginWithSession('viewer@example.com', 'viewerpass');
+});
+
+describe('Role-based access', () => {
+  it('admin can access settings', () => {
+    cy.loginAsAdmin();
+    cy.visit('/settings');
+    cy.get('[data-cy="settings-panel"]').should('be.visible');
+  });
+
+  it('viewer cannot access settings', () => {
+    cy.loginAsViewer();
+    cy.visit('/settings');
+    cy.url().should('include', '/unauthorized');
+  });
+});
+
+// ========================
+// Playwright — storageState for authentication
+// ========================
+
+// global-setup.ts — runs once before all tests
+import { chromium } from '@playwright/test';
+
+async function globalSetup() {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+
+  await page.goto('http://localhost:3000/login');
+  await page.getByLabel('Email').fill('user@example.com');
+  await page.getByLabel('Password').fill('password123');
+  await page.getByRole('button', { name: 'Login' }).click();
+  await page.waitForURL('/dashboard');
+
+  // Save auth state (cookies + localStorage) to file
+  await page.context().storageState({ path: 'playwright/.auth/user.json' });
+
+  await browser.close();
+}
+
+export default globalSetup;
+
+// playwright.config.ts
+export default defineConfig({
+  globalSetup: './global-setup.ts',
+  projects: [
+    {
+      name: 'setup',
+      testMatch: /global-setup.ts/,
+    },
+    {
+      name: 'authenticated',
+      use: {
+        storageState: 'playwright/.auth/user.json', // reuse auth state
+      },
+      dependencies: ['setup'],
+    },
+  ],
+});
+
+// Now all tests in 'authenticated' project start logged in — no login UI needed
+
+// ========================
+// Playwright — per-test auth fixture
+// ========================
+
+// fixtures.ts
+import { test as base } from '@playwright/test';
+
+const test = base.extend({
+  authenticatedPage: async ({ browser }, use) => {
+    const context = await browser.newContext({
+      storageState: 'playwright/.auth/user.json',
+    });
+    const page = await context.newPage();
+    await use(page);
+    await context.close();
+  },
+
+  adminPage: async ({ browser }, use) => {
+    const context = await browser.newContext({
+      storageState: 'playwright/.auth/admin.json',
+    });
+    const page = await context.newPage();
+    await use(page);
+    await context.close();
+  },
+});
+
+export { test };
+
+// Usage:
+import { test } from './fixtures';
+
+test('authenticated user sees dashboard', async ({ authenticatedPage }) => {
+  await authenticatedPage.goto('/dashboard');
+  await expect(authenticatedPage.getByTestId('welcome')).toBeVisible();
+});
+
+test('admin user sees settings', async ({ adminPage }) => {
+  await adminPage.goto('/settings');
+  await expect(adminPage.getByTestId('admin-settings')).toBeVisible();
+});
+
+// ========================
+// JWT token injection (both tools)
+// ========================
+
+// Cypress — set token before visit
+beforeEach(() => {
+  cy.window().then((win) => {
+    win.localStorage.setItem('authToken', Cypress.env('TEST_JWT'));
+  });
+  cy.visit('/dashboard');
+});
+
+// Playwright — set via addInitScript
+test('with JWT', async ({ page }) => {
+  await page.addInitScript((token) => {
+    localStorage.setItem('authToken', token);
+  }, process.env.TEST_JWT);
+
+  await page.goto('/dashboard');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Custom Commands and Fixtures (Cypress) / Fixtures and Page Objects (Playwright)
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Cypress — Custom Commands
+// ========================
+
+// cypress/support/commands.js
+
+// Navigation command
+Cypress.Commands.add('navigateTo', (section) => {
+  cy.get('[data-cy="main-nav"]').contains(section).click();
+});
+
+// Form fill command
+Cypress.Commands.add('fillContactForm', ({ name, email, message }) => {
+  cy.get('[data-cy="name"]').clear().type(name);
+  cy.get('[data-cy="email"]').clear().type(email);
+  cy.get('[data-cy="message"]').clear().type(message);
+});
+
+// Drag and drop command
+Cypress.Commands.add('dragTo', { prevSubject: 'element' }, (subject, target) => {
+  cy.wrap(subject).trigger('dragstart');
+  cy.get(target).trigger('dragover').trigger('drop');
+});
+
+// Usage:
+cy.navigateTo('Products');
+cy.fillContactForm({ name: 'John', email: 'j@test.com', message: 'Hi' });
+cy.get('[data-cy="draggable"]').dragTo('[data-cy="dropzone"]');
+
+// ========================
+// Cypress — Fixtures
+// ========================
+
+// cypress/fixtures/user.json
+// {
+//   "id": 1,
+//   "name": "John Doe",
+//   "email": "john@example.com",
+//   "role": "admin"
+// }
+
+// Use in test
+cy.fixture('user').then((user) => {
+  cy.intercept('GET', '/api/user/profile', user).as('getProfile');
+});
+
+// Or alias fixture
+cy.fixture('user').as('testUser');
+cy.get('@testUser').then((user) => {
+  cy.get('[data-cy="name"]').should('contain.text', user.name);
+});
+
+// ========================
+// Playwright — Page Object Model (POM)
+// ========================
+
+// Pattern: encapsulate page interactions in classes
+// Promotes reuse and makes tests more readable
+
+// pages/LoginPage.ts
+import { Page, Locator, expect } from '@playwright/test';
+
+export class LoginPage {
+  readonly page: Page;
+  readonly emailInput: Locator;
+  readonly passwordInput: Locator;
+  readonly loginButton: Locator;
+  readonly errorMessage: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.emailInput = page.getByLabel('Email');
+    this.passwordInput = page.getByLabel('Password');
+    this.loginButton = page.getByRole('button', { name: 'Login' });
+    this.errorMessage = page.getByTestId('auth-error');
+  }
+
+  async goto() {
+    await this.page.goto('/login');
+  }
+
+  async login(email: string, password: string) {
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
+  }
+
+  async expectError(message: string) {
+    await expect(this.errorMessage).toContainText(message);
+  }
+}
+
+// pages/DashboardPage.ts
+import { Page, Locator, expect } from '@playwright/test';
+
+export class DashboardPage {
+  readonly page: Page;
+  readonly welcomeMessage: Locator;
+  readonly userMenu: Locator;
+  readonly logoutButton: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.welcomeMessage = page.getByTestId('welcome-message');
+    this.userMenu = page.getByTestId('user-menu');
+    this.logoutButton = page.getByRole('button', { name: 'Logout' });
+  }
+
+  async goto() {
+    await this.page.goto('/dashboard');
+  }
+
+  async logout() {
+    await this.userMenu.click();
+    await this.logoutButton.click();
+  }
+
+  async expectWelcomeMessage(name: string) {
+    await expect(this.welcomeMessage).toContainText(\`Welcome, \${name}\`);
+  }
+}
+
+// Using POMs in tests:
+import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/LoginPage';
+import { DashboardPage } from './pages/DashboardPage';
+
+test('login flow using page objects', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  const dashboardPage = new DashboardPage(page);
+
+  await loginPage.goto();
+  await loginPage.login('user@example.com', 'password123');
+
+  await expect(page).toHaveURL('/dashboard');
+  await dashboardPage.expectWelcomeMessage('John');
+});
+
+test('invalid login shows error', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.goto();
+  await loginPage.login('user@example.com', 'wrong');
+  await loginPage.expectError('Invalid email or password');
+});
+
+// ========================
+// Playwright — Fixtures for page objects
+// ========================
+
+// fixtures.ts
+import { test as base } from '@playwright/test';
+import { LoginPage } from './pages/LoginPage';
+import { DashboardPage } from './pages/DashboardPage';
+
+type Fixtures = {
+  loginPage: LoginPage;
+  dashboardPage: DashboardPage;
+};
+
+const test = base.extend<Fixtures>({
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
+  dashboardPage: async ({ page }, use) => {
+    await use(new DashboardPage(page));
+  },
+});
+
+export { test };
+
+// Usage:
+import { test } from './fixtures';
+
+test('login flow', async ({ loginPage, dashboardPage }) => {
+  await loginPage.goto();
+  await loginPage.login('user@example.com', 'password123');
+  await dashboardPage.expectWelcomeMessage('John');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Async Handling and Waiting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Both Cypress and Playwright handle async automatically
+// Understanding how to work with their async models prevents flaky tests
+
+// ========================
+// Cypress — Automatic Retry
+// ========================
+
+// Cypress commands are queued and execute sequentially
+// Assertions retry until they pass or timeout (defaultCommandTimeout)
+
+// ✅ Cypress auto-retries this until the element appears:
+cy.get('[data-cy="results"]').should('be.visible');
+
+// ✅ Also retries the whole chain:
+cy.get('[data-cy="user-list"]').find('li').should('have.length', 5);
+
+// Waiting for API call before asserting:
+cy.intercept('GET', '/api/data').as('getData');
+cy.visit('/page');
+cy.wait('@getData');                     // waits for the request to complete
+cy.get('[data-cy="data-table"]').should('be.visible');
+
+// Waiting for multiple requests:
+cy.wait(['@getUsers', '@getProducts']); // waits for both
+
+// Custom timeout on a single assertion:
+cy.get('[data-cy="slow-element"]', { timeout: 10000 }).should('be.visible');
+
+// Waiting for URL change:
+cy.url().should('include', '/success');
+
+// Waiting for element to disappear:
+cy.get('[data-cy="loading"]').should('not.exist');
+
+// Dangerous — avoid explicit waits (makes tests slow and unreliable):
+// ❌ cy.wait(3000);  // arbitrary wait — don't do this
+
+// ========================
+// Playwright — Auto-waiting
+// ========================
+
+// Playwright automatically waits for elements to be:
+// - attached to DOM
+// - visible
+// - stable (not animating)
+// - enabled
+// - editable (for input actions)
+
+// ✅ Auto-waits for element to appear:
+await page.getByRole('button', { name: 'Submit' }).click();
+
+// ✅ Auto-waits for assertion:
+await expect(page.getByTestId('results')).toBeVisible();
+
+// Wait for navigation after click:
+await Promise.all([
+  page.waitForURL('/dashboard'),
+  page.getByRole('button', { name: 'Login' }).click(),
+]);
+
+// Or use the newer pattern:
+await page.getByRole('button', { name: 'Login' }).click();
+await page.waitForURL('/dashboard');
+
+// Wait for network idle (all requests completed):
+await page.goto('/page', { waitUntil: 'networkidle' });
+
+// Wait for a specific response:
+const [response] = await Promise.all([
+  page.waitForResponse('/api/data'),
+  page.getByRole('button', { name: 'Load' }).click(),
+]);
+expect(response.status()).toBe(200);
+
+// Custom timeout:
+await expect(page.getByTestId('slow-element')).toBeVisible({ timeout: 10000 });
+
+// Wait for element to disappear:
+await expect(page.getByTestId('loading')).not.toBeVisible();
+
+// Polling until condition is met:
+await expect(async () => {
+  const count = await page.getByTestId('item').count();
+  expect(count).toBeGreaterThan(5);
+}).toPass({ timeout: 10000 });
+
+// ========================
+// Handling animations and transitions
+// ========================
+
+// Cypress — disable CSS transitions in tests
+// cypress/support/e2e.js
+before(() => {
+  Cypress.on('window:before:load', (win) => {
+    const style = win.document.createElement('style');
+    style.innerHTML = '*, *::before, *::after { transition: none !important; animation: none !important; }';
+    win.document.head.appendChild(style);
+  });
+});
+
+// Playwright — disable animations globally
+// playwright.config.ts
+use: {
+  reducedMotion: 'reduce', // Playwright sets prefers-reduced-motion
+}
+
+// ========================
+// Flaky test strategies
+// ========================
+
+// 1. Always use specific selectors (data-cy / data-testid)
+// 2. Wait for network requests before asserting data
+// 3. Use cy.intercept / page.route to control API timing
+// 4. Avoid arbitrary cy.wait() / page.waitForTimeout()
+// 5. Clean up test state between tests (clear DB, reset auth)
+// 6. Use Playwright retries for inherently unstable tests:
+test('retries on flakiness', async ({ page }) => {
+  test.slow(); // triples timeout for this test
+  // ...
+});
+
+// Playwright retry on failure:
+// playwright.config.ts: retries: 2
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Visual Testing and Screenshots
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Playwright — Built-in visual comparisons
+// ========================
+
+// Playwright has native screenshot comparison built in
+// No extra library needed
+
+test('home page visual regression', async ({ page }) => {
+  await page.goto('/');
+  
+  // Take and compare a full page screenshot
+  await expect(page).toHaveScreenshot('home-page.png');
+});
+
+test('button component visual', async ({ page }) => {
+  await page.goto('/components/button');
+  
+  const button = page.getByRole('button', { name: 'Primary' });
+  
+  // Screenshot a specific element
+  await expect(button).toHaveScreenshot('primary-button.png');
+});
+
+// Screenshots are stored in: e2e/__screenshots__/
+// First run creates the baseline, subsequent runs compare
+
+// Update baseline screenshots:
+// npx playwright test --update-snapshots
+
+// Configure screenshot options:
+await expect(page).toHaveScreenshot('page.png', {
+  maxDiffPixels: 100,         // allow up to 100 different pixels
+  maxDiffPixelRatio: 0.01,    // allow up to 1% pixel difference
+  threshold: 0.2,             // color difference threshold (0-1)
+  animations: 'disabled',     // disable CSS animations before screenshot
+  mask: [page.getByTestId('dynamic-content')], // mask dynamic regions
+});
+
+// ========================
+// Cypress — cy.screenshot()
+// ========================
+
+it('takes screenshot on key steps', () => {
+  cy.visit('/dashboard');
+  
+  cy.screenshot('dashboard-initial'); // saves to cypress/screenshots/
+
+  cy.get('[data-cy="filter-btn"]').click();
+  cy.screenshot('dashboard-filtered');
+});
+
+// For visual regression in Cypress, use cypress-image-snapshot:
+// npm install --save-dev cypress-image-snapshot
+
+// cypress/support/commands.js
+import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
+addMatchImageSnapshotCommand({
+  failureThreshold: 0.05, // 5% difference allowed
+  failureThresholdType: 'percent',
+});
+
+// In test:
+it('matches visual snapshot', () => {
+  cy.visit('/dashboard');
+  cy.matchImageSnapshot('dashboard');
+});
+
+// ========================
+// Masking dynamic content
+// ========================
+
+// Playwright — mask elements with changing content
+test('page with dynamic dates', async ({ page }) => {
+  await page.goto('/reports');
+  
+  await expect(page).toHaveScreenshot('reports.png', {
+    mask: [
+      page.getByTestId('report-date'),      // mask the date field
+      page.getByTestId('random-id'),         // mask any dynamic IDs
+      page.getByTestId('user-avatar'),       // mask user-specific images
+    ],
+  });
+});
+
+// ========================
+// Viewport and device screenshots
+// ========================
+
+// Playwright — test different screen sizes
+test('responsive design', async ({ page }) => {
+  // Desktop
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto('/');
+  await expect(page).toHaveScreenshot('home-desktop.png');
+
+  // Tablet
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await expect(page).toHaveScreenshot('home-tablet.png');
+
+  // Mobile
+  await page.setViewportSize({ width: 375, height: 667 });
+  await expect(page).toHaveScreenshot('home-mobile.png');
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing Advanced React Features
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Infinite scroll / Pagination
+// ========================
+
+// Cypress
+it('loads more items on scroll', () => {
+  cy.intercept('GET', '/api/items?page=1', { fixture: 'items-page1.json' }).as('page1');
+  cy.intercept('GET', '/api/items?page=2', { fixture: 'items-page2.json' }).as('page2');
+
+  cy.visit('/items');
+  cy.wait('@page1');
+  cy.get('[data-cy="item"]').should('have.length', 10);
+
+  // Scroll to bottom
+  cy.scrollTo('bottom');
+  cy.wait('@page2');
+  cy.get('[data-cy="item"]').should('have.length', 20);
+});
+
+// Playwright
+test('loads more items on scroll', async ({ page }) => {
+  await page.route('/api/items?page=1', route =>
+    route.fulfill({ json: { items: Array(10).fill({ id: 1, name: 'Item' }), total: 20 } })
+  );
+  await page.route('/api/items?page=2', route =>
+    route.fulfill({ json: { items: Array(10).fill({ id: 11, name: 'Item' }), total: 20 } })
+  );
+
+  await page.goto('/items');
+  await expect(page.getByTestId('item')).toHaveCount(10);
+
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+
+  await expect(page.getByTestId('item')).toHaveCount(20);
+});
+
+// ========================
+// File upload
+// ========================
+
+// Cypress
+it('uploads a file', () => {
+  cy.visit('/upload');
+  
+  cy.get('[data-cy="file-input"]').selectFile('cypress/fixtures/sample.pdf');
+  cy.get('[data-cy="file-name"]').should('contain.text', 'sample.pdf');
+  cy.get('[data-cy="upload-btn"]').click();
+  cy.get('[data-cy="upload-success"]').should('be.visible');
+});
+
+// Playwright
+test('uploads a file', async ({ page }) => {
+  await page.goto('/upload');
+  
+  await page.getByLabel('Choose File').setInputFiles('e2e/fixtures/sample.pdf');
+  await expect(page.getByTestId('file-name')).toHaveText('sample.pdf');
+  await page.getByRole('button', { name: 'Upload' }).click();
+  await expect(page.getByTestId('upload-success')).toBeVisible();
+});
+
+// ========================
+// Toast notifications
+// ========================
+
+// Cypress
+it('shows success toast after action', () => {
+  cy.visit('/items');
+  cy.get('[data-cy="delete-btn"]').first().click();
+  cy.get('[data-cy="confirm"]').click();
+
+  cy.get('[role="status"]') // toast role
+    .should('be.visible')
+    .and('contain.text', 'Item deleted successfully');
+
+  // Toasts disappear — verify it goes away
+  cy.get('[role="status"]').should('not.exist');
+});
+
+// ========================
+// Keyboard-only navigation
+// ========================
+
+// Playwright
+test('form is keyboard accessible', async ({ page }) => {
+  await page.goto('/contact');
+
+  // Tab through form fields
+  await page.keyboard.press('Tab');
+  await expect(page.getByLabel('Name')).toBeFocused();
+
+  await page.keyboard.press('Tab');
+  await expect(page.getByLabel('Email')).toBeFocused();
+
+  await page.keyboard.type('user@test.com');
+
+  await page.keyboard.press('Tab');
+  await expect(page.getByLabel('Message')).toBeFocused();
+
+  // Submit with Enter
+  await page.keyboard.press('Tab'); // focus submit button
+  await page.keyboard.press('Enter');
+
+  await expect(page.getByRole('alert')).toContainText('Message sent');
+});
+
+// ========================
+// localStorage and sessionStorage
+// ========================
+
+// Cypress
+it('persists cart items in localStorage', () => {
+  cy.visit('/shop');
+  cy.get('[data-cy="add-to-cart"]').first().click();
+
+  cy.window().then((win) => {
+    const cart = JSON.parse(win.localStorage.getItem('cart'));
+    expect(cart).to.have.length(1);
+    expect(cart[0]).to.have.property('name');
+  });
+});
+
+// Playwright
+test('stores theme preference', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Dark Mode' }).click();
+
+  const theme = await page.evaluate(() => localStorage.getItem('theme'));
+  expect(theme).toBe('dark');
+
+  await page.reload();
+  await expect(page.locator('body')).toHaveClass(/dark-theme/);
+});
+
+// ========================
+// iframes
+// ========================
+
+// Cypress
+it('interacts with iframe content', () => {
+  cy.visit('/payment');
+  
+  cy.get('iframe[data-cy="payment-frame"]')
+    .its('0.contentDocument.body')
+    .should('not.be.empty')
+    .then(cy.wrap)
+    .find('[data-cy="card-number"]')
+    .type('4242 4242 4242 4242');
+});
+
+// Playwright
+test('fills card details in iframe', async ({ page }) => {
+  await page.goto('/payment');
+  
+  const frame = page.frameLocator('[data-testid="payment-frame"]');
+  await frame.getByLabel('Card Number').fill('4242 4242 4242 4242');
+  await frame.getByLabel('Expiry').fill('12/28');
+  await frame.getByLabel('CVV').fill('123');
+  
+  await page.getByRole('button', { name: 'Pay Now' }).click();
+  await expect(page.getByTestId('payment-success')).toBeVisible();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. CI/CD Integration and Test Organization
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Cypress — CI configuration
+// ========================
+
+// cypress.config.js for CI
+export default defineConfig({
+  e2e: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    video: true,                    // record video in CI
+    screenshotOnRunFailure: true,
+    retries: {
+      runMode: 2,      // retry twice in CI (cypress run)
+      openMode: 0,     // no retries in interactive mode
+    },
+  },
+});
+
+// GitHub Actions — Cypress
+// .github/workflows/e2e.yml
+// name: E2E Tests
+// on: [push, pull_request]
+// jobs:
+//   cypress-run:
+//     runs-on: ubuntu-latest
+//     steps:
+//       - uses: actions/checkout@v4
+//       - uses: cypress-io/github-action@v6
+//         with:
+//           build: npm run build
+//           start: npm run start
+//           wait-on: 'http://localhost:3000'
+//           wait-on-timeout: 120
+
+// ========================
+// Playwright — CI configuration
+// ========================
+
+// playwright.config.ts for CI
+export default defineConfig({
+  workers: process.env.CI ? 1 : undefined,   // serial in CI, parallel locally
+  retries: process.env.CI ? 2 : 0,
+  reporter: process.env.CI ? 'github' : 'html',
+  use: {
+    headless: true,
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+});
+
+// GitHub Actions — Playwright
+// .github/workflows/playwright.yml
+// name: Playwright Tests
+// on: [push, pull_request]
+// jobs:
+//   test:
+//     runs-on: ubuntu-latest
+//     steps:
+//       - uses: actions/checkout@v4
+//       - uses: actions/setup-node@v4
+//       - run: npm ci
+//       - run: npx playwright install --with-deps
+//       - run: npx playwright test
+//       - uses: actions/upload-artifact@v4
+//         if: failure()
+//         with:
+//           name: playwright-report
+//           path: playwright-report/
+//           retention-days: 30
+
+// ========================
+// Organizing tests
+// ========================
+
+// Folder structure
+// e2e/ (or cypress/e2e/)
+//   auth/
+//     login.spec.ts
+//     logout.spec.ts
+//     registration.spec.ts
+//   products/
+//     product-list.spec.ts
+//     product-detail.spec.ts
+//     product-create.spec.ts
+//   checkout/
+//     cart.spec.ts
+//     payment.spec.ts
+//     confirmation.spec.ts
+//   shared/
+//     navigation.spec.ts
+//     search.spec.ts
+
+// Tag tests for selective running (Playwright)
+test('login flow @smoke', async ({ page }) => { /* ... */ });
+test('password reset @smoke', async ({ page }) => { /* ... */ });
+test('bulk delete @regression', async ({ page }) => { /* ... */ });
+
+// Run only smoke tests:
+// npx playwright test --grep @smoke
+
+// Cypress — tags via plugins or naming convention
+// cypress/e2e/smoke/login.cy.js  — run: cypress run --spec "cypress/e2e/smoke/**"
+
+// ========================
+// Test data management
+// ========================
+
+// Option 1: API seeding before tests (Cypress)
+beforeEach(() => {
+  cy.request('POST', '/api/test/seed', {
+    users: [{ email: 'test@example.com', role: 'admin' }],
+    products: 5,
+  });
+});
+
+afterEach(() => {
+  cy.request('POST', '/api/test/cleanup');
+});
+
+// Option 2: Database reset (Playwright)
+// global-setup.ts
+import { PrismaClient } from '@prisma/client';
+
+async function globalSetup() {
+  const prisma = new PrismaClient();
+  await prisma.user.deleteMany();
+  await prisma.user.create({ data: { email: 'test@example.com', role: 'USER' } });
+  await prisma.$disconnect();
+}
+
+// Option 3: Fixtures — fixed, committed test data
+// Use for stable reference data (dropdown options, categories)
+// Use API seeding for relational/stateful data
+
+// ========================
+// Parallelization
+// ========================
+
+// Playwright — parallel by default across workers
+// Control with workers in config: workers: 4
+
+// Playwright — shard tests across CI machines:
+// Machine 1: npx playwright test --shard=1/4
+// Machine 2: npx playwright test --shard=2/4
+// Machine 3: npx playwright test --shard=3/4
+// Machine 4: npx playwright test --shard=4/4
+
+// Cypress Cloud (paid) — parallel across machines
+// Cypress local — parallel via --parallel flag with Cypress Cloud
+
+// ========================
+// Debugging failing tests
+// ========================
+
+// Cypress: cy.pause() — pauses test for interactive inspection
+it('debug test', () => {
+  cy.visit('/page');
+  cy.pause(); // opens interactive mode at this point
+  cy.get('[data-cy="element"]').click();
+});
+
+// Playwright: page.pause() — opens Playwright Inspector
+test('debug test', async ({ page }) => {
+  await page.goto('/page');
+  await page.pause(); // opens inspector
+  await page.getByRole('button').click();
+});
+
+// Run Playwright in debug mode:
+// PWDEBUG=1 npx playwright test
+
+// Playwright traces (after failure):
+// npx playwright show-trace playwright-report/trace.zip
+// Shows full step-by-step recording with DOM snapshots and network
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+11. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Use data-cy or data-testid attributes for E2E selectors — they survive CSS/structure changes</li>
+  <li><b>DO:</b> Prefer role-based selectors in Playwright (getByRole, getByLabel) for accessibility</li>
+  <li><b>DO:</b> Bypass login UI via API or session for all tests except the login test itself</li>
+  <li><b>DO:</b> Use cy.intercept() / page.route() to control network — avoid real API calls in E2E</li>
+  <li><b>DO:</b> Wait for specific network requests instead of arbitrary time waits</li>
+  <li><b>DO:</b> Use Playwright Page Object Model for large test suites</li>
+  <li><b>DO:</b> Seed and clean up test data before/after each test</li>
+  <li><b>DO:</b> Run E2E tests in CI with retries enabled for inherent flakiness</li>
+  <li><b>DO:</b> Use Playwright traces and Cypress videos to debug CI failures</li>
+  <li><b>DO:</b> Tag tests for selective runs (smoke, regression) in CI pipelines</li>
+  <li><b>DON'T:</b> Use cy.wait(3000) or page.waitForTimeout() — always wait for conditions</li>
+  <li><b>DON'T:</b> Select elements by CSS class — they change with refactors</li>
+  <li><b>DON'T:</b> Share state between tests — each test must be independent</li>
+  <li><b>DON'T:</b> Run E2E tests against production data — use dedicated test environments</li>
+  <li><b>DON'T:</b> Write E2E tests for every unit-testable scenario — target critical user flows</li>
+  <li><b>DON'T:</b> Hard-code credentials — use environment variables or secrets</li>
+  <li><b>DON'T:</b> Skip cleanup — leftover test data causes cascading failures</li>
+  <li><b>DON'T:</b> Ignore flaky tests — investigate and fix or quarantine them</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Login and Authentication Flow",
+              "Form Submission and Validation",
+              "API Mocking with cy.intercept",
+              "Playwright Page Object Model",
+              "Session-Based Authentication Bypass",
+              "File Upload Testing",
+              "Infinite Scroll / Pagination",
+              "Visual Regression Screenshot",
+              "Role-Based Access Testing",
+              "CI/CD GitHub Actions Setup",
+            ],
+            questions: [
+              {
+                question:
+                  "What is End-to-End testing and how does it differ from unit and component testing?",
+                answer:
+                  "End-to-End testing runs the full application in a real browser, testing complete user workflows from the UI all the way through the backend, database, and network. Unit tests verify individual functions in isolation with no DOM or network. Component tests (React Testing Library) render components in a simulated DOM (jsdom) and test their behavior without a real browser. E2E tests are the slowest and most expensive but provide the highest confidence — they catch issues that unit and component tests miss, like broken routing, API integration failures, authentication redirects, and CSS rendering problems. The testing pyramid suggests having many unit tests, fewer component tests, and a small focused suite of E2E tests covering critical user journeys.",
+              },
+              {
+                question:
+                  "What is the difference between Cypress and Playwright, and when should you choose each?",
+                answer:
+                  "Cypress is JavaScript-only, runs tests inside the browser (same event loop), has an interactive GUI, time-travel debugging, and is easier for beginners. It supports Chromium-based browsers and Firefox, but not Safari/WebKit. Playwright supports Chromium, Firefox, and WebKit (Safari), is faster with true parallelization across browsers, supports TypeScript natively, has the Page Object Model pattern built in, and works across multiple languages (JS, Python, Java, C#). Choose Cypress for teams new to E2E testing, simpler setups, or when the interactive debugger is valuable. Choose Playwright when cross-browser coverage (especially Safari), performance, parallelization, or multi-language support matters. Both are excellent for React apps.",
+              },
+              {
+                question:
+                  "What selectors should you use for E2E tests and why?",
+                answer:
+                  "Priority order: 1) data-cy (Cypress) or data-testid (Playwright) — purpose-built for testing, survive CSS refactors and component restructuring. 2) ARIA roles and accessible names (Playwright's getByRole, getByLabel) — test accessibility while selecting elements. 3) Text content (cy.contains, getByText) — for stable UI copy. 4) Semantic CSS selectors (button[type=submit]) — stable structural selectors. Avoid: class names (.btn-primary), nth-child selectors, long CSS chains. CSS classes change with design system updates, breaking unrelated tests. The data-cy/data-testid attributes signal to developers that the element is referenced by tests, preventing accidental deletion.",
+              },
+              {
+                question:
+                  "How do you handle authentication in E2E tests efficiently?",
+                answer:
+                  "Only test the login UI once. For all other tests, bypass the UI by: 1) Cypress cy.session() — makes an API call to /api/auth/login, stores the session cookie/token, and reuses it across tests without hitting the login page again. 2) Playwright storageState — logs in once in globalSetup, saves cookies + localStorage to a JSON file, and all tests load that file instead of logging in. 3) Direct token injection — set a JWT in localStorage via cy.window() or page.addInitScript() before navigating. This keeps test suites fast, prevents login UI changes from breaking all tests, and allows testing different roles (admin, viewer) easily by maintaining separate auth state files.",
+              },
+              {
+                question:
+                  "How does network interception work in Cypress and Playwright?",
+                answer:
+                  "Cypress uses cy.intercept() to intercept HTTP requests before they hit the network. You can mock responses with a static body, stub from a fixture file, delay responses, or let the request through and modify the response. Chain .as('alias') to name requests, then cy.wait('@alias') to wait for them before asserting. Playwright uses page.route() with a handler function — call route.fulfill() to mock, route.continue() to pass through, or route.abort() to simulate network errors. Both tools let you spy on requests without mocking by using cy.intercept without a response argument, or page.waitForRequest/waitForResponse. API mocking makes tests fast, deterministic, and independent of backend state.",
+              },
+              {
+                question:
+                  "What is the Page Object Model and when should you use it in Playwright?",
+                answer:
+                  "The Page Object Model (POM) is a design pattern where each page of your application has a corresponding class that encapsulates its locators and actions. The class exposes methods like login(email, password), expectError(message), and goto() instead of raw locator calls. Benefits: eliminates duplicate selector code across tests, centralizes maintenance (update one class when the page changes), makes tests readable and intention-revealing, and makes tests resilient to implementation changes. Use POM when: your test suite has 20+ tests, multiple tests interact with the same pages, you have a team of engineers maintaining tests, or you anticipate frequent UI changes. For small suites, POM adds overhead without proportional benefit.",
+              },
+              {
+                question: "How do you handle flaky E2E tests?",
+                answer:
+                  "Flaky tests pass intermittently due to timing, state, or environment issues. Prevention: use semantic waits (cy.wait('@apiAlias'), page.waitForURL) instead of arbitrary time waits (cy.wait(3000)); mock API responses to control timing; seed and clean up test data before/after each test; disable CSS animations in test environments; use deterministic selectors (data-cy, data-testid). When flakiness happens: enable retries (Cypress retries: { runMode: 2 }, Playwright retries: 2); use Playwright traces to record the exact failure sequence; quarantine the flaky test and investigate; check for shared state between tests. Never ignore flaky tests — they erode confidence in the entire test suite.",
+              },
+              {
+                question: "How should E2E tests be organized and run in CI/CD?",
+                answer:
+                  "Organize tests by user journey or feature area (auth/, checkout/, products/) rather than by component. Tag critical paths as smoke tests and full regression as separate suites. In CI: run smoke tests on every PR (fast feedback), run full regression nightly or on release. Configuration for CI: set video: true and screenshotOnRunFailure: true for debugging, enable retries (2 for CI, 0 locally), use --ci flag to prevent interactive prompts, start the dev server automatically (Playwright webServer config, Cypress start option in GitHub Action). For large suites, parallelize: Playwright shards tests across CI machines with --shard=1/4, Cypress Cloud distributes across machines. Upload artifacts (videos, traces, HTML reports) on failure for post-mortem debugging.",
+              },
+              {
+                question:
+                  "How do you test role-based access control in E2E tests?",
+                answer:
+                  "Create separate authentication state or custom commands for each role. In Cypress: Cypress.Commands.add('loginAsAdmin') and loginAsViewer() using cy.session() to cache each role's session separately. In Playwright: run globalSetup for each role to create separate storageState files (admin.json, viewer.json, editor.json) and use them in separate test projects or fixtures. Test matrix: for each protected route, verify that the authorized role can access it and the unauthorized role is redirected or sees an error. Also test that protected API endpoints return 403 for unauthorized roles by intercepting the network response. Keep role credentials in environment variables, never hardcoded.",
+              },
+              {
+                question:
+                  "How do you perform visual regression testing in E2E tests?",
+                answer:
+                  "Playwright has built-in screenshot comparison via toHaveScreenshot(). On the first run it creates baseline PNG files; subsequent runs compare pixel-by-pixel and fail if differences exceed the threshold. Options include maxDiffPixels, maxDiffPixelRatio, threshold (color sensitivity), and mask (array of locators to hide dynamic content like dates or avatars). Update baselines with --update-snapshots. Cypress requires cypress-image-snapshot plugin for similar functionality. Mask or mock dynamic content (timestamps, IDs, user avatars) to prevent false positives. Visual tests are best for design systems and component libraries where pixel-accuracy matters. For application tests, focus on behavioral assertions and use visual tests selectively for high-impact pages.",
+              },
+              {
+                question:
+                  "How do you handle async operations and waiting in Cypress vs Playwright?",
+                answer:
+                  "Cypress: all commands are queued and execute sequentially with automatic retrying. Assertions like should() retry until they pass or the defaultCommandTimeout expires. Waiting for API calls: cy.intercept().as('name') then cy.wait('@name'). Custom timeout: cy.get('.element', { timeout: 10000 }). Never use cy.wait(3000) — always wait for conditions. Playwright: every action and assertion auto-waits for the element to be visible, stable, and enabled. expect() assertions retry automatically. For navigation: await page.waitForURL('/dashboard') after click. For API: page.waitForResponse('/api/data'). For complex conditions: await expect(async () => { ... }).toPass(). Playwright's explicit async/await model makes the flow easier to reason about than Cypress's command queue.",
+              },
+              {
+                question:
+                  "What is the best approach to test data management in E2E tests?",
+                answer:
+                  "Three approaches: 1) API seeding — call a test-only endpoint (POST /api/test/seed) in beforeEach to create test data, clean up in afterEach. Keeps tests independent and state predictable. 2) Database reset — use globalSetup (Playwright) or cy.task (Cypress) to directly reset the database to a known state before each test run. Requires access to the database from the test process. 3) Static fixtures — commit JSON files representing stable reference data (product categories, country lists) and load them with cy.fixture() or import. Never use real production data — it changes, may contain sensitive information, and fails tests unpredictably. Each test should be fully independent: start from clean state, create its own data, assert, clean up.",
+              },
+              {
+                question:
+                  "How do you test iframes and third-party embedded components in E2E tests?",
+                answer:
+                  "Iframes are separate browser contexts with their own DOM. Cypress: access iframe content via cy.get('iframe').its('0.contentDocument.body') and wrap it with cy.wrap() to use Cypress commands inside. This works for same-origin iframes; cross-origin iframes require setting chromeWebSecurity: false in cypress.config.js. Playwright: use page.frameLocator('iframe') to get a FrameLocator and call locator methods on it — Playwright handles frame context switching automatically and works for both same and cross-origin frames. For third-party embeds like Stripe or Google Maps, mock the entire iframe with a stub component in test environments to avoid dependency on external services and flaky network calls.",
+              },
+            ],
+            links: [
+              "https://docs.cypress.io/guides/getting-started/installing-cypress",
+              "https://playwright.dev/docs/intro",
+              "https://docs.cypress.io/api/commands/intercept",
+              "https://playwright.dev/docs/network",
+              "https://playwright.dev/docs/pom",
+              "https://docs.cypress.io/api/cypress-api/custom-commands",
+              "https://playwright.dev/docs/auth",
+              "https://docs.cypress.io/guides/guides/screenshots-and-videos",
+              "https://playwright.dev/docs/test-snapshots",
+              "https://playwright.dev/docs/ci",
+            ],
           },
           {
             topic: "Concurrent Mode",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Concurrent Mode",
+              "Concurrent React",
+              "Transitions",
+              "Suspense",
+              "useDeferredValue",
+              "useTransition",
+              "Streaming SSR",
+              "Automatic Batching",
+              "Scheduler",
+              "React 18",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+Concurrent Mode (officially called <strong>Concurrent React</strong> since React 18) is a set of architectural changes that allow React to prepare multiple versions of the UI at the same time, pause and resume rendering work, and prioritize urgent updates over less important ones. Before Concurrent React, rendering was synchronous and blocking — once React started rendering a component tree, it couldn't stop until it was done, causing the browser to freeze on complex updates. Concurrent React introduces an <strong>interruptible rendering model</strong>: React can start rendering an update, pause if something more urgent arrives (like a user keystroke), handle the urgent work, then resume where it left off. This is enabled by the new <code>createRoot</code> API and surfaces through hooks like <code>useTransition</code> and <code>useDeferredValue</code>, the enhanced <code>Suspense</code> component, and automatic batching of state updates. Concurrent Mode is not a feature you toggle — it is the default behavior of React 18 when using <code>createRoot</code>.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. The Concurrent Rendering Model
+</h4>
+
+<p style="line-height: 1.75;">
+Understanding the mental model behind Concurrent React is essential before using its APIs. The key shift is from synchronous, blocking renders to interruptible, prioritized renders.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Before React 18: Legacy Root (synchronous, blocking)
+// ========================
+
+import ReactDOM from 'react-dom';
+
+// ReactDOM.render() — synchronous, non-concurrent
+ReactDOM.render(<App />, document.getElementById('root'));
+
+// Problems with synchronous rendering:
+// - Long renders block the browser's main thread
+// - User input (typing, clicking) is unresponsive during renders
+// - No ability to prioritize urgent updates
+// - No ability to show partial UI while data loads
+
+// ========================
+// React 18: Concurrent Root
+// ========================
+
+import { createRoot } from 'react-dom/client';
+
+// createRoot() opts into Concurrent React
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
+
+// What changes with createRoot:
+// ✅ Rendering is interruptible — React can pause and resume
+// ✅ Multiple renders can be "in-flight" simultaneously
+// ✅ Urgent updates (user input) interrupt non-urgent renders
+// ✅ Automatic batching of all state updates
+// ✅ useTransition, useDeferredValue, Suspense work as designed
+
+// ========================
+// How Concurrent Rendering works internally
+// ========================
+
+// React's Scheduler assigns priority lanes to updates:
+//
+// Sync Lane       — direct DOM manipulation (legacy mode only)
+// Default Lane    — normal setState, user interactions
+// Transition Lane — useTransition marked updates (can be interrupted)
+// Idle Lane       — useDeferredValue, very low priority work
+//
+// React processes higher-priority lanes first.
+// If a higher-priority update arrives mid-render, React:
+//   1. Pauses the in-progress render
+//   2. Applies the urgent update
+//   3. Resumes or restarts the paused render
+
+// Visual mental model:
+//
+// Synchronous (old):
+// [=====long render=====] → browser frozen during render
+//
+// Concurrent (new):
+// [=====long transition=====]
+//         ↑ user types
+//         [urgent input update applied immediately]
+//         [transition render resumes/restarts after]
+
+// ========================
+// Enabling Concurrent features (no extra setup needed)
+// ========================
+
+// In React 18, createRoot automatically enables:
+// - useTransition
+// - useDeferredValue
+// - Suspense with data fetching
+// - Automatic batching
+// - Streaming SSR with Suspense
+
+// No feature flags, no "Concurrent Mode" import —
+// just use createRoot and the APIs are available.
+
+// index.js (React 18 standard setup)
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// StrictMode in React 18 + Concurrent:
+// - Renders components twice in development to detect side effects
+// - Intentionally invokes setup+cleanup+setup of effects to detect issues
+// - Helps catch bugs that would surface in concurrent rendering
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Automatic Batching
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Batching = grouping multiple setState calls into a single re-render
+// React 18 extends batching to ALL async contexts automatically
+
+// ========================
+// React 17 — Limited batching (only in React event handlers)
+// ========================
+
+// Batched (one re-render):
+function handleClick() {
+  setCount(c => c + 1); // \
+  setFlag(f => !f);     // > batched — one render
+}                       // /
+
+// NOT batched in React 17 (three separate re-renders):
+setTimeout(() => {
+  setCount(c => c + 1); // render 1
+  setFlag(f => !f);     // render 2
+  setUser(u => ({...u})); // render 3
+}, 1000);
+
+// Also NOT batched in React 17:
+fetch('/api/data').then(() => {
+  setLoading(false);  // render 1
+  setData(result);    // render 2
+});
+
+// ========================
+// React 18 — Automatic batching everywhere
+// ========================
+
+// All of these are now batched in React 18 — one re-render each:
+
+// In event handlers (already worked in React 17)
+function handleClick() {
+  setCount(c => c + 1);
+  setFlag(f => !f);
+  // ONE re-render
+}
+
+// In setTimeout
+setTimeout(() => {
+  setCount(c => c + 1);
+  setFlag(f => !f);
+  // ONE re-render (new in React 18)
+}, 1000);
+
+// In Promises / async functions
+async function fetchData() {
+  const data = await fetch('/api/data').then(r => r.json());
+  setLoading(false);
+  setData(data);
+  // ONE re-render (new in React 18)
+}
+
+// In native event listeners
+document.addEventListener('click', () => {
+  setCount(c => c + 1);
+  setFlag(f => !f);
+  // ONE re-render (new in React 18)
+});
+
+// ========================
+// Opting out of batching — flushSync
+// ========================
+
+import { flushSync } from 'react-dom';
+
+function handleClick() {
+  // Force immediate re-render for this update
+  flushSync(() => {
+    setCount(c => c + 1); // renders immediately
+  });
+  // DOM is updated here synchronously
+
+  flushSync(() => {
+    setFlag(f => !f); // another immediate render
+  });
+  // DOM is updated again
+}
+
+// Use flushSync when:
+// - You need to read a DOM measurement immediately after a state update
+// - Integrating with non-React libraries that expect synchronous DOM updates
+// - Rare cases where you need the DOM to be in sync before the next line
+
+// Example: scroll to new item after adding it
+function addItem() {
+  flushSync(() => {
+    setItems(items => [...items, newItem]);
+  });
+  // List has re-rendered — can now scroll to the last item
+  listRef.current.lastChild.scrollIntoView();
+}
+
+// ========================
+// Verifying batching behavior
+// ========================
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const [flag, setFlag] = useState(false);
+
+  console.log('render'); // Watch how many times this logs
+
+  function handleAsync() {
+    setTimeout(() => {
+      setCount(c => c + 1); // React 18: ONE "render" logged
+      setFlag(f => !f);     // React 17: TWO "render" logged
+    }, 0);
+  }
+
+  return (
+    <div>
+      <p>{count} — {String(flag)}</p>
+      <button onClick={handleAsync}>Update</button>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. useTransition
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useTransition marks state updates as non-urgent (transitions)
+// React can interrupt transition renders to handle urgent updates
+// Returns [isPending, startTransition]
+
+import { useState, useTransition } from 'react';
+
+// ========================
+// Basic useTransition — search filter example
+// ========================
+
+function SearchResults({ query }) {
+  // Expensive computation or large list render
+  const results = searchItems(query); // imagine 10,000 items filtered
+  return (
+    <ul>
+      {results.map(item => <li key={item.id}>{item.name}</li>)}
+    </ul>
+  );
+}
+
+function SearchPage() {
+  const [inputValue, setInputValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  function handleChange(e) {
+    // URGENT: update the input immediately (not wrapped in transition)
+    setInputValue(e.target.value);
+
+    // NON-URGENT: updating results can wait (wrapped in transition)
+    startTransition(() => {
+      setSearchQuery(e.target.value);
+    });
+  }
+
+  return (
+    <div>
+      <input
+        value={inputValue}
+        onChange={handleChange}
+        placeholder="Search..."
+      />
+      {/* Input stays responsive while results update in background */}
+
+      {isPending ? (
+        <p>Updating results...</p>
+      ) : (
+        <SearchResults query={searchQuery} />
+      )}
+    </div>
+  );
+}
+
+// Without useTransition:
+// - Typing in input triggers expensive SearchResults render
+// - Browser freezes, input feels laggy
+//
+// With useTransition:
+// - Input update is urgent — happens immediately
+// - SearchResults render is non-urgent — can be interrupted
+// - Typing more characters interrupts the previous transition render
+// - isPending is true while the transition is in progress
+
+// ========================
+// useTransition with tab switching
+// ========================
+
+const TABS = ['Home', 'About', 'Contact', 'Blog'];
+
+function TabContainer() {
+  const [activeTab, setActiveTab] = useState('Home');
+  const [isPending, startTransition] = useTransition();
+
+  function selectTab(tab) {
+    startTransition(() => {
+      setActiveTab(tab);
+    });
+  }
+
+  return (
+    <div>
+      <div className="tab-bar">
+        {TABS.map(tab => (
+          <button
+            key={tab}
+            onClick={() => selectTab(tab)}
+            style={{
+              fontWeight: activeTab === tab ? 'bold' : 'normal',
+              opacity: isPending ? 0.7 : 1,  // visual feedback during transition
+            }}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      {/* Previous tab content stays visible while new tab loads */}
+      <div style={{ opacity: isPending ? 0.8 : 1 }}>
+        <TabContent tab={activeTab} />
+      </div>
+    </div>
+  );
+}
+
+// Key behavior: during a transition, React shows the OLD content
+// (with isPending = true) until the NEW content is ready.
+// This avoids showing a blank screen or loading spinner for fast transitions.
+
+// ========================
+// useTransition with Suspense
+// ========================
+
+function TabContainer() {
+  const [activeTab, setActiveTab] = useState('Home');
+  const [isPending, startTransition] = useTransition();
+
+  function selectTab(tab) {
+    startTransition(() => {
+      setActiveTab(tab);  // may trigger Suspense boundary in TabContent
+    });
+  }
+
+  return (
+    <div>
+      {/* Tab buttons */}
+      {isPending && <Spinner />}
+
+      <Suspense fallback={<Spinner />}>
+        {/* Without transition: switching tabs would show Suspense fallback */}
+        {/* With transition: stays on current tab until new tab data is ready */}
+        <TabContent tab={activeTab} />
+      </Suspense>
+    </div>
+  );
+}
+
+// ========================
+// startTransition (without the hook)
+// ========================
+
+// If you don't need isPending, import startTransition directly
+import { startTransition } from 'react';
+
+function handleSelect(option) {
+  startTransition(() => {
+    setSelectedOption(option); // non-urgent update
+  });
+}
+
+// ========================
+// Rules and limitations
+// ========================
+
+// ✅ Can be used in event handlers, effects, timeouts
+// ❌ Cannot wrap async operations directly
+
+// WRONG — async inside startTransition doesn't work:
+startTransition(async () => {
+  const data = await fetchData(); // ❌ async breaks transition
+  setData(data);
+});
+
+// CORRECT — fetch outside, set state inside:
+async function handleClick() {
+  const data = await fetchData(); // fetch outside
+  startTransition(() => {
+    setData(data); // only the state update inside transition
+  });
+}
+
+// ✅ State updates in a transition are interruptible
+// ✅ If new transition starts, previous one is abandoned
+// ✅ Works with Suspense — prevents showing fallback on navigation
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. useDeferredValue
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// useDeferredValue defers re-rendering a value until the browser is idle
+// Returns a "stale" version of the value during urgent updates
+// Similar to useTransition but works on VALUES rather than STATE UPDATES
+
+import { useState, useDeferredValue, memo } from 'react';
+
+// ========================
+// Basic useDeferredValue — search with expensive list
+// ========================
+
+// Wrap the expensive component in memo so it only re-renders
+// when its props actually change (i.e., when deferred value updates)
+const SearchResults = memo(function SearchResults({ query }) {
+  const results = filterItems(query); // expensive operation
+  return (
+    <ul>
+      {results.map(item => <li key={item.id}>{item.name}</li>)}
+    </ul>
+  );
+});
+
+function SearchPage() {
+  const [query, setQuery] = useState('');
+
+  // deferredQuery lags behind query during fast typing
+  // During typing: query = 'react hooks', deferredQuery = 'react'
+  // After typing stops: deferredQuery catches up to query
+  const deferredQuery = useDeferredValue(query);
+
+  // Is the deferred value behind the current value?
+  const isStale = query !== deferredQuery;
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        placeholder="Search..."
+      />
+
+      <div style={{ opacity: isStale ? 0.7 : 1 }}>
+        {/* SearchResults only re-renders when deferredQuery changes */}
+        {/* Not on every keystroke — only when React has time */}
+        <SearchResults query={deferredQuery} />
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// useDeferredValue vs useTransition
+// ========================
+
+// useTransition:
+// - You CONTROL the state update — wrap it in startTransition
+// - Best when: you own the state setter
+// - Returns isPending for showing loading UI
+// - Example: changing a tab, filtering a list from a button
+
+// useDeferredValue:
+// - You receive a VALUE you don't control (from props or third-party)
+// - Best when: state comes from outside, or you can't change the setter
+// - No isPending — compare value !== deferredValue manually
+// - Example: value from URL params, Redux selector, parent props
+
+// Same result, different approach:
+
+// With useTransition:
+function FilterWithTransition({ items }) {
+  const [query, setQuery] = useState('');
+  const [filteredQuery, setFilteredQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  function handleChange(e) {
+    setQuery(e.target.value);
+    startTransition(() => setFilteredQuery(e.target.value));
+  }
+
+  return (
+    <>
+      <input value={query} onChange={handleChange} />
+      {isPending && <Spinner />}
+      <ExpensiveList query={filteredQuery} />
+    </>
+  );
+}
+
+// With useDeferredValue (simpler for this case):
+function FilterWithDeferred({ items }) {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+
+  return (
+    <>
+      <input value={query} onChange={e => setQuery(e.target.value)} />
+      <ExpensiveList query={deferredQuery} />
+    </>
+  );
+}
+
+// ========================
+// useDeferredValue with external value
+// ========================
+
+// Value comes from parent — can't wrap setter in startTransition
+function ProductList({ searchTerm }) { // searchTerm from URL params
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+  const isStale = searchTerm !== deferredSearchTerm;
+
+  const products = useFilteredProducts(deferredSearchTerm);
+
+  return (
+    <div style={{ opacity: isStale ? 0.5 : 1, transition: 'opacity 0.2s' }}>
+      {products.map(p => <ProductCard key={p.id} product={p} />)}
+    </div>
+  );
+}
+
+// ========================
+// useDeferredValue with Suspense
+// ========================
+
+function SearchWithSuspense() {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+
+  return (
+    <>
+      <input value={query} onChange={e => setQuery(e.target.value)} />
+
+      <Suspense fallback={<Spinner />}>
+        {/* 
+          With deferredQuery: stays on previous results while new results load
+          Without deferred: would show Suspense fallback on every keystroke
+        */}
+        <SearchResults query={deferredQuery} />
+      </Suspense>
+    </>
+  );
+}
+
+// ========================
+// Performance: MUST use memo
+// ========================
+
+// useDeferredValue only helps if the child component is memoized
+// Without memo, it re-renders on every parent render anyway
+
+// ❌ Doesn't help — ExpensiveList re-renders on every query change
+function Bad() {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+  return <ExpensiveList query={deferredQuery} />; // not memoized — always re-renders
+}
+
+// ✅ Correct — ExpensiveList only re-renders when deferredQuery changes
+const ExpensiveList = memo(function ExpensiveList({ query }) {
+  // ... expensive render
+});
+
+function Good() {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+  return <ExpensiveList query={deferredQuery} />; // memoized — defers correctly
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Suspense — Data Fetching and Code Splitting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Suspense lets components "suspend" rendering while waiting for async data
+// React shows a fallback until the suspended component is ready
+// In React 18 Concurrent mode, Suspense integrates with transitions
+
+import { Suspense, lazy } from 'react';
+
+// ========================
+// Code splitting with lazy() + Suspense
+// ========================
+
+// Dynamically import components — only load when needed
+const Dashboard = lazy(() => import('./Dashboard'));
+const Settings = lazy(() => import('./Settings'));
+const Analytics = lazy(() => import('./Analytics'));
+
+function App() {
+  const [page, setPage] = useState('dashboard');
+
+  return (
+    <div>
+      <nav>
+        <button onClick={() => setPage('dashboard')}>Dashboard</button>
+        <button onClick={() => setPage('settings')}>Settings</button>
+        <button onClick={() => setPage('analytics')}>Analytics</button>
+      </nav>
+
+      {/* Suspense catches lazy-loaded components while their chunk downloads */}
+      <Suspense fallback={<PageLoader />}>
+        {page === 'dashboard' && <Dashboard />}
+        {page === 'settings' && <Settings />}
+        {page === 'analytics' && <Analytics />}
+      </Suspense>
+    </div>
+  );
+}
+
+// ========================
+// Nested Suspense boundaries
+// ========================
+
+function ProfilePage() {
+  return (
+    <div>
+      {/* Outer boundary — catches the whole page */}
+      <Suspense fallback={<PageSkeleton />}>
+        <ProfileHeader />  {/* fetches user data */}
+
+        {/* Inner boundary — more granular loading */}
+        <Suspense fallback={<PostsSkeleton />}>
+          <ProfilePosts />  {/* fetches posts separately */}
+        </Suspense>
+
+        <Suspense fallback={<FriendsSkeleton />}>
+          <FriendsList />   {/* fetches friends separately */}
+        </Suspense>
+      </Suspense>
+    </div>
+  );
+}
+
+// ProfileHeader suspends → PageSkeleton shows
+// ProfileHeader resolves → shows header
+// ProfilePosts suspends → PostsSkeleton shows (only for that section)
+// FriendsList resolves first → shows friends even while posts load
+
+// ========================
+// Suspense with React Query (most common pattern)
+// ========================
+
+// React Query v5+ supports Suspense natively
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+function UserProfile({ userId }) {
+  // Suspends the component while data is loading
+  // Throws an error if the query fails (caught by ErrorBoundary)
+  const { data: user } = useSuspenseQuery({
+    queryKey: ['user', userId],
+    queryFn: () => fetchUser(userId),
+  });
+
+  // No loading checks needed — component only renders when data is ready
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+
+function UserPage({ userId }) {
+  return (
+    <ErrorBoundary fallback={<ErrorMessage />}>
+      <Suspense fallback={<ProfileSkeleton />}>
+        <UserProfile userId={userId} />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+
+// ========================
+// Suspense with SWR
+// ========================
+
+import useSWR from 'swr';
+
+function ProductDetails({ id }) {
+  const { data: product } = useSWR(\`/api/products/\${id}\`, fetcher, {
+    suspense: true, // opt into Suspense mode
+  });
+
+  return <ProductCard product={product} />;
+}
+
+// ========================
+// Writing a Suspense-compatible data source (cache pattern)
+// ========================
+
+// Libraries like React Query handle this for you.
+// For custom solutions, understand the "throw a Promise" protocol:
+
+function createResource(promise) {
+  let status = 'pending';
+  let result;
+
+  const suspender = promise.then(
+    (data) => { status = 'success'; result = data; },
+    (error) => { status = 'error'; result = error; }
+  );
+
+  return {
+    read() {
+      if (status === 'pending') throw suspender;  // Suspense catches this
+      if (status === 'error') throw result;        // ErrorBoundary catches this
+      if (status === 'success') return result;     // renders normally
+    }
+  };
+}
+
+// Usage:
+const userResource = createResource(fetchUser(1));
+
+function User() {
+  const user = userResource.read(); // suspends until ready
+  return <p>{user.name}</p>;
+}
+
+// ========================
+// Suspense with useTransition (avoid fallback on navigation)
+// ========================
+
+function App() {
+  const [page, setPage] = useState('home');
+  const [isPending, startTransition] = useTransition();
+
+  function navigate(to) {
+    startTransition(() => {
+      setPage(to);
+    });
+  }
+
+  return (
+    <>
+      {isPending && <GlobalSpinner />}  {/* optional — show during transition */}
+
+      <Suspense fallback={<PageSkeleton />}>
+        {/* 
+          WITHOUT transition: clicking nav immediately shows PageSkeleton
+          WITH transition: stays on current page until new page is ready
+        */}
+        <Page name={page} />
+      </Suspense>
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. useId and Other React 18 Hooks
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React 18 introduced additional hooks that support concurrent features
+
+// ========================
+// useId — stable, unique IDs for accessibility
+// ========================
+
+import { useId } from 'react';
+
+// Problem: generating IDs in components is hard with SSR
+// Math.random() or incrementing counters cause hydration mismatches
+
+function FormField({ label, type = 'text' }) {
+  // Generates a stable ID that matches between server and client
+  // Survives concurrent re-renders without changing
+  const id = useId();
+
+  return (
+    <div>
+      <label htmlFor={id}>{label}</label>
+      <input id={id} type={type} />
+    </div>
+  );
+}
+
+// Multiple IDs from one useId call — use suffix pattern
+function PasswordField() {
+  const id = useId();
+
+  return (
+    <div>
+      <label htmlFor={id + '-input'}>Password</label>
+      <input
+        id={id + '-input'}
+        type="password"
+        aria-describedby={id + '-hint'}
+      />
+      <p id={id + '-hint'}>Must be at least 8 characters</p>
+    </div>
+  );
+}
+
+// ❌ Don't use useId for list keys — use data IDs for that
+// ✅ Use useId for: aria-* attributes, htmlFor/id pairs, form associations
+
+// ========================
+// useSyncExternalStore — subscribe to external stores safely
+// ========================
+
+import { useSyncExternalStore } from 'react';
+
+// Designed for libraries (Redux, Zustand, etc.) to safely read external state
+// Prevents "tearing" — where different parts of the UI show different
+// versions of external state during concurrent renders
+
+// Example: subscribing to window.innerWidth
+function useWindowWidth() {
+  return useSyncExternalStore(
+    // subscribe: called when React needs to subscribe to the store
+    (callback) => {
+      window.addEventListener('resize', callback);
+      return () => window.removeEventListener('resize', callback);
+    },
+    // getSnapshot: returns current value (must be same reference if unchanged)
+    () => window.innerWidth,
+    // getServerSnapshot: returns value for SSR
+    () => 1024 // default width on server
+  );
+}
+
+function ResponsiveComponent() {
+  const width = useWindowWidth();
+  return <p>Width: {width}px</p>;
+}
+
+// Example: subscribing to a custom store
+const store = {
+  state: { count: 0 },
+  listeners: new Set(),
+  subscribe(listener) {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  },
+  getSnapshot() {
+    return this.state;
+  },
+  increment() {
+    this.state = { count: this.state.count + 1 };
+    this.listeners.forEach(l => l());
+  },
+};
+
+function Counter() {
+  const state = useSyncExternalStore(
+    store.subscribe.bind(store),
+    store.getSnapshot.bind(store)
+  );
+  return (
+    <div>
+      <p>{state.count}</p>
+      <button onClick={() => store.increment()}>Increment</button>
+    </div>
+  );
+}
+
+// ========================
+// useInsertionEffect — for CSS-in-JS libraries
+// ========================
+
+import { useInsertionEffect } from 'react';
+
+// Fires synchronously BEFORE DOM mutations
+// Used by CSS-in-JS libraries (Emotion, styled-components) to inject styles
+// before the browser paints — prevents style flicker
+
+// Library authors only — not for application code
+function useCSS(rule) {
+  useInsertionEffect(() => {
+    if (!isInserted.has(rule)) {
+      isInserted.add(rule);
+      document.head.appendChild(getStyleTag(rule));
+    }
+  });
+  return rule;
+}
+
+// ========================
+// useOptimistic (React 19 preview / experimental)
+// ========================
+
+// Shows optimistic UI immediately while awaiting async confirmation
+import { useOptimistic } from 'react';
+
+function LikeButton({ post }) {
+  const [optimisticLiked, setOptimisticLiked] = useOptimistic(post.liked);
+
+  async function handleLike() {
+    setOptimisticLiked(!post.liked); // immediately shows new state
+    await toggleLike(post.id);       // actual API call
+    // If API fails, React reverts to post.liked automatically
+  }
+
+  return (
+    <button onClick={handleLike}>
+      {optimisticLiked ? '❤️ Liked' : '🤍 Like'}
+    </button>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Streaming SSR with Suspense
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React 18 enables streaming HTML from the server using Suspense
+// Instead of waiting for all data before sending HTML,
+// the server streams HTML chunks as data becomes available
+
+// ========================
+// Traditional SSR (blocking)
+// ========================
+
+// Server must:
+// 1. Fetch ALL data for the page
+// 2. Render the ENTIRE component tree to HTML
+// 3. Send ALL the HTML to the client
+// 4. Load JS bundle
+// 5. Hydrate the ENTIRE page
+//
+// User sees nothing until step 3 completes
+// If one data source is slow, EVERYTHING is delayed
+
+// ========================
+// Streaming SSR with React 18
+// ========================
+
+// Server streams HTML in chunks:
+// 1. Sends HTML shell immediately (nav, header, layout)
+// 2. For Suspense boundaries: sends fallback HTML (skeleton)
+// 3. As data resolves: streams the real content + script to swap it in
+// 4. Client hydrates each piece independently as it arrives
+
+// server.js (Node.js)
+import { renderToPipeableStream } from 'react-dom/server';
+
+app.get('/', (req, res) => {
+  const { pipe } = renderToPipeableStream(
+    <App />,
+    {
+      bootstrapScripts: ['/main.js'],
+      onShellReady() {
+        // Shell = everything outside Suspense boundaries
+        // Send immediately — user sees layout right away
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html');
+        pipe(res);
+      },
+      onError(error) {
+        console.error(error);
+        res.statusCode = 500;
+      }
+    }
+  );
+});
+
+// App component with Suspense for streaming
+function App() {
+  return (
+    <html>
+      <head><title>My App</title></head>
+      <body>
+        <nav>Navigation — streams immediately</nav>
+
+        {/* Sidebar streams immediately — no async data */}
+        <aside>Sidebar content</aside>
+
+        <main>
+          {/* Streams skeleton, then real content when data arrives */}
+          <Suspense fallback={<HeroSkeleton />}>
+            <HeroSection />  {/* fetches featured content */}
+          </Suspense>
+
+          <Suspense fallback={<ArticlesSkeleton />}>
+            <ArticleList />  {/* fetches articles — may be slow */}
+          </Suspense>
+
+          <Suspense fallback={<RecommendationsSkeleton />}>
+            <Recommendations />  {/* ML recommendations — slowest */}
+          </Suspense>
+        </main>
+      </body>
+    </html>
+  );
+}
+
+// ========================
+// Selective Hydration
+// ========================
+
+// With streaming SSR, React also hydrates selectively:
+// - Components wrapped in Suspense hydrate independently
+// - React prioritizes hydrating the part the user interacts with first
+// - If user clicks on an unhydrated component, React immediately
+//   hydrates that component before others
+
+// Mental model:
+// [Nav - hydrated] [Sidebar - hydrated]
+// [Hero - hydrating...] [Articles - waiting] [Recs - waiting]
+//            ↑ user clicks here
+//   React immediately hydrates Hero first
+
+// ========================
+// Streaming in Next.js (App Router)
+// ========================
+
+// Next.js App Router implements streaming SSR automatically
+// Use Suspense in Server Components
+
+// app/page.tsx
+export default function Page() {
+  return (
+    <main>
+      <h1>Dashboard</h1>
+
+      {/* Streams skeleton while data loads */}
+      <Suspense fallback={<StatsSkeleton />}>
+        <Stats />  {/* async server component */}
+      </Suspense>
+
+      <Suspense fallback={<FeedSkeleton />}>
+        <Feed />   {/* async server component */}
+      </Suspense>
+    </main>
+  );
+}
+
+// app/components/Stats.tsx — async server component
+async function Stats() {
+  const stats = await fetchStats(); // server-side data fetch
+  return <StatsGrid data={stats} />;
+}
+
+// app/loading.tsx — automatic Suspense fallback for the route
+export default function Loading() {
+  return <PageSkeleton />;
+}
+
+// ========================
+// renderToReadableStream (Web Streams API — for edge runtimes)
+// ========================
+
+import { renderToReadableStream } from 'react-dom/server';
+
+// For Cloudflare Workers, Deno, other edge environments
+export default async function handler(request) {
+  const stream = await renderToReadableStream(<App />, {
+    bootstrapScripts: ['/main.js'],
+  });
+
+  return new Response(stream, {
+    headers: { 'Content-Type': 'text/html' },
+  });
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Concurrency Pitfalls and Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Concurrent rendering introduces new things to be aware of
+// Most are handled by React's rules — but understanding them prevents bugs
+
+// ========================
+// Tearing — reading inconsistent state
+// ========================
+
+// "Tearing" = different components render with different values
+// of the same external store during a single render pass
+
+// Happens with: Redux (before React-Redux 8), Zustand, MobX, custom stores
+// Doesn't happen with: useState, useReducer (React manages these)
+
+// React-Redux 8+ uses useSyncExternalStore to prevent tearing:
+import { useSyncExternalStore } from 'react';
+
+// Libraries handle this for you — but if building a custom store:
+function useStore(store) {
+  return useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getServerSnapshot
+  );
+}
+
+// ========================
+// StrictMode double-invocation
+// ========================
+
+// React 18 StrictMode intentionally invokes lifecycle methods twice in dev
+// to surface side effects that would break concurrent rendering
+
+function Component() {
+  useEffect(() => {
+    // In StrictMode: setup → cleanup → setup (called twice)
+    const subscription = subscribe();
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // State initializer functions also run twice:
+  const [state] = useState(() => {
+    console.log('init'); // logs twice in StrictMode dev
+    return computeInitialState();
+  });
+}
+
+// If your initializer has side effects (API calls, DOM manipulation),
+// StrictMode will expose the bug. Pure initializers are unaffected.
+
+// ========================
+// Effects and concurrent rendering
+// ========================
+
+// useEffect cleanup must be robust — effects may mount/unmount more in concurrent mode
+
+// BAD — race condition without cleanup
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch(\`/api/users/\${userId}\`)
+      .then(r => r.json())
+      .then(data => setUser(data)); // ❌ may set state after unmount
+  }, [userId]);
+}
+
+// GOOD — use AbortController for cleanup
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch(\`/api/users/\${userId}\`, { signal: controller.signal })
+      .then(r => r.json())
+      .then(data => setUser(data))
+      .catch(err => {
+        if (err.name !== 'AbortError') throw err;
+      });
+
+    return () => controller.abort(); // cleanup on unmount or userId change
+  }, [userId]);
+}
+
+// BEST — use React Query, SWR, or useSuspenseQuery
+// They handle cancellation, deduplication, and caching automatically
+
+// ========================
+// Transitions don't work with all updates
+// ========================
+
+// startTransition only marks the TRANSITION update as deferrable
+// Side effects inside the callback still execute synchronously
+
+// ❌ Misconception: async operations become deferred
+startTransition(async () => {
+  const data = await fetch('/api'); // still runs synchronously until await
+  setData(data); // only THIS setState is deferred
+});
+
+// ✅ Correct mental model:
+// - Only React state updates inside startTransition are deferred
+// - Network requests, DOM reads, and other effects are not affected
+
+// ========================
+// Concurrent Mode and third-party libraries
+// ========================
+
+// Libraries that manipulate the DOM directly may have issues:
+// - jQuery plugins
+// - Non-React animation libraries
+// - Direct DOM manipulation in event handlers
+
+// Safe patterns:
+// 1. Use refs to hand off a DOM node to a third-party library
+// 2. Let React own the state; sync to library only in effects
+// 3. Use flushSync if you need DOM to be up-to-date before a third-party read
+
+// ========================
+// When NOT to use useTransition
+// ========================
+
+// Don't use for every state update — only when there's a real perf problem
+// Overusing transitions adds complexity without benefit for fast renders
+
+// Use useTransition when:
+// ✅ Update causes noticeable lag (10,000 item list render, heavy computation)
+// ✅ User interaction should remain responsive during the update
+// ✅ Switching between data-fetching routes
+
+// Don't use when:
+// ❌ Update is already fast (< 50ms)
+// ❌ Update must be applied immediately (form validation on submit)
+// ❌ You just want to show a loading state (use isPending from useTransition deliberately)
+
+// ========================
+// Measuring concurrent performance
+// ========================
+
+import { Profiler } from 'react';
+
+function onRenderCallback(
+  id,           // component tree identifier
+  phase,        // "mount" or "update"
+  actualDuration,  // time spent rendering the committed update
+  baseDuration,    // estimated time without memoization
+  startTime,    // when React began rendering this update
+  commitTime    // when React committed this update
+) {
+  console.log({ id, phase, actualDuration });
+}
+
+function App() {
+  return (
+    <Profiler id="SearchResults" onRender={onRenderCallback}>
+      <SearchResults />
+    </Profiler>
+  );
+}
+
+// React DevTools Profiler also shows:
+// - Which renders were transitions vs urgent
+// - Why each component rendered
+// - Time slicing visualization
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Real-World Patterns and Examples
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Optimistic UI with transitions
+// ========================
+
+function TodoList() {
+  const [todos, setTodos] = useState(initialTodos);
+  const [isPending, startTransition] = useTransition();
+
+  async function addTodo(text) {
+    const tempId = Date.now();
+    const newTodo = { id: tempId, text, done: false };
+
+    // Optimistic update — show immediately
+    setTodos(prev => [...prev, newTodo]);
+
+    try {
+      const savedTodo = await createTodoAPI(text);
+      // Reconcile with server response
+      startTransition(() => {
+        setTodos(prev => prev.map(t => t.id === tempId ? savedTodo : t));
+      });
+    } catch (err) {
+      // Rollback on error
+      setTodos(prev => prev.filter(t => t.id !== tempId));
+    }
+  }
+
+  return (
+    <div>
+      <AddTodoForm onAdd={addTodo} />
+      <ul style={{ opacity: isPending ? 0.7 : 1 }}>
+        {todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}
+      </ul>
+    </div>
+  );
+}
+
+// ========================
+// Instant search with deferred rendering
+// ========================
+
+const ITEMS = Array.from({ length: 50000 }, (_, i) => ({
+  id: i,
+  name: \`Item \${i}\`,
+  category: categories[i % 5],
+}));
+
+const FilteredList = memo(function FilteredList({ query, category }) {
+  // Expensive filter — runs on 50k items
+  const filtered = ITEMS.filter(item =>
+    item.name.toLowerCase().includes(query.toLowerCase()) &&
+    (category === 'all' || item.category === category)
+  );
+
+  return (
+    <ul>
+      {filtered.slice(0, 100).map(item => (
+        <li key={item.id}>{item.name} — {item.category}</li>
+      ))}
+      {filtered.length > 100 && <li>...and {filtered.length - 100} more</li>}
+    </ul>
+  );
+});
+
+function SearchPage() {
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('all');
+
+  const deferredQuery = useDeferredValue(query);
+  const deferredCategory = useDeferredValue(category);
+
+  const isStale = query !== deferredQuery || category !== deferredCategory;
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        placeholder="Search 50,000 items..."
+      />
+      <select value={category} onChange={e => setCategory(e.target.value)}>
+        <option value="all">All</option>
+        {categories.map(c => <option key={c} value={c}>{c}</option>)}
+      </select>
+
+      {isStale && <span>Filtering...</span>}
+
+      <div style={{ opacity: isStale ? 0.6 : 1 }}>
+        <FilteredList query={deferredQuery} category={deferredCategory} />
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Responsive data grid with transitions
+// ========================
+
+function DataGrid() {
+  const [sortField, setSortField] = useState('name');
+  const [sortDir, setSortDir] = useState('asc');
+  const [page, setPage] = useState(1);
+  const [isPending, startTransition] = useTransition();
+
+  function handleSort(field) {
+    startTransition(() => {
+      if (sortField === field) {
+        setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortField(field);
+        setSortDir('asc');
+      }
+      setPage(1); // reset to first page on sort
+    });
+  }
+
+  function handlePageChange(newPage) {
+    startTransition(() => {
+      setPage(newPage);
+    });
+  }
+
+  const rows = useMemo(() =>
+    sortAndPaginate(data, sortField, sortDir, page),
+    [sortField, sortDir, page]
+  );
+
+  return (
+    <div>
+      {isPending && <div className="grid-overlay">Sorting...</div>}
+      <table style={{ opacity: isPending ? 0.7 : 1 }}>
+        <thead>
+          <tr>
+            {['name', 'email', 'role', 'createdAt'].map(field => (
+              <th key={field} onClick={() => handleSort(field)}>
+                {field} {sortField === field ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(row => <DataRow key={row.id} row={row} />)}
+        </tbody>
+      </table>
+      <Pagination
+        page={page}
+        total={data.length}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  );
+}
+
+// ========================
+// Route-based code splitting with transitions
+// ========================
+
+const routes = {
+  '/': lazy(() => import('./pages/Home')),
+  '/products': lazy(() => import('./pages/Products')),
+  '/orders': lazy(() => import('./pages/Orders')),
+  '/settings': lazy(() => import('./pages/Settings')),
+};
+
+function Router() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [isPending, startTransition] = useTransition();
+
+  function navigate(path) {
+    startTransition(() => {
+      setCurrentPath(path);
+      window.history.pushState({}, '', path);
+    });
+  }
+
+  const PageComponent = routes[currentPath] || routes['/'];
+
+  return (
+    <>
+      <nav>
+        {Object.keys(routes).map(path => (
+          <a
+            key={path}
+            href={path}
+            onClick={(e) => { e.preventDefault(); navigate(path); }}
+            aria-current={currentPath === path ? 'page' : undefined}
+          >
+            {path}
+          </a>
+        ))}
+        {isPending && <span>Loading...</span>}
+      </nav>
+
+      {/* Stays on current page until new lazy chunk is loaded */}
+      <Suspense fallback={<PageSkeleton />}>
+        <PageComponent />
+      </Suspense>
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Use <code>createRoot</code> — it's required to opt into all Concurrent features</li>
+  <li><b>DO:</b> Wrap expensive, non-urgent updates in <code>startTransition</code></li>
+  <li><b>DO:</b> Use <code>useDeferredValue</code> when you receive a value from props you can't control</li>
+  <li><b>DO:</b> Pair <code>useDeferredValue</code> with <code>memo</code> — without memo, deferral has no effect</li>
+  <li><b>DO:</b> Use nested <code>Suspense</code> boundaries for granular loading states</li>
+  <li><b>DO:</b> Use <code>useTransition</code> with Suspense to prevent showing fallbacks on navigation</li>
+  <li><b>DO:</b> Use <code>useSyncExternalStore</code> when subscribing to non-React stores</li>
+  <li><b>DO:</b> Use <code>useId</code> for stable, SSR-safe IDs for ARIA attributes</li>
+  <li><b>DO:</b> Clean up effects with AbortController to prevent race conditions</li>
+  <li><b>DO:</b> Profile with React DevTools before adding useTransition — don't optimize prematurely</li>
+  <li><b>DON'T:</b> Put async operations inside <code>startTransition</code> — only state updates</li>
+  <li><b>DON'T:</b> Wrap every setState in a transition — only genuinely slow/non-urgent updates</li>
+  <li><b>DON'T:</b> Use <code>useDeferredValue</code> without <code>memo</code> on the consuming component</li>
+  <li><b>DON'T:</b> Use <code>flushSync</code> inside transitions — they conflict</li>
+  <li><b>DON'T:</b> Ignore StrictMode double-invocation warnings — they reveal real concurrency bugs</li>
+  <li><b>DON'T:</b> Read external store state without <code>useSyncExternalStore</code> — causes tearing</li>
+  <li><b>DON'T:</b> Use <code>ReactDOM.render</code> — it disables all concurrent features</li>
+  <li><b>DON'T:</b> Assume Suspense replaces loading state entirely — use it with ErrorBoundary</li>
+</ul>
+
+</div>`,
+            examples: [
+              "createRoot vs ReactDOM.render",
+              "Automatic Batching with flushSync",
+              "useTransition for Search Input",
+              "useDeferredValue with Memoized List",
+              "Nested Suspense Boundaries",
+              "Streaming SSR with renderToPipeableStream",
+              "Page Object Model with Playwright Fixtures",
+              "Optimistic UI with Transitions",
+              "Instant Search — 50,000 Items",
+              "Route-Based Code Splitting with Transitions",
+            ],
+            questions: [
+              {
+                question:
+                  "What is Concurrent React and how does it differ from the legacy synchronous rendering model?",
+                answer:
+                  "Concurrent React (formerly Concurrent Mode) is an architectural change where React can prepare multiple versions of the UI simultaneously and pause, resume, or abandon rendering work. In the legacy model (ReactDOM.render), rendering was synchronous and blocking — once started, it ran to completion and froze the browser's main thread for complex trees. In Concurrent React (createRoot), rendering is interruptible. React assigns priority to updates: urgent updates (user input, clicks) can interrupt lower-priority work (data-driven re-renders, transitions). This allows React to keep the UI responsive even during expensive renders. Concurrent React is not a mode you toggle — it is the default behavior of React 18 when using createRoot.",
+              },
+              {
+                question:
+                  "What is automatic batching in React 18 and how does it differ from React 17?",
+                answer:
+                  "Batching groups multiple setState calls into a single re-render. In React 17, batching only happened inside React synthetic event handlers. State updates in setTimeout, Promises, async/await, or native DOM event listeners triggered separate re-renders for each setState call. React 18 extends automatic batching to all contexts — setTimeout, Promises, async functions, and native events all batch by default. The result is fewer renders and better performance without any code changes. To opt out of batching and force a synchronous render, use flushSync() from react-dom — useful for reading DOM measurements immediately after a state update or integrating with non-React libraries.",
+              },
+              {
+                question: "What is useTransition and when should you use it?",
+                answer:
+                  "useTransition returns [isPending, startTransition]. Wrapping a setState call in startTransition marks it as non-urgent — React can defer and interrupt that render if a higher-priority update arrives. isPending is true while the transition render is in progress. Use it when: an update causes noticeable lag (filtering a large list, sorting a data grid, switching between routes that trigger data fetches), and you want user input to remain responsive during the update. The classic example: wrapping the search query setState in a transition so the input stays responsive while the results list re-renders. Do not put async operations inside startTransition — only synchronous state updates. Do not overuse it for fast renders where no lag is perceivable.",
+              },
+              {
+                question:
+                  "What is useDeferredValue and how does it differ from useTransition?",
+                answer:
+                  "useDeferredValue accepts a value and returns a deferred version of it that lags behind during urgent updates. During fast state changes, the deferred value stays at its previous value while the current value updates immediately. useTransition wraps a state UPDATE you control; useDeferredValue defers a VALUE you receive (from props, URL params, or a store you don't own). Both achieve similar outcomes for different scenarios. useTransition gives you isPending for explicit loading UI; useDeferredValue requires comparing value !== deferredValue manually. Critical: useDeferredValue only works if the component consuming the deferred value is wrapped in memo — otherwise it re-renders on every parent render regardless.",
+              },
+              {
+                question:
+                  "How does Suspense work in Concurrent React and what are its use cases?",
+                answer:
+                  "Suspense lets components 'suspend' by throwing a Promise. React catches it, shows the fallback, and retries when the promise resolves. In React 18 Concurrent mode, Suspense integrates with transitions — wrapping a navigation in startTransition means React stays on the current page (not showing the fallback) until the new page's data is ready. Use cases: code splitting with lazy() and dynamic import, data fetching with React Query (useSuspenseQuery), SWR (suspense: true), or custom cache. Nest Suspense boundaries for granular loading states — a slow sidebar shouldn't block a fast header. Always pair with ErrorBoundary since Suspense only handles the loading state, not errors.",
+              },
+              {
+                question:
+                  "What is tearing and how does useSyncExternalStore prevent it?",
+                answer:
+                  "Tearing is when different parts of the UI render with different values of the same external store during a single concurrent render pass. This happens because concurrent rendering can be paused and resumed — if a store update occurs mid-render, some components may read the old value and others the new value, causing visual inconsistencies. useSyncExternalStore prevents tearing by making React read the store synchronously and consistently. It takes a subscribe function, a getSnapshot function (returns current value), and optionally a server snapshot for SSR. Libraries like React-Redux 8+, Zustand, and Jotai use it internally. Application developers use it when building custom external stores that multiple components subscribe to.",
+              },
+              {
+                question:
+                  "What is streaming SSR and how does it improve performance over traditional SSR?",
+                answer:
+                  "Traditional SSR blocks: the server must fetch all data, render the complete HTML, and send it all before the user sees anything. Streaming SSR with React 18 uses renderToPipeableStream (Node) or renderToReadableStream (edge). The server streams HTML chunks: the shell (nav, layout, headers outside Suspense) is sent immediately, Suspense fallbacks (skeletons) are streamed first, then replaced by real content as data resolves. Each Suspense boundary is streamed independently — a slow recommendations section doesn't block a fast article list. The browser also hydrates selectively — React prioritizes hydrating the part the user interacts with first. Next.js App Router implements this automatically with async Server Components and loading.tsx.",
+              },
+              {
+                question:
+                  "Why does React 18 StrictMode render components twice and what does it detect?",
+                answer:
+                  "React 18 StrictMode intentionally mounts components, runs their effects (setup), unmounts them (cleanup), then mounts them again (setup). This double-invocation detects impure render functions and non-idempotent effects that would break concurrent rendering — where React may mount/unmount components more aggressively. It also calls state initializer functions twice. If your component has side effects in the initializer or misses cleanup in effects (like not aborting fetch requests, not clearing timers, not unsubscribing), StrictMode surfaces the bug in development before it causes real issues in production. This only happens in development — production builds render once.",
+              },
+              {
+                question:
+                  "What is useId and why is it needed in Concurrent React?",
+                answer:
+                  "useId generates stable, unique IDs that are consistent between server and client rendering. Before useId, developers used Math.random() or incrementing module-level counters for IDs, which caused hydration mismatches in SSR — the server generates a different ID than the client. In concurrent rendering, components can re-render in different orders, making module-level counters unreliable. useId produces a stable ID derived from the component's position in the React tree, ensuring SSR/client consistency and concurrent stability. Use it for ARIA attribute pairs (htmlFor/id, aria-describedby/id), not for list keys (use data IDs for those). Multiple IDs per component: append suffixes like id + '-label', id + '-hint'.",
+              },
+              {
+                question:
+                  "What are the rules and limitations of startTransition?",
+                answer:
+                  "startTransition only defers React state updates — not async operations, network requests, or DOM mutations. Passing an async function breaks the transition because the async part executes outside React's tracking. The correct pattern is to await data outside, then put only the setState inside startTransition. Transitions are lower priority than urgent updates — if the user interacts while a transition is rendering, React pauses the transition, handles the urgent input, then resumes. If a new transition starts before the previous one finishes, React abandons the old one. Don't use flushSync inside startTransition — they conflict. Transitions work with Suspense to prevent showing fallback UI during navigation.",
+              },
+              {
+                question:
+                  "How do you prevent race conditions in effects under Concurrent React?",
+                answer:
+                  "Concurrent React can mount, unmount, and remount components more aggressively (especially in StrictMode), making effect cleanup critical. The main race condition: a fetch starts, the component unmounts before it completes, the fetch resolves and calls setState on the unmounted component, causing a state update on a component that is no longer in the tree. Fix with AbortController: create a controller in the effect, pass signal to fetch, and in the cleanup function call controller.abort(). Catch AbortError separately from real errors. The best solution is using React Query or SWR — they handle cancellation, deduplication, and caching automatically, making manual AbortController management unnecessary in most cases.",
+              },
+              {
+                question:
+                  "What is the relationship between useTransition and Suspense?",
+                answer:
+                  "Without useTransition, navigating to a route that triggers a Suspense boundary immediately replaces the current UI with the fallback (skeleton), which can feel jarring for fast transitions. Wrapping the navigation setState in startTransition tells React to stay on the current content (with isPending = true) until the new content is ready, only then swapping. This eliminates the flash of fallback content for fast loads while still showing the fallback for genuinely slow loads. The pattern is: isPending controls a loading indicator in the navigation (subtle spinner on the active link), while Suspense's fallback only shows if the transition takes long enough. Together they enable the 'instant feel' pattern: fast navigations are seamless, slow ones show a loading state.",
+              },
+              {
+                question:
+                  "How does the React Scheduler prioritize concurrent work?",
+                answer:
+                  "React's Scheduler assigns work to priority lanes. From highest to lowest: Sync lane (legacy mode, flushSync), Input Continuous lane (drag, scroll), Default lane (normal setState, user interactions like click), Transition lane (startTransition updates, interruptible), Idle lane (useDeferredValue, very low priority). When React is working on a Transition lane render and a Default lane update arrives (user types something), React pauses the transition render, processes the input update synchronously, then either resumes or restarts the transition render. This is the core of why transitions keep the UI responsive. The Scheduler is separate from React itself — it uses MessageChannel to yield back to the browser between units of work, ensuring the browser can process paint and input events.",
+              },
+            ],
+            links: [
+              "https://react.dev/blog/2022/03/29/react-v18",
+              "https://react.dev/reference/react/useTransition",
+              "https://react.dev/reference/react/useDeferredValue",
+              "https://react.dev/reference/react/Suspense",
+              "https://react.dev/reference/react/useId",
+              "https://react.dev/reference/react/useSyncExternalStore",
+              "https://react.dev/reference/react-dom/client/createRoot",
+              "https://react.dev/reference/react-dom/server/renderToPipeableStream",
+              "https://react.dev/blog/2022/03/29/react-v18#what-is-concurrent-react",
+              "https://github.com/reactwg/react-18/discussions/21",
+            ],
           },
           {
             topic: "React.lazy()",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "React.lazy",
+              "Code Splitting",
+              "Dynamic Import",
+              "Suspense",
+              "Lazy Loading",
+              "Bundle Splitting",
+              "Route-Based Splitting",
+              "Component-Based Splitting",
+              "Webpack",
+              "Performance Optimization",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+<code>React.lazy()</code> is a built-in React function that enables <strong>code splitting</strong> — the practice of breaking a JavaScript bundle into smaller chunks that are loaded on demand, rather than shipping the entire application up front. It accepts a function that returns a dynamic <code>import()</code> and produces a lazy component that only loads its JavaScript chunk when it is first rendered. This integrates tightly with <code>Suspense</code>, which renders a fallback UI while the chunk is downloading. Code splitting is one of the most impactful performance optimizations available for React applications: instead of forcing users to download 500KB of JavaScript before seeing any content, lazy loading ensures users only download the code for the features they actually use. <code>React.lazy()</code> is supported in all modern bundlers (Webpack, Vite, Rollup, Parcel) which interpret <code>import()</code> as a split point and generate separate chunk files automatically.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Basic Syntax and Setup
+</h4>
+
+<p style="line-height: 1.75;">
+<code>React.lazy()</code> has a simple API but requires <code>Suspense</code> as a boundary above it in the component tree. The dynamic <code>import()</code> must resolve to a module with a default export that is a React component.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Before React.lazy() — eager loading (everything in one bundle)
+// ========================
+
+// ❌ All components loaded immediately on page load
+import HeavyDashboard from './HeavyDashboard';
+import AdminPanel from './AdminPanel';
+import Analytics from './Analytics';
+
+// User on the login page still downloads Dashboard, Admin, Analytics JS
+// Bundle = everything, even code they may never use
+
+// ========================
+// With React.lazy() — on-demand loading
+// ========================
+
+import React, { lazy, Suspense } from 'react';
+
+// ✅ Only downloaded when the component first renders
+const HeavyDashboard = lazy(() => import('./HeavyDashboard'));
+const AdminPanel = lazy(() => import('./AdminPanel'));
+const Analytics = lazy(() => import('./Analytics'));
+
+// The import() call is what tells the bundler to create a separate chunk
+// Webpack/Vite see import('./HeavyDashboard') and emit:
+//   main.js          — core app bundle
+//   HeavyDashboard.chunk.js  — loaded only when needed
+
+function App() {
+  return (
+    // Suspense MUST wrap lazy components
+    // fallback renders while the chunk is being downloaded
+    <Suspense fallback={<div>Loading...</div>}>
+      <HeavyDashboard />
+    </Suspense>
+  );
+}
+
+// ========================
+// The lazy() signature
+// ========================
+
+// lazy() accepts a single argument: a function that returns a Promise
+// The Promise must resolve to a module with a default export
+
+const MyComponent = lazy(
+  () => import('./MyComponent')
+  //    ↑ dynamic import — returns Promise<module>
+  //    The module MUST have a default export
+);
+
+// ✅ Valid — default export
+// MyComponent.js:
+export default function MyComponent() {
+  return <div>Hello</div>;
+}
+
+// ❌ Invalid — named export only (without wrapper)
+// MyComponent.js:
+export function MyComponent() { ... }  // no default export
+
+// Wrapping a named export to use with lazy():
+const MyComponent = lazy(() =>
+  import('./MyComponent').then(module => ({
+    default: module.MyComponent  // re-map named export to default
+  }))
+);
+
+// ========================
+// What lazy() returns
+// ========================
+
+// lazy() returns a special React component type
+// It behaves like a normal component in JSX
+// On first render: throws a Promise (Suspense catches this)
+// After chunk loads: renders normally on retry
+
+// You can use it like any other component:
+function Page() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <HeavyDashboard userId={123} title="My Dashboard" />
+      {/*              ↑ props work normally */}
+    </Suspense>
+  );
+}
+
+// ========================
+// Suspense fallback
+// ========================
+
+// The fallback renders while the chunk is downloading
+// It can be any valid React element
+
+// Simple fallback
+<Suspense fallback={<p>Loading...</p>}>
+  <LazyComponent />
+</Suspense>
+
+// Spinner fallback
+<Suspense fallback={<LoadingSpinner />}>
+  <LazyComponent />
+</Suspense>
+
+// Skeleton fallback (matches layout of what's loading)
+<Suspense fallback={<DashboardSkeleton />}>
+  <Dashboard />
+</Suspense>
+
+// Null fallback (no loading UI — useful when chunk is tiny/fast)
+<Suspense fallback={null}>
+  <LazyComponent />
+</Suspense>
+
+// ========================
+// Multiple lazy components under one Suspense
+// ========================
+
+function App() {
+  return (
+    // ONE Suspense can cover multiple lazy components
+    // All suspended components share the same fallback
+    <Suspense fallback={<PageLoader />}>
+      <LazyHeader />
+      <LazyContent />
+      <LazyFooter />
+    </Suspense>
+  );
+}
+
+// ========================
+// Error handling — ErrorBoundary is required
+// ========================
+
+// If the network request for the chunk fails, lazy() throws an error
+// Suspense alone does NOT catch errors — you need ErrorBoundary
+
+import { Component } from 'react';
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, info) {
+    console.error('Chunk load failed:', error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div>
+          <p>Failed to load this section.</p>
+          <button onClick={() => this.setState({ hasError: false })}>
+            Try Again
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// Always wrap lazy() with both ErrorBoundary AND Suspense
+function SafeLazyPage() {
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<PageSkeleton />}>
+        <LazyDashboard />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+
+// react-error-boundary library (recommended over manual class component)
+import { ErrorBoundary } from 'react-error-boundary';
+
+function App() {
+  return (
+    <ErrorBoundary
+      fallback={<ErrorPage />}
+      onError={(error) => logError(error)}
+    >
+      <Suspense fallback={<PageSkeleton />}>
+        <LazyDashboard />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Route-Based Code Splitting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Route-based splitting is the highest-impact use of React.lazy()
+// Each route becomes a separate chunk — users only download routes they visit
+
+// ========================
+// React Router v6 with lazy loading
+// ========================
+
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+// Each page is a separate chunk
+const Home       = lazy(() => import('./pages/Home'));
+const Products   = lazy(() => import('./pages/Products'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Cart       = lazy(() => import('./pages/Cart'));
+const Checkout   = lazy(() => import('./pages/Checkout'));
+const Dashboard  = lazy(() => import('./pages/Dashboard'));
+const Settings   = lazy(() => import('./pages/Settings'));
+const AdminPanel = lazy(() => import('./pages/AdminPanel'));
+const NotFound   = lazy(() => import('./pages/NotFound'));
+
+// Reusable page loading component
+function PageLoader() {
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+      <Spinner />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppShell> {/* nav, header — always loaded eagerly */}
+        <ErrorBoundary fallback={<RouteError />}>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/"              element={<Home />} />
+              <Route path="/products"      element={<Products />} />
+              <Route path="/products/:id"  element={<ProductDetail />} />
+              <Route path="/cart"          element={<Cart />} />
+              <Route path="/checkout"      element={<Checkout />} />
+              <Route path="/dashboard"     element={<Dashboard />} />
+              <Route path="/settings"      element={<Settings />} />
+              <Route path="/admin"         element={<AdminPanel />} />
+              <Route path="*"             element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </AppShell>
+    </BrowserRouter>
+  );
+}
+
+// Bundle output (approximate):
+// main.js          — React, Router, AppShell, layout (~80KB)
+// Home.chunk.js    — Home page code (~15KB)
+// Products.chunk.js — Products + filters (~40KB)
+// Dashboard.chunk.js — Charts, tables (~80KB)
+// AdminPanel.chunk.js — Admin tools (~60KB)
+// ...
+// Users who never visit Admin never download AdminPanel.chunk.js
+
+// ========================
+// Per-route Suspense boundaries (more granular)
+// ========================
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+          // Each route has its own Suspense with matching skeleton
+          <Suspense fallback={<HomeSkeleton />}>
+            <Home />
+          </Suspense>
+        } />
+        <Route path="/dashboard" element={
+          <Suspense fallback={<DashboardSkeleton />}>
+            <Dashboard />
+          </Suspense>
+        } />
+        <Route path="/admin" element={
+          <ErrorBoundary fallback={<AdminError />}>
+            <Suspense fallback={<AdminSkeleton />}>
+              <AdminPanel />
+            </Suspense>
+          </ErrorBoundary>
+        } />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+// ========================
+// React Router v6.4+ — lazy with data loading (createBrowserRouter)
+// ========================
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <AppLayout />,
+    children: [
+      {
+        index: true,
+        lazy: async () => {
+          // React Router 6.4 lazy — loads component AND data in parallel
+          const { default: Component, loader } = await import('./pages/Home');
+          return { Component, loader };
+        },
+      },
+      {
+        path: 'dashboard',
+        lazy: async () => {
+          const { default: Component, loader } = await import('./pages/Dashboard');
+          return { Component, loader };
+        },
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+// ========================
+// Next.js — dynamic imports (framework-level lazy loading)
+// ========================
+
+import dynamic from 'next/dynamic';
+
+// next/dynamic wraps React.lazy() with SSR support
+const HeavyChart = dynamic(() => import('./HeavyChart'), {
+  loading: () => <ChartSkeleton />,  // equivalent to Suspense fallback
+  ssr: false,                         // skip SSR for browser-only components
+});
+
+const AdminPanel = dynamic(() => import('./AdminPanel'), {
+  loading: () => <p>Loading admin...</p>,
+  ssr: true,  // default — renders on server too
+});
+
+// Named export with dynamic
+const SpecificExport = dynamic(
+  () => import('./MultiExport').then(mod => mod.SpecificComponent)
+);
+
+export default function Page() {
+  return (
+    <div>
+      <HeavyChart data={chartData} />
+      <AdminPanel />
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Component-Based Code Splitting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Split at the component level for features that are conditionally rendered
+// Best candidates: modals, drawers, heavy charts, editors, maps
+
+// ========================
+// Modal / Dialog — only load when opened
+// ========================
+
+const EditUserModal = lazy(() => import('./EditUserModal'));
+const DeleteConfirmModal = lazy(() => import('./DeleteConfirmModal'));
+
+function UserManagement() {
+  const [editModal, setEditModal] = useState(null);  // null or user object
+  const [deleteModal, setDeleteModal] = useState(null);
+
+  return (
+    <div>
+      <UserTable
+        onEdit={user => setEditModal(user)}
+        onDelete={user => setDeleteModal(user)}
+      />
+
+      {/* Modal chunks only download when modals are opened */}
+      {editModal && (
+        <Suspense fallback={<ModalSkeleton />}>
+          <EditUserModal
+            user={editModal}
+            onClose={() => setEditModal(null)}
+          />
+        </Suspense>
+      )}
+
+      {deleteModal && (
+        <Suspense fallback={<ModalSkeleton />}>
+          <DeleteConfirmModal
+            user={deleteModal}
+            onClose={() => setDeleteModal(null)}
+          />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// Heavy visualization libraries
+// ========================
+
+// Charts (Recharts, Chart.js) are large — lazy load them
+const SalesChart = lazy(() => import('./charts/SalesChart'));
+const HeatMap = lazy(() => import('./charts/HeatMap'));
+const GeoMap = lazy(() => import('./maps/GeoMap'));  // Leaflet/Mapbox
+
+// Rich text editor (TipTap, ProseMirror, Draft.js) — often 200KB+
+const RichTextEditor = lazy(() => import('./editor/RichTextEditor'));
+
+// PDF viewer
+const PDFViewer = lazy(() => import('./PDFViewer'));
+
+// Code editor (Monaco/CodeMirror)
+const CodeEditor = lazy(() => import('./CodeEditor'));
+
+function Dashboard() {
+  const [showEditor, setShowEditor] = useState(false);
+
+  return (
+    <div>
+      <section>
+        <h2>Sales Overview</h2>
+        {/* Chart loads when Dashboard mounts, but in a non-blocking way */}
+        <Suspense fallback={<ChartSkeleton />}>
+          <SalesChart data={salesData} />
+        </Suspense>
+      </section>
+
+      <section>
+        {/* Editor only loads if user clicks "Edit" */}
+        <button onClick={() => setShowEditor(true)}>Edit Content</button>
+        {showEditor && (
+          <Suspense fallback={<EditorSkeleton />}>
+            <RichTextEditor content={content} onChange={setContent} />
+          </Suspense>
+        )}
+      </section>
+    </div>
+  );
+}
+
+// ========================
+// Conditional features — admin tools, beta features
+// ========================
+
+const AdminTools = lazy(() => import('./AdminTools'));
+const BetaFeature = lazy(() => import('./BetaFeature'));
+
+function App({ user }) {
+  return (
+    <div>
+      <MainContent />
+
+      {/* Admin tools chunk never downloads for non-admin users */}
+      {user.role === 'admin' && (
+        <Suspense fallback={<div>Loading admin tools...</div>}>
+          <AdminTools />
+        </Suspense>
+      )}
+
+      {/* Beta feature only loads for opted-in users */}
+      {user.betaAccess && (
+        <Suspense fallback={null}>
+          <BetaFeature />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// Tab panels — lazy load inactive tabs
+// ========================
+
+const OverviewTab   = lazy(() => import('./tabs/Overview'));
+const AnalyticsTab  = lazy(() => import('./tabs/Analytics'));
+const SettingsTab   = lazy(() => import('./tabs/Settings'));
+const BillingTab    = lazy(() => import('./tabs/Billing'));
+
+const TAB_COMPONENTS = {
+  overview:  OverviewTab,
+  analytics: AnalyticsTab,
+  settings:  SettingsTab,
+  billing:   BillingTab,
+};
+
+function TabbedInterface() {
+  const [activeTab, setActiveTab] = useState('overview');
+  const ActiveComponent = TAB_COMPONENTS[activeTab];
+
+  return (
+    <div>
+      <TabBar active={activeTab} onChange={setActiveTab} />
+
+      <Suspense fallback={<TabSkeleton />}>
+        {/* Each tab chunk downloads on first visit */}
+        <ActiveComponent />
+      </Suspense>
+    </div>
+  );
+}
+
+// ========================
+// Drawer / Sidebar
+// ========================
+
+const FilterDrawer = lazy(() => import('./FilterDrawer'));
+const CartDrawer   = lazy(() => import('./CartDrawer'));
+const HelpPanel    = lazy(() => import('./HelpPanel'));
+
+function StorePage() {
+  const [drawer, setDrawer] = useState(null); // 'filter' | 'cart' | 'help' | null
+
+  const drawers = {
+    filter: FilterDrawer,
+    cart: CartDrawer,
+    help: HelpPanel,
+  };
+
+  const ActiveDrawer = drawer ? drawers[drawer] : null;
+
+  return (
+    <>
+      <ProductGrid />
+      <button onClick={() => setDrawer('filter')}>Filter</button>
+      <button onClick={() => setDrawer('cart')}>Cart</button>
+
+      {ActiveDrawer && (
+        <Suspense fallback={<DrawerSkeleton />}>
+          <ActiveDrawer onClose={() => setDrawer(null)} />
+        </Suspense>
+      )}
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Preloading and Prefetching Strategies
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Lazy loading avoids downloading code until needed
+// Preloading starts the download BEFORE the component renders
+// Balance: lazy = smaller initial load, preload = faster subsequent loads
+
+// ========================
+// Manual preloading — trigger import() early
+// ========================
+
+// Define lazy component normally
+const Dashboard = lazy(() => import('./Dashboard'));
+
+// Preload function — starts the download without rendering
+function preloadDashboard() {
+  // Calling import() starts the network request
+  // The browser downloads and caches the chunk
+  // When Dashboard renders, the chunk is already ready
+  import('./Dashboard');
+}
+
+function Nav({ user }) {
+  return (
+    <nav>
+      <Link
+        to="/dashboard"
+        onMouseEnter={preloadDashboard}  // preload on hover
+        onFocus={preloadDashboard}       // preload on keyboard focus
+      >
+        Dashboard
+      </Link>
+    </nav>
+  );
+}
+
+// ========================
+// Preloading pattern with a static method
+// ========================
+
+// Cleaner API — attach preload to the lazy component
+const Dashboard = lazy(() => import('./Dashboard'));
+Dashboard.preload = () => import('./Dashboard');
+
+// Usage:
+function NavLink() {
+  return (
+    <Link
+      to="/dashboard"
+      onMouseEnter={() => Dashboard.preload()}
+    >
+      Dashboard
+    </Link>
+  );
+}
+
+// ========================
+// Preloading based on likelihood of navigation
+// ========================
+
+// After login, user almost certainly goes to dashboard
+async function handleLogin(credentials) {
+  const user = await login(credentials);
+
+  // Start preloading dashboard immediately after login
+  // By the time user clicks "Go to dashboard", chunk is ready
+  import('./pages/Dashboard');
+  import('./pages/Settings');
+
+  navigate('/dashboard');
+}
+
+// ========================
+// Intersection Observer — preload when link is visible
+// ========================
+
+function LazyLink({ to, children, lazyComponent }) {
+  const ref = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Preload when the link scrolls into view
+          lazyComponent.preload?.();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' } // start 200px before visible
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [lazyComponent]);
+
+  return <Link ref={ref} to={to}>{children}</Link>;
+}
+
+// ========================
+// Webpack magic comments — chunk naming and prefetching
+// ========================
+
+// Named chunk (easier to identify in build output and DevTools)
+const Dashboard = lazy(() =>
+  import(/* webpackChunkName: "dashboard" */ './Dashboard')
+);
+
+// Prefetch — browser downloads chunk during idle time
+// Lower priority than preload — for routes user MIGHT visit
+const Settings = lazy(() =>
+  import(/* webpackPrefetch: true */ './pages/Settings')
+);
+// Generates: <link rel="prefetch" href="settings.chunk.js">
+
+// Preload — browser downloads chunk at high priority
+// For resources user WILL need very soon
+const CriticalModal = lazy(() =>
+  import(/* webpackPreload: true */ './CriticalModal')
+);
+// Generates: <link rel="preload" href="critical-modal.chunk.js">
+
+// Combine: named + prefetch
+const Analytics = lazy(() =>
+  import(
+    /* webpackChunkName: "analytics" */
+    /* webpackPrefetch: true */
+    './pages/Analytics'
+  )
+);
+
+// ========================
+// Vite — import hints (equivalent to webpack magic comments)
+// ========================
+
+// Vite uses standard browser hints via ?url imports and Rollup options
+// For prefetching in Vite, use <link rel="prefetch"> or vite-plugin-prefetch
+
+// Named chunks in Vite (rollup config in vite.config.ts):
+// build: {
+//   rollupOptions: {
+//     output: {
+//       manualChunks: {
+//         'vendor-charts': ['recharts', 'd3'],
+//         'vendor-editor': ['@tiptap/core', '@tiptap/react'],
+//       }
+//     }
+//   }
+// }
+
+// ========================
+// useEffect-based preloading on idle
+// ========================
+
+function App() {
+  useEffect(() => {
+    // After main content renders, preload secondary routes during idle
+    const timer = setTimeout(() => {
+      import('./pages/Settings');
+      import('./pages/Help');
+    }, 3000); // delay 3 seconds to not compete with initial load
+
+    // Or use requestIdleCallback for browsers that support it
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        import('./pages/Settings');
+        import('./pages/Help');
+      });
+    }
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <Router />;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Named Exports, Re-exports, and Advanced Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React.lazy() requires a default export
+// These patterns handle named exports and complex module structures
+
+// ========================
+// Wrapping named exports
+// ========================
+
+// Component file with named export:
+// components/Modal.jsx
+export function Modal({ children, onClose }) {
+  return <div className="modal">{children}</div>;
+}
+export function ModalHeader({ title }) {
+  return <h2>{title}</h2>;
+}
+
+// Lazy load with named export remapping:
+const Modal = lazy(() =>
+  import('./components/Modal').then(module => ({
+    default: module.Modal
+  }))
+);
+
+const ModalHeader = lazy(() =>
+  import('./components/Modal').then(module => ({
+    default: module.ModalHeader
+  }))
+);
+
+// ========================
+// Barrel files — lazy loading from index files
+// ========================
+
+// components/index.js (barrel file):
+// export { default as Dashboard } from './Dashboard';
+// export { default as Analytics } from './Analytics';
+// export { default as Settings } from './Settings';
+
+// ❌ Avoid lazy() with barrel files — they import EVERYTHING
+const Dashboard = lazy(() =>
+  import('./components').then(m => ({ default: m.Dashboard }))
+);
+// This still downloads all of components/index.js and its imports
+
+// ✅ Always import directly from the source file:
+const Dashboard = lazy(() => import('./components/Dashboard'));
+
+// ========================
+// Factory pattern — lazy loading with configuration
+// ========================
+
+function createLazyComponent(importFn, fallback = <Spinner />) {
+  const Component = lazy(importFn);
+
+  return function WrappedLazy(props) {
+    return (
+      <ErrorBoundary fallback={<ErrorMessage />}>
+        <Suspense fallback={fallback}>
+          <Component {...props} />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  };
+}
+
+// Usage — no need to manually add Suspense/ErrorBoundary every time
+const Dashboard = createLazyComponent(
+  () => import('./Dashboard'),
+  <DashboardSkeleton />
+);
+
+const Settings = createLazyComponent(
+  () => import('./Settings'),
+  <SettingsSkeleton />
+);
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/settings" element={<Settings />} />
+    </Routes>
+  );
+}
+
+// ========================
+// Lazy loading with props passed through
+// ========================
+
+// lazy() components accept props exactly like regular components
+const HeavyForm = lazy(() => import('./HeavyForm'));
+
+function Page({ formConfig, onSubmit, initialValues }) {
+  return (
+    <Suspense fallback={<FormSkeleton />}>
+      <HeavyForm
+        config={formConfig}
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+      />
+    </Suspense>
+  );
+}
+
+// ========================
+// Dynamic lazy loading — component chosen at runtime
+// ========================
+
+// Different chart types loaded on demand
+const chartMap = {
+  line:    lazy(() => import('./charts/LineChart')),
+  bar:     lazy(() => import('./charts/BarChart')),
+  pie:     lazy(() => import('./charts/PieChart')),
+  scatter: lazy(() => import('./charts/ScatterChart')),
+  heatmap: lazy(() => import('./charts/HeatMap')),
+};
+
+function DynamicChart({ type, data }) {
+  const ChartComponent = chartMap[type];
+
+  if (!ChartComponent) return <p>Unknown chart type: {type}</p>;
+
+  return (
+    <Suspense fallback={<ChartSkeleton />}>
+      <ChartComponent data={data} />
+    </Suspense>
+  );
+}
+
+// Only the selected chart type downloads
+<DynamicChart type="line" data={salesData} />
+
+// ========================
+// Lazy loading third-party libraries
+// ========================
+
+// Rather than lazy loading the React component, sometimes you want
+// to lazy load a heavy library and use it in an effect or handler
+
+// ❌ Eager — downloads moment.js for everyone even if unused
+import moment from 'moment';
+
+// ✅ Lazy — only downloads moment.js when formatDate is called
+async function formatDate(date) {
+  const { default: moment } = await import('moment');
+  return moment(date).format('MMMM Do YYYY');
+}
+
+// For React components wrapping a heavy library:
+const MapComponent = lazy(async () => {
+  // Import the library and the component together
+  // The library becomes part of the chunk
+  await import('leaflet/dist/leaflet.css');
+  return import('./MapComponent'); // MapComponent imports leaflet internally
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Suspense Boundaries — Design and Nesting
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// How you position Suspense boundaries shapes the user experience
+// Too few = large loading blocks. Too many = loading state chaos.
+
+// ========================
+// Single top-level boundary (simplest, least granular)
+// ========================
+
+function App() {
+  return (
+    <ErrorBoundary fallback={<AppError />}>
+      <Suspense fallback={<FullPageLoader />}>
+        {/* ALL lazy components share this one boundary */}
+        <Router />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+// Pro: simple
+// Con: any loading shows a full-page spinner
+
+// ========================
+// Per-route boundaries (recommended for most apps)
+// ========================
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppHeader /> {/* always rendered, no Suspense needed */}
+      <Routes>
+        <Route path="/" element={
+          <Suspense fallback={<HomeSkeleton />}>
+            <Home />
+          </Suspense>
+        } />
+        <Route path="/dashboard" element={
+          <Suspense fallback={<DashboardSkeleton />}>
+            <Dashboard />
+          </Suspense>
+        } />
+      </Routes>
+      <AppFooter /> {/* always rendered */}
+    </BrowserRouter>
+  );
+}
+
+// ========================
+// Nested boundaries — granular loading states
+// ========================
+
+function Dashboard() {
+  return (
+    <div className="dashboard-layout">
+      {/* Header loads as part of Dashboard chunk — no boundary needed */}
+      <DashboardHeader />
+
+      <div className="dashboard-grid">
+        {/* Each section has its own boundary */}
+        <Suspense fallback={<StatsSkeleton />}>
+          <StatsSection />      {/* fetches analytics data */}
+        </Suspense>
+
+        <Suspense fallback={<ChartSkeleton />}>
+          <RevenueChart />      {/* heavy charting library */}
+        </Suspense>
+
+        <Suspense fallback={<TableSkeleton />}>
+          <RecentOrders />      {/* paginated order data */}
+        </Suspense>
+
+        <Suspense fallback={<FeedSkeleton />}>
+          <ActivityFeed />      {/* real-time feed */}
+        </Suspense>
+      </div>
+    </div>
+  );
+}
+
+// Each section loads independently — a slow ActivityFeed
+// doesn't block RevenueChart from showing
+
+// ========================
+// Suspense with useTransition — prevent fallback on navigation
+// ========================
+
+import { useState, useTransition, lazy, Suspense } from 'react';
+
+const Home      = lazy(() => import('./pages/Home'));
+const Products  = lazy(() => import('./pages/Products'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+
+const PAGES = { home: Home, products: Products, dashboard: Dashboard };
+
+function App() {
+  const [page, setPage] = useState('home');
+  const [isPending, startTransition] = useTransition();
+  const PageComponent = PAGES[page];
+
+  function navigate(to) {
+    startTransition(() => {
+      setPage(to);
+    });
+  }
+
+  return (
+    <>
+      <nav>
+        {Object.keys(PAGES).map(p => (
+          <button
+            key={p}
+            onClick={() => navigate(p)}
+            disabled={isPending}
+            style={{ opacity: page === p && isPending ? 0.7 : 1 }}
+          >
+            {p}
+          </button>
+        ))}
+        {isPending && <Spinner size="small" />}
+      </nav>
+
+      {/*
+        WITHOUT startTransition: clicking nav immediately shows fallback skeleton
+        WITH startTransition: stays on current page until new page chunk is ready
+        This eliminates the "flash of skeleton" for fast network connections
+      */}
+      <Suspense fallback={<PageSkeleton />}>
+        <PageComponent />
+      </Suspense>
+    </>
+  );
+}
+
+// ========================
+// Lazy inside lists — careful!
+// ========================
+
+// ❌ Avoid creating lazy() inside render — new component on every render
+function BadList({ items }) {
+  return items.map(item => {
+    const ItemComponent = lazy(() => import(\`./items/\${item.type}\`)); // BAD
+    return (
+      <Suspense key={item.id} fallback={<ItemSkeleton />}>
+        <ItemComponent item={item} />
+      </Suspense>
+    );
+  });
+}
+
+// ✅ Define lazy components outside render
+const itemComponents = {
+  product: lazy(() => import('./items/ProductItem')),
+  service: lazy(() => import('./items/ServiceItem')),
+  bundle:  lazy(() => import('./items/BundleItem')),
+};
+
+function GoodList({ items }) {
+  return items.map(item => {
+    const ItemComponent = itemComponents[item.type];
+    return (
+      <Suspense key={item.id} fallback={<ItemSkeleton />}>
+        <ItemComponent item={item} />
+      </Suspense>
+    );
+  });
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Bundle Analysis and Measuring Impact
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Measure before and after to confirm code splitting is helping
+// Tools: webpack-bundle-analyzer, vite-bundle-visualizer, Lighthouse
+
+// ========================
+// Webpack Bundle Analyzer
+// ========================
+
+// npm install --save-dev webpack-bundle-analyzer
+
+// webpack.config.js
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+module.exports = {
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',           // generates report.html
+      openAnalyzer: false,
+      reportFilename: 'bundle-report.html',
+    }),
+  ],
+};
+
+// Or run on demand (without modifying config):
+// npx webpack-bundle-analyzer build/static/js/*.js
+
+// ========================
+// Vite Bundle Visualizer
+// ========================
+
+// npm install --save-dev rollup-plugin-visualizer
+
+// vite.config.ts
+import { visualizer } from 'rollup-plugin-visualizer';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    visualizer({
+      filename: 'bundle-stats.html',
+      open: true,        // auto-open in browser after build
+      gzipSize: true,    // show gzipped sizes
+      template: 'treemap', // or 'sunburst', 'network'
+    }),
+  ],
+});
+
+// npm run build — generates bundle-stats.html
+
+// ========================
+// Create React App — source-map-explorer
+// ========================
+
+// npm install --save-dev source-map-explorer
+
+// package.json
+// "analyze": "source-map-explorer 'build/static/js/*.js'"
+
+// npm run build && npm run analyze
+
+// ========================
+// What to look for in bundle analysis
+// ========================
+
+// Red flags:
+// ❌ Large libraries (lodash, moment, chart.js) in main bundle
+// ❌ Admin-only code in main bundle
+// ❌ Page components not split into separate chunks
+// ❌ Duplicate dependencies across chunks
+
+// Green flags:
+// ✅ main chunk < 150KB gzipped for the core app shell
+// ✅ Route chunks visible as separate files
+// ✅ Heavy libraries (recharts, monaco) in their own chunks
+// ✅ Vendor chunk for stable third-party code (react, react-dom)
+
+// ========================
+// Manual chunk splitting in bundler config
+// ========================
+
+// Vite — split vendor libraries into named chunks
+// vite.config.ts
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // React and React DOM always together
+          if (id.includes('node_modules/react') ||
+              id.includes('node_modules/react-dom')) {
+            return 'react-vendor';
+          }
+          // Chart libraries together (they share dependencies)
+          if (id.includes('recharts') || id.includes('d3')) {
+            return 'charts-vendor';
+          }
+          // Form libraries together
+          if (id.includes('react-hook-form') || id.includes('zod')) {
+            return 'forms-vendor';
+          }
+        },
+      },
+    },
+  },
+});
+
+// ========================
+// Measuring performance impact — Lighthouse
+// ========================
+
+// Key metrics to track before/after:
+// - First Contentful Paint (FCP): time to first visible content
+// - Largest Contentful Paint (LCP): time to largest visible element
+// - Time to Interactive (TTI): when page responds to interactions
+// - Total Blocking Time (TBT): main thread blocking during load
+// - JavaScript bundle size (initial download)
+// - Coverage tab in Chrome DevTools — shows unused JS percentage
+
+// In Chrome DevTools:
+// Coverage tab: shows how much of each JS file is actually executed
+// Unused code = good lazy loading candidates
+
+// ========================
+// Network tab analysis
+// ========================
+
+// In Chrome DevTools → Network:
+// 1. Filter by JS
+// 2. First page load: see which chunks download
+// 3. Navigate to a lazy route: see new chunk(s) download
+// 4. Navigate to same route again: chunk should come from cache
+
+// Good sign: visiting /dashboard downloads dashboard.chunk.js
+// Better sign: chunk is small and loads quickly
+// Best sign: revisiting /dashboard uses cached chunk (304 Not Modified)
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. SSR Considerations and Limitations
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// React.lazy() does NOT work with traditional SSR (renderToString)
+// The chunk hasn't loaded when the server renders — lazy() throws
+
+// ========================
+// The problem with React.lazy() + SSR
+// ========================
+
+// Server-side rendering calls:
+// renderToString(<App />) or renderToPipeableStream(<App />)
+
+// When App renders a lazy() component:
+// - Server starts rendering
+// - Hits the lazy() component
+// - lazy() throws a Promise (like Suspense expects)
+// - renderToString cannot handle this — it throws an error
+
+// ========================
+// Solution 1: Streaming SSR (React 18)
+// ========================
+
+// React 18's renderToPipeableStream DOES support Suspense + lazy()
+// The server streams the fallback HTML, then streams the real content
+
+import { renderToPipeableStream } from 'react-dom/server';
+
+const Dashboard = lazy(() => import('./Dashboard'));
+
+function App() {
+  return (
+    <Suspense fallback={<DashboardSkeleton />}>
+      <Dashboard />
+    </Suspense>
+  );
+}
+
+app.get('/', (req, res) => {
+  const { pipe } = renderToPipeableStream(<App />, {
+    onShellReady() {
+      res.setHeader('Content-Type', 'text/html');
+      pipe(res);
+      // Streams DashboardSkeleton immediately
+      // Then streams Dashboard content when chunk loads
+    },
+  });
+});
+
+// ========================
+// Solution 2: next/dynamic (Next.js Pages Router)
+// ========================
+
+// next/dynamic handles SSR correctly
+import dynamic from 'next/dynamic';
+
+// ssr: false — skip SSR entirely, only render on client
+const HeavyClientComponent = dynamic(
+  () => import('./HeavyClientComponent'),
+  {
+    ssr: false,
+    loading: () => <Skeleton />,
+  }
+);
+
+// ssr: true (default) — renders on server with loading fallback
+const ContentSection = dynamic(
+  () => import('./ContentSection'),
+  { loading: () => <ContentSkeleton /> }
+);
+
+// ========================
+// Solution 3: loadable-components (for custom SSR setups)
+// ========================
+
+// npm install @loadable/component
+
+import loadable from '@loadable/component';
+
+// Works with SSR — handles chunk loading on both server and client
+const Dashboard = loadable(() => import('./Dashboard'), {
+  fallback: <DashboardSkeleton />,
+});
+
+// Requires server-side setup to collect and inject chunk scripts:
+// import { ChunkExtractor } from '@loadable/server';
+// const extractor = new ChunkExtractor({ statsFile });
+// const jsx = extractor.collectChunks(<App />);
+// const html = renderToString(jsx);
+// const scriptTags = extractor.getScriptTags();
+// Inject scriptTags into the HTML so client knows which chunks to load
+
+// ========================
+// Solution 4: Disable SSR for specific components
+// ========================
+
+// Wrapper component that only renders on client
+function ClientOnly({ children, fallback = null }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return fallback;
+  return children;
+}
+
+// Usage — component is skipped during SSR
+const LazyMap = lazy(() => import('./Map'));
+
+function Page() {
+  return (
+    <div>
+      <MainContent />
+      <ClientOnly fallback={<MapSkeleton />}>
+        <Suspense fallback={<MapSkeleton />}>
+          <LazyMap coordinates={coords} />
+        </Suspense>
+      </ClientOnly>
+    </div>
+  );
+}
+
+// ========================
+// Hydration and lazy() — important detail
+// ========================
+
+// When using streaming SSR + React.lazy():
+// 1. Server streams skeleton HTML for lazy components
+// 2. Client downloads main bundle
+// 3. Client sees skeleton in DOM
+// 4. React hydrates the app
+// 5. Suspense triggers — downloads lazy component chunk
+// 6. Component renders and replaces skeleton
+
+// The key: there's NO hydration mismatch because Suspense handles it
+// React knows to expect the skeleton during hydration and swaps it correctly
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Real-World Patterns and Common Mistakes
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// ✅ Complete production-ready setup
+// ========================
+
+import { lazy, Suspense, useState, useTransition } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
+// Route-level lazy components
+const Home      = lazy(() => import(/* webpackChunkName: "home" */      './pages/Home'));
+const Products  = lazy(() => import(/* webpackChunkName: "products" */  './pages/Products'));
+const Dashboard = lazy(() => import(/* webpackChunkName: "dashboard" */ './pages/Dashboard'));
+const Admin     = lazy(() => import(/* webpackChunkName: "admin" */     './pages/Admin'));
+
+// Feature-level lazy components
+const VideoPlayer   = lazy(() => import('./features/VideoPlayer'));
+const ReportBuilder = lazy(() => import('./features/ReportBuilder'));
+
+// Error fallback component
+function RouteError({ error, resetErrorBoundary }) {
+  return (
+    <div role="alert">
+      <h2>Failed to load this page</h2>
+      <p>{error.message}</p>
+      <button onClick={resetErrorBoundary}>Try Again</button>
+    </div>
+  );
+}
+
+// Reusable lazy wrapper
+function LazyRoute({ component: Component, skeleton: Skeleton }) {
+  return (
+    <ErrorBoundary FallbackComponent={RouteError}>
+      <Suspense fallback={<Skeleton />}>
+        <Component />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppNav />
+      <Routes>
+        <Route path="/"          element={<LazyRoute component={Home}      skeleton={HomeSkeleton} />} />
+        <Route path="/products"  element={<LazyRoute component={Products}  skeleton={ProductsSkeleton} />} />
+        <Route path="/dashboard" element={<LazyRoute component={Dashboard} skeleton={DashboardSkeleton} />} />
+        <Route path="/admin"     element={<LazyRoute component={Admin}     skeleton={AdminSkeleton} />} />
+        <Route path="*"          element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+// ========================
+// Common mistake 1 — missing Suspense
+// ========================
+
+// ❌ Error: "A React component suspended while rendering but no fallback UI was provided"
+function Bad() {
+  const LazyComponent = lazy(() => import('./Heavy'));
+  return <LazyComponent />; // Suspense missing — will throw
+}
+
+// ✅
+function Good() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <LazyComponent />
+    </Suspense>
+  );
+}
+
+// ========================
+// Common mistake 2 — lazy() inside component
+// ========================
+
+// ❌ Creates a NEW lazy component on every render — causes infinite loading
+function BadParent({ type }) {
+  // This runs on every render — new lazy component = new fetch = infinite loop
+  const Dynamic = lazy(() => import(\`./components/\${type}\`));
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Dynamic />
+    </Suspense>
+  );
+}
+
+// ✅ Define outside component, or memoize the selection
+const componentMap = {
+  typeA: lazy(() => import('./components/TypeA')),
+  typeB: lazy(() => import('./components/TypeB')),
+  typeC: lazy(() => import('./components/TypeC')),
+};
+
+function GoodParent({ type }) {
+  const Dynamic = componentMap[type];
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Dynamic />
+    </Suspense>
+  );
+}
+
+// ========================
+// Common mistake 3 — no ErrorBoundary
+// ========================
+
+// ❌ Network failure crashes the app silently
+function Fragile() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <LazyComponent /> {/* If chunk fails to load: unhandled error */}
+    </Suspense>
+  );
+}
+
+// ✅ Always wrap with ErrorBoundary
+function Robust() {
+  return (
+    <ErrorBoundary fallback={<ErrorMessage />}>
+      <Suspense fallback={<Spinner />}>
+        <LazyComponent />
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+
+// ========================
+// Common mistake 4 — named export without remapping
+// ========================
+
+// component.js
+export function MyComponent() { return <div />; }  // named export
+
+// ❌ Will fail — no default export
+const Bad = lazy(() => import('./component'));
+
+// ✅ Remap named to default
+const Good = lazy(() =>
+  import('./component').then(m => ({ default: m.MyComponent }))
+);
+
+// ========================
+// Common mistake 5 — lazy loading everything
+// ========================
+
+// ❌ Over-engineering — small components don't benefit
+const Button = lazy(() => import('./Button'));     // 2KB — not worth splitting
+const Icon   = lazy(() => import('./Icon'));       // 1KB — not worth splitting
+const Badge  = lazy(() => import('./Badge'));      // 1KB — not worth splitting
+
+// ✅ Lazy load only genuinely heavy components
+const Dashboard    = lazy(() => import('./Dashboard'));   // 80KB — worth it
+const MonacoEditor = lazy(() => import('./CodeEditor')); // 200KB — worth it
+const PDFViewer    = lazy(() => import('./PDFViewer'));   // 150KB — worth it
+
+// Rule of thumb: lazy loading adds a network round trip
+// Only worthwhile for chunks > 20-30KB or components rarely visited
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Always pair <code>lazy()</code> with both <code>Suspense</code> and <code>ErrorBoundary</code></li>
+  <li><b>DO:</b> Define lazy components at the module level — never inside render functions</li>
+  <li><b>DO:</b> Start with route-based splitting — it has the highest impact with least complexity</li>
+  <li><b>DO:</b> Use named chunks (<code>webpackChunkName</code>) to identify splits in bundle analysis</li>
+  <li><b>DO:</b> Use skeleton UIs as Suspense fallbacks — they match the layout of what's loading</li>
+  <li><b>DO:</b> Combine <code>useTransition</code> with <code>Suspense</code> to avoid flash of fallback content on navigation</li>
+  <li><b>DO:</b> Preload likely-to-be-needed chunks on hover/focus of navigation links</li>
+  <li><b>DO:</b> Analyze your bundle before and after to confirm the split is effective</li>
+  <li><b>DO:</b> Use <code>next/dynamic</code> with <code>ssr: false</code> for browser-only components in Next.js</li>
+  <li><b>DO:</b> Remap named exports using <code>.then(m => ({ default: m.Named }))</code></li>
+  <li><b>DON'T:</b> Lazy load tiny components (under 20-30KB) — network overhead cancels the benefit</li>
+  <li><b>DON'T:</b> Create <code>lazy()</code> calls inside component functions — causes re-fetching on every render</li>
+  <li><b>DON'T:</b> Import from barrel files (<code>index.js</code>) with lazy — it defeats tree shaking</li>
+  <li><b>DON'T:</b> Use <code>React.lazy()</code> for SSR without streaming or a library like <code>@loadable/component</code></li>
+  <li><b>DON'T:</b> Forget to handle chunk load failures — network errors need <code>ErrorBoundary</code></li>
+  <li><b>DON'T:</b> Use one giant Suspense boundary for the whole app — use granular boundaries per section</li>
+  <li><b>DON'T:</b> Lazy load components that are always visible above the fold — eager load those</li>
+  <li><b>DON'T:</b> Skip preloading for high-probability navigations — preload on hover to eliminate wait time</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Basic lazy() with Suspense and ErrorBoundary",
+              "Route-Based Splitting with React Router v6",
+              "Modal and Drawer Lazy Loading",
+              "Tab Panel On-Demand Loading",
+              "Preloading on Hover / Focus",
+              "Dynamic Component Selection at Runtime",
+              "Named Export Remapping",
+              "Factory Pattern — Reusable Lazy Wrapper",
+              "Webpack Magic Comments — Chunk Naming and Prefetch",
+              "next/dynamic with SSR Control",
+            ],
+            questions: [
+              {
+                question:
+                  "What is React.lazy() and what problem does it solve?",
+                answer:
+                  "React.lazy() enables code splitting — breaking a JavaScript bundle into smaller chunks that load on demand instead of shipping everything upfront. Without it, React applications compile into a single bundle that every user must download before seeing any content, even code for routes or features they will never use. lazy() accepts a function returning a dynamic import() and produces a lazy component that only triggers its chunk download when first rendered. Bundlers (Webpack, Vite, Rollup) treat import() as a split point and generate separate chunk files automatically. The result: smaller initial bundles, faster first loads, and users only paying the cost of features they actually use.",
+              },
+              {
+                question:
+                  "What is the relationship between React.lazy() and Suspense?",
+                answer:
+                  "They are inseparable. React.lazy() works by throwing a Promise when the component first renders and the chunk is not yet loaded — this is the same 'throw a Promise' protocol that Suspense uses to detect suspended components. Suspense catches the thrown Promise, renders its fallback UI, and when the Promise resolves (chunk downloaded), React retries rendering the lazy component. A lazy component MUST have a Suspense ancestor or it will throw an uncaught error. The Suspense boundary can be anywhere above the lazy component in the tree — it does not need to be a direct parent. One Suspense boundary can cover multiple lazy components, all sharing the same fallback.",
+              },
+              {
+                question:
+                  "What are the requirements for a component to work with React.lazy()?",
+                answer:
+                  "Three requirements: 1) The argument to lazy() must be a function (not a Promise directly) — lazy(() => import('./MyComponent')), not lazy(import('./MyComponent')). 2) The dynamic import must resolve to a module with a default export that is a React component. Named exports do not work directly. 3) A Suspense boundary must exist as an ancestor in the component tree. Additionally, the lazy() call itself must happen at module scope — not inside a render function or component body — otherwise a new lazy component is created on every render, causing infinite re-fetching. ErrorBoundary is not strictly required but is strongly recommended to handle chunk load failures.",
+              },
+              {
+                question: "How do you lazy load a named export?",
+                answer:
+                  "React.lazy() requires a default export, so named exports must be remapped. Use .then() on the dynamic import to construct a synthetic module object: const MyComponent = lazy(() => import('./module').then(m => ({ default: m.MyComponent }))). This creates a new module-like object with the named export assigned to default, which lazy() can consume. If you control the source file, the cleanest solution is to add a default export. If you use barrel files (index.js with re-exports), be aware that importing from the barrel still pulls in the barrel's entire dependency graph — always import directly from the component's source file for effective code splitting.",
+              },
+              {
+                question:
+                  "What is the best split strategy — route-based or component-based?",
+                answer:
+                  "Route-based splitting is the highest-impact starting point because route transitions are natural loading moments and each route represents a distinct user goal. Every page becomes a separate chunk — users on the login page never download dashboard code. Component-based splitting is the next level: lazy load features within pages that are conditionally rendered (modals, drawers, tabs, admin tools, heavy visualization libraries like charts, maps, editors). The decision rule: lazy load when the component is large (>20-30KB), conditionally shown, or contains a heavy third-party library. Don't lazy load always-visible above-the-fold components or tiny utilities — the network round trip adds more latency than the bytes saved.",
+              },
+              {
+                question:
+                  "How do you prevent a flash of the Suspense fallback when navigating between routes?",
+                answer:
+                  "Wrap the navigation state update in startTransition from useTransition. Without a transition, React immediately unmounts the current page and shows the Suspense fallback while the next chunk downloads. With startTransition, React keeps rendering the current page (with isPending = true) until the new chunk has loaded, then swaps to the new page atomically. This means fast connections see seamless navigation with no skeleton flash, while slow connections still see the fallback after a delay. Show a subtle loading indicator using isPending (a spinner in the nav bar) so users know something is happening — but the current content stays visible and interactive.",
+              },
+              {
+                question: "Does React.lazy() work with server-side rendering?",
+                answer:
+                  "Not with legacy renderToString — it cannot handle thrown Promises from Suspense/lazy. Three solutions: 1) React 18 streaming SSR with renderToPipeableStream does support lazy() + Suspense — the server streams the fallback HTML, then streams the real content when the chunk loads. 2) next/dynamic from Next.js wraps lazy() with SSR awareness and the ssr: false option skips server rendering entirely for browser-only components. 3) @loadable/component is a third-party library designed for SSR code splitting in custom setups — it collects chunks on the server and injects the right script tags. For simple cases, wrapping the lazy component in a ClientOnly guard that suppresses SSR is also viable.",
+              },
+              {
+                question:
+                  "What is chunk preloading and how do you implement it with lazy()?",
+                answer:
+                  "Preloading starts downloading a chunk before it is needed — eliminating the wait when the component eventually renders. Since import() returns a Promise and browsers cache network responses, calling import('./Dashboard') early is sufficient to preload the chunk. Common patterns: 1) Trigger import() on mouse hover or keyboard focus of navigation links — by the time the user clicks, the chunk is ready. 2) After login, immediately preload the dashboard and other likely-visited routes. 3) Use requestIdleCallback or a setTimeout to preload secondary routes after the main content has loaded. 4) Use Webpack magic comments webpackPrefetch: true to emit link rel=prefetch hints that let the browser decide when to download. Attach a preload static method to the lazy component for a clean API.",
+              },
+              {
+                question:
+                  "Why should lazy() never be called inside a component function?",
+                answer:
+                  "Every time a component renders, code inside the function body executes. Calling lazy() inside a component creates a new lazy component object on every render. Since it is a new object, React treats it as an entirely different component type — it unmounts the old one and mounts the new one, triggering another chunk fetch, causing an infinite loading loop or at minimum constant remounting. lazy() must be called at module scope (top level of the file) so it executes once and the same lazy component reference is reused across all renders. If you need to select between multiple lazy components dynamically (like different chart types), use a lookup map defined outside the component.",
+              },
+              {
+                question:
+                  "Why is ErrorBoundary necessary with React.lazy() and how should you set it up?",
+                answer:
+                  "lazy() throws an error (not just a Promise) when the network request for a chunk fails — for example, a 404 because the chunk was renamed after a deployment, or a network timeout. Suspense only handles thrown Promises (the loading state) — it does not catch errors. Without an ErrorBoundary, a chunk load failure results in an uncaught error that crashes the entire React tree and shows a blank page. ErrorBoundary catches the error and renders a fallback UI with a retry option. Best practice: wrap each lazy boundary with an ErrorBoundary immediately outside the Suspense. Use the react-error-boundary library which provides a functional API with resetErrorBoundary for retry logic and an onError callback for logging to error tracking services.",
+              },
+              {
+                question:
+                  "How do Webpack magic comments work with React.lazy()?",
+                answer:
+                  "Webpack interprets special inline comments inside import() as configuration directives. webpackChunkName: 'name' assigns a human-readable name to the generated chunk file (dashboard.chunk.js instead of 3.chunk.js) making bundle analysis and DevTools Network tab much easier to read. webpackPrefetch: true emits a link rel=prefetch tag in the HTML head, signaling the browser to download the chunk during idle time after the page loads — good for routes the user might visit next. webpackPreload: true emits link rel=preload for resources needed very soon at high priority. Combine them: import(/* webpackChunkName: 'analytics' */ /* webpackPrefetch: true */ './Analytics'). Vite does not use these comments but achieves similar results through Rollup's manualChunks configuration.",
+              },
+              {
+                question:
+                  "What is the impact of lazy loading on Core Web Vitals and performance metrics?",
+                answer:
+                  "Code splitting directly improves: Total Blocking Time (TBT) — less JavaScript to parse and execute on initial load reduces main thread blocking. Time to Interactive (TTI) — the browser reaches interactive state faster with a smaller initial bundle. First Contentful Paint (FCP) — less JavaScript means the browser can render visible content sooner. Largest Contentful Paint (LCP) — faster JavaScript execution allows the hero image or text to render earlier. Measure impact using Chrome DevTools Coverage tab (shows percentage of unused JS), Lighthouse audits, and webpack-bundle-analyzer or rollup-plugin-visualizer to see chunk composition. A good target: initial bundle under 150KB gzipped for the app shell, with feature code split into separate chunks that load on demand.",
+              },
+              {
+                question:
+                  "How do you handle a lazy component that needs to load both a React component and a CSS file?",
+                answer:
+                  "Bundlers handle CSS imported inside component files automatically — when the chunk for a lazy component is downloaded, any CSS imported in that file is also applied. You can also use async import inside the lazy() factory to sequence multiple imports: const MapComponent = lazy(async () => { await import('leaflet/dist/leaflet.css'); return import('./MapComponent'); }). Here the CSS import side-effect runs first, then the component module resolves as the lazy() result. For CSS-in-JS libraries (Emotion, Styled Components), no extra handling is needed — styles are co-located with the JavaScript. For global stylesheets or third-party CSS, import them inside the component file itself so they are bundled into the same chunk.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/lazy",
+              "https://react.dev/reference/react/Suspense",
+              "https://react.dev/blog/2022/03/29/react-v18#new-suspense-features",
+              "https://webpack.js.org/guides/code-splitting/",
+              "https://vitejs.dev/guide/build.html#chunking-strategy",
+              "https://reactrouter.com/en/main/route/lazy",
+              "https://nextjs.org/docs/pages/building-your-application/optimizing/lazy-loading",
+              "https://github.com/nicolo-ribaudo/tc39-proposal-dynamic-import",
+              "https://github.com/gregberge/loadable-components",
+              "https://www.npmjs.com/package/webpack-bundle-analyzer",
+            ],
           },
           {
             topic: "Code Splitting",
@@ -43919,51 +52024,8144 @@ function useIdlePrefetch(importFn) {
           },
           {
             topic: "Virtualization",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Virtualization",
+              "Virtual Scrolling",
+              "Windowing",
+              "react-window",
+              "react-virtual",
+              "TanStack Virtual",
+              "List Virtualization",
+              "Grid Virtualization",
+              "Performance Optimization",
+              "Large Lists",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+<strong>Virtualization</strong> (also called <strong>windowing</strong>) is a performance technique where only the DOM nodes that are currently visible in the viewport are rendered — the rest exist only as data. Instead of rendering a 10,000-row list as 10,000 actual DOM nodes, a virtualized list renders perhaps 20–30 rows at a time and swaps them in and out as the user scrolls. The browser only manages a small, constant number of DOM nodes regardless of dataset size, keeping memory usage low, layout calculations fast, and scrolling smooth. This is one of the most impactful performance optimizations available for data-heavy React applications — dashboards, data grids, file explorers, infinite feeds, and autocomplete lists all benefit enormously. The two dominant libraries in the React ecosystem are <strong>react-window</strong> (lightweight, opinionated) and <strong>TanStack Virtual</strong> / <strong>@tanstack/react-virtual</strong> (headless, flexible, actively maintained). Understanding the core mechanics — offset calculation, overscan, scroll event handling — is as important as knowing the library APIs.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. The Problem — Why Virtualization Matters
+</h4>
+
+<p style="line-height: 1.75;">
+Rendering thousands of DOM nodes has measurable, cascading costs that cannot be solved by memoization or lazy loading alone.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// The naive approach — render everything
+// ========================
+
+// ❌ Rendering 10,000 items directly
+function NaiveList({ items }) {
+  // items.length = 10,000
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>
+          <Avatar src={item.avatar} />
+          <span>{item.name}</span>
+          <span>{item.email}</span>
+          <Badge status={item.status} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Costs at 10,000 items:
+// - DOM nodes:     ~50,000 (5 per row × 10,000 rows)
+// - Memory:        200–500MB just for DOM nodes
+// - Initial paint: 3–8 seconds on mid-range devices
+// - Scroll:        Forced layout/reflow on every frame → jank
+// - React tree:    10,000 component instances held in memory
+
+// ========================
+// How virtualization solves this
+// ========================
+
+// The core idea: only render what's visible
+
+// Given:
+// - Container height: 600px
+// - Item height: 50px
+// - Visible items: 600 / 50 = 12 items
+// - Overscan (buffer): 3 items above and below
+// - DOM nodes at any time: ~18 items (regardless of list length)
+
+// As user scrolls:
+// 1. Calculate which items are in view based on scrollTop
+// 2. Render only those items + overscan buffer
+// 3. Position items using absolute positioning + translateY/top offset
+// 4. Create an invisible full-height spacer to maintain scrollbar proportions
+
+// The math:
+function getVisibleRange(scrollTop, containerHeight, itemHeight, itemCount) {
+  const startIndex = Math.floor(scrollTop / itemHeight);
+  const visibleCount = Math.ceil(containerHeight / itemHeight);
+  const endIndex = Math.min(startIndex + visibleCount, itemCount - 1);
+  return { startIndex, endIndex };
+}
+
+// Item offset:
+function getItemOffset(index, itemHeight) {
+  return index * itemHeight;
+}
+
+// Total list height (for the scrollbar to be correct):
+function getTotalHeight(itemCount, itemHeight) {
+  return itemCount * itemHeight;
+}
+
+// ========================
+// Before/after comparison
+// ========================
+
+// Without virtualization (10,000 rows, 3 columns):
+// DOM nodes:      ~30,000+
+// Memory:         400MB+
+// Time to render: 5–10 seconds
+// FPS while scrolling: 10–20 (janky)
+
+// With virtualization (10,000 rows, 3 columns):
+// DOM nodes:      ~100 (constant)
+// Memory:         ~10MB
+// Time to render: <100ms
+// FPS while scrolling: 60 (smooth)
+
+// ========================
+// When to use virtualization
+// ========================
+
+// Consider virtualizing when:
+// ✅ List/grid has more than 100–200 items
+// ✅ Items are non-trivial (images, multiple fields, interactions)
+// ✅ Users commonly scroll through large datasets
+// ✅ App runs on lower-powered devices (mobile, older hardware)
+// ✅ Scroll performance is already noticeably poor
+
+// Not necessary when:
+// ❌ List has fewer than 50–100 simple items
+// ❌ List is paginated to small pages (< 20 items)
+// ❌ Items render instantly and scroll is smooth without it
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. react-window — Fixed Size Lists and Grids
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// npm install react-window
+// react-window: lightweight, battle-tested, requires known item sizes
+
+import { FixedSizeList, FixedSizeGrid } from 'react-window';
+
+// ========================
+// FixedSizeList — vertical list with uniform item height
+// ========================
+
+const items = Array.from({ length: 10000 }, (_, i) => ({
+  id: i,
+  name: \`User \${i}\`,
+  email: \`user\${i}@example.com\`,
+  status: i % 3 === 0 ? 'active' : 'inactive',
+}));
+
+// Row renderer — receives index, style, data from react-window
+// CRITICAL: you MUST spread style onto the row element
+// style contains { position, top, height, width } for positioning
+function Row({ index, style, data }) {
+  const item = data[index];
+  return (
+    <div style={style} className="list-row">
+      <span>{item.name}</span>
+      <span>{item.email}</span>
+      <span className={\`badge badge-\${item.status}\`}>{item.status}</span>
+    </div>
+  );
+}
+
+function UserList() {
+  return (
+    <FixedSizeList
+      height={600}          // height of the scrollable container (px)
+      width="100%"          // width of the container
+      itemCount={items.length}  // total number of items
+      itemSize={60}         // height of each row (px) — FIXED, uniform
+      itemData={items}      // passed to Row as data prop
+      overscanCount={3}     // extra items to render above/below viewport
+    >
+      {Row}
+    </FixedSizeList>
+  );
+}
+
+// ========================
+// FixedSizeList — horizontal scrolling
+// ========================
+
+function HorizontalList() {
+  return (
+    <FixedSizeList
+      layout="horizontal"    // enable horizontal scrolling
+      height={100}
+      width={800}
+      itemCount={1000}
+      itemSize={120}         // WIDTH of each item for horizontal
+    >
+      {({ index, style }) => (
+        <div style={style} className="horizontal-item">
+          Item {index}
+        </div>
+      )}
+    </FixedSizeList>
+  );
+}
+
+// ========================
+// FixedSizeGrid — 2D grid with uniform cell sizes
+// ========================
+
+function Cell({ columnIndex, rowIndex, style, data }) {
+  const item = data[rowIndex][columnIndex];
+  return (
+    <div style={style} className="grid-cell">
+      [{rowIndex}, {columnIndex}]: {item?.value}
+    </div>
+  );
+}
+
+function DataGrid() {
+  const ROW_COUNT = 1000;
+  const COLUMN_COUNT = 20;
+
+  return (
+    <FixedSizeGrid
+      height={600}           // container height
+      width={1000}           // container width
+      rowCount={ROW_COUNT}
+      columnCount={COLUMN_COUNT}
+      rowHeight={50}         // uniform row height
+      columnWidth={150}      // uniform column width
+      itemData={gridData}    // 2D array passed to Cell
+    >
+      {Cell}
+    </FixedSizeGrid>
+  );
+}
+
+// ========================
+// Using refs — scroll to item programmatically
+// ========================
+
+import { useRef } from 'react';
+
+function ScrollableList() {
+  const listRef = useRef();
+
+  function scrollToItem(index) {
+    listRef.current.scrollToItem(index, 'start');
+    // 'start' | 'center' | 'end' | 'auto' (smart)
+  }
+
+  function scrollToTop() {
+    listRef.current.scrollTo(0);
+  }
+
+  return (
+    <>
+      <button onClick={() => scrollToItem(500)}>Jump to item 500</button>
+      <button onClick={scrollToTop}>Back to top</button>
+
+      <FixedSizeList
+        ref={listRef}
+        height={600}
+        itemCount={items.length}
+        itemSize={60}
+        width="100%"
+      >
+        {Row}
+      </FixedSizeList>
+    </>
+  );
+}
+
+// ========================
+// Custom scroll container — attach list to existing scroll element
+// ========================
+
+function ListWithCustomScroll() {
+  const outerRef = useRef();
+
+  return (
+    <FixedSizeList
+      height={600}
+      itemCount={items.length}
+      itemSize={60}
+      width="100%"
+      outerRef={outerRef}    // ref to the scrollable outer container
+      innerRef={innerRef}    // ref to the inner positioned container
+    >
+      {Row}
+    </FixedSizeList>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. react-window — Variable Size Lists
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { VariableSizeList, VariableSizeGrid } from 'react-window';
+
+// ========================
+// VariableSizeList — items with different heights
+// ========================
+
+// itemSize is now a function: (index) => height
+const itemHeights = items.map(item =>
+  item.type === 'header' ? 80 :
+  item.type === 'expanded' ? 200 :
+  60
+);
+
+function getItemSize(index) {
+  return itemHeights[index];
+}
+
+function VariableRow({ index, style }) {
+  return (
+    <div style={style} className="variable-row">
+      <p style={{ height: itemHeights[index] - 20, margin: '10px' }}>
+        Item {index} — height {itemHeights[index]}px
+      </p>
+    </div>
+  );
+}
+
+function VariableList() {
+  const listRef = useRef();
+
+  // IMPORTANT: call resetAfterIndex when item sizes change
+  // e.g., when an accordion item expands/collapses
+  function handleExpand(index) {
+    itemHeights[index] = 200;
+    listRef.current.resetAfterIndex(index);
+  }
+
+  return (
+    <VariableSizeList
+      ref={listRef}
+      height={600}
+      itemCount={items.length}
+      itemSize={getItemSize}   // function, not number
+      width="100%"
+      estimatedItemSize={60}   // hint for scroll estimation before measurement
+    >
+      {VariableRow}
+    </VariableSizeList>
+  );
+}
+
+// ========================
+// VariableSizeGrid — grid with variable row/column sizes
+// ========================
+
+function VariableGrid() {
+  return (
+    <VariableSizeGrid
+      height={600}
+      width={1200}
+      rowCount={500}
+      columnCount={10}
+      rowHeight={index => index % 5 === 0 ? 100 : 50}  // alternating heights
+      columnWidth={index => index === 0 ? 200 : 120}    // wider first column
+    >
+      {({ rowIndex, columnIndex, style }) => (
+        <div style={style}>
+          R{rowIndex} C{columnIndex}
+        </div>
+      )}
+    </VariableSizeGrid>
+  );
+}
+
+// ========================
+// Dynamic height measurement — unknown item heights
+// ========================
+
+// When item heights are unknown upfront (e.g., text content wraps),
+// measure after render using ResizeObserver or a ref
+
+import { useState, useCallback, useRef } from 'react';
+
+function DynamicHeightList({ items }) {
+  const listRef = useRef();
+  const sizeMap = useRef({});
+
+  const getSize = useCallback(index => sizeMap.current[index] ?? 100, []);
+
+  const setSize = useCallback((index, size) => {
+    if (sizeMap.current[index] !== size) {
+      sizeMap.current[index] = size;
+      listRef.current?.resetAfterIndex(index);
+    }
+  }, []);
+
+  return (
+    <VariableSizeList
+      ref={listRef}
+      height={600}
+      itemCount={items.length}
+      itemSize={getSize}
+      width="100%"
+    >
+      {({ index, style }) => (
+        <MeasuredRow
+          index={index}
+          style={style}
+          item={items[index]}
+          onMeasure={setSize}
+        />
+      )}
+    </VariableSizeList>
+  );
+}
+
+function MeasuredRow({ index, style, item, onMeasure }) {
+  const rowRef = useRef();
+
+  useEffect(() => {
+    if (rowRef.current) {
+      const { height } = rowRef.current.getBoundingClientRect();
+      onMeasure(index, height);
+    }
+  });
+
+  return (
+    // Remove height from style — let content determine it
+    // Keep other positioning styles (position, top, width)
+    <div style={{ ...style, height: undefined }} ref={rowRef}>
+      <p>{item.content}</p>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. TanStack Virtual (@tanstack/react-virtual)
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// npm install @tanstack/react-virtual
+// TanStack Virtual: headless, flexible, supports dynamic sizes natively
+// No opinionated DOM structure — you control the markup completely
+
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+// ========================
+// Basic vertical list
+// ========================
+
+function VirtualList({ items }) {
+  const parentRef = useRef();
+
+  const virtualizer = useVirtualizer({
+    count: items.length,        // total number of items
+    getScrollElement: () => parentRef.current,  // the scrollable container
+    estimateSize: () => 60,     // estimated item height (px)
+    overscan: 5,                // extra items rendered above/below viewport
+  });
+
+  return (
+    // The scrollable container — must have a fixed height and overflow
+    <div
+      ref={parentRef}
+      style={{ height: '600px', overflow: 'auto' }}
+    >
+      {/* Inner container — height = total virtual list height */}
+      {/* This makes the scrollbar the correct size */}
+      <div
+        style={{
+          height: \`\${virtualizer.getTotalSize()}px\`,
+          width: '100%',
+          position: 'relative',
+        }}
+      >
+        {/* Only render virtual items (currently visible + overscan) */}
+        {virtualizer.getVirtualItems().map(virtualItem => (
+          <div
+            key={virtualItem.key}
+            data-index={virtualItem.index}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: \`\${virtualItem.size}px\`,
+              transform: \`translateY(\${virtualItem.start}px)\`,
+            }}
+          >
+            {/* Your actual row content */}
+            <UserRow user={items[virtualItem.index]} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Dynamic item measurement — variable heights
+// ========================
+
+function DynamicVirtualList({ items }) {
+  const parentRef = useRef();
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 80,      // initial estimate — actual measured after render
+    measureElement: (element) => element.getBoundingClientRect().height,
+    overscan: 3,
+  });
+
+  return (
+    <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
+      <div
+        style={{
+          height: \`\${virtualizer.getTotalSize()}px\`,
+          position: 'relative',
+        }}
+      >
+        {virtualizer.getVirtualItems().map(virtualItem => (
+          <div
+            key={virtualItem.key}
+            // ref callback: TanStack measures this element after render
+            ref={virtualizer.measureElement}
+            data-index={virtualItem.index}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              transform: \`translateY(\${virtualItem.start}px)\`,
+              // NO height style — let content determine height
+            }}
+          >
+            <DynamicCard item={items[virtualItem.index]} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Horizontal list
+// ========================
+
+function HorizontalVirtualList({ items }) {
+  const parentRef = useRef();
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 120,
+    horizontal: true,          // enable horizontal virtualization
+    overscan: 3,
+  });
+
+  return (
+    <div
+      ref={parentRef}
+      style={{ width: '100%', overflow: 'auto', whiteSpace: 'nowrap' }}
+    >
+      <div
+        style={{
+          width: \`\${virtualizer.getTotalSize()}px\`,
+          height: '100px',
+          position: 'relative',
+        }}
+      >
+        {virtualizer.getVirtualItems().map(virtualItem => (
+          <div
+            key={virtualItem.key}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              height: '100%',
+              width: \`\${virtualItem.size}px\`,
+              transform: \`translateX(\${virtualItem.start}px)\`,
+            }}
+          >
+            {items[virtualItem.index].name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Grid virtualization (row + column)
+// ========================
+
+function VirtualGrid({ rows, columns }) {
+  const parentRef = useRef();
+
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 50,
+    overscan: 5,
+  });
+
+  const columnVirtualizer = useVirtualizer({
+    count: columns.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 150,
+    horizontal: true,
+    overscan: 3,
+  });
+
+  return (
+    <div
+      ref={parentRef}
+      style={{ height: '500px', overflow: 'auto' }}
+    >
+      <div
+        style={{
+          height: \`\${rowVirtualizer.getTotalSize()}px\`,
+          width: \`\${columnVirtualizer.getTotalSize()}px\`,
+          position: 'relative',
+        }}
+      >
+        {rowVirtualizer.getVirtualItems().map(virtualRow =>
+          columnVirtualizer.getVirtualItems().map(virtualCol => (
+            <div
+              key={\`\${virtualRow.index}-\${virtualCol.index}\`}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: \`\${virtualCol.size}px\`,
+                height: \`\${virtualRow.size}px\`,
+                transform: \`translateX(\${virtualCol.start}px) translateY(\${virtualRow.start}px)\`,
+              }}
+            >
+              R{virtualRow.index} C{virtualCol.index}
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Programmatic scrolling
+// ========================
+
+function ScrollableVirtualList({ items }) {
+  const parentRef = useRef();
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 60,
+  });
+
+  return (
+    <>
+      <button onClick={() => virtualizer.scrollToIndex(500, { align: 'start' })}>
+        Jump to 500
+      </button>
+      <button onClick={() => virtualizer.scrollToIndex(0)}>
+        Back to top
+      </button>
+      {/* align: 'start' | 'center' | 'end' | 'auto' */}
+
+      <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
+        {/* ... virtual items */}
+      </div>
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Infinite Scrolling with Virtualization
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Infinite scroll + virtualization = handle millions of records
+// As user scrolls down: fetch more data
+// Virtualization ensures DOM stays small even as data grows
+
+// ========================
+// Infinite scroll with TanStack Virtual + TanStack Query
+// ========================
+
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+const PAGE_SIZE = 50;
+
+async function fetchUsers({ pageParam = 0 }) {
+  const res = await fetch(\`/api/users?offset=\${pageParam}&limit=\${PAGE_SIZE}\`);
+  return res.json(); // { users: [], total: 10000, nextOffset: 50 }
+}
+
+function InfiniteUserList() {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+    getNextPageParam: (lastPage, pages) =>
+      lastPage.nextOffset < lastPage.total ? lastPage.nextOffset : undefined,
+  });
+
+  // Flatten pages into a single array
+  const allUsers = data?.pages.flatMap(page => page.users) ?? [];
+
+  // Add 1 for the loading row at the bottom
+  const rowCount = hasNextPage ? allUsers.length + 1 : allUsers.length;
+
+  const parentRef = useRef();
+
+  const virtualizer = useVirtualizer({
+    count: rowCount,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 60,
+    overscan: 5,
+  });
+
+  const virtualItems = virtualizer.getVirtualItems();
+
+  // Detect when user scrolls near the bottom → fetch next page
+  useEffect(() => {
+    const lastVirtualItem = virtualItems[virtualItems.length - 1];
+    if (!lastVirtualItem) return;
+
+    // If the last rendered item is the last data item (or the loading row)
+    if (
+      lastVirtualItem.index >= allUsers.length - 1 &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      fetchNextPage();
+    }
+  }, [virtualItems, hasNextPage, isFetchingNextPage, allUsers.length, fetchNextPage]);
+
+  return (
+    <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
+      <div
+        style={{
+          height: \`\${virtualizer.getTotalSize()}px\`,
+          position: 'relative',
+        }}
+      >
+        {virtualItems.map(virtualItem => {
+          const isLoaderRow = virtualItem.index > allUsers.length - 1;
+          const user = allUsers[virtualItem.index];
+
+          return (
+            <div
+              key={virtualItem.key}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: \`\${virtualItem.size}px\`,
+                transform: \`translateY(\${virtualItem.start}px)\`,
+              }}
+            >
+              {isLoaderRow ? (
+                hasNextPage ? <LoadingRow /> : <EndOfListMessage />
+              ) : (
+                <UserRow user={user} />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Infinite scroll with react-window + IntersectionObserver
+// ========================
+
+import { FixedSizeList } from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
+// npm install react-window-infinite-loader
+
+function InfiniteWindowList({ loadMoreItems, isItemLoaded, itemCount, items }) {
+  return (
+    <InfiniteLoader
+      isItemLoaded={isItemLoaded}        // index => boolean
+      itemCount={itemCount}              // total (or estimated) items
+      loadMoreItems={loadMoreItems}      // (startIndex, stopIndex) => Promise
+      threshold={15}                     // start loading 15 items before end
+    >
+      {({ onItemsRendered, ref }) => (
+        <FixedSizeList
+          ref={ref}
+          height={600}
+          itemCount={itemCount}
+          itemSize={60}
+          width="100%"
+          onItemsRendered={onItemsRendered}
+        >
+          {({ index, style }) => (
+            <div style={style}>
+              {isItemLoaded(index) ? (
+                <UserRow user={items[index]} />
+              ) : (
+                <SkeletonRow />
+              )}
+            </div>
+          )}
+        </FixedSizeList>
+      )}
+    </InfiniteLoader>
+  );
+}
+
+// Usage with React Query
+function Container() {
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+    getNextPageParam: last => last.nextOffset,
+  });
+
+  const items = data?.pages.flatMap(p => p.users) ?? [];
+  const totalCount = data?.pages[0]?.total ?? 0;
+
+  const isItemLoaded = index => index < items.length;
+
+  async function loadMoreItems(startIndex, stopIndex) {
+    if (hasNextPage) await fetchNextPage();
+  }
+
+  return (
+    <InfiniteWindowList
+      items={items}
+      itemCount={totalCount}
+      isItemLoaded={isItemLoaded}
+      loadMoreItems={loadMoreItems}
+    />
+  );
+}
+
+// ========================
+// Intersection Observer approach (no library)
+// ========================
+
+function SimpleInfiniteList({ items, onLoadMore, hasMore, isLoading }) {
+  const sentinelRef = useRef();
+  const parentRef = useRef();
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 60,
+  });
+
+  // Watch the sentinel element at the bottom
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasMore && !isLoading) {
+          onLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sentinelRef.current) observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [hasMore, isLoading, onLoadMore]);
+
+  return (
+    <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
+      <div style={{ height: \`\${virtualizer.getTotalSize()}px\`, position: 'relative' }}>
+        {virtualizer.getVirtualItems().map(virtualItem => (
+          <div
+            key={virtualItem.key}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: \`\${virtualItem.size}px\`,
+              transform: \`translateY(\${virtualItem.start}px)\`,
+            }}
+          >
+            <ItemRow item={items[virtualItem.index]} />
+          </div>
+        ))}
+      </div>
+
+      {/* Sentinel at the bottom — triggers load when visible */}
+      <div ref={sentinelRef} style={{ height: 1 }} />
+      {isLoading && <LoadingSpinner />}
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Virtualized Tables and Data Grids
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Data tables with thousands of rows and dozens of columns
+// Combine TanStack Table (logic) + TanStack Virtual (rendering)
+
+import {
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  flexRender,
+} from '@tanstack/react-table';
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+// ========================
+// Virtualized table with TanStack Table + TanStack Virtual
+// ========================
+
+function VirtualizedTable({ data, columns }) {
+  const [sorting, setSorting] = useState([]);
+  const tableContainerRef = useRef();
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
+
+  const { rows } = table.getRowModel();
+
+  const rowVirtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => tableContainerRef.current,
+    estimateSize: () => 48,
+    overscan: 10,
+  });
+
+  const virtualRows = rowVirtualizer.getVirtualItems();
+
+  // Padding to maintain correct scroll position
+  const paddingTop = virtualRows.length > 0 ? virtualRows[0].start : 0;
+  const paddingBottom =
+    virtualRows.length > 0
+      ? rowVirtualizer.getTotalSize() - virtualRows[virtualRows.length - 1].end
+      : 0;
+
+  return (
+    <div
+      ref={tableContainerRef}
+      style={{ height: '600px', overflow: 'auto', position: 'relative' }}
+    >
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <thead style={{ position: 'sticky', top: 0, zIndex: 1, background: 'white' }}>
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th
+                  key={header.id}
+                  onClick={header.column.getToggleSortingHandler()}
+                  style={{
+                    width: header.getSize(),
+                    cursor: header.column.getCanSort() ? 'pointer' : 'default',
+                    padding: '8px',
+                    borderBottom: '2px solid #ccc',
+                  }}
+                >
+                  {flexRender(header.column.columnDef.header, header.getContext())}
+                  {{ asc: ' ↑', desc: ' ↓' }[header.column.getIsSorted()] ?? ''}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+
+        <tbody>
+          {/* Top padding row — pushes visible rows to correct position */}
+          {paddingTop > 0 && (
+            <tr><td colSpan={columns.length} style={{ height: paddingTop }} /></tr>
+          )}
+
+          {/* Only render visible rows */}
+          {virtualRows.map(virtualRow => {
+            const row = rows[virtualRow.index];
+            return (
+              <tr key={row.id} style={{ height: '48px' }}>
+                {row.getVisibleCells().map(cell => (
+                  <td key={cell.id} style={{ padding: '8px', borderBottom: '1px solid #eee' }}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+
+          {/* Bottom padding row — keeps scrollbar proportional */}
+          {paddingBottom > 0 && (
+            <tr><td colSpan={columns.length} style={{ height: paddingBottom }} /></tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ========================
+// Column definitions for TanStack Table
+// ========================
+
+import { createColumnHelper } from '@tanstack/react-table';
+
+const columnHelper = createColumnHelper();
+
+const columns = [
+  columnHelper.accessor('id', {
+    header: 'ID',
+    size: 80,
+    cell: info => info.getValue(),
+  }),
+  columnHelper.accessor('name', {
+    header: 'Name',
+    size: 200,
+    cell: info => <strong>{info.getValue()}</strong>,
+  }),
+  columnHelper.accessor('email', {
+    header: 'Email',
+    size: 250,
+  }),
+  columnHelper.accessor('status', {
+    header: 'Status',
+    size: 120,
+    cell: info => (
+      <Badge variant={info.getValue() === 'active' ? 'success' : 'error'}>
+        {info.getValue()}
+      </Badge>
+    ),
+  }),
+  columnHelper.display({
+    id: 'actions',
+    header: 'Actions',
+    size: 150,
+    cell: ({ row }) => (
+      <div>
+        <button onClick={() => onEdit(row.original)}>Edit</button>
+        <button onClick={() => onDelete(row.original.id)}>Delete</button>
+      </div>
+    ),
+  }),
+];
+
+// ========================
+// Sticky columns with horizontal + vertical virtualization
+// ========================
+
+function StickyColumnTable({ data, columns }) {
+  const containerRef = useRef();
+
+  const rowVirtualizer = useVirtualizer({
+    count: data.length,
+    getScrollElement: () => containerRef.current,
+    estimateSize: () => 48,
+    overscan: 5,
+  });
+
+  const columnVirtualizer = useVirtualizer({
+    count: columns.length - 1,  // -1 for sticky first column
+    getScrollElement: () => containerRef.current,
+    estimateSize: () => 150,
+    horizontal: true,
+    overscan: 2,
+  });
+
+  return (
+    <div ref={containerRef} style={{ height: '600px', overflow: 'auto', position: 'relative' }}>
+      <div style={{
+        height: rowVirtualizer.getTotalSize(),
+        width: columnVirtualizer.getTotalSize() + 200, // +200 for sticky col
+        position: 'relative',
+      }}>
+        {rowVirtualizer.getVirtualItems().map(virtualRow =>
+          columnVirtualizer.getVirtualItems().map(virtualCol => (
+            <div
+              key={\`\${virtualRow.index}-\${virtualCol.index}\`}
+              style={{
+                position: 'absolute',
+                top: virtualRow.start,
+                left: virtualCol.start + 200, // offset by sticky column width
+                width: virtualCol.size,
+                height: virtualRow.size,
+                borderBottom: '1px solid #eee',
+                padding: '8px',
+              }}
+            >
+              {data[virtualRow.index][columns[virtualCol.index + 1].key]}
+            </div>
+          ))
+        )}
+
+        {/* Sticky first column */}
+        {rowVirtualizer.getVirtualItems().map(virtualRow => (
+          <div
+            key={\`sticky-\${virtualRow.index}\`}
+            style={{
+              position: 'sticky',
+              left: 0,
+              top: virtualRow.start,
+              width: 200,
+              height: virtualRow.size,
+              background: 'white',
+              zIndex: 1,
+              borderRight: '2px solid #ccc',
+              borderBottom: '1px solid #eee',
+              padding: '8px',
+            }}
+          >
+            {data[virtualRow.index].name}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Advanced Patterns — Grouped Lists, Masonry, and Chat
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Grouped / Sectioned list (headers + items)
+// ========================
+
+// Flatten grouped data into a single array with type markers
+function flattenGroups(groups) {
+  return groups.flatMap(group => [
+    { type: 'header', label: group.label, id: \`header-\${group.label}\` },
+    ...group.items.map(item => ({ type: 'item', ...item })),
+  ]);
+}
+
+const flatData = flattenGroups([
+  { label: 'A', items: [{ id: 1, name: 'Alice' }, { id: 2, name: 'Aaron' }] },
+  { label: 'B', items: [{ id: 3, name: 'Bob' }] },
+  { label: 'C', items: [{ id: 4, name: 'Carol' }, { id: 5, name: 'Chris' }] },
+]);
+
+function GroupedVirtualList() {
+  const parentRef = useRef();
+
+  const virtualizer = useVirtualizer({
+    count: flatData.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: (index) => flatData[index].type === 'header' ? 40 : 60,
+    overscan: 5,
+  });
+
+  return (
+    <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
+      <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
+        {virtualizer.getVirtualItems().map(virtualItem => {
+          const item = flatData[virtualItem.index];
+          return (
+            <div
+              key={virtualItem.key}
+              ref={virtualizer.measureElement}
+              data-index={virtualItem.index}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                transform: \`translateY(\${virtualItem.start}px)\`,
+              }}
+            >
+              {item.type === 'header' ? (
+                <div className="group-header">{item.label}</div>
+              ) : (
+                <div className="list-item">{item.name}</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Sticky group headers
+// ========================
+
+function StickyGroupedList() {
+  const parentRef = useRef();
+  const [activeHeader, setActiveHeader] = useState(null);
+
+  const virtualizer = useVirtualizer({
+    count: flatData.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: (i) => flatData[i].type === 'header' ? 40 : 60,
+  });
+
+  // Track which header should be sticky
+  useEffect(() => {
+    const el = parentRef.current;
+    if (!el) return;
+
+    function handleScroll() {
+      const virtualItems = virtualizer.getVirtualItems();
+      const firstHeader = virtualItems
+        .filter(v => flatData[v.index].type === 'header')
+        .find(v => v.start <= el.scrollTop + 40);
+
+      if (firstHeader) {
+        setActiveHeader(flatData[firstHeader.index].label);
+      }
+    }
+
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [virtualizer]);
+
+  return (
+    <div ref={parentRef} style={{ height: '600px', overflow: 'auto', position: 'relative' }}>
+      {/* Sticky header — floats above content */}
+      {activeHeader && (
+        <div style={{ position: 'sticky', top: 0, zIndex: 10, background: '#f0f0f0', padding: '8px' }}>
+          {activeHeader}
+        </div>
+      )}
+      {/* virtual items... */}
+    </div>
+  );
+}
+
+// ========================
+// Chat / message list — scroll to bottom, new messages
+// ========================
+
+function ChatList({ messages }) {
+  const parentRef = useRef();
+  const [isAtBottom, setIsAtBottom] = useState(true);
+
+  const virtualizer = useVirtualizer({
+    count: messages.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 80,
+    measureElement: el => el.getBoundingClientRect().height,
+    // Render in reverse order for chat (newest at bottom)
+  });
+
+  // Auto-scroll to bottom on new messages
+  useEffect(() => {
+    if (isAtBottom && messages.length > 0) {
+      virtualizer.scrollToIndex(messages.length - 1, { align: 'end' });
+    }
+  }, [messages.length, isAtBottom, virtualizer]);
+
+  // Detect if user has scrolled away from bottom
+  function handleScroll(e) {
+    const el = e.currentTarget;
+    const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    setIsAtBottom(distanceFromBottom < 100);
+  }
+
+  return (
+    <div
+      ref={parentRef}
+      style={{ height: '500px', overflow: 'auto' }}
+      onScroll={handleScroll}
+    >
+      <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
+        {virtualizer.getVirtualItems().map(virtualItem => {
+          const message = messages[virtualItem.index];
+          return (
+            <div
+              key={virtualItem.key}
+              ref={virtualizer.measureElement}
+              data-index={virtualItem.index}
+              style={{
+                position: 'absolute',
+                top: 0,
+                width: '100%',
+                transform: \`translateY(\${virtualItem.start}px)\`,
+              }}
+            >
+              <ChatMessage message={message} />
+            </div>
+          );
+        })}
+      </div>
+      {!isAtBottom && (
+        <button
+          style={{ position: 'sticky', bottom: 16, left: '50%' }}
+          onClick={() => virtualizer.scrollToIndex(messages.length - 1, { align: 'end' })}
+        >
+          ↓ New messages
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// Window-level virtualization (document scroll)
+// ========================
+
+// When the page itself scrolls (not a container)
+// TanStack Virtual supports window as the scroll element
+
+function WindowVirtualList({ items }) {
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => window,   // use window as scroll element
+    estimateSize: () => 60,
+    overscan: 5,
+  });
+
+  return (
+    <div style={{ position: 'relative', height: virtualizer.getTotalSize() }}>
+      {virtualizer.getVirtualItems().map(virtualItem => (
+        <div
+          key={virtualItem.key}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: virtualItem.size,
+            transform: \`translateY(\${virtualItem.start}px)\`,
+          }}
+        >
+          {items[virtualItem.index].name}
+        </div>
+      ))}
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Performance Optimizations Within Virtualized Lists
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Virtualization solves DOM count, but row renders can still be expensive
+// Combine with memoization, stable references, and efficient data structures
+
+// ========================
+// Memoize row components
+// ========================
+
+// ❌ Without memo — every scroll re-renders all visible rows
+function ExpensiveRow({ user, onEdit, onDelete }) {
+  return (
+    <div>
+      <Avatar user={user} />
+      <UserDetails user={user} />
+      <button onClick={() => onEdit(user)}>Edit</button>
+      <button onClick={() => onDelete(user.id)}>Delete</button>
+    </div>
+  );
+}
+
+// ✅ With memo — only re-renders when props change
+const MemoizedRow = memo(function UserRow({ user, onEdit, onDelete }) {
+  return (
+    <div>
+      <Avatar user={user} />
+      <UserDetails user={user} />
+      <button onClick={() => onEdit(user)}>Edit</button>
+      <button onClick={() => onDelete(user.id)}>Delete</button>
+    </div>
+  );
+});
+
+// ========================
+// Stable callbacks with useCallback
+// ========================
+
+function VirtualList({ items }) {
+  const parentRef = useRef();
+
+  // ❌ New function on every render → MemoizedRow always re-renders
+  function handleEdit(user) { openEditModal(user); }
+  function handleDelete(id) { deleteUser(id); }
+
+  // ✅ Stable references → MemoizedRow only re-renders when user data changes
+  const handleEdit = useCallback(user => openEditModal(user), []);
+  const handleDelete = useCallback(id => deleteUser(id), []);
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 60,
+  });
+
+  return (
+    <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
+      <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
+        {virtualizer.getVirtualItems().map(virtualItem => (
+          <div
+            key={virtualItem.key}
+            style={{
+              position: 'absolute',
+              top: 0,
+              width: '100%',
+              height: virtualItem.size,
+              transform: \`translateY(\${virtualItem.start}px)\`,
+            }}
+          >
+            <MemoizedRow
+              user={items[virtualItem.index]}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Pass data via itemData to avoid closures (react-window)
+// ========================
+
+// In react-window, use itemData to pass shared data to rows
+// This avoids creating new functions in the render prop
+
+const Row = memo(function Row({ index, style, data }) {
+  const { items, onEdit, onDelete } = data;
+  const item = items[index];
+  return (
+    <div style={style}>
+      <span>{item.name}</span>
+      <button onClick={() => onEdit(item)}>Edit</button>
+      <button onClick={() => onDelete(item.id)}>Delete</button>
+    </div>
+  );
+});
+
+function OptimizedWindowList({ items, onEdit, onDelete }) {
+  // itemData is memoized — stable reference prevents unnecessary Row re-renders
+  const itemData = useMemo(
+    () => ({ items, onEdit, onDelete }),
+    [items, onEdit, onDelete]
+  );
+
+  return (
+    <FixedSizeList
+      height={600}
+      itemCount={items.length}
+      itemSize={60}
+      width="100%"
+      itemData={itemData}
+    >
+      {Row}
+    </FixedSizeList>
+  );
+}
+
+// ========================
+// Overscan tuning
+// ========================
+
+// overscan = number of items rendered beyond the visible area
+// Acts as a buffer to prevent empty rows during fast scrolling
+
+// Low overscan (1-2): fewer DOM nodes, faster renders, but may show blank rows on fast scroll
+// High overscan (10-20): more DOM nodes, smoother fast scroll, higher memory use
+
+// For most cases: 3-5 is a good default
+// For fast-scrolling lists or touch devices: increase to 8-10
+// For very expensive rows: decrease to 1-2 and accept occasional blank flicker
+
+const virtualizer = useVirtualizer({
+  count: items.length,
+  getScrollElement: () => parentRef.current,
+  estimateSize: () => 60,
+  overscan: 5,  // tuned default
+});
+
+// ========================
+// Key stability — avoid remounting rows
+// ========================
+
+// Use virtualItem.key (which tracks item identity) not virtualItem.index
+// If you use index as key, React remounts rows during reordering
+
+// ❌ Unstable key — causes remounting on scroll (react-window manages this)
+{virtualizer.getVirtualItems().map(v => (
+  <div key={v.index}>{/* ... */}</div>
+))}
+
+// ✅ Stable key — TanStack Virtual provides this via virtualItem.key
+{virtualizer.getVirtualItems().map(virtualItem => (
+  <div key={virtualItem.key}>{/* ... */}</div>
+))}
+
+// ========================
+// Deferring selection state — prevent re-renders
+// ========================
+
+// Keeping selected item IDs in a Set avoids re-rendering the entire list
+
+function SelectableList({ items }) {
+  const [selectedIds, setSelectedIds] = useState(new Set());
+
+  const toggleSelected = useCallback(id => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }, []);
+
+  const parentRef = useRef();
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 50,
+  });
+
+  return (
+    <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
+      <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
+        {virtualizer.getVirtualItems().map(virtualItem => {
+          const item = items[virtualItem.index];
+          return (
+            <div
+              key={virtualItem.key}
+              style={{
+                position: 'absolute',
+                top: 0,
+                width: '100%',
+                height: virtualItem.size,
+                transform: \`translateY(\${virtualItem.start}px)\`,
+                background: selectedIds.has(item.id) ? '#e0f0ff' : undefined,
+              }}
+              onClick={() => toggleSelected(item.id)}
+            >
+              {item.name}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Measuring, Testing, and Debugging Virtualization
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Measuring DOM node count
+// ========================
+
+// Chrome DevTools → Elements panel:
+// Count the number of rendered rows in the DOM
+// With 10,000 items and height 60px in a 600px container:
+// Expected: ~10 + (2 × overscan) = ~16 DOM rows, NOT 10,000
+
+// Performance tab → Record scrolling:
+// Look for: long paint frames, forced reflow, JavaScript blocking
+// Good: consistent 60fps, no long frames
+// Bad: dropped frames, layout thrashing on scroll
+
+// ========================
+// Lighthouse audit
+// ========================
+
+// Metrics affected by virtualization:
+// - Total Blocking Time (TBT): large DOM causes style recalculation blocking
+// - Avoid an excessive DOM size: Lighthouse warns at 800 nodes, errors at 1500+
+// - Memory: Chrome Task Manager shows heap usage
+
+// Run Lighthouse in:
+// Chrome DevTools → Lighthouse → Performance category
+
+// ========================
+// React DevTools Profiler
+// ========================
+
+// Flame chart shows renders during scroll
+// Good: only the newly-visible rows render on scroll
+// Bad: all visible rows re-render on scroll (missing memo)
+// Solution: wrap row component in React.memo()
+
+// Check why component rendered: React DevTools → Components → clicked component → "Why did this render?"
+
+// ========================
+// Console measuring
+// ========================
+
+// Measure rendering time before/after:
+console.time('render 10000 items');
+// render the list
+console.timeEnd('render 10000 items');
+
+// Count DOM nodes:
+console.log('DOM nodes:', document.querySelectorAll('*').length);
+
+// Monitor scroll handler frequency:
+let scrollCount = 0;
+container.addEventListener('scroll', () => {
+  scrollCount++;
+  console.log('Scroll events:', scrollCount);
+});
+
+// ========================
+// Testing virtualized lists
+// ========================
+
+// jest + @testing-library/react:
+// Virtualized lists don't render all items — tests can't find them all
+
+import { render, screen } from '@testing-library/react';
+
+// ❌ Fails — item 999 is not in the DOM
+test('renders item 999', () => {
+  render(<VirtualList items={thousandItems} />);
+  expect(screen.getByText('Item 999')).toBeInTheDocument(); // fails
+});
+
+// ✅ Test what IS rendered (visible items only)
+test('renders visible items', () => {
+  render(<VirtualList items={thousandItems} />);
+  // Only a handful of items are in the DOM — test the first one
+  expect(screen.getByText('Item 0')).toBeInTheDocument();
+  expect(screen.queryByText('Item 999')).not.toBeInTheDocument();
+});
+
+// ✅ Mock the virtualizer in tests
+jest.mock('@tanstack/react-virtual', () => ({
+  useVirtualizer: ({ count }) => ({
+    getTotalSize: () => count * 60,
+    getVirtualItems: () =>
+      Array.from({ length: Math.min(count, 10) }, (_, i) => ({
+        key: i,
+        index: i,
+        start: i * 60,
+        size: 60,
+      })),
+    measureElement: () => {},
+    scrollToIndex: jest.fn(),
+  }),
+}));
+
+// ✅ Test with react-window directly using scrolling simulation
+import { act } from '@testing-library/react';
+
+test('shows correct items after scroll', async () => {
+  const { container } = render(<FixedSizeWindowList items={items} />);
+  const scrollContainer = container.firstChild;
+
+  act(() => {
+    // Simulate scrolling
+    Object.defineProperty(scrollContainer, 'scrollTop', { value: 600 });
+    scrollContainer.dispatchEvent(new Event('scroll'));
+  });
+
+  // After scroll, different items should be visible
+  expect(screen.queryByText('Item 0')).not.toBeInTheDocument();
+});
+
+// ========================
+// Common issues and fixes
+// ========================
+
+// Issue: Blank rows while fast scrolling
+// Fix: Increase overscan count (5 → 10)
+
+// Issue: Scrollbar size is wrong (too short or too tall)
+// Fix: Ensure inner container height = virtualizer.getTotalSize()
+// Or for react-window: the library handles this automatically
+
+// Issue: Items jumping when heights change (VariableSizeList)
+// Fix: Call listRef.current.resetAfterIndex(changedIndex) after size change
+
+// Issue: Layout shift when Suspense fallbacks differ from real content height
+// Fix: Match skeleton height to real content height exactly
+
+// Issue: Scroll position lost after data update
+// Fix: Preserve scrollTop and restore after update, or use scrollToIndex
+
+// Issue: useEffect / useLayoutEffect not running for off-screen items
+// Fix: Expected behavior — only mounted items run effects
+// If you need all items to have effects, don't virtualize them
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Use TanStack Virtual for new projects — it is headless, actively maintained, and supports dynamic sizes natively</li>
+  <li><b>DO:</b> Wrap row components in <code>React.memo()</code> — virtualization reduces DOM nodes but not unnecessary re-renders</li>
+  <li><b>DO:</b> Stabilize callbacks with <code>useCallback</code> so memoized rows don't re-render on scroll</li>
+  <li><b>DO:</b> Use <code>virtualItem.key</code> as the React key — never use <code>virtualItem.index</code></li>
+  <li><b>DO:</b> Always set a fixed height and <code>overflow: auto</code> on the scroll container</li>
+  <li><b>DO:</b> Set the inner container height to <code>virtualizer.getTotalSize()</code> — this powers the scrollbar</li>
+  <li><b>DO:</b> Use <code>measureElement</code> ref for items with dynamic/unknown heights</li>
+  <li><b>DO:</b> Tune overscan to 5 by default — increase for fast scrolling, decrease for expensive rows</li>
+  <li><b>DO:</b> Use <code>scrollToIndex</code> for programmatic navigation (jump to item, auto-scroll chat)</li>
+  <li><b>DO:</b> Profile with React DevTools before and after to confirm the optimization is working</li>
+  <li><b>DON'T:</b> Apply virtualization to lists with fewer than 100–200 items — complexity without benefit</li>
+  <li><b>DON'T:</b> Forget to spread the <code>style</code> prop from react-window onto your row element</li>
+  <li><b>DON'T:</b> Expect virtualized tests to find all items — only rendered items are in the DOM</li>
+  <li><b>DON'T:</b> Create lazy components or complex objects inside the virtualizer render function — define them outside</li>
+  <li><b>DON'T:</b> Use <code>position: relative</code> on inner items — use <code>position: absolute</code> with <code>transform: translateY</code></li>
+  <li><b>DON'T:</b> Forget to call <code>resetAfterIndex</code> after item height changes in VariableSizeList</li>
+  <li><b>DON'T:</b> Mix virtualization with CSS <code>display: flex</code> or <code>display: grid</code> on the inner container — use <code>position: relative</code></li>
+  <li><b>DON'T:</b> Use window scroll for a component embedded in a page — use a contained scrollable div</li>
+</ul>
+
+</div>`,
+            examples: [
+              "FixedSizeList — 10,000 row user list",
+              "VariableSizeList — Dynamic height items",
+              "TanStack Virtual — Basic vertical list",
+              "TanStack Virtual — Dynamic measurement with ref",
+              "Infinite Scroll with TanStack Query",
+              "Virtualized Table with TanStack Table",
+              "Grouped List with Sticky Headers",
+              "Chat Message List with Auto-scroll",
+              "Horizontal Virtualization",
+              "Grid Virtualization — Row and Column",
+            ],
+            questions: [
+              {
+                question:
+                  "What is list virtualization and what problem does it solve?",
+                answer:
+                  "Virtualization (also called windowing) renders only the DOM nodes visible in the viewport at any given time. With a naive approach, a 10,000-item list creates 10,000+ DOM nodes — the browser must calculate layout, paint, and store styles for all of them even if only 10 are visible. This causes slow initial renders (3–8 seconds), excessive memory usage (200–500MB for complex rows), and janky scrolling as layout recalculations block the main thread. Virtualization maintains a small, constant number of DOM nodes (typically 20–30) regardless of dataset size, using absolute positioning and scroll offset calculations to swap items in and out as the user scrolls. A 10,000-item virtualized list renders in under 100ms and scrolls at 60fps.",
+              },
+              {
+                question:
+                  "How does virtualization work internally — what are the core mechanics?",
+                answer:
+                  "The virtualizer tracks the container's scrollTop value and calculates which items are currently visible using: startIndex = Math.floor(scrollTop / itemHeight), visibleCount = Math.ceil(containerHeight / itemHeight), endIndex = startIndex + visibleCount + overscan. It renders only items in that range, positioned absolutely using transform: translateY(offset) where offset = index × itemHeight. An inner container with height = totalItems × itemHeight fills the full scroll area so the scrollbar is correctly proportioned even though most items are not in the DOM. For variable-height items, the virtualizer maintains a size cache and updates offsets as items are measured after rendering. Overscan adds buffer items above and below the visible range to prevent blank rows during fast scrolling.",
+              },
+              {
+                question:
+                  "What is the difference between react-window and TanStack Virtual?",
+                answer:
+                  "react-window is a lightweight library with opinionated components (FixedSizeList, VariableSizeList, FixedSizeGrid, VariableSizeGrid) that manage their own scroll container. It is mature, stable, and simple to start with but requires known item sizes for variable-height lists and has limited flexibility in DOM structure. TanStack Virtual (@tanstack/react-virtual) is headless — it provides only the calculation logic (virtual items, offsets, total size) and you write the markup yourself. This means complete control over DOM structure, CSS, and layout. It supports dynamic size measurement natively via measureElement, is actively maintained, handles horizontal and grid virtualization cleanly, and integrates naturally with TanStack Table and TanStack Query. For new projects, TanStack Virtual is the recommended choice.",
+              },
+              {
+                question: "What is overscan and how should you tune it?",
+                answer:
+                  "Overscan is the number of extra items rendered beyond the visible viewport on both sides. A 600px container showing 10 items with overscan: 5 actually renders ~20 items — the 10 visible plus 5 above and 5 below. This buffer prevents blank rows during fast scrolling because by the time the user scrolls to where the buffer starts, the virtualizer has already re-rendered new items into the buffer. Lower overscan (1–2) minimizes DOM nodes and render time but may show blank rows during very fast scrolling or on high-DPI displays. Higher overscan (8–15) smooths fast scrolling at the cost of more DOM nodes. The default of 3–5 works for most cases. Increase for touch devices, decrease if rows are computationally expensive.",
+              },
+              {
+                question:
+                  "Why must row components be wrapped in React.memo() when using virtualization?",
+                answer:
+                  "Virtualization solves the DOM node count problem but does not prevent re-renders. Every time the virtualizer recalculates on scroll, it calls the render function for all currently visible virtual items. Without memo, React re-renders each row component even if its data has not changed — defeating much of the performance benefit. With React.memo(), a row only re-renders if its props change. This is especially important for complex rows with images, nested components, or heavy computations. Crucially, memo only works if the props are stable references — callbacks must be wrapped in useCallback and data references must be stable (use itemData in react-window, or pass stable item objects from state).",
+              },
+              {
+                question:
+                  "How do you handle variable and unknown item heights in a virtualized list?",
+                answer:
+                  "Two approaches: 1) react-window VariableSizeList — provide an itemSize function that returns the height for each index. You must know or estimate heights upfront. For dynamic changes (accordion expand/collapse), update the size and call listRef.current.resetAfterIndex(changedIndex) to recompute offsets from that point forward. 2) TanStack Virtual with measureElement — set estimateSize for the initial render, then pass ref={virtualizer.measureElement} and data-index={virtualItem.index} to each row element. After the browser renders each row, TanStack Virtual reads its actual height via getBoundingClientRect() and updates the offset cache. This enables truly dynamic heights — text wrapping, expanding cards, variable-length content — without knowing heights in advance.",
+              },
+              {
+                question:
+                  "How do you implement infinite scrolling with virtualization?",
+                answer:
+                  "The pattern has two parts: data fetching and scroll detection. For data fetching, use TanStack Query's useInfiniteQuery — it manages pagination, caching, and loading state. For scroll detection, monitor the virtualizer's getVirtualItems() in a useEffect: when the last rendered virtual item's index approaches allItems.length - 1 and more pages exist, call fetchNextPage(). Alternatively, use IntersectionObserver on a sentinel element at the bottom of the list. The virtualized list keeps DOM nodes constant as pages accumulate — 1,000 fetched items still shows only ~20 DOM nodes. For react-window, the react-window-infinite-loader companion library provides the InfiniteLoader wrapper that handles the isItemLoaded/loadMoreItems integration.",
+              },
+              {
+                question:
+                  "What is the correct DOM structure for TanStack Virtual and why?",
+                answer:
+                  "TanStack Virtual requires: 1) An outer scroll container with a fixed height (or max-height) and overflow: auto — this is the element passed to getScrollElement. 2) An inner container with height set to virtualizer.getTotalSize() and position: relative — this is what makes the scrollbar the correct height for the full dataset. 3) Each virtual item positioned absolutely within the inner container using transform: translateY(virtualItem.start) — the left: 0, top: 0 anchor plus translateY is the most performant positioning method as it uses compositor-only transforms. Never use display: flex or display: grid on the inner container — these conflict with absolute positioning. The inner container height is the 'virtual' full height even though only a few items are actually rendered.",
+              },
+              {
+                question: "How do you test virtualized list components?",
+                answer:
+                  "Testing virtualized lists requires understanding that only rendered items are in the DOM — you cannot find item 999 with getByText in a 1000-item list. Strategies: 1) Test what IS visible — assert on the first few items that render within the default viewport size. 2) Mock the virtualizer to render a fixed window of items predictably, removing the scroll dependency from the test. 3) For scroll behavior, simulate scroll events by directly setting scrollTop on the container element and dispatching a scroll event, then asserting the new visible range. 4) Test the row component in isolation with just its props — the virtualization layer is third-party code and does not need retesting. 5) For integration tests, use Cypress or Playwright which run in a real browser and support actual scrolling.",
+              },
+              {
+                question:
+                  "How do you virtualize a table with both row and column virtualization?",
+                answer:
+                  "Use two useVirtualizer instances — one for rows (vertical scrolling) and one for columns (horizontal: true). The inner container width equals columnVirtualizer.getTotalSize() and height equals rowVirtualizer.getTotalSize(). Each cell is positioned absolutely using both a vertical and horizontal transform: transform: translateX(col.start) translateY(row.start). For sticky headers, use position: sticky on the thead with top: 0 and a high z-index. For sticky first columns, use position: sticky on those cells with left: 0. TanStack Table pairs naturally with TanStack Virtual — TanStack Table handles sorting, filtering, and column definitions while TanStack Virtual handles rendering only the visible rows and columns. Padding rows (top and bottom) maintain correct scroll position when using tbody with tr-based rows.",
+              },
+              {
+                question:
+                  "How do you scroll to a specific item programmatically?",
+                answer:
+                  "Both libraries provide programmatic scroll methods. TanStack Virtual: call virtualizer.scrollToIndex(index, { align: 'start' | 'center' | 'end' | 'auto' }). 'auto' is the smart default — it scrolls the minimum distance needed to bring the item into view without overshooting. react-window: use a ref (listRef.current.scrollToItem(index, alignment)) for FixedSizeList/VariableSizeList. Common use cases: jumping to a search result, restoring scroll position after navigation, auto-scrolling a chat to the latest message, jumping to a selected item in a sidebar. For chat, track whether the user has scrolled away from the bottom with an onScroll handler, and only auto-scroll on new messages if isAtBottom is true — otherwise the user is intentionally reading history.",
+              },
+              {
+                question:
+                  "What are common mistakes when implementing virtualization?",
+                answer:
+                  "Key mistakes: 1) Missing style spread in react-window — row components must spread the style prop (containing position, top, height, width) or items render stacked at the top. 2) Creating lazy components or expensive objects inside the render function — define outside the component. 3) Using virtualItem.index as the React key — causes unnecessary remounting during scroll; use virtualItem.key instead. 4) Forgetting React.memo on row components — rows re-render on every scroll even without data changes. 5) Using display: flex or display: grid on the inner container — conflicts with absolute positioning. 6) Not calling resetAfterIndex after height changes in VariableSizeList — causes misaligned items. 7) Applying virtualization to small lists (< 100 items) — adds complexity without measurable benefit. 8) Testing for items that are not in the DOM — only rendered items are findable.",
+              },
+              {
+                question:
+                  "When should you choose virtualization over pagination?",
+                answer:
+                  "Pagination loads one page at a time with explicit navigation controls — good for search results, content discovery, and cases where users need to reference a specific page number. Virtualization loads data continuously as the user scrolls — good for feeds, contact lists, file browsers, and any list where users browse linearly. Choose virtualization over pagination when: the user's mental model is a continuous scrollable list (social feed, chat, file system), you cannot predict which item the user wants before they scroll to it, dataset is large and filtered/sorted server-side, or mobile UX is important (infinite scroll is the native mobile pattern). Combine both: use useInfiniteQuery for cursor-based server pagination while virtualizing the accumulated client-side data — the server sends pages of 50 items, but the client shows them as one seamless virtual scroll without storing all 10,000 items at once.",
+              },
+            ],
+            links: [
+              "https://tanstack.com/virtual/latest/docs/introduction",
+              "https://github.com/bvaughn/react-window",
+              "https://react-window.vercel.app/",
+              "https://tanstack.com/virtual/latest/docs/api/virtualizer",
+              "https://tanstack.com/table/latest/docs/introduction",
+              "https://tanstack.com/query/latest/docs/framework/react/guides/infinite-queries",
+              "https://github.com/bvaughn/react-window-infinite-loader",
+              "https://web.dev/articles/virtualize-long-lists-react-window",
+              "https://developer.chrome.com/docs/devtools/performance/",
+              "https://developers.google.com/web/tools/lighthouse/audits/dom-size",
+            ],
           },
           {
-            topic: "UseTransition Hook",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            topic: "useTransition Hook",
+            tags: [
+              "useTransition",
+              "startTransition",
+              "Concurrent React",
+              "React 18",
+              "isPending",
+              "Priority Updates",
+              "Non-Urgent Updates",
+              "UI Responsiveness",
+              "Transitions",
+              "Performance",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+<code>useTransition</code> is a React 18 hook that lets you mark certain state updates as <strong>non-urgent transitions</strong> — telling React it can defer and interrupt that work if something more important arrives, like a user keystroke or click. Before Concurrent React, all state updates were treated equally and rendered synchronously, meaning an expensive re-render triggered by one update could block the browser from processing input events. <code>useTransition</code> creates a two-tier priority system: urgent updates (typing, clicking, direct feedback) happen immediately, while transition updates (filtering a large list, switching a heavy tab, navigating to a data-heavy route) can be paused, resumed, or abandoned if a newer transition starts. The hook returns <code>[isPending, startTransition]</code> — <code>startTransition</code> wraps the non-urgent state update, and <code>isPending</code> is <code>true</code> while React is still processing the transition in the background. This enables UIs that stay responsive no matter how expensive the next render is.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Core Concept and Basic Syntax
+</h4>
+
+<p style="line-height: 1.75;">
+Understanding the mental model — two priority tiers, interruptible rendering — is the foundation for using <code>useTransition</code> correctly.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState, useTransition } from 'react';
+
+// ========================
+// Basic syntax
+// ========================
+
+function MyComponent() {
+  const [isPending, startTransition] = useTransition();
+  //     ↑ boolean     ↑ function
+  //     true while    wraps non-urgent state updates
+  //     transition
+  //     is in-flight
+
+  const [urgentState, setUrgentState] = useState('');
+  const [nonUrgentState, setNonUrgentState] = useState('');
+
+  function handleChange(e) {
+    // URGENT — update the input value immediately
+    // React renders this synchronously, no delay
+    setUrgentState(e.target.value);
+
+    // NON-URGENT — update the expensive derived state
+    // React can pause, resume, or abandon this render
+    // if something more urgent arrives (like another keystroke)
+    startTransition(() => {
+      setNonUrgentState(e.target.value);
+    });
+  }
+
+  return (
+    <div>
+      <input value={urgentState} onChange={handleChange} />
+      {isPending && <span>Updating...</span>}
+      <ExpensiveComponent query={nonUrgentState} />
+    </div>
+  );
+}
+
+// ========================
+// The problem useTransition solves
+// ========================
+
+// WITHOUT useTransition:
+// User types 'r' → React starts re-rendering ExpensiveComponent
+// User types 'e' → Must wait for 'r' render to finish first
+// User types 'a' → Must wait for 'r' and 'e' renders
+// Result: input feels LAGGY — keystrokes queue up
+
+// WITH useTransition:
+// User types 'r' → Input updates immediately, starts transition render
+// User types 'e' → Input updates immediately, INTERRUPTS 'r' transition
+// User types 'a' → Input updates immediately, starts fresh transition for 'rea'
+// Result: input stays RESPONSIVE, expensive renders happen when possible
+
+// ========================
+// What isPending represents
+// ========================
+
+// isPending = true when:
+// - startTransition has been called
+// - React has NOT yet finished rendering the transitioned update
+// - The transitioned state update is in-flight or interrupted
+
+// isPending = false when:
+// - No transition is in progress
+// - The transition has fully committed to the DOM
+
+// isPending is synchronously accurate — no delay in its value
+// Use it to show loading indicators for the transition
+
+// ========================
+// startTransition as a standalone import
+// ========================
+
+// If you don't need isPending, import startTransition directly
+// (no hook needed — no component context required)
+import { startTransition } from 'react';
+
+function handleSelect(option) {
+  startTransition(() => {
+    setSelectedOption(option);
+  });
+}
+
+// Use startTransition (standalone) when:
+// - You don't need the isPending indicator
+// - You're in a utility function outside a component
+// - You're in an event handler in a class component
+
+// Use useTransition when:
+// - You need isPending to show a loading/pending UI
+// - You're in a function component
+
+// ========================
+// Multiple state updates in one transition
+// ========================
+
+function handleTabChange(newTab) {
+  startTransition(() => {
+    // All updates inside are bundled as one transition
+    setActiveTab(newTab);
+    setScrollPosition(0);    // also non-urgent
+    setFilterQuery('');      // also non-urgent — reset filter on tab change
+  });
+}
+
+// ========================
+// Transition priority in the React scheduler
+// ========================
+
+// React assigns updates to priority lanes:
+// Sync / Discrete Lane  → clicks, keyboard events (most urgent)
+// Default Lane          → normal setState outside handlers
+// Transition Lane       → startTransition updates (can be interrupted)
+// Idle Lane             → useDeferredValue (lowest priority)
+
+// Transition lane renders can be interrupted by Sync or Default lane work
+// If interrupted, React abandons the in-progress transition render
+// and restarts it after the urgent work commits
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Search and Filter — The Classic Use Case
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState, useTransition, memo } from 'react';
+
+// ========================
+// Search with large list — naive vs transition
+// ========================
+
+// Simulated expensive filtering
+function filterItems(items, query) {
+  // In reality this might filter 50,000 items, or
+  // trigger a chain of expensive child re-renders
+  return items.filter(item =>
+    item.name.toLowerCase().includes(query.toLowerCase()) ||
+    item.category.toLowerCase().includes(query.toLowerCase())
+  );
+}
+
+// Memoize the list so it only re-renders when query actually changes
+const SearchResults = memo(function SearchResults({ query, items }) {
+  const results = filterItems(items, query);
+
+  if (results.length === 0) {
+    return <p>No results for "{query}"</p>;
+  }
+
+  return (
+    <ul>
+      {results.map(item => (
+        <li key={item.id}>
+          <strong>{item.name}</strong> — {item.category}
+        </li>
+      ))}
+    </ul>
+  );
+});
+
+// ========================
+// Without useTransition — laggy input
+// ========================
+
+function SlowSearch({ items }) {
+  const [query, setQuery] = useState('');
+
+  function handleChange(e) {
+    // Both updates are urgent — expensive render blocks new keystrokes
+    setQuery(e.target.value);
+    // SearchResults re-renders synchronously with every keystroke
+  }
+
+  return (
+    <>
+      <input value={query} onChange={handleChange} placeholder="Search..." />
+      <SearchResults query={query} items={items} />
+    </>
+  );
+}
+
+// ========================
+// With useTransition — responsive input
+// ========================
+
+function FastSearch({ items }) {
+  const [inputValue, setInputValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  function handleChange(e) {
+    const value = e.target.value;
+
+    // URGENT: update input immediately — user sees their typing
+    setInputValue(value);
+
+    // NON-URGENT: update search query — expensive list re-render
+    startTransition(() => {
+      setSearchQuery(value);
+    });
+  }
+
+  return (
+    <div>
+      <div style={{ position: 'relative' }}>
+        <input
+          value={inputValue}
+          onChange={handleChange}
+          placeholder="Search..."
+          style={{ width: '100%', padding: '8px' }}
+        />
+        {/* Show spinner inside input while searching */}
+        {isPending && (
+          <span style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)' }}>
+            🔄
+          </span>
+        )}
+      </div>
+
+      {/* Dim results while updating */}
+      <div style={{ opacity: isPending ? 0.6 : 1, transition: 'opacity 0.15s' }}>
+        <SearchResults query={searchQuery} items={items} />
+      </div>
+
+      {/* Show count of results */}
+      {isPending ? (
+        <p>Searching...</p>
+      ) : (
+        <p>{filterItems(items, searchQuery).length} results</p>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// Controlled input pattern — why two state variables?
+// ========================
+
+// You might wonder: why not just one state variable?
+
+// ❌ One state — input still lags
+function OneStateBad({ items }) {
+  const [query, setQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  function handleChange(e) {
+    startTransition(() => {
+      setQuery(e.target.value); // ❌ input value is now inside transition
+    });
+  }
+
+  // Problem: the input's displayed value is also deferred!
+  // The input visually lags behind the user's actual typing
+  return <input value={query} onChange={handleChange} />;
+}
+
+// ✅ Two states — input is urgent, search is deferred
+function TwoStatesGood({ items }) {
+  const [inputValue, setInputValue] = useState('');   // always urgent
+  const [searchQuery, setSearchQuery] = useState(''); // inside transition
+
+  const [isPending, startTransition] = useTransition();
+
+  function handleChange(e) {
+    setInputValue(e.target.value); // urgent
+    startTransition(() => {
+      setSearchQuery(e.target.value); // deferred
+    });
+  }
+
+  return (
+    <>
+      <input value={inputValue} onChange={handleChange} />
+      {isPending && <Spinner />}
+      <SearchResults query={searchQuery} items={items} />
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Tab Switching and Navigation
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState, useTransition, lazy, Suspense } from 'react';
+
+// ========================
+// Tab switching with expensive content
+// ========================
+
+// Simulate an expensive tab panel
+function HeavyTabContent({ tab }) {
+  // Imagine this renders a large chart, table, or fetches data
+  const items = Array.from({ length: 5000 }, (_, i) => ({
+    id: i,
+    label: \`\${tab} item \${i}\`,
+  }));
+
+  return (
+    <ul>
+      {items.map(item => <li key={item.id}>{item.label}</li>)}
+    </ul>
+  );
+}
+
+// ========================
+// Without useTransition — UI freezes during tab switch
+// ========================
+
+function SlowTabs() {
+  const [activeTab, setActiveTab] = useState('overview');
+
+  return (
+    <div>
+      <div className="tab-bar">
+        {['overview', 'analytics', 'settings', 'billing'].map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)} // freezes browser during render
+            className={activeTab === tab ? 'active' : ''}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+      <HeavyTabContent tab={activeTab} />
+    </div>
+  );
+}
+
+// ========================
+// With useTransition — tabs stay clickable during render
+// ========================
+
+function ResponsiveTabs() {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [isPending, startTransition] = useTransition();
+
+  function selectTab(tab) {
+    startTransition(() => {
+      setActiveTab(tab);
+    });
+  }
+
+  return (
+    <div>
+      <div className="tab-bar">
+        {['overview', 'analytics', 'settings', 'billing'].map(tab => (
+          <button
+            key={tab}
+            onClick={() => selectTab(tab)}
+            // Visual feedback: tab is "selected" but content is still loading
+            className={activeTab === tab ? 'active' : ''}
+            style={{
+              opacity: isPending && activeTab === tab ? 0.7 : 1,
+              cursor: isPending ? 'wait' : 'pointer',
+            }}
+            // Don't disable buttons — user can change their mind mid-transition!
+          >
+            {tab}
+          </button>
+        ))}
+        {isPending && <span className="tab-spinner">⏳</span>}
+      </div>
+
+      {/* Content shows OLD tab while new tab renders in background */}
+      <HeavyTabContent tab={activeTab} />
+    </div>
+  );
+}
+
+// Key behavior: during the transition, React shows the PREVIOUS tab content
+// The UI doesn't go blank while the new tab renders
+// If user clicks another tab, the first transition is abandoned
+
+// ========================
+// Tabs + Suspense — waiting for async data
+// ========================
+
+const OverviewTab  = lazy(() => import('./tabs/Overview'));
+const AnalyticsTab = lazy(() => import('./tabs/Analytics'));
+const SettingsTab  = lazy(() => import('./tabs/Settings'));
+
+const TAB_COMPONENTS = {
+  overview:  OverviewTab,
+  analytics: AnalyticsTab,
+  settings:  SettingsTab,
+};
+
+function TabsWithSuspense() {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [isPending, startTransition] = useTransition();
+
+  function selectTab(tab) {
+    startTransition(() => {
+      setActiveTab(tab);
+    });
+  }
+
+  const ActiveTab = TAB_COMPONENTS[activeTab];
+
+  return (
+    <div>
+      <TabBar tabs={Object.keys(TAB_COMPONENTS)} active={activeTab} onSelect={selectTab} />
+      {isPending && <div className="tab-loading-bar" />}
+
+      {/*
+        WITHOUT useTransition + Suspense:
+        Clicking a new tab immediately shows the Suspense fallback (skeleton)
+
+        WITH useTransition + Suspense:
+        React stays on the current tab (showing real content)
+        until the new tab's chunk AND data are ready
+        Then swaps atomically — no skeleton flash
+      */}
+      <Suspense fallback={<TabSkeleton />}>
+        <ActiveTab />
+      </Suspense>
+    </div>
+  );
+}
+
+// ========================
+// Navigation / routing with transitions
+// ========================
+
+function AppRouter() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isPending, startTransition] = useTransition();
+
+  function navigate(to) {
+    startTransition(() => {
+      setCurrentPage(to);
+    });
+  }
+
+  return (
+    <>
+      <nav>
+        {['home', 'products', 'dashboard', 'settings'].map(page => (
+          <a
+            key={page}
+            href={'#' + page}
+            onClick={e => { e.preventDefault(); navigate(page); }}
+            style={{
+              fontWeight: currentPage === page ? 'bold' : 'normal',
+              // Subtle visual indicator during navigation
+              color: isPending && currentPage === page ? '#999' : undefined,
+            }}
+          >
+            {page}
+            {isPending && currentPage === page && ' (loading...)'}
+          </a>
+        ))}
+      </nav>
+
+      {/* Current page stays visible until new page is ready */}
+      <Suspense fallback={<PageSkeleton />}>
+        <PageContent page={currentPage} />
+      </Suspense>
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. useTransition with Suspense and Data Fetching
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState, useTransition, Suspense } from 'react';
+import { useSuspenseQuery } from '@tanstack/react-query';
+
+// ========================
+// How useTransition interacts with Suspense
+// ========================
+
+// Without useTransition:
+// Clicking "next page" → state updates → UserList suspends → shows skeleton
+// This "regresses" the UI — the user loses the previous data while waiting
+
+// With useTransition:
+// Clicking "next page" → state updates inside transition → React keeps showing
+// CURRENT page while new page loads in background → swaps when ready
+// The user always sees real data, never a skeleton during navigation
+
+// ========================
+// Paginated data fetching with useTransition
+// ========================
+
+function UserList({ page }) {
+  // useSuspenseQuery suspends until data is ready
+  const { data: users } = useSuspenseQuery({
+    queryKey: ['users', page],
+    queryFn: () => fetchUsers(page),
+  });
+
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name} — {user.email}</li>
+      ))}
+    </ul>
+  );
+}
+
+function PaginatedUsers() {
+  const [page, setPage] = useState(1);
+  const [isPending, startTransition] = useTransition();
+
+  function goToPage(nextPage) {
+    startTransition(() => {
+      setPage(nextPage);
+    });
+  }
+
+  return (
+    <div>
+      {/* Pagination controls stay interactive during page load */}
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+        <button
+          onClick={() => goToPage(page - 1)}
+          disabled={page === 1}  // logical disable, not transition-related
+        >
+          ← Previous
+        </button>
+
+        <span style={{ opacity: isPending ? 0.5 : 1 }}>
+          Page {page}
+        </span>
+
+        <button onClick={() => goToPage(page + 1)}>
+          Next →
+        </button>
+
+        {isPending && <Spinner size="small" />}
+      </div>
+
+      {/*
+        Suspense fallback only shows on INITIAL load (page 1)
+        Subsequent page transitions stay on current data (isPending = true)
+        until new page data is ready — then swap atomically
+      */}
+      <div style={{ opacity: isPending ? 0.7 : 1, transition: 'opacity 0.2s' }}>
+        <Suspense fallback={<UserListSkeleton />}>
+          <UserList page={page} />
+        </Suspense>
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Master-detail pattern
+// ========================
+
+function UserDirectory() {
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isPending, startTransition] = useTransition();
+
+  function selectUser(id) {
+    startTransition(() => {
+      setSelectedUserId(id);
+    });
+  }
+
+  return (
+    <div style={{ display: 'flex', gap: '24px' }}>
+      {/* Left: user list — always visible, instant interaction */}
+      <aside style={{ width: '280px', flexShrink: 0 }}>
+        <UserList
+          onSelect={selectUser}
+          selectedId={selectedUserId}
+          isPending={isPending}
+        />
+      </aside>
+
+      {/* Right: user detail — transitions gracefully */}
+      <main style={{ flex: 1, opacity: isPending ? 0.6 : 1 }}>
+        {selectedUserId ? (
+          <ErrorBoundary fallback={<ErrorMessage />}>
+            <Suspense fallback={<UserDetailSkeleton />}>
+              <UserDetail userId={selectedUserId} />
+            </Suspense>
+          </ErrorBoundary>
+        ) : (
+          <EmptyState message="Select a user to view details" />
+        )}
+      </main>
+    </div>
+  );
+}
+
+// ========================
+// Transition with error recovery
+// ========================
+
+function DataBrowser() {
+  const [resourceId, setResourceId] = useState('default');
+  const [isPending, startTransition] = useTransition();
+  const [hasError, setHasError] = useState(false);
+
+  function loadResource(id) {
+    setHasError(false); // clear previous error
+
+    startTransition(() => {
+      setResourceId(id);
+    });
+  }
+
+  return (
+    <div>
+      <ResourceNav onSelect={loadResource} isPending={isPending} />
+
+      <ErrorBoundary
+        resetKeys={[resourceId]}  // reset when resourceId changes
+        onReset={() => setHasError(false)}
+        fallbackRender={({ resetErrorBoundary }) => (
+          <div>
+            <p>Failed to load resource</p>
+            <button onClick={resetErrorBoundary}>Retry</button>
+          </div>
+        )}
+      >
+        <Suspense fallback={<ResourceSkeleton />}>
+          <ResourceView id={resourceId} />
+        </Suspense>
+      </ErrorBoundary>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. isPending — Building Rich Loading UI
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// isPending is the bridge between transitions and user feedback
+// Use it to communicate that the app is working without blocking interaction
+
+// ========================
+// Patterns for using isPending
+// ========================
+
+function TransitionExamples() {
+  const [tab, setTab] = useState('home');
+  const [isPending, startTransition] = useTransition();
+
+  // Pattern 1: Opacity fade — content dims while updating
+  const fadingContent = (
+    <div style={{
+      opacity: isPending ? 0.5 : 1,
+      transition: 'opacity 0.15s ease-in-out',
+      pointerEvents: isPending ? 'none' : 'auto', // prevent interaction on stale content
+    }}>
+      <HeavyContent tab={tab} />
+    </div>
+  );
+
+  // Pattern 2: Progress bar — thin bar at top of content area
+  const progressBar = isPending && (
+    <div
+      style={{
+        height: '2px',
+        background: '#0070f3',
+        animation: 'slideRight 1s ease-in-out infinite',
+        borderRadius: '1px',
+      }}
+    />
+  );
+
+  // Pattern 3: Spinner in navigation element
+  const navWithSpinner = (
+    <nav>
+      <button onClick={() => startTransition(() => setTab('analytics'))}>
+        Analytics
+        {isPending && tab === 'analytics' && <Spinner size={12} />}
+      </button>
+    </nav>
+  );
+
+  // Pattern 4: Skeleton overlay — show over stale content
+  const withSkeletonOverlay = (
+    <div style={{ position: 'relative' }}>
+      <HeavyContent tab={tab} />
+      {isPending && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(255,255,255,0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <Spinner />
+        </div>
+      )}
+    </div>
+  );
+
+  // Pattern 5: Status text
+  const statusText = (
+    <span aria-live="polite" aria-atomic="true">
+      {isPending ? 'Loading...' : 'Ready'}
+    </span>
+  );
+}
+
+// ========================
+// Don't disable buttons during transitions
+// ========================
+
+// ❌ Bad — disabling blocks the user from changing their mind
+function BadTabBar({ tabs, active, onSelect, isPending }) {
+  return (
+    <div>
+      {tabs.map(tab => (
+        <button
+          key={tab}
+          onClick={() => onSelect(tab)}
+          disabled={isPending}  // ❌ user can't click a different tab!
+        >
+          {tab}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ✅ Good — buttons stay clickable; clicking a new tab abandons the current transition
+function GoodTabBar({ tabs, active, onSelect, isPending }) {
+  return (
+    <div>
+      {tabs.map(tab => (
+        <button
+          key={tab}
+          onClick={() => onSelect(tab)}
+          // Visual indication without blocking interaction
+          style={{ opacity: isPending && tab !== active ? 0.7 : 1 }}
+          aria-disabled={isPending}  // semantics without actual disabling
+        >
+          {tab}
+          {isPending && tab === active && <Spinner size={10} />}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// The ability to click another tab while a transition is in progress
+// is one of the key UX wins of useTransition — the previous transition
+// is abandoned and the new one starts immediately
+
+// ========================
+// Accessibility — announce pending state to screen readers
+// ========================
+
+function AccessibleTransition({ children, isPending }) {
+  return (
+    <>
+      {/* aria-live region announces changes to assistive technology */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"  // visually hidden but announced
+      >
+        {isPending ? 'Loading new content' : ''}
+      </div>
+
+      <div
+        aria-busy={isPending}  // signals to AT that content is updating
+        style={{ opacity: isPending ? 0.7 : 1 }}
+      >
+        {children}
+      </div>
+    </>
+  );
+}
+
+// ========================
+// Tracking which specific transition is pending
+// ========================
+
+// useTransition gives ONE isPending for the component
+// To track which of multiple buttons triggered the pending state:
+
+function MultiActionList({ items }) {
+  const [isPending, startTransition] = useTransition();
+  const [pendingId, setPendingId] = useState(null);
+  const [activeItem, setActiveItem] = useState(null);
+
+  function selectItem(item) {
+    setPendingId(item.id);       // track which item is loading
+    startTransition(() => {
+      setActiveItem(item);
+      setPendingId(null);        // clear after transition commits
+    });
+  }
+
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>
+          <button onClick={() => selectItem(item)}>
+            {item.name}
+            {isPending && pendingId === item.id && <Spinner size={10} />}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. useTransition vs useDeferredValue
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Both defer non-urgent work — different APIs for different scenarios
+
+// ========================
+// Side-by-side comparison
+// ========================
+
+// useTransition — you OWN the state setter
+// Wrap the setter call; get isPending
+
+import { useState, useTransition } from 'react';
+
+function WithTransition() {
+  const [inputValue, setInputValue] = useState('');
+  const [query, setQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <>
+      <input
+        value={inputValue}
+        onChange={e => {
+          setInputValue(e.target.value);       // urgent
+          startTransition(() => {
+            setQuery(e.target.value);           // deferred
+          });
+        }}
+      />
+      {isPending && <Spinner />}  {/* ← isPending available */}
+      <Results query={query} />
+    </>
+  );
+}
+
+// useDeferredValue — you receive a VALUE you don't control
+// No setter to wrap; compare value !== deferredValue for pending state
+
+import { useState, useDeferredValue } from 'react';
+
+function WithDeferredValue() {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+  const isPending = query !== deferredQuery;  // manual pending check
+
+  return (
+    <>
+      <input
+        value={query}
+        onChange={e => setQuery(e.target.value)} // one setter, urgent
+      />
+      {isPending && <Spinner />}
+      <Results query={deferredQuery} />
+    </>
+  );
+}
+
+// ========================
+// Decision guide
+// ========================
+
+// Use useTransition when:
+// ✅ You control the state update (own the setter)
+// ✅ You need isPending for loading UI
+// ✅ Multiple state updates should transition together
+// ✅ The update originates from a button click, tab change, or navigation
+// ✅ You want to keep previous UI visible while new UI prepares
+
+// Use useDeferredValue when:
+// ✅ You receive a value from props (parent controls it)
+// ✅ Value comes from URL params, Redux, or external state
+// ✅ You can't modify the event handler that sets the state
+// ✅ Simpler: just one state variable, no split needed
+
+// ========================
+// When they produce the same result
+// ========================
+
+// Both of these produce equivalent behavior:
+
+// Option A — useTransition
+function OptionA() {
+  const [input, setInput] = useState('');
+  const [query, setQuery] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <input
+      value={input}
+      onChange={e => {
+        setInput(e.target.value);
+        startTransition(() => setQuery(e.target.value));
+      }}
+    />
+  );
+}
+
+// Option B — useDeferredValue
+function OptionB() {
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
+
+  return (
+    <input
+      value={query}
+      onChange={e => setQuery(e.target.value)}
+    />
+    // Uses deferredQuery for expensive child
+  );
+}
+
+// Key practical difference:
+// useTransition — two state variables, cleaner separation of concerns
+// useDeferredValue — one state variable, simpler but no explicit isPending
+
+// ========================
+// Combining both
+// ========================
+
+// useTransition for the navigation, useDeferredValue for a sub-filter
+function ComplexDashboard() {
+  const [activeSection, setActiveSection] = useState('overview');
+  const [filterText, setFilterText] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  const deferredFilter = useDeferredValue(filterText);
+
+  function switchSection(section) {
+    startTransition(() => {
+      setActiveSection(section);
+      setFilterText(''); // reset filter when switching sections
+    });
+  }
+
+  return (
+    <>
+      <SectionNav
+        active={activeSection}
+        onSwitch={switchSection}
+        isPending={isPending}
+      />
+      <FilterInput value={filterText} onChange={setFilterText} />
+      <SectionContent
+        section={activeSection}
+        filter={deferredFilter}  // further deferred within the section
+      />
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Rules, Limitations, and Gotchas
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Rule 1: startTransition callback must be synchronous
+// ========================
+
+// ❌ WRONG — async inside startTransition breaks transition tracking
+function handleClick() {
+  startTransition(async () => {
+    const data = await fetch('/api/data'); // await breaks the transition
+    setData(data);                         // this setState is no longer in a transition
+  });
+}
+
+// ✅ CORRECT — await outside, only setState inside transition
+async function handleClick() {
+  const data = await fetch('/api/data').then(r => r.json()); // fetch outside
+  startTransition(() => {
+    setData(data); // only the state update is wrapped
+  });
+}
+
+// ✅ CORRECT — fetch before calling startTransition
+function handleClick() {
+  fetchData().then(data => {
+    startTransition(() => {
+      setData(data);
+    });
+  });
+}
+
+// Why? React tracks transitions by synchronously executing the callback
+// and recording which setStates were called. Async breaks this tracking.
+
+// ========================
+// Rule 2: Only state updates go inside startTransition
+// ========================
+
+// ❌ DOM manipulation inside transition — still synchronous
+startTransition(() => {
+  document.title = 'New Title'; // this runs immediately, not deferred
+  setTitle('New Title');        // only this is deferred
+});
+
+// ❌ Logging inside — still happens synchronously
+startTransition(() => {
+  console.log('transitioning'); // runs immediately
+  setPage(newPage);             // only this is deferred
+});
+
+// ✅ ONLY React state updates are affected by the transition
+startTransition(() => {
+  setPage(newPage);    // deferred ✓
+  setFilter('');       // deferred ✓
+  setSortOrder('asc'); // deferred ✓
+});
+
+// ========================
+// Rule 3: Don't wrap time-sensitive user feedback
+// ========================
+
+// ❌ Input controlled value should NOT be inside transition
+function BadInput() {
+  const [value, setValue] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <input
+      value={value}
+      onChange={e => {
+        startTransition(() => {
+          setValue(e.target.value); // ❌ input visually lags!
+        });
+      }}
+    />
+  );
+}
+
+// ✅ Separate urgent (input display) from non-urgent (derived state)
+function GoodInput() {
+  const [inputValue, setInputValue] = useState('');
+  const [derivedState, setDerivedState] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  return (
+    <input
+      value={inputValue}
+      onChange={e => {
+        setInputValue(e.target.value);   // urgent — shown immediately
+        startTransition(() => {
+          setDerivedState(e.target.value); // non-urgent — deferred
+        });
+      }}
+    />
+  );
+}
+
+// ========================
+// Rule 4: useTransition is a hook — component scope only
+// ========================
+
+// ❌ Cannot call useTransition outside a component
+const [isPending, startTransition] = useTransition(); // outside component — error
+
+// ✅ Use standalone startTransition outside components
+import { startTransition } from 'react';
+
+function nonComponentFunction() {
+  startTransition(() => {
+    // this works, but no isPending available
+  });
+}
+
+// ========================
+// Gotcha: transitions don't affect non-React state
+// ========================
+
+// External store updates (Zustand, Redux) inside startTransition
+// are NOT automatically deferred — the store updates synchronously
+// Only React state updates get the transition treatment
+
+const useStore = create(set => ({
+  count: 0,
+  increment: () => set(state => ({ count: state.count + 1 })),
+}));
+
+function StoreComponent() {
+  const increment = useStore(state => state.increment);
+  const [isPending, startTransition] = useTransition();
+
+  function handleClick() {
+    startTransition(() => {
+      increment(); // ⚠️ Zustand store updates synchronously — not truly deferred
+      // The React re-render triggered by the store change IS deferred
+      // but the store mutation itself is immediate
+    });
+  }
+}
+
+// ========================
+// Gotcha: isPending timing
+// ========================
+
+// isPending becomes true synchronously when startTransition is called
+// isPending becomes false when the transition commits to the DOM
+
+function TimingDemo() {
+  const [isPending, startTransition] = useTransition();
+  const [value, setValue] = useState(0);
+
+  function handleClick() {
+    console.log('before startTransition:', isPending); // false
+    startTransition(() => {
+      setValue(v => v + 1);
+    });
+    console.log('after startTransition:', isPending); // still false here!
+    // isPending updates on the NEXT render, not synchronously in the handler
+  }
+}
+
+// ========================
+// Gotcha: nested transitions
+// ========================
+
+// Inner startTransition inside outer startTransition — both are transitions
+startTransition(() => {
+  setStateA(1); // transition
+  startTransition(() => {
+    setStateB(2); // also transition — same priority
+  });
+});
+// Both updates are treated as the same-priority transition batch
+
+// ========================
+// When NOT to use useTransition
+// ========================
+
+// ❌ The render is already fast (< 50ms) — adds complexity without benefit
+startTransition(() => setSimpleBoolean(true)); // overkill
+
+// ❌ User needs immediate feedback (form validation, button press)
+startTransition(() => setFormError('Name is required')); // should be urgent!
+
+// ❌ You want to replace a loading state — use Suspense for that
+// ❌ Network requests — transitions don't affect fetch timing
+
+// ✅ Use when renders take > 100ms and block user input
+// ✅ Use when switching between heavy views
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Real-World Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Data grid with sorting and filtering
+// ========================
+
+import { useState, useTransition, useMemo, memo } from 'react';
+
+const DataRow = memo(function DataRow({ row }) {
+  return (
+    <tr>
+      <td>{row.id}</td>
+      <td>{row.name}</td>
+      <td>{row.department}</td>
+      <td>{row.salary.toLocaleString()}</td>
+      <td><StatusBadge status={row.status} /></td>
+    </tr>
+  );
+});
+
+function EmployeeGrid({ employees }) {
+  const [sortField, setSortField] = useState('name');
+  const [sortDir, setSortDir]     = useState('asc');
+  const [filterDept, setFilterDept] = useState('all');
+  const [searchText, setSearchText] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [isPending, startTransition] = useTransition();
+
+  function handleSearch(e) {
+    setSearchInput(e.target.value);
+    startTransition(() => setSearchText(e.target.value));
+  }
+
+  function handleSort(field) {
+    startTransition(() => {
+      if (sortField === field) {
+        setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortField(field);
+        setSortDir('asc');
+      }
+    });
+  }
+
+  function handleDeptFilter(dept) {
+    startTransition(() => setFilterDept(dept));
+  }
+
+  const processedData = useMemo(() => {
+    return employees
+      .filter(e => filterDept === 'all' || e.department === filterDept)
+      .filter(e => e.name.toLowerCase().includes(searchText.toLowerCase()))
+      .sort((a, b) => {
+        const dir = sortDir === 'asc' ? 1 : -1;
+        return a[sortField] > b[sortField] ? dir : -dir;
+      });
+  }, [employees, filterDept, searchText, sortField, sortDir]);
+
+  return (
+    <div>
+      {/* Controls always responsive */}
+      <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+        <input
+          value={searchInput}
+          onChange={handleSearch}
+          placeholder="Search employees..."
+        />
+        <select value={filterDept} onChange={e => handleDeptFilter(e.target.value)}>
+          <option value="all">All Departments</option>
+          <option value="engineering">Engineering</option>
+          <option value="design">Design</option>
+          <option value="marketing">Marketing</option>
+        </select>
+        {isPending && <Spinner />}
+      </div>
+
+      {/* Table dims while reprocessing */}
+      <div style={{ opacity: isPending ? 0.7 : 1 }}>
+        <table>
+          <thead>
+            <tr>
+              {['id', 'name', 'department', 'salary', 'status'].map(field => (
+                <th
+                  key={field}
+                  onClick={() => handleSort(field)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {field} {sortField === field ? (sortDir === 'asc' ? '↑' : '↓') : ''}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {processedData.map(row => (
+              <DataRow key={row.id} row={row} />
+            ))}
+          </tbody>
+        </table>
+        <p>{processedData.length} employees</p>
+      </div>
+    </div>
+  );
+}
+
+// ========================
+// Typeahead / autocomplete
+// ========================
+
+function Typeahead({ options }) {
+  const [inputValue, setInputValue] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleInput(e) {
+    const value = e.target.value;
+    setInputValue(value);    // urgent — immediate input display
+    setIsOpen(value.length > 0);
+
+    startTransition(() => {
+      // Expensive: fuzzy search across 10,000 options
+      const matches = fuzzySearch(options, value).slice(0, 10);
+      setSuggestions(matches);
+    });
+  }
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        value={inputValue}
+        onChange={handleInput}
+        placeholder="Start typing..."
+      />
+      {isPending && <SearchSpinner />}
+
+      {isOpen && (
+        <ul
+          role="listbox"
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            opacity: isPending ? 0.6 : 1,
+          }}
+        >
+          {suggestions.map(option => (
+            <li key={option.id} role="option">
+              {option.label}
+            </li>
+          ))}
+          {suggestions.length === 0 && !isPending && (
+            <li>No results</li>
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// Form with dependent expensive fields
+// ========================
+
+function DependentForm() {
+  const [country, setCountry] = useState('');
+  const [region, setRegion] = useState('');
+  const [city, setCity] = useState('');
+
+  const [availableRegions, setAvailableRegions] = useState([]);
+  const [availableCities, setAvailableCities] = useState([]);
+
+  const [isPending, startTransition] = useTransition();
+
+  async function handleCountryChange(e) {
+    const selectedCountry = e.target.value;
+    setCountry(selectedCountry);  // urgent
+    setRegion('');
+    setCity('');
+
+    const regions = await fetchRegions(selectedCountry);
+
+    startTransition(() => {
+      setAvailableRegions(regions);  // non-urgent — dropdown population
+    });
+  }
+
+  async function handleRegionChange(e) {
+    const selectedRegion = e.target.value;
+    setRegion(selectedRegion);  // urgent
+    setCity('');
+
+    const cities = await fetchCities(selectedRegion);
+
+    startTransition(() => {
+      setAvailableCities(cities);  // non-urgent — dropdown population
+    });
+  }
+
+  return (
+    <form>
+      <select value={country} onChange={handleCountryChange}>
+        <option value="">Select Country</option>
+        {countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+      </select>
+
+      {isPending && <span>Loading options...</span>}
+
+      <select value={region} onChange={handleRegionChange} disabled={!availableRegions.length}>
+        <option value="">Select Region</option>
+        {availableRegions.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+      </select>
+
+      <select value={city} onChange={e => setCity(e.target.value)} disabled={!availableCities.length}>
+        <option value="">Select City</option>
+        {availableCities.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+      </select>
+    </form>
+  );
+}
+
+// ========================
+// Transition in custom hooks
+// ========================
+
+function useTransitionState(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  const [isPending, startTransition] = useTransition();
+
+  const setTransitionValue = useCallback((newValue) => {
+    startTransition(() => {
+      setValue(newValue);
+    });
+  }, []);
+
+  return [value, setTransitionValue, isPending];
+}
+
+// Usage:
+function Component() {
+  const [tab, setTab, isPending] = useTransitionState('home');
+
+  return (
+    <>
+      <button onClick={() => setTab('analytics')}>Analytics</button>
+      {isPending && <Spinner />}
+      <TabContent tab={tab} />
+    </>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing useTransition
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// Testing useTransition requires understanding React's act() wrapper
+// Transitions need to be flushed for assertions to work
+
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+// ========================
+// Basic transition test
+// ========================
+
+test('shows pending state during transition', async () => {
+  const user = userEvent.setup();
+
+  render(<FastSearch items={largeItemList} />);
+
+  const input = screen.getByRole('textbox');
+
+  // Type into the search input
+  await user.type(input, 'react');
+
+  // isPending may briefly be true — check for pending indicator
+  // (timing depends on how fast the transition resolves)
+  // For a synchronous expensive component, isPending shows immediately
+  expect(screen.queryByText('Searching...')).toBeInTheDocument();
+
+  // Wait for transition to complete
+  await act(async () => {});
+
+  // After transition: results visible, spinner gone
+  expect(screen.queryByText('Searching...')).not.toBeInTheDocument();
+});
+
+// ========================
+// Test that input stays responsive during transition
+// ========================
+
+test('input value updates immediately while results are pending', async () => {
+  const user = userEvent.setup();
+  render(<FastSearch items={largeItemList} />);
+
+  const input = screen.getByRole('textbox');
+  await user.type(input, 'r');
+
+  // Input shows 'r' immediately
+  expect(input).toHaveValue('r');
+
+  // Continue typing while transition may still be in-flight
+  await user.type(input, 'eact');
+  expect(input).toHaveValue('react');
+});
+
+// ========================
+// Test tab transition behavior
+// ========================
+
+test('switches tabs with transition', async () => {
+  const user = userEvent.setup();
+  render(<ResponsiveTabs />);
+
+  // Initially on Overview tab
+  expect(screen.getByText('Overview content')).toBeInTheDocument();
+
+  // Click Analytics tab
+  await user.click(screen.getByRole('button', { name: 'analytics' }));
+
+  // Flush the transition
+  await act(async () => {});
+
+  // Now on Analytics tab
+  expect(screen.getByText('Analytics content')).toBeInTheDocument();
+});
+
+// ========================
+// Test with fake timers for slow transitions
+// ========================
+
+test('shows loading indicator during slow transition', async () => {
+  jest.useFakeTimers();
+  const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+
+  render(<SlowTabSwitcher />);
+
+  await user.click(screen.getByRole('button', { name: 'Heavy Tab' }));
+
+  // isPending should be true immediately
+  expect(screen.getByRole('status')).toHaveTextContent('Loading...');
+
+  // Advance time to let transition complete
+  await act(async () => {
+    jest.advanceTimersByTime(1000);
+  });
+
+  expect(screen.queryByRole('status')).not.toBeInTheDocument();
+
+  jest.useRealTimers();
+});
+
+// ========================
+// Test transition abandonment
+// ========================
+
+test('abandons first transition when second one starts', async () => {
+  const user = userEvent.setup();
+  const renderCount = jest.fn();
+
+  render(<SearchWithCounter onRender={renderCount} items={largeItemList} />);
+
+  const input = screen.getByRole('textbox');
+
+  // Type quickly — second transition should supersede first
+  await user.type(input, 'ab');
+
+  await act(async () => {});
+
+  // Only the final state ('ab') should appear in results, not 'a'
+  // (the 'a' transition was abandoned when 'b' was typed)
+  expect(screen.getByTestId('query-display')).toHaveTextContent('ab');
+});
+
+// ========================
+// Mock useTransition in unit tests
+// ========================
+
+// When testing components that use useTransition,
+// you might want to bypass the async nature:
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useTransition: () => [false, (fn) => fn()], // always execute synchronously
+}));
+
+// Now startTransition executes the callback immediately
+// isPending is always false
+// Useful for testing component logic without transition complexity
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Split state into urgent (input display) and non-urgent (derived computation) — two state variables</li>
+  <li><b>DO:</b> Use <code>isPending</code> to dim content, show spinners, or display progress — never disable buttons</li>
+  <li><b>DO:</b> Combine with <code>Suspense</code> to prevent showing fallback skeletons during navigation</li>
+  <li><b>DO:</b> Keep <code>startTransition</code> callbacks synchronous — await data outside, setState inside</li>
+  <li><b>DO:</b> Wrap multiple related state updates in a single <code>startTransition</code> to batch them</li>
+  <li><b>DO:</b> Use <code>aria-busy</code> and <code>aria-live</code> with <code>isPending</code> for accessible loading states</li>
+  <li><b>DO:</b> Prefer <code>useTransition</code> over <code>useDeferredValue</code> when you own the state setter</li>
+  <li><b>DO:</b> Use opacity transitions (<code>opacity: isPending ? 0.7 : 1</code>) for smooth visual feedback</li>
+  <li><b>DO:</b> Profile with React DevTools Profiler to verify the transition is actually helping</li>
+  <li><b>DO:</b> Encapsulate in custom hooks (<code>useTransitionState</code>) for reusable transition logic</li>
+  <li><b>DON'T:</b> Put the controlled input's value update inside <code>startTransition</code> — the input will visually lag</li>
+  <li><b>DON'T:</b> Use async functions directly inside <code>startTransition</code> — breaks transition tracking</li>
+  <li><b>DON'T:</b> Apply to already-fast renders (under 50ms) — adds complexity with no visible benefit</li>
+  <li><b>DON'T:</b> Wrap urgent user feedback (form validation errors, button presses) in transitions</li>
+  <li><b>DON'T:</b> Use <code>useTransition</code> outside a component — use standalone <code>startTransition</code> instead</li>
+  <li><b>DON'T:</b> Expect transitions to defer network requests — they only defer React renders</li>
+  <li><b>DON'T:</b> Disable buttons with <code>isPending</code> — allow users to change their mind mid-transition</li>
+  <li><b>DON'T:</b> Forget <code>React.memo</code> on expensive child components — transitions reduce render priority but not render frequency</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Search input with large list filtering",
+              "Tab switching with heavy content",
+              "Paginated data with useSuspenseQuery",
+              "Lazy routes with Suspense — no skeleton flash",
+              "Master-detail with transition",
+              "Data grid — sort, filter, search",
+              "Typeahead autocomplete",
+              "isPending loading patterns — opacity, spinner, progress bar",
+              "useTransition vs useDeferredValue side-by-side",
+              "Custom useTransitionState hook",
+            ],
+            questions: [
+              {
+                question:
+                  "What is useTransition and what problem does it solve?",
+                answer:
+                  "useTransition is a React 18 hook that marks certain state updates as non-urgent, allowing React to defer and interrupt them if something more important arrives. Before Concurrent React, all state updates blocked the browser's main thread until the render completed. A slow 500ms render caused by one setState would prevent keystrokes and clicks from being processed. useTransition creates a two-tier system: urgent updates (typing, clicking, direct UI feedback) happen immediately, while transition updates (filtering large lists, switching heavy tabs, loading new route data) can be paused and restarted. The hook returns [isPending, startTransition] — wrap the non-urgent setState in startTransition, and isPending is true while React works on it in the background.",
+              },
+              {
+                question:
+                  "Why do you need two separate state variables when using useTransition for a search input?",
+                answer:
+                  "A controlled input's value update must be urgent — the user expects to see the character they typed appear immediately. If you wrap setValue inside startTransition, the input's displayed value is also deferred, causing the input to visually lag behind the user's actual typing. The solution is two state variables: inputValue (urgent, updated directly) and searchQuery (non-urgent, updated inside startTransition). The input renders with the urgent inputValue, and the expensive SearchResults component renders with the deferred searchQuery. As the user types, the input always shows their current input while React processes the expensive search render whenever it can — potentially abandoning previous renders as new characters arrive.",
+              },
+              {
+                question:
+                  "What does isPending represent and what should you do with it?",
+                answer:
+                  "isPending is true from the moment startTransition is called until the transitioned state update finishes rendering and commits to the DOM. Use it to communicate to the user that the UI is working without blocking interaction. Common patterns: opacity fade (opacity: isPending ? 0.6 : 1) on the content that's updating, a spinner or progress bar near the affected area, aria-busy={isPending} and aria-live regions for screen reader announcements. Critically, do NOT disable buttons based on isPending — one of the key benefits of transitions is that users can change their mind mid-transition (clicking a different tab abandons the current transition and starts the new one). Disabling controls defeats this advantage.",
+              },
+              {
+                question:
+                  "What is the rule about async functions and startTransition?",
+                answer:
+                  "The callback passed to startTransition must be synchronous. React tracks which state updates are transitions by executing the callback synchronously and recording every setState call made during that execution. If the callback contains an await, the function returns a Promise and only the synchronous portion before the first await is tracked as a transition — any setState calls after the await run in a default priority context and lose the transition benefit. The correct pattern is: fetch data outside startTransition using await or .then(), then call startTransition with a synchronous callback that only contains the state update: const data = await fetchData(); startTransition(() => { setData(data); });",
+              },
+              {
+                question: "How does useTransition interact with Suspense?",
+                answer:
+                  "Together they solve the 'flash of skeleton' problem during navigation. Without useTransition, updating state that causes a Suspense boundary to suspend immediately replaces visible content with the fallback (skeleton), which can feel jarring. Wrapping the navigation setState in startTransition tells React to keep rendering the current content (isPending = true) while preparing the new content in the background. React only swaps to the new content when it is fully ready — including data fetching that triggered Suspense — so the transition is atomic. The Suspense fallback is only shown as a last resort for genuinely slow loads, not on every navigation. Show a subtle progress indicator using isPending while the transition is in-flight.",
+              },
+              {
+                question:
+                  "What is the difference between useTransition and useDeferredValue?",
+                answer:
+                  "Both defer non-urgent work to keep the UI responsive, but they target different scenarios. useTransition wraps a state setter you control — you own the setState call and wrap it in startTransition. It gives you isPending explicitly and can batch multiple related state updates. Best for: tab switching, search where you own both the input and results state, navigation, sorting/filtering actions. useDeferredValue wraps a value you receive — useful when the state comes from props, URL params, Redux, or a parent you don't control. It has no explicit isPending — compare value !== deferredValue manually. Best for: receiving a search term from a parent component, deferring values from external stores. When you control the state, prefer useTransition for its explicit isPending.",
+              },
+              {
+                question:
+                  "How do transitions interact with Suspense boundaries during data fetching?",
+                answer:
+                  "When a state update inside startTransition causes a component to suspend (because it triggers a useSuspenseQuery or other Suspense-compatible data fetch), React stays on the previous content instead of showing the Suspense fallback. isPending remains true while React waits for both the new render to complete and the suspended data to resolve. Once everything is ready, React swaps to the new content in one atomic update. This enables a 'render then reveal' pattern: the user sees real previous content with a subtle loading indicator, then the new content appears fully loaded. The Suspense fallback only shows on the initial render when there is no previous content to fall back to.",
+              },
+              {
+                question:
+                  "Can you use useTransition for form submissions or validation feedback?",
+                answer:
+                  "Generally no — form validation errors and submission feedback are urgent user-facing responses that should appear immediately. If a user clicks Submit and receives a 'Name is required' error, that should appear synchronously. Wrapping it in a transition would delay the feedback, making the form feel unresponsive. useTransition is for expensive renders that can lag without degrading the user experience — filtering 10,000 items, rendering a complex chart, switching between heavy pages. The mental test: would a 200ms delay in this update be noticeable or harmful to the user? If yes, it should be urgent. If the update is just recalculating a derived view of data the user already has, it can be a transition.",
+              },
+              {
+                question:
+                  "What happens when a user triggers a second transition while the first is still in progress?",
+                answer:
+                  "React abandons the in-progress transition render and starts fresh with the new state. This is one of the most important behaviors of transitions — they are interruptible and replaceable. If a user types 'r', 'e', 'a', 'c', 't' quickly, React may never finish rendering the intermediate states 'r', 're', 'rea', 'reac' — it keeps abandoning and restarting as new keystrokes arrive. Only when the user pauses does React finish the transition and show 'react' results. isPending stays true throughout all the interruptions and becomes false only when the final transition commits. This is why the typing experience feels snappy — React is constantly choosing to handle new input over completing old transitions.",
+              },
+              {
+                question:
+                  "How do you use startTransition outside of a component?",
+                answer:
+                  "For cases where you need to mark a state update as a transition outside a React component — in utility functions, event listeners, or class components — import startTransition directly from 'react' instead of using the hook. The standalone import is the same function but without the isPending return value since there is no component context to receive it. This is useful for: event handlers attached to DOM elements outside React, module-level functions that trigger state updates, or legacy class components that cannot use hooks. The trade-off is you lose isPending for showing loading UI in that particular code path — you would need to manage a separate loading state manually if needed.",
+              },
+              {
+                question: "How do you test components that use useTransition?",
+                answer:
+                  "React Testing Library with userEvent handles transitions automatically when you await actions. After triggering a transition (typing, clicking), use await act(async () => {}) to flush all pending React work including transitions, then assert on the final DOM state. For testing the isPending state itself, check for loading indicators synchronously right after the trigger before awaiting the flush. To test transition abandonment, trigger multiple state changes quickly and assert only the final state is rendered. For unit tests where you want to bypass the async transition nature entirely, mock react to return [false, fn => fn()] from useTransition — this makes startTransition execute synchronously and isPending always false.",
+              },
+              {
+                question:
+                  "What are the most common mistakes when using useTransition?",
+                answer:
+                  "Key mistakes: 1) Putting the input's controlled value inside startTransition — the input visually lags. Always keep the display value urgent. 2) Passing async functions to startTransition — async callbacks break transition tracking; await outside, setState inside. 3) Disabling buttons with isPending — this prevents users from changing their mind mid-transition, one of the key UX benefits. 4) Using transitions for already-fast renders — adding complexity without measurable benefit. 5) Forgetting React.memo on expensive child components — useTransition reduces priority but does not prevent re-renders; memo is still needed to avoid unnecessary re-renders. 6) Expecting transitions to defer network requests — they only defer React renders, not fetch calls.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/useTransition",
+              "https://react.dev/reference/react/startTransition",
+              "https://react.dev/blog/2022/03/29/react-v18#new-feature-transitions",
+              "https://react.dev/learn/keeping-the-ui-responsive",
+              "https://react.dev/reference/react/useDeferredValue",
+              "https://react.dev/reference/react/Suspense",
+              "https://github.com/reactwg/react-18/discussions/41",
+              "https://react.dev/blog/2022/03/29/react-v18#concurrency",
+              "https://react.dev/learn/react-developer-tools",
+              "https://tanstack.com/query/latest/docs/framework/react/reference/useSuspenseQuery",
+            ],
           },
           {
-            topic: "SSR and SSG",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            topic:
+              "SSR vs SSG (Server-Side Rendering vs Static Site Generation)",
+            tags: [
+              "SSR",
+              "Server-Side Rendering",
+              "SSG",
+              "Static Site Generation",
+              "Next.js",
+              "getServerSideProps",
+              "getStaticProps",
+              "getStaticPaths",
+              "ISR",
+              "Incremental Static Regeneration",
+              "Hydration",
+              "Pre-rendering",
+              "Build Time",
+              "Request Time",
+              "Performance",
+              "SEO",
+            ],
+            explanation: `<div>\n\n<p style="line-height: 1.75; margin-top: 1.5rem;">\n<strong>SSR (Server-Side Rendering)</strong> and <strong>SSG (Static Site Generation)</strong> are two pre-rendering strategies that generate HTML <em>before</em> it reaches the client. In a traditional Single Page Application (SPA) with client-side rendering (CSR), the browser receives an empty HTML shell and populates it with JavaScript after the page loads. Pre-rendering solves two major problems: slow initial page loads (users see a blank screen while JS loads) and poor SEO (search engine crawlers have trouble indexing empty HTML). SSR generates HTML <strong>on each request</strong> — the server runs your React code, fetches data, and produces a fully populated HTML page for every visitor. SSG generates HTML <strong>at build time</strong> — once during deployment, the same static HTML is served to all visitors. Next.js popularized these patterns with <code>getServerSideProps</code> (SSR) and <code>getStaticProps</code> (SSG). The choice between them trades off freshness (always up-to-date) against speed (cached static files).\n</p>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n1. Core Concepts — When HTML is Generated\n</h4>\n\n<p style="line-height: 1.75;">\nThe fundamental difference is <strong>timing</strong>. SSR generates HTML per request, SSG generates HTML once at build time.\n</p>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// SSR — Server-Side Rendering (getServerSideProps)\n// ========================\n\n// In Next.js, exporting getServerSideProps from a page\n// makes it an SSR page. The function runs on EVERY request.\n\nexport async function getServerSideProps(context) {\n // context contains: params, query, req, res, etc.\n const { params } = context;\n\n // Fetch data from an API or database\n const res = await fetch(https://api.example.com/user/${params.id});\n const user = await res.json();\n\n // Return props — passed to the page component\n return {\n props: { user }, // will be received by the page component\n };\n}\n\nfunction ProfilePage({ user }) {\n return (\n <div>\n <h1>{user.name}</h1>\n <p>Email: {user.email}</p>\n <p>Member since: {user.createdAt}</p>\n </div>\n );\n}\n\nexport default ProfilePage;\n\n// ========================\n// SSG — Static Site Generation (getStaticProps)\n// ========================\n\n// Exporting getStaticProps makes it an SSG page.\n// The function runs at BUILD TIME, once per deployment.\n\nexport async function getStaticProps(context) {\n // For static generation with dynamic routes, we also need getStaticPaths\n // (covered in section 3)\n\n const res = await fetch('https://api.example.com/posts');\n const posts = await res.json();\n\n return {\n props: { posts }, // passed to the page component\n };\n}\n\nfunction BlogIndex({ posts }) {\n return (\n <ul>\n {posts.map(post => (\n <li key={post.id}>{post.title}</li>\n ))}\n </ul>\n );\n}\n\nexport default BlogIndex;\n\n// ========================\n// Visualizing the difference\n// ========================\n\n// SSR flow:\n// 1. User requests /profile/123 →\n// 2. Server runs getServerSideProps, fetches data →\n// 3. Server renders React component to HTML →\n// 4. Server sends fully populated HTML to client →\n// 5. Client shows HTML immediately, then hydrates\n\n// SSG flow:\n// 1. Developer runs 'next build' →\n// 2. Server runs getStaticProps, fetches data →\n// 3. Server renders React component to HTML →\n// 4. Saves HTML file to disk (/posts.html) →\n// 5. User requests /posts →\n// 6. Server sends pre-built HTML file (no code runs)\n\n// ========================\n// The hydration step (both SSR and SSG)\n// ========================\n\n// Both SSR and SSG produce static HTML that the user sees immediately.\n// But the page isn't interactive yet — React hasn't loaded.\n// After the HTML loads, React loads, then "hydrates" the page:\n// React attaches event listeners and makes the page interactive.\n\n// CSR: Empty HTML → Load JS → Render → Interactive\n// SSR/SSG: Full HTML → Load JS → Hydrate → Interactive\n\n// The key difference between SSR and SSG is:\n// - SSR: HTML is fresh per request, data never stale\n// - SSG: HTML is pre-built, fastest possible delivery (CDN cache)\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n2. When to Use SSR vs SSG — Trade-offs\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// SSR is for dynamic, user-specific, or frequently changing data\n// ========================\n\n// ✅ Good SSR use cases:\n// - User dashboard (data unique to logged-in user)\n// - Social media feed (personalized, real-time)\n// - E-commerce cart page (shows current cart contents)\n// - Admin panel with live data\n// - Any page with authentication/authorization\n\n// Real example: Authenticated dashboard\nexport async function getServerSideProps(context) {\n const session = await getSession(context);\n\n if (!session) {\n return {\n redirect: {\n destination: '/login',\n permanent: false,\n },\n };\n }\n\n // Fetch user-specific data\n const userData = await fetchUserDashboard(session.userId);\n\n return {\n props: { userData },\n };\n}\n\n// ========================\n// SSG is for public, cacheable, infrequently changing content\n// ========================\n\n// ✅ Good SSG use cases:\n// - Blog posts, articles, documentation\n// - Marketing pages, landing pages\n// - Product catalog (if updated via CI/CD on content change)\n// - Any public content that can be cached\n// - Pages where speed matters most (homepage)\n\n// Real example: Blog post\nexport async function getStaticProps({ params }) {\n const post = await getPostFromCMS(params.slug);\n\n return {\n props: { post },\n // Optional: revalidate every 60 seconds (ISR — covered later)\n revalidate: 60,\n };\n}\n\n// ========================\n// Decision matrix\n// ========================\n\n// Question 1: Is the data user-specific? (logged-in user, cookies)\n// YES → SSR (or client-side fetch after mount)\n// NO → Continue\n\n// Question 2: Does the data change more than once per minute?\n// YES → SSR (or ISR with short revalidate)\n// NO → Continue\n\n// Question 3: Can the data be stale for a few minutes/hours?\n// YES → SSG with ISR\n// NO → SSR\n\n// Question 4: Is the page SEO-critical?\n// YES → Pre-rendering (SSR or SSG)\n// NO → Client-side fetch may be acceptable\n\n// ========================\n// Performance characteristics\n// ========================\n\n// SSR:\n// - Time to First Byte (TTFB): Higher — server must fetch data and render\n// - First Contentful Paint (FCP): Fast (HTML arrives quickly after server work)\n// - CDN caching: Difficult (unless edge rendering)\n// - Server load: Higher — runs on every request\n// - Cost: Variable (compute per request)\n\n// SSG:\n// - TTFB: Extremely fast — static file from CDN edge\n// - FCP: Fastest possible — HTML arrives immediately\n// - CDN caching: Built-in — static files are cacheable forever\n// - Server load: Zero — just serving files\n// - Cost: Fixed (build only)\n\n// ========================\n// SSR vs SSG vs CSR — visual example\n// ========================\n\nfunction ComparisonPage() {\n // CSR approach: fetch on client\n const [data, setData] = useState(null);\n useEffect(() => {\n fetch('/api/data').then(res => res.json()).then(setData);\n }, []);\n // User sees blank page → loading spinner → content\n\n // SSR approach: fetch on server, send HTML\n // User sees full HTML immediately\n\n // SSG approach: pre-built HTML, send file\n // User sees full HTML immediately (same as SSR)\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n3. Dynamic Routes — getStaticPaths for SSG\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// The problem: SSG with dynamic routes\n// ========================\n\n// For static generation, Next.js needs to know ALL possible paths\n// at build time. getStaticPaths tells Next.js which pages to generate.\n\n// File: pages/posts/[slug].js\n\nexport async function getStaticPaths() {\n // Fetch all possible slugs from your CMS/database\n const res = await fetch('https://api.example.com/posts');\n const posts = await res.json();\n\n // Generate paths array\n const paths = posts.map(post => ({\n params: { slug: post.slug },\n }));\n\n // fallback: false — any path not returned = 404\n // fallback: true — generate on-demand, show fallback page\n // fallback: 'blocking' — generate on-demand, server-side render first time\n return {\n paths,\n fallback: 'blocking', // or true / false\n };\n}\n\nexport async function getStaticProps({ params }) {\n const { slug } = params;\n const post = await getPostBySlug(slug);\n\n return {\n props: { post },\n revalidate: 60, // ISR: re-generate every 60 seconds if requested\n };\n}\n\nfunction BlogPost({ post }) {\n return (\n <article>\n <h1>{post.title}</h1>\n <div dangerouslySetInnerHTML={{ __html: post.content }} />\n </article>\n );\n}\n\n// ========================\n// Understanding fallback behavior\n// ========================\n\n// fallback: false\n// - Only pre-rendered paths work; others return 404\n// - Use for small, predictable sets (e.g., 10 blog posts)\n// - No on-demand generation\n\n// fallback: true\n// - Pre-rendered paths are static\n// - New paths show a loading fallback (useRouter().isFallback)\n// - Next.js generates HTML on first request, caches for future\n// - Good for large sites where you can't pre-render everything\n\n// fallback: 'blocking'\n// - Pre-rendered paths are static\n// - New paths wait for server to generate HTML (no loading state)\n// - User waits slightly longer on first visit, but sees full page\n// - Better SEO (no loading flash), but slower first visit\n\n// Example with fallback: true\nfunction BlogPostWithFallback({ post }) {\n const router = useRouter();\n\n if (router.isFallback) {\n return <div>Loading...</div>; // shown for non-pre-rendered paths\n }\n\n return <article>{/* post content */}</article>;\n}\n\n// ========================\n// getStaticPaths with localized content\n// ========================\n\nexport async function getStaticPaths({ locales, defaultLocale }) {\n const posts = await fetchAllPosts();\n\n const paths = [];\n\n for (const locale of locales) {\n for (const post of posts) {\n paths.push({\n params: { slug: post.slug },\n locale, // generate each post in each locale\n });\n }\n }\n\n return {\n paths,\n fallback: 'blocking',\n };\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n4. ISR — Incremental Static Regeneration\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// ISR is SSG + updates — best of both worlds\n// ========================\n\n// Problem: SSG content goes stale. Rebuilding the whole site is slow.\n// ISR: Keep static performance, but update individual pages after build.\n\n// Add 'revalidate' to getStaticProps\nexport async function getStaticProps() {\n const data = await fetchCMSData();\n\n return {\n props: { data },\n // Next.js will attempt to re-generate this page:\n // - When a request comes in\n // - At most once every 60 seconds\n revalidate: 60, // seconds\n };\n}\n\n// ========================\n// How ISR works — the cache lifecycle\n// ========================\n\n// 1. Build time: /products/1.html generated\n// 2. User visits /products/1 at 10:00:00 → served static HTML\n// 3. User visits /products/1 at 10:00:30 → still cached, served instantly\n// 4. User visits /products/1 at 10:01:05 (65 seconds later)\n// - Next.js serves the STALE cached page immediately\n// - In the background, triggers re-generation with fresh data\n// - Updates cache with new HTML for future requests\n// - Next visitor gets fresh page\n\n// Result: Users never wait; stale content is shown for at most revalidate seconds\n\n// ========================\n// ISR use cases\n// ========================\n\n// ✅ E-commerce product pages (prices change, but can be 60s stale)\n// ✅ Blog with frequent updates\n// ✅ News sites\n// ✅ Documentation that updates hourly\n\n// Real example: Product page with inventory\nexport async function getStaticProps({ params }) {\n const product = await getProduct(params.id);\n const related = await getRelatedProducts(params.id);\n\n return {\n props: { product, related },\n revalidate: 30, // revalidate every 30 seconds\n };\n}\n\n// ========================\n// On-demand revalidation (Next.js 12.2+)\n// ========================\n\n// Manually trigger revalidation when content changes\n// (e.g., after CMS webhook)\n\n// API route: pages/api/revalidate.js\nexport default async function handler(req, res) {\n // Check secret to prevent unauthorized access\n if (req.query.secret !== process.env.REVALIDATION_SECRET) {\n return res.status(401).json({ message: 'Invalid token' });\n }\n\n try {\n const { path } = req.body;\n await res.revalidate(path); // triggers re-generation\n return res.json({ revalidated: true });\n } catch (err) {\n return res.status(500).send('Error revalidating');\n }\n}\n\n// Call this from CMS webhook:\n// fetch('/api/revalidate', {\n// method: 'POST',\n// body: JSON.stringify({ path: '/products/1' }),\n// headers: { 'Content-Type': 'application/json' }\n// })\n\n// ========================\n// ISR vs SSR performance\n// ========================\n\n// SSR (no cache):\n// Request → fetch data → render → HTML → 150-500ms TTFB\n\n// ISR (cached):\n// Request → serve HTML from disk/CDN → 10-50ms TTFB\n\n// ISR (stale, revalidating):\n// Request → serve stale HTML (10ms) → background revalidate\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n5. SSR Streaming and Suspense\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Traditional SSR waterfall problem\n// ========================\n\n// Traditional SSR: "all or nothing"\n// 1. Server fetches ALL data for the page\n// 2. Server renders ALL components to HTML\n// 3. Server sends the complete HTML to client\n// 4. Client hydrates\n\n// Problem: If one component is slow (e.g., slow API), the whole page blocks\n\n// ========================\n// Streaming SSR (React 18 + Next.js App Router)\n// ========================\n\n// With Suspense, server can stream HTML in chunks:\n// - Send the fast parts immediately (layout, shell)\n// - Stream slow components as they finish\n\nimport { Suspense } from 'react';\n\nfunction Page() {\n return (\n <Layout>\n <NavBar /> {/* Fast — sent immediately /}\n\n <Suspense fallback={<ProductSkeleton />}>\n <ProductDetails /> {/ Slow — streams when ready /}\n </Suspense>\n\n <Suspense fallback={<ReviewSkeleton />}>\n <ProductReviews /> {/ Also slow, streams independently */}\n </Suspense>\n </Layout>\n );\n}\n\n// Benefits:\n// - TTFB improves — send shell immediately\n// - Progressive rendering — user sees content as it arrives\n// - Parallel data fetching — components fetch independently\n\n// ========================\n// App Router (Next.js 13+) vs Pages Router\n// ========================\n\n// Pages Router:\n// - getServerSideProps / getStaticProps\n// - Data fetching at page level only\n// - All or nothing rendering\n\n// App Router:\n// - Server Components by default\n// - Nested layouts\n// - Streaming with Suspense\n// - Granular data fetching in components\n\n// Example: App Router with async Server Component\n// app/products/[id]/page.js\nasync function ProductPage({ params }) {\n // This component is async — fetches on server\n const product = await fetchProduct(params.id);\n\n return (\n <div>\n <h1>{product.name}</h1>\n <p>{product.description}</p>\n {/* Nested async component streams independently */}\n <Suspense fallback={<div>Loading reviews...</div>}>\n <Reviews productId={product.id} />\n </Suspense>\n </div>\n );\n}\n\nasync function Reviews({ productId }) {\n const reviews = await fetchReviews(productId); // Slow?\n return <ReviewList reviews={reviews} />;\n}\n\n// ========================\n// SSR + client components\n// ========================\n\n// 'use client' directive marks client components\n// They are still pre-rendered on server, then hydrated\n\n'use client';\n\nfunction InteractiveButton({ children }) {\n const [count, setCount] = useState(0);\n\n return (\n <button onClick={() => setCount(c => c + 1)}>\n {children} (clicked {count} times)\n </button>\n );\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n6. SSR vs SSG — Code Comparison\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Same page — implemented three ways\n// ========================\n\n// Goal: Display a list of products\n\n// ========================\n// OPTION 1: CSR (Client-Side Rendering)\n// ========================\n\nfunction ProductsPageCSR() {\n const [products, setProducts] = useState([]);\n const [loading, setLoading] = useState(true);\n\n useEffect(() => {\n fetch('/api/products')\n .then(res => res.json())\n .then(data => {\n setProducts(data);\n setLoading(false);\n });\n }, []);\n\n if (loading) return <div>Loading...</div>;\n\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n\n// Pros: Dynamic, always fresh, low server cost\n// Cons: Poor SEO, slow initial load, loading flash\n\n// ========================\n// OPTION 2: SSR (getServerSideProps)\n// ========================\n\n// pages/products.js (Pages Router)\nexport async function getServerSideProps() {\n const res = await fetch('https://api.example.com/products');\n const products = await res.json();\n\n return {\n props: { products },\n };\n}\n\nfunction ProductsPageSSR({ products }) {\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n\n// Pros: SEO-friendly, always fresh data\n// Cons: Slower TTFB (fetch + render per request), server load\n\n// ========================\n// OPTION 3: SSG (getStaticProps)\n// ========================\n\n// pages/products.js\nexport async function getStaticProps() {\n const res = await fetch('https://api.example.com/products');\n const products = await res.json();\n\n return {\n props: { products },\n // Optional: revalidate every hour\n revalidate: 3600,\n };\n}\n\nfunction ProductsPageSSG({ products }) {\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n\n// Pros: Fastest TTFB, CDN cacheable, no server load\n// Cons: Data can be stale (up to revalidate time), rebuild needed for new products\n\n// ========================\n// OPTION 4: ISR (getStaticProps + revalidate)\n// ========================\n\n// Same as SSG but with revalidate\n// Balances freshness and speed\n\n// ========================\n// OPTION 5: App Router (Server Components)\n// ========================\n\n// app/products/page.js (App Router)\n// This is static by default (can be revalidated)\nasync function ProductsPage() {\n const products = await fetch('https://api.example.com/products', {\n next: { revalidate: 3600 } // ISR equivalent\n }).then(r => r.json());\n\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n7. SEO and Performance Implications\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// SEO: Why pre-rendering matters\n// ========================\n\n// Googlebot (and other crawlers) execute JavaScript,\n// but not always perfectly. Pre-rendered HTML guarantees\n// content is indexed.\n\n// CSR page: HTML is <div id="root"></div> → crawler sees nothing\n// SSR/SSG page: HTML contains actual content → crawler indexes it\n\n// ========================\n// Core Web Vitals impact\n// ========================\n\n// Largest Contentful Paint (LCP):\n// - CSR: LCP depends on JS loading + rendering\n// - SSR/SSG: LCP is the HTML itself — much faster\n\n// First Input Delay (FID):\n// - Same for all — depends on hydration time\n// - But SSR/SSG shows content while JS loads, so perceived performance is better\n\n// Time to Interactive (TTI):\n// - CSR: TTI = when JS loads\n// - SSR/SSG: TTI = when hydration finishes\n// - Similar timing, but SSR/SSG has content during that time\n\n// ========================\n// Measuring performance\n// ========================\n\n// Use:\n// - Next.js Analytics (Vercel)\n// - Lighthouse\n// - Web Vitals extension\n// - next build output shows page sizes and functions\n\n// Build output example:\n// ┌ /products (ISR) 2.4 kB 120 B\n// ├ /products/[id] (ISR) 3.1 kB 140 B\n// └ /dashboard (SSR) 5.2 kB 210 B\n\n// ========================\n// Hybrid approaches\n// ========================\n\n// Most real apps mix strategies:\n// - Homepage: SSG (fastest)\n// - Blog posts: SSG + ISR\n// - Product pages: SSG + ISR (revalidate hourly)\n// - User dashboard: SSR (or CSR after login)\n// - Admin panel: CSR (no SEO needed)\n\n// Example Next.js app structure:\n// pages/\n// index.js → SSG (marketing)\n// blog/[slug].js → SSG + ISR (content)\n// products/[id].js → SSG + ISR (e-commerce)\n// account/dashboard.js → SSR (protected)\n// app/ → App Router for streaming\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n8. Common Gotchas and Pitfalls\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Gotcha 1: Accessing browser APIs in SSR\n// ========================\n\n// ❌ This will crash during SSR (window doesn't exist)\nexport async function getServerSideProps() {\n const width = window.innerWidth; // ReferenceError\n return { props: {} };\n}\n\n// ✅ Guard against browser-only code\nfunction Component() {\n const [width, setWidth] = useState();\n\n useEffect(() => {\n setWidth(window.innerWidth); // runs only on client\n }, []);\n\n return <div>Width: {width}</div>;\n}\n\n// ✅ Or check at runtime\nif (typeof window !== 'undefined') {\n // browser-only code\n}\n\n// ========================\n// Gotcha 2: Data serialization\n// ========================\n\n// getServerSideProps and getStaticProps must return serializable props\n// No functions, dates, or undefined\n\n// ❌ Not serializable\nexport async function getServerSideProps() {\n return {\n props: {\n date: new Date(), // Date becomes string, but OK\n callback: () => {}, // ❌ function — will fail\n nested: undefined, // ❌ undefined — will be omitted\n },\n };\n}\n\n// ✅ Serializable only\n// Use JSON.stringify/parse to check\n\n// ========================\n// Gotcha 3: Stale data with ISR\n// ========================\n\n// With revalidate: 60, data can be up to 60 seconds stale.\n// If freshness is critical, use SSR or client-side fetch.\n\n// ========================\n// Gotcha 4: Cache headers\n// ========================\n\n// SSR pages can set custom cache headers in getServerSideProps\n\nexport async function getServerSideProps({ res }) {\n res.setHeader(\n 'Cache-Control',\n 'public, s-maxage=10, stale-while-revalidate=59'\n );\n\n return { props: {} };\n}\n\n// ========================\n// Gotcha 5: Redirects in getServerSideProps\n// ========================\n\nexport async function getServerSideProps(context) {\n const { params } = context;\n const post = await getPost(params.slug);\n\n if (!post) {\n return {\n redirect: {\n destination: '/404',\n permanent: false,\n },\n };\n }\n\n return { props: { post } };\n}\n\n// ========================\n// Gotcha 6: Build-time vs request-time data\n// ========================\n\n// getStaticProps runs at build time — don't put request-specific code\n\nexport async function getStaticProps(context) {\n // ❌ Can't access cookies/headers — no request at build time\n const session = getSession(context); // undefined\n\n // ✅ Use environment variables instead\n const apiUrl = process.env.API_URL;\n}\n\n// ========================\n// Gotcha 7: Large HTML pages\n// ========================\n\n// Pre-rendering large lists can bloat HTML size\n// Consider pagination, virtualization, or client-side fetch for large datasets\n\n// ========================\n// Gotcha 8: Stale-while-revalidate and SEO\n// ========================\n\n// Search engines may see stale content if revalidate is long\n// For SEO-critical pages, use shorter revalidate or on-demand revalidation\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n9. Real-World Architecture Patterns\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Pattern: E-commerce site\n// ========================\n\n// Homepage: SSG (marketing, rarely changes)\n// Category pages: SSG + ISR (revalidate hourly)\n// Product pages: SSG + ISR (revalidate 5 min, on-demand revalidate on price change)\n// Cart: Client-side (or SSR with cookies)\n// Checkout: SSR (requires user session)\n// Order history: SSR (user-specific)\n\n// ========================\n// Pattern: Content site (blog, docs)\n// ========================\n\n// All content: SSG + ISR (revalidate on-demand via CMS webhook)\n// Search: Client-side fetch from search API\n// User profile: SSR (if authenticated)\n\n// ========================\n// Pattern: SaaS application\n// ========================\n\n// Landing/marketing: SSG\n// Login: CSR or SSR with redirect\n// App dashboard: SSR (authenticated) or CSR after login\n// Settings: SSR (user-specific)\n// Admin panel: CSR (no SEO needed)\n\n// ========================\n// Pattern: Hybrid — static shell + client data\n// ========================\n\n// Use SSG for the shell, then fetch user data on client\n\nexport async function getStaticProps() {\n // Public data — pre-rendered\n const publicData = await getPublicData();\n\n return {\n props: {\n publicData,\n // No user data here — fetched on client\n },\n };\n}\n\nfunction Dashboard({ publicData }) {\n const [userData, setUserData] = useState(null);\n\n useEffect(() => {\n // Fetch user-specific data after mount\n fetchUserData().then(setUserData);\n }, []);\n\n return (\n <>\n <Header data={publicData} />\n {userData ? <UserContent data={userData} /> : <Skeleton />}\n </>\n );\n}\n\n// ========================\n// Pattern: Incremental migration to App Router\n// ========================\n\n// Next.js supports mixing Pages Router and App Router\n// Migrate page by page\n\n// Old page: pages/about.js → keep running\n// New page: app/dashboard/page.js → App Router features\n\n// ========================\n// Pattern: Edge SSR\n// ========================\n\n// Run SSR at the CDN edge (Vercel Edge Functions, Cloudflare Workers)\n// Even lower latency than traditional SSR\n\n// Next.js: export const runtime = 'edge';\n\nexport const runtime = 'edge';\n\nexport async function getServerSideProps() {\n // Runs on Edge network, closer to user\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n10. Best Practices Summary\n</h4>\n\n<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">\n <li><b>DO:</b> Start with SSG for most pages — it's the fastest and cheapest</li>\n <li><b>DO:</b> Use ISR (<code>revalidate</code>) when data updates but can be slightly stale</li>\n <li><b>DO:</b> Use SSR only when you need request-time data (user session, cookies, real-time)</li>\n <li><b>DO:</b> Implement on-demand revalidation for instant content updates after CMS publish</li>\n <li><b>DO:</b> Use <code>fallback: 'blocking'</code> for SEO-critical dynamic SSG pages</li>\n <li><b>DO:</b> Leverage streaming with Suspense in App Router for progressive rendering</li>\n <li><b>DO:</b> Set appropriate cache headers for SSR pages to reduce server load</li>\n <li><b>DO:</b> Analyze build output to identify large pages that need optimization</li>\n <li><b>DO:</b> Mix strategies — one architecture rarely fits all pages</li>\n <li><b>DO:</b> Use environment variables for build-time configuration in SSG</li>\n <li><b>DON'T:</b> Use SSR for publicly cacheable content — SSG + ISR is almost always better</li>\n <li><b>DON'T:</b> Put browser-specific code in <code>getStaticProps</code> or <code>getServerSideProps</code></li>\n <li><b>DON'T:</b> Return non-serializable data from data-fetching methods</li>\n <li><b>DON'T:</b> Pre-render extremely large datasets — paginate or virtualize</li>\n <li><b>DON'T:</b> Forget to handle <code>fallback</code> states for dynamic SSG routes</li>\n <li><b>DON'T:</b> Use SSR for authenticated pages without checking session first</li>\n <li><b>DON'T:</b> Overuse ISR with very short revalidate — defeats caching benefits</li>\n <li><b>DON'T:</b> Ignore the difference between Pages Router and App Router patterns</li>\n</ul>\n\n</div>`,
+            examples: [
+              "User dashboard with SSR (authenticated data)",
+              "Blog with SSG + getStaticPaths",
+              "E-commerce product page with ISR (revalidate: 60)",
+              "On-demand revalidation via webhook",
+              "Streaming with Suspense in App Router",
+              "Hybrid: static shell + client-side user data",
+              "Fallback states for dynamic routes",
+              "Cache headers in getServerSideProps",
+              "Edge SSR with runtime = 'edge'",
+              "Internationalized routes with getStaticPaths",
+            ],
+            questions: [
+              {
+                question:
+                  "What is the fundamental difference between SSR and SSG?",
+                answer:
+                  "The fundamental difference is when the HTML is generated. SSR (Server-Side Rendering) generates HTML on each request — the server fetches data, renders the React component to HTML, and sends it to the client. This happens for every visitor, every time they load the page. SSG (Static Site Generation) generates HTML at build time — once during deployment, the same static HTML file is saved to disk and served to all visitors. SSR provides fresh, request-specific data at the cost of server compute per request; SSG provides maximum speed and CDN cacheability at the cost of potential staleness. Next.js implements SSR via getServerSideProps and SSG via getStaticProps.",
+              },
+              {
+                question: "When would you choose SSR over SSG?",
+                answer:
+                  "Choose SSR when you need request-time data that cannot be determined at build time. This includes: authenticated pages with user-specific content (dashboard, account settings), pages that read cookies or headers for personalization, real-time data that changes faster than you can rebuild (stock tickers, live scores), pages with content that varies by user location or A/B testing, and any scenario where showing slightly stale data would be unacceptable. For example, a user's shopping cart page must be SSR because the contents are specific to that user and change frequently. If the data is public and changes infrequently, SSG is almost always the better choice.",
+              },
+              {
+                question: "What problem does getStaticPaths solve in SSG?",
+                answer:
+                  "getStaticPaths solves the problem of dynamic routes in static generation. For a page like pages/posts/[id].js, Next.js needs to know at build time which [id] values exist so it can generate HTML for each one. getStaticPaths fetches all possible paths (from a CMS, database, or filesystem) and returns them as an array of params objects. It also accepts a fallback property that controls behavior for paths not generated at build time: false returns 404, true shows a loading fallback and generates on-demand, and 'blocking' waits server-side for generation. This enables large sites to pre-render only popular pages and generate the rest on first visit.",
+              },
+              {
+                question:
+                  "Explain ISR (Incremental Static Regeneration) and how it works.",
+                answer:
+                  "ISR extends SSG by allowing static pages to be updated after deployment without rebuilding the entire site. When you add a revalidate property (e.g., revalidate: 60) to getStaticProps, you tell Next.js that this page can be stale for up to 60 seconds. When a request comes in after the revalidate period, Next.js serves the stale cached page immediately but triggers a background regeneration with fresh data. Once the new HTML is generated, it replaces the cache for subsequent requests. This gives you the performance of static files with updates up to every revalidate seconds. For instant updates, Next.js also supports on-demand revalidation via API routes, allowing you to trigger regeneration when content changes (e.g., after a CMS webhook).",
+              },
+              {
+                question:
+                  "How does streaming SSR with Suspense improve performance?",
+                answer:
+                  "Streaming SSR (available in React 18+ and Next.js App Router) solves the 'all or nothing' problem of traditional SSR. Instead of waiting for all data to be fetched and all components to render before sending anything, the server sends HTML in chunks. The page shell (layout, navigation, fast components) is sent immediately, allowing the user to see something quickly. As slower components finish their data fetching, they are streamed to the client and inserted into the Suspense boundaries. This improves perceived performance and Time to First Byte (TTFB). Suspense boundaries also allow components to load in parallel rather than sequentially, further reducing total load time. Users see content progressively rather than a blank screen or a full page load later.",
+              },
+              {
+                question:
+                  "What are the main differences between Next.js Pages Router and App Router for data fetching?",
+                answer:
+                  "Pages Router uses file-based routing in the /pages directory with specific data-fetching methods: getServerSideProps (SSR), getStaticProps (SSG), and getStaticPaths. Data fetching is page-level — one function per page fetches all data. App Router (Next.js 13+) uses the /app directory, React Server Components by default, and more granular data fetching. Components can be async and fetch data directly. Streaming with Suspense is built-in. Caching is controlled via fetch options (next: { revalidate }) rather than separate functions. App Router also supports nested layouts that persist across navigation. Pages Router is simpler and stable; App Router offers more flexibility and performance features but has a steeper learning curve.",
+              },
+              {
+                question: "How do you handle authentication in SSR pages?",
+                answer:
+                  "In getServerSideProps, you can access the request object via context.req to read session cookies or authorization headers. Common patterns: 1) Use a library like NextAuth.js which provides getServerSession(context) that works in getServerSideProps. 2) Manually verify JWT tokens from cookies. 3) Redirect unauthenticated users to login: return { redirect: { destination: '/login', permanent: false } }. After authentication, fetch user-specific data and return it as props. The page component receives the user data and can render personalized content. Remember that any data fetched in getServerSideProps is exposed to the client, so don't include sensitive information like tokens unless necessary.",
+              },
+              {
+                question: "What are the limitations of getStaticProps?",
+                answer:
+                  "getStaticProps runs at build time, so it cannot access request-specific data like cookies, query parameters (beyond those in params for dynamic routes), or session information. It's limited to build-time environment variables and APIs. The returned props must be serializable (no functions, undefined, or circular references). For large sites, generating thousands of pages at build time can be slow, though this is mitigated by fallback: true or fallback: 'blocking' to generate on-demand. Static pages can become stale; ISR addresses this but introduces complexity. Also, getStaticProps is only available in pages, not in components (though App Router solves this with Server Components).",
+              },
+              {
+                question:
+                  "How does caching work with SSR and how can you optimize it?",
+                answer:
+                  "SSR pages can set HTTP cache headers via the response object in getServerSideProps. For example: res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59'). s-maxage controls CDN cache duration, and stale-while-revalidate allows serving stale content while fetching fresh data in the background. Without caching, every request hits the server. With proper headers, you can reduce server load significantly. For public content that varies only slightly, consider using stale-while-revalidate to get near-SSG performance with SSR freshness. For user-specific content, caching is harder but you can cache at the component level with React.memo or use server-side caching of database queries.",
+              },
+              {
+                question:
+                  "What is the 'fallback' option in getStaticPaths and when would you use each value?",
+                answer:
+                  "fallback controls behavior for paths not generated at build time. fallback: false means any path not returned by getStaticPaths returns a 404 page. Use for small, predictable sets where you can generate all pages at build time (e.g., a small blog with 10 posts). fallback: true shows a loading state (via router.isFallback) on first visit and generates the page in the background, caching it for future visits. Use for large sites where you can't pre-render everything (e.g., e-commerce with millions of products). fallback: 'blocking' also generates on-demand but doesn't show a loading state — the server waits, renders the page, and sends it. Better for SEO because crawlers don't see a loading state, but first visit may be slower. Choose based on whether you need the loading UX or maximum SEO.",
+              },
+              {
+                question:
+                  "How do you implement on-demand revalidation in Next.js?",
+                answer:
+                  "On-demand revalidation allows you to trigger ISR regeneration via an API route when content changes. First, create an API route like pages/api/revalidate.js. In the handler, verify a secret token (from query or body) to prevent abuse. Call res.revalidate(path) for each path that needs updating. This immediately purges the cache and triggers background regeneration. Then, call this API from your CMS webhook after content updates. Example: await fetch('/api/revalidate?secret=TOKEN', { method: 'POST', body: JSON.stringify({ path: '/products/1' }) }). This gives you instant updates without waiting for revalidate time windows, combining SSG performance with real-time content accuracy.",
+              },
+              {
+                question: "What are the SEO implications of CSR vs SSR vs SSG?",
+                answer:
+                  "CSR (Client-Side Rendering) delivers an empty HTML shell to crawlers. While modern search engines like Google execute JavaScript, it's not guaranteed and can delay indexing. Content may be indexed incorrectly or not at all. SSR and SSG deliver fully populated HTML immediately, ensuring crawlers see all content on first render. This leads to better, faster indexing and higher SEO scores. SSG is best for SEO-critical public content because it's fastest and most reliable. SSR is also SEO-friendly but may have slower TTFB affecting Core Web Vitals. For content that must be fresh but also SEO-critical, ISR provides the best compromise.",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering",
+              "https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation",
+              "https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths",
+              "https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration",
+              "https://nextjs.org/docs/app/building-your-application/rendering/server-components",
+              "https://react.dev/reference/react/Suspense",
+              "https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes",
+              "https://vercel.com/docs/concepts/next.js/incremental-static-regeneration",
+              "https://nextjs.org/docs/pages/building-your-application/authentication",
+              "https://nextjs.org/docs/app/building-your-application/caching",
+            ],
           },
           {
             topic: "Higher-Order Components",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "HOC",
+              "Higher-Order Components",
+              "Component Composition",
+              "Code Reuse",
+              "withX Pattern",
+              "Props Injection",
+              "Cross-Cutting Concerns",
+              "Render Props",
+              "Hooks Migration",
+              "Authentication",
+              "Memoization",
+              "displayName",
+              "forwardRef",
+              "Decorator Pattern",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+A <strong>Higher-Order Component (HOC)</strong> is a function that takes a component and returns a new component with additional behavior — it's the React application of the higher-order function pattern. HOCs are a form of component composition: instead of modifying a component directly, you wrap it in a factory function that layers on new props, state, lifecycle behavior, or rendering logic. The classic pattern is <code>const EnhancedComponent = withSomething(BaseComponent)</code>. Before React Hooks, HOCs were the primary mechanism for sharing stateful logic across components (alongside render props). While hooks have replaced most HOC use cases, HOCs remain valuable in specific scenarios: integrating with class components, composing third-party libraries, enforcing authentication, wrapping components you don't own, and building decorator-like systems. Understanding HOCs also illuminates how popular libraries like Redux's <code>connect</code>, React Router's <code>withRouter</code>, and Material-UI's <code>withStyles</code> work internally.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Core Concept and Basic Syntax
+</h4>
+
+<p style="line-height: 1.75;">
+A HOC is a pure function with no side effects that takes a component and returns a new component. It should not mutate the passed component — it should compose it.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Basic HOC structure
+// ========================
+
+// A HOC is just a function: Component => Component
+function withExtraInfo(WrappedComponent) {
+  // Return a new component
+  function ComponentWithExtraInfo(props) {
+    const extraData = { version: '1.0', timestamp: Date.now() };
+
+    // Render WrappedComponent with original props + injected props
+    return <WrappedComponent {...props} extraData={extraData} />;
+  }
+
+  // Set displayName for React DevTools
+  ComponentWithExtraInfo.displayName =
+    \`WithExtraInfo(\${WrappedComponent.displayName || WrappedComponent.name || 'Component'})\`;
+
+  return ComponentWithExtraInfo;
+}
+
+// Usage:
+function MyComponent({ name, extraData }) {
+  return <div>{name} — v{extraData.version}</div>;
+}
+
+const EnhancedMyComponent = withExtraInfo(MyComponent);
+
+// <EnhancedMyComponent name="Alice" />
+// Receives: { name: "Alice", extraData: { version: '1.0', ... } }
+
+// ========================
+// The convention: "with" prefix
+// ========================
+
+// HOC names conventionally start with "with" to signal wrapping behavior
+// withAuth, withTheme, withRouter, withLoading, withData, withPermissions
+
+// ========================
+// Spread original props — the cardinal rule
+// ========================
+
+// ❌ WRONG — loses original props
+function withBadLogging(WrappedComponent) {
+  return function(props) {
+    console.log('Rendering');
+    return <WrappedComponent />; // ❌ props not passed through!
+  };
+}
+
+// ✅ CORRECT — always spread original props
+function withLogging(WrappedComponent) {
+  return function LoggingWrapper(props) {
+    console.log('Rendering with props:', props);
+    return <WrappedComponent {...props} />; // ✅ all props pass through
+  };
+}
+
+// ========================
+// HOC with configuration — curried HOCs
+// ========================
+
+// HOCs can accept configuration before the component
+function withPermission(requiredRole) {
+  return function(WrappedComponent) {
+    return function PermissionGate(props) {
+      const { userRole, ...rest } = props;
+
+      if (userRole !== requiredRole) {
+        return <div>Access denied. Required role: {requiredRole}</div>;
+      }
+
+      return <WrappedComponent {...rest} />;
+    };
+  };
+}
+
+// Usage:
+const AdminOnly = withPermission('admin')(MyComponent);
+const EditorOnly = withPermission('editor')(MyComponent);
+
+// <AdminOnly userRole="admin" />  → renders MyComponent
+// <AdminOnly userRole="user" />   → renders "Access denied"
+
+// ========================
+// Multiple HOCs — composition
+// ========================
+
+// HOCs compose like functions: right to left
+const enhance = compose(
+  withAuth,
+  withTheme,
+  withLogging,
+);
+
+const EnhancedComponent = enhance(MyComponent);
+// Equivalent to: withAuth(withTheme(withLogging(MyComponent)))
+
+// compose utility (or use lodash/redux's compose):
+function compose(...fns) {
+  return (x) => fns.reduceRight((v, f) => f(v), x);
+}
+
+// ========================
+// What HOCs can do
+// ========================
+
+// 1. Inject props (data, handlers, context values)
+// 2. Conditionally render (authentication, permissions, feature flags)
+// 3. Lift state (share state across unrelated components)
+// 4. Add lifecycle behavior (logging, analytics, subscriptions)
+// 5. Wrap with error boundaries or loading states
+// 6. Modify or intercept props before passing down
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Authentication and Authorization HOCs
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// ========================
+// Authentication guard HOC
+// ========================
+
+function withAuth(WrappedComponent) {
+  function AuthenticatedComponent(props) {
+    const navigate = useNavigate();
+    const { isAuthenticated, isLoading } = useAuthContext();
+
+    useEffect(() => {
+      if (!isLoading && !isAuthenticated) {
+        navigate('/login', { replace: true, state: { from: window.location.pathname } });
+      }
+    }, [isAuthenticated, isLoading, navigate]);
+
+    if (isLoading) {
+      return <LoadingSpinner />;
+    }
+
+    if (!isAuthenticated) {
+      return null; // Will redirect via useEffect
+    }
+
+    return <WrappedComponent {...props} />;
+  }
+
+  AuthenticatedComponent.displayName =
+    \`WithAuth(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return AuthenticatedComponent;
+}
+
+// Usage:
+const ProtectedDashboard = withAuth(Dashboard);
+const ProtectedSettings  = withAuth(SettingsPage);
+
+// ========================
+// Role-based authorization HOC
+// ========================
+
+function withRoles(...allowedRoles) {
+  return function(WrappedComponent) {
+    function RoleGuard({ fallback = null, ...props }) {
+      const { user } = useAuthContext();
+
+      const hasRole = allowedRoles.some(role => user?.roles?.includes(role));
+
+      if (!hasRole) {
+        return fallback; // Render fallback or null
+      }
+
+      return <WrappedComponent {...props} />;
+    }
+
+    RoleGuard.displayName =
+      \`WithRoles([\${allowedRoles.join(', ')}])(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return RoleGuard;
+  };
+}
+
+// Usage:
+const AdminPanel   = withRoles('admin')(AdminPanelBase);
+const ModPanel     = withRoles('admin', 'moderator')(ModPanelBase);
+
+// <AdminPanel />             → renders if user has 'admin' role
+// <AdminPanel fallback={<AccessDenied />} /> → shows fallback instead of null
+
+// ========================
+// Feature flag HOC
+// ========================
+
+function withFeatureFlag(flagName, FallbackComponent = null) {
+  return function(WrappedComponent) {
+    function FeatureFlagged(props) {
+      const flags = useFeatureFlags();
+
+      if (!flags[flagName]) {
+        return FallbackComponent ? <FallbackComponent {...props} /> : null;
+      }
+
+      return <WrappedComponent {...props} />;
+    }
+
+    FeatureFlagged.displayName =
+      \`WithFeatureFlag(\${flagName})(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return FeatureFlagged;
+  };
+}
+
+// Usage:
+const NewCheckout = withFeatureFlag('new_checkout', OldCheckout)(NewCheckoutBase);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Data Fetching and Loading State HOCs
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState, useEffect } from 'react';
+
+// ========================
+// Generic data fetching HOC
+// ========================
+
+function withData(fetchFn, propName = 'data') {
+  return function(WrappedComponent) {
+    function DataFetcher({ fetchArgs = [], ...props }) {
+      const [data, setData]       = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError]     = useState(null);
+
+      useEffect(() => {
+        let cancelled = false;
+
+        setLoading(true);
+        setError(null);
+
+        fetchFn(...fetchArgs)
+          .then(result => {
+            if (!cancelled) {
+              setData(result);
+              setLoading(false);
+            }
+          })
+          .catch(err => {
+            if (!cancelled) {
+              setError(err);
+              setLoading(false);
+            }
+          });
+
+        return () => { cancelled = true; };
+      }, fetchArgs);  // Re-fetch if fetchArgs change
+
+      if (loading) return <LoadingSpinner />;
+      if (error)   return <ErrorMessage error={error} />;
+
+      return (
+        <WrappedComponent
+          {...props}
+          {...{ [propName]: data }} // inject data under configurable prop name
+        />
+      );
+    }
+
+    DataFetcher.displayName =
+      \`WithData(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return DataFetcher;
+  };
+}
+
+// Usage:
+const UserListWithData = withData(fetchUsers, 'users')(UserList);
+
+// <UserListWithData fetchArgs={[{ page: 1 }]} />
+// When loading: <LoadingSpinner />
+// When ready: <UserList users={[...]} />
+
+// ========================
+// HOC that injects loading UI around any component
+// ========================
+
+function withLoadingState(WrappedComponent, LoadingComponent = DefaultSpinner) {
+  function WithLoading({ isLoading, loadingMessage, ...props }) {
+    if (isLoading) {
+      return <LoadingComponent message={loadingMessage} />;
+    }
+    return <WrappedComponent {...props} />;
+  }
+
+  WithLoading.displayName =
+    \`WithLoading(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return WithLoading;
+}
+
+// Usage:
+const UserCardWithLoading = withLoadingState(UserCard);
+
+// <UserCardWithLoading isLoading={true} />  → shows spinner
+// <UserCardWithLoading isLoading={false} user={...} /> → shows UserCard
+
+// ========================
+// Pagination HOC
+// ========================
+
+function withPagination(WrappedComponent) {
+  function PaginatedComponent({ itemsPerPage = 10, items = [], ...props }) {
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages   = Math.ceil(items.length / itemsPerPage);
+    const start        = (currentPage - 1) * itemsPerPage;
+    const currentItems = items.slice(start, start + itemsPerPage);
+
+    function goToPage(page) {
+      setCurrentPage(Math.min(Math.max(1, page), totalPages));
+    }
+
+    return (
+      <>
+        <WrappedComponent {...props} items={currentItems} />
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={goToPage}
+        />
+      </>
+    );
+  }
+
+  PaginatedComponent.displayName =
+    \`WithPagination(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return PaginatedComponent;
+}
+
+// Usage:
+const PaginatedUserList = withPagination(UserList);
+// <PaginatedUserList items={allUsers} itemsPerPage={20} />
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Prop Manipulation and Injection HOCs
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Rename or transform props
+// ========================
+
+function withRenamedProps(propMapping) {
+  return function(WrappedComponent) {
+    function RenamedProps(props) {
+      const renamedProps = { ...props };
+
+      Object.entries(propMapping).forEach(([oldName, newName]) => {
+        if (oldName in renamedProps) {
+          renamedProps[newName] = renamedProps[oldName];
+          delete renamedProps[oldName];
+        }
+      });
+
+      return <WrappedComponent {...renamedProps} />;
+    }
+
+    RenamedProps.displayName =
+      \`WithRenamedProps(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return RenamedProps;
+  };
+}
+
+// Useful when a third-party component uses different prop names
+const NormalizedInput = withRenamedProps({ onChange: 'onValueChange' })(ThirdPartyInput);
+
+// ========================
+// Default props injection
+// ========================
+
+function withDefaultProps(defaultProps) {
+  return function(WrappedComponent) {
+    function WithDefaults(props) {
+      return <WrappedComponent {...defaultProps} {...props} />;
+      // props spread last so they override defaults
+    }
+
+    WithDefaults.displayName =
+      \`WithDefaultProps(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return WithDefaults;
+  };
+}
+
+// Usage:
+const RedButton = withDefaultProps({ color: 'red', size: 'large' })(Button);
+// <RedButton /> → color="red", size="large"
+// <RedButton size="small" /> → color="red", size="small" (overrides default)
+
+// ========================
+// Context injection HOC (pre-hooks pattern)
+// ========================
+
+// Before React.useContext, HOCs were the standard way to inject context
+function withTheme(WrappedComponent) {
+  function ThemedComponent(props) {
+    // Even today, HOCs can bridge context to components that can't use hooks
+    const theme = useTheme();
+
+    return <WrappedComponent {...props} theme={theme} />;
+  }
+
+  ThemedComponent.displayName =
+    \`WithTheme(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return ThemedComponent;
+}
+
+// ========================
+// Omit props before passing down
+// ========================
+
+function withOmittedProps(...propsToOmit) {
+  return function(WrappedComponent) {
+    function OmittedProps(props) {
+      const filteredProps = Object.fromEntries(
+        Object.entries(props).filter(([key]) => !propsToOmit.includes(key))
+      );
+
+      return <WrappedComponent {...filteredProps} />;
+    }
+
+    OmittedProps.displayName =
+      \`WithOmittedProps(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return OmittedProps;
+  };
+}
+
+// Prevents internal props from leaking to DOM elements
+const CleanDiv = withOmittedProps('isLoading', 'hasError')('div');
+// <CleanDiv isLoading={true} className="box" /> → <div className="box" />
+
+// ========================
+// Analytics / event tracking HOC
+// ========================
+
+function withTracking(eventName, eventData = {}) {
+  return function(WrappedComponent) {
+    function TrackedComponent({ onClick, ...props }) {
+      function handleClick(...args) {
+        analytics.track(eventName, {
+          ...eventData,
+          timestamp: Date.now(),
+        });
+        onClick?.(...args);
+      }
+
+      return <WrappedComponent {...props} onClick={handleClick} />;
+    }
+
+    TrackedComponent.displayName =
+      \`WithTracking(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return TrackedComponent;
+  };
+}
+
+// Usage:
+const TrackableSignupButton = withTracking('signup_clicked', { source: 'hero' })(Button);
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. forwardRef and Static Methods
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { forwardRef } from 'react';
+
+// ========================
+// The ref forwarding problem
+// ========================
+
+// HOCs break ref forwarding by default.
+// The ref points to the HOC wrapper, not the inner component.
+
+// ❌ Without forwardRef — ref goes to wrapper, not input
+function withFocus(WrappedComponent) {
+  return function FocusWrapper(props) {
+    return <WrappedComponent {...props} />;
+    // If caller does <EnhancedInput ref={inputRef} />,
+    // inputRef.current is FocusWrapper, not the underlying <input>
+  };
+}
+
+// ✅ With forwardRef — ref passes through to WrappedComponent
+function withFocus(WrappedComponent) {
+  const FocusWrapper = forwardRef(function(props, ref) {
+    const [isFocused, setIsFocused] = useState(false);
+
+    return (
+      <WrappedComponent
+        {...props}
+        ref={ref}  // Forward ref to the wrapped component
+        onFocus={() => { setIsFocused(true); props.onFocus?.(); }}
+        onBlur={() =>  { setIsFocused(false); props.onBlur?.(); }}
+        data-focused={isFocused}
+      />
+    );
+  });
+
+  FocusWrapper.displayName =
+    \`WithFocus(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return FocusWrapper;
+}
+
+// Usage:
+const FocusableInput = withFocus('input');
+
+function Form() {
+  const inputRef = useRef();
+
+  return (
+    <>
+      <FocusableInput ref={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>Focus Input</button>
+    </>
+  );
+}
+
+// ========================
+// Copying static methods
+// ========================
+
+// HOCs wrap components and may lose static methods on the original component
+// Use hoist-non-react-statics to automatically copy them
+
+import hoistNonReactStatics from 'hoist-non-react-statics';
+
+function withAuth(WrappedComponent) {
+  function AuthWrapper(props) {
+    // ...auth logic
+    return <WrappedComponent {...props} />;
+  }
+
+  // Copies all non-React static methods from WrappedComponent to AuthWrapper
+  hoistNonReactStatics(AuthWrapper, WrappedComponent);
+
+  AuthWrapper.displayName =
+    \`WithAuth(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return AuthWrapper;
+}
+
+// ========================
+// When static methods matter
+// ========================
+
+// Some components expose static methods (e.g., Modal.show, Drawer.open)
+// Without hoisting, these are lost on the wrapped component
+
+class UserModal extends React.Component {
+  static show() { /* ... */ }
+  render() { return <Modal>{/* ... */}</Modal>; }
+}
+
+const AuthUserModal = withAuth(UserModal);
+
+// ❌ Without hoistNonReactStatics:
+AuthUserModal.show(); // TypeError: AuthUserModal.show is not a function
+
+// ✅ With hoistNonReactStatics:
+AuthUserModal.show(); // Works correctly
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. HOCs vs Hooks — When to Use Which
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Equivalent implementations: HOC vs Hook
+// ========================
+
+// ————————————————————————————————
+// Scenario: Inject window dimensions
+// ————————————————————————————————
+
+// HOC approach
+function withWindowSize(WrappedComponent) {
+  function WindowSizeWrapper(props) {
+    const [size, setSize] = useState({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+
+    useEffect(() => {
+      const handleResize = () =>
+        setSize({ width: window.innerWidth, height: window.innerHeight });
+
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return <WrappedComponent {...props} windowSize={size} />;
+  }
+
+  WindowSizeWrapper.displayName =
+    \`WithWindowSize(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return WindowSizeWrapper;
+}
+
+// Hook approach
+function useWindowSize() {
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () =>
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return size;
+}
+
+// Consuming the hook — simpler, no wrapping
+function MyResponsiveComponent() {
+  const { width, height } = useWindowSize();
+  return <div>Window: {width} x {height}</div>;
+}
+
+// ========================
+// Decision guide
+// ========================
+
+// Use HOOKS when:
+// ✅ You own the component (can add hooks directly)
+// ✅ The logic is additive — you just need to consume some shared behavior
+// ✅ You want composability without extra component nesting
+// ✅ Writing new code today (default choice)
+// ✅ You want clear code colocation — logic lives in the component file
+
+// Use HOCs when:
+// ✅ Wrapping class components that can't use hooks
+// ✅ Wrapping third-party components you don't own
+// ✅ Applying conditional rendering logic (show/hide entire component)
+// ✅ Working with libraries that are HOC-based (Redux connect, older React Router)
+// ✅ The "wrapping" metaphor is clearer than inlining the logic
+// ✅ You want to compose multiple concerns onto many components declaratively
+
+// ========================
+// The "wrapper hell" problem
+// ========================
+
+// Heavy HOC composition creates deeply nested component trees in DevTools:
+// <WithAuth>
+//   <WithTheme>
+//     <WithLogging>
+//       <WithWindowSize>
+//         <MyComponent />
+
+// Hooks avoid this — all logic runs flat inside one component
+// If you need many HOCs, consider consolidating into a single HOC
+// or migrating to hooks
+
+// ========================
+// Render props — third alternative
+// ========================
+
+// Render props are another code-sharing pattern (between HOCs and hooks):
+
+function MouseTracker({ render }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  return (
+    <div onMouseMove={e => setPos({ x: e.clientX, y: e.clientY })}>
+      {render(pos)}
+    </div>
+  );
+}
+
+// Usage:
+// <MouseTracker render={({ x, y }) => <div>Mouse at {x}, {y}</div>} />
+
+// Hooks replaced render props for most cases too.
+// The pattern to know: HOC (wrap), render props (callback), hooks (compose).
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Rules, Limitations, and Gotchas
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Rule 1: Never create HOCs inside render
+// ========================
+
+// ❌ WRONG — creates a new component type on every render
+// React unmounts and remounts the component tree each time!
+function ParentComponent() {
+  const EnhancedChild = withLogging(ChildComponent); // ❌ inside render!
+
+  return <EnhancedChild />;
+}
+
+// ✅ CORRECT — define HOC outside render, at module scope
+const EnhancedChild = withLogging(ChildComponent); // ✅ outside component
+
+function ParentComponent() {
+  return <EnhancedChild />;
+}
+
+// Why? React uses component type identity to decide whether to
+// remount or update. Creating a new type every render = constant unmounting.
+
+// ========================
+// Rule 2: Always spread the passed props
+// ========================
+
+// ❌ WRONG — HOC silently drops all props
+function withBadHOC(WrappedComponent) {
+  return function() {
+    return <WrappedComponent />; // Missing {...props}!
+  };
+}
+
+// ✅ CORRECT — spread all props through
+function withGoodHOC(WrappedComponent) {
+  return function(props) {
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// ========================
+// Rule 3: Always set displayName
+// ========================
+
+// Without displayName, React DevTools shows:
+// <Unknown> or <Component> — impossible to debug
+
+// ✅ Always set it:
+function withSomething(WrappedComponent) {
+  function EnhancedComponent(props) {
+    return <WrappedComponent {...props} />;
+  }
+
+  // Standard pattern:
+  EnhancedComponent.displayName =
+    \`WithSomething(\${WrappedComponent.displayName || WrappedComponent.name || 'Component'})\`;
+
+  return EnhancedComponent;
+}
+
+// In DevTools you'll now see: <WithSomething(UserCard)>
+
+// ========================
+// Rule 4: Don't mutate the wrapped component
+// ========================
+
+// ❌ WRONG — mutates the prototype; affects the original component
+function withLogging(WrappedComponent) {
+  WrappedComponent.prototype.componentDidUpdate = function() {
+    console.log('Updated!'); // ❌ side-effects on original
+  };
+  return WrappedComponent;
+}
+
+// ✅ CORRECT — create a new component, don't modify original
+function withLogging(WrappedComponent) {
+  function WithLogging(props) {
+    useEffect(() => {
+      console.log('Rendered!');
+    });
+    return <WrappedComponent {...props} />;
+  }
+  return WithLogging;
+}
+
+// ========================
+// Gotcha: Prop name collisions
+// ========================
+
+// If the HOC injects a prop with the same name as one the consumer passes,
+// one will silently overwrite the other.
+
+// ❌ Prone to collision
+function withUser(WrappedComponent) {
+  return function(props) {
+    const user = useCurrentUser();
+    // If caller also passes user={...}, this may conflict
+    return <WrappedComponent {...props} user={user} />;
+  };
+}
+
+// ✅ Document injected props clearly; spread in deliberate order
+function withUser(WrappedComponent) {
+  return function({ user: userOverride, ...props }) {
+    const currentUser = useCurrentUser();
+    const user = userOverride ?? currentUser; // allow override or use injected
+    return <WrappedComponent {...props} user={user} />;
+  };
+}
+
+// ========================
+// Gotcha: HOC composition order matters
+// ========================
+
+// Order is right-to-left in compose(), left-to-right in readability
+
+// compose(withAuth, withTheme, withLogging)(MyComponent)
+// = withAuth(withTheme(withLogging(MyComponent)))
+// = Execution order: withLogging first, then withTheme, then withAuth
+
+// If withAuth redirects before withTheme runs, theme logic is skipped.
+// Be deliberate about order — especially with guards.
+
+// ========================
+// Gotcha: displayName with forwardRef
+// ========================
+
+function withStyle(WrappedComponent) {
+  const StyledComponent = forwardRef(function(props, ref) {
+    return <WrappedComponent {...props} ref={ref} style={{ color: 'blue' }} />;
+  });
+
+  // forwardRef creates an anonymous component by default
+  // Must set displayName explicitly
+  StyledComponent.displayName =
+    \`WithStyle(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return StyledComponent;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Real-World Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Error boundary HOC
+// ========================
+
+import { Component } from 'react';
+
+// Error boundaries must be class components — HOC wraps them neatly
+function withErrorBoundary(WrappedComponent, FallbackComponent) {
+  class ErrorBoundaryWrapper extends Component {
+    state = { hasError: false, error: null };
+
+    static getDerivedStateFromError(error) {
+      return { hasError: true, error };
+    }
+
+    componentDidCatch(error, info) {
+      console.error('Caught error:', error, info);
+      errorReporting.capture(error, { componentStack: info.componentStack });
+    }
+
+    handleReset = () => {
+      this.setState({ hasError: false, error: null });
+    };
+
+    render() {
+      if (this.state.hasError) {
+        return (
+          <FallbackComponent
+            error={this.state.error}
+            onReset={this.handleReset}
+          />
+        );
+      }
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+
+  ErrorBoundaryWrapper.displayName =
+    \`WithErrorBoundary(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return ErrorBoundaryWrapper;
+}
+
+// Usage:
+const SafeChart = withErrorBoundary(Chart, ChartErrorFallback);
+const SafeMap   = withErrorBoundary(Map, MapErrorFallback);
+
+// ========================
+// Redux-style connect HOC (manual implementation)
+// ========================
+
+function connect(mapStateToProps, mapDispatchToProps) {
+  return function(WrappedComponent) {
+    function ConnectedComponent(ownProps) {
+      const store = useStore(); // simplified; real Redux uses context
+      const state = store.getState();
+
+      const stateProps    = mapStateToProps ? mapStateToProps(state, ownProps) : {};
+      const dispatchProps = mapDispatchToProps
+        ? typeof mapDispatchToProps === 'function'
+          ? mapDispatchToProps(store.dispatch, ownProps)
+          : bindActionCreators(mapDispatchToProps, store.dispatch)
+        : { dispatch: store.dispatch };
+
+      return (
+        <WrappedComponent
+          {...ownProps}
+          {...stateProps}
+          {...dispatchProps}
+        />
+      );
+    }
+
+    ConnectedComponent.displayName =
+      \`Connect(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return ConnectedComponent;
+  };
+}
+
+// Usage (familiar Redux pattern):
+const mapStateToProps = state => ({ user: state.auth.user });
+const mapDispatch     = { logout, updateProfile };
+const ConnectedProfile = connect(mapStateToProps, mapDispatch)(ProfilePage);
+
+// ========================
+// Memoization HOC (wraps React.memo with custom comparison)
+// ========================
+
+function withDeepMemo(WrappedComponent) {
+  function arePropsEqual(prevProps, nextProps) {
+    return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+    // In production, use a proper deep-equal library like fast-deep-equal
+  }
+
+  const MemoizedComponent = React.memo(WrappedComponent, arePropsEqual);
+
+  MemoizedComponent.displayName =
+    \`WithDeepMemo(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return MemoizedComponent;
+}
+
+// ========================
+// Retry HOC — re-mount on error
+// ========================
+
+function withRetry(WrappedComponent, maxRetries = 3) {
+  function RetryWrapper({ onFetch, ...props }) {
+    const [retries, setRetries] = useState(0);
+    const [error, setError]     = useState(null);
+
+    function handleError(err) {
+      if (retries < maxRetries) {
+        setRetries(r => r + 1);
+        setError(null);
+      } else {
+        setError(err);
+      }
+    }
+
+    if (error) {
+      return (
+        <div>
+          <p>Failed after {maxRetries} retries.</p>
+          <button onClick={() => { setRetries(0); setError(null); }}>
+            Try again
+          </button>
+        </div>
+      );
+    }
+
+    return (
+      <WrappedComponent
+        {...props}
+        retryCount={retries}
+        onError={handleError}
+      />
+    );
+  }
+
+  RetryWrapper.displayName =
+    \`WithRetry(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+  return RetryWrapper;
+}
+
+// ========================
+// Reusable HOC factory helper
+// ========================
+
+// Helper to reduce boilerplate in HOC definitions
+function createHOC(displayNamePrefix, useEnhancement) {
+  return function(WrappedComponent) {
+    function EnhancedComponent(props) {
+      const enhancedProps = useEnhancement(props);
+      return <WrappedComponent {...props} {...enhancedProps} />;
+    }
+
+    EnhancedComponent.displayName =
+      \`\${displayNamePrefix}(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+
+    return EnhancedComponent;
+  };
+}
+
+// Build HOCs declaratively:
+const withLocale    = createHOC('WithLocale',    () => ({ locale: useLocale() }));
+const withUser      = createHOC('WithUser',      () => ({ user: useCurrentUser() }));
+const withAnalytics = createHOC('WithAnalytics', () => ({ track: useAnalytics() }));
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing HOCs
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+// ========================
+// Testing the HOC in isolation
+// ========================
+
+// Test the HOC behavior by rendering it with a simple test component
+
+function SimpleDisplay({ message, injectedProp }) {
+  return (
+    <div>
+      <span data-testid="message">{message}</span>
+      <span data-testid="injected">{injectedProp}</span>
+    </div>
+  );
+}
+
+test('withExtraInfo injects extraData prop', () => {
+  const Enhanced = withExtraInfo(SimpleDisplay);
+  render(<Enhanced message="hello" />);
+
+  // Original prop passes through
+  expect(screen.getByTestId('message')).toHaveTextContent('hello');
+});
+
+// ========================
+// Testing HOC conditional rendering
+// ========================
+
+test('withAuth redirects unauthenticated users', () => {
+  const mockNavigate = jest.fn();
+  jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockNavigate,
+  }));
+
+  // Mock unauthenticated state
+  jest.spyOn(AuthContext, 'useAuthContext').mockReturnValue({
+    isAuthenticated: false,
+    isLoading: false,
+  });
+
+  const ProtectedPage = withAuth(SimpleDisplay);
+  render(<ProtectedPage message="secret" />);
+
+  // Should redirect, not render content
+  expect(screen.queryByTestId('message')).not.toBeInTheDocument();
+  expect(mockNavigate).toHaveBeenCalledWith('/login', expect.any(Object));
+});
+
+test('withAuth renders component when authenticated', () => {
+  jest.spyOn(AuthContext, 'useAuthContext').mockReturnValue({
+    isAuthenticated: true,
+    isLoading: false,
+  });
+
+  const ProtectedPage = withAuth(SimpleDisplay);
+  render(<ProtectedPage message="secret" />);
+
+  expect(screen.getByTestId('message')).toHaveTextContent('secret');
+});
+
+// ========================
+// Testing prop forwarding
+// ========================
+
+test('HOC passes all original props through', () => {
+  const Enhanced = withLogging(SimpleDisplay);
+  render(<Enhanced message="test" aria-label="my component" />);
+
+  const el = screen.getByLabelText('my component');
+  expect(el).toBeInTheDocument();
+});
+
+// ========================
+// Testing with mock dependencies
+// ========================
+
+test('withData shows loading then renders data', async () => {
+  const mockFetch = jest.fn().mockResolvedValue([{ id: 1, name: 'Alice' }]);
+
+  const UserListWithData = withData(mockFetch, 'users')(
+    function UserList({ users }) {
+      return <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>;
+    }
+  );
+
+  render(<UserListWithData />);
+
+  // Shows loading initially
+  expect(screen.getByRole('progressbar')).toBeInTheDocument();
+
+  // After fetch resolves, shows data
+  await screen.findByText('Alice');
+  expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
+});
+
+// ========================
+// Testing displayName
+// ========================
+
+test('HOC sets correct displayName', () => {
+  function MyWidget() { return null; }
+  const Enhanced = withLogging(MyWidget);
+
+  expect(Enhanced.displayName).toBe('WithLogging(MyWidget)');
+});
+
+// ========================
+// Testing ref forwarding
+// ========================
+
+test('withFocus forwards ref to underlying input', () => {
+  const FocusInput = withFocus('input');
+  const ref = React.createRef();
+
+  render(<FocusInput ref={ref} data-testid="input" />);
+
+  expect(ref.current).toBe(screen.getByTestId('input'));
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Always spread props with <code>{...props}</code> — never silently drop what was passed in</li>
+  <li><b>DO:</b> Always set <code>displayName</code> using the <code>WithX(WrappedName)</code> convention for debuggable DevTools</li>
+  <li><b>DO:</b> Define HOCs outside of render functions — never inside; component type identity must be stable</li>
+  <li><b>DO:</b> Use <code>forwardRef</code> when wrapping components that need to expose a DOM ref</li>
+  <li><b>DO:</b> Use <code>hoist-non-react-statics</code> to copy static methods from the wrapped component</li>
+  <li><b>DO:</b> Prefer hooks for new logic-sharing in function components — HOCs shine for wrapping and class components</li>
+  <li><b>DO:</b> Name HOCs with the <code>withX</code> convention to signal wrapping intent</li>
+  <li><b>DO:</b> Support a <code>fallback</code> prop in conditional-rendering HOCs for flexible error/access-denied UI</li>
+  <li><b>DO:</b> Use the <code>compose</code> utility when chaining multiple HOCs to keep code readable</li>
+  <li><b>DO:</b> Document which props the HOC injects — prop name collisions are a silent failure mode</li>
+  <li><b>DON'T:</b> Mutate the wrapped component's prototype — create a new component instead</li>
+  <li><b>DON'T:</b> Create HOC-enhanced components inside a <code>render()</code> or component function — it causes constant remounting</li>
+  <li><b>DON'T:</b> Build deeply nested HOC stacks when hooks can do the same job with less indirection</li>
+  <li><b>DON'T:</b> Overwrite injected props without providing an escape hatch for callers to override them</li>
+  <li><b>DON'T:</b> Use HOCs to share logic that isn't cross-cutting — if only one component uses it, just write it inline</li>
+  <li><b>DON'T:</b> Forget to handle the case where <code>WrappedComponent.name</code> might be empty for anonymous functions</li>
+  <li><b>DON'T:</b> Mix HOC composition order arbitrarily — auth guards should wrap outermost, pure prop transforms innermost</li>
+  <li><b>DON'T:</b> Apply HOCs to components that already receive the same logic via hooks — redundant and confusing</li>
+</ul>
+
+</div>`,
+            examples: [
+              "withAuth — authentication guard HOC",
+              "withRoles — role-based authorization",
+              "withFeatureFlag — feature flag gating",
+              "withData — generic data fetching with loading/error state",
+              "withPagination — paginated list HOC",
+              "withRenamedProps / withDefaultProps — prop manipulation",
+              "withTracking — analytics event injection",
+              "withErrorBoundary — class-based error boundary as HOC",
+              "connect — Redux-style state injection HOC",
+              "HOC vs Hook side-by-side comparison",
+            ],
+            questions: [
+              {
+                question:
+                  "What is a Higher-Order Component and what problem does it solve?",
+                answer:
+                  "A Higher-Order Component is a function that takes a component as input and returns a new, enhanced component. It applies the higher-order function pattern to React components, enabling code reuse through composition rather than inheritance. HOCs solve the 'cross-cutting concerns' problem — logic that many unrelated components need, such as authentication checks, data fetching, logging, or theming. Before hooks, HOCs (alongside render props) were the primary mechanism for sharing stateful logic between components. The canonical pattern is const Enhanced = withSomething(BaseComponent). While hooks have replaced HOCs for most pure logic-sharing cases in function components, HOCs remain the best tool for wrapping components you don't own, working with class components, and implementing conditional rendering that wraps an entire component.",
+              },
+              {
+                question:
+                  "What are the two most critical rules for writing correct HOCs?",
+                answer:
+                  "The two most critical rules are: First, always spread the original props with {...props} when rendering the wrapped component. Failing to do this silently discards every prop the caller passes, breaking the component invisibly. Second, never create HOC-enhanced components inside a render function or component body. React uses component type identity to decide whether to remount or update. Creating a new component type on every render (e.g., const Enhanced = withLogging(Child) inside a render) causes React to see a different type each render, unmounting and remounting the component tree continuously. HOC applications must happen at module scope, outside any component.",
+              },
+              {
+                question:
+                  "Why is displayName important and what is the convention?",
+                answer:
+                  "Without a displayName, React DevTools shows wrapped components as 'Unknown' or 'Component', making it impossible to trace component trees during debugging. The convention is to set displayName to WithX(WrappedComponentName), where X describes the enhancement and WrappedComponentName comes from WrappedComponent.displayName || WrappedComponent.name. For example: EnhancedComponent.displayName = 'WithAuth(ProfilePage)'. This appears in the DevTools tree as WithAuth(ProfilePage), immediately showing both what enhancement is applied and to which component. The fallback chain uses displayName (explicitly set) before name (the function name), then falls back to 'Component' if both are missing.",
+              },
+              {
+                question: "How do you handle ref forwarding in a HOC?",
+                answer:
+                  "By default, a HOC breaks ref forwarding because the ref passed by the caller attaches to the wrapper component, not the inner wrapped component. The fix is to use React.forwardRef inside the HOC. Instead of returning a plain function, return forwardRef(function(props, ref) { return <WrappedComponent {...props} ref={ref} /> }). The second argument to forwardRef receives the ref from outside and you pass it directly to the wrapped component. One gotcha: forwardRef creates an anonymous component, so you must still set displayName explicitly after wrapping, since the name property is not automatically available.",
+              },
+              {
+                question:
+                  "What is the purpose of hoist-non-react-statics and when do you need it?",
+                answer:
+                  "When a HOC wraps a component, the returned wrapper function does not inherit any static methods defined on the original component. If a component defines static methods like Modal.show() or Component.fetchData() (used in Next.js getInitialProps patterns), they become inaccessible on the enhanced component. hoist-non-react-statics is a small library that copies all non-React static methods from the wrapped component to the wrapper. Call hoistNonReactStatics(WrapperComponent, WrappedComponent) before returning from the HOC. It skips React-specific statics like defaultProps and propTypes to avoid conflicts. You need it whenever components expose static methods as part of their public API.",
+              },
+              {
+                question:
+                  "When should you choose a HOC over a custom hook in modern React?",
+                answer:
+                  "Custom hooks are almost always the better choice for function components — they compose logic without adding component nesting. Choose HOCs when: 1) You need to wrap a class component, which cannot use hooks. 2) You're wrapping a third-party component you don't own and can't modify. 3) The enhancement involves conditional rendering — completely hiding or replacing a component based on a condition (authentication, feature flags). 4) You're working with a library ecosystem built around HOCs (older Redux, React Router v3). 5) The 'decorator' mental model is clearer to your team than inlining hook logic. The main downside of HOCs is 'wrapper hell' — deeply nested components in DevTools and prop collision risks. Hooks avoid this by composing logic flat within one component.",
+              },
+              {
+                question: "How do you compose multiple HOCs cleanly?",
+                answer:
+                  "Multiple HOCs can be composed using a compose utility that applies them right-to-left: compose(withAuth, withTheme, withLogging)(MyComponent) is equivalent to withAuth(withTheme(withLogging(MyComponent))). Redux provides a compose utility; lodash and Ramda also have implementations. Order matters significantly — guards like withAuth should be outermost so they run first and can short-circuit before inner HOCs execute. Pure prop transformers can be innermost. Without compose, manually nesting is verbose and the order visually appears reversed from execution order. When chaining many HOCs becomes unwieldy, it's a signal to consider migrating that logic to hooks, which compose flat without nesting.",
+              },
+              {
+                question:
+                  "What are prop collisions in HOCs and how do you prevent them?",
+                answer:
+                  "A prop collision occurs when a HOC injects a prop with the same name that the consumer of the enhanced component also passes. One silently overwrites the other, depending on spread order. For example, if withUser injects user={currentUser} and the caller also passes user={overrideUser}, one will win and the other is discarded. Prevention strategies: 1) Document all injected props clearly in the HOC's API. 2) Use a namespace for injected props when possible. 3) Allow caller overrides by spreading caller props after injected props. 4) Destructure and explicitly merge: const user = props.user ?? injectedUser. 5) Prefer hooks, which make the data flow explicit — the component explicitly calls useCurrentUser() rather than receiving it as an opaque prop.",
+              },
+              {
+                question: "How do you implement an error boundary as a HOC?",
+                answer:
+                  "Error boundaries must be class components because they rely on getDerivedStateFromError and componentDidCatch, which have no hook equivalents. HOCs are the natural way to make error boundaries reusable. Create a class component with state { hasError, error }, implement getDerivedStateFromError to set hasError: true, and render the FallbackComponent when hasError is true, otherwise render <WrappedComponent {...this.props} />. The HOC factory accepts WrappedComponent and FallbackComponent. This pattern lets you apply error boundaries declaratively to any component: const SafeChart = withErrorBoundary(Chart, ChartError). You can add a reset handler via a handleReset method that clears hasError, which the fallback component can call via an onReset prop.",
+              },
+              {
+                question:
+                  "What is the 'never mutate the wrapped component' rule?",
+                answer:
+                  "A HOC should never modify the prototype or properties of the component it receives — it should only compose a new component around it. Mutating the prototype (e.g., WrappedComponent.prototype.componentDidUpdate = ...) has two serious problems: it modifies the original component everywhere it's used, not just in the enhanced version, and if another HOC applies the same mutation, they overwrite each other's changes. The correct approach is to create an entirely new wrapper component that renders the original: return function Wrapper(props) { /* new behavior */ return <WrappedComponent {...props} />; }. The original component is unchanged and can be used independently. The wrapped component adds its behavior around it through composition, not mutation.",
+              },
+              {
+                question: "How do you test a HOC to ensure it works correctly?",
+                answer:
+                  "Test HOCs at two levels: the HOC in isolation with a simple test component, and the enhanced component's behavior. For isolation testing, create a minimal test component, enhance it with the HOC, and verify the HOC injects props or conditionally renders correctly. For conditional HOCs like withAuth, mock the authentication context and assert that unauthenticated renders redirect and authenticated renders show content. Always test that original props pass through untouched. Test displayName explicitly since debugging depends on it. For ref-forwarding HOCs, create a ref and verify ref.current is the underlying DOM element. For async HOCs like withData, use findBy queries after mocking the fetch function to handle the loading-then-data lifecycle.",
+              },
+            ],
+            links: [
+              "https://react.dev/learn/reusing-logic-with-custom-hooks",
+              "https://legacy.reactjs.org/docs/higher-order-components.html",
+              "https://legacy.reactjs.org/docs/render-props.html",
+              "https://react.dev/reference/react/forwardRef",
+              "https://react.dev/reference/react/memo",
+              "https://github.com/mridgway/hoist-non-react-statics",
+              "https://redux.js.org/api/compose",
+              "https://react.dev/reference/react/Component#static-getderivedstatefromerror",
+              "https://react-redux.js.org/api/connect",
+              "https://testing-library.com/docs/react-testing-library/intro/",
+            ],
           },
           {
             topic: "Controlled Components",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Controlled Components",
+              "Uncontrolled Components",
+              "Form Handling",
+              "useState",
+              "onChange",
+              "value prop",
+              "defaultValue",
+              "Input State",
+              "Form Validation",
+              "Two-Way Binding",
+              "Refs",
+              "Form Submission",
+              "Derived State",
+              "Single Source of Truth",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+A <strong>controlled component</strong> is a form element whose value is entirely driven by React state — the component's displayed value and the source of truth are always the same thing. In a controlled input, you provide a <code>value</code> prop and an <code>onChange</code> handler: React owns the value, the DOM is just a reflection of it. In contrast, an <strong>uncontrolled component</strong> lets the DOM manage its own internal state; you read the value imperatively via a <code>ref</code> when you need it. The fundamental principle behind controlled components is <em>single source of truth</em>: if React state says the input contains "hello", the input displays "hello" — always, with no divergence possible. This makes controlled components predictable and easy to validate, transform, or sync in real time, at the cost of needing an <code>onChange</code> handler for every input. Uncontrolled components are simpler to set up and occasionally the right tool (file inputs, third-party DOM libraries, performance-sensitive forms), but controlled components are the React-idiomatic default for most form work.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Core Concept — Controlled vs Uncontrolled
+</h4>
+
+<p style="line-height: 1.75;">
+The difference comes down to who owns the value: React state (controlled) or the DOM (uncontrolled).
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Uncontrolled — DOM owns the value
+// ========================
+
+function UncontrolledInput() {
+  const inputRef = useRef();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Read the value imperatively when you need it
+    console.log(inputRef.current.value);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* No value prop — DOM tracks the value */}
+      <input ref={inputRef} defaultValue="initial" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+// ========================
+// Controlled — React owns the value
+// ========================
+
+function ControlledInput() {
+  const [value, setValue] = useState('initial');
+
+  function handleChange(e) {
+    setValue(e.target.value); // React state is always in sync
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(value); // Already in state — no imperative read needed
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* value prop + onChange handler = controlled */}
+      <input value={value} onChange={handleChange} />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+// ========================
+// What makes an input controlled
+// ========================
+
+// CONTROLLED: value is a non-null, non-undefined React-managed value
+<input value={stateValue} onChange={handler} />     // controlled
+<textarea value={stateValue} onChange={handler} />  // controlled
+<select value={stateValue} onChange={handler} />    // controlled
+
+// UNCONTROLLED: no value prop, or value is undefined/null
+<input defaultValue="initial" />                    // uncontrolled
+<input ref={myRef} />                               // uncontrolled
+<input value={undefined} onChange={handler} />      // uncontrolled (undefined = no control)
+<input value={null} onChange={handler} />           // uncontrolled (null = no control)
+
+// ========================
+// The warning: switching between controlled/uncontrolled
+// ========================
+
+// ❌ This causes a React warning and unpredictable behavior:
+function BadComponent() {
+  const [value, setValue] = useState(undefined); // starts undefined = uncontrolled
+
+  return (
+    <input
+      value={value}          // undefined → 'hello' = switching modes!
+      onChange={e => setValue(e.target.value)}
+    />
+  );
+}
+
+// ✅ Always initialize state with a defined value (empty string for text inputs)
+function GoodComponent() {
+  const [value, setValue] = useState(''); // '' = controlled from the start
+
+  return <input value={value} onChange={e => setValue(e.target.value)} />;
+}
+
+// ========================
+// How value flows in a controlled input
+// ========================
+
+// 1. User types 'a' into the input
+// 2. Browser fires input event with e.target.value = 'a'
+// 3. onChange calls setValue('a')
+// 4. React re-renders with value='a'
+// 5. Input displays 'a'
+
+// If onChange does NOT call setState, the input is "frozen":
+// User types 'a' → handler runs → state unchanged → React re-renders
+// with old value → input snaps back to previous value
+// This is how you create read-only inputs (without readonly attr)
+
+function ReadOnlyStyleInput({ value }) {
+  return <input value={value} onChange={() => {}} />; // frozen — user can't change it
+  // Better: just use readOnly prop instead
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. All Form Element Types
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState } from 'react';
+
+// ========================
+// Text input
+// ========================
+
+function TextInputExample() {
+  const [name, setName] = useState('');
+
+  return (
+    <input
+      type="text"
+      value={name}
+      onChange={e => setName(e.target.value)}
+      placeholder="Enter your name"
+    />
+  );
+}
+
+// ========================
+// Textarea
+// ========================
+
+// In HTML, textarea content goes between tags: <textarea>content</textarea>
+// In React, use the value prop instead — same pattern as input
+
+function TextareaExample() {
+  const [bio, setBio] = useState('');
+
+  return (
+    <textarea
+      value={bio}
+      onChange={e => setBio(e.target.value)}
+      rows={4}
+      placeholder="Tell us about yourself"
+    />
+    // Note: self-closing in JSX is fine
+  );
+}
+
+// ========================
+// Select (single)
+// ========================
+
+// In HTML, <option selected> marks the selected option.
+// In React, use value on <select> to control which option is selected.
+
+function SelectExample() {
+  const [country, setCountry] = useState('');
+
+  return (
+    <select value={country} onChange={e => setCountry(e.target.value)}>
+      <option value="">-- Select a country --</option>
+      <option value="us">United States</option>
+      <option value="uk">United Kingdom</option>
+      <option value="ca">Canada</option>
+    </select>
+  );
+}
+
+// ========================
+// Select (multiple)
+// ========================
+
+// For multi-select, value is an array and you must handle the array explicitly
+
+function MultiSelectExample() {
+  const [selected, setSelected] = useState([]); // array!
+
+  function handleChange(e) {
+    const options = Array.from(e.target.selectedOptions, opt => opt.value);
+    setSelected(options);
+  }
+
+  return (
+    <select multiple value={selected} onChange={handleChange}>
+      <option value="react">React</option>
+      <option value="vue">Vue</option>
+      <option value="angular">Angular</option>
+      <option value="svelte">Svelte</option>
+    </select>
+  );
+}
+
+// ========================
+// Checkbox (single)
+// ========================
+
+// Checkboxes use checked (boolean) instead of value
+
+function CheckboxExample() {
+  const [agreed, setAgreed] = useState(false);
+
+  return (
+    <label>
+      <input
+        type="checkbox"
+        checked={agreed}
+        onChange={e => setAgreed(e.target.checked)} // e.target.checked, not .value
+      />
+      I agree to the terms
+    </label>
+  );
+}
+
+// ========================
+// Checkbox group (array of selected values)
+// ========================
+
+function CheckboxGroupExample() {
+  const [interests, setInterests] = useState([]);
+
+  function handleChange(e) {
+    const { value, checked } = e.target;
+
+    setInterests(prev =>
+      checked
+        ? [...prev, value]               // add if checked
+        : prev.filter(v => v !== value)  // remove if unchecked
+    );
+  }
+
+  const options = ['React', 'TypeScript', 'Node.js', 'GraphQL'];
+
+  return (
+    <fieldset>
+      <legend>Select your interests:</legend>
+      {options.map(option => (
+        <label key={option}>
+          <input
+            type="checkbox"
+            value={option}
+            checked={interests.includes(option)}
+            onChange={handleChange}
+          />
+          {option}
+        </label>
+      ))}
+      <p>Selected: {interests.join(', ') || 'none'}</p>
+    </fieldset>
+  );
+}
+
+// ========================
+// Radio buttons
+// ========================
+
+// Radio group: one state value, each radio checks if it matches
+
+function RadioExample() {
+  const [plan, setPlan] = useState('free');
+
+  return (
+    <fieldset>
+      <legend>Choose a plan:</legend>
+      {['free', 'pro', 'enterprise'].map(option => (
+        <label key={option}>
+          <input
+            type="radio"
+            name="plan"                          // same name groups the radios
+            value={option}
+            checked={plan === option}            // controlled via comparison
+            onChange={e => setPlan(e.target.value)}
+          />
+          {option.charAt(0).toUpperCase() + option.slice(1)}
+        </label>
+      ))}
+    </fieldset>
+  );
+}
+
+// ========================
+// File input — uncontrolled by nature
+// ========================
+
+// File inputs CANNOT be controlled — React cannot set a file programmatically.
+// value is always read-only for file inputs (browser security restriction).
+// Always use uncontrolled pattern with a ref.
+
+function FileInputExample() {
+  const fileRef = useRef();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const file = fileRef.current.files[0];
+    console.log(file.name, file.size);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="file" ref={fileRef} accept="image/*" />
+      <button type="submit">Upload</button>
+    </form>
+  );
+}
+
+// To "reset" a file input, you must either replace it with a new element
+// or clear its value imperatively: fileRef.current.value = '';
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Real-Time Validation
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState } from 'react';
+
+// ========================
+// Validate on change (as-you-type feedback)
+// ========================
+
+function EmailInput() {
+  const [email, setEmail]     = useState('');
+  const [error, setError]     = useState('');
+  const [touched, setTouched] = useState(false); // only show errors after first interaction
+
+  function validate(value) {
+    if (!value) return 'Email is required';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Enter a valid email address';
+    return '';
+  }
+
+  function handleChange(e) {
+    const newValue = e.target.value;
+    setEmail(newValue);
+    if (touched) setError(validate(newValue)); // only re-validate if already touched
+  }
+
+  function handleBlur() {
+    setTouched(true);
+    setError(validate(email)); // always validate on blur
+  }
+
+  const isValid = touched && !error && email.length > 0;
+
+  return (
+    <div>
+      <input
+        type="email"
+        value={email}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        aria-invalid={touched && !!error}
+        aria-describedby={error ? 'email-error' : undefined}
+        style={{ borderColor: touched ? (error ? 'red' : 'green') : undefined }}
+      />
+      {touched && error && (
+        <span id="email-error" role="alert" style={{ color: 'red' }}>
+          {error}
+        </span>
+      )}
+      {isValid && <span style={{ color: 'green' }}>✓ Looks good</span>}
+    </div>
+  );
+}
+
+// ========================
+// Validate on submit — collect all errors at once
+// ========================
+
+function SignupForm() {
+  const [fields, setFields] = useState({ username: '', email: '', password: '' });
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+
+  function validateAll(values) {
+    const errs = {};
+    if (!values.username.trim())                    errs.username = 'Username is required';
+    else if (values.username.length < 3)            errs.username = 'Username must be at least 3 characters';
+    if (!values.email)                              errs.email    = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(values.email))   errs.email    = 'Invalid email address';
+    if (!values.password)                           errs.password = 'Password is required';
+    else if (values.password.length < 8)            errs.password = 'Password must be at least 8 characters';
+    return errs;
+  }
+
+  function handleChange(field) {
+    return function(e) {
+      const newFields = { ...fields, [field]: e.target.value };
+      setFields(newFields);
+      if (submitted) {
+        // Re-validate in real time after first submit attempt
+        setErrors(validateAll(newFields));
+      }
+    };
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setSubmitted(true);
+    const errs = validateAll(fields);
+    setErrors(errs);
+
+    if (Object.keys(errs).length === 0) {
+      console.log('Submitting:', fields);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} noValidate>
+      {['username', 'email', 'password'].map(field => (
+        <div key={field}>
+          <label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
+          <input
+            id={field}
+            type={field === 'password' ? 'password' : 'text'}
+            value={fields[field]}
+            onChange={handleChange(field)}
+            aria-invalid={!!errors[field]}
+            aria-describedby={errors[field] ? \`\${field}-error\` : undefined}
+          />
+          {errors[field] && (
+            <span id={\`\${field}-error\`} role="alert" style={{ color: 'red' }}>
+              {errors[field]}
+            </span>
+          )}
+        </div>
+      ))}
+      <button type="submit">Sign Up</button>
+    </form>
+  );
+}
+
+// ========================
+// Character counter with max length
+// ========================
+
+function BioInput() {
+  const [bio, setBio] = useState('');
+  const MAX = 160;
+  const remaining = MAX - bio.length;
+
+  function handleChange(e) {
+    // Enforce max length in the handler — not just via HTML maxLength
+    if (e.target.value.length <= MAX) {
+      setBio(e.target.value);
+    }
+    // OR: truncate silently
+    // setBio(e.target.value.slice(0, MAX));
+  }
+
+  return (
+    <div>
+      <textarea
+        value={bio}
+        onChange={handleChange}
+        rows={3}
+        placeholder="Write your bio..."
+      />
+      <span style={{ color: remaining < 20 ? 'red' : 'gray' }}>
+        {remaining} characters remaining
+      </span>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Managing Complex Forms with a Single State Object
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState } from 'react';
+
+// ========================
+// Generic field handler — one onChange for all fields
+// ========================
+
+function ProfileForm() {
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    bio: '',
+    newsletter: false,
+    role: 'user',
+  });
+
+  // Universal handler — uses input name attribute to update the right field
+  function handleChange(e) {
+    const { name, value, type, checked } = e.target;
+
+    setForm(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+      //      ↑ checkboxes use checked, everything else uses value
+    }));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log('Form data:', form);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="firstName" value={form.firstName} onChange={handleChange} placeholder="First name" />
+      <input name="lastName"  value={form.lastName}  onChange={handleChange} placeholder="Last name" />
+      <input name="email"     type="email" value={form.email} onChange={handleChange} placeholder="Email" />
+      <input name="phone"     type="tel"   value={form.phone} onChange={handleChange} placeholder="Phone" />
+      <textarea name="bio"    value={form.bio} onChange={handleChange} placeholder="Bio" />
+      <label>
+        <input
+          name="newsletter"
+          type="checkbox"
+          checked={form.newsletter}
+          onChange={handleChange}
+        />
+        Subscribe to newsletter
+      </label>
+      <select name="role" value={form.role} onChange={handleChange}>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+        <option value="editor">Editor</option>
+      </select>
+      <button type="submit">Save Profile</button>
+    </form>
+  );
+}
+
+// ========================
+// Nested form state with deep updates
+// ========================
+
+function AddressForm() {
+  const [user, setUser] = useState({
+    name: '',
+    address: { street: '', city: '', country: '' },
+  });
+
+  function handleTopLevel(e) {
+    setUser(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  function handleAddress(e) {
+    const { name, value } = e.target;
+    setUser(prev => ({
+      ...prev,
+      address: { ...prev.address, [name]: value },
+    }));
+  }
+
+  return (
+    <form>
+      <input name="name"    value={user.name}            onChange={handleTopLevel} placeholder="Name" />
+      <input name="street"  value={user.address.street}  onChange={handleAddress}  placeholder="Street" />
+      <input name="city"    value={user.address.city}    onChange={handleAddress}  placeholder="City" />
+      <input name="country" value={user.address.country} onChange={handleAddress}  placeholder="Country" />
+    </form>
+  );
+}
+
+// ========================
+// Dynamic field lists (add/remove fields)
+// ========================
+
+function TagsInput() {
+  const [tags, setTags] = useState(['']);
+
+  function handleTagChange(index, value) {
+    setTags(prev => prev.map((tag, i) => i === index ? value : tag));
+  }
+
+  function addTag() {
+    setTags(prev => [...prev, '']);
+  }
+
+  function removeTag(index) {
+    setTags(prev => prev.filter((_, i) => i !== index));
+  }
+
+  return (
+    <div>
+      {tags.map((tag, index) => (
+        <div key={index} style={{ display: 'flex', gap: 8 }}>
+          <input
+            value={tag}
+            onChange={e => handleTagChange(index, e.target.value)}
+            placeholder={\`Tag \${index + 1}\`}
+          />
+          <button type="button" onClick={() => removeTag(index)} disabled={tags.length === 1}>
+            Remove
+          </button>
+        </div>
+      ))}
+      <button type="button" onClick={addTag}>+ Add Tag</button>
+      <p>Tags: {tags.filter(Boolean).join(', ')}</p>
+    </div>
+  );
+}
+
+// ========================
+// useReducer for complex form state
+// ========================
+
+// When form logic gets complex (many interdependent fields, multiple actions),
+// useReducer keeps updates organized
+
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_FIELD':
+      return { ...state, [action.field]: action.value };
+    case 'SET_ERRORS':
+      return { ...state, errors: action.errors };
+    case 'RESET':
+      return action.initialState;
+    case 'SUBMIT_START':
+      return { ...state, isSubmitting: true, errors: {} };
+    case 'SUBMIT_SUCCESS':
+      return { ...state, isSubmitting: false };
+    case 'SUBMIT_ERROR':
+      return { ...state, isSubmitting: false, errors: action.errors };
+    default:
+      return state;
+  }
+};
+
+const initialState = { email: '', password: '', errors: {}, isSubmitting: false };
+
+function LoginFormWithReducer() {
+  const [state, dispatch] = useReducer(formReducer, initialState);
+
+  function handleChange(field) {
+    return e => dispatch({ type: 'SET_FIELD', field, value: e.target.value });
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    dispatch({ type: 'SUBMIT_START' });
+
+    try {
+      await login(state.email, state.password);
+      dispatch({ type: 'SUBMIT_SUCCESS' });
+    } catch (err) {
+      dispatch({ type: 'SUBMIT_ERROR', errors: { form: err.message } });
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={state.email}    onChange={handleChange('email')}    type="email"    placeholder="Email" />
+      <input value={state.password} onChange={handleChange('password')} type="password" placeholder="Password" />
+      {state.errors.form && <p style={{ color: 'red' }}>{state.errors.form}</p>}
+      <button type="submit" disabled={state.isSubmitting}>
+        {state.isSubmitting ? 'Logging in...' : 'Log In'}
+      </button>
+    </form>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Input Transformation and Masking
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Transform input on change (normalize as you type)
+// ========================
+
+// Force uppercase
+function UpperCaseInput() {
+  const [value, setValue] = useState('');
+  return (
+    <input
+      value={value}
+      onChange={e => setValue(e.target.value.toUpperCase())}
+      placeholder="Always uppercase"
+    />
+  );
+}
+
+// Numbers only — strip non-digits
+function NumericInput({ value, onChange }) {
+  function handleChange(e) {
+    const numeric = e.target.value.replace(/\D/g, '');
+    onChange(numeric);
+  }
+  return <input type="text" value={value} onChange={handleChange} inputMode="numeric" />;
+}
+
+// ========================
+// Phone number masking
+// ========================
+
+function PhoneInput() {
+  const [phone, setPhone] = useState('');
+
+  function formatPhone(value) {
+    const digits = value.replace(/\D/g, '').slice(0, 10); // strip non-digits, max 10
+
+    if (digits.length < 4) return digits;
+    if (digits.length < 7) return \`(\${digits.slice(0, 3)}) \${digits.slice(3)}\`;
+    return \`(\${digits.slice(0, 3)}) \${digits.slice(3, 6)}-\${digits.slice(6)}\`;
+  }
+
+  return (
+    <input
+      type="tel"
+      value={phone}
+      onChange={e => setPhone(formatPhone(e.target.value))}
+      placeholder="(555) 555-5555"
+      maxLength={14}
+    />
+  );
+}
+
+// ========================
+// Currency input — display formatted, store raw number
+// ========================
+
+function CurrencyInput({ value, onChange }) {
+  const [displayValue, setDisplayValue] = useState(value ? value.toFixed(2) : '');
+
+  function handleChange(e) {
+    const raw = e.target.value.replace(/[^0-9.]/g, '');
+    setDisplayValue(raw);
+  }
+
+  function handleBlur() {
+    const numeric = parseFloat(displayValue);
+    if (!isNaN(numeric)) {
+      setDisplayValue(numeric.toFixed(2));
+      onChange(numeric); // pass raw number to parent
+    } else {
+      setDisplayValue('');
+      onChange(0);
+    }
+  }
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <span style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)' }}>$</span>
+      <input
+        type="text"
+        value={displayValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        inputMode="decimal"
+        style={{ paddingLeft: 20 }}
+      />
+    </div>
+  );
+}
+
+// ========================
+// Debounced controlled input — responsive UI, deferred side effects
+// ========================
+
+import { useState, useEffect } from 'react';
+
+function DebouncedSearchInput({ onSearch }) {
+  const [inputValue, setInputValue]     = useState('');
+  const [debouncedValue, setDebouncedValue] = useState('');
+
+  // Update debounced value after 300ms of inactivity
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(inputValue), 300);
+    return () => clearTimeout(timer); // clear on new keystroke
+  }, [inputValue]);
+
+  // Trigger search only when debounced value changes
+  useEffect(() => {
+    onSearch(debouncedValue);
+  }, [debouncedValue, onSearch]);
+
+  return (
+    <input
+      value={inputValue}
+      onChange={e => setInputValue(e.target.value)}
+      placeholder="Search..."
+    />
+  );
+}
+
+// Or use useTransition for the same effect in Concurrent React:
+// setInputValue(e.target.value);            // urgent — input updates immediately
+// startTransition(() => setQuery(...));     // non-urgent — search deferred
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Controlled Components with useRef and Uncontrolled Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useRef, useState } from 'react';
+
+// ========================
+// When to use uncontrolled (useRef)
+// ========================
+
+// Uncontrolled is appropriate when:
+// - You only need the value on submit (no real-time validation or transformation)
+// - Integrating with a non-React library that manages the DOM
+// - Handling file inputs (always uncontrolled)
+// - Performance is critical and you want to avoid re-renders on every keystroke
+
+// ========================
+// Uncontrolled form — read on submit
+// ========================
+
+function SimpleLoginForm() {
+  const emailRef    = useRef();
+  const passwordRef = useRef();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    submitLogin({
+      email:    emailRef.current.value,
+      password: passwordRef.current.value,
+    });
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input ref={emailRef}    type="email"    defaultValue="" placeholder="Email" />
+      <input ref={passwordRef} type="password" defaultValue="" placeholder="Password" />
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+
+// ========================
+// Hybrid: controlled for validation, ref for DOM operations
+// ========================
+
+// You can use both value (controlled) and a ref on the same element:
+// ref gives direct DOM access (focus, scroll, measure)
+// value/onChange gives React control over content
+
+function SearchBar({ onSearch }) {
+  const [query, setQuery] = useState('');
+  const inputRef = useRef();
+
+  function handleClear() {
+    setQuery('');
+    inputRef.current.focus(); // imperative DOM focus after clearing
+  }
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        ref={inputRef}              // DOM access for .focus()
+        value={query}               // controlled value
+        onChange={e => setQuery(e.target.value)}
+        placeholder="Search..."
+      />
+      {query && (
+        <button type="button" onClick={handleClear} style={{ position: 'absolute', right: 4 }}>
+          ×
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// defaultValue and defaultChecked — uncontrolled initial values
+// ========================
+
+// defaultValue sets the initial value for uncontrolled inputs
+// It only affects the initial render — subsequent changes are DOM-managed
+
+// <input defaultValue="initial text" />       uncontrolled, starts with "initial text"
+// <input defaultValue={user.name} />          seeds from prop, then DOM takes over
+// <input type="checkbox" defaultChecked />    starts checked, then DOM manages
+// vs controlled:
+// <input value={text} onChange={setText} />   React always controls the value
+
+// ========================
+// Resetting uncontrolled inputs with key
+// ========================
+
+// Since React can't set uncontrolled input values directly,
+// use the key prop to force a fresh mount (and reset defaultValue)
+
+function FormWithReset() {
+  const [formKey, setFormKey] = useState(0);
+
+  function handleReset() {
+    setFormKey(k => k + 1); // new key = React unmounts and remounts the form
+  }
+
+  return (
+    <>
+      <form key={formKey}>
+        <input defaultValue="" placeholder="Name" />
+        <input defaultValue="" placeholder="Email" />
+      </form>
+      <button type="button" onClick={handleReset}>Reset Form</button>
+    </>
+  );
+}
+
+// ========================
+// Controlled reset is simpler
+// ========================
+
+function ControlledFormWithReset() {
+  const [fields, setFields] = useState({ name: '', email: '' });
+
+  function handleReset() {
+    setFields({ name: '', email: '' }); // just reset state
+  }
+
+  return (
+    <form>
+      <input value={fields.name}  onChange={e => setFields(p => ({ ...p, name: e.target.value }))} />
+      <input value={fields.email} onChange={e => setFields(p => ({ ...p, email: e.target.value }))} />
+      <button type="button" onClick={handleReset}>Reset</button>
+    </form>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Rules, Limitations, and Gotchas
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Gotcha 1: value={undefined} or value={null} makes input uncontrolled
+// ========================
+
+// ❌ Starts controlled, then on initial render value is undefined — warning!
+function BadForm() {
+  const [user, setUser] = useState(null); // null initially
+
+  return (
+    <input
+      value={user?.name}   // undefined when user is null → uncontrolled
+      onChange={e => setUser({ name: e.target.value })}
+    />
+  );
+}
+
+// ✅ Provide fallback to empty string
+function GoodForm() {
+  const [user, setUser] = useState(null);
+
+  return (
+    <input
+      value={user?.name ?? ''}  // '' when user is null → stays controlled
+      onChange={e => setUser(prev => ({ ...prev, name: e.target.value }))}
+    />
+  );
+}
+
+// ========================
+// Gotcha 2: Forgetting onChange makes the input read-only
+// ========================
+
+// ❌ React controlled input without onChange — input appears frozen
+// React will warn: "You provided a value prop without an onChange handler"
+function FrozenInput() {
+  return <input value="can't type here" />; // ❌ no onChange!
+}
+
+// ✅ Add readOnly if intentional
+function ReadOnlyInput({ value }) {
+  return <input value={value} readOnly />; // ✅ explicit read-only
+}
+
+// ========================
+// Gotcha 3: Mutating state directly instead of calling setter
+// ========================
+
+// ❌ Mutating state — React doesn't know value changed, won't re-render
+function BadStateUpdate() {
+  const [form, setForm] = useState({ name: '' });
+
+  function handleChange(e) {
+    form.name = e.target.value; // ❌ direct mutation, no re-render
+    setForm(form);              // ❌ same reference, React bails out
+  }
+
+  return <input value={form.name} onChange={handleChange} />;
+}
+
+// ✅ Create new object — React detects change
+function GoodStateUpdate() {
+  const [form, setForm] = useState({ name: '' });
+
+  function handleChange(e) {
+    setForm({ ...form, name: e.target.value }); // ✅ new object
+  }
+
+  return <input value={form.name} onChange={handleChange} />;
+}
+
+// ========================
+// Gotcha 4: e.target loses reference in async handlers
+// ========================
+
+// ❌ Async access to e.target (risky in React 16 and below)
+function BadAsync() {
+  function handleChange(e) {
+    setTimeout(() => {
+      console.log(e.target.value); // may be null in older React versions
+    }, 1000);
+  }
+  return <input onChange={handleChange} />;
+}
+
+// ✅ Extract value synchronously before any async work
+function GoodAsync() {
+  function handleChange(e) {
+    const value = e.target.value; // extract synchronously
+    setTimeout(() => {
+      console.log(value); // ✅ safe — captured in closure
+    }, 1000);
+  }
+  return <input onChange={handleChange} />;
+}
+
+// Note: React 17+ no longer pools events, but this is still good practice.
+
+// ========================
+// Gotcha 5: Controlled select with no matching option
+// ========================
+
+// ❌ If value doesn't match any option, select shows blank
+function BadSelect() {
+  const [val, setVal] = useState('invalid'); // doesn't match any option!
+
+  return (
+    <select value={val} onChange={e => setVal(e.target.value)}>
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      {/* 'invalid' doesn't exist — select appears blank */}
+    </select>
+  );
+}
+
+// ✅ Initialize with a valid option value or empty string + placeholder option
+function GoodSelect() {
+  const [val, setVal] = useState('');
+
+  return (
+    <select value={val} onChange={e => setVal(e.target.value)}>
+      <option value="" disabled>-- Select --</option>
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+    </select>
+  );
+}
+
+// ========================
+// Gotcha 6: Cursor jumps to end on controlled input
+// ========================
+
+// When you transform input on change (trim, replace),
+// the cursor position can jump to the end because React re-renders
+// with a new value and the browser resets cursor position.
+
+// ❌ Cursor jumps when trimming spaces mid-word
+function BadTrimInput() {
+  const [val, setVal] = useState('');
+  return (
+    <input
+      value={val}
+      onChange={e => setVal(e.target.value.trim())} // ❌ trim on every keystroke
+    />
+  );
+}
+
+// ✅ Trim on blur only — don't mutate mid-type
+function GoodTrimInput() {
+  const [val, setVal] = useState('');
+  return (
+    <input
+      value={val}
+      onChange={e => setVal(e.target.value)}      // no transform mid-type
+      onBlur={e => setVal(e.target.value.trim())} // trim when user leaves
+    />
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Real-World Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Custom useForm hook
+// ========================
+
+function useForm(initialValues, validate) {
+  const [values, setValues]       = useState(initialValues);
+  const [errors, setErrors]       = useState({});
+  const [touched, setTouched]     = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  function handleChange(e) {
+    const { name, type, value, checked } = e.target;
+    const newValues = { ...values, [name]: type === 'checkbox' ? checked : value };
+    setValues(newValues);
+    if (touched[name] && validate) setErrors(validate(newValues));
+  }
+
+  function handleBlur(e) {
+    const { name } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    if (validate) setErrors(validate(values));
+  }
+
+  function handleSubmit(onSubmit) {
+    return async (e) => {
+      e.preventDefault();
+      // Mark all fields as touched to show all errors
+      setTouched(Object.keys(values).reduce((acc, k) => ({ ...acc, [k]: true }), {}));
+      const errs = validate ? validate(values) : {};
+      setErrors(errs);
+      if (Object.keys(errs).length === 0) {
+        setIsSubmitting(true);
+        try { await onSubmit(values); }
+        finally { setIsSubmitting(false); }
+      }
+    };
+  }
+
+  function reset() {
+    setValues(initialValues);
+    setErrors({});
+    setTouched({});
+    setIsSubmitting(false);
+  }
+
+  return { values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit, reset };
+}
+
+// Usage:
+function ContactForm() {
+  const { values, errors, touched, isSubmitting, handleChange, handleBlur, handleSubmit } =
+    useForm(
+      { name: '', email: '', message: '' },
+      (v) => {
+        const errs = {};
+        if (!v.name)    errs.name    = 'Name is required';
+        if (!v.email)   errs.email   = 'Email is required';
+        if (!v.message) errs.message = 'Message is required';
+        return errs;
+      }
+    );
+
+  return (
+    <form onSubmit={handleSubmit(async (data) => { await sendContactForm(data); })}>
+      {['name', 'email', 'message'].map(field => (
+        <div key={field}>
+          <input
+            name={field}
+            value={values[field]}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            aria-invalid={touched[field] && !!errors[field]}
+          />
+          {touched[field] && errors[field] && (
+            <span style={{ color: 'red' }}>{errors[field]}</span>
+          )}
+        </div>
+      ))}
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Sending...' : 'Send'}
+      </button>
+    </form>
+  );
+}
+
+// ========================
+// Controlled combobox (autocomplete)
+// ========================
+
+function Combobox({ options, value, onChange }) {
+  const [inputValue, setInputValue] = useState(value?.label ?? '');
+  const [isOpen, setIsOpen]         = useState(false);
+
+  const filtered = options.filter(opt =>
+    opt.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
+
+  function handleSelect(option) {
+    setInputValue(option.label);
+    setIsOpen(false);
+    onChange(option);
+  }
+
+  function handleInputChange(e) {
+    setInputValue(e.target.value);
+    setIsOpen(true);
+    if (!e.target.value) onChange(null);
+  }
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <input
+        value={inputValue}
+        onChange={handleInputChange}
+        onFocus={() => setIsOpen(true)}
+        onBlur={() => setTimeout(() => setIsOpen(false), 150)}
+        role="combobox"
+        aria-expanded={isOpen}
+        aria-autocomplete="list"
+      />
+      {isOpen && filtered.length > 0 && (
+        <ul role="listbox" style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10 }}>
+          {filtered.map(option => (
+            <li
+              key={option.value}
+              role="option"
+              onMouseDown={() => handleSelect(option)} // mousedown fires before blur
+              style={{ cursor: 'pointer', padding: '4px 8px' }}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// ========================
+// Controlled wizard / multi-step form
+// ========================
+
+function MultiStepForm() {
+  const [step, setStep] = useState(1);
+  const [data, setData] = useState({
+    name: '', email: '',          // Step 1
+    plan: 'free', billing: 'monthly', // Step 2
+    cardNumber: '', expiry: '',   // Step 3
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setData(prev => ({ ...prev, [name]: value }));
+  }
+
+  return (
+    <div>
+      <ProgressBar step={step} total={3} />
+
+      {step === 1 && (
+        <div>
+          <h2>Account Info</h2>
+          <input name="name"  value={data.name}  onChange={handleChange} placeholder="Name" />
+          <input name="email" value={data.email} onChange={handleChange} placeholder="Email" />
+        </div>
+      )}
+
+      {step === 2 && (
+        <div>
+          <h2>Choose a Plan</h2>
+          {['free', 'pro', 'enterprise'].map(plan => (
+            <label key={plan}>
+              <input
+                type="radio"
+                name="plan"
+                value={plan}
+                checked={data.plan === plan}
+                onChange={handleChange}
+              />
+              {plan}
+            </label>
+          ))}
+        </div>
+      )}
+
+      {step === 3 && (
+        <div>
+          <h2>Payment</h2>
+          <input name="cardNumber" value={data.cardNumber} onChange={handleChange} placeholder="Card number" />
+          <input name="expiry"     value={data.expiry}     onChange={handleChange} placeholder="MM/YY" />
+        </div>
+      )}
+
+      <div style={{ marginTop: 16 }}>
+        {step > 1 && <button onClick={() => setStep(s => s - 1)}>Back</button>}
+        {step < 3 && <button onClick={() => setStep(s => s + 1)}>Next</button>}
+        {step === 3 && <button onClick={() => console.log('Submit:', data)}>Submit</button>}
+      </div>
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing Controlled Components
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+// ========================
+// Testing that input is controlled (value reflects state)
+// ========================
+
+test('controlled input reflects state', async () => {
+  const user = userEvent.setup();
+  render(<ControlledInput />);
+
+  const input = screen.getByRole('textbox');
+  expect(input).toHaveValue(''); // initial state
+
+  await user.type(input, 'hello');
+  expect(input).toHaveValue('hello');
+});
+
+// ========================
+// Testing real-time validation
+// ========================
+
+test('shows error when email is invalid', async () => {
+  const user = userEvent.setup();
+  render(<EmailInput />);
+
+  const input = screen.getByRole('textbox');
+  await user.type(input, 'notanemail');
+  await user.tab(); // trigger blur to show validation
+
+  expect(screen.getByRole('alert')).toHaveTextContent('Enter a valid email address');
+});
+
+test('clears error when valid email is entered', async () => {
+  const user = userEvent.setup();
+  render(<EmailInput />);
+
+  const input = screen.getByRole('textbox');
+  await user.type(input, 'bad');
+  await user.tab();
+
+  expect(screen.getByRole('alert')).toBeInTheDocument();
+
+  await user.clear(input);
+  await user.type(input, 'good@example.com');
+
+  await waitFor(() => {
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+});
+
+// ========================
+// Testing form submission
+// ========================
+
+test('submits form with correct values', async () => {
+  const handleSubmit = jest.fn();
+  const user = userEvent.setup();
+
+  render(<LoginForm onSubmit={handleSubmit} />);
+
+  await user.type(screen.getByLabelText('Email'), 'test@example.com');
+  await user.type(screen.getByLabelText('Password'), 'password123');
+  await user.click(screen.getByRole('button', { name: 'Log In' }));
+
+  expect(handleSubmit).toHaveBeenCalledWith({
+    email: 'test@example.com',
+    password: 'password123',
+  });
+});
+
+// ========================
+// Testing validation blocks submission
+// ========================
+
+test('does not submit when form has errors', async () => {
+  const handleSubmit = jest.fn();
+  const user = userEvent.setup();
+
+  render(<SignupForm onSubmit={handleSubmit} />);
+
+  // Submit without filling fields
+  await user.click(screen.getByRole('button', { name: 'Sign Up' }));
+
+  expect(handleSubmit).not.toHaveBeenCalled();
+  expect(screen.getAllByRole('alert')).toHaveLength(3); // 3 error messages
+});
+
+// ========================
+// Testing select and checkbox
+// ========================
+
+test('select updates on change', async () => {
+  const user = userEvent.setup();
+  render(<SelectExample />);
+
+  const select = screen.getByRole('combobox');
+  await user.selectOptions(select, 'uk');
+
+  expect(select).toHaveValue('uk');
+});
+
+test('checkbox toggles state', async () => {
+  const user = userEvent.setup();
+  render(<CheckboxExample />);
+
+  const checkbox = screen.getByRole('checkbox');
+  expect(checkbox).not.toBeChecked();
+
+  await user.click(checkbox);
+  expect(checkbox).toBeChecked();
+
+  await user.click(checkbox);
+  expect(checkbox).not.toBeChecked();
+});
+
+// ========================
+// Testing input transformation
+// ========================
+
+test('PhoneInput formats digits into phone mask', async () => {
+  const user = userEvent.setup();
+  render(<PhoneInput />);
+
+  const input = screen.getByRole('textbox');
+  await user.type(input, '5551234567');
+
+  expect(input).toHaveValue('(555) 123-4567');
+});
+
+test('NumericInput strips non-numeric characters', async () => {
+  const onChange = jest.fn();
+  const user = userEvent.setup();
+
+  render(<NumericInput value="" onChange={onChange} />);
+
+  const input = screen.getByRole('textbox');
+  await user.type(input, 'abc123def');
+
+  // Only numeric characters should have been passed to onChange
+  const lastCall = onChange.mock.calls[onChange.mock.calls.length - 1];
+  expect(lastCall[0]).toMatch(/^\d+$/);
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Initialize controlled input state with a defined value — <code>''</code> for text, <code>false</code> for checkboxes, <code>[]</code> for multi-select — never <code>undefined</code></li>
+  <li><b>DO:</b> Use a single state object and a generic <code>name</code>-based handler for forms with many fields</li>
+  <li><b>DO:</b> Show validation errors only after the user has interacted with a field (<code>touched</code> pattern) to avoid premature error messages</li>
+  <li><b>DO:</b> Use <code>aria-invalid</code>, <code>aria-describedby</code>, and <code>role="alert"</code> to make validation accessible to screen readers</li>
+  <li><b>DO:</b> Trim and normalize user input on blur (<code>onBlur</code>), not on every keystroke, to avoid cursor-jump issues</li>
+  <li><b>DO:</b> Use <code>readOnly</code> instead of an empty <code>onChange</code> handler when the input should not be editable</li>
+  <li><b>DO:</b> Extract shared form logic into a <code>useForm</code> custom hook for reuse across multiple forms</li>
+  <li><b>DO:</b> Use <code>useReducer</code> when form state has complex transitions or many interdependent fields</li>
+  <li><b>DO:</b> Extract the value from <code>e.target</code> synchronously if you need it in an async context</li>
+  <li><b>DO:</b> Combine a ref with a controlled input when you need both React state control and imperative DOM operations like <code>.focus()</code></li>
+  <li><b>DON'T:</b> Use <code>value</code> without <code>onChange</code> unless the input is explicitly <code>readOnly</code> — React will warn and the input will be frozen</li>
+  <li><b>DON'T:</b> Switch a component between controlled and uncontrolled — pick one mode and keep it consistent</li>
+  <li><b>DON'T:</b> Mutate state directly — always create a new object or array so React can detect the change</li>
+  <li><b>DON'T:</b> Put the input's own display value update inside <code>startTransition</code> — the displayed value should always be urgent</li>
+  <li><b>DON'T:</b> Transform input aggressively on every keystroke (trim, normalize) — do it on blur to preserve cursor position</li>
+  <li><b>DON'T:</b> Use controlled inputs for file uploads — file inputs are always uncontrolled by browser design</li>
+  <li><b>DON'T:</b> Forget to add a fallback for optional chained values: <code>user?.name ?? ''</code> not <code>user?.name</code></li>
+  <li><b>DON'T:</b> Block form submission for async validation without showing a loading or pending state to the user</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Controlled vs uncontrolled input side-by-side",
+              "All form element types — text, textarea, select, checkbox, radio",
+              "Real-time email validation with touched state",
+              "Generic onChange handler with input name attribute",
+              "Phone number masking and formatting",
+              "Debounced search input",
+              "useForm custom hook with validation",
+              "Multi-step wizard form",
+              "Dynamic field lists (add/remove tags)",
+              "useReducer for complex form state",
+            ],
+            questions: [
+              {
+                question:
+                  "What is a controlled component and how does it differ from an uncontrolled component?",
+                answer:
+                  "A controlled component is a form element whose value is entirely driven by React state — you provide a value prop and an onChange handler, and React is always the single source of truth for what the input contains. When the user types, onChange fires, you call setState, React re-renders, and the input displays the new state value. An uncontrolled component lets the DOM manage its own internal state; you set an initial value with defaultValue and read the current value imperatively via a ref when you need it (typically on submit). Controlled components enable real-time validation, input transformation, and synced state at the cost of needing an onChange handler per input. Uncontrolled components are simpler but offer less React integration.",
+              },
+              {
+                question:
+                  "Why does initializing state with undefined or null break a controlled input?",
+                answer:
+                  "React treats an input as controlled when its value prop is a non-null, non-undefined string or boolean. When value is undefined or null, React treats the input as uncontrolled and lets the DOM manage it. If state starts as null and later becomes a string, the input switches from uncontrolled to controlled mid-lifecycle, which React warns about and can cause unpredictable behavior. The fix is always to initialize state with a defined empty value — empty string for text inputs, false for checkboxes, empty array for multi-selects — so the input is controlled from the first render and never switches modes.",
+              },
+              {
+                question:
+                  "What happens if you provide value without onChange on a controlled input?",
+                answer:
+                  "The input becomes frozen — the user can type or interact with it, but the displayed value immediately snaps back to the value prop on every re-render, making the input appear unresponsive. React will also warn in development: 'You provided a value prop to a form field without an onChange handler.' If you intentionally want the input to be non-editable, use the readOnly attribute instead of an empty onChange handler, as it communicates intent clearly and works correctly with assistive technologies. If you want the user to be able to edit the input, you must provide an onChange that calls setState.",
+              },
+              {
+                question:
+                  "How do you handle all fields in a form with a single onChange handler?",
+                answer:
+                  "Add a name attribute to each input matching the key in your state object, then use e.target.name to dynamically update the right field. The handler reads the name and value (or checked for checkboxes) from the event, then uses computed property syntax to update the matching key: setForm(prev => ({ ...prev, [e.target.name]: type === 'checkbox' ? checked : value })). This single handler works for text inputs, textareas, selects, and checkboxes. The only differentiation needed is checking e.target.type === 'checkbox' to use e.target.checked instead of e.target.value.",
+              },
+              {
+                question: "What is the 'touched' pattern in form validation?",
+                answer:
+                  "The touched pattern delays showing validation errors until the user has actually interacted with a field, preventing a jarring experience where error messages appear immediately on a fresh form. You maintain a touched object alongside your form values and errors — fields start as untouched. On onBlur, mark the field as touched and run validation. On onChange for already-touched fields, re-validate in real time so the error clears as soon as the user fixes their input. On submit, mark all fields as touched and validate everything. This creates the ideal UX: no errors visible until the user has indicated they are done with a field.",
+              },
+              {
+                question:
+                  "When should you use an uncontrolled component instead of a controlled one?",
+                answer:
+                  "Use uncontrolled components (with refs) when: you only need the value at submit time and have no need for real-time validation or transformation; you are integrating with a third-party library that manages its own DOM; you are handling file inputs, which are always uncontrolled because browsers prevent setting file input values programmatically; or performance is a concern in a very large form where you want to avoid re-rendering on every keystroke. The key question is whether React needs to know about the value continuously. If yes, controlled is almost always the right choice. If you only need the value once at the end, uncontrolled keeps things simpler.",
+              },
+              {
+                question:
+                  "How do you handle a controlled select element, and what happens when the value does not match any option?",
+                answer:
+                  "For a controlled select, you set value on the select element itself (not selected on any option) and handle onChange to update state. When the value does not match any option value, the select renders blank or selects the first option depending on the browser — React does not warn about this. The fix is to either initialize state with a valid option value, or include a placeholder option with an empty string value (disabled) and initialize state to an empty string. For multi-selects, value must be an array of strings, and onChange must convert e.target.selectedOptions to an array before updating state.",
+              },
+              {
+                question:
+                  "Why do cursor jumps happen with controlled inputs, and how do you prevent them?",
+                answer:
+                  "Cursor jumps occur when you transform the input value in onChange (e.g., trim whitespace, insert formatting characters). React re-renders with the new transformed value, and the browser resets the cursor to the end of the string because it received a new value — even if only a character in the middle changed. The practical solution is to apply transformations only on blur (onBlur) rather than on each keystroke. If you must transform mid-type (like phone masking), only reformat completed sections rather than characters the user is actively typing, and use careful cursor position tracking with setSelectionRange after setting state when required.",
+              },
+              {
+                question:
+                  "How do you reset a controlled form vs an uncontrolled form?",
+                answer:
+                  "Resetting a controlled form is straightforward — just call setState with the initial values. Since React controls the displayed values, the inputs immediately reflect the reset state. Resetting an uncontrolled form is trickier because React cannot imperatively set input values. The cleanest approach is the key trick: store a formKey in state and increment it on reset, which causes React to unmount and remount the form element with fresh defaultValue props. Alternatively, you can imperatively loop through refs and set ref.current.value = '' for each. This difference is one of the practical advantages of controlled components.",
+              },
+              {
+                question:
+                  "How do you safely access e.target.value in async handlers?",
+                answer:
+                  "Extract the value from the event synchronously before any async operation, then use the captured variable in the async code. In React 16 and earlier, SyntheticEvents were pooled and nullified after the synchronous event handler returned — so accessing e.target inside a setTimeout, Promise, or async function could return null. React 17 and later removed event pooling, but extracting values immediately remains a good habit: const value = e.target.value at the top of the handler, then use value everywhere including in async callbacks.",
+              },
+              {
+                question:
+                  "When would you use useReducer instead of useState for a controlled form?",
+                answer:
+                  "Reach for useReducer when form state has complex update logic that goes beyond simple field-by-field assignment. Specific triggers: multiple form fields with interdependencies where changing one field affects another's valid options or visibility; multiple distinct actions on the same state such as SET_FIELD, SET_ERRORS, SUBMIT_START, SUBMIT_SUCCESS, SUBMIT_ERROR, and RESET; async submission with loading and error states that need to update atomically; or undo and redo history for a form. useReducer makes each state transition explicit and testable as a pure function, while useState with a deeply nested object can produce long, hard-to-read handlers. The form state object is still the same — only the update mechanism changes.",
+              },
+            ],
+            links: [
+              "https://react.dev/learn/sharing-state-between-components",
+              "https://react.dev/reference/react-dom/components/input",
+              "https://react.dev/reference/react-dom/components/textarea",
+              "https://react.dev/reference/react-dom/components/select",
+              "https://react.dev/learn/reacting-to-input-with-state",
+              "https://react.dev/reference/react/useState",
+              "https://react.dev/reference/react/useReducer",
+              "https://react.dev/reference/react/useRef",
+              "https://testing-library.com/docs/user-event/typing",
+              "https://www.w3.org/WAI/tutorials/forms/",
+            ],
           },
           {
             topic: "Atomic Design",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Atomic Design",
+              "Atoms",
+              "Molecules",
+              "Organisms",
+              "Templates",
+              "Pages",
+              "Component Architecture",
+              "Design Systems",
+              "Component Hierarchy",
+              "Reusability",
+              "Composition",
+              "Brad Frost",
+              "UI Components",
+              "Storybook",
+              "Token-Driven Design",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+<strong>Atomic Design</strong> is a methodology for building UI component systems in five hierarchical levels — Atoms, Molecules, Organisms, Templates, and Pages — originally formulated by Brad Frost. The core insight is that interfaces, like matter, can be broken down into fundamental building blocks that compose upward into increasingly complex structures. Rather than building one-off pages, Atomic Design encourages teams to build a <em>system of components</em> that combine and recombine consistently. In React, this maps naturally to the component model: atoms are primitives like <code>Button</code> or <code>Input</code>; molecules are small functional groups like a labeled <code>FormField</code>; organisms are self-contained UI sections like a <code>Navbar</code> or <code>ProductCard</code>; templates are layout shells with content placeholders; and pages are specific instances of templates populated with real data. The methodology is not a rigid rule system — it is a mental model for making deliberate decisions about where component responsibilities begin and end, how state flows, and how to build a design system that scales. Advanced application of Atomic Design involves coupling it with design tokens, prop contracts, headless component patterns, compound component APIs, and co-located test and story files to produce a component library that is predictable, testable, accessible, and self-documenting.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. The Five Levels — Mental Model and React Mapping
+</h4>
+
+<p style="line-height: 1.75;">
+Each level answers a different question: what is this thing made of, what does it do, and how much does it know about the outside world?
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// LEVEL 1: ATOMS
+// ========================
+// The smallest possible UI units. No further decomposition makes sense.
+// Rules:
+//   - Zero knowledge of context, layout, or business logic
+//   - Driven entirely by props
+//   - No hardcoded colors, sizes, or spacing — use design tokens
+//   - Highly reusable across any project
+
+// atoms/Button.jsx
+function Button({
+  children,
+  variant = 'primary',   // 'primary' | 'secondary' | 'ghost' | 'danger'
+  size = 'md',           // 'sm' | 'md' | 'lg'
+  disabled = false,
+  loading = false,
+  onClick,
+  type = 'button',
+  ...rest
+}) {
+  return (
+    <button
+      type={type}
+      disabled={disabled || loading}
+      onClick={onClick}
+      className={cn('btn', \`btn--\${variant}\`, \`btn--\${size}\`, { 'btn--loading': loading })}
+      aria-busy={loading}
+      {...rest}
+    >
+      {loading ? <Spinner size="sm" /> : children}
+    </button>
+  );
+}
+
+// atoms/Input.jsx
+function Input({
+  type = 'text',
+  value,
+  onChange,
+  placeholder,
+  disabled,
+  id,
+  name,
+  'aria-describedby': ariaDescribedBy,
+  ...rest
+}) {
+  return (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      disabled={disabled}
+      aria-describedby={ariaDescribedBy}
+      className="input"
+      {...rest}
+    />
+  );
+}
+
+// Other atoms: Text, Label, Icon, Avatar, Badge, Spinner, Divider, Tag
+
+// ========================
+// LEVEL 2: MOLECULES
+// ========================
+// Simple combinations of atoms that form a single, reusable functional unit.
+// Rules:
+//   - Does ONE thing well
+//   - Composed of atoms (and occasionally other molecules)
+//   - May hold minimal local UI state (open/closed, hover)
+//   - Still no business logic or data fetching
+
+// molecules/FormField.jsx
+// Combines: Label (atom) + Input (atom) + ErrorMessage (atom)
+function FormField({
+  id,
+  label,
+  type = 'text',
+  value,
+  onChange,
+  onBlur,
+  error,
+  hint,
+  required,
+  disabled,
+  placeholder,
+}) {
+  const errorId = error ? \`\${id}-error\` : undefined;
+  const hintId  = hint  ? \`\${id}-hint\`  : undefined;
+  const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+
+  return (
+    <div className="form-field">
+      <Label htmlFor={id} required={required}>{label}</Label>
+      {hint && <Text id={hintId} variant="hint">{hint}</Text>}
+      <Input
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        placeholder={placeholder}
+        disabled={disabled}
+        aria-invalid={!!error}
+        aria-describedby={describedBy}
+        aria-required={required}
+      />
+      {error && <Text id={errorId} variant="error" role="alert">{error}</Text>}
+    </div>
+  );
+}
+
+// molecules/SearchBar.jsx
+// Combines: Input (atom) + Button (atom)
+function SearchBar({ value, onChange, onSearch, placeholder = 'Search...' }) {
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') onSearch(value);
+  }
+
+  return (
+    <div className="search-bar" role="search">
+      <Input
+        value={value}
+        onChange={onChange}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        aria-label="Search"
+      />
+      <Button variant="primary" onClick={() => onSearch(value)} aria-label="Submit search">
+        <Icon name="search" />
+      </Button>
+    </div>
+  );
+}
+
+// molecules/Tooltip.jsx
+function Tooltip({ children, content, placement = 'top' }) {
+  const [visible, setVisible] = useState(false);
+  const id = useId();
+
+  return (
+    <span
+      className="tooltip-wrapper"
+      onMouseEnter={() => setVisible(true)}
+      onMouseLeave={() => setVisible(false)}
+      onFocus={() => setVisible(true)}
+      onBlur={() => setVisible(false)}
+    >
+      {React.cloneElement(children, { 'aria-describedby': id })}
+      {visible && (
+        <span id={id} role="tooltip" className={\`tooltip tooltip--\${placement}\`}>
+          {content}
+        </span>
+      )}
+    </span>
+  );
+}
+
+// ========================
+// LEVEL 3: ORGANISMS
+// ========================
+// Self-contained, complex UI sections that represent a meaningful chunk of an interface.
+// Rules:
+//   - Composed of molecules and atoms
+//   - May have their own local state (open/closed drawer, active tab)
+//   - Can fetch data or receive it via props (both are valid)
+//   - Understand their context (a Navbar knows it is navigation)
+
+// organisms/ProductCard.jsx
+function ProductCard({ product, onAddToCart, onWishlist }) {
+  const [wished, setWished] = useState(false);
+
+  return (
+    <article className="product-card" aria-label={product.name}>
+      <div className="product-card__image-wrapper">
+        <img src={product.imageUrl} alt={product.name} className="product-card__image" />
+        <Tooltip content={wished ? 'Remove from wishlist' : 'Add to wishlist'}>
+          <button
+            className="product-card__wishlist"
+            onClick={() => { setWished(w => !w); onWishlist?.(product.id, !wished); }}
+            aria-pressed={wished}
+            aria-label={\`\${wished ? 'Remove' : 'Add'} \${product.name} \${wished ? 'from' : 'to'} wishlist\`}
+          >
+            <Icon name={wished ? 'heart-filled' : 'heart'} />
+          </button>
+        </Tooltip>
+      </div>
+      <div className="product-card__body">
+        <Badge variant={product.inStock ? 'success' : 'error'}>
+          {product.inStock ? 'In Stock' : 'Out of Stock'}
+        </Badge>
+        <Text as="h3" variant="heading-sm">{product.name}</Text>
+        <Text variant="price">\${product.price.toFixed(2)}</Text>
+        {product.rating && <StarRating value={product.rating} count={product.reviewCount} />}
+      </div>
+      <div className="product-card__footer">
+        <Button
+          variant="primary"
+          disabled={!product.inStock}
+          onClick={() => onAddToCart(product)}
+          aria-label={\`Add \${product.name} to cart\`}
+        >
+          Add to Cart
+        </Button>
+      </div>
+    </article>
+  );
+}
+
+// ========================
+// LEVEL 4: TEMPLATES
+// ========================
+// Layout structures that define where organisms, molecules, and atoms live on a page.
+// Templates contain NO real data — they use placeholder props or children.
+// Rules:
+//   - Define structure and layout, not content
+//   - Receive content as props or children slots
+//   - Responsible for responsive layout behavior
+//   - The "wireframe made interactive"
+
+// templates/DashboardTemplate.jsx
+function DashboardTemplate({ header, sidebar, mainContent, footer }) {
+  return (
+    <div className="dashboard-layout">
+      <header className="dashboard-layout__header">{header}</header>
+      <div className="dashboard-layout__body">
+        <aside className="dashboard-layout__sidebar">{sidebar}</aside>
+        <main className="dashboard-layout__main" id="main-content" tabIndex={-1}>
+          {mainContent}
+        </main>
+      </div>
+      {footer && <footer className="dashboard-layout__footer">{footer}</footer>}
+    </div>
+  );
+}
+
+// templates/MarketingTemplate.jsx
+function MarketingTemplate({ hero, features, testimonials, cta, footer }) {
+  return (
+    <div className="marketing-layout">
+      <section className="marketing-layout__hero">{hero}</section>
+      <section className="marketing-layout__features">{features}</section>
+      {testimonials && (
+        <section className="marketing-layout__testimonials">{testimonials}</section>
+      )}
+      <section className="marketing-layout__cta">{cta}</section>
+      <footer className="marketing-layout__footer">{footer}</footer>
+    </div>
+  );
+}
+
+// ========================
+// LEVEL 5: PAGES
+// ========================
+// Specific instances of templates filled with real data.
+// Rules:
+//   - Own data fetching and business logic
+//   - Wire template slots to real components with real data
+//   - One per route / URL
+//   - Where context, auth, and route params enter the picture
+
+// pages/ProductListingPage.jsx
+function ProductListingPage() {
+  const { category } = useParams();
+  const [search, setSearch] = useState('');
+  const { data: products, isLoading } = useProducts({ category, search });
+
+  return (
+    <DashboardTemplate
+      header={<Navbar />}
+      sidebar={<FilterSidebar category={category} />}
+      mainContent={
+        <>
+          <SearchBar value={search} onChange={e => setSearch(e.target.value)} onSearch={setSearch} />
+          {isLoading
+            ? <ProductGridSkeleton count={12} />
+            : <ProductGrid products={products} />
+          }
+        </>
+      }
+      footer={<SiteFooter />}
+    />
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. Design Tokens — The Foundation of Atomic Systems
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Design tokens are the lowest level below atoms —
+// named values for colors, spacing, typography, and motion.
+// Atoms consume tokens; they never hardcode values.
+// ========================
+
+// tokens/tokens.js
+export const tokens = {
+  color: {
+    brand: {
+      50:  '#eff6ff',
+      100: '#dbeafe',
+      500: '#3b82f6',
+      600: '#2563eb',
+      700: '#1d4ed8',
+    },
+    neutral: {
+      0:   '#ffffff',
+      50:  '#f9fafb',
+      100: '#f3f4f6',
+      200: '#e5e7eb',
+      700: '#374151',
+      900: '#111827',
+    },
+    semantic: {
+      success: '#16a34a',
+      error:   '#dc2626',
+      warning: '#d97706',
+      info:    '#2563eb',
+    },
+  },
+  spacing: {
+    1: '4px',
+    2: '8px',
+    3: '12px',
+    4: '16px',
+    6: '24px',
+    8: '32px',
+    12: '48px',
+    16: '64px',
+  },
+  radius: {
+    sm:   '4px',
+    md:   '8px',
+    lg:   '12px',
+    full: '9999px',
+  },
+  shadow: {
+    sm: '0 1px 2px rgba(0,0,0,0.05)',
+    md: '0 4px 6px rgba(0,0,0,0.07)',
+    lg: '0 10px 15px rgba(0,0,0,0.10)',
+  },
+  typography: {
+    fontFamily: { sans: 'Inter, system-ui, sans-serif', mono: 'JetBrains Mono, monospace' },
+    fontSize: { xs: '12px', sm: '14px', md: '16px', lg: '18px', xl: '20px', '2xl': '24px' },
+    fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },
+    lineHeight: { tight: 1.25, normal: 1.5, relaxed: 1.75 },
+  },
+  motion: {
+    duration: { fast: '100ms', normal: '200ms', slow: '300ms' },
+    easing: { ease: 'ease', 'ease-in-out': 'ease-in-out', spring: 'cubic-bezier(0.34, 1.56, 0.64, 1)' },
+  },
+};
+
+// ========================
+// CSS custom properties — tokens as CSS variables
+// ========================
+
+// In your global CSS or CSS-in-JS setup:
+// :root {
+//   --color-brand-500: #3b82f6;
+//   --spacing-4: 16px;
+//   --radius-md: 8px;
+//   --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+// }
+
+// ========================
+// Atoms consuming tokens — never hardcoded values
+// ========================
+
+// ❌ WRONG — hardcoded values break theming
+function BadButton({ children }) {
+  return (
+    <button style={{ background: '#3b82f6', padding: '8px 16px', borderRadius: '8px' }}>
+      {children}
+    </button>
+  );
+}
+
+// ✅ CORRECT — tokens via CSS variables
+function GoodButton({ children, variant = 'primary' }) {
+  // Tokens applied via CSS classes that reference custom properties
+  return <button className={cn('btn', \`btn--\${variant}\`)}>{children}</button>;
+  // .btn--primary { background: var(--color-brand-500); }
+}
+
+// ========================
+// Token aliasing — semantic names over raw values
+// ========================
+
+// Raw tokens (primitives):
+// --color-blue-600: #2563eb
+
+// Semantic tokens (intent-named aliases):
+// --color-action-primary: var(--color-blue-600)
+// --color-action-primary-hover: var(--color-blue-700)
+// --color-text-default: var(--color-neutral-900)
+// --color-surface-default: var(--color-neutral-0)
+
+// Semantic tokens are what atoms should reference.
+// Swapping a theme only requires redefining the semantic tokens,
+// not changing any component code.
+
+// ========================
+// Dark mode via token overrides
+// ========================
+
+// [data-theme="dark"] {
+//   --color-text-default: var(--color-neutral-50);
+//   --color-surface-default: var(--color-neutral-900);
+//   --color-action-primary: var(--color-blue-400);
+// }
+
+// No component code changes — atoms always use semantic tokens,
+// so the entire system repaints when the theme changes.
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. Compound Components — Advanced Atom and Molecule Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Compound components share implicit state via context
+// — an advanced pattern for flexible, composable organisms and molecules
+// ========================
+
+// Example: Tabs organism with compound component API
+
+const TabsContext = createContext(null);
+
+function useTabs() {
+  const ctx = useContext(TabsContext);
+  if (!ctx) throw new Error('Tabs sub-components must be used inside <Tabs>');
+  return ctx;
+}
+
+// Root component — holds state, provides context
+function Tabs({ defaultTab, children, onChange }) {
+  const [activeTab, setActiveTab] = useState(defaultTab);
+
+  function selectTab(id) {
+    setActiveTab(id);
+    onChange?.(id);
+  }
+
+  return (
+    <TabsContext.Provider value={{ activeTab, selectTab }}>
+      <div className="tabs">{children}</div>
+    </TabsContext.Provider>
+  );
+}
+
+// Sub-component: Tab list wrapper (molecule)
+function TabList({ children }) {
+  return (
+    <div role="tablist" className="tabs__list">
+      {children}
+    </div>
+  );
+}
+
+// Sub-component: Individual tab trigger (atom-level inside molecule)
+function Tab({ id, children }) {
+  const { activeTab, selectTab } = useTabs();
+  const isActive = activeTab === id;
+
+  return (
+    <button
+      role="tab"
+      id={\`tab-\${id}\`}
+      aria-selected={isActive}
+      aria-controls={\`panel-\${id}\`}
+      tabIndex={isActive ? 0 : -1}
+      className={cn('tabs__tab', { 'tabs__tab--active': isActive })}
+      onClick={() => selectTab(id)}
+    >
+      {children}
+    </button>
+  );
+}
+
+// Sub-component: Panel (content slot)
+function TabPanel({ id, children }) {
+  const { activeTab } = useTabs();
+
+  return (
+    <div
+      role="tabpanel"
+      id={\`panel-\${id}\`}
+      aria-labelledby={\`tab-\${id}\`}
+      hidden={activeTab !== id}
+      className="tabs__panel"
+    >
+      {children}
+    </div>
+  );
+}
+
+// Attach sub-components as properties (compound API)
+Tabs.List  = TabList;
+Tabs.Tab   = Tab;
+Tabs.Panel = TabPanel;
+
+// ========================
+// Consuming the compound API — highly readable, fully flexible
+// ========================
+
+function ProductPage() {
+  return (
+    <Tabs defaultTab="description" onChange={tab => analytics.track('tab_change', { tab })}>
+      <Tabs.List>
+        <Tabs.Tab id="description">Description</Tabs.Tab>
+        <Tabs.Tab id="specs">Specifications</Tabs.Tab>
+        <Tabs.Tab id="reviews">Reviews</Tabs.Tab>
+      </Tabs.List>
+
+      <Tabs.Panel id="description"><ProductDescription /></Tabs.Panel>
+      <Tabs.Panel id="specs"><ProductSpecs /></Tabs.Panel>
+      <Tabs.Panel id="reviews"><ProductReviews /></Tabs.Panel>
+    </Tabs>
+  );
+}
+
+// ========================
+// Compound component: Accordion
+// ========================
+
+const AccordionContext = createContext(null);
+
+function Accordion({ children, allowMultiple = false }) {
+  const [openItems, setOpenItems] = useState(new Set());
+
+  function toggle(id) {
+    setOpenItems(prev => {
+      const next = allowMultiple ? new Set(prev) : new Set();
+      prev.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
+
+  return (
+    <AccordionContext.Provider value={{ openItems, toggle }}>
+      <div className="accordion">{children}</div>
+    </AccordionContext.Provider>
+  );
+}
+
+function AccordionItem({ id, title, children }) {
+  const { openItems, toggle } = useContext(AccordionContext);
+  const isOpen = openItems.has(id);
+
+  return (
+    <div className="accordion__item">
+      <button
+        className="accordion__trigger"
+        onClick={() => toggle(id)}
+        aria-expanded={isOpen}
+        aria-controls={\`accordion-panel-\${id}\`}
+        id={\`accordion-trigger-\${id}\`}
+      >
+        {title}
+        <Icon name={isOpen ? 'chevron-up' : 'chevron-down'} aria-hidden />
+      </button>
+      <div
+        id={\`accordion-panel-\${id}\`}
+        role="region"
+        aria-labelledby={\`accordion-trigger-\${id}\`}
+        hidden={!isOpen}
+        className="accordion__panel"
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+Accordion.Item = AccordionItem;
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Headless Components — Logic Without Rendering
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Headless components separate behavior from appearance.
+// The component (or hook) manages state, keyboard, and ARIA;
+// the consumer owns all rendering and styling.
+// This is the most powerful advanced pattern in Atomic Design.
+// ========================
+
+// useCombobox — headless logic for autocomplete
+function useCombobox({ options, onSelect }) {
+  const [inputValue, setInputValue]     = useState('');
+  const [isOpen, setIsOpen]             = useState(false);
+  const [activeIndex, setActiveIndex]   = useState(-1);
+  const inputRef  = useRef();
+  const listRef   = useRef();
+  const listId    = useId();
+
+  const filtered = useMemo(
+    () => options.filter(o => o.label.toLowerCase().includes(inputValue.toLowerCase())),
+    [options, inputValue]
+  );
+
+  function handleKeyDown(e) {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setActiveIndex(i => Math.min(i + 1, filtered.length - 1));
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setActiveIndex(i => Math.max(i - 1, 0));
+        break;
+      case 'Enter':
+        if (activeIndex >= 0 && filtered[activeIndex]) {
+          onSelect(filtered[activeIndex]);
+          setInputValue(filtered[activeIndex].label);
+          setIsOpen(false);
+        }
+        break;
+      case 'Escape':
+        setIsOpen(false);
+        inputRef.current?.focus();
+        break;
+    }
+  }
+
+  // Prop getters — return all required ARIA and event props
+  function getInputProps() {
+    return {
+      ref: inputRef,
+      value: inputValue,
+      role: 'combobox',
+      'aria-expanded': isOpen,
+      'aria-autocomplete': 'list',
+      'aria-controls': listId,
+      'aria-activedescendant': activeIndex >= 0 ? \`option-\${activeIndex}\` : undefined,
+      onChange: e => { setInputValue(e.target.value); setIsOpen(true); setActiveIndex(-1); },
+      onFocus: () => setIsOpen(true),
+      onBlur:  () => setTimeout(() => setIsOpen(false), 150),
+      onKeyDown: handleKeyDown,
+    };
+  }
+
+  function getListProps() {
+    return { ref: listRef, id: listId, role: 'listbox' };
+  }
+
+  function getOptionProps(index) {
+    return {
+      id: \`option-\${index}\`,
+      role: 'option',
+      'aria-selected': activeIndex === index,
+      onMouseDown: () => {
+        onSelect(filtered[index]);
+        setInputValue(filtered[index].label);
+        setIsOpen(false);
+      },
+    };
+  }
+
+  return { inputValue, isOpen, filtered, activeIndex, getInputProps, getListProps, getOptionProps };
+}
+
+// ========================
+// Consuming the headless hook — consumer controls all UI
+// ========================
+
+// Usage in a "Branded" Combobox with custom styling
+function StyledCombobox({ options, onSelect, placeholder }) {
+  const { isOpen, filtered, activeIndex, getInputProps, getListProps, getOptionProps } =
+    useCombobox({ options, onSelect });
+
+  return (
+    <div className="branded-combobox">
+      <div className="branded-combobox__input-wrapper">
+        <Icon name="search" className="branded-combobox__icon" aria-hidden />
+        <input
+          {...getInputProps()}
+          placeholder={placeholder}
+          className="branded-combobox__input"
+        />
+      </div>
+      {isOpen && filtered.length > 0 && (
+        <ul {...getListProps()} className="branded-combobox__list">
+          {filtered.map((option, index) => (
+            <li
+              key={option.value}
+              {...getOptionProps(index)}
+              className={cn('branded-combobox__option', {
+                'branded-combobox__option--active': activeIndex === index,
+              })}
+            >
+              {option.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// Usage in a "Minimal" Combobox for a different context — same logic, different look
+function MinimalCombobox({ options, onSelect }) {
+  const { isOpen, filtered, activeIndex, getInputProps, getListProps, getOptionProps } =
+    useCombobox({ options, onSelect });
+
+  return (
+    <>
+      <input {...getInputProps()} style={{ border: 'none', borderBottom: '1px solid #ccc' }} />
+      {isOpen && (
+        <ul {...getListProps()} style={{ listStyle: 'none', padding: 4, margin: 0 }}>
+          {filtered.map((opt, i) => (
+            <li key={opt.value} {...getOptionProps(i)} style={{ background: activeIndex === i ? '#f0f0f0' : 'white' }}>
+              {opt.label}
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+// The same headless useCombobox powers both — no duplicate logic.
+// Libraries like Radix UI, Headless UI, and React Aria follow this pattern.
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Folder Structure and Co-Location
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Recommended folder structure for an Atomic Design system
+// ========================
+
+// src/
+// ├── tokens/
+// │   ├── colors.js
+// │   ├── spacing.js
+// │   ├── typography.js
+// │   └── index.js
+// │
+// ├── components/
+// │   ├── atoms/
+// │   │   ├── Button/
+// │   │   │   ├── Button.jsx          ← component
+// │   │   │   ├── Button.test.jsx     ← unit tests
+// │   │   │   ├── Button.stories.jsx  ← Storybook stories
+// │   │   │   ├── Button.module.css   ← scoped styles
+// │   │   │   └── index.js            ← re-export
+// │   │   ├── Input/
+// │   │   ├── Text/
+// │   │   ├── Icon/
+// │   │   └── Badge/
+// │   │
+// │   ├── molecules/
+// │   │   ├── FormField/
+// │   │   ├── SearchBar/
+// │   │   ├── Tooltip/
+// │   │   └── Dropdown/
+// │   │
+// │   ├── organisms/
+// │   │   ├── Navbar/
+// │   │   ├── ProductCard/
+// │   │   ├── DataTable/
+// │   │   └── Sidebar/
+// │   │
+// │   ├── templates/
+// │   │   ├── DashboardTemplate/
+// │   │   ├── MarketingTemplate/
+// │   │   └── AuthTemplate/
+// │   │
+// │   └── index.js   ← barrel export of public API
+// │
+// ├── pages/
+// │   ├── HomePage.jsx
+// │   ├── ProductListingPage.jsx
+// │   └── DashboardPage.jsx
+// │
+// └── hooks/
+//     ├── useCombobox.js
+//     └── useMediaQuery.js
+
+// ========================
+// Component barrel export — the public API
+// ========================
+
+// components/index.js
+// Atoms
+export { Button }       from './atoms/Button';
+export { Input }        from './atoms/Input';
+export { Text }         from './atoms/Text';
+export { Icon }         from './atoms/Icon';
+export { Badge }        from './atoms/Badge';
+export { Spinner }      from './atoms/Spinner';
+// Molecules
+export { FormField }    from './molecules/FormField';
+export { SearchBar }    from './molecules/SearchBar';
+export { Tooltip }      from './molecules/Tooltip';
+// Organisms
+export { Navbar }       from './organisms/Navbar';
+export { ProductCard }  from './organisms/ProductCard';
+// Templates
+export { DashboardTemplate } from './templates/DashboardTemplate';
+
+// Consumers import from the barrel — never from internal paths:
+// ✅ import { Button, FormField, Navbar } from '@/components';
+// ❌ import Button from '@/components/atoms/Button/Button'; // leaks internals
+
+// ========================
+// Co-located Storybook stories
+// ========================
+
+// components/atoms/Button/Button.stories.jsx
+import { Button } from './Button';
+
+export default {
+  title: 'Atoms/Button',
+  component: Button,
+  argTypes: {
+    variant: { control: 'select', options: ['primary', 'secondary', 'ghost', 'danger'] },
+    size:    { control: 'select', options: ['sm', 'md', 'lg'] },
+    disabled: { control: 'boolean' },
+    loading:  { control: 'boolean' },
+  },
+};
+
+export const Primary   = { args: { variant: 'primary',   children: 'Click me' } };
+export const Secondary = { args: { variant: 'secondary', children: 'Click me' } };
+export const Ghost     = { args: { variant: 'ghost',     children: 'Click me' } };
+export const Danger    = { args: { variant: 'danger',    children: 'Delete' } };
+export const Loading   = { args: { variant: 'primary',   children: 'Saving', loading: true } };
+export const Disabled  = { args: { variant: 'primary',   children: 'Disabled', disabled: true } };
+
+// Every atom and molecule should have stories — Storybook IS your design system documentation.
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Prop API Design — Variants, Polymorphism, and the \`as\` Prop
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Variants — declarative visual states for atoms
+// ========================
+
+// Variants encode ALL valid visual states as named values.
+// No ad-hoc style overrides — add a variant instead.
+
+const BUTTON_VARIANTS = {
+  primary:   'btn--primary',
+  secondary: 'btn--secondary',
+  ghost:     'btn--ghost',
+  danger:    'btn--danger',
+  link:      'btn--link',
+};
+
+const BUTTON_SIZES = {
+  xs: 'btn--xs',
+  sm: 'btn--sm',
+  md: 'btn--md',
+  lg: 'btn--lg',
+};
+
+// Using a variant table keeps atoms predictable.
+// New visual state? Add a variant. Don't extend with inline styles.
+
+// ========================
+// The "as" prop — polymorphic atoms
+// ========================
+
+// Atoms often need to render as different HTML elements while keeping the same styles.
+// e.g., a Button styled as an <a>, a Text rendered as <h1> or <p>
+
+function Text({ as: Component = 'p', children, variant, className, ...rest }) {
+  return (
+    <Component className={cn('text', variant && \`text--\${variant}\`, className)} {...rest}>
+      {children}
+    </Component>
+  );
+}
+
+// <Text>Paragraph</Text>                    → <p>
+// <Text as="h1" variant="heading-xl">Title</Text> → <h1 class="text text--heading-xl">
+// <Text as="span" variant="caption">Note</Text>   → <span>
+// <Text as="label" htmlFor="email">Email</Text>   → <label>
+
+// ========================
+// Polymorphic component with TypeScript-style typing (JSDoc)
+// ========================
+
+/**
+ * @template {React.ElementType} T
+ * @param {{ as?: T } & React.ComponentPropsWithoutRef<T>} props
+ */
+function Box({ as: Component = 'div', children, ...rest }) {
+  return <Component {...rest}>{children}</Component>;
+}
+
+// ========================
+// The "asChild" pattern (Radix UI approach)
+// ========================
+
+// Instead of "as" prop, some design systems merge props onto the child element.
+// This avoids the complexity of polymorphic generics.
+
+import { Slot } from '@radix-ui/react-slot';
+
+function Button({ asChild = false, children, ...props }) {
+  const Component = asChild ? Slot : 'button';
+  return <Component className="btn" {...props}>{children}</Component>;
+}
+
+// Regular button:  <Button>Click</Button>  → <button class="btn">Click</button>
+// As anchor link:  <Button asChild><a href="/about">About</a></Button>
+//                  → <a class="btn" href="/about">About</a>
+
+// asChild is cleaner than the "as" prop for complex cases because it
+// preserves all the child's own props and ref without polymorphic typing headaches.
+
+// ========================
+// Forwarding refs in atoms
+// ========================
+
+// Atoms that wrap DOM elements must forward refs so callers can access the DOM node.
+
+const Input = React.forwardRef(function Input({ label, error, ...props }, ref) {
+  return (
+    <div className="input-wrapper">
+      {label && <Label>{label}</Label>}
+      <input ref={ref} className="input" {...props} />
+      {error && <Text variant="error">{error}</Text>}
+    </div>
+  );
+});
+
+Input.displayName = 'Input';
+
+// Usage — parent can focus the input imperatively:
+function AutoFocusForm() {
+  const inputRef = useRef();
+  useEffect(() => inputRef.current?.focus(), []);
+
+  return <Input ref={inputRef} placeholder="Focused on mount" />;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. State Ownership Rules Across Levels
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// The golden rule of state in Atomic Design:
+// State lives at the LOWEST level that owns it completely.
+// If more than one component needs it → lift it up.
+// ========================
+
+// ——————————————————————————
+// ATOM: zero state (purely presentational)
+// ——————————————————————————
+
+// ✅ Atoms have no state — only props
+function Badge({ children, variant }) {
+  return <span className={\`badge badge--\${variant}\`}>{children}</span>;
+}
+
+// ——————————————————————————
+// MOLECULE: minimal local UI state (open/closed, hover, focus)
+// ——————————————————————————
+
+// ✅ Tooltip open state belongs in Tooltip — no one else cares
+function Tooltip({ content, children }) {
+  const [open, setOpen] = useState(false);
+  // ...
+}
+
+// ✅ Dropdown open state is local to Dropdown
+function Dropdown({ trigger, items, onSelect }) {
+  const [isOpen, setIsOpen] = useState(false);
+  // ...
+}
+
+// ——————————————————————————
+// ORGANISM: domain state for self-contained sections
+// ——————————————————————————
+
+// ✅ ProductCard owns "wished" state if nothing else needs it
+function ProductCard({ product, onAddToCart }) {
+  const [wished, setWished] = useState(false);
+  // ...
+}
+
+// ❌ If the wishlist count in the Navbar needs to know → lift to page or context
+function ProductCard({ product, isWished, onToggleWish, onAddToCart }) {
+  // No local state — parent controls
+}
+
+// ——————————————————————————
+// TEMPLATE: purely structural — zero state, zero data
+// ——————————————————————————
+
+// ✅ Templates accept everything via props/children — no state
+function DashboardTemplate({ header, sidebar, content }) {
+  return (
+    <div className="dashboard">
+      <header>{header}</header>
+      <aside>{sidebar}</aside>
+      <main>{content}</main>
+    </div>
+  );
+}
+
+// ——————————————————————————
+// PAGE: all data fetching and business logic lives here
+// ——————————————————————————
+
+// ✅ Pages orchestrate — they own data and pass it down
+function DashboardPage() {
+  const { user }       = useAuth();
+  const { data: stats } = useStats(user.id);
+  const [filter, setFilter] = useState('week');
+
+  return (
+    <DashboardTemplate
+      header={<Navbar user={user} />}
+      sidebar={<FilterPanel value={filter} onChange={setFilter} />}
+      content={<StatsGrid stats={stats} period={filter} />}
+    />
+  );
+}
+
+// ========================
+// Context for cross-cutting state
+// ========================
+
+// When organism-level state must be shared across the tree without prop drilling,
+// use a context provider scoped to the page or section — not global.
+
+const CartContext = createContext(null);
+
+function CartProvider({ children }) {
+  const [items, setItems] = useState([]);
+
+  const addItem    = useCallback((product) => setItems(p => [...p, product]), []);
+  const removeItem = useCallback((id)      => setItems(p => p.filter(i => i.id !== id)), []);
+  const total      = useMemo(() => items.reduce((sum, i) => sum + i.price, 0), [items]);
+
+  return (
+    <CartContext.Provider value={{ items, addItem, removeItem, total }}>
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export const useCart = () => {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error('useCart must be used within CartProvider');
+  return ctx;
+};
+
+// ProductCard organism uses useCart() — no prop drilling through template/page
+function ProductCard({ product }) {
+  const { addItem } = useCart();
+  return <Button onClick={() => addItem(product)}>Add to Cart</Button>;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Common Mistakes and Boundary Violations
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Mistake 1: Atoms with hardcoded business logic
+// ========================
+
+// ❌ Atom knows about users and authentication — wrong level
+function BadButton({ children }) {
+  const { user } = useAuth(); // ❌ atoms don't know about auth
+  return (
+    <button disabled={!user} className="btn">
+      {children}
+    </button>
+  );
+}
+
+// ✅ Pass behavior as props — keep atom pure
+function GoodButton({ children, disabled, onClick }) {
+  return <button disabled={disabled} onClick={onClick} className="btn">{children}</button>;
+}
+
+// The organism or page decides whether the button is disabled based on auth state.
+
+// ========================
+// Mistake 2: Organisms fetching data via external hooks they don't own
+// ========================
+
+// ❌ Organism directly tied to a specific API — untestable in isolation
+function BadProductCard({ productId }) {
+  const product = useProduct(productId); // ❌ organism fetches its own data
+  return <div>{product.name}</div>;
+}
+
+// ✅ Organism receives data as props — pure, testable, reusable
+function GoodProductCard({ product, onAddToCart }) {
+  return <div>{product.name} <button onClick={() => onAddToCart(product)}>Add</button></div>;
+}
+
+// Data-fetching wrapper (container pattern) can exist at page level or as a named variant:
+function ProductCardContainer({ productId, onAddToCart }) {
+  const { data: product, isLoading } = useProduct(productId);
+  if (isLoading) return <ProductCardSkeleton />;
+  return <GoodProductCard product={product} onAddToCart={onAddToCart} />;
+}
+
+// ========================
+// Mistake 3: Templates with content baked in
+// ========================
+
+// ❌ Template with hardcoded content — not a template
+function BadDashboardTemplate() {
+  return (
+    <div className="layout">
+      <Navbar /> {/* ❌ hardcoded organism */}
+      <StatsGrid /> {/* ❌ hardcoded organism */}
+    </div>
+  );
+}
+
+// ✅ Template as pure layout structure
+function GoodDashboardTemplate({ header, content }) {
+  return (
+    <div className="layout">
+      <header className="layout__header">{header}</header>
+      <main className="layout__main">{content}</main>
+    </div>
+  );
+}
+
+// ========================
+// Mistake 4: Skipping levels — atoms that are secretly organisms
+// ========================
+
+// ❌ A "Button" that contains form logic — should be a molecule or organism
+function BadButton({ productId, quantity }) {
+  const { mutate: addToCart } = useAddToCart(); // ❌ data mutation in atom
+
+  return (
+    <button onClick={() => addToCart({ productId, quantity })}>
+      Add to Cart
+    </button>
+  );
+}
+
+// ✅ Atom is purely presentational; the organism passes the handler
+function AtomButton({ onClick, children, variant }) {
+  return <button onClick={onClick} className={cn('btn', \`btn--\${variant}\`)}>{children}</button>;
+}
+
+function AddToCartOrganism({ product }) {
+  const { mutate: addToCart } = useAddToCart(); // ✅ logic in organism
+  return <AtomButton variant="primary" onClick={() => addToCart(product)}>Add to Cart</AtomButton>;
+}
+
+// ========================
+// Mistake 5: Molecules with too much responsibility
+// ========================
+
+// ❌ A "FormField" that also fetches validation rules from an API
+function BadFormField({ fieldName }) {
+  const rules = useValidationRules(fieldName); // ❌ molecule fetching data
+  return <div>{/* ... */}</div>;
+}
+
+// ✅ Pass rules as props; let the page or form organism fetch them
+function GoodFormField({ label, value, onChange, error, rules }) {
+  return <div>{/* purely presentational with passed error */}</div>;
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing Across Atomic Levels
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+// ========================
+// ATOMS — test all variants and accessibility props
+// ========================
+
+describe('Button atom', () => {
+  test('renders all variants without crashing', () => {
+    const variants = ['primary', 'secondary', 'ghost', 'danger'];
+    variants.forEach(variant => {
+      const { unmount } = render(<Button variant={variant}>Test</Button>);
+      unmount();
+    });
+  });
+
+  test('is disabled when loading', () => {
+    render(<Button loading>Save</Button>);
+    expect(screen.getByRole('button')).toBeDisabled();
+    expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true');
+  });
+
+  test('calls onClick when clicked and not disabled', async () => {
+    const handleClick = jest.fn();
+    const user = userEvent.setup();
+
+    render(<Button onClick={handleClick}>Click me</Button>);
+    await user.click(screen.getByRole('button'));
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  test('does not call onClick when disabled', async () => {
+    const handleClick = jest.fn();
+    const user = userEvent.setup();
+
+    render(<Button disabled onClick={handleClick}>Disabled</Button>);
+    await user.click(screen.getByRole('button'));
+
+    expect(handleClick).not.toHaveBeenCalled();
+  });
+});
+
+// ========================
+// MOLECULES — test composition and internal behavior
+// ========================
+
+describe('FormField molecule', () => {
+  test('associates label with input via htmlFor/id', () => {
+    render(<FormField id="email" label="Email" value="" onChange={() => {}} />);
+
+    const input = screen.getByLabelText('Email');
+    expect(input).toBeInTheDocument();
+  });
+
+  test('shows error message and sets aria-invalid', () => {
+    render(
+      <FormField id="email" label="Email" value="" onChange={() => {}} error="Invalid email" />
+    );
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Invalid email');
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  test('links input to error via aria-describedby', () => {
+    render(
+      <FormField id="email" label="Email" value="" onChange={() => {}} error="Required" />
+    );
+
+    const input = screen.getByRole('textbox');
+    const error = screen.getByRole('alert');
+
+    expect(input.getAttribute('aria-describedby')).toBe(error.id);
+  });
+});
+
+// ========================
+// ORGANISMS — test behavior and integration
+// ========================
+
+describe('ProductCard organism', () => {
+  const product = {
+    id: '1', name: 'Widget', price: 29.99,
+    imageUrl: '/img.jpg', inStock: true, rating: 4.5,
+  };
+
+  test('calls onAddToCart with product on click', async () => {
+    const onAddToCart = jest.fn();
+    const user = userEvent.setup();
+
+    render(<ProductCard product={product} onAddToCart={onAddToCart} />);
+    await user.click(screen.getByRole('button', { name: /add widget to cart/i }));
+
+    expect(onAddToCart).toHaveBeenCalledWith(product);
+  });
+
+  test('disables Add to Cart when out of stock', () => {
+    render(<ProductCard product={{ ...product, inStock: false }} onAddToCart={jest.fn()} />);
+    expect(screen.getByRole('button', { name: /add/i })).toBeDisabled();
+  });
+
+  test('toggles wishlist button aria-pressed state', async () => {
+    const user = userEvent.setup();
+    render(<ProductCard product={product} onAddToCart={jest.fn()} />);
+
+    const wishBtn = screen.getByRole('button', { name: /add widget to wishlist/i });
+    expect(wishBtn).toHaveAttribute('aria-pressed', 'false');
+
+    await user.click(wishBtn);
+    expect(wishBtn).toHaveAttribute('aria-pressed', 'true');
+  });
+});
+
+// ========================
+// COMPOUND COMPONENTS — test context and sub-component interaction
+// ========================
+
+describe('Tabs compound component', () => {
+  test('shows correct panel for active tab', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Tabs defaultTab="a">
+        <Tabs.List>
+          <Tabs.Tab id="a">Tab A</Tabs.Tab>
+          <Tabs.Tab id="b">Tab B</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel id="a">Content A</Tabs.Panel>
+        <Tabs.Panel id="b">Content B</Tabs.Panel>
+      </Tabs>
+    );
+
+    expect(screen.getByText('Content A')).toBeVisible();
+    expect(screen.getByText('Content B')).not.toBeVisible();
+
+    await user.click(screen.getByRole('tab', { name: 'Tab B' }));
+
+    expect(screen.getByText('Content A')).not.toBeVisible();
+    expect(screen.getByText('Content B')).toBeVisible();
+  });
+
+  test('throws when Tab is used outside Tabs', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    expect(() => render(<Tabs.Tab id="a">Orphan</Tabs.Tab>)).toThrow();
+    spy.mockRestore();
+  });
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Keep atoms purely presentational — no hooks that reach outside the component, no business logic, no data fetching</li>
+  <li><b>DO:</b> Use design tokens in atoms for all visual values — colors, spacing, radius, shadow — to enable theming without touching component code</li>
+  <li><b>DO:</b> Co-locate tests, stories, and styles with each component — every atom should have a <code>.test</code> file and a <code>.stories</code> file</li>
+  <li><b>DO:</b> Forward refs in atoms that wrap DOM elements — callers may need imperative access to focus, scroll, or measure</li>
+  <li><b>DO:</b> Use compound component patterns for complex organisms (Tabs, Accordion, Select) to give consumers flexible control without prop explosion</li>
+  <li><b>DO:</b> Use headless hooks or components to separate interaction logic from rendering — enables multiple visual treatments of the same behavior</li>
+  <li><b>DO:</b> Let templates be purely structural — they receive organisms as children/slots and define only layout</li>
+  <li><b>DO:</b> Centralize data fetching in pages or container components — organisms should receive data as props for testability and reuse</li>
+  <li><b>DO:</b> Expose the component library through a barrel export — consumers use a single import path, not internal directory paths</li>
+  <li><b>DO:</b> Apply semantic token aliases on top of primitive tokens — atoms reference <code>--color-action-primary</code>, not <code>--color-blue-600</code>, so theming requires zero component changes</li>
+  <li><b>DON'T:</b> Let atoms or molecules use context, auth hooks, or API hooks — that knowledge belongs at the organism level or above</li>
+  <li><b>DON'T:</b> Hardcode organisms into templates — templates must be layout-only so they can be reused across different pages</li>
+  <li><b>DON'T:</b> Skip levels when a component is complex — a "Button with a dropdown" is a molecule or organism, not an atom</li>
+  <li><b>DON'T:</b> Allow style overrides via inline <code>style</code> props on atoms — add a new variant to the token system instead</li>
+  <li><b>DON'T:</b> Duplicate business logic across organisms — extract it to custom hooks and share through context or props</li>
+  <li><b>DON'T:</b> Neglect accessibility at the atom level — ARIA attributes, keyboard handlers, and focus management belong on atoms and molecules, not bolted on later</li>
+  <li><b>DON'T:</b> Export internal sub-components of compound components individually in the barrel — expose the compound root and let its attached properties (<code>Tabs.Tab</code>) handle the rest</li>
+  <li><b>DON'T:</b> Treat the five levels as rigid boxes — the line between molecule and organism is a judgment call, and consistency within a team matters more than strict adherence</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Atom: Button with variants, sizes, loading, and forwardRef",
+              "Molecule: FormField — Label + Input + Error with ARIA wiring",
+              "Organism: ProductCard with local wishlist state and compound sub-components",
+              "Template: DashboardTemplate — layout slots with no content",
+              "Page: ProductListingPage — data fetching, wired into template",
+              "Design token system — primitives, semantic aliases, dark mode",
+              "Compound Tabs — context-driven sub-components with ARIA",
+              "Headless useCombobox — prop getters pattern for UI-agnostic behavior",
+              "Barrel export and folder structure for a component library",
+              "State ownership rules — atom to page, CartContext for cross-cutting state",
+            ],
+            questions: [
+              {
+                question:
+                  "What are the five levels of Atomic Design and what does each represent in React?",
+                answer:
+                  "Atoms are the smallest reusable UI primitives — Button, Input, Text, Icon. They are purely presentational, driven entirely by props, and have zero knowledge of business logic or application context. Molecules are simple combinations of atoms forming a single functional unit — a FormField combining Label, Input, and ErrorMessage; a SearchBar combining Input and Button. Organisms are self-contained UI sections — a Navbar, ProductCard, or DataTable — that may have local state and understand their context within the page. Templates are layout shells that define structure using slot props or children, with no real content or data. Pages are specific instances of templates filled with real data, owning all data fetching and business logic and wiring the template slots to live organisms.",
+              },
+              {
+                question:
+                  "What are design tokens and why are they the foundation of an Atomic Design system?",
+                answer:
+                  "Design tokens are named values for all visual decisions — colors, spacing, typography sizes, border radii, shadows, and motion durations. They exist below atoms as the raw material atoms consume. Atoms should never hardcode visual values like hex colors or pixel dimensions — they always reference tokens, typically as CSS custom properties. This separation enables theming: swapping from light to dark mode, or from one brand to another, requires only redefining the token values, not changing any component code. The most scalable approach uses two token layers — primitive tokens with raw values (--color-blue-600) and semantic alias tokens with intent names (--color-action-primary: var(--color-blue-600)) that atoms actually reference.",
+              },
+              {
+                question:
+                  "What is the compound component pattern and when should you use it at the organism level?",
+                answer:
+                  "Compound components share implicit state between a root component and its sub-components via React context, giving consumers a composable, readable API without prop explosion. The root component provides context; named sub-components (attached as Tabs.List, Tabs.Tab, Tabs.Panel) consume it. This pattern is ideal for organisms with multiple coordinated parts — Tabs, Accordion, Select, DatePicker, Menu — where the relationship between parts is semantically meaningful and consumers need layout flexibility. The key implementation details are: create a context, create a hook that throws if used outside the root, attach sub-components as static properties on the root, and throw a clear error when sub-components are used outside the root.",
+              },
+              {
+                question:
+                  "What is the headless component pattern and how does it relate to Atomic Design?",
+                answer:
+                  "Headless components (or hooks) separate interaction logic, state management, keyboard handling, and ARIA attribute wiring from all rendering and styling. The logic lives in a custom hook or component that returns prop getters — functions that return the exact props an element needs. The consumer spreads those onto whatever elements they choose, retaining full control over markup and appearance. This enables the same behavior to power multiple visual treatments — a branded combobox and a minimal combobox both use useCombobox but look entirely different. In Atomic Design terms, headless logic lives at the molecule or organism level and is the foundation behind libraries like Radix UI, Headless UI, and React Aria.",
+              },
+              {
+                question:
+                  "What is the rule for state ownership across the five levels?",
+                answer:
+                  "State lives at the lowest level that owns it completely. Atoms have zero state — purely props-driven. Molecules hold only local UI state that no other component needs, such as whether a tooltip is visible or a dropdown is open. Organisms own domain-relevant local state like whether a product is wishlisted — unless another component also needs that value, in which case it gets lifted. Templates have no state at all — they are purely structural. Pages own all data fetching and business logic and pass everything down. When state needs to cross the component tree without prop drilling, scope a context provider to the page or section rather than making it a global singleton.",
+              },
+              {
+                question:
+                  "How should organisms handle data fetching in an Atomic Design system?",
+                answer:
+                  "Organisms should ideally receive data as props and be purely presentational with local UI state only. This makes them independently testable and reusable in Storybook without mocking API calls. Data fetching belongs in pages, container components, or named variants of the organism. A clean pattern is the container/presentational split: ProductCard receives a product prop and renders it; ProductCardContainer calls useProduct and passes the result to ProductCard. The organism itself never calls useProduct. This keeps organisms portable — the same ProductCard can render mock data in tests, CMS data on a landing page, and API data on a product listing page.",
+              },
+              {
+                question:
+                  "How does the 'as' prop and 'asChild' pattern solve polymorphism in atoms?",
+                answer:
+                  "Atoms often need to render as different HTML elements while keeping consistent styles — a Button styled as an anchor tag, or a Text component that can be an h1, h2, p, label, or span. The 'as' prop accepts an element type or component and passes it as the rendered component: as='h1' renders an h1. The 'asChild' pattern from Radix UI takes a different approach — it merges the atom's props onto its single child element using a Slot component, so the child determines the element type. asChild is preferred for complex cases because it avoids the TypeScript complexity of polymorphic generics and correctly preserves the child's own props and ref. All atoms that wrap DOM elements should also forward refs.",
+              },
+              {
+                question:
+                  "What is the role of templates, and what is the most common mistake made with them?",
+                answer:
+                  "Templates define layout structure — the arrangement and sizing of regions — with no real content. They receive organisms and other components as children or named slot props and are responsible for responsive layout behavior. They carry zero state and zero data. The most common mistake is hardcoding organisms directly inside a template, such as rendering Navbar or StatsGrid directly in the template body. This turns the template into a page component, destroying its reusability. A template like DashboardTemplate should accept header, sidebar, and content as props so different pages can compose it with entirely different organisms while sharing the same layout structure.",
+              },
+              {
+                question:
+                  "How do you structure and expose a component library built with Atomic Design?",
+                answer:
+                  "Each component lives in its own folder co-located with its test file, Storybook story, and scoped CSS module. The folder structure mirrors the five levels — atoms, molecules, organisms, templates. A barrel export file at the root of the components directory re-exports every public component. Consumers import from the barrel (import { Button, FormField } from '@/components') and never from internal paths. This encapsulates the library's internals — reorganizing the folder structure is a safe internal change. Compound component sub-components like Tabs.Tab are not individually exported from the barrel; they are accessed through the root Tabs export.",
+              },
+              {
+                question:
+                  "How should testing strategy differ across the five atomic levels?",
+                answer:
+                  "Atoms get exhaustive unit tests covering all variants, sizes, disabled and loading states, ARIA attributes, and event handler wiring. Because atoms are purely props-driven, tests are simple and fast. Molecules test composition — that Label is correctly associated with Input via htmlFor/id, that error messages set aria-invalid and aria-describedby correctly, and that internal interactions like keyboard handling in a Dropdown work. Organisms test behavior and integration — the full user-facing workflow like adding to cart, toggling wishlist state, form submission. They also test accessibility at the combined-component level. Templates are often tested only in Storybook visual snapshots. Pages are tested as integration or end-to-end tests covering full user flows.",
+              },
+              {
+                question:
+                  "What are the most common boundary violations in Atomic Design and how do you fix them?",
+                answer:
+                  "The most common violations are: Atoms using context or API hooks — fix by passing behavior as props from the organism. Organisms fetching their own data via API hooks — fix by extracting a container component that fetches and a presentational component that renders. Templates with hardcoded organisms — fix by converting them to slot-based layouts accepting children. Molecules taking on too much responsibility like validation rule fetching — fix by passing rules as props. Skipping levels and creating atoms that are secretly organisms — fix by recognizing that a component with internal state, multiple atoms, and domain knowledge is at least a molecule. The line between molecule and organism is a judgment call, but the key signal is whether the component has domain awareness.",
+              },
+            ],
+            links: [
+              "https://atomicdesign.bradfrost.com/",
+              "https://atomicdesign.bradfrost.com/chapter-2/",
+              "https://storybook.js.org/docs/react/get-started/introduction",
+              "https://www.radix-ui.com/primitives/docs/overview/introduction",
+              "https://react-spectrum.adobe.com/react-aria/",
+              "https://headlessui.com/",
+              "https://styled-system.com/",
+              "https://react.dev/learn/passing-props-to-a-component",
+              "https://react.dev/learn/scaling-up-with-reducer-and-context",
+              "https://www.w3.org/WAI/ARIA/apg/patterns/",
+            ],
           },
           {
             topic: "React with TypeScript",
@@ -43974,20 +60172,759 @@ function useIdlePrefetch(importFn) {
             links: [""],
           },
           {
-            topic: "Webpack Basics",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            topic: "Webpack",
+            tags: [
+              "Module Bundler",
+              "Build Tool",
+              "JavaScript",
+              "Asset Management",
+              "Code Splitting",
+              "Performance Optimization",
+              "Development Tools",
+            ],
+            explanation: `
+    <div>
+      <h2>What is Webpack?</h2>
+      <p>
+        Webpack is a static module bundler for modern JavaScript applications. When webpack processes your application, 
+        it internally builds a dependency graph that maps every module your project needs and generates one or more bundles.
+      </p>
+
+      <h3>Core Concepts</h3>
+      
+      <h4>1. Entry</h4>
+      <p>The entry point indicates which module webpack should use to begin building its internal dependency graph.</p>
+      <pre><code>
+// Single entry
+module.exports = {
+  entry: './src/index.js'
+};
+
+// Multiple entries
+module.exports = {
+  entry: {
+    app: './src/app.js',
+    admin: './src/admin.js'
+  }
+};
+      </code></pre>
+
+      <h4>2. Output</h4>
+      <p>The output property tells webpack where to emit the bundles it creates and how to name these files.</p>
+      <pre><code>
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+    clean: true, // Clean output directory before emit
+    publicPath: '/'
+  }
+};
+      </code></pre>
+
+      <h4>3. Loaders</h4>
+      <p>Loaders allow webpack to process other types of files and convert them into valid modules.</p>
+      <pre><code>
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource'
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
+      }
+    ]
+  }
+};
+      </code></pre>
+
+      <h4>4. Plugins</h4>
+      <p>Plugins can perform a wider range of tasks like bundle optimization, asset management, and injection of environment variables.</p>
+      <pre><code>
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true
+      }
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    })
+  ]
+};
+      </code></pre>
+
+      <h4>5. Mode</h4>
+      <p>Setting the mode parameter to either development, production or none enables webpack's built-in optimizations.</p>
+      <pre><code>
+module.exports = {
+  mode: 'production', // 'development' | 'production' | 'none'
+};
+
+// Development mode enables:
+// - Named modules
+// - Fast rebuild
+// - Source maps
+
+// Production mode enables:
+// - Minification
+// - Tree shaking
+// - Scope hoisting
+      </code></pre>
+
+      <h3>Advanced Features</h3>
+
+      <h4>Code Splitting</h4>
+      <p>Code splitting allows you to split your code into various bundles which can be loaded on demand or in parallel.</p>
+      <pre><code>
+// 1. Entry Points
+module.exports = {
+  entry: {
+    index: './src/index.js',
+    another: './src/another-module.js'
+  }
+};
+
+// 2. Dynamic Imports
+import(/* webpackChunkName: "lodash" */ 'lodash').then(({ default: _ }) => {
+  console.log(_.join(['Hello', 'webpack'], ' '));
+});
+
+// 3. SplitChunksPlugin
+module.exports = {
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: 10
+        },
+        common: {
+          minChunks: 2,
+          priority: 5,
+          reuseExistingChunk: true
+        }
+      }
+    }
+  }
+};
+      </code></pre>
+
+      <h4>Tree Shaking</h4>
+      <p>Tree shaking removes unused code from your bundle. It relies on ES2015 module syntax (import/export).</p>
+      <pre><code>
+// math.js
+export function square(x) {
+  return x * x;
+}
+
+export function cube(x) {
+  return x * x * x;
+}
+
+// main.js
+import { cube } from './math.js'; // square won't be included in bundle
+
+// webpack.config.js
+module.exports = {
+  mode: 'production',
+  optimization: {
+    usedExports: true, // Mark unused exports
+    minimize: true      // Remove them
+  }
+};
+
+// package.json - Mark side-effect-free files
+{
+  "sideEffects": false,
+  // or specify files with side effects
+  "sideEffects": ["*.css", "*.scss"]
+}
+      </code></pre>
+
+      <h4>Caching and Long-term Caching</h4>
+      <pre><code>
+module.exports = {
+  output: {
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].chunk.js'
+  },
+  optimization: {
+    moduleIds: 'deterministic',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  }
+};
+      </code></pre>
+
+      <h4>Module Federation (Webpack 5)</h4>
+      <p>Module Federation allows a JavaScript application to dynamically load code from another application at runtime.</p>
+      <pre><code>
+// App 1 - Exposes modules
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+
+module.exports = {
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'app1',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './Button': './src/Button',
+        './Header': './src/Header'
+      },
+      shared: {
+        react: { singleton: true },
+        'react-dom': { singleton: true }
+      }
+    })
+  ]
+};
+
+// App 2 - Consumes modules
+new ModuleFederationPlugin({
+  name: 'app2',
+  remotes: {
+    app1: 'app1@http://localhost:3001/remoteEntry.js'
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true }
+  }
+})
+
+// Usage in App 2
+const RemoteButton = React.lazy(() => import('app1/Button'));
+      </code></pre>
+
+      <h4>Development Server</h4>
+      <pre><code>
+module.exports = {
+  devServer: {
+    static: './dist',
+    hot: true,
+    port: 3000,
+    open: true,
+    historyApiFallback: true,
+    compress: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        pathRewrite: { '^/api': '' },
+        secure: false,
+        changeOrigin: true
+      }
+    }
+  }
+};
+      </code></pre>
+
+      <h4>Source Maps</h4>
+      <pre><code>
+module.exports = {
+  mode: 'development',
+  devtool: 'eval-source-map', // Development
+  
+  // Production options:
+  // devtool: 'source-map' - Separate file, slowest, best quality
+  // devtool: 'hidden-source-map' - No reference in bundle
+  // devtool: 'nosources-source-map' - Source maps without source code
+  // devtool: false - No source maps
+};
+      </code></pre>
+
+      <h4>Performance Optimization</h4>
+      <pre><code>
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+module.exports = {
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true
+          }
+        }
+      }),
+      new CssMinimizerPlugin()
+    ],
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 20000,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+            )[1];
+            return \`npm.\${packageName.replace('@', '')}\`;
+          }
+        }
+      }
+    }
+  },
+  plugins: [
+    new CompressionPlugin({
+      algorithm: 'gzip'
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false
+    })
+  ],
+  performance: {
+    hints: 'warning',
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  }
+};
+      </code></pre>
+
+      <h4>Custom Loaders</h4>
+      <pre><code>
+// markdown-loader.js
+const marked = require('marked');
+
+module.exports = function(source) {
+  const html = marked(source);
+  return \`module.exports = \${JSON.stringify(html)}\`;
+};
+
+// webpack.config.js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.md$/,
+        use: [
+          'html-loader',
+          path.resolve(__dirname, 'loaders/markdown-loader.js')
+        ]
+      }
+    ]
+  }
+};
+      </code></pre>
+
+      <h4>Custom Plugins</h4>
+      <pre><code>
+class MyCustomPlugin {
+  apply(compiler) {
+    compiler.hooks.emit.tapAsync(
+      'MyCustomPlugin',
+      (compilation, callback) => {
+        // Access compilation assets
+        const assets = compilation.assets;
+        
+        // Create a new asset
+        compilation.assets['custom-file.txt'] = {
+          source: () => 'Custom content',
+          size: () => 14
+        };
+        
+        callback();
+      }
+    );
+    
+    compiler.hooks.done.tap('MyCustomPlugin', (stats) => {
+      console.log('Build completed!');
+    });
+  }
+}
+
+module.exports = {
+  plugins: [new MyCustomPlugin()]
+};
+      </code></pre>
+
+      <h3>Real-World Configuration Example</h3>
+      <pre><code>
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
+
+module.exports = (env, argv) => {
+  const isProduction = argv.mode === 'production';
+  
+  return {
+    entry: {
+      main: './src/index.js',
+      vendor: './src/vendor.js'
+    },
+    
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: isProduction 
+        ? '[name].[contenthash].js' 
+        : '[name].js',
+      chunkFilename: '[name].[contenthash].chunk.js',
+      publicPath: '/',
+      clean: true
+    },
+    
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env',
+                '@babel/preset-react'
+              ],
+              plugins: ['@babel/plugin-syntax-dynamic-import']
+            }
+          }
+        },
+        {
+          test: /\.css$/,
+          use: [
+            isProduction 
+              ? MiniCssExtractPlugin.loader 
+              : 'style-loader',
+            'css-loader',
+            'postcss-loader'
+          ]
+        },
+        {
+          test: /\.scss$/,
+          use: [
+            isProduction 
+              ? MiniCssExtractPlugin.loader 
+              : 'style-loader',
+            'css-loader',
+            'postcss-loader',
+            'sass-loader'
+          ]
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              maxSize: 8 * 1024 // 8kb
+            }
           },
-          {
-            topic: "ESLint and Prettier",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+          generator: {
+            filename: 'images/[name].[hash][ext]'
+          }
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
+          generator: {
+            filename: 'fonts/[name].[hash][ext]'
+          }
+        }
+      ]
+    },
+    
+    plugins: [
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+        minify: isProduction && {
+          removeComments: true,
+          collapseWhitespace: true,
+          removeAttributeQuotes: true
+        }
+      }),
+      isProduction && new MiniCssExtractPlugin({
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[id].[contenthash].css'
+      }),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(
+          isProduction ? 'production' : 'development'
+        )
+      })
+    ].filter(Boolean),
+    
+    optimization: {
+      moduleIds: 'deterministic',
+      runtimeChunk: 'single',
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: 10
+          },
+          common: {
+            minChunks: 2,
+            priority: 5,
+            reuseExistingChunk: true
+          }
+        }
+      },
+      minimize: isProduction
+    },
+    
+    devServer: {
+      static: './dist',
+      hot: true,
+      port: 3000,
+      historyApiFallback: true,
+      compress: true
+    },
+    
+    devtool: isProduction 
+      ? 'source-map' 
+      : 'eval-source-map',
+    
+    resolve: {
+      extensions: ['.js', '.jsx', '.json'],
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@utils': path.resolve(__dirname, 'src/utils')
+      }
+    },
+    
+    performance: {
+      hints: isProduction ? 'warning' : false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
+    }
+  };
+};
+      </code></pre>
+    </div>
+  `,
+
+            examples: [
+              "Basic webpack configuration with Babel and CSS loaders",
+              "Code splitting with dynamic imports and SplitChunksPlugin",
+              "Tree shaking configuration for removing unused code",
+              "Module Federation for micro-frontends architecture",
+              "Development server with hot module replacement",
+              "Production optimization with minification and compression",
+              "Custom loader for processing Markdown files",
+              "Custom plugin for build-time asset manipulation",
+            ],
+
+            questions: [
+              {
+                question: "What is Webpack and why is it used?",
+                difficulty: "Basic",
+                category: "Concepts",
+                answer:
+                  "Webpack is a static module bundler for JavaScript applications. It's used to: 1) Bundle multiple JavaScript files into one or more optimized bundles, 2) Transform/transpile code using loaders (Babel, TypeScript, SASS), 3) Optimize assets for production (minification, tree shaking), 4) Enable code splitting for better performance, 5) Manage dependencies and create a dependency graph, 6) Provide development features like hot module replacement. It processes your application, builds an internal dependency graph, and generates optimized output bundles.",
+              },
+              {
+                question:
+                  "Explain the difference between Loaders and Plugins in Webpack.",
+                difficulty: "Basic",
+                category: "Core Concepts",
+                answer:
+                  "Loaders: Transform files during the bundling process. They work at the file level and convert files from one format to another (e.g., CSS to JS, TypeScript to JavaScript, SASS to CSS). Used in module.rules array. Execute before plugins. Examples: babel-loader, css-loader, file-loader. Plugins: Perform broader tasks beyond file transformation. They work at the bundle level and can modify the entire compilation process. Used in plugins array. Execute after loaders. Examples: HtmlWebpackPlugin, MiniCssExtractPlugin, CleanWebpackPlugin. In short: Loaders transform individual files, Plugins transform the entire bundle.",
+              },
+              {
+                question: "What is the purpose of the webpack-dev-server?",
+                difficulty: "Basic",
+                category: "Development",
+                answer:
+                  "webpack-dev-server is a development server that provides: 1) Live reloading - automatically refreshes browser on file changes, 2) Hot Module Replacement (HMR) - updates modules without full page reload, 3) In-memory serving - serves bundles from memory (faster), 4) Proxying API requests - forwards requests to backend during development, 5) History API fallback - for single-page applications routing, 6) HTTPS support for local development. It significantly improves development experience by providing instant feedback and eliminating manual refresh cycles.",
+              },
+              {
+                question:
+                  "How does code splitting work in Webpack? Explain different approaches.",
+                difficulty: "Intermediate",
+                category: "Optimization",
+                answer:
+                  "Code splitting divides code into separate bundles that can be loaded on demand. Three approaches: 1) Entry Points - manually split using multiple entry points (simple but can cause duplication), 2) Dynamic Imports - use import() syntax to lazy load modules (best for on-demand loading), 3) SplitChunksPlugin - automatically split vendor and common code (prevents duplication, creates shared chunks). Benefits: Smaller initial bundle, faster page load, load code only when needed. Example: import('./module').then() creates a separate chunk loaded when needed. SplitChunksPlugin extracts common dependencies into separate vendor bundles.",
+              },
+              {
+                question:
+                  "What is tree shaking and how do you enable it in Webpack?",
+                difficulty: "Intermediate",
+                category: "Optimization",
+                answer:
+                  "Tree shaking eliminates dead code (unused exports) from the final bundle. Requirements: 1) Use ES2015 module syntax (import/export), not CommonJS, 2) Set mode to 'production' or enable optimization.usedExports, 3) Ensure package.json has sideEffects field (false for side-effect-free code), 4) Use minifier that supports dead code elimination (Terser). How it works: Webpack marks unused exports, minifier removes them. Caveats: CSS imports are side effects (must declare in sideEffects array), Some packages aren't tree-shakeable, Default exports can't be tree-shaken as effectively. Result: Significantly smaller bundle sizes by removing unused code.",
+              },
+              {
+                question:
+                  "Explain webpack's caching strategy using contenthash.",
+                difficulty: "Intermediate",
+                category: "Performance",
+                answer:
+                  "Contenthash enables long-term caching by creating unique filenames based on file content. Strategy: 1) Use [contenthash] in output.filename - generates hash from file content, 2) Split runtime into separate chunk - prevents vendor hash change when app code changes, 3) Use moduleIds: 'deterministic' - consistent module IDs, 4) Extract vendor code - separate vendor bundle with stable hash. When to use: [name] for development, [contenthash] for production. Benefits: Browser caches unchanged files, only downloads changed bundles, improves performance for returning users. Example: main.abc123.js won't change unless main's content changes, allowing aggressive caching.",
+              },
+              {
+                question:
+                  "What is Hot Module Replacement (HMR) and how does it work?",
+                difficulty: "Intermediate",
+                category: "Development",
+                answer:
+                  "HMR exchanges, adds, or removes modules while an application is running without a full reload. How it works: 1) webpack-dev-server watches for changes, 2) When file changes, webpack recompiles only that module, 3) HMR runtime receives update notification, 4) Runtime requests updated modules, 5) Module is replaced in running application. Benefits: Retains application state, saves development time, faster feedback loop, CSS updates instantly. Implementation: Enable in devServer config (hot: true), some loaders support it automatically (CSS, React), manual handling needed for custom modules. Module must accept HMR: if (module.hot) { module.hot.accept() }",
+              },
+              {
+                question:
+                  "How do you optimize Webpack bundle size for production?",
+                difficulty: "Advanced",
+                category: "Performance",
+                answer:
+                  "Multiple optimization strategies: 1) Minification - use TerserPlugin for JS, CssMinimizerPlugin for CSS, 2) Tree shaking - remove unused exports, 3) Code splitting - split vendor and app code, use dynamic imports, 4) Compression - use CompressionPlugin for gzip/brotli, 5) Analyze bundles - use BundleAnalyzerPlugin to identify large modules, 6) Scope hoisting - enable ModuleConcatenationPlugin, 7) Remove source maps in production or use hidden-source-map, 8) Extract CSS - use MiniCssExtractPlugin, 9) Lazy loading - dynamic imports for routes/components, 10) CDN for large libraries. Measure impact using webpack-bundle-analyzer and lighthouse.",
+              },
+              {
+                question:
+                  "Explain Module Federation in Webpack 5 and its use cases.",
+                difficulty: "Advanced",
+                category: "Architecture",
+                answer:
+                  "Module Federation enables multiple Webpack builds to share code at runtime, creating micro-frontends. How it works: 1) Host app defines remotes (external apps), 2) Remote apps expose modules via ModuleFederationPlugin, 3) Host dynamically loads remote modules at runtime, 4) Shared dependencies are deduplicated. Configuration: exposes (what to share), remotes (what to consume), shared (dependencies). Use cases: Micro-frontends architecture, independent deployments, code sharing across teams, progressive migration, A/B testing different versions. Benefits: Independent builds/deployments, smaller bundles, runtime code sharing, team autonomy. Challenges: Version management, runtime errors, network dependencies.",
+              },
+              {
+                question: "How would you debug a slow Webpack build?",
+                difficulty: "Advanced",
+                category: "Performance",
+                answer:
+                  "Debugging approach: 1) Measure - use --profile --json > stats.json to generate statistics, 2) Analyze - use webpack-bundle-analyzer or webpack.github.io/analyse, 3) Identify bottlenecks - check loader processing time, plugin execution time. Solutions: 1) Reduce loader scope - use include/exclude in rules, 2) Cache - enable cache: {type: 'filesystem'}, use cache-loader or hard-source-webpack-plugin, 3) Parallelize - use thread-loader for heavy loaders, 4) Update dependencies - newer versions are faster, 5) Minimize plugins - only use necessary plugins, 6) Use DllPlugin for rarely changing libraries, 7) Reduce resolve.modules and resolve.extensions, 8) Use faster alternatives (esbuild-loader vs babel-loader). Monitor improvements with build time metrics.",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Webpack?",
+                difficulty: "Intermediate",
+                category: "Configuration",
+                answer:
+                  "Multiple approaches: 1) Export function - module.exports = (env, argv) => ({}) receives mode and env variables, 2) Separate configs - webpack.dev.js, webpack.prod.js, webpack.common.js merged with webpack-merge, 3) DefinePlugin - inject environment variables at compile time, 4) dotenv-webpack - load .env files, 5) process.env - access Node environment variables. Best practice: Common config in webpack.common.js, environment-specific in separate files, merge using webpack-merge. Example: DefinePlugin creates global constants like process.env.API_URL replaced at build time. This enables different API endpoints, feature flags, or build optimizations per environment.",
+              },
+              {
+                question:
+                  "What is the difference between output.publicPath and devServer.publicPath?",
+                difficulty: "Intermediate",
+                category: "Configuration",
+                answer:
+                  "output.publicPath: Specifies the public URL of output files when referenced in a browser. Used for: assets loaded by <script>, <link>, or url() in CSS, CDN URLs, relative or absolute paths. Affects production builds. Example: publicPath: '/assets/' means files served from domain.com/assets/. devServer.publicPath: (Deprecated in webpack-dev-server v4) Specifies where dev server serves bundled files from. Only affects development. Use devServer.static instead. Key difference: output.publicPath for production asset URLs, devServer for development serving location. Best practice: Set output.publicPath for CDN deployment, use '/' for root-relative paths.",
+              },
+              {
+                question: "How do you create a custom Webpack loader?",
+                difficulty: "Advanced",
+                category: "Extensibility",
+                answer:
+                  "Loader structure: Function that receives source content and returns transformed content. Steps: 1) Create function accepting source, 2) Transform content, 3) Return result or use this.callback(), 4) Handle async operations with this.async(). Example: module.exports = function(source) { return transform(source); }. Best practices: Keep loaders simple and single-purpose, make loaders stateless, use loader-utils for options, cache results when possible, handle errors properly. Async loader: const callback = this.async(); doAsync((err, result) => callback(err, result)). Pitching loader: loader.pitch = function() {} runs before normal execution. Test: Use jest or mocha to unit test loaders independently.",
+              },
+              {
+                question:
+                  "Explain Webpack's dependency graph and how it builds it.",
+                difficulty: "Advanced",
+                category: "Internals",
+                answer:
+                  "Dependency graph is Webpack's internal representation of module relationships. Build process: 1) Start at entry point(s), 2) Parse imports/requires to find dependencies, 3) Apply loaders to transform modules, 4) Recursively process each dependency, 5) Create chunks from related modules, 6) Generate final bundles. Graph structure: Nodes are modules, edges are dependencies. Features: Detects circular dependencies, identifies unused modules, determines chunk boundaries, enables code splitting. Module resolution: Uses enhanced-resolve, follows resolve configuration, supports aliases and extensions. Graph is used for: Tree shaking, code splitting, optimization, determining load order. Can be visualized with webpack-bundle-analyzer or stats.json.",
+              },
+              {
+                question:
+                  "What are the performance implications of different source map options?",
+                difficulty: "Advanced",
+                category: "Performance",
+                answer:
+                  "Source map options trade-off between build speed, rebuild speed, and quality: Development: 1) eval - fastest, lowest quality (no column mappings), 2) eval-source-map - slow initial, fast rebuild, best quality, 3) cheap-module-source-map - good balance. Production: 1) source-map - separate file, slowest, best for debugging, 2) hidden-source-map - no reference in bundle, for error reporting only, 3) nosources-source-map - shows stack traces but not source code, 4) false - no source maps, fastest builds. Recommendations: Development: eval-source-map or eval-cheap-module-source-map, Production: source-map or false (upload maps to error tracking separately), avoid inline source maps in production (increases bundle size).",
+              },
+              {
+                question:
+                  "How does Webpack's module resolution algorithm work?",
+                difficulty: "Advanced",
+                category: "Internals",
+                answer:
+                  "Resolution process: 1) Check if absolute/relative path (./file, /root/file), 2) If module name, search in resolve.modules (default: node_modules), 3) Try resolve.extensions in order (.js, .json, .jsx), 4) Check package.json main field, 5) Look for index file if directory. Factors: resolve.alias - custom path mappings, resolve.modules - search directories, resolve.extensions - auto-resolve extensions, resolve.mainFields - package.json fields to check, resolve.mainFiles - default filenames. Example: import 'lodash' → searches node_modules/lodash → checks package.json main → resolves to index.js. Enhanced-resolve library handles this. Optimization: Limit extensions array, use absolute paths in resolve.modules, leverage alias for frequently used paths.",
+              },
+              {
+                question:
+                  "Explain the difference between 'chunks' and 'bundles' in Webpack.",
+                difficulty: "Intermediate",
+                category: "Concepts",
+                answer:
+                  "Chunks: Internal units of code during Webpack's build process. Created from: entry points, dynamic imports (import()), SplitChunksPlugin. Types: Entry chunk (from entry points), Normal chunk (from dynamic imports), Runtime chunk (Webpack runtime code). Bundles: Output files generated from chunks. One chunk → one bundle typically, but plugins can modify this. Key difference: Chunks are logical groupings during build, bundles are physical output files. Example: 3 entry points create 3 chunks, SplitChunksPlugin might extract common code into 4th chunk, resulting in 4 bundles. Understanding this helps with: code splitting strategies, debugging bundle size issues, optimizing output structure.",
+              },
+              {
+                question:
+                  "What are some common Webpack performance pitfalls and how do you avoid them?",
+                difficulty: "Advanced",
+                category: "Performance",
+                answer:
+                  "Common pitfalls: 1) Too broad loader scope - use include/exclude to limit file processing, 2) Unnecessary plugins - remove unused plugins, 3) Large source maps in production - use hidden-source-map or none, 4) Not using caching - enable persistent cache in Webpack 5, 5) Babel transpiling node_modules - exclude node_modules in babel-loader, 6) Inefficient regexes - optimize test patterns, 7) Synchronous plugins - use async versions, 8) Over-splitting - too many small chunks hurt performance, 9) Not analyzing bundles - use webpack-bundle-analyzer, 10) Outdated dependencies - update webpack and loaders. Solutions: Profile builds, incremental changes, measure impact, use webpack.debug for detailed timing, leverage cache.filesystem in Webpack 5.",
+              },
+              {
+                question:
+                  "How do you implement lazy loading of routes in a React/Vue application with Webpack?",
+                difficulty: "Intermediate",
+                category: "Code Splitting",
+                answer:
+                  "React implementation: Use React.lazy() and Suspense. const Component = React.lazy(() => import('./Component')); <Suspense fallback={<Loading/>}><Component/></Suspense>. With React Router: const Home = lazy(() => import('./pages/Home')); <Route path='/' element={<Suspense><Home/></Suspense>}/>. Vue implementation: const Component = () => import('./Component.vue'); routes: [{ path: '/', component: () => import('./Home.vue') }]. Webpack handles this via: Dynamic import creates separate chunk, Magic comments for chunk names: import(/* webpackChunkName: 'home' */ './Home'), Prefetch/preload: import(/* webpackPrefetch: true */ './module'). Benefits: Smaller initial bundle, faster initial load, load code only when needed. Best practice: Group related routes, use meaningful chunk names, implement loading states.",
+              },
+              {
+                question:
+                  "What is the purpose of Webpack's runtime and manifest?",
+                difficulty: "Advanced",
+                category: "Internals",
+                answer:
+                  "Runtime: Bootstrap code Webpack injects to connect modules. Contains: Module loading logic (__webpack_require__), chunk loading, module cache, lazy loading logic. Present in every bundle. Manifest: Metadata about module mappings. Maps module IDs to actual modules, tracks chunk relationships, manages dynamic imports. Why separate: Extracting runtime to separate chunk (runtimeChunk: 'single') prevents vendor hash from changing when app code changes. Improves caching: vendor.js has stable hash, runtime.js changes more frequently but is tiny, main.js only changes when app code changes. Example: optimization: { runtimeChunk: 'single' }. Result: Better long-term caching strategy, more cache hits for returning users, smaller main bundle updates.",
+              },
+            ],
+
+            links: [
+              "https://webpack.js.org/ - Official Webpack documentation",
+              "https://webpack.js.org/concepts/ - Core concepts guide",
+              "https://webpack.js.org/guides/ - Step-by-step guides",
+              "https://webpack.js.org/configuration/ - Configuration reference",
+              "https://webpack.js.org/loaders/ - Available loaders",
+              "https://webpack.js.org/plugins/ - Available plugins",
+              "https://webpack.js.org/api/ - API documentation",
+              "https://github.com/webpack/webpack-bundle-analyzer - Bundle analyzer plugin",
+              "https://webpack.js.org/guides/code-splitting/ - Code splitting guide",
+              "https://webpack.js.org/guides/production/ - Production optimization guide",
+            ],
           },
           {
             topic: "GraphQL with React",
@@ -43999,11 +60936,1659 @@ function useIdlePrefetch(importFn) {
           },
           {
             topic: "Optimistic UI Updates",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            tags: [
+              "Optimistic UI",
+              "Optimistic Updates",
+              "useOptimistic",
+              "React Query",
+              "Mutation",
+              "Rollback",
+              "Cache Invalidation",
+              "Pessimistic UI",
+              "Server State",
+              "onMutate",
+              "onError",
+              "onSettled",
+              "Pending State",
+              "Error Recovery",
+              "User Experience",
+            ],
+            explanation: `<div>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+<strong>Optimistic UI updates</strong> are a pattern where the client immediately reflects a user action in the UI — as if the server request has already succeeded — before the actual network round trip completes. When the server confirms the mutation, nothing visually changes because the UI is already correct. If the server returns an error, the UI rolls back to its previous state. The opposite — waiting for the server to respond before updating the UI — is called a <em>pessimistic update</em>. The core trade-off is responsiveness versus correctness: optimistic updates make interfaces feel instantaneous (eliminating perceived latency), at the cost of additional complexity around rollback, conflict resolution, and error recovery. This pattern is pervasive in high-quality products — liking a tweet, reordering a list, toggling a setting, marking a task complete — all benefit enormously from optimistic updates because the success rate of these mutations is very high and the cost of an occasional visible rollback is low. React 19 introduced the <code>useOptimistic</code> hook as a first-class primitive for this pattern. React Query (TanStack Query) provides a mature mutation lifecycle — <code>onMutate</code>, <code>onError</code>, and <code>onSettled</code> — that handles optimistic cache manipulation, automatic rollback, and re-fetching. Advanced application requires thinking carefully about concurrent mutations, conflict resolution strategies, unique temporary IDs, pending state indicators, and undo patterns.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+1. Core Concept — Optimistic vs Pessimistic Updates
+</h4>
+
+<p style="line-height: 1.75;">
+The mental model is simple: apply the change immediately to local state, fire the request in the background, and reverse the local change only if the request fails.
+</p>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState } from 'react';
+
+// ========================
+// Pessimistic update — wait for server before updating UI
+// ========================
+
+function PessimisticLikeButton({ postId, initialLikes }) {
+  const [likes, setLikes]       = useState(initialLikes);
+  const [loading, setLoading]   = useState(false);
+
+  async function handleLike() {
+    setLoading(true);
+    try {
+      const result = await likePost(postId); // wait for server
+      setLikes(result.likes);               // update only on success
+    } catch (err) {
+      showToast('Failed to like post');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <button onClick={handleLike} disabled={loading}>
+      {loading ? '...' : \`❤️ \${likes}\`}
+    </button>
+  );
+}
+
+// User experience: click → spinner → update
+// Latency is fully visible. Button is frozen during request.
+
+// ========================
+// Optimistic update — update immediately, roll back on error
+// ========================
+
+function OptimisticLikeButton({ postId, initialLikes }) {
+  const [likes, setLikes]     = useState(initialLikes);
+  const [liked, setLiked]     = useState(false);
+  const [pending, setPending] = useState(false);
+
+  async function handleLike() {
+    if (pending) return; // debounce rapid clicks
+
+    // 1. Snapshot current state for potential rollback
+    const previousLikes = likes;
+    const previousLiked = liked;
+
+    // 2. Apply optimistic update immediately
+    setLikes(l => l + (liked ? -1 : 1));
+    setLiked(l => !l);
+    setPending(true);
+
+    try {
+      // 3. Fire the actual request
+      await likePost(postId, !liked);
+    } catch (err) {
+      // 4. Roll back to snapshot on error
+      setLikes(previousLikes);
+      setLiked(previousLiked);
+      showToast('Failed to update like. Please try again.');
+    } finally {
+      setPending(false);
+    }
+  }
+
+  return (
+    <button
+      onClick={handleLike}
+      aria-pressed={liked}
+      style={{ opacity: pending ? 0.7 : 1 }}
+    >
+      {liked ? '❤️' : '🤍'} {likes}
+    </button>
+  );
+}
+
+// User experience: click → immediate visual response → silent server sync
+// Latency is invisible on success. Rollback only if server fails (~rare).
+
+// ========================
+// The optimistic update lifecycle
+// ========================
+
+// 1. User action fires (click, submit, drag)
+// 2. Capture snapshot of current state
+// 3. Apply the expected post-mutation state immediately (optimistic)
+// 4. Send mutation to server asynchronously
+// 5a. Server succeeds → optionally sync final server state (may differ slightly)
+// 5b. Server fails → restore snapshot, show error
+
+// ========================
+// When optimistic updates are appropriate
+// ========================
+
+// ✅ High success rate mutations (likes, toggles, simple CRUD)
+// ✅ User-initiated actions where visual feedback matters most
+// ✅ Operations that can be safely rolled back
+// ✅ Simple predictable server state (no complex derivation)
+// ✅ Low-stakes failures (a failed like is tolerable; a failed payment is not)
+
+// ❌ Financial transactions — always pessimistic
+// ❌ Non-idempotent operations where a retry causes double-execution
+// ❌ Operations with complex server-side computation (the result is unpredictable)
+// ❌ Mutations that require server-assigned IDs before displaying (use temp IDs instead)
+// ❌ Cascading mutations where one depends on the result of another
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+2. React 19 — useOptimistic Hook
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useOptimistic, useTransition } from 'react';
+
+// ========================
+// useOptimistic — React 19's first-class optimistic primitive
+// ========================
+
+// useOptimistic(state, updateFn) returns:
+// [optimisticState, addOptimistic]
+//
+// optimisticState: the displayed value (optimistic while pending, real when settled)
+// addOptimistic:   call this to apply a temporary optimistic update
+//
+// When the async action completes (or fails), optimisticState automatically
+// reverts to the original state prop. React manages the rollback.
+
+// ========================
+// Basic usage: Todo list with optimistic add
+// ========================
+
+async function addTodoAction(todos, formData) {
+  const text = formData.get('text');
+
+  // The optimistic update function — called immediately
+  // Returns the new "expected" state while the mutation is in flight
+  return [...todos, { id: crypto.randomUUID(), text, completed: false }];
+}
+
+function TodoList({ initialTodos }) {
+  const [todos, setTodos] = useState(initialTodos);
+  const [isPending, startTransition] = useTransition();
+
+  const [optimisticTodos, addOptimisticTodo] = useOptimistic(
+    todos,
+    // Reducer: (currentState, optimisticValue) => newOptimisticState
+    (currentTodos, newTodo) => [...currentTodos, newTodo]
+  );
+
+  async function handleSubmit(formData) {
+    const text = formData.get('text');
+
+    // The optimistic value shown while the request is in-flight
+    const optimisticTodo = {
+      id: 'temp-' + Date.now(), // temporary ID until server responds
+      text,
+      completed: false,
+      sending: true,            // flag to render pending style
+    };
+
+    startTransition(async () => {
+      addOptimisticTodo(optimisticTodo); // immediately visible
+
+      try {
+        const savedTodo = await createTodo(text); // actual API call
+        setTodos(prev => [...prev, savedTodo]);   // replace temp with real
+      } catch (err) {
+        // optimisticTodos automatically reverts when transition ends
+        showToast('Failed to add todo');
+      }
+    });
+  }
+
+  return (
+    <div>
+      <form action={handleSubmit}>
+        <input name="text" placeholder="New todo..." required />
+        <button type="submit" disabled={isPending}>Add</button>
+      </form>
+
+      <ul>
+        {optimisticTodos.map(todo => (
+          <li
+            key={todo.id}
+            style={{ opacity: todo.sending ? 0.6 : 1 }}
+          >
+            {todo.text}
+            {todo.sending && <span aria-label="saving"> ⏳</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// ========================
+// useOptimistic with toggle (like / unlike)
+// ========================
+
+function LikeButton({ post }) {
+  const [liked, setLiked] = useState(post.likedByUser);
+  const [likeCount, setLikeCount] = useState(post.likeCount);
+  const [isPending, startTransition] = useTransition();
+
+  const [optimisticLiked, setOptimisticLiked] = useOptimistic(
+    liked,
+    (_, newValue) => newValue // simple replace reducer
+  );
+
+  const [optimisticCount, setOptimisticCount] = useOptimistic(
+    likeCount,
+    (currentCount, delta) => currentCount + delta
+  );
+
+  function handleToggle() {
+    const newLiked = !liked;
+    const delta    = newLiked ? 1 : -1;
+
+    startTransition(async () => {
+      setOptimisticLiked(newLiked);
+      setOptimisticCount(delta);
+
+      try {
+        await toggleLike(post.id, newLiked);
+        setLiked(newLiked);
+        setLikeCount(c => c + delta);
+      } catch {
+        showToast('Could not update like');
+        // optimistic values auto-revert when transition settles
+      }
+    });
+  }
+
+  return (
+    <button onClick={handleToggle} aria-pressed={optimisticLiked}>
+      {optimisticLiked ? '❤️' : '🤍'} {optimisticCount}
+    </button>
+  );
+}
+
+// ========================
+// useOptimistic with delete
+// ========================
+
+function CommentList({ postId, initialComments }) {
+  const [comments, setComments] = useState(initialComments);
+
+  const [optimisticComments, removeOptimisticComment] = useOptimistic(
+    comments,
+    (current, idToRemove) => current.filter(c => c.id !== idToRemove)
+  );
+
+  async function handleDelete(commentId) {
+    startTransition(async () => {
+      removeOptimisticComment(commentId); // vanishes immediately
+
+      try {
+        await deleteComment(commentId);
+        setComments(prev => prev.filter(c => c.id !== commentId));
+      } catch {
+        showToast('Failed to delete comment');
+        // optimistic state reverts automatically
+      }
+    });
+  }
+
+  return (
+    <ul>
+      {optimisticComments.map(comment => (
+        <li key={comment.id}>
+          {comment.text}
+          <button onClick={() => handleDelete(comment.id)}>Delete</button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+3. React Query — Optimistic Updates with onMutate / onError / onSettled
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+// ========================
+// React Query mutation lifecycle for optimistic updates
+// ========================
+
+// onMutate  → fires BEFORE the mutation function, receives the variables
+//             → cancel in-flight refetches, snapshot cache, apply optimistic update
+//             → return context object (passed to onError and onSettled)
+// onError   → fires if mutation fails, receives error + context from onMutate
+//             → use context to roll back the cache
+// onSettled → fires on both success AND error after everything resolves
+//             → invalidate queries to ensure cache stays in sync with server
+
+// ========================
+// Pattern 1: Optimistic todo add
+// ========================
+
+function useAddTodo() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (newTodo) => api.post('/todos', newTodo),
+
+    onMutate: async (newTodo) => {
+      // 1. Cancel any outgoing refetches so they don't overwrite optimistic update
+      await queryClient.cancelQueries({ queryKey: ['todos'] });
+
+      // 2. Snapshot the current cache value for rollback
+      const previousTodos = queryClient.getQueryData(['todos']);
+
+      // 3. Optimistically update the cache immediately
+      queryClient.setQueryData(['todos'], (old = []) => [
+        ...old,
+        {
+          id: 'temp-' + Date.now(), // temporary ID
+          ...newTodo,
+          status: 'pending',        // mark as in-flight
+        },
+      ]);
+
+      // 4. Return context with snapshot — available in onError
+      return { previousTodos };
+    },
+
+    onError: (err, newTodo, context) => {
+      // Roll back to snapshot on failure
+      queryClient.setQueryData(['todos'], context.previousTodos);
+      showToast(\`Failed to add "\${newTodo.title}". Please try again.\`);
+    },
+
+    onSettled: () => {
+      // Always refetch after mutation settles to sync with server truth
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+}
+
+function AddTodoForm() {
+  const [text, setText] = useState('');
+  const addTodo = useAddTodo();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    addTodo.mutate({ title: text, completed: false });
+    setText('');
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={text} onChange={e => setText(e.target.value)} placeholder="New todo" />
+      <button type="submit" disabled={addTodo.isPending}>
+        {addTodo.isPending ? 'Adding...' : 'Add'}
+      </button>
+    </form>
+  );
+}
+
+// ========================
+// Pattern 2: Optimistic toggle (update item in list)
+// ========================
+
+function useToggleTodo() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, completed }) => api.patch(\`/todos/\${id}\`, { completed }),
+
+    onMutate: async ({ id, completed }) => {
+      await queryClient.cancelQueries({ queryKey: ['todos'] });
+
+      const previousTodos = queryClient.getQueryData(['todos']);
+
+      // Update a single item in the list optimistically
+      queryClient.setQueryData(['todos'], (old = []) =>
+        old.map(todo => todo.id === id ? { ...todo, completed } : todo)
+      );
+
+      return { previousTodos };
+    },
+
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(['todos'], context.previousTodos);
+      showToast('Failed to update todo');
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+}
+
+function TodoItem({ todo }) {
+  const toggleTodo = useToggleTodo();
+
+  return (
+    <li style={{ opacity: toggleTodo.isPending ? 0.6 : 1 }}>
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={e => toggleTodo.mutate({ id: todo.id, completed: e.target.checked })}
+      />
+      <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+        {todo.title}
+      </span>
+    </li>
+  );
+}
+
+// ========================
+// Pattern 3: Optimistic delete
+// ========================
+
+function useDeleteTodo() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id) => api.delete(\`/todos/\${id}\`),
+
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['todos'] });
+
+      const previousTodos = queryClient.getQueryData(['todos']);
+
+      queryClient.setQueryData(['todos'], (old = []) =>
+        old.filter(todo => todo.id !== id)
+      );
+
+      return { previousTodos };
+    },
+
+    onError: (err, id, context) => {
+      queryClient.setQueryData(['todos'], context.previousTodos);
+      showToast('Failed to delete todo');
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+}
+
+// ========================
+// Pattern 4: Optimistic update on a detail query (not just a list)
+// ========================
+
+function useUpdatePost() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...updates }) => api.patch(\`/posts/\${id}\`, updates),
+
+    onMutate: async ({ id, ...updates }) => {
+      // Cancel both list and detail queries
+      await queryClient.cancelQueries({ queryKey: ['posts'] });
+      await queryClient.cancelQueries({ queryKey: ['posts', id] });
+
+      const previousPost = queryClient.getQueryData(['posts', id]);
+      const previousList = queryClient.getQueryData(['posts']);
+
+      // Update the detail cache
+      queryClient.setQueryData(['posts', id], (old) => ({ ...old, ...updates }));
+
+      // Also update the item in the list cache
+      queryClient.setQueryData(['posts'], (old = []) =>
+        old.map(p => p.id === id ? { ...p, ...updates } : p)
+      );
+
+      return { previousPost, previousList };
+    },
+
+    onError: (err, { id }, context) => {
+      queryClient.setQueryData(['posts', id], context.previousPost);
+      queryClient.setQueryData(['posts'], context.previousList);
+    },
+
+    onSettled: (data, error, { id }) => {
+      queryClient.invalidateQueries({ queryKey: ['posts', id] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+4. Temporary IDs and Reconciliation
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// The temporary ID problem
+// ========================
+
+// When adding a new item optimistically, you must display it immediately
+// but the real server-assigned ID doesn't exist yet.
+// You need a temporary ID for React keys and internal references,
+// then reconcile with the real ID once the server responds.
+
+// ========================
+// Strategy 1: crypto.randomUUID() as temp ID (simplest)
+// ========================
+
+function useAddComment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (comment) => api.post('/comments', comment),
+
+    onMutate: async (newComment) => {
+      await queryClient.cancelQueries({ queryKey: ['comments'] });
+      const previous = queryClient.getQueryData(['comments']);
+
+      const tempId = 'temp-' + crypto.randomUUID();
+
+      queryClient.setQueryData(['comments'], (old = []) => [
+        ...old,
+        {
+          ...newComment,
+          id: tempId,
+          isOptimistic: true, // flag for pending UI treatment
+          createdAt: new Date().toISOString(),
+        },
+      ]);
+
+      return { previous, tempId };
+    },
+
+    onSuccess: (savedComment, newComment, context) => {
+      // Replace temp item with the real server response
+      queryClient.setQueryData(['comments'], (old = []) =>
+        old.map(c => c.id === context.tempId ? savedComment : c)
+      );
+    },
+
+    onError: (err, newComment, context) => {
+      queryClient.setQueryData(['comments'], context.previous);
+      showToast('Failed to post comment');
+    },
+  });
+}
+
+// ========================
+// Strategy 2: Invalidate on settle (let refetch reconcile)
+// ========================
+
+// Simpler but causes a brief re-render when server data arrives
+
+function useAddCommentSimple() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (comment) => api.post('/comments', comment),
+
+    onMutate: async (newComment) => {
+      await queryClient.cancelQueries({ queryKey: ['comments'] });
+      const previous = queryClient.getQueryData(['comments']);
+
+      queryClient.setQueryData(['comments'], (old = []) => [
+        ...old,
+        { id: 'optimistic-' + Date.now(), ...newComment, isOptimistic: true },
+      ]);
+
+      return { previous };
+    },
+
+    onError: (err, vars, context) => {
+      queryClient.setQueryData(['comments'], context.previous);
+    },
+
+    onSettled: () => {
+      // Invalidate → refetch → temp item replaced by real server data
+      queryClient.invalidateQueries({ queryKey: ['comments'] });
+    },
+  });
+}
+
+// ========================
+// Strategy 3: Optimistic ID generation matching server pattern
+// ========================
+
+// When the server uses UUIDs and you generate one client-side,
+// the ID is consistent and no reconciliation is needed —
+// BUT you must ensure no ID collisions and the server accepts client IDs.
+
+function useCreateTask() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    // Client generates the ID — server uses it (or validates and accepts it)
+    mutationFn: (task) => api.post('/tasks', task), // task already has id
+
+    onMutate: async (newTask) => {
+      // newTask.id is the client-generated UUID
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+      const previous = queryClient.getQueryData(['tasks']);
+
+      queryClient.setQueryData(['tasks'], (old = []) => [...old, newTask]);
+      return { previous };
+    },
+
+    onError: (err, newTask, context) => {
+      queryClient.setQueryData(['tasks'], context.previous);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+}
+
+// Call site:
+function createTask(text) {
+  const newTask = {
+    id: crypto.randomUUID(), // client-assigned UUID
+    text,
+    status: 'pending',
+    createdAt: new Date().toISOString(),
+  };
+  mutate(newTask);
+}
+
+// ========================
+// Rendering temporary items differently
+// ========================
+
+function CommentList({ comments }) {
+  return (
+    <ul>
+      {comments.map(comment => (
+        <li
+          key={comment.id}
+          style={{
+            opacity:  comment.isOptimistic ? 0.6 : 1,
+            filter:   comment.isOptimistic ? 'grayscale(0.3)' : 'none',
+            transition: 'opacity 0.2s, filter 0.2s',
+          }}
+          aria-busy={comment.isOptimistic}
+        >
+          <Avatar src={comment.author.avatar} />
+          <div>
+            <strong>{comment.author.name}</strong>
+            {comment.isOptimistic && (
+              <span aria-label="Sending" style={{ marginLeft: 4 }}>⏳</span>
+            )}
+            <p>{comment.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+5. Concurrent Mutations and Conflict Resolution
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// The concurrent mutation problem
+// ========================
+
+// If the user fires two mutations quickly, the second may resolve before the first.
+// Naive rollback restores the snapshot taken BEFORE the first mutation,
+// which discards the second mutation's optimistic update too.
+
+// Example: User types in a text field — each keystroke fires a save mutation.
+// Snapshot A is taken → mutation A fires
+// Snapshot B is taken (includes A's optimistic change) → mutation B fires
+// Mutation B succeeds first → cache updated
+// Mutation A fails → rollback to snapshot A → mutation B's update LOST!
+
+// ========================
+// Solution 1: Debounce to collapse rapid mutations into one
+// ========================
+
+import { useDebouncedCallback } from 'use-debounce';
+
+function AutoSaveInput({ noteId, initialText }) {
+  const [text, setText] = useState(initialText);
+  const updateNote = useUpdateNote();
+
+  // Collapse rapid keystrokes into a single mutation after 500ms of inactivity
+  const debouncedSave = useDebouncedCallback((value) => {
+    updateNote.mutate({ id: noteId, text: value });
+  }, 500);
+
+  function handleChange(e) {
+    setText(e.target.value);       // immediate local state (optimistic)
+    debouncedSave(e.target.value); // debounced server mutation
+  }
+
+  return (
+    <textarea
+      value={text}
+      onChange={handleChange}
+      style={{ borderColor: updateNote.isPending ? '#f59e0b' : 'transparent' }}
+    />
+  );
+}
+
+// ========================
+// Solution 2: Track mutation count — only rollback if no other mutations pending
+// ========================
+
+function useOptimisticToggle(id) {
+  const queryClient = useQueryClient();
+  const pendingCount = useRef(0);
+
+  return useMutation({
+    mutationFn: (completed) => api.patch(\`/todos/\${id}\`, { completed }),
+
+    onMutate: async (completed) => {
+      pendingCount.current += 1;
+      await queryClient.cancelQueries({ queryKey: ['todos'] });
+
+      const previous = queryClient.getQueryData(['todos']);
+
+      queryClient.setQueryData(['todos'], (old = []) =>
+        old.map(t => t.id === id ? { ...t, completed } : t)
+      );
+
+      return { previous };
+    },
+
+    onError: (err, vars, context) => {
+      pendingCount.current -= 1;
+      // Only rollback if there are no more pending mutations for this item
+      if (pendingCount.current === 0) {
+        queryClient.setQueryData(['todos'], context.previous);
+      }
+    },
+
+    onSuccess: () => {
+      pendingCount.current -= 1;
+    },
+
+    onSettled: () => {
+      if (pendingCount.current === 0) {
+        queryClient.invalidateQueries({ queryKey: ['todos'] });
+      }
+    },
+  });
+}
+
+// ========================
+// Solution 3: Abort previous in-flight request on new mutation
+// ========================
+
+function useUpdateTitle(id) {
+  const abortControllerRef = useRef(null);
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (title) => {
+      // Abort any in-flight request before starting a new one
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+
+      return api.patch(
+        \`/items/\${id}\`,
+        { title },
+        { signal: abortControllerRef.current.signal }
+      );
+    },
+
+    onMutate: async (title) => {
+      await queryClient.cancelQueries({ queryKey: ['items', id] });
+      const previous = queryClient.getQueryData(['items', id]);
+      queryClient.setQueryData(['items', id], (old) => ({ ...old, title }));
+      return { previous };
+    },
+
+    onError: (err, title, context) => {
+      // Don't rollback if the error was from intentional abort
+      if (err.name !== 'AbortError') {
+        queryClient.setQueryData(['items', id], context.previous);
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['items', id] });
+    },
+  });
+}
+
+// ========================
+// Solution 4: Last-write-wins with sequence numbers
+// ========================
+
+function useSequencedMutation(id) {
+  const queryClient = useQueryClient();
+  const sequenceRef = useRef(0);
+
+  return useMutation({
+    mutationFn: (data) => api.patch(\`/items/\${id}\`, data),
+
+    onMutate: async (data) => {
+      const sequence = ++sequenceRef.current;
+      await queryClient.cancelQueries({ queryKey: ['items', id] });
+
+      const previous = queryClient.getQueryData(['items', id]);
+      queryClient.setQueryData(['items', id], (old) => ({ ...old, ...data }));
+
+      return { previous, sequence };
+    },
+
+    onError: (err, data, context) => {
+      // Only rollback if this is the LATEST mutation (no newer one has fired)
+      if (context.sequence === sequenceRef.current) {
+        queryClient.setQueryData(['items', id], context.previous);
+      }
+    },
+
+    onSettled: (data, err, vars, context) => {
+      if (context.sequence === sequenceRef.current) {
+        queryClient.invalidateQueries({ queryKey: ['items', id] });
+      }
+    },
+  });
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+6. Undo Patterns
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Soft delete with undo toast — the "Gmail trash" pattern
+// ========================
+
+// Instead of immediately firing the delete mutation, show an undo window.
+// Only commit the mutation if the user doesn't undo within the window.
+// This feels optimistic (item disappears instantly) with a safety net.
+
+function useSoftDelete() {
+  const queryClient = useQueryClient();
+  const pendingDeletes = useRef(new Map()); // id → timeout ID
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => api.delete(\`/items/\${id}\`),
+
+    onError: (err, id, context) => {
+      queryClient.setQueryData(['items'], context.previous);
+      showToast('Failed to delete item');
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['items'] });
+    },
+  });
+
+  function softDelete(id) {
+    // Snapshot current state
+    const previous = queryClient.getQueryData(['items']);
+
+    // Optimistically remove from cache immediately
+    queryClient.setQueryData(['items'], (old = []) =>
+      old.filter(item => item.id !== id)
+    );
+
+    // Show undo toast with a countdown
+    const toastId = showUndoToast({
+      message: 'Item deleted',
+      duration: 5000,
+      onUndo: () => {
+        // Undo: restore cache, cancel pending deletion
+        clearTimeout(pendingDeletes.current.get(id));
+        pendingDeletes.current.delete(id);
+        queryClient.setQueryData(['items'], previous);
+      },
+    });
+
+    // Commit delete after undo window expires
+    const timeoutId = setTimeout(() => {
+      deleteMutation.mutate(id, { meta: { previous } });
+      pendingDeletes.current.delete(id);
+    }, 5000);
+
+    pendingDeletes.current.set(id, timeoutId);
+  }
+
+  function cancelAllPending() {
+    pendingDeletes.current.forEach(clearTimeout);
+    pendingDeletes.current.clear();
+    queryClient.invalidateQueries({ queryKey: ['items'] });
+  }
+
+  return { softDelete, cancelAllPending };
+}
+
+// ========================
+// Undo toast component
+// ========================
+
+function UndoToast({ message, onUndo, duration = 5000 }) {
+  const [remaining, setRemaining] = useState(duration);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemaining(r => Math.max(0, r - 100));
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
+
+  const progress = (remaining / duration) * 100;
+
+  return (
+    <div role="status" aria-live="polite" className="undo-toast">
+      <span>{message}</span>
+      <button onClick={onUndo} className="undo-toast__undo">Undo</button>
+      <div
+        className="undo-toast__progress"
+        style={{ width: \`\${progress}%\` }}
+        role="progressbar"
+        aria-valuenow={remaining}
+        aria-valuemax={duration}
+      />
+    </div>
+  );
+}
+
+// ========================
+// Full undo history stack (command pattern)
+// ========================
+
+function useUndoableAction() {
+  const [history, setHistory] = useState([]); // stack of {undo, description}
+  const [future, setFuture]   = useState([]);
+
+  function execute({ action, undo, description }) {
+    action();
+    setHistory(h => [...h, { undo, description }]);
+    setFuture([]); // clear redo stack on new action
+  }
+
+  function undoLast() {
+    const last = history[history.length - 1];
+    if (!last) return;
+
+    last.undo();
+    setHistory(h => h.slice(0, -1));
+    setFuture(f => [last, ...f]);
+  }
+
+  function redoNext() {
+    const next = future[0];
+    if (!next) return;
+
+    next.action?.();
+    setFuture(f => f.slice(1));
+    setHistory(h => [...h, next]);
+  }
+
+  return { execute, undoLast, redoNext, canUndo: history.length > 0, canRedo: future.length > 0 };
+}
+
+// Usage with optimistic update:
+function TaskManager() {
+  const queryClient = useQueryClient();
+  const { execute, undoLast, canUndo } = useUndoableAction();
+
+  function deleteTask(task) {
+    const previous = queryClient.getQueryData(['tasks']);
+
+    execute({
+      description: \`Delete "\${task.title}"\`,
+      action: () => {
+        queryClient.setQueryData(['tasks'], (old = []) => old.filter(t => t.id !== task.id));
+        api.delete(\`/tasks/\${task.id}\`).catch(() => {
+          queryClient.setQueryData(['tasks'], previous);
+          showToast('Delete failed');
+        });
+      },
+      undo: () => {
+        queryClient.setQueryData(['tasks'], previous);
+        api.post('/tasks', task).catch(() => {
+          queryClient.setQueryData(['tasks'], (old = []) => old.filter(t => t.id !== task.id));
+        });
+      },
+    });
+  }
+
+  return (
+    <div>
+      <TaskList onDelete={deleteTask} />
+      {canUndo && (
+        <button onClick={undoLast} aria-keyshortcuts="Ctrl+Z">
+          Undo last action
+        </button>
+      )}
+    </div>
+  );
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+7. Optimistic Reordering and Drag-and-Drop
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { useState, useCallback } from 'react';
+
+// ========================
+// Optimistic list reordering
+// ========================
+
+// Reordering is a classic optimistic update use case:
+// the user drags an item and it snaps to the new position instantly.
+// The order update is persisted in the background.
+
+function useReorderTasks() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ taskId, newIndex, orderedIds }) =>
+      api.patch('/tasks/reorder', { taskId, newIndex, orderedIds }),
+
+    onMutate: async ({ taskId, newIndex }) => {
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+
+      const previous = queryClient.getQueryData(['tasks']);
+
+      queryClient.setQueryData(['tasks'], (old = []) => {
+        const items    = [...old];
+        const fromIndex = items.findIndex(t => t.id === taskId);
+        if (fromIndex === -1) return old;
+
+        const [moved] = items.splice(fromIndex, 1);
+        items.splice(newIndex, 0, moved);
+        return items;
+      });
+
+      return { previous };
+    },
+
+    onError: (err, vars, context) => {
+      queryClient.setQueryData(['tasks'], context.previous);
+      showToast('Failed to reorder tasks');
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+}
+
+// ========================
+// Drag-and-drop with optimistic update
+// ========================
+
+function DraggableTaskList() {
+  const { data: tasks = [] } = useQuery({ queryKey: ['tasks'], queryFn: fetchTasks });
+  const reorder = useReorderTasks();
+
+  // Local order state for smooth drag animations —
+  // server state from React Query is the source of truth after settle
+  const [localOrder, setLocalOrder] = useState(null);
+  const displayedTasks = localOrder ?? tasks;
+
+  function handleDragEnd(result) {
+    const { draggableId: taskId, destination, source } = result;
+    if (!destination || destination.index === source.index) return;
+
+    // 1. Update local display order immediately (optimistic, no flicker)
+    const reordered = [...displayedTasks];
+    const [moved] = reordered.splice(source.index, 1);
+    reordered.splice(destination.index, 0, moved);
+    setLocalOrder(reordered);
+
+    // 2. Persist to server in background
+    reorder.mutate(
+      {
+        taskId,
+        newIndex: destination.index,
+        orderedIds: reordered.map(t => t.id),
+      },
+      {
+        onSuccess: () => setLocalOrder(null), // clear local override — use server order
+        onError: () => setLocalOrder(null),   // also clear on error — shows rolled-back server state
+      }
+    );
+  }
+
+  return (
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Droppable droppableId="tasks">
+        {(provided) => (
+          <ul ref={provided.innerRef} {...provided.droppableProps}>
+            {displayedTasks.map((task, index) => (
+              <Draggable key={task.id} draggableId={task.id} index={index}>
+                {(provided, snapshot) => (
+                  <li
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={{
+                      ...provided.draggableProps.style,
+                      opacity: snapshot.isDragging ? 0.8 : 1,
+                    }}
+                  >
+                    {task.title}
+                  </li>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
+}
+
+// ========================
+// Fractional indexing for conflict-free reordering
+// ========================
+
+// When multiple users reorder a shared list concurrently,
+// integer indices cause conflicts. Fractional indexing avoids them:
+// items have decimal order values (1.0, 2.0, 3.0)
+// inserting between 1.0 and 2.0 yields 1.5
+// no re-numbering of other items needed
+
+function getNewOrderValue(prevItem, nextItem) {
+  const prev = prevItem?.orderValue ?? 0;
+  const next = nextItem?.orderValue ?? prev + 2;
+  return (prev + next) / 2;
+}
+
+// If floating point precision runs out (after many insertions),
+// re-normalize all order values on the server.
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+8. Rules, Edge Cases, and Gotchas
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+// ========================
+// Gotcha 1: Forgetting to cancel in-flight queries
+// ========================
+
+// ❌ Without cancelQueries, an in-flight refetch can overwrite your optimistic update
+function BadOnMutate() {
+  return useMutation({
+    onMutate: async (newItem) => {
+      // ❌ Missing: await queryClient.cancelQueries(...)
+      queryClient.setQueryData(['items'], (old) => [...old, newItem]);
+      // A refetch finishing NOW would overwrite this with stale data
+    },
+  });
+}
+
+// ✅ Always cancel before setting optimistic data
+function GoodOnMutate() {
+  return useMutation({
+    onMutate: async (newItem) => {
+      await queryClient.cancelQueries({ queryKey: ['items'] }); // ✅ cancel first
+      const previous = queryClient.getQueryData(['items']);
+      queryClient.setQueryData(['items'], (old) => [...old, newItem]);
+      return { previous };
+    },
+  });
+}
+
+// ========================
+// Gotcha 2: Not snapshotting before mutation
+// ========================
+
+// ❌ No snapshot — cannot roll back on error
+function NoSnapshot() {
+  return useMutation({
+    onMutate: async (data) => {
+      queryClient.setQueryData(['items'], (old) => [...old, data]);
+      // No return value → context is undefined in onError
+    },
+    onError: (err, data, context) => {
+      // context.previous is undefined — can't restore!
+      queryClient.setQueryData(['items'], context?.previous); // ❌ undefined
+    },
+  });
+}
+
+// ✅ Always snapshot and return in context
+function WithSnapshot() {
+  return useMutation({
+    onMutate: async (data) => {
+      const previous = queryClient.getQueryData(['items']); // ✅ snapshot first
+      queryClient.setQueryData(['items'], (old) => [...old, data]);
+      return { previous }; // ✅ available in onError
+    },
+    onError: (err, data, context) => {
+      queryClient.setQueryData(['items'], context.previous); // ✅ restore
+    },
+  });
+}
+
+// ========================
+// Gotcha 3: Skipping onSettled invalidation
+// ========================
+
+// Without onSettled invalidation, the cache may drift from server truth.
+// Example: server applies side effects (auto-assign, timestamps, computed fields)
+// that the optimistic update didn't predict. Always refetch after settle.
+
+// ❌ No invalidation — cache diverges from server
+const badMutation = useMutation({ mutationFn, onMutate, onError });
+
+// ✅ Invalidate on settle — re-fetches in background
+const goodMutation = useMutation({
+  mutationFn,
+  onMutate,
+  onError,
+  onSettled: () => queryClient.invalidateQueries({ queryKey: ['items'] }), // ✅
+});
+
+// ========================
+// Gotcha 4: Optimistic updates on non-idempotent operations
+// ========================
+
+// ❌ Don't optimistically increment a counter if the mutation can be retried
+// Each retry would increment again, causing over-counting
+function BadCounter() {
+  const [count, setCount] = useState(0);
+
+  async function increment() {
+    setCount(c => c + 1); // optimistic
+
+    try {
+      await api.post('/counter/increment');
+    } catch {
+      setCount(c => c - 1); // rollback
+      // But what if the request succeeded server-side and only the response failed?
+      // The counter is now permanently out of sync.
+    }
+  }
+}
+
+// ✅ For non-idempotent operations, pessimistic or use idempotency keys
+async function incrementSafe() {
+  const idempotencyKey = crypto.randomUUID();
+  await api.post('/counter/increment', {}, { headers: { 'Idempotency-Key': idempotencyKey } });
+}
+
+// ========================
+// Gotcha 5: Using optimistic updates for validation-heavy mutations
+// ========================
+
+// If the server validates heavily (unique constraints, business rules),
+// the optimistic state is frequently wrong and rollbacks are visible and jarring.
+
+// ❌ Optimistic add when username might be taken — rollback is jarring
+function optimisticAddUser(username) { /* ... */ }
+
+// ✅ Client-validate first, then optimistic update only if likely to succeed
+async function addUserWithValidation(username) {
+  const isAvailable = await checkUsernameAvailability(username);
+  if (!isAvailable) {
+    showError('Username is taken');
+    return;
+  }
+  // Now optimistic update is safe — high confidence of success
+  mutate({ username });
+}
+
+// ========================
+// Gotcha 6: Not distinguishing pending optimistic items in the UI
+// ========================
+
+// ❌ Pending items look identical to confirmed items — confusing on slow connections
+function BadCommentList({ comments }) {
+  return comments.map(c => <Comment key={c.id} comment={c} />);
+}
+
+// ✅ Visually distinguish pending items with opacity, spinner, or "Sending..." label
+function GoodCommentList({ comments }) {
+  return comments.map(c => (
+    <Comment
+      key={c.id}
+      comment={c}
+      isPending={c.isOptimistic}
+      style={{ opacity: c.isOptimistic ? 0.6 : 1 }}
+    />
+  ));
+}
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+9. Testing Optimistic Updates
+</h4>
+
+<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+<pre><code className="language-javascript">
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { http, HttpResponse } from 'msw';
+import { setupServer } from 'msw/node';
+
+// ========================
+// Test setup — MSW for network mocking
+// ========================
+
+const server = setupServer();
+
+function createTestQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries:   { retry: false },
+      mutations: { retry: false },
+    },
+  });
+}
+
+function TestWrapper({ children }) {
+  const queryClient = createTestQueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+}
+
+// ========================
+// Test 1: Optimistic item appears before server response
+// ========================
+
+test('adds todo optimistically before server responds', async () => {
+  const user = userEvent.setup();
+
+  // Slow server response — lets us observe the optimistic state
+  server.use(
+    http.post('/api/todos', async () => {
+      await new Promise(r => setTimeout(r, 500)); // 500ms delay
+      return HttpResponse.json({ id: '123', title: 'Test todo', completed: false });
+    })
+  );
+
+  render(<TodoList initialTodos={[]} />, { wrapper: TestWrapper });
+
+  await user.type(screen.getByPlaceholderText('New todo...'), 'Test todo');
+  await user.click(screen.getByRole('button', { name: 'Add' }));
+
+  // Optimistic item should appear immediately (before 500ms server response)
+  expect(screen.getByText('Test todo')).toBeInTheDocument();
+
+  // Should show pending indicator
+  expect(screen.getByLabelText('saving')).toBeInTheDocument();
+
+  // After server responds, pending indicator should disappear
+  await waitFor(() => {
+    expect(screen.queryByLabelText('saving')).not.toBeInTheDocument();
+  });
+});
+
+// ========================
+// Test 2: Rollback on server error
+// ========================
+
+test('rolls back optimistic update when server returns error', async () => {
+  const user = userEvent.setup();
+
+  server.use(
+    http.post('/api/todos', () => {
+      return HttpResponse.json({ message: 'Server error' }, { status: 500 });
+    })
+  );
+
+  const initialTodos = [{ id: '1', title: 'Existing todo', completed: false }];
+  render(<TodoList initialTodos={initialTodos} />, { wrapper: TestWrapper });
+
+  // Existing todo visible
+  expect(screen.getByText('Existing todo')).toBeInTheDocument();
+
+  await user.type(screen.getByPlaceholderText('New todo...'), 'New todo');
+  await user.click(screen.getByRole('button', { name: 'Add' }));
+
+  // Optimistic item appears
+  expect(screen.getByText('New todo')).toBeInTheDocument();
+
+  // After server error, optimistic item should disappear
+  await waitFor(() => {
+    expect(screen.queryByText('New todo')).not.toBeInTheDocument();
+  });
+
+  // Original item should still be there
+  expect(screen.getByText('Existing todo')).toBeInTheDocument();
+
+  // Error toast should appear
+  expect(screen.getByText('Failed to add todo')).toBeInTheDocument();
+});
+
+// ========================
+// Test 3: Toggle rolls back on failure
+// ========================
+
+test('toggles checkbox optimistically and rolls back on error', async () => {
+  const user = userEvent.setup();
+
+  server.use(
+    http.patch('/api/todos/:id', () =>
+      HttpResponse.json({ message: 'Error' }, { status: 500 })
+    )
+  );
+
+  const todo = { id: '1', title: 'My task', completed: false };
+  render(<TodoItem todo={todo} />, { wrapper: TestWrapper });
+
+  const checkbox = screen.getByRole('checkbox');
+  expect(checkbox).not.toBeChecked();
+
+  await user.click(checkbox);
+
+  // Optimistically checked
+  expect(checkbox).toBeChecked();
+
+  // Server fails → should roll back
+  await waitFor(() => {
+    expect(checkbox).not.toBeChecked();
+  });
+});
+
+// ========================
+// Test 4: useOptimistic hook unit test
+// ========================
+
+test('useOptimistic shows optimistic state during transition', async () => {
+  const user = userEvent.setup();
+
+  // Slow mutation so we can observe the pending state
+  server.use(
+    http.post('/api/items', async () => {
+      await new Promise(r => setTimeout(r, 300));
+      return HttpResponse.json({ id: '1', name: 'New item' });
+    })
+  );
+
+  render(<OptimisticList initialItems={[]} />, { wrapper: TestWrapper });
+
+  await user.click(screen.getByRole('button', { name: 'Add Item' }));
+
+  // Optimistic item visible with pending style
+  const optimisticItem = screen.getByText('New item');
+  expect(optimisticItem.closest('li')).toHaveStyle({ opacity: '0.6' });
+
+  // After server responds, opacity back to 1
+  await waitFor(() => {
+    expect(optimisticItem.closest('li')).toHaveStyle({ opacity: '1' });
+  });
+});
+
+// ========================
+// Test 5: Soft delete with undo
+// ========================
+
+test('soft delete removes item, undo restores it', async () => {
+  const user = userEvent.setup();
+
+  jest.useFakeTimers();
+
+  const items = [{ id: '1', name: 'Item to delete' }];
+  render(<SoftDeleteList items={items} />, { wrapper: TestWrapper });
+
+  expect(screen.getByText('Item to delete')).toBeInTheDocument();
+
+  // Delete — item disappears immediately
+  await user.click(screen.getByRole('button', { name: 'Delete' }));
+  expect(screen.queryByText('Item to delete')).not.toBeInTheDocument();
+
+  // Undo toast visible
+  expect(screen.getByRole('button', { name: 'Undo' })).toBeInTheDocument();
+
+  // Click undo — item reappears
+  await user.click(screen.getByRole('button', { name: 'Undo' }));
+  expect(screen.getByText('Item to delete')).toBeInTheDocument();
+
+  jest.useRealTimers();
+});
+</code></pre>
+</div>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+10. Best Practices Summary
+</h4>
+
+<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">
+  <li><b>DO:</b> Always snapshot the current cache or state before applying an optimistic update — the snapshot is your rollback point</li>
+  <li><b>DO:</b> Call <code>cancelQueries</code> before setting optimistic data in React Query — an in-flight refetch completing after your update will overwrite it</li>
+  <li><b>DO:</b> Always invalidate queries in <code>onSettled</code> — the server may apply side effects (timestamps, computed fields) that the optimistic state didn't predict</li>
+  <li><b>DO:</b> Use temporary IDs (prefixed with <code>"temp-"</code> or generated via <code>crypto.randomUUID()</code>) for optimistically added items, and reconcile them with the real server ID on success</li>
+  <li><b>DO:</b> Visually distinguish pending optimistic items with reduced opacity, a spinner, or a "Sending…" label — never let them look identical to confirmed items on slow connections</li>
+  <li><b>DO:</b> Use debouncing to collapse rapid mutations (e.g., auto-save inputs) into single requests — prevents concurrent mutation conflicts</li>
+  <li><b>DO:</b> Use sequence numbers or abort controllers to handle concurrent mutations on the same resource — only roll back if no newer mutation has since fired</li>
+  <li><b>DO:</b> Implement soft-delete with an undo toast window for destructive actions — gives users a safety net without blocking the UI</li>
+  <li><b>DO:</b> Use <code>useOptimistic</code> (React 19) for simple in-component cases and React Query's mutation lifecycle for server-cache synchronization</li>
+  <li><b>DO:</b> Client-validate aggressively before triggering mutations with high server-side rejection rates — optimistic updates are most effective when success is highly probable</li>
+  <li><b>DON'T:</b> Apply optimistic updates to financial transactions, non-idempotent operations, or mutations where the server result is unpredictable</li>
+  <li><b>DON'T:</b> Forget to return the snapshot from <code>onMutate</code> as context — without it, <code>onError</code> cannot roll back</li>
+  <li><b>DON'T:</b> Naively roll back on error when multiple mutations are in flight — the rollback may destroy a later mutation's optimistic state</li>
+  <li><b>DON'T:</b> Skip the pending visual indicator — users on slow connections will be confused if an item appears to be confirmed but is still in-flight</li>
+  <li><b>DON'T:</b> Use optimistic updates when server validation is strict and failures are frequent — visible rollbacks erode user trust faster than a spinner</li>
+  <li><b>DON'T:</b> Mutate arrays or objects in state directly as the rollback value — always spread into a new reference so React detects the change</li>
+  <li><b>DON'T:</b> Forget to handle the case where the server response contains additional fields the optimistic state lacks — <code>onSettled</code> invalidation ensures the final state is authoritative</li>
+  <li><b>DON'T:</b> Allow users to fire additional mutations on a pending optimistic item without a clear pending indicator — they may not realize the first action is still in flight</li>
+</ul>
+
+</div>`,
+            examples: [
+              "Pessimistic vs optimistic like button — side-by-side comparison",
+              "useOptimistic — todo add, toggle, and delete with React 19",
+              "React Query onMutate/onError/onSettled — add, toggle, delete, and detail + list cache",
+              "Temporary ID strategies — randomUUID, invalidate-on-settle, client-assigned UUID",
+              "Concurrent mutation conflict resolution — debounce, pending count, abort controller, sequence numbers",
+              "Soft delete with undo toast and countdown progress bar",
+              "Full command-pattern undo history stack with redo",
+              "Optimistic drag-and-drop reordering with fractional indexing",
+              "Rendering pending items with opacity, spinner, and aria-busy",
+              "MSW-based tests — optimistic appearance, rollback on error, soft-delete undo",
+            ],
+            questions: [
+              {
+                question:
+                  "What is an optimistic UI update and what problem does it solve?",
+                answer:
+                  "An optimistic UI update immediately reflects a user action in the UI as if the server request has already succeeded, before the network round trip completes. The UI updates instantly, the mutation fires in the background, and if the server confirms success nothing changes — the UI was already correct. If the server fails, the UI rolls back to its previous state. The problem it solves is perceived latency: in a pessimistic update the user clicks, sees a spinner, waits for the server, and then sees the result. The delay is fully visible and the interface feels slow. With optimistic updates, the interface feels instantaneous. This pattern is most valuable for high-frequency, high-confidence mutations — likes, toggles, reordering — where server failures are rare and the user experience cost of an occasional rollback is low.",
+              },
+              {
+                question:
+                  "How does useOptimistic work in React 19 and how does it differ from managing rollback manually?",
+                answer:
+                  "useOptimistic(state, reducerFn) returns an optimisticState value and an addOptimistic function. The optimisticState automatically shows the optimistic value while an async transition is pending, then reverts to the original state prop when the transition completes or errors. This differs from manual rollback, where you snapshot state yourself, apply an update, and restore the snapshot in a catch block. With useOptimistic, React manages the reversion automatically — you don't need explicit try/catch rollback logic. The reducer function describes how to transform the current state given the optimistic value: (currentState, optimisticValue) => newState. It should be paired with useTransition — addOptimistic is called inside startTransition to associate the optimistic update with the async action.",
+              },
+              {
+                question:
+                  "What are the three key hooks in React Query's mutation lifecycle for optimistic updates, and what does each do?",
+                answer:
+                  "onMutate fires synchronously before the mutation function, receives the mutation variables, and is where you cancel in-flight queries, snapshot the current cache, and apply the optimistic update to the cache. It returns a context object that is passed to subsequent hooks. onError fires if the mutation throws, receives the error, the original variables, and the context from onMutate — this is where you restore the snapshot to roll back the cache and show an error message. onSettled fires on both success and error after everything resolves, and is where you invalidate queries to refetch and ensure the cache reflects the actual server state, since the server may have applied side effects or computed fields that the optimistic update did not predict.",
+              },
+              {
+                question:
+                  "Why must you call cancelQueries before applying an optimistic update in React Query?",
+                answer:
+                  "Without cancelQueries, an in-flight refetch that completes after your optimistic setQueryData call will overwrite the optimistic state with stale server data. The sequence without cancellation would be: user action fires, you set optimistic data, a background refetch completes and replaces your optimistic data with the old server response, the mutation completes, onSettled invalidates and refetches again. The user sees a flash of the old data between the optimistic update and the final server state. cancelQueries aborts any in-flight queries for that key before you set the optimistic data, ensuring nothing overwrites it until onSettled intentionally invalidates after the mutation settles.",
+              },
+              {
+                question:
+                  "How do you handle temporary IDs for optimistically added items?",
+                answer:
+                  "When adding an item optimistically, the server-assigned ID does not exist yet but you need a key for React rendering and a way to reference the item. The three main strategies are: first, generate a temporary ID prefixed with 'temp-' using crypto.randomUUID(), then in onSuccess find the item by temp ID and replace it with the server-returned item with the real ID. Second, let onSettled invalidation handle reconciliation — the query refetches and the temp item is replaced by the real server data, causing a brief re-render but no manual reconciliation code. Third, generate the UUID entirely client-side and send it to the server, which stores and returns the same ID — no reconciliation needed, but requires the server to accept client-generated IDs.",
+              },
+              {
+                question:
+                  "What is the concurrent mutation problem and what strategies resolve it?",
+                answer:
+                  "The concurrent mutation problem occurs when two mutations fire rapidly on the same resource. The second mutation's onMutate snapshots state that already includes the first mutation's optimistic update. If the first mutation fails and rolls back to its snapshot, it overwrites the second mutation's optimistic update too — the second update is lost. Resolution strategies include: debouncing to collapse rapid mutations into one, so only the final state is sent; tracking a pending count per resource and only rolling back when the count reaches zero; using an AbortController to cancel the previous in-flight request before starting a new one and skipping rollback on AbortError; and assigning sequence numbers and only rolling back if the failing mutation is the latest one.",
+              },
+              {
+                question:
+                  "What is the soft-delete pattern and why is it preferred for destructive actions?",
+                answer:
+                  "Soft-delete is a hybrid optimistic and undo pattern where the item disappears from the UI immediately (optimistic) but the actual delete mutation is deferred by a short window — typically three to five seconds. During that window, an undo toast is shown. If the user clicks undo, the item reappears and the mutation is cancelled. If the window expires without undo, the mutation fires and the item is permanently deleted. This is preferred for destructive actions because it gives users a safety net without blocking the UI or requiring a confirmation dialog. The Gmail trash pattern is the canonical example. The implementation requires a ref-tracked map of pending delete timeouts keyed by item ID, so any specific deletion can be cancelled independently.",
+              },
+              {
+                question: "When should you not use optimistic updates?",
+                answer:
+                  "Avoid optimistic updates for financial transactions where an incorrect display — even briefly — is unacceptable. Avoid them for non-idempotent operations where a retry after a network ambiguity could execute the action twice, such as incrementing a counter without an idempotency key. Avoid them when server-side validation is strict and rejections are frequent — visible rollbacks that happen regularly erode user trust faster than a simple loading spinner. Avoid them when the post-mutation server state cannot be predicted client-side, such as when the server applies complex business rules or triggers cascading mutations. Avoid them when one mutation depends on the result of another — the sequencing makes optimistic prediction unreliable.",
+              },
+              {
+                question:
+                  "How do you implement optimistic reordering in a drag-and-drop list?",
+                answer:
+                  "On drag end, immediately apply the new order to a local state variable using array splice to move the dragged item to its new index. This local state overrides the React Query cache for display while the mutation is in-flight, producing instant visual feedback. Fire the reorder mutation in the background with the new ordered IDs. On success, clear the local state so the display reverts to the query cache, which now reflects the server's confirmed order. On error, also clear local state — the display rolls back to the cached (pre-mutation) order. For multi-user shared lists, fractional indexing prevents conflicts: instead of integer positions, items carry decimal order values, and inserting between two items produces an average of their values without renumbering anything else.",
+              },
+              {
+                question:
+                  "How do you test optimistic update behavior, including rollback?",
+                answer:
+                  "Use Mock Service Worker (MSW) to control server responses with precision. For testing the optimistic state, add an artificial delay to the server handler and assert that the UI reflects the optimistic value before the delay resolves — the item should appear immediately, and a pending indicator like a spinner or reduced opacity should be visible. For testing rollback, return a 500 error from the server handler and assert that after the mutation settles, the optimistic item disappears and the original state is restored. Test that an error message is displayed. For undo patterns, use fake timers to control the undo window expiry without waiting in real time. Use a custom QueryClient with retry: false in tests to prevent React Query from retrying failed mutations, which would complicate assertions.",
+              },
+              {
+                question:
+                  "How should pending optimistic items be rendered differently from confirmed items?",
+                answer:
+                  "Pending items should carry a flag like isOptimistic: true in the optimistic cache entry, set in onMutate or by useOptimistic's reducer. In the render, conditionally apply reduced opacity (0.5–0.7), a grayscale filter, a spinner icon, or a 'Sending...' label. The aria-busy attribute should be set to true on the item for screen reader accessibility. The transition should be smooth using CSS transition on opacity. Once the mutation settles and onSettled invalidation triggers a refetch, the confirmed server item replaces the optimistic one and the pending styles disappear. Never render pending items identically to confirmed items on slow connections — users will interact with an item they believe is saved when it has not been persisted yet.",
+              },
+            ],
+            links: [
+              "https://react.dev/reference/react/useOptimistic",
+              "https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates",
+              "https://tanstack.com/query/latest/docs/framework/react/reference/useMutation",
+              "https://react.dev/reference/react/useTransition",
+              "https://mswjs.io/docs/",
+              "https://tanstack.com/query/latest/docs/framework/react/guides/mutations",
+              "https://tanstack.com/query/latest/docs/framework/react/guides/query-invalidation",
+              "https://www.npmjs.com/package/use-debounce",
+              "https://developer.mozilla.org/en-US/docs/Web/API/AbortController",
+              "https://www.figma.com/blog/how-figmas-multiplayer-technology-works/",
+            ],
           },
           {
             topic: "React Optimizations",
@@ -44753,6 +63338,1198 @@ export default memo(LargeDataView);`,
               "https://react.dev/reference/react/Profiler",
               "https://react.dev/reference/react/useTransition",
               "https://react.dev/reference/react/useDeferredValue",
+            ],
+          },
+          {
+            topic: "Closures & Memory Leaks in React",
+            tags: [
+              "Closures",
+              "Memory Leaks",
+              "React",
+              "useEffect",
+              "Cleanup",
+              "Performance",
+              "Hooks",
+              "Event Listeners",
+              "Subscriptions",
+            ],
+            explanation: `
+    <div>
+      <h2>Closures & Memory Leaks in React</h2>
+      <p>
+        Understanding closures and memory management is critical for building performant React applications. 
+        Memory leaks occur when references to objects are unintentionally retained, preventing garbage collection. 
+        In React, closures in effects and callbacks are common sources of memory leaks.
+      </p>
+
+      <h3>Understanding Closures in JavaScript</h3>
+      <pre><code>
+// Basic closure - inner function accesses outer scope
+function outer() {
+  const data = 'Hello';
+  
+  function inner() {
+    console.log(data); // Closure over 'data'
+  }
+  
+  return inner;
+}
+
+const fn = outer();
+fn(); // 'Hello' - data is still accessible
+
+// Closure captures variables by reference, not value
+function counter() {
+  let count = 0;
+  
+  return {
+    increment: () => ++count,
+    getCount: () => count
+  };
+}
+
+const c = counter();
+c.increment(); // 1
+c.increment(); // 2
+c.getCount();  // 2 - same 'count' reference
+
+// Common pitfall: Loop closures
+const functions = [];
+for (var i = 0; i < 3; i++) {
+  functions.push(() => console.log(i));
+}
+functions[0](); // 3 (not 0!)
+functions[1](); // 3 (not 1!)
+// All closures reference the same 'i'
+
+// Solution: Create new scope
+const functionsFixed = [];
+for (let i = 0; i < 3; i++) { // 'let' creates block scope
+  functionsFixed.push(() => console.log(i));
+}
+functionsFixed[0](); // 0
+functionsFixed[1](); // 1
+      </code></pre>
+
+      <h3>Closures in React Components</h3>
+      <pre><code>
+import { useState, useEffect } from 'react';
+
+// Problem: Stale closure
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(count); // Always logs 0 - stale closure
+      setCount(count + 1); // Always sets to 1
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []); // Empty deps - closure captures initial count (0)
+  
+  return <div>{count}</div>;
+}
+
+// Solution 1: Include dependency
+function CounterFixed1() {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(count); // Logs current count
+      setCount(count + 1);
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [count]); // Re-creates interval when count changes
+  
+  return <div>{count}</div>;
+}
+
+// Solution 2: Functional update
+function CounterFixed2() {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(c => c + 1); // Uses latest state
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []); // Can keep empty deps
+  
+  return <div>{count}</div>;
+}
+
+// Solution 3: useRef for mutable reference
+function CounterFixed3() {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(count);
+  
+  useEffect(() => {
+    countRef.current = count;
+  }, [count]);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(countRef.current); // Always latest value
+      setCount(c => c + 1);
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  return <div>{count}</div>;
+}
+      </code></pre>
+
+      <h3>Common Memory Leak Patterns</h3>
+
+      <h4>1. setState After Unmount</h4>
+      <pre><code>
+// Problem: Component unmounts but async operation still calls setState
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    fetchUser(userId).then(data => {
+      setUser(data); // ⚠️ Called even if component unmounted
+    });
+  }, [userId]);
+  
+  return <div>{user?.name}</div>;
+}
+
+// Solution 1: Cleanup flag
+function UserProfileFixed1({ userId }) {
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    let isMounted = true;
+    
+    fetchUser(userId).then(data => {
+      if (isMounted) {
+        setUser(data); // Only update if still mounted
+      }
+    });
+    
+    return () => {
+      isMounted = false; // Cleanup
+    };
+  }, [userId]);
+  
+  return <div>{user?.name}</div>;
+}
+
+// Solution 2: AbortController
+function UserProfileFixed2({ userId }) {
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    const controller = new AbortController();
+    
+    fetch(\`/api/users/\${userId}\`, { signal: controller.signal })
+      .then(res => res.json())
+      .then(data => setUser(data))
+      .catch(error => {
+        if (error.name === 'AbortError') {
+          console.log('Request cancelled');
+        }
+      });
+    
+    return () => {
+      controller.abort(); // Cancel request
+    };
+  }, [userId]);
+  
+  return <div>{user?.name}</div>;
+}
+
+// Solution 3: Custom hook with cleanup
+function useAsync(asyncFunction, deps) {
+  const [state, setState] = useState({ loading: true, data: null, error: null });
+  
+  useEffect(() => {
+    let isMounted = true;
+    
+    setState({ loading: true, data: null, error: null });
+    
+    asyncFunction()
+      .then(data => {
+        if (isMounted) {
+          setState({ loading: false, data, error: null });
+        }
+      })
+      .catch(error => {
+        if (isMounted) {
+          setState({ loading: false, data: null, error });
+        }
+      });
+    
+    return () => {
+      isMounted = false;
+    };
+  }, deps);
+  
+  return state;
+}
+
+// Usage
+function UserProfile({ userId }) {
+  const { loading, data: user, error } = useAsync(
+    () => fetchUser(userId),
+    [userId]
+  );
+  
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  return <div>{user.name}</div>;
+}
+      </code></pre>
+
+      <h4>2. Interval and Timer Cleanup</h4>
+      <pre><code>
+// Problem: Interval not cleaned up
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+  
+  useEffect(() => {
+    setInterval(() => {
+      setSeconds(s => s + 1);
+    }, 1000);
+    // ⚠️ No cleanup - interval continues after unmount
+  }, []);
+  
+  return <div>{seconds}</div>;
+}
+
+// Solution: Clear interval in cleanup
+function TimerFixed() {
+  const [seconds, setSeconds] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds(s => s + 1);
+    }, 1000);
+    
+    return () => {
+      clearInterval(interval); // Cleanup
+    };
+  }, []);
+  
+  return <div>{seconds}</div>;
+}
+
+// Multiple timers pattern
+function MultiTimer() {
+  const [time, setTime] = useState({ seconds: 0, minutes: 0 });
+  
+  useEffect(() => {
+    const secondInterval = setInterval(() => {
+      setTime(t => ({ ...t, seconds: t.seconds + 1 }));
+    }, 1000);
+    
+    const minuteInterval = setInterval(() => {
+      setTime(t => ({ ...t, minutes: t.minutes + 1 }));
+    }, 60000);
+    
+    return () => {
+      clearInterval(secondInterval);
+      clearInterval(minuteInterval);
+    };
+  }, []);
+  
+  return <div>{time.minutes}:{time.seconds}</div>;
+}
+
+// Debounce pattern with cleanup
+function SearchInput() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (query) {
+        searchAPI(query).then(setResults);
+      }
+    }, 500);
+    
+    return () => {
+      clearTimeout(timeout); // Cancel pending search
+    };
+  }, [query]);
+  
+  return (
+    <div>
+      <input value={query} onChange={e => setQuery(e.target.value)} />
+      {results.map(r => <div key={r.id}>{r.name}</div>)}
+    </div>
+  );
+}
+      </code></pre>
+
+      <h4>3. Event Listener Cleanup</h4>
+      <pre><code>
+// Problem: Event listeners not removed
+function WindowSize() {
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial size
+    
+    // ⚠️ No cleanup - listener remains after unmount
+  }, []);
+  
+  return <div>{size.width} x {size.height}</div>;
+}
+
+// Solution: Remove listener
+function WindowSizeFixed() {
+  const [size, setSize] = useState({ width: 0, height: 0 });
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    
+    return () => {
+      window.removeEventListener('resize', handleResize); // Cleanup
+    };
+  }, []);
+  
+  return <div>{size.width} x {size.height}</div>;
+}
+
+// Multiple event listeners pattern
+function KeyboardTracker() {
+  const [keys, setKeys] = useState(new Set());
+  
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      setKeys(prev => new Set(prev).add(e.key));
+    };
+    
+    const handleKeyUp = (e) => {
+      setKeys(prev => {
+        const next = new Set(prev);
+        next.delete(e.key);
+        return next;
+      });
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+  
+  return <div>Pressed: {Array.from(keys).join(', ')}</div>;
+}
+
+// Document event with capture phase
+function ClickOutside({ onClickOutside, children }) {
+  const ref = useRef();
+  
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        onClickOutside();
+      }
+    };
+    
+    // Use capture phase to catch events before they bubble
+    document.addEventListener('mousedown', handleClick, true);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClick, true);
+    };
+  }, [onClickOutside]);
+  
+  return <div ref={ref}>{children}</div>;
+}
+      </code></pre>
+
+      <h4>4. Subscription Cleanup</h4>
+      <pre><code>
+// Problem: Subscription not unsubscribed
+function RealtimeData({ channel }) {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const subscription = subscribeToChannel(channel, (newData) => {
+      setData(newData); // ⚠️ Updates even after unmount
+    });
+    // ⚠️ No unsubscribe
+  }, [channel]);
+  
+  return <div>{JSON.stringify(data)}</div>;
+}
+
+// Solution: Unsubscribe in cleanup
+function RealtimeDataFixed({ channel }) {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const subscription = subscribeToChannel(channel, (newData) => {
+      setData(newData);
+    });
+    
+    return () => {
+      subscription.unsubscribe(); // Cleanup
+    };
+  }, [channel]);
+  
+  return <div>{JSON.stringify(data)}</div>;
+}
+
+// WebSocket pattern
+function WebSocketComponent({ url }) {
+  const [messages, setMessages] = useState([]);
+  const wsRef = useRef(null);
+  
+  useEffect(() => {
+    const ws = new WebSocket(url);
+    wsRef.current = ws;
+    
+    ws.onopen = () => {
+      console.log('Connected');
+    };
+    
+    ws.onmessage = (event) => {
+      setMessages(prev => [...prev, event.data]);
+    };
+    
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+    
+    ws.onclose = () => {
+      console.log('Disconnected');
+    };
+    
+    return () => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.close(); // Close connection
+      }
+    };
+  }, [url]);
+  
+  return (
+    <div>
+      {messages.map((msg, i) => (
+        <div key={i}>{msg}</div>
+      ))}
+    </div>
+  );
+}
+
+// Observable subscription (RxJS)
+function ObservableComponent() {
+  const [value, setValue] = useState(null);
+  
+  useEffect(() => {
+    const subscription = someObservable$.subscribe({
+      next: (data) => setValue(data),
+      error: (err) => console.error(err),
+      complete: () => console.log('Complete')
+    });
+    
+    return () => {
+      subscription.unsubscribe(); // Cleanup
+    };
+  }, []);
+  
+  return <div>{value}</div>;
+}
+
+// Firebase Realtime Database
+function FirebaseData({ path }) {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const ref = database.ref(path);
+    
+    const listener = ref.on('value', (snapshot) => {
+      setData(snapshot.val());
+    });
+    
+    return () => {
+      ref.off('value', listener); // Remove listener
+    };
+  }, [path]);
+  
+  return <div>{JSON.stringify(data)}</div>;
+}
+      </code></pre>
+
+      <h4>5. Callback Closures and Stale Props</h4>
+      <pre><code>
+// Problem: Callback captures stale props
+function Chat({ roomId }) {
+  const [message, setMessage] = useState('');
+  
+  useEffect(() => {
+    const handler = (data) => {
+      console.log('Received in room:', roomId); // Stale roomId
+      // If roomId changes, this still references old value
+    };
+    
+    chatSocket.on('message', handler);
+    
+    return () => {
+      chatSocket.off('message', handler);
+    };
+  }, []); // Empty deps - captures initial roomId
+  
+  return <input value={message} onChange={e => setMessage(e.target.value)} />;
+}
+
+// Solution 1: Include in dependencies
+function ChatFixed1({ roomId }) {
+  const [message, setMessage] = useState('');
+  
+  useEffect(() => {
+    const handler = (data) => {
+      console.log('Received in room:', roomId); // Current roomId
+    };
+    
+    chatSocket.on('message', handler);
+    
+    return () => {
+      chatSocket.off('message', handler);
+    };
+  }, [roomId]); // Re-subscribe when roomId changes
+  
+  return <input value={message} onChange={e => setMessage(e.target.value)} />;
+}
+
+// Solution 2: useRef for latest value
+function ChatFixed2({ roomId }) {
+  const [message, setMessage] = useState('');
+  const roomIdRef = useRef(roomId);
+  
+  useEffect(() => {
+    roomIdRef.current = roomId;
+  }, [roomId]);
+  
+  useEffect(() => {
+    const handler = (data) => {
+      console.log('Received in room:', roomIdRef.current); // Always latest
+    };
+    
+    chatSocket.on('message', handler);
+    
+    return () => {
+      chatSocket.off('message', handler);
+    };
+  }, []); // Stable subscription
+  
+  return <input value={message} onChange={e => setMessage(e.target.value)} />;
+}
+
+// Solution 3: useCallback with dependencies
+function ChatFixed3({ roomId, onMessage }) {
+  const handleMessage = useCallback((data) => {
+    console.log('Received in room:', roomId);
+    onMessage(data);
+  }, [roomId, onMessage]); // Re-creates when deps change
+  
+  useEffect(() => {
+    chatSocket.on('message', handleMessage);
+    
+    return () => {
+      chatSocket.off('message', handleMessage);
+    };
+  }, [handleMessage]);
+  
+  return <div>Chat</div>;
+}
+      </code></pre>
+
+      <h3>Advanced Patterns</h3>
+
+      <h4>Custom Hooks for Cleanup</h4>
+      <pre><code>
+// useEventListener hook
+function useEventListener(eventName, handler, element = window) {
+  const savedHandler = useRef();
+  
+  useEffect(() => {
+    savedHandler.current = handler;
+  }, [handler]);
+  
+  useEffect(() => {
+    const isSupported = element && element.addEventListener;
+    if (!isSupported) return;
+    
+    const eventListener = (event) => savedHandler.current(event);
+    element.addEventListener(eventName, eventListener);
+    
+    return () => {
+      element.removeEventListener(eventName, eventListener);
+    };
+  }, [eventName, element]);
+}
+
+// Usage
+function Component() {
+  useEventListener('resize', () => {
+    console.log('Window resized');
+  });
+  
+  useEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      console.log('Escape pressed');
+    }
+  });
+  
+  return <div>Component</div>;
+}
+
+// useInterval hook
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+  
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+  
+  useEffect(() => {
+    if (delay === null) return;
+    
+    const interval = setInterval(() => {
+      savedCallback.current();
+    }, delay);
+    
+    return () => clearInterval(interval);
+  }, [delay]);
+}
+
+// Usage
+function Timer() {
+  const [count, setCount] = useState(0);
+  
+  useInterval(() => {
+    setCount(c => c + 1);
+  }, 1000);
+  
+  return <div>{count}</div>;
+}
+
+// useTimeout hook
+function useTimeout(callback, delay) {
+  const savedCallback = useRef();
+  
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+  
+  useEffect(() => {
+    if (delay === null) return;
+    
+    const timeout = setTimeout(() => {
+      savedCallback.current();
+    }, delay);
+    
+    return () => clearTimeout(timeout);
+  }, [delay]);
+}
+
+// useDebounce hook
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+  
+  return debouncedValue;
+}
+
+// Usage
+function SearchComponent() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      searchAPI(debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm]);
+  
+  return <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />;
+}
+
+// useAbortable hook
+function useAbortable() {
+  const abortControllerRef = useRef(null);
+  
+  useEffect(() => {
+    abortControllerRef.current = new AbortController();
+    
+    return () => {
+      abortControllerRef.current?.abort();
+    };
+  }, []);
+  
+  const getSignal = useCallback(() => {
+    return abortControllerRef.current?.signal;
+  }, []);
+  
+  return getSignal;
+}
+
+// Usage
+function DataFetcher({ url }) {
+  const [data, setData] = useState(null);
+  const getSignal = useAbortable();
+  
+  useEffect(() => {
+    fetch(url, { signal: getSignal() })
+      .then(res => res.json())
+      .then(setData)
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+        }
+      });
+  }, [url, getSignal]);
+  
+  return <div>{JSON.stringify(data)}</div>;
+}
+      </code></pre>
+
+      <h4>Memory Leak Detection</h4>
+      <pre><code>
+// Development-only leak detection
+if (process.env.NODE_ENV === 'development') {
+  const mountedComponents = new Set();
+  
+  function trackMount(componentName) {
+    mountedComponents.add(componentName);
+    console.log(\`Mounted: \${componentName}\`);
+    console.log(\`Total mounted: \${mountedComponents.size}\`);
+  }
+  
+  function trackUnmount(componentName) {
+    mountedComponents.delete(componentName);
+    console.log(\`Unmounted: \${componentName}\`);
+    console.log(\`Total mounted: \${mountedComponents.size}\`);
+  }
+  
+  // Use in components
+  function MyComponent() {
+    useEffect(() => {
+      trackMount('MyComponent');
+      return () => trackUnmount('MyComponent');
+    }, []);
+    
+    return <div>Component</div>;
+  }
+}
+
+// Detect setState after unmount
+function useIsMounted() {
+  const isMountedRef = useRef(false);
+  
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+  
+  return useCallback(() => isMountedRef.current, []);
+}
+
+// Usage
+function Component() {
+  const [data, setData] = useState(null);
+  const isMounted = useIsMounted();
+  
+  useEffect(() => {
+    fetchData().then(result => {
+      if (isMounted()) {
+        setData(result);
+      } else {
+        console.warn('Attempted setState after unmount');
+      }
+    });
+  }, [isMounted]);
+  
+  return <div>{data}</div>;
+}
+
+// Chrome DevTools Memory Profiler
+// 1. Open DevTools → Memory tab
+// 2. Take heap snapshot
+// 3. Perform actions (mount/unmount components)
+// 4. Take another snapshot
+// 5. Compare snapshots to find leaks
+// Look for "Detached HTMLElements" and growing object counts
+
+// React DevTools Profiler
+function ProfiledComponent() {
+  return (
+    <Profiler id="MyComponent" onRender={(id, phase, actualDuration) => {
+      console.log(\`\${id} (\${phase}) took \${actualDuration}ms\`);
+    }}>
+      <MyComponent />
+    </Profiler>
+  );
+}
+
+// Custom leak detector hook
+function useLeakDetector(componentName) {
+  const mountTimeRef = useRef(Date.now());
+  const renderCountRef = useRef(0);
+  
+  useEffect(() => {
+    renderCountRef.current++;
+    
+    return () => {
+      const lifetime = Date.now() - mountTimeRef.current;
+      console.log(\`\${componentName} stats:\`);
+      console.log(\`  Lifetime: \${lifetime}ms\`);
+      console.log(\`  Renders: \${renderCountRef.current}\`);
+      
+      if (renderCountRef.current > 100) {
+        console.warn(\`\${componentName} rendered many times\`);
+      }
+    };
+  });
+}
+      </code></pre>
+
+      <h3>Best Practices</h3>
+      <pre><code>
+// 1. Always cleanup in useEffect
+function GoodComponent() {
+  useEffect(() => {
+    const subscription = subscribe();
+    const interval = setInterval(() => {}, 1000);
+    const listener = () => {};
+    window.addEventListener('resize', listener);
+    
+    return () => {
+      subscription.unsubscribe();
+      clearInterval(interval);
+      window.removeEventListener('resize', listener);
+    };
+  }, []);
+  
+  return <div>Component</div>;
+}
+
+// 2. Use functional updates to avoid stale closures
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(c => c + 1); // ✅ Always uses latest
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []); // Can use empty deps
+  
+  return <div>{count}</div>;
+}
+
+// 3. Use useRef for values that don't trigger re-renders
+function Component({ onChange }) {
+  const onChangeRef = useRef(onChange);
+  
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+  
+  useEffect(() => {
+    const handler = () => {
+      onChangeRef.current(); // Always latest without re-subscribing
+    };
+    
+    subscribe(handler);
+    return () => unsubscribe(handler);
+  }, []); // Stable subscription
+  
+  return <div>Component</div>;
+}
+
+// 4. Be careful with object dependencies
+function BadExample({ config }) {
+  useEffect(() => {
+    // config is a new object every render
+    // Effect runs every time even if values didn't change
+  }, [config]); // ⚠️ Infinite loop possible
+}
+
+function GoodExample({ config }) {
+  const { url, timeout } = config;
+  
+  useEffect(() => {
+    // Only re-run if url or timeout change
+  }, [url, timeout]); // ✅ Primitive dependencies
+}
+
+// 5. Use AbortController for fetch
+function Component({ id }) {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    const controller = new AbortController();
+    
+    fetch(\`/api/data/\${id}\`, { signal: controller.signal })
+      .then(res => res.json())
+      .then(setData)
+      .catch(err => {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+        }
+      });
+    
+    return () => controller.abort();
+  }, [id]);
+  
+  return <div>{data}</div>;
+}
+
+// 6. Memoize callbacks to prevent unnecessary subscriptions
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  // ⚠️ New function every render
+  const handleClick = () => console.log(count);
+  
+  // ✅ Stable function reference
+  const handleClickMemo = useCallback(() => {
+    console.log(count);
+  }, [count]);
+  
+  return <Child onClick={handleClickMemo} />;
+}
+
+function Child({ onClick }) {
+  useEffect(() => {
+    // Only re-subscribes when onClick changes
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, [onClick]);
+  
+  return <div>Child</div>;
+}
+      </code></pre>
+    </div>
+  `,
+
+            examples: [
+              "Preventing setState after component unmount with cleanup flag",
+              "Cleaning up intervals and timers in useEffect",
+              "Removing event listeners on component unmount",
+              "Unsubscribing from WebSocket connections",
+              "Using AbortController to cancel fetch requests",
+              "Custom hooks for managing subscriptions with cleanup",
+              "Detecting and preventing stale closures in effects",
+              "Memory leak detection with useIsMounted hook",
+            ],
+
+            questions: [
+              {
+                question:
+                  "What is a closure and how does it work in JavaScript?",
+                difficulty: "Basic",
+                category: "Closures",
+                answer:
+                  "A closure is a function that has access to variables in its outer (enclosing) scope, even after the outer function has returned. When a function is created, it maintains a reference to its lexical environment. Example: function outer() { const x = 10; return function inner() { console.log(x); } }; const fn = outer(); fn(); // Logs 10. The inner function 'closes over' the variable x. Key points: Closures capture variables by reference, not by value. The same variable is shared across all closures. Closures keep variables alive in memory as long as the closure exists. Common use cases: Data privacy (module pattern), event handlers, callbacks, partial application. In React: Every function inside a component is a closure over props and state.",
+              },
+              {
+                question:
+                  "What is a memory leak and how can it occur in React applications?",
+                difficulty: "Basic",
+                category: "Memory Leaks",
+                answer:
+                  "A memory leak occurs when memory that is no longer needed is not released, causing memory usage to grow over time until the application crashes or slows down. In React, common causes: 1) setState called after component unmounts - async operations complete after unmount and try to update state. 2) Event listeners not removed - listeners keep references to component. 3) Intervals/timers not cleared - continue running after unmount. 4) Subscriptions not cancelled - WebSocket, Observable, database listeners remain active. 5) Closures capturing large objects - keep objects in memory unnecessarily. 6) Global variables/caches - never garbage collected. Symptoms: Increasing memory usage over time, application slowdown, browser tab crashes, poor performance. Prevention: Always clean up in useEffect return function, use cleanup flags or AbortController, remove event listeners, clear timers, unsubscribe from subscriptions.",
+              },
+              {
+                question:
+                  "How do you prevent setState after component unmount?",
+                difficulty: "Basic",
+                category: "Cleanup",
+                answer:
+                  "Three main approaches: 1) Cleanup flag: let isMounted = true; fetch().then(data => { if (isMounted) setState(data); }); return () => { isMounted = false; }. 2) AbortController: const controller = new AbortController(); fetch(url, { signal: controller.signal }).then(data => setState(data)); return () => controller.abort(). 3) Custom hook: Create useAsync or useSafeState that handles cleanup automatically. Why it matters: Calling setState on unmounted component causes warning 'Can't perform a React state update on an unmounted component'. While not always harmful, it indicates memory leak and can cause unexpected behavior. Best practice: Always use cleanup in useEffect for async operations. AbortController is preferred for fetch as it actually cancels the request. For other promises, use isMounted flag. Never ignore this warning - fix the underlying issue.",
+              },
+              {
+                question:
+                  "What is a stale closure and how does it occur in React?",
+                difficulty: "Intermediate",
+                category: "Closures",
+                answer:
+                  "A stale closure occurs when a closure captures an old version of a variable, typically state or props, because the effect didn't re-run with updated dependencies. Example: useEffect(() => { setInterval(() => console.log(count), 1000) }, []) - count is always 0 because effect only runs once, capturing initial count. The interval closure never sees updated count values. Symptoms: Callbacks using old props/state, unexpected behavior, state updates not reflecting current values. Solutions: 1) Include in dependencies: useEffect(() => {...}, [count]) - re-creates closure with new count. 2) Functional updates: setCount(c => c + 1) - always uses latest state. 3) useRef: Store latest value in ref: countRef.current = count, access in closure. 4) useCallback: Memoize callbacks with correct dependencies. Prevention: Follow ESLint rules for exhaustive-deps, understand closure behavior, use functional updates when possible, use useRef for values that shouldn't trigger re-runs.",
+              },
+              {
+                question:
+                  "How do you properly clean up intervals and timers in React?",
+                difficulty: "Intermediate",
+                category: "Cleanup",
+                answer:
+                  "Always clear timers in useEffect cleanup function: useEffect(() => { const intervalId = setInterval(() => {}, 1000); return () => clearInterval(intervalId); }, []). Store timer ID to clear it later. Same for timeout: const timeoutId = setTimeout(() => {}, 1000); return () => clearTimeout(timeoutId). Multiple timers: Store all IDs and clear each: const id1 = setInterval(...); const id2 = setTimeout(...); return () => { clearInterval(id1); clearTimeout(id2); }. Common mistakes: Not storing timer ID (can't clear it), forgetting cleanup function, clearing wrong timer type (clearTimeout for setInterval). Advanced pattern: Custom useInterval/useTimeout hooks that handle cleanup automatically. Why important: Uncleaned timers continue running after unmount, calling setState on unmounted component, consuming CPU, causing memory leaks. Multiple mounts without cleanup create multiple timers running simultaneously. Always test by mounting/unmounting component rapidly.",
+              },
+              {
+                question:
+                  "How do you properly clean up event listeners in React?",
+                difficulty: "Intermediate",
+                category: "Cleanup",
+                answer:
+                  "Remove event listeners in useEffect cleanup: useEffect(() => { const handler = (e) => {}; element.addEventListener('event', handler); return () => element.removeEventListener('event', handler); }, []). Critical: Use same handler reference for add and remove. Handler must be identical function reference, not equivalent function. Common mistake: Using inline functions won't work: addEventListener('click', () => {}); removeEventListener('click', () => {}) - different functions! Solution: Define handler before addEventListener, use same reference to remove. Multiple listeners: Remove each one: window.addEventListener('resize', handleResize); document.addEventListener('click', handleClick); return () => { window.removeEventListener('resize', handleResize); document.removeEventListener('click', handleClick); }. Best practice: Create custom useEventListener hook that handles cleanup automatically. Why important: Unremoved listeners keep component in memory, cause memory leaks, may trigger on unmounted component, accumulate with each mount. Always verify listeners are removed using DevTools Event Listeners panel.",
+              },
+              {
+                question: "How do you handle WebSocket cleanup in React?",
+                difficulty: "Intermediate",
+                category: "Subscriptions",
+                answer:
+                  "WebSocket cleanup pattern: useEffect(() => { const ws = new WebSocket(url); ws.onopen = () => console.log('Connected'); ws.onmessage = (e) => setData(e.data); ws.onerror = (e) => console.error(e); ws.onclose = () => console.log('Closed'); return () => { if (ws.readyState === WebSocket.OPEN) ws.close(); }; }, [url]). Key points: Store WebSocket instance in ref if needed outside effect, check readyState before closing (avoid closing already closed socket), close in cleanup function, handle all events (open, message, error, close), re-create connection if url changes. Advanced: Implement reconnection logic, handle connection errors gracefully, use useRef for stable WebSocket reference, implement heartbeat/ping-pong for connection health. Why important: Open WebSocket continues receiving messages after unmount, messages trigger setState on unmounted component, wastes network and server resources, multiple components can create multiple connections. Always test by rapidly mounting/unmounting to verify proper cleanup.",
+              },
+              {
+                question:
+                  "What is the purpose of useRef in preventing memory leaks?",
+                difficulty: "Intermediate",
+                category: "Patterns",
+                answer:
+                  "useRef prevents memory leaks by providing mutable reference that doesn't cause re-renders. Use cases: 1) Track mount status: const isMountedRef = useRef(false); useEffect(() => { isMountedRef.current = true; return () => isMountedRef.current = false; }). Check before setState: if (isMountedRef.current) setState(data). 2) Store latest props/state: const callbackRef = useRef(callback); useEffect(() => { callbackRef.current = callback; }, [callback]). Access in stable closure: callbackRef.current(). 3) Store subscription/timer IDs: const intervalRef = useRef(); intervalRef.current = setInterval(...); return () => clearInterval(intervalRef.current). Benefits: Doesn't trigger re-renders when updated, persists across renders, can be mutated directly, stable reference. Prevents: Re-creating subscriptions unnecessarily, stale closures in effects with empty deps, circular dependency issues. Pattern: Store latest value in ref, access in effect with empty deps, provides stable closure with fresh values. Common mistake: Don't use ref value directly in render (use state instead).",
+              },
+              {
+                question:
+                  "How do you implement a custom hook for safe async state updates?",
+                difficulty: "Advanced",
+                category: "Custom Hooks",
+                answer:
+                  "Create useSafeState hook that only updates if mounted: function useSafeState(initialState) { const [state, setState] = useState(initialState); const isMountedRef = useRef(false); useEffect(() => { isMountedRef.current = true; return () => { isMountedRef.current = false; }; }, []); const setSafeState = useCallback((value) => { if (isMountedRef.current) { setState(value); } }, []); return [state, setSafeState]; }. Enhanced version with useReducer: function useSafeReducer(reducer, initialState) { const [state, dispatch] = useReducer(reducer, initialState); const isMountedRef = useRef(false); useEffect(() => { isMountedRef.current = true; return () => isMountedRef.current = false; }, []); const safeDispatch = useCallback((action) => { if (isMountedRef.current) dispatch(action); }, []); return [state, safeDispatch]; }. Usage: const [data, setData] = useSafeState(null); fetch().then(result => setData(result)). Benefits: Prevents setState after unmount warning, cleaner component code, reusable pattern. Can extend with loading/error states, abort controller, retry logic.",
+              },
+              {
+                question:
+                  "How do you detect memory leaks in React applications?",
+                difficulty: "Advanced",
+                category: "Debugging",
+                answer:
+                  "Multiple detection methods: 1) Chrome DevTools Memory Profiler: Take heap snapshot → perform actions → take another snapshot → compare for growing memory. Look for 'Detached HTMLElements' and increasing object counts. 2) React DevTools Profiler: Profile component renders, identify unnecessary re-renders, check component lifecycle. 3) Console warnings: React warns about setState on unmounted components. 4) Custom tracking: Track mounted components: const mounted = new Set(); Add on mount, remove on unmount. If size grows indefinitely, there's a leak. 5) Performance monitoring: Monitor memory usage over time, watch for gradual increase. 6) Manual testing: Rapidly mount/unmount component many times, check memory doesn't grow. Tools: Chrome DevTools → Memory → Heap Snapshot, Allocation Timeline for real-time tracking, React DevTools → Profiler. Red flags: Growing heap size, detached DOM nodes, increasing event listener count, timers that don't decrease. Best practice: Profile in production build (dev mode has extra overhead), test with real usage patterns, use memory profiler regularly during development.",
+              },
+              {
+                question:
+                  "What is the difference between useCallback and useMemo in preventing memory leaks?",
+                difficulty: "Intermediate",
+                category: "Optimization",
+                answer:
+                  "Both prevent unnecessary re-creation but serve different purposes. useCallback: Memoizes function reference. Returns same function instance across renders if deps unchanged. Use for: Event handlers, callbacks passed to child components, functions used in effect dependencies. Prevents: Child re-renders when function is a prop, effect re-runs due to function dependency, subscription/listener re-registration. Example: const handleClick = useCallback(() => {}, [deps]). useMemo: Memoizes computed value. Returns same value if deps unchanged. Use for: Expensive calculations, object/array creation for props, derived state. Prevents: Expensive recalculations, object reference changes causing child re-renders. Example: const value = useMemo(() => expensiveComputation(), [deps]). Memory leak prevention: Both prevent creating new closures unnecessarily. useCallback prevents re-subscribing to events when callback changes. useMemo prevents passing new object references that trigger effects. Neither directly prevents leaks but reduce unnecessary work. Overuse: Don't memo everything - it has cost. Profile first, optimize where needed. Most functions don't need memoization.",
+              },
+              {
+                question:
+                  "How do you handle cleanup with multiple subscriptions?",
+                difficulty: "Advanced",
+                category: "Cleanup",
+                answer:
+                  "Pattern for multiple cleanups: useEffect(() => { const subscription1 = subscribe('channel1', handler1); const subscription2 = subscribe('channel2', handler2); const ws = new WebSocket(url); const interval = setInterval(tick, 1000); window.addEventListener('resize', handleResize); return () => { subscription1.unsubscribe(); subscription2.unsubscribe(); ws.close(); clearInterval(interval); window.removeEventListener('resize', handleResize); }; }, [deps]). Better pattern with cleanup array: useEffect(() => { const cleanups = []; const sub1 = subscribe(...); cleanups.push(() => sub1.unsubscribe()); const interval = setInterval(...); cleanups.push(() => clearInterval(interval)); return () => cleanups.forEach(cleanup => cleanup()); }, []). Even better: Custom hook: function useSubscriptions() { const cleanupsRef = useRef([]); const addCleanup = useCallback((cleanup) => { cleanupsRef.current.push(cleanup); }, []); useEffect(() => { return () => { cleanupsRef.current.forEach(fn => fn()); cleanupsRef.current = []; }; }, []); return addCleanup; }. Usage: const addCleanup = useSubscriptions(); const sub = subscribe(...); addCleanup(() => sub.unsubscribe()). Benefits: Centralized cleanup management, less boilerplate, harder to forget cleanup, easier to test.",
+              },
+              {
+                question:
+                  "What are the implications of closures on React component performance?",
+                difficulty: "Advanced",
+                category: "Performance",
+                answer:
+                  "Closure performance impacts: 1) Memory overhead: Each closure stores reference to entire scope, potentially keeping large objects alive. Multiplied by component instances and renders. 2) Inline functions: Create new function every render, causing child re-renders if passed as props, triggering effects if in dependencies. 3) Event handlers: New closure each render means removing/adding listeners repeatedly if not memoized. 4) Stale closures: Lead to incorrect behavior, causing extra renders or effects to fix. 5) Captured state: Large state in closure keeps old versions in memory during async operations. Optimization strategies: useCallback for functions passed as props or used in deps, useMemo for expensive computations or objects, useRef for values that don't need to trigger renders, move callbacks outside component if they don't need props/state, extract complex logic to custom hooks. Profiling: Use React DevTools Profiler, check what caused re-renders, identify unnecessary memo opportunities. Trade-offs: Memoization has cost (memory, comparison), only optimize hot paths, premature optimization wastes time. Modern React (Concurrent features) handles closures more efficiently. Key: Profile before optimizing, understand closure impact on your specific use case.",
+              },
+              {
+                question:
+                  "How do you prevent memory leaks when using third-party libraries?",
+                difficulty: "Advanced",
+                category: "Third-party Integration",
+                answer:
+                  "Third-party library integration best practices: 1) Read documentation: Check for cleanup/destroy methods. 2) Initialize in useEffect: const instance = new Library(); return () => instance.destroy(). 3) Use ref for instance: const instanceRef = useRef(); useEffect(() => { instanceRef.current = new Library(); return () => instanceRef.current.destroy(); }, []). 4) Handle events: library.on('event', handler); return () => library.off('event', handler). 5) Clean up DOM modifications: library.mount(element); return () => library.unmount(). Common libraries: Chart.js: chart.destroy(), D3: Remove all selections and listeners, Leaflet: map.remove(), Socket.io: socket.disconnect(), Three.js: Dispose geometries, materials, textures. Pattern: function useLibrary(config) { const instanceRef = useRef(); useEffect(() => { const instance = createLibraryInstance(config); instanceRef.current = instance; return () => { instance.cleanup(); instanceRef.current = null; }; }, [config]); return instanceRef.current; }. Red flags: Library modifies global state, attaches to window/document, creates intervals/timers, maintains internal subscriptions, doesn't provide cleanup method. Always test: Mount/unmount multiple times, check for growing memory, verify no console errors.",
+              },
+              {
+                question:
+                  "What is the relationship between closure scope and React Strict Mode?",
+                difficulty: "Advanced",
+                category: "React Internals",
+                answer:
+                  "React Strict Mode (dev only) intentionally double-invokes functions to detect side effects and memory leaks. Components mount → unmount → mount to catch cleanup issues. Effects run twice: effect runs → cleanup → effect runs again. This surfaces: Missing cleanup functions (subscription runs twice), impure effects (side effects in effect body), stale closures (closure captures wrong value). Closure implications: With Strict Mode, closures are created multiple times, testing if effect cleanup properly handles closure state, revealing if cleanup depends on closure variables, exposing race conditions in async closures. Example problem: useEffect(() => { fetch().then(data => setState(data)); }, []) - Without Strict Mode: Runs once, may work accidentally. With Strict Mode: Runs → cleanup → runs again → two pending fetches, exposes missing AbortController. Benefits for closure debugging: Forces you to write proper cleanup, reveals stale closure bugs early, catches setState after unmount, tests closure memory management. Best practice: Always develop with Strict Mode, fix all double-invoke issues, don't disable Strict Mode to hide problems, understand it won't affect production. Strict Mode is a developer tool that makes closure-related bugs obvious during development rather than in production.",
+              },
+              {
+                question:
+                  "How do you handle cleanup in components that use both class and function patterns?",
+                difficulty: "Advanced",
+                category: "Mixed Patterns",
+                answer:
+                  "When mixing class and function patterns (HOCs, render props, hooks): Class components: componentWillUnmount() { this.subscription.unsubscribe(); clearInterval(this.intervalId); }. Function components: useEffect(() => { return () => cleanup(); }, []). Mixed patterns: 1) HOC wrapping function component: function withSubscription(Component) { return class extends React.Component { componentDidMount() { this.subscription = subscribe(...); } componentWillUnmount() { this.subscription.unsubscribe(); } render() { return <Component data={this.state.data} />; } }; }. 2) Render props with hooks: function DataProvider({ children }) { const [data, setData] = useState(null); useEffect(() => { const sub = subscribe((data) => setData(data)); return () => sub.unsubscribe(); }, []); return children(data); }. 3) Class using function as child: class Container extends Component { componentWillUnmount() { cleanup(); } render() { return this.props.children(this.state); } }. Best practices: Prefer hooks for new code, gradually migrate class components, ensure cleanup in both patterns, test mixed pattern interactions, document cleanup requirements. Pitfalls: Forgetting cleanup in one pattern, duplicate cleanup causing errors, lifecycle mismatch between class and hooks. Modern approach: Use only function components with hooks, easier to reason about cleanup, better composition.",
+              },
+              {
+                question:
+                  "What are some advanced techniques for debugging closure-related memory leaks?",
+                difficulty: "Advanced",
+                category: "Debugging",
+                answer:
+                  "Advanced debugging techniques: 1) Chrome DevTools Allocation Instrumentation: Record allocation timeline → perform actions → stop → find growing allocations → click to see stack trace → identify closure source. 2) Heap snapshot comparison: Take snapshot before → mount/unmount component 100 times → take snapshot after → compare → filter by constructor → find retained objects → expand retaining path. 3) Performance monitor: DevTools → Performance Monitor → watch JS heap size while interacting → identify when leaks occur. 4) Memory profiler with filter: Take snapshot → filter by 'Detached' → find detached DOM → see what retains it (often closure). 5) Console tracking: Override addEventListener/removeEventListener to log calls: const original = window.addEventListener; window.addEventListener = function(...args) { console.trace('addEventListener', args[0]); original.apply(this, args); }. 6) React DevTools Profiler API: Use onRender callback to track render frequency and identify components that render too often due to closure issues. 7) WeakMap/WeakSet debugging: Track object lifecycle: const tracker = new WeakMap(); tracker.set(obj, 'metadata'). 8) Custom memory tracking: Track mount/unmount: const registry = new FinalizationRegistry(heldValue => console.log('Collected:', heldValue)). Tools: Chrome DevTools Memory, React DevTools, why-did-you-render, @welldone-software/why-did-you-render. Systematic approach: Reproduce consistently, isolate component, binary search for leak source, verify fix with profiler.",
+              },
+              {
+                question:
+                  "How do you implement cleanup in custom hooks that combine multiple effects?",
+                difficulty: "Advanced",
+                category: "Custom Hooks",
+                answer:
+                  "Complex custom hook cleanup pattern: function useComplexSubscription(config) { const [data, setData] = useState(null); const [status, setStatus] = useState('idle'); const isMountedRef = useRef(false); const subscriptionsRef = useRef([]); // Track mount status useEffect(() => { isMountedRef.current = true; return () => { isMountedRef.current = false; }; }, []); // Manage multiple subscriptions useEffect(() => { const cleanups = []; setStatus('connecting'); // WebSocket const ws = new WebSocket(config.url); ws.onmessage = (e) => isMountedRef.current && setData(e.data); cleanups.push(() => ws.close()); // Polling const interval = setInterval(() => { fetch(config.pollUrl).then(r => r.json()).then(d => isMountedRef.current && setData(d)); }, config.pollInterval); cleanups.push(() => clearInterval(interval)); // Event listeners const handler = (e) => isMountedRef.current && setData(e.detail); window.addEventListener(config.eventName, handler); cleanups.push(() => window.removeEventListener(config.eventName, handler)); setStatus('connected'); return () => { setStatus('disconnected'); cleanups.forEach(cleanup => cleanup()); }; }, [config]); return { data, status }; }. Key patterns: Cleanup array for multiple resources, isMounted ref to prevent setState after unmount, useEffect for each concern if they have different deps, ref to store subscription instances. Best practices: Separate concerns into multiple useEffects, aggregate cleanup functions, use refs for mutable instances, always test by rapid mount/unmount.",
+              },
+              {
+                question:
+                  "What are the memory implications of using Context API and how do you prevent leaks?",
+                difficulty: "Advanced",
+                category: "Context API",
+                answer:
+                  "Context API memory considerations: 1) Provider value: New object each render causes all consumers to re-render: <Context.Provider value={{ data, handlers }}>. Every render creates new object, all consumers re-render, closures capture new values each time. Solution: Memoize value: const value = useMemo(() => ({ data, handlers }), [data]). 2) Context with subscriptions: Provider manages subscription, consumers receive data. Leak if provider doesn't clean up. Pattern: function DataProvider({ children }) { const [data, setData] = useState(null); useEffect(() => { const subscription = subscribe(setData); return () => subscription.unsubscribe(); }, []); const value = useMemo(() => ({ data }), [data]); return <Context.Provider value={value}>{children}</Context.Provider>; }. 3) Multiple contexts: Each context provider is a closure, nested providers create nested closures. Not inherently a leak but increases memory pressure. 4) Context consumers: useContext creates closure over context value. If value changes frequently, many closures created/disposed. Optimization: Split contexts by change frequency, memoize context values, use context selectors (use-context-selector library), avoid putting everything in one context. Memory leaks: Provider not cleaning up subscriptions, event listeners in context, context value holding large objects unnecessarily. Best practice: Keep context values minimal, clean up in provider effects, profile context re-render frequency.",
+              },
+              {
+                question:
+                  "How do you handle cleanup when using requestAnimationFrame?",
+                difficulty: "Intermediate",
+                category: "Animation",
+                answer:
+                  "requestAnimationFrame cleanup pattern: useEffect(() => { let rafId; const animate = () => { // Animation logic rafId = requestAnimationFrame(animate); }; rafId = requestAnimationFrame(animate); return () => { if (rafId) { cancelAnimationFrame(rafId); } }; }, []). Key points: Store RAF ID to cancel later, cancel in cleanup function, handle multiple RAF if needed. Advanced pattern: function useAnimationFrame(callback) { const callbackRef = useRef(callback); const frameRef = useRef(); useEffect(() => { callbackRef.current = callback; }, [callback]); useEffect(() => { const animate = (time) => { callbackRef.current(time); frameRef.current = requestAnimationFrame(animate); }; frameRef.current = requestAnimationFrame(animate); return () => { if (frameRef.current) { cancelAnimationFrame(frameRef.current); } }; }, []); }. Usage: useAnimationFrame((time) => { /* animation */ }). Why important: Uncancelled RAF continues running after unmount, calling setState on unmounted component, wastes CPU running invisible animations, multiple RAFs accumulate if component mounts repeatedly. Common mistakes: Not storing RAF ID, forgetting cleanup, canceling wrong frame. Best practice: Always cancel RAF in cleanup, use custom hook for reusability, pause animations when not visible (Intersection Observer).",
+              },
+            ],
+
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures - MDN Closures guide",
+              "https://react.dev/learn/synchronizing-with-effects - React effects documentation",
+              "https://react.dev/learn/removing-effect-dependencies - Removing effect dependencies",
+              "https://react.dev/reference/react/useEffect - useEffect API reference",
+              "https://react.dev/reference/react/useRef - useRef API reference",
+              "https://overreacted.io/making-setinterval-declarative-with-react-hooks/ - Dan Abramov on setInterval with hooks",
+              "https://overreacted.io/a-complete-guide-to-useeffect/ - Complete guide to useEffect",
+              "https://kentcdodds.com/blog/useeffect-vs-uselayouteffect - useEffect vs useLayoutEffect",
+              "https://github.com/facebook/react/issues/14920 - React RFC: Memory leaks",
+              "https://web.dev/monitor-total-page-memory-usage/ - Monitoring memory usage",
+              "https://developer.chrome.com/docs/devtools/memory-problems/ - Chrome DevTools memory profiling",
+              "https://felixgerschau.com/react-hooks-prevent-memory-leaks/ - Preventing memory leaks in React",
             ],
           },
         ],
@@ -58257,7 +78034,7 @@ export async function getStaticPaths() {
 
 // Generate static props at build time
 export async function getStaticProps({ params }) {
-  const post = await fetch(\`https://api.example.com/posts/\ {params.slug}\`)
+  const post = await fetch(\`https://api.example.com/posts/\ { params.slug}\`)
     .then(res => res.json())
 
   return {
@@ -60923,7 +80700,7 @@ export default function UserProfile({ user, error }) {
 
 export async function getServerSideProps({ params }) {
   try {
-    const res = await fetch(\`https://api.example.com/users/\ {params.id}\`);
+    const res = await fetch(\`https://api.example.com/users/\ { params.id}\`);
     
     if (!res.ok) {
       return {
@@ -64829,7 +84606,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await fetch(\`https://api.example.com/posts/\ {params.slug}\`)
+  const post = await fetch(\`https://api.example.com/posts/\ { params.slug}\`)
     .then(res => res.json())
   
   return {
@@ -66804,7 +86581,7 @@ export default function Shop() {
       <pre><code className="language-javascript">
 // File: app/blog/[slug]/page.js
 export default function BlogPost({ params }) {
-  return <h1>Blog post: {params.slug}</h1>
+  return <h1>Blog post: { params.slug}</h1>
 }
 
 export async function generateStaticParams() {
@@ -66856,7 +86633,7 @@ export default function UserPost() {
 export default function UserPost({ params }) {
   return (
     <div>
-      <h1>User {params.userId}'s Post {params.postId}</h1>
+      <h1>User { params.userId}'s Post { params.postId}</h1>
     </div>
   )
 }
@@ -67893,7 +87670,7 @@ export default function PhotoModal({ params }) {
           ×
         </button>
         <Image
-          src={\`/photos/\ {params.id}.jpg\`}
+          src={\`/photos/\ { params.id}.jpg\`}
           alt="Photo"
           width={800}
           height={600}
@@ -67919,7 +87696,7 @@ export default function PhotoPage({ params }) {
       </header>
       <main>
         <Image
-          src={\`/photos/\ {params.id}.jpg\`}
+          src={\`/photos/\ { params.id}.jpg\`}
           alt="Photo"
           width={1200}
           height={800}
@@ -68375,7 +88152,7 @@ app/
             examples: [
               `// app/products/[id]/page.tsx
 export default function ProductPage({ params }: { params: { id: string } }) {
-  return <h1>Product ID: {params.id}</h1>;
+  return <h1>Product ID: { params.id}</h1>;
 }`,
               `// app/(auth)/login/page.tsx
 export default function LoginPage() {
@@ -68625,7 +88402,7 @@ export default function DashboardLayout({ children }) {
             examples: [
               `// app/posts/[id]/page.tsx – Server Component
 export default async function PostPage({ params }) {
-  const post = await fetch(\`https://api.vercel.app/posts/\ {params.id}\`).then(r => r.json());
+  const post = await fetch(\`https://api.vercel.app/posts/\ { params.id}\`).then(r => r.json());
   return (
     <article>
       <h1>{post.title}</h1>
@@ -69373,7 +89150,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const product = await fetch(\`https://api/products/\ {params.id}\`).then(r => r.json())
+  const product = await fetch(\`https://api/products/\ { params.id}\`).then(r => r.json())
   return {
     props: { product },
     revalidate: 60                    // regenerate page every 60 s
@@ -69387,7 +89164,7 @@ export async function getStaticProps({ params }) {
 export const revalidate = 60          // 60-second ISR
 
 export default async function Page({ params }) {
-  const product = await fetch(\`https://api/products/\ {params.id}\`, {
+  const product = await fetch(\`https://api/products/\ { params.id}\`, {
     next: { revalidate: 60 }          // granular fetch cache
   }).then(r => r.json())
   return &lt;ProductCard {...product} /&gt;
@@ -76229,7 +96006,7 @@ const UserList: React.FC<UserListProps> = ({ onUserSelect, filters }) => {
             ],
           },
           {
-            topic: "Types for getStaticProps / getServerSideProps",
+            topic: "Types for getStaticProps and getServerSideProps",
             tags: [
               "getStaticProps",
               "getServerSideProps",
@@ -82636,6 +102413,1145 @@ pnpm dev          # spins up web & storybook concurrently
               "https://turbo.build/repo/docs",
               "https://pnpm.io/workspaces",
               "https://github.com/vercel/turbo/tree/main/examples/with-pnpm",
+            ],
+          },
+          {
+            topic: "Advanced Promises & Async Patterns",
+            tags: [
+              "Promises",
+              "Async/Await",
+              "Concurrency",
+              "Error Handling",
+              "JavaScript",
+              "Performance",
+              "Parallel Processing",
+              "Race Conditions",
+            ],
+            explanation: `
+              <div>
+                <h2>Advanced Promises & Async Patterns</h2>
+                <p>
+                  Mastering advanced promise patterns is crucial for handling complex asynchronous operations in modern JavaScript 
+                  applications. This includes understanding different promise combinators, managing concurrent operations, and 
+                  implementing robust error handling strategies.
+                </p>
+
+                <h3>Promise Combinators Overview</h3>
+                <pre><code>
+          // Promise.all - All must succeed, fails fast on first rejection
+          // Promise.allSettled - Wait for all to complete, never rejects
+          // Promise.race - First to settle (resolve or reject) wins
+          // Promise.any - First to resolve wins, rejects only if all reject
+
+          // Quick comparison
+          const promises = [
+            Promise.resolve(1),
+            Promise.reject('error'),
+            Promise.resolve(3)
+          ];
+
+          Promise.all(promises)        // Rejects immediately with 'error'
+          Promise.allSettled(promises) // Resolves with [{status: 'fulfilled', value: 1}, ...]
+          Promise.race(promises)       // Resolves with 1 (first to settle)
+          Promise.any(promises)        // Resolves with 1 (first to resolve)
+                </code></pre>
+
+                <h3>Promise.all - All or Nothing</h3>
+                <pre><code>
+          // Basic usage
+          const fetchUserData = async (userId) => {
+            const [user, posts, comments] = await Promise.all([
+              fetch(\`/api/users/\${userId}\`).then(r => r.json()),
+              fetch(\`/api/users/\${userId}/posts\`).then(r => r.json()),
+              fetch(\`/api/users/\${userId}/comments\`).then(r => r.json())
+            ]);
+            
+            return { user, posts, comments };
+          };
+
+          // With error handling
+          const fetchAllData = async () => {
+            try {
+              const results = await Promise.all([
+                fetchUsers(),
+                fetchProducts(),
+                fetchOrders()
+              ]);
+              return results;
+            } catch (error) {
+              // If ANY promise rejects, we end up here
+              // We don't know which one failed or how many succeeded
+              console.error('At least one fetch failed:', error);
+              throw error;
+            }
+          };
+
+          // Parallel processing with mapping
+          const fetchMultipleUsers = async (userIds) => {
+            const users = await Promise.all(
+              userIds.map(id => fetch(\`/api/users/\${id}\`).then(r => r.json()))
+            );
+            return users;
+          };
+
+          // Combining with other async operations
+          const initializeApp = async () => {
+            const [config, user, features] = await Promise.all([
+              loadConfig(),
+              authenticateUser(),
+              fetchFeatureFlags()
+            ]);
+            
+            return { config, user, features };
+          };
+
+          // Advanced: Chunked parallel processing
+          const processInChunks = async (items, chunkSize = 5) => {
+            const results = [];
+            
+            for (let i = 0; i < items.length; i += chunkSize) {
+              const chunk = items.slice(i, i + chunkSize);
+              const chunkResults = await Promise.all(
+                chunk.map(item => processItem(item))
+              );
+              results.push(...chunkResults);
+            }
+            
+            return results;
+          };
+                </code></pre>
+
+                <h3>Promise.allSettled - Always Completes</h3>
+                <pre><code>
+          // Basic usage - handles partial failures gracefully
+          const fetchWithFallback = async () => {
+            const results = await Promise.allSettled([
+              fetch('/api/primary').then(r => r.json()),
+              fetch('/api/secondary').then(r => r.json()),
+              fetch('/api/tertiary').then(r => r.json())
+            ]);
+            
+            // Filter successful results
+            const successful = results
+              .filter(result => result.status === 'fulfilled')
+              .map(result => result.value);
+            
+            // Handle failures
+            const failed = results
+              .filter(result => result.status === 'rejected')
+              .map(result => result.reason);
+            
+            return { successful, failed };
+          };
+
+          // Real-world example: Multiple API calls with individual error handling
+          const fetchDashboardData = async () => {
+            const results = await Promise.allSettled([
+              fetchAnalytics().catch(err => ({ error: 'Analytics failed', details: err })),
+              fetchNotifications().catch(err => ({ error: 'Notifications failed', details: err })),
+              fetchUserActivity().catch(err => ({ error: 'Activity failed', details: err }))
+            ]);
+            
+            return results.map((result, index) => {
+              if (result.status === 'fulfilled') {
+                return { success: true, data: result.value };
+              } else {
+                return { success: false, error: result.reason };
+              }
+            });
+          };
+
+          // Pattern: Independent operations with individual error handling
+          const processMultipleUploads = async (files) => {
+            const uploadPromises = files.map(async (file) => {
+              try {
+                const result = await uploadFile(file);
+                return { file: file.name, status: 'success', url: result.url };
+              } catch (error) {
+                return { file: file.name, status: 'failed', error: error.message };
+              }
+            });
+            
+            const results = await Promise.allSettled(uploadPromises);
+            
+            return {
+              successful: results.filter(r => r.value.status === 'success').map(r => r.value),
+              failed: results.filter(r => r.value.status === 'failed').map(r => r.value)
+            };
+          };
+
+          // Advanced: Aggregate results with metadata
+          const fetchMultipleEndpoints = async (endpoints) => {
+            const startTime = Date.now();
+            
+            const results = await Promise.allSettled(
+              endpoints.map(async (endpoint) => {
+                const start = Date.now();
+                try {
+                  const response = await fetch(endpoint.url);
+                  const data = await response.json();
+                  return {
+                    endpoint: endpoint.name,
+                    data,
+                    duration: Date.now() - start,
+                    status: 'success'
+                  };
+                } catch (error) {
+                  return {
+                    endpoint: endpoint.name,
+                    error: error.message,
+                    duration: Date.now() - start,
+                    status: 'failed'
+                  };
+                }
+              })
+            );
+            
+            return {
+              results: results.map(r => r.value),
+              totalDuration: Date.now() - startTime,
+              successCount: results.filter(r => r.value.status === 'success').length,
+              failureCount: results.filter(r => r.value.status === 'failed').length
+            };
+          };
+
+          // Pattern: Retry failed operations
+          const fetchWithRetry = async (urls, maxRetries = 2) => {
+            let results = await Promise.allSettled(
+              urls.map(url => fetch(url).then(r => r.json()))
+            );
+            
+            // Retry failed requests
+            for (let retry = 0; retry < maxRetries; retry++) {
+              const failedIndices = results
+                .map((r, i) => r.status === 'rejected' ? i : -1)
+                .filter(i => i !== -1);
+              
+              if (failedIndices.length === 0) break;
+              
+              const retryResults = await Promise.allSettled(
+                failedIndices.map(i => fetch(urls[i]).then(r => r.json()))
+              );
+              
+              failedIndices.forEach((originalIndex, retryIndex) => {
+                results[originalIndex] = retryResults[retryIndex];
+              });
+            }
+            
+            return results;
+          };
+                </code></pre>
+
+                <h3>Promise.race - First to Finish Wins</h3>
+                <pre><code>
+          // Basic timeout implementation
+          const fetchWithTimeout = (url, timeout = 5000) => {
+            return Promise.race([
+              fetch(url).then(r => r.json()),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Request timeout')), timeout)
+              )
+            ]);
+          };
+
+          // Generic timeout wrapper
+          const withTimeout = (promise, ms) => {
+            const timeout = new Promise((_, reject) => {
+              setTimeout(() => reject(new Error(\`Timeout after \${ms}ms\`)), ms);
+            });
+            return Promise.race([promise, timeout]);
+          };
+
+          // Usage
+          const data = await withTimeout(
+            fetch('/api/slow-endpoint').then(r => r.json()),
+            3000
+          );
+
+          // Multiple endpoints - use fastest
+          const fetchFromFastest = async () => {
+            const endpoints = [
+              'https://api1.example.com/data',
+              'https://api2.example.com/data',
+              'https://api3.example.com/data'
+            ];
+            
+            try {
+              const data = await Promise.race(
+                endpoints.map(url => fetch(url).then(r => r.json()))
+              );
+              return data;
+            } catch (error) {
+              // First endpoint to respond was an error
+              throw error;
+            }
+          };
+
+          // Advanced: Race with fallback
+          const fetchWithFallbacks = async (primaryUrl, fallbackUrl, timeout = 3000) => {
+            try {
+              // Try primary with timeout
+              return await Promise.race([
+                fetch(primaryUrl).then(r => r.json()),
+                new Promise((_, reject) => 
+                  setTimeout(() => reject(new Error('Primary timeout')), timeout)
+                )
+              ]);
+            } catch (error) {
+              console.log('Primary failed, trying fallback');
+              return await fetch(fallbackUrl).then(r => r.json());
+            }
+          };
+
+          // Pattern: Fastest response from multiple sources
+          const getQuickestQuote = async (stockSymbol) => {
+            const sources = [
+              fetchFromYahooFinance(stockSymbol),
+              fetchFromAlphaVantage(stockSymbol),
+              fetchFromIEX(stockSymbol)
+            ];
+            
+            return Promise.race(sources);
+          };
+
+          // Advanced: Race with cleanup
+          const raceWithCleanup = async (promises) => {
+            const controllers = promises.map(() => new AbortController());
+            
+            const racingPromises = promises.map((promise, index) => 
+              promise(controllers[index].signal)
+            );
+            
+            try {
+              const result = await Promise.race(racingPromises);
+              // Cancel all other requests
+              controllers.forEach(controller => controller.abort());
+              return result;
+            } catch (error) {
+              controllers.forEach(controller => controller.abort());
+              throw error;
+            }
+          };
+
+          // Usage with fetch
+          const fetchFastest = async (urls) => {
+            return raceWithCleanup(
+              urls.map(url => (signal) => fetch(url, { signal }).then(r => r.json()))
+            );
+          };
+                </code></pre>
+
+                <h3>Promise.any - First Success Wins</h3>
+                <pre><code>
+          // Basic usage - first successful response
+          const fetchFromAny = async () => {
+            const mirrors = [
+              'https://mirror1.example.com/data.json',
+              'https://mirror2.example.com/data.json',
+              'https://mirror3.example.com/data.json'
+            ];
+            
+            try {
+              const data = await Promise.any(
+                mirrors.map(url => fetch(url).then(r => r.json()))
+              );
+              return data;
+            } catch (error) {
+              // AggregateError - all promises rejected
+              console.error('All mirrors failed:', error.errors);
+              throw error;
+            }
+          };
+
+          // Fallback chain pattern
+          const fetchWithMultipleFallbacks = async () => {
+            try {
+              return await Promise.any([
+                fetch('/api/v2/data').then(r => r.json()),
+                fetch('/api/v1/data').then(r => r.json()),
+                fetch('/api/legacy/data').then(r => r.json()),
+                Promise.resolve(getLocalCache())
+              ]);
+            } catch (error) {
+              // All sources failed including cache
+              throw new Error('No data source available');
+            }
+          };
+
+          // Advanced: First successful with metadata
+          const fetchFirstAvailable = async (sources) => {
+            const promises = sources.map(async (source) => {
+              try {
+                const start = Date.now();
+                const data = await fetch(source.url).then(r => r.json());
+                return {
+                  data,
+                  source: source.name,
+                  duration: Date.now() - start
+                };
+              } catch (error) {
+                throw new Error(\`\${source.name} failed: \${error.message}\`);
+              }
+            });
+            
+            try {
+              return await Promise.any(promises);
+            } catch (aggregateError) {
+              console.error('All sources failed:');
+              aggregateError.errors.forEach(err => console.error(err.message));
+              throw new Error('No available data source');
+            }
+          };
+
+          // Pattern: Progressive enhancement with fallbacks
+          const loadResource = async (resourceId) => {
+            return Promise.any([
+              // Try CDN first
+              fetch(\`https://cdn.example.com/\${resourceId}\`)
+                .then(r => r.blob())
+                .then(blob => ({ source: 'cdn', blob })),
+              
+              // Fallback to main server
+              new Promise(resolve => setTimeout(resolve, 100))
+                .then(() => fetch(\`https://api.example.com/\${resourceId}\`))
+                .then(r => r.blob())
+                .then(blob => ({ source: 'api', blob })),
+              
+              // Last resort: local cache
+              new Promise(resolve => setTimeout(resolve, 500))
+                .then(() => loadFromLocalCache(resourceId))
+                .then(blob => ({ source: 'cache', blob }))
+            ]);
+          };
+
+          // Difference from Promise.race
+          const demonstrateDifference = async () => {
+            const promises = [
+              Promise.reject('Error 1'),
+              new Promise(resolve => setTimeout(() => resolve('Success'), 100)),
+              Promise.reject('Error 2')
+            ];
+            
+            // Promise.race - rejects with 'Error 1' (first to settle)
+            try {
+              await Promise.race(promises);
+            } catch (e) {
+              console.log('Race rejected:', e); // 'Error 1'
+            }
+            
+            // Promise.any - resolves with 'Success' (first to fulfill)
+            try {
+              const result = await Promise.any(promises);
+              console.log('Any resolved:', result); // 'Success'
+            } catch (e) {
+              console.log('Any rejected'); // Won't happen
+            }
+          };
+                </code></pre>
+
+                <h3>Complex Concurrent Patterns</h3>
+
+                <h4>Sequential vs Parallel Execution</h4>
+                <pre><code>
+          // Sequential - one after another (slow)
+          const sequential = async (urls) => {
+            const results = [];
+            for (const url of urls) {
+              const data = await fetch(url).then(r => r.json());
+              results.push(data);
+            }
+            return results;
+          };
+
+          // Parallel - all at once (fast but risky)
+          const parallel = async (urls) => {
+            return Promise.all(
+              urls.map(url => fetch(url).then(r => r.json()))
+            );
+          };
+
+          // Controlled concurrency - best of both worlds
+          const withConcurrencyLimit = async (tasks, limit = 3) => {
+            const results = [];
+            const executing = [];
+            
+            for (const task of tasks) {
+              const promise = Promise.resolve().then(() => task());
+              results.push(promise);
+              
+              if (limit <= tasks.length) {
+                const e = promise.then(() => 
+                  executing.splice(executing.indexOf(e), 1)
+                );
+                executing.push(e);
+                
+                if (executing.length >= limit) {
+                  await Promise.race(executing);
+                }
+              }
+            }
+            
+            return Promise.all(results);
+          };
+
+          // Usage
+          const urls = Array(100).fill(0).map((_, i) => \`/api/item/\${i}\`);
+          const tasks = urls.map(url => () => fetch(url).then(r => r.json()));
+          const results = await withConcurrencyLimit(tasks, 5); // Max 5 concurrent
+
+          // Advanced: Queue-based concurrency control
+          class PromiseQueue {
+            constructor(concurrency = 1) {
+              this.concurrency = concurrency;
+              this.running = 0;
+              this.queue = [];
+            }
+            
+            async add(promiseFunction) {
+              while (this.running >= this.concurrency) {
+                await new Promise(resolve => this.queue.push(resolve));
+              }
+              
+              this.running++;
+              
+              try {
+                return await promiseFunction();
+              } finally {
+                this.running--;
+                const resolve = this.queue.shift();
+                if (resolve) resolve();
+              }
+            }
+            
+            async addAll(promiseFunctions) {
+              return Promise.all(promiseFunctions.map(fn => this.add(fn)));
+            }
+          }
+
+          // Usage
+          const queue = new PromiseQueue(3);
+          const results = await queue.addAll([
+            () => fetch('/api/1').then(r => r.json()),
+            () => fetch('/api/2').then(r => r.json()),
+            () => fetch('/api/3').then(r => r.json()),
+            // ... many more
+          ]);
+                </code></pre>
+
+                <h4>Error Handling Patterns</h4>
+                <pre><code>
+          // Pattern 1: Individual error handling with Promise.allSettled
+          const fetchMultipleWithErrors = async (urls) => {
+            const results = await Promise.allSettled(
+              urls.map(async (url) => {
+                try {
+                  const response = await fetch(url);
+                  if (!response.ok) {
+                    throw new Error(\`HTTP \${response.status}\`);
+                  }
+                  return await response.json();
+                } catch (error) {
+                  return { error: error.message, url };
+                }
+              })
+            );
+            
+            return results.map((result, i) => ({
+              url: urls[i],
+              ...(result.status === 'fulfilled' ? result.value : { error: result.reason })
+            }));
+          };
+
+          // Pattern 2: Retry logic with exponential backoff
+          const fetchWithRetry = async (url, maxRetries = 3, baseDelay = 1000) => {
+            for (let i = 0; i < maxRetries; i++) {
+              try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(\`HTTP \${response.status}\`);
+                return await response.json();
+              } catch (error) {
+                if (i === maxRetries - 1) throw error;
+                
+                const delay = baseDelay * Math.pow(2, i);
+                console.log(\`Retry \${i + 1}/\${maxRetries} after \${delay}ms\`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+              }
+            }
+          };
+
+          // Pattern 3: Circuit breaker
+          class CircuitBreaker {
+            constructor(threshold = 5, timeout = 60000) {
+              this.failureCount = 0;
+              this.threshold = threshold;
+              this.timeout = timeout;
+              this.state = 'CLOSED'; // CLOSED, OPEN, HALF_OPEN
+              this.nextAttempt = Date.now();
+            }
+            
+            async execute(promiseFunction) {
+              if (this.state === 'OPEN') {
+                if (Date.now() < this.nextAttempt) {
+                  throw new Error('Circuit breaker is OPEN');
+                }
+                this.state = 'HALF_OPEN';
+              }
+              
+              try {
+                const result = await promiseFunction();
+                this.onSuccess();
+                return result;
+              } catch (error) {
+                this.onFailure();
+                throw error;
+              }
+            }
+            
+            onSuccess() {
+              this.failureCount = 0;
+              this.state = 'CLOSED';
+            }
+            
+            onFailure() {
+              this.failureCount++;
+              if (this.failureCount >= this.threshold) {
+                this.state = 'OPEN';
+                this.nextAttempt = Date.now() + this.timeout;
+              }
+            }
+          }
+
+          // Usage
+          const breaker = new CircuitBreaker(3, 30000);
+          try {
+            const data = await breaker.execute(() => fetch('/api/data').then(r => r.json()));
+          } catch (error) {
+            console.error('Request failed or circuit open');
+          }
+
+          // Pattern 4: Fallback chain with error aggregation
+          const fetchWithFallbackChain = async (endpoints) => {
+            const errors = [];
+            
+            for (const endpoint of endpoints) {
+              try {
+                return await fetch(endpoint.url).then(r => r.json());
+              } catch (error) {
+                errors.push({ endpoint: endpoint.name, error: error.message });
+                console.log(\`Failed: \${endpoint.name}, trying next...\`);
+              }
+            }
+            
+            throw new Error(\`All endpoints failed: \${JSON.stringify(errors)}\`);
+          };
+
+          // Pattern 5: Partial failure handling
+          const fetchCriticalAndOptional = async () => {
+            const critical = await Promise.all([
+              fetch('/api/user').then(r => r.json()),
+              fetch('/api/config').then(r => r.json())
+            ]);
+            
+            const optional = await Promise.allSettled([
+              fetch('/api/recommendations').then(r => r.json()),
+              fetch('/api/ads').then(r => r.json()),
+              fetch('/api/analytics').then(r => r.json())
+            ]);
+            
+            return {
+              user: critical[0],
+              config: critical[1],
+              recommendations: optional[0].status === 'fulfilled' ? optional[0].value : null,
+              ads: optional[1].status === 'fulfilled' ? optional[1].value : null,
+              analytics: optional[2].status === 'fulfilled' ? optional[2].value : null
+            };
+          };
+                </code></pre>
+
+                <h4>Advanced Patterns</h4>
+                <pre><code>
+          // Pattern: Waterfall with dependencies
+          const waterfallWithDependencies = async () => {
+            const user = await fetchUser();
+            
+            const [profile, preferences] = await Promise.all([
+              fetchProfile(user.id),
+              fetchPreferences(user.id)
+            ]);
+            
+            const [posts, friends, recommendations] = await Promise.all([
+              fetchPosts(user.id, preferences.postsPerPage),
+              fetchFriends(user.id),
+              fetchRecommendations(user.id, profile.interests)
+            ]);
+            
+            return { user, profile, preferences, posts, friends, recommendations };
+          };
+
+          // Pattern: Race with all results
+          const raceWithAllResults = async (promises) => {
+            const results = {
+              winner: null,
+              all: []
+            };
+            
+            const wrappedPromises = promises.map((promise, index) =>
+              promise.then(
+                value => ({ index, status: 'fulfilled', value }),
+                reason => ({ index, status: 'rejected', reason })
+              )
+            );
+            
+            results.winner = await Promise.race(wrappedPromises);
+            results.all = await Promise.allSettled(promises);
+            
+            return results;
+          };
+
+          // Pattern: Debounced async operations
+          const debounceAsync = (func, wait) => {
+            let timeout;
+            let pendingPromise = null;
+            
+            return (...args) => {
+              if (timeout) clearTimeout(timeout);
+              
+              if (!pendingPromise) {
+                pendingPromise = new Promise((resolve, reject) => {
+                  timeout = setTimeout(async () => {
+                    try {
+                      const result = await func(...args);
+                      resolve(result);
+                    } catch (error) {
+                      reject(error);
+                    } finally {
+                      pendingPromise = null;
+                    }
+                  }, wait);
+                });
+              }
+              
+              return pendingPromise;
+            };
+          };
+
+          // Pattern: Throttled parallel execution
+          const throttledParallel = async (tasks, maxConcurrent, delayBetween = 0) => {
+            const results = [];
+            
+            for (let i = 0; i < tasks.length; i += maxConcurrent) {
+              const batch = tasks.slice(i, i + maxConcurrent);
+              const batchResults = await Promise.all(batch.map(task => task()));
+              results.push(...batchResults);
+              
+              if (i + maxConcurrent < tasks.length && delayBetween > 0) {
+                await new Promise(resolve => setTimeout(resolve, delayBetween));
+              }
+            }
+            
+            return results;
+          };
+
+          // Pattern: Promise memoization
+          const memoizePromise = (fn) => {
+            const cache = new Map();
+            
+            return (...args) => {
+              const key = JSON.stringify(args);
+              
+              if (cache.has(key)) {
+                return cache.get(key);
+              }
+              
+              const promise = fn(...args)
+                .then(result => {
+                  cache.set(key, Promise.resolve(result));
+                  return result;
+                })
+                .catch(error => {
+                  cache.delete(key);
+                  throw error;
+                });
+              
+              cache.set(key, promise);
+              return promise;
+            };
+          };
+
+          // Usage
+          const memoizedFetch = memoizePromise(async (url) => {
+            const response = await fetch(url);
+            return response.json();
+          });
+
+          // Pattern: Cancellable promise
+          const makeCancellable = (promise) => {
+            let cancelled = false;
+            
+            const wrappedPromise = new Promise((resolve, reject) => {
+              promise
+                .then(value => cancelled ? reject({ cancelled: true }) : resolve(value))
+                .catch(error => cancelled ? reject({ cancelled: true }) : reject(error));
+            });
+            
+            return {
+              promise: wrappedPromise,
+              cancel: () => { cancelled = true; }
+            };
+          };
+
+          // Usage
+          const { promise, cancel } = makeCancellable(fetch('/api/data').then(r => r.json()));
+          // Later: cancel();
+
+          // Pattern: Promise pool with priority
+          class PriorityPromisePool {
+            constructor(concurrency = 3) {
+              this.concurrency = concurrency;
+              this.running = 0;
+              this.queue = [];
+            }
+            
+            add(promiseFunction, priority = 0) {
+              return new Promise((resolve, reject) => {
+                this.queue.push({ promiseFunction, priority, resolve, reject });
+                this.queue.sort((a, b) => b.priority - a.priority);
+                this.run();
+              });
+            }
+            
+            async run() {
+              if (this.running >= this.concurrency || this.queue.length === 0) {
+                return;
+              }
+              
+              this.running++;
+              const { promiseFunction, resolve, reject } = this.queue.shift();
+              
+              try {
+                const result = await promiseFunction();
+                resolve(result);
+              } catch (error) {
+                reject(error);
+              } finally {
+                this.running--;
+                this.run();
+              }
+            }
+          }
+
+          // Usage
+          const pool = new PriorityPromisePool(2);
+          pool.add(() => fetch('/api/critical'), 10);  // High priority
+          pool.add(() => fetch('/api/normal'), 5);     // Normal priority
+          pool.add(() => fetch('/api/low'), 1);        // Low priority
+                </code></pre>
+
+                <h3>Real-World Examples</h3>
+                <pre><code>
+          // Example 1: Image loading with fallbacks and timeout
+          const loadImageWithFallback = async (primaryUrl, fallbackUrl, timeout = 5000) => {
+            const loadImage = (url) => new Promise((resolve, reject) => {
+              const img = new Image();
+              img.onload = () => resolve(url);
+              img.onerror = reject;
+              img.src = url;
+            });
+            
+            try {
+              return await Promise.race([
+                loadImage(primaryUrl),
+                new Promise((_, reject) => 
+                  setTimeout(() => reject(new Error('Timeout')), timeout)
+                )
+              ]);
+            } catch (error) {
+              console.log('Primary failed, loading fallback');
+              return loadImage(fallbackUrl);
+            }
+          };
+
+          // Example 2: Batch processing with progress tracking
+          const batchProcess = async (items, batchSize = 10, onProgress) => {
+            const results = [];
+            const totalBatches = Math.ceil(items.length / batchSize);
+            
+            for (let i = 0; i < items.length; i += batchSize) {
+              const batch = items.slice(i, i + batchSize);
+              const batchResults = await Promise.allSettled(
+                batch.map(item => processItem(item))
+              );
+              
+              results.push(...batchResults);
+              
+              const progress = Math.min(100, ((i + batchSize) / items.length) * 100);
+              onProgress?.({
+                completed: i + batchSize,
+                total: items.length,
+                percentage: progress,
+                batch: Math.floor(i / batchSize) + 1,
+                totalBatches
+              });
+            }
+            
+            return results;
+          };
+
+          // Example 3: GraphQL-style data fetching
+          const fetchDashboard = async (userId) => {
+            const results = await Promise.allSettled([
+              fetch(\`/api/users/\${userId}\`).then(r => r.json()),
+              fetch(\`/api/users/\${userId}/posts\`).then(r => r.json()),
+              fetch(\`/api/users/\${userId}/analytics\`).then(r => r.json()),
+              fetch(\`/api/notifications\`).then(r => r.json())
+            ]);
+            
+            return {
+              user: results[0].status === 'fulfilled' ? results[0].value : null,
+              posts: results[1].status === 'fulfilled' ? results[1].value : [],
+              analytics: results[2].status === 'fulfilled' ? results[2].value : null,
+              notifications: results[3].status === 'fulfilled' ? results[3].value : [],
+              errors: results
+                .map((r, i) => ({ index: i, reason: r.reason }))
+                .filter(e => e.reason)
+            };
+          };
+
+          // Example 4: Parallel search across multiple sources
+          const searchAcrossSources = async (query) => {
+            const sources = [
+              { name: 'Database', fetch: () => searchDatabase(query) },
+              { name: 'ElasticSearch', fetch: () => searchElastic(query) },
+              { name: 'Cache', fetch: () => searchCache(query) }
+            ];
+            
+            const results = await Promise.allSettled(
+              sources.map(async (source) => {
+                const start = Date.now();
+                try {
+                  const data = await source.fetch();
+                  return {
+                    source: source.name,
+                    results: data,
+                    duration: Date.now() - start,
+                    status: 'success'
+                  };
+                } catch (error) {
+                  return {
+                    source: source.name,
+                    error: error.message,
+                    duration: Date.now() - start,
+                    status: 'failed'
+                  };
+                }
+              })
+            );
+            
+            const successful = results
+              .filter(r => r.value?.status === 'success')
+              .map(r => r.value);
+            
+            // Merge and deduplicate results
+            const merged = successful
+              .flatMap(s => s.results)
+              .filter((item, index, self) => 
+                self.findIndex(i => i.id === item.id) === index
+              );
+            
+            return {
+              results: merged,
+              sources: successful.map(s => ({ 
+                name: s.source, 
+                count: s.results.length,
+                duration: s.duration 
+              }))
+            };
+          };
+                </code></pre>
+              </div>
+            `,
+
+            examples: [
+              "Promise.all for parallel API calls with fail-fast behavior",
+              "Promise.allSettled for independent operations with individual error handling",
+              "Promise.race for timeout implementation and fastest response selection",
+              "Promise.any for fallback chains and multiple data sources",
+              "Controlled concurrency with queue-based execution",
+              "Retry logic with exponential backoff",
+              "Circuit breaker pattern for fault tolerance",
+              "Batch processing with progress tracking",
+            ],
+
+            questions: [
+              {
+                question:
+                  "What's the difference between Promise.all and Promise.allSettled?",
+                difficulty: "Basic",
+                category: "Combinators",
+                answer:
+                  "Promise.all: Waits for all promises to fulfill or any to reject. Fails fast - rejects immediately when first promise rejects. Returns array of fulfilled values. Use when all operations must succeed. Promise.allSettled: Waits for all promises to settle (fulfill or reject). Never rejects - always fulfills with results array. Each result has status ('fulfilled' or 'rejected') and value/reason. Use when you need results from all operations regardless of individual failures. Example: Promise.all([p1, p2, p3]) - if p2 rejects, you get the rejection, no info about p1/p3. Promise.allSettled([p1, p2, p3]) - you get status and result for all three. Key difference: Promise.all is all-or-nothing, Promise.allSettled handles partial failures gracefully.",
+              },
+              {
+                question: "When would you use Promise.race vs Promise.any?",
+                difficulty: "Basic",
+                category: "Combinators",
+                answer:
+                  "Promise.race: Settles when the first promise settles (fulfills OR rejects). Winner can be either success or failure. Use cases: Timeout implementation (race between fetch and timeout), fastest response from multiple endpoints, cancellation with AbortController. Promise.any: Fulfills when the first promise fulfills, ignores rejections. Only rejects if ALL promises reject (with AggregateError). Use cases: Fallback chains (primary, secondary, tertiary sources), mirror/CDN selection (get from any available), progressive enhancement. Key difference: race cares about first to settle (success or fail), any cares about first to succeed. Example: race([fetch(url), timeout]) - timeout can win. any([fetch(url1), fetch(url2)]) - first successful fetch wins, ignores failures.",
+              },
+              {
+                question:
+                  "How do you implement a timeout for async operations?",
+                difficulty: "Basic",
+                category: "Patterns",
+                answer:
+                  "Use Promise.race with a timeout promise: const withTimeout = (promise, ms) => Promise.race([promise, new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms))]). Usage: await withTimeout(fetch(url), 5000). The timeout promise rejects after specified time. If main promise completes first, it wins. If timeout completes first, operation is rejected. Advanced: Use AbortController for actual cancellation: const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 5000); fetch(url, { signal: controller.signal }). This actually cancels the request, not just the promise. Clear timeout on success to prevent memory leaks: promise.finally(() => clearTimeout(timeout)). Libraries like p-timeout provide robust implementations with cleanup.",
+              },
+              {
+                question: "How do you handle errors when using Promise.all?",
+                difficulty: "Intermediate",
+                category: "Error Handling",
+                answer:
+                  "Promise.all fails fast - first rejection causes immediate failure. Strategies: 1) Try-catch around Promise.all: try { await Promise.all([...]) } catch (error) { /* handle */ } - loses info about successful promises. 2) Wrap each promise with error handling: Promise.all(promises.map(p => p.catch(e => ({ error: e })))). 3) Use Promise.allSettled instead: const results = await Promise.allSettled([...]); const successful = results.filter(r => r.status === 'fulfilled'); const failed = results.filter(r => r.status === 'rejected'). 4) Hybrid approach: Fail critical operations, allow optional to fail: await Promise.all([critical1, critical2]); await Promise.allSettled([optional1, optional2]). Best practice: Use Promise.allSettled when operations are independent and partial success is acceptable. Use Promise.all when all operations must succeed or none should.",
+              },
+              {
+                question:
+                  "How do you implement controlled concurrency for multiple async operations?",
+                difficulty: "Intermediate",
+                category: "Concurrency",
+                answer:
+                  "Controlled concurrency limits parallel execution to avoid overwhelming resources. Implementation: 1) Simple batching: Process in chunks sequentially: for (let i = 0; i < items.length; i += batchSize) { await Promise.all(batch.map(process)) }. 2) Queue-based: Maintain running count, queue waiting tasks: while (running >= limit) await Promise.race(executing); executing.push(task.finally(() => executing.splice(index, 1))). 3) Promise pool: Create pool with max concurrency, add tasks that wait for available slot. 4) p-limit library: const limit = pLimit(5); await Promise.all(items.map(i => limit(() => process(i)))). Benefits: Control memory usage, respect rate limits, prevent server overload. Use cases: Bulk API requests, file processing, web scraping. Key: Balance between speed (more concurrent) and resource constraints.",
+              },
+              {
+                question:
+                  "What is the AggregateError in Promise.any and how do you handle it?",
+                difficulty: "Intermediate",
+                category: "Error Handling",
+                answer:
+                  "AggregateError is thrown when all promises in Promise.any reject. It contains all individual rejection reasons. Structure: { errors: [...all rejection reasons], message: 'All promises were rejected' }. Handling: try { await Promise.any([...]) } catch (error) { if (error instanceof AggregateError) { error.errors.forEach(e => console.log(e)); } }. Each error in the errors array is the rejection reason from corresponding promise. Use cases: When all fallback sources fail, when no mirror is available, when all retry attempts fail. Best practice: Check instanceof AggregateError to differentiate from other errors. Log all errors for debugging. Provide meaningful fallback or error message. Example: Multiple auth providers - if all fail, AggregateError shows why each failed. This helps diagnose if issue is credentials, network, or specific provider.",
+              },
+              {
+                question:
+                  "How do you implement retry logic with exponential backoff?",
+                difficulty: "Intermediate",
+                category: "Resilience",
+                answer:
+                  "Exponential backoff increases delay between retries to avoid overwhelming failing services. Implementation: async function retry(fn, maxRetries = 3, baseDelay = 1000) { for (let i = 0; i < maxRetries; i++) { try { return await fn(); } catch (error) { if (i === maxRetries - 1) throw error; const delay = baseDelay * Math.pow(2, i); await new Promise(r => setTimeout(r, delay)); } } }. Delays: 1s, 2s, 4s, 8s. Add jitter to prevent thundering herd: delay * (0.5 + Math.random() * 0.5). Advanced features: Only retry on specific errors (network, 5xx, not 4xx), max delay cap, exponential backoff with jitter, circuit breaker integration. Use cases: Network requests, database connections, external APIs. Libraries: p-retry, axios-retry provide robust implementations with configuration options.",
+              },
+              {
+                question: "Explain the circuit breaker pattern for promises.",
+                difficulty: "Advanced",
+                category: "Resilience",
+                answer:
+                  "Circuit breaker prevents cascading failures by stopping requests to failing services. States: CLOSED (normal operation), OPEN (failing, reject immediately), HALF_OPEN (testing recovery). Flow: Start CLOSED → failures exceed threshold → OPEN (reject fast) → timeout expires → HALF_OPEN (allow test request) → success → CLOSED, or failure → OPEN. Implementation: Track failure count, check state before execution, transition OPEN after threshold failures, set timeout for retry, transition to HALF_OPEN after timeout, one success resets to CLOSED. Benefits: Fast failure, prevents resource exhaustion, automatic recovery, protects downstream services. Configuration: Failure threshold (e.g., 5), timeout (e.g., 60s), success threshold to close. Use cases: External API calls, database connections, microservices communication. Libraries: opossum, brakes. Pattern prevents retry storms that make outages worse.",
+              },
+              {
+                question:
+                  "How do you handle dependent async operations efficiently?",
+                difficulty: "Advanced",
+                category: "Patterns",
+                answer:
+                  "Dependent operations require results from previous operations. Strategies: 1) Sequential (waterfall): const user = await fetchUser(); const posts = await fetchPosts(user.id); Simple but slow. 2) Parallel where possible: const user = await fetchUser(); const [posts, friends] = await Promise.all([fetchPosts(user.id), fetchFriends(user.id)]). 3) Batched dependencies: Group by dependency level: const level1 = await Promise.all([...]); const level2 = await Promise.all([...use level1...]). 4) DataLoader pattern: Batch and cache requests within time window. 5) GraphQL approach: Resolve dependencies in parallel layers. Optimization: Identify independent operations, parallelize within dependency levels, use Promise.all for same-level dependencies, avoid over-sequencing. Example: User → Profile & Preferences (parallel) → Posts using Preferences (sequential). Key: Build dependency graph, parallelize within layers, minimize critical path length.",
+              },
+              {
+                question:
+                  "What are the performance implications of different promise patterns?",
+                difficulty: "Advanced",
+                category: "Performance",
+                answer:
+                  "Performance characteristics: 1) Promise.all: Fastest when all succeed (truly parallel), but wastes work on first failure. 2) Promise.allSettled: Always completes all operations (no fail-fast), predictable timing, good for metrics. 3) Promise.race: Returns immediately on first settlement, may leave work unfinished, use AbortController for cleanup. 4) Promise.any: Returns on first success, continues trying other promises wastefully. 5) Sequential: Slowest, total time = sum of all operations. 6) Controlled concurrency: Balance between parallel (fast, high resource) and sequential (slow, low resource). Optimization strategies: Minimize network roundtrips, parallelize independent operations, use request batching, implement caching, prefer streaming over buffering. Memory: Promise.all holds all results in memory, consider streaming for large datasets. CPU: Too much parallelism causes context switching overhead. Network: Respect rate limits, avoid thundering herd. Profile with DevTools Performance tab, measure with Performance API.",
+              },
+              {
+                question: "How do you implement promise memoization/caching?",
+                difficulty: "Advanced",
+                category: "Optimization",
+                answer:
+                  "Memoization caches promise results to avoid redundant async operations. Implementation: const memoize = (fn) => { const cache = new Map(); return (...args) => { const key = JSON.stringify(args); if (cache.has(key)) return cache.get(key); const promise = fn(...args).then(result => { cache.set(key, Promise.resolve(result)); return result; }).catch(error => { cache.delete(key); throw error; }); cache.set(key, promise); return promise; }; }. Key points: Cache the promise itself (deduplicates concurrent calls), on success replace with resolved promise (prevents promise chain growth), on error remove from cache (allow retry). Advanced: TTL expiration, LRU eviction, cache size limits, per-argument caching, cache invalidation. Use cases: Expensive computations, API calls with stable data, user permissions checks. Libraries: memoizee, p-memoize. Caution: Memory leaks if cache grows unbounded, stale data if not invalidated, serialization issues with complex arguments.",
+              },
+              {
+                question:
+                  "How do you handle race conditions in async operations?",
+                difficulty: "Advanced",
+                category: "Concurrency",
+                answer:
+                  "Race conditions occur when operation order affects outcome. Types: 1) Read-modify-write: Two updates to same data. 2) Out-of-order responses: Later request returns before earlier. 3) Stale data: Using old data after new fetch started. Solutions: 1) Request cancellation: Track latest request, cancel previous: if (currentRequest) currentRequest.cancel(); currentRequest = newRequest(). 2) Request ID/versioning: const requestId = ++this.latestId; const result = await fetch(); if (requestId === this.latestId) update(result). 3) Debouncing: Delay execution until input stabilizes. 4) Optimistic locking: Use version numbers, only update if version matches. 5) Sequential queue: Force operations to execute in order. 6) AbortController: Cancel in-flight requests: controller.abort(). Example problem: Search input → user types 'abc' → request for 'a', 'ab', 'abc' → 'a' returns last → shows wrong results. Solution: Cancel previous or ignore stale responses. Pattern: Track request generation, ignore responses from older generations.",
+              },
+              {
+                question: "How do you implement a priority queue for promises?",
+                difficulty: "Advanced",
+                category: "Advanced Patterns",
+                answer:
+                  "Priority queue executes high-priority tasks first while limiting concurrency. Implementation: class PriorityQueue { constructor(concurrency) { this.concurrency = concurrency; this.running = 0; this.queue = []; } add(fn, priority) { return new Promise((resolve, reject) => { this.queue.push({ fn, priority, resolve, reject }); this.queue.sort((a, b) => b.priority - a.priority); this.run(); }); } async run() { if (this.running >= this.concurrency || !this.queue.length) return; this.running++; const { fn, resolve, reject } = this.queue.shift(); try { resolve(await fn()); } catch (e) { reject(e); } finally { this.running--; this.run(); } } }. Features: Sort by priority on add, respect concurrency limit, automatic execution when slot available. Use cases: Critical vs optional API calls, user-initiated vs background tasks, request prioritization. Advanced: Dynamic priority adjustment, starvation prevention (age-based priority boost), priority inheritance, deadline scheduling. Libraries: p-queue supports priority.",
+              },
+              {
+                question:
+                  "How do you test async code with promises effectively?",
+                difficulty: "Intermediate",
+                category: "Testing",
+                answer:
+                  "Testing strategies: 1) Return promise: test('async', () => { return asyncFunction().then(result => expect(result).toBe(expected)); }). 2) Async/await: test('async', async () => { const result = await asyncFunction(); expect(result).toBe(expected); }). 3) Test rejections: await expect(asyncFunction()).rejects.toThrow(). 4) Mock promises: jest.fn().mockResolvedValue(data) or mockRejectedValue(error). 5) Test concurrency: Track call order, verify parallel execution. 6) Timeout handling: jest.setTimeout(10000) for slow tests. 7) Fake timers: jest.useFakeTimers() to control setTimeout. Common pitfalls: Forgetting to return promise (test passes prematurely), not awaiting async, floating promises, not testing error cases. Best practices: Mock external dependencies, test both success and failure paths, verify promise state transitions, test race conditions with deterministic ordering, use waitFor for async state changes. Tools: Jest, Vitest for mocking and assertions, sinon for spies/stubs, MSW for API mocking.",
+              },
+              {
+                question:
+                  "What is promise chaining and when is it better than async/await?",
+                difficulty: "Intermediate",
+                category: "Patterns",
+                answer:
+                  "Promise chaining uses .then() to sequence operations: fetch(url).then(r => r.json()).then(data => process(data)).catch(error => handle(error)). Async/await is syntactic sugar: const response = await fetch(url); const data = await response.json(); const result = process(data). When chaining is better: 1) Transform pipelines: .then(transform1).then(transform2).then(transform3) - cleaner than multiple awaits. 2) Conditional branching: .then(data => data.needsExtra ? fetchExtra() : data) - avoids if-else. 3) Parallel composition: Can create promise before awaiting. 4) Library APIs: Some libraries expect promise chains. When async/await is better: 1) Sequential logic with conditions, 2) Error handling with try-catch, 3) Debugging (better stack traces), 4) Readability for most developers. Hybrid: const promise = fetch(url); // Create promise, other work, await promise; // Await later. Modern preference: async/await for readability, chaining for transformations. Both are equivalent in capability.",
+              },
+              {
+                question: "How do you implement a debounced async function?",
+                difficulty: "Advanced",
+                category: "Patterns",
+                answer:
+                  "Debounce delays execution until input stops changing. Async version must handle promise resolution: function debounceAsync(fn, delay) { let timeout; let pendingPromise; return (...args) => { clearTimeout(timeout); if (!pendingPromise) { pendingPromise = new Promise((resolve, reject) => { timeout = setTimeout(async () => { try { const result = await fn(...args); resolve(result); } catch (error) { reject(error); } finally { pendingPromise = null; } }, delay); }); } return pendingPromise; }; }. Key aspects: Clear previous timeout on new call, return same promise for rapid calls (deduplication), resolve/reject based on final execution, clean up on completion. Use cases: Search autocomplete, form validation, API calls on input change. Alternative: Separate trailing/leading edge, cancel in-flight requests with AbortController. Libraries: lodash.debounce, use-debounce for React. Throttle variant: Execute at most once per interval, useful for scroll/resize handlers.",
+              },
+              {
+                question: "How do you handle cleanup in async operations?",
+                difficulty: "Advanced",
+                category: "Resource Management",
+                answer:
+                  "Cleanup prevents memory leaks and resource exhaustion. Patterns: 1) Finally block: try { await operation() } finally { cleanup() } - always executes. 2) AbortController: const controller = new AbortController(); fetch(url, { signal: controller.signal }); // Later: controller.abort(); cleanup(). 3) Promise.race with cleanup: const winner = await Promise.race([...]); pending.forEach(p => p.cancel()). 4) React useEffect: useEffect(() => { const controller = new AbortController(); fetch(url, { signal }); return () => controller.abort(); }, []). 5) Async resource pattern: const resource = await acquire(); try { use(resource) } finally { release(resource) }. Common cleanups: Cancel timers (clearTimeout/Interval), abort network requests, release locks/semaphores, close connections, remove event listeners, clear intervals. Memory leaks: Uncancelled timers, unaborted fetches, retained references. Best practice: Always clean up in finally, use AbortController for cancellation, test cleanup logic, avoid creating closures that capture large objects.",
+              },
+              {
+                question:
+                  "What are the differences between Promise.all, Promise.allSettled, Promise.race, and Promise.any in terms of error handling?",
+                difficulty: "Advanced",
+                category: "Error Handling",
+                answer:
+                  "Error handling characteristics: Promise.all - Rejects immediately on first rejection (fail-fast). Other promises may still be running. Error is the first rejection reason. Use: All operations must succeed. Promise.allSettled - Never rejects. Always fulfills with array of results. Successful: {status: 'fulfilled', value}. Failed: {status: 'rejected', reason}. Use: Need all results regardless of individual failures. Promise.race - Resolves/rejects with first settled promise. Can reject if first promise rejects. No information about other promises. Use: Timeout, fastest response, cancellation. Promise.any - Rejects only if ALL promises reject. Rejection is AggregateError containing all errors. Ignores individual rejections if any promise succeeds. Use: Fallback chains, multiple data sources. Error recovery strategies: all - try-catch entire operation or wrap each promise. allSettled - check status of each result. race - may need to handle both success and error of first. any - handle AggregateError with all failure reasons. Choose based on whether partial failure is acceptable.",
+              },
+              {
+                question:
+                  "How do you implement request deduplication for concurrent identical async operations?",
+                difficulty: "Advanced",
+                category: "Optimization",
+                answer:
+                  "Request deduplication prevents multiple identical operations from executing simultaneously. Implementation: const cache = new Map(); function dedupe(fn) { return (...args) => { const key = JSON.stringify(args); if (cache.has(key)) { return cache.get(key); } const promise = fn(...args).finally(() => { cache.delete(key); }); cache.set(key, promise); return promise; }; }. How it works: Check if identical request is in-flight, if yes return existing promise, if no create new promise and cache it, remove from cache when complete. All concurrent identical calls get same promise. Benefits: Reduces server load, saves bandwidth, faster response (single request), prevents race conditions. Use cases: Multiple components requesting same data, rapid repeated clicks, concurrent API calls. Advanced: TTL for cache, request coalescing (combine similar requests), batching (combine multiple into one). Libraries: dataloader (Facebook), swr, react-query (built-in). Caution: Different callers get same promise instance, error in one affects all, memory management for cache.",
+              },
+              {
+                question:
+                  "How would you implement a Promise-based rate limiter?",
+                difficulty: "Advanced",
+                category: "Rate Limiting",
+                answer:
+                  "Rate limiter controls request frequency. Sliding window implementation: class RateLimiter { constructor(maxRequests, windowMs) { this.maxRequests = maxRequests; this.windowMs = windowMs; this.requests = []; } async acquire() { const now = Date.now(); this.requests = this.requests.filter(time => now - time < this.windowMs); if (this.requests.length < this.maxRequests) { this.requests.push(now); return; } const oldestRequest = this.requests[0]; const waitTime = this.windowMs - (now - oldestRequest); await new Promise(resolve => setTimeout(resolve, waitTime)); return this.acquire(); } async execute(fn) { await this.acquire(); return fn(); } }. Token bucket variant: Refill tokens at rate, consume on request, wait if no tokens. Leaky bucket: Process at constant rate, queue excess. Use cases: API rate limits (100 req/min), prevent abuse, throttle background jobs. Advanced: Per-user limits, burst allowance, distributed rate limiting (Redis), priority queues. Libraries: bottleneck, p-limit with p-throttle. Key: Choose algorithm based on requirements - sliding window for precise limits, token bucket for burst allowance.",
+              },
+            ],
+
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise - MDN Promise reference",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all - Promise.all documentation",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled - Promise.allSettled documentation",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race - Promise.race documentation",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/any - Promise.any documentation",
+              "https://github.com/sindresorhus/promise-fun - Collection of promise utility packages",
+              "https://github.com/sindresorhus/p-limit - Run multiple promise-returning functions with limited concurrency",
+              "https://github.com/sindresorhus/p-retry - Retry a promise-returning function",
+              "https://github.com/sindresorhus/p-queue - Promise queue with concurrency control",
+              "https://github.com/nodeshift/opossum - Circuit breaker for Node.js",
+              "https://web.dev/promises/ - JavaScript Promises: an introduction",
+              "https://javascript.info/promise-chaining - Promise chaining tutorial",
+              "https://javascript.info/async-await - Async/await tutorial",
             ],
           },
         ],
@@ -110708,7 +131624,7 @@ class HTTPRequest {
             const params = Array.from(this.queryParams.entries())
                 .map(([key, value]) => {encodeURIComponent(key)}={encodeURIComponent(value)})
                 .join('&');
-            fullUrl += ?{params};
+            fullUrl += ?{ params};
         }
         return fullUrl;
     }
