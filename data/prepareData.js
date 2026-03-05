@@ -28530,7 +28530,7 @@ function Counter({ initialCount }) {
 // Method 4: Lazy initialization with complex logic
 function init(userId) {
   // Read from localStorage
-  const saved = localStorage.getItem(\`user-\${userId}\`);
+  const saved = localStorage.getItem(\`user-\$ {userId}\`);
   
   return saved ? JSON.parse(saved) : {
     id: userId,
@@ -28544,7 +28544,7 @@ function UserProfile({ userId }) {
   
   // Save to localStorage on changes
   useEffect(() => {
-    localStorage.setItem(\`user-\${userId}\`, JSON.stringify(state));
+    localStorage.setItem(\`user-\$ {userId}\`, JSON.stringify(state));
   }, [state, userId]);
   
   return &lt;div&gt;{state.name}&lt;/div&gt;;
@@ -29663,7 +29663,7 @@ function useFetch(url) {
         });
         
         if (!response.ok) {
-          throw new Error(\`HTTP error! status: \${response.status}\`);
+          throw new Error(\`HTTP error! status: \$ {response.status}\`);
         }
         
         const json = await response.json();
@@ -29689,7 +29689,7 @@ function useFetch(url) {
 
 // Usage
 function UserProfile({ userId }) {
-  const { data: user, loading, error } = useFetch(\`/api/users/\${userId}\`);
+  const { data: user, loading, error } = useFetch(\`/api/users/\$ {userId}\`);
   
   if (loading) return &lt;Spinner /&gt;;
   if (error) return &lt;Error message={error} /&gt;;
@@ -30002,8 +30002,8 @@ function useAuth() {
 
 // Compose multiple Hooks
 function useUserProfile(userId) {
-  const { data: user, loading: userLoading } = useFetch(\`/api/users/\${userId}\`);
-  const { data: posts, loading: postsLoading } = useFetch(\`/api/users/\${userId}/posts\`);
+  const { data: user, loading: userLoading } = useFetch(\`/api/users/\$ {userId}\`);
+  const { data: posts, loading: postsLoading } = useFetch(\`/api/users/\$ {userId}/posts\`);
   const prevUserId = usePrevious(userId);
   
   const loading = userLoading || postsLoading;
@@ -30016,7 +30016,7 @@ function useUserProfile(userId) {
 function useSearchUsers(query) {
   const debouncedQuery = useDebounce(query, 300);
   const { data, loading, error } = useFetch(
-    debouncedQuery ? \`/api/search?q=\${debouncedQuery}\` : null
+    debouncedQuery ? \`/api/search?q=\$ {debouncedQuery}\` : null
   );
   
   return { results: data, loading, error };
@@ -30142,7 +30142,7 @@ function useAsync(asyncFunction, immediate = true) {
 // Usage
 function UserProfile({ userId }) {
   const fetchUser = useCallback(
-    () => fetch(\`/api/users/\${userId}\`).then(res => res.json()),
+    () => fetch(\`/api/users/\$ {userId}\`).then(res => res.json()),
     [userId]
   );
   
@@ -30289,7 +30289,7 @@ interface User {
 }
 
 function UserProfile({ userId }: { userId: number }) {
-  const { data, loading, error } = useFetch&lt;User&gt;(\`/api/users/\${userId}\`);
+  const { data, loading, error } = useFetch&lt;User&gt;(\`/api/users/\$ {userId}\`);
   
   if (loading) return &lt;Spinner /&gt;;
   if (error) return &lt;Error message={error.message} /&gt;;
@@ -31166,7 +31166,7 @@ text
   );
 });
 
-WithContext.displayName = \`withContext(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+WithContext.displayName = \`withContext(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
 return WithContext;
 };
@@ -31780,13 +31780,13 @@ if (!translation && locale !== fallbackLocale) {
 }
 
 if (!translation) {
-  console.warn(\`Missing translation for key: \${key}\`);
+  console.warn(\`Missing translation for key: \$ {key}\`);
   return key;
 }
 
 // Replace params in translation string
 return Object.keys(params).reduce((str, paramKey) => {
-  return str.replace(\`{\${paramKey}}\`, params[paramKey]);
+  return str.replace(\`{\$ {paramKey}}\`, params[paramKey]);
 }, translation);
 }, [locale, fallbackLocale, translations]);
 
@@ -31942,7 +31942,7 @@ try {
   // Optional: Call logout API
   await fetch('/api/logout', {
     headers: {
-      'Authorization': \`Bearer \${localStorage.getItem('auth_token')}\`
+      'Authorization': \`Bearer \$ {localStorage.getItem('auth_token')}\`
     }
   });
 } finally {
@@ -31963,7 +31963,7 @@ try {
   const response = await fetch('/api/refresh-token', {
     method: 'POST',
     headers: {
-      'Authorization': \`Bearer \${token}\`
+      'Authorization': \`Bearer \$ {token}\`
     }
   });
   
@@ -32856,7 +32856,7 @@ contextProvider={LegacyContext.Provider}
           }
           
           const response = await fetch('/api/protected-data', {
-            headers: { Authorization: \`Bearer \${token}\` }
+            headers: { Authorization: \`Bearer \$ {token}\` }
           });
           
           if (response.status === 401) {
@@ -32958,7 +32958,7 @@ contextProvider={LegacyContext.Provider}
             const newPost = await response.json();
             
             // Redirect to the new post
-            return redirect(\`/posts/\${newPost.id}\`);
+            return redirect(\`/posts/\$ {newPost.id}\`);
           } catch (error) {
             return { error: error.message };
           }
@@ -33342,7 +33342,7 @@ contextProvider={LegacyContext.Provider}
           const navigate = useNavigate();
           
           const handleClick = () => {
-            navigate(\`/products/\${product.id}\`, {
+            navigate(\`/products/\$ {product.id}\`, {
               state: { 
                 from: 'product-list',
                 scrollPosition: window.scrollY
@@ -33460,7 +33460,7 @@ contextProvider={LegacyContext.Provider}
               const response = await createPost(data);
               
               // Navigate to new post with success message
-              navigate(\`/posts/\${response.id}\`, {
+              navigate(\`/posts/\$ {response.id}\`, {
                 state: { message: 'Post created successfully!' }
               });
             } catch (error) {
@@ -33581,7 +33581,7 @@ contextProvider={LegacyContext.Provider}
             &lt;nav&gt;
               &lt;Link to="/"&gt;Home&lt;/Link&gt;
               {pathnames.map((name, index) => {
-                const to = \`/\${pathnames.slice(0, index + 1).join('/')}\`;
+                const to = \`/\$ {pathnames.slice(0, index + 1).join('/')}\`;
                 const isLast = index === pathnames.length - 1;
                 
                 return isLast ? (
@@ -34244,7 +34244,7 @@ contextProvider={LegacyContext.Provider}
             async function fetchUser() {
               setLoading(true);
               try {
-                const response = await fetch(\`/api/users/\${userId}\`);
+                const response = await fetch(\`/api/users/\$ {userId}\`);
                 const data = await response.json();
                 setUser(data);
               } catch (error) {
@@ -35578,7 +35578,7 @@ export const fetchUserById = createAsyncThunk(
   'users/fetchUserById',
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await fetch(\`/api/users/\${userId}\`);
+      const response = await fetch(\`/api/users/\$ {userId}\`);
       return await response.json();
     } catch (error) {
       return rejectWithValue(error.message);
@@ -35683,9 +35683,9 @@ export const fetchUserData = createAsyncThunk(
   async (userId, { dispatch }) => {
     // Can dispatch other actions
     const [user, posts, comments] = await Promise.all([
-      fetch(\`/api/users/\${userId}\`).then(r => r.json()),
-      fetch(\`/api/users/\${userId}/posts\`).then(r => r.json()),
-      fetch(\`/api/users/\${userId}/comments\`).then(r => r.json())
+      fetch(\`/api/users/\$ {userId}\`).then(r => r.json()),
+      fetch(\`/api/users/\$ {userId}/posts\`).then(r => r.json()),
+      fetch(\`/api/users/\$ {userId}/comments\`).then(r => r.json())
     ]);
     
     return { user, posts, comments };
@@ -35859,7 +35859,7 @@ const fetchUserThunk = (userId) => {
     dispatch({ type: 'users/fetchStart' });
     
     try {
-      const response = await fetch(\`/api/users/\${userId}\`);
+      const response = await fetch(\`/api/users/\$ {userId}\`);
       const user = await response.json();
       
       dispatch({ type: 'users/fetchSuccess', payload: user });
@@ -36177,7 +36177,7 @@ const api = createApi({
       query: () => 'users'
     }),
     getUserById: builder.query({
-      query: (id) => \`users/\${id}\`
+      query: (id) => \`users/\$ {id}\`
     }),
     createUser: builder.mutation({
       query: (user) => ({
@@ -36922,7 +36922,7 @@ const userPostsQuery = selector({
   get: async ({ get }) => {
     const userId = get(currentUserIdState);
     
-    const response = await fetch(\`/api/users/\${userId}/posts\`);
+    const response = await fetch(\`/api/users/\$ {userId}/posts\`);
     return response.json();
   }
 });
@@ -36975,7 +36975,7 @@ function UserProfileManual() {
 const userByIdQuery = selectorFamily({
   key: 'userByIdQuery',
   get: (userId) => async () => {
-    const response = await fetch(\`/api/users/\${userId}\`);
+    const response = await fetch(\`/api/users/\$ {userId}\`);
     return response.json();
   }
 });
@@ -37105,7 +37105,7 @@ function TodoItem({ id }) {
 const userProfileState = atomFamily({
   key: 'userProfile',
   default: async (userId) => {
-    const response = await fetch(\`/api/users/\${userId}\`);
+    const response = await fetch(\`/api/users/\$ {userId}\`);
     return response.json();
   }
 });
@@ -37236,7 +37236,7 @@ function TodoItem({ todoId }) {
 const userPostsSelector = selectorFamily({
   key: 'userPosts',
   get: (userId) => async () => {
-    const response = await fetch(\`/api/users/\${userId}/posts\`);
+    const response = await fetch(\`/api/users/\$ {userId}/posts\`);
     return response.json();
   }
 });
@@ -37531,7 +37531,7 @@ const complexState = atom({
 const conditionalEffect = ({ onSet, node }) => {
   if (process.env.NODE_ENV === 'development') {
     onSet((newValue) => {
-      console.log(\`\${node.key} changed to:\`, newValue);
+      console.log(\`\$ {node.key} changed to:\`, newValue);
     });
   }
 };
@@ -38680,7 +38680,7 @@ const fetchUser = (userId) => {
     dispatch({ type: 'user/fetchStart' });
     
     try {
-      const response = await fetch(\`/api/users/\${userId}\`);
+      const response = await fetch(\`/api/users/\$ {userId}\`);
       const user = await response.json();
       
       dispatch({ type: 'user/fetchSuccess', payload: user });
@@ -38708,7 +38708,7 @@ const fetchUserWithPromise = (userId) => {
     dispatch({ type: 'user/fetchStart' });
     
     try {
-      const response = await fetch(\`/api/users/\${userId}\`);
+      const response = await fetch(\`/api/users/\$ {userId}\`);
       const user = await response.json();
       
       dispatch({ type: 'user/fetchSuccess', payload: user });
@@ -38732,9 +38732,9 @@ const loadUserData = (userId) => {
     
     try {
       // Sequential calls
-      const user = await fetch(\`/api/users/\${userId}\`).then(r => r.json());
-      const posts = await fetch(\`/api/users/\${userId}/posts\`).then(r => r.json());
-      const friends = await fetch(\`/api/users/\${userId}/friends\`).then(r => r.json());
+      const user = await fetch(\`/api/users/\$ {userId}\`).then(r => r.json());
+      const posts = await fetch(\`/api/users/\$ {userId}/posts\`).then(r => r.json());
+      const friends = await fetch(\`/api/users/\$ {userId}/friends\`).then(r => r.json());
       
       dispatch({
         type: 'userData/loadSuccess',
@@ -38809,7 +38809,7 @@ export const fetchUserById = createAsyncThunk(
   'users/fetchById',
   async (userId, { rejectWithValue }) => {
     try {
-      const response = await fetch(\`/api/users/\${userId}\`);
+      const response = await fetch(\`/api/users/\$ {userId}\`);
       if (!response.ok) throw new Error('Failed to fetch');
       return await response.json();
     } catch (error) {
@@ -38901,7 +38901,7 @@ const apiMiddleware = (store) => (next) => (action) => {
   
   // Dispatch start action
   store.dispatch({
-    type: \`\${action.type}_START\`,
+    type: \`\$ {action.type}_START\`,
     payload: action.payload
   });
   
@@ -38914,13 +38914,13 @@ const apiMiddleware = (store) => (next) => (action) => {
     .then(response => response.json())
     .then(data => {
       store.dispatch({
-        type: \`\${action.type}_SUCCESS\`,
+        type: \`\$ {action.type}_SUCCESS\`,
         payload: data
       });
     })
     .catch(error => {
       store.dispatch({
-        type: \`\${action.type}_ERROR\`,
+        type: \`\$ {action.type}_ERROR\`,
         payload: error.message
       });
     });
@@ -39033,7 +39033,7 @@ const optimisticMiddleware = (store) => (next) => (action) => {
     .catch(error => {
       // Revert on error
       store.dispatch({
-        type: \`\${action.type}_REVERT\`,
+        type: \`\$ {action.type}_REVERT\`,
         payload: action.meta.optimistic.revertPayload
       });
     });
@@ -39058,7 +39058,7 @@ const promiseMiddleware = (store) => (next) => (action) => {
     })
     .catch(error => {
       store.dispatch({
-        type: \`\${action.type}_ERROR\`,
+        type: \`\$ {action.type}_ERROR\`,
         payload: error,
         error: true
       });
@@ -39100,7 +39100,7 @@ function* fetchUserSaga(action) {
     yield put({ type: 'user/fetchStart' });
     
     // Call executes async function
-    const user = yield call(fetch, \`/api/users/\${action.payload}\`);
+    const user = yield call(fetch, \`/api/users/\$ {action.payload}\`);
     const data = yield call([user, 'json']);
     
     yield put({ type: 'user/fetchSuccess', payload: data });
@@ -39420,7 +39420,7 @@ const retryMiddleware = (store) => (next) => (action) => {
       retries++;
       
       if (retries < maxRetries) {
-        console.log(\`Retry attempt \${retries}/\${maxRetries}\`);
+        console.log(\`Retry attempt \$ {retries}/\$ {maxRetries}\`);
         
         return new Promise(resolve => {
           setTimeout(() => {
@@ -39431,7 +39431,7 @@ const retryMiddleware = (store) => (next) => (action) => {
       
       // Max retries reached
       store.dispatch({
-        type: \`\${action.type}_FAILED\`,
+        type: \`\$ {action.type}_FAILED\`,
         payload: error,
         meta: { retries }
       });
@@ -39557,7 +39557,7 @@ const advancedLoggerMiddleware = (store) => (next) => (action) => {
   const timestamp = new Date().toISOString();
   const prevState = store.getState();
   
-  console.group(\`%c \${action.type}\`, 'color: #4CAF50; font-weight: bold;');
+  console.group(\`%c \$ {action.type}\`, 'color: #4CAF50; font-weight: bold;');
   console.log('%c Previous State:', 'color: #9E9E9E; font-weight: bold;', prevState);
   console.log('%c Action:', 'color: #03A9F4; font-weight: bold;', action);
   
@@ -39624,7 +39624,7 @@ const performanceMiddleware = (store) => {
     
     // Log slow actions
     if (duration > 16) { // > 1 frame (60fps)
-      console.warn(\`Slow action: \${action.type} took \${duration.toFixed(2)}ms\`);
+      console.warn(\`Slow action: \$ {action.type} took \$ {duration.toFixed(2)}ms\`);
     }
     
     // Expose metrics
@@ -39795,7 +39795,7 @@ const offlineMiddleware = () => {
       
       store.dispatch({
         type: 'offline/queued',
-        payload: \`Action queued: \${action.type}\`
+        payload: \`Action queued: \$ {action.type}\`
       });
       
       return;
@@ -39895,7 +39895,7 @@ const rateLimitMiddleware = () => {
     if (recentCalls.length >= maxCalls) {
       store.dispatch({
         type: 'rateLimit/exceeded',
-        payload: \`Rate limit exceeded for \${action.type}\`
+        payload: \`Rate limit exceeded for \$ {action.type}\`
       });
       return; // Block action
     }
@@ -39980,7 +39980,7 @@ const featureFlagMiddleware = (flags) => (store) => (next) => (action) => {
     const feature = action.meta.feature;
     
     if (!flags[feature]) {
-      console.log(\`Feature \${feature} is disabled\`);
+      console.log(\`Feature \$ {feature} is disabled\`);
       return; // Block action
     }
   }
@@ -40137,7 +40137,7 @@ const dynamicMiddleware = () => {
 // Middleware groups
 const createMiddlewareGroup = (name, middlewares) => {
   const group = (store) => (next) => (action) => {
-    console.group(\`Middleware Group: \${name}\`);
+    console.group(\`Middleware Group: \$ {name}\`);
     
     const result = middlewares.reduce(
       (composed, middleware) => middleware(store)(composed),
@@ -40196,7 +40196,7 @@ const createApiMiddleware = (config) => {
     }
     
     const { endpoint, method = 'GET' } = action.meta.api;
-    const url = \`\${baseUrl}\${endpoint}\`;
+    const url = \`\$ {baseUrl}\$ {endpoint}\`;
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -40210,14 +40210,14 @@ const createApiMiddleware = (config) => {
       .then(data => {
         clearTimeout(timeoutId);
         store.dispatch({
-          type: \`\${action.type}_SUCCESS\`,
+          type: \`\$ {action.type}_SUCCESS\`,
           payload: data
         });
       })
       .catch(error => {
         clearTimeout(timeoutId);
         store.dispatch({
-          type: \`\${action.type}_ERROR\`,
+          type: \`\$ {action.type}_ERROR\`,
           payload: error.message
         });
       });
@@ -40976,7 +40976,7 @@ function LoginForm() {
             { a: 1, b: 2, expected: 3 },
             { a: 2, b: 1, expected: 3 },
           ])('add($a, $b)', ({ a, b, expected }) => {
-            test(\`returns \${expected}\`, () => {
+            test(\`returns \$ {expected}\`, () => {
               expect(add(a, b)).toBe(expected);
             });
           });
@@ -41194,13 +41194,13 @@ function LoginForm() {
               if (pass) {
                 return {
                   message: () =>
-                    \`expected \${received} not to be within range \${floor} - \${ceiling}\`,
+                    \`expected \$ {received} not to be within range \$ {floor} - \$ {ceiling}\`,
                   pass: true,
                 };
               } else {
                 return {
                   message: () =>
-                    \`expected \${received} to be within range \${floor} - \${ceiling}\`,
+                    \`expected \$ {received} to be within range \$ {floor} - \$ {ceiling}\`,
                   pass: false,
                 };
               }
@@ -42865,7 +42865,7 @@ function LoginForm() {
             performOperation();
             
             const duration = Date.now() - start;
-            console.log(\`Test took \${duration}ms\`);
+            console.log(\`Test took \$ {duration}ms\`);
           });
           </code></pre>
           </div>
@@ -42935,7 +42935,7 @@ function LoginForm() {
           // === Testing API Calls ===
 
           async function fetchUser(id) {
-            const response = await fetch(\`/api/users/\${id}\`);
+            const response = await fetch(\`/api/users/\$ {id}\`);
             return response.json();
           }
 
@@ -43042,7 +43042,7 @@ function LoginForm() {
           function transformUser(user) {
             return {
               ...user,
-              fullName: \`\${user.firstName} \${user.lastName}\`,
+              fullName: \`\$ {user.firstName} \$ {user.lastName}\`,
               age: new Date().getFullYear() - user.birthYear
             };
           }
@@ -43303,7 +43303,7 @@ function LoginForm() {
             
             // Create 100 concurrent requests
             for (let i = 0; i < 100; i++) {
-              promises.push(createUser({ name: \`User \${i}\` }));
+              promises.push(createUser({ name: \`User \$ {i}\` }));
             }
             
             const results = await Promise.all(promises);
@@ -44196,7 +44196,7 @@ function UserProfile({ userId }) {
   const [error, setError] = useState(null);
   
   useEffect(() => {
-    fetch(\`/api/users/\${userId}\`)
+    fetch(\`/api/users/\$ {userId}\`)
       .then(res => res.json())
       .then(data => { setUser(data); setLoading(false); })
       .catch(err => { setError(err.message); setLoading(false); });
@@ -44764,7 +44764,7 @@ function Alert({ type, message }) {
   if (!message) return null;
   
   return (
-    <div role="alert" className={\`alert alert-\${type}\`}>
+    <div role="alert" className={\`alert alert-\$ {type}\`}>
       {message}
     </div>
   );
@@ -44792,7 +44792,7 @@ function UserList({ users }) {
   return (
     <ul>
       {users.map(user => (
-        <li key={user.id} data-testid={\`user-\${user.id}\`}>
+        <li key={user.id} data-testid={\`user-\$ {user.id}\`}>
           {user.name}
         </li>
       ))}
@@ -45766,7 +45766,7 @@ addSnapshotSerializer({
   
   // print: returns the string representation for the snapshot
   print(value) {
-    return \`Money { \${value.amount} \${value.currency} }\`;
+    return \`Money { \$ {value.amount} \$ {value.currency} }\`;
   },
 });
 
@@ -46063,7 +46063,7 @@ test('sanitize dynamic fields before snapshot', () => {
 function Avatar({ userId }) {
   return (
     <div>
-      <img src={\`/avatars/\${userId}.jpg\`} alt="User avatar" />
+      <img src={\`/avatars/\$ {userId}.jpg\`} alt="User avatar" />
       <span data-testid="username">John</span>
     </div>
   );
@@ -46109,7 +46109,7 @@ const ThemeContext = React.createContext('light');
 function ThemedButton({ label }) {
   const theme = useContext(ThemeContext);
   return (
-    <button className={\`btn btn-\${theme}\`}>{label}</button>
+    <button className={\`btn btn-\$ {theme}\`}>{label}</button>
   );
 }
 
@@ -46224,9 +46224,9 @@ test('full component snapshot', () => {
 
 function formatAddress(address) {
   return {
-    line1: \`\${address.number} \${address.street}\`,
-    line2: address.unit ? \`Unit \${address.unit}\` : null,
-    cityState: \`\${address.city}, \${address.state} \${address.zip}\`,
+    line1: \`\$ {address.number} \$ {address.street}\`,
+    line2: address.unit ? \`Unit \$ {address.unit}\` : null,
+    cityState: \`\$ {address.city}, \$ {address.state} \$ {address.zip}\`,
     country: address.country.toUpperCase(),
   };
 }
@@ -47564,7 +47564,7 @@ export class DashboardPage {
   }
 
   async expectWelcomeMessage(name: string) {
-    await expect(this.welcomeMessage).toContainText(\`Welcome, \${name}\`);
+    await expect(this.welcomeMessage).toContainText(\`Welcome, \$ {name}\`);
   }
 }
 
@@ -49073,7 +49073,7 @@ function UserPage({ userId }) {
 import useSWR from 'swr';
 
 function ProductDetails({ id }) {
-  const { data: product } = useSWR(\`/api/products/\${id}\`, fetcher, {
+  const { data: product } = useSWR(\`/api/products/\$ {id}\`, fetcher, {
     suspense: true, // opt into Suspense mode
   });
 
@@ -49524,7 +49524,7 @@ function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetch(\`/api/users/\${userId}\`)
+    fetch(\`/api/users/\$ {userId}\`)
       .then(r => r.json())
       .then(data => setUser(data)); // ❌ may set state after unmount
   }, [userId]);
@@ -49537,7 +49537,7 @@ function UserProfile({ userId }) {
   useEffect(() => {
     const controller = new AbortController();
 
-    fetch(\`/api/users/\${userId}\`, { signal: controller.signal })
+    fetch(\`/api/users/\$ {userId}\`, { signal: controller.signal })
       .then(r => r.json())
       .then(data => setUser(data))
       .catch(err => {
@@ -49680,7 +49680,7 @@ function TodoList() {
 
 const ITEMS = Array.from({ length: 50000 }, (_, i) => ({
   id: i,
-  name: \`Item \${i}\`,
+  name: \`Item \$ {i}\`,
   category: categories[i % 5],
 }));
 
@@ -51042,7 +51042,7 @@ function App() {
 // ❌ Avoid creating lazy() inside render — new component on every render
 function BadList({ items }) {
   return items.map(item => {
-    const ItemComponent = lazy(() => import(\`./items/\${item.type}\`)); // BAD
+    const ItemComponent = lazy(() => import(\`./items/\$ {item.type}\`)); // BAD
     return (
       <Suspense key={item.id} fallback={<ItemSkeleton />}>
         <ItemComponent item={item} />
@@ -51445,7 +51445,7 @@ function Good() {
 // ❌ Creates a NEW lazy component on every render — causes infinite loading
 function BadParent({ type }) {
   // This runs on every render — new lazy component = new fetch = infinite loop
-  const Dynamic = lazy(() => import(\`./components/\${type}\`));
+  const Dynamic = lazy(() => import(\`./components/\$ {type}\`));
   return (
     <Suspense fallback={<Spinner />}>
       <Dynamic />
@@ -52168,8 +52168,8 @@ import { FixedSizeList, FixedSizeGrid } from 'react-window';
 
 const items = Array.from({ length: 10000 }, (_, i) => ({
   id: i,
-  name: \`User \${i}\`,
-  email: \`user\${i}@example.com\`,
+  name: \`User \$ {i}\`,
+  email: \`user\$ {i}@example.com\`,
   status: i % 3 === 0 ? 'active' : 'inactive',
 }));
 
@@ -52182,7 +52182,7 @@ function Row({ index, style, data }) {
     <div style={style} className="list-row">
       <span>{item.name}</span>
       <span>{item.email}</span>
-      <span className={\`badge badge-\${item.status}\`}>{item.status}</span>
+      <span className={\`badge badge-\$ {item.status}\`}>{item.status}</span>
     </div>
   );
 }
@@ -52494,7 +52494,7 @@ function VirtualList({ items }) {
       {/* This makes the scrollbar the correct size */}
       <div
         style={{
-          height: \`\${virtualizer.getTotalSize()}px\`,
+          height: \`\$ {virtualizer.getTotalSize()}px\`,
           width: '100%',
           position: 'relative',
         }}
@@ -52509,8 +52509,8 @@ function VirtualList({ items }) {
               top: 0,
               left: 0,
               width: '100%',
-              height: \`\${virtualItem.size}px\`,
-              transform: \`translateY(\${virtualItem.start}px)\`,
+              height: \`\$ {virtualItem.size}px\`,
+              transform: \`translateY(\$ {virtualItem.start}px)\`,
             }}
           >
             {/* Your actual row content */}
@@ -52541,7 +52541,7 @@ function DynamicVirtualList({ items }) {
     <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
       <div
         style={{
-          height: \`\${virtualizer.getTotalSize()}px\`,
+          height: \`\$ {virtualizer.getTotalSize()}px\`,
           position: 'relative',
         }}
       >
@@ -52556,7 +52556,7 @@ function DynamicVirtualList({ items }) {
               top: 0,
               left: 0,
               width: '100%',
-              transform: \`translateY(\${virtualItem.start}px)\`,
+              transform: \`translateY(\$ {virtualItem.start}px)\`,
               // NO height style — let content determine height
             }}
           >
@@ -52590,7 +52590,7 @@ function HorizontalVirtualList({ items }) {
     >
       <div
         style={{
-          width: \`\${virtualizer.getTotalSize()}px\`,
+          width: \`\$ {virtualizer.getTotalSize()}px\`,
           height: '100px',
           position: 'relative',
         }}
@@ -52603,8 +52603,8 @@ function HorizontalVirtualList({ items }) {
               top: 0,
               left: 0,
               height: '100%',
-              width: \`\${virtualItem.size}px\`,
-              transform: \`translateX(\${virtualItem.start}px)\`,
+              width: \`\$ {virtualItem.size}px\`,
+              transform: \`translateX(\$ {virtualItem.start}px)\`,
             }}
           >
             {items[virtualItem.index].name}
@@ -52644,22 +52644,22 @@ function VirtualGrid({ rows, columns }) {
     >
       <div
         style={{
-          height: \`\${rowVirtualizer.getTotalSize()}px\`,
-          width: \`\${columnVirtualizer.getTotalSize()}px\`,
+          height: \`\$ {rowVirtualizer.getTotalSize()}px\`,
+          width: \`\$ {columnVirtualizer.getTotalSize()}px\`,
           position: 'relative',
         }}
       >
         {rowVirtualizer.getVirtualItems().map(virtualRow =>
           columnVirtualizer.getVirtualItems().map(virtualCol => (
             <div
-              key={\`\${virtualRow.index}-\${virtualCol.index}\`}
+              key={\`\$ {virtualRow.index}-\$ {virtualCol.index}\`}
               style={{
                 position: 'absolute',
                 top: 0,
                 left: 0,
-                width: \`\${virtualCol.size}px\`,
-                height: \`\${virtualRow.size}px\`,
-                transform: \`translateX(\${virtualCol.start}px) translateY(\${virtualRow.start}px)\`,
+                width: \`\$ {virtualCol.size}px\`,
+                height: \`\$ {virtualRow.size}px\`,
+                transform: \`translateX(\$ {virtualCol.start}px) translateY(\$ {virtualRow.start}px)\`,
               }}
             >
               R{virtualRow.index} C{virtualCol.index}
@@ -52722,7 +52722,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 const PAGE_SIZE = 50;
 
 async function fetchUsers({ pageParam = 0 }) {
-  const res = await fetch(\`/api/users?offset=\${pageParam}&limit=\${PAGE_SIZE}\`);
+  const res = await fetch(\`/api/users?offset=\$ {pageParam}&limit=\$ {PAGE_SIZE}\`);
   return res.json(); // { users: [], total: 10000, nextOffset: 50 }
 }
 
@@ -52775,7 +52775,7 @@ function InfiniteUserList() {
     <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
       <div
         style={{
-          height: \`\${virtualizer.getTotalSize()}px\`,
+          height: \`\$ {virtualizer.getTotalSize()}px\`,
           position: 'relative',
         }}
       >
@@ -52791,8 +52791,8 @@ function InfiniteUserList() {
                 top: 0,
                 left: 0,
                 width: '100%',
-                height: \`\${virtualItem.size}px\`,
-                transform: \`translateY(\${virtualItem.start}px)\`,
+                height: \`\$ {virtualItem.size}px\`,
+                transform: \`translateY(\$ {virtualItem.start}px)\`,
               }}
             >
               {isLoaderRow ? (
@@ -52906,7 +52906,7 @@ function SimpleInfiniteList({ items, onLoadMore, hasMore, isLoading }) {
 
   return (
     <div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}>
-      <div style={{ height: \`\${virtualizer.getTotalSize()}px\`, position: 'relative' }}>
+      <div style={{ height: \`\$ {virtualizer.getTotalSize()}px\`, position: 'relative' }}>
         {virtualizer.getVirtualItems().map(virtualItem => (
           <div
             key={virtualItem.key}
@@ -52915,8 +52915,8 @@ function SimpleInfiniteList({ items, onLoadMore, hasMore, isLoading }) {
               top: 0,
               left: 0,
               width: '100%',
-              height: \`\${virtualItem.size}px\`,
-              transform: \`translateY(\${virtualItem.start}px)\`,
+              height: \`\$ {virtualItem.size}px\`,
+              transform: \`translateY(\$ {virtualItem.start}px)\`,
             }}
           >
             <ItemRow item={items[virtualItem.index]} />
@@ -53120,7 +53120,7 @@ function StickyColumnTable({ data, columns }) {
         {rowVirtualizer.getVirtualItems().map(virtualRow =>
           columnVirtualizer.getVirtualItems().map(virtualCol => (
             <div
-              key={\`\${virtualRow.index}-\${virtualCol.index}\`}
+              key={\`\$ {virtualRow.index}-\$ {virtualCol.index}\`}
               style={{
                 position: 'absolute',
                 top: virtualRow.start,
@@ -53139,7 +53139,7 @@ function StickyColumnTable({ data, columns }) {
         {/* Sticky first column */}
         {rowVirtualizer.getVirtualItems().map(virtualRow => (
           <div
-            key={\`sticky-\${virtualRow.index}\`}
+            key={\`sticky-\$ {virtualRow.index}\`}
             style={{
               position: 'sticky',
               left: 0,
@@ -53176,7 +53176,7 @@ function StickyColumnTable({ data, columns }) {
 // Flatten grouped data into a single array with type markers
 function flattenGroups(groups) {
   return groups.flatMap(group => [
-    { type: 'header', label: group.label, id: \`header-\${group.label}\` },
+    { type: 'header', label: group.label, id: \`header-\$ {group.label}\` },
     ...group.items.map(item => ({ type: 'item', ...item })),
   ]);
 }
@@ -53212,7 +53212,7 @@ function GroupedVirtualList() {
                 top: 0,
                 left: 0,
                 width: '100%',
-                transform: \`translateY(\${virtualItem.start}px)\`,
+                transform: \`translateY(\$ {virtualItem.start}px)\`,
               }}
             >
               {item.type === 'header' ? (
@@ -53323,7 +53323,7 @@ function ChatList({ messages }) {
                 position: 'absolute',
                 top: 0,
                 width: '100%',
-                transform: \`translateY(\${virtualItem.start}px)\`,
+                transform: \`translateY(\$ {virtualItem.start}px)\`,
               }}
             >
               <ChatMessage message={message} />
@@ -53369,7 +53369,7 @@ function WindowVirtualList({ items }) {
             left: 0,
             width: '100%',
             height: virtualItem.size,
-            transform: \`translateY(\${virtualItem.start}px)\`,
+            transform: \`translateY(\$ {virtualItem.start}px)\`,
           }}
         >
           {items[virtualItem.index].name}
@@ -53450,7 +53450,7 @@ function VirtualList({ items }) {
               top: 0,
               width: '100%',
               height: virtualItem.size,
-              transform: \`translateY(\${virtualItem.start}px)\`,
+              transform: \`translateY(\$ {virtualItem.start}px)\`,
             }}
           >
             <MemoizedRow
@@ -53579,7 +53579,7 @@ function SelectableList({ items }) {
                 top: 0,
                 width: '100%',
                 height: virtualItem.size,
-                transform: \`translateY(\${virtualItem.start}px)\`,
+                transform: \`translateY(\$ {virtualItem.start}px)\`,
                 background: selectedIds.has(item.id) ? '#e0f0ff' : undefined,
               }}
               onClick={() => toggleSelected(item.id)}
@@ -54199,7 +54199,7 @@ function HeavyTabContent({ tab }) {
   // Imagine this renders a large chart, table, or fetches data
   const items = Array.from({ length: 5000 }, (_, i) => ({
     id: i,
-    label: \`\${tab} item \${i}\`,
+    label: \`\$ {tab} item \$ {i}\`,
   }));
 
   return (
@@ -55618,100 +55618,2487 @@ jest.mock('react', () => ({
               "Request Time",
               "Performance",
               "SEO",
+              "React Server Components",
+              "Streaming",
+              "App Router",
+              "Pages Router",
             ],
-            explanation: `<div>\n\n<p style="line-height: 1.75; margin-top: 1.5rem;">\n<strong>SSR (Server-Side Rendering)</strong> and <strong>SSG (Static Site Generation)</strong> are two pre-rendering strategies that generate HTML <em>before</em> it reaches the client. In a traditional Single Page Application (SPA) with client-side rendering (CSR), the browser receives an empty HTML shell and populates it with JavaScript after the page loads. Pre-rendering solves two major problems: slow initial page loads (users see a blank screen while JS loads) and poor SEO (search engine crawlers have trouble indexing empty HTML). SSR generates HTML <strong>on each request</strong> — the server runs your React code, fetches data, and produces a fully populated HTML page for every visitor. SSG generates HTML <strong>at build time</strong> — once during deployment, the same static HTML is served to all visitors. Next.js popularized these patterns with <code>getServerSideProps</code> (SSR) and <code>getStaticProps</code> (SSG). The choice between them trades off freshness (always up-to-date) against speed (cached static files).\n</p>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n1. Core Concepts — When HTML is Generated\n</h4>\n\n<p style="line-height: 1.75;">\nThe fundamental difference is <strong>timing</strong>. SSR generates HTML per request, SSG generates HTML once at build time.\n</p>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// SSR — Server-Side Rendering (getServerSideProps)\n// ========================\n\n// In Next.js, exporting getServerSideProps from a page\n// makes it an SSR page. The function runs on EVERY request.\n\nexport async function getServerSideProps(context) {\n // context contains: params, query, req, res, etc.\n const { params } = context;\n\n // Fetch data from an API or database\n const res = await fetch(https://api.example.com/user/${params.id});\n const user = await res.json();\n\n // Return props — passed to the page component\n return {\n props: { user }, // will be received by the page component\n };\n}\n\nfunction ProfilePage({ user }) {\n return (\n <div>\n <h1>{user.name}</h1>\n <p>Email: {user.email}</p>\n <p>Member since: {user.createdAt}</p>\n </div>\n );\n}\n\nexport default ProfilePage;\n\n// ========================\n// SSG — Static Site Generation (getStaticProps)\n// ========================\n\n// Exporting getStaticProps makes it an SSG page.\n// The function runs at BUILD TIME, once per deployment.\n\nexport async function getStaticProps(context) {\n // For static generation with dynamic routes, we also need getStaticPaths\n // (covered in section 3)\n\n const res = await fetch('https://api.example.com/posts');\n const posts = await res.json();\n\n return {\n props: { posts }, // passed to the page component\n };\n}\n\nfunction BlogIndex({ posts }) {\n return (\n <ul>\n {posts.map(post => (\n <li key={post.id}>{post.title}</li>\n ))}\n </ul>\n );\n}\n\nexport default BlogIndex;\n\n// ========================\n// Visualizing the difference\n// ========================\n\n// SSR flow:\n// 1. User requests /profile/123 →\n// 2. Server runs getServerSideProps, fetches data →\n// 3. Server renders React component to HTML →\n// 4. Server sends fully populated HTML to client →\n// 5. Client shows HTML immediately, then hydrates\n\n// SSG flow:\n// 1. Developer runs 'next build' →\n// 2. Server runs getStaticProps, fetches data →\n// 3. Server renders React component to HTML →\n// 4. Saves HTML file to disk (/posts.html) →\n// 5. User requests /posts →\n// 6. Server sends pre-built HTML file (no code runs)\n\n// ========================\n// The hydration step (both SSR and SSG)\n// ========================\n\n// Both SSR and SSG produce static HTML that the user sees immediately.\n// But the page isn't interactive yet — React hasn't loaded.\n// After the HTML loads, React loads, then "hydrates" the page:\n// React attaches event listeners and makes the page interactive.\n\n// CSR: Empty HTML → Load JS → Render → Interactive\n// SSR/SSG: Full HTML → Load JS → Hydrate → Interactive\n\n// The key difference between SSR and SSG is:\n// - SSR: HTML is fresh per request, data never stale\n// - SSG: HTML is pre-built, fastest possible delivery (CDN cache)\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n2. When to Use SSR vs SSG — Trade-offs\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// SSR is for dynamic, user-specific, or frequently changing data\n// ========================\n\n// ✅ Good SSR use cases:\n// - User dashboard (data unique to logged-in user)\n// - Social media feed (personalized, real-time)\n// - E-commerce cart page (shows current cart contents)\n// - Admin panel with live data\n// - Any page with authentication/authorization\n\n// Real example: Authenticated dashboard\nexport async function getServerSideProps(context) {\n const session = await getSession(context);\n\n if (!session) {\n return {\n redirect: {\n destination: '/login',\n permanent: false,\n },\n };\n }\n\n // Fetch user-specific data\n const userData = await fetchUserDashboard(session.userId);\n\n return {\n props: { userData },\n };\n}\n\n// ========================\n// SSG is for public, cacheable, infrequently changing content\n// ========================\n\n// ✅ Good SSG use cases:\n// - Blog posts, articles, documentation\n// - Marketing pages, landing pages\n// - Product catalog (if updated via CI/CD on content change)\n// - Any public content that can be cached\n// - Pages where speed matters most (homepage)\n\n// Real example: Blog post\nexport async function getStaticProps({ params }) {\n const post = await getPostFromCMS(params.slug);\n\n return {\n props: { post },\n // Optional: revalidate every 60 seconds (ISR — covered later)\n revalidate: 60,\n };\n}\n\n// ========================\n// Decision matrix\n// ========================\n\n// Question 1: Is the data user-specific? (logged-in user, cookies)\n// YES → SSR (or client-side fetch after mount)\n// NO → Continue\n\n// Question 2: Does the data change more than once per minute?\n// YES → SSR (or ISR with short revalidate)\n// NO → Continue\n\n// Question 3: Can the data be stale for a few minutes/hours?\n// YES → SSG with ISR\n// NO → SSR\n\n// Question 4: Is the page SEO-critical?\n// YES → Pre-rendering (SSR or SSG)\n// NO → Client-side fetch may be acceptable\n\n// ========================\n// Performance characteristics\n// ========================\n\n// SSR:\n// - Time to First Byte (TTFB): Higher — server must fetch data and render\n// - First Contentful Paint (FCP): Fast (HTML arrives quickly after server work)\n// - CDN caching: Difficult (unless edge rendering)\n// - Server load: Higher — runs on every request\n// - Cost: Variable (compute per request)\n\n// SSG:\n// - TTFB: Extremely fast — static file from CDN edge\n// - FCP: Fastest possible — HTML arrives immediately\n// - CDN caching: Built-in — static files are cacheable forever\n// - Server load: Zero — just serving files\n// - Cost: Fixed (build only)\n\n// ========================\n// SSR vs SSG vs CSR — visual example\n// ========================\n\nfunction ComparisonPage() {\n // CSR approach: fetch on client\n const [data, setData] = useState(null);\n useEffect(() => {\n fetch('/api/data').then(res => res.json()).then(setData);\n }, []);\n // User sees blank page → loading spinner → content\n\n // SSR approach: fetch on server, send HTML\n // User sees full HTML immediately\n\n // SSG approach: pre-built HTML, send file\n // User sees full HTML immediately (same as SSR)\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n3. Dynamic Routes — getStaticPaths for SSG\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// The problem: SSG with dynamic routes\n// ========================\n\n// For static generation, Next.js needs to know ALL possible paths\n// at build time. getStaticPaths tells Next.js which pages to generate.\n\n// File: pages/posts/[slug].js\n\nexport async function getStaticPaths() {\n // Fetch all possible slugs from your CMS/database\n const res = await fetch('https://api.example.com/posts');\n const posts = await res.json();\n\n // Generate paths array\n const paths = posts.map(post => ({\n params: { slug: post.slug },\n }));\n\n // fallback: false — any path not returned = 404\n // fallback: true — generate on-demand, show fallback page\n // fallback: 'blocking' — generate on-demand, server-side render first time\n return {\n paths,\n fallback: 'blocking', // or true / false\n };\n}\n\nexport async function getStaticProps({ params }) {\n const { slug } = params;\n const post = await getPostBySlug(slug);\n\n return {\n props: { post },\n revalidate: 60, // ISR: re-generate every 60 seconds if requested\n };\n}\n\nfunction BlogPost({ post }) {\n return (\n <article>\n <h1>{post.title}</h1>\n <div dangerouslySetInnerHTML={{ __html: post.content }} />\n </article>\n );\n}\n\n// ========================\n// Understanding fallback behavior\n// ========================\n\n// fallback: false\n// - Only pre-rendered paths work; others return 404\n// - Use for small, predictable sets (e.g., 10 blog posts)\n// - No on-demand generation\n\n// fallback: true\n// - Pre-rendered paths are static\n// - New paths show a loading fallback (useRouter().isFallback)\n// - Next.js generates HTML on first request, caches for future\n// - Good for large sites where you can't pre-render everything\n\n// fallback: 'blocking'\n// - Pre-rendered paths are static\n// - New paths wait for server to generate HTML (no loading state)\n// - User waits slightly longer on first visit, but sees full page\n// - Better SEO (no loading flash), but slower first visit\n\n// Example with fallback: true\nfunction BlogPostWithFallback({ post }) {\n const router = useRouter();\n\n if (router.isFallback) {\n return <div>Loading...</div>; // shown for non-pre-rendered paths\n }\n\n return <article>{/* post content */}</article>;\n}\n\n// ========================\n// getStaticPaths with localized content\n// ========================\n\nexport async function getStaticPaths({ locales, defaultLocale }) {\n const posts = await fetchAllPosts();\n\n const paths = [];\n\n for (const locale of locales) {\n for (const post of posts) {\n paths.push({\n params: { slug: post.slug },\n locale, // generate each post in each locale\n });\n }\n }\n\n return {\n paths,\n fallback: 'blocking',\n };\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n4. ISR — Incremental Static Regeneration\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// ISR is SSG + updates — best of both worlds\n// ========================\n\n// Problem: SSG content goes stale. Rebuilding the whole site is slow.\n// ISR: Keep static performance, but update individual pages after build.\n\n// Add 'revalidate' to getStaticProps\nexport async function getStaticProps() {\n const data = await fetchCMSData();\n\n return {\n props: { data },\n // Next.js will attempt to re-generate this page:\n // - When a request comes in\n // - At most once every 60 seconds\n revalidate: 60, // seconds\n };\n}\n\n// ========================\n// How ISR works — the cache lifecycle\n// ========================\n\n// 1. Build time: /products/1.html generated\n// 2. User visits /products/1 at 10:00:00 → served static HTML\n// 3. User visits /products/1 at 10:00:30 → still cached, served instantly\n// 4. User visits /products/1 at 10:01:05 (65 seconds later)\n// - Next.js serves the STALE cached page immediately\n// - In the background, triggers re-generation with fresh data\n// - Updates cache with new HTML for future requests\n// - Next visitor gets fresh page\n\n// Result: Users never wait; stale content is shown for at most revalidate seconds\n\n// ========================\n// ISR use cases\n// ========================\n\n// ✅ E-commerce product pages (prices change, but can be 60s stale)\n// ✅ Blog with frequent updates\n// ✅ News sites\n// ✅ Documentation that updates hourly\n\n// Real example: Product page with inventory\nexport async function getStaticProps({ params }) {\n const product = await getProduct(params.id);\n const related = await getRelatedProducts(params.id);\n\n return {\n props: { product, related },\n revalidate: 30, // revalidate every 30 seconds\n };\n}\n\n// ========================\n// On-demand revalidation (Next.js 12.2+)\n// ========================\n\n// Manually trigger revalidation when content changes\n// (e.g., after CMS webhook)\n\n// API route: pages/api/revalidate.js\nexport default async function handler(req, res) {\n // Check secret to prevent unauthorized access\n if (req.query.secret !== process.env.REVALIDATION_SECRET) {\n return res.status(401).json({ message: 'Invalid token' });\n }\n\n try {\n const { path } = req.body;\n await res.revalidate(path); // triggers re-generation\n return res.json({ revalidated: true });\n } catch (err) {\n return res.status(500).send('Error revalidating');\n }\n}\n\n// Call this from CMS webhook:\n// fetch('/api/revalidate', {\n// method: 'POST',\n// body: JSON.stringify({ path: '/products/1' }),\n// headers: { 'Content-Type': 'application/json' }\n// })\n\n// ========================\n// ISR vs SSR performance\n// ========================\n\n// SSR (no cache):\n// Request → fetch data → render → HTML → 150-500ms TTFB\n\n// ISR (cached):\n// Request → serve HTML from disk/CDN → 10-50ms TTFB\n\n// ISR (stale, revalidating):\n// Request → serve stale HTML (10ms) → background revalidate\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n5. SSR Streaming and Suspense\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Traditional SSR waterfall problem\n// ========================\n\n// Traditional SSR: "all or nothing"\n// 1. Server fetches ALL data for the page\n// 2. Server renders ALL components to HTML\n// 3. Server sends the complete HTML to client\n// 4. Client hydrates\n\n// Problem: If one component is slow (e.g., slow API), the whole page blocks\n\n// ========================\n// Streaming SSR (React 18 + Next.js App Router)\n// ========================\n\n// With Suspense, server can stream HTML in chunks:\n// - Send the fast parts immediately (layout, shell)\n// - Stream slow components as they finish\n\nimport { Suspense } from 'react';\n\nfunction Page() {\n return (\n <Layout>\n <NavBar /> {/* Fast — sent immediately /}\n\n <Suspense fallback={<ProductSkeleton />}>\n <ProductDetails /> {/ Slow — streams when ready /}\n </Suspense>\n\n <Suspense fallback={<ReviewSkeleton />}>\n <ProductReviews /> {/ Also slow, streams independently */}\n </Suspense>\n </Layout>\n );\n}\n\n// Benefits:\n// - TTFB improves — send shell immediately\n// - Progressive rendering — user sees content as it arrives\n// - Parallel data fetching — components fetch independently\n\n// ========================\n// App Router (Next.js 13+) vs Pages Router\n// ========================\n\n// Pages Router:\n// - getServerSideProps / getStaticProps\n// - Data fetching at page level only\n// - All or nothing rendering\n\n// App Router:\n// - Server Components by default\n// - Nested layouts\n// - Streaming with Suspense\n// - Granular data fetching in components\n\n// Example: App Router with async Server Component\n// app/products/[id]/page.js\nasync function ProductPage({ params }) {\n // This component is async — fetches on server\n const product = await fetchProduct(params.id);\n\n return (\n <div>\n <h1>{product.name}</h1>\n <p>{product.description}</p>\n {/* Nested async component streams independently */}\n <Suspense fallback={<div>Loading reviews...</div>}>\n <Reviews productId={product.id} />\n </Suspense>\n </div>\n );\n}\n\nasync function Reviews({ productId }) {\n const reviews = await fetchReviews(productId); // Slow?\n return <ReviewList reviews={reviews} />;\n}\n\n// ========================\n// SSR + client components\n// ========================\n\n// 'use client' directive marks client components\n// They are still pre-rendered on server, then hydrated\n\n'use client';\n\nfunction InteractiveButton({ children }) {\n const [count, setCount] = useState(0);\n\n return (\n <button onClick={() => setCount(c => c + 1)}>\n {children} (clicked {count} times)\n </button>\n );\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n6. SSR vs SSG — Code Comparison\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Same page — implemented three ways\n// ========================\n\n// Goal: Display a list of products\n\n// ========================\n// OPTION 1: CSR (Client-Side Rendering)\n// ========================\n\nfunction ProductsPageCSR() {\n const [products, setProducts] = useState([]);\n const [loading, setLoading] = useState(true);\n\n useEffect(() => {\n fetch('/api/products')\n .then(res => res.json())\n .then(data => {\n setProducts(data);\n setLoading(false);\n });\n }, []);\n\n if (loading) return <div>Loading...</div>;\n\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n\n// Pros: Dynamic, always fresh, low server cost\n// Cons: Poor SEO, slow initial load, loading flash\n\n// ========================\n// OPTION 2: SSR (getServerSideProps)\n// ========================\n\n// pages/products.js (Pages Router)\nexport async function getServerSideProps() {\n const res = await fetch('https://api.example.com/products');\n const products = await res.json();\n\n return {\n props: { products },\n };\n}\n\nfunction ProductsPageSSR({ products }) {\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n\n// Pros: SEO-friendly, always fresh data\n// Cons: Slower TTFB (fetch + render per request), server load\n\n// ========================\n// OPTION 3: SSG (getStaticProps)\n// ========================\n\n// pages/products.js\nexport async function getStaticProps() {\n const res = await fetch('https://api.example.com/products');\n const products = await res.json();\n\n return {\n props: { products },\n // Optional: revalidate every hour\n revalidate: 3600,\n };\n}\n\nfunction ProductsPageSSG({ products }) {\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n\n// Pros: Fastest TTFB, CDN cacheable, no server load\n// Cons: Data can be stale (up to revalidate time), rebuild needed for new products\n\n// ========================\n// OPTION 4: ISR (getStaticProps + revalidate)\n// ========================\n\n// Same as SSG but with revalidate\n// Balances freshness and speed\n\n// ========================\n// OPTION 5: App Router (Server Components)\n// ========================\n\n// app/products/page.js (App Router)\n// This is static by default (can be revalidated)\nasync function ProductsPage() {\n const products = await fetch('https://api.example.com/products', {\n next: { revalidate: 3600 } // ISR equivalent\n }).then(r => r.json());\n\n return (\n <ul>\n {products.map(p => <li key={p.id}>{p.name}</li>)}\n </ul>\n );\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n7. SEO and Performance Implications\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// SEO: Why pre-rendering matters\n// ========================\n\n// Googlebot (and other crawlers) execute JavaScript,\n// but not always perfectly. Pre-rendered HTML guarantees\n// content is indexed.\n\n// CSR page: HTML is <div id="root"></div> → crawler sees nothing\n// SSR/SSG page: HTML contains actual content → crawler indexes it\n\n// ========================\n// Core Web Vitals impact\n// ========================\n\n// Largest Contentful Paint (LCP):\n// - CSR: LCP depends on JS loading + rendering\n// - SSR/SSG: LCP is the HTML itself — much faster\n\n// First Input Delay (FID):\n// - Same for all — depends on hydration time\n// - But SSR/SSG shows content while JS loads, so perceived performance is better\n\n// Time to Interactive (TTI):\n// - CSR: TTI = when JS loads\n// - SSR/SSG: TTI = when hydration finishes\n// - Similar timing, but SSR/SSG has content during that time\n\n// ========================\n// Measuring performance\n// ========================\n\n// Use:\n// - Next.js Analytics (Vercel)\n// - Lighthouse\n// - Web Vitals extension\n// - next build output shows page sizes and functions\n\n// Build output example:\n// ┌ /products (ISR) 2.4 kB 120 B\n// ├ /products/[id] (ISR) 3.1 kB 140 B\n// └ /dashboard (SSR) 5.2 kB 210 B\n\n// ========================\n// Hybrid approaches\n// ========================\n\n// Most real apps mix strategies:\n// - Homepage: SSG (fastest)\n// - Blog posts: SSG + ISR\n// - Product pages: SSG + ISR (revalidate hourly)\n// - User dashboard: SSR (or CSR after login)\n// - Admin panel: CSR (no SEO needed)\n\n// Example Next.js app structure:\n// pages/\n// index.js → SSG (marketing)\n// blog/[slug].js → SSG + ISR (content)\n// products/[id].js → SSG + ISR (e-commerce)\n// account/dashboard.js → SSR (protected)\n// app/ → App Router for streaming\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n8. Common Gotchas and Pitfalls\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Gotcha 1: Accessing browser APIs in SSR\n// ========================\n\n// ❌ This will crash during SSR (window doesn't exist)\nexport async function getServerSideProps() {\n const width = window.innerWidth; // ReferenceError\n return { props: {} };\n}\n\n// ✅ Guard against browser-only code\nfunction Component() {\n const [width, setWidth] = useState();\n\n useEffect(() => {\n setWidth(window.innerWidth); // runs only on client\n }, []);\n\n return <div>Width: {width}</div>;\n}\n\n// ✅ Or check at runtime\nif (typeof window !== 'undefined') {\n // browser-only code\n}\n\n// ========================\n// Gotcha 2: Data serialization\n// ========================\n\n// getServerSideProps and getStaticProps must return serializable props\n// No functions, dates, or undefined\n\n// ❌ Not serializable\nexport async function getServerSideProps() {\n return {\n props: {\n date: new Date(), // Date becomes string, but OK\n callback: () => {}, // ❌ function — will fail\n nested: undefined, // ❌ undefined — will be omitted\n },\n };\n}\n\n// ✅ Serializable only\n// Use JSON.stringify/parse to check\n\n// ========================\n// Gotcha 3: Stale data with ISR\n// ========================\n\n// With revalidate: 60, data can be up to 60 seconds stale.\n// If freshness is critical, use SSR or client-side fetch.\n\n// ========================\n// Gotcha 4: Cache headers\n// ========================\n\n// SSR pages can set custom cache headers in getServerSideProps\n\nexport async function getServerSideProps({ res }) {\n res.setHeader(\n 'Cache-Control',\n 'public, s-maxage=10, stale-while-revalidate=59'\n );\n\n return { props: {} };\n}\n\n// ========================\n// Gotcha 5: Redirects in getServerSideProps\n// ========================\n\nexport async function getServerSideProps(context) {\n const { params } = context;\n const post = await getPost(params.slug);\n\n if (!post) {\n return {\n redirect: {\n destination: '/404',\n permanent: false,\n },\n };\n }\n\n return { props: { post } };\n}\n\n// ========================\n// Gotcha 6: Build-time vs request-time data\n// ========================\n\n// getStaticProps runs at build time — don't put request-specific code\n\nexport async function getStaticProps(context) {\n // ❌ Can't access cookies/headers — no request at build time\n const session = getSession(context); // undefined\n\n // ✅ Use environment variables instead\n const apiUrl = process.env.API_URL;\n}\n\n// ========================\n// Gotcha 7: Large HTML pages\n// ========================\n\n// Pre-rendering large lists can bloat HTML size\n// Consider pagination, virtualization, or client-side fetch for large datasets\n\n// ========================\n// Gotcha 8: Stale-while-revalidate and SEO\n// ========================\n\n// Search engines may see stale content if revalidate is long\n// For SEO-critical pages, use shorter revalidate or on-demand revalidation\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n9. Real-World Architecture Patterns\n</h4>\n\n<div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n<pre><code className="language-javascript">\n// ========================\n// Pattern: E-commerce site\n// ========================\n\n// Homepage: SSG (marketing, rarely changes)\n// Category pages: SSG + ISR (revalidate hourly)\n// Product pages: SSG + ISR (revalidate 5 min, on-demand revalidate on price change)\n// Cart: Client-side (or SSR with cookies)\n// Checkout: SSR (requires user session)\n// Order history: SSR (user-specific)\n\n// ========================\n// Pattern: Content site (blog, docs)\n// ========================\n\n// All content: SSG + ISR (revalidate on-demand via CMS webhook)\n// Search: Client-side fetch from search API\n// User profile: SSR (if authenticated)\n\n// ========================\n// Pattern: SaaS application\n// ========================\n\n// Landing/marketing: SSG\n// Login: CSR or SSR with redirect\n// App dashboard: SSR (authenticated) or CSR after login\n// Settings: SSR (user-specific)\n// Admin panel: CSR (no SEO needed)\n\n// ========================\n// Pattern: Hybrid — static shell + client data\n// ========================\n\n// Use SSG for the shell, then fetch user data on client\n\nexport async function getStaticProps() {\n // Public data — pre-rendered\n const publicData = await getPublicData();\n\n return {\n props: {\n publicData,\n // No user data here — fetched on client\n },\n };\n}\n\nfunction Dashboard({ publicData }) {\n const [userData, setUserData] = useState(null);\n\n useEffect(() => {\n // Fetch user-specific data after mount\n fetchUserData().then(setUserData);\n }, []);\n\n return (\n <>\n <Header data={publicData} />\n {userData ? <UserContent data={userData} /> : <Skeleton />}\n </>\n );\n}\n\n// ========================\n// Pattern: Incremental migration to App Router\n// ========================\n\n// Next.js supports mixing Pages Router and App Router\n// Migrate page by page\n\n// Old page: pages/about.js → keep running\n// New page: app/dashboard/page.js → App Router features\n\n// ========================\n// Pattern: Edge SSR\n// ========================\n\n// Run SSR at the CDN edge (Vercel Edge Functions, Cloudflare Workers)\n// Even lower latency than traditional SSR\n\n// Next.js: export const runtime = 'edge';\n\nexport const runtime = 'edge';\n\nexport async function getServerSideProps() {\n // Runs on Edge network, closer to user\n}\n</code></pre>\n</div>\n\n<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n10. Best Practices Summary\n</h4>\n\n<ul style="margin-top: 1rem; padding-left: 1.5rem; list-style-type: disc;">\n <li><b>DO:</b> Start with SSG for most pages — it's the fastest and cheapest</li>\n <li><b>DO:</b> Use ISR (<code>revalidate</code>) when data updates but can be slightly stale</li>\n <li><b>DO:</b> Use SSR only when you need request-time data (user session, cookies, real-time)</li>\n <li><b>DO:</b> Implement on-demand revalidation for instant content updates after CMS publish</li>\n <li><b>DO:</b> Use <code>fallback: 'blocking'</code> for SEO-critical dynamic SSG pages</li>\n <li><b>DO:</b> Leverage streaming with Suspense in App Router for progressive rendering</li>\n <li><b>DO:</b> Set appropriate cache headers for SSR pages to reduce server load</li>\n <li><b>DO:</b> Analyze build output to identify large pages that need optimization</li>\n <li><b>DO:</b> Mix strategies — one architecture rarely fits all pages</li>\n <li><b>DO:</b> Use environment variables for build-time configuration in SSG</li>\n <li><b>DON'T:</b> Use SSR for publicly cacheable content — SSG + ISR is almost always better</li>\n <li><b>DON'T:</b> Put browser-specific code in <code>getStaticProps</code> or <code>getServerSideProps</code></li>\n <li><b>DON'T:</b> Return non-serializable data from data-fetching methods</li>\n <li><b>DON'T:</b> Pre-render extremely large datasets — paginate or virtualize</li>\n <li><b>DON'T:</b> Forget to handle <code>fallback</code> states for dynamic SSG routes</li>\n <li><b>DON'T:</b> Use SSR for authenticated pages without checking session first</li>\n <li><b>DON'T:</b> Overuse ISR with very short revalidate — defeats caching benefits</li>\n <li><b>DON'T:</b> Ignore the difference between Pages Router and App Router patterns</li>\n</ul>\n\n</div>`,
+            explanation: `
+    <div>
+      <h2>SSR vs SSG: Server-Side Rendering vs Static Site Generation</h2>
+      <p>
+        SSR and SSG are two fundamental pre-rendering strategies that solve critical problems in modern web applications: 
+        slow initial loads and poor SEO. Understanding when and how to use each is essential for building performant, 
+        user-friendly, and search-optimized React applications.
+      </p>
+
+      <h3>The Problem: Client-Side Rendering Limitations</h3>
+      <pre><code>
+// Traditional SPA (Client-Side Rendering)
+// ========================================
+
+// Initial HTML from server:
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;div id="root"&gt;&lt;/div&gt;
+    &lt;script src="bundle.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+// Problems with CSR:
+// 1. SEO Issues: Search engine crawlers see empty HTML
+// 2. Slow FCP: User sees blank screen until JS loads and executes
+// 3. Network dependent: Performance varies with connection speed
+// 4. Poor perceived performance: Nothing visible during initial load
+
+// Timeline of CSR:
+// 0ms    → HTML loads (empty div)
+// 200ms  → JS bundle downloaded
+// 400ms  → JS parsed and executed
+// 600ms  → React renders
+// 800ms  → Data fetched from API
+// 1000ms → Content finally visible ❌ Too slow!
+
+// What search engines see:
+&lt;div id="root"&gt;&lt;/div&gt; // No content to index!
+      </code></pre>
+
+      <h3>The Solution: Pre-Rendering</h3>
+      <p>
+        Pre-rendering means generating HTML on the server before sending it to the client. Both SSR and SSG are 
+        pre-rendering strategies, but they differ in <strong>when</strong> the HTML is generated.
+      </p>
+
+      <h3>1. Core Concepts - SSR vs SSG</h3>
+
+      <h4>SSR (Server-Side Rendering)</h4>
+      <pre><code>
+// SSR generates HTML on EVERY REQUEST
+// ====================================
+
+// Timeline of SSR:
+// 1. User requests /products/123
+// 2. Server receives request
+// 3. Server runs getServerSideProps
+// 4. Server fetches data from database/API
+// 5. Server renders React component to HTML
+// 6. Server sends fully populated HTML to client
+// 7. Browser displays HTML immediately (user sees content)
+// 8. Browser downloads and executes JavaScript
+// 9. React "hydrates" the page (attaches event listeners)
+// 10. Page becomes interactive
+
+// Next.js Pages Router - SSR example
+export async function getServerSideProps(context) {
+  // This function runs on EVERY request
+  // Has access to request-specific data
+  
+  const { req, res, params, query } = context;
+  
+  // Can read cookies, headers, session
+  const session = await getSession({ req });
+  
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+  
+  // Fetch fresh data from database
+  const user = await db.users.findOne({ id: session.userId });
+  const notifications = await db.notifications.find({ 
+    userId: session.userId,
+    unread: true 
+  });
+  
+  // Can set custom cache headers
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+  );
+  
+  return {
+    props: {
+      user: JSON.parse(JSON.stringify(user)), // Must be serializable
+      notifications,
+    },
+  };
+}
+
+function Dashboard({ user, notifications }) {
+  // User sees this HTML immediately
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Welcome back, {user.name}!&lt;/h1&gt;
+      &lt;p&gt;You have {notifications.length} unread notifications&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Dashboard;
+
+// What the browser receives:
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;h1&gt;Welcome back, John!&lt;/h1&gt;
+      &lt;p&gt;You have 3 unread notifications&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;script src="bundle.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+// Characteristics of SSR:
+// ✅ Always fresh data
+// ✅ Access to request context (cookies, headers, query params)
+// ✅ User-specific content
+// ✅ SEO-friendly HTML
+// ❌ Higher Time to First Byte (TTFB) - server must fetch and render
+// ❌ Server load increases with traffic
+// ❌ Difficult to cache (user-specific or frequently changing)
+      </code></pre>
+
+      <h4>SSG (Static Site Generation)</h4>
+      <pre><code>
+// SSG generates HTML at BUILD TIME (once)
+// ========================================
+
+// Timeline of SSG:
+// BUILD TIME (developer runs 'next build'):
+// 1. Next.js runs getStaticProps
+// 2. Fetches data from CMS/database
+// 3. Renders React component to HTML
+// 4. Saves HTML file to disk (.next/server/pages/about.html)
+// 5. Build completes
+
+// REQUEST TIME (user visits page):
+// 1. User requests /about
+// 2. Server sends pre-built HTML file (no code runs!)
+// 3. Browser displays HTML immediately
+// 4. JavaScript loads and hydrates
+// 5. Page becomes interactive
+
+// Next.js Pages Router - SSG example
+export async function getStaticProps(context) {
+  // This function runs ONCE at build time
+  // NO access to request data (no cookies, no session)
+  
+  // Fetch data from CMS
+  const posts = await cms.posts.getAll();
+  const categories = await cms.categories.getAll();
+  
+  // Can access environment variables
+  const apiKey = process.env.CMS_API_KEY;
+  
+  return {
+    props: {
+      posts,
+      categories,
+      generatedAt: new Date().toISOString(),
+    },
+    // Optional: ISR - revalidate every 60 seconds
+    revalidate: 60,
+  };
+}
+
+function BlogIndex({ posts, categories, generatedAt }) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Blog Posts&lt;/h1&gt;
+      &lt;p&gt;Last updated: {generatedAt}&lt;/p&gt;
+      &lt;nav&gt;
+        {categories.map(cat =&gt; (
+          &lt;a key={cat.id} href={\`/category/\$ {cat.slug}\`}&gt;
+            {cat.name}
+          &lt;/a&gt;
+        ))}
+      &lt;/nav&gt;
+      &lt;ul&gt;
+        {posts.map(post =&gt; (
+          &lt;li key={post.id}&gt;
+            &lt;a href={\`/posts/\$ {post.slug}\`}&gt;{post.title}&lt;/a&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default BlogIndex;
+
+// Characteristics of SSG:
+// ✅ Extremely fast TTFB (static file from CDN)
+// ✅ Highly cacheable
+// ✅ Zero server load at request time
+// ✅ Cost-effective (no compute per request)
+// ✅ SEO-friendly HTML
+// ❌ Data can become stale
+// ❌ Requires rebuild to update content (unless using ISR)
+// ❌ No access to request-time data
+// ❌ Build time increases with number of pages
+      </code></pre>
+
+      <h3>2. Decision Framework: When to Use Each</h3>
+      <pre><code>
+// Decision Tree for Choosing Rendering Strategy
+// ==============================================
+
+// START: Does the page need to be indexed by search engines?
+// ├─ NO  → Client-Side Rendering (CSR) is fine
+// │        Examples: Admin panel, behind-login dashboards
+// │
+// └─ YES → Pre-rendering needed (SSR or SSG)
+//          ↓
+//          Does the content depend on the request (cookies, auth, user)?
+//          ├─ YES → SSR
+//          │        Examples: User dashboard, personalized feed, cart
+//          │
+//          └─ NO → Content is public
+//                  ↓
+//                  How often does the data change?
+//                  ├─ Every request → SSR
+//                  │                   Examples: Stock ticker, live scores
+//                  │
+//                  ├─ Frequently (minutes) → SSR or ISR (short revalidate)
+//                  │                          Examples: News site, Twitter feed
+//                  │
+//                  ├─ Occasionally (hours) → SSG + ISR
+//                  │                          Examples: Blog, docs, product pages
+//                  │
+//                  └─ Rarely (days/weeks) → SSG
+//                                           Examples: Marketing pages, legal docs
+
+// Practical Examples:
+
+// ✅ Use SSR for:
+// - User dashboards (personalized data)
+// - E-commerce checkout (session-based)
+// - Social media feeds (user-specific, real-time)
+// - Search results pages (query-dependent)
+// - A/B testing with server-side logic
+// - Geolocation-based content
+
+// ✅ Use SSG for:
+// - Marketing/landing pages
+// - Blog posts and articles
+// - Documentation sites
+// - About/contact pages
+// - Product catalogs (if updated via builds)
+// - Event listings
+
+// ✅ Use SSG + ISR for:
+// - E-commerce product pages (prices change, but can be 1-5 min stale)
+// - News articles (published frequently, but updates aren't instant)
+// - Restaurant menus (change occasionally)
+// - Job listings (updated throughout the day)
+
+// ✅ Use CSR for:
+// - Admin panels (no SEO needed)
+// - Data visualization dashboards (behind auth)
+// - Real-time chat interfaces
+// - Interactive tools/calculators (no SEO value)
+
+// Hybrid Approach - Common Pattern:
+// ==================================
+
+function ProductPage({ product }) {
+  // Static shell with SSG
+  // User-specific data fetched client-side
+  
+  const [inventory, setInventory] = useState(product.inventory);
+  const [userReview, setUserReview] = useState(null);
+  
+  useEffect(() => {
+    // Fetch real-time inventory
+    const ws = new WebSocket('wss://api.example.com/inventory');
+    ws.onmessage = (e) =&gt; setInventory(JSON.parse(e.data));
+    
+    // Fetch user's review if logged in
+    if (session) {
+      fetchUserReview(product.id).then(setUserReview);
+    }
+    
+    return () =&gt; ws.close();
+  }, [product.id]);
+  
+  return (
+    &lt;div&gt;
+      {/* Static content - pre-rendered */}
+      &lt;h1&gt;{product.name}&lt;/h1&gt;
+      &lt;p&gt;{product.description}&lt;/p&gt;
+      &lt;p&gt;Price: $ {product.price}&lt;/p&gt;
+      
+      {/* Dynamic content - client-side */}
+      &lt;p&gt;In stock: {inventory} units&lt;/p&gt;
+      {userReview && &lt;div&gt;Your review: {userReview.text}&lt;/div&gt;}
+    &lt;/div&gt;
+  );
+}
+
+export async function getStaticProps({ params }) {
+  const product = await getProduct(params.id);
+  
+  return {
+    props: { product },
+    revalidate: 300, // Update every 5 minutes
+  };
+}
+      </code></pre>
+
+      <h3>3. Dynamic Routes with getStaticPaths</h3>
+      <pre><code>
+// The Challenge: SSG with Dynamic Routes
+// =======================================
+
+// For a dynamic route like /posts/[slug], Next.js needs to know
+// at build time which slugs exist so it can generate HTML for each.
+
+// File: pages/posts/[slug].js
+
+export async function getStaticPaths() {
+  // Fetch all possible slugs
+  const posts = await fetch('https://cms.example.com/posts').then(r =&gt; r.json());
+  
+  // Generate path objects
+  const paths = posts.map(post =&gt; ({
+    params: { slug: post.slug },
+  }));
+  
+  // Return paths and fallback behavior
+  return {
+    paths,
+    fallback: 'blocking', // or true / false
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const post = await fetch(\`https://cms.example.com/posts/\$ {params.slug}\`)
+    .then(r =&gt; r.json());
+  
+  if (!post) {
+    return {
+      notFound: true, // Renders 404 page
+    };
+  }
+  
+  return {
+    props: { post },
+    revalidate: 60,
+  };
+}
+
+function PostPage({ post }) {
+  return (
+    &lt;article&gt;
+      &lt;h1&gt;{post.title}&lt;/h1&gt;
+      &lt;div dangerouslySetInnerHTML={{ __html: post.content }} /&gt;
+    &lt;/article&gt;
+  );
+}
+
+// Understanding fallback Options
+// ===============================
+
+// fallback: false
+// ---------------
+// Behavior:
+// - Only paths returned by getStaticPaths are pre-rendered
+// - Any other path → 404 page
+// - No on-demand generation
+
+// Use when:
+// - Small, predictable number of pages (e.g., 50 blog posts)
+// - All pages can be generated at build time
+// - Build time is acceptable
+
+// Example: Personal blog with 20 posts
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts(); // Returns 20 posts
+  
+  return {
+    paths: posts.map(p =&gt; ({ params: { slug: p.slug } })),
+    fallback: false, // /posts/unknown-slug → 404
+  };
+}
+
+// fallback: true
+// --------------
+// Behavior:
+// - Pre-rendered paths serve static HTML immediately
+// - Non-pre-rendered paths:
+//   1. Show fallback UI (loading state)
+//   2. Generate HTML on server
+//   3. Cache for future requests
+//   4. Replace fallback with real content
+
+// Use when:
+// - Large number of pages (e.g., 100,000 products)
+// - Can't pre-render everything at build time
+// - Willing to show loading state on first visit
+
+// Example: E-commerce with millions of products
+
+export async function getStaticPaths() {
+  // Only pre-render top 100 products
+  const topProducts = await getTopProducts(100);
+  
+  return {
+    paths: topProducts.map(p =&gt; ({ params: { id: p.id.toString() } })),
+    fallback: true,
+  };
+}
+
+function ProductPage({ product }) {
+  const router = useRouter();
+  
+  // Show loading state for non-pre-rendered pages
+  if (router.isFallback) {
+    return (
+      &lt;div&gt;
+        &lt;h1&gt;Loading product...&lt;/h1&gt;
+        &lt;Skeleton /&gt;
+      &lt;/div&gt;
+    );
+  }
+  
+  return &lt;div&gt;{product.name}&lt;/div&gt;
+}
+
+// fallback: 'blocking'
+// --------------------
+// Behavior:
+// - Pre-rendered paths serve static HTML immediately
+// - Non-pre-rendered paths:
+//   1. Server waits and generates HTML (like SSR)
+//   2. Sends complete HTML to client (no loading state)
+//   3. Caches for future requests
+
+// Use when:
+// - SEO is critical (crawlers shouldn't see loading state)
+// - User experience: prefer waiting over loading flash
+// - Large number of pages but need full content on first visit
+
+// Example: Documentation site with thousands of pages
+
+export async function getStaticPaths() {
+  // Pre-render only main docs pages
+  const mainDocs = await getMainDocs();
+  
+  return {
+    paths: mainDocs.map(d =&gt; ({ params: { slug: d.slug } })),
+    fallback: 'blocking', // Other pages generated on first visit
+  };
+}
+
+// No need to check isFallback - page waits server-side
+function DocPage({ doc }) {
+  return &lt;article&gt;{doc.content}&lt;/article&gt;;
+}
+
+// Comparison Table:
+// ================
+//
+// | Aspect           | false        | true             | 'blocking'      |
+// |------------------|--------------|------------------|-----------------|
+// | Unknown paths    | 404          | Generate         | Generate        |
+// | First visit UX   | N/A          | Loading state    | Wait for HTML   |
+// | SEO              | N/A          | ⚠️ Loading flash | ✅ Full content |
+// | Build time       | Longest      | Fastest          | Fast            |
+// | Use case         | Small sites  | Large sites      | SEO-critical    |
+
+// Advanced: Multi-locale Paths
+// =============================
+
+export async function getStaticPaths({ locales }) {
+  const posts = await getAllPosts();
+  const paths = [];
+  
+  // Generate paths for each locale
+  for (const locale of locales) {
+    for (const post of posts) {
+      paths.push({
+        params: { slug: post.slug },
+        locale, // en, es, fr, etc.
+      });
+    }
+  }
+  
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params, locale }) {
+  const post = await getPost(params.slug, locale);
+  
+  return {
+    props: { post },
+  };
+}
+      </code></pre>
+
+      <h3>4. ISR (Incremental Static Regeneration)</h3>
+      <pre><code>
+// ISR: The Best of Both Worlds
+// =============================
+
+// Problem with pure SSG:
+// - Content becomes stale after build
+// - Rebuilding entire site for one update is slow
+// - Can't update content without redeployment
+
+// Problem with pure SSR:
+// - Every request hits server
+// - Slow TTFB
+// - High server costs
+
+// ISR Solution:
+// - Generate static HTML at build time (fast like SSG)
+// - Regenerate individual pages in background (fresh like SSR)
+// - Serve cached version while updating (no waiting)
+
+// Basic ISR Implementation
+// ========================
+
+export async function getStaticProps() {
+  const data = await fetchFromCMS();
+  
+  return {
+    props: { data },
+    revalidate: 60, // Revalidate at most once every 60 seconds
+  };
+}
+
+// How ISR Works - Detailed Timeline
+// ==================================
+
+// Initial build at 10:00:00 AM:
+// - /products/1.html generated with data from CMS
+// - Cached on CDN
+
+// Request at 10:00:30 (30 seconds after build):
+// 1. User requests /products/1
+// 2. CDN serves cached HTML (generated at 10:00:00)
+// 3. Response time: ~10ms ✅ Fast
+
+// Request at 10:01:05 (65 seconds after build, past revalidate window):
+// 1. User requests /products/1
+// 2. Next.js serves STALE cached HTML immediately (~10ms)
+// 3. In background, Next.js triggers regeneration:
+//    - Fetches fresh data from CMS
+//    - Renders new HTML
+//    - Replaces cache
+// 4. User sees page instantly (doesn't wait for regeneration)
+// 5. Next visitor gets fresh HTML
+
+// Request at 10:01:10 (5 seconds later):
+// 1. User requests /products/1
+// 2. If regeneration finished: serves NEW HTML
+//    If regeneration still running: serves OLD HTML
+// 3. Response time: ~10ms ✅ Still fast
+
+// Key insight: Users NEVER wait for regeneration
+// Worst case: They see data up to {revalidate} seconds old
+
+// Real-World Example: E-commerce Product Page
+// ============================================
+
+export async function getStaticProps({ params }) {
+  // Fetch product data
+  const product = await db.products.findOne({ id: params.id });
+  
+  // Fetch related products (expensive query)
+  const related = await db.products.find({
+    category: product.category,
+    id: { $ne: product.id }
+  }).limit(4);
+  
+  // Fetch reviews (changes frequently)
+  const reviews = await db.reviews.find({
+    productId: product.id
+  }).limit(10);
+  
+  return {
+    props: {
+      product,
+      related,
+      reviews,
+      lastUpdated: new Date().toISOString(),
+    },
+    revalidate: 300, // 5 minutes
+    // Prices can be up to 5 minutes stale - acceptable for most e-commerce
+  };
+}
+
+function ProductPage({ product, related, reviews, lastUpdated }) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{product.name}&lt;/h1&gt;
+      &lt;p&gt;Price: $ {product.price}&lt;/p&gt;
+      &lt;p&gt;Last updated: {new Date(lastUpdated).toLocaleString()}&lt;/p&gt;
+      
+      &lt;section&gt;
+        &lt;h2&gt;Reviews&lt;/h2&gt;
+        {reviews.map(r =&gt; (
+          &lt;div key={r.id}&gt;{r.text}&lt;/div&gt;
+        ))}
+      &lt;/section&gt;
+      
+      &lt;section&gt;
+        &lt;h2&gt;Related Products&lt;/h2&gt;
+        {related.map(p =&gt; (
+          &lt;ProductCard key={p.id} product={p} /&gt;
+        ))}
+      &lt;/section&gt;
+    &lt;/div&gt;
+  );
+}
+
+// On-Demand Revalidation
+// ======================
+
+// Problem: What if content changes and you can't wait for revalidate?
+// Solution: Manually trigger revalidation via API route
+
+// Step 1: Create API route
+// File: pages/api/revalidate.js
+
+export default async function handler(req, res) {
+  // Verify secret to prevent unauthorized revalidation
+  if (req.query.secret !== process.env.REVALIDATION_SECRET) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+  
+  try {
+    // Get path to revalidate from request
+    const { path } = req.body;
+    
+    // Trigger revalidation
+    await res.revalidate(path);
+    
+    return res.json({ 
+      revalidated: true,
+      path,
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    return res.status(500).json({ 
+      message: 'Error revalidating',
+      error: err.message 
+    });
+  }
+}
+
+// Step 2: Call from CMS webhook
+// When content changes in CMS, send POST request
+
+async function onContentUpdate(contentId) {
+  const secret = process.env.REVALIDATION_SECRET;
+  
+  // Revalidate the updated page
+  await fetch(\`https://yoursite.com/api/revalidate?secret=\$ {secret}\`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      path: \`/blog/\$ {contentId}\`,
+    }),
+  });
+}
+
+// Step 3: Revalidate multiple related pages
+
+export default async function handler(req, res) {
+  if (req.query.secret !== process.env.REVALIDATION_SECRET) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+  
+  try {
+    const { productId } = req.body;
+    
+    // Revalidate product page
+    await res.revalidate(\`/products/\$ {productId}\`);
+    
+    // Revalidate category page
+    const product = await getProduct(productId);
+    await res.revalidate(\`/category/\$ {product.category}\`);
+    
+    // Revalidate homepage if featured product
+    if (product.featured) {
+      await res.revalidate('/');
+    }
+    
+    return res.json({ 
+      revalidated: true,
+      paths: [
+        \`/products/\$ {productId}\`,
+        \`/category/\$ {product.category}\`,
+        '/'
+      ]
+    });
+  } catch (err) {
+    return res.status(500).json({ message: 'Error revalidating' });
+  }
+}
+
+// ISR vs SSR Performance Comparison
+// ==================================
+
+// Scenario: Product page visited 1000 times/hour
+
+// Pure SSR (no caching):
+// - Every request: fetch DB + render
+// - 1000 requests × 150ms avg = 150 seconds of server time/hour
+// - TTFB: 100-300ms
+// - Server cost: High (compute per request)
+
+// ISR (revalidate: 300):
+// - First request: serve cache (10ms)
+// - After 5 min: serve stale + regenerate in background
+// - 12 regenerations/hour × 150ms = 1.8 seconds of server time/hour
+// - TTFB: 10-50ms (cached)
+// - Server cost: Low (12 builds/hour vs 1000 requests)
+
+// Pure SSG (no revalidate):
+// - All requests: serve static file
+// - TTFB: 5-20ms
+// - Server cost: Zero
+// - But: Content can be days/weeks old
+
+// Choosing revalidate Value
+// ==========================
+
+// revalidate: 1      // Every second - almost real-time, high regeneration
+// revalidate: 60     // 1 minute - good for news, social content
+// revalidate: 300    // 5 minutes - e-commerce, job listings
+// revalidate: 3600   // 1 hour - blog posts, documentation
+// revalidate: 86400  // 1 day - rarely changing content
+
+// Consider:
+// - How often does data actually change?
+// - How stale can data be before it's a problem?
+// - How expensive is regeneration (API costs, DB queries)?
+// - Traffic patterns (high traffic = more regenerations)
+
+// Fallback Behavior with ISR
+// ===========================
+
+export async function getStaticPaths() {
+  const topProducts = await getTopProducts(100);
+  
+  return {
+    paths: topProducts.map(p =&gt; ({ params: { id: p.id } })),
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const product = await getProduct(params.id);
+  
+  return {
+    props: { product },
+    revalidate: 300,
+  };
+}
+
+// Behavior:
+// - Top 100 products: pre-rendered at build time, revalidate every 5 min
+// - Other products: generated on first visit, then cached and revalidated
+// - Best of all worlds: fast for popular items, on-demand for long tail
+      </code></pre>
+
+      <h3>5. Hydration - Making Pages Interactive</h3>
+      <pre><code>
+// Understanding Hydration
+// =======================
+
+// Both SSR and SSG send HTML to the client, but the page isn't interactive yet.
+// Hydration is the process of React "taking over" the static HTML.
+
+// Timeline of Hydration:
+
+// 1. Server sends HTML (SSR or SSG)
+&lt;button id="counter"&gt;Count: 0&lt;/button&gt;
+
+// 2. Browser displays HTML immediately
+// User sees: "Count: 0" button
+// But clicking does nothing yet ❌
+
+// 3. JavaScript bundle downloads and parses
+// React code is now available
+
+// 4. React hydrates:
+// - Attaches event listeners
+// - Reconciles virtual DOM with actual DOM
+// - Makes components interactive
+
+// 5. Page is now fully interactive ✅
+// Clicking button now works
+
+// Example Component
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;
+      Count: {count}
+    &lt;/button&gt;
+  );
+}
+
+// Hydration Process:
+
+// Server-rendered HTML:
+&lt;button&gt;Count: 0&lt;/button&gt;
+
+// After hydration:
+// - onClick handler is attached
+// - useState hook is initialized
+// - React can track state changes
+// - Button is interactive
+
+// Hydration Errors
+// =================
+
+// Problem: Server HTML doesn't match client React tree
+
+// ❌ Common mistake: Using browser APIs during render
+function BadComponent() {
+  // window is undefined during SSR
+  const width = window.innerWidth; // Error!
+  
+  return &lt;div&gt;Width: {width}&lt;/div&gt;;
+}
+
+// ✅ Solution: Use useEffect for browser APIs
+function GoodComponent() {
+  const [width, setWidth] = useState(0);
+  
+  useEffect(() => {
+    // Only runs on client
+    setWidth(window.innerWidth);
+  }, []);
+  
+  return &lt;div&gt;Width: {width}&lt;/div&gt;;
+}
+
+// ❌ Hydration mismatch: Different content on server vs client
+function BadTimestamp() {
+  // Server generates one time, client generates different time
+  return &lt;div&gt;{new Date().toISOString()}&lt;/div&gt;;
+}
+
+// ✅ Solution: suppressHydrationWarning or useEffect
+function GoodTimestamp() {
+  return &lt;div suppressHydrationWarning&gt;{new Date().toISOString()}&lt;/div&gt;;
+}
+
+// Or
+function GoodTimestamp2({ serverTime }) {
+  const [time, setTime] = useState(serverTime);
+  
+  useEffect(() => {
+    setTime(new Date().toISOString());
+  }, []);
+  
+  return &lt;div&gt;{time}&lt;/div&gt;;
+}
+
+// Optimizing Hydration Performance
+// =================================
+
+// 1. Code splitting - reduce JS bundle size
+import dynamic from 'next/dynamic';
+
+const HeavyComponent = dynamic(() =&gt; import('./HeavyComponent'), {
+  loading: () =&gt; &lt;div&gt;Loading...&lt;/div&gt;,
+  ssr: true, // Still pre-render on server
+});
+
+// 2. Defer non-critical hydration
+const NonCriticalWidget = dynamic(() =&gt; import('./Widget'), {
+  ssr: false, // Don't render on server, only on client
+});
+
+// 3. Progressive hydration (React 18)
+import { lazy, Suspense } from 'react';
+
+const Reviews = lazy(() =&gt; import('./Reviews'));
+
+function ProductPage() {
+  return (
+    &lt;div&gt;
+      &lt;ProductInfo /&gt; {/* Hydrates immediately */}
+      
+      &lt;Suspense fallback={&lt;div&gt;Loading reviews...&lt;/div&gt;}&gt;
+        &lt;Reviews /&gt; {/* Hydrates when in viewport */}
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Selective Hydration
+// ===================
+
+// React 18 introduces selective hydration with Suspense
+// Benefits:
+// - Page becomes interactive faster
+// - Non-critical parts hydrate later
+// - User can interact with parts of page before full hydration
+
+function App() {
+  return (
+    &lt;Layout&gt;
+      &lt;Header /&gt; {/* Hydrates first - critical */}
+      
+      &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+        &lt;Sidebar /&gt; {/* Hydrates when ready - less critical */}
+      &lt;/Suspense&gt;
+      
+      &lt;MainContent /&gt; {/* Hydrates first - critical */}
+      
+      &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+        &lt;Footer /&gt; {/* Hydrates last - least critical */}
+      &lt;/Suspense&gt;
+    &lt;/Layout&gt;
+  );
+}
+
+// User clicks on MainContent while Sidebar is still hydrating:
+// - React prioritizes MainContent hydration
+// - Sidebar hydration is paused temporarily
+// - User doesn't have to wait for entire page
+
+// Measuring Hydration Performance
+// ================================
+
+// Use Next.js built-in Web Vitals reporting
+
+// pages/_app.js
+export function reportWebVitals(metric) {
+  if (metric.label === 'web-vital') {
+    console.log(metric);
+  }
+  
+  // Send to analytics
+  if (metric.name === 'FCP') {
+    // First Contentful Paint - when content appears
+  }
+  if (metric.name === 'LCP') {
+    // Largest Contentful Paint - when main content appears
+  }
+  if (metric.name === 'FID') {
+    // First Input Delay - when page becomes interactive
+  }
+  if (metric.name === 'TTI') {
+    // Time to Interactive - full hydration complete
+  }
+}
+
+// Best Practices for Hydration
+// =============================
+
+// 1. Keep HTML consistent between server and client
+// 2. Use suppressHydrationWarning sparingly
+// 3. Defer browser-specific code to useEffect
+// 4. Minimize JavaScript bundle size
+// 5. Use code splitting for heavy components
+// 6. Implement progressive hydration for large apps
+// 7. Monitor hydration performance with Web Vitals
+// 8. Avoid randomness in render (Math.random(), Date.now())
+      </code></pre>
+
+      <h3>6. Next.js App Router vs Pages Router</h3>
+      <pre><code>
+// Pages Router (Traditional)
+// ==========================
+
+// File: pages/products/[id].js
+
+export async function getServerSideProps({ params }) {
+  const product = await getProduct(params.id);
+  return { props: { product } };
+}
+
+export default function ProductPage({ product }) {
+  return &lt;div&gt;{product.name}&lt;/div&gt;;
+}
+
+// Characteristics:
+// - Data fetching at page level only
+// - getServerSideProps / getStaticProps / getStaticPaths
+// - All-or-nothing rendering
+// - Straightforward mental model
+
+// App Router (Modern - Next.js 13+)
+// ==================================
+
+// File: app/products/[id]/page.js
+
+// Server Component (default)
+async function ProductPage({ params }) {
+  // Fetch directly in component
+  const product = await getProduct(params.id);
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;{product.name}&lt;/h1&gt;
+      &lt;Suspense fallback={&lt;ReviewsSkeleton /&gt;}&gt;
+        &lt;Reviews productId={params.id} /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Nested data fetching
+async function Reviews({ productId }) {
+  // This fetches independently
+  const reviews = await getReviews(productId);
+  return &lt;ReviewList reviews={reviews} /&gt;;
+}
+
+// Characteristics:
+// - Server Components by default
+// - Component-level data fetching
+// - Streaming with Suspense
+// - Nested layouts
+// - Parallel data fetching
+
+// Comparison: Same Feature, Different Approaches
+// ===============================================
+
+// PAGES ROUTER - Blog post page
+
+// pages/posts/[slug].js
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  return {
+    paths: posts.map(p =&gt; ({ params: { slug: p.slug } })),
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  // Sequential fetching - waterfall
+  const post = await getPost(params.slug);
+  const author = await getAuthor(post.authorId);
+  const comments = await getComments(post.id);
+  
+  return {
+    props: { post, author, comments },
+    revalidate: 60,
+  };
+}
+
+function PostPage({ post, author, comments }) {
+  return (
+    &lt;article&gt;
+      &lt;h1&gt;{post.title}&lt;/h1&gt;
+      &lt;p&gt;By {author.name}&lt;/p&gt;
+      &lt;div&gt;{post.content}&lt;/div&gt;
+      &lt;Comments comments={comments} /&gt;
+    &lt;/article&gt;
+  );
+}
+
+// APP ROUTER - Same blog post page
+
+// app/posts/[slug]/page.js
+async function PostPage({ params }) {
+  // Fetch post data
+  const post = await fetch(\`/api/posts/\$ {params.slug}\`, {
+    next: { revalidate: 60 } // ISR equivalent
+  }).then(r =&gt; r.json());
+  
+  return (
+    &lt;article&gt;
+      &lt;h1&gt;{post.title}&lt;/h1&gt;
+      
+      {/* Author and comments fetch in parallel */}
+      &lt;Suspense fallback={&lt;div&gt;Loading author...&lt;/div&gt;}&gt;
+        &lt;Author authorId={post.authorId} /&gt;
+      &lt;/Suspense&gt;
+      
+      &lt;div&gt;{post.content}&lt;/div&gt;
+      
+      &lt;Suspense fallback={&lt;div&gt;Loading comments...&lt;/div&gt;}&gt;
+        &lt;Comments postId={post.id} /&gt;
+      &lt;/Suspense&gt;
+    &lt;/article&gt;
+  );
+}
+
+// Parallel fetching in separate components
+async function Author({ authorId }) {
+  const author = await getAuthor(authorId);
+  return &lt;p&gt;By {author.name}&lt;/p&gt;;
+}
+
+async function Comments({ postId }) {
+  const comments = await getComments(postId);
+  return &lt;CommentList comments={comments} /&gt;;
+}
+
+// Streaming SSR
+// =============
+
+// Problem with traditional SSR:
+// - Must wait for ALL data before sending ANY HTML
+// - Slow component blocks entire page
+// - Bad user experience
+
+// Timeline without streaming:
+// 0ms    → Request received
+// 50ms   → Fast data fetched
+// 1000ms → Slow data still loading...
+// 1500ms → Finally ready, send ALL HTML at once
+// User waits 1500ms to see ANYTHING ❌
+
+// Solution: Streaming SSR with Suspense
+
+function Page() {
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt; {/* Fast - sent immediately */}
+      
+      &lt;Suspense fallback={&lt;ProductSkeleton /&gt;}&gt;
+        &lt;SlowProduct /&gt; {/* Slow - streams when ready */}
+      &lt;/Suspense&gt;
+      
+      &lt;Suspense fallback={&lt;ReviewsSkeleton /&gt;}&gt;
+        &lt;SlowReviews /&gt; {/* Also slow - streams independently */}
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Timeline with streaming:
+// 0ms    → Request received
+// 50ms   → Send Header + skeleton HTML
+//          User sees something immediately! ✅
+// 1000ms → Product data ready, stream product HTML
+//          Replaces skeleton
+// 1500ms → Reviews data ready, stream reviews HTML
+//          Replaces skeleton
+
+// Benefits:
+// - Time to First Byte: 50ms instead of 1500ms
+// - Progressive rendering: content appears as it's ready
+// - Parallel data fetching: components don't block each other
+
+// Server Components vs Client Components
+// =======================================
+
+// Server Component (default in App Router)
+// - Runs only on server
+// - Can access backend resources directly
+// - Zero JavaScript sent to client
+// - Cannot use hooks or browser APIs
+
+async function ServerComponent() {
+  // Direct database access
+  const data = await db.query('SELECT * FROM products');
+  
+  // No JS bundle for this component
+  return &lt;div&gt;{data.map(...)}&lt;/div&gt;;
+}
+
+// Client Component (opt-in with 'use client')
+// - Runs on both server (SSR) and client (hydration)
+// - Can use hooks, event handlers
+// - Adds JavaScript to bundle
+
+'use client';
+
+function ClientComponent() {
+  const [count, setCount] = useState(0);
+  
+  // This component's JS is sent to browser
+  return &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;{count}&lt;/button&gt;;
+}
+
+// Mixing Server and Client Components
+
+// app/products/[id]/page.js (Server Component)
+async function ProductPage({ params }) {
+  const product = await getProduct(params.id);
+  
+  return (
+    &lt;div&gt;
+      {/* Server Component - no JS */}
+      &lt;h1&gt;{product.name}&lt;/h1&gt;
+      &lt;p&gt;{product.description}&lt;/p&gt;
+      
+      {/* Client Component - interactive */}
+      &lt;AddToCartButton productId={product.id} /&gt;
+      
+      {/* Server Component - fetches data */}
+      &lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;
+        &lt;RelatedProducts categoryId={product.categoryId} /&gt;
+      &lt;/Suspense&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Cache Control in App Router
+// ============================
+
+// Fetch with caching options
+async function getData() {
+  // Static - cached indefinitely (like SSG)
+  const static = await fetch('https://api.example.com/static', {
+    cache: 'force-cache' // default
+  });
+  
+  // Dynamic - never cached (like SSR)
+  const dynamic = await fetch('https://api.example.com/dynamic', {
+    cache: 'no-store'
+  });
+  
+  // ISR - revalidate periodically
+  const isr = await fetch('https://api.example.com/isr', {
+    next: { revalidate: 60 } // like getStaticProps with revalidate
+  });
+  
+  return { static, dynamic, isr };
+}
+
+// Route Segment Config
+// =====================
+
+// Control rendering behavior per route
+
+// app/dashboard/page.js
+export const dynamic = 'force-dynamic'; // Always SSR
+export const revalidate = 60; // ISR with 60s revalidate
+
+async function DashboardPage() {
+  const data = await getData();
+  return &lt;div&gt;{data}&lt;/div&gt;;
+}
+
+// Options:
+// dynamic: 'auto' | 'force-dynamic' | 'force-static'
+// revalidate: false | 0 | number
+// runtime: 'nodejs' | 'edge'
+
+// When to Use App Router vs Pages Router
+// =======================================
+
+// Use Pages Router if:
+// - Existing project, working well
+// - Team unfamiliar with Server Components
+// - Need stable, well-documented patterns
+// - Simpler mental model preferred
+
+// Use App Router if:
+// - New project
+// - Need streaming and progressive rendering
+// - Want component-level data fetching
+// - Building complex layouts with nested routing
+// - Want to minimize client-side JavaScript
+      </code></pre>
+
+      <h3>7. Performance Optimization Strategies</h3>
+      <pre><code>
+// Measuring Performance
+// =====================
+
+// Core Web Vitals - Google's performance metrics
+
+// 1. Largest Contentful Paint (LCP) - When main content loads
+// Goal: < 2.5 seconds
+// SSG/ISR: ✅ Excellent (content in HTML)
+// SSR: ✅ Good (content in HTML, but slower TTFB)
+// CSR: ❌ Poor (wait for JS + API)
+
+// 2. First Input Delay (FID) - Time until page is interactive
+// Goal: < 100ms
+// All: Similar (depends on hydration time)
+
+// 3. Cumulative Layout Shift (CLS) - Visual stability
+// Goal: < 0.1
+// All: Similar (depends on implementation)
+
+// 4. Time to First Byte (TTFB) - Server response time
+// Goal: < 600ms
+// SSG/ISR: ✅ Excellent (10-50ms from CDN)
+// SSR: ⚠️ Moderate (100-500ms from server)
+// CSR: ✅ Good (HTML is small, but content comes later)
+
+// Next.js Built-in Analytics
+
+// pages/_app.js
+export function reportWebVitals(metric) {
+  // Send to analytics service
+  console.log(metric);
+  
+  // Or use Vercel Analytics
+  if (metric.label === 'web-vital') {
+    window.gtag('event', metric.name, {
+      value: Math.round(metric.value),
+      event_label: metric.id,
+      non_interaction: true,
+    });
+  }
+}
+
+// Image Optimization
+// ==================
+
+import Image from 'next/image';
+
+function ProductCard({ product }) {
+  return (
+    &lt;div&gt;
+      {/* ❌ Regular img - no optimization */}
+      &lt;img src={product.image} alt={product.name} /&gt;
+      
+      {/* ✅ Next.js Image - automatic optimization */}
+      &lt;Image
+        src={product.image}
+        alt={product.name}
+        width={500}
+        height={500}
+        // Lazy load images below fold
+        loading="lazy"
+        // Prioritize above-fold images
+        priority={product.featured}
+        // Serve modern formats (WebP, AVIF)
+        // Responsive sizing
+        // CDN caching
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Font Optimization
+// =================
+
+// Next.js 13+ built-in font optimization
+import { Inter, Roboto_Mono } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap', // Avoid layout shift
+});
+
+const robotoMono = Roboto_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+});
+
+export default function RootLayout({ children }) {
+  return (
+    &lt;html lang="en" className={inter.className}&gt;
+      &lt;body&gt;{children}&lt;/body&gt;
+    &lt;/html&gt;
+  );
+}
+
+// Benefits:
+// - Fonts self-hosted (no external requests)
+// - Automatic subsetting
+// - Preloading
+// - Zero layout shift
+
+// Code Splitting Strategies
+// ==========================
+
+// 1. Dynamic imports for heavy components
+import dynamic from 'next/dynamic';
+
+const Chart = dynamic(() =&gt; import('./Chart'), {
+  loading: () =&gt; &lt;ChartSkeleton /&gt;,
+  ssr: true, // Still pre-render
+});
+
+// 2. Skip SSR for client-only components
+const ClientOnlyWidget = dynamic(() =&gt; import('./Widget'), {
+  ssr: false, // Don't render on server
+});
+
+// 3. Named exports
+const SpecificComponent = dynamic(
+  () =&gt; import('./Library').then(mod =&gt; mod.SpecificComponent)
+);
+
+// Bundle Analysis
+// ===============
+
+// next.config.js
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer({
+  // config
+});
+
+// Run: ANALYZE=true npm run build
+// Opens interactive bundle size visualization
+
+// Reducing Bundle Size
+// ====================
+
+// 1. Tree-shakeable imports
+// ❌ Imports entire library
+import _ from 'lodash';
+
+// ✅ Import only what you need
+import debounce from 'lodash/debounce';
+
+// 2. Replace large libraries
+// ❌ moment.js (large)
+import moment from 'moment';
+
+// ✅ date-fns (smaller, tree-shakeable)
+import { format } from 'date-fns';
+
+// 3. Lazy load routes
+// Automatic in Next.js with file-based routing
+
+// Caching Strategies
+// ==================
+
+// 1. CDN caching for SSG/ISR
+// Automatically handled by Vercel/hosting platform
+
+// 2. Browser caching
+// Set in next.config.js
+module.exports = {
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|png)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+};
+
+// 3. SWR for client-side caching
+import useSWR from 'swr';
+
+function Profile() {
+  const { data, error } = useSWR('/api/user', fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    // Cache for 5 minutes
+    dedupingInterval: 300000,
+  });
+  
+  if (error) return &lt;div&gt;Failed to load&lt;/div&gt;;
+  if (!data) return &lt;div&gt;Loading...&lt;/div&gt;;
+  return &lt;div&gt;Hello {data.name}!&lt;/div&gt;;
+}
+
+// Prefetching and Preloading
+// ===========================
+
+import Link from 'next/link';
+
+function Navigation() {
+  return (
+    &lt;nav&gt;
+      {/* Prefetch on hover (default) */}
+      &lt;Link href="/about"&gt;About&lt;/Link&gt;
+      
+      {/* Prefetch immediately */}
+      &lt;Link href="/products" prefetch={true}&gt;Products&lt;/Link&gt;
+      
+      {/* Don't prefetch */}
+      &lt;Link href="/rarely-visited" prefetch={false}&gt;Rare&lt;/Link&gt;
+    &lt;/nav&gt;
+  );
+}
+
+// Manual prefetching
+import { useRouter } from 'next/router';
+
+function Component() {
+  const router = useRouter();
+  
+  useEffect(() => {
+    // Prefetch when component mounts
+    router.prefetch('/dashboard');
+  }, [router]);
+}
+
+// Database Query Optimization
+// ============================
+
+// ❌ N+1 query problem
+export async function getStaticProps() {
+  const posts = await db.posts.findMany();
+  
+  // Fetches author for each post separately (N+1 queries)
+  const postsWithAuthors = await Promise.all(
+    posts.map(async post =&gt; ({
+      ...post,
+      author: await db.users.findOne({ id: post.authorId }),
+    }))
+  );
+  
+  return { props: { posts: postsWithAuthors } };
+}
+
+// ✅ Optimized with single query
+export async function getStaticProps() {
+  // Single query with JOIN
+  const posts = await db.posts.findMany({
+    include: {
+      author: true,
+    },
+  });
+  
+  return { props: { posts } };
+}
+
+// Parallel Data Fetching
+// =======================
+
+// ❌ Sequential fetching (waterfall)
+export async function getServerSideProps() {
+  const user = await fetchUser(); // Wait
+  const posts = await fetchPosts(user.id); // Then wait
+  const comments = await fetchComments(user.id); // Then wait
+  // Total: 300ms + 200ms + 150ms = 650ms
+  
+  return { props: { user, posts, comments } };
+}
+
+// ✅ Parallel fetching
+export async function getServerSideProps() {
+  const [user, posts, comments] = await Promise.all([
+    fetchUser(),
+    fetchPosts(),
+    fetchComments(),
+  ]);
+  // Total: max(300ms, 200ms, 150ms) = 300ms
+  
+  return { props: { user, posts, comments } };
+}
+
+// Edge Runtime
+// ============
+
+// Run SSR at CDN edge for lower latency
+
+export const config = {
+  runtime: 'edge', // or 'nodejs'
+};
+
+export default function Page() {
+  return &lt;div&gt;Rendered at the edge!&lt;/div&gt;;
+}
+
+// Benefits:
+// - Lower latency (closer to users)
+// - Better geographic distribution
+// - Faster TTFB
+
+// Monitoring Performance
+// ======================
+
+// 1. Lighthouse CI
+// Automate Lighthouse tests in CI/CD
+
+// 2. Real User Monitoring (RUM)
+// Track actual user performance
+
+// 3. Next.js Analytics
+// Built-in performance tracking
+
+// 4. Custom metrics
+export function reportWebVitals(metric) {
+  const body = JSON.stringify(metric);
+  const url = 'https://analytics.example.com/vitals';
+  
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(url, body);
+  } else {
+    fetch(url, { body, method: 'POST', keepalive: true });
+  }
+}
+      </code></pre>
+
+      <h3>8. Common Pitfalls and Solutions</h3>
+      <pre><code>
+// Pitfall 1: Using Browser APIs in SSR
+// =====================================
+
+// ❌ Crashes during SSR
+export async function getServerSideProps() {
+  const token = localStorage.getItem('token'); // ReferenceError: localStorage is not defined
+  return { props: {} };
+}
+
+function Component() {
+  const width = window.innerWidth; // ReferenceError: window is not defined
+  return &lt;div&gt;{width}&lt;/div&gt;;
+}
+
+// ✅ Solution: Check environment
+export async function getServerSideProps({ req }) {
+  // Use cookies instead of localStorage on server
+  const token = req.cookies.token;
+  return { props: {} };
+}
+
+function Component() {
+  const [width, setWidth] = useState(0);
+  
+  useEffect(() => {
+    // Browser APIs only in useEffect
+    setWidth(window.innerWidth);
+    
+    const handleResize = () =&gt; setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () =&gt; window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  return &lt;div&gt;{width || 'Loading...'}&lt;/div&gt;;
+}
+
+// Or use type checking
+if (typeof window !== 'undefined') {
+  // Browser-only code
+}
+
+// Pitfall 2: Non-Serializable Props
+// ==================================
+
+// ❌ Functions, Dates, undefined not serializable
+export async function getServerSideProps() {
+  return {
+    props: {
+      date: new Date(), // Becomes string
+      callback: () =&gt; {}, // ❌ Error!
+      missing: undefined, // ❌ Omitted
+      data: {
+        nested: undefined, // ❌ Omitted
+      },
+    },
+  };
+}
+
+// ✅ Solution: Use JSON-safe data
+export async function getServerSideProps() {
+  return {
+    props: {
+      dateString: new Date().toISOString(), // ✅ String
+      data: {
+        value: 'present', // ✅ Defined
+      },
+    },
+  };
+}
+
+function Page({ dateString }) {
+  const date = new Date(dateString); // Convert back on client
+  return &lt;div&gt;{date.toLocaleDateString()}&lt;/div&gt;;
+}
+
+// Pitfall 3: Hydration Mismatches
+// ================================
+
+// ❌ Server and client render differently
+function BadComponent() {
+  return (
+    &lt;div&gt;
+      Generated at: {new Date().toISOString()}
+      {/* Server generates one time, client generates different time */}
+    &lt;/div&gt;
+  );
+}
+
+// ✅ Solution 1: Suppress hydration warning
+function Component({ serverTime }) {
+  return (
+    &lt;div suppressHydrationWarning&gt;
+      Generated at: {new Date().toISOString()}
+    &lt;/div&gt;
+  );
+}
+
+// ✅ Solution 2: Use server value, update on client
+function Component({ serverTime }) {
+  const [time, setTime] = useState(serverTime);
+  
+  useEffect(() => {
+    setTime(new Date().toISOString());
+  }, []);
+  
+  return &lt;div&gt;Generated at: {time}&lt;/div&gt;;
+}
+
+// ✅ Solution 3: Only render on client
+function Component() {
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() =&gt; {
+    setMounted(true);
+  }, []);
+  
+  if (!mounted) return null;
+  
+  return &lt;div&gt;{new Date().toISOString()}&lt;/div&gt;;
+}
+
+// Pitfall 4: Infinite Revalidation Loop
+// ======================================
+
+// ❌ Object in getStaticProps causes infinite loop
+export async function getStaticProps() {
+  return {
+    props: {
+      config: {
+        // New object every build = always different = infinite revalidation
+        timestamp: Date.now(),
+      },
+    },
+    revalidate: 10,
+  };
+}
+
+// ✅ Solution: Use stable data
+export async function getStaticProps() {
+  const config = await getConfig(); // Fetch from stable source
+  
+  return {
+    props: {
+      config,
+    },
+    revalidate: 10,
+  };
+}
+
+// Pitfall 5: Large Page Props
+// ============================
+
+// ❌ Sending huge data as props
+export async function getServerSideProps() {
+  const allProducts = await db.products.findMany(); // 10,000 products
+  
+  return {
+    props: {
+      products: allProducts, // ❌ Props embedded in HTML, massive page size
+    },
+  };
+}
+
+// ✅ Solution: Paginate
+export async function getServerSideProps({ query }) {
+  const page = parseInt(query.page) || 1;
+  const perPage = 20;
+  
+  const products = await db.products.findMany({
+    skip: (page - 1) * perPage,
+    take: perPage,
+  });
+  
+  return {
+    props: {
+      products,
+      page,
+    },
+  };
+}
+
+// Or use client-side fetching for large datasets
+function ProductList() {
+  const { data, error } = useSWR('/api/products', fetcher);
+  
+  if (error) return &lt;div&gt;Error loading&lt;/div&gt;;
+  if (!data) return &lt;div&gt;Loading...&lt;/div&gt;;
+  
+  return &lt;div&gt;{data.map(...)}&lt;/div&gt;;
+}
+
+// Pitfall 6: Forgetting to Handle Loading States
+// ===============================================
+
+// ❌ No loading state for fallback
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}
+
+function Page({ post }) {
+  // If fallback, post is undefined → crash
+  return &lt;div&gt;{post.title}&lt;/div&gt;; // ❌ Cannot read property 'title' of undefined
+}
+
+// ✅ Solution: Check for fallback
+function Page({ post }) {
+  const router = useRouter();
+  
+  if (router.isFallback) {
+    return &lt;div&gt;Loading...&lt;/div&gt;;
+  }
+  
+  if (!post) {
+    return &lt;div&gt;Post not found&lt;/div&gt;;
+  }
+  
+  return &lt;div&gt;{post.title}&lt;/div&gt;;
+}
+
+// Pitfall 7: Not Handling Errors
+// ===============================
+
+// ❌ No error handling
+export async function getServerSideProps({ params }) {
+  const post = await getPost(params.id); // What if this fails?
+  
+  return {
+    props: { post },
+  };
+}
+
+// ✅ Solution: Handle errors gracefully
+export async function getServerSideProps({ params }) {
+  try {
+    const post = await getPost(params.id);
+    
+    if (!post) {
+      return {
+        notFound: true, // Shows 404 page
+      };
+    }
+    
+    return {
+      props: { post },
+    };
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    
+    // Could redirect to error page
+    return {
+      redirect: {
+        destination: '/error',
+        permanent: false,
+      },
+    };
+    
+    // Or return error state
+    return {
+      props: {
+        error: 'Failed to load post',
+      },
+    };
+  }
+}
+
+// Pitfall 8: Cache Headers on SSR
+// ================================
+
+// ❌ No caching - every request hits server
+export async function getServerSideProps() {
+  const data = await fetchData();
+  return { props: { data } };
+}
+
+// ✅ Solution: Set cache headers for public content
+export async function getServerSideProps({ res }) {
+  const data = await fetchData();
+  
+  // Cache for 60 seconds on CDN
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=120'
+  );
+  
+  return { props: { data } };
+}
+
+// Pitfall 9: Mixing SSR and SSG
+// ==============================
+
+// ❌ Can't use both on same page
+export async function getServerSideProps() {
+  return { props: {} };
+}
+
+export async function getStaticProps() { // ❌ Error!
+  return { props: {} };
+}
+
+// ✅ Choose one per page, mix across site
+// pages/index.js → SSG
+// pages/dashboard.js → SSR
+// pages/products/[id].js → SSG + ISR
+
+// Pitfall 10: Stale Data Assumptions
+// ===================================
+
+// ❌ Assuming ISR data is always fresh
+export async function getStaticProps() {
+  return {
+    props: {
+      price: await getCurrentPrice(),
+    },
+    revalidate: 3600, // 1 hour
+  };
+}
+
+// User sees price that could be 1 hour old!
+// For critical data, show freshness indicator
+
+function ProductPage({ price, lastUpdated }) {
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Price: $ {price}&lt;/p&gt;
+      &lt;small&gt;As of {new Date(lastUpdated).toLocaleString()}&lt;/small&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Or fetch critical data client-side
+function ProductPage({ product }) {
+  const [currentPrice, setCurrentPrice] = useState(product.price);
+  
+  useEffect(() => {
+    // Get real-time price
+    fetchCurrentPrice(product.id).then(setCurrentPrice);
+  }, [product.id]);
+  
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Price: $ {currentPrice}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+      </code></pre>
+
+      <h3>9. Real-World Architecture Examples</h3>
+      <pre><code>
+// E-commerce Platform Architecture
+// =================================
+
+// Homepage
+// pages/index.js - SSG
+export async function getStaticProps() {
+  const featured = await getFeaturedProducts();
+  const categories = await getCategories();
+  
+  return {
+    props: { featured, categories },
+    revalidate: 3600, // Update hourly
+  };
+}
+
+// Category Pages
+// pages/category/[slug].js - SSG + ISR
+export async function getStaticPaths() {
+  const categories = await getCategories();
+  
+  return {
+    paths: categories.map(c =&gt; ({ params: { slug: c.slug } })),
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const products = await getProductsByCategory(params.slug);
+  
+  return {
+    props: { products },
+    revalidate: 600, // 10 minutes
+  };
+}
+
+// Product Pages
+// pages/products/[id].js - SSG + ISR + on-demand revalidation
+export async function getStaticPaths() {
+  // Pre-render top 1000 products
+  const topProducts = await getTopProducts(1000);
+  
+  return {
+    paths: topProducts.map(p =&gt; ({ params: { id: p.id } })),
+    fallback: 'blocking', // Generate others on-demand
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const product = await getProduct(params.id);
+  const related = await getRelatedProducts(params.id);
+  
+  return {
+    props: { product, related },
+    revalidate: 300, // 5 minutes
+    // Also trigger via webhook when price changes
+  };
+}
+
+// Shopping Cart
+// pages/cart.js - SSR (user-specific)
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+  
+  if (!session) {
+    return { redirect: { destination: '/login', permanent: false } };
+  }
+  
+  const cart = await getCart(session.userId);
+  
+  return {
+    props: { cart },
+  };
+}
+
+// Checkout
+// pages/checkout.js - SSR (session + payment)
+export async function getServerSideProps({ req, res }) {
+  const session = await getSession({ req });
+  
+  if (!session) {
+    return { redirect: { destination: '/login', permanent: false } };
+  }
+  
+  // Don't cache checkout page
+  res.setHeader('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  
+  const cart = await getCart(session.userId);
+  const addresses = await getUserAddresses(session.userId);
+  
+  return {
+    props: { cart, addresses },
+  };
+}
+
+// Order History
+// pages/orders.js - SSR (user-specific)
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+  
+  if (!session) {
+    return { redirect: { destination: '/login', permanent: false } };
+  }
+  
+  const orders = await getUserOrders(session.userId);
+  
+  return {
+    props: { orders },
+  };
+}
+
+// SaaS Application Architecture
+// ==============================
+
+// Landing Page
+// pages/index.js - SSG
+export async function getStaticProps() {
+  const testimonials = await getTestimonials();
+  const pricing = await getPricing();
+  
+  return {
+    props: { testimonials, pricing },
+    revalidate: 86400, // Daily
+  };
+}
+
+// Documentation
+// pages/docs/[...slug].js - SSG + on-demand revalidation
+export async function getStaticPaths() {
+  const docs = await getAllDocs();
+  
+  return {
+    paths: docs.map(d =&gt; ({ params: { slug: d.slug.split('/') } })),
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const doc = await getDoc(params.slug.join('/'));
+  
+  return {
+    props: { doc },
+    revalidate: 3600,
+    // Trigger revalidation via CMS webhook
+  };
+}
+
+// App Dashboard (behind login)
+// pages/app/dashboard.js - CSR (no SEO needed)
+export default function Dashboard() {
+  const { data: user } = useSWR('/api/user', fetcher);
+  const { data: stats } = useSWR('/api/stats', fetcher);
+  const { data: activity } = useSWR('/api/activity', fetcher);
+  
+  if (!user) return &lt;div&gt;Loading...&lt;/div&gt;;
+  
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Welcome, {user.name}&lt;/h1&gt;
+      {stats && &lt;Stats data={stats} /&gt;}
+      {activity && &lt;Activity data={activity} /&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// Alternatively: SSR for initial data
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req });
+  
+  if (!session) {
+    return { redirect: { destination: '/login', permanent: false } };
+  }
+  
+  const [user, stats] = await Promise.all([
+    getUser(session.userId),
+    getStats(session.userId),
+  ]);
+  
+  return {
+    props: { user, stats },
+  };
+}
+
+// Blog/Content Site Architecture
+// ===============================
+
+// Blog Index
+// pages/blog/index.js - SSG + ISR
+export async function getStaticProps() {
+  const posts = await getRecentPosts(10);
+  const categories = await getCategories();
+  
+  return {
+    props: { posts, categories },
+    revalidate: 3600, // Hourly
+  };
+}
+
+// Blog Post
+// pages/blog/[slug].js - SSG + on-demand revalidation
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  
+  return {
+    paths: posts.map(p =&gt; ({ params: { slug: p.slug } })),
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const post = await getPost(params.slug);
+  const related = await getRelatedPosts(post.tags);
+  
+  return {
+    props: { post, related },
+    revalidate: 86400, // Daily
+    // Immediate revalidation via CMS webhook on publish
+  };
+}
+
+// Author Page
+// pages/authors/[id].js - SSG + ISR
+export async function getStaticPaths() {
+  const authors = await getAuthors();
+  
+  return {
+    paths: authors.map(a =&gt; ({ params: { id: a.id } })),
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const author = await getAuthor(params.id);
+  const posts = await getPostsByAuthor(params.id);
+  
+  return {
+    props: { author, posts },
+    revalidate: 3600,
+  };
+}
+
+// Search Results
+// pages/search.js - SSR (query-dependent)
+export async function getServerSideProps({ query }) {
+  const { q } = query;
+  
+  if (!q) {
+    return { props: { results: [] } };
+  }
+  
+  const results = await searchPosts(q);
+  
+  // Cache search results briefly
+  res.setHeader('Cache-Control', 'public, s-maxage=60');
+  
+  return {
+    props: { results, query: q },
+  };
+}
+
+// Hybrid Approach: Static Shell + Client Data
+// ============================================
+
+// For pages that mix public and private content
+
+export async function getStaticProps() {
+  // Public data - pre-rendered
+  const globalConfig = await getGlobalConfig();
+  const featuredContent = await getFeaturedContent();
+  
+  return {
+    props: {
+      globalConfig,
+      featuredContent,
+    },
+    revalidate: 3600,
+  };
+}
+
+function HybridPage({ globalConfig, featuredContent }) {
+  // User data - fetched client-side
+  const { data: userData } = useSWR('/api/user', fetcher);
+  const { data: recommendations } = useSWR(
+    userData ? \`/api/recommendations/\$ {userData.id}\` : null,
+    fetcher
+  );
+  
+  return (
+    &lt;div&gt;
+      {/* Static content - fast initial render */}
+      &lt;Header config={globalConfig} /&gt;
+      &lt;FeaturedSection items={featuredContent} /&gt;
+      
+      {/* Dynamic content - loads after */}
+      {userData ? (
+        &lt;div&gt;
+          &lt;h2&gt;Welcome back, {userData.name}!&lt;/h2&gt;
+          {recommendations && (
+            &lt;Recommendations items={recommendations} /&gt;
+          )}
+        &lt;/div&gt;
+      ) : (
+        &lt;LoginPrompt /&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+      </code></pre>
+
+      <h3>10. Best Practices Checklist</h3>
+      <ul>
+        <li><strong>Default to SSG:</strong> Start with static generation for most pages - it's the fastest and cheapest</li>
+        <li><strong>Use ISR for freshness:</strong> Add revalidate when content needs periodic updates without full rebuilds</li>
+        <li><strong>Reserve SSR for dynamic needs:</strong> Only use getServerSideProps when you need request-time data (auth, cookies, real-time)</li>
+        <li><strong>Implement on-demand revalidation:</strong> Set up webhooks from CMS to trigger instant updates for critical content changes</li>
+        <li><strong>Choose fallback wisely:</strong> Use 'blocking' for SEO-critical pages, true for large sites with acceptable loading states</li>
+        <li><strong>Leverage streaming SSR:</strong> Use Suspense in App Router for progressive page rendering and better perceived performance</li>
+        <li><strong>Set appropriate cache headers:</strong> Configure Cache-Control on SSR pages to reduce server load for public content</li>
+        <li><strong>Monitor build output:</strong> Analyze next build logs to identify large pages and optimization opportunities</li>
+        <li><strong>Mix strategies per page:</strong> Different pages need different approaches - homepage SSG, dashboard SSR, products ISR</li>
+        <li><strong>Use environment variables:</strong> Configure build-time settings with env vars rather than hardcoding</li>
+        <li><strong>Handle errors gracefully:</strong> Return notFound: true or redirect on errors in data fetching functions</li>
+        <li><strong>Avoid browser APIs in SSR:</strong> Use useEffect for window, document, localStorage access</li>
+        <li><strong>Keep props serializable:</strong> Only return JSON-safe data from getServerSideProps/getStaticProps</li>
+        <li><strong>Paginate large datasets:</strong> Don't pre-render thousands of items - use pagination or virtualization</li>
+        <li><strong>Test fallback states:</strong> Verify loading states work correctly with fallback: true</li>
+        <li><strong>Check authentication before data:</strong> Redirect unauthenticated users in getServerSideProps before expensive queries</li>
+        <li><strong>Tune revalidate carefully:</strong> Too short defeats caching benefits, too long serves stale content</li>
+        <li><strong>Understand Router differences:</strong> Know when to use Pages Router vs App Router based on project needs</li>
+        <li><strong>Optimize images and fonts:</strong> Use Next.js Image component and font optimization features</li>
+        <li><strong>Measure Core Web Vitals:</strong> Track LCP, FID, CLS in production to validate performance gains</li>
+      </ul>
+    </div>
+  `,
+
             examples: [
-              "User dashboard with SSR (authenticated data)",
-              "Blog with SSG + getStaticPaths",
-              "E-commerce product page with ISR (revalidate: 60)",
-              "On-demand revalidation via webhook",
-              "Streaming with Suspense in App Router",
-              "Hybrid: static shell + client-side user data",
-              "Fallback states for dynamic routes",
-              "Cache headers in getServerSideProps",
-              "Edge SSR with runtime = 'edge'",
-              "Internationalized routes with getStaticPaths",
+              "User dashboard with SSR using getServerSideProps and session authentication",
+              "Blog with SSG + getStaticPaths for dynamic routes with fallback: 'blocking'",
+              "E-commerce product page with ISR (revalidate: 60) for hourly price updates",
+              "On-demand revalidation triggered by CMS webhook after content publish",
+              "Streaming SSR with Suspense for progressive rendering in App Router",
+              "Hybrid approach: static shell with SSG + client-side user data fetching",
+              "Handling fallback states with router.isFallback for dynamic routes",
+              "Cache-Control headers in getServerSideProps for CDN caching",
+              "Edge SSR with runtime = 'edge' for geographic distribution",
+              "Multi-locale routes with getStaticPaths generating paths per locale",
+              "Server Components fetching data in App Router with next: { revalidate }",
+              "Parallel data fetching with Promise.all in getServerSideProps",
+              "Incremental migration mixing Pages Router and App Router",
+              "Client-only component with dynamic import and ssr: false",
             ],
+
             questions: [
               {
                 question:
                   "What is the fundamental difference between SSR and SSG?",
+                difficulty: "Basic",
+                category: "Core Concepts",
                 answer:
-                  "The fundamental difference is when the HTML is generated. SSR (Server-Side Rendering) generates HTML on each request — the server fetches data, renders the React component to HTML, and sends it to the client. This happens for every visitor, every time they load the page. SSG (Static Site Generation) generates HTML at build time — once during deployment, the same static HTML file is saved to disk and served to all visitors. SSR provides fresh, request-specific data at the cost of server compute per request; SSG provides maximum speed and CDN cacheability at the cost of potential staleness. Next.js implements SSR via getServerSideProps and SSG via getStaticProps.",
+                  "The fundamental difference is timing of HTML generation. SSR (Server-Side Rendering) generates HTML on every request - the server runs your code, fetches data, renders React to HTML, and sends it to the client. This happens for each visitor, each time. SSG (Static Site Generation) generates HTML once at build time - during deployment, the same HTML file is created and served to all visitors from a CDN. SSR provides always-fresh, request-specific data but requires server compute per request and has higher TTFB. SSG provides maximum speed (CDN cache), zero server load, and lowest cost, but content can become stale between builds. In Next.js: SSR uses getServerSideProps, SSG uses getStaticProps. The choice depends on whether you need request-time data and how often content changes.",
               },
               {
                 question: "When would you choose SSR over SSG?",
+                difficulty: "Basic",
+                category: "Decision Making",
                 answer:
-                  "Choose SSR when you need request-time data that cannot be determined at build time. This includes: authenticated pages with user-specific content (dashboard, account settings), pages that read cookies or headers for personalization, real-time data that changes faster than you can rebuild (stock tickers, live scores), pages with content that varies by user location or A/B testing, and any scenario where showing slightly stale data would be unacceptable. For example, a user's shopping cart page must be SSR because the contents are specific to that user and change frequently. If the data is public and changes infrequently, SSG is almost always the better choice.",
+                  "Choose SSR when you need request-time data that cannot be determined at build time: 1) User-specific content requiring authentication (dashboard, profile, account settings), 2) Content that depends on cookies, headers, or query parameters, 3) Real-time data that changes too frequently for ISR (stock prices, live scores), 4) Personalization based on user location or A/B testing, 5) Server-side authorization checks before displaying content, 6) Any scenario where showing stale data would be unacceptable. Example: A shopping cart must be SSR because contents are user-specific and change immediately. A user dashboard needs SSR to show current notifications and activity. For public content that changes infrequently, SSG is almost always better. For frequently-changing public content, consider SSG + ISR instead of SSR.",
               },
               {
-                question: "What problem does getStaticPaths solve in SSG?",
+                question: "What problem does getStaticPaths solve?",
+                difficulty: "Basic",
+                category: "Dynamic Routes",
                 answer:
-                  "getStaticPaths solves the problem of dynamic routes in static generation. For a page like pages/posts/[id].js, Next.js needs to know at build time which [id] values exist so it can generate HTML for each one. getStaticPaths fetches all possible paths (from a CMS, database, or filesystem) and returns them as an array of params objects. It also accepts a fallback property that controls behavior for paths not generated at build time: false returns 404, true shows a loading fallback and generates on-demand, and 'blocking' waits server-side for generation. This enables large sites to pre-render only popular pages and generate the rest on first visit.",
+                  "getStaticPaths solves the problem of dynamic routes in static generation. For a route like /posts/[slug], Next.js needs to know which [slug] values exist at build time to generate HTML for each. getStaticPaths returns an array of all possible path parameters by fetching them from your CMS, database, or filesystem. It also includes a fallback option controlling behavior for non-pre-rendered paths: fallback: false means unknown paths return 404; fallback: true shows a loading state and generates on first visit; fallback: 'blocking' generates server-side on first visit without showing loading. This enables large sites to pre-render only popular pages (top 1000 products) and generate others on-demand, balancing build time with coverage.",
               },
               {
                 question:
                   "Explain ISR (Incremental Static Regeneration) and how it works.",
+                difficulty: "Intermediate",
+                category: "ISR",
                 answer:
-                  "ISR extends SSG by allowing static pages to be updated after deployment without rebuilding the entire site. When you add a revalidate property (e.g., revalidate: 60) to getStaticProps, you tell Next.js that this page can be stale for up to 60 seconds. When a request comes in after the revalidate period, Next.js serves the stale cached page immediately but triggers a background regeneration with fresh data. Once the new HTML is generated, it replaces the cache for subsequent requests. This gives you the performance of static files with updates up to every revalidate seconds. For instant updates, Next.js also supports on-demand revalidation via API routes, allowing you to trigger regeneration when content changes (e.g., after a CMS webhook).",
+                  "ISR combines SSG's performance with the ability to update content after deployment. When you add revalidate: 60 to getStaticProps, you tell Next.js that the page can be stale for up to 60 seconds. Process: 1) Page is generated at build time and cached, 2) Requests within the revalidate window serve the cached version instantly (10-50ms), 3) After the revalidate period expires, the next request triggers: a) Stale cache is served immediately (user doesn't wait), b) Background regeneration starts with fresh data, c) New HTML replaces cache for future requests. Users never wait for regeneration - worst case they see data up to revalidate seconds old. For instant updates, use on-demand revalidation via API routes triggered by CMS webhooks. ISR is perfect for e-commerce (prices can be 5min stale), news (hourly updates), documentation (on-demand updates).",
+              },
+              {
+                question: "What is hydration and why does it matter?",
+                difficulty: "Intermediate",
+                category: "Hydration",
+                answer:
+                  "Hydration is the process where React 'takes over' server-rendered HTML to make it interactive. Both SSR and SSG send static HTML to the browser. The user sees content immediately, but it's not interactive yet (clicking buttons does nothing). After the JavaScript bundle loads, React: 1) Matches the virtual DOM with the actual DOM, 2) Attaches event listeners to elements, 3) Initializes component state, 4) Makes the page fully interactive. Timeline: HTML arrives → User sees content → JS downloads → React hydrates → Page becomes interactive. This is why SSR/SSG feels faster than CSR - users see content during JS load instead of a blank screen. Hydration errors occur when server HTML doesn't match client React tree (e.g., using window.innerWidth during render, or new Date() generating different times). Selective hydration (React 18) allows critical parts to hydrate first while deferring non-critical components.",
+              },
+              {
+                question:
+                  "What's the difference between fallback: false, true, and 'blocking'?",
+                difficulty: "Intermediate",
+                category: "Dynamic Routes",
+                answer:
+                  "fallback controls behavior for paths not pre-rendered by getStaticPaths. fallback: false - Only pre-rendered paths exist, others return 404. No on-demand generation. Use for small, predictable sets (personal blog with 20 posts). Simple but inflexible. fallback: true - Pre-rendered paths serve instantly. Unknown paths show loading state (router.isFallback), generate in background, cache for future. Good for large sites (e-commerce with millions of products) where you can't pre-render everything. Requires handling loading state in component. fallback: 'blocking' - Pre-rendered paths serve instantly. Unknown paths wait server-side for generation (like SSR), then serve complete HTML. No loading flash. Better for SEO (crawlers see full content) but slower first visit. Decision matrix: Small site → false, Large site with good UX for loading → true, SEO-critical large site → 'blocking'.",
               },
               {
                 question:
                   "How does streaming SSR with Suspense improve performance?",
+                difficulty: "Advanced",
+                category: "Streaming",
                 answer:
-                  "Streaming SSR (available in React 18+ and Next.js App Router) solves the 'all or nothing' problem of traditional SSR. Instead of waiting for all data to be fetched and all components to render before sending anything, the server sends HTML in chunks. The page shell (layout, navigation, fast components) is sent immediately, allowing the user to see something quickly. As slower components finish their data fetching, they are streamed to the client and inserted into the Suspense boundaries. This improves perceived performance and Time to First Byte (TTFB). Suspense boundaries also allow components to load in parallel rather than sequentially, further reducing total load time. Users see content progressively rather than a blank screen or a full page load later.",
+                  "Traditional SSR has an 'all or nothing' problem: server must fetch all data and render all components before sending anything. If one slow component blocks (1s API call), the entire page waits. Streaming SSR (React 18 + App Router) sends HTML in chunks: 1) Fast shell (layout, navigation) is sent immediately (~50ms), 2) User sees something instantly (improved TTFB), 3) Slow components wrapped in Suspense show fallback UI in the initial HTML, 4) As components finish data fetching, they stream to the client and replace fallbacks, 5) Components can fetch in parallel instead of sequentially. Benefits: TTFB drops from 1500ms to 50ms, progressive rendering (content appears as ready), parallel data fetching (independent components don't block each other), better perceived performance (user sees content immediately). Example: Product page sends header/description immediately, streams reviews when ready. No single slow component blocks the entire page.",
               },
               {
                 question:
-                  "What are the main differences between Next.js Pages Router and App Router for data fetching?",
+                  "How do you implement on-demand revalidation and when should you use it?",
+                difficulty: "Advanced",
+                category: "ISR",
                 answer:
-                  "Pages Router uses file-based routing in the /pages directory with specific data-fetching methods: getServerSideProps (SSR), getStaticProps (SSG), and getStaticPaths. Data fetching is page-level — one function per page fetches all data. App Router (Next.js 13+) uses the /app directory, React Server Components by default, and more granular data fetching. Components can be async and fetch data directly. Streaming with Suspense is built-in. Caching is controlled via fetch options (next: { revalidate }) rather than separate functions. App Router also supports nested layouts that persist across navigation. Pages Router is simpler and stable; App Router offers more flexibility and performance features but has a steeper learning curve.",
+                  "On-demand revalidation triggers ISR regeneration immediately instead of waiting for revalidate timeout. Implementation: 1) Create API route (pages/api/revalidate.js) that calls res.revalidate(path), 2) Protect with secret token to prevent abuse, 3) Call from CMS webhook when content changes. Example: When author publishes blog post, CMS sends POST to /api/revalidate with the post path. Next.js regenerates that page immediately, purging stale cache. You can revalidate multiple related pages (post, category, homepage if featured). Use when: Content changes unpredictably and you can't wait for timed revalidate, breaking news needs instant updates, product prices change and must reflect immediately, content publish events are trackable (webhooks available). Combine with revalidate timeout as fallback for unexpected changes. Don't use for high-frequency updates (defeats caching) or when CMS lacks webhooks (can't trigger revalidation).",
+              },
+              {
+                question:
+                  "What are the main differences between Next.js Pages Router and App Router?",
+                difficulty: "Advanced",
+                category: "Next.js Features",
+                answer:
+                  "Pages Router (traditional): File-based routing in /pages directory, data fetching via getServerSideProps/getStaticProps/getStaticPaths, page-level data fetching only (one function per page), all-or-nothing rendering, simpler mental model, stable and well-documented. App Router (Next.js 13+): File-based routing in /app directory, Server Components by default (zero JS for non-interactive components), component-level data fetching (async components fetch directly), streaming with Suspense built-in, nested layouts that persist across navigation, parallel and intercepting routes, more granular control but steeper learning curve. Data fetching: Pages uses separate functions; App uses fetch with options (next: { revalidate: 60 }). Caching: Pages uses revalidate in getStaticProps; App uses fetch cache options. Choose Pages for existing projects and simpler needs; App for new projects wanting streaming, component-level fetching, and less client JS.",
               },
               {
                 question: "How do you handle authentication in SSR pages?",
+                difficulty: "Intermediate",
+                category: "Authentication",
                 answer:
-                  "In getServerSideProps, you can access the request object via context.req to read session cookies or authorization headers. Common patterns: 1) Use a library like NextAuth.js which provides getServerSession(context) that works in getServerSideProps. 2) Manually verify JWT tokens from cookies. 3) Redirect unauthenticated users to login: return { redirect: { destination: '/login', permanent: false } }. After authentication, fetch user-specific data and return it as props. The page component receives the user data and can render personalized content. Remember that any data fetched in getServerSideProps is exposed to the client, so don't include sensitive information like tokens unless necessary.",
-              },
-              {
-                question: "What are the limitations of getStaticProps?",
-                answer:
-                  "getStaticProps runs at build time, so it cannot access request-specific data like cookies, query parameters (beyond those in params for dynamic routes), or session information. It's limited to build-time environment variables and APIs. The returned props must be serializable (no functions, undefined, or circular references). For large sites, generating thousands of pages at build time can be slow, though this is mitigated by fallback: true or fallback: 'blocking' to generate on-demand. Static pages can become stale; ISR addresses this but introduces complexity. Also, getStaticProps is only available in pages, not in components (though App Router solves this with Server Components).",
-              },
-              {
-                question:
-                  "How does caching work with SSR and how can you optimize it?",
-                answer:
-                  "SSR pages can set HTTP cache headers via the response object in getServerSideProps. For example: res.setHeader('Cache-Control', 'public, s-maxage=10, stale-while-revalidate=59'). s-maxage controls CDN cache duration, and stale-while-revalidate allows serving stale content while fetching fresh data in the background. Without caching, every request hits the server. With proper headers, you can reduce server load significantly. For public content that varies only slightly, consider using stale-while-revalidate to get near-SSG performance with SSR freshness. For user-specific content, caching is harder but you can cache at the component level with React.memo or use server-side caching of database queries.",
-              },
-              {
-                question:
-                  "What is the 'fallback' option in getStaticPaths and when would you use each value?",
-                answer:
-                  "fallback controls behavior for paths not generated at build time. fallback: false means any path not returned by getStaticPaths returns a 404 page. Use for small, predictable sets where you can generate all pages at build time (e.g., a small blog with 10 posts). fallback: true shows a loading state (via router.isFallback) on first visit and generates the page in the background, caching it for future visits. Use for large sites where you can't pre-render everything (e.g., e-commerce with millions of products). fallback: 'blocking' also generates on-demand but doesn't show a loading state — the server waits, renders the page, and sends it. Better for SEO because crawlers don't see a loading state, but first visit may be slower. Choose based on whether you need the loading UX or maximum SEO.",
-              },
-              {
-                question:
-                  "How do you implement on-demand revalidation in Next.js?",
-                answer:
-                  "On-demand revalidation allows you to trigger ISR regeneration via an API route when content changes. First, create an API route like pages/api/revalidate.js. In the handler, verify a secret token (from query or body) to prevent abuse. Call res.revalidate(path) for each path that needs updating. This immediately purges the cache and triggers background regeneration. Then, call this API from your CMS webhook after content updates. Example: await fetch('/api/revalidate?secret=TOKEN', { method: 'POST', body: JSON.stringify({ path: '/products/1' }) }). This gives you instant updates without waiting for revalidate time windows, combining SSG performance with real-time content accuracy.",
+                  "In getServerSideProps, access request via context.req to read session cookies/tokens. Common patterns: 1) Use NextAuth.js: import { getServerSession } from 'next-auth'; const session = await getServerSession(context); if (!session) return { redirect: { destination: '/login' } }. 2) Manually verify JWT from cookies: const token = context.req.cookies.token; const user = verifyToken(token). 3) Check authorization before fetching data to avoid wasted queries. 4) Fetch user-specific data after authentication. 5) Set appropriate cache headers (private for user-specific content). Example: export async function getServerSideProps({ req, res }) { const session = await getSession({ req }); if (!session) return { redirect: { destination: '/login', permanent: false } }; res.setHeader('Cache-Control', 'private, no-cache'); const data = await getUserData(session.userId); return { props: { data } }; }. Never expose sensitive tokens in props. Use httpOnly cookies for tokens.",
               },
               {
                 question: "What are the SEO implications of CSR vs SSR vs SSG?",
+                difficulty: "Intermediate",
+                category: "SEO",
                 answer:
-                  "CSR (Client-Side Rendering) delivers an empty HTML shell to crawlers. While modern search engines like Google execute JavaScript, it's not guaranteed and can delay indexing. Content may be indexed incorrectly or not at all. SSR and SSG deliver fully populated HTML immediately, ensuring crawlers see all content on first render. This leads to better, faster indexing and higher SEO scores. SSG is best for SEO-critical public content because it's fastest and most reliable. SSR is also SEO-friendly but may have slower TTFB affecting Core Web Vitals. For content that must be fresh but also SEO-critical, ISR provides the best compromise.",
+                  "CSR (Client-Side Rendering): Sends empty HTML shell (<div id='root'></div>) to crawlers. While Googlebot executes JavaScript, it's not guaranteed and causes indexing delays. Content may be missed or indexed incorrectly. Poor for SEO-critical pages. SSR and SSG: Both send fully populated HTML immediately, ensuring crawlers see all content on first render. This guarantees proper indexing and faster discovery. Better Core Web Vitals (LCP) because content is in initial HTML. SSG is best for SEO because: fastest TTFB (CDN), most reliable (no server errors), best performance scores. SSR is also SEO-friendly but may have slower TTFB affecting rankings. For maximum SEO: Use SSG for public content pages, use SSG + ISR for frequently updated content, use SSR only for user-specific pages (which shouldn't be indexed anyway), implement structured data and meta tags, monitor Core Web Vitals (LCP, FID, CLS). For content behind login (dashboards), CSR is fine since it won't be indexed.",
+              },
+              {
+                question:
+                  "How do you optimize Core Web Vitals with pre-rendering strategies?",
+                difficulty: "Advanced",
+                category: "Performance",
+                answer:
+                  "Core Web Vitals optimization by rendering strategy: Largest Contentful Paint (LCP - largest content element): SSG/ISR best (~500ms), SSR good (~1s), CSR poor (~2s+). Pre-rendering puts content in HTML so LCP is the HTML itself. Optimize: Use Next.js Image with priority for above-fold images, implement streaming SSR to show content faster, preload critical resources. First Input Delay (FID - interactivity): Similar across all (depends on hydration). Optimize: Code splitting to reduce JS bundle, defer non-critical hydration with dynamic imports, use selective hydration (Suspense) to prioritize critical components. Cumulative Layout Shift (CLS - visual stability): Equal if implemented correctly. Optimize: Set explicit image dimensions, reserve space for dynamic content, use font-display: swap. Time to First Byte (TTFB): SSG/ISR best (~50ms from CDN), SSR moderate (~200-500ms), CSR good (~100ms but content comes later). Optimize SSR: Implement caching with Cache-Control headers, use parallel data fetching, consider edge runtime. Overall: SSG provides best Core Web Vitals by default, SSR needs optimization, ISR balances freshness with performance.",
+              },
+              {
+                question: "How do you debug hydration errors?",
+                difficulty: "Advanced",
+                category: "Debugging",
+                answer:
+                  "Hydration errors occur when server-rendered HTML doesn't match client React output. Common causes and solutions: 1) Browser APIs during render: Check for window, document, localStorage in render. Fix: Move to useEffect or check typeof window !== 'undefined'. 2) Random values: new Date(), Math.random() generate different values on server vs client. Fix: Pass server value as prop, use suppressHydrationWarning, or update in useEffect. 3) Conditional rendering based on client state: Rendering differently based on screen size. Fix: Default to server value, update after mount. 4) Third-party scripts: Browser extensions modify DOM. Fix: Hard to control, consider suppressHydrationWarning. Debugging steps: 1) Check console for hydration warnings (React 18+ shows exact mismatch), 2) Use React DevTools to inspect component tree, 3) Temporarily disable client-side JS to see server HTML, 4) Add console.logs to track server vs client values, 5) Use suppressHydrationWarning as last resort (but understand why mismatch occurs). Prevention: Avoid browser APIs in render, keep server and client logic identical, test with JS disabled to see server HTML.",
+              },
+              {
+                question:
+                  "What are the cost implications of different rendering strategies?",
+                difficulty: "Advanced",
+                category: "Architecture",
+                answer:
+                  "Cost analysis by strategy: SSG: Build cost only (one-time per deploy), zero runtime compute, minimal hosting (static files on CDN), scales infinitely without cost increase. Best for high-traffic sites with public content. Example: 1M visits/month costs ~$5 (CDN bandwidth only). SSR: Compute cost per request, scales with traffic, requires server instance always running, can be expensive at scale. Example: 1M visits/month at 100ms per request = 27.7 hours of compute. At $0.05/hour = ~$1.38 + instance costs. ISR: Build cost + periodic regeneration, minimal compute (regenerates only when revalidate expires), much cheaper than SSR for same freshness. Example: 1M visits/month with revalidate: 300 (5min) = ~288 regenerations/day = negligible compute. CSR: Zero compute (serves static JS), but poor UX and SEO can cost in conversions. Hidden costs: SSR needs load balancers, auto-scaling, monitoring; SSG needs build infrastructure for large sites. Cost optimization: Use SSG where possible, ISR for content needing freshness, SSR only for user-specific pages, edge functions reduce latency (more expensive per request but faster), implement caching on SSR to reduce compute. For most sites, SSG + ISR provides best cost-to-performance ratio.",
+              },
+              {
+                question: "How do you handle large datasets in pre-rendering?",
+                difficulty: "Advanced",
+                category: "Optimization",
+                answer:
+                  "Large datasets present challenges for pre-rendering. Strategies: 1) Pagination: Don't render all 10,000 products on one page. Generate pages with 20 items each. Use query params (?page=2) with SSR or multiple static pages with SSG. 2) Selective pre-rendering: Use getStaticPaths to pre-render only top N items (popular products, recent posts), set fallback: 'blocking' for long tail. 3) Client-side fetching: Render shell with SSG, fetch data client-side with SWR/React Query. Good for dashboards, admin panels. 4) Virtualization: Render only visible items in viewport, load more on scroll. Works with SSR/SSG. 5) Incremental builds: Use ISR to regenerate pages independently instead of full site rebuild. 6) Data aggregation: Instead of rendering all items, pre-render summaries/categories and let users drill down. Example: E-commerce with 1M products: Pre-render homepage (SSG), category pages (SSG + ISR, paginated), top 10K product pages (SSG + fallback: 'blocking'), search results (SSR or client-side). Avoid: Embedding 100K items in HTML props (massive page size), generating 1M pages at build time (slow builds, storage issues). Monitor: Build times, HTML file sizes, Time to Interactive.",
+              },
+              {
+                question:
+                  "How do Server Components in App Router change the pre-rendering paradigm?",
+                difficulty: "Advanced",
+                category: "React Server Components",
+                answer:
+                  "Server Components fundamentally change how we think about rendering. Traditional approach: Choose SSR or SSG at page level, all components in page render together, data fetching at page level only, all component code ships to client. Server Components approach: Components default to Server Components (zero JS to client), can be async and fetch data directly, only interactive components are Client Components ('use client'), component-level rendering decisions, streaming with Suspense out of the box. Key changes: 1) Granular data fetching: Each component can fetch its own data in parallel instead of waterfall at page level. 2) Reduced bundle size: Server Component code never reaches client, only Client Component code ships. 3) Streaming: Slow components don't block fast ones; page streams progressively. 4) Backend access: Server Components can directly access databases, file systems, private APIs without exposing credentials. Example: Product page can have server-rendered product details (no JS), client-side interactive reviews (JS sent), server-rendered recommendations (no JS). This was impossible with traditional SSR (all or nothing). Benefits: Smaller bundles, faster pages, better performance by default. Trade-offs: Steeper learning curve, can't use hooks in Server Components, need to think about component boundaries.",
+              },
+              {
+                question:
+                  "How do you implement edge rendering and when should you use it?",
+                difficulty: "Advanced",
+                category: "Edge Computing",
+                answer:
+                  "Edge rendering runs SSR at CDN edge locations (closer to users) instead of origin server. Implementation in Next.js: export const config = { runtime: 'edge' }; in page or API route. Or in App Router: export const runtime = 'edge'. How it works: Request goes to nearest edge location, SSR happens at edge (50-200ms away from user instead of single origin), HTML sent to user with minimal latency. Benefits: Lower TTFB (no round trip to origin), better geographic distribution, automatic scaling (CDN handles traffic), improved perceived performance especially for global users. Limitations: Restricted runtime (no Node.js APIs like fs), limited compute time (typically 50-100ms), smaller memory limits, can't access origin databases directly (need API layer). When to use: Global applications with users worldwide, pages needing SSR but wanting lower latency, A/B testing and personalization at edge, header/cookie-based routing, lightweight SSR without heavy computation. When NOT to use: Heavy computation (complex data processing), direct database access needed, using Node.js-specific libraries, long-running operations. Example: User dashboard rendered at edge with user data from API (fast), product page with complex inventory calculation rendered at origin (slow at edge). Cost: Usually more expensive per request than origin SSR but lower latency may justify cost.",
+              },
+              {
+                question:
+                  "How do you migrate from CSR to SSR/SSG incrementally?",
+                difficulty: "Advanced",
+                category: "Migration",
+                answer:
+                  "Incremental migration strategy: 1) Start with high-value SEO pages: Homepage → SSG (easiest win), blog posts → SSG + ISR, product pages → SSG + ISR. Keep existing CSR pages working. 2) Add data fetching gradually: Begin with getStaticProps for simple pages (just static data), move to getStaticPaths for dynamic routes (more complex), finally tackle getServerSideProps for auth pages. 3) Handle hybrid pages: Keep client-side fetching for user-specific parts, use SSG for public shell, gradually move more to server. 4) Migration steps per page: Identify data dependencies, create getStaticProps/getServerSideProps, test server rendering, verify hydration works, remove client-side fetch (if fully server-rendered), deploy behind feature flag. 5) Common challenges: Fixing browser API usage (window, localStorage), making props serializable, handling loading states for fallback, updating auth patterns. 6) Next.js specific: Can mix Pages Router and App Router in same app, migrate page by page, keep existing pages working during migration. Testing: Disable JavaScript to verify server rendering, check for hydration errors, measure Core Web Vitals improvement, monitor server load (SSR). Don't: Migrate everything at once (too risky), break existing functionality, ignore performance regression. Do: Measure impact, migrate incrementally, keep rollback plan.",
+              },
+              {
+                question: "What are advanced caching strategies for SSR pages?",
+                difficulty: "Advanced",
+                category: "Caching",
+                answer:
+                  "Advanced SSR caching patterns: 1) Stale-While-Revalidate: res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=3600'). Serves stale content for 1 hour while fetching fresh in background. Best for public content that updates occasionally. 2) Vary header for personalization: res.setHeader('Vary', 'Cookie'). Tells CDN to cache different versions per cookie value. Enables caching personalized content. 3) Edge caching with Cloudflare Workers: Cache at edge, bypass origin for repeat requests, manual cache invalidation via API. 4) Private caching for user-specific: res.setHeader('Cache-Control', 'private, max-age=300'). Caches in browser only, not CDN. 5) Conditional requests: Use ETag headers, return 304 Not Modified if content unchanged. 6) Tiered caching: CDN (1 min) → Origin cache (5 min) → Database. Multiple cache layers reduce database load. 7) Cache warming: Pre-populate cache for popular pages before traffic spike. 8) Selective caching: Cache some routes aggressively, others not at all based on update frequency. Implementation example: const cached = await cache.get(key); if (cached) return res.send(cached); const data = await fetchData(); cache.set(key, data, { ttl: 300 }); res.setHeader('Cache-Control', 'public, s-maxage=300'); res.send(data). Monitor: Cache hit rate, TTFB improvement, stale content served. Balance: Freshness vs performance.",
               },
             ],
+
             links: [
-              "https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering",
-              "https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation",
-              "https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths",
-              "https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration",
-              "https://nextjs.org/docs/app/building-your-application/rendering/server-components",
-              "https://react.dev/reference/react/Suspense",
-              "https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes",
-              "https://vercel.com/docs/concepts/next.js/incremental-static-regeneration",
-              "https://nextjs.org/docs/pages/building-your-application/authentication",
-              "https://nextjs.org/docs/app/building-your-application/caching",
+              "https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering - Next.js SSR documentation",
+              "https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation - Next.js SSG documentation",
+              "https://nextjs.org/docs/pages/building-your-application/data-fetching/get-static-paths - getStaticPaths API reference",
+              "https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration - ISR guide",
+              "https://nextjs.org/docs/app/building-your-application/rendering/server-components - React Server Components",
+              "https://react.dev/reference/react/Suspense - React Suspense documentation",
+              "https://nextjs.org/docs/app/building-your-application/rendering/edge-and-nodejs-runtimes - Edge vs Node.js runtimes",
+              "https://vercel.com/docs/concepts/next.js/incremental-static-regeneration - Vercel ISR guide",
+              "https://nextjs.org/docs/pages/building-your-application/authentication - Authentication patterns",
+              "https://nextjs.org/docs/app/building-your-application/caching - Next.js caching strategies",
+              "https://web.dev/rendering-on-the-web/ - Web.dev rendering patterns guide",
+              "https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config - Route segment config",
             ],
           },
           {
@@ -55764,7 +58151,7 @@ function withExtraInfo(WrappedComponent) {
 
   // Set displayName for React DevTools
   ComponentWithExtraInfo.displayName =
-    \`WithExtraInfo(\${WrappedComponent.displayName || WrappedComponent.name || 'Component'})\`;
+    \`WithExtraInfo(\$ {WrappedComponent.displayName || WrappedComponent.name || 'Component'})\`;
 
   return ComponentWithExtraInfo;
 }
@@ -55900,7 +58287,7 @@ function withAuth(WrappedComponent) {
   }
 
   AuthenticatedComponent.displayName =
-    \`WithAuth(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithAuth(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return AuthenticatedComponent;
 }
@@ -55928,7 +58315,7 @@ function withRoles(...allowedRoles) {
     }
 
     RoleGuard.displayName =
-      \`WithRoles([\${allowedRoles.join(', ')}])(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`WithRoles([\$ {allowedRoles.join(', ')}])(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return RoleGuard;
   };
@@ -55958,7 +58345,7 @@ function withFeatureFlag(flagName, FallbackComponent = null) {
     }
 
     FeatureFlagged.displayName =
-      \`WithFeatureFlag(\${flagName})(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`WithFeatureFlag(\$ {flagName})(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return FeatureFlagged;
   };
@@ -56023,7 +58410,7 @@ function withData(fetchFn, propName = 'data') {
     }
 
     DataFetcher.displayName =
-      \`WithData(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`WithData(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return DataFetcher;
   };
@@ -56049,7 +58436,7 @@ function withLoadingState(WrappedComponent, LoadingComponent = DefaultSpinner) {
   }
 
   WithLoading.displayName =
-    \`WithLoading(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithLoading(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return WithLoading;
 }
@@ -56089,7 +58476,7 @@ function withPagination(WrappedComponent) {
   }
 
   PaginatedComponent.displayName =
-    \`WithPagination(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithPagination(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return PaginatedComponent;
 }
@@ -56126,7 +58513,7 @@ function withRenamedProps(propMapping) {
     }
 
     RenamedProps.displayName =
-      \`WithRenamedProps(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`WithRenamedProps(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return RenamedProps;
   };
@@ -56147,7 +58534,7 @@ function withDefaultProps(defaultProps) {
     }
 
     WithDefaults.displayName =
-      \`WithDefaultProps(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`WithDefaultProps(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return WithDefaults;
   };
@@ -56172,7 +58559,7 @@ function withTheme(WrappedComponent) {
   }
 
   ThemedComponent.displayName =
-    \`WithTheme(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithTheme(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return ThemedComponent;
 }
@@ -56192,7 +58579,7 @@ function withOmittedProps(...propsToOmit) {
     }
 
     OmittedProps.displayName =
-      \`WithOmittedProps(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`WithOmittedProps(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return OmittedProps;
   };
@@ -56221,7 +58608,7 @@ function withTracking(eventName, eventData = {}) {
     }
 
     TrackedComponent.displayName =
-      \`WithTracking(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`WithTracking(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return TrackedComponent;
   };
@@ -56273,7 +58660,7 @@ function withFocus(WrappedComponent) {
   });
 
   FocusWrapper.displayName =
-    \`WithFocus(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithFocus(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return FocusWrapper;
 }
@@ -56311,7 +58698,7 @@ function withAuth(WrappedComponent) {
   hoistNonReactStatics(AuthWrapper, WrappedComponent);
 
   AuthWrapper.displayName =
-    \`WithAuth(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithAuth(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return AuthWrapper;
 }
@@ -56372,7 +58759,7 @@ function withWindowSize(WrappedComponent) {
   }
 
   WindowSizeWrapper.displayName =
-    \`WithWindowSize(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithWindowSize(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return WindowSizeWrapper;
 }
@@ -56520,7 +58907,7 @@ function withSomething(WrappedComponent) {
 
   // Standard pattern:
   EnhancedComponent.displayName =
-    \`WithSomething(\${WrappedComponent.displayName || WrappedComponent.name || 'Component'})\`;
+    \`WithSomething(\$ {WrappedComponent.displayName || WrappedComponent.name || 'Component'})\`;
 
   return EnhancedComponent;
 }
@@ -56600,7 +58987,7 @@ function withStyle(WrappedComponent) {
   // forwardRef creates an anonymous component by default
   // Must set displayName explicitly
   StyledComponent.displayName =
-    \`WithStyle(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithStyle(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return StyledComponent;
 }
@@ -56651,7 +59038,7 @@ function withErrorBoundary(WrappedComponent, FallbackComponent) {
   }
 
   ErrorBoundaryWrapper.displayName =
-    \`WithErrorBoundary(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithErrorBoundary(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return ErrorBoundaryWrapper;
 }
@@ -56687,7 +59074,7 @@ function connect(mapStateToProps, mapDispatchToProps) {
     }
 
     ConnectedComponent.displayName =
-      \`Connect(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`Connect(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return ConnectedComponent;
   };
@@ -56711,7 +59098,7 @@ function withDeepMemo(WrappedComponent) {
   const MemoizedComponent = React.memo(WrappedComponent, arePropsEqual);
 
   MemoizedComponent.displayName =
-    \`WithDeepMemo(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithDeepMemo(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return MemoizedComponent;
 }
@@ -56755,7 +59142,7 @@ function withRetry(WrappedComponent, maxRetries = 3) {
   }
 
   RetryWrapper.displayName =
-    \`WithRetry(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+    \`WithRetry(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
   return RetryWrapper;
 }
@@ -56773,7 +59160,7 @@ function createHOC(displayNamePrefix, useEnhancement) {
     }
 
     EnhancedComponent.displayName =
-      \`\${displayNamePrefix}(\${WrappedComponent.displayName || WrappedComponent.name})\`;
+      \`\$ {displayNamePrefix}(\$ {WrappedComponent.displayName || WrappedComponent.name})\`;
 
     return EnhancedComponent;
   };
@@ -57489,10 +59876,10 @@ function SignupForm() {
             value={fields[field]}
             onChange={handleChange(field)}
             aria-invalid={!!errors[field]}
-            aria-describedby={errors[field] ? \`\${field}-error\` : undefined}
+            aria-describedby={errors[field] ? \`\$ {field}-error\` : undefined}
           />
           {errors[field] && (
-            <span id={\`\${field}-error\`} role="alert" style={{ color: 'red' }}>
+            <span id={\`\$ {field}-error\`} role="alert" style={{ color: 'red' }}>
               {errors[field]}
             </span>
           )}
@@ -57661,7 +60048,7 @@ function TagsInput() {
           <input
             value={tag}
             onChange={e => handleTagChange(index, e.target.value)}
-            placeholder={\`Tag \${index + 1}\`}
+            placeholder={\`Tag \$ {index + 1}\`}
           />
           <button type="button" onClick={() => removeTag(index)} disabled={tags.length === 1}>
             Remove
@@ -57777,8 +60164,8 @@ function PhoneInput() {
     const digits = value.replace(/\D/g, '').slice(0, 10); // strip non-digits, max 10
 
     if (digits.length < 4) return digits;
-    if (digits.length < 7) return \`(\${digits.slice(0, 3)}) \${digits.slice(3)}\`;
-    return \`(\${digits.slice(0, 3)}) \${digits.slice(3, 6)}-\${digits.slice(6)}\`;
+    if (digits.length < 7) return \`(\$ {digits.slice(0, 3)}) \$ {digits.slice(3)}\`;
+    return \`(\$ {digits.slice(0, 3)}) \$ {digits.slice(3, 6)}-\$ {digits.slice(6)}\`;
   }
 
   return (
@@ -58710,7 +61097,7 @@ function Button({
       type={type}
       disabled={disabled || loading}
       onClick={onClick}
-      className={cn('btn', \`btn--\${variant}\`, \`btn--\${size}\`, { 'btn--loading': loading })}
+      className={cn('btn', \`btn--\$ {variant}\`, \`btn--\$ {size}\`, { 'btn--loading': loading })}
       aria-busy={loading}
       {...rest}
     >
@@ -58774,8 +61161,8 @@ function FormField({
   disabled,
   placeholder,
 }) {
-  const errorId = error ? \`\${id}-error\` : undefined;
-  const hintId  = hint  ? \`\${id}-hint\`  : undefined;
+  const errorId = error ? \`\$ {id}-error\` : undefined;
+  const hintId  = hint  ? \`\$ {id}-hint\`  : undefined;
   const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined;
 
   return (
@@ -58837,7 +61224,7 @@ function Tooltip({ children, content, placement = 'top' }) {
     >
       {React.cloneElement(children, { 'aria-describedby': id })}
       {visible && (
-        <span id={id} role="tooltip" className={\`tooltip tooltip--\${placement}\`}>
+        <span id={id} role="tooltip" className={\`tooltip tooltip--\$ {placement}\`}>
           {content}
         </span>
       )}
@@ -58868,7 +61255,7 @@ function ProductCard({ product, onAddToCart, onWishlist }) {
             className="product-card__wishlist"
             onClick={() => { setWished(w => !w); onWishlist?.(product.id, !wished); }}
             aria-pressed={wished}
-            aria-label={\`\${wished ? 'Remove' : 'Add'} \${product.name} \${wished ? 'from' : 'to'} wishlist\`}
+            aria-label={\`\$ {wished ? 'Remove' : 'Add'} \$ {product.name} \$ {wished ? 'from' : 'to'} wishlist\`}
           >
             <Icon name={wished ? 'heart-filled' : 'heart'} />
           </button>
@@ -58879,7 +61266,7 @@ function ProductCard({ product, onAddToCart, onWishlist }) {
           {product.inStock ? 'In Stock' : 'Out of Stock'}
         </Badge>
         <Text as="h3" variant="heading-sm">{product.name}</Text>
-        <Text variant="price">\${product.price.toFixed(2)}</Text>
+        <Text variant="price">\$ {product.price.toFixed(2)}</Text>
         {product.rating && <StarRating value={product.rating} count={product.reviewCount} />}
       </div>
       <div className="product-card__footer">
@@ -58887,7 +61274,7 @@ function ProductCard({ product, onAddToCart, onWishlist }) {
           variant="primary"
           disabled={!product.inStock}
           onClick={() => onAddToCart(product)}
-          aria-label={\`Add \${product.name} to cart\`}
+          aria-label={\`Add \$ {product.name} to cart\`}
         >
           Add to Cart
         </Button>
@@ -59072,7 +61459,7 @@ function BadButton({ children }) {
 // ✅ CORRECT — tokens via CSS variables
 function GoodButton({ children, variant = 'primary' }) {
   // Tokens applied via CSS classes that reference custom properties
-  return <button className={cn('btn', \`btn--\${variant}\`)}>{children}</button>;
+  return <button className={cn('btn', \`btn--\$ {variant}\`)}>{children}</button>;
   // .btn--primary { background: var(--color-brand-500); }
 }
 
@@ -59162,9 +61549,9 @@ function Tab({ id, children }) {
   return (
     <button
       role="tab"
-      id={\`tab-\${id}\`}
+      id={\`tab-\$ {id}\`}
       aria-selected={isActive}
-      aria-controls={\`panel-\${id}\`}
+      aria-controls={\`panel-\$ {id}\`}
       tabIndex={isActive ? 0 : -1}
       className={cn('tabs__tab', { 'tabs__tab--active': isActive })}
       onClick={() => selectTab(id)}
@@ -59181,8 +61568,8 @@ function TabPanel({ id, children }) {
   return (
     <div
       role="tabpanel"
-      id={\`panel-\${id}\`}
-      aria-labelledby={\`tab-\${id}\`}
+      id={\`panel-\$ {id}\`}
+      aria-labelledby={\`tab-\$ {id}\`}
       hidden={activeTab !== id}
       className="tabs__panel"
     >
@@ -59250,16 +61637,16 @@ function AccordionItem({ id, title, children }) {
         className="accordion__trigger"
         onClick={() => toggle(id)}
         aria-expanded={isOpen}
-        aria-controls={\`accordion-panel-\${id}\`}
-        id={\`accordion-trigger-\${id}\`}
+        aria-controls={\`accordion-panel-\$ {id}\`}
+        id={\`accordion-trigger-\$ {id}\`}
       >
         {title}
         <Icon name={isOpen ? 'chevron-up' : 'chevron-down'} aria-hidden />
       </button>
       <div
-        id={\`accordion-panel-\${id}\`}
+        id={\`accordion-panel-\$ {id}\`}
         role="region"
-        aria-labelledby={\`accordion-trigger-\${id}\`}
+        aria-labelledby={\`accordion-trigger-\$ {id}\`}
         hidden={!isOpen}
         className="accordion__panel"
       >
@@ -59333,7 +61720,7 @@ function useCombobox({ options, onSelect }) {
       'aria-expanded': isOpen,
       'aria-autocomplete': 'list',
       'aria-controls': listId,
-      'aria-activedescendant': activeIndex >= 0 ? \`option-\${activeIndex}\` : undefined,
+      'aria-activedescendant': activeIndex >= 0 ? \`option-\$ {activeIndex}\` : undefined,
       onChange: e => { setInputValue(e.target.value); setIsOpen(true); setActiveIndex(-1); },
       onFocus: () => setIsOpen(true),
       onBlur:  () => setTimeout(() => setIsOpen(false), 150),
@@ -59347,7 +61734,7 @@ function useCombobox({ options, onSelect }) {
 
   function getOptionProps(index) {
     return {
-      id: \`option-\${index}\`,
+      id: \`option-\$ {index}\`,
       role: 'option',
       'aria-selected': activeIndex === index,
       onMouseDown: () => {
@@ -59578,7 +61965,7 @@ const BUTTON_SIZES = {
 
 function Text({ as: Component = 'p', children, variant, className, ...rest }) {
   return (
-    <Component className={cn('text', variant && \`text--\${variant}\`, className)} {...rest}>
+    <Component className={cn('text', variant && \`text--\$ {variant}\`, className)} {...rest}>
       {children}
     </Component>
   );
@@ -59668,7 +62055,7 @@ function AutoFocusForm() {
 
 // ✅ Atoms have no state — only props
 function Badge({ children, variant }) {
-  return <span className={\`badge badge--\${variant}\`}>{children}</span>;
+  return <span className={\`badge badge--\$ {variant}\`}>{children}</span>;
 }
 
 // ——————————————————————————
@@ -59863,7 +62250,7 @@ function BadButton({ productId, quantity }) {
 
 // ✅ Atom is purely presentational; the organism passes the handler
 function AtomButton({ onClick, children, variant }) {
-  return <button onClick={onClick} className={cn('btn', \`btn--\${variant}\`)}>{children}</button>;
+  return <button onClick={onClick} className={cn('btn', \`btn--\$ {variant}\`)}>{children}</button>;
 }
 
 function AddToCartOrganism({ product }) {
@@ -60503,7 +62890,7 @@ module.exports = {
             const packageName = module.context.match(
               /[\\/]node_modules[\\/](.*?)([\\/]|$)/
             )[1];
-            return \`npm.\${packageName.replace('@', '')}\`;
+            return \`npm.\$ {packageName.replace('@', '')}\`;
           }
         }
       }
@@ -60533,7 +62920,7 @@ const marked = require('marked');
 
 module.exports = function(source) {
   const html = marked(source);
-  return \`module.exports = \${JSON.stringify(html)}\`;
+  return \`module.exports = \$ {JSON.stringify(html)}\`;
 };
 
 // webpack.config.js
@@ -60993,7 +63380,7 @@ function PessimisticLikeButton({ postId, initialLikes }) {
 
   return (
     <button onClick={handleLike} disabled={loading}>
-      {loading ? '...' : \`❤️ \${likes}\`}
+      {loading ? '...' : \`❤️ \$ {likes}\`}
     </button>
   );
 }
@@ -61306,7 +63693,7 @@ function useAddTodo() {
     onError: (err, newTodo, context) => {
       // Roll back to snapshot on failure
       queryClient.setQueryData(['todos'], context.previousTodos);
-      showToast(\`Failed to add "\${newTodo.title}". Please try again.\`);
+      showToast(\`Failed to add "\$ {newTodo.title}". Please try again.\`);
     },
 
     onSettled: () => {
@@ -61344,7 +63731,7 @@ function useToggleTodo() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, completed }) => api.patch(\`/todos/\${id}\`, { completed }),
+    mutationFn: ({ id, completed }) => api.patch(\`/todos/\$ {id}\`, { completed }),
 
     onMutate: async ({ id, completed }) => {
       await queryClient.cancelQueries({ queryKey: ['todos'] });
@@ -61395,7 +63782,7 @@ function useDeleteTodo() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id) => api.delete(\`/todos/\${id}\`),
+    mutationFn: (id) => api.delete(\`/todos/\$ {id}\`),
 
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['todos'] });
@@ -61428,7 +63815,7 @@ function useUpdatePost() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, ...updates }) => api.patch(\`/posts/\${id}\`, updates),
+    mutationFn: ({ id, ...updates }) => api.patch(\`/posts/\$ {id}\`, updates),
 
     onMutate: async ({ id, ...updates }) => {
       // Cancel both list and detail queries
@@ -61692,7 +64079,7 @@ function useOptimisticToggle(id) {
   const pendingCount = useRef(0);
 
   return useMutation({
-    mutationFn: (completed) => api.patch(\`/todos/\${id}\`, { completed }),
+    mutationFn: (completed) => api.patch(\`/todos/\$ {id}\`, { completed }),
 
     onMutate: async (completed) => {
       pendingCount.current += 1;
@@ -61742,7 +64129,7 @@ function useUpdateTitle(id) {
       abortControllerRef.current = new AbortController();
 
       return api.patch(
-        \`/items/\${id}\`,
+        \`/items/\$ {id}\`,
         { title },
         { signal: abortControllerRef.current.signal }
       );
@@ -61777,7 +64164,7 @@ function useSequencedMutation(id) {
   const sequenceRef = useRef(0);
 
   return useMutation({
-    mutationFn: (data) => api.patch(\`/items/\${id}\`, data),
+    mutationFn: (data) => api.patch(\`/items/\$ {id}\`, data),
 
     onMutate: async (data) => {
       const sequence = ++sequenceRef.current;
@@ -61825,7 +64212,7 @@ function useSoftDelete() {
   const pendingDeletes = useRef(new Map()); // id → timeout ID
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => api.delete(\`/items/\${id}\`),
+    mutationFn: (id) => api.delete(\`/items/\$ {id}\`),
 
     onError: (err, id, context) => {
       queryClient.setQueryData(['items'], context.previous);
@@ -61898,7 +64285,7 @@ function UndoToast({ message, onUndo, duration = 5000 }) {
       <button onClick={onUndo} className="undo-toast__undo">Undo</button>
       <div
         className="undo-toast__progress"
-        style={{ width: \`\${progress}%\` }}
+        style={{ width: \`\$ {progress}%\` }}
         role="progressbar"
         aria-valuenow={remaining}
         aria-valuemax={duration}
@@ -61951,10 +64338,10 @@ function TaskManager() {
     const previous = queryClient.getQueryData(['tasks']);
 
     execute({
-      description: \`Delete "\${task.title}"\`,
+      description: \`Delete "\$ {task.title}"\`,
       action: () => {
         queryClient.setQueryData(['tasks'], (old = []) => old.filter(t => t.id !== task.id));
-        api.delete(\`/tasks/\${task.id}\`).catch(() => {
+        api.delete(\`/tasks/\$ {task.id}\`).catch(() => {
           queryClient.setQueryData(['tasks'], previous);
           showToast('Delete failed');
         });
@@ -63529,7 +65916,7 @@ function UserProfileFixed2({ userId }) {
   useEffect(() => {
     const controller = new AbortController();
     
-    fetch(\`/api/users/\${userId}\`, { signal: controller.signal })
+    fetch(\`/api/users/\$ {userId}\`, { signal: controller.signal })
       .then(res => res.json())
       .then(data => setUser(data))
       .catch(error => {
@@ -64129,14 +66516,14 @@ if (process.env.NODE_ENV === 'development') {
   
   function trackMount(componentName) {
     mountedComponents.add(componentName);
-    console.log(\`Mounted: \${componentName}\`);
-    console.log(\`Total mounted: \${mountedComponents.size}\`);
+    console.log(\`Mounted: \$ {componentName}\`);
+    console.log(\`Total mounted: \$ {mountedComponents.size}\`);
   }
   
   function trackUnmount(componentName) {
     mountedComponents.delete(componentName);
-    console.log(\`Unmounted: \${componentName}\`);
-    console.log(\`Total mounted: \${mountedComponents.size}\`);
+    console.log(\`Unmounted: \$ {componentName}\`);
+    console.log(\`Total mounted: \$ {mountedComponents.size}\`);
   }
   
   // Use in components
@@ -64194,7 +66581,7 @@ function Component() {
 function ProfiledComponent() {
   return (
     <Profiler id="MyComponent" onRender={(id, phase, actualDuration) => {
-      console.log(\`\${id} (\${phase}) took \${actualDuration}ms\`);
+      console.log(\`\$ {id} (\$ {phase}) took \$ {actualDuration}ms\`);
     }}>
       <MyComponent />
     </Profiler>
@@ -64211,12 +66598,12 @@ function useLeakDetector(componentName) {
     
     return () => {
       const lifetime = Date.now() - mountTimeRef.current;
-      console.log(\`\${componentName} stats:\`);
-      console.log(\`  Lifetime: \${lifetime}ms\`);
-      console.log(\`  Renders: \${renderCountRef.current}\`);
+      console.log(\`\$ {componentName} stats:\`);
+      console.log(\`  Lifetime: \$ {lifetime}ms\`);
+      console.log(\`  Renders: \$ {renderCountRef.current}\`);
       
       if (renderCountRef.current > 100) {
-        console.warn(\`\${componentName} rendered many times\`);
+        console.warn(\`\$ {componentName} rendered many times\`);
       }
     };
   });
@@ -64301,7 +66688,7 @@ function Component({ id }) {
   useEffect(() => {
     const controller = new AbortController();
     
-    fetch(\`/api/data/\${id}\`, { signal: controller.signal })
+    fetch(\`/api/data/\$ {id}\`, { signal: controller.signal })
       .then(res => res.json())
       .then(setData)
       .catch(err => {
@@ -102461,9 +104848,9 @@ pnpm dev          # spins up web & storybook concurrently
           // Basic usage
           const fetchUserData = async (userId) => {
             const [user, posts, comments] = await Promise.all([
-              fetch(\`/api/users/\${userId}\`).then(r => r.json()),
-              fetch(\`/api/users/\${userId}/posts\`).then(r => r.json()),
-              fetch(\`/api/users/\${userId}/comments\`).then(r => r.json())
+              fetch(\`/api/users/\$ {userId}\`).then(r => r.json()),
+              fetch(\`/api/users/\$ {userId}/posts\`).then(r => r.json()),
+              fetch(\`/api/users/\$ {userId}/comments\`).then(r => r.json())
             ]);
             
             return { user, posts, comments };
@@ -102489,7 +104876,7 @@ pnpm dev          # spins up web & storybook concurrently
           // Parallel processing with mapping
           const fetchMultipleUsers = async (userIds) => {
             const users = await Promise.all(
-              userIds.map(id => fetch(\`/api/users/\${id}\`).then(r => r.json()))
+              userIds.map(id => fetch(\`/api/users/\$ {id}\`).then(r => r.json()))
             );
             return users;
           };
@@ -102657,7 +105044,7 @@ pnpm dev          # spins up web & storybook concurrently
           // Generic timeout wrapper
           const withTimeout = (promise, ms) => {
             const timeout = new Promise((_, reject) => {
-              setTimeout(() => reject(new Error(\`Timeout after \${ms}ms\`)), ms);
+              setTimeout(() => reject(new Error(\`Timeout after \$ {ms}ms\`)), ms);
             });
             return Promise.race([promise, timeout]);
           };
@@ -102790,7 +105177,7 @@ pnpm dev          # spins up web & storybook concurrently
                   duration: Date.now() - start
                 };
               } catch (error) {
-                throw new Error(\`\${source.name} failed: \${error.message}\`);
+                throw new Error(\`\$ {source.name} failed: \$ {error.message}\`);
               }
             });
             
@@ -102807,13 +105194,13 @@ pnpm dev          # spins up web & storybook concurrently
           const loadResource = async (resourceId) => {
             return Promise.any([
               // Try CDN first
-              fetch(\`https://cdn.example.com/\${resourceId}\`)
+              fetch(\`https://cdn.example.com/\$ {resourceId}\`)
                 .then(r => r.blob())
                 .then(blob => ({ source: 'cdn', blob })),
               
               // Fallback to main server
               new Promise(resolve => setTimeout(resolve, 100))
-                .then(() => fetch(\`https://api.example.com/\${resourceId}\`))
+                .then(() => fetch(\`https://api.example.com/\$ {resourceId}\`))
                 .then(r => r.blob())
                 .then(blob => ({ source: 'api', blob })),
               
@@ -102895,7 +105282,7 @@ pnpm dev          # spins up web & storybook concurrently
           };
 
           // Usage
-          const urls = Array(100).fill(0).map((_, i) => \`/api/item/\${i}\`);
+          const urls = Array(100).fill(0).map((_, i) => \`/api/item/\$ {i}\`);
           const tasks = urls.map(url => () => fetch(url).then(r => r.json()));
           const results = await withConcurrencyLimit(tasks, 5); // Max 5 concurrent
 
@@ -102947,7 +105334,7 @@ pnpm dev          # spins up web & storybook concurrently
                 try {
                   const response = await fetch(url);
                   if (!response.ok) {
-                    throw new Error(\`HTTP \${response.status}\`);
+                    throw new Error(\`HTTP \$ {response.status}\`);
                   }
                   return await response.json();
                 } catch (error) {
@@ -102967,13 +105354,13 @@ pnpm dev          # spins up web & storybook concurrently
             for (let i = 0; i < maxRetries; i++) {
               try {
                 const response = await fetch(url);
-                if (!response.ok) throw new Error(\`HTTP \${response.status}\`);
+                if (!response.ok) throw new Error(\`HTTP \$ {response.status}\`);
                 return await response.json();
               } catch (error) {
                 if (i === maxRetries - 1) throw error;
                 
                 const delay = baseDelay * Math.pow(2, i);
-                console.log(\`Retry \${i + 1}/\${maxRetries} after \${delay}ms\`);
+                console.log(\`Retry \$ {i + 1}/\$ {maxRetries} after \$ {delay}ms\`);
                 await new Promise(resolve => setTimeout(resolve, delay));
               }
             }
@@ -103038,11 +105425,11 @@ pnpm dev          # spins up web & storybook concurrently
                 return await fetch(endpoint.url).then(r => r.json());
               } catch (error) {
                 errors.push({ endpoint: endpoint.name, error: error.message });
-                console.log(\`Failed: \${endpoint.name}, trying next...\`);
+                console.log(\`Failed: \$ {endpoint.name}, trying next...\`);
               }
             }
             
-            throw new Error(\`All endpoints failed: \${JSON.stringify(errors)}\`);
+            throw new Error(\`All endpoints failed: \$ {JSON.stringify(errors)}\`);
           };
 
           // Pattern 5: Partial failure handling
@@ -103300,9 +105687,9 @@ pnpm dev          # spins up web & storybook concurrently
           // Example 3: GraphQL-style data fetching
           const fetchDashboard = async (userId) => {
             const results = await Promise.allSettled([
-              fetch(\`/api/users/\${userId}\`).then(r => r.json()),
-              fetch(\`/api/users/\${userId}/posts\`).then(r => r.json()),
-              fetch(\`/api/users/\${userId}/analytics\`).then(r => r.json()),
+              fetch(\`/api/users/\$ {userId}\`).then(r => r.json()),
+              fetch(\`/api/users/\$ {userId}/posts\`).then(r => r.json()),
+              fetch(\`/api/users/\$ {userId}/analytics\`).then(r => r.json()),
               fetch(\`/api/notifications\`).then(r => r.json())
             ]);
             
