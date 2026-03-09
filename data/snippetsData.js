@@ -9,7 +9,7 @@ export const snippetsData = [
     type: [
       {
         id: 1,
-        label: "SQL vs NoSQL",
+        label: "Snippets",
         concepts: [
           {
             topic: "SQL vs NoSQL",
@@ -729,7 +729,7 @@ class ApiClient {
     // Add access token to request
     options.headers = {
       ...options.headers,
-      'Authorization': \`Bearer \${this.accessToken}\`
+      'Authorization': \`Bearer \$ {this.accessToken}\`
     };
     
     let response = await fetch(url, options);
@@ -740,7 +740,7 @@ class ApiClient {
       
       if (refreshed) {
         // Retry original request with new token
-        options.headers['Authorization'] = \`Bearer \${this.accessToken}\`;
+        options.headers['Authorization'] = \`Bearer \$ {this.accessToken}\`;
         response = await fetch(url, options);
       } else {
         // Refresh failed - redirect to login
@@ -836,7 +836,7 @@ const requireRole = (allowedRoles) => {
     if (!hasRole) {
       return res.status(403).json({ 
         error: 'Forbidden',
-        message: \`Requires one of: \${allowedRoles.join(', ')}\`
+        message: \`Requires one of: \$ {allowedRoles.join(', ')}\`
       });
     }
     
@@ -902,7 +902,7 @@ class RBACService {
       if (!hasPermission) {
         return res.status(403).json({ 
           error: 'Forbidden',
-          message: \`Requires permission: \${permission}\`
+          message: \`Requires permission: \$ {permission}\`
         });
       }
       
@@ -939,7 +939,7 @@ const hasWildcardPermission = (userPermissions, required) => {
   // 'posts:*' grants 'posts:create', 'posts:edit', etc.
   const [resource, action] = required.split(':');
   
-  if (userPermissions.includes(\`\${resource}:*\`)) {
+  if (userPermissions.includes(\`\$ {resource}:*\`)) {
     return true;
   }
   
@@ -1244,7 +1244,7 @@ class ReBAC {
         const teamAccess = await this.db.relations.findOne({
           object,
           relation,
-          subject: \`team:\${team}\`
+          subject: \`team:\$ {team}\`
         });
         
         if (teamAccess) return true;
@@ -1321,8 +1321,8 @@ const requireReBAC = (relation) => {
   return async (req, res, next) => {
     const objectType = req.baseUrl.split('/')[2];  // e.g., 'documents'
     const objectId = req.params.id;
-    const object = \`\${objectType}:\${objectId}\`;
-    const subject = \`user:\${req.user.id}\`;
+    const object = \`\$ {objectType}:\$ {objectId}\`;
+    const subject = \`user:\$ {req.user.id}\`;
     
     const hasAccess = await rebac.check(object, relation, subject);
     
@@ -1516,7 +1516,7 @@ app.get('/api/user/drive-files', authenticate, async (req, res) => {
     'https://www.googleapis.com/drive/v3/files',
     {
       headers: {
-        'Authorization': \`Bearer \${oauthToken.accessToken}\`
+        'Authorization': \`Bearer \$ {oauthToken.accessToken}\`
       }
     }
   );
@@ -1586,7 +1586,7 @@ const clientCredentialsFlow = async () => {
 const getUserInfo = async (accessToken) => {
   const response = await fetch('https://accounts.google.com/userinfo', {
     headers: {
-      'Authorization': \`Bearer \${accessToken}\`
+      'Authorization': \`Bearer \$ {accessToken}\`
     }
   });
   
@@ -1663,7 +1663,7 @@ class TokenBlacklist {
     if (ttl > 0) {
       // Store token ID until expiration
       await this.redis.set(
-        \`blacklist:\${decoded.jti}\`,
+        \`blacklist:\$ {decoded.jti}\`,
         'revoked',
         'EX',
         ttl
@@ -1673,7 +1673,7 @@ class TokenBlacklist {
   
   async isRevoked(token) {
     const decoded = jwt.decode(token);
-    const revoked = await this.redis.get(\`blacklist:\${decoded.jti}\`);
+    const revoked = await this.redis.get(\`blacklist:\$ {decoded.jti}\`);
     return revoked === 'revoked';
   }
 }
@@ -1774,7 +1774,7 @@ class SlidingSession {
     
     // Store session in Redis with 30 min TTL
     await this.redis.set(
-      \`session:\${sessionId}\`,
+      \`session:\$ {sessionId}\`,
       JSON.stringify({ userId, createdAt: Date.now() }),
       'EX',
       30 * 60
@@ -1787,20 +1787,20 @@ class SlidingSession {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
     // Check if session exists in Redis
-    const session = await this.redis.get(\`session:\${decoded.sid}\`);
+    const session = await this.redis.get(\`session:\$ {decoded.sid}\`);
     
     if (!session) {
       throw new Error('Session expired or revoked');
     }
     
     // Extend session TTL on activity (sliding window)
-    await this.redis.expire(\`session:\${decoded.sid}\`, 30 * 60);
+    await this.redis.expire(\`session:\$ {decoded.sid}\`, 30 * 60);
     
     return JSON.parse(session);
   }
   
   async revoke(sessionId) {
-    await this.redis.del(\`session:\${sessionId}\`);
+    await this.redis.del(\`session:\$ {sessionId}\`);
   }
 }
       </code></pre>
@@ -1860,10 +1860,10 @@ app.delete('/api/files/:id', authenticate, async (req, res) => {
 // ❌ Bad: Service A's credentials used
 const deleteFile = async (fileId) => {
   // Service A has admin credentials
-  await fetch(\`http://file-service/files/\${fileId}\`, {
+  await fetch(\`http://file-service/files/\$ {fileId}\`, {
     method: 'DELETE',
     headers: {
-      'Authorization': \`Bearer \${SERVICE_A_TOKEN}\`  // ❌ Admin token
+      'Authorization': \`Bearer \$ {SERVICE_A_TOKEN}\`  // ❌ Admin token
     }
   });
 };
@@ -1871,10 +1871,10 @@ const deleteFile = async (fileId) => {
 // ✅ Good: User's token delegated
 const deleteFile = async (fileId, userToken) => {
   // Pass through user's token
-  await fetch(\`http://file-service/files/\${fileId}\`, {
+  await fetch(\`http://file-service/files/\$ {fileId}\`, {
     method: 'DELETE',
     headers: {
-      'Authorization': \`Bearer \${userToken}\`,  // ✅ User's token
+      'Authorization': \`Bearer \$ {userToken}\`,  // ✅ User's token
       'X-Service-Identity': SERVICE_A_TOKEN       // Service's identity
     }
   });
@@ -1933,11 +1933,11 @@ class ProgressiveRateLimiter {
   }
   
   async checkAndDelay(key) {
-    const attempts = await this.redis.incr(\`attempts:\${key}\`);
+    const attempts = await this.redis.incr(\`attempts:\$ {key}\`);
     
     if (attempts === 1) {
       // Set expiration on first attempt
-      await this.redis.expire(\`attempts:\${key}\`, 15 * 60);
+      await this.redis.expire(\`attempts:\$ {key}\`, 15 * 60);
     }
     
     if (attempts > 5) {
@@ -1960,7 +1960,7 @@ class AccountLockout {
   }
   
   async recordFailedAttempt(username) {
-    const key = \`failed:\${username}\`;
+    const key = \`failed:\$ {username}\`;
     const attempts = await this.redis.incr(key);
     
     if (attempts === 1) {
@@ -1986,7 +1986,7 @@ class AccountLockout {
   }
   
   async clearFailedAttempts(username) {
-    await this.redis.del(\`failed:\${username}\`);
+    await this.redis.del(\`failed:\$ {username}\`);
   }
   
   async isLocked(username) {
@@ -2103,7 +2103,7 @@ const safeCompare = (a, b) => {
 
 // ❌ Pitfall 3: SQL injection in authentication
 const sqlInjectionVulnerable = async (username, password) => {
-  const query = \`SELECT * FROM users WHERE username = '\${username}' AND password = '\${password}'\`;
+  const query = \`SELECT * FROM users WHERE username = '\$ {username}' AND password = '\$ {password}'\`;
   // ❌ Attacker can use: username = "admin'--"
   const result = await db.query(query);
   return result.rows[0];
@@ -2396,7 +2396,7 @@ app.post('/login', async (req, res) => {
                 difficulty: "Advanced",
                 category: "JWT",
                 answer:
-                  "Logout with JWTs is challenging due to stateless nature. Strategies: 1) Client-side logout: Delete token from storage. Simple but token still valid if intercepted. Only for low-security apps. Implementation: localStorage.removeItem('token'). 2) Short expiration: Use 5-15min access tokens. Delete refresh token on logout. Token remains valid max 15min but can't get new one. Implementation: DELETE FROM refresh_tokens WHERE user_id = ? AND token = ?. 3) Token blacklist: Add JWT ID to Redis blacklist on logout. Check blacklist in middleware. Implementation: On logout: redis.setex(\`blacklist:\${jti}\`, ttl, 'revoked'). In middleware: if (await redis.exists(\`blacklist:\${jti}\`)) reject. TTL matches token expiration. 4) Token versioning: Increment user's token version on logout. Reject tokens with old version. Implementation: On logout: UPDATE users SET token_version = token_version + 1 WHERE id = ?. In middleware: if (decoded.version !== user.token_version) reject. 5) Logout all devices: Delete all refresh tokens for user. Implementation: DELETE FROM refresh_tokens WHERE user_id = ?. Access tokens expire naturally. Best practice: Combine approaches - Short access tokens (15min), Long refresh tokens (stored server-side), On logout: Delete refresh token + blacklist current access token if needed, On 'logout all': Delete all refresh tokens + increment version. Additional security: Clear all client storage (localStorage, cookies, sessionStorage), redirect to login page, show logout confirmation, log logout events for audit, support remote logout (user can logout other sessions), implement idle timeout (auto-logout after inactivity), consider requiring re-authentication for sensitive actions after certain time.",
+                  "Logout with JWTs is challenging due to stateless nature. Strategies: 1) Client-side logout: Delete token from storage. Simple but token still valid if intercepted. Only for low-security apps. Implementation: localStorage.removeItem('token'). 2) Short expiration: Use 5-15min access tokens. Delete refresh token on logout. Token remains valid max 15min but can't get new one. Implementation: DELETE FROM refresh_tokens WHERE user_id = ? AND token = ?. 3) Token blacklist: Add JWT ID to Redis blacklist on logout. Check blacklist in middleware. Implementation: On logout: redis.setex(\`blacklist:\$ {jti}\`, ttl, 'revoked'). In middleware: if (await redis.exists(\`blacklist:\$ {jti}\`)) reject. TTL matches token expiration. 4) Token versioning: Increment user's token version on logout. Reject tokens with old version. Implementation: On logout: UPDATE users SET token_version = token_version + 1 WHERE id = ?. In middleware: if (decoded.version !== user.token_version) reject. 5) Logout all devices: Delete all refresh tokens for user. Implementation: DELETE FROM refresh_tokens WHERE user_id = ?. Access tokens expire naturally. Best practice: Combine approaches - Short access tokens (15min), Long refresh tokens (stored server-side), On logout: Delete refresh token + blacklist current access token if needed, On 'logout all': Delete all refresh tokens + increment version. Additional security: Clear all client storage (localStorage, cookies, sessionStorage), redirect to login page, show logout confirmation, log logout events for audit, support remote logout (user can logout other sessions), implement idle timeout (auto-logout after inactivity), consider requiring re-authentication for sensitive actions after certain time.",
               },
             ],
 
@@ -2698,7 +2698,7 @@ class ParticipantNode {
     // Release locks
     await this.unlockResources(transaction);
     
-    console.log(\`Node \${this.id}: Transaction committed\`);
+    console.log(\`Node \$ {this.id}: Transaction committed\`);
   }
   
   async abort(transaction) {
@@ -2711,7 +2711,7 @@ class ParticipantNode {
     // Release locks
     await this.unlockResources(transaction);
     
-    console.log(\`Node \${this.id}: Transaction aborted\`);
+    console.log(\`Node \$ {this.id}: Transaction aborted\`);
   }
 }
 
@@ -2787,10 +2787,10 @@ class EventuallyConsistentFeed {
       .forEach(async (node) => {
         try {
           await node.write(postId, post);
-          console.log(\`Replicated to \${node.id}\`);
+          console.log(\`Replicated to \$ {node.id}\`);
         } catch (error) {
           // If replication fails, retry later
-          console.error(\`Replication failed to \${node.id}: \${error}\`);
+          console.error(\`Replication failed to \$ {node.id}: \$ {error}\`);
           this.retryQueue.push({ node, postId, post });
         }
       });
@@ -3042,8 +3042,8 @@ class HighlyAvailableService {
       const primaryHealthy = await this.primaryDataCenter.isHealthy();
       const secondaryHealthy = await this.secondaryDataCenter.isHealthy();
       
-      console.log(\`Primary: \${primaryHealthy ? 'UP' : 'DOWN'}\`);
-      console.log(\`Secondary: \${secondaryHealthy ? 'UP' : 'DOWN'}\`);
+      console.log(\`Primary: \$ {primaryHealthy ? 'UP' : 'DOWN'}\`);
+      console.log(\`Secondary: \$ {secondaryHealthy ? 'UP' : 'DOWN'}\`);
     }, this.healthCheckInterval);
   }
   
@@ -3144,7 +3144,7 @@ class MultiMasterCluster {
         await master.write(key, value);
       } catch (error) {
         // Log but don't fail the write
-        console.error(\`Replication to \${master.id} failed: \${error}\`);
+        console.error(\`Replication to \$ {master.id} failed: \$ {error}\`);
       }
     });
   }
@@ -3245,7 +3245,7 @@ class CircuitBreaker {
     this.lastFailureTime = Date.now();
     
     if (this.failures >= this.failureThreshold) {
-      console.log(\`Circuit breaker: Tripped (OPEN) - \${this.failures} failures\`);
+      console.log(\`Circuit breaker: Tripped (OPEN) - \$ {this.failures} failures\`);
       this.state = 'OPEN';
     }
   }
@@ -3319,8 +3319,8 @@ class SplitBrainPrevention {
       return true;
     }
     
-    console.log(\`Only \${reachableCount}/\${this.nodes.length} nodes reachable\`);
-    console.log(\`Need \${this.minimumQuorum} for quorum - rejecting writes\`);
+    console.log(\`Only \$ {reachableCount}/\$ {this.nodes.length} nodes reachable\`);
+    console.log(\`Need \$ {this.minimumQuorum} for quorum - rejecting writes\`);
     return false;
   }
   
@@ -3398,14 +3398,14 @@ class PartitionDetector {
   }
   
   onPartitionDetected(node) {
-    console.log(\`⚠️  PARTITION DETECTED: Node \${node.id} unreachable\`);
+    console.log(\`⚠️  PARTITION DETECTED: Node \$ {node.id} unreachable\`);
     
     // Trigger partition handling
     this.handlePartition(node);
   }
   
   onPartitionHealed(node) {
-    console.log(\`✅ PARTITION HEALED: Node \${node.id} recovered\`);
+    console.log(\`✅ PARTITION HEALED: Node \$ {node.id} recovered\`);
     
     // Trigger reconciliation
     this.reconcileData(node);
@@ -3423,7 +3423,7 @@ class PartitionDetector {
   }
   
   async reconcileData(recoveredNode) {
-    console.log(\`Reconciling data for \${recoveredNode.id}...\`);
+    console.log(\`Reconciling data for \$ {recoveredNode.id}...\`);
     
     // Get all keys that diverged during partition
     const divergentKeys = this.getDivergentKeys(recoveredNode);
@@ -3460,7 +3460,7 @@ class CPDuringPartition {
     
     if (availableNodes.length < quorum) {
       // Cannot achieve quorum - REJECT write
-      throw new Error(\`Cannot write - only \${availableNodes.length}/\${quorum} nodes available\`);
+      throw new Error(\`Cannot write - only \$ {availableNodes.length}/\$ {quorum} nodes available\`);
     }
     
     // Quorum available - proceed with write
@@ -3483,7 +3483,7 @@ class CPDuringPartition {
     
     if (availableNodes.length < quorum) {
       // Cannot achieve quorum - REJECT read
-      throw new Error(\`Cannot read - only \${availableNodes.length}/\${quorum} nodes available\`);
+      throw new Error(\`Cannot read - only \$ {availableNodes.length}/\$ {quorum} nodes available\`);
     }
     
     // Read from quorum
@@ -3554,7 +3554,7 @@ class APDuringPartition {
         await node.write(key, value);
       } catch {
         // Log failure but don't throw - availability first
-        console.log(\`Replication to \${node.id} failed - will retry later\`);
+        console.log(\`Replication to \$ {node.id} failed - will retry later\`);
       }
     });
   }
@@ -3830,10 +3830,10 @@ class PaymentService {
     }
     
     // 2. Check if we've seen this request before
-    const cached = await this.redis.get(\`payment:\${idempotencyKey}\`);
+    const cached = await this.redis.get(\`payment:\$ {idempotencyKey}\`);
     
     if (cached) {
-      console.log(\`Duplicate request detected: \${idempotencyKey}\`);
+      console.log(\`Duplicate request detected: \$ {idempotencyKey}\`);
       
       // Return cached response (same as original)
       return response.status(200).json({
@@ -3843,7 +3843,7 @@ class PaymentService {
     }
     
     // 3. Check if payment is in progress
-    const lockKey = \`payment-lock:\${idempotencyKey}\`;
+    const lockKey = \`payment-lock:\$ {idempotencyKey}\`;
     const lock = await this.redis.set(lockKey, '1', 'NX', 'EX', 60);
     
     if (!lock) {
@@ -3905,7 +3905,7 @@ class PaymentService {
       };
       
       await this.redis.setex(
-        \`payment:\${idempotencyKey}\`,
+        \`payment:\$ {idempotencyKey}\`,
         86400,  // 24 hours
         JSON.stringify(result)
       );
@@ -3935,7 +3935,7 @@ class PaymentService {
         };
         
         await this.redis.setex(
-          \`payment:\${idempotencyKey}\`,
+          \`payment:\$ {idempotencyKey}\`,
           3600,  // 1 hour
           JSON.stringify(errorResult)
         );
@@ -3962,7 +3962,7 @@ class PaymentService {
     const { idempotencyKey } = request.params;
     
     // Check cache first
-    const cached = await this.redis.get(\`payment:\${idempotencyKey}\`);
+    const cached = await this.redis.get(\`payment:\$ {idempotencyKey}\`);
     if (cached) {
       return response.json(JSON.parse(cached));
     }
@@ -4037,7 +4037,7 @@ class OrderService {
         
         // Don't retry on client errors (bad card, etc.)
         if (response.status >= 400 && response.status < 500) {
-          throw new Error(\`Payment failed: \${result.message}\`);
+          throw new Error(\`Payment failed: \$ {result.message}\`);
         }
         
         // Retry on server errors
@@ -4234,7 +4234,7 @@ class CertificateAuthority {
       name: 'subjectAltName',
       altNames: [{
         type: 2, // DNS
-        value: \`\${serviceName}.internal\`
+        value: \`\$ {serviceName}.internal\`
       }, {
         type: 2,
         value: serviceName
@@ -4284,7 +4284,7 @@ class SecurePaymentService {
           validTo: cert.valid_to
         };
         
-        console.log(\`Authenticated service: \${req.serviceIdentity.commonName}\`);
+        console.log(\`Authenticated service: \$ {req.serviceIdentity.commonName}\`);
         next();
       } else {
         // Client certificate invalid or missing
@@ -4305,7 +4305,7 @@ class SecurePaymentService {
       } else {
         res.status(403).json({
           error: 'Forbidden',
-          message: \`Service '\${req.serviceIdentity.commonName}' not authorized\`
+          message: \`Service '\$ {req.serviceIdentity.commonName}' not authorized\`
         });
       }
     });
@@ -4318,7 +4318,7 @@ class SecurePaymentService {
   
   async processPayment(req, res) {
     // Service identity available in req.serviceIdentity
-    console.log(\`Payment request from: \${req.serviceIdentity.commonName}\`);
+    console.log(\`Payment request from: \$ {req.serviceIdentity.commonName}\`);
     
     // Process payment...
     res.json({ success: true });
@@ -4386,7 +4386,7 @@ class OrderServiceClient {
       });
       
       if (!response.ok) {
-        throw new Error(\`Payment failed: \${response.statusText}\`);
+        throw new Error(\`Payment failed: \$ {response.statusText}\`);
       }
       
       return await response.json();
@@ -4575,7 +4575,7 @@ class APIGateway {
       
       res.on('finish', () => {
         const duration = Date.now() - start;
-        console.log(\`\${req.method} \${req.path} \${res.statusCode} \${duration}ms\`);
+        console.log(\`\$ {req.method} \$ {req.path} \$ {res.statusCode} \$ {duration}ms\`);
       });
       
       next();
@@ -4686,7 +4686,7 @@ class APIGateway {
     const redis = new Redis();
     
     return async (req, res, next) => {
-      const key = \`ratelimit:\${req.user.id}:\${req.path}\`;
+      const key = \`ratelimit:\$ {req.user.id}:\$ {req.path}\`;
       const limit = 100; // requests per minute
       const window = 60; // seconds
       
@@ -4754,9 +4754,9 @@ class BFFGateway {
     this.app.get('/mobile/api/orders/:id', async (req, res) => {
       // Aggregate data from multiple services
       const [order, payment, shipping] = await Promise.all([
-        this.callService('order-service', \`/orders/\${req.params.id}\`),
-        this.callService('payment-service', \`/payments/order/\${req.params.id}\`),
-        this.callService('shipping-service', \`/tracking/\${req.params.id}\`)
+        this.callService('order-service', \`/orders/\$ {req.params.id}\`),
+        this.callService('payment-service', \`/payments/order/\$ {req.params.id}\`),
+        this.callService('shipping-service', \`/tracking/\$ {req.params.id}\`)
       ]);
       
       // Return minimal mobile-optimized response
@@ -4772,10 +4772,10 @@ class BFFGateway {
     this.app.get('/web/api/orders/:id', async (req, res) => {
       // Same services, richer response
       const [order, payment, shipping, items] = await Promise.all([
-        this.callService('order-service', \`/orders/\${req.params.id}\`),
-        this.callService('payment-service', \`/payments/order/\${req.params.id}\`),
-        this.callService('shipping-service', \`/tracking/\${req.params.id}\`),
-        this.callService('catalog-service', \`/items?ids=\${order.itemIds.join(',')}\`)
+        this.callService('order-service', \`/orders/\$ {req.params.id}\`),
+        this.callService('payment-service', \`/payments/order/\$ {req.params.id}\`),
+        this.callService('shipping-service', \`/tracking/\$ {req.params.id}\`),
+        this.callService('catalog-service', \`/items?ids=\$ {order.itemIds.join(',')}\`)
       ]);
       
       // Return full web response
@@ -4804,7 +4804,7 @@ class BFFGateway {
   }
   
   async callService(service, path) {
-    const response = await fetch(\`http://\${service}\${path}\`);
+    const response = await fetch(\`http://\$ {service}\$ {path}\`);
     return await response.json();
   }
 }
@@ -4949,19 +4949,19 @@ class CircuitBreakerGateway {
     
     try {
       return await breaker.execute(async () => {
-        const response = await fetch(\`http://\${serviceName}\${path}\`, {
+        const response = await fetch(\`http://\$ {serviceName}\$ {path}\`, {
           ...options,
           timeout: 3000
         });
         
         if (!response.ok) {
-          throw new Error(\`Service error: \${response.status}\`);
+          throw new Error(\`Service error: \$ {response.status}\`);
         }
         
         return await response.json();
       });
     } catch (error) {
-      console.error(\`Circuit breaker: \${serviceName} call failed\`, error);
+      console.error(\`Circuit breaker: \$ {serviceName} call failed\`, error);
       
       // Return cached data or fallback
       return this.getFallbackResponse(serviceName, path);
@@ -5007,7 +5007,7 @@ class FixedWindowRateLimiter {
   }
   
   async isAllowed(userId) {
-    const key = \`ratelimit:\${userId}:\${this.getCurrentWindow()}\`;
+    const key = \`ratelimit:\$ {userId}:\$ {this.getCurrentWindow()}\`;
     
     const current = await this.redis.incr(key);
     
@@ -5057,7 +5057,7 @@ class SlidingWindowLogRateLimiter {
   }
   
   async isAllowed(userId) {
-    const key = \`ratelimit:\${userId}\`;
+    const key = \`ratelimit:\$ {userId}\`;
     const now = Date.now();
     const windowStart = now - this.window;
     
@@ -5069,7 +5069,7 @@ class SlidingWindowLogRateLimiter {
     
     if (count < this.limit) {
       // Add current request timestamp
-      await this.redis.zadd(key, now, \`\${now}-\${Math.random()}\`);
+      await this.redis.zadd(key, now, \`\$ {now}-\$ {Math.random()}\`);
       await this.redis.expire(key, Math.ceil(this.window / 1000));
       return true;
     }
@@ -5097,8 +5097,8 @@ class SlidingWindowCounterRateLimiter {
     const currentWindow = Math.floor(now / (this.window * 1000));
     const previousWindow = currentWindow - 1;
     
-    const currentKey = \`ratelimit:\${userId}:\${currentWindow}\`;
-    const previousKey = \`ratelimit:\${userId}:\${previousWindow}\`;
+    const currentKey = \`ratelimit:\$ {userId}:\$ {currentWindow}\`;
+    const previousKey = \`ratelimit:\$ {userId}:\$ {previousWindow}\`;
     
     // Get counts from both windows
     const [currentCount, previousCount] = await Promise.all([
@@ -5140,7 +5140,7 @@ class TokenBucketRateLimiter {
   }
   
   async isAllowed(userId, tokens = 1) {
-    const key = \`tokenbucket:\${userId}\`;
+    const key = \`tokenbucket:\$ {userId}\`;
     
     // Get current bucket state
     const bucket = await this.redis.get(key);
@@ -5214,7 +5214,7 @@ class LeakyBucketRateLimiter {
   }
   
   async enqueue(userId, request) {
-    const key = \`leakybucket:\${userId}\`;
+    const key = \`leakybucket:\$ {userId}\`;
     
     // Get current queue size
     const queueSize = await this.redis.llen(key);
@@ -5234,7 +5234,7 @@ class LeakyBucketRateLimiter {
   }
   
   async processQueue(userId) {
-    const key = \`leakybucket:\${userId}\`;
+    const key = \`leakybucket:\$ {userId}\`;
     
     // Process one request (leak)
     const request = await this.redis.lpop(key);
@@ -5270,16 +5270,16 @@ class MultiDimensionalRateLimiter {
   async checkLimits(req) {
     const checks = await Promise.all([
       // Per user
-      this.checkLimit(\`user:\${req.user.id}\`, 100, 60),
+      this.checkLimit(\`user:\$ {req.user.id}\`, 100, 60),
       
       // Per user per endpoint
-      this.checkLimit(\`user:\${req.user.id}:\${req.path}\`, 20, 60),
+      this.checkLimit(\`user:\$ {req.user.id}:\$ {req.path}\`, 20, 60),
       
       // Per API key
-      this.checkLimit(\`apikey:\${req.apiKey}\`, 1000, 60),
+      this.checkLimit(\`apikey:\$ {req.apiKey}\`, 1000, 60),
       
       // Per IP address
-      this.checkLimit(\`ip:\${req.ip}\`, 50, 60),
+      this.checkLimit(\`ip:\$ {req.ip}\`, 50, 60),
       
       // Global (all users)
       this.checkLimit('global', 10000, 60)
@@ -5290,10 +5290,10 @@ class MultiDimensionalRateLimiter {
   }
   
   async checkLimit(key, limit, window) {
-    const current = await this.redis.incr(\`ratelimit:\${key}\`);
+    const current = await this.redis.incr(\`ratelimit:\$ {key}\`);
     
     if (current === 1) {
-      await this.redis.expire(\`ratelimit:\${key}\`, window);
+      await this.redis.expire(\`ratelimit:\$ {key}\`, window);
     }
     
     return {
@@ -5321,7 +5321,7 @@ class TieredRateLimiter {
   
   async isAllowed(user) {
     const tier = this.tiers[user.subscriptionPlan];
-    const key = \`ratelimit:\${user.id}\`;
+    const key = \`ratelimit:\$ {user.id}\`;
     
     const current = await this.redis.incr(key);
     
@@ -5355,7 +5355,7 @@ class DistributedRateLimiter {
     // Use Redis Cluster for distributed rate limiting
     // Multiple API gateway instances share rate limit state
     
-    const key = \`ratelimit:\${userId}\`;
+    const key = \`ratelimit:\$ {userId}\`;
     
     // Atomic increment and check
     const lua = \`
@@ -5397,7 +5397,7 @@ app.use(async (req, res, next) => {
     res.setHeader('Retry-After', result.retryAfter);
     return res.status(429).json({
       error: 'Too Many Requests',
-      message: \`Rate limit exceeded. Try again in \${result.retryAfter} seconds.\`,
+      message: \`Rate limit exceeded. Try again in \$ {result.retryAfter} seconds.\`,
       limit: result.limit,
       retryAfter: result.retryAfter
     });
@@ -5532,7 +5532,7 @@ class PaymentService {
       if (!this.isServiceAuthorized(decoded.serviceName, req.path)) {
         return res.status(403).json({
           error: 'Forbidden',
-          message: \`Service '\${decoded.serviceName}' not authorized for this endpoint\`
+          message: \`Service '\$ {decoded.serviceName}' not authorized for this endpoint\`
         });
       }
       
@@ -5553,12 +5553,12 @@ class PaymentService {
     };
     
     return permissions[serviceName]?.some(pattern => {
-      return new RegExp(\`^\${pattern.replace(':id', '[^/]+')}\$\`).test(path);
+      return new RegExp(\`^\$ {pattern.replace(':id', '[^/]+')}\$\`).test(path);
     });
   }
   
   async rateLimitMiddleware(req, res, next) {
-    const key = \`ratelimit:\${req.service.serviceName}:\${req.path}\`;
+    const key = \`ratelimit:\$ {req.service.serviceName}:\$ {req.path}\`;
     const limit = 1000; // requests per minute per service
     const window = 60;
     
@@ -5645,7 +5645,7 @@ class PaymentService {
     
     try {
       // 1. Check cache for duplicate request
-      const cached = await this.redis.get(\`payment:\${idempotencyKey}\`);
+      const cached = await this.redis.get(\`payment:\$ {idempotencyKey}\`);
       if (cached) {
         this.logger.info({
           requestId: req.id,
@@ -5660,7 +5660,7 @@ class PaymentService {
       }
       
       // 2. Acquire lock
-      const lockKey = \`payment-lock:\${idempotencyKey}\`;
+      const lockKey = \`payment-lock:\$ {idempotencyKey}\`;
       const lock = await this.redis.set(lockKey, '1', 'NX', 'EX', 60);
       
       if (!lock) {
@@ -5719,7 +5719,7 @@ class PaymentService {
         };
         
         await this.redis.setex(
-          \`payment:\${idempotencyKey}\`,
+          \`payment:\$ {idempotencyKey}\`,
           86400, // 24 hours
           JSON.stringify(result)
         );
@@ -5859,7 +5859,7 @@ class PaymentService {
     
     try {
       // Check for duplicate refund request
-      const cached = await this.redis.get(\`refund:\${idempotencyKey}\`);
+      const cached = await this.redis.get(\`refund:\$ {idempotencyKey}\`);
       if (cached) {
         return res.json(JSON.parse(cached));
       }
@@ -5903,7 +5903,7 @@ class PaymentService {
       };
       
       await this.redis.setex(
-        \`refund:\${idempotencyKey}\`,
+        \`refund:\$ {idempotencyKey}\`,
         86400,
         JSON.stringify(result)
       );
@@ -5981,7 +5981,7 @@ class PaymentService {
     // Start server
     const port = process.env.PORT || 3002;
     this.app.listen(port, () => {
-      this.logger.info(\`Payment Service running on port \${port}\`);
+      this.logger.info(\`Payment Service running on port \$ {port}\`);
     });
     
     // Graceful shutdown
@@ -6062,7 +6062,7 @@ app.use((req, res, next) => {
 
 // Propagate request ID across services
 async function callOrderService(orderId, requestId) {
-  const response = await fetch(\`http://order-service/orders/\${orderId}\`, {
+  const response = await fetch(\`http://order-service/orders/\$ {orderId}\`, {
     headers: {
       'X-Request-ID': requestId,
       'X-Correlation-ID': requestId
@@ -6251,7 +6251,7 @@ export default function() {
     headers: {
       'Content-Type': 'application/json',
       'X-Service-Token': 'test-token',
-      'X-Idempotency-Key': \`\${__VU}-\${__ITER}\`,
+      'X-Idempotency-Key': \`\$ {__VU}-\$ {__ITER}\`,
     },
   };
   
@@ -6477,6 +6477,3805 @@ securitySchemes:
               "https://aws.amazon.com/microservices/ - AWS Microservices",
               "https://www.redhat.com/en/topics/microservices/what-is-a-service-mesh - What is Service Mesh",
               "https://opentelemetry.io/docs/ - OpenTelemetry for Observability",
+            ],
+          },
+          {
+            topic: "Async Systems: Video Upload & Transcoding Pipeline",
+            tags: [
+              "Async Processing",
+              "Message Queues",
+              "RabbitMQ",
+              "Kafka",
+              "S3 Blob Storage",
+              "FFmpeg",
+              "HLS Streaming",
+              "Worker Pools",
+              "Workflow Orchestration",
+              "Idempotent Workers",
+              "Dead Letter Queue",
+              "Presigned URLs",
+              "CDN",
+              "Adaptive Bitrate",
+              "Circuit Breaker",
+              "KEDA Autoscaling",
+              "Fan-out Fan-in",
+              "Distributed Systems",
+            ],
+
+            explanation: `
+<div>
+  <h2>Async Systems: Video Upload & Transcoding Pipeline</h2>
+  <p>
+    This guide covers one of the most important architectural shifts in backend engineering: 
+    moving from synchronous request-response to asynchronous, queue-driven workflows. 
+    The canonical example is video transcoding — accepting an upload, processing it into 
+    multiple formats (360p, 720p, 1080p), and serving it for streaming. We'll cover 
+    message queues (RabbitMQ vs Kafka), blob storage (S3), workflow orchestration, 
+    HLS streaming, and the reliability patterns that make it production-ready.
+  </p>
+
+  <h3>The Problem: Why Synchronous Won't Work</h3>
+  <pre><code>
+// Scenario: User uploads a video for a platform like YouTube
+// ===========================================================
+
+// Before (Synchronous — WRONG):
+class VideoController {
+  async upload(req, res) {
+    // ❌ This is the naive approach — never do this in production
+    const video = await saveFile(req.body);           // Save file
+    await ffmpeg.transcode(video, '360p');            // 5 minutes
+    await ffmpeg.transcode(video, '720p');            // 10 minutes
+    await ffmpeg.transcode(video, '1080p');           // 15 minutes
+    res.json({ done: true });                         // HTTP timed out 30s ago!
+  }
+}
+
+// After (Asynchronous — CORRECT):
+class VideoController {
+  async upload(req, res) {
+    // ✅ Accept → Store → Enqueue → Return immediately
+    const uploadId = uuidv4();
+    await s3.upload({ Key: raw/$ {uploadId}/original.mp4, Body: req.body });
+    await queue.publish('video.transcode', { uploadId });
+    res.status(202).json({ uploadId, status: 'processing' }); // Returns in <1s
+    // Workers handle the rest in background
+  }
+}
+
+// Why synchronous fails — three compounding problems:
+// ====================================================
+// 1. TIME MISMATCH
+//    HTTP connections timeout after 30-120 seconds.
+//    Transcoding a 1GB video takes 5-20 minutes.
+//    The connection is gone long before work finishes.
+//
+// 2. RESOURCE BLOCKING
+//    Synchronous processing holds a server thread hostage for the entire duration.
+//    100 concurrent uploads = 100 threads blocked on FFmpeg = server crashes.
+//
+// 3. NO RETRY SEMANTICS
+//    If server crashes mid-transcode, work is lost.
+//    No record of what was done. No way to resume.
+//    User just sees a 500 error.
+
+// The Solution: Async Pipeline with Three Phases
+// ===============================================
+//
+// Phase 1: INGEST       → Accept upload, store raw file, return job ID
+// Phase 2: PROCESS      → Workers transcode asynchronously in background
+// Phase 3: SERVE        → CDN delivers HLS segments to viewers
+//
+//  Client → Upload Service → S3 (raw) → Queue → Workers → S3 (processed) → CDN → Viewer
+
+// Key Principles:
+// ===============
+// 1. Return 202 Accepted immediately — never block the client
+// 2. Decouple upload from processing via message queue
+// 3. Workers are stateless and idempotent — safe to re-run
+// 4. Dead Letter Queue — failed jobs never silently disappear
+// 5. Scale workers based on queue depth, not CPU
+  </code></pre>
+
+  <h3>1. Upload Flow: Presigned URLs & Multipart Upload</h3>
+  <pre><code>
+// The upload problem: Video files are 100MB–50GB
+// ================================================
+// Naive approach: Client uploads to your server → server streams to S3
+// Problem: Your server becomes a bandwidth bottleneck, memory pressure, single point of failure
+//
+// Solution: Presigned URLs
+// Client uploads DIRECTLY to S3, bypassing your server entirely.
+// Your server never touches the bytes.
+
+class UploadService {
+
+  // Step 1: Client requests an upload slot
+  // POST /uploads/initiate
+  async initiateUpload(req, res) {
+    const { filename, fileSize, contentType } = req.body;
+    const uploadId = uuidv4();
+
+    // Validate file type
+    const allowedTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo'];
+    if (!allowedTypes.includes(contentType)) {
+      return res.status(400).json({ error: 'Unsupported video format' });
+    }
+
+    // Validate file size (max 10GB)
+    if (fileSize > 10 * 1024 * 1024 * 1024) {
+      return res.status(400).json({ error: 'File exceeds 10GB limit' });
+    }
+
+    const s3Key = raw/$ {req.user.id}/$ {uploadId}/original$ {path.extname(filename)};
+
+    // Initiate S3 Multipart Upload
+    // S3 splits large files into chunks (5MB-5GB each)
+    // Client uploads each chunk independently — if one fails, retry just that chunk
+    const multipartUpload = await s3.createMultipartUpload({
+      Bucket: process.env.RAW_BUCKET,
+      Key: s3Key,
+      ContentType: contentType,
+      Metadata: { uploadId, userId: req.user.id, originalFilename: filename }
+    }).promise();
+
+    // Generate presigned URL for each 50MB chunk
+    // These URLs are temporary (1 hour) and signed — no auth token needed in client
+    const chunkSize = 50 * 1024 * 1024; // 50MB
+    const numParts = Math.ceil(fileSize / chunkSize);
+
+    const presignedUrls = await Promise.all(
+      Array.from({ length: numParts }, (_, i) =>
+        s3.getSignedUrlPromise('uploadPart', {
+          Bucket: process.env.RAW_BUCKET,
+          Key: s3Key,
+          UploadId: multipartUpload.UploadId,
+          PartNumber: i + 1,
+          Expires: 3600  // 1 hour
+        })
+      )
+    );
+
+    // Track upload state in DB
+    await db.uploads.create({
+      id: uploadId,
+      userId: req.user.id,
+      s3Key,
+      s3UploadId: multipartUpload.UploadId,
+      filename,
+      fileSize,
+      status: 'uploading',
+      createdAt: new Date()
+    });
+
+    return res.json({
+      uploadId,
+      s3UploadId: multipartUpload.UploadId,
+      presignedUrls,   // Array of URLs, one per 50MB chunk
+      chunkSize,
+      numParts
+      // Client: PUT each presignedUrls[i] with the corresponding file bytes
+      // Client uploads ALL chunks in parallel directly to S3
+      // Your server never sees the video data
+    });
+  }
+
+  // Step 2: Client calls this after uploading all parts directly to S3
+  // POST /uploads/:uploadId/complete
+  async completeUpload(req, res) {
+    const { uploadId } = req.params;
+    const { parts } = req.body;  // [{ PartNumber: 1, ETag: '"abc..."' }, ...]
+
+    const upload = await db.uploads.findById(uploadId);
+
+    // Tell S3 to assemble all the chunks into one object
+    await s3.completeMultipartUpload({
+      Bucket: process.env.RAW_BUCKET,
+      Key: upload.s3Key,
+      UploadId: upload.s3UploadId,
+      MultipartUpload: { Parts: parts }
+    }).promise();
+
+    // Update DB status
+    await db.uploads.update({ id: uploadId }, {
+      status: 'uploaded',
+      uploadedAt: new Date()
+    });
+
+    // Publish job to transcoding queue
+    // This is the handoff: upload service's job is done, workers take over
+    await queue.publish('video.transcode', {
+      uploadId,
+      s3Key: upload.s3Key,
+      userId: upload.userId,
+      resolutions: [
+        { name: '360p',  width: 640,  height: 360,  bitrate: '800k'  },
+        { name: '720p',  width: 1280, height: 720,  bitrate: '2500k' },
+        { name: '1080p', width: 1920, height: 1080, bitrate: '5000k' }
+      ]
+    }, {
+      idempotencyKey: uploadId   // Prevent duplicate jobs if called twice
+    });
+
+    // Return 202 Accepted — processing happens asynchronously
+    return res.status(202).json({
+      uploadId,
+      status: 'transcoding',
+      estimatedMinutes: 10,
+      statusUrl: /uploads/$ {uploadId}/status  // Client polls this
+    });
+  }
+
+  // Client polls this endpoint while video is processing
+  // GET /uploads/:uploadId/status
+  async getStatus(req, res) {
+    const { uploadId } = req.params;
+    const upload = await db.uploads.findById(uploadId);
+
+    if (upload.status === 'ready') {
+      return res.status(200).json({
+        uploadId,
+        status: 'ready',
+        video: {
+          streamUrl: https://cdn.example.com/hls/$ {uploadId}/master.m3u8,
+          thumbnailUrl: https://cdn.example.com/thumbnails/$ { uploadId}.jpg,
+          duration: upload.duration,
+          resolutions: ['360p', '720p', '1080p']
+        }
+      });
+    }
+
+    return res.status(202).json({
+      uploadId,
+      status: upload.status,   // 'uploading' | 'uploaded' | 'transcoding' | 'failed'
+      progress: upload.progress || 0
+    });
+  }
+}
+
+// Why Presigned URLs are essential:
+// ==================================
+// ✅ No bandwidth bottleneck — S3 handles all video bytes directly
+// ✅ No memory pressure on API servers — server never buffers video data
+// ✅ Native parallelism — all chunks upload simultaneously
+// ✅ S3 handles resumability — if connection drops, resume from last chunk
+// ✅ Scales to any file size — multipart handles files up to 5TB
+  </code></pre>
+
+  <h3>2. Message Queues: RabbitMQ vs Kafka</h3>
+  <pre><code>
+// The queue is the heart of the async pipeline.
+// It decouples upload from processing — upload service scales independently from workers.
+// If 1000 videos upload at once, they queue up safely instead of crashing workers.
+
+// RabbitMQ vs Kafka — When to use each:
+// ========================================
+//
+//                  RabbitMQ                    Kafka
+// Model:           Push (broker → consumer)    Pull (consumer reads at own pace)
+// Retention:       Deleted after ACK           Retained for days/forever (log)
+// Replay:          No replay after ACK         Replay from any offset ✅
+// Throughput:      ~50k msg/s                  ~1M+ msg/s ✅
+// Complexity:      Simple, easy setup ✅        Needs Zookeeper/KRaft
+// Use case:        Small-medium scale          YouTube/Netflix scale ✅
+//
+// Choose RabbitMQ when: Simple setup, one consumer type, need priority queues
+// Choose Kafka when: Multiple consumer types, need replay, millions of events/day
+
+
+// RabbitMQ Implementation with Dead Letter Queue (DLQ)
+// =====================================================
+
+const amqp = require('amqplib');
+
+class TranscodeQueue {
+
+  async setup(channel) {
+    // Dead Letter Queue — where failed jobs go after max retries
+    // Without DLQ: failed jobs silently disappear. User's video is stuck "processing" forever.
+    // With DLQ: failed jobs preserved, ops team inspects and replays after fixing the bug.
+    await channel.assertQueue('video.transcode.dead', { durable: true });
+
+    // Retry queue — messages re-enter main queue after a delay
+    // This gives temporary issues (OOM kill, brief network blip) time to resolve
+    await channel.assertQueue('video.transcode.retry', {
+      durable: true,
+      arguments: {
+        'x-dead-letter-routing-key': 'video.transcode',
+        'x-message-ttl': 30000   // 30s delay before retry
+      }
+    });
+
+    // Main queue with DLQ configuration
+    await channel.assertQueue('video.transcode', {
+      durable: true,     // Survives RabbitMQ restart — critical for production
+      arguments: {
+        'x-dead-letter-exchange': '',
+        'x-dead-letter-routing-key': 'video.transcode.dead',
+        'x-message-ttl': 3600000,    // 1 hour TTL before expiry
+        'x-max-priority': 10         // Priority queue — premium users first
+      }
+    });
+  }
+
+  async publish(channel, job) {
+    const message = Buffer.from(JSON.stringify(job));
+
+    channel.sendToQueue('video.transcode', message, {
+      persistent: true,                            // Survive broker restart
+      priority: job.isPremiumUser ? 8 : 3,        // Premium users processed first
+      headers: {
+        retryCount: 0,
+        publishedAt: new Date().toISOString()
+      }
+    });
+  }
+
+  async consume(channel, handler) {
+    // prefetch(1) = worker only holds 1 job at a time (backpressure)
+    // Without this: RabbitMQ pushes all 1000 queued jobs to workers simultaneously → OOM
+    // With this: worker requests next job only after finishing current one
+    channel.prefetch(1);
+
+    channel.consume('video.transcode', async (msg) => {
+      if (!msg) return;
+
+      const job = JSON.parse(msg.content.toString());
+      const retryCount = msg.properties.headers.retryCount || 0;
+
+      try {
+        await handler(job);
+        channel.ack(msg);   // ✅ Success — remove from queue permanently
+
+      } catch (error) {
+        console.error(Job failed (attempt $ {retryCount + 1}):, error);
+
+        if (retryCount < 3) {
+          // Retry with backoff: send to retry queue (30s delay), then back to main queue
+          channel.sendToQueue('video.transcode.retry', msg.content, {
+            persistent: true,
+            headers: { retryCount: retryCount + 1 }
+          });
+          channel.ack(msg);  // Remove original — retry copy is now queued
+
+        } else {
+          // Max retries exceeded → DLQ for manual inspection
+          // nack(msg, false, false) = reject without requeue = goes to DLQ
+          channel.nack(msg, false, false);
+          await alertOpsTeam(job, error);  // Page on-call
+        }
+      }
+    });
+  }
+}
+
+
+// Kafka Implementation (for scale — multiple consumer types)
+// ===========================================================
+// Key advantage: Same event consumed by multiple independent consumer groups
+// Transcoder reads it. Analytics reads it. Moderation reads it.
+// Each at their own pace. Adding new consumer = zero changes to existing code.
+
+const { Kafka } = require('kafkajs');
+
+class KafkaTranscodeQueue {
+  constructor() {
+    this.kafka = new Kafka({ clientId: 'video-pipeline', brokers: ['kafka:9092'] });
+    this.producer = this.kafka.producer();
+    this.consumer = this.kafka.consumer({ groupId: 'transcode-workers' });
+  }
+
+  async publishJob(job) {
+    await this.producer.send({
+      topic: 'video-transcode-jobs',
+      messages: [{
+        key: job.userId,              // Partition by userId
+        // All of one user's videos go to the same partition = ordered processing per user
+        value: JSON.stringify(job),
+        headers: { 'upload-id': job.uploadId, 'schema-version': '1.0' }
+      }]
+    });
+  }
+
+  async startConsuming(handler) {
+    await this.consumer.subscribe({ topic: 'video-transcode-jobs', fromBeginning: false });
+
+    await this.consumer.run({
+      eachMessage: async ({ message, partition, offset }) => {
+        const job = JSON.parse(message.value.toString());
+        await handler(job);
+        // Kafka commits offset only after eachMessage resolves successfully
+        // If worker crashes mid-job, offset not committed → message redelivered → safe retry
+      }
+    });
+  }
+
+  // The killer feature RabbitMQ can't do: replay from any point in history
+  async replayFrom(timestamp) {
+    // Reprocess all videos since this timestamp
+    // Use case: You deployed a bug in your transcoder and need to re-transcode last 24h of videos
+    await this.consumer.seek({
+      topic: 'video-transcode-jobs',
+      partition: 0,
+      offset: await this.getOffsetByTimestamp(timestamp)
+    });
+  }
+}
+  </code></pre>
+
+  <h3>3. Transcoder Workers: FFmpeg & HLS Segmentation</h3>
+  <pre><code>
+// Workers pull jobs from the queue, download raw video from S3,
+// run FFmpeg to produce HLS segments at each resolution,
+// then upload outputs back to S3.
+
+// What is HLS (HTTP Live Streaming)?
+// ====================================
+// HLS splits video into small 6-10 second segments (.ts files).
+// A playlist file (.m3u8) lists all segments in order.
+// Player downloads playlist, fetches segments sequentially, buffers ahead.
+//
+// Why HLS over a direct MP4 download?
+// 1. ADAPTIVE BITRATE: Master playlist lists all quality levels (360p/720p/1080p).
+//    Player monitors download speed and switches quality mid-stream automatically.
+//    Slow connection = 360p. Fast WiFi = 1080p. No buffering. No quality lock-in.
+// 2. SEEKING EFFICIENCY: Seeking to minute 45 downloads only segments around that timestamp.
+//    Direct MP4 requires downloading/skipping the whole file or complex byte-range requests.
+// 3. CDN FRIENDLY: Each tiny segment is a separate HTTP request — CDN caches aggressively.
+//    A 4GB MP4 caches poorly at edge nodes. 6-second chunks cache perfectly.
+
+const ffmpeg = require('fluent-ffmpeg');
+const { S3Client } = require('@aws-sdk/client-s3');
+
+class TranscodeWorker {
+  constructor() {
+    this.s3 = new S3Client({ region: 'us-east-1' });
+    this.workDir = '/tmp/transcode';
+  }
+
+  async processJob(job) {
+    const { uploadId, s3Key, resolutions } = job;
+    const jobDir = $ {this.workDir}/$ {uploadId};
+
+    try {
+      await this.updateStatus(uploadId, 'transcoding', 0);
+
+      // 1. Download raw video from S3
+      const rawPath = $ {jobDir}/original.mp4;
+      await this.downloadFromS3(s3Key, rawPath);
+
+      // 2. Transcode ALL resolutions IN PARALLEL
+      // They are completely independent — no reason to do sequentially
+      // On a 4-core instance: 3 resolutions run simultaneously, all done in ~1x time not 3x
+      const transcodeResults = await Promise.all(
+        resolutions.map((res, i) =>
+          this.transcodeResolution(rawPath, uploadId, res, (progress) => {
+            const overall = (i / resolutions.length) * 100 + (progress / resolutions.length);
+            this.updateStatus(uploadId, 'transcoding', overall);
+          })
+        )
+      );
+
+      // 3. Generate HLS master playlist
+      // This is the entry point for the video player
+      // It tells the player: "here are all the quality options, pick based on bandwidth"
+      const masterPlaylist = this.generateMasterPlaylist(uploadId, resolutions);
+      await this.uploadToS3(
+        hls/$ {uploadId}/master.m3u8,
+        masterPlaylist,
+        'application/vnd.apple.mpegurl'
+      );
+
+      // 4. Generate thumbnail from frame at 5 seconds
+      const thumbPath = $ {jobDir}/thumbnail.jpg;
+      await this.generateThumbnail(rawPath, thumbPath, 5);
+      await this.uploadToS3(thumbnails/$ {uploadId}.jpg, thumbPath, 'image/jpeg');
+
+      // 5. Mark video as ready
+      await this.updateStatus(uploadId, 'ready', 100);
+
+      // 6. Publish completion event for notification service
+      await queue.publish('video.ready', {
+        uploadId,
+        streamUrl: https://cdn.example.com/hls/$ {uploadId}/master.m3u8,
+        thumbnailUrl: https://cdn.example.com/thumbnails/$ {uploadId}.jpg
+      });
+
+    } finally {
+      // Always clean up temp files — workers run on shared disk
+      await fs.rm(jobDir, { recursive: true, force: true });
+    }
+  }
+
+  async transcodeResolution(inputPath, uploadId, resolution, onProgress) {
+    const { name, width, height, bitrate } = resolution;
+    const outputDir = $ {this.workDir}/$ {uploadId}/$ {name};
+    await fs.mkdir(outputDir, { recursive: true });
+
+    // Run FFmpeg to produce HLS segments
+    await new Promise((resolve, reject) => {
+      ffmpeg(inputPath)
+        // Video encoding settings
+        .videoCodec('libx264')          // H.264 codec — universally supported
+        .size($ {width}x$ {height})     // Resolution scaling
+        .videoBitrate(bitrate)          // Target bitrate for this resolution
+        .audioCodec('aac')              // AAC audio — universally supported
+        .audioBitrate('128k')
+
+        // HLS output settings
+        .outputOptions([
+          '-hls_time 6',               // 6-second segments (standard for VOD)
+          '-hls_playlist_type vod',    // VOD = fixed duration, not live stream
+          '-hls_segment_filename', $ {outputDir}/segment%03d.ts,
+          '-preset fast',              // Balance encode speed vs. compression
+          '-crf 23'                    // Quality factor (lower = better, 18-28 typical)
+        ])
+        .output($ {outputDir}/playlist.m3u8)
+
+        .on('progress', (p) => onProgress(p.percent || 0))
+        .on('end', resolve)
+        .on('error', reject)
+        .run();
+    });
+
+    // Upload all generated files to S3 (segments + playlist)
+    const files = await fs.readdir(outputDir);
+
+    await Promise.all(
+      files.map(file =>
+        this.uploadToS3(
+          hls/$ {uploadId}/$ {name}/$ {file},
+          $ {outputDir}/$ {file},
+          file.endsWith('.m3u8') ? 'application/vnd.apple.mpegurl' : 'video/MP2T'
+        )
+      )
+    );
+
+    console.log( Transcoded and uploaded $ {name} ($ {files.length} segments));
+    return { resolution: name, segments: files.length };
+  }
+
+  generateMasterPlaylist(uploadId, resolutions) {
+    // HLS Master Playlist — player reads this first, picks best quality automatically
+    // Player checks bandwidth, picks appropriate stream, switches seamlessly if it changes
+    let content = '#EXTM3U\n#EXT-X-VERSION:3\n\n';
+
+    const bitrateMap = { '360p': 800000, '720p': 2500000, '1080p': 5000000 };
+    const resMap    = { '360p': '640x360', '720p': '1280x720', '1080p': '1920x1080' };
+
+    resolutions.forEach(res => {
+      content += #EXT-X-STREAM-INF:BANDWIDTH=$ {bitrateMap[res.name]},RESOLUTION=$ {resMap[res.name]}\n;
+      content += $ {res.name}/playlist.m3u8\n\n;
+    });
+
+    return content;
+    /*
+    Result (what the video player reads):
+    ======================================
+    #EXTM3U
+    #EXT-X-VERSION:3
+
+    #EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360
+    360p/playlist.m3u8
+
+    #EXT-X-STREAM-INF:BANDWIDTH=2500000,RESOLUTION=1280x720
+    720p/playlist.m3u8
+
+    #EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080
+    1080p/playlist.m3u8
+
+    Player on slow 3G → loads 360p/playlist.m3u8
+    Player on fast WiFi → loads 1080p/playlist.m3u8
+    Player on fluctuating LTE → switches between them every few segments
+    */
+  }
+}
+  </code></pre>
+
+  <h3>4. Idempotent Workers: Safe to Re-run</h3>
+  <pre><code>
+// Workers WILL process the same message multiple times. This is not a bug — it's a given.
+// Network issues cause redelivery. Spot instances get terminated mid-job.
+// Ops team replays from DLQ after fixing a bug. All of these mean duplicate processing.
+//
+// Your worker MUST be safe to run twice on the same job — this is called IDEMPOTENCY.
+
+class IdempotentTranscodeWorker {
+
+  async processJob(job) {
+    const { uploadId } = job;
+
+    // Strategy 1: Check-before-write on S3
+    // ======================================
+    // Before uploading a segment, check if it already exists.
+    // If yes, skip. Uploading identical content twice is harmless anyway.
+    async uploadSegmentIdempotent(s3Key, localPath) {
+      try {
+        await s3.headObject({ Bucket: BUCKET, Key: s3Key }).promise();
+        console.log(Segment already exists, skipping: $ {s3Key});
+        return;  // Already uploaded — skip
+      } catch (e) {
+        if (e.code !== 'NotFound') throw e;
+        // Doesn't exist yet — upload it
+        await this.uploadToS3(s3Key, localPath);
+      }
+    }
+
+    // Strategy 2: Database unique constraint
+    // ========================================
+    // When marking a job complete, use INSERT ... ON CONFLICT DO NOTHING.
+    // Second completion attempt silently no-ops — no duplicate record, no error.
+    async markComplete(uploadId) {
+      await db.query(
+        INSERT INTO completed_jobs (upload_id, completed_at)
+        VALUES ($1, NOW())
+        ON CONFLICT (upload_id) DO NOTHING
+      , [uploadId]);
+      // If this uploadId was already completed, query succeeds but inserts nothing
+    }
+
+    // Strategy 3: Deterministic S3 keys
+    // ====================================
+    // ALWAYS derive S3 keys from the uploadId — never generate new random paths.
+    // If worker restarts and re-runs, it produces identical S3 paths and overwrites
+    // with identical content. Since content is the same, overwriting is harmless.
+
+    // ✅ Deterministic — same uploadId always produces same key
+    const s3Key = hls/$ {uploadId}/720p/segment003.ts;
+
+    // ❌ Non-deterministic — generates different key on each run
+    const badKey = hls/$ {uuidv4()}/720p/segment003.ts;  // DON'T DO THIS
+
+    // Strategy 4: Step checkpointing for long workflows
+    // ===================================================
+    // Record which steps completed. On restart, skip completed steps.
+    // Failure in step 7 of 10 doesn't re-run steps 1-6.
+    async getCompletedSteps(uploadId) {
+      const record = await db.workflows.findOne({ uploadId });
+      return record?.completedSteps || [];
+    }
+
+    const steps = ['validate', 'transcode_360p', 'transcode_720p', 'transcode_1080p', 'thumbnail', 'manifest'];
+    const completedSteps = await this.getCompletedSteps(uploadId);
+
+    for (const step of steps) {
+      if (completedSteps.includes(step)) {
+        console.log(Skipping completed step: $ {step});
+        continue;  // Already done — safe to skip
+      }
+
+      await this.executeStep(step, uploadId);
+
+      // Mark step complete
+      await db.workflows.update(
+        { uploadId },
+        { $push: { completedSteps: step } }
+      );
+    }
+  }
+}
+
+// Idempotency for Different Operations:
+// =======================================
+// Upload segment to S3   → Check HeadObject first, skip if exists
+// Insert to database     → ON CONFLICT DO NOTHING
+// Publish queue event    → Deduplicate by idempotency key in Redis
+// Send notification      → Check notification_sent flag in DB before sending
+// Mark job complete      → Unique constraint on job_id in completed_jobs table
+  </code></pre>
+
+  <h3>5. CDN, Streaming & Status Notifications</h3>
+  <pre><code>
+// After transcoding, videos are served from CDN not directly from S3.
+// CDN (CloudFront, Fastly, etc.) caches segments at edge locations globally.
+// User in Mumbai gets segments from a Mumbai edge node, not your S3 in us-east-1.
+
+// CDN Cache Strategy — different TTLs for different file types
+// =============================================================
+const cdnConfig = {
+  behaviors: [
+    {
+      // .ts segments — VIDEO DATA — immutable, cache forever
+      // A segment created today will NEVER change. Safe to cache for a year.
+      pathPattern: '*.ts',
+      defaultTTL: 86400,       // 24 hours
+      maxTTL: 31536000,        // 1 year — segments never change
+    },
+    {
+      // .m3u8 playlists — METADATA — can update (for live streams)
+      // For VOD (pre-recorded), these are also immutable. But kept short for safety.
+      pathPattern: '*.m3u8',
+      defaultTTL: 5,           // 5 seconds for live streams
+      maxTTL: 86400,           // 24 hours for VOD
+    },
+    {
+      // Thumbnails — immutable once generated
+      pathPattern: 'thumbnails/*',
+      defaultTTL: 86400,       // 24 hours
+      maxTTL: 2592000,         // 30 days
+    }
+  ],
+  // S3 is the origin — CDN pulls from S3 when cache misses
+  // CloudFront Origin Access Control: S3 bucket is PRIVATE
+  // Only CloudFront can read it — prevents direct S3 hotlinking
+  origins: [{
+    domainName: 'my-video-bucket.s3.amazonaws.com',
+    originAccessControl: 'enabled'  // All traffic MUST go through CDN
+  }]
+};
+
+// Status Polling Service
+// =======================
+// Client polls /uploads/:id/status while video processes
+// Returns 202 while in progress, 200 with stream URL when ready
+
+class StatusService {
+  async getStatus(req, res) {
+    const { uploadId } = req.params;
+    const upload = await db.uploads.findById(uploadId);
+
+    if (!upload) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+
+    const statusResponses = {
+      uploading:   { code: 202, message: 'Upload in progress' },
+      uploaded:    { code: 202, message: 'Queued for processing' },
+      transcoding: { code: 202, message: 'Transcoding in progress' },
+      ready:       { code: 200, message: 'Video ready to stream' },
+      failed:      { code: 500, message: 'Processing failed' }
+    };
+
+    const { code, message } = statusResponses[upload.status];
+
+    const response = {
+      uploadId: upload.id,
+      status: upload.status,
+      message,
+      progress: upload.progress || 0,
+      createdAt: upload.created_at
+    };
+
+    // Only include video URL when actually ready
+    if (upload.status === 'ready') {
+      response.video = {
+        streamUrl: https://cdn.example.com/hls/$ {uploadId}/master.m3u8,
+        thumbnailUrl: https://cdn.example.com/thumbnails/$ {uploadId}.jpg,
+        duration: upload.duration,
+        resolutions: upload.available_resolutions
+      };
+    }
+
+    return res.status(code).json(response);
+  }
+}
+
+// WebSocket Notifications — alternative to polling
+// ==================================================
+// Instead of client polling every 5 seconds, push update when ready.
+// Better UX: instant notification. Less load: no polling requests.
+
+class NotificationService {
+  constructor(io) {
+    this.io = io;  // Socket.IO instance
+  }
+
+  // Called by worker after transcoding completes
+  async onVideoReady(job) {
+    // Push to specific user's WebSocket connection
+    this.io.to(user:$ {job.userId}).emit('video.ready', {
+      uploadId: job.uploadId,
+      streamUrl: https://cdn.example.com/hls/$ {job.uploadId}/master.m3u8,
+      message: 'Your video is ready to watch!'
+    });
+
+    // Also send email notification via separate email queue
+    await emailQueue.publish('send.email', {
+      to: job.userEmail,
+      template: 'video-ready',
+      data: { videoUrl: https://cdn.example.com/hls/$ {job.uploadId}/master.m3u8 }
+    });
+  }
+}
+
+// Flow summary:
+// ==============
+// 1. Worker completes transcoding
+// 2. Worker publishes 'video.ready' event to queue
+// 3. Notification service consumes event
+// 4. Pushes to user's WebSocket (instant) AND sends email (async)
+// 5. Client receives WebSocket push → updates UI → user sees their video
+  </code></pre>
+
+  <h3>6. Autoscaling Workers & Complete System Design</h3>
+  <pre><code>
+// Workers are a perfect autoscaling workload:
+// - Stateless: all state in queue + S3 + DB
+// - Interruptible: job returns to queue if worker dies
+// - Variable load: traffic spikes when users upload
+//
+// KEY INSIGHT: Scale on QUEUE DEPTH, not CPU utilization.
+// A worker sitting idle (waiting for next job) shows 0% CPU.
+// But you may need more workers to drain the queue faster.
+// CPU is the wrong metric. Queue depth is the right metric.
+
+// KEDA (Kubernetes Event Driven Autoscaling) — scale based on queue depth
+const keda_config = 
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: transcode-worker-scaler
+spec:
+  scaleTargetRef:
+    name: transcode-worker
+  minReplicaCount: 1       # Always 1 worker (never scale to 0 — cold start too slow)
+  maxReplicaCount: 50      # Cap at 50 for cost control
+  triggers:
+  - type: rabbitmq
+    metadata:
+      queueName: video.transcode
+      host: rabbitmq://rabbitmq:5672
+      queueLength: "5"     # 1 worker per 5 queued jobs
+# Queue depth 0  → 1 worker (minimum)
+# Queue depth 25 → 5 workers (scale up)
+# Queue depth 250 → 50 workers (maximum)
+# Queue depth drops → workers scale back down;
+
+// Spot Instance Strategy — 70% cost savings
+// ==========================================
+const workerDeployment = {
+  instanceType: 'c5.4xlarge',   // Compute optimized — FFmpeg is CPU-bound
+  spotInstances: true,           // 70% cheaper than on-demand
+  gracefulDrainSeconds: 300,     // Finish current job before termination
+
+  // Handle spot interruption (AWS gives 2 minute warning via SIGTERM):
+  spotInterruptionHandling: 
+    process.on('SIGTERM', async () => {
+      console.log('Spot interruption — draining gracefully');
+      // 1. Stop accepting new jobs (stop consuming from queue)
+      await channel.cancel(consumerTag);
+      // 2. Wait for current job to finish (max 2 minutes)
+      await waitForCurrentJobToComplete();
+      // 3. If job still running, checkpoint progress to S3 and NACK
+      if (currentJob) {
+        await saveCheckpoint(currentJob.uploadId, currentProgress);
+        channel.nack(currentMsg, false, true);  // Return to queue
+      }
+      process.exit(0);
+      // New worker spins up, picks up from checkpoint
+    });
+};
+
+// Complete System Architecture
+// ==============================
+
+class VideoTranscodingSystem {
+
+  // This orchestrator coordinates the full pipeline
+  // In production: use Temporal, AWS Step Functions, or Apache Airflow
+  // instead of building your own — they handle timeouts, retries, and state automatically
+
+  async processVideo(uploadId) {
+    const steps = [
+      'validate_file',         // Check codec, container, metadata integrity
+      'extract_metadata',      // Duration, resolution, fps, codec info
+      'transcode_360p',        // Independent — runs in parallel with others
+      'transcode_720p',        // Independent — runs in parallel with others
+      'transcode_1080p',       // Independent — runs in parallel with others
+      'generate_thumbnail',    // Extract frame at 5s
+      'generate_subtitles',    // Optional: run speech recognition
+      'publish_manifest',      // Create master.m3u8 after all resolutions done (fan-in)
+      'notify_complete'        // Push WebSocket + send email
+    ];
+
+    // Fan-out: steps 3-5 run in PARALLEL (fan-out)
+    // Fan-in: step 8 waits for ALL of steps 3-5 to complete (fan-in)
+    //
+    // Fan-out = 1 job triggers multiple parallel jobs
+    // Fan-in = wait for all parallel jobs before proceeding
+    //
+    // Total time WITH parallelism:  ~15 min (longest single transcode)
+    // Total time WITHOUT parallelism: ~30 min (360p + 720p + 1080p sequential)
+
+    for (const step of steps) {
+      const alreadyDone = await this.isStepComplete(uploadId, step);
+      if (alreadyDone) continue;  // Idempotent: skip if already done
+
+      try {
+        await this.executeStep(step, uploadId);
+        await this.markStepComplete(uploadId, step);
+
+      } catch (error) {
+        await this.markStepFailed(uploadId, step, error);
+
+        // Re-queue from THIS step (not from beginning!)
+        // Don't redo 360p transcode if 720p failed — waste of time and money
+        await queue.publish('video.transcode.resume', {
+          uploadId,
+          resumeFrom: step
+        });
+
+        throw error;
+      }
+    }
+  }
+
+  // Health check exposes dependency status for load balancer
+  healthCheck(req, res) {
+    res.json({
+      status: 'healthy',
+      uptime: process.uptime(),
+      dependencies: {
+        redis: redisClient.status === 'ready',
+        database: db.isConnected(),
+        s3: s3ConnectionHealthy,
+        queue: queueConnection.isOpen()
+      },
+      metrics: {
+        jobsProcessed: this.jobsProcessed,
+        jobsFailed: this.jobsFailed,
+        averageProcessingTimeMs: this.avgProcessingTime
+      }
+    });
+  }
+}
+
+// Monitoring — what to track:
+// ============================
+// Queue depth — primary scaling signal, alert if growing faster than workers drain it
+// Processing time p50/p95/p99 — alert if p99 > SLA (e.g. video not ready within 30 min)
+// Success rate — alert if < 99% (most failures should be transient and auto-retry)
+// DLQ depth — alert if anything enters DLQ (requires human investigation)
+// Spot interruption rate — high rate = need more on-demand fallback capacity
+// CDN hit rate — should be > 95% for segments (low = CDN misconfigured or too few edge nodes)
+  </code></pre>
+
+</div>`,
+            examples: [
+              "202 Accepted pattern — upload returns immediately with job ID",
+              "S3 multipart upload with presigned URLs for each 50MB chunk",
+              "RabbitMQ queue with DLQ and 30-second retry backoff",
+              "Kafka consumer group with partition-by-userId for ordering",
+              "FFmpeg HLS transcoding — 360p / 720p / 1080p segments with playlist",
+              "HLS master playlist for adaptive bitrate streaming",
+              "KEDA autoscaling workers on queue depth (not CPU)",
+              "Spot instance graceful drain on SIGTERM with checkpointing",
+              "CloudFront CDN — 1-year TTL for .ts segments, 5s for .m3u8 playlists",
+              "WebSocket push notification when video.ready event fires",
+              "Fan-out (parallel transcoding) + Fan-in (wait for all before manifest)",
+              "Idempotent worker: HeadObject check, ON CONFLICT DO NOTHING, deterministic S3 keys",
+            ],
+
+            questions: [
+              {
+                question:
+                  "Why can't we process video uploads synchronously? What's the core problem?",
+                difficulty: "Beginner",
+                category: "Async Design",
+                answer:
+                  "Three compounding problems make synchronous transcoding impossible. 1) TIME MISMATCH: HTTP connections timeout after 30-120 seconds. Transcoding a 1GB video to three resolutions takes 5-20 minutes. Connection is gone before work finishes. 2) RESOURCE BLOCKING: Synchronous processing holds a server thread hostage for the entire duration. With 100 concurrent uploads, you need 100 threads blocked on FFmpeg — server crashes under ordinary load. 3) NO RETRY SEMANTICS: If server crashes mid-transcode, work is lost. No record of what was done. User sees a 500 error. No way to resume. Solution: 202 Accepted pattern. Accept the upload immediately, persist the job to a queue, return a job ID to the client, process asynchronously in background. Client polls /status/:id or listens on WebSocket for completion. This decouples latency-sensitive HTTP from compute-intensive FFmpeg entirely.",
+              },
+              {
+                question:
+                  "Kafka vs RabbitMQ — when would you use each for a video pipeline?",
+                difficulty: "Intermediate",
+                category: "Message Queues",
+                answer:
+                  "RabbitMQ is a traditional message broker. Messages pushed to consumers, deleted after ACK. Simpler setup, good routing (exchanges, bindings), priority queues, DLQ. Good default for companies processing thousands of videos per day. Kafka is a distributed commit log. Messages retained for days or forever. Consumers pull at own pace. Game-changing feature: REPLAY — reprocess all videos since any timestamp. Matters when: you deploy a bug in transcoder, want to add new resolution to existing videos, need audit trail of all processing. Kafka handles much higher throughput (millions of messages/second). For video pipelines: Use RabbitMQ for simple setups with one consumer type. Use Kafka when multiple consumer types read same events (transcoder, analytics, moderation, notifications each subscribe independently), or when replay is a requirement. At Netflix/YouTube scale, Kafka is non-negotiable. For a startup, RabbitMQ ships faster. Key Kafka advantage that's often missed: adding a new consumer (e.g. copyright detection) requires zero changes to existing code — just add a new consumer group.",
+              },
+              {
+                question:
+                  "What is a Dead Letter Queue and why is it essential?",
+                difficulty: "Intermediate",
+                category: "Reliability",
+                answer:
+                  "A Dead Letter Queue (DLQ) is where messages go after exceeding their retry limit. Without DLQ: failed messages either disappear silently (job discarded) or loop forever retrying. Both are bad. With DLQ: failed messages preserved for inspection without blocking main queue. Flow: Worker fails processing video → requeues with incremented retry count → after 3 retries → message sent to DLQ instead of main queue. Why essential: Safety net for unexpected failures. A corrupt video that crashes FFmpeg, malformed payload, race condition in code — all surface in DLQ. You inspect message, fix the bug, replay into main queue. Without DLQ, users never know their video silently failed — they just see 'processing' forever. Operational practice: Monitor DLQ depth as health metric. Alert when anything enters DLQ — it means something needs human attention. Build admin UI to inspect DLQ messages and selectively requeue. Log the error alongside the original message for fast debugging.",
+              },
+              {
+                question:
+                  "How does HLS work and why use it over a direct MP4 download?",
+                difficulty: "Intermediate",
+                category: "Streaming",
+                answer:
+                  "HLS splits video into small segments (typically 6-10 seconds) as .ts files. A playlist file (.m3u8) lists all segments in order. Video player downloads playlist, fetches segments sequentially, buffers ahead. Why not serve MP4 directly? Three reasons: 1) ADAPTIVE BITRATE: HLS master playlist lists multiple quality levels (360p, 720p, 1080p). Player monitors download speed in real time and seamlessly switches quality mid-stream. On slow connection: 360p. On fast WiFi: 1080p. Direct MP4 locks user into one quality. 2) SEEKING EFFICIENCY: Seeking to minute 45 of 2-hour video downloads only segments around that timestamp — not the entire file. Direct MP4 requires byte-range requests and server support. 3) CDN FRIENDLY: Each tiny segment is a separate HTTP request — CDN caches aggressively. A 4GB MP4 file caches poorly at edge nodes. Caching strategy: .ts segments are immutable (never change) → cache 1 year. .m3u8 playlists can change for live streams → cache 5-30 seconds. For VOD, playlists are also immutable → cache 24 hours. This maximizes CDN hit rate while keeping live streams current.",
+              },
+              {
+                question:
+                  "How do you handle idempotency in transcoding workers?",
+                difficulty: "Intermediate",
+                category: "Idempotency",
+                answer:
+                  "Workers process the same message multiple times — network issues cause redelivery, spot instances terminate mid-job, ops team replays from DLQ. All scenarios mean worker must be safe to run twice on same job. Strategies: 1) CHECK-BEFORE-WRITE: Before uploading segment to S3, check if it already exists (HeadObject). If yes, skip. Uploading identical content twice is harmless. 2) DATABASE UNIQUE CONSTRAINT: When marking job complete, use INSERT INTO completed_jobs (upload_id) VALUES ($1) ON CONFLICT DO NOTHING. Second attempt silently no-ops. 3) DETERMINISTIC S3 KEYS: Always derive S3 keys from uploadId — never generate new random paths. If worker restarts, it produces identical paths and overwrites with identical content. Overwriting is harmless when content is the same. Don't do: hls/{uuidv4()}/segment.ts — different key on each run creates orphaned files. Do: hls/{uploadId}/720p/segment003.ts — always the same path. 4) STEP CHECKPOINTING: For long workflows, record which steps completed. On restart, skip completed steps. Failure in step 7 of 10 doesn't re-run steps 1-6. Core principle: make every side-effecting operation a no-op if the effect already exists.",
+              },
+              {
+                question:
+                  "How do you scale transcoding workers? What metric drives autoscaling?",
+                difficulty: "Advanced",
+                category: "Scaling",
+                answer:
+                  "CPU utilization is the WRONG metric for scaling queue workers. A worker idle (waiting for next job) shows 0% CPU, but you may need more workers to drain queue faster. Queue depth is the right metric. KEDA (Kubernetes Event Driven Autoscaling) solves this: reads queue depth from RabbitMQ or Kafka, scales worker Deployment accordingly. Configure 1 worker per 5 jobs: depth 0 → 1 worker (min), depth 25 → 5 workers, depth 500 → 50 workers (max). Instance type matters: FFmpeg transcoding is CPU-bound, not memory or GPU bound (for H.264). Use compute-optimized instances (c5.4xlarge, c6a.8xlarge). For hardware-accelerated encoding (H.265, AV1), use GPU instances with -hwaccel nvenc — 5-10x faster. Cost optimization with Spot Instances: Workers are perfect Spot workload — stateless, interruptible (job returns to queue), flexible timing. Spot is 60-80% cheaper than on-demand. Handle SIGTERM: checkpoint progress to S3, NACK the message (returns to queue), exit gracefully. New instance picks up from checkpoint. Parallelism within a job: Within one worker, transcode all three resolutions in parallel (Promise.all) — they're independent. Each uses ~1 CPU core, so 4-core instance transcodes 3 resolutions simultaneously.",
+              },
+              {
+                question:
+                  "What happens if a worker dies mid-transcode? How do you recover?",
+                difficulty: "Advanced",
+                category: "Error Handling",
+                answer:
+                  "Worker death is handled at two levels. QUEUE LEVEL: RabbitMQ/Kafka tracks which messages are in-flight (unacknowledged). When worker dies, message is automatically redelivered to another worker. Kafka: offset not committed on crash → message redelivered on restart. RabbitMQ: NACK or timeout → message returns to queue front. APPLICATION LEVEL: Worker is idempotent so redelivery is safe. New worker picks up same message, checks which steps completed (via DB), skips them, resumes from where previous worker left off. Spot instance interruption (2-minute warning via SIGTERM): Worker catches SIGTERM, stops consuming new jobs, waits for current job to finish (up to 2 min), if still running checkpoints progress to S3, NACKs message, exits cleanly. New worker picks up message, reads checkpoint from S3, resumes from that segment. Partial completion: What if 360p and 720p succeed but 1080p crashes? Track per-resolution status independently. Mark video as 'partially_ready' — streamable at 360p and 720p while 1080p retries. Users get a watchable video faster instead of waiting for all three. Corrupted files: Run FFprobe validation before FFmpeg — check codec, container, duration metadata. Reject files before they hit the worker. Malicious files crash FFmpeg differently each time → DLQ after 3 retries → human review.",
+              },
+              {
+                question:
+                  "Explain fan-out and fan-in patterns in the context of this pipeline.",
+                difficulty: "Advanced",
+                category: "Workflow Patterns",
+                answer:
+                  "Fan-out: One message triggers multiple parallel jobs. In the video pipeline, one upload triggers three independent transcoding jobs (360p, 720p, 1080p). Each resolution is a separate queue message processed by separate workers independently. Maximizes parallelism — all three resolutions transcode simultaneously. Total time: ~15 min (longest single transcode) instead of 30 min sequential. Fan-in: Multiple parallel jobs must all complete before a final step runs. After 360p, 720p, and 1080p are all done, you need to generate the master HLS playlist. The fan-in step waits for all three before running. Implementation options for fan-in: 1) DATABASE COUNTER: Each worker increments completed_resolutions counter when done. Worker that increments to 3 (total resolutions) triggers manifest generation. Use atomic increment (UPDATE ... RETURNING) to prevent race condition where two workers both think they're the 3rd. 2) WORKFLOW ORCHESTRATOR (Temporal, AWS Step Functions): Handle fan-in natively. Knows which parallel branches running, automatically triggers join step when all complete. Much cleaner than custom DB logic. 3) QUEUE-BASED: Workers publish resolution.complete events. Coordinator listens and tracks which resolutions completed per upload. When all three seen → trigger manifest. The pattern generalizes: scatter-gather applies to parallel DB queries, parallel API calls, parallel file processing — anywhere parallel steps must converge.",
+              },
+              {
+                question:
+                  "How would you design the storage layer — what goes in S3, CDN, and database?",
+                difficulty: "Intermediate",
+                category: "Storage Design",
+                answer:
+                  "S3 — two buckets with different permissions: RAW BUCKET (private): Stores original uploaded files. No public access. Workers access via IAM role. Lifecycle policy: delete raw files 7 days after transcoding succeeds (cost savings). Keep indefinitely if transcoding failed (debugging). PROCESSED BUCKET (CDN origin): Stores HLS segments, playlists, thumbnails. CloudFront Origin Access Control restricts direct S3 access — all traffic must go through CDN. This prevents hotlinking and unauthorized access, and forces all traffic through CDN for caching and metrics. CDN (CloudFront/Fastly): Sits in front of processed bucket. Serves from 400+ edge locations globally. Cache settings: .ts segments → cache 1 year (immutable). .m3u8 playlists → cache 30s to 24h depending on live vs VOD. Thumbnails → cache 24 hours. DATABASE (PostgreSQL): Metadata ONLY — never binary data. Tables: uploads (status, s3Key, userId, fileSize, progress), videos (duration, available_resolutions, thumbnail_s3_key), transcode_jobs (per-resolution status, started_at, completed_at), audit_log (all state changes with timestamps). S3 keys are stored as strings in DB. Actual files live in S3. REDIS: Job status cache (avoid DB polling on every 202 status check), rate limiting counters, idempotency key cache, DLQ alert deduplication.",
+              },
+              {
+                question:
+                  "How would you add content moderation to this pipeline without blocking uploads?",
+                difficulty: "Advanced",
+                category: "Pipeline Extension",
+                answer:
+                  "Content moderation is a classic Kafka fan-out problem. When video.uploaded event fires, multiple independent consumer groups subscribe: transcoding consumer group, moderation consumer group, analytics consumer group. Each processes at their own pace. Adding copyright detection requires zero changes to existing code — just add a new consumer group. Moderation flow: Worker downloads raw video from S3. Extracts frames at 1fps (or uses AWS Rekognition Video API). Sends frames to moderation model. High confidence violation → flag video, update status to under_review, prevent CDN serving. Human reviewer sees in moderation dashboard. Approved → status becomes ready. Rejected → status becomes removed, notify user. NON-BLOCKING DESIGN: Moderation should not block benign content from going live. Options: 1) OPTIMISTIC RELEASE: Publish immediately, remove if flagged — YouTube's approach for most content. 2) HOLD FOR REVIEW: Only when confidence is high (e.g. > 95% confidence of policy violation). For most content, release immediately. For high-confidence violations, hold pending review. Run moderation on raw file BEFORE transcoding — don't waste GPU compute on clearly violating content. But transcode before deep review — users want to see their video quickly even if held pending final review.",
+              },
+              {
+                question:
+                  "How do you support resumable uploads for mobile users on unreliable connections?",
+                difficulty: "Advanced",
+                category: "Upload Design",
+                answer:
+                  "Mobile connections drop constantly. User uploading 500MB on LTE that disconnects at 80% must restart without resumable uploads — terrible UX. S3 Multipart Upload provides native resumability: upload divided into 5-50MB chunks, each with its own presigned URL. Client uploads chunks in parallel (or sequentially). If connection drops, only in-flight chunk is lost. On reconnect: client calls ListParts API to see which parts already completed, resumes from first missing part. No need to restart from zero. CLIENT-SIDE STATE: Store S3 UploadId and completed part ETags in localStorage or server-side DB. On page reload or app restart, check for in-progress uploads, offer to resume. SERVER-SIDE CLEANUP: Incomplete multipart uploads cost money (storage for partial parts). Set S3 lifecycle rule: abort multipart uploads older than 7 days. DB cron job: mark uploads stuck in 'uploading' state for > 24 hours as 'abandoned', clean up S3. TUS PROTOCOL ALTERNATIVE: tus.io is open protocol specifically designed for resumable uploads. Libraries for all platforms. Handles chunking, resumption, progress tracking. For production with heavy mobile traffic, TUS is worth the investment over rolling your own multipart logic. Key reason to choose TUS: works across browser refreshes, app kills, and network changes with zero custom client code.",
+              },
+              {
+                question:
+                  "How do you handle a viral event causing 10,000 simultaneous video uploads?",
+                difficulty: "Advanced",
+                category: "Backpressure",
+                answer:
+                  "This is exactly why the queue exists — it acts as a buffer absorbing bursts. Upload service keeps accepting videos regardless; they pile up in queue. Workers scale up (via KEDA) to drain queue as fast as possible. No data lost; users wait longer. LAYERS OF PROTECTION: 1) QUEUE DEPTH LIMITS: Set max queue size. When exceeded, return 503 with Retry-After header. Prevents unbounded memory growth. 2) PRIORITY QUEUES: Premium users get priority 8, free users priority 3. During overload, premium users' videos process first. Maintains SLA for paying customers even during incidents. 3) PER-USER RATE LIMITING: Prevent one user uploading 10,000 videos and starving everyone. Limit to 10 uploads per user per hour. 4) PREFETCH(1) BACKPRESSURE: Workers consume one job at a time. Without this, RabbitMQ pushes all 10,000 jobs to available workers — OOM. With prefetch(1), busy worker doesn't receive new jobs until current one is ACK'd. 5) CAPACITY PLANNING: Monitor queue depth over time. P95 drain time should be under your SLA. If viral events are common, maintain warm standby workers (spin up in 30s) rather than cold-starting EC2 instances (2-5 minutes). GRACEFUL DEGRADATION: When at capacity, return a friendly 'Videos are processing slower than usual — estimated ready in 2 hours' rather than an opaque error.",
+              },
+            ],
+
+            links: [
+              "https://aws.amazon.com/blogs/media/part-1-ways-to-ingest-and-store-large-media-files-in-aws/ - AWS guide to large video ingestion and multipart upload",
+              "https://www.rabbitmq.com/confirms.html - RabbitMQ consumer ACK, NACK, DLQ documentation",
+              "https://kafka.apache.org/documentation/ - Official Kafka docs: topics, partitions, consumer groups",
+              "https://developer.apple.com/streaming/ - Apple HLS specification and authoring guide",
+              "https://ffmpeg.org/ffmpeg.html - FFmpeg reference: codecs, formats, HLS output options",
+              "https://keda.sh/docs/ - KEDA Kubernetes queue-based autoscaling with RabbitMQ and Kafka",
+              "https://tus.io/protocols/resumable-upload - Open protocol for resumable file uploads",
+              "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html - S3 Multipart Upload: initiate, parts, complete, abort",
+              "https://temporal.io/blog/workflow-orchestration - Temporal durable workflow execution and fan-in/fan-out",
+              "https://netflixtechblog.com/tagged/video - Netflix tech blog: real-world video encoding and streaming",
+              "https://docs.aws.amazon.com/mediaconvert/ - AWS Elemental MediaConvert — managed transcoding (alternative to DIY FFmpeg)",
+              "https://www.cloudflare.com/learning/video/what-is-hls-streaming/ - HLS, adaptive bitrate, and CDN delivery explained",
+            ],
+          },
+          {
+            topic: "Concurrency Control: Ticket Booking System",
+            tags: [
+              "Concurrency Control",
+              "Database Transactions",
+              "Pessimistic Locking",
+              "Optimistic Locking",
+              "SELECT FOR UPDATE",
+              "Compare-and-Swap",
+              "Race Conditions",
+              "Double Booking",
+              "Queue-Based Serialization",
+              "Redis Distributed Locks",
+              "ACID Transactions",
+              "Seat Reservation",
+              "High-Demand Sale",
+              "Thundering Herd",
+              "Idempotency",
+              "Distributed Systems",
+              "Eventual Consistency",
+            ],
+
+            explanation: `
+<div>
+  <h2>Concurrency Control: Ticket Booking System</h2>
+  <p>
+    This guide covers one of the most critical problems in distributed systems: preventing two users 
+    from booking the same seat simultaneously. Ticket booking for a popular concert is the canonical 
+    stress test — thousands of users hit "Buy" at the exact same millisecond for the last few seats.
+    We'll cover why naive approaches fail, what a race condition actually looks like at the database level,
+    pessimistic locking, optimistic locking, queue-based serialization, and why eventual consistency 
+    is completely wrong here.
+  </p>
+
+  <h3>The Problem: Race Conditions & Double Booking</h3>
+  <pre><code>
+// Scenario: Coldplay concert goes on sale. 50,000 users hit "Buy" simultaneously.
+// Only 200 seats left. Without concurrency control: 400 people get confirmation emails.
+// ======================================================================================
+
+// The Race Condition — what actually happens at the database level:
+// -----------------------------------------------------------------
+//
+// Time 0ms:  User A reads seat 42 → status = 'available'
+// Time 0ms:  User B reads seat 42 → status = 'available'
+// Time 10ms: User A writes seat 42 → status = 'booked', booking_id = 'A'
+// Time 11ms: User B writes seat 42 → status = 'booked', booking_id = 'B'  ← OVERWRITES A!
+//
+// Both A and B receive a booking confirmation.
+// Both show up at the concert. Both have valid tickets. Chaos.
+
+// The naive broken implementation:
+class TicketService {
+  async bookSeat(userId, seatId, eventId) {
+    // ❌ BROKEN: Read-check-write is NOT atomic
+    // Between the SELECT and the UPDATE, another transaction can sneak in
+
+    const seat = await db.query(
+      'SELECT * FROM seats WHERE id = $1 AND status = $2',
+      [seatId, 'available']
+    );
+
+    if (!seat) {
+      throw new Error('Seat not available');
+    }
+
+    // ⚠️ GAP HERE: Another user can book this seat between these two queries
+    // This is called a "TOCTOU" bug — Time Of Check To Time Of Use
+
+    await db.query(
+      'UPDATE seats SET status = $1, user_id = $2 WHERE id = $3',
+      ['booked', userId, seatId]
+    );
+
+    return { success: true, seatId };
+    // Both User A and User B pass the check and execute the update
+    // Last writer wins. First booking is silently overwritten.
+  }
+}
+
+// Why this is catastrophically worse for tickets than for most systems:
+// =====================================================================
+// Most systems tolerate small inconsistencies temporarily.
+// Double-booking has ZERO tolerance — the seat is physically finite.
+// A user shows up to the concert. The seat is taken. There is no "eventual fix."
+//
+// This is why tickets require STRONG consistency and SYNCHRONOUS conflict resolution.
+// Eventual consistency is explicitly the WRONG choice here (covered below).
+
+// What we need:
+// =============
+// 1. Atomicity: Check-and-update as a single uninterruptible operation
+// 2. Isolation: No two transactions can see the same available seat simultaneously
+// 3. Conflict detection: If two requests race, exactly ONE wins
+// 4. Feedback: The loser gets an immediate error, not a silent overwrite
+  </code></pre>
+
+  <h3>1. Database Transactions & ACID</h3>
+  <pre><code>
+// ACID is the foundation. Understand what each property actually means for tickets.
+// =================================================================================
+//
+// A — ATOMICITY:   All operations in a transaction succeed, or ALL are rolled back.
+//                  Charge user AND book seat — if charge fails, seat is not booked.
+//                  No partial states. "Half booked" doesn't exist.
+//
+// C — CONSISTENCY: Database moves from one valid state to another valid state.
+//                  Invariant: booked_count <= total_seats, always.
+//                  A transaction that violates this cannot commit.
+//
+// I — ISOLATION:   Concurrent transactions behave as if they ran sequentially.
+//                  User A's transaction cannot see User B's in-progress changes.
+//                  This is the property that PREVENTS double booking.
+//
+// D — DURABILITY:  Once committed, a booking survives crashes, power loss, restarts.
+//                  "Your booking is confirmed" must mean it's actually persisted.
+
+// Transaction isolation levels — they matter enormously here:
+// ============================================================
+//
+// READ UNCOMMITTED:  Can read rows another transaction hasn't committed yet.
+//                    "Dirty reads." Completely useless for tickets.
+//
+// READ COMMITTED:    Only read committed rows. Still allows "non-repeatable reads."
+//                    User A reads seat as available. User B books it and commits.
+//                    User A re-reads the same seat — now it's booked. Surprise!
+//                    STILL NOT SAFE for tickets without locking.
+//
+// REPEATABLE READ:   Same row read twice in same transaction returns same data.
+//                    Prevents non-repeatable reads. PostgreSQL default.
+//                    Still allows phantom reads (new rows inserted by others).
+//
+// SERIALIZABLE:      Transactions behave as if executed one at a time, serially.
+//                    Strongest isolation. Correct for tickets but expensive.
+//                    Usually overkill — row-level locking is the practical solution.
+//
+// What we actually use: READ COMMITTED + explicit row locks (SELECT FOR UPDATE)
+// This gives us the safety of SERIALIZABLE for the specific rows we care about,
+// without paying the performance cost of full table serialization.
+
+// Minimal correct transaction (no locking yet — still broken):
+async function bookSeatTransaction(userId, seatId) {
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
+
+    const result = await client.query(
+      'SELECT status FROM seats WHERE id = $1',
+      [seatId]
+    );
+
+    if (result.rows[0].status !== 'available') {
+      await client.query('ROLLBACK');
+      throw new Error('Seat not available');
+    }
+
+    // ⚠️ STILL BROKEN: Two transactions can both pass the check above
+    // before either one commits the update.
+    // BEGIN/COMMIT alone does NOT prevent the race condition.
+    // You need row-level LOCKING. See next section.
+
+    await client.query(
+      'UPDATE seats SET status = $1, user_id = $2 WHERE id = $3',
+      ['booked', userId, seatId]
+    );
+
+    await client.query('COMMIT');
+    return { success: true };
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+// Key insight: BEGIN/COMMIT gives you atomicity and durability.
+// It does NOT give you isolation against concurrent writes to the SAME row.
+// For that, you need explicit locking — pessimistic or optimistic.
+  </code></pre>
+
+  <h3>2. Pessimistic Locking: SELECT FOR UPDATE</h3>
+  <pre><code>
+// Pessimistic Locking: "Assume conflicts WILL happen — lock the row immediately."
+// ================================================================================
+// Lock the seat row the moment you read it.
+// Any other transaction trying to read (with lock) the same row WAITS.
+// Your transaction finishes → releases lock → next transaction proceeds.
+// Exactly one transaction wins at a time. Serialized at the database level.
+
+class PessimisticBookingService {
+
+  async bookSeat(userId, seatId, eventId) {
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // SELECT FOR UPDATE — acquires an exclusive row-level lock
+      // This is the key: no other transaction can SELECT FOR UPDATE this row
+      // until this transaction commits or rolls back.
+      //
+      // Without FOR UPDATE: two transactions both read 'available', both proceed
+      // With FOR UPDATE:    second transaction BLOCKS on this line until first commits
+      const result = await client.query(
+        SELECT id, status, event_id, seat_number
+         FROM seats
+         WHERE id = $1
+         FOR UPDATE,           // ← This single clause prevents double booking
+        [seatId]
+      );
+
+      if (result.rows.length === 0) {
+        throw new Error('Seat does not exist');
+      }
+
+      const seat = result.rows[0];
+
+      if (seat.status !== 'available') {
+        // Another transaction already booked it — this is the correct failure path
+        throw new Error('Seat already booked');
+      }
+
+      // Create booking record
+      const booking = await client.query(
+        INSERT INTO bookings (id, user_id, seat_id, event_id, status, created_at)
+         VALUES ($1, $2, $3, $4, $5, NOW())
+         RETURNING id,
+        [uuidv4(), userId, seatId, eventId, 'confirmed']
+      );
+
+      // Mark seat as booked
+      await client.query(
+        UPDATE seats
+         SET status = 'booked', user_id = $1, booking_id = $2, booked_at = NOW()
+         WHERE id = $3,
+        [userId, booking.rows[0].id, seatId]
+      );
+
+      await client.query('COMMIT');
+      // Lock is released HERE. Next waiting transaction can now proceed.
+
+      return {
+        bookingId: booking.rows[0].id,
+        seatId,
+        status: 'confirmed'
+      };
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      // Lock is also released on ROLLBACK
+      throw error;
+
+    } finally {
+      client.release();
+    }
+  }
+
+  // SKIP LOCKED — for booking multiple seats, or processing a queue
+  // ================================================================
+  // NOWAIT: Fail immediately if row is locked (don't queue up waiting)
+  // SKIP LOCKED: Skip locked rows, return next available unlocked row
+  //
+  // Use case: User wants "any available seat in section A"
+  // Without SKIP LOCKED: all users queue up for seat 1, nobody tries seat 2
+  // With SKIP LOCKED: users spread across all available seats simultaneously
+
+  async bookAnyAvailableSeat(userId, eventId, section) {
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // SKIP LOCKED: find first available seat not locked by anyone else
+      // Multiple users run this simultaneously — each gets a DIFFERENT seat
+      const result = await client.query(
+        SELECT id, seat_number
+         FROM seats
+         WHERE event_id = $1
+           AND section = $2
+           AND status = 'available'
+         ORDER BY seat_number
+         LIMIT 1
+         FOR UPDATE SKIP LOCKED,   // ← Skip any seat another transaction has locked
+        [eventId, section]
+      );
+
+      if (result.rows.length === 0) {
+        throw new Error('No seats available in this section');
+      }
+
+      const seat = result.rows[0];
+
+      await client.query(
+        UPDATE seats SET status = 'booked', user_id = $1 WHERE id = $2,
+        [userId, seat.id]
+      );
+
+      await client.query('COMMIT');
+      return { seatId: seat.id, seatNumber: seat.seat_number };
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+}
+
+// How SELECT FOR UPDATE works under the hood:
+// ============================================
+//
+// Transaction A: BEGIN → SELECT FOR UPDATE seat 42 → LOCK ACQUIRED → (processing...)
+// Transaction B: BEGIN → SELECT FOR UPDATE seat 42 → BLOCKS (waiting for lock)
+// Transaction A: UPDATE seats → COMMIT → LOCK RELEASED
+// Transaction B: (unblocked) → reads seat 42 → status = 'booked' → throws error → ROLLBACK
+//
+// Result: Exactly one booking. Second user gets a clean error. Zero double bookings.
+
+// Pessimistic Locking — Pros and Cons:
+// =====================================
+// ✅ Guaranteed correctness — impossible to double-book
+// ✅ Simple mental model — lock, do work, unlock
+// ✅ Works perfectly for single-row operations
+// ✅ Database handles all the complexity
+// ❌ Lock contention under high load — all users for same seat queue up
+// ❌ Deadlocks possible when multiple rows locked in different orders
+// ❌ Long transactions hold locks longer — more blocking
+// ❌ Doesn't scale horizontally without careful sharding
+
+// Deadlock prevention:
+// ====================
+// If booking multiple seats, ALWAYS lock in a consistent order (e.g. by seat ID ascending).
+// Transaction A locks seat 1, then seat 2.
+// Transaction B locks seat 1, then seat 2.  (never: seat 2 then seat 1)
+// Consistent ordering prevents circular waits → prevents deadlocks.
+
+async bookMultipleSeats(userId, seatIds, eventId) {
+  const sortedSeatIds = [...seatIds].sort();  // Always same order — prevents deadlock
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
+
+    const placeholders = sortedSeatIds.map((_, i) => $$ {i + 1}).join(', ');
+    const result = await client.query(
+      SELECT id, status FROM seats WHERE id IN ($ {placeholders}) ORDER BY id FOR UPDATE,
+      sortedSeatIds
+    );
+
+    const unavailable = result.rows.filter(s => s.status !== 'available');
+    if (unavailable.length > 0) {
+      throw new Error(Seats not available: $ {unavailable.map(s => s.id).join(', ')});
+    }
+
+    // All seats available and locked — proceed with booking
+    for (const seat of result.rows) {
+      await client.query(
+        UPDATE seats SET status = 'booked', user_id = $1 WHERE id = $2,
+        [userId, seat.id]
+      );
+    }
+
+    await client.query('COMMIT');
+    return { bookedSeats: sortedSeatIds };
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+  </code></pre>
+
+  <h3>3. Optimistic Locking: Compare-and-Swap</h3>
+  <pre><code>
+// Optimistic Locking: "Assume conflicts are RARE — don't lock, just detect and retry."
+// =====================================================================================
+// No upfront lock on the row.
+// Read the row and record its current version.
+// Do your work. At commit time, check: has the version changed since I read it?
+// If yes: conflict — someone else modified it. Abort and retry.
+// If no: safe to commit. Increment the version.
+//
+// Best for: Low-contention scenarios (browsing, wishlist, profile updates)
+// Worst for: High-contention scenarios (Coldplay last 10 seats)
+
+class OptimisticBookingService {
+
+  async bookSeat(userId, seatId, eventId) {
+    const maxRetries = 3;
+
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        const result = await this.attemptBooking(userId, seatId, eventId);
+        return result;
+
+      } catch (error) {
+        if (error.type === 'VERSION_CONFLICT' && attempt < maxRetries - 1) {
+          // Another user modified this row — wait a bit and retry
+          await this.jitteredBackoff(attempt);
+          continue;
+        }
+        throw error;
+      }
+    }
+  }
+
+  async attemptBooking(userId, seatId, eventId) {
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // 1. Read seat WITHOUT locking — just record the version
+      const result = await client.query(
+        SELECT id, status, version FROM seats WHERE id = $1,
+        [seatId]
+      );
+
+      const seat = result.rows[0];
+
+      if (seat.status !== 'available') {
+        throw new Error('Seat not available');
+      }
+
+      const readVersion = seat.version;  // Remember the version we saw
+
+      // ... do business logic, validate payment, etc. ...
+      // No lock held during this time — other transactions can read freely
+
+      // 2. Update ONLY IF version hasn't changed since we read it
+      // This is the Compare-and-Swap: "update where version = what I saw"
+      const updateResult = await client.query(
+        UPDATE seats
+         SET status = 'booked',
+             user_id = $1,
+             version = version + 1    -- Increment version on every update
+         WHERE id = $2
+           AND version = $3           -- ← This is the optimistic lock check
+           AND status = 'available',  // Double-check status too
+        [userId, seatId, readVersion]
+      );
+
+      if (updateResult.rowCount === 0) {
+        // rowCount = 0 means the WHERE clause failed:
+        // version changed (another user booked/modified this seat) OR
+        // status changed (seat was booked between our read and write)
+        // This is our conflict detection.
+        const error = new Error('Seat was modified — please retry');
+        error.type = 'VERSION_CONFLICT';
+        throw error;
+      }
+
+      await client.query('COMMIT');
+      return { success: true, seatId };
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  jitteredBackoff(attempt) {
+    // Jitter prevents all retrying users from hammering at exactly the same time
+    // (Thundering herd problem on retries)
+    const base = Math.min(100 * Math.pow(2, attempt), 1000);  // Exponential: 100ms, 200ms, 400ms...
+    const jitter = Math.random() * base * 0.5;                // Add up to 50% random jitter
+    return new Promise(resolve => setTimeout(resolve, base + jitter));
+  }
+}
+
+// Schema: the 'version' column is the key
+// =========================================
+/*
+CREATE TABLE seats (
+  id          UUID PRIMARY KEY,
+  event_id    UUID NOT NULL,
+  seat_number VARCHAR(10),
+  section     VARCHAR(50),
+  status      VARCHAR(20) DEFAULT 'available',
+  user_id     UUID,
+  version     INTEGER DEFAULT 0,   -- ← Incremented on every update
+  booked_at   TIMESTAMP
+);
+*/
+
+// How optimistic locking fails under high contention:
+// =====================================================
+//
+// 10,000 users simultaneously read seat 42 (version = 0, status = available)
+// 10,000 users simultaneously try to UPDATE WHERE version = 0
+// Exactly 1 succeeds (version becomes 1)
+// 9,999 get rowCount = 0 → VERSION_CONFLICT → retry
+// 9,999 retry: seat is now 'booked' → 'Seat not available' error
+//
+// This is CORRECT behavior — one booking. But those 9,999 retries hit the database again.
+// Under extreme load (Coldplay scale), this creates a thundering herd on retries.
+// This is why high-contention scenarios need pessimistic locking or queue serialization.
+
+// When to use Optimistic vs Pessimistic:
+// ========================================
+//
+// OPTIMISTIC:  Low conflict rate, short transactions, read-heavy
+//              Examples: User profile updates, product reviews, wishlist items
+//              Why: No lock overhead for the 99% of cases with no conflict
+//
+// PESSIMISTIC: High conflict rate, contended resources, correctness critical
+//              Examples: Last few concert seats, hotel rooms, flight seats
+//              Why: Fail fast with clear error, no expensive retry storms
+//
+// Rule of thumb: If multiple users are LIKELY to want the SAME specific row
+//                simultaneously → pessimistic. Otherwise → optimistic.
+  </code></pre>
+
+  <h3>4. Seat Hold / Reservation System</h3>
+  <pre><code>
+// Real-world ticket systems (Ticketmaster, BookMyShow) don't lock forever.
+// They use a TIME-BOUNDED HOLD: "seat is reserved for you for 10 minutes."
+// If you don't complete payment in 10 minutes, seat is released back to pool.
+// This prevents seats being locked indefinitely by users who abandon checkout.
+
+class SeatHoldService {
+
+  async holdSeat(userId, seatId, eventId) {
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // Lock the row
+      const result = await client.query(
+        SELECT id, status, hold_expires_at
+         FROM seats
+         WHERE id = $1
+         FOR UPDATE,
+        [seatId]
+      );
+
+      const seat = result.rows[0];
+
+      // Available if: status is 'available', OR status is 'held' but hold has expired
+      const now = new Date();
+      const isAvailable =
+        seat.status === 'available' ||
+        (seat.status === 'held' && seat.hold_expires_at < now);
+
+      if (!isAvailable) {
+        throw new Error(
+          seat.status === 'held'
+            ? Seat held by another user. Try again in $ {Math.ceil((seat.hold_expires_at - now) / 1000)}s
+            : 'Seat already booked'
+        );
+      }
+
+      const holdExpiresAt = new Date(now.getTime() + 10 * 60 * 1000);  // 10 minutes
+
+      // Mark as held with expiry time
+      await client.query(
+        UPDATE seats
+         SET status = 'held',
+             hold_user_id = $1,
+             hold_expires_at = $2,
+             version = version + 1
+         WHERE id = $3,
+        [userId, holdExpiresAt, seatId]
+      );
+
+      await client.query('COMMIT');
+
+      // Set Redis key for fast hold lookup (avoid DB query on every status check)
+      await redis.setex(
+        hold:$ {seatId},
+        600,  // 10 minutes in seconds
+        JSON.stringify({ userId, seatId, expiresAt: holdExpiresAt })
+      );
+
+      return {
+        holdId: hold_$ {seatId}_$ {userId},
+        seatId,
+        expiresAt: holdExpiresAt,
+        expiresInSeconds: 600
+      };
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  // Step 2: Complete booking during the hold window
+  async confirmBooking(userId, seatId, paymentId) {
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      const result = await client.query(
+        SELECT id, status, hold_user_id, hold_expires_at
+         FROM seats WHERE id = $1 FOR UPDATE,
+        [seatId]
+      );
+
+      const seat = result.rows[0];
+      const now = new Date();
+
+      // Validate: must still be held by THIS user and not expired
+      if (seat.status !== 'held') {
+        throw new Error('Seat is no longer held');
+      }
+      if (seat.hold_user_id !== userId) {
+        throw new Error('Seat is held by a different user');
+      }
+      if (seat.hold_expires_at < now) {
+        throw new Error('Hold has expired — please restart booking');
+      }
+
+      // Confirm booking
+      const bookingId = uuidv4();
+
+      await client.query(
+        UPDATE seats
+         SET status = 'booked',
+             user_id = $1,
+             booking_id = $2,
+             hold_user_id = NULL,
+             hold_expires_at = NULL,
+             booked_at = NOW()
+         WHERE id = $3,
+        [userId, bookingId, seatId]
+      );
+
+      await client.query(
+        INSERT INTO bookings (id, user_id, seat_id, event_id, payment_id, status, created_at)
+         SELECT $1, $2, $3, event_id, $4, 'confirmed', NOW()
+         FROM seats WHERE id = $3,
+        [bookingId, userId, seatId, paymentId]
+      );
+
+      await client.query('COMMIT');
+
+      // Clean up Redis hold
+      await redis.del(hold:$ {seatId});
+
+      return { bookingId, status: 'confirmed' };
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  // Background job: release expired holds every 60 seconds
+  async releaseExpiredHolds() {
+    await db.query(
+      UPDATE seats
+       SET status = 'available',
+           hold_user_id = NULL,
+           hold_expires_at = NULL,
+           version = version + 1
+       WHERE status = 'held'
+         AND hold_expires_at < NOW()
+    );
+    // Seats are now available again for other users to hold
+  }
+}
+
+// State machine for a seat:
+// ==========================
+//
+//  available → held (user starts checkout, 10 min timer starts)
+//  held → booked (user completes payment within 10 min)
+//  held → available (timer expires, seat released back to pool)
+//  booked → available (refund/cancellation — rare)
+//
+// Only one valid transition at a time. SELECT FOR UPDATE enforces this.
+  </code></pre>
+
+  <h3>5. Queue-Based Serialization: One at a Time</h3>
+  <pre><code>
+// For extreme high-demand events (Taylor Swift, Coldplay), even pessimistic locking
+// struggles — thousands of transactions queue up on the same row simultaneously,
+// causing lock wait timeouts and connection pool exhaustion.
+//
+// Solution: Push ALL requests for a specific event into a queue.
+// A single worker processes them one at a time.
+// Serialization is enforced at the queue level, not the database level.
+// Database sees sequential writes — zero contention, zero deadlocks.
+
+// Architecture:
+// =============
+// User clicks "Buy" → POST /book → pushed to Redis queue → returns 202 with position
+// Worker dequeues one request at a time → books in DB → publishes result
+// User polls /booking/status/:id or receives WebSocket push when done
+
+class QueueBasedBookingService {
+
+  // API endpoint — fast, just enqueues
+  async requestBooking(req, res) {
+    const { userId, seatId, eventId } = req.body;
+    const bookingRequestId = uuidv4();
+
+    // Enqueue booking request
+    await redis.rpush(
+      booking-queue:$ {eventId},  // One queue per event
+      JSON.stringify({
+        bookingRequestId,
+        userId,
+        seatId,
+        eventId,
+        requestedAt: new Date().toISOString()
+      })
+    );
+
+    // Return position in queue — users love seeing "Position 847 of 50,000"
+    const queueLength = await redis.llen(booking-queue:$ {eventId});
+
+    return res.status(202).json({
+      bookingRequestId,
+      status: 'queued',
+      position: queueLength,
+      estimatedWaitSeconds: queueLength * 0.5,  // ~500ms per booking
+      pollUrl: /booking/status/$ {bookingRequestId}
+    });
+  }
+
+  // Worker — single instance processes one at a time
+  async startWorker(eventId) {
+    console.log(Booking worker started for event: $ {eventId});
+
+    while (true) {
+      // BLPOP: blocking left-pop — waits for an item if queue is empty
+      // Timeout of 0 = wait forever. This is the consumption loop.
+      const item = await redis.blpop(booking-queue:$ {eventId}, 0);
+
+      if (!item) continue;
+
+      const request = JSON.parse(item[1]);
+
+      try {
+        // Process booking with a simple pessimistic lock
+        // No thundering herd: only ONE request hits this code at a time
+        const result = await this.processBooking(request);
+
+        // Publish result so user's poll/WebSocket can pick it up
+        await redis.setex(
+          booking-result:$ {request.bookingRequestId},
+          3600,  // 1 hour TTL
+          JSON.stringify({ status: 'confirmed', ...result })
+        );
+
+      } catch (error) {
+        await redis.setex(
+          booking-result:$ {request.bookingRequestId},
+          3600,
+          JSON.stringify({ status: 'failed', reason: error.message })
+        );
+      }
+    }
+  }
+
+  async processBooking(request) {
+    const { userId, seatId, eventId, bookingRequestId } = request;
+    const client = await pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // Idempotency: don't process same request twice
+      const existing = await client.query(
+        SELECT id FROM bookings WHERE idempotency_key = $1,
+        [bookingRequestId]
+      );
+      if (existing.rows.length > 0) {
+        return { bookingId: existing.rows[0].id };  // Already processed
+      }
+
+      const result = await client.query(
+        SELECT status FROM seats WHERE id = $1 FOR UPDATE,
+        [seatId]
+      );
+
+      if (result.rows[0].status !== 'available') {
+        throw new Error('Seat not available');
+      }
+
+      const bookingId = uuidv4();
+
+      await client.query(
+        UPDATE seats SET status = 'booked', user_id = $1 WHERE id = $2,
+        [userId, seatId]
+      );
+
+      await client.query(
+        INSERT INTO bookings (id, user_id, seat_id, event_id, idempotency_key, status, created_at)
+         VALUES ($1, $2, $3, $4, $5, 'confirmed', NOW()),
+        [bookingId, userId, seatId, eventId, bookingRequestId]
+      );
+
+      await client.query('COMMIT');
+      return { bookingId };
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  // User polls this to check if their queued request completed
+  async getBookingStatus(req, res) {
+    const { bookingRequestId } = req.params;
+
+    const result = await redis.get(booking-result:$ {bookingRequestId});
+
+    if (!result) {
+      // Still in queue — return position
+      const position = await this.getQueuePosition(bookingRequestId);
+      return res.status(202).json({
+        status: 'queued',
+        position,
+        message: position > 0 ? You are #$ {position} in line : 'Processing...'
+      });
+    }
+
+    return res.json(JSON.parse(result));
+  }
+}
+
+// Queue serialization — Pros and Cons:
+// ========================================
+// ✅ Zero database contention — worker is the only writer
+// ✅ Natural backpressure — queue absorbs any traffic spike
+// ✅ Queue position is great UX (Ticketmaster virtual waiting room)
+// ✅ Easy to add priority (premium members jump queue)
+// ✅ Replay on failure — request stays in queue until processed
+// ❌ Higher latency — user waits for queue processing (seconds, not milliseconds)
+// ❌ More infrastructure — Redis queue + worker process
+// ❌ Worker is a single point of failure (mitigate with multiple workers + partitioning)
+// ❌ More complex status tracking (polling vs. synchronous response)
+  </code></pre>
+
+  <h3>6. Why Eventual Consistency is WRONG Here</h3>
+  <pre><code>
+// Eventual consistency = "the system will become consistent... eventually."
+// This is fine for many systems. It is CATASTROPHICALLY WRONG for ticket booking.
+// ================================================================================
+//
+// Eventual consistency means:
+// - Read and write to any node immediately
+// - Nodes sync with each other asynchronously
+// - For a brief window, different nodes have different views of the data
+//
+// Example of eventual consistency working fine:
+// User A updates their profile bio. User B's feed shows old bio for 500ms.
+// Then replication catches up. Both see new bio. No harm done.
+//
+// Example of eventual consistency for tickets (DISASTER):
+// User A books seat 42 on Node 1. Node 1 accepts.
+// User B books seat 42 on Node 2. Node 2 also accepts (hasn't received A's write yet).
+// Replication runs. Conflict detected. System must pick a winner.
+// Under "last write wins" (LWW): A's booking is silently deleted.
+// A received a confirmation. A shows up. No seat. A sues the venue.
+
+// Why "last write wins" CAN'T fix double booking:
+// =================================================
+class LastWriteWins {
+  // In distributed databases like Cassandra, DynamoDB (without transactions):
+  // Each write has a timestamp.
+  // On conflict, the write with the LATER timestamp wins.
+  // The EARLIER write is overwritten without error.
+  // Both users received 'booking confirmed'. One booking is silently deleted.
+  //
+  // Cassandra: seat 42 → written at t=100 (User A) and t=101 (User B)
+  // Cassandra resolves: User B wins (later timestamp)
+  // User A has a confirmation email for a booking that no longer exists.
+}
+
+// Why "read your own writes" consistency isn't enough:
+// ======================================================
+// Even if each user can read their own writes:
+// User A writes booking, reads it back → sees confirmed (correct)
+// User B writes booking, reads it back → sees confirmed (correct)
+// But BOTH EXIST. Seat is still double booked.
+// Read-your-own-writes doesn't detect cross-user conflicts.
+
+// Why you need STRONG (linearizable) consistency for booking:
+// ============================================================
+// Strong consistency: every read sees the most recent write.
+// All nodes agree on the current state of every row.
+// When User B tries to book seat 42, the system KNOWS User A already booked it.
+// User B's booking fails. Zero double bookings.
+
+// Systems that provide strong consistency for OLTP:
+// ==================================================
+// ✅ PostgreSQL, MySQL — single-node, ACID, serializable
+// ✅ CockroachDB, YugabyteDB — distributed, but ACID with serializable isolation
+// ✅ Google Spanner — global distributed, external consistency (even stronger than serializable)
+// ❌ Cassandra — tunable, but "eventual" by default. No row-level transactions across partitions.
+// ❌ DynamoDB — EVENTUALLY consistent reads by default. Strongly consistent reads available
+//               but no cross-partition transactions (unless using Transactions API at cost)
+// ❌ MongoDB (without transactions) — document-level atomicity only
+
+// The CAP theorem and tickets:
+// ============================
+// CAP: In a distributed system, choose 2 of: Consistency, Availability, Partition Tolerance
+// Network partitions WILL happen. So you choose: Consistency OR Availability.
+//
+// CP (Consistency + Partition Tolerance): System refuses to serve if it can't guarantee consistency.
+//   → Correct for tickets. User gets an error during partition, not a wrong answer.
+//
+// AP (Availability + Partition Tolerance): System serves requests even during partition.
+//   → Might show seat as available when it isn't. Double booking risk.
+//
+// For ticket booking: choose CP. It is BETTER to show "System temporarily unavailable"
+// than to sell the same seat to two people.
+// Users tolerate outages. Users do NOT tolerate showing up to a concert without a seat.
+
+// The bottom line:
+// ================
+// Eventual consistency is a performance/availability optimization.
+// It trades correctness for speed.
+// Ticket booking cannot trade correctness. Choose strong consistency.
+// Use PostgreSQL or a distributed SQL database. Not Cassandra. Not DynamoDB.
+  </code></pre>
+
+  <h3>7. Complete Booking System: Production Design</h3>
+  <pre><code>
+// Putting it all together: high-demand concert booking at scale
+// =============================================================
+
+const express = require('express');
+const { Pool } = require('pg');
+
+class TicketBookingSystem {
+  constructor() {
+    this.app = express();
+    this.pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    this.redis = new Redis(process.env.REDIS_URL);
+
+    this.setupMiddleware();
+    this.setupRoutes();
+  }
+
+  setupMiddleware() {
+    this.app.use(express.json());
+
+    // Request ID for tracing across services
+    this.app.use((req, res, next) => {
+      req.id = req.headers['x-request-id'] || uuidv4();
+      res.setHeader('X-Request-ID', req.id);
+      next();
+    });
+
+    // Auth middleware
+    this.app.use(authenticateUser);
+
+    // Rate limiting — prevent one user hammering "Buy" button
+    // Without this: a bot can send 10,000 requests and starve real users
+    this.app.use('/api/book', async (req, res, next) => {
+      const key = ratelimit:book:$ {req.user.id};
+      const count = await this.redis.incr(key);
+      if (count === 1) await this.redis.expire(key, 60);
+
+      if (count > 5) {  // 5 booking attempts per minute per user
+        return res.status(429).json({
+          error: 'Too many booking attempts',
+          retryAfter: await this.redis.ttl(key)
+        });
+      }
+      next();
+    });
+  }
+
+  setupRoutes() {
+    // Get available seats — read-heavy, cacheable
+    this.app.get('/api/events/:eventId/seats', this.getAvailableSeats.bind(this));
+
+    // Hold a seat (Step 1 of 2-step booking)
+    this.app.post('/api/events/:eventId/seats/:seatId/hold', this.holdSeat.bind(this));
+
+    // Confirm booking (Step 2 — complete payment)
+    this.app.post('/api/bookings/:holdId/confirm', this.confirmBooking.bind(this));
+
+    // Release hold explicitly (user cancels checkout)
+    this.app.delete('/api/bookings/:holdId', this.releaseHold.bind(this));
+
+    // Get booking status
+    this.app.get('/api/bookings/:bookingId', this.getBooking.bind(this));
+  }
+
+  async getAvailableSeats(req, res) {
+    const { eventId } = req.params;
+
+    // Cache seat availability in Redis — avoid DB query on every page load
+    // Slightly stale (5 seconds) is fine for browsing. Exact count enforced at booking time.
+    const cacheKey = available-seats:$ {eventId};
+    const cached = await this.redis.get(cacheKey);
+
+    if (cached) {
+      return res.json(JSON.parse(cached));
+    }
+
+    const result = await this.pool.query(
+      SELECT id, seat_number, section, row, price, status
+       FROM seats
+       WHERE event_id = $1 AND status IN ('available', 'held')
+       ORDER BY section, row, seat_number,
+      [eventId]
+    );
+
+    const seats = result.rows.map(seat => ({
+      ...seat,
+      // Show 'held' seats as 'unavailable' to users — they might be released soon
+      // but showing 'held' creates false hope and frustration
+      displayStatus: seat.status === 'available' ? 'available' : 'unavailable'
+    }));
+
+    await this.redis.setex(cacheKey, 5, JSON.stringify(seats));  // 5s cache
+
+    return res.json(seats);
+  }
+
+  async holdSeat(req, res) {
+    const { eventId, seatId } = req.params;
+    const { userId } = req.user;
+
+    const client = await this.pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // Pessimistic lock — correct choice for high-contention seat booking
+      const result = await client.query(
+        SELECT id, status, hold_expires_at, event_id
+         FROM seats
+         WHERE id = $1 AND event_id = $2
+         FOR UPDATE NOWAIT,
+        // NOWAIT: fail immediately if row is locked by another transaction
+        // Without NOWAIT: users queue up and wait. With NOWAIT: immediate 409 response.
+        // Users prefer "seat unavailable" immediately over waiting 5s for the same answer.
+        [seatId, eventId]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Seat not found' });
+      }
+
+      const seat = result.rows[0];
+      const now = new Date();
+
+      const isAvailable =
+        seat.status === 'available' ||
+        (seat.status === 'held' && seat.hold_expires_at < now);
+
+      if (!isAvailable) {
+        return res.status(409).json({
+          error: 'Seat not available',
+          status: seat.status,
+          message: seat.status === 'held'
+            ? Seat held until $ {seat.hold_expires_at.toISOString()}
+            : 'Seat is already booked'
+        });
+      }
+
+      const holdId = uuidv4();
+      const holdExpiresAt = new Date(now.getTime() + 10 * 60 * 1000);  // 10 min
+
+      await client.query(
+        UPDATE seats
+         SET status = 'held',
+             hold_id = $1,
+             hold_user_id = $2,
+             hold_expires_at = $3,
+             version = version + 1
+         WHERE id = $4,
+        [holdId, userId, holdExpiresAt, seatId]
+      );
+
+      await client.query('COMMIT');
+
+      // Invalidate seat availability cache
+      await this.redis.del(available-seats:$ {eventId});
+
+      this.logger.info({
+        action: 'seat_held',
+        holdId,
+        seatId,
+        userId,
+        eventId,
+        expiresAt: holdExpiresAt
+      });
+
+      return res.status(200).json({
+        holdId,
+        seatId,
+        expiresAt: holdExpiresAt,
+        expiresInSeconds: 600,
+        checkoutUrl: /checkout/$ {holdId}
+      });
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+
+      // PostgreSQL error code 55P03 = lock_not_available (thrown by NOWAIT)
+      if (error.code === '55P03') {
+        return res.status(409).json({
+          error: 'Seat is being processed',
+          message: 'Someone else is booking this seat. Try another seat or retry in a moment.'
+        });
+      }
+
+      this.logger.error({ action: 'hold_failed', seatId, userId, error: error.message });
+      return res.status(500).json({ error: 'Booking failed', retryable: true });
+
+    } finally {
+      client.release();
+    }
+  }
+
+  async confirmBooking(req, res) {
+    const { holdId } = req.params;
+    const { paymentMethodId } = req.body;
+    const { userId } = req.user;
+
+    const client = await this.pool.connect();
+
+    try {
+      await client.query('BEGIN');
+
+      // Lock the seat row again for confirmation
+      const result = await client.query(
+        SELECT s.id, s.status, s.hold_id, s.hold_user_id, s.hold_expires_at,
+                s.event_id, s.price
+         FROM seats s
+         WHERE s.hold_id = $1
+         FOR UPDATE,
+        [holdId]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Hold not found or already confirmed' });
+      }
+
+      const seat = result.rows[0];
+      const now = new Date();
+
+      if (seat.hold_user_id !== userId) {
+        return res.status(403).json({ error: 'This hold belongs to a different user' });
+      }
+
+      if (seat.hold_expires_at < now) {
+        return res.status(410).json({
+          error: 'Hold expired',
+          message: 'Your seat hold has expired. Please start booking again.'
+        });
+      }
+
+      // Process payment — charge BEFORE updating seat to 'booked'
+      // If payment fails, seat hold remains active (user can retry payment)
+      const charge = await this.paymentService.charge({
+        userId,
+        amount: seat.price,
+        paymentMethodId,
+        idempotencyKey: holdId   // Prevents double charging on payment retry
+      });
+
+      const bookingId = uuidv4();
+
+      // Confirm booking
+      await client.query(
+        UPDATE seats
+         SET status = 'booked',
+             user_id = $1,
+             booking_id = $2,
+             hold_id = NULL,
+             hold_user_id = NULL,
+             hold_expires_at = NULL,
+             booked_at = NOW()
+         WHERE id = $3,
+        [userId, bookingId, seat.id]
+      );
+
+      await client.query(
+        INSERT INTO bookings
+           (id, user_id, seat_id, event_id, payment_id, charge_id, amount, status, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, 'confirmed', NOW()),
+        [bookingId, userId, seat.id, seat.event_id, charge.paymentId, charge.chargeId, seat.price]
+      );
+
+      await client.query('COMMIT');
+
+      // Invalidate seat cache
+      await this.redis.del(available-seats:$ {seat.event_id});
+
+      // Send confirmation (async — don't block the response)
+      setImmediate(() => {
+        this.notificationService.sendBookingConfirmation(userId, bookingId);
+      });
+
+      return res.status(201).json({
+        bookingId,
+        status: 'confirmed',
+        seatId: seat.id,
+        amount: seat.price,
+        chargeId: charge.chargeId
+      });
+
+    } catch (error) {
+      await client.query('ROLLBACK');
+
+      if (error.type === 'PaymentFailed') {
+        return res.status(402).json({
+          error: 'Payment failed',
+          message: error.message,
+          // Hold is still active — user can retry with different payment method
+          holdExpiresAt: error.holdExpiresAt
+        });
+      }
+
+      return res.status(500).json({ error: 'Booking failed', retryable: false });
+
+    } finally {
+      client.release();
+    }
+  }
+}
+
+// Schema for production:
+// =======================
+/*
+CREATE TABLE seats (
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  event_id         UUID NOT NULL REFERENCES events(id),
+  seat_number      VARCHAR(10) NOT NULL,
+  section          VARCHAR(50) NOT NULL,
+  row              VARCHAR(10),
+  price            DECIMAL(10,2) NOT NULL,
+  status           VARCHAR(20) NOT NULL DEFAULT 'available',
+  version          INTEGER NOT NULL DEFAULT 0,    -- For optimistic locking
+  user_id          UUID REFERENCES users(id),
+  booking_id       UUID,
+  hold_id          UUID UNIQUE,                   -- One hold per seat
+  hold_user_id     UUID REFERENCES users(id),
+  hold_expires_at  TIMESTAMP,
+  booked_at        TIMESTAMP,
+  CONSTRAINT valid_status CHECK (status IN ('available', 'held', 'booked', 'cancelled'))
+);
+
+CREATE INDEX idx_seats_event_status ON seats(event_id, status);
+CREATE INDEX idx_seats_hold_expires ON seats(hold_expires_at) WHERE status = 'held';
+
+CREATE TABLE bookings (
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id          UUID NOT NULL REFERENCES users(id),
+  seat_id          UUID NOT NULL REFERENCES seats(id),
+  event_id         UUID NOT NULL REFERENCES events(id),
+  payment_id       UUID,
+  charge_id        VARCHAR(100),
+  amount           DECIMAL(10,2),
+  idempotency_key  VARCHAR(100) UNIQUE,           -- Prevent duplicate bookings
+  status           VARCHAR(20) NOT NULL DEFAULT 'confirmed',
+  created_at       TIMESTAMP NOT NULL DEFAULT NOW()
+);
+*/
+  </code></pre>
+
+</div>
+`,
+
+            examples: [
+              "SELECT FOR UPDATE — pessimistic lock on seat row prevents concurrent booking",
+              "SELECT FOR UPDATE SKIP LOCKED — spread users across available seats simultaneously",
+              "SELECT FOR UPDATE NOWAIT — fail immediately if locked, no wait queue",
+              "Optimistic locking with version column — UPDATE WHERE version = $readVersion",
+              "Compare-and-swap: rowCount = 0 means conflict detected, retry with jitter",
+              "Seat hold with 10-minute TTL — time-bounded reservation before payment",
+              "Background job releasing expired holds back to available pool",
+              "Queue-based serialization — Redis RPUSH + BLPOP for single-writer per event",
+              "Queue position UX — 'You are #847 in line' reduces perceived wait",
+              "ACID transaction with atomicity — charge fails → seat not booked",
+              "Rate limiting per user — prevent bot hammering buy button",
+              "Idempotency key on booking — prevents duplicate charge on payment retry",
+              "CAP theorem applied — CP over AP, consistency over availability for tickets",
+              "Deadlock prevention — always lock multiple seats in sorted order by ID",
+            ],
+
+            questions: [
+              {
+                question:
+                  "What is a race condition and how does it cause double booking?",
+                difficulty: "Beginner",
+                category: "Concurrency",
+                answer:
+                  "A race condition occurs when two concurrent operations read shared state, make a decision based on it, and then both write — each unaware the other was doing the same thing. For tickets: User A reads seat 42 → status = available. User B reads seat 42 → status = available. Both pass the availability check. User A writes → booked. User B writes → booked (overwrites A silently). Both get confirmation emails. This is called a TOCTOU bug — Time Of Check to Time Of Use. The check (is seat available?) and the use (mark it booked) are two separate operations with a gap between them. Any other transaction can change reality in that gap. The fix is making check-and-update a single atomic operation — either through database locking (SELECT FOR UPDATE) or through optimistic concurrency control (UPDATE WHERE version = $seen). A simple BEGIN/COMMIT transaction does NOT prevent this race condition — transactions give you atomicity and durability, but isolation against concurrent writes to the same row requires explicit locking.",
+              },
+              {
+                question:
+                  "What is pessimistic locking? How does SELECT FOR UPDATE work?",
+                difficulty: "Intermediate",
+                category: "Pessimistic Locking",
+                answer:
+                  "Pessimistic locking assumes conflicts will happen and prevents them upfront by locking the row the moment it's read. SELECT FOR UPDATE acquires an exclusive row-level lock in the database. Any other transaction that tries to SELECT FOR UPDATE the same row will BLOCK (wait) until the first transaction commits or rolls back, then re-read the row to see its new state. How it works: Transaction A executes SELECT FOR UPDATE seat 42 → lock acquired → reads status = available → updates to booked → COMMITs → lock released. Transaction B was blocking on SELECT FOR UPDATE since step 1 → now unblocks → reads seat 42 → status = booked → throws 'seat already booked' error → ROLLBACKs. Result: exactly one booking. Second user gets a clean error. Three variants: FOR UPDATE = block until lock available. FOR UPDATE NOWAIT = fail immediately with error if row locked (better UX — instant response vs. waiting). FOR UPDATE SKIP LOCKED = skip this row, try the next available one (best for 'any seat in section A' queries — multiple users spread across all available seats simultaneously instead of queuing for seat 1). Use pessimistic locking when conflict probability is HIGH, like the last few concert seats.",
+              },
+              {
+                question:
+                  "What is optimistic locking and when should you use it instead of pessimistic?",
+                difficulty: "Intermediate",
+                category: "Optimistic Locking",
+                answer:
+                  "Optimistic locking assumes conflicts are RARE and doesn't lock upfront. Instead it detects conflicts at write time using a version number. Schema: add a version INTEGER column (default 0) to the seats table. Flow: Read seat WITHOUT locking, record the version you saw. Do your work. At commit: UPDATE seats SET status='booked', version=version+1 WHERE id=$seatId AND version=$versionYouSaw AND status='available'. Check rowCount: if 0, conflict detected (version changed since you read it, meaning someone else modified the row). Abort and retry. If 1, you won — committed successfully. When to use optimistic: low conflict rate, short transactions, read-heavy workloads. Examples: user profile updates, product reviews, wishlist additions. When NOT to use for tickets: under high contention (Coldplay last 10 seats), 9,999 of 10,000 concurrent users will get VERSION_CONFLICT and retry. Those 9,999 retries all hit the database simultaneously — thundering herd. The retries find the seat already booked — no benefit over the first attempt. Rule: if multiple users are LIKELY to want the SAME specific row simultaneously → pessimistic. If conflicts are rare → optimistic. For tickets specifically: use optimistic for 'seat browsing' operations, pessimistic for the actual booking transaction.",
+              },
+              {
+                question:
+                  "What is a seat hold / reservation system and why do real ticket platforms use it?",
+                difficulty: "Intermediate",
+                category: "Seat Hold Pattern",
+                answer:
+                  "A seat hold is a time-bounded reservation — the seat is locked for you for 10 minutes while you complete checkout. If you don't confirm within that window, the seat is automatically released back to the pool. Real platforms (Ticketmaster, BookMyShow) use this for two reasons: 1) UX: Users need time to fill in payment details, review order, etc. Locking a database row for the full checkout duration (potentially minutes) while user types their credit card number is too long. 2) Abandoned carts: Without holds, seats would bounce between 'available' and 'booking in progress' causing confusion. With holds, users see a clear countdown timer. Implementation: seats table has status = 'held' + hold_expires_at timestamp + hold_user_id. Hold creation uses SELECT FOR UPDATE to atomically check availability and set the hold. Background job runs every 60 seconds: UPDATE seats SET status='available' WHERE status='held' AND hold_expires_at < NOW() — releases expired holds. Expired hold = someone abandoned checkout → seat back in pool. Seat state machine: available → held (checkout started) → booked (payment confirmed) OR available (hold expired). Only one valid owner at any time, enforced by SELECT FOR UPDATE at each transition.",
+              },
+              {
+                question:
+                  "What is queue-based serialization and when does it outperform database locking?",
+                difficulty: "Advanced",
+                category: "Queue Serialization",
+                answer:
+                  "Queue-based serialization pushes ALL booking requests for an event into a queue and processes them one at a time with a single worker. This enforces serialization at the queue level, not the database level. Database sees sequential writes with zero contention. Why it outperforms locking at extreme scale: with pessimistic locking and 10,000 simultaneous requests for the same seat, all 10,000 transactions queue up in the database waiting for the row lock. Database connection pool gets exhausted. Lock wait timeouts fire. PostgreSQL struggles with that many concurrent transactions. With queue serialization: all 10,000 requests are enqueued in Redis in milliseconds (Redis handles 100k+ ops/sec). API returns 202 Accepted with queue position immediately. Single worker processes one booking per ~500ms. No contention. No connection pool exhaustion. Database sees one write at a time. Implementation: Redis RPUSH to enqueue, BLPOP to dequeue. Worker processes one request atomically, publishes result to Redis key, user polls or receives WebSocket push. Tradeoffs vs. locking: Queue = higher latency (seconds not milliseconds), more infrastructure, async UX (queue position). Locking = lower latency, simpler code, synchronous response. Use queue serialization for Taylor Swift / Coldplay scale events with virtual waiting rooms. Use database locking for normal-demand events.",
+              },
+              {
+                question:
+                  "Why is eventual consistency wrong for ticket booking? What does the CAP theorem say here?",
+                difficulty: "Advanced",
+                category: "Eventual Consistency",
+                answer:
+                  "Eventual consistency means nodes sync asynchronously — for a brief window, different nodes have different views of the data. For most systems this is fine. For ticket booking it causes double booking that cannot be corrected. Scenario: User A books seat 42 on Node 1. Node 1 accepts immediately. User B books seat 42 on Node 2 (hasn't received A's write yet). Node 2 also accepts. Replication runs. Conflict detected. Under Last Write Wins (LWW — how Cassandra resolves conflicts): the booking with the LATER timestamp survives. The EARLIER booking is silently deleted. User A has a confirmation email for a booking that no longer exists. They show up. No seat. No fix possible. The seat is physically finite. CAP theorem: distributed systems can guarantee at most 2 of Consistency, Availability, Partition Tolerance. Partitions will happen. So choose C or A. CP (Consistency + Partition Tolerance): system refuses to serve requests if it cannot guarantee consistency. Users see 'service temporarily unavailable' during partition. AP (Availability + Partition Tolerance): system serves all requests even during partition, at the cost of possible inconsistency. For tickets: CP is correct. Users tolerate a temporary outage. Users do NOT tolerate showing up to a concert to find their seat occupied. Use: PostgreSQL, CockroachDB, YugabyteDB. Do NOT use: Cassandra, DynamoDB default mode, MongoDB without transactions.",
+              },
+              {
+                question:
+                  "How do you prevent deadlocks when booking multiple seats?",
+                difficulty: "Advanced",
+                category: "Deadlocks",
+                answer:
+                  "A deadlock occurs when Transaction A holds a lock on row 1 and waits for row 2, while Transaction B holds row 2 and waits for row 1. Neither can proceed. They wait forever (until timeout). For ticket booking: Transaction A books seats 1 and 3. Locks seat 1, now tries to lock seat 3. Transaction B books seats 3 and 1. Locks seat 3, now tries to lock seat 1. Deadlock. Prevention strategy: ALWAYS acquire locks in a consistent order. Sort seat IDs before locking. Transaction A and B both lock in order: seat 1 first, then seat 3. Now: A locks seat 1. B tries to lock seat 1 — BLOCKS. A locks seat 3. A commits, releases both locks. B acquires seat 1. B acquires seat 3. B commits. No deadlock — no circular wait. Code: const sortedSeatIds = [...seatIds].sort(); then SELECT FOR UPDATE WHERE id IN (...) ORDER BY id. The ORDER BY id ensures PostgreSQL acquires locks in the same order regardless of input order. Additional protection: set lock_timeout on the connection (SET lock_timeout = '5s'). If you wait more than 5 seconds for a lock, fail fast rather than waiting indefinitely. PostgreSQL also has deadlock detection that will automatically choose a victim transaction to abort — but relying on this means retries and slower UX. Prevention via sorted order is always better than detection.",
+              },
+              {
+                question:
+                  "How do you handle the high-demand sale scenario — 50,000 users hitting 'Buy' simultaneously?",
+                difficulty: "Advanced",
+                category: "High Demand",
+                answer:
+                  "This is the Coldplay / Taylor Swift problem. Multiple layers needed: 1) VIRTUAL WAITING ROOM: Before sale opens, users enter a queue. At sale time, users are released in random batches (not FIFO — prevents people who refreshed at 10:00:00.001 from having advantage). Ticketmaster does this. Reduces 50,000 simultaneous requests to manageable batches. 2) RATE LIMITING: 5 booking attempts per user per minute. Prevents bots hammering the endpoint. Legitimate users don't need to send 1000 requests per second. 3) REDIS QUEUE SERIALIZATION: All booking requests queued. Workers process sequentially. Database sees no contention. Queue position displayed to users — reduces abandonment ('You are #847, estimated 7 minutes'). 4) SEAT DISTRIBUTION: Instead of all 50,000 users fighting for the same 200 seats, show different seat maps to different users (based on queue position or randomization). Reduces contention per seat. 5) READ CACHE: Seat availability shown from Redis cache (5s TTL) not live DB. Browsing does not hit database. Only the actual hold/book operation hits DB with SELECT FOR UPDATE. 6) CONNECTION POOLING: PgBouncer in transaction mode in front of PostgreSQL. Prevents connection pool exhaustion. 7) DATABASE HARDWARE: This is the time to scale up the primary. More IOPS, more RAM for shared buffers. Vertical scale for the DB, horizontal scale for API servers.",
+              },
+              {
+                question:
+                  "What's the difference between a BEGIN/COMMIT transaction and SELECT FOR UPDATE?",
+                difficulty: "Intermediate",
+                category: "Database Transactions",
+                answer:
+                  "This is a common confusion. They solve different problems. BEGIN/COMMIT gives you ATOMICITY and DURABILITY. It means: all my SQL statements succeed together, or none of them do. If I INSERT a booking and UPDATE a seat status, and the server crashes between them, the whole thing rolls back. No partial state. But BEGIN/COMMIT alone does NOT prevent two transactions from reading the same row, both seeing 'available', and both writing 'booked'. Each transaction is atomic individually — atomicity doesn't mean exclusivity with OTHER transactions. SELECT FOR UPDATE gives you ISOLATION for specific rows. It says: I am reading this row AND preventing anyone else from modifying it until I'm done. Two transactions running SELECT FOR UPDATE on the same row will execute serially, not concurrently. The second one waits until the first commits, then re-reads the row's new state. You need BOTH: BEGIN/COMMIT wraps the entire operation (atomicity) so partial states can't persist. SELECT FOR UPDATE on the seat row ensures only one transaction can check-and-update at a time (isolation). Without BEGIN/COMMIT: each statement is its own mini-transaction. A crash between SELECT FOR UPDATE and UPDATE could leave the row locked indefinitely. Without SELECT FOR UPDATE: both transactions pass the availability check before either writes.",
+              },
+              {
+                question:
+                  "How do you design the seat status to support cancellations and refunds?",
+                difficulty: "Intermediate",
+                category: "System Design",
+                answer:
+                  "The seat state machine needs to support the full lifecycle. States: available → held (checkout started, 10 min timer) → booked (payment confirmed) → cancelled (user/admin cancelled). And: booked → refund_pending (refund requested) → available (refund processed, seat back in pool) OR booked → partially_refunded (group booking, some seats cancelled). Implementation: Each transition is a SELECT FOR UPDATE + UPDATE in a transaction. Cancellation flow: SELECT FOR UPDATE the seat. Verify it's booked and belongs to this user. Call payment service to initiate refund (idempotent — same booking ID = same refund). UPDATE seats SET status = 'available', user_id = NULL, booking_id = NULL. INSERT INTO cancellations with reason, timestamp, refund_amount. COMMIT. Key considerations: 1) Don't immediately mark available until refund is confirmed — use 'refund_pending' state. 2) Seat released only after payment processor confirms refund. 3) Keep audit trail — never DELETE bookings, set status = 'cancelled'. 4) Idempotency on refund — if refund service called twice, same refund amount returned once. 5) Time window for cancellation — many venues allow cancellation up to 24 hours before event. Enforce this in the service layer before even attempting the refund.",
+              },
+              {
+                question:
+                  "How does the optimistic locking retry with jitter prevent a thundering herd?",
+                difficulty: "Advanced",
+                category: "Optimistic Locking",
+                answer:
+                  "A thundering herd occurs when multiple clients all fail simultaneously and all retry at exactly the same time — causing another simultaneous conflict, which causes another simultaneous retry, in a cycle. Example without jitter: 1000 transactions fail at t=0ms. All retry at t=100ms (fixed backoff). 999 fail again at t=100ms. All retry at t=200ms. The spike repeats every 100ms. The database never gets relief. With exponential backoff: retry delays are 100ms, 200ms, 400ms. Spreads retries over time. Better, but if 1000 clients all started at the same time, they still retry in synchronized waves. With jitter: base = 100ms * 2^attempt. jitter = random(0, base * 0.5). actual_delay = base + jitter. Each client picks a slightly different delay. 1000 clients that all failed at t=0ms now retry at t=100ms to t=150ms — spread across 50ms instead of all at once. The database sees a steady trickle instead of a spike. Full-jitter algorithm (AWS recommendation): delay = random(0, base). Even more spread. The key insight: the goal of backoff is not just to wait, but to DESYNCHRONIZE the retries. Without jitter you get correlated failures. With jitter you get uncorrelated independent retries that the database can handle smoothly.",
+              },
+              {
+                question:
+                  "How would you monitor this system in production? What are the critical metrics?",
+                difficulty: "Advanced",
+                category: "Observability",
+                answer:
+                  "Critical metrics for a ticket booking system: 1) BOOKING SUCCESS RATE: bookings_confirmed / booking_attempts. Alert if < 95% during a sale. Drop indicates seat contention overwhelming the system. 2) LOCK WAIT TIME: How long transactions spend waiting for SELECT FOR UPDATE to acquire. Alert if p99 > 1s. High wait = too many concurrent bookings for same seats, or long-running transactions holding locks. 3) DEADLOCK COUNT: PostgreSQL logs deadlocks. Alert on any deadlock — means lock ordering is wrong in code. 4) SEAT HOLD EXPIRY RATE: Holds expiring / holds created. High rate = users abandoning checkout. Might mean checkout UX is too slow, or hold window too short. 5) DOUBLE BOOKING ATTEMPTS: Log every case where a transaction's SELECT FOR UPDATE finds a seat already booked. This is CORRECT behavior (not an error), but high rate indicates hot seats under heavy contention. 6) DB CONNECTION POOL UTILIZATION: Alert if > 80% utilized. Near 100% = new requests fail immediately. Add PgBouncer or scale DB. 7) QUEUE DEPTH (if using queue serialization): Alert if growing faster than workers drain. 8) P99 BOOKING LATENCY: Alert if > 3 seconds for synchronous booking. 9) Expired hold cleanup lag: Time between hold_expires_at and when cron job releases it. Should be < 2 minutes. Delayed release = false scarcity. 10) Revenue metrics: tickets sold per minute during sale — sudden drop indicates system issue before error rate metrics even fire.",
+              },
+            ],
+
+            links: [
+              "https://www.postgresql.org/docs/current/explicit-locking.html - PostgreSQL explicit locking: FOR UPDATE, FOR SHARE, NOWAIT, SKIP LOCKED",
+              "https://www.postgresql.org/docs/current/transaction-iso.html - PostgreSQL transaction isolation levels explained",
+              "https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html - Martin Kleppmann on distributed locking pitfalls",
+              "https://aws.amazon.com/builders-library/avoiding-fallback-in-distributed-systems/ - AWS Builder's Library: consistency vs. availability tradeoffs",
+              "https://redis.io/docs/manual/patterns/distributed-locks/ - Redis Redlock algorithm for distributed locking",
+              "https://www.2ndquadrant.com/en/blog/select-skip-locked-postgresql-9-5/ - SELECT FOR UPDATE SKIP LOCKED in PostgreSQL",
+              "https://martinfowler.com/articles/patterns-of-distributed-systems/two-phase-locking.html - Two-phase locking pattern",
+              "https://use-the-index-luke.com/sql/select-for-update - Use The Index, Luke: SELECT FOR UPDATE performance",
+              "https://en.wikipedia.org/wiki/CAP_theorem - CAP theorem: consistency vs. availability under partition",
+              "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transactions.html - DynamoDB Transactions for when you must use DynamoDB",
+              "https://www.cockroachlabs.com/blog/serializable-lockless-distributed-isolation-cockroachdb/ - Serializable isolation in distributed databases",
+              "https://engineering.ticketmaster.com/ - Ticketmaster Engineering Blog: real-world scale ticket systems",
+            ],
+          },
+          {
+            topic: "News Feed System Design: Facebook / Twitter Scale",
+            tags: [
+              "Fan-out on Write",
+              "Fan-in on Read",
+              "Hybrid Fan-out",
+              "News Feed",
+              "Timeline",
+              "Push vs Pull",
+              "Feed Aggregation",
+              "Feed Ranking",
+              "Redis Sorted Sets",
+              "Pre-computation",
+              "Caching",
+              "Celebrity Problem",
+              "User Graph",
+              "Denormalization",
+              "CDN",
+              "Eventual Consistency",
+              "Distributed Systems",
+              "Sharding",
+              "Hot Keys",
+            ],
+
+            explanation: `
+<div>
+  <h2>News Feed System Design: Facebook / Twitter Scale</h2>
+  <p>
+    A news feed is deceptively simple on the surface: "show me posts from people I follow."
+    But at scale — millions of users, each following hundreds of accounts, each account posting
+    dozens of times per day — naive approaches collapse immediately. This guide covers the two
+    core strategies (fan-out on write vs. fan-in on read), why neither works alone, the hybrid
+    approach used by Facebook and Twitter, feed ranking, caching architecture, and the 
+    "celebrity problem" that breaks all of the above.
+  </p>
+
+  <h3>The Problem: Naive Approaches and Why They Fail</h3>
+  <pre><code>
+// Scenario: User opens Twitter. They follow 500 people. Show them the last 20 posts.
+// =====================================================================================
+
+// Naive Approach 1: Query on every read (Fan-in on Read, pure pull)
+// ------------------------------------------------------------------
+// Every time user opens their feed, run a big query:
+
+async function getFeedNaive(userId) {
+  // Step 1: Get all the people this user follows
+  const following = await db.query(
+    SELECT followed_id FROM follows WHERE follower_id = $1,
+    [userId]
+  );
+  // Returns 500 user IDs
+
+  // Step 2: Get recent posts from all of them
+  const posts = await db.query(
+    SELECT * FROM posts
+     WHERE user_id = ANY($1)
+     ORDER BY created_at DESC
+     LIMIT 20,
+    [following.map(f => f.followed_id)]
+  );
+
+  return posts;
+}
+
+// Why this destroys the database at scale:
+// =========================================
+// 1. QUERY COST: User follows 500 people. Posts table has 50 billion rows.
+//    PostgreSQL must scan the index for 500 user_ids and merge-sort the results.
+//    This takes 2-5 seconds per request. At 10,000 requests/second → database on fire.
+//
+// 2. NO CACHING: Every user has a unique set of follows. You can't cache
+//    "posts from user A's follows" for user B — they follow different people.
+//    Cache hit rate near 0%. Every request is a fresh DB query.
+//
+// 3. HOT USERS: If Elon Musk posts, 100 million users' feeds need to include it.
+//    100 million queries, each scanning Elon's post index. The index itself becomes
+//    a hotspot — thousands of readers hammering the same B-tree pages simultaneously.
+//
+// 4. THUNDERING HERD: When a celebrity posts, all their followers open the app
+//    simultaneously. 50 million concurrent queries at the exact same time.
+
+// Naive Approach 2: Precompute everything synchronously on write
+// --------------------------------------------------------------
+async function createPostNaive(authorId, content) {
+  // Save the post
+  const post = await db.posts.create({ authorId, content });
+
+  // Get all followers of this author
+  const followers = await db.query(
+    SELECT follower_id FROM follows WHERE followed_id = $1,
+    [authorId]
+  );
+  // If author has 50 million followers (Elon Musk), this returns 50 million rows
+
+  // Write post to every follower's feed synchronously
+  for (const follower of followers) {
+    await db.feeds.insert({
+      userId: follower.follower_id,
+      postId: post.id,
+      score: calculateScore(post)
+    });
+  }
+  // Writing 50 million rows synchronously. POST /tweet takes 8 hours to return.
+}
+
+// The core tension:
+// =================
+// READS are fast (precomputed) but WRITES are catastrophically slow for celebrities.
+// WRITES are fast (just save the post) but READS are catastrophically slow for active users.
+// The solution: HYBRID — split by user type. Celebrity? Pull on read. Normal user? Push on write.
+
+// What we need:
+// =============
+// 1. Sub-100ms feed load for active users
+// 2. Writes that return in milliseconds (not hours)
+// 3. Handle celebrities with 50M followers without special-casing everywhere
+// 4. Ranked feed (not just chronological)
+// 5. Eventual consistency acceptable — slight staleness is fine (not ticket booking)
+  </code></pre>
+
+  <h3>1. Data Model: User Graph + Posts</h3>
+  <pre><code>
+// The feed blends two very different data types:
+// ================================================
+// 1. USER GRAPH (relational): who follows whom — structured, queryable, consistent
+// 2. POSTS (semi-structured): content, media, reactions — high volume, flexible schema
+
+// Relational: User graph in PostgreSQL
+// ======================================
+/*
+CREATE TABLE users (
+  id          UUID PRIMARY KEY,
+  username    VARCHAR(50) UNIQUE NOT NULL,
+  follower_count  INTEGER DEFAULT 0,   -- Denormalized counter (no COUNT(*) on every read)
+  following_count INTEGER DEFAULT 0,
+  is_celebrity    BOOLEAN DEFAULT FALSE,  -- Follower count > 1M: use pull-on-read strategy
+  created_at  TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE follows (
+  follower_id  UUID NOT NULL REFERENCES users(id),
+  followed_id  UUID NOT NULL REFERENCES users(id),
+  created_at   TIMESTAMP DEFAULT NOW(),
+  PRIMARY KEY (follower_id, followed_id)           -- Composite PK prevents duplicate follows
+);
+
+-- Two indexes: "who does user A follow" AND "who follows user A"
+CREATE INDEX idx_follows_follower ON follows(follower_id);  -- Fan-in: get my followees
+CREATE INDEX idx_follows_followed ON follows(followed_id);  -- Fan-out: get my followers
+*/
+
+// Non-relational: Posts in Cassandra or DynamoDB
+// ================================================
+// Posts are write-heavy, time-ordered, and never need cross-post joins.
+// Cassandra is purpose-built for this: fast writes, time-range queries by partition.
+/*
+CREATE TABLE posts (
+  post_id     UUID,
+  author_id   UUID,
+  content     TEXT,
+  media_urls  LIST<TEXT>,
+  like_count  COUNTER,
+  reply_count COUNTER,
+  repost_count COUNTER,
+  created_at  TIMESTAMP,
+  PRIMARY KEY (author_id, created_at, post_id)   -- Partition by author, cluster by time
+) WITH CLUSTERING ORDER BY (created_at DESC);
+-- Query: "get last 50 posts by author_id=X" is O(1) — perfect partition alignment
+*/
+
+// Feed store: Redis Sorted Sets
+// ==============================
+// Each user has a sorted set of post IDs, sorted by score (timestamp or rank).
+// Redis ZREVRANGE returns top N posts in O(log N + N) — microseconds.
+/*
+Key:    feed:{userId}
+Type:   Sorted Set
+Member: {postId}
+Score:  Unix timestamp (or computed rank score)
+TTL:    7 days (feeds for inactive users expire automatically)
+
+Operations:
+  ZADD feed:{userId} {score} {postId}      -- Add post to feed
+  ZREVRANGE feed:{userId} 0 19             -- Get top 20 posts (newest first)
+  ZCARD feed:{userId}                      -- Feed length
+  ZREMRANGEBYRANK feed:{userId} 0 -501     -- Trim feed to max 500 posts
+*/
+
+// Why Redis Sorted Sets for feeds?
+// ==================================
+// ✅ O(log N) insert — fast fan-out writes
+// ✅ O(log N + K) range query — fast feed reads
+// ✅ Score = sort key — change ranking without re-sorting
+// ✅ TTL per key — inactive user feeds expire automatically, saving memory
+// ✅ Atomic ZADD — concurrent writes safe without explicit locking
+// ✅ ZREVRANGE — returns in ranked order directly, no post-processing
+
+// Key insight: Redis stores post IDs (not post content)
+// After getting IDs from Redis, fetch post content from cache/DB in a single batch.
+// Separation of concerns: Redis = ordered list of IDs. Content store = actual post data.
+  </code></pre>
+
+  <h3>2. Fan-out on Write: Push Model</h3>
+  <pre><code>
+// Fan-out on Write: When a user posts, immediately push the post ID into
+// every follower's feed in Redis. Reads are instant — just query Redis.
+// =====================================================================
+
+class FanOutOnWriteService {
+
+  async createPost(authorId, content, mediaUrls = []) {
+    // Step 1: Save post to Cassandra (durable storage)
+    const postId = uuidv4();
+    const now = new Date();
+
+    await cassandra.execute(
+      INSERT INTO posts (post_id, author_id, content, media_urls, created_at)
+       VALUES (?, ?, ?, ?, ?),
+      [postId, authorId, content, mediaUrls, now]
+    );
+
+    // Step 2: Return to client IMMEDIATELY — don't wait for fan-out
+    // Fan-out is async. User gets instant response. Feed updates propagate in background.
+    // This is where eventual consistency is ACCEPTABLE (unlike ticket booking).
+    // Followers see the post within seconds, not milliseconds. Fine.
+
+    // Step 3: Publish to fan-out queue (async)
+    await queue.publish('post.created', {
+      postId,
+      authorId,
+      createdAt: now.toISOString(),
+      score: now.getTime()   // Unix timestamp as initial score
+    });
+
+    return { postId, status: 'created' };
+  }
+
+  // Fan-out worker — runs asynchronously after post creation
+  async processFanOut(event) {
+    const { postId, authorId, score } = event;
+
+    // Get all followers of this author
+    // For normal users (<1M followers), this is fast
+    const followers = await this.getFollowers(authorId);
+
+    // Write post ID into each follower's Redis feed
+    // Use pipeline for batch efficiency — 1 round-trip to Redis for N writes
+    const pipeline = redis.pipeline();
+
+    for (const followerId of followers) {
+      pipeline.zadd(
+        feed:$ {followerId},
+        score,        // Sort key (timestamp or rank score)
+        postId        // Post ID stored as member
+      );
+
+      // Keep feeds bounded — remove oldest posts beyond 500 entries
+      // Prevents Redis memory from growing unboundedly
+      pipeline.zremrangebyrank(feed:$ {followerId}, 0, -501);
+    }
+
+    await pipeline.exec();
+    // Single round-trip to Redis regardless of follower count
+    // Redis processes pipeline atomically (no other commands interleaved)
+  }
+
+  // Get followers from PostgreSQL with pagination
+  // For large follower lists, process in batches to avoid loading 1M IDs into memory
+  async getFollowers(authorId, batchSize = 1000) {
+    const followers = [];
+    let offset = 0;
+
+    while (true) {
+      const result = await db.query(
+        SELECT follower_id FROM follows
+         WHERE followed_id = $1
+         ORDER BY follower_id       -- Consistent pagination
+         LIMIT $2 OFFSET $3,
+        [authorId, batchSize, offset]
+      );
+
+      if (result.rows.length === 0) break;
+
+      followers.push(...result.rows.map(r => r.follower_id));
+      offset += batchSize;
+
+      if (result.rows.length < batchSize) break;   // Last page
+    }
+
+    return followers;
+  }
+}
+
+// Fan-out on Write — Pros and Cons:
+// ===================================
+// ✅ O(1) feed read — just ZREVRANGE on Redis. Microseconds.
+// ✅ Works regardless of how many people user follows
+// ✅ Feed is pre-sorted and pre-ranked
+// ✅ Read path is simple — no complex aggregation at query time
+// ❌ Write amplification — 1 post by user with 1M followers = 1M Redis writes
+// ❌ Memory cost — storing feed for every user × 500 posts per user
+// ❌ Wasted work — inactive users' feeds are updated but never read
+// ❌ Celebrity problem — Elon posts, 100M Redis writes enqueued, followers wait
+  </code></pre>
+
+  <h3>3. Fan-in on Read: Pull Model</h3>
+  <pre><code>
+// Fan-in on Read: Don't precompute anything. When user requests their feed,
+// pull recent posts from all their followees and merge in real-time.
+// ========================================================================
+
+class FanInOnReadService {
+
+  async getFeed(userId, limit = 20) {
+    // Step 1: Get the IDs of everyone this user follows
+    const following = await db.query(
+      SELECT followed_id FROM follows WHERE follower_id = $1,
+      [userId]
+    );
+    const followedIds = following.rows.map(r => r.followed_id);
+
+    if (followedIds.length === 0) {
+      return [];  // New user with no follows
+    }
+
+    // Step 2: Fetch recent post IDs from each followee's post list in Cassandra
+    // Each author's posts are partitioned by author_id — fast per-author queries
+    const postPromises = followedIds.map(authorId =>
+      cassandra.execute(
+        SELECT post_id, created_at FROM posts
+         WHERE author_id = ?
+         ORDER BY created_at DESC
+         LIMIT 100,    // Fetch 100 per author — more than we need, for merge headroom
+        [authorId]
+      )
+    );
+
+    const allResults = await Promise.all(postPromises);
+    // If user follows 500 people: 500 parallel Cassandra queries
+
+    // Step 3: Merge all results and sort by time (k-way merge)
+    const allPosts = allResults
+      .flatMap(result => result.rows)
+      .sort((a, b) => b.created_at - a.created_at);   // Newest first
+
+    // Step 4: Take top N
+    const topPostIds = allPosts.slice(0, limit).map(p => p.post_id);
+
+    // Step 5: Batch-fetch full post content
+    return await this.fetchPostContent(topPostIds);
+  }
+
+  async fetchPostContent(postIds) {
+    // Check Redis cache first for each post
+    const pipeline = redis.pipeline();
+    postIds.forEach(id => pipeline.get(post:$ {id}));
+    const cached = await pipeline.exec();
+
+    const results = [];
+    const missedIds = [];
+
+    cached.forEach(([err, value], i) => {
+      if (value) {
+        results[i] = JSON.parse(value);
+      } else {
+        missedIds.push({ index: i, id: postIds[i] });
+      }
+    });
+
+    // Fetch cache misses from Cassandra
+    if (missedIds.length > 0) {
+      const dbResults = await cassandra.execute(
+        SELECT * FROM posts WHERE post_id IN ?,
+        [missedIds.map(m => m.id)]
+      );
+
+      const dbMap = new Map(dbResults.rows.map(p => [p.post_id, p]));
+
+      // Fill results and populate cache
+      const cachePipeline = redis.pipeline();
+      for (const { index, id } of missedIds) {
+        const post = dbMap.get(id);
+        results[index] = post;
+        cachePipeline.setex(post:$ {id}, 3600, JSON.stringify(post));  // 1hr TTL
+      }
+      await cachePipeline.exec();
+    }
+
+    return results.filter(Boolean);
+  }
+}
+
+// Fan-in on Read — Pros and Cons:
+// ==================================
+// ✅ Write is trivially cheap — just save the post to Cassandra
+// ✅ No write amplification — no fan-out, no wasted work for inactive users
+// ✅ Always fresh — reads the latest posts at query time
+// ✅ Storage efficient — posts stored once, not N times per follower
+// ❌ Read is slow — 500 parallel Cassandra queries, merge-sort 50,000 results
+// ❌ Latency proportional to following count — power users (follow 5000) get very slow feeds
+// ❌ Hard to cache — each user's merged feed is unique
+// ❌ Cassandra fan-out — 500 queries × peak traffic = millions of Cassandra reads/second
+// ❌ Doesn't support ranking well — must fetch and score thousands of posts at read time
+  </code></pre>
+
+  <h3>4. Hybrid Fan-out: The Real Solution</h3>
+  <pre><code>
+// Neither pure push nor pure pull works. Real systems (Twitter, Facebook, Instagram)
+// use a HYBRID: fan-out on write for normal users, fan-in on read for celebrities.
+// ==================================================================================
+//
+// NORMAL USERS (< 1M followers): Fan-out on write
+//   Post → push to all followers' Redis feeds asynchronously
+//   Why: 1M Redis writes is manageable. Feed reads are instant.
+//
+// CELEBRITIES (> 1M followers): Fan-in on read
+//   Post → just save to Cassandra
+//   Why: 100M Redis writes for one Elon tweet is not manageable.
+//   At read time: inject celebrity posts into the feed on the fly.
+//
+// The threshold (1M) is tunable. Twitter uses a similar split. Facebook uses ML
+// to decide per-edge (not per-author) whether to push or pull.
+
+class HybridFeedService {
+
+  // ---- WRITE PATH ----
+
+  async createPost(authorId, content, mediaUrls = []) {
+    const postId = uuidv4();
+    const now = new Date();
+    const score = now.getTime();
+
+    // 1. Persist post (always — both normal and celebrity)
+    await cassandra.execute(
+      INSERT INTO posts (post_id, author_id, content, media_urls, created_at, score)
+       VALUES (?, ?, ?, ?, ?, ?),
+      [postId, authorId, content, mediaUrls, now, score]
+    );
+
+    // 2. Cache post content (hot cache — first readers hit this)
+    await redis.setex(post:$ {postId}, 86400, JSON.stringify({
+      postId, authorId, content, mediaUrls,
+      createdAt: now, score,
+      likeCount: 0, replyCount: 0, repostCount: 0
+    }));
+
+    // 3. Fan-out decision
+    const author = await this.getUser(authorId);
+
+    if (author.is_celebrity) {
+      // Celebrity: NO fan-out. Post is just stored in Cassandra.
+      // Followers will pull it at read time.
+      // Just invalidate any cached "celebrity post lists" if they exist.
+      await redis.del(celebrity-posts:$ {authorId});
+
+    } else {
+      // Normal user: async fan-out to all followers' feeds
+      await queue.publish('post.fanout', { postId, authorId, score });
+    }
+
+    return { postId };
+  }
+
+  // ---- FAN-OUT WORKER (for normal users) ----
+
+  async processFanOut(event) {
+    const { postId, authorId, score } = event;
+
+    // Process in batches to avoid memory issues with large-ish follower lists
+    const batchSize = 1000;
+    let cursor = 0;
+
+    while (true) {
+      const followers = await db.query(
+        SELECT follower_id FROM follows
+         WHERE followed_id = $1
+         ORDER BY follower_id
+         LIMIT $2 OFFSET $3,
+        [authorId, batchSize, cursor]
+      );
+
+      if (followers.rows.length === 0) break;
+
+      // Batch write to Redis
+      const pipeline = redis.pipeline();
+      for (const { follower_id } of followers.rows) {
+        pipeline.zadd(feed:$ {follower_id}, score, postId);
+        pipeline.zremrangebyrank(feed:$ {follower_id}, 0, -501);  // Keep top 500
+      }
+      await pipeline.exec();
+
+      cursor += batchSize;
+      if (followers.rows.length < batchSize) break;
+    }
+  }
+
+  // ---- READ PATH ----
+
+  async getFeed(userId, limit = 20) {
+    // Step 1: Get pre-built feed from Redis (fan-out on write results)
+    const postIds = await redis.zrevrange(feed:$ {userId}, 0, limit + 50 - 1);
+    // Fetch extra (limit + 50) because we'll merge with celebrity posts and then trim
+
+    // Step 2: Fetch celebrity posts (fan-in on read, only for celebrities)
+    const celebrities = await this.getCelebrityFollowees(userId);
+    const celebrityPostIds = await this.fetchCelebrityPosts(celebrities, limit);
+    // This is cheap: user typically follows 5-20 celebrities, each with cached recent posts
+
+    // Step 3: Merge feed post IDs + celebrity post IDs, deduplicate, re-sort
+    const allPostIds = [...new Set([...postIds, ...celebrityPostIds])];
+
+    // Get scores (timestamps) for merged set and re-sort
+    const withScores = await this.getScoresForPosts(allPostIds);
+    const sorted = withScores.sort((a, b) => b.score - a.score).slice(0, limit);
+
+    // Step 4: Fetch post content in batch (Redis cache → Cassandra fallback)
+    const posts = await this.fetchPostContent(sorted.map(p => p.postId));
+
+    // Step 5: Rank posts (chronological → ranked)
+    return this.rankPosts(posts, userId);
+  }
+
+  async getCelebrityFollowees(userId) {
+    // Get celebrities that this user follows
+    // Cached in Redis with moderate TTL — follow relationships change infrequently
+    const cacheKey = celebrity-follows:$ {userId};
+    const cached = await redis.get(cacheKey);
+    if (cached) return JSON.parse(cached);
+
+    const result = await db.query(
+      SELECT f.followed_id
+       FROM follows f
+       JOIN users u ON f.followed_id = u.id
+       WHERE f.follower_id = $1 AND u.is_celebrity = TRUE,
+      [userId]
+    );
+
+    const celebrities = result.rows.map(r => r.followed_id);
+    await redis.setex(cacheKey, 300, JSON.stringify(celebrities));  // 5 min cache
+    return celebrities;
+  }
+
+  async fetchCelebrityPosts(celebrityIds, limit) {
+    if (celebrityIds.length === 0) return [];
+
+    // Get recent post IDs for each celebrity
+    // These are cached in Redis (celebrities post to many readers — great cache ROI)
+    const results = await Promise.all(
+      celebrityIds.map(async (celebId) => {
+        const cacheKey = celebrity-posts:$ {celebId};
+        const cached = await redis.zrevrange(cacheKey, 0, 49);  // Top 50 recent posts
+
+        if (cached.length > 0) return cached;
+
+        // Cache miss: fetch from Cassandra and populate cache
+        const posts = await cassandra.execute(
+          SELECT post_id, created_at FROM posts
+           WHERE author_id = ?
+           ORDER BY created_at DESC
+           LIMIT 50,
+          [celebId]
+        );
+
+        // Cache celebrity post list as its own sorted set
+        const pipeline = redis.pipeline();
+        for (const post of posts.rows) {
+          pipeline.zadd(cacheKey, post.created_at.getTime(), post.post_id);
+        }
+        pipeline.expire(cacheKey, 300);  // 5 min TTL
+        await pipeline.exec();
+
+        return posts.rows.map(p => p.post_id);
+      })
+    );
+
+    return results.flat();
+  }
+}
+
+// Hybrid approach — how Twitter actually works (simplified):
+// ===========================================================
+// 1. You post a tweet.
+// 2. If you have < 1M followers: tweet pushed into all followers' feed caches.
+// 3. If you have ≥ 1M followers (celebrity): tweet NOT pushed. Just stored.
+// 4. When follower loads their feed:
+//    - Read their pre-built cache (fan-out results from normal users)
+//    - Pull recent tweets from any celebrity they follow (fan-in)
+//    - Merge + sort + rank
+//    - Return
+//
+// This gives you:
+// - Sub-millisecond reads for most content (pre-built feed cache)
+// - Manageable write cost (no fan-out to 100M people)
+// - Fresh celebrity content (pulled at read time)
+  </code></pre>
+
+  <h3>5. Feed Ranking: Beyond Chronological</h3>
+  <pre><code>
+// Chronological feeds are dead at scale. 
+// User follows 500 accounts. 500 posts in the last hour. They'll scroll for 20 minutes
+// to see the 3 posts they actually care about. Ranking is essential.
+//
+// Ranking = assign a score to each post, show highest scores first.
+// Score = f(recency, engagement, relationship_strength, content_quality, ...)
+
+class FeedRankingService {
+
+  rankPosts(posts, userId) {
+    const userContext = this.getUserContext(userId);
+    // userContext: who they interact with most, content preferences, online hours
+
+    return posts
+      .map(post => ({
+        ...post,
+        rankScore: this.calculateRankScore(post, userContext)
+      }))
+      .sort((a, b) => b.rankScore - a.rankScore);
+  }
+
+  calculateRankScore(post, userContext) {
+    const now = Date.now();
+
+    // 1. RECENCY DECAY
+    // Older posts get lower scores — exponential decay
+    // Half-life of 6 hours: post from 6h ago has half the recency score of a fresh post
+    const ageHours = (now - post.createdAt) / (1000 * 60 * 60);
+    const recencyScore = Math.exp(-0.115 * ageHours);  // e^(-ageHours/6) ≈ 0.5 at 6h
+    // At 0h:  score = 1.0
+    // At 6h:  score = 0.5
+    // At 24h: score = 0.06
+    // At 48h: score = 0.004  (basically invisible)
+
+    // 2. ENGAGEMENT SCORE
+    // Likes, reposts, replies — proxy for content quality
+    // Log scale: difference between 0 and 10 likes matters more than 1000 vs 1010
+    const engagementScore =
+      Math.log1p(post.likeCount) * 1.0 +
+      Math.log1p(post.repostCount) * 2.0 +   // Reposts weighted higher (stronger signal)
+      Math.log1p(post.replyCount) * 1.5;
+    // log1p(0)=0, log1p(9)=2.3, log1p(99)=4.6, log1p(999)=6.9
+    // Diminishing returns — viral post doesn't completely dominate feed
+
+    // 3. RELATIONSHIP STRENGTH
+    // Do you interact with this author often? Reply? Like their posts?
+    // Strong relationship = higher weight for this author's content
+    const relationshipScore = userContext.interactionHistory[post.authorId] || 0;
+    // 0 = never interacted, 1.0 = interact heavily
+    // Stored in Redis: ZINCRBY user-interactions:{userId} 1 {authorId}
+
+    // 4. CONTENT TYPE AFFINITY
+    // Does this user engage more with videos? Text? Photos?
+    // Learn from their click/like history
+    const contentTypeScore = userContext.contentPreferences[post.contentType] || 0.5;
+
+    // 5. FRESHNESS BOOST for unseen posts
+    // Posts user hasn't seen yet get a small boost
+    // Prevents "I've already read this" fatigue
+    const seenBoost = post.seen ? 0 : 0.1;
+
+    // Final score: weighted combination
+    // Weights tuned by ML or A/B testing in production
+    const score =
+      recencyScore * 3.0 +
+      engagementScore * 1.5 +
+      relationshipScore * 2.0 +
+      contentTypeScore * 1.0 +
+      seenBoost;
+
+    return score;
+  }
+
+  // Where rank scores come from in practice:
+  // ==========================================
+  // OFFLINE: Train ML model on historical engagement data.
+  //          Features: author-follower relationship, post age, content features.
+  //          Output: click-through probability (0.0 to 1.0).
+  //          Re-train daily. Deploy as scoring service.
+  //
+  // ONLINE: At feed generation time, call scoring service with post features.
+  //         Scoring service returns score in <10ms (model is in memory).
+  //         Sort posts by score. Return to user.
+  //
+  // HYBRID: Pre-compute "base score" at write time (recency + initial engagement).
+  //         Update score as engagement accumulates (async background updates).
+  //         At read time: fetch pre-computed scores from Redis, re-rank with
+  //         user-specific context (relationship strength, preferences).
+
+  // Storing and updating scores in Redis:
+  // ========================================
+
+  async updatePostScore(postId, authorId) {
+    // Called when a post gets a like, reply, or repost
+    const post = await this.getPost(postId);
+
+    // Recalculate engagement component of score
+    const engagementScore =
+      Math.log1p(post.likeCount) * 1.0 +
+      Math.log1p(post.repostCount) * 2.0 +
+      Math.log1p(post.replyCount) * 1.5;
+
+    const recencyScore = Math.exp(-0.115 * post.ageHours);
+    const newScore = recencyScore * 3.0 + engagementScore * 1.5;
+
+    // Update score in all follower feeds
+    // This is expensive for celebrities — only update for users online now
+    const onlineFollowers = await this.getOnlineFollowers(authorId);
+
+    const pipeline = redis.pipeline();
+    for (const followerId of onlineFollowers) {
+      pipeline.zadd(feed:$ {followerId}, newScore, postId);
+      // ZADD on existing member updates the score — no duplicate, just re-sorted
+    }
+    await pipeline.exec();
+  }
+
+  // Track user interactions for relationship scoring
+  async recordInteraction(userId, authorId, interactionType) {
+    const weights = { like: 1, reply: 3, repost: 2, profile_visit: 0.5 };
+    const weight = weights[interactionType] || 1;
+
+    // Increment interaction score for this author
+    await redis.zincrby(user-interactions:$ {userId}, weight, authorId);
+    await redis.expire(user-interactions:$ {userId}, 30 * 24 * 3600);  // 30 days
+
+    // Redis sorted set: members = authorIds, scores = interaction weights
+    // ZREVRANGE user-interactions:{userId} 0 49 = top 50 authors user interacts with
+  }
+}
+
+// Feed ranking in production:
+// ============================
+// Twitter (X): Uses ML models that consider 3200+ signals per post.
+//              Primary signals: author relationship (do you reply to them?),
+//              post engagement velocity, content similarity to liked posts.
+// Facebook:    EdgeRank (original) → Neural ranking (current).
+//              "Edge" = any connection event (post, like, comment).
+//              Score = affinity × weight × recency decay.
+// Instagram:   Interest score (predicted probability you'd like this post),
+//              relationship score (how often you interact with author),
+//              recency score.
+// All of them: Serve chronological as fallback / user preference option.
+  </code></pre>
+
+  <h3>6. Caching Architecture</h3>
+  <pre><code>
+// Three levels of caching for a feed system:
+// ============================================
+// L1: Application-level (in-process) cache — nanoseconds
+// L2: Redis — microseconds
+// L3: Database (Cassandra/PostgreSQL) — milliseconds
+
+class FeedCacheService {
+
+  // LAYER 1: Feed cache (pre-built feed per user)
+  // ==============================================================
+  // Key:   feed:{userId}
+  // Type:  Redis Sorted Set (score = rank score, member = postId)
+  // TTL:   7 days (inactive users' feeds expire and are rebuilt on next visit)
+  // Size:  Max 500 entries per user (trim with ZREMRANGEBYRANK)
+
+  async getFeedPostIds(userId, offset = 0, limit = 20) {
+    const postIds = await redis.zrevrange(
+      feed:$ {userId},
+      offset,
+      offset + limit - 1
+    );
+
+    if (postIds.length > 0) {
+      return postIds;  // Cache hit — microseconds
+    }
+
+    // Cache miss: rebuild feed from scratch (cold start)
+    return await this.rebuildFeed(userId, limit);
+  }
+
+  async rebuildFeed(userId, limit) {
+    // Feed cache expired or user is new — rebuild it
+    // This is expensive — do it lazily (only when user actually requests their feed)
+    // Not proactively (don't pre-warm feeds for inactive users)
+
+    const following = await db.query(
+      SELECT followed_id, u.is_celebrity
+       FROM follows f
+       JOIN users u ON f.followed_id = u.id
+       WHERE f.follower_id = $1,
+      [userId]
+    );
+
+    const normalUsers = following.rows.filter(f => !f.is_celebrity).map(f => f.followed_id);
+    const celebrities = following.rows.filter(f => f.is_celebrity).map(f => f.followed_id);
+
+    // Fetch recent posts from all normal followees
+    const normalPosts = await cassandra.execute(
+      SELECT post_id, created_at FROM posts
+       WHERE author_id IN ?
+       ORDER BY created_at DESC
+       LIMIT 500,
+      [normalUsers]
+    );
+
+    // Fetch recent celebrity posts
+    const celebPosts = await this.fetchCelebrityPosts(celebrities, 50);
+
+    // Merge and sort
+    const allPosts = [...normalPosts.rows, ...celebPosts]
+      .sort((a, b) => b.created_at - a.created_at)
+      .slice(0, 500);
+
+    // Populate Redis feed cache
+    if (allPosts.length > 0) {
+      const pipeline = redis.pipeline();
+      for (const post of allPosts) {
+        pipeline.zadd(feed:$ {userId}, post.created_at.getTime(), post.post_id);
+      }
+      pipeline.expire(feed:$ {userId}, 7 * 24 * 3600);  // 7 days
+      await pipeline.exec();
+    }
+
+    return allPosts.slice(0, 20).map(p => p.post_id);
+  }
+
+  // LAYER 2: Post content cache
+  // ==============================================================
+  // Key:   post:{postId}
+  // Type:  Redis String (JSON)
+  // TTL:   1 hour for regular posts, 24 hours for viral posts
+  // Why:   After getting IDs from feed cache, batch-fetch content in one go
+
+  async getPostContent(postIds) {
+    if (postIds.length === 0) return [];
+
+    // Batch GET all post IDs in one pipeline
+    const pipeline = redis.pipeline();
+    postIds.forEach(id => pipeline.get(post:$ {id}));
+    const results = await pipeline.exec();
+
+    const posts = [];
+    const missIds = [];
+
+    results.forEach(([err, val], i) => {
+      if (val) {
+        posts[i] = JSON.parse(val);
+      } else {
+        missIds.push({ i, id: postIds[i] });
+      }
+    });
+
+    // Batch-fetch misses from Cassandra
+    if (missIds.length > 0) {
+      const dbPosts = await cassandra.execute(
+        SELECT * FROM posts WHERE post_id IN ?,
+        [missIds.map(m => m.id)]
+      );
+
+      const dbMap = new Map(dbPosts.rows.map(p => [p.post_id, p]));
+      const cachePipeline = redis.pipeline();
+
+      for (const { i, id } of missIds) {
+        const post = dbMap.get(id);
+        if (post) {
+          posts[i] = post;
+          cachePipeline.setex(post:$ {id}, 3600, JSON.stringify(post));
+        }
+      }
+      await cachePipeline.exec();
+    }
+
+    return posts.filter(Boolean);
+  }
+
+  // LAYER 3: User profile cache
+  // ==============================================================
+  // Key:   user:{userId}
+  // Type:  Redis Hash
+  // TTL:   1 hour
+  // Why:   Every post display needs author name, avatar — don't hit users table per post
+
+  async getUserProfiles(userIds) {
+    const uniqueIds = [...new Set(userIds)];
+    const pipeline = redis.pipeline();
+    uniqueIds.forEach(id => pipeline.hgetall(user:$ {id}));
+    const results = await pipeline.exec();
+
+    const profileMap = new Map();
+    const missIds = [];
+
+    results.forEach(([err, profile], i) => {
+      if (profile && Object.keys(profile).length > 0) {
+        profileMap.set(uniqueIds[i], profile);
+      } else {
+        missIds.push(uniqueIds[i]);
+      }
+    });
+
+    // Fetch misses from PostgreSQL
+    if (missIds.length > 0) {
+      const dbUsers = await db.query(
+        SELECT id, username, display_name, avatar_url, is_verified
+         FROM users WHERE id = ANY($1),
+        [missIds]
+      );
+
+      const cachePipeline = redis.pipeline();
+      for (const user of dbUsers.rows) {
+        profileMap.set(user.id, user);
+        cachePipeline.hmset(user:$ {user.id}, user);
+        cachePipeline.expire(user:$ {user.id}, 3600);
+      }
+      await cachePipeline.exec();
+    }
+
+    return profileMap;
+  }
+
+  // Cache invalidation — when to evict:
+  // =====================================
+  // Feed cache:    When user follows/unfollows someone (stale feed entries)
+  //               → Delete feed:{userId}, rebuild on next load
+  // Post cache:    When post is deleted or edited
+  //               → redis.del(post:$ {postId})
+  // User cache:    When user updates profile (name, avatar)
+  //               → redis.del(user:$ {userId})
+  // Count caches:  Like/repost counts update frequently — use HINCRBY on Redis hash
+  //               → Don't invalidate, increment atomically
+}
+
+// Memory sizing:
+// ==============
+// 500 posts per user × 8 bytes (postId as UUID) = 4KB per user feed
+// 100 million active users × 4KB = 400GB of feed data in Redis
+// Real systems use Redis Cluster with 8-16 shards: 25-50GB per shard → manageable
+// Plus post content cache: 1KB per post × 10M hot posts = 10GB
+// Total Redis cluster: ~500GB for a Twitter-scale feed system
+  </code></pre>
+
+  <h3>7. The Celebrity Problem & Hot Keys</h3>
+  <pre><code>
+// The celebrity problem is the hardest operational challenge in feed systems.
+// Beyoncé posts. 300 million followers. What happens?
+// =====================================================================================
+
+// WRITE SIDE — Fan-out explosion:
+// ---------------------------------
+// If we fan-out: 300M Redis ZADDs enqueued in seconds.
+// Even at 100K writes/second: takes 3000 seconds (50 minutes) to complete.
+// Followers don't see the post for nearly an hour. Unacceptable.
+// Solution: Don't fan-out for celebrities. Pull at read time. (See hybrid model above.)
+
+// READ SIDE — Hot key problem:
+// -----------------------------
+// Beyoncé's post goes viral. Her post_id is "abc123".
+// Every Redis read for any of her 300M followers includes GET post:abc123.
+// Suddenly 1 Redis shard is getting 10M requests/second for one key.
+// A single Redis shard handles ~100K ops/second → that shard is dead.
+// This is the HOT KEY problem.
+
+class CelebrityHotKeyService {
+
+  // Solution 1: Key-based sharding for hot posts
+  // ==============================================
+  // Replicate the hot post across multiple Redis keys
+  // Each request reads a random replica → load spread across shards
+
+  async getHotPost(postId, isHotPost = false) {
+    if (!isHotPost) {
+      return await redis.get(post:$ {postId});
+    }
+
+    // Read from one of 10 replicas — each on a different shard
+    const replicaIndex = Math.floor(Math.random() * 10);
+    const value = await redis.get(post:$ {postId}:replica:$ {replicaIndex});
+
+    if (value) return JSON.parse(value);
+
+    // Cache miss on replica — fetch from primary and populate all replicas
+    const post = await cassandra.execute(
+      SELECT * FROM posts WHERE post_id = ?, [postId]
+    );
+
+    const pipeline = redis.pipeline();
+    for (let i = 0; i < 10; i++) {
+      pipeline.setex(post:$ {postId}:replica:$ {i}, 3600, JSON.stringify(post.rows[0]));
+    }
+    await pipeline.exec();
+
+    return post.rows[0];
+  }
+
+  // Solution 2: Local in-process cache (L1 cache)
+  // ===============================================
+  // Cache the 1000 hottest posts IN APPLICATION MEMORY
+  // Zero network round-trip — nanoseconds. No Redis pressure.
+
+  constructor() {
+    // LRU cache: evicts least recently used when full
+    this.localCache = new LRUCache({
+      max: 1000,              // 1000 posts in memory
+      ttl: 30 * 1000,         // 30 second TTL (short — keep fresh)
+    });
+  }
+
+  async getPostWithLocalCache(postId) {
+    // L1: Application memory (nanoseconds)
+    const local = this.localCache.get(postId);
+    if (local) return local;
+
+    // L2: Redis (microseconds)
+    const cached = await redis.get(post:$ {postId});
+    if (cached) {
+      const post = JSON.parse(cached);
+      this.localCache.set(postId, post);  // Promote to L1
+      return post;
+    }
+
+    // L3: Cassandra (milliseconds)
+    const result = await cassandra.execute(
+      SELECT * FROM posts WHERE post_id = ?, [postId]
+    );
+    const post = result.rows[0];
+
+    // Populate both caches
+    await redis.setex(post:$ {postId}, 3600, JSON.stringify(post));
+    this.localCache.set(postId, post);
+
+    return post;
+  }
+
+  // Solution 3: CDN for media (images, videos in posts)
+  // =====================================================
+  // Post TEXT is small (280 chars). But celebrity posts have images/videos.
+  // If 300M users load Beyoncé's video simultaneously → your S3 is incinerated.
+  // CDN handles this: video cached at 400+ edge nodes globally.
+  // Each edge serves from cache. S3 sees minimal traffic.
+
+  getMediaUrl(mediaKey, isCelebrity) {
+    if (isCelebrity) {
+      // Route through CDN — cached at edge
+      return https://cdn.example.com/media/$ {mediaKey};
+    }
+    // Normal user: direct S3 presigned URL (not worth CDN overhead)
+    return https://s3.amazonaws.com/media/$ {mediaKey};
+  }
+
+  // Detecting hot keys proactively:
+  // =================================
+  // Monitor Redis key hit rates. If any key > 10K hits/second → hot key.
+  // Automatically replicate it across shards.
+  // This is what Cloudflare and Twitter do in production.
+
+  async detectAndHandleHotKeys() {
+    // Redis 4.0+ has OBJECT FREQ command (with LFU eviction policy)
+    // Get most frequently accessed keys
+    const hotKeys = await this.getTopAccessedKeys(100);  // Top 100 hottest keys
+
+    for (const { key, accessRate } of hotKeys) {
+      if (accessRate > 10000) {  // > 10K/s = hot key
+        await this.replicateKey(key, 10);  // Create 10 replicas
+        this.hotKeyRegistry.add(key);
+      }
+    }
+  }
+}
+
+// The celebrity problem summary:
+// ================================
+// WRITE: Don't fan-out celebrity posts. Store once. Pull at read time.
+// READ: Replicate hot post keys across Redis shards. Use local L1 cache.
+// MEDIA: CDN for images/videos. Edge caches handle the thundering herd.
+// COUNTS: Like/repost counts increment with Redis HINCRBY (atomic, no hotkey write)
+//         Periodically flush to Cassandra. Accept slight staleness on counts (OK).
+  </code></pre>
+
+  <h3>8. Complete Feed System: Read Path End-to-End</h3>
+  <pre><code>
+// Full read path: User opens app → sees ranked, fresh feed in < 100ms
+// ====================================================================
+
+class FeedController {
+
+  async getFeed(req, res) {
+    const { userId } = req.user;
+    const { cursor, limit = 20 } = req.query;
+    // Cursor-based pagination: cursor = last seen postId (not page number)
+    // Why cursor not page: page 2 changes as new posts arrive. Cursor is stable.
+
+    try {
+      const startTime = Date.now();
+
+      // STEP 1: Get post IDs from pre-built feed cache (~1ms)
+      const cachedPostIds = await this.getFeedPostIds(userId, cursor, limit + 20);
+      // Fetch extra 20 for merging with celebrity posts
+
+      // STEP 2: Get celebrity followees (cached) and their recent posts (~2ms)
+      const celebrities = await this.getCelebrityFollowees(userId);
+      const celebPostIds = await this.fetchCelebrityPosts(celebrities, 20);
+
+      // STEP 3: Merge + deduplicate + sort by score (~1ms, in memory)
+      const allPostIds = this.mergeAndDeduplicate(cachedPostIds, celebPostIds);
+      const topPostIds = allPostIds.slice(0, limit + 5);  // Extra 5 for post-rank filtering
+
+      // STEP 4: Batch-fetch post content from Redis cache (~2ms)
+      const posts = await this.getPostContent(topPostIds);
+
+      // STEP 5: Batch-fetch author profiles from Redis cache (~2ms)
+      const authorIds = [...new Set(posts.map(p => p.authorId))];
+      const profiles = await this.getUserProfiles(authorIds);
+
+      // STEP 6: Enrich posts with author info + engagement counts
+      const enrichedPosts = posts.map(post => ({
+        ...post,
+        author: profiles.get(post.authorId),
+      }));
+
+      // STEP 7: Rank posts (recency × engagement × relationship)
+      const rankedPosts = this.rankPosts(enrichedPosts, userId);
+      const finalPosts = rankedPosts.slice(0, limit);
+
+      // STEP 8: Mark posts as seen (async — don't block response)
+      setImmediate(() => {
+        this.markPostsSeen(userId, finalPosts.map(p => p.postId));
+      });
+
+      // STEP 9: Cursor for next page
+      const nextCursor = finalPosts.length > 0
+        ? finalPosts[finalPosts.length - 1].postId
+        : null;
+
+      const duration = Date.now() - startTime;
+      this.metrics.histogram('feed.read.duration', duration);
+
+      return res.json({
+        posts: finalPosts,
+        nextCursor,
+        hasMore: nextCursor !== null
+      });
+
+    } catch (error) {
+      this.logger.error({ userId, error: error.message });
+      return res.status(500).json({ error: 'Feed temporarily unavailable' });
+    }
+  }
+
+  mergeAndDeduplicate(feedPostIds, celebPostIds) {
+    // Merge two sorted lists (by score) efficiently
+    const seen = new Set(feedPostIds);
+    const newCelebPosts = celebPostIds.filter(id => !seen.has(id));
+
+    // Interleave celebrity posts with normal feed
+    // Don't just append — celebrity posts could be more recent
+    const allIds = [...feedPostIds, ...newCelebPosts];
+
+    // Fetch scores from Redis for proper sorting
+    // In practice: scores stored alongside IDs in the sorted set
+    return allIds;  // Will be re-scored in ranking step
+  }
+}
+
+// Performance budget for < 100ms feed:
+// =======================================
+// Redis feed cache read:    ~1ms
+// Celebrity post fetch:     ~2ms (cached sorted sets)
+// Post content batch fetch: ~2ms (Redis pipeline, ~20 posts)
+// User profile batch fetch: ~1ms (Redis pipeline, ~10 unique authors)
+// Ranking computation:      ~1ms (in-memory math)
+// Network + serialization:  ~5ms
+// Total:                    ~12ms typical, < 50ms p99
+//
+// Cache miss (cold start):
+// Rebuild feed from Cassandra: ~200ms (acceptable — rare event)
+// Then subsequent reads: ~12ms
+  </code></pre>
+
+</div>
+`,
+
+            examples: [
+              "Naive fan-in query — SELECT posts WHERE user_id IN (500 IDs) — why it destroys DB at scale",
+              "Fan-out on write — async ZADD to Redis sorted set for every follower on post creation",
+              "SELECT FOR UPDATE SKIP LOCKED — pipeline batch writes to Redis for 1000 followers at a time",
+              "Hybrid fan-out — is_celebrity flag: normal users push, celebrities pull at read time",
+              "Celebrity post cache — Redis sorted set per celebrity, 5 min TTL, fallback to Cassandra",
+              "Feed rank score — recency decay (e^-0.115t) × engagement (log1p) × relationship strength",
+              "Interaction tracking — ZINCRBY user-interactions:{userId} weight {authorId}",
+              "L1/L2/L3 cache hierarchy — LRU in-process → Redis → Cassandra",
+              "Hot key replication — 10 Redis replicas per viral post, random replica on read",
+              "Cursor-based pagination — stable across new post arrivals, unlike offset-based",
+              "Feed TTL — 7 days, inactive user feeds expire and rebuild lazily on next visit",
+              "Celebrity follow graph cached — celebrity-follows:{userId} 5 min TTL, avoids JOIN on every read",
+              "Engagement score update — ZADD with new score on existing member re-sorts the sorted set",
+            ],
+
+            questions: [
+              {
+                question:
+                  "What is fan-out and what are the two core strategies for building a news feed?",
+                difficulty: "Beginner",
+                category: "Feed Architecture",
+                answer:
+                  "Fan-out is the act of distributing one piece of content (a post) to many recipients (followers). There are two opposite strategies. FAN-OUT ON WRITE (push model): When a user posts, immediately write the post ID into every follower's pre-built feed cache. Reads are instant — just query the cache. Writes are expensive because one post triggers N cache writes (N = follower count). FAN-IN ON READ (pull model): When a user requests their feed, pull recent posts from all N followees and merge them in real-time. Writes are trivially cheap — just save the post. Reads are expensive because every feed load triggers N queries, one per followee. The tradeoff: push = fast reads, slow writes. Pull = fast writes, slow reads. Pure push breaks for celebrities (100M writes per post). Pure pull breaks for power users (1000 parallel queries per feed load). Real systems (Twitter, Facebook, Instagram) use a HYBRID: push to normal user feeds, pull for celebrity content at read time. The dividing line is typically ~1M followers.",
+              },
+              {
+                question:
+                  "Why does a pure fan-in (pull) approach fail at scale?",
+                difficulty: "Intermediate",
+                category: "Fan-in on Read",
+                answer:
+                  "Three compounding problems. 1) QUERY COST: User follows 500 people. Each feed load requires fetching recent posts from all 500 followees and merge-sorting the results. In Cassandra, this is 500 parallel queries per feed request. At 10,000 concurrent users: 5 million Cassandra queries per second just for feed loads. Cassandra handles ~100K queries/second per node. You'd need 50 nodes just for feed reads. 2) LATENCY PROPORTIONAL TO FOLLOWING COUNT: A user following 5000 people (power user, journalist) has 10x worse latency than someone following 50. Latency becomes unpredictable and uncontrollable. 3) RANKING IS EXPENSIVE: Chronological merge of 500 people's posts is already slow. Ranking those posts by engagement + relationship requires fetching engagement counts and relationship scores for thousands of posts at query time. This adds another 10-50ms per feed load. 4) NO CACHE LEVERAGE: Every user's merged feed is unique (different set of followees). Cache hit rate near zero. Every request is a fresh computation. Compare this to fan-out on write: feed is pre-built, pre-sorted, pre-cached — reading it is a single Redis ZREVRANGE taking microseconds.",
+              },
+              {
+                question:
+                  "Explain the celebrity problem and how a hybrid fan-out solves it.",
+                difficulty: "Intermediate",
+                category: "Celebrity Problem",
+                answer:
+                  "The celebrity problem: a user with 100 million followers posts. Fan-out on write would trigger 100 million Redis ZADDs. At 100K writes/second, this takes 1000 seconds (16 minutes). Followers don't see the post for 16 minutes. Worse: if Beyoncé and Taylor Swift both post simultaneously, the fan-out queue gets millions of writes backed up, delaying normal users' posts too. The hybrid solution splits users into two categories by follower count (typically 1M threshold). NORMAL USERS: Fan-out on write. 1 post → N follower Redis ZADDs asynchronously. For a user with 10K followers: 10K writes, done in milliseconds. CELEBRITIES: No fan-out. Post is just saved to Cassandra. At READ time, the feed service checks which celebrities the requesting user follows, fetches their recent posts from a celebrity-specific Redis cache (shared across all followers), and injects them into the feed. This celebrity post cache is highly cacheable — millions of followers all need the same celebrity's recent posts. Cache hit rate approaches 100% for active celebrities. The key insight: for celebrities, the READ cost is amortized across all followers through shared caching. The WRITE cost would be multiplied across all followers, making it prohibitive.",
+              },
+              {
+                question:
+                  "How does Redis sorted set work for feed storage? Why not a list or hashset?",
+                difficulty: "Intermediate",
+                category: "Data Structures",
+                answer:
+                  "Redis Sorted Set (ZSET) stores members with associated float scores, always sorted by score. For feeds: member = postId, score = timestamp or rank score. Key operations: ZADD feed:{userId} {score} {postId} — insert or update post in O(log N). ZREVRANGE feed:{userId} 0 19 — get top 20 posts by score in O(log N + 20). ZREMRANGEBYRANK feed:{userId} 0 -501 — trim to last 500 posts in O(log N + removed). Why not a LIST: List gives you order by insertion time, not by score. You can't re-sort a list without rebuilding it. When a viral post gets 10K likes and its rank score increases, you'd need to remove and re-insert — you don't know where it is in the list. ZADD to an existing member just updates the score and Redis re-positions it automatically in O(log N). Why not a HASH: Hashes store key-value pairs with no ordering. You'd have to fetch all entries and sort in application code on every read. Why not a SET: Sets have no order and no score. The sorted set is purpose-built for ranked/time-ordered data. Feed length bounded by ZREMRANGEBYRANK keeps each user's feed at most 500 entries (~4KB), so 100M active users requires ~400GB of Redis feed data (manageable with a Redis cluster).",
+              },
+              {
+                question:
+                  "How do you rank feed posts? What signals matter and how do you compute them?",
+                difficulty: "Advanced",
+                category: "Feed Ranking",
+                answer:
+                  "Feed ranking assigns a score to each post. Score = weighted combination of signals. Core signals: 1) RECENCY DECAY: score = e^(-λ × ageHours). Half-life of ~6 hours for Twitter-style feeds, ~24 hours for Facebook. Ensures old posts don't permanently occupy top of feed. 2) ENGAGEMENT: log1p(likes) + 2×log1p(reposts) + 1.5×log1p(replies). Log scale because difference between 0 and 10 likes matters more than 1000 vs 1010. Reposts weighted highest — strongest signal of quality. 3) RELATIONSHIP STRENGTH: How often does this user interact with this author? Track with Redis ZINCRBY user-interactions:{userId} {weight} {authorId} on every like/reply. Score 0 = never interacted, 1.0 = heavy interaction. 4) CONTENT AFFINITY: User engages more with videos? Learn from click history. Boost video posts for that user. In production: train an ML model offline with features (post age, author relationship score, content type, historical engagement velocity) and labels (did user click/like this post?). Model outputs a click probability. Re-train daily. Deploy as a lightweight scoring service called at read time. At read time: fetch pre-computed base scores from Redis, apply user-specific context (relationship, preferences), re-rank, return top N. Pre-computation covers the expensive parts; personalization happens in the last step.",
+              },
+              {
+                question:
+                  "What is the hot key problem and how do you solve it in a Redis-based feed?",
+                difficulty: "Advanced",
+                category: "Hot Keys",
+                answer:
+                  "A hot key is a Redis key receiving so many requests that the single Redis shard hosting it becomes saturated. Example: Beyoncé posts a viral photo. Her post ID is in every one of her 300M followers' feeds. Every time any of those followers loads their feed, their app fetches GET post:{beyoncePostId} from Redis. At peak, this is 10M requests/second for one key. A single Redis shard handles ~100K commands/second — that shard dies. Solutions: 1) KEY REPLICATION: Write the hot post to 10 copies: post:{postId}:replica:0 through :9, each on different shards. Reads pick a random replica. Load spread 10x. 2) LOCAL IN-PROCESS CACHE (L1): Cache the 1000 most-accessed posts in application server memory (LRU cache, 30s TTL). Zero Redis round-trip. 100 app servers × 1000 posts = 100K posts cached in memory across the fleet. For truly viral posts, L1 hit rate approaches 99%, almost no Redis traffic. 3) CDN FOR MEDIA: Post text is small. Post images/videos are large. CDN caches media at 400+ edge nodes. 300M users loading Beyoncé's video hit their nearest edge node, not your S3. Hot key detection: monitor Redis key access rates. Any key > 10K/s is a hot key. Automatically replicate or route to L1 cache.",
+              },
+              {
+                question:
+                  "How does cursor-based pagination work and why is it better than offset pagination for feeds?",
+                difficulty: "Intermediate",
+                category: "Pagination",
+                answer:
+                  "Offset pagination: GET /feed?page=2&limit=20. Server executes ZREVRANGE feed:{userId} 20 39 (skip first 20, take next 20). Problem: feed is live. Between page 1 and page 2, 5 new posts arrive. Everything shifts. What was post #21 is now post #26. User sees posts repeated (got post #21 on page 1, it's now post #16, seen again on new page 1) or posts skipped entirely. At high volume this is constant. Also: ZREVRANGE offset N is O(log N + offset) — slow for large offsets. Cursor-based pagination: GET /feed?cursor={lastSeenPostId}&limit=20. The cursor IS the last postId the user saw. Server fetches posts with score less than that post's score: ZREVRANGEBYSCORE feed:{userId} (lastScore -inf LIMIT 0 20. This is always O(log N + 20) regardless of how far the user has scrolled. And it's stable — new posts arriving at the top don't affect where your cursor is. User never sees duplicates or skips. The cursor is typically the postId or a composite of (score, postId) to handle ties. Return nextCursor = last postId in the response. Client sends nextCursor on subsequent request. When nextCursor is null, no more posts exist.",
+              },
+              {
+                question:
+                  "How do you keep engagement counts (likes, reposts) consistent across the feed?",
+                difficulty: "Advanced",
+                category: "Consistency",
+                answer:
+                  "Engagement counts (like_count, repost_count, reply_count) update constantly for popular posts and are read on every feed load. Several strategies. 1) REDIS COUNTERS + ASYNC FLUSH: Increment counts in Redis atomically with HINCRBY. Redis field: HINCRBY post:{postId}:counts likes 1. This is O(1) and atomic — no race condition. Periodically (every 60s or on TTL), flush Redis counts to Cassandra/Postgres as a background job. Feed reads show Redis counts — always fresh. Cassandra has slightly stale counts — only used for cold reads or analytics. 2) WRITE-THROUGH CACHE: On every like, increment both Redis AND Cassandra atomically (use a Lua script for Redis atomic multi-field increment). Slower writes but counts always consistent. Overkill for engagement counts — slight staleness is acceptable. 3) COUNT APPROXIMATION: For very viral posts (1M+ likes), exact counts don't matter. User doesn't know if it's 1,234,567 or 1,234,591 likes. Use HyperLogLog for approximate unique user counts at 1/100th the memory cost. Reserved for extreme cases. Chosen approach for most systems: Redis counter + 60s async flush. Users see incrementing counts in real-time (the Redis value). Analytics queries use Cassandra (slightly stale but consistent). Post deletion: use a Lua script to atomically decrement counts and remove the key to prevent negative counts.",
+              },
+              {
+                question:
+                  "How do you handle a new user with no follows, and a user who just followed someone?",
+                difficulty: "Intermediate",
+                category: "Edge Cases",
+                answer:
+                  "NEW USER (empty feed): No follow relationships, empty feed cache. Two options: 1) Cold start with recommendations: show trending posts globally, posts from popular accounts in their interest categories (selected during onboarding), or content similar to any accounts they've searched. Store these in a 'discovery feed' cache keyed by interest category rather than userId. New user sees fresh relevant content without a social graph. 2) Prompt to follow: show an onboarding flow to follow accounts, then rebuild the feed. Most platforms do both — a discovery feed plus nudges to follow accounts. JUST FOLLOWED SOMEONE: User A follows User B at 2pm. User A's feed cache was built at 8am and doesn't include User B's posts. Options: 1) Invalidate feed cache immediately: del feed:{userId}. On next request, rebuild from scratch. Simple but slow first load. 2) Backfill: fetch User B's last 10 posts and ZADD them into User A's existing feed cache. Fast — feed is enriched, not rebuilt. Preferred approach. Also: push User A into User B's followers list so future fan-out includes them. Handle the reverse: User A unfollows User B — remove User B's posts from User A's Redis feed cache via ZREM. Alternatively, just invalidate the cache and let it rebuild without User B's posts.",
+              },
+              {
+                question:
+                  "What database does each part of the feed system use and why?",
+                difficulty: "Intermediate",
+                category: "Data Storage",
+                answer:
+                  "Each component has different access patterns requiring different storage. USER GRAPH (follows, user profiles): PostgreSQL. Follows are relational data — who follows whom is a many-to-many relationship with foreign keys. Queries like 'get all followers of userId X' need index lookups (idx_follows_followed). Profile data is highly relational (joins with posts, follows). PostgreSQL handles ACID transactions for follow/unfollow operations, preventing duplicate follow entries. POST CONTENT: Cassandra. Posts are write-heavy (millions per day), never need cross-post joins, accessed by author_id + time range. Cassandra's partition key (author_id) with clustering key (created_at DESC) gives O(1) range queries for 'get last N posts by author'. Wide rows are efficient. Cassandra scales writes horizontally (add nodes, more write capacity). Not suitable for: complex joins, transactions across partitions. FEED CACHE: Redis. Sorted sets for feed (ordered by score), Strings for post content cache, Hashes for user profile cache. Sub-millisecond reads, atomic score updates, TTL per key. ENGAGEMENT COUNTS: Redis for real-time (HINCRBY), Cassandra for durability (periodic flush). SEARCH INDEX: Elasticsearch for full-text search on post content. Separate system, updated asynchronously from Cassandra writes.",
+              },
+              {
+                question:
+                  "How would you design the write path to handle 1 million posts per second at Twitter scale?",
+                difficulty: "Advanced",
+                category: "Write Path Scale",
+                answer:
+                  "1M posts/second requires every component to be horizontally scalable with no single bottleneck. INGESTION: API servers behind load balancer. Stateless — any server handles any request. Auto-scale based on CPU. Rate limiting per user (no one user can post more than 1/s) reduces abuse. PERSISTENCE: Cassandra scales writes linearly — add nodes, get more write throughput. Cassandra's LSM-tree structure batches writes in memory before flushing to disk — extremely fast for write-heavy workloads. Shard by author_id hash. QUEUE: Kafka receives post.created events. Partitioned by author_id — all events for author X go to same partition, maintaining order. 100 partitions × 10K events/s per partition = 1M events/second throughput. FAN-OUT WORKERS: Fan-out is the bottleneck. 1M posts/s × average 1000 followers = 1B Redis writes/second needed. Mitigation: 1) Fan-out only for active followers (last 30 days). 2) Batch writes using Redis pipelines (1000 ZADDs per pipeline = 1 round-trip). 3) Celebrities excluded from fan-out (see hybrid model). 4) Fan-out workers scale horizontally — add more Kafka consumers. 5) Multiple Redis clusters, sharded by userId. REDIS SHARDING: Consistent hashing distributes feed keys across 16 shards. feed:{userId} maps to specific shard based on userId hash. Cluster scales by adding shards (requires re-sharding — use Redis Cluster which handles this automatically).",
+              },
+              {
+                question:
+                  "Why is eventual consistency acceptable for news feeds but not for ticket booking?",
+                difficulty: "Intermediate",
+                category: "Consistency",
+                answer:
+                  "The key question is: what is the cost of a brief inconsistency? For ticket booking: User A and User B both see seat 42 as available simultaneously. Both book it. Both show up. Physically impossible to fix. One person has no seat. Permanent, unrecoverable harm. Strong consistency required. For news feeds: User posts a tweet at 2:00:00pm. Some followers see it at 2:00:01pm (fan-out complete). Other followers see it at 2:00:10pm (slower fan-out). Worst case: nobody sees it for 30 seconds while fan-out processes. The post still exists. Nobody is harmed. All followers eventually see it. This is acceptable eventual consistency. Specific examples in feed systems: 1) Fan-out lag: followers see post up to 30 seconds late. Fine. 2) Like count staleness: shows 1,234 likes when it's actually 1,241. Fine — nobody checks exact counts. 3) Feed cache TTL: new posts appear after 5 seconds, not instantly. Fine. 4) Celebrity post injection: injected at read time, always current. CAP theorem for feeds: choose AP over CP. System stays available during network partitions (some nodes show slightly stale feeds) rather than refusing to serve until all nodes agree on exact state. Twitter's feed is AP. Ticket booking must be CP. The rule: can the inconsistency cause permanent real-world harm? If yes — strong consistency. If it self-corrects and causes only temporary annoyance — eventual consistency acceptable.",
+              },
+            ],
+
+            links: [
+              "https://engineering.twitter.com/2013/01/improving-performance-of-twitter.html - Twitter's original feed architecture: fan-out on write",
+              "https://www.infoq.com/presentations/Twitter-Timeline-Scalability/ - Twitter timeline scalability deep dive",
+              "https://engineering.fb.com/2015/03/10/production-engineering/serving-facebook-news-feed/ - Facebook News Feed serving at scale",
+              "https://instagram-engineering.com/what-powers-instagram-hundeds-of-millions-of-photos-93cb14b04b93 - Instagram feed architecture",
+              "https://redis.io/docs/data-types/sorted-sets/ - Redis Sorted Sets: commands, use cases, complexity",
+              "https://cassandra.apache.org/doc/latest/cassandra/data_modeling/intro.html - Cassandra data modeling for time-series posts",
+              "https://martin.kleppmann.com/2017/10/25/designing-data-intensive-applications.html - Designing Data-Intensive Applications: replication, consistency",
+              "https://netflixtechblog.com/cache-is-the-new-cash-c72b3d08e3bd - Netflix: multi-layer caching strategy",
+              "https://www.usenix.org/conference/osdi14/technical-sessions/presentation/nishtala - Facebook Memcache at scale paper",
+              "https://highscalability.com/scaling-twitter-making-twitter-10000-percent-faster/ - Scaling Twitter: practical lessons",
+              "https://redis.io/docs/management/scaling/ - Redis Cluster: horizontal scaling, sharding",
+              "https://kafka.apache.org/documentation/#design - Kafka design: partitions, consumer groups for fan-out at scale",
             ],
           },
         ],
