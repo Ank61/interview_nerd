@@ -169151,4 +169151,7181 @@ export class NonBlockingLoggingInterceptor implements NestInterceptor {
       },
     ],
   },
+  {
+    id: 14,
+    category: "docker",
+    themeBgColor: "#0db7ed",
+    textColor: "#0a4f7c",
+    topicColor: "#0db7ed",
+    lightColor: "#e6f7ff",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "Docker Basics",
+            tags: [
+              "docker",
+              "devops",
+              "containers",
+              "virtualization",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker is an open-source platform that automates the deployment of applications inside lightweight, isolated units called <strong>containers</strong>. Launched in 2013 by Solomon Hykes at dotCloud, Docker revolutionized how software is built, shipped, and run. Before Docker, deploying software meant dealing with complex environment setups, dependency conflicts, and the infamous "it works on my machine" problem. Docker solves all of this by bundling an application with <em>everything it needs</em> — runtime, libraries, environment variables, config files — into a single portable unit that behaves identically on any system.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: CONTAINERS VS VIRTUAL MACHINES                    -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Containers vs Virtual Machines
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    To understand Docker deeply, you must first understand how containers differ from Virtual Machines (VMs) — not just on the surface, but architecturally.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Virtual Machines Work</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A Virtual Machine runs on top of a <strong>Hypervisor</strong> (also called a VMM — Virtual Machine Monitor). The hypervisor is software that sits between the hardware and the VMs, virtualizing physical hardware resources (CPU, RAM, disk, network) so multiple VMs can share one physical machine. There are two types:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Type 1 Hypervisor (Bare-Metal):</span> Runs directly on physical hardware. Examples: VMware ESXi, Microsoft Hyper-V, Xen. Used in data centers. High performance.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Type 2 Hypervisor (Hosted):</span> Runs on top of a host OS as a regular application. Examples: VirtualBox, VMware Workstation. Used by developers locally.
+    </li>
+  </ol>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Each VM contains a <strong>full Guest OS</strong> (its own Linux or Windows kernel), binaries, libraries, and the application. This makes each VM completely independent — but also <strong>heavy</strong>: a typical VM image is 1–20+ GB, takes 1–5 minutes to boot, and consumes dedicated RAM even when idle.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Docker Containers Work</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Containers take a fundamentally different approach. Instead of virtualizing hardware, Docker virtualizes the <strong>operating system</strong>. All containers share the <strong>host OS kernel</strong> — they do NOT each have their own kernel. Docker uses two core Linux kernel features to isolate containers from each other:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Linux Namespaces:</span> Provide isolation of system resources. Each container gets its own isolated view of: the process tree (<code>pid</code> namespace), network interfaces (<code>net</code> namespace), filesystem mount points (<code>mnt</code> namespace), hostname (<code>uts</code> namespace), user IDs (<code>user</code> namespace), and IPC resources (<code>ipc</code> namespace). A process inside a container cannot see processes in other containers or on the host — they appear to be the only process running.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Linux cgroups (Control Groups):</span> Limit and account for the resource usage of a group of processes. Docker uses cgroups to cap how much CPU, RAM, disk I/O, and network bandwidth a container can use. Without cgroups, a single runaway container could starve all others of resources.
+    </li>
+  </ol>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Because containers share the kernel, they have <strong>zero OS overhead</strong>. A typical container image is 5–500 MB, starts in milliseconds, and only consumes RAM for the application itself — not for a full OS.
+  </p>
+
+  <div style="margin-top: 1.25rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <strong style="display: block; margin-bottom: 0.75rem;">📊 Direct Comparison Table</strong>
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Feature</th>
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Virtual Machine</th>
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Docker Container</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">OS</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Full Guest OS per VM</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Shares Host OS Kernel</td></tr>
+        <tr style="background:#fafafa"><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Size</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">GBs</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">MBs</td></tr>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Boot Time</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Minutes</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Milliseconds</td></tr>
+        <tr style="background:#fafafa"><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Isolation</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Strong (hardware-level)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Process-level (kernel shared)</td></tr>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Portability</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Less portable (OS-dependent)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Highly portable</td></tr>
+        <tr style="background:#fafafa"><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Resource Usage</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Heavy (dedicated RAM/CPU)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Lightweight (shared kernel)</td></tr>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Use Case</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Run different OS, full isolation</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Microservices, CI/CD, apps</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Containers share the host OS kernel and use Linux namespaces for isolation and cgroups for resource limits. VMs run a full OS per instance via a hypervisor. Containers are faster, smaller, and more efficient. VMs provide stronger isolation and can run a different OS than the host. In modern infrastructure, both are often used together — VMs for strong security boundaries, containers for deploying apps within them."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: WHAT PROBLEM DOCKER SOLVES                        -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. What Problem Does Docker Solve?
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Before Docker, software deployment was painful. Understanding the exact problems Docker solves tells you <em>why</em> it was adopted so rapidly across the industry.
+  </p>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">The "Works On My Machine" Problem (Environment Inconsistency)</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        A developer builds an app on macOS with Node.js 18, but production runs Ubuntu with Node.js 14. The app crashes on deployment. Docker solves this by packaging the exact runtime (Node.js 18), OS libraries, and dependencies <em>inside</em> the image. The container runs identically on the developer's Mac, the CI server, and AWS production.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dependency Hell</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        App A needs Python 2.7, App B needs Python 3.11 — they cannot coexist on the same machine without complex virtualenv setups. With Docker, each app runs in its own container with its own isolated Python version. No conflicts, no workarounds. Each container is a self-contained universe.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Slow, Brittle Deployments</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Traditional deployment required SSH-ing into servers, running shell scripts to install dependencies, configure paths, set env vars — and praying nothing breaks. Docker reduces deployment to a single command: <code>docker run</code>. The image already contains everything needed. No setup scripts, no configuration drift between servers.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Snowflake Servers (Configuration Drift)</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Over months, servers get manually patched, tweaked, and modified until no two servers are identical — making them fragile "snowflakes" that break unexpectedly. Docker enforces <strong>immutable infrastructure</strong>: instead of modifying servers, you build a new image and replace the old container. Every deployment is clean and reproducible.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Resource Inefficiency</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Running 50 microservices as VMs would require 50 full OS instances — wasteful and expensive. With containers, all 50 services share one OS kernel, each consuming only the RAM/CPU their app actually uses. This dramatically reduces infrastructure costs.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Slow CI/CD Pipelines</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Docker enables fast, reproducible CI/CD pipelines. Each pipeline run spins up fresh containers in seconds, runs tests in isolation, and discards them. No leftover state from previous runs. No "it passed locally but failed in CI" because the environment is identical.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Microservices Complexity</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Modern apps are split into dozens of microservices (auth service, payment service, notification service, etc.). Each may use a different language, runtime, and version. Docker makes this manageable — each service lives in its own container, independently deployable and scalable, orchestrated via Docker Compose or Kubernetes.
+      </p>
+    </li>
+
+  </ol>
+
+  <div style="margin-top: 1rem; background: #f0fdf4; border-left: 4px solid #22c55e; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker primarily solves three problems: (1) environment inconsistency — by packaging the app with its entire environment, (2) dependency conflicts — by isolating each app in its own container, and (3) deployment complexity — by reducing any deployment to a single reproducible docker run command. It also enables immutable infrastructure and efficient resource sharing for microservices."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: IMAGES VS CONTAINERS                              -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Images vs Containers
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    This is one of the most frequently asked Docker fundamentals in interviews. The distinction is precise and important.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Docker Image — The Blueprint</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A Docker Image is a <strong>read-only, immutable template</strong> used to create containers. It is built from a <code>Dockerfile</code> using <code>docker build</code>. An image contains everything the application needs to run: a base OS filesystem (e.g., Alpine Linux), runtime (e.g., Node.js 18), application dependencies (e.g., node_modules), application source code, environment variable defaults, and the startup command. Images are stored locally (via <code>docker images</code>) or in a registry like Docker Hub or AWS ECR. They are identified by a name and tag: <code>node:18-alpine</code>, <code>nginx:latest</code>, <code>myapp:v1.2.0</code>.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Docker Container — The Running Instance</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A Docker Container is a <strong>live, running instance of an image</strong>. When you run <code>docker run</code>, Docker takes an image and adds a thin <strong>writable layer</strong> on top of all the read-only image layers. The process specified in the image's CMD or ENTRYPOINT starts executing inside this isolated environment. Containers are ephemeral by default — the writable layer is destroyed when the container is removed. Multiple containers can run from the same image simultaneously, each with its own isolated writable layer and process space.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The OOP Analogy (Perfect for Interviews)</h5>
+  <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+    <li style="margin-top: 0.4rem;"><strong>Image</strong> = Class (blueprint, definition, static)</li>
+    <li style="margin-top: 0.4rem;"><strong>Container</strong> = Object/Instance (live, running, has state)</li>
+    <li style="margin-top: 0.4rem;"><strong>docker run</strong> = <code>new MyClass()</code> (instantiation)</li>
+    <li style="margin-top: 0.4rem;">One class → many objects. One image → many containers.</li>
+  </ul>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# ── IMAGE COMMANDS ──────────────────────────────────────────────
+
+# Pull an image from Docker Hub registry
+docker pull nginx:latest
+
+# List all locally available images
+docker images
+# or
+docker image ls
+
+# Inspect detailed metadata of an image (layers, env vars, cmd, etc.)
+docker image inspect nginx:latest
+
+# See the history of layers in an image
+docker image history nginx:latest
+
+# Build an image from a Dockerfile in current directory
+docker build -t myapp:1.0 .
+
+# Build with a specific Dockerfile path
+docker build -f ./docker/Dockerfile.prod -t myapp:prod .
+
+# Tag an existing image with a new name/tag
+docker tag myapp:1.0 myapp:latest
+
+# Remove an image
+docker rmi nginx:latest
+# or
+docker image rm nginx:latest
+
+# Remove all dangling (untagged) images
+docker image prune
+
+# Remove all unused images (not just dangling)
+docker image prune -a
+
+# Push image to Docker Hub (must be logged in)
+docker push yourusername/myapp:1.0
+
+
+# ── CONTAINER COMMANDS ──────────────────────────────────────────
+
+# Run a container (pulls image if not local, creates + starts)
+docker run nginx
+
+# Run in detached mode (background)
+docker run -d nginx
+
+# Run with a custom name
+docker run -d --name my-nginx nginx
+
+# Run with port mapping (host:container)
+docker run -d -p 8080:80 --name my-nginx nginx
+
+# Run with environment variables
+docker run -d -e NODE_ENV=production -e PORT=3000 myapp:1.0
+
+# Run with volume mount (host_path:container_path)
+docker run -d -v /host/data:/app/data myapp:1.0
+
+# Run interactively with a terminal (for debugging)
+docker run -it ubuntu bash
+
+# Run and auto-remove container when it exits
+docker run --rm node:18 node -e "console.log('Hello Docker')"
+
+# List running containers
+docker ps
+
+# List ALL containers (including stopped)
+docker ps -a
+
+# Inspect detailed container info (IP, mounts, env, etc.)
+docker inspect my-nginx
+
+# View container resource usage (live stats)
+docker stats
+
+# View container logs
+docker logs my-nginx
+
+# Follow logs in real-time
+docker logs -f my-nginx
+
+# Show last 50 log lines
+docker logs --tail 50 my-nginx
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "An image is an immutable, read-only template — like a class. A container is a running instance of that image — like an object. When a container starts, Docker adds a thin writable layer on top of the read-only image layers. The image never changes; only the container's writable layer does. One image can spawn multiple containers, each isolated from each other."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: LAYERED FILESYSTEM                                -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Layered Filesystem Concept
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Docker's layered filesystem is one of its most powerful and elegant design decisions. Understanding it deeply helps you write better Dockerfiles and explain Docker's efficiency to interviewers.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Union File System (UnionFS)</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker images are built using a <strong>Union File System</strong> — a file system that can overlay multiple directories (layers) into a single unified view. The underlying driver on modern Linux systems is called <strong>OverlayFS</strong> (specifically overlay2). Each Dockerfile instruction that modifies the filesystem (<code>RUN</code>, <code>COPY</code>, <code>ADD</code>) creates a new read-only layer. Layers that don't change the filesystem (<code>ENV</code>, <code>EXPOSE</code>, <code>LABEL</code>, <code>CMD</code>) create tiny metadata layers.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Layers Stack</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Dockerfile — each instruction = one layer
+
+FROM node:18-alpine       # Layer 1: ~50MB  — Alpine Linux + Node.js runtime
+                          #          (pulled from Docker Hub, shared across all node images)
+
+WORKDIR /app              # Layer 2: ~0KB   — just sets metadata, no filesystem change
+
+COPY package*.json ./     # Layer 3: ~2KB   — adds package.json to image filesystem
+
+RUN npm install           # Layer 4: ~30MB  — executes npm install, adds node_modules
+                          #          (EXPENSIVE — takes time, produces large layer)
+
+COPY . .                  # Layer 5: ~5MB   — copies your application source code
+
+EXPOSE 3000               # Layer 6: ~0KB   — metadata only, no filesystem change
+
+CMD ["node", "server.js"] # Layer 7: ~0KB   — metadata only, sets default command
+    </code></pre>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# Inspect the layers of a built image
+docker image history myapp:1.0
+
+# Output shows each layer, its size, and the command that created it:
+# IMAGE         CREATED        CREATED BY                                SIZE
+# a1b2c3d4e5f6  2 minutes ago  CMD ["node" "server.js"]                  0B
+# f6e5d4c3b2a1  2 minutes ago  EXPOSE 3000                               0B
+# 1a2b3c4d5e6f  2 minutes ago  COPY . .                                  5.2MB
+# ...
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Layer Caching — The Build Speedup</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker caches each layer after it's built. On the next <code>docker build</code>:
+  </p>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.4rem;">Docker checks each instruction in order.</li>
+    <li style="margin-top: 0.4rem;">If the instruction AND its input files are unchanged → Docker uses the <strong>cached layer</strong> instantly (shows <code>---> Using cache</code>).</li>
+    <li style="margin-top: 0.4rem;">The moment any layer is invalidated (changed), <strong>all subsequent layers are also invalidated</strong> and rebuilt from scratch.</li>
+    <li style="margin-top: 0.4rem;">This is why <strong>layer ordering is critical</strong>: put frequently changing instructions LAST.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ❌ BAD — Inefficient Dockerfile (breaks cache on every code change)
+FROM node:18-alpine
+WORKDIR /app
+COPY . .              # copies ALL files including source code FIRST
+RUN npm install       # cache busted every time ANY file changes!
+CMD ["node", "server.js"]
+
+# ✅ GOOD — Cache-Optimized Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./ # copy ONLY package.json first (rarely changes)
+RUN npm install       # this layer is cached as long as package.json is unchanged
+COPY . .              # copy source code AFTER install (changes often, but doesn't bust install cache)
+CMD ["node", "server.js"]
+
+# Result: npm install only re-runs when package.json changes.
+# For regular code changes, build skips straight to COPY . .
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Copy-on-Write (CoW) Strategy</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When a container needs to <strong>modify</strong> a file that exists in a read-only image layer, Docker does NOT modify the image layer directly. Instead, it: (1) copies the file up to the container's writable layer, (2) modifies it there. The original image layer remains untouched. This means all containers created from the same image share identical read-only layers — only their writable layers differ. This is how Docker achieves both immutability AND efficiency.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Layer Sharing Across Images</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    If you have 10 Node.js apps, all using <code>FROM node:18-alpine</code> as their base, they ALL share the exact same Layer 1 on disk. Docker stores it only once. This saves enormous disk space and speeds up image pulls — Docker only downloads layers it doesn't already have locally.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Build image and observe cache behavior
+docker build -t myapp:1.0 .
+# Step 1/7 : FROM node:18-alpine
+# ---> Using cache  ✅ (already pulled)
+# Step 4/7 : RUN npm install
+# ---> Using cache  ✅ (package.json unchanged)
+# Step 5/7 : COPY . .
+# ---> Running in a3f2b1c4d5e6  ⚙️  (source changed, rebuilding)
+
+# Force rebuild with no cache (ignore all cached layers)
+docker build --no-cache -t myapp:1.0 .
+
+# Check how much space images/containers/volumes are using
+docker system df
+
+# Clean up unused layers, stopped containers, dangling images
+docker system prune
+
+# Nuclear option: remove ALL unused Docker data
+docker system prune -a --volumes
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker images are composed of read-only layers stacked using UnionFS (OverlayFS). Each Dockerfile instruction that modifies the filesystem creates a new layer. Docker caches these layers — if nothing changed, cached layers are reused, making subsequent builds much faster. When a container runs, a thin writable layer is added on top. If a container modifies a read-only image file, Docker copies it up to the writable layer first (Copy-on-Write). Multiple images share common base layers on disk, saving space. This is why layer order in a Dockerfile matters — frequently changing instructions should come last to maximize cache hits."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: CONTAINER LIFECYCLE                               -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Container Lifecycle
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A Docker container transitions through well-defined states. Understanding these states and the commands that trigger transitions is essential both for interviews and for debugging production issues.
+  </p>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Created</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container has been initialized from an image but has not been started. Its filesystem (writable layer) is set up, network interfaces are created, but no process is running yet. Triggered by <code>docker create</code>. You can inspect a created container, but it consumes no CPU.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Running</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container's main process (PID 1 inside the container) is actively executing. Triggered by <code>docker start</code> (on a created/stopped container) or <code>docker run</code> (which creates + starts in one step). This is the normal operational state. The container is consuming CPU and memory resources.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Paused</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container's processes are suspended (frozen in memory) using Linux's <code>SIGSTOP</code> signal via cgroups freezer. The container still exists and occupies memory, but uses zero CPU. Useful for temporarily freeing CPU without stopping the container. Triggered by <code>docker pause</code>. Resume with <code>docker unpause</code>.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Stopped / Exited</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container's main process has terminated — either naturally (process exited with code 0), due to an error (non-zero exit code), or by explicit command. The container's filesystem still exists on disk and can be restarted with <code>docker start</code>. It consumes disk space but no CPU or RAM. Two ways to stop: <code>docker stop</code> (sends SIGTERM → waits 10s → sends SIGKILL if still running) and <code>docker kill</code> (sends SIGKILL immediately).
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Removed / Deleted</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container is permanently deleted — its writable filesystem layer is destroyed and all associated resources are freed. Triggered by <code>docker rm</code>. A running container must be stopped first (or use <code>docker rm -f</code> to force). Once removed, the container is gone forever (though its image remains). Any data written to the container that wasn't stored in a volume is permanently lost.
+      </p>
+    </li>
+
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# ── FULL LIFECYCLE COMMAND REFERENCE ────────────────────────────
+
+# STEP 1: CREATE (initialize without starting)
+docker create --name myapp -p 3000:3000 myimage:1.0
+# Container is in "Created" state
+
+# STEP 2: START (start a created or stopped container)
+docker start myapp
+# Container moves to "Running" state
+
+# SHORTCUT: RUN = create + start (most common workflow)
+docker run -d --name myapp -p 3000:3000 myimage:1.0
+
+# ── RUNTIME OPERATIONS ─────────────────────────────────────────
+
+# Execute a command inside a running container
+docker exec -it myapp bash      # open bash shell
+docker exec -it myapp sh        # open sh shell (Alpine uses sh, not bash)
+docker exec myapp env           # print environment variables
+docker exec myapp ls /app       # list files in /app directory
+
+# View live output from container
+docker logs myapp
+docker logs -f myapp            # follow/tail logs
+docker logs --since 10m myapp   # logs from last 10 minutes
+docker logs --tail 100 myapp    # last 100 lines only
+
+# Monitor resource consumption in real-time
+docker stats myapp
+docker stats                    # all running containers
+
+# Copy files between host and container
+docker cp myapp:/app/logs ./local-logs     # container → host
+docker cp ./config.json myapp:/app/config  # host → container
+
+# ── PAUSE / UNPAUSE ─────────────────────────────────────────────
+
+docker pause myapp              # freeze all processes (SIGSTOP)
+docker unpause myapp            # resume processes (SIGCONT)
+
+# ── STOP ────────────────────────────────────────────────────────
+
+# Graceful stop: sends SIGTERM, waits (default 10s), then SIGKILL
+docker stop myapp
+
+# Custom timeout (wait 30 seconds before SIGKILL)
+docker stop --time 30 myapp
+
+# Immediate SIGKILL (no cleanup time)
+docker kill myapp
+
+# Restart a container
+docker restart myapp
+
+# Restart with custom stop timeout
+docker restart --time 5 myapp
+
+# ── REMOVE ──────────────────────────────────────────────────────
+
+# Remove a stopped container
+docker rm myapp
+
+# Force remove a running container (stop + remove in one)
+docker rm -f myapp
+
+# Remove all stopped containers
+docker container prune
+
+# Remove specific stopped containers by ID
+docker rm container1 container2 container3
+
+# One-liner: stop and remove all running containers
+docker stop $(docker ps -q) && docker rm $(docker ps -aq)
+
+# ── RESTART POLICIES ────────────────────────────────────────────
+# Control what happens when a container stops
+
+# Never restart (default)
+docker run --restart no myapp:1.0
+
+# Restart only on failure (non-zero exit code)
+docker run --restart on-failure myapp:1.0
+
+# Restart on failure, max 3 times
+docker run --restart on-failure:3 myapp:1.0
+
+# Always restart (even on clean exit, survives Docker daemon restart)
+docker run --restart always myapp:1.0
+
+# Always restart UNLESS manually stopped by user
+docker run --restart unless-stopped myapp:1.0
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Container Exit Codes — Critical for Debugging</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When a container stops, it records an <strong>exit code</strong> that tells you why it stopped. Always check exit codes when a container stops unexpectedly.
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Exit 0:</span> Process exited successfully (intentional clean exit).</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Exit 1:</span> General application error (caught exception, runtime failure).</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Exit 125:</span> Docker command itself failed (e.g., invalid flag).</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Exit 126:</span> Container command found but not executable.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Exit 127:</span> Container command not found (e.g., wrong CMD path).</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Exit 137:</span> Container received SIGKILL (OOM kill or docker kill). 128 + 9 (SIGKILL signal number).</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Exit 143:</span> Container received SIGTERM (from docker stop). 128 + 15 (SIGTERM signal number).</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Check exit code of a stopped container
+docker inspect myapp --format='{{.State.ExitCode}}'
+
+# Check full state: status, exit code, start/end time, OOM killed flag
+docker inspect myapp --format='{{json .State}}' | python3 -m json.tool
+
+# Specifically check if container was OOM (Out of Memory) killed
+docker inspect myapp --format='{{.State.OOMKilled}}'
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fdf4ff; border-left: 4px solid #a855f7; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "A container lifecycle has five states: Created (initialized, not running), Running (process executing), Paused (frozen, no CPU), Stopped/Exited (process terminated, disk still present), and Removed (permanently deleted). The key difference between stop and kill is that docker stop sends SIGTERM first to allow graceful shutdown, while docker kill sends SIGKILL immediately. Exit codes are critical for debugging — exit 137 means OOM kill, exit 143 means SIGTERM received. Restart policies like --restart unless-stopped ensure containers auto-recover from crashes in production."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════
+# COMPLETE DOCKER BASICS WORKFLOW — End to End Example
+# ══════════════════════════════════════════════════════
+
+# ── Step 1: Write application ──────────────────────────
+# server.js
+const http = require('http');
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.end('Hello from Docker! ENV: ' + process.env.NODE_ENV);
+}).listen(port, () => console.log('Server on port ' + port));
+
+# ── Step 2: Write optimized Dockerfile ────────────────
+# Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./       # copy manifest first (cache layer)
+RUN npm install             # install deps (cached if manifest unchanged)
+COPY . .                    # copy source (often changes)
+EXPOSE 3000
+CMD ["node", "server.js"]
+
+# ── Step 3: Build image ────────────────────────────────
+docker build -t my-node-app:1.0 .
+
+# Verify image was created
+docker images | grep my-node-app
+
+# Check image layers
+docker image history my-node-app:1.0
+
+# ── Step 4: Run container ──────────────────────────────
+docker run -d \\
+  --name my-server \\
+  -p 8080:3000 \\
+  -e NODE_ENV=production \\
+  --restart unless-stopped \\
+  my-node-app:1.0
+
+# Verify it's running
+docker ps
+
+# Test it works
+curl http://localhost:8080
+# Output: Hello from Docker! ENV: production
+
+# ── Step 5: Inspect & Debug ────────────────────────────
+docker logs my-server             # view logs
+docker logs -f my-server          # follow logs live
+docker stats my-server            # CPU/RAM usage
+docker inspect my-server          # full metadata dump
+docker exec -it my-server sh      # enter container shell
+  # inside container:
+  # ls /app           → see files
+  # env               → see environment variables
+  # ps aux            → see running processes
+  # exit              → leave container
+
+# ── Step 6: Lifecycle operations ──────────────────────
+docker pause my-server            # freeze (no CPU)
+docker unpause my-server          # resume
+docker stop my-server             # graceful stop (SIGTERM)
+docker start my-server            # restart stopped container
+docker restart my-server          # stop + start
+
+# ── Step 7: Cleanup ────────────────────────────────────
+docker stop my-server
+docker rm my-server
+docker rmi my-node-app:1.0
+
+# Full system cleanup (removes stopped containers + unused images)
+docker system prune -a`,
+            ],
+
+            questions: [
+              {
+                question: "What is Docker and what core problem does it solve?",
+                solution:
+                  "<p>Docker is a containerization platform that packages an application along with its complete runtime environment (OS libraries, dependencies, configs, environment variables) into a portable unit called a container. The core problem it solves is <strong>environment inconsistency</strong> — the classic 'it works on my machine but not in production.' By packaging the app WITH its environment, Docker guarantees identical behavior across development, staging, CI/CD, and production. Secondary benefits include resolving dependency conflicts, enabling immutable infrastructure, and simplifying deployment to a single <code>docker run</code> command.</p>",
+              },
+              {
+                question:
+                  "Explain the architectural difference between Containers and VMs.",
+                solution:
+                  "<p><strong>Virtual Machines</strong> use a hypervisor to virtualize hardware. Each VM runs its own full OS kernel — making VMs GBs in size, slow to boot (minutes), and resource-heavy (dedicated RAM per VM). <strong>Containers</strong> share the host OS kernel and use Linux <strong>namespaces</strong> (for isolation — each container gets its own view of processes, network, filesystem, hostname) and <strong>cgroups</strong> (for resource limits — cap CPU/RAM per container). This makes containers MBs in size and able to start in milliseconds. VMs provide stronger isolation (separate kernels); containers provide much better efficiency and density. In practice, many cloud deployments run containers INSIDE VMs for both security and flexibility.</p>",
+              },
+              {
+                question:
+                  "What are Linux namespaces and cgroups, and how does Docker use them?",
+                solution:
+                  "<p><strong>Namespaces</strong> provide process isolation. Docker creates separate namespaces for each container: <code>pid</code> (container sees only its own processes), <code>net</code> (container gets its own network stack/interface), <code>mnt</code> (container has its own filesystem mount points), <code>uts</code> (container has its own hostname), <code>user</code> (container has its own user IDs), <code>ipc</code> (container has its own shared memory). A process in Container A cannot see or interfere with processes in Container B. <strong>cgroups</strong> (Control Groups) limit resource consumption — Docker uses them to enforce CPU caps (<code>--cpus</code>), memory limits (<code>--memory</code>), and disk I/O limits per container, preventing one misbehaving container from starving others.</p>",
+              },
+              {
+                question:
+                  "What is the difference between a Docker Image and a Container?",
+                solution:
+                  "<p>A Docker <strong>Image</strong> is a read-only, immutable template built from a Dockerfile. It contains the OS base, runtime, dependencies, app code, and default configuration. It never changes after being built — it's like a class definition in OOP. A <strong>Container</strong> is a live, running instance of an image — it's the class instantiated into an object. Docker adds a thin writable layer on top of the read-only image layers when a container starts. This writable layer stores any runtime file changes. It is ephemeral — destroyed when the container is removed. One image can have many containers running simultaneously, each with its own isolated writable layer and process space, but sharing the same underlying read-only image layers.</p>",
+              },
+              {
+                question:
+                  "How does Docker's layered filesystem work? Why does layer order in a Dockerfile matter?",
+                solution:
+                  "<p>Docker builds images in layers using <strong>OverlayFS (UnionFS)</strong>. Each filesystem-modifying Dockerfile instruction (<code>RUN</code>, <code>COPY</code>, <code>ADD</code>) creates a new read-only layer stacked on the previous one. Docker <strong>caches each layer</strong>. On rebuild, if an instruction and its inputs are unchanged, Docker reuses the cached layer. The critical rule: <strong>cache invalidation cascades downward</strong> — once a layer is invalidated, all layers below it are rebuilt too. So place slow, stable operations (like <code>npm install</code>) BEFORE fast, frequently-changing ones (like <code>COPY . .</code>). Bad order: COPY source code first → RUN npm install second (cache busted on every code change). Good order: COPY package.json → RUN npm install → COPY source code (install cache survives code changes).</p>",
+              },
+              {
+                question: "What is Copy-on-Write (CoW) in Docker?",
+                solution:
+                  "<p>Copy-on-Write is the mechanism Docker uses to maintain image immutability while still allowing containers to modify files. All image layers are read-only. When a running container needs to <strong>modify</strong> a file from an image layer, Docker doesn't touch the original layer. Instead, it: (1) <strong>copies the file up</strong> from the read-only image layer into the container's writable layer, then (2) modifies the copy in the writable layer. The original image layer is completely untouched. This means: all containers from the same image share identical read-only layers (saved once on disk), and each container's changes are isolated in their own thin writable layer. This enables both immutability AND efficiency.</p>",
+              },
+              {
+                question:
+                  "Walk me through the Docker container lifecycle states.",
+                solution:
+                  "<p>A container has five states: <strong>Created</strong> — initialized from an image, filesystem prepared, no process running (via <code>docker create</code>). <strong>Running</strong> — main process (PID 1) is executing, consuming CPU/RAM (via <code>docker start</code> or <code>docker run</code>). <strong>Paused</strong> — processes frozen via SIGSTOP/cgroups freezer, uses no CPU but stays in memory (via <code>docker pause</code>). <strong>Stopped/Exited</strong> — process terminated, container filesystem still exists on disk, can be restarted (via <code>docker stop</code> or <code>docker kill</code>). <strong>Removed</strong> — permanently deleted, writable layer destroyed (via <code>docker rm</code>). Stopped containers persist until explicitly removed — always run <code>docker container prune</code> to clean up stopped containers.</p>",
+              },
+              {
+                question:
+                  "What is the difference between docker stop and docker kill?",
+                solution:
+                  "<p><code>docker stop</code> initiates a <strong>graceful shutdown</strong>: it sends <code>SIGTERM</code> to the container's main process (PID 1), giving it time to clean up — close DB connections, finish in-flight requests, flush buffers. If the process doesn't exit within the timeout (default 10 seconds, configurable with <code>--time</code>), Docker sends <code>SIGKILL</code>. <code>docker kill</code> sends <code>SIGKILL</code> immediately, forcefully terminating the process with no cleanup time. <strong>Always prefer <code>docker stop</code> in production</strong> to avoid data corruption or partial transactions. Use <code>docker kill</code> only when a container is completely unresponsive. Application code should handle SIGTERM for graceful shutdown (e.g., in Node.js: <code>process.on('SIGTERM', () => server.close())</code>).</p>",
+              },
+              {
+                question:
+                  "What are Docker restart policies and when would you use them?",
+                solution:
+                  "<p>Restart policies control what happens when a container's main process exits. <code>--restart no</code> (default): never auto-restart. <code>--restart on-failure</code>: restart only on non-zero exit code (app crash), not on clean exit. Optionally limit retries: <code>--restart on-failure:3</code>. <code>--restart always</code>: always restart regardless of exit code, even after Docker daemon restarts — good for critical services. <code>--restart unless-stopped</code>: like always, but does NOT restart if you manually ran <code>docker stop</code> — prevents accidentally restarting containers you intentionally stopped. In production, use <code>unless-stopped</code> for web servers and databases. Use <code>on-failure</code> for batch jobs that should retry on error but not loop forever on success.</p>",
+              },
+              {
+                question:
+                  "How do you debug a container that keeps crashing immediately after starting?",
+                solution:
+                  "<p>Follow this systematic debug process: (1) <code>docker ps -a</code> — see the exit code of the crashed container. (2) <code>docker logs &lt;container&gt;</code> — read the application's last output before crashing. (3) <code>docker inspect &lt;container&gt; --format='{{.State.ExitCode}}'</code> — exit 137 means OOM killed, exit 127 means CMD not found. (4) Check if the CMD/ENTRYPOINT is correct: <code>docker image inspect myimage --format='{{json .Config.Cmd}}'</code>. (5) Override the CMD to open a shell: <code>docker run -it --entrypoint sh myimage</code> — this prevents the app from starting and lets you explore the filesystem manually. (6) Use <code>docker inspect &lt;container&gt; --format='{{.State.OOMKilled}}'</code> to check for memory issues.</p>",
+              },
+              {
+                question:
+                  "What does docker run -d -p 8080:3000 -e NODE_ENV=production --name myapp myimage:1.0 do, flag by flag?",
+                solution:
+                  "<p>Breaking down each flag: <code>-d</code> (detached mode) — runs container in the background, returns container ID, doesn't block the terminal. <code>-p 8080:3000</code> (port mapping) — forwards traffic from port 8080 on the HOST machine to port 3000 INSIDE the container. Format is always host:container. Without this flag, the container's port is completely inaccessible from outside. <code>-e NODE_ENV=production</code> (environment variable) — injects the env var into the container's process. Accessible via <code>process.env.NODE_ENV</code> in Node.js. <code>--name myapp</code> — assigns a human-readable name instead of a random one like 'romantic_tesla'. Used in subsequent docker stop, docker logs, docker exec commands. <code>myimage:1.0</code> — the image name and tag to instantiate.</p>",
+              },
+              {
+                question:
+                  "What is EXPOSE in a Dockerfile? Does it actually publish the port?",
+                solution:
+                  "<p><code>EXPOSE</code> is purely <strong>documentation metadata</strong> — it records which port the application inside the container listens on. It does <strong>not</strong> publish the port or make it accessible from outside the container. To actually publish a port, you MUST use the <code>-p</code> flag at runtime: <code>docker run -p 8080:3000 myapp</code>. However, <code>EXPOSE</code> is still valuable: it communicates intent to developers and operators reading the Dockerfile, it's used by Docker Compose and orchestrators to auto-configure networking, and it enables <code>docker run -P</code> (uppercase P) which automatically maps all EXPOSED ports to random host ports. Rule of thumb: EXPOSE documents, -p binds.</p>",
+              },
+              {
+                question:
+                  "What happens to data stored inside a container when it is removed?",
+                solution:
+                  "<p>By default, all data written inside a container is stored in its <strong>writable layer</strong>, which is tied to the container's lifecycle. When you run <code>docker rm</code>, the writable layer is permanently destroyed — all data is gone. This is intentional: containers are designed to be ephemeral and stateless. To persist data, Docker provides two mechanisms: (1) <strong>Volumes</strong> (<code>-v myvolume:/app/data</code>) — managed by Docker, stored in Docker's storage area (<code>/var/lib/docker/volumes/</code>), survive container deletion, shareable between containers. Best for databases. (2) <strong>Bind Mounts</strong> (<code>-v /host/path:/container/path</code>) — mounts a host directory into the container. Good for development (live code reload). Data in volumes/bind mounts persists independently of container lifecycle.</p>",
+              },
+              {
+                question:
+                  "How would you reduce Docker image size? Why does it matter?",
+                solution:
+                  "<p>Image size matters for: faster pulls in CI/CD, less bandwidth, smaller attack surface (security), and lower storage costs. Strategies to reduce size: (1) <strong>Use Alpine-based images</strong> (<code>node:18-alpine</code> is ~50MB vs <code>node:18</code> at ~1GB). (2) <strong>Multi-stage builds</strong>: build in a full image, copy only the compiled output to a minimal runtime image — discard build tools. (3) <strong>Minimize layers</strong>: chain RUN commands with <code>&&</code> to combine into one layer: <code>RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*</code>. (4) <strong>Use .dockerignore</strong>: exclude node_modules, .git, tests, docs from being copied into the image. (5) <strong>Don't install unnecessary packages</strong>: avoid dev dependencies in production images. Use <code>npm ci --only=production</code>.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/get-started/overview/",
+              "https://docs.docker.com/engine/reference/commandline/cli/",
+              "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+              "https://docs.docker.com/storage/storagedriver/overlayfs-driver/",
+              "https://docs.docker.com/config/containers/start-containers-automatically/",
+            ],
+          },
+          {
+            topic: "Docker Images",
+            tags: [
+              "docker",
+              "images",
+              "dockerfile",
+              "registry",
+              "devops",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A Docker Image is the foundational building block of the entire Docker ecosystem. Everything in Docker starts with an image — before you can run a container, before you can deploy a service, before you can scale an application, you need an image. Understanding images deeply — how they are built, how they are stored, how they are versioned, and how their layered architecture works — is not just interview knowledge, it is the knowledge that separates developers who <em>use</em> Docker from engineers who <em>understand</em> Docker.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: WHAT AN IMAGE IS                                  -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. What Is a Docker Image?
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A Docker Image is a <strong>read-only, immutable, self-contained package</strong> that includes everything needed to run a piece of software: the operating system filesystem, runtime environment (Node.js, Python, Java JDK, etc.), application source code or compiled binaries, dependency libraries, environment variable defaults, working directory configuration, and the command to execute on startup. When you run a container, Docker takes this image and adds one thin writable layer on top — that writable layer is the container. The image itself is never modified.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">What Exactly Is Inside an Image?</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Filesystem Snapshot:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">A complete Linux filesystem tree — <code>/bin</code>, <code>/etc</code>, <code>/usr</code>, <code>/lib</code>, etc. This is NOT a full OS — it has no kernel, no bootloader. It is just the userspace filesystem that the application needs to run. The host machine's kernel is shared. This is why you can run an Ubuntu-based image on a Fedora host — the Ubuntu filesystem is inside the image, but the host kernel does the actual system calls.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Image Metadata (Image Manifest):</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Each image has a JSON manifest that records: the ordered list of layer hashes (SHA256 digests), the architecture it targets (linux/amd64, linux/arm64), the default environment variables, the working directory, exposed ports, the default CMD or ENTRYPOINT, and labels. This manifest is what Docker reads to reconstruct the image from its layers.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Ordered Stack of Layers:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">The actual filesystem content is stored as a series of compressed tar archives — one per layer. Each layer records only the <em>diff</em> (changes) from the previous layer: files added, modified, or deleted. Docker uses OverlayFS to present all layers as a single unified filesystem at runtime.</p>
+    </li>
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Docker Identifies Images — Content Addressable Storage</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker uses <strong>content-addressable storage</strong>. Every image and every layer has a <strong>SHA256 digest</strong> computed from its contents. This means:
+  </p>
+  <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+    <li style="margin-top: 0.4rem;">Two identical layers (same content) have the same SHA256 hash and are stored only ONCE on disk — regardless of how many images reference them. This is layer deduplication.</li>
+    <li style="margin-top: 0.4rem;">If you pull the same image twice, Docker won't re-download it — it compares hashes and sees it already has all the layers locally.</li>
+    <li style="margin-top: 0.4rem;">You can reference an image by its immutable digest: <code>node@sha256:a1b2c3...</code> — guaranteeing you get the exact same image bytes every time, even if the tag (like <code>latest</code>) is later updated to point to something different.</li>
+  </ul>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# See the full SHA256 digest of a local image
+docker images --digests
+
+# Output:
+# REPOSITORY   TAG       DIGEST                                                                    IMAGE ID       SIZE
+# node         18        sha256:a1b2c3d4e5f6...                                                   3f9d338f4629   999MB
+# nginx        latest    sha256:f7e3b8c2d1a0...                                                   2b7d83522814   187MB
+
+# Pull by digest (guarantees exact image, immune to tag mutation)
+docker pull node@sha256:a1b2c3d4e5f6...
+
+# Inspect the full image manifest: layers, config, architecture
+docker image inspect node:18
+
+# See the exact JSON config embedded in the image
+docker image inspect node:18 --format='{{json .Config}}' | python3 -m json.tool
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Types of Docker Images</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Base Images:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Images that have no parent — they start from scratch. <code>FROM scratch</code> is the absolute base (an empty filesystem). Examples: <code>ubuntu</code>, <code>alpine</code>, <code>debian</code>. These contain only an OS userspace filesystem. All other images ultimately descend from a base image.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Official Images:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Curated, maintained, and security-scanned images published by Docker Inc. or technology vendors on Docker Hub. Examples: <code>node</code>, <code>python</code>, <code>postgres</code>, <code>nginx</code>, <code>redis</code>. They have no namespace prefix — just the image name. These are the starting point for most custom images.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">User/Organization Images:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Published by individuals or companies. Prefixed with the username or org name: <code>bitnami/postgresql</code>, <code>grafana/grafana</code>. Pulled and used the same way as official images.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Custom Images:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Images you build yourself from a Dockerfile using <code>docker build</code>. They extend a base or official image by adding your application code and customizations. This is what you push to your private registry for deployment.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Dangling Images:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Images with no tag (<code>&lt;none&gt;:&lt;none&gt;</code>). Created when you rebuild an image with the same tag — the old image loses its tag but stays on disk. They waste disk space and should be pruned regularly.</p>
+    </li>
+  </ol>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "A Docker image is a read-only, immutable package containing a filesystem snapshot, runtime, application code, and metadata. It is stored as an ordered stack of compressed layers, each identified by a SHA256 hash. Docker uses content-addressable storage — identical layers across different images are stored once and shared. An image is NOT a VM snapshot — it contains no kernel. It is purely the userspace filesystem and configuration needed to run an application. The kernel is always provided by the host."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: PULLING IMAGES FROM REGISTRY                      -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Pulling Images From a Registry
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A <strong>Docker Registry</strong> is a storage and distribution system for Docker images. When you run <code>docker pull node:18</code>, Docker reaches out to a registry to download the image layers to your local machine. Understanding the full registry system — how images are named, where they come from, and how Docker resolves image references — is essential for production work.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Docker Hub — The Default Registry</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    <strong>Docker Hub</strong> (<code>hub.docker.com</code>) is Docker's default public registry. When you run <code>docker pull nginx</code>, Docker automatically prefixes it as <code>docker.io/library/nginx:latest</code>. Docker Hub hosts: official images (maintained by Docker and vendors), millions of community images, and private repositories (paid plans). Docker Hub also has rate limits for unauthenticated pulls (100 pulls/6 hours) — in CI/CD pipelines, always authenticate to avoid hitting limits.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Other Common Registries</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Amazon ECR (Elastic Container Registry):</span> AWS's private registry. Images: <code>123456789.dkr.ecr.us-east-1.amazonaws.com/myapp:1.0</code>. Used for ECS and EKS deployments.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Google Artifact Registry / GCR:</span> Google Cloud's registry. Images: <code>gcr.io/my-project/myapp:1.0</code>.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">GitHub Container Registry (GHCR):</span> Images stored alongside GitHub repos: <code>ghcr.io/username/myapp:1.0</code>. Integrates natively with GitHub Actions.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Azure Container Registry (ACR):</span> <code>myregistry.azurecr.io/myapp:1.0</code>.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Self-Hosted Registry:</span> Run your own private registry using the official <code>registry:2</code> image. Full control, no rate limits, air-gapped environments.</li>
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Anatomy of a Full Image Reference</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Full image reference format:
+# [registry_host[:port]/][namespace/]image_name[:tag][@digest]
+
+# Examples broken down:
+docker pull nginx
+# Resolves to: docker.io/library/nginx:latest
+# registry = docker.io (Docker Hub)
+# namespace = library (official images namespace)
+# name = nginx
+# tag = latest (default when no tag specified)
+
+docker pull node:18-alpine
+# registry = docker.io
+# namespace = library
+# name = node
+# tag = 18-alpine
+
+docker pull myusername/myapp:v2.1.0
+# registry = docker.io
+# namespace = myusername
+# name = myapp
+# tag = v2.1.0
+
+docker pull gcr.io/google-containers/pause:3.8
+# registry = gcr.io  (Google Container Registry)
+# namespace = google-containers
+# name = pause
+# tag = 3.8
+
+docker pull 123456789012.dkr.ecr.us-east-1.amazonaws.com/myapp:prod
+# registry = 123456789012.dkr.ecr.us-east-1.amazonaws.com  (AWS ECR)
+# namespace = (none)
+# name = myapp
+# tag = prod
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How docker pull Works Internally</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Resolve the tag:</span> Docker contacts the registry API and asks: "What is the manifest for <code>node:18</code>?" The registry returns the image manifest — a JSON document listing all the layer SHA256 digests.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Check local cache:</span> Docker checks which layers it already has locally (by SHA256 hash). Layers already present are skipped — "Already exists" in pull output.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Download missing layers:</span> Docker downloads each missing layer in parallel as a compressed tar archive from the registry's blob storage.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Verify integrity:</span> Each downloaded layer's SHA256 is computed and verified against the manifest. Corrupted layers are re-downloaded.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Extract and store:</span> Layers are extracted and stored in Docker's storage directory (<code>/var/lib/docker/overlay2/</code> on Linux).</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── PULLING IMAGES ──────────────────────────────────────────────
+
+# Pull latest tag (not recommended for production — tag is mutable)
+docker pull nginx
+
+# Pull a specific version tag (recommended)
+docker pull node:18-alpine
+
+# Pull by immutable digest (guarantees exact image)
+docker pull node@sha256:a1b2c3d4e5f67890abcdef...
+
+# Pull from a specific registry (not Docker Hub)
+docker pull gcr.io/google-containers/pause:3.8
+docker pull ghcr.io/username/myapp:latest
+
+# Pull ALL tags of an image (downloads every tag)
+docker pull --all-tags node
+
+# Authenticate to Docker Hub before pulling (avoids rate limits)
+docker login
+# Enter username and password when prompted
+
+# Authenticate to AWS ECR
+aws ecr get-login-password --region us-east-1 | \
+  docker login --username AWS --password-stdin \
+  123456789012.dkr.ecr.us-east-1.amazonaws.com
+
+# Authenticate to GitHub Container Registry
+echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+
+# Log out from registry
+docker logout
+docker logout ghcr.io
+
+# ── LISTING AND INSPECTING LOCAL IMAGES ────────────────────────
+
+# List all local images (name, tag, ID, size)
+docker images
+
+# Same command, alternative syntax
+docker image ls
+
+# List with SHA256 digests shown
+docker images --digests
+
+# Show all images including dangling (<none>:<none>)
+docker images -a
+
+# Filter images by name
+docker images node
+
+# Filter images by name and tag
+docker images node:18
+
+# Custom format output (useful in scripts)
+docker images --format "{{.Repository}}:{{.Tag}} → {{.Size}}"
+
+# Inspect full image metadata (returns JSON)
+docker image inspect node:18
+
+# Extract specific fields from inspect
+docker image inspect node:18 --format='{{.Architecture}}'
+docker image inspect node:18 --format='{{.Os}}'
+docker image inspect node:18 --format='{{json .Config.Env}}' | python3 -m json.tool
+docker image inspect node:18 --format='{{json .Config.ExposedPorts}}'
+docker image inspect node:18 --format='{{.Size}}' # size in bytes
+
+# See layer history (each layer's command + size)
+docker image history node:18
+
+# See history with full (untruncated) commands
+docker image history --no-trunc node:18
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Production Warning — Never Use <code>:latest</code> in Production:</strong> The <code>latest</code> tag is just a regular mutable tag — it simply points to whatever the image maintainer last pushed. It can change without warning. Two deployments using <code>nginx:latest</code> one week apart could get completely different versions. In production, always pin to a specific version tag (<code>nginx:1.25.3</code>) or better yet, pin to a SHA256 digest for complete immutability.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "docker pull contacts the registry (Docker Hub by default), retrieves the image manifest which lists all layer SHA256 digests, checks which layers are already cached locally, downloads only the missing layers in parallel, verifies each layer's hash for integrity, and stores them in Docker's local layer cache. Subsequent pulls of the same image or images sharing layers are fast because already-cached layers show 'Already exists' and are skipped entirely."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: BUILDING CUSTOM IMAGES                            -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Building Custom Images
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Building custom images is the heart of Docker in real-world usage. Every application you deploy with Docker needs a custom image. Images are built from a <strong>Dockerfile</strong> — a plain text file containing sequential instructions that tell Docker how to assemble the image layer by layer.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The Dockerfile — Complete Instruction Reference</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ── FROM ────────────────────────────────────────────────────────
+# Every Dockerfile starts with FROM — sets the base image.
+# All subsequent instructions build on top of this base.
+FROM node:18-alpine
+
+# FROM scratch = completely empty filesystem (for Go binaries, etc.)
+FROM scratch
+
+# Multi-stage: give stages names with AS
+FROM node:18-alpine AS builder
+
+
+# ── LABEL ───────────────────────────────────────────────────────
+# Adds metadata key-value pairs to the image.
+# Queryable via: docker image inspect --format='{{json .Config.Labels}}'
+LABEL maintainer="you@example.com"
+LABEL version="1.0.0"
+LABEL description="My Node.js API service"
+LABEL org.opencontainers.image.source="https://github.com/user/repo"
+
+
+# ── ENV ─────────────────────────────────────────────────────────
+# Sets environment variables available at BUILD TIME and RUNTIME.
+# Accessible in subsequent Dockerfile instructions AND in the running container.
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV APP_DIR=/app
+
+# Set multiple in one instruction (reduces layers)
+ENV NODE_ENV=production PORT=3000 APP_DIR=/app
+
+
+# ── ARG ─────────────────────────────────────────────────────────
+# Build-time variable (only available during docker build, NOT at runtime).
+# Can be passed in via: docker build --build-arg VERSION=2.0 .
+ARG VERSION=1.0
+ARG BUILD_DATE
+
+
+# ── WORKDIR ─────────────────────────────────────────────────────
+# Sets the working directory for all subsequent RUN, COPY, ADD, CMD, ENTRYPOINT.
+# Creates the directory if it doesn't exist.
+# Best practice: always use absolute paths.
+WORKDIR /app
+
+
+# ── COPY ────────────────────────────────────────────────────────
+# Copies files/directories from the build context (host) into the image.
+# Build context = the directory you specify in: docker build <context>
+# Preferred over ADD for simple file copying.
+COPY package*.json ./          # copy package.json and package-lock.json
+COPY src/ ./src/               # copy entire src directory
+COPY . .                       # copy everything from current directory
+
+# Copy with specific ownership (avoids running chown separately)
+COPY --chown=node:node . .
+
+# Copy from a named build stage (multi-stage builds)
+COPY --from=builder /app/dist ./dist
+
+
+# ── ADD ─────────────────────────────────────────────────────────
+# Like COPY but with extra powers:
+# 1. Auto-extracts local .tar.gz archives into the destination
+# 2. Can fetch files from URLs (not recommended — use curl in RUN instead)
+# Use COPY unless you specifically need ADD's extra features.
+ADD archive.tar.gz /app/       # auto-extracted
+ADD https://example.com/file.txt /app/  # URL fetch (avoid this)
+
+
+# ── RUN ─────────────────────────────────────────────────────────
+# Executes a command during the BUILD process. Creates a new layer.
+# Two forms:
+# Shell form (runs via /bin/sh -c "..."):
+RUN npm install
+
+# Exec form (runs directly, no shell — safer, no shell expansion):
+RUN ["npm", "install"]
+
+# Best practice: chain commands with && to minimize layers
+# Also clean up in same RUN to prevent package manager caches from bloating the layer
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl git && \
+    rm -rf /var/lib/apt/lists/*
+
+# For npm: install only production dependencies
+RUN npm ci --only=production
+
+
+# ── EXPOSE ──────────────────────────────────────────────────────
+# Documents which port the application listens on.
+# Does NOT publish the port — that requires -p flag at runtime.
+EXPOSE 3000
+EXPOSE 3000/tcp   # TCP is default
+EXPOSE 9090/udp   # for UDP
+
+
+# ── USER ────────────────────────────────────────────────────────
+# Sets the user for all subsequent RUN, CMD, ENTRYPOINT.
+# Security best practice: never run as root in production containers.
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+
+# Or use a pre-existing user from the base image
+USER node
+
+
+# ── VOLUME ──────────────────────────────────────────────────────
+# Declares a mount point. Docker creates an anonymous volume at this path.
+# Data written here is NOT stored in the image layer (good for databases).
+VOLUME ["/app/data"]
+VOLUME /app/logs
+
+
+# ── CMD ─────────────────────────────────────────────────────────
+# Sets the DEFAULT command to run when container starts.
+# Can be overridden at runtime: docker run myimage node other.js
+# ONLY the LAST CMD in the Dockerfile takes effect.
+# Exec form (preferred — no shell, direct process, handles signals correctly):
+CMD ["node", "server.js"]
+
+# Shell form (runs via shell — process is child of sh, SIGTERM may not reach it):
+CMD node server.js
+
+
+# ── ENTRYPOINT ──────────────────────────────────────────────────
+# Sets the FIXED executable that ALWAYS runs.
+# Unlike CMD, it is NOT overridden by arguments to docker run.
+# docker run myimage --port 3000  → appends "--port 3000" as args to ENTRYPOINT
+ENTRYPOINT ["node"]
+CMD ["server.js"]   # default arg — can be overridden
+
+# Combined: docker run myimage other.js  → runs: node other.js
+# docker run myimage                     → runs: node server.js
+
+
+# ── HEALTHCHECK ─────────────────────────────────────────────────
+# Tells Docker how to test if the container is healthy.
+# Docker marks container "healthy", "unhealthy", or "starting".
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+
+# ── ONBUILD ─────────────────────────────────────────────────────
+# Instruction that fires when THIS image is used as a base by another Dockerfile.
+# Useful for base image maintainers to enforce conventions.
+ONBUILD COPY . /app
+ONBUILD RUN npm install
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">The .dockerignore File — Critical Performance Tool</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The <strong>build context</strong> is the entire directory you pass to <code>docker build</code>. Docker sends the entire build context to the Docker daemon before building. Without a <code>.dockerignore</code> file, this includes <code>node_modules</code> (hundreds of MBs), <code>.git</code> history, test files, and local config — all of which are useless inside the image. A <code>.dockerignore</code> works exactly like <code>.gitignore</code> and is one of the most impactful optimizations you can make.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# .dockerignore — place in same directory as Dockerfile
+
+# Dependencies (will be installed fresh inside image)
+node_modules
+npm-debug.log
+
+# Git history (irrelevant inside container)
+.git
+.gitignore
+
+# Local environment files (NEVER include secrets in images!)
+.env
+.env.local
+.env.*.local
+
+# Test and documentation files (not needed in production image)
+__tests__
+*.test.js
+*.spec.js
+coverage/
+docs/
+README.md
+
+# Build artifacts from previous builds
+dist/
+build/
+.next/
+
+# IDE and OS files
+.DS_Store
+.vscode/
+*.swp
+Thumbs.db
+
+# Docker files themselves (no reason to include)
+Dockerfile
+Dockerfile.*
+.dockerignore
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Multi-Stage Builds — Production Image Size Optimization</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Multi-stage builds are one of the most powerful Docker features. The idea: use one stage with all your build tools (compilers, dev dependencies, test runners) to BUILD your app, then copy only the compiled output into a minimal second stage for the final image. Build tools never end up in your production image.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ══════════════════════════════════════════════════
+# MULTI-STAGE BUILD EXAMPLE — Node.js Application
+# ══════════════════════════════════════════════════
+
+# ── STAGE 1: Build Stage ──────────────────────────
+# Full image with ALL dependencies (including devDependencies)
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Copy manifests and install ALL deps (including dev)
+COPY package*.json ./
+RUN npm ci                          # includes devDependencies (typescript, webpack, etc.)
+
+# Copy source and build
+COPY . .
+RUN npm run build                   # compiles TypeScript → dist/, bundles, etc.
+RUN npm prune --production          # remove devDependencies, keep only prod deps
+
+
+# ── STAGE 2: Production Stage ─────────────────────
+# Minimal image with ONLY what's needed to run
+FROM node:18-alpine AS production
+
+# Security: don't run as root
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+WORKDIR /app
+
+# Copy ONLY the production artifacts from builder stage
+COPY --from=builder --chown=appuser:appgroup /app/dist ./dist
+COPY --from=builder --chown=appuser:appgroup /app/node_modules ./node_modules
+COPY --from=builder --chown=appuser:appgroup /app/package.json ./
+
+USER appuser
+
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=5s \
+  CMD wget -qO- http://localhost:3000/health || exit 1
+
+CMD ["node", "dist/server.js"]
+
+# Result: builder stage might be 600MB, production image is ~80MB
+# Build tools, TypeScript compiler, test files → NONE of it in the final image
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">The docker build Command — All Flags</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Basic build — current directory is the build context
+docker build .
+
+# Build with a tag (name:tag)
+docker build -t myapp:1.0 .
+
+# Build with multiple tags at once
+docker build -t myapp:1.0 -t myapp:latest .
+
+# Build using a specific Dockerfile (not default ./Dockerfile)
+docker build -f Dockerfile.prod -t myapp:prod .
+docker build -f ./docker/Dockerfile.dev -t myapp:dev .
+
+# Build with a different build context directory
+docker build -t myapp:1.0 ./src
+
+# Pass build arguments (ARG values in Dockerfile)
+docker build --build-arg NODE_ENV=production -t myapp:1.0 .
+docker build --build-arg VERSION=2.0 --build-arg BUILD_DATE=$(date) -t myapp:2.0 .
+
+# Build without using any cached layers (full rebuild)
+docker build --no-cache -t myapp:1.0 .
+
+# Build a specific target stage only (multi-stage builds)
+docker build --target builder -t myapp:build-stage .
+docker build --target production -t myapp:prod .
+
+# Build for a specific platform (cross-platform builds)
+docker build --platform linux/amd64 -t myapp:1.0 .
+docker build --platform linux/arm64 -t myapp:arm .
+
+# Build for multiple platforms simultaneously (requires buildx)
+docker buildx build --platform linux/amd64,linux/arm64 -t myapp:1.0 --push .
+
+# Build and see verbose output (useful for debugging build failures)
+docker build --progress=plain -t myapp:1.0 .
+
+# Squash all layers into one (reduces image size, loses caching)
+docker build --squash -t myapp:1.0 .
+
+# Build and view the complete build output without truncation
+docker build --progress=plain --no-cache -t myapp:1.0 . 2>&1 | tee build.log
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "docker build reads the Dockerfile instruction by instruction, executing each one in a temporary container and committing the result as a new read-only layer. The build context (local directory) is sent to the Docker daemon. A .dockerignore file excludes unnecessary files from the context. Each RUN, COPY, ADD creates a layer. Docker caches layers — unchanged layers are reused on rebuild. Multi-stage builds solve the fat image problem: build in a full stage, copy only runtime artifacts to a minimal final stage. Build tools never appear in the production image."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: IMAGE TAGGING AND VERSIONING                      -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Image Tagging and Versioning
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Tags are the primary mechanism for versioning and referencing Docker images. A tag is simply a <strong>mutable pointer (alias) to an immutable image ID</strong> — similar to a Git tag or branch pointing to a commit. Understanding tagging strategy is critical for production-grade deployments, rollbacks, and CI/CD pipelines.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Tags Work Internally</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    An image tag is stored as a mapping: <code>repository:tag → SHA256 image ID</code>. One image ID can have multiple tags pointing to it. When you re-tag an image with the same tag name (e.g., re-push <code>:latest</code>), the tag pointer moves to the new image ID — the old image remains on disk but loses that tag (becomes dangling if it has no other tags). This mutability is why <code>:latest</code> is dangerous in production.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Semantic Versioning for Docker Images</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The industry best practice is to apply <strong>Semantic Versioning (SemVer)</strong> to Docker image tags. SemVer format is <code>MAJOR.MINOR.PATCH</code>:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">MAJOR</span> (e.g., <code>2.0.0</code>): Breaking changes — incompatible API changes, complete rewrites.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">MINOR</span> (e.g., <code>1.3.0</code>): New features added in a backward-compatible manner.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">PATCH</span> (e.g., <code>1.3.2</code>): Bug fixes and security patches, backward-compatible.</li>
+  </ol>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    A complete production tagging strategy applies <strong>multiple tags to the same image</strong> at release time — allowing consumers to pin at different levels of stability:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# When releasing version 1.3.2, apply ALL of these tags to the same image:
+
+docker build -t myapp:1.3.2  .   # exact patch version (most specific — pin this in prod)
+docker tag myapp:1.3.2 myapp:1.3  # minor version alias (auto-gets patch updates)
+docker tag myapp:1.3.2 myapp:1    # major version alias (auto-gets minor updates)
+docker tag myapp:1.3.2 myapp:latest  # latest (auto-gets everything — avoid in prod)
+
+# All four tags now point to the exact same image SHA256.
+# Users choose their pinning level:
+# - myapp:1.3.2  → locked, production-safe, explicit rollback target
+# - myapp:1.3    → gets bug fixes automatically
+# - myapp:1      → gets new features automatically
+# - myapp:latest → gets everything, production risk
+
+# Verify all tags point to same IMAGE ID
+docker images myapp
+# REPOSITORY   TAG     IMAGE ID       SIZE
+# myapp        1.3.2   a1b2c3d4e5f6   95MB
+# myapp        1.3     a1b2c3d4e5f6   95MB   ← same ID!
+# myapp        1       a1b2c3d4e5f6   95MB   ← same ID!
+# myapp        latest  a1b2c3d4e5f6   95MB   ← same ID!
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Real-World Tagging Strategies</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── GIT-BASED TAGGING (most common in CI/CD) ────────────────────
+
+# Tag with Git commit SHA (immutable, traceable to source code)
+GIT_SHA=$(git rev-parse --short HEAD)   # e.g., "a1b2c3d"
+docker build -t myapp:$ {GIT_SHA} .
+
+# Tag with Git branch (useful for PR/feature branch previews)
+GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD | sed 's/\//-/g')
+docker build -t myapp:$ {GIT_BRANCH} .  # e.g., myapp:feature-auth
+
+# Tag with both version and git SHA (best of both worlds)
+docker build -t myapp:1.3.2-$ {GIT_SHA} .  # e.g., myapp:1.3.2-a1b2c3d
+
+
+# ── ENVIRONMENT-BASED TAGGING ───────────────────────────────────
+
+docker build -t myapp:dev .          # development builds
+docker build -t myapp:staging .      # staging environment
+docker build -t myapp:prod .         # production release
+
+# Combined: version + environment
+docker tag myapp:1.3.2 myapp:1.3.2-prod
+docker tag myapp:1.3.2 myapp:1.3.2-staging
+
+
+# ── DATE-BASED TAGGING ──────────────────────────────────────────
+# Used for scheduled builds or nightly releases
+BUILD_DATE=$(date +%Y%m%d)           # e.g., 20240315
+docker build -t myapp:$ {BUILD_DATE} .
+
+
+# ── THE docker tag COMMAND ──────────────────────────────────────
+
+# Create a new tag pointing to an existing local image
+docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+
+# Basic re-tag
+docker tag myapp:1.3.2 myapp:latest
+
+# Tag for pushing to Docker Hub
+docker tag myapp:1.3.2 yourusername/myapp:1.3.2
+
+# Tag for pushing to AWS ECR
+docker tag myapp:1.3.2 \
+  123456789012.dkr.ecr.us-east-1.amazonaws.com/myapp:1.3.2
+
+# Tag for pushing to GHCR
+docker tag myapp:1.3.2 ghcr.io/yourusername/myapp:1.3.2
+
+# Tag using IMAGE ID instead of name (useful when image has no tag)
+docker tag a1b2c3d4e5f6 myapp:recovered
+
+
+# ── PUSHING TAGGED IMAGES TO REGISTRY ──────────────────────────
+
+# Push a specific tag
+docker push yourusername/myapp:1.3.2
+
+# Push all tags of an image (pushes all local tags for this repo)
+docker push --all-tags yourusername/myapp
+
+# Full release workflow: build → tag multiple versions → push all
+VERSION=1.3.2
+docker build -t myapp:$ {VERSION} .
+docker tag myapp:$ {VERSION} yourusername/myapp:$ {VERSION}
+docker tag myapp:$ {VERSION} yourusername/myapp:latest
+docker push yourusername/myapp:$ {VERSION}
+docker push yourusername/myapp:latest
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Key Insight — Tags Are Mutable, Image IDs Are Immutable:</strong> A tag like <code>myapp:latest</code> is just a pointer that can be updated at any time. The actual image is identified by its SHA256 IMAGE ID (e.g., <code>a1b2c3d4e5f6</code>), which never changes. For rollbacks in production, always record the IMAGE ID or the specific version tag — never rely on <code>:latest</code> to roll back because it may have already been overwritten with the newer broken build.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "A Docker tag is a mutable alias pointing to an immutable image SHA256 ID. One image can have multiple tags. The standard tagging strategy applies SemVer tags — MAJOR.MINOR.PATCH — with each release applying all three plus latest to the same image, giving consumers flexibility in how tightly they pin versions. In CI/CD, images are commonly tagged with the Git commit SHA for full traceability between deployment and source code. Never use :latest in production — pin to specific version tags or SHA256 digests for safe, reproducible deployments."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: IMAGE LAYERS (DEEP DIVE)                          -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Image Layers — Deep Dive
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    We covered layers conceptually in Docker Basics. Here we go deeper — exactly how layers are stored, how OverlayFS works, how layer caching works at the hash level, and advanced techniques for optimizing your image's layer structure.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">OverlayFS — How Docker Merges Layers</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker's default storage driver on modern Linux is <strong>overlay2</strong> (OverlayFS). It maintains these directories per image/container in <code>/var/lib/docker/overlay2/</code>:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">lowerdir:</span> The read-only image layers, stacked from bottom (base image) to top (most recent layer). Multiple lowerdir entries are separated by colons.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">upperdir:</span> The writable container layer. All writes go here.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">workdir:</span> Internal OverlayFS scratch space for atomic operations.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">merged:</span> The unified view presented to the container — appears as one seamless filesystem combining all layers.</li>
+  </ol>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    When the container reads a file, OverlayFS searches from the top layer downward. The first layer containing the file wins. When the container writes or modifies a file from a lower layer, OverlayFS copies it to upperdir first (Copy-on-Write), then modifies the copy. The lower layer is untouched.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Layer Caching — Exactly How It Works</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker's build cache is keyed on:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">For <code>RUN</code> instructions: the exact instruction string. If the command string changes, cache is invalidated.</li>
+    <li style="margin-top: 0.5rem;">For <code>COPY</code> and <code>ADD</code> instructions: the checksum of all files being copied. If ANY copied file changes (including modification time), cache is invalidated for that layer and ALL layers below it.</li>
+    <li style="margin-top: 0.5rem;">The parent layer's cache key: if the previous layer was rebuilt (not from cache), ALL subsequent layers are also rebuilt even if their instructions didn't change.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── ADVANCED LAYER INSPECTION ───────────────────────────────────
+
+# See all layers with their sizes and commands
+docker image history myapp:1.0
+
+# Sample output:
+# IMAGE         CREATED        CREATED BY                            SIZE
+# a1b2c3d4e5f6  3 min ago      CMD ["node" "server.js"]             0B
+# f2e3d4c5b6a7  3 min ago      EXPOSE 3000                          0B
+# 9a8b7c6d5e4f  3 min ago      COPY . .                             5.2MB
+# 3c4d5e6f7a8b  3 min ago      RUN npm ci --only=production         28.4MB
+# 1e2f3a4b5c6d  3 min ago      COPY package*.json ./                2.1KB
+# 7f8e9d0c1b2a  3 min ago      WORKDIR /app                         0B
+# base_layer_id 2 weeks ago    /bin/sh -c #(nop) ... node:18-alpine 49.8MB
+
+# See full untruncated commands in history
+docker image history --no-trunc myapp:1.0
+
+# Inspect the layer IDs (GraphDriver data — OverlayFS paths)
+docker image inspect myapp:1.0 --format='{{json .GraphDriver}}' | python3 -m json.tool
+
+# Get the RootFS layers (ordered list of layer SHA256 digests)
+docker image inspect myapp:1.0 --format='{{json .RootFS}}' | python3 -m json.tool
+
+# Check storage usage — images, containers, volumes, build cache
+docker system df
+
+# Verbose storage breakdown (shows each image and shared layers)
+docker system df -v
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Layer Optimization Patterns</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ── PATTERN 1: Combine RUN commands to minimize layers ──────────
+
+# ❌ BAD — 3 separate layers, apt cache bloats each one
+RUN apt-get update
+RUN apt-get install -y curl
+RUN apt-get install -y git
+
+# ✅ GOOD — 1 layer, cleanup in same step prevents cache from persisting
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      curl \
+      git \
+      ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+    # /var/lib/apt/lists = apt's package index cache (~40MB)
+    # MUST be deleted in same RUN, otherwise it's baked into the layer
+
+
+# ── PATTERN 2: Order layers from least to most frequently changing
+
+# ❌ BAD — source code change busts npm install cache
+FROM node:18-alpine
+WORKDIR /app
+COPY . .                    # changes every commit → busts cache here
+RUN npm ci                  # forced to re-run on every commit!
+
+# ✅ GOOD — npm install is cached as long as package.json unchanged
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./       # only changes when deps change
+RUN npm ci                  # cached 95% of the time ✅
+COPY . .                    # source changes don't bust install cache
+
+
+# ── PATTERN 3: Use specific COPY to avoid unnecessary cache busting
+
+# ❌ BAD — copies everything, any file change busts cache
+COPY . .
+RUN npm install
+
+# ✅ GOOD — only relevant files copied before install
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY src/ ./src/
+COPY config/ ./config/
+
+
+# ── PATTERN 4: Clean up in the same RUN layer
+
+# ❌ BAD — cleanup in separate layer doesn't reduce size
+RUN pip install -r requirements.txt
+RUN pip cache purge          # creates new layer, doesn't help!
+
+# ✅ GOOD — cleanup in same RUN actually reduces layer size
+RUN pip install -r requirements.txt && pip cache purge
+
+
+# ── PATTERN 5: Use --no-install-recommends for apt
+
+# ❌ BAD — installs hundreds of recommended packages
+RUN apt-get install -y git
+
+# ✅ GOOD — installs ONLY git and its mandatory dependencies
+RUN apt-get install -y --no-install-recommends git
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Removing Images and Managing Disk Space</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── docker rmi — Remove Images ──────────────────────────────────
+
+# Remove a specific image by name:tag
+docker rmi nginx:latest
+
+# Remove by image ID (first few characters work)
+docker rmi a1b2c3d4
+
+# Remove multiple images
+docker rmi nginx:latest node:18 myapp:1.0
+
+# Force remove (even if containers are using it)
+# WARNING: containers using this image will stop working
+docker rmi -f myapp:1.0
+
+# Remove image but keep layers if other images use them
+# Docker is smart — it only deletes layers with no other references
+docker rmi myapp:1.0
+
+# ── Cleaning Up Specific Image Types ───────────────────────────
+
+# Remove ALL dangling images (<none>:<none>) — safe, these are unreferenced
+docker image prune
+
+# Remove ALL unused images (not just dangling — any image with no running container)
+docker image prune -a
+
+# Remove ALL unused images without confirmation prompt (for CI/CD scripts)
+docker image prune -a -f
+
+# Remove images older than 24 hours
+docker image prune -a --filter "until=24h"
+
+# Remove images with a specific label
+docker image prune --filter "label=env=dev"
+
+# ── Full System Cleanup ─────────────────────────────────────────
+
+# Remove: stopped containers + dangling images + unused networks + build cache
+docker system prune
+
+# Remove: ALL of the above + ALL unused images (not just dangling)
+docker system prune -a
+
+# Remove: ALL of the above + unused volumes (DANGER: data loss!)
+docker system prune -a --volumes
+
+# Just check what's using disk (without removing anything)
+docker system df
+docker system df -v   # detailed breakdown
+
+# ── Useful Image Cleanup One-Liners ────────────────────────────
+
+# Remove all images matching a pattern (e.g., all myapp images)
+docker images | grep myapp | awk '{print $3}' | xargs docker rmi
+
+# Remove all images except ones tagged with 'latest'
+docker images | grep -v latest | tail -n +2 | awk '{print $3}' | xargs docker rmi
+
+# Remove all dangling images (alternative to image prune)
+docker rmi $(docker images -f "dangling=true" -q)
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fdf4ff; border-left: 4px solid #a855f7; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker stores image layers using OverlayFS (overlay2 driver). Each layer is a compressed diff stored as a SHA256-addressed archive. OverlayFS presents all layers as a unified filesystem by merging them at runtime — lowerdir for read-only image layers, upperdir for the writable container layer, merged for the unified view the container sees. Layer caching works by hashing each instruction and its inputs — if the hash matches a cached layer, it's reused. Cache invalidation is cascading — once a layer is invalidated, all subsequent layers rebuild too. Best practices: chain RUN commands to reduce layers, order instructions from stable to frequently-changing, always clean up package manager caches inside the same RUN instruction, and use multi-stage builds to avoid shipping build tooling."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER IMAGES WORKFLOW — Production-Grade Example
+# ══════════════════════════════════════════════════════════════
+
+# ── Project structure ─────────────────────────────────────────
+# myapp/
+# ├── src/
+# │   └── server.js
+# ├── package.json
+# ├── package-lock.json
+# ├── Dockerfile
+# ├── Dockerfile.dev
+# └── .dockerignore
+
+# ── .dockerignore ─────────────────────────────────────────────
+node_modules
+.git
+.env
+dist
+coverage
+*.test.js
+README.md
+
+# ── Dockerfile (production) ───────────────────────────────────
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build && npm prune --production
+
+FROM node:18-alpine AS production
+RUN addgroup -S app && adduser -S app -G app
+WORKDIR /app
+COPY --from=builder --chown=app:app /app/dist ./dist
+COPY --from=builder --chown=app:app /app/node_modules ./node_modules
+COPY --from=builder --chown=app:app /app/package.json .
+USER app
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=5s CMD wget -qO- http://localhost:3000/health || exit 1
+CMD ["node", "dist/server.js"]
+
+# ── Build, tag, and push workflow ─────────────────────────────
+VERSION=1.3.2
+GIT_SHA=$(git rev-parse --short HEAD)
+REGISTRY=yourusername
+
+# Build the image
+docker build -t myapp:$ {VERSION} .
+
+# Verify it built correctly
+docker images myapp
+docker image history myapp:$ {VERSION}
+
+# Apply all version tags
+docker tag myapp:$ {VERSION} myapp:$ {GIT_SHA}          # git SHA for traceability
+docker tag myapp:$ {VERSION} $ {REGISTRY}/myapp:$ {VERSION}  # for registry
+docker tag myapp:$ {VERSION} $ {REGISTRY}/myapp:latest
+
+# Test before pushing
+docker run -d --name test-container -p 3000:3000 myapp:$ {VERSION}
+curl http://localhost:3000/health
+docker stop test-container && docker rm test-container
+
+# Push to registry
+docker login
+docker push $ {REGISTRY}/myapp:$ {VERSION}
+docker push $ {REGISTRY}/myapp:latest
+
+# Cleanup local dangling images from rebuild
+docker image prune -f
+
+# Check storage usage
+docker system df`,
+            ],
+
+            questions: [
+              {
+                question:
+                  "What exactly is a Docker image? What does it contain?",
+                solution:
+                  "<p>A Docker image is a read-only, immutable package stored as an ordered stack of compressed filesystem layers, each identified by a SHA256 hash. It contains: (1) a filesystem snapshot — the OS userspace files (<code>/bin</code>, <code>/usr</code>, <code>/lib</code>) but NO kernel, (2) the application runtime (Node.js, Python, etc.), (3) application code and dependencies, (4) a JSON manifest recording layer digests, architecture, environment variables, working directory, exposed ports, and the startup command. Critically, an image contains NO kernel — all containers on the same host share the host kernel. Docker uses content-addressable storage — identical layers across images are stored once and shared, saving disk space.</p>",
+              },
+              {
+                question: "What happens internally when you run docker pull?",
+                solution:
+                  "<p>docker pull executes these steps: (1) Parses the image reference and resolves the registry (default: Docker Hub), namespace, name, and tag. (2) Contacts the registry API and fetches the image manifest — a JSON document listing the ordered SHA256 digests of all layers. (3) Compares the layer list against locally cached layers. Any layer with a matching SHA256 hash that's already local shows 'Already exists' and is skipped. (4) Downloads missing layers in parallel as compressed tar archives from the registry's blob storage. (5) Verifies each downloaded layer's SHA256 against the manifest — corrupted layers are re-downloaded. (6) Extracts and stores layers in Docker's storage directory (<code>/var/lib/docker/overlay2/</code>). This deduplication means pulling 10 Node.js app images that all share the same base only stores the base layer once.</p>",
+              },
+              {
+                question: "What is the difference between CMD and ENTRYPOINT?",
+                solution:
+                  "<p><strong>CMD</strong> sets the <em>default</em> command and arguments. It is completely replaced if you pass arguments to <code>docker run</code>: <code>docker run myimage node other.js</code> replaces CMD entirely. <strong>ENTRYPOINT</strong> sets the <em>fixed</em> executable that always runs. Arguments to <code>docker run</code> are APPENDED to ENTRYPOINT, not replacing it. Best practice is to use them together: ENTRYPOINT for the executable (<code>[node]</code>) and CMD for the default argument (<code>[server.js]</code>). This makes the container behave like an executable: <code>docker run myimage</code> runs <code>node server.js</code>, <code>docker run myimage other.js</code> runs <code>node other.js</code>. Always use exec form (<code>[node, server.js]</code>) not shell form for both — shell form makes PID 1 a shell process which won't correctly forward SIGTERM for graceful shutdown.</p>",
+              },
+              {
+                question:
+                  "What is a multi-stage build and why is it important?",
+                solution:
+                  "<p>A multi-stage build uses multiple <code>FROM</code> instructions in one Dockerfile, each starting a new stage. The key feature is <code>COPY --from=stagename</code> which lets you copy files between stages. The typical pattern: Stage 1 (builder) — use a full SDK image (node:18, golang:1.21) to install all dependencies including dev tools and compile/build the application. Stage 2 (production) — use a minimal runtime image (node:18-alpine, gcr.io/distroless/nodejs) and copy ONLY the compiled output from Stage 1. Build tools, source code, test files, and dev dependencies NEVER appear in the final image. Result: a Node.js app's image might shrink from 1.2GB (if you naively used node:18) to 80MB (using multi-stage with alpine). Smaller images mean faster pulls, faster deployments, less attack surface, and lower storage costs.</p>",
+              },
+              {
+                question:
+                  "What is a .dockerignore file and why is it important?",
+                solution:
+                  "<p>The <code>.dockerignore</code> file works like <code>.gitignore</code> — it lists paths to exclude from the <strong>build context</strong>. The build context is the entire directory sent to the Docker daemon before building starts. Without .dockerignore, Docker sends everything — including <code>node_modules</code> (hundreds of MBs), <code>.git</code> history, test files, local .env files (potential secrets leak!), and IDE files. This has two negative impacts: (1) the build context transfer is slow (large directory → slow build startup), and (2) if you use <code>COPY . .</code>, all this junk lands in your image. A proper .dockerignore typically excludes: <code>node_modules</code>, <code>.git</code>, <code>.env*</code>, <code>coverage/</code>, <code>*.test.js</code>, <code>dist/</code>, <code>README.md</code>, and IDE files. It is one of the simplest and highest-impact Docker optimizations.</p>",
+              },
+              {
+                question:
+                  "Explain how Docker layer caching works and how cache invalidation happens.",
+                solution:
+                  "<p>Docker caches each layer after first build. On rebuild, for each instruction Docker checks: for <code>RUN</code> — the exact command string; for <code>COPY/ADD</code> — the SHA256 checksum of all source files being copied. If both the instruction AND inputs are unchanged, Docker reuses the cached layer instantly. The critical rule: <strong>cache invalidation cascades</strong> — the moment any layer is invalidated (changed), every layer below it is also invalidated and rebuilt from scratch, even if those instructions didn't change. This is why ordering matters: place <code>COPY package.json → RUN npm install</code> BEFORE <code>COPY . .</code>. This way, npm install is cached whenever package.json is unchanged. If you do it in reverse — COPY all files first, then npm install — every single code change busts the install cache and triggers a full npm install on every build.</p>",
+              },
+              {
+                question:
+                  "What is the difference between docker tag and renaming an image?",
+                solution:
+                  "<p><code>docker tag SOURCE TARGET</code> creates a new tag alias pointing to the same image SHA256 ID — it does NOT copy or move the image. It's purely a pointer operation: the image data on disk is unchanged. Both tags now reference the same image bytes. This is identical to how a Git branch is just a pointer to a commit. Use cases: (1) adding a registry prefix before pushing (<code>docker tag myapp yourusername/myapp:1.0</code>), (2) creating version aliases (<code>docker tag myapp:1.3.2 myapp:latest</code>), (3) promoting an image between environments (<code>docker tag myapp:staging myapp:prod</code>). Since it's a pointer operation, it's instantaneous and uses no additional disk space. The original tag still exists — both tags exist simultaneously until one is explicitly removed.</p>",
+              },
+              {
+                question:
+                  "What are dangling images and how do you clean them up?",
+                solution:
+                  "<p>Dangling images are images with no tag — shown as <code>&lt;none&gt;:&lt;none&gt;</code> in <code>docker images</code>. They are created when you rebuild an image with an existing tag: the old image loses its tag to the new build but remains on disk as a dangling layer. They are NOT harmful, but they waste disk space and accumulate quickly in active development. To clean them: <code>docker image prune</code> removes only dangling images (safe). <code>docker image prune -a</code> removes ALL unused images — any image not currently used by a running or stopped container. <code>docker system prune</code> removes dangling images plus stopped containers and unused networks. In CI/CD pipelines, always run <code>docker image prune -f</code> at the end to prevent disk filling up on build agents.</p>",
+              },
+              {
+                question: "Why should you never use :latest tag in production?",
+                solution:
+                  "<p><code>:latest</code> is a <strong>mutable tag</strong> — it's just a pointer that any push to the registry can update. Two deployments using <code>nginx:latest</code> a week apart might get entirely different versions. Problems this causes: (1) <strong>Non-reproducibility</strong> — you cannot guarantee two machines pull the same image. (2) <strong>Broken rollbacks</strong> — if a bad release is tagged latest, rolling back requires knowing the exact previous image ID. (3) <strong>Silent updates</strong> — a node restart might pull a new version without you realizing. (4) <strong>Security issues</strong> — the latest version may have breaking changes or vulnerabilities you haven't tested. In production: pin to exact version tags (<code>nginx:1.25.3</code>) or better, pin by SHA256 digest (<code>nginx@sha256:abc123</code>) for complete immutability. Tags can be reassigned; digests cannot.</p>",
+              },
+              {
+                question: "What is content-addressable storage in Docker?",
+                solution:
+                  "<p>Content-addressable storage means every object (layer, image, manifest) is identified and stored by the SHA256 hash of its contents, not by a name or path. Consequences: (1) <strong>Deduplication</strong> — two images that share a base layer (same content → same SHA256) store that layer only ONCE on disk. 10 Node.js apps sharing <code>node:18-alpine</code> share one copy of that 50MB base layer. (2) <strong>Integrity verification</strong> — Docker recomputes the SHA256 of every downloaded layer and compares it to the manifest. Corrupted downloads are caught and retried automatically. (3) <strong>Efficient pulls</strong> — when pulling a new image, Docker checks local storage by SHA256 first. Layers already present are skipped entirely — 'Already exists' in pull output. (4) <strong>Immutable references</strong> — you can reference an image by its SHA256 digest instead of a mutable tag for guaranteed reproducibility.</p>",
+              },
+              {
+                question:
+                  "How do you reduce Docker image size? List all strategies.",
+                solution:
+                  "<p>Strategies from highest to lowest impact: (1) <strong>Use Alpine or Distroless base images</strong> — <code>node:18-alpine</code> (~50MB) vs <code>node:18</code> (~1GB). Distroless images contain only the runtime, no shell. (2) <strong>Multi-stage builds</strong> — compile in a full image, copy only output to a minimal runtime image. Build tools never reach the final image. (3) <strong>.dockerignore</strong> — exclude node_modules, .git, tests, docs before COPY. (4) <strong>Chain RUN commands</strong> — combine into one layer and clean up package caches in the same RUN: <code>apt-get install && rm -rf /var/lib/apt/lists/*</code>. (5) <strong>Production-only dependencies</strong> — <code>npm ci --only=production</code> or <code>npm prune --production</code> after build stage. (6) <strong>Use --no-install-recommends</strong> for apt installs. (7) <strong>COPY specific files</strong> instead of <code>COPY . .</code> when possible. (8) <strong>Remove temp files in same RUN</strong>: build artifacts, downloaded archives, compiled caches.</p>",
+              },
+              {
+                question:
+                  "What is the difference between COPY and ADD in a Dockerfile?",
+                solution:
+                  "<p>Both copy files from the build context into the image, but <code>ADD</code> has two extra behaviors: (1) it automatically extracts local <code>.tar.gz</code> archives into the destination directory, and (2) it can fetch files from URLs. <strong>Best practice: always use COPY unless you specifically need ADD's features.</strong> The Docker team recommends COPY because its behavior is transparent and predictable — it does exactly one thing. ADD's URL fetching is discouraged because it can't leverage build cache well, doesn't verify SSL certificates by default, and is less clear than explicitly using <code>RUN curl -o file.tar.gz URL && tar -xzf file.tar.gz && rm file.tar.gz</code> which is verbose but explicit. The auto-extraction feature of ADD is legitimately useful for adding pre-built archives into an image.</p>",
+              },
+              {
+                question:
+                  "What does docker image history show and how do you use it?",
+                solution:
+                  "<p><code>docker image history IMAGE</code> shows the build history of an image — every layer in reverse chronological order (most recent first), with the Dockerfile instruction that created it and the layer's disk size. This is essential for: (1) <strong>Understanding third-party images</strong> — see exactly what commands were run to build a pulled image. (2) <strong>Debugging image size</strong> — identify which layer is unexpectedly large. (3) <strong>Auditing base images</strong> — check what a base image installs before using it. By default, long commands are truncated — use <code>--no-trunc</code> flag to see full commands. Layers showing <code>0B</code> are metadata-only (ENV, EXPOSE, CMD, LABEL). Large layers typically come from <code>RUN apt-get install</code> or <code>COPY</code>/<code>ADD</code> of dependencies. If a <code>RUN</code> layer is large but shouldn't be, check if cleanup was done in the same RUN command.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/engine/reference/commandline/build/",
+              "https://docs.docker.com/engine/reference/commandline/pull/",
+              "https://docs.docker.com/engine/reference/commandline/tag/",
+              "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+              "https://docs.docker.com/develop/develop-images/multistage-build/",
+              "https://docs.docker.com/storage/storagedriver/overlayfs-driver/",
+              "https://semver.org/",
+            ],
+          },
+          {
+            topic: "Dockerfile Fundamentals",
+            tags: [
+              "docker",
+              "dockerfile",
+              "containerization",
+              "devops",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>Dockerfile</strong> is a text file containing a sequence of instructions that Docker uses to automatically build an image. Think of it as a recipe or blueprint that defines exactly how your application's environment should be constructed — from the base operating system to the final runtime configuration. Mastering Dockerfile creation is fundamental to working with Docker effectively, and it's one of the most commonly tested topics in DevOps and backend engineering interviews.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: WHAT IS A DOCKERFILE                              -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. What is a Dockerfile?
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A Dockerfile is a declarative script that automates the creation of Docker images. Instead of manually running commands inside a container to set it up, you write those commands once in a Dockerfile, and Docker executes them in sequence to build a reproducible image. This is the cornerstone of <strong>Infrastructure as Code (IaC)</strong> for containerization.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Key Characteristics</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Plain Text Format:</span> A Dockerfile is just a text file named exactly <code>Dockerfile</code> (no extension). Each line typically contains one instruction in UPPERCASE followed by arguments.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Sequential Execution:</span> Docker reads the Dockerfile from top to bottom, executing each instruction in order. Each instruction creates a new layer in the image.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Immutable and Reproducible:</span> The same Dockerfile will produce the same image every time (assuming base images and external dependencies don't change), making builds predictable and auditable.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Version Controlled:</span> Dockerfiles live in your source code repository alongside your application code, enabling full version history and collaborative development.
+    </li>
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Basic Workflow</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">Write a <code>Dockerfile</code> defining your application environment</li>
+    <li style="margin-top: 0.5rem;">Run <code>docker build</code> to execute the Dockerfile and create an image</li>
+    <li style="margin-top: 0.5rem;">Run <code>docker run</code> to create and start a container from that image</li>
+    <li style="margin-top: 0.5rem;">Push the image to a registry (Docker Hub, ECR, GCR) for sharing or deployment</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# Complete workflow from Dockerfile to running container
+
+# 1. Create Dockerfile in your project directory
+# (see Dockerfile examples below)
+
+# 2. Build the image
+docker build -t myapp:1.0 .
+# -t myapp:1.0  → tag/name the image as "myapp" with version "1.0"
+# .             → build context (current directory)
+
+# 3. Verify image was created
+docker images | grep myapp
+
+# 4. Run a container from the image
+docker run -d -p 3000:3000 --name myapp-container myapp:1.0
+
+# 5. Test the running application
+curl http://localhost:3000
+
+# 6. Push to registry (optional, for sharing/deployment)
+docker tag myapp:1.0 yourusername/myapp:1.0
+docker push yourusername/myapp:1.0
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "A Dockerfile is a text-based script containing sequential instructions that Docker executes to build an image. Each instruction creates a new layer. It's version-controlled alongside code, making image creation reproducible and auditable. You write the Dockerfile once, run docker build to create the image, then docker run to start containers from it. This is the foundation of Infrastructure as Code for containerization."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: BASE IMAGES (FROM)                                -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Base Images — The FROM Instruction
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Every Dockerfile <strong>must</strong> start with a <code>FROM</code> instruction. This specifies the <strong>base image</strong> — the foundation upon which your application will be built. Think of it like inheritance in programming: you start with a pre-built image that already contains an operating system and possibly a runtime, then add your application on top.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">FROM Syntax</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Basic syntax
+FROM image_name:tag
+
+# Examples
+FROM ubuntu:22.04           # Ubuntu Linux 22.04
+FROM node:18                # Node.js 18 on Debian
+FROM node:18-alpine         # Node.js 18 on Alpine Linux (minimal)
+FROM python:3.11-slim       # Python 3.11 slim variant
+FROM nginx:latest           # Nginx web server (latest version)
+FROM scratch                # Empty base (for building minimal images)
+
+# Using a specific digest for guaranteed immutability
+FROM node:18@sha256:a1b2c3d4e5f6...
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Types of Base Images</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Official Language Runtime Images</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Pre-built images maintained by Docker or the language's official team. They include the language runtime, package manager, and core dependencies already installed. Examples: <code>node:18</code> (Node.js), <code>python:3.11</code>, <code>golang:1.21</code>, <code>openjdk:17</code>, <code>ruby:3.2</code>. These are the most common starting point for application containers.
+      </p>
+    </li>
+
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Operating System Base Images</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Minimal Linux distributions without pre-installed runtimes. You install everything yourself. Examples: <code>ubuntu:22.04</code>, <code>debian:bullseye</code>, <code>alpine:3.18</code>, <code>centos:7</code>. Use these when you need full control over the environment or when official runtime images don't exist for your stack.
+      </p>
+    </li>
+
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Alpine-based Images (Minimal)</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Alpine Linux is a security-focused, ultra-lightweight distribution (~5MB base). Most official images offer an Alpine variant (e.g., <code>node:18-alpine</code>). <strong>Pros:</strong> Tiny image size, faster pulls, smaller attack surface. <strong>Cons:</strong> Uses <code>musl libc</code> instead of <code>glibc</code>, which can cause compatibility issues with some native dependencies. Missing common utilities like bash (uses <code>sh</code> instead).
+      </p>
+    </li>
+
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Slim/Minimal Variants</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        Stripped-down versions of standard images with fewer packages. Example: <code>python:3.11-slim</code> is Debian-based but removes development tools, documentation, and non-essential packages. Balances size reduction with compatibility better than Alpine.
+      </p>
+    </li>
+
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Scratch (Empty Base)</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        <code>FROM scratch</code> starts with literally nothing — no OS, no shell, no utilities. Used for building minimal static binaries (e.g., a compiled Go binary with zero dependencies). Results in the smallest possible images but requires the application to be completely self-contained.
+      </p>
+    </li>
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Choosing the Right Base Image</h5>
+  <div style="margin-top: 1.25rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <strong style="display: block; margin-bottom: 0.75rem;">📊 Base Image Selection Guide</strong>
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Use Case</th>
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Recommended Base</th>
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Node.js app (production)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">node:alpine or node:slim</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">node:18-alpine</td></tr>
+        <tr style="background:#fafafa"><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Python app (production)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">python:slim</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">python:3.11-slim</td></tr>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Go app (static binary)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">scratch or alpine</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">FROM scratch</td></tr>
+        <tr style="background:#fafafa"><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Java app</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">openjdk:alpine</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">openjdk:17-alpine</td></tr>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Development (need tools)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Full image (not alpine)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">node:18 (not alpine)</td></tr>
+        <tr style="background:#fafafa"><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Complex native deps</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Debian/Ubuntu-based</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">node:18-bullseye</td></tr>
+        <tr><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">Web server (static)</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">nginx:alpine</td><td style="padding: 0.5rem; border: 1px solid #d4d4d8;">nginx:alpine</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-dockerfile">
+# ❌ BAD — Using :latest tag (unpredictable, not reproducible)
+FROM node:latest
+# Problem: "latest" changes over time. Your build might work today
+# but break tomorrow when "latest" points to a new major version.
+
+# ✅ GOOD — Pin to specific major version
+FROM node:18
+# Better: locks to Node.js 18.x, receives patch updates
+
+# ✅ BETTER — Pin to exact minor version
+FROM node:18.17
+# More control: locks to 18.17.x, only receives patch updates
+
+# ✅ BEST — Pin to exact digest (cryptographic hash)
+FROM node:18.17@sha256:a1b2c3d4e5f6789...
+# Highest reproducibility: guaranteed exact same image every time
+# Immune to tag rewriting attacks
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Common Pitfall:</strong> Never use <code>:latest</code> in production Dockerfiles. It's non-deterministic and leads to "works on my machine" issues. Always pin to at least a major version (e.g., <code>node:18</code>), or better yet, a specific minor version or digest for full reproducibility.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "FROM specifies the base image — the foundation your image builds upon. I typically use official language runtime images like node:18-alpine for production — alpine variants are 5-10x smaller than full images. For development, I might use the full image for better tooling. I always pin to specific versions, never :latest, to ensure reproducible builds. For maximum security and reproducibility, I use digests (SHA256 hashes) instead of tags."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: CORE DOCKERFILE INSTRUCTIONS                      -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Essential Dockerfile Instructions
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Understanding the core Dockerfile instructions and when to use each one is fundamental. These six instructions form the backbone of most Dockerfiles.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">FROM — Set Base Image</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    <strong>Purpose:</strong> Specifies the parent image to build upon. Must be the first instruction (except for ARG used before FROM).
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Simple usage
+FROM node:18-alpine
+
+# Multi-stage build (multiple FROM statements)
+FROM node:18 AS builder
+# ... build steps ...
+FROM node:18-alpine AS runtime
+# ... runtime setup ...
+
+# Using ARG before FROM for dynamic base selection
+ARG NODE_VERSION=18
+FROM node:\${NODE_VERSION}-alpine
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">WORKDIR — Set Working Directory</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    <strong>Purpose:</strong> Sets the current working directory for all subsequent instructions (RUN, CMD, COPY, ADD, ENTRYPOINT). Creates the directory if it doesn't exist. This is like <code>cd /app</code> but persists across layers.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Set working directory to /app
+WORKDIR /app
+
+# All subsequent commands now execute from /app
+COPY package.json .        # copies to /app/package.json
+RUN npm install            # runs in /app directory
+COPY . .                   # copies to /app
+
+# Can use multiple WORKDIR commands to navigate
+WORKDIR /app/src
+COPY server.js .           # copies to /app/src/server.js
+
+# ❌ BAD — Using RUN cd instead of WORKDIR
+RUN cd /app
+COPY . .                   # Still copies to root, not /app!
+# Problem: cd in RUN doesn't persist to next layer
+
+# ✅ GOOD — Using WORKDIR
+WORKDIR /app
+COPY . .                   # Correctly copies to /app
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 0.75rem; font-size: 0.95rem; color: #4b5563;">
+    <strong>Why use WORKDIR instead of RUN cd?</strong> Because each RUN instruction executes in a new shell, so <code>cd</code> doesn't persist. WORKDIR sets the working directory for the image itself, affecting all subsequent layers.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">COPY — Copy Files from Host to Image</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    <strong>Purpose:</strong> Copies files or directories from the build context (your local filesystem) into the image. This is how you add your application code to the image.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Basic syntax: COPY <source> <destination>
+# Source is relative to build context (where you run docker build)
+# Destination is absolute or relative to WORKDIR
+
+WORKDIR /app
+
+# Copy single file
+COPY package.json .                    # copies to /app/package.json
+COPY server.js /app/server.js          # explicit destination
+
+# Copy multiple files
+COPY package.json package-lock.json ./
+
+# Copy with wildcards (glob patterns)
+COPY *.js ./                           # all .js files
+COPY package*.json ./                  # package.json and package-lock.json
+
+# Copy entire directory
+COPY src/ /app/src/                    # copies src/ to /app/src/
+COPY . .                               # copies everything (respects .dockerignore)
+
+# Copy and rename
+COPY config.dev.json config.json       # copies and renames
+
+# Copy with specific ownership (advanced)
+COPY --chown=node:node package.json .  # set owner to 'node' user
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Build Context Gotcha:</strong> COPY sources are relative to the build context (the directory where you run <code>docker build</code>), NOT the directory where the Dockerfile is located. If your Dockerfile is in <code>./docker/Dockerfile</code> but you run <code>docker build .</code> from the project root, COPY paths are relative to the project root.
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">RUN — Execute Commands During Build</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    <strong>Purpose:</strong> Executes shell commands during the image build process. Used for installing packages, compiling code, creating directories, or any setup task. Each RUN creates a new layer.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Shell form (runs in /bin/sh -c)
+RUN npm install
+RUN apt-get update && apt-get install -y curl
+
+# Exec form (doesn't invoke shell, preferred for non-shell commands)
+RUN ["npm", "install"]
+RUN ["/bin/bash", "-c", "echo hello"]
+
+# ❌ BAD — Multiple RUN commands (creates many layers)
+RUN apt-get update
+RUN apt-get install -y curl
+RUN apt-get install -y git
+RUN rm -rf /var/lib/apt/lists/*
+# Creates 4 separate layers, bloats image
+
+# ✅ GOOD — Chain commands with && (creates one layer)
+RUN apt-get update && \\
+    apt-get install -y \\
+        curl \\
+        git \\
+        vim && \\
+    rm -rf /var/lib/apt/lists/*
+# Single layer, smaller image, better cache efficiency
+
+# ❌ BAD — Leaving temp files/cache in layer
+RUN apt-get update && apt-get install -y python3
+# Problem: apt cache stays in this layer forever!
+
+# ✅ GOOD — Clean up in same layer
+RUN apt-get update && \\
+    apt-get install -y python3 && \\
+    rm -rf /var/lib/apt/lists/*
+# Cache cleaned before layer is committed
+
+# Common patterns
+
+# Install Node.js dependencies
+RUN npm ci --only=production
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create directories with correct permissions
+RUN mkdir -p /app/logs && chmod 755 /app/logs
+
+# Download and extract
+RUN wget https://example.com/app.tar.gz && \\
+    tar -xzf app.tar.gz && \\
+    rm app.tar.gz
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 0.75rem; font-size: 0.95rem; color: #4b5563;">
+    <strong>Performance Tip:</strong> Chain related commands with <code>&&</code> to reduce layers. Always clean up temporary files (caches, downloads, build artifacts) in the same RUN command that creates them — otherwise they're baked into that layer forever, bloating your image.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">EXPOSE — Document Port Numbers</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    <strong>Purpose:</strong> Documents which ports the containerized application listens on. This is <strong>metadata only</strong> — it does NOT actually publish or open the port. To publish ports, you must use <code>-p</code> or <code>-P</code> at runtime.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Document that app listens on port 3000
+EXPOSE 3000
+
+# Multiple ports
+EXPOSE 3000 8080
+
+# Specify protocol (default is TCP)
+EXPOSE 8080/tcp
+EXPOSE 53/udp
+
+# EXPOSE does NOT publish the port!
+# You still need -p at runtime:
+# docker run -p 8080:3000 myapp
+#             ↑     ↑
+#             host  container
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 0.75rem; font-size: 0.95rem; color: #4b5563;">
+    <strong>Why use EXPOSE if it doesn't publish ports?</strong> (1) Documentation — tells users which port to map. (2) Docker Compose and orchestrators use it for automatic port configuration. (3) <code>docker run -P</code> (uppercase P) auto-maps all EXPOSED ports to random host ports.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">CMD — Default Container Command</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    <strong>Purpose:</strong> Specifies the default command to run when a container starts. Unlike RUN (which executes during build), CMD executes when the container runs. There can only be one CMD per Dockerfile (if multiple, only the last one takes effect).
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Exec form (preferred — doesn't invoke shell)
+CMD ["node", "server.js"]
+CMD ["python", "app.py"]
+CMD ["npm", "start"]
+
+# Shell form (runs in /bin/sh -c)
+CMD node server.js
+CMD npm start
+
+# ❌ BAD — Shell form can't receive signals properly
+CMD npm start
+# Problem: npm becomes PID 1, doesn't forward SIGTERM to Node.js
+# Container won't stop gracefully
+
+# ✅ GOOD — Exec form receives signals correctly
+CMD ["node", "server.js"]
+# Node.js is PID 1, receives SIGTERM directly, can shutdown gracefully
+
+# CMD can be overridden at runtime
+# Dockerfile:
+CMD ["node", "server.js"]
+
+# Override at runtime:
+docker run myapp node debug.js
+# Runs debug.js instead of server.js
+
+# Common patterns
+
+# Node.js production
+CMD ["node", "server.js"]
+
+# Python app
+CMD ["python", "-u", "app.py"]
+# -u flag disables buffering for real-time logs
+
+# Start with shell script
+CMD ["./entrypoint.sh"]
+
+# Run with specific user
+CMD ["su-exec", "node", "node", "server.js"]
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Signal Handling:</strong> Always use exec form (<code>CMD ["node", "app.js"]</code>) in production, not shell form (<code>CMD node app.js</code>). Shell form wraps your process in /bin/sh, which becomes PID 1 and doesn't forward signals like SIGTERM properly. This breaks graceful shutdown and causes containers to hang on <code>docker stop</code>.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "The core Dockerfile instructions are: FROM (base image), WORKDIR (working directory — use instead of RUN cd), COPY (add files from host to image), RUN (execute commands during build — creates layers), EXPOSE (document ports — metadata only), and CMD (default runtime command — use exec form for signal handling). I always chain RUN commands with && to reduce layers and clean up temp files in the same layer to minimize image size."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: COMPLETE DOCKERFILE EXAMPLES                      -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Complete Dockerfile Examples
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Let's see how these instructions come together in real-world Dockerfiles for different application types. Pay attention to the order of instructions — it's optimized for layer caching.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Example 1: Node.js Application (Production-Ready)</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ============================================================
+# Node.js Production Dockerfile — Optimized
+# ============================================================
+
+# Use specific Alpine version for smaller image
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy dependency manifests FIRST (for layer caching)
+# If package.json doesn't change, npm install layer is cached
+COPY package.json package-lock.json ./
+
+# Install production dependencies only
+# --ci uses package-lock.json for exact versions
+# --only=production excludes devDependencies
+RUN npm ci --only=production && \\
+    npm cache clean --force
+
+# Copy application source code AFTER dependencies
+# (code changes more frequently than dependencies)
+COPY . .
+
+# Document that app listens on port 3000
+EXPOSE 3000
+
+# Set environment variable defaults
+ENV NODE_ENV=production \\
+    PORT=3000
+
+# Run as non-root user for security
+USER node
+
+# Start the application
+CMD ["node", "server.js"]
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Example 2: Python Application</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ============================================================
+# Python Flask Application — Production
+# ============================================================
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies if needed
+RUN apt-get update && \\
+    apt-get install -y --no-install-recommends \\
+        gcc \\
+        && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for caching
+COPY requirements.txt .
+
+# Install Python dependencies
+# --no-cache-dir reduces image size by not caching pip packages
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+EXPOSE 5000
+
+# -u flag disables output buffering for real-time logs in Docker
+CMD ["python", "-u", "app.py"]
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Example 3: Multi-Stage Build (Advanced)</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Multi-stage builds use multiple FROM statements to separate build-time dependencies from runtime dependencies, dramatically reducing final image size.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ============================================================
+# Multi-Stage Build — Node.js with TypeScript
+# ============================================================
+
+# ────────────────────────────────────────────────────────────
+# STAGE 1: Build Stage (includes dev dependencies & build tools)
+# ────────────────────────────────────────────────────────────
+FROM node:18 AS builder
+
+WORKDIR /app
+
+# Install ALL dependencies (including devDependencies for build)
+COPY package*.json ./
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Compile TypeScript to JavaScript
+RUN npm run build
+
+# ────────────────────────────────────────────────────────────
+# STAGE 2: Production Stage (minimal runtime)
+# ────────────────────────────────────────────────────────────
+FROM node:18-alpine AS production
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install ONLY production dependencies
+RUN npm ci --only=production && \\
+    npm cache clean --force
+
+# Copy ONLY the compiled output from builder stage
+# (not the TypeScript source or node_modules from builder)
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+
+ENV NODE_ENV=production
+
+USER node
+
+CMD ["node", "dist/server.js"]
+
+# Result: Final image contains:
+# - Node.js runtime (from alpine base)
+# - Production dependencies only
+# - Compiled JavaScript (dist/)
+# Does NOT contain:
+# - TypeScript compiler
+# - Source .ts files
+# - devDependencies
+# - Build artifacts
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #f0fdf4; border-left: 4px solid #22c55e; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>💡 Why Multi-Stage Builds?</strong> The builder stage can be huge (1GB+) with compilers and dev tools, but the final production stage is minimal (100-200MB) with only runtime dependencies. This gives you a full build environment without bloating your production image. The builder stage is discarded after build — only the final stage becomes your image.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: DOCKER BUILD PROCESS                              -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. The Docker Build Process
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Understanding exactly what happens during <code>docker build</code> helps you write better Dockerfiles and debug build issues.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Build Context</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When you run <code>docker build -t myapp .</code>, the <code>.</code> (dot) specifies the <strong>build context</strong> — the directory whose contents are sent to the Docker daemon for the build. All COPY/ADD source paths are relative to this directory.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Basic build (context = current directory)
+docker build -t myapp:1.0 .
+
+# Build with custom tag
+docker build -t myapp:latest .
+docker build -t myregistry.com/myapp:v2.0 .
+
+# Build with Dockerfile in different location
+docker build -f ./docker/Dockerfile.prod -t myapp:prod .
+# -f specifies Dockerfile path
+# Context is still . (current directory)
+
+# Build with different context
+docker build -t myapp -f ./docker/Dockerfile ../
+# Dockerfile is in ./docker/
+# Context is ../ (parent directory)
+
+# Build with build arguments
+docker build --build-arg NODE_VERSION=18 -t myapp .
+
+# Build without cache (force full rebuild)
+docker build --no-cache -t myapp .
+
+# Build and show all output (including intermediate layers)
+docker build --progress=plain -t myapp .
+
+# Build for specific platform (useful for M1 Macs)
+docker build --platform linux/amd64 -t myapp .
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Build Steps Execution</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">Docker reads the Dockerfile from top to bottom</li>
+    <li style="margin-top: 0.5rem;">For each instruction, Docker checks if a cached layer exists</li>
+    <li style="margin-top: 0.5rem;">If cache hit → reuse layer (instant), if cache miss → rebuild layer and all subsequent layers</li>
+    <li style="margin-top: 0.5rem;">Each layer builds on top of the previous one</li>
+    <li style="margin-top: 0.5rem;">The final result is tagged with the name you specified</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# Sample build output
+$ docker build -t myapp:1.0 .
+
+Sending build context to Docker daemon  15.2MB
+Step 1/8 : FROM node:18-alpine
+ ---> a1b2c3d4e5f6
+Step 2/8 : WORKDIR /app
+ ---> Using cache
+ ---> f6e5d4c3b2a1
+Step 3/8 : COPY package*.json ./
+ ---> Using cache
+ ---> 1a2b3c4d5e6f
+Step 4/8 : RUN npm ci --only=production
+ ---> Using cache
+ ---> 6f5e4d3c2b1a
+Step 5/8 : COPY . .
+ ---> a3f2b1c4d5e6    # ← Cache miss! Code changed
+Step 6/8 : EXPOSE 3000
+ ---> Running in d5e6f7a8b9c0
+ ---> e6f7a8b9c0d1
+Step 7/8 : ENV NODE_ENV=production
+ ---> Running in f7a8b9c0d1e2
+ ---> a8b9c0d1e2f3
+Step 8/8 : CMD ["node", "server.js"]
+ ---> Running in b9c0d1e2f3a4
+ ---> c0d1e2f3a4b5
+Successfully built c0d1e2f3a4b5
+Successfully tagged myapp:1.0
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">.dockerignore — Exclude Files from Build Context</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A <code>.dockerignore</code> file (like <code>.gitignore</code>) tells Docker which files to exclude from the build context. This speeds up builds and reduces image size.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-plaintext">
+# .dockerignore file
+
+# Dependency directories (will be installed via package.json)
+node_modules/
+bower_components/
+
+# Build outputs (rebuilt during docker build)
+dist/
+build/
+*.log
+
+# Development files
+.git/
+.gitignore
+.env
+.env.local
+*.md
+README.md
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files
+__tests__/
+*.test.js
+*.spec.js
+coverage/
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+Jenkinsfile
+
+# OS files
+.DS_Store
+Thumbs.db
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Common Mistake:</strong> Forgetting <code>.dockerignore</code> and including <code>node_modules/</code> in the build context. This sends your entire node_modules (100MB+) to Docker daemon, then you run <code>npm install</code> which downloads them again! Always exclude node_modules, .git, and other large or unnecessary directories.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "When you run docker build, Docker sends the build context to the daemon, then executes Dockerfile instructions sequentially. Each instruction creates a layer, which Docker caches. Cache is invalidated if the instruction or its inputs change — and all subsequent layers are rebuilt. This is why instruction order matters: put stable operations like dependency installation before frequently-changing operations like COPY source code. Always use .dockerignore to exclude unnecessary files like node_modules and .git from the build context."
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: BEST PRACTICES                                    -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Dockerfile Best Practices
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    These patterns separate beginner-level Dockerfiles from production-grade ones. Master these for interviews and real-world projects.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">1. Optimize Layer Caching</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ❌ BAD — Source code copied before dependencies
+FROM node:18-alpine
+WORKDIR /app
+COPY . .                 # ← Copies EVERYTHING including source
+RUN npm install          # ← Cache busted on EVERY code change!
+CMD ["node", "server.js"]
+
+# ✅ GOOD — Dependencies installed before source code
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./    # ← Only copy manifests first
+RUN npm ci               # ← Cached unless package.json changes
+COPY . .                 # ← Copy source AFTER install
+CMD ["node", "server.js"]
+
+# Result: Typical code changes don't invalidate npm install cache
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">2. Minimize Layers and Image Size</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ❌ BAD — Multiple RUN commands, temp files not cleaned
+FROM ubuntu:22.04
+RUN apt-get update
+RUN apt-get install -y curl
+RUN apt-get install -y wget
+RUN apt-get install -y vim
+RUN wget https://example.com/large-file.tar.gz
+RUN tar -xzf large-file.tar.gz
+RUN rm large-file.tar.gz
+# 7 layers, large-file.tar.gz exists in layer 6 forever!
+
+# ✅ GOOD — Chained commands, cleanup in same layer
+FROM ubuntu:22.04
+RUN apt-get update && \\
+    apt-get install -y \\
+        curl \\
+        wget \\
+        vim && \\
+    wget https://example.com/large-file.tar.gz && \\
+    tar -xzf large-file.tar.gz && \\
+    rm large-file.tar.gz && \\
+    rm -rf /var/lib/apt/lists/*
+# Single layer, tarball deleted before layer commits
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">3. Use Specific Base Image Versions</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ❌ BAD — Using :latest (non-deterministic)
+FROM node:latest
+# Breaks when latest updates to new major version
+
+# ✅ GOOD — Pin major version
+FROM node:18-alpine
+
+# ✅ BETTER — Pin minor version
+FROM node:18.17-alpine
+
+# ✅ BEST — Pin exact digest
+FROM node:18.17-alpine@sha256:abc123...
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">4. Run as Non-Root User</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ❌ BAD — Running as root (security risk)
+FROM node:18-alpine
+WORKDIR /app
+COPY . .
+RUN npm install
+CMD ["node", "server.js"]
+# Container process runs as root (UID 0)
+
+# ✅ GOOD — Create and use non-root user
+FROM node:18-alpine
+WORKDIR /app
+
+# Copy files as root first (for permissions)
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+
+# Create non-root user and switch to it
+RUN addgroup -g 1001 -S nodejs && \\
+    adduser -S nodejs -u 1001 && \\
+    chown -R nodejs:nodejs /app
+
+USER nodejs
+
+CMD ["node", "server.js"]
+# Process runs as nodejs user (UID 1001)
+
+# ✅ ALTERNATIVE — Use existing node user (Alpine images have it)
+FROM node:18-alpine
+WORKDIR /app
+COPY --chown=node:node package*.json ./
+RUN npm ci --only=production
+COPY --chown=node:node . .
+USER node
+CMD ["node", "server.js"]
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">5. Use exec Form for CMD/ENTRYPOINT</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ❌ BAD — Shell form (wrapped in /bin/sh -c)
+CMD npm start
+# npm becomes PID 1, doesn't forward SIGTERM
+# Container hangs on docker stop, requires SIGKILL
+
+# ✅ GOOD — Exec form (direct process execution)
+CMD ["node", "server.js"]
+# node is PID 1, receives signals directly
+# Container stops gracefully on docker stop
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">6. Use Multi-Stage Builds for Compiled Languages</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Multi-stage: Build stage has compilers, runtime stage is minimal
+
+# Build stage
+FROM node:18 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Runtime stage (only gets compiled output)
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY --from=builder /app/dist ./dist
+USER node
+CMD ["node", "dist/server.js"]
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">7. Leverage Build Cache Effectively</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# Correct order for maximum cache hits:
+
+FROM node:18-alpine
+WORKDIR /app
+
+# 1. Copy dependency manifests (rarely change)
+COPY package*.json ./
+
+# 2. Install dependencies (slow, but cached if manifests unchanged)
+RUN npm ci --only=production
+
+# 3. Copy source code (changes frequently)
+COPY . .
+
+# 4. Metadata-only instructions (no filesystem changes)
+EXPOSE 3000
+ENV NODE_ENV=production
+USER node
+CMD ["node", "server.js"]
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1.25rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <strong style="display: block; margin-bottom: 0.75rem;">📋 Production Dockerfile Checklist</strong>
+    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+      <li style="margin-top: 0.4rem;">✅ Use specific base image version (not :latest)</li>
+      <li style="margin-top: 0.4rem;">✅ Use Alpine or slim variants for smaller size</li>
+      <li style="margin-top: 0.4rem;">✅ Create .dockerignore to exclude unnecessary files</li>
+      <li style="margin-top: 0.4rem;">✅ Copy dependency manifests before source code</li>
+      <li style="margin-top: 0.4rem;">✅ Chain RUN commands with && to minimize layers</li>
+      <li style="margin-top: 0.4rem;">✅ Clean up temp files in the same RUN command</li>
+      <li style="margin-top: 0.4rem;">✅ Use multi-stage builds for compiled apps</li>
+      <li style="margin-top: 0.4rem;">✅ Run as non-root user (USER directive)</li>
+      <li style="margin-top: 0.4rem;">✅ Use exec form for CMD (not shell form)</li>
+      <li style="margin-top: 0.4rem;">✅ EXPOSE ports for documentation</li>
+      <li style="margin-top: 0.4rem;">✅ Set appropriate ENV variables</li>
+      <li style="margin-top: 0.4rem;">✅ Use WORKDIR instead of RUN cd</li>
+    </ul>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Key Dockerfile best practices: (1) Order instructions for cache optimization — copy dependency manifests before source code. (2) Use Alpine-based images and chain RUN commands to minimize size. (3) Clean up temporary files in the same layer they're created. (4) Use multi-stage builds to separate build-time and runtime dependencies. (5) Run as non-root user for security. (6) Use exec form for CMD to ensure proper signal handling. (7) Pin base image versions, never use :latest. (8) Create .dockerignore to exclude unnecessary files from build context."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════
+# COMPLETE DOCKERFILE WORKFLOW — Production-Ready Example
+# ══════════════════════════════════════════════════════
+
+# ── Project Structure ──────────────────────────────────
+myapp/
+├── src/
+│   ├── server.js
+│   └── routes/
+├── package.json
+├── package-lock.json
+├── Dockerfile
+└── .dockerignore
+
+# ── .dockerignore ──────────────────────────────────────
+node_modules/
+npm-debug.log
+.git/
+.gitignore
+.env
+.env.local
+*.md
+dist/
+coverage/
+.vscode/
+.DS_Store
+
+# ── Dockerfile ─────────────────────────────────────────
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy dependency manifests first (for layer caching)
+COPY package.json package-lock.json ./
+
+# Install production dependencies
+RUN npm ci --only=production && \\
+    npm cache clean --force
+
+# Copy application source
+COPY src/ ./src/
+
+# Document exposed port
+EXPOSE 3000
+
+# Set environment
+ENV NODE_ENV=production \\
+    PORT=3000
+
+# Run as non-root user
+USER node
+
+# Start application
+CMD ["node", "src/server.js"]
+
+# ── Build the image ────────────────────────────────────
+docker build -t myapp:1.0 .
+
+# Verify build
+docker images | grep myapp
+
+# Check image size
+docker image inspect myapp:1.0 --format='{{.Size}}'
+
+# View layer history
+docker image history myapp:1.0
+
+# ── Run the container ──────────────────────────────────
+docker run -d \\
+  --name myapp-prod \\
+  -p 3000:3000 \\
+  -e NODE_ENV=production \\
+  --restart unless-stopped \\
+  myapp:1.0
+
+# Test the application
+curl http://localhost:3000
+
+# ── Advanced: Multi-Stage Build ───────────────────────
+# Dockerfile.multistage
+
+# Build stage
+FROM node:18 AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine AS production
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && \\
+    npm cache clean --force
+COPY --from=builder /app/dist ./dist
+EXPOSE 3000
+ENV NODE_ENV=production
+USER node
+CMD ["node", "dist/server.js"]
+
+# Build multi-stage
+docker build -f Dockerfile.multistage -t myapp:1.0-optimized .
+
+# ── Push to Registry ───────────────────────────────────
+docker tag myapp:1.0 yourusername/myapp:1.0
+docker login
+docker push yourusername/myapp:1.0`,
+
+              `# ══════════════════════════════════════════════════════
+# DOCKERFILE COMPARISON — Bad vs Good
+# ══════════════════════════════════════════════════════
+
+# ❌ BAD DOCKERFILE ─────────────────────────────────────
+FROM node:latest                    # Using :latest (non-deterministic)
+WORKDIR /app
+COPY . .                            # Copies everything, including node_modules
+RUN npm install                     # Installs dev dependencies too
+RUN apt-get update                  # Multiple layers
+RUN apt-get install -y curl         # Not chained
+RUN rm -rf /var/lib/apt/lists/*     # Cleanup in separate layer (doesn't reduce size!)
+CMD npm start                       # Shell form (bad signal handling)
+# Problems:
+# - 200MB+ image size
+# - Build takes 5+ minutes on every code change
+# - Runs as root (security risk)
+# - Won't stop gracefully
+
+# ✅ GOOD DOCKERFILE ────────────────────────────────────
+FROM node:18-alpine                 # Specific version, Alpine base
+
+WORKDIR /app
+
+# Install system dependencies (if needed)
+RUN apk add --no-cache curl && \\   # Single layer, cleanup in same command
+    rm -rf /var/cache/apk/*
+
+# Copy manifests first
+COPY package.json package-lock.json ./
+
+# Install production deps only
+RUN npm ci --only=production && \\
+    npm cache clean --force
+
+# Copy source after dependencies
+COPY src/ ./src/
+
+EXPOSE 3000
+
+ENV NODE_ENV=production
+
+USER node                           # Non-root user
+
+CMD ["node", "src/server.js"]       # Exec form
+# Benefits:
+# - 50MB image size (4x smaller)
+# - Build takes 10 seconds after code changes
+# - Secure (non-root)
+# - Graceful shutdown`,
+            ],
+
+            questions: [
+              {
+                question: "What is a Dockerfile and why is it important?",
+                solution:
+                  "<p>A Dockerfile is a text-based script containing sequential instructions that Docker executes to build an image. It's essentially <strong>Infrastructure as Code</strong> for containers — it defines exactly how your application's environment should be constructed, from the base OS to the final runtime configuration. The importance: (1) <strong>Reproducibility</strong> — the same Dockerfile produces the same image every time, eliminating 'works on my machine' issues. (2) <strong>Version Control</strong> — Dockerfiles live in your repo alongside code, enabling full audit history. (3) <strong>Automation</strong> — builds are automated and consistent across dev, CI/CD, and production. (4) <strong>Documentation</strong> — the Dockerfile serves as executable documentation of your application's dependencies and configuration. Each instruction in a Dockerfile creates a new layer in the image, which Docker caches for build efficiency.</p>",
+              },
+              {
+                question:
+                  "Explain the FROM instruction. Why must it be first? What's wrong with using FROM node:latest?",
+                solution:
+                  "<p>FROM specifies the <strong>base image</strong> — the foundation your image builds upon. It must be first (except for ARG before FROM) because every image needs a starting point. FROM can reference: official runtime images (node:18, python:3.11), OS images (ubuntu:22.04, alpine:3.18), or even scratch (empty base for minimal images). <strong>The problem with :latest:</strong> It's <strong>non-deterministic</strong>. 'latest' is just a tag that gets updated when new versions release. Your build might work today with Node 18, but break tomorrow when 'latest' points to Node 20. This breaks reproducibility and causes unpredictable CI/CD failures. <strong>Best practice:</strong> Pin to specific versions (node:18-alpine), or better yet, use digests (node:18@sha256:abc...) for guaranteed immutability. Alpine variants (node:18-alpine) are preferred for production — they're 5-10x smaller than full images (~50MB vs ~1GB).</p>",
+              },
+              {
+                question:
+                  "What's the difference between COPY and ADD? When should you use each?",
+                solution:
+                  "<p>Both copy files from the build context into the image, but ADD has additional features. <strong>COPY:</strong> Simple file/directory copy from host to image. Straightforward and predictable. <strong>ADD:</strong> Does everything COPY does, plus: (1) auto-extracts tar archives (.tar, .tar.gz, .tar.bz2), (2) can fetch files from URLs. <strong>Best practice: Always prefer COPY unless you specifically need ADD's features.</strong> Why? COPY is explicit and transparent — when you see <code>COPY file.tar.gz .</code> you know it copies the tarball as-is. But <code>ADD file.tar.gz .</code> auto-extracts it, which can be surprising. ADD with URLs is also discouraged because it bypasses layer caching and doesn't clean up downloaded files automatically. If you need to download and extract, use RUN with wget/curl instead: <code>RUN wget URL && tar -xzf file.tar.gz && rm file.tar.gz</code> (cleanup in same layer).</p>",
+              },
+              {
+                question:
+                  "Why should you copy package.json before copying your source code?",
+                solution:
+                  "<p>This is all about <strong>layer caching optimization</strong>. Docker caches each layer, but cache is invalidated when any file in that layer changes — and <strong>cache invalidation cascades downward</strong>. If you do <code>COPY . .</code> first (copies ALL files including source), then every code change invalidates that layer AND all subsequent layers (like RUN npm install). This means you reinstall dependencies on every build, which is slow (1-5 minutes). The correct pattern: <code>COPY package*.json ./</code> (only manifests) → <code>RUN npm install</code> → <code>COPY . .</code> (source). Now, npm install only reruns when package.json actually changes (rare), not on every code change (frequent). This reduces typical rebuild time from minutes to seconds. This pattern applies to all languages: Python (requirements.txt first), Go (go.mod first), Java (pom.xml first).</p>",
+              },
+              {
+                question:
+                  "What's the difference between RUN, CMD, and ENTRYPOINT?",
+                solution:
+                  '<p><strong>RUN</strong> executes commands <strong>during the image build</strong> and creates new layers. Used for installing packages, compiling code, setting up the environment. Example: <code>RUN npm install</code>, <code>RUN apt-get update && apt-get install -y curl</code>. <strong>CMD</strong> specifies the <strong>default command to run when a container starts</strong>. It\'s a default — can be overridden at runtime. Only the last CMD in a Dockerfile takes effect. Example: <code>CMD ["node", "server.js"]</code>. If you run <code>docker run myimage bash</code>, bash overrides the CMD. <strong>ENTRYPOINT</strong> also runs when container starts, but is <strong>NOT easily overridden</strong> — it\'s meant to define the container as an executable. Arguments passed to docker run are appended to ENTRYPOINT. <strong>Best practice:</strong> Use CMD for most apps. Use ENTRYPOINT when the container should always run a specific tool (e.g., a CLI tool). Can combine both: ENTRYPOINT defines the executable, CMD provides default arguments.</p>',
+              },
+              {
+                question:
+                  'Why should you use exec form ["node", "app.js"] instead of shell form node app.js for CMD?',
+                solution:
+                  '<p>Shell form (<code>CMD node app.js</code>) wraps your command in <code>/bin/sh -c</code>, so the shell becomes PID 1 inside the container, not your application. The problem: shells don\'t forward signals properly. When you run <code>docker stop</code>, Docker sends SIGTERM to PID 1 (the shell), but the shell doesn\'t forward it to your Node.js process. After the 10-second timeout, Docker sends SIGKILL, forcefully terminating your app without cleanup. Your app never runs its graceful shutdown handlers. <strong>Exec form</strong> (<code>CMD ["node", "app.js"]</code>) runs the process directly as PID 1. Now SIGTERM goes straight to your Node process, it can handle it (close connections, finish requests, flush buffers), and shut down gracefully. This prevents data corruption, dropped requests, and resource leaks. Always use exec form in production. The only exception is if you genuinely need shell features like variable expansion or piping.</p>',
+              },
+              {
+                question:
+                  "What is the purpose of WORKDIR? Why not just use RUN cd /app?",
+                solution:
+                  "<p>WORKDIR sets the working directory for all subsequent instructions (RUN, CMD, COPY, ENTRYPOINT). It creates the directory if it doesn't exist. <code>RUN cd /app</code> DOES NOT WORK because each RUN instruction executes in a new shell instance — the directory change is lost after that single RUN completes. All following instructions would still execute from the root directory. WORKDIR persists across all layers. Also, WORKDIR is metadata in the image itself — when you <code>docker exec -it container bash</code>, you start in the WORKDIR directory. Multiple WORKDIR commands can be chained to navigate: <code>WORKDIR /app</code> then <code>WORKDIR src</code> puts you in /app/src. WORKDIR can use relative paths that build on previous WORKDIR. Always use WORKDIR, never RUN cd.</p>",
+              },
+              {
+                question:
+                  "Does EXPOSE actually publish a port? What's its purpose?",
+                solution:
+                  "<p>No, EXPOSE is <strong>metadata only</strong> — it documents which port the application listens on but does NOT publish or bind it. To actually make a port accessible from outside the container, you MUST use <code>-p</code> at runtime: <code>docker run -p 8080:3000 myapp</code> (maps host port 8080 to container port 3000). So why use EXPOSE? (1) <strong>Documentation</strong> — tells developers/operators which port to map. (2) Docker Compose and orchestrators (Kubernetes, Swarm) read EXPOSE to auto-configure networking. (3) <code>docker run -P</code> (uppercase P) automatically maps all EXPOSED ports to random high-numbered host ports. Best practice: Always EXPOSE your application's listening port in the Dockerfile for clarity, but remember it's purely declarative — actual publishing happens with -p flag.</p>",
+              },
+              {
+                question:
+                  "How would you minimize Docker image size? Give specific techniques.",
+                solution:
+                  "<p>(1) <strong>Use Alpine-based images</strong> — <code>node:18-alpine</code> is ~50MB vs <code>node:18</code> at ~1GB. (2) <strong>Multi-stage builds</strong> — build in a full image with compilers, then copy only the compiled output to a minimal runtime image. Discards build tools. (3) <strong>Chain RUN commands</strong> — <code>RUN cmd1 && cmd2 && cmd3</code> creates one layer instead of three. (4) <strong>Clean up in the same layer</strong> — <code>RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*</code>. Cleanup in a later RUN doesn't reduce size because the files exist in the earlier layer forever. (5) <strong>.dockerignore</strong> — exclude node_modules, .git, tests, docs from build context. (6) <strong>Install only production deps</strong> — <code>npm ci --only=production</code>, <code>pip install --no-cache-dir -r requirements.txt</code>. (7) <strong>Use scratch base</strong> for static binaries (Go apps). (8) <strong>Remove package manager caches</strong> — <code>npm cache clean --force</code>, <code>apk cache clean</code>.</p>",
+              },
+              {
+                question:
+                  "Explain multi-stage builds. When and why would you use them?",
+                solution:
+                  "<p>Multi-stage builds use multiple FROM statements in one Dockerfile. Each FROM starts a new stage. Only the final stage becomes your image — earlier stages are discarded. <strong>Use case:</strong> Separate build-time dependencies from runtime. For example, compiling TypeScript or Go requires build tools (TypeScript compiler, Go compiler, build-time npm packages). But the final image only needs the compiled output and runtime dependencies. <strong>Without multi-stage:</strong> Your image includes TypeScript source, devDependencies, compilers — 1GB+ bloat. <strong>With multi-stage:</strong> Stage 1 (builder) has Node.js + dev tools, compiles TypeScript to JS. Stage 2 (production) uses Alpine, copies only the compiled dist/ folder from stage 1 via <code>COPY --from=builder /app/dist ./dist</code>. Final image: ~100MB. The builder stage is thrown away. This dramatically reduces image size (10x smaller), attack surface (fewer binaries), and deployment time (faster pulls).</p>",
+              },
+              {
+                question:
+                  "What is the build context? What problems occur if you don't use .dockerignore?",
+                solution:
+                  "<p>The build context is the directory (and its contents) specified in <code>docker build -t myapp .</code> — the dot is the context path. Docker sends the entire context to the Docker daemon before building. All COPY/ADD paths are relative to this context. <strong>Problem without .dockerignore:</strong> You send massive, unnecessary files to Docker — node_modules (100MB+), .git history (50MB+), build artifacts, test files. This makes builds slow (takes minutes just to upload context). You also risk copying node_modules into the image, then running <code>npm install</code> which downloads them again (doubling dependency size). <strong>.dockerignore solution:</strong> Works like .gitignore — lists files/dirs to exclude from context. Always exclude: node_modules, .git, *.log, dist, coverage, .env, IDE configs, documentation. This speeds up builds (only sends necessary source files) and prevents accidental inclusion of secrets (.env files).</p>",
+              },
+              {
+                question:
+                  "Why should containers run as a non-root user? How do you implement this?",
+                solution:
+                  "<p><strong>Security risk of root:</strong> By default, containers run as root (UID 0). If an attacker compromises your app and breaks out of the container, they have root access to the host. Even without container escape, a compromised root container can: write to sensitive paths, install malware, read other containers' data. <strong>Best practice: Run as non-root.</strong> Implementation: (1) Create a user: <code>RUN addgroup -S myapp && adduser -S myapp -G myapp</code>. (2) Set ownership: <code>RUN chown -R myapp:myapp /app</code>. (3) Switch to user: <code>USER myapp</code>. (4) CMD runs as myapp user. <strong>Alternative:</strong> Official images (node, python) often include a non-root user. For node images, just <code>USER node</code>. Use <code>COPY --chown=node:node</code> to set ownership during copy. Some Kubernetes environments enforce non-root via PodSecurityPolicy. Production containers should never run as root unless absolutely necessary.</p>",
+              },
+              {
+                question:
+                  "Walk me through how Docker layer caching works and how to optimize for it.",
+                solution:
+                  "<p>Docker caches each layer after building it. On the next build: (1) Docker starts from the top of the Dockerfile. (2) For each instruction, it checks if the instruction AND its inputs are identical to the previous build. (3) <strong>Cache hit:</strong> Reuses cached layer instantly (shows 'Using cache'). (4) <strong>Cache miss:</strong> Rebuilds that layer AND all subsequent layers (cache invalidation cascades). This is why instruction order is critical. <strong>Optimization strategy:</strong> (1) Put stable, slow operations FIRST (FROM, apt-get install). (2) Put frequently-changing operations LAST (COPY source code). (3) Copy dependency manifests before source: <code>COPY package.json</code> → <code>RUN npm install</code> → <code>COPY . .</code> ensures npm install cache survives code changes. (4) Group related RUN commands to minimize layers: <code>RUN apt-get update && apt-get install && cleanup</code>. (5) Use specific base image versions (not :latest) so the base layer is cacheable. (6) Be aware: changing any environment variable or argument invalidates cache from that point onward.</p>",
+              },
+              {
+                question:
+                  "What's the difference between ARG and ENV? When would you use each?",
+                solution:
+                  "<p><strong>ARG</strong> is a build-time variable — only available during <code>docker build</code>. It does NOT persist in the final image and is NOT accessible to running containers. Use ARG for values needed during build: base image version, build flags, npm registry URL. Syntax: <code>ARG NODE_VERSION=18</code> then <code>FROM node:\${NODE_VERSION}</code>. Override at build: <code>docker build --build-arg NODE_VERSION=20 .</code>. <strong>ENV</strong> is a runtime environment variable — persists in the image and is available to running containers. Use ENV for application config: <code>ENV NODE_ENV=production</code>, <code>ENV PORT=3000</code>. These can be overridden at runtime: <code>docker run -e NODE_ENV=development</code>. <strong>Key difference:</strong> ARG = build config, ENV = runtime config. ARG can be used before FROM, ENV cannot. ARGs are visible in docker history (don't use for secrets). ENVs are visible in running containers via <code>docker inspect</code>.</p>",
+              },
+              {
+                question:
+                  "How do you debug a Dockerfile that's failing to build? Give your step-by-step process.",
+                solution:
+                  "<p>(1) <strong>Read the error carefully</strong> — Docker shows which step failed and why. (2) <strong>Build with --progress=plain</strong> to see full output: <code>docker build --progress=plain -t myapp .</code> (3) <strong>Inspect intermediate layers</strong> — Each successful step creates an intermediate image. Find the last successful layer ID in the output, then run it interactively: <code>docker run -it &lt;layer-id&gt; sh</code>. This drops you into the container at that exact state — you can manually run the failing command to debug. (4) <strong>Check build context</strong> — <code>docker build</code> shows 'Sending build context to Docker daemon XXX MB'. If it's huge, you're missing .dockerignore. (5) <strong>Disable cache</strong> to force full rebuild: <code>docker build --no-cache -t myapp .</code> (sometimes cache corruption causes issues). (6) <strong>Verify file paths</strong> — COPY/ADD failures are often path issues. Remember paths are relative to build context, not Dockerfile location. (7) <strong>Test commands locally first</strong> — before putting a complex RUN command in Dockerfile, test it in a running container of the base image.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/engine/reference/builder/",
+              "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/",
+              "https://docs.docker.com/build/building/multi-stage/",
+              "https://docs.docker.com/build/building/best-practices/",
+              "https://docs.docker.com/engine/reference/commandline/build/",
+            ],
+          },
+          {
+            topic: "Docker Commands",
+            tags: ["CLI", "Management", "Operations"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Docker provides a comprehensive command-line interface (CLI) for managing containers, images, volumes, networks, and other Docker resources. Mastering these essential commands is fundamental for effective Docker usage.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Essential Docker Commands
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Image Management
+docker images                    # List all images
+docker pull ubuntu:20.04        # Download an image
+docker build -t myapp .          # Build an image from Dockerfile
+docker rmi image_id              # Remove an image
+
+# Container Management
+docker ps                       # List running containers
+docker ps -a                    # List all containers (including stopped)
+docker run -d --name web nginx  # Run a container in background
+docker stop container_name      # Stop a container
+docker start container_name     # Start a container
+docker rm container_name        # Remove a container
+
+# Container Interaction
+docker logs container_name      # View container logs
+docker exec -it container_name bash  # Execute commands in container
+docker inspect container_name   # View container details
+</code></pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Run Options
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Port mapping
+docker run -p 8080:80 nginx
+
+# Volume mounting
+docker run -v /host/path:/container/path nginx
+
+# Environment variables
+docker run -e NODE_ENV=production node-app
+
+# Interactive mode
+docker run -it ubuntu bash
+
+# Remove container after exit
+docker run --rm alpine echo "Hello World"
+</code></pre>
+  </div>
+</div>`,
+          },
+          {
+            topic: "Docker Containers",
+            tags: ["docker", "containers", "lifecycle", "devops", "interview"],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    If Docker Images are the blueprint, then <strong>Docker Containers</strong> are where the actual work happens. A container is the live, running instance of an image — an isolated process (or group of processes) executing on your host machine with its own filesystem, network interface, process tree, and resource limits. Every application you deploy with Docker runs as a container. Understanding containers deeply — how to run them, control them, debug them, interact with them, and manage their full lifecycle — is the most practical and frequently tested skill in Docker interviews.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: RUNNING CONTAINERS                                -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Running Containers
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    The <code>docker run</code> command is the most important command in all of Docker. It is not just "start a container" — it is a composite command that performs many steps in sequence, and it accepts dozens of flags that control every aspect of how the container behaves. Mastering <code>docker run</code> means mastering Docker.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">What docker run Does Internally — Step by Step</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Image Resolution:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Docker checks if the specified image exists locally. If not, it automatically runs <code>docker pull</code> to download it from the registry. This is why <code>docker run nginx</code> works even if you never ran <code>docker pull nginx</code> — Docker handles the pull silently.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Container Creation:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Docker creates a new container from the image — sets up the writable filesystem layer on top of the image's read-only layers, assigns a unique container ID (a 64-character hex string), generates a random human-readable name (like <code>romantic_tesla</code>) unless you specify one with <code>--name</code>, creates a virtual network interface, and allocates an internal IP address.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Network Setup:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Docker connects the container to the specified network (default: <code>bridge</code> network). Sets up port mappings if <code>-p</code> flags were specified — creating iptables rules on the host to forward traffic from host ports to container ports.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Volume and Mount Setup:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">If <code>-v</code> or <code>--mount</code> flags are specified, Docker mounts volumes or bind mounts into the container's filesystem at the specified paths.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Environment Injection:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">All <code>-e</code> environment variables are injected into the container's process environment, merged with any ENV variables baked into the image.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Process Start:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Docker starts the container's main process (PID 1 inside the container namespace). This process is either the image's CMD/ENTRYPOINT or what you specify on the command line. From this point, the container is in Running state.</p>
+    </li>
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The docker run Command — Complete Flag Reference</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── BASIC SYNTAX ────────────────────────────────────────────────
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+# Simplest possible run (runs nginx, blocks your terminal)
+docker run nginx
+
+
+# ── NAMING AND IDENTIFICATION ───────────────────────────────────
+
+# Give the container a meaningful name (instead of random "romantic_tesla")
+# Name must be unique across all containers on the host
+docker run --name my-nginx nginx
+
+# Run and see the full container ID printed to stdout
+docker run --name my-app myapp:1.0
+
+
+# ── DETACHED vs FOREGROUND (covered deeply in Section 4) ────────
+
+# Detached mode — runs in background, returns container ID
+docker run -d --name my-nginx nginx
+
+# Foreground mode (default) — attaches stdout/stderr to your terminal
+docker run --name my-nginx nginx
+
+
+# ── PORT MAPPING ────────────────────────────────────────────────
+# Format: -p HOST_PORT:CONTAINER_PORT
+# Without -p, the container's port is completely inaccessible from outside
+
+# Map host port 8080 to container port 80
+docker run -d -p 8080:80 nginx
+
+# Map multiple ports
+docker run -d -p 8080:80 -p 443:443 nginx
+
+# Map to a specific host IP (bind to localhost only — security best practice)
+docker run -d -p 127.0.0.1:8080:80 nginx
+
+# Map to a random available host port (Docker picks one)
+docker run -d -p 80 nginx           # random host port → container port 80
+docker run -d -P nginx              # random ports for ALL exposed ports in image
+
+# Find which random port was assigned
+docker port my-nginx                # shows all port mappings
+docker port my-nginx 80             # shows what host port maps to container port 80
+
+
+# ── ENVIRONMENT VARIABLES ───────────────────────────────────────
+
+# Pass a single env var
+docker run -d -e NODE_ENV=production myapp:1.0
+
+# Pass multiple env vars
+docker run -d \
+  -e NODE_ENV=production \
+  -e PORT=3000 \
+  -e DB_HOST=postgres \
+  -e DB_PORT=5432 \
+  myapp:1.0
+
+# Load env vars from a file (one KEY=VALUE per line)
+# .env file format: DB_PASSWORD=secret123
+docker run -d --env-file .env myapp:1.0
+
+# Combine file and individual vars (individual -e overrides file)
+docker run -d --env-file .env -e NODE_ENV=production myapp:1.0
+
+
+# ── VOLUMES AND MOUNTS ──────────────────────────────────────────
+
+# Named volume (Docker manages storage location)
+docker run -d -v mydata:/app/data myapp:1.0
+
+# Bind mount (map host directory into container — live sync)
+docker run -d -v /host/path:/container/path myapp:1.0
+docker run -d -v $(pwd):/app myapp:1.0          # current directory
+
+# Read-only bind mount (container cannot write to it)
+docker run -d -v $(pwd)/config:/app/config:ro myapp:1.0
+
+# Using --mount flag (verbose but explicit — preferred in production)
+docker run -d \
+  --mount type=bind,source=$(pwd),target=/app,readonly \
+  myapp:1.0
+
+docker run -d \
+  --mount type=volume,source=mydata,target=/app/data \
+  myapp:1.0
+
+
+# ── RESOURCE LIMITS ─────────────────────────────────────────────
+# Without limits, a container can consume ALL host resources
+
+# Limit RAM (container is OOM-killed if it exceeds this)
+docker run -d --memory 512m myapp:1.0        # 512 megabytes
+docker run -d --memory 2g myapp:1.0          # 2 gigabytes
+
+# Limit CPU (0.5 = half a CPU core, 2.0 = 2 CPU cores)
+docker run -d --cpus 0.5 myapp:1.0
+docker run -d --cpus 2.0 myapp:1.0
+
+# CPU shares — relative weight when host is under contention (default: 1024)
+docker run -d --cpu-shares 512 myapp:1.0     # half normal priority
+
+# Limit both together
+docker run -d --memory 512m --cpus 1.0 myapp:1.0
+
+# Prevent container from swapping (set swap = memory limit)
+docker run -d --memory 512m --memory-swap 512m myapp:1.0
+
+
+# ── RESTART POLICIES ────────────────────────────────────────────
+
+docker run -d --restart no myapp:1.0              # never restart (default)
+docker run -d --restart on-failure myapp:1.0      # restart on crash only
+docker run -d --restart on-failure:3 myapp:1.0   # max 3 restart attempts
+docker run -d --restart always myapp:1.0          # always restart
+docker run -d --restart unless-stopped myapp:1.0  # restart unless manually stopped
+
+
+# ── NETWORKING ──────────────────────────────────────────────────
+
+# Connect to default bridge network (default)
+docker run -d myapp:1.0
+
+# Connect to a specific user-defined network
+docker run -d --network my-custom-network myapp:1.0
+
+# Connect to host network (container uses host's network directly — no isolation)
+docker run -d --network host myapp:1.0
+
+# No network (completely isolated, no internet)
+docker run -d --network none myapp:1.0
+
+# Set a custom hostname inside the container
+docker run -d --hostname myapp-server myapp:1.0
+
+# Add a custom /etc/hosts entry
+docker run -d --add-host db.internal:192.168.1.100 myapp:1.0
+
+
+# ── SECURITY OPTIONS ────────────────────────────────────────────
+
+# Run as a specific user (overrides USER in Dockerfile)
+docker run -d --user 1000:1000 myapp:1.0
+docker run -d --user appuser myapp:1.0
+
+# Read-only root filesystem (cannot write anywhere except volumes)
+docker run -d --read-only myapp:1.0
+
+# Drop all capabilities and add only what's needed (principle of least privilege)
+docker run -d --cap-drop ALL --cap-add NET_BIND_SERVICE myapp:1.0
+
+# Run with no new privileges (prevents privilege escalation)
+docker run -d --security-opt no-new-privileges myapp:1.0
+
+
+# ── LIFECYCLE CONTROL ───────────────────────────────────────────
+
+# Auto-remove container when it exits (great for one-off tasks)
+docker run --rm node:18 node -e "console.log('Hello')"
+docker run --rm -v $(pwd):/app python:3.11 python /app/script.py
+
+# Override the image's default CMD
+docker run -d myapp:1.0 node other-server.js
+
+# Override ENTRYPOINT entirely
+docker run -it --entrypoint bash myapp:1.0
+docker run -it --entrypoint sh myapp:1.0     # if bash not available
+
+
+# ── LABELS ──────────────────────────────────────────────────────
+# Add metadata to running containers (useful for filtering and organization)
+docker run -d \
+  --label env=production \
+  --label team=backend \
+  --label version=1.3.2 \
+  myapp:1.0
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "docker run is a composite command that: checks for the image locally (pulling if absent), creates a new container with an isolated writable filesystem layer, sets up networking and port mappings via iptables rules, injects environment variables, mounts any specified volumes, and starts the main process as PID 1 inside the container's namespace. The most important flags are: <code>-d</code> (detached/background), <code>-p</code> (port mapping), <code>-e</code> (environment variables), <code>-v</code> (volumes), <code>--name</code> (human-readable name), <code>--rm</code> (auto-cleanup), <code>--memory</code>/<code>--cpus</code> (resource limits), and <code>--restart</code> (recovery policy)."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: CONTAINER LIFECYCLE                               -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Container Lifecycle
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Every Docker container moves through a well-defined set of states from creation to deletion. Understanding every state, every transition command, and what is happening at the OS level during each transition is critical for debugging, production operations, and interviews.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The Five Container States</h5>
+
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Created</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container has been initialized from an image — its writable filesystem layer exists, its network interfaces are configured, its metadata is registered with the Docker daemon — but no process has been started yet. The container consumes disk space (for its writable layer) but zero CPU and zero RAM. Achieved via <code>docker create</code>. You can configure a container fully with <code>docker create</code> and then start it later with <code>docker start</code>, which is useful in scripting when you need to set up several containers before starting any of them.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Running</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container's main process (PID 1 inside the container's PID namespace) is actively executing. The container is consuming CPU and memory. From the host OS perspective, the container's process IS a regular Linux process — just running inside isolated namespaces and with cgroup resource limits applied. All container functionality is available: logs are being written, network is active, volumes are accessible. Achieved by <code>docker start</code> (from Created/Stopped) or <code>docker run</code> (from scratch).
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Paused</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        All processes inside the container are suspended (frozen) using the Linux cgroups freezer subsystem, which sends <code>SIGSTOP</code> to every process in the container's cgroup. The container remains in memory — it occupies RAM but consumes zero CPU. All state (in-memory data, open file descriptors, network connections) is preserved exactly. When unpaused, execution resumes from exactly where it left off. Useful for temporarily freeing CPU for a resource-intensive task without losing container state. Achieved by <code>docker pause</code>, reversed by <code>docker unpause</code>.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Stopped / Exited</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container's main process has terminated. The exit can be: natural (process completed its work and exited with code 0), error-triggered (process exited with non-zero code), or command-triggered (<code>docker stop</code> or <code>docker kill</code>). The container's writable filesystem layer is preserved on disk — you can restart it, copy files from it, or inspect its logs. It consumes disk space but no CPU or RAM. The exit code and timestamps are recorded and retrievable via <code>docker inspect</code>.
+      </p>
+    </li>
+
+    <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.05rem;">Removed / Deleted</span>
+      <p style="margin-top: 0.4rem; line-height: 1.75;">
+        The container is permanently destroyed. Its writable filesystem layer is deleted, its metadata is removed from the Docker daemon, and all resources associated with it (network interfaces, cgroup entries) are freed. Any data written to the container's filesystem (not in a volume) is permanently and irrecoverably lost. Achieved via <code>docker rm</code>. A running container cannot be removed without either stopping it first or using the force flag <code>-f</code>.
+      </p>
+    </li>
+
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">State Transition Diagram</h5>
+  <div style="background: #f4f4f5; padding: 1.25rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin-top: 0.75rem; line-height: 2;">
+    <pre style="margin: 0; white-space: pre-wrap;">
+[Image] ──── docker create ────────────────► [Created]
+                                                  │
+                                         docker start │
+                                                  ▼
+[Image] ──── docker run ───────────────────► [Running] ◄─── docker unpause ───┐
+                                                  │                            │
+                                       docker pause│                           │
+                                                  ▼                            │
+                                             [Paused] ──── docker unpause ────┘
+                                                  
+[Running] ── docker stop ──────────────────► [Stopped/Exited]
+[Running] ── docker kill ──────────────────► [Stopped/Exited]
+[Running] ── process exits naturally ──────► [Stopped/Exited]
+                                                  │
+                                        docker start│   (restart)
+                                                  ▼
+                                             [Running]
+
+[Stopped] ── docker rm ────────────────────► [Removed] (permanent)
+[Running] ── docker rm -f ─────────────────► [Removed] (force)
+    </pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">The Full Lifecycle Command Suite</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── CREATE ──────────────────────────────────────────────────────
+# Initialize a container without starting it
+# Accepts all the same flags as docker run
+docker create --name myapp -p 3000:3000 -e NODE_ENV=production myapp:1.0
+
+# Verify it's in Created state
+docker ps -a
+# STATUS: Created
+
+
+# ── START ────────────────────────────────────────────────────────
+# Start a Created or Stopped container
+docker start myapp
+
+# Start in attached mode (show output) — only useful for foreground processes
+docker start -a myapp
+
+# Start and attach stdin as well (for interactive containers)
+docker start -ai myapp
+
+
+# ── STOP ─────────────────────────────────────────────────────────
+# Graceful stop: sends SIGTERM to PID 1, waits 10s, then SIGKILL
+docker stop myapp
+
+# Custom stop timeout (seconds to wait before SIGKILL)
+docker stop --time 30 myapp     # give app 30 seconds to clean up
+docker stop -t 0 myapp          # SIGTERM then immediately SIGKILL
+
+# Stop multiple containers at once
+docker stop container1 container2 container3
+
+# Stop ALL running containers (useful for dev cleanup)
+docker stop $(docker ps -q)
+
+
+# ── KILL ──────────────────────────────────────────────────────────
+# Immediately send SIGKILL (no grace period)
+docker kill myapp
+
+# Send a specific signal (not just SIGKILL)
+docker kill --signal SIGTERM myapp    # send SIGTERM manually
+docker kill --signal SIGHUP myapp     # send SIGHUP (reload config)
+docker kill --signal SIGUSR1 myapp    # send SIGUSR1 (app-specific)
+docker kill --signal 9 myapp          # signal by number
+
+
+# ── RESTART ───────────────────────────────────────────────────────
+# Equivalent to docker stop + docker start
+# Sends SIGTERM, waits, then starts again — same container, same config
+docker restart myapp
+
+# With custom stop timeout
+docker restart --time 5 myapp
+
+# Restart multiple containers
+docker restart container1 container2
+
+# Restart ALL running containers
+docker restart $(docker ps -q)
+
+
+# ── PAUSE / UNPAUSE ───────────────────────────────────────────────
+# Freeze all processes in the container (SIGSTOP via cgroups freezer)
+docker pause myapp
+
+# Unfreeze and resume execution
+docker unpause myapp
+
+
+# ── REMOVE ────────────────────────────────────────────────────────
+# Remove a stopped container (permanent!)
+docker rm myapp
+
+# Force remove a running container (stop + remove in one)
+docker rm -f myapp
+
+# Remove and delete associated anonymous volumes
+docker rm -v myapp
+
+# Remove multiple containers
+docker rm container1 container2 container3
+
+# Remove ALL stopped containers (safe — won't touch running ones)
+docker container prune
+
+# Remove ALL stopped containers without confirmation prompt
+docker container prune -f
+
+# Remove stopped containers older than 24 hours
+docker container prune --filter "until=24h"
+
+# Remove stopped containers with a specific label
+docker container prune --filter "label=env=dev"
+
+# One-liner: stop and remove all containers (dev reset)
+docker rm -f $(docker ps -aq)
+
+
+# ── CHECKING STATE AND HISTORY ────────────────────────────────────
+
+# List running containers
+docker ps
+
+# List ALL containers (all states)
+docker ps -a
+
+# Custom format output
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+docker ps --format "{{.Names}}: {{.Status}}"
+
+# Filter containers by status
+docker ps -f status=running
+docker ps -f status=exited
+docker ps -f status=created
+docker ps -f status=paused
+
+# Filter by name pattern
+docker ps -f name=myapp
+
+# Filter by label
+docker ps -f label=env=production
+
+# Show container IDs only (useful for scripting)
+docker ps -q              # running only
+docker ps -aq             # all containers
+
+# Get the exit code of a stopped container
+docker inspect myapp --format='{{.State.ExitCode}}'
+
+# Get full state JSON (status, exit code, start time, finish time)
+docker inspect myapp --format='{{json .State}}' | python3 -m json.tool
+
+# Check if container was OOM-killed
+docker inspect myapp --format='{{.State.OOMKilled}}'
+
+# Get container start and finish times
+docker inspect myapp --format='Started: {{.State.StartedAt}} | Finished: {{.State.FinishedAt}}'
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Exit Codes — The Diagnostic Language of Containers</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When a container stops, it records an exit code that precisely describes <em>why</em> it stopped. Knowing these codes makes debugging container crashes systematic rather than guesswork.
+  </p>
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Exit Code</th>
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Meaning</th>
+          <th style="padding: 0.5rem; text-align: left; border: 1px solid #d4d4d8;">Typical Cause</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">0</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Success</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Process completed successfully and exited cleanly</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">1</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">General Error</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Uncaught exception, application runtime error</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">125</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker error</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">docker run command itself failed (invalid flag, permission denied)</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">126</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Not executable</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Command found but cannot be executed (permission issue)</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">127</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Command not found</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">CMD or ENTRYPOINT binary doesn't exist in the image</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">130</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">SIGINT received</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Container interrupted with Ctrl+C (128 + 2)</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">137</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">SIGKILL received</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">OOM kill by kernel, or docker kill, or docker stop after timeout (128 + 9)</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">143</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">SIGTERM received</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Graceful stop via docker stop — process received and handled SIGTERM (128 + 15)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# Diagnose a crashed container using exit codes
+docker ps -a                                          # see STATUS column
+docker inspect myapp --format='{{.State.ExitCode}}'  # get numeric exit code
+docker inspect myapp --format='{{.State.OOMKilled}}'  # was it OOM killed?
+docker logs myapp                                     # read last output before crash
+
+# If exit code is 137 and OOMKilled is true:
+# → Container ran out of memory. Increase --memory limit.
+
+# If exit code is 127:
+# → CMD/ENTRYPOINT binary not found. Check image's filesystem:
+docker run -it --entrypoint sh myapp:1.0   # explore filesystem manually
+which node                                  # check if binary exists at expected path
+
+# If exit code is 1:
+# → Application error. Read logs carefully:
+docker logs --tail 50 myapp
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "The container lifecycle has five states: Created (filesystem ready, no process), Running (PID 1 executing), Paused (processes frozen via cgroups freezer, RAM preserved), Stopped/Exited (process terminated, filesystem preserved on disk), and Removed (permanently deleted). The most critical transition is Running → Stopped: docker stop sends SIGTERM to PID 1 and waits (default 10 seconds) for graceful cleanup before sending SIGKILL. docker kill immediately sends SIGKILL. Exit codes are the primary diagnostic tool: 137 means SIGKILL/OOM, 143 means clean SIGTERM, 127 means command not found."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: INTERACTIVE CONTAINERS                            -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Interactive Containers
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Interactive containers let you type commands directly into a running container — open a shell, run a REPL, debug the filesystem, test configuration changes live, or execute one-off administrative tasks. Understanding the flags that enable interactivity — and the difference between them — is both a practical skill and a common interview topic.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The -i and -t Flags — What They Actually Do</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;"><code>-i</code> / <code>--interactive</code> — Keep STDIN Open:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">By default, when Docker runs a container, it closes the standard input (stdin) immediately. <code>-i</code> keeps stdin open and connected to the Docker client, even if nothing is attached. This allows you to type input to the process. Without <code>-i</code>, any process waiting for input (like a shell) will immediately receive EOF and exit.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;"><code>-t</code> / <code>--tty</code> — Allocate a Pseudo-TTY:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">A TTY (teletypewriter) is the mechanism through which terminal programs communicate. <code>-t</code> tells Docker to allocate a pseudo-terminal (PTY) and attach it to the container's stdin. This gives you terminal features: command prompt display, arrow key support for command history, colored output, cursor movement, tab completion, and CTRL+C/CTRL+Z signal forwarding. Without <code>-t</code>, you get raw output with no prompt and no terminal control sequences.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;"><code>-it</code> combined — Full Interactive Terminal:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">The combination <code>-it</code> is what you use for an interactive shell session. It gives you: open stdin (<code>-i</code>) + a proper terminal interface (<code>-t</code>). This is the standard pattern for any situation where you want to type commands inside a container.</p>
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── STARTING INTERACTIVE CONTAINERS ─────────────────────────────
+
+# Open a bash shell in a new Ubuntu container
+docker run -it ubuntu bash
+
+# Open a shell in Alpine (uses sh, not bash — bash isn't installed)
+docker run -it alpine sh
+
+# Open Node.js REPL interactively
+docker run -it node:18
+
+# Open Python interactive interpreter
+docker run -it python:3.11
+
+# Run an interactive container with a name (so you can reference it later)
+docker run -it --name debug-container ubuntu bash
+
+# Interactive container that auto-removes on exit (clean one-off shell)
+docker run -it --rm ubuntu bash
+
+# Interactive with environment variables and volume (common dev pattern)
+docker run -it --rm \
+  -e DEBUG=true \
+  -v $(pwd):/workspace \
+  -w /workspace \
+  node:18 bash
+
+# Override ENTRYPOINT to get a shell in an image with a fixed entrypoint
+# This is essential for debugging images that run a specific app
+docker run -it --entrypoint bash myapp:1.0
+docker run -it --entrypoint sh myapp:1.0    # use sh if bash not available
+
+# What happens without -t (no pseudo-TTY):
+docker run -i ubuntu bash
+# bash opens, you can type, but: no prompt displayed, no colors,
+# no arrow keys, no tab completion. Usable but unpleasant.
+
+# What happens without -i (no stdin):
+docker run -t ubuntu bash
+# bash opens with a pretty prompt — but you can't type anything.
+# Stdin is closed, so any keypress is ignored. Not useful.
+
+# Correct pattern: always -it together for interactive shells
+docker run -it ubuntu bash    # ✅ Full interactive terminal
+
+
+# ── EXECUTING COMMANDS IN ALREADY-RUNNING CONTAINERS ────────────
+# docker exec — runs a new process INSIDE an already running container
+# This is fundamentally different from docker run (which creates a new container)
+
+# Open an interactive shell in a RUNNING container
+docker exec -it my-nginx bash
+docker exec -it my-nginx sh          # use sh for Alpine-based images
+
+# Execute a single command (non-interactive) and see output
+docker exec my-nginx nginx -t        # test nginx config
+docker exec my-nginx cat /etc/nginx/nginx.conf
+docker exec my-nginx ls -la /var/log/nginx/
+
+# Execute as a specific user
+docker exec -it --user root my-nginx bash    # switch to root for admin tasks
+docker exec -it --user 0 my-nginx sh         # 0 = root UID
+
+# Execute with environment variables
+docker exec -it -e DEBUG=verbose my-nginx bash
+
+# Execute in a specific working directory
+docker exec -it -w /var/log my-nginx bash
+
+# Execute a command in detached mode (runs in background inside container)
+docker exec -d my-nginx touch /tmp/marker-file
+
+
+# ── PRACTICAL DEBUGGING SCENARIOS ───────────────────────────────
+
+# Scenario 1: Check what files exist in container
+docker exec my-app ls -la /app
+docker exec my-app find /app -name "*.js" -type f
+
+# Scenario 2: Check running processes inside container
+docker exec my-app ps aux
+docker exec my-app top           # interactive process monitor
+
+# Scenario 3: Check environment variables inside container
+docker exec my-app env
+docker exec my-app printenv NODE_ENV
+
+# Scenario 4: Check network connectivity from inside container
+docker exec my-app ping google.com
+docker exec my-app curl -s http://api-service:8080/health
+docker exec my-app wget -qO- http://localhost:3000/health
+
+# Scenario 5: Read application logs inside container
+docker exec my-app tail -f /var/log/app/error.log
+docker exec my-app cat /app/logs/debug.log
+
+# Scenario 6: Check if a port is listening
+docker exec my-app netstat -tlnp
+docker exec my-app ss -tlnp
+
+# Scenario 7: Check disk usage inside container
+docker exec my-app df -h
+docker exec my-app du -sh /app/*
+
+# Scenario 8: Inspect config files live
+docker exec my-app cat /app/config/database.json
+docker exec my-app cat /etc/hosts
+
+# Scenario 9: Test database connection from inside app container
+docker exec my-app node -e "require('./db').testConnection()"
+
+# Scenario 10: Manually trigger a graceful reload (e.g., nginx)
+docker exec my-nginx nginx -s reload
+
+
+# ── ATTACHING TO A CONTAINER ─────────────────────────────────────
+# docker attach — connects your terminal to the container's PID 1 stdin/stdout/stderr
+# DANGEROUS: Ctrl+C sends SIGINT to PID 1, which STOPS the container!
+docker attach my-nginx
+
+# Safe attach with detach key (Ctrl+P then Ctrl+Q to detach without stopping)
+docker attach --detach-keys="ctrl-p,ctrl-q" my-nginx
+
+# Better alternative: use docker logs -f for read-only log following
+docker logs -f my-nginx    # safe, read-only, won't affect the container
+
+
+# ── COPYING FILES TO/FROM CONTAINERS ────────────────────────────
+# Works on both running and stopped containers
+
+# Copy FROM container TO host
+docker cp my-app:/app/logs ./local-logs
+docker cp my-app:/etc/nginx/nginx.conf ./nginx-backup.conf
+docker cp my-nginx:/var/log/nginx/error.log ./nginx-error.log
+
+# Copy FROM host TO container
+docker cp ./config.json my-app:/app/config/config.json
+docker cp ./ssl-cert.pem my-nginx:/etc/ssl/cert.pem
+
+# Copy entire directory
+docker cp my-app:/app/dist ./build-output
+docker cp ./updated-config/ my-app:/app/config/
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ docker attach vs docker exec — Critical Distinction:</strong> <code>docker attach</code> connects to PID 1 of the container. Pressing Ctrl+C sends SIGINT to PID 1 which typically <strong>kills the container</strong>. Never use <code>docker attach</code> on a production container without setting the detach keys. <code>docker exec -it container bash</code> starts a NEW separate process inside the container — killing it has zero impact on PID 1 and the container keeps running. Always prefer <code>docker exec</code> for interactive debugging.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "<code>-i</code> keeps stdin open so you can type input to the process. <code>-t</code> allocates a pseudo-TTY giving you a proper terminal interface with a prompt, colors, arrow key history, and signal forwarding. Combined as <code>-it</code>, they give you a full interactive shell session. <code>docker exec -it container bash</code> is the primary debugging tool — it starts a completely new process inside the running container, completely independent of PID 1. Killing this shell has no effect on the container. <code>docker attach</code> is different — it connects to PID 1 directly, so Ctrl+C will kill the container."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: DETACHED CONTAINERS                               -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Detached Containers
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Detached mode is how virtually all production containers run. Understanding the difference between foreground and detached mode, how to manage container output in detached mode, and the full suite of monitoring and inspection tools available for detached containers is essential for real-world Docker usage.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Foreground vs Detached — What's the Difference?</h5>
+
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Foreground Mode (default — no <code>-d</code> flag):</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Docker starts the container and attaches your current terminal's stdin, stdout, and stderr to the container's PID 1. The container's output streams directly to your terminal in real time. Your terminal is blocked — you cannot type other commands. If you close the terminal or press Ctrl+C, the signal is sent to PID 1 which typically stops the container. Foreground mode is mainly useful for: one-off scripts, interactive sessions with <code>-it</code>, and debugging a container startup for the first time.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Detached Mode (<code>-d</code> flag):</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Docker starts the container as a background process and immediately returns the full container ID to stdout, freeing your terminal. The container runs independently of your terminal session — closing your terminal, SSH session, or shell does NOT stop the container. The container continues running managed by the Docker daemon. All output (stdout/stderr) from the container is captured by Docker and stored internally for access via <code>docker logs</code>. This is how all long-running services (web servers, databases, APIs) should be run.</p>
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── FOREGROUND vs DETACHED ───────────────────────────────────────
+
+# FOREGROUND (default) — terminal is blocked, output streams to screen
+docker run --name my-nginx nginx
+# Terminal is occupied showing nginx output:
+# /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+# /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+# 2024/01/01 10:00:00 [notice] 1#1: start worker process 30
+# (cannot type other commands, Ctrl+C stops the container)
+
+# DETACHED — returns immediately, container runs in background
+docker run -d --name my-nginx nginx
+# Prints: a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef12
+# (full 64-char container ID)
+# Terminal is immediately free — type any other commands
+
+
+# ── MANAGING DETACHED CONTAINER OUTPUT ──────────────────────────
+
+# View all logs since container start
+docker logs my-nginx
+
+# Follow logs in real-time (like tail -f)
+docker logs -f my-nginx
+# Ctrl+C exits the log following (does NOT stop the container)
+
+# Show only the last N lines
+docker logs --tail 50 my-nginx
+docker logs --tail 0 -f my-nginx    # follow from NOW (skip old logs)
+
+# Show logs with timestamps
+docker logs -t my-nginx
+docker logs -t --tail 100 my-nginx
+
+# Show logs since a time (human-readable or Unix timestamp)
+docker logs --since 30m my-nginx        # last 30 minutes
+docker logs --since 2h my-nginx         # last 2 hours
+docker logs --since "2024-01-01" my-nginx
+
+# Show logs until a time
+docker logs --until 30m my-nginx        # logs up to 30 minutes ago
+
+# Combine: logs between two timestamps
+docker logs --since "2024-01-01T10:00:00" --until "2024-01-01T11:00:00" my-nginx
+
+# Save logs to a file (for sharing or analysis)
+docker logs my-nginx > container.log 2>&1
+docker logs my-nginx 2>&1 | grep "error"   # pipe to grep
+
+
+# ── MONITORING RUNNING CONTAINERS ────────────────────────────────
+
+# Real-time resource usage stats (CPU, RAM, Net I/O, Disk I/O)
+docker stats
+
+# Stats for a specific container
+docker stats my-nginx
+
+# Stats for multiple containers
+docker stats my-nginx my-app my-db
+
+# Stats snapshot (not live — just one reading)
+docker stats --no-stream
+
+# Custom format stats output
+docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}"
+docker stats --format "{{.Name}}: CPU={{.CPUPerc}} MEM={{.MemUsage}}"
+docker stats --no-stream --format "{{.Name}},{{.CPUPerc}},{{.MemPerc}}" > stats.csv
+
+
+# ── INSPECTING DETACHED CONTAINERS ───────────────────────────────
+
+# Full JSON metadata dump (everything Docker knows about the container)
+docker inspect my-nginx
+
+# Extract specific fields
+docker inspect my-nginx --format='{{.State.Status}}'      # running/stopped/etc
+docker inspect my-nginx --format='{{.State.Pid}}'         # host PID of container's PID 1
+docker inspect my-nginx --format='{{.NetworkSettings.IPAddress}}'   # container's IP
+docker inspect my-nginx --format='{{json .NetworkSettings.Ports}}'  # port mappings
+docker inspect my-nginx --format='{{json .Mounts}}'        # volume/mount info
+docker inspect my-nginx --format='{{json .Config.Env}}'    # environment variables
+docker inspect my-nginx --format='{{.HostConfig.Memory}}'  # memory limit in bytes
+docker inspect my-nginx --format='{{.HostConfig.NanoCpus}}' # CPU limit
+
+# List port mappings specifically
+docker port my-nginx
+docker port my-nginx 80    # what host port maps to container port 80?
+
+# Get the host PID of the container process (for host-level debugging)
+docker inspect my-nginx --format='{{.State.Pid}}'
+# You can now use: sudo nsenter -t <PID> -m -u -i -n -p -- bash
+# to enter the container's namespaces from the host
+
+
+# ── DETACHING FROM A FOREGROUND CONTAINER ────────────────────────
+
+# If you accidentally started a container in foreground mode,
+# detach WITHOUT stopping it using: Ctrl+P then Ctrl+Q
+# This works only if stdin is attached (not just stdout)
+
+docker run -it --name test nginx bash
+# Now inside container... to detach without stopping:
+# Press Ctrl+P, then Ctrl+Q
+# Container keeps running in background
+
+# Verify it's still running
+docker ps
+
+# Re-attach (be careful — Ctrl+C will stop it)
+docker attach test
+
+
+# ── RUNNING ONE-OFF COMMANDS IN DETACHED CONTAINERS ─────────────
+
+# Run a command in an existing running container in detached mode
+docker exec -d my-nginx touch /tmp/flag-file
+docker exec -d my-app node scripts/cleanup.js
+
+# Run a completely separate one-off container that auto-removes
+docker run --rm -d --name migrator myapp:1.0 node scripts/migrate.js
+
+# Check if migration container finished
+docker ps -a -f name=migrator     # if not in list, it finished and was removed
+
+
+# ── PRODUCTION BEST PRACTICES FOR DETACHED CONTAINERS ────────────
+
+# Always combine: detached + name + restart policy + resource limits
+docker run -d \
+  --name payment-service \
+  --restart unless-stopped \
+  --memory 512m \
+  --cpus 1.0 \
+  -p 127.0.0.1:3001:3001 \
+  -e NODE_ENV=production \
+  --env-file .env.prod \
+  -v payment-logs:/app/logs \
+  --health-cmd "curl -f http://localhost:3001/health || exit 1" \
+  --health-interval 30s \
+  --health-timeout 5s \
+  --health-retries 3 \
+  --log-driver json-file \
+  --log-opt max-size=100m \
+  --log-opt max-file=5 \
+  payment-service:2.1.0
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Log Drivers — Controlling Where Container Logs Go</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    By default, Docker captures container stdout/stderr and stores it as JSON files on the host (<code>json-file</code> log driver). In production, you configure log drivers to route logs to centralized logging systems instead.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Default log driver (JSON files on host disk)
+docker run -d \
+  --log-driver json-file \
+  --log-opt max-size=50m \      # rotate after 50MB (prevents disk fill)
+  --log-opt max-file=3 \        # keep last 3 rotated files
+  --name my-app myapp:1.0
+
+# Send logs to syslog
+docker run -d --log-driver syslog --name my-app myapp:1.0
+
+# Send logs to AWS CloudWatch
+docker run -d \
+  --log-driver awslogs \
+  --log-opt awslogs-group=/my-app/production \
+  --log-opt awslogs-region=us-east-1 \
+  --name my-app myapp:1.0
+
+# No logging at all (for high-performance containers where logs aren't needed)
+docker run -d --log-driver none --name my-app myapp:1.0
+
+# Note: if log-driver is not json-file, docker logs command won't work!
+# Logs go directly to the log driver destination.
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fdf4ff; border-left: 4px solid #a855f7; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Detached mode (<code>-d</code>) runs the container as a background process managed by the Docker daemon, independent of your terminal session. Docker immediately returns the container ID and frees your terminal. The container's stdout/stderr is captured internally and accessible via <code>docker logs</code>. For production: always use <code>-d</code> combined with <code>--name</code> (for human-readable reference), <code>--restart unless-stopped</code> (for auto-recovery), resource limits (<code>--memory</code>, <code>--cpus</code>), and log rotation options (<code>--log-opt max-size</code>). <code>docker stats</code> provides real-time CPU/RAM monitoring of detached containers, and <code>docker inspect</code> gives full metadata."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER CONTAINERS WORKFLOW
+# From first run to production-grade management
+# ══════════════════════════════════════════════════════════════
+
+
+# ── PART 1: Basic Lifecycle ───────────────────────────────────────
+
+# Start a detached nginx web server
+docker run -d \
+  --name web-server \
+  -p 8080:80 \
+  --restart unless-stopped \
+  nginx:1.25
+
+# Verify it's running and what port it's on
+docker ps
+docker port web-server
+
+# Test it's serving traffic
+curl http://localhost:8080    # should return nginx welcome HTML
+
+# View its logs
+docker logs web-server
+docker logs -f web-server    # follow live
+
+# Check resource usage
+docker stats web-server --no-stream
+
+# Full metadata
+docker inspect web-server --format='{{.State.Status}}: PID {{.State.Pid}}'
+
+
+# ── PART 2: Interactive Debugging ────────────────────────────────
+
+# Shell into the running nginx container to debug
+docker exec -it web-server bash
+
+# Inside container — explore:
+# cat /etc/nginx/nginx.conf       → check config
+# ls /usr/share/nginx/html/       → see served files
+# nginx -t                        → test config syntax
+# tail -f /var/log/nginx/access.log → live access log
+# exit                            → leave container (nginx keeps running)
+
+# Copy a custom HTML file into the running container
+echo "<h1>Hello from Docker!</h1>" > index.html
+docker cp index.html web-server:/usr/share/nginx/html/index.html
+
+# Reload nginx config without restarting container
+docker exec web-server nginx -s reload
+
+# Test the change
+curl http://localhost:8080    # now shows "Hello from Docker!"
+
+
+# ── PART 3: Lifecycle Operations ─────────────────────────────────
+
+# Pause (freeze) the container
+docker pause web-server
+curl http://localhost:8080    # hangs — container is frozen
+docker unpause web-server
+curl http://localhost:8080    # responds again immediately
+
+# Graceful stop
+docker stop web-server        # sends SIGTERM, waits 10s, then SIGKILL
+docker ps -a                  # shows STATUS: Exited (0)
+
+# Restart stopped container (same config, same name)
+docker start web-server
+docker ps                     # running again
+
+# Restart running container (stop + start)
+docker restart web-server
+
+# Force kill (immediate, no grace period)
+docker kill web-server
+docker ps -a                  # shows STATUS: Exited (137)
+
+
+# ── PART 4: Cleanup ───────────────────────────────────────────────
+
+# Stop then remove
+docker stop web-server
+docker rm web-server
+
+# Or force remove in one command
+docker rm -f web-server
+
+# Clean up ALL stopped containers
+docker container prune -f
+
+# Verify clean state
+docker ps -a
+
+
+# ── PART 5: Production-Grade Run ─────────────────────────────────
+
+# Full production container with all best practices
+docker run -d \
+  --name api-server \
+  --restart unless-stopped \
+  --memory 512m \
+  --cpus 1.0 \
+  -p 127.0.0.1:3000:3000 \
+  -e NODE_ENV=production \
+  -e PORT=3000 \
+  --env-file .env.prod \
+  -v api-logs:/app/logs \
+  --log-driver json-file \
+  --log-opt max-size=50m \
+  --log-opt max-file=5 \
+  --health-cmd "curl -f http://localhost:3000/health || exit 1" \
+  --health-interval 30s \
+  --health-timeout 5s \
+  --health-retries 3 \
+  --security-opt no-new-privileges \
+  --read-only \
+  --tmpfs /tmp \
+  myapp:1.3.2
+
+# Monitor health status
+docker inspect api-server --format='{{.State.Health.Status}}'
+docker inspect api-server --format='{{json .State.Health}}' | python3 -m json.tool`,
+            ],
+
+            questions: [
+              {
+                question: "What does docker run do step by step?",
+                solution:
+                  "<p><code>docker run</code> is a composite command that executes in this sequence: (1) <strong>Image check</strong> — looks for the image in local cache; if not found, automatically runs <code>docker pull</code> to download it. (2) <strong>Container creation</strong> — allocates a unique container ID, generates a name, creates a writable filesystem layer (OverlayFS upperdir) on top of the image's read-only layers. (3) <strong>Network setup</strong> — assigns a virtual network interface, an internal IP address, and creates iptables rules for any specified <code>-p</code> port mappings. (4) <strong>Mount setup</strong> — attaches any specified volumes or bind mounts into the container filesystem. (5) <strong>Environment injection</strong> — merges <code>-e</code> flags with the image's ENV vars. (6) <strong>Process start</strong> — executes the CMD or ENTRYPOINT as PID 1 inside the container's isolated namespaces. If <code>-d</code> is specified, Docker returns immediately. Otherwise, stdout/stderr stream to the terminal.</p>",
+              },
+              {
+                question:
+                  "What is the difference between docker run and docker start?",
+                solution:
+                  '<p><code>docker run</code> = <code>docker create</code> + <code>docker start</code> — it creates a <strong>brand new container</strong> from an image and starts it. Every <code>docker run</code> produces a new container with a new ID and a new empty writable layer. <code>docker start</code> starts an <strong>existing, already-created container</strong> that is in Created or Stopped state. It uses the exact same container (same ID, same filesystem state, same configuration) — nothing is recreated. This distinction matters for persistence: if you wrote files to a container, <code>docker stop</code> + <code>docker start</code> preserves them. <code>docker run</code> creates a completely fresh container and those files are gone. Never use <code>docker run</code> to "restart" a container — use <code>docker restart</code> or <code>docker stop</code> + <code>docker start</code>.</p>',
+              },
+              {
+                question:
+                  "What is the difference between docker stop and docker kill? When would you use each?",
+                solution:
+                  "<p><code>docker stop</code> initiates a <strong>graceful shutdown sequence</strong>: sends <code>SIGTERM</code> to the container's PID 1, then waits for the process to exit (default timeout: 10 seconds, configurable with <code>--time</code>). If the process doesn't exit within the timeout, Docker sends <code>SIGKILL</code>. This gives the application time to finish in-flight requests, flush write buffers, close database connections, and release locks. <code>docker kill</code> immediately sends <code>SIGKILL</code> — the kernel forcefully terminates the process with no cleanup time. Use <code>docker stop</code> for all normal operations. Use <code>docker kill</code> only when the container is completely unresponsive (stuck, infinite loop, deadlock). Applications should implement SIGTERM handlers for clean shutdown: in Node.js, <code>process.on('SIGTERM', () => { server.close(); db.disconnect(); process.exit(0); })</code>.</p>",
+              },
+              {
+                question:
+                  "What is the difference between -i and -t flags? Why are they usually used together?",
+                solution:
+                  "<p><code>-i</code> (<code>--interactive</code>) keeps the container's <strong>stdin open</strong>, allowing you to type input to the process. Without it, stdin is immediately closed after container start — any process waiting for input (like a shell) receives EOF and exits. <code>-t</code> (<code>--tty</code>) allocates a <strong>pseudo-terminal (PTY)</strong> and attaches it to stdin. This provides: a command prompt display, colored output, arrow key command history, tab completion, terminal resizing, and proper CTRL+C/CTRL+Z signal forwarding to the process. Without <code>-t</code>, you get raw byte streams with no terminal formatting. They are used together as <code>-it</code> because neither is sufficient alone: <code>-i</code> without <code>-t</code> gives you input ability but no prompt or terminal features (ugly); <code>-t</code> without <code>-i</code> gives you a nice prompt but you can't type anything. Combined, they create a complete interactive terminal session.</p>",
+              },
+              {
+                question:
+                  "What is the difference between docker exec and docker attach?",
+                solution:
+                  "<p><code>docker exec</code> starts a <strong>completely new, independent process</strong> inside the running container. This new process (typically a shell) is separate from PID 1. Killing it (Ctrl+C or <code>exit</code>) has absolutely zero effect on the container — PID 1 keeps running normally. This is the safe, correct tool for debugging running containers. <code>docker attach</code> connects your terminal's stdin/stdout/stderr directly to the container's <strong>existing PID 1</strong>. Since you're now directly attached to the main process: pressing Ctrl+C sends SIGINT to PID 1, which typically <strong>stops the entire container</strong>. The only safe way to detach without stopping is Ctrl+P followed by Ctrl+Q. In production: <strong>never use docker attach</strong> unless you understand exactly what you're doing. Always use <code>docker exec -it container bash</code> for safe interactive debugging.</p>",
+              },
+              {
+                question:
+                  "What does the --rm flag do and when should you use it?",
+                solution:
+                  "<p><code>--rm</code> tells Docker to automatically remove the container (and its writable filesystem layer) the moment its main process exits. Without <code>--rm</code>, stopped containers accumulate on the host consuming disk space and appearing in <code>docker ps -a</code>. Use <code>--rm</code> for: (1) <strong>One-off tasks</strong> — database migrations, code generation, script runners: <code>docker run --rm myapp node scripts/seed.js</code>. (2) <strong>Development tools</strong> — linters, formatters, test runners: <code>docker run --rm -v $(pwd):/app node:18 npx prettier --write .</code>. (3) <strong>Debugging</strong> — short-lived interactive sessions: <code>docker run -it --rm ubuntu bash</code>. Do NOT use <code>--rm</code> for services you intend to restart, or for containers whose logs you need to review after they stop.</p>",
+              },
+              {
+                question:
+                  "How do you pass environment variables to a Docker container? What are all the methods?",
+                solution:
+                  "<p>Three methods to inject environment variables: (1) <strong>Individual <code>-e</code> flag</strong>: <code>docker run -e NODE_ENV=production -e PORT=3000 myapp</code>. Explicit, visible in shell history, not suitable for secrets. (2) <strong>Environment file <code>--env-file</code></strong>: <code>docker run --env-file .env.prod myapp</code>. The file contains <code>KEY=VALUE</code> pairs, one per line. Better for many variables and keeps secrets out of shell history. (3) <strong>Passthrough</strong> (no value specified): <code>docker run -e DB_PASSWORD myapp</code> — Docker reads the variable from the HOST environment and injects it into the container. Useful in CI/CD where secrets are injected into the build environment. Priority: individual <code>-e</code> flags override <code>--env-file</code> values, which override the image's baked-in <code>ENV</code> values. <strong>Never bake secrets into images</strong> via Dockerfile ENV — they are visible in <code>docker history</code> and stored in the image manifest permanently.</p>",
+              },
+              {
+                question:
+                  "How does port mapping work in Docker? What is the difference between -p and -P?",
+                solution:
+                  "<p>Port mapping publishes a container's port to the host machine by creating iptables rules that forward incoming traffic. Format: <code>-p HOST_PORT:CONTAINER_PORT</code>. Examples: <code>-p 8080:80</code> maps host port 8080 to container port 80 — <code>curl localhost:8080</code> reaches nginx inside the container. Without <code>-p</code>, the container's port is completely inaccessible from outside the Docker network. <strong>-p (lowercase)</strong>: manually specify the exact host port to map. <strong>-P (uppercase)</strong>: automatically maps ALL ports declared in the image's <code>EXPOSE</code> instructions to <em>random</em> available host ports. Use <code>docker port container</code> to see what random ports were assigned. Production tip: bind to a specific host IP with <code>-p 127.0.0.1:8080:80</code> to make the service accessible only from localhost (not externally) — essential when a reverse proxy (nginx, Caddy) sits in front of your containers.</p>",
+              },
+              {
+                question:
+                  "How would you debug a container that keeps crashing on startup?",
+                solution:
+                  "<p>Systematic crash debugging process: (1) <code>docker ps -a</code> — see the exit code in the STATUS column (e.g., <code>Exited (127)</code>). (2) <code>docker logs &lt;container&gt;</code> — read everything the application printed before crashing, especially the last few lines. (3) <code>docker inspect &lt;container&gt; --format='{{.State.ExitCode}}'</code> — get the numeric exit code. 127 = command not found, 137 = OOM killed, 1 = application error. (4) <code>docker inspect &lt;container&gt; --format='{{.State.OOMKilled}}'</code> — if true, increase <code>--memory</code> limit. (5) Override the ENTRYPOINT to get a shell BEFORE the app starts: <code>docker run -it --entrypoint sh myapp:1.0</code> — now manually run the startup command and observe the error. (6) Check if the required binary exists: <code>which node</code>, <code>ls /app/</code>. (7) Verify environment variables are correct: <code>env | grep DB</code>. (8) Use <code>--progress=plain</code> on docker build to check if the image built correctly.</p>",
+              },
+              {
+                question:
+                  "What are Docker restart policies and how do they differ?",
+                solution:
+                  "<p>Restart policies control container auto-recovery when the main process exits. <strong><code>no</code></strong> (default): never restart — container stays stopped until manually started. <strong><code>on-failure</code></strong>: restart only when the process exits with a non-zero exit code (crash). Does NOT restart on clean exit (code 0). Optional max retries: <code>on-failure:5</code>. Best for batch jobs that should retry on error but not loop forever on success. <strong><code>always</code></strong>: restart on any exit — crash or clean. Also restarts when the Docker daemon itself restarts (e.g., after host reboot). Best for critical infrastructure services. <strong><code>unless-stopped</code></strong>: like <code>always</code> but with one exception — if you manually ran <code>docker stop</code>, it will NOT restart automatically. Respects your intentional stops. Best for application services where you want auto-recovery from crashes but control over maintenance windows. In production, <code>unless-stopped</code> is the recommended default for web services and databases.</p>",
+              },
+              {
+                question:
+                  "How do you limit container resource usage and why is it important?",
+                solution:
+                  "<p>Without resource limits, any container can consume 100% of host CPU and RAM, starving all other containers and the host OS. Docker uses Linux <strong>cgroups</strong> (control groups) to enforce limits. Memory: <code>--memory 512m</code> — if the container exceeds this, the Linux kernel OOM (Out of Memory) killer terminates its processes (exit code 137). <code>--memory-swap</code> controls swap usage. CPU: <code>--cpus 1.5</code> limits to 1.5 CPU cores worth of compute time. <code>--cpu-shares</code> sets relative priority (1024 = normal) for when the host is CPU-constrained. Important for production because: (1) prevents a single misbehaving service from taking down all others (noisy neighbor problem), (2) enables predictable resource billing in cloud environments, (3) forces you to understand your application's actual resource needs. Always set limits in production: <code>docker run -d --memory 512m --cpus 1.0 myapp:1.0</code>.</p>",
+              },
+              {
+                question:
+                  "How does docker restart differ from docker stop followed by docker start?",
+                solution:
+                  "<p><code>docker restart</code> is functionally equivalent to <code>docker stop</code> followed by <code>docker start</code> — but it's atomic and more convenient. In both cases: the same container (same ID, same filesystem, same configuration) is stopped and restarted. The container's writable layer is preserved — files written during the previous run are still there. The same port mappings, environment variables, volumes, and resource limits apply. No new container is created. Key difference from <code>docker run</code>: <code>docker run</code> creates a brand-new container with a fresh empty writable layer. <code>docker restart</code>/<code>docker start</code> reuses the existing container. This matters if your app writes state to the container filesystem between runs — restart preserves it, run does not.</p>",
+              },
+              {
+                question:
+                  "How do you monitor the health and resource usage of running containers?",
+                solution:
+                  "<p>Docker provides multiple monitoring tools: (1) <code>docker stats</code> — live streaming CPU percentage, memory usage/limit, network I/O, and disk I/O for all or specific containers. Use <code>--no-stream</code> for a one-time snapshot. (2) <code>docker inspect</code> — full JSON metadata including health check status, exit codes, start times, port bindings, IP addresses, mounted volumes, and resource limits. (3) <code>docker logs -f</code> — real-time log streaming. (4) <strong>Healthchecks</strong> — configure with <code>--health-cmd</code>, <code>--health-interval</code>, <code>--health-timeout</code>, <code>--health-retries</code>. Docker runs the health command periodically and marks the container as <code>healthy</code>, <code>unhealthy</code>, or <code>starting</code>. Check health status: <code>docker inspect container --format='{{.State.Health.Status}}'</code>. In production: use dedicated monitoring tools (Prometheus + cAdvisor, Datadog, CloudWatch Container Insights) which scrape Docker metrics continuously and provide alerting.</p>",
+              },
+              {
+                question:
+                  "What is the significance of PID 1 inside a Docker container?",
+                solution:
+                  '<p>In Linux, PID 1 is the init process — it has special responsibilities: (1) It receives all signals sent to the container (<code>SIGTERM</code> from <code>docker stop</code>, <code>SIGKILL</code> from <code>docker kill</code>). (2) It is responsible for reaping zombie child processes — adopting orphaned child processes and cleaning them up when they exit. (3) When PID 1 exits, the container exits immediately and ALL other processes inside it are killed. Problems arise when you run shell scripts as PID 1 (using CMD shell form): many shell scripts don\'t forward signals to child processes, so <code>docker stop</code> sends SIGTERM to the shell, the shell doesn\'t forward it to Node.js (or Python, etc.), the timeout expires, and Docker sends SIGKILL — forcing an unclean shutdown. Solutions: (1) Use exec form in CMD (<code>CMD ["node", "server.js"]</code>) so Node.js IS PID 1. (2) Use <code>exec</code> in shell scripts: <code>exec node server.js</code> — replaces the shell process with node. (3) Use a minimal init system like <code>tini</code> as PID 1 which correctly handles signal forwarding and zombie reaping.</p>',
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/engine/reference/commandline/run/",
+              "https://docs.docker.com/engine/reference/commandline/exec/",
+              "https://docs.docker.com/engine/reference/commandline/logs/",
+              "https://docs.docker.com/engine/reference/commandline/stats/",
+              "https://docs.docker.com/config/containers/start-containers-automatically/",
+              "https://docs.docker.com/config/containers/resource_constraints/",
+              "https://docs.docker.com/engine/reference/commandline/inspect/",
+            ],
+          },
+          {
+            topic: "Docker Volumes",
+            tags: [
+              "docker",
+              "volumes",
+              "persistence",
+              "bind-mounts",
+              "devops",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker containers are ephemeral by design — when a container is removed, everything written to its filesystem disappears permanently. This is perfect for stateless applications like web servers and APIs, but catastrophic for anything that stores data: databases, file uploads, user-generated content, application logs, and session stores. <strong>Docker Volumes</strong> solve this by providing persistent storage that exists independently of any container's lifecycle. Understanding volumes — the types, use cases, performance characteristics, and security implications of each — is one of the most critical practical Docker skills and a frequent deep-dive topic in DevOps interviews.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: THE DATA PERSISTENCE PROBLEM                      -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. The Data Persistence Problem
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    To understand why Docker volumes exist, you must first deeply understand <em>why</em> the persistence problem exists — and why it is a fundamental architectural characteristic of containers, not a bug or oversight.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Why Containers Lose Data — The Writable Layer</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Every Docker container gets a thin <strong>writable layer</strong> (also called the container layer) added on top of the image's read-only layers by OverlayFS. This writable layer is where ALL filesystem changes made inside the running container are stored — files created, files modified, files deleted. When the container is removed with <code>docker rm</code>, Docker deletes this writable layer entirely. Everything written to it is gone. Permanently.
+  </p>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    This is NOT accidental. It is intentional design based on the principle of <strong>immutable infrastructure</strong>: containers should be disposable, reproducible units. You should be able to kill any container and spin up a replacement from the same image and get identical behavior. If containers stored mutable state internally, two instances of the same image would diverge over time and become impossible to reason about. The writable layer is intentionally ephemeral.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Concrete Problems This Creates</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Database Data Loss:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">You run <code>docker run postgres</code> and insert thousands of rows. You run <code>docker rm</code> to upgrade to a newer Postgres version. Every row you inserted is gone — the database files lived in the writable layer which was just destroyed. Without volumes, Dockerized databases are useless for production.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">File Upload Loss:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Your web application accepts user profile photo uploads and stores them in <code>/app/uploads</code>. Container restarts, crash-recovery, or deployments wipe all uploaded files. Users' data is silently destroyed on every container restart.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Configuration Drift Impossibility:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">You cannot persist environment-specific configuration changes inside containers. Every new container starts from the clean image state — no customizations survive.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Log Loss:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Application logs written to files inside the container are lost when the container is removed. If your app crashes and you remove the container to replace it, you lose the logs that would have explained WHY it crashed.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">No Data Sharing Between Containers:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">If two containers need to read and write the same files (e.g., an app container and a log-processing container both accessing the same log directory), there is no mechanism to share data between them through their individual writable layers — those layers are completely isolated from each other.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Performance Problem:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Writing data through OverlayFS's Copy-on-Write mechanism has overhead compared to writing directly to native filesystem. For I/O-intensive workloads like databases, this performance penalty is significant and unacceptable in production.</p>
+    </li>
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Docker's Three Storage Solutions</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker solves the persistence problem with three distinct storage mechanisms, each designed for different use cases:
+  </p>
+
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Storage Type</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Managed By</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Location on Host</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Named Volumes</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker daemon</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;"><code>/var/lib/docker/volumes/</code></td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Databases, app data, production persistence</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Bind Mounts</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">You (the user)</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Any path you specify</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Development, config injection, source code sync</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">tmpfs Mounts</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Linux kernel</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Host RAM (never written to disk)</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Secrets, sensitive data, high-speed temp storage</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# Demonstrate the data persistence problem clearly
+
+# Step 1: Run a container and create a file inside it
+docker run --name demo ubuntu bash -c "echo 'important data' > /app/data.txt && cat /app/data.txt"
+# Output: important data
+
+# Step 2: Remove the container
+docker rm demo
+
+# Step 3: Run a fresh container from the same image — data is GONE
+docker run --rm ubuntu bash -c "cat /app/data.txt"
+# Output: cat: /app/data.txt: No such file or directory
+# The file never existed in the image — it only existed in the deleted writable layer
+
+# Step 4: Same problem with stop + rm
+docker run --name demo2 ubuntu bash -c "echo 'more data' > /tmp/test.txt"
+docker stop demo2
+docker rm demo2
+docker run --rm ubuntu bash -c "cat /tmp/test.txt"
+# Output: cat: /tmp/test.txt: No such file or directory — GONE
+
+# ─── Now the SOLUTION: use a volume ───────────────────────────────
+
+# Create a named volume
+docker volume create mydata
+
+# Write data with a volume mounted
+docker run --rm -v mydata:/app ubuntu bash -c "echo 'important data' > /app/data.txt"
+
+# Run a brand new container — data is STILL THERE
+docker run --rm -v mydata:/app ubuntu bash -c "cat /app/data.txt"
+# Output: important data  ✅ Survived container removal!
+
+# Data persists through any number of container replacements
+docker run --rm -v mydata:/app alpine cat /app/data.txt
+# Output: important data  ✅ Even from a different image!
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Containers are ephemeral by design — all writes go to a thin writable layer on top of the image's read-only layers. When the container is removed, this writable layer is permanently deleted. This creates problems for any stateful workload: databases lose all data, uploaded files disappear, logs are destroyed. Docker solves this with three storage types: Named Volumes (Docker-managed, stored in /var/lib/docker/volumes/, best for databases and production data), Bind Mounts (user-specified host path mapped into container, best for development), and tmpfs (RAM-based, for secrets and temporary sensitive data)."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: NAMED VOLUMES                                     -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Named Volumes
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Named volumes are Docker's <strong>recommended, first-class storage solution</strong> for persistent data. They are entirely managed by the Docker daemon — Docker handles where the data is stored on the host, how it is organized, and how it is attached to containers. Named volumes are the right tool for any data that must survive container lifecycle events: databases, application state, user uploads, and persistent logs.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Named Volumes Work Internally</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When you create a named volume, Docker creates a directory inside its managed storage area: <code>/var/lib/docker/volumes/VOLUME_NAME/_data/</code> on Linux. This directory is a real, native filesystem directory on the host — NOT a virtual layer or OverlayFS. When a container mounts this volume, Docker bind-mounts this <code>_data/</code> directory directly into the container at the specified mount path, completely bypassing OverlayFS. This means writes go directly to native disk with zero Copy-on-Write overhead — delivering full native filesystem performance, which is critical for database workloads.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Key Characteristics of Named Volumes</h5>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Independent Lifecycle:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Named volumes exist completely independently of any container. Creating a container does not create a volume (unless you specify one). Deleting a container does not delete its volumes. Volumes must be explicitly deleted with <code>docker volume rm</code>. This independence is the entire point — data outlives containers.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Sharable Between Containers:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Multiple containers can mount the same named volume simultaneously, reading and writing to the same underlying data. This enables data sharing between containers — e.g., an application container writes files, a separate backup container reads them from the same volume.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Pre-Population from Image:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">This is a critical and often misunderstood behavior: if you mount an <em>empty</em> named volume to a path that has existing content in the container image, Docker pre-populates the volume with that image content. This only happens once — if the volume already has data, Docker does NOT overwrite it. This is how official database images (postgres, mysql, mongo) seed their data directories on first run.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Volume Drivers for Remote Storage:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Named volumes support pluggable <strong>volume drivers</strong> that allow storing data on remote or cloud storage instead of local disk. Examples: <code>local</code> (default, local disk), <code>nfs</code> (NFS network storage), <code>azure_file</code> (Azure Files), <code>rexray</code> (AWS EBS, GCP Persistent Disk). This makes volumes portable across cloud environments.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">No Host Path Dependency:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Unlike bind mounts, named volumes work identically on Linux, macOS, and Windows without any path adjustment. Docker abstracts away the host OS differences. This makes Dockerfiles and docker-compose files using named volumes fully portable.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">Native Performance:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Writes to a named volume go directly to native disk, bypassing OverlayFS entirely. For database workloads (PostgreSQL, MySQL, MongoDB) that perform thousands of small random writes per second, this native performance is essential. Writing through OverlayFS would be significantly slower due to Copy-on-Write overhead.</p>
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# ── docker volume create ─────────────────────────────────────────
+
+# Create a named volume (simplest form)
+docker volume create myvolume
+
+# Create with a specific driver (default is 'local')
+docker volume create --driver local myvolume
+
+# Create with driver options (NFS example)
+docker volume create \
+  --driver local \
+  --opt type=nfs \
+  --opt o=addr=192.168.1.100,rw \
+  --opt device=:/path/on/nfs/server \
+  nfs-volume
+
+# Create with labels (for organization and filtering)
+docker volume create \
+  --label env=production \
+  --label service=postgres \
+  --label team=backend \
+  postgres-data
+
+# Create volume with size limit (requires specific drivers — not supported by default local driver)
+docker volume create \
+  --driver local \
+  --opt o=size=10g \
+  limited-volume
+
+
+# ── docker volume ls ─────────────────────────────────────────────
+
+# List all volumes
+docker volume ls
+
+# Output format:
+# DRIVER    VOLUME NAME
+# local     myvolume
+# local     postgres-data
+# local     redis-data
+
+# Filter volumes by driver
+docker volume ls -f driver=local
+
+# Filter dangling volumes (not referenced by any container)
+docker volume ls -f dangling=true
+
+# Filter by label
+docker volume ls -f label=env=production
+
+# Custom format output
+docker volume ls --format "{{.Name}}: {{.Driver}}"
+docker volume ls --format "table {{.Name}}\t{{.Driver}}\t{{.Mountpoint}}"
+
+# Show only volume names (useful for scripting)
+docker volume ls -q
+
+
+# ── docker volume inspect ────────────────────────────────────────
+
+# Full details of a volume
+docker volume inspect myvolume
+
+# Output:
+# [
+#   {
+#     "CreatedAt": "2024-01-01T10:00:00Z",
+#     "Driver": "local",
+#     "Labels": {},
+#     "Mountpoint": "/var/lib/docker/volumes/myvolume/_data",
+#     "Name": "myvolume",
+#     "Options": {},
+#     "Scope": "local"
+#   }
+# ]
+
+# Extract the mount path (where Docker stores data on host)
+docker volume inspect myvolume --format='{{.Mountpoint}}'
+# Output: /var/lib/docker/volumes/myvolume/_data
+
+# Check volume driver
+docker volume inspect myvolume --format='{{.Driver}}'
+
+# Inspect multiple volumes at once
+docker volume inspect postgres-data redis-data myapp-uploads
+
+
+# ── docker volume rm ─────────────────────────────────────────────
+
+# Remove a specific volume (PERMANENT — data is gone)
+docker volume rm myvolume
+
+# Remove multiple volumes at once
+docker volume rm volume1 volume2 volume3
+
+# Force remove (skip confirmation — use in scripts)
+docker volume rm -f myvolume
+
+# Cannot remove a volume that is currently in use by a container
+# Must stop and remove the container first:
+docker stop mycontainer
+docker rm mycontainer
+docker volume rm myvolume    # now works
+
+# Remove ALL dangling (unused) volumes — safe, they are not referenced
+docker volume prune
+
+# Remove without confirmation prompt (CI/CD scripts)
+docker volume prune -f
+
+# Remove dangling volumes matching a filter
+docker volume prune -f --filter "label=env=dev"
+
+# NUCLEAR: remove ALL volumes (even used ones — DANGER: data loss!)
+# This will fail for in-use volumes unless containers are removed first
+docker volume rm $(docker volume ls -q)
+
+
+# ── USING VOLUMES WITH docker run ────────────────────────────────
+
+# Mount a named volume using -v flag
+# Format: -v VOLUME_NAME:CONTAINER_PATH
+docker run -d -v myvolume:/data ubuntu
+
+# If 'myvolume' doesn't exist, Docker creates it automatically
+docker run -d -v postgres-data:/var/lib/postgresql/data postgres:15
+
+# Mount using --mount flag (explicit, verbose, recommended for production)
+docker run -d \
+  --mount type=volume,source=postgres-data,target=/var/lib/postgresql/data \
+  postgres:15
+
+# Mount as read-only (container can read but cannot write to volume)
+docker run -d -v myvolume:/data:ro ubuntu
+docker run -d \
+  --mount type=volume,source=myvolume,target=/data,readonly \
+  ubuntu
+
+# Mount same volume into multiple containers simultaneously
+docker run -d --name app1 -v shared-data:/app/data myapp:1.0
+docker run -d --name app2 -v shared-data:/app/data myapp:1.0
+# Both containers read/write to the same underlying data
+
+# Anonymous volume (no name — Docker generates a random ID)
+# Useful when you just need isolation from image but don't need to reference it later
+docker run -d -v /var/lib/postgresql/data postgres:15
+# Creates: /var/lib/docker/volumes/a1b2c3d4.../_ data (random name)
+
+
+# ── VOLUME DATA OPERATIONS ────────────────────────────────────────
+
+# Inspect data inside a volume without running your app container
+# Spin up a utility container, mount the volume, explore
+docker run --rm -v postgres-data:/data alpine ls -la /data
+docker run --rm -v postgres-data:/data alpine sh -c "find /data -name '*.conf'"
+
+# Backup a volume to a tar archive on the host
+docker run --rm \
+  -v postgres-data:/source:ro \
+  -v $(pwd):/backup \
+  alpine tar czf /backup/postgres-backup-$(date +%Y%m%d).tar.gz -C /source .
+
+# Restore a volume from a tar archive
+docker run --rm \
+  -v postgres-data:/target \
+  -v $(pwd):/backup:ro \
+  alpine tar xzf /backup/postgres-backup-20240101.tar.gz -C /target
+
+# Copy data between volumes (migrate data)
+docker run --rm \
+  -v source-volume:/source:ro \
+  -v target-volume:/target \
+  alpine cp -r /source/. /target/
+
+# Check volume disk usage
+docker system df -v    # shows volumes and their sizes
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #f0fdf4; border-left: 4px solid #22c55e; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>💡 Anonymous vs Named Volumes:</strong> When you specify <code>-v /var/lib/postgresql/data</code> (no volume name before the colon), Docker creates an <strong>anonymous volume</strong> with a randomly generated hex ID as its name. These are invisible in <code>docker volume ls</code> without <code>-a</code> flag, hard to reference by name, and are removed when you run <code>docker rm -v container</code>. Always use <strong>named volumes</strong> in production — they are explicitly visible, easily backed up, and survive accidental <code>docker rm -v</code>.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Named volumes are Docker-managed persistent storage. Docker stores them at /var/lib/docker/volumes/NAME/_data/ and bind-mounts this directory directly into the container, completely bypassing OverlayFS. This gives native filesystem performance — critical for databases. Named volumes are independent of container lifecycle — deleting a container never deletes its volumes. They support volume drivers for remote storage (NFS, AWS EBS, Azure Files), can be shared between multiple containers, and pre-populate from image content when first mounted to a non-empty image path."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: BIND MOUNTS                                       -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Bind Mounts
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Bind mounts map a <strong>specific directory or file on the host machine</strong> directly into the container's filesystem. Unlike named volumes where Docker manages the storage location, with bind mounts <em>you</em> specify the exact absolute path on the host. Any changes made inside the container at the mount point are immediately reflected on the host, and vice versa — changes on the host are immediately visible inside the container. This two-way real-time sync is what makes bind mounts the essential tool for local development workflows.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Bind Mounts Work</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A bind mount is implemented at the Linux kernel level using the <code>mount --bind</code> syscall. The host directory is literally mounted into the container's namespace at the specified path — there is no copying, no syncing, no intermediate layer. Both the host process and the container process are accessing the exact same filesystem inodes. A file written by the container appears on the host instantly because it IS on the host — the container is just writing directly to the host's filesystem through the mounted namespace.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Primary Use Case — Local Development Hot Reload</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The most powerful use of bind mounts in development is mounting your source code directory into the container. When you save a file in your IDE on the host, the change is instantly visible inside the container. Combined with a file watcher (nodemon, webpack --watch, uvicorn --reload, Air for Go), this gives you a containerized development environment with live hot reload — exactly like developing locally but inside the isolated, reproducible container environment.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── BIND MOUNT SYNTAX ────────────────────────────────────────────
+# -v flag format: -v HOST_ABSOLUTE_PATH:CONTAINER_PATH[:OPTIONS]
+# --mount flag format: --mount type=bind,source=HOST_PATH,target=CONTAINER_PATH
+
+# Basic bind mount — mount current directory into /app inside container
+docker run -d -v $(pwd):/app node:18 node server.js
+
+# Using $PWD (same as $(pwd))
+docker run -d -v $PWD:/app node:18 node server.js
+
+# Using absolute path explicitly
+docker run -d -v /home/user/myproject:/app node:18 node server.js
+
+# Using --mount (explicit, clearer — recommended for production scripts)
+docker run -d \
+  --mount type=bind,source=$(pwd),target=/app \
+  node:18 node server.js
+
+
+# ── DEVELOPMENT HOT RELOAD PATTERN ──────────────────────────────
+
+# Node.js with nodemon — edits to source instantly restart server
+docker run -d \
+  --name dev-server \
+  -v $(pwd):/app \
+  -v /app/node_modules \         # IMPORTANT: exclude node_modules from bind mount
+  -p 3000:3000 \
+  -e NODE_ENV=development \
+  node:18 \
+  sh -c "npm install && npx nodemon server.js"
+
+# Why -v /app/node_modules?
+# When you bind mount $(pwd):/app, it overlays your entire host directory
+# including your local node_modules (which may be wrong platform/arch).
+# Adding -v /app/node_modules creates an ANONYMOUS volume at that path
+# that SHADOWS the bind mount — the container uses its own node_modules
+# installed fresh inside the container, not the host's version.
+
+# Python FastAPI with hot reload
+docker run -d \
+  --name py-api \
+  -v $(pwd):/app \
+  -p 8000:8000 \
+  python:3.11 \
+  sh -c "pip install -r /app/requirements.txt && \
+         uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+# Go with Air (hot reload for Go)
+docker run -d \
+  --name go-api \
+  -v $(pwd):/app \
+  -w /app \
+  -p 8080:8080 \
+  golang:1.21 \
+  sh -c "go install github.com/cosmtrek/air@latest && air"
+
+
+# ── READ-ONLY BIND MOUNTS ────────────────────────────────────────
+# Container can read the host files but CANNOT modify them
+
+# Inject config files that the container reads but should not change
+docker run -d \
+  -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro \
+  -p 80:80 \
+  nginx
+
+# Mount SSL certificates as read-only
+docker run -d \
+  -v /etc/ssl/certs:/etc/ssl/certs:ro \
+  -v $(pwd)/app-cert.pem:/app/cert.pem:ro \
+  -v $(pwd)/app-key.pem:/app/key.pem:ro \
+  -p 443:443 \
+  myapp:1.0
+
+# Mount entire config directory as read-only
+docker run -d \
+  --mount type=bind,source=$(pwd)/config,target=/app/config,readonly \
+  myapp:1.0
+
+
+# ── SINGLE FILE BIND MOUNTS ──────────────────────────────────────
+# You can mount a single file (not just directories)
+# Useful for injecting specific config files without mounting entire directories
+
+# Mount a single nginx config file
+docker run -d \
+  -v $(pwd)/my-nginx.conf:/etc/nginx/conf.d/default.conf:ro \
+  -p 80:80 \
+  nginx
+
+# Mount a single env file
+docker run -d \
+  -v $(pwd)/.env.prod:/app/.env:ro \
+  myapp:1.0
+
+# Mount /etc/hosts to add custom DNS entries
+docker run -d \
+  -v $(pwd)/custom-hosts:/etc/hosts:ro \
+  myapp:1.0
+
+# Mount /etc/localtime for correct timezone
+docker run -d \
+  -v /etc/localtime:/etc/localtime:ro \
+  myapp:1.0
+
+
+# ── MULTIPLE BIND MOUNTS ─────────────────────────────────────────
+
+# Mount source code + config + logs separately
+docker run -d \
+  --name myapp \
+  -v $(pwd)/src:/app/src \
+  -v $(pwd)/config:/app/config:ro \
+  -v $(pwd)/logs:/app/logs \
+  -p 3000:3000 \
+  myapp:dev
+
+
+# ── INSPECTING BIND MOUNTS ON A RUNNING CONTAINER ────────────────
+
+# See all mounts (volumes and bind mounts)
+docker inspect myapp --format='{{json .Mounts}}' | python3 -m json.tool
+
+# Output for a bind mount:
+# {
+#   "Type": "bind",
+#   "Source": "/home/user/myproject",   ← host path
+#   "Destination": "/app",              ← container path
+#   "Mode": "rw",                       ← read-write or ro
+#   "RW": true,
+#   "Propagation": "rprivate"
+# }
+
+
+# ── BIND MOUNT PERFORMANCE TUNING (macOS) ────────────────────────
+# macOS Docker Desktop performance options for bind mounts:
+# (these go in docker-compose.yml or --mount flag)
+
+# :cached — host → container sync is async (container reads may be stale briefly)
+#           Best for: reading large files into container (e.g., dependencies)
+docker run -d -v $(pwd):/app:cached node:18 node server.js
+
+# :delegated — container → host sync is async (host reads may be stale briefly)
+#              Best for: container generates lots of files, host reads occasionally
+docker run -d -v $(pwd):/app:delegated node:18 node server.js
+
+# :consistent — fully synchronized (default) — safest but slowest on macOS
+docker run -d -v $(pwd):/app:consistent node:18 node server.js
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Named Volumes vs Bind Mounts — When to Use Which</h5>
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Aspect</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Named Volumes ✅ Production</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Bind Mounts ✅ Development</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;">Storage Location</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker managed</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Any host path you specify</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;">Portability</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Works on any OS identically</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Host paths differ per OS</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;">Host Access</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Hidden (Docker internal)</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Full direct host access</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;">Initial Content</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Pre-populated from image</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Shows host directory content</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;">Performance</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Native (no OverlayFS)</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Native (direct kernel mount)</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;">Security</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Isolated, Docker manages</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Container touches host fs directly</td></tr>
+        <tr><td style="padding:0.5rem;border:1px solid #d4d4d8;">Backup</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Via docker run utility container</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Direct host file system tools</td></tr>
+        <tr style="background:#fafafa"><td style="padding:0.5rem;border:1px solid #d4d4d8;">Best For</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Databases, production data</td><td style="padding:0.5rem;border:1px solid #d4d4d8;">Source code sync, config injection</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Bind Mount Security Warning:</strong> Bind mounts give the container process direct access to your host filesystem. A container running as root with a bind mount to <code>/</code> (root of host) can read and modify ANY file on your host. Always: (1) use read-only mounts (<code>:ro</code>) when the container only needs to read files, (2) run containers as non-root users (<code>--user</code>), (3) mount only the specific directory needed — never bind mount the host root or home directory in production.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Bind mounts map a specific host path directly into the container using a Linux kernel bind mount — both host and container access the exact same filesystem inodes with no copying or syncing. Changes are bidirectional and instantaneous. Primary use case: local development where you mount source code into the container and combine it with a file watcher for hot reload. Key difference from named volumes: you control the path (host-path-dependent, less portable), the container sees existing host directory content (not image content), and the container has direct access to your host filesystem (security implication). Use named volumes for production data, bind mounts for development workflows."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: PERSISTING DATABASE DATA                          -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Persisting Database Data
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Databases are the most critical use case for Docker volumes. A containerized database without a volume is a time bomb — every container restart, upgrade, or crash wipes the entire database. Getting database persistence right means understanding exactly which directory each database uses to store its files, and how Docker volumes interact with official database images on first run.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The Volume Pre-Population Behavior — Critical to Understand</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Official database images declare their data directory as a <code>VOLUME</code> in their Dockerfile. When Docker starts a container and mounts an <em>empty</em> named volume to that path, it <strong>copies the directory's existing image content into the volume first</strong>. For a Postgres image, this seeds the volume with the initial database cluster files. On subsequent starts with the same volume, Docker sees the volume already has content and does NOT overwrite it — your data is preserved. This is the key mechanism that makes database containers work correctly.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ════════════════════════════════════════════════════════════════
+# POSTGRESQL — Production Setup
+# ════════════════════════════════════════════════════════════════
+
+# PostgreSQL stores data at: /var/lib/postgresql/data
+
+# Step 1: Create a dedicated named volume
+docker volume create postgres-data
+
+# Step 2: Run PostgreSQL with the volume
+docker run -d \
+  --name postgres-db \
+  --restart unless-stopped \
+  -e POSTGRES_DB=myappdb \
+  -e POSTGRES_USER=myuser \
+  -e POSTGRES_PASSWORD=securepassword123 \
+  -v postgres-data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:15-alpine
+
+# Step 3: Wait for PostgreSQL to initialize and verify it's running
+docker logs -f postgres-db
+# Look for: "database system is ready to accept connections"
+
+# Step 4: Connect and create some data
+docker exec -it postgres-db psql -U myuser -d myappdb
+# Inside psql:
+# CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(100));
+# INSERT INTO users (name) VALUES ('Alice'), ('Bob'), ('Charlie');
+# SELECT * FROM users;
+# \q
+
+# Step 5: Prove persistence — remove and recreate the container
+docker rm -f postgres-db
+docker run -d \
+  --name postgres-db \
+  --restart unless-stopped \
+  -e POSTGRES_DB=myappdb \
+  -e POSTGRES_USER=myuser \
+  -e POSTGRES_PASSWORD=securepassword123 \
+  -v postgres-data:/var/lib/postgresql/data \  # same volume!
+  -p 5432:5432 \
+  postgres:15-alpine
+
+# Step 6: Verify data survived
+docker exec -it postgres-db psql -U myuser -d myappdb -c "SELECT * FROM users;"
+# Returns Alice, Bob, Charlie — data is intact ✅
+
+# Step 7: Upgrade PostgreSQL version (data migration)
+docker rm -f postgres-db
+docker run -d \
+  --name postgres-db \
+  -e POSTGRES_DB=myappdb \
+  -e POSTGRES_USER=myuser \
+  -e POSTGRES_PASSWORD=securepassword123 \
+  -v postgres-data:/var/lib/postgresql/data \  # same data, new version
+  postgres:16-alpine                            # upgraded from 15 → 16
+
+
+# ════════════════════════════════════════════════════════════════
+# MYSQL / MARIADB — Production Setup
+# ════════════════════════════════════════════════════════════════
+
+# MySQL stores data at: /var/lib/mysql
+
+docker volume create mysql-data
+
+docker run -d \
+  --name mysql-db \
+  --restart unless-stopped \
+  -e MYSQL_ROOT_PASSWORD=rootpassword \
+  -e MYSQL_DATABASE=myappdb \
+  -e MYSQL_USER=myuser \
+  -e MYSQL_PASSWORD=userpassword \
+  -v mysql-data:/var/lib/mysql \
+  -p 3306:3306 \
+  mysql:8.0
+
+# Connect and verify
+docker exec -it mysql-db mysql -u myuser -puserpassword myappdb
+# Inside mysql:
+# SHOW TABLES;
+# CREATE TABLE products (id INT PRIMARY KEY, name VARCHAR(100));
+# INSERT INTO products VALUES (1, 'Widget'), (2, 'Gadget');
+# SELECT * FROM products;
+# exit;
+
+# MariaDB (same data directory, drop-in MySQL replacement)
+docker run -d \
+  --name mariadb \
+  --restart unless-stopped \
+  -e MARIADB_ROOT_PASSWORD=rootpassword \
+  -e MARIADB_DATABASE=myappdb \
+  -e MARIADB_USER=myuser \
+  -e MARIADB_PASSWORD=userpassword \
+  -v mysql-data:/var/lib/mysql \
+  mariadb:10.11
+
+
+# ════════════════════════════════════════════════════════════════
+# MONGODB — Production Setup
+# ════════════════════════════════════════════════════════════════
+
+# MongoDB stores data at: /data/db
+
+docker volume create mongo-data
+
+docker run -d \
+  --name mongodb \
+  --restart unless-stopped \
+  -e MONGO_INITDB_ROOT_USERNAME=admin \
+  -e MONGO_INITDB_ROOT_PASSWORD=adminpassword \
+  -e MONGO_INITDB_DATABASE=myappdb \
+  -v mongo-data:/data/db \
+  -p 27017:27017 \
+  mongo:7.0
+
+# Connect via mongosh
+docker exec -it mongodb mongosh \
+  --username admin \
+  --password adminpassword \
+  --authenticationDatabase admin
+
+
+# ════════════════════════════════════════════════════════════════
+# REDIS — Production Setup
+# ════════════════════════════════════════════════════════════════
+
+# Redis stores data at: /data (when persistence is enabled)
+# Redis supports two persistence modes:
+# RDB: periodic snapshots → dump.rdb
+# AOF: Append-Only File — logs every write operation → appendonly.aof
+
+docker volume create redis-data
+
+# Enable both RDB + AOF persistence
+docker run -d \
+  --name redis \
+  --restart unless-stopped \
+  -v redis-data:/data \
+  -p 6379:6379 \
+  redis:7.2-alpine \
+  redis-server \
+    --appendonly yes \          # enable AOF persistence
+    --appendfsync everysec \    # sync AOF to disk every second
+    --save 900 1 \              # RDB: save if 1 change in 900 seconds
+    --save 300 10 \             # RDB: save if 10 changes in 300 seconds
+    --requirepass redispassword # password protection
+
+# Without persistence flags, Redis is purely in-memory and loses data on restart!
+
+
+# ════════════════════════════════════════════════════════════════
+# DATABASE BACKUP AND RESTORE PATTERNS
+# ════════════════════════════════════════════════════════════════
+
+# ── PostgreSQL Backup ────────────────────────────────────────────
+
+# Logical backup using pg_dump (SQL format)
+docker exec postgres-db pg_dump \
+  -U myuser \
+  -d myappdb \
+  --format=custom \
+  --compress=9 \
+  > backup-$(date +%Y%m%d-%H%M%S).dump
+
+# Restore from logical backup
+docker exec -i postgres-db pg_restore \
+  -U myuser \
+  -d myappdb \
+  --clean \
+  --if-exists \
+  < backup-20240101-100000.dump
+
+# Physical backup — backup the entire volume
+docker run --rm \
+  -v postgres-data:/source:ro \
+  -v $(pwd)/backups:/backup \
+  alpine \
+  tar czf /backup/postgres-$(date +%Y%m%d).tar.gz -C /source .
+
+# ── MySQL Backup ─────────────────────────────────────────────────
+
+# mysqldump backup
+docker exec mysql-db mysqldump \
+  -u myuser \
+  -puserpassword \
+  --single-transaction \
+  --routines \
+  --triggers \
+  myappdb > backup-$(date +%Y%m%d).sql
+
+# Restore
+docker exec -i mysql-db mysql \
+  -u myuser \
+  -puserpassword \
+  myappdb < backup-20240101.sql
+
+# ── MongoDB Backup ───────────────────────────────────────────────
+
+# mongodump backup
+docker exec mongodb mongodump \
+  --username admin \
+  --password adminpassword \
+  --authenticationDatabase admin \
+  --db myappdb \
+  --out /tmp/dump
+
+docker cp mongodb:/tmp/dump ./mongo-backup-$(date +%Y%m%d)
+
+# mongorestore
+docker cp ./mongo-backup-20240101 mongodb:/tmp/restore
+docker exec mongodb mongorestore \
+  --username admin \
+  --password adminpassword \
+  --authenticationDatabase admin \
+  /tmp/restore
+
+
+# ════════════════════════════════════════════════════════════════
+# TMPFS MOUNTS — RAM-Based Temporary Storage
+# ════════════════════════════════════════════════════════════════
+
+# tmpfs stores data in host RAM — never written to disk
+# Perfect for: secrets, session tokens, temp files with sensitive data
+
+# Run with tmpfs at /tmp
+docker run -d \
+  --name secure-app \
+  --tmpfs /tmp:rw,size=100m,mode=1777 \
+  myapp:1.0
+
+# Using --mount syntax
+docker run -d \
+  --mount type=tmpfs,destination=/tmp,tmpfs-size=104857600 \
+  myapp:1.0
+
+# tmpfs for secrets processing (data never touches disk)
+docker run -d \
+  --tmpfs /run/secrets:ro,size=10m \
+  myapp:1.0
+
+# Key properties:
+# - Blazing fast (RAM speed)
+# - Completely cleared on container stop/restart
+# - Never written to disk (good for secrets)
+# - Size-limited (can't accidentally fill host disk)
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Volume Management in Docker Compose</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    In real projects, volumes are almost always defined in <code>docker-compose.yml</code> rather than managed manually. Docker Compose makes volume management declarative, repeatable, and version-controlled.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# docker-compose.yml — Complete volumes example
+
+services:
+
+  # Application service with bind mount for development
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app                    # bind mount: source code for hot reload
+      - /app/node_modules         # anonymous volume: isolate container's node_modules
+      - app-logs:/app/logs        # named volume: persist logs
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # PostgreSQL with named volume
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: myappdb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: securepassword
+    volumes:
+      - postgres-data:/var/lib/postgresql/data    # named volume
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro  # init script bind mount
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d myappdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis with persistence
+  redis:
+    image: redis:7.2-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass redispassword
+    volumes:
+      - redis-data:/data           # named volume for AOF/RDB files
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispassword", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Nginx reverse proxy with config bind mount
+  nginx:
+    image: nginx:1.25-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro    # bind: config injection
+      - ./nginx/ssl:/etc/ssl/nginx:ro                  # bind: SSL certificates
+      - nginx-logs:/var/log/nginx                      # named: persist access logs
+
+# ── Volume Definitions ────────────────────────────────────────────
+volumes:
+  postgres-data:                  # simple named volume (Docker manages everything)
+    driver: local
+
+  redis-data:
+    driver: local
+
+  app-logs:
+    driver: local
+
+  nginx-logs:
+    driver: local
+
+  # External volume (pre-created outside Compose, not managed by Compose)
+  # Use when volume already exists and shouldn't be auto-created or deleted
+  production-db:
+    external: true
+
+  # NFS volume (store data on remote NFS server)
+  shared-files:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=192.168.1.100,rw
+      device: ":/mnt/shared"
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Common Mistake — Forgetting to Create the Volume Before docker rm:</strong> Running <code>docker rm -v mycontainer</code> (with the <code>-v</code> flag) deletes the container AND its anonymous volumes. Named volumes are NOT deleted by <code>docker rm -v</code>. However, if you use <code>docker-compose down -v</code>, it deletes ALL volumes defined in the Compose file — including named ones with your database data. In production: never run <code>docker-compose down -v</code> unless you intend to wipe all data. Use just <code>docker-compose down</code> to preserve volumes.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "For database persistence, always use named volumes mapped to the database's data directory: Postgres at /var/lib/postgresql/data, MySQL at /var/lib/mysql, MongoDB at /data/db, Redis at /data with --appendonly yes. Official database images declare these paths as VOLUMEs in their Dockerfiles. When an empty named volume is first mounted to a path with existing image content, Docker pre-populates the volume from the image — this seeds the initial database cluster. On subsequent container starts with the same volume, data is preserved. For Redis specifically, persistence must be explicitly enabled via redis-server --appendonly yes — without this flag, all Redis data is in-memory only and is lost on restart."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER VOLUMES WORKFLOW
+# From understanding the problem to production database setup
+# ══════════════════════════════════════════════════════════════
+
+
+# ── PART 1: Prove the Problem ─────────────────────────────────────
+
+echo "=== Demonstrating data loss without volumes ==="
+docker run --name no-volume-demo ubuntu \
+  bash -c "echo 'this data will vanish' > /important.txt && cat /important.txt"
+
+docker rm no-volume-demo
+
+docker run --rm ubuntu \
+  bash -c "cat /important.txt 2>/dev/null || echo 'DATA IS GONE'"
+# Output: DATA IS GONE ❌
+
+
+# ── PART 2: Named Volume Basics ───────────────────────────────────
+
+echo "=== Named volume persists across containers ==="
+
+# Create and use a volume
+docker volume create app-data
+docker run --rm -v app-data:/data ubuntu \
+  bash -c "echo 'persisted data' > /data/file.txt"
+
+# New container — different ID, data still there
+docker run --rm -v app-data:/data ubuntu cat /data/file.txt
+# Output: persisted data ✅
+
+# Inspect where Docker stores it
+docker volume inspect app-data --format='Stored at: {{.Mountpoint}}'
+
+# Clean up
+docker volume rm app-data
+
+
+# ── PART 3: Full PostgreSQL Persistence Setup ─────────────────────
+
+echo "=== Setting up PostgreSQL with persistence ==="
+
+# Create dedicated volume
+docker volume create postgres-data
+
+# Start PostgreSQL
+docker run -d \
+  --name pgdb \
+  --restart unless-stopped \
+  -e POSTGRES_DB=shop \
+  -e POSTGRES_USER=shopuser \
+  -e POSTGRES_PASSWORD=shoppass \
+  -v postgres-data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:15-alpine
+
+# Wait for it to be ready
+echo "Waiting for PostgreSQL..."
+until docker exec pgdb pg_isready -U shopuser -d shop 2>/dev/null; do
+  sleep 1
+done
+echo "PostgreSQL is ready!"
+
+# Create table and insert data
+docker exec pgdb psql -U shopuser -d shop -c "
+  CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT NOW()
+  );
+  INSERT INTO products (name, price) VALUES
+    ('Widget A', 9.99),
+    ('Gadget B', 24.99),
+    ('Doohickey C', 4.99);
+  SELECT * FROM products;
+"
+
+# Simulate upgrade: remove container, keep volume
+echo "Simulating container upgrade..."
+docker rm -f pgdb
+
+# Start fresh container with same volume (data survives!)
+docker run -d \
+  --name pgdb \
+  --restart unless-stopped \
+  -e POSTGRES_DB=shop \
+  -e POSTGRES_USER=shopuser \
+  -e POSTGRES_PASSWORD=shoppass \
+  -v postgres-data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:15-alpine
+
+until docker exec pgdb pg_isready -U shopuser -d shop 2>/dev/null; do sleep 1; done
+
+# Verify data survived the container replacement
+docker exec pgdb psql -U shopuser -d shop -c "SELECT * FROM products;"
+# All 3 products still there ✅
+
+
+# ── PART 4: Bind Mount Development Setup ──────────────────────────
+
+echo "=== Development setup with bind mount ==="
+
+mkdir -p ./myapp/src
+cat > ./myapp/src/server.js << 'EOF'
+const http = require('http');
+const port = 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello from Docker! Edit this file to see hot reload.');
+}).listen(port, () => console.log('Server running on port ' + port));
+EOF
+
+# Run with bind mount for live development
+docker run -d \
+  --name dev-app \
+  -v $(pwd)/myapp:/app \
+  -v /app/node_modules \
+  -p 3000:3000 \
+  -w /app/src \
+  node:18-alpine \
+  sh -c "npm init -y 2>/dev/null; node server.js"
+
+echo "Edit ./myapp/src/server.js and the container sees changes immediately!"
+curl http://localhost:3000
+
+
+# ── PART 5: Volume Backup ─────────────────────────────────────────
+
+echo "=== Backing up PostgreSQL volume ==="
+
+mkdir -p ./backups
+
+# Backup using utility container
+docker run --rm \
+  -v postgres-data:/source:ro \
+  -v $(pwd)/backups:/backup \
+  alpine \
+  tar czf /backup/postgres-$(date +%Y%m%d-%H%M%S).tar.gz -C /source .
+
+ls -lh ./backups/
+# Output: postgres-20240101-120000.tar.gz (volume backup file)
+
+
+# ── PART 6: Cleanup ───────────────────────────────────────────────
+
+docker rm -f pgdb dev-app
+docker volume rm postgres-data
+docker volume prune -f
+rm -rf ./myapp ./backups`,
+            ],
+
+            questions: [
+              {
+                question:
+                  "Why do Docker containers lose data when removed? Is this a bug or a feature?",
+                solution:
+                  "<p>It is intentional design — a deliberate architectural feature, not a bug. Docker containers are built on the principle of <strong>immutable infrastructure</strong>: containers should be disposable, interchangeable units that can be killed and replaced at any time without consequence. All container writes go to a thin <strong>writable layer</strong> (OverlayFS upperdir) on top of the image's read-only layers. When <code>docker rm</code> is run, this writable layer is deleted. This design enforces several important properties: (1) <strong>Reproducibility</strong> — any replacement container starts from the same clean image state, (2) <strong>Horizontal scaling</strong> — if containers stored state internally, you couldn't run multiple identical instances, (3) <strong>Fast deployment</strong> — no state migration needed when deploying new versions. Stateful data that needs to survive belongs in volumes (Docker-managed), bind mounts (host paths), or external storage systems (databases, object storage), not in the container filesystem.</p>",
+              },
+              {
+                question:
+                  "What is the difference between a Named Volume and a Bind Mount?",
+                solution:
+                  "<p><strong>Named Volumes</strong>: Docker completely manages the storage location (<code>/var/lib/docker/volumes/NAME/_data/</code>). You refer to it by name, not path. Docker handles creation, location, and cleanup. When first mounted to a path that has existing image content, Docker pre-populates the volume from the image. Fully portable across operating systems — same syntax works on Linux, macOS, and Windows. Best for: production database data, application state, any data Docker fully owns. <strong>Bind Mounts</strong>: You specify an exact absolute path on the host. The container accesses your actual host filesystem directly — writes in the container appear on the host instantly and vice versa. Host-path-dependent, so less portable. Pre-existing host directory content is immediately visible to the container (does NOT get pre-populated from image). Best for: development source code sync (hot reload), injecting config files, CI/CD artifact collection. Security note: bind mounts give the container direct access to your host filesystem — always use read-only (<code>:ro</code>) when writes aren't needed.</p>",
+              },
+              {
+                question:
+                  "Explain how volume pre-population works in Docker. Why is it important for databases?",
+                solution:
+                  "<p>When Docker mounts a <em>named volume</em> to a container path, it checks: (1) Is the volume empty? (2) Does the container image have content at that mount path? If BOTH conditions are true — volume is empty AND image has content at that path — Docker copies the image's directory contents into the volume before starting the container. This pre-population happens exactly <strong>once</strong>: on subsequent runs with the same non-empty volume, Docker skips the copy entirely and uses the existing volume data. This is critical for databases because official images (postgres, mysql, mongodb) ship with pre-initialized data directory structures inside the image. When you first run <code>docker run -v postgres-data:/var/lib/postgresql/data postgres:15</code> with an empty volume, Docker seeds the volume with Postgres's initial cluster files. On every subsequent start, Postgres finds its existing data files in the volume and continues from where it left off. Important: this pre-population does NOT happen with bind mounts — bind mounts always show whatever is currently in the host directory, overriding image content.</p>",
+              },
+              {
+                question:
+                  "What is a dangling volume and how do you clean them up?",
+                solution:
+                  "<p>A <strong>dangling volume</strong> is a named volume that is no longer referenced by any container — it exists in Docker's volume list but no running or stopped container is using it. Dangling volumes accumulate when: containers are removed with <code>docker rm</code> (volumes are kept), anonymous volumes are created by <code>-v /container/path</code> syntax without a name, or volumes are explicitly created but never used. They waste disk space silently. Identify them: <code>docker volume ls -f dangling=true</code>. Clean up: <code>docker volume prune</code> removes all dangling volumes (safe — they have no containers). <code>docker volume prune -f</code> skips the confirmation prompt. <strong>Important distinction</strong>: <code>docker rm container</code> never deletes named volumes. <code>docker rm -v container</code> deletes the container AND its anonymous volumes but NOT named volumes. <code>docker volume rm volume-name</code> permanently deletes a specific named volume and all its data — be careful with this in production.</p>",
+              },
+              {
+                question:
+                  "What are the correct data directories to mount for popular databases?",
+                solution:
+                  "<p>Each database stores its data files at a specific path that must be mounted with a volume for persistence: <strong>PostgreSQL</strong>: <code>/var/lib/postgresql/data</code> — contains the database cluster (tables, indexes, WAL files, config). <strong>MySQL/MariaDB</strong>: <code>/var/lib/mysql</code> — contains all databases, their tables, and InnoDB files. <strong>MongoDB</strong>: <code>/data/db</code> — contains BSON data files and journal. <strong>Redis</strong>: <code>/data</code> — contains <code>dump.rdb</code> (snapshot) and <code>appendonly.aof</code> (AOF log). Redis requires explicit persistence flags: <code>--appendonly yes</code> for AOF and <code>--save</code> options for RDB. Without these flags Redis is purely in-memory and loses all data on restart. <strong>Elasticsearch</strong>: <code>/usr/share/elasticsearch/data</code>. <strong>Cassandra</strong>: <code>/var/lib/cassandra</code>. Memorizing these paths is practically important — a wrong mount path means data silently goes to the writable layer and is lost on removal.</p>",
+              },
+              {
+                question: "What is a tmpfs mount? When would you use it?",
+                solution:
+                  "<p>A <strong>tmpfs mount</strong> stores data in the host's RAM — it is never written to disk under any circumstances. When the container stops, the tmpfs data vanishes completely (not even a trace on disk). Characteristics: extremely fast (RAM speed), size-limited, completely ephemeral, OS-exclusive (only works on Linux hosts). Use cases: (1) <strong>Sensitive/secret data</strong> — API keys, tokens, passwords that must never touch disk (not even in swap). (2) <strong>High-speed temporary files</strong> — compilation artifacts, image processing temp files, session data that needs speed but not persistence. (3) <strong>Security compliance</strong> — regulatory requirements that data must not be written to persistent storage. (4) <strong>Writable layer for read-only containers</strong> — combine <code>--read-only</code> (makes root filesystem read-only) with <code>--tmpfs /tmp</code> (gives a writable temp area) for a security-hardened container. Syntax: <code>docker run --tmpfs /tmp:rw,size=100m myapp</code>. Unlike volumes and bind mounts, tmpfs is not shared between containers.</p>",
+              },
+              {
+                question:
+                  "How do you back up and restore data in a Docker volume?",
+                solution:
+                  "<p>Since volumes live in <code>/var/lib/docker/volumes/</code> on Linux, you can access them directly from the host (root required). But the portable, OS-independent pattern is using a utility container: <strong>Backup</strong>: <code>docker run --rm -v SOURCE_VOLUME:/source:ro -v $(pwd)/backups:/backup alpine tar czf /backup/backup.tar.gz -C /source .</code> — this spins up a minimal Alpine container, mounts the source volume as read-only and a host backup directory, then uses tar to archive the volume contents. <strong>Restore</strong>: <code>docker run --rm -v TARGET_VOLUME:/target -v $(pwd)/backups:/backup:ro alpine tar xzf /backup/backup.tar.gz -C /target</code>. For databases, always prefer native backup tools (pg_dump, mysqldump, mongodump) over raw volume backups because they produce consistent logical backups independent of database version. Raw volume backups of running databases can produce inconsistent snapshots if data is being written during the backup. Always stop the database or use database-native backup mechanisms for production backups.</p>",
+              },
+              {
+                question:
+                  "What is the node_modules volume trick in development? Why is it needed?",
+                solution:
+                  "<p>The pattern is: <code>docker run -v $(pwd):/app -v /app/node_modules node:18 npm start</code>. The second <code>-v /app/node_modules</code> (no host path) creates an anonymous volume at <code>/app/node_modules</code> inside the container. This volume <strong>shadows (overrides)</strong> the bind mount at that specific subdirectory. Without this trick: when you bind mount <code>$(pwd):/app</code>, the host's entire directory — including your locally installed <code>node_modules</code> from <code>npm install</code> on macOS/Windows — is mounted into the container. But those node_modules may have: wrong platform binaries (macOS .dylib vs Linux .so), wrong architecture (arm64 vs amd64), or be completely absent. The anonymous volume at <code>/app/node_modules</code> ensures the container uses its OWN node_modules that were installed during <code>docker build</code> or at container startup — compiled for the correct Linux platform — while still getting live source code updates from the bind mount of everything else.</p>",
+              },
+              {
+                question:
+                  "How is docker volume rm different from docker system prune?",
+                solution:
+                  "<p><code>docker volume rm VOLUME_NAME</code> — permanently deletes one specific named volume and all its data. Requires you to know the volume name. Will fail if any container (even stopped) is using the volume. This is a precise surgical deletion. <code>docker volume prune</code> — removes all <em>dangling</em> volumes (volumes with no container references). Does NOT remove volumes that are referenced by stopped containers. Safe to run regularly in development to clean up orphaned volumes. <code>docker volume prune -a</code> — removes ALL volumes not used by at least one running container. Dangerous if you have stopped containers referencing volumes with important data. <code>docker system prune</code> — removes stopped containers, unused networks, dangling images, and dangling build cache, but does NOT touch volumes by default. <code>docker system prune --volumes</code> — same as above PLUS removes all dangling volumes. <code>docker compose down</code> — stops and removes containers, networks, but preserves volumes by default. <code>docker compose down -v</code> — also removes all volumes defined in the compose file. This is the most dangerous command for data loss in a compose-managed project.</p>",
+              },
+              {
+                question:
+                  "How would you share data between two running containers?",
+                solution:
+                  "<p>Three approaches: (1) <strong>Named Volume (recommended)</strong>: mount the same named volume into both containers: <code>docker run -d -v shared-data:/app/data container1</code> and <code>docker run -d -v shared-data:/app/data container2</code>. Both containers read/write to the same underlying directory. Important: if both write simultaneously, you need application-level locking to prevent corruption — Docker provides no built-in write coordination. (2) <strong>Bind Mount</strong>: mount the same host directory into both containers: <code>docker run -d -v /host/shared:/data container1</code> and <code>docker run -d -v /host/shared:/data container2</code>. Same caveat about concurrent writes. (3) <strong>volumes-from</strong>: <code>docker run --volumes-from container1 container2</code> — Container2 gets all volume mounts from Container1. Useful for sidecar patterns (a logging or monitoring container accessing the same volumes as the main app). In Docker Compose, shared volumes are defined at the top-level <code>volumes:</code> section and referenced by multiple services.</p>",
+              },
+              {
+                question:
+                  "What is the -v flag vs the --mount flag? Which should you use?",
+                solution:
+                  "<p>Both achieve the same result but with different syntax and clarity. <strong><code>-v</code> flag</strong> (short syntax): <code>-v source:target:options</code>. Compact, quick to type. The type is inferred: if source starts with <code>/</code> or <code>./</code>, it's a bind mount; if source is a volume name (no slash), it's a named volume; if there's no source (just <code>-v /target</code>), it's an anonymous volume. The inference can be confusing and error-prone. <strong><code>--mount</code> flag</strong> (long syntax): <code>--mount type=volume,source=name,target=/path</code> or <code>--mount type=bind,source=/host/path,target=/container/path</code>. Fully explicit — type, source, target, and options are named key-value pairs. No ambiguity, no inference. Easier to read, easier to audit, better for production scripts and documentation. <strong>Recommendation</strong>: use <code>-v</code> for quick development commands, use <code>--mount</code> in production scripts, CI/CD pipelines, and documentation where clarity matters. The Docker team has stated <code>--mount</code> is the preferred modern syntax for its explicitness.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/storage/volumes/",
+              "https://docs.docker.com/storage/bind-mounts/",
+              "https://docs.docker.com/storage/tmpfs/",
+              "https://docs.docker.com/engine/reference/commandline/volume_create/",
+              "https://hub.docker.com/_/postgres",
+              "https://hub.docker.com/_/mysql",
+              "https://hub.docker.com/_/mongo",
+              "https://hub.docker.com/_/redis",
+            ],
+          },
+          {
+            topic: "Docker Networking",
+            tags: [
+              "docker",
+              "networking",
+              "bridge",
+              "port-mapping",
+              "devops",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker Networking is the system that controls how containers communicate with each other, with the host machine, and with the outside world. Every container is an isolated process with its own network namespace — its own virtual network interface, its own IP address, its own routing table, completely separate from the host and from other containers. Docker's networking layer builds virtual networks on top of this isolation, allowing you to precisely control which containers can talk to which, how services are exposed externally, and how traffic flows through your entire application. Understanding Docker networking deeply — the different network drivers, how DNS resolution works between containers, how port mapping is implemented at the kernel level, and how to design network topologies for multi-service applications — is essential for production Docker deployments and consistently appears in senior DevOps and backend engineering interviews.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: CONTAINER COMMUNICATION                           -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Container Communication
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Before diving into specific network types, you need to understand the fundamental networking model Docker uses — how containers get network identities, how traffic flows between them, and why the default behavior isolates containers from each other.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Docker Isolates Container Networks — Linux Network Namespaces</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When Docker creates a container, it creates a dedicated <strong>Linux network namespace</strong> for it. A network namespace is a complete, isolated copy of the Linux network stack: its own set of network interfaces (e.g., <code>eth0</code>), its own IP address, its own routing table, its own iptables rules, and its own ARP table. From inside the container, it appears to have its own dedicated network hardware — it has no visibility into the host's network interfaces or into other containers' network namespaces. This is the same isolation mechanism used by VMs, but implemented at the kernel level with zero overhead.
+  </p>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Docker connects these isolated network namespaces together using <strong>virtual Ethernet pairs (veth pairs)</strong>. A veth pair is like a virtual network cable — two virtual network interfaces that are linked together: anything written to one end immediately appears on the other. Docker creates one end of the veth pair inside the container (appears as <code>eth0</code>) and the other end on the host, connected to a virtual switch (Docker's bridge network). This is how the container gets connectivity to the outside world while remaining in its own isolated namespace.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The Five Docker Network Drivers</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker ships with five built-in network drivers, each with completely different connectivity characteristics. Choosing the right driver is a fundamental architecture decision:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">bridge (default):</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Creates a virtual switch (Linux bridge) on the host. Containers connected to the same bridge can communicate. Containers on different bridges are isolated from each other. This is the default for all containers that don't specify a network. There is an important distinction between the default bridge and user-defined bridges — covered in depth in Section 2.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">host:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Removes all network isolation — the container shares the host's network stack directly. No virtual network interface, no separate IP, no port mapping needed. The container uses the host's actual IP address and opens ports directly on the host. Maximum network performance (no virtual switch overhead) but zero network isolation. Use case: network performance-critical applications, monitoring agents that need to observe host network traffic.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">none:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Complete network isolation — the container gets its own network namespace but no interfaces are created (except loopback). No internet access, no container-to-container communication. The container is completely network-isolated. Use case: batch processing jobs that operate only on mounted files, security-sensitive workloads that must not have any network access.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">overlay:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Creates a distributed network that spans multiple Docker hosts (machines). Used in Docker Swarm and Kubernetes for multi-host container communication. Encapsulates container traffic in VXLAN packets that travel over the physical network between hosts. Containers on different physical machines communicate as if they're on the same LAN. Use case: production microservices deployed across multiple servers.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">macvlan:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Assigns a real MAC address to the container, making it appear as a physical device directly on the physical network. Containers get IPs from the physical network's DHCP server and are directly accessible from the LAN without port mapping. Use case: legacy applications that expect to be on a physical network, network appliances that need direct LAN access.</p>
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# ── docker network ls ────────────────────────────────────────────
+# List all networks on this Docker host
+
+docker network ls
+
+# Default output after fresh Docker install:
+# NETWORK ID     NAME      DRIVER    SCOPE
+# a1b2c3d4e5f6   bridge    bridge    local   ← default bridge network
+# b2c3d4e5f6a7   host      host      local   ← host network (no isolation)
+# c3d4e5f6a7b8   none      null      local   ← null network (total isolation)
+
+# List with full IDs (not truncated)
+docker network ls --no-trunc
+
+# Filter by driver type
+docker network ls -f driver=bridge
+docker network ls -f driver=overlay
+
+# Filter by scope (local vs swarm)
+docker network ls -f scope=local
+docker network ls -f scope=swarm
+
+# Custom format output
+docker network ls --format "table {{.Name}}\t{{.Driver}}\t{{.Scope}}"
+docker network ls --format "{{.ID}}: {{.Name}} ({{.Driver}})"
+
+# Show only network IDs (for scripting)
+docker network ls -q
+
+
+# ── docker network inspect ───────────────────────────────────────
+# Full details: subnet, gateway, connected containers, options
+
+docker network inspect bridge
+
+# Inspect output includes:
+# - Name, ID, Created timestamp
+# - Driver and Scope
+# - IPAM config: Subnet (172.17.0.0/16), Gateway (172.17.0.1)
+# - Options (com.docker.network.bridge.name = docker0)
+# - Containers: each container connected, with its IPv4 address and MAC
+
+# Inspect a specific user-defined network
+docker network inspect my-app-network
+
+# Extract just the subnet
+docker network inspect bridge \
+  --format='{{range .IPAM.Config}}{{.Subnet}}{{end}}'
+
+# Extract just the gateway
+docker network inspect bridge \
+  --format='{{range .IPAM.Config}}{{.Gateway}}{{end}}'
+
+# List all containers connected to a network with their IPs
+docker network inspect my-app-network \
+  --format='{{json .Containers}}' | python3 -m json.tool
+
+# Inspect multiple networks at once
+docker network inspect bridge host none
+
+
+# ── CONTAINER-TO-CONTAINER COMMUNICATION RULES ──────────────────
+
+# RULE 1: Default bridge — containers CAN communicate but only by IP
+# (no automatic DNS — you must hardcode IP addresses)
+docker run -d --name app1 nginx    # gets 172.17.0.2
+docker run -d --name app2 nginx    # gets 172.17.0.3
+
+# Find app1's IP
+docker inspect app1 --format='{{.NetworkSettings.IPAddress}}'
+# Output: 172.17.0.2
+
+# app2 can reach app1 by IP (but NOT by name)
+docker exec app2 ping 172.17.0.2    # ✅ works — same bridge network
+docker exec app2 ping app1           # ❌ fails — no DNS on default bridge
+
+# RULE 2: User-defined bridge — automatic DNS by container name ✅
+docker network create my-network
+docker run -d --name app1 --network my-network nginx
+docker run -d --name app2 --network my-network nginx
+
+docker exec app2 ping app1    # ✅ works! DNS resolves "app1" to its IP
+
+# RULE 3: Different networks — completely isolated (no communication)
+docker network create network-a
+docker network create network-b
+docker run -d --name app-a --network network-a nginx
+docker run -d --name app-b --network network-b nginx
+
+docker exec app-a ping app-b    # ❌ completely isolated — different networks
+
+# RULE 4: A container can be on multiple networks simultaneously
+docker network connect network-b app-a    # now app-a is on BOTH networks
+docker exec app-a ping app-b    # ✅ now works
+
+# Cleanup
+docker rm -f app1 app2 app-a app-b
+docker network rm my-network network-a network-b
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker gives each container its own network namespace — a completely isolated Linux network stack with its own virtual interface (eth0), IP address, and routing table. Docker connects containers using virtual Ethernet pairs (veth pairs) — one end inside the container, the other connected to a virtual bridge on the host. Docker has five network drivers: bridge (default, virtual switch), host (shares host network stack directly), none (completely isolated), overlay (multi-host networking for Swarm/K8s), and macvlan (container appears as physical device on LAN). The critical distinction for container-to-container communication: the default bridge has no DNS — containers can only reach each other by hardcoded IP. User-defined bridge networks have built-in DNS — containers resolve each other by name."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: BRIDGE NETWORK                                    -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Bridge Network
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    The bridge network is Docker's default and most commonly used network driver. Understanding it thoroughly — how it is implemented in the Linux kernel, the critical differences between the default bridge and user-defined bridges, and when to use each — is the foundation of Docker networking knowledge.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How the Bridge Network Works at the Linux Level</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A Docker bridge network is implemented as a <strong>Linux bridge</strong> — a virtual Layer 2 switch running in the kernel. On the host, you can see it with <code>ip link show</code> — the default Docker bridge appears as <code>docker0</code>, user-defined bridges appear as <code>br-NETWORK_ID</code>. This virtual switch forwards Ethernet frames between connected interfaces based on MAC address tables, exactly like a physical network switch.
+  </p>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    For each container connected to the bridge, Docker creates a <strong>veth (virtual Ethernet) pair</strong>: one end (<code>eth0</code>) placed inside the container's network namespace, the other end (<code>vethXXXXXX</code>) attached to the bridge on the host. The container's <code>eth0</code> gets an IP from the bridge's subnet (default: <code>172.17.0.0/16</code>). The bridge interface itself (<code>docker0</code>) gets the gateway IP (<code>172.17.0.1</code>) and acts as the default gateway for all containers. Outbound container traffic (to the internet) goes: container → veth pair → bridge → host's <code>eth0</code> → internet, with Docker adding NAT (Network Address Translation) iptables rules so the traffic appears to originate from the host's public IP.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Default Bridge vs User-Defined Bridge — The Critical Difference</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    This is one of the most important Docker networking concepts. The default bridge network (<code>docker0</code>) and user-defined bridge networks look similar but behave very differently:
+  </p>
+
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Feature</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Default Bridge (docker0)</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">User-Defined Bridge</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">DNS Resolution</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ None — IP only</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Automatic by container name</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Isolation</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">All containers share one network</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Each network is isolated</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Connect/Disconnect Live</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ Requires container restart</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Without restarting container</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Environment Variable Sharing</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Legacy --link sharing</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Use environment variables explicitly</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Customization</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Limited</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Custom subnet, gateway, MTU</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Use Case</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Quick tests, single containers</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">All multi-container applications</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Automatic DNS in User-Defined Networks</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When you create a user-defined bridge network, Docker runs an embedded DNS server (at <code>127.0.0.11</code>) for that network. Every container on the network automatically registers its container name, hostname, and any network aliases with this DNS server. When container A makes a DNS query for "postgres", Docker's embedded DNS resolves it to the container named "postgres" on the same network — even if its IP changes. This is why in Docker Compose, you connect to your database with <code>postgres://postgres:5432/mydb</code> — the name "postgres" is the container name, resolved via Docker's internal DNS.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── docker network create ────────────────────────────────────────
+
+# Create a basic user-defined bridge network
+docker network create my-app-network
+
+# Create with a custom subnet and gateway
+docker network create \
+  --subnet 192.168.100.0/24 \
+  --gateway 192.168.100.1 \
+  my-app-network
+
+# Create with custom IP range (within the subnet)
+docker network create \
+  --subnet 192.168.100.0/24 \
+  --gateway 192.168.100.1 \
+  --ip-range 192.168.100.128/25 \
+  my-app-network
+
+# Create with driver explicitly specified
+docker network create --driver bridge my-app-network
+
+# Create overlay network (for Docker Swarm)
+docker network create --driver overlay my-swarm-network
+
+# Create with MTU customization (useful when host has custom MTU)
+docker network create \
+  --opt com.docker.network.driver.mtu=1450 \
+  my-app-network
+
+# Create with internal flag (no external internet access)
+docker network create --internal private-backend-network
+
+# Create with labels for organization
+docker network create \
+  --label env=production \
+  --label project=myapp \
+  my-app-network
+
+# Create an IPv6-enabled network
+docker network create \
+  --ipv6 \
+  --subnet "fd00::/64" \
+  my-ipv6-network
+
+
+# ── CONNECTING CONTAINERS TO NETWORKS ────────────────────────────
+
+# Connect at run time — most common pattern
+docker run -d \
+  --name api-server \
+  --network my-app-network \
+  myapi:1.0
+
+# Connect at run time with a specific IP (must be within subnet)
+docker run -d \
+  --name api-server \
+  --network my-app-network \
+  --ip 192.168.100.10 \
+  myapi:1.0
+
+# Connect at run time with network aliases
+# (the container is resolvable by BOTH its name AND these aliases)
+docker run -d \
+  --name api-server \
+  --network my-app-network \
+  --network-alias api \
+  --network-alias backend \
+  myapi:1.0
+# Now: api-server, api, and backend all resolve to this container
+
+# Connect an ALREADY RUNNING container to a network
+docker network connect my-app-network existing-container
+
+# Connect with an alias on a live container
+docker network connect \
+  --alias db \
+  my-app-network \
+  existing-container
+
+# Disconnect a running container from a network (no restart needed)
+docker network disconnect my-app-network existing-container
+
+
+# ── FULL USER-DEFINED NETWORK EXAMPLE ────────────────────────────
+
+# Create isolated network for a 3-tier app
+docker network create \
+  --subnet 10.10.0.0/16 \
+  --gateway 10.10.0.1 \
+  app-network
+
+# Tier 1: Database (only app can reach it)
+docker run -d \
+  --name postgres \
+  --network app-network \
+  -e POSTGRES_PASSWORD=secret \
+  postgres:15-alpine
+
+# Tier 2: API Server (connected to app-network, can reach DB by name)
+docker run -d \
+  --name api \
+  --network app-network \
+  -e DATABASE_URL=postgresql://postgres:secret@postgres:5432/mydb \
+  myapi:1.0
+# Note: DATABASE_URL uses "postgres" — the container NAME — as hostname
+# Docker's embedded DNS resolves "postgres" → 10.10.0.X automatically
+
+# Tier 3: Frontend
+docker run -d \
+  --name frontend \
+  --network app-network \
+  -e API_URL=http://api:3000 \
+  myfrontend:1.0
+
+# Verify DNS resolution is working
+docker exec api ping postgres -c 3    # ✅ resolves by name!
+docker exec api ping frontend -c 3    # ✅ all containers on same network
+
+# List all containers connected to the network with their IPs
+docker network inspect app-network \
+  --format='{{json .Containers}}' | python3 -m json.tool
+
+
+# ── NETWORK ISOLATION EXAMPLE ────────────────────────────────────
+
+# Real-world pattern: frontend+api on public network, api+db on private network
+# Frontend talks to API. API talks to DB. Frontend CANNOT directly reach DB.
+
+# Public-facing network (frontend ↔ api)
+docker network create frontend-network
+
+# Private backend network (api ↔ database)
+docker network create --internal backend-network
+
+# Database: ONLY on backend-network (no internet access, no frontend access)
+docker run -d \
+  --name postgres \
+  --network backend-network \
+  -e POSTGRES_PASSWORD=secret \
+  postgres:15-alpine
+
+# API: on BOTH networks (bridge between frontend and backend)
+docker run -d \
+  --name api \
+  --network frontend-network \
+  myapi:1.0
+docker network connect backend-network api
+# API can now talk to BOTH frontend (via frontend-network)
+# AND postgres (via backend-network)
+
+# Frontend: ONLY on frontend-network (cannot reach postgres at all)
+docker run -d \
+  --name frontend \
+  --network frontend-network \
+  -p 80:80 \
+  myfrontend:1.0
+
+# Verify isolation:
+docker exec frontend ping postgres    # ❌ completely isolated!
+docker exec frontend ping api         # ✅ on same frontend-network
+docker exec api ping postgres         # ✅ on same backend-network
+
+
+# ── MANAGING NETWORKS ────────────────────────────────────────────
+
+# Remove a network (must have no connected containers)
+docker network rm my-app-network
+
+# Remove multiple networks
+docker network rm network1 network2 network3
+
+# Remove all unused networks (not connected to any container)
+docker network prune
+
+# Remove without confirmation prompt
+docker network prune -f
+
+# Remove networks matching a filter
+docker network prune -f --filter "label=env=dev"
+
+# Verify network was removed
+docker network ls
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Host and None Networks</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── HOST NETWORK ─────────────────────────────────────────────────
+# Container shares host network namespace directly
+# No virtual interface, no NAT, no port mapping needed
+
+docker run -d \
+  --network host \
+  --name host-nginx \
+  nginx
+# nginx now listens on host port 80 DIRECTLY
+# curl http://localhost:80  →  reaches nginx (no -p needed!)
+
+# Verify: no separate IP, uses host's IP
+docker inspect host-nginx \
+  --format='{{.NetworkSettings.IPAddress}}'
+# Output: (empty — no separate IP, it IS the host)
+
+# Performance comparison: host vs bridge
+# Host network: ~0% overhead, container IS the host network
+# Bridge network: small overhead from veth pair + bridge forwarding
+
+# Use cases for host network:
+# - Network monitoring tools (need to see ALL host traffic)
+# - High-performance applications where bridge overhead matters
+# - Applications that need to bind to specific host interfaces
+
+# ── NONE NETWORK ─────────────────────────────────────────────────
+# Container has only loopback (127.0.0.1), no external connectivity
+
+docker run -d \
+  --network none \
+  --name isolated-processor \
+  ubuntu sleep infinity
+
+# Verify total network isolation
+docker exec isolated-processor ip addr show
+# Only shows: lo (loopback) — no eth0, no external interface
+
+docker exec isolated-processor ping google.com
+# ping: connect: Network is unreachable
+
+# Use cases:
+# - Batch jobs reading only from mounted volumes
+# - Security-sensitive processing (no exfiltration possible)
+# - Compliance requirements mandating network isolation
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "A Docker bridge network is a Linux bridge (virtual Layer 2 switch) running in the kernel, visible as docker0 or br-NETWORK_ID on the host. Each container gets a veth pair: one end (eth0) inside the container namespace, the other attached to the bridge. The critical difference between the default bridge and user-defined bridges: the default bridge has NO DNS — containers communicate by hardcoded IP only. User-defined bridges have Docker's embedded DNS server at 127.0.0.11 — containers resolve each other by name. Always use user-defined networks for multi-container applications. The --internal flag creates networks with no external internet access — perfect for isolating database tiers."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: PORT MAPPING                                      -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Port Mapping
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Port mapping is the mechanism that makes containerized services accessible from outside the Docker network — from the host machine, from other machines on the LAN, or from the internet. Without port mapping, a container listening on port 3000 is completely unreachable from the outside world. Understanding how port mapping works at the iptables level, all the mapping options and their security implications, and when NOT to use port mapping is critical for building secure, production-grade containerized applications.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Port Mapping Works — iptables Under the Hood</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    When you specify <code>-p 8080:3000</code>, Docker does NOT create any virtual port forwarding in software. Instead, it manipulates the host's <strong>iptables</strong> (Linux kernel firewall and NAT rules) to redirect traffic:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">DNAT Rule (Destination NAT):</span> Docker adds a rule to the iptables PREROUTING chain: "Any TCP packet arriving at host port 8080 → rewrite destination IP to the container's IP (e.g., 172.17.0.2) and destination port to 3000." The packet is redirected to the container before the host's routing decisions are made.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">MASQUERADE Rule:</span> Docker adds a MASQUERADE rule for outbound traffic from containers: "Any packet leaving the Docker network through the host → rewrite source IP to the host's IP." This is NAT — the container's private IP is hidden behind the host's public IP.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">FORWARD Chain Rules:</span> Docker allows forwarding of packets between the Docker bridge network and the host's external interface.</li>
+  </ol>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    All of this happens in the Linux kernel at wire speed — port mapping adds negligible latency because iptables rules are processed in the kernel network stack, not in user space.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── PORT MAPPING SYNTAX ──────────────────────────────────────────
+# -p flag format: -p [HOST_IP:]HOST_PORT:CONTAINER_PORT[/PROTOCOL]
+
+# Basic: map host port 8080 to container port 3000
+docker run -d -p 8080:3000 --name myapp myapp:1.0
+# Accessible at: http://localhost:8080  →  reaches container:3000
+
+
+# ── BINDING TO SPECIFIC HOST IP ─────────────────────────────────
+# By default, -p 8080:3000 binds to ALL host interfaces (0.0.0.0)
+# This means the service is accessible from ANY network interface on the host
+# (including external/public interfaces — potential security exposure)
+
+# Bind ONLY to localhost (127.0.0.1) — accessible only from the same machine
+docker run -d -p 127.0.0.1:8080:3000 myapp:1.0
+# curl http://localhost:8080        ✅ works (same machine)
+# curl http://PUBLIC_IP:8080        ❌ blocked (not bound to public interface)
+
+# PRODUCTION BEST PRACTICE:
+# Bind backend services (APIs, databases) to 127.0.0.1
+# Place a reverse proxy (nginx, Caddy) in front, bound to 0.0.0.0
+# Only the reverse proxy is externally accessible
+
+# Bind to a specific network interface IP (e.g., internal LAN only)
+docker run -d -p 192.168.1.100:8080:3000 myapp:1.0
+# Only accessible from the LAN via 192.168.1.100:8080
+
+# Bind to all interfaces explicitly (same as default — avoid in production)
+docker run -d -p 0.0.0.0:8080:3000 myapp:1.0
+
+
+# ── PROTOCOL SPECIFICATION ──────────────────────────────────────
+
+# TCP (default — most web services)
+docker run -d -p 8080:3000/tcp myapp:1.0
+docker run -d -p 8080:3000 myapp:1.0       # /tcp is the default
+
+# UDP (DNS servers, game servers, media streaming)
+docker run -d -p 53:53/udp dns-server
+
+# Both TCP and UDP on the same port (e.g., DNS which uses both)
+docker run -d \
+  -p 53:53/tcp \
+  -p 53:53/udp \
+  dns-server
+
+# SCTP (Stream Control Transmission Protocol — for telecom)
+docker run -d -p 9999:9999/sctp telecom-app
+
+
+# ── MULTIPLE PORT MAPPINGS ───────────────────────────────────────
+# Map multiple ports with multiple -p flags
+
+# Web server with HTTP and HTTPS
+docker run -d \
+  --name web \
+  -p 80:80 \
+  -p 443:443 \
+  nginx
+
+# App with app port + metrics port + debug port
+docker run -d \
+  --name myapp \
+  -p 127.0.0.1:3000:3000 \    # app: localhost only
+  -p 127.0.0.1:9090:9090 \    # prometheus metrics: localhost only
+  -p 127.0.0.1:9229:9229 \    # node.js debugger: localhost only
+  myapp:1.0
+
+
+# ── RANDOM PORT ASSIGNMENT ───────────────────────────────────────
+
+# Map to a random available host port (Docker picks)
+docker run -d -p 3000 myapp:1.0
+
+# Map ALL EXPOSED ports to random host ports (uppercase -P)
+docker run -d -P myapp:1.0
+
+# Find what random port was assigned
+docker port myapp                 # shows all mappings
+docker port myapp 3000            # shows host port for container port 3000
+
+# Example output:
+# 3000/tcp -> 0.0.0.0:32768
+
+# Useful in: CI/CD pipelines running multiple test instances in parallel
+# Each instance gets different random ports, no conflicts
+
+
+# ── VERIFYING PORT MAPPINGS ──────────────────────────────────────
+
+# See all port mappings for a container
+docker port myapp
+
+# See port mappings in docker ps output
+docker ps --format "table {{.Names}}\t{{.Ports}}"
+
+# Full port binding details via inspect
+docker inspect myapp \
+  --format='{{json .NetworkSettings.Ports}}' | python3 -m json.tool
+
+# Output shows:
+# {
+#   "3000/tcp": [
+#     {
+#       "HostIp": "127.0.0.1",
+#       "HostPort": "8080"
+#     }
+#   ]
+# }
+
+# Verify port is actually listening on host
+ss -tlnp | grep 8080          # Linux
+netstat -tlnp | grep 8080     # alternative
+lsof -i :8080                 # macOS
+
+
+# ── COMMON PORT MAPPING PATTERNS ────────────────────────────────
+
+# Web application stack
+docker run -d --name nginx    -p 80:80 -p 443:443       nginx:1.25
+docker run -d --name api      -p 127.0.0.1:3000:3000    myapi:1.0
+docker run -d --name postgres -p 127.0.0.1:5432:5432    postgres:15
+docker run -d --name redis    -p 127.0.0.1:6379:6379    redis:7.2
+docker run -d --name mongo    -p 127.0.0.1:27017:27017  mongo:7.0
+
+# Development: expose everything for easy local access
+docker run -d --name dev-postgres -p 5432:5432 postgres:15
+docker run -d --name dev-redis    -p 6379:6379 redis:7.2
+
+# Production: databases NEVER bind to 0.0.0.0
+# They should ONLY be accessible within the Docker network
+# Remove -p entirely for databases in production:
+docker run -d \
+  --name prod-postgres \
+  --network app-network \
+  postgres:15
+# No -p flag → postgres is ONLY accessible from containers on app-network
+# Completely inaccessible from outside Docker
+
+
+# ── UNDERSTANDING THE SECURITY IMPLICATIONS ─────────────────────
+
+# DANGEROUS: database bound to all interfaces
+docker run -d -p 5432:5432 postgres:15
+# Anyone on the internet can attempt to connect to port 5432!
+# If weak password or misconfigured pg_hba.conf → data breach
+
+# SAFE: database accessible only from localhost
+docker run -d -p 127.0.0.1:5432:5432 postgres:15
+# Only processes on the same machine can connect
+
+# SAFEST for production: no port mapping at all for databases
+docker run -d \
+  --network prod-network \
+  --name postgres \
+  postgres:15
+# Only containers on prod-network can reach it — not even the host OS
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">EXPOSE vs -p — The Most Common Docker Confusion</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# In Dockerfile:
+EXPOSE 3000
+# This is DOCUMENTATION ONLY.
+# It records which port the app listens on.
+# It does NOT publish the port.
+# It does NOT make the port accessible from outside.
+# It does NOT create any iptables rules.
+# It is purely metadata — a communication to operators.
+
+# The ONLY way to publish a port is the -p flag at runtime:
+docker run -p 8080:3000 myapp:1.0   # -p is the actual port binding
+
+# EXPOSE + -P (uppercase) interaction:
+# -P automatically maps all EXPOSE'd ports to random host ports
+# This is the only runtime effect of EXPOSE
+docker run -P myapp:1.0
+# If Dockerfile has EXPOSE 3000, this maps 3000 → random port
+
+# Check what random port was assigned
+docker port myapp 3000
+# Output: 0.0.0.0:32768
+
+# Summary:
+# EXPOSE → documentation, enables -P auto-mapping, no security effect
+# -p     → actual iptables rules, actual port binding, actual accessibility
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Port mapping works by Docker injecting iptables DNAT (Destination NAT) rules into the host kernel: incoming packets on the host port are rewritten to the container's IP and port before routing. The format is -p HOST_PORT:CONTAINER_PORT. By default, Docker binds to all host interfaces (0.0.0.0) — a security risk for databases. Best practice: bind backend services to 127.0.0.1 (-p 127.0.0.1:5432:5432) or use no port mapping at all for databases accessed only by other containers. EXPOSE in Dockerfile is documentation only and does not publish ports — only -p at runtime creates actual iptables rules."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: ACCESSING CONTAINER FROM HOST                     -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Accessing Containers from the Host
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    There are multiple ways to access a running container from the host machine — via published ports, via the container's Docker network IP, via the host network driver, via docker exec, and via docker cp. Each method has different use cases, security implications, and availability depending on your OS. Understanding all access patterns makes you effective at debugging and designing container architectures.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Method 1 — Published Ports (Standard External Access)</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The standard way to access a container from the host. Uses the iptables DNAT rules created by <code>-p</code>. Traffic goes through the host's loopback or external interface, through iptables NAT rules, to the container. Works on all platforms (Linux, macOS, Windows).
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Start container with port mapping
+docker run -d --name myapp -p 8080:3000 myapp:1.0
+
+# Access from host via published port
+curl http://localhost:8080
+curl http://127.0.0.1:8080
+# Both reach the container's port 3000
+
+# Access from another machine on the network
+# (if bound to 0.0.0.0, not 127.0.0.1)
+curl http://HOST_MACHINE_IP:8080
+
+# Test specific endpoints
+curl -X POST http://localhost:8080/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Alice"}'
+
+# Check response headers
+curl -I http://localhost:8080
+
+# WebSocket connection to container
+wscat -c ws://localhost:8080/ws
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Method 2 — Direct Container IP (Linux Only)</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    On Linux, the Docker bridge (<code>docker0</code>) is a real network interface on the host. The host can directly route to container IPs within the bridge subnet — no port mapping needed. This works because the host is literally the gateway for the Docker bridge network. Not available on macOS or Windows where Docker runs inside a Linux VM.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# Get the container's internal Docker IP
+docker inspect myapp \
+  --format='{{.NetworkSettings.IPAddress}}'
+# Output: 172.17.0.3
+
+# On Linux ONLY: access container directly by its internal IP
+# No -p port mapping needed!
+curl http://172.17.0.3:3000    # ✅ works on Linux (host IS the bridge gateway)
+
+# Verify the docker0 bridge is visible as a host interface
+ip addr show docker0
+# Output: docker0: <...> inet 172.17.0.1/16 ...
+# The host's docker0 interface IS the bridge gateway
+
+# This is also how you debug container networking issues:
+# If curl by port mapping works but direct IP doesn't → iptables issue
+# If direct IP works but port mapping doesn't → DNAT/iptables rule issue
+
+# Get IP for a container on a user-defined network
+docker inspect myapp \
+  --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+
+# Get all IPs across all networks the container is on
+docker inspect myapp \
+  --format='{{json .NetworkSettings.Networks}}' | python3 -m json.tool
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Method 3 — host.docker.internal (Container Accessing Host)</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A common scenario: a container needs to connect BACK to the host machine — for example, a container connecting to a database running natively on the host (not in Docker). The special hostname <code>host.docker.internal</code> resolves to the host machine's IP from inside a container.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# From INSIDE a container, connect to a service running on the HOST:
+
+# macOS and Windows Docker Desktop: works automatically
+docker run --rm alpine ping host.docker.internal
+# Resolves to the host machine's IP automatically
+
+# Linux: must add explicitly (not automatic on Linux)
+docker run --rm \
+  --add-host host.docker.internal:host-gateway \
+  alpine ping host.docker.internal
+
+# Practical use case: container connecting to host's local database
+docker run -d \
+  --add-host host.docker.internal:host-gateway \
+  -e DATABASE_URL=postgresql://user:pass@host.docker.internal:5432/mydb \
+  myapp:1.0
+
+# Connect to host's Redis
+docker run -d \
+  --add-host host.docker.internal:host-gateway \
+  -e REDIS_URL=redis://host.docker.internal:6379 \
+  myapp:1.0
+
+
+# ── METHOD 4: docker exec — Command Execution Inside Container ───
+
+# Interactive shell access (covered in Containers section)
+docker exec -it myapp bash
+docker exec -it myapp sh      # if bash not available
+
+# Run diagnostic commands without entering interactive shell
+docker exec myapp curl http://localhost:3000/health  # test internal port
+docker exec myapp env | grep DATABASE               # check env vars
+docker exec myapp cat /app/config/database.json     # read config file
+docker exec myapp netstat -tlnp                     # check listening ports
+docker exec myapp ps aux                            # check processes
+
+
+# ── METHOD 5: docker cp — File Transfer ─────────────────────────
+# Works on running and stopped containers
+
+# Copy FROM container TO host
+docker cp myapp:/app/logs/error.log ./error-$(date +%Y%m%d).log
+docker cp myapp:/app/config ./config-backup/
+
+# Copy FROM host TO container
+docker cp ./updated-config.json myapp:/app/config/config.json
+docker cp ./ssl/ myapp:/etc/ssl/custom/
+
+
+# ── FULL INSPECTION AND DEBUGGING TOOLKIT ────────────────────────
+
+# Everything about a container's network setup
+docker inspect myapp --format='
+Container Name: {{.Name}}
+Network Mode:   {{.HostConfig.NetworkMode}}
+IP Address:     {{.NetworkSettings.IPAddress}}
+Gateway:        {{.NetworkSettings.Gateway}}
+MAC Address:    {{.NetworkSettings.MacAddress}}
+Ports:          {{json .NetworkSettings.Ports}}'
+
+# Check which ports the container ACTUALLY has open internally
+docker exec myapp ss -tlnp
+docker exec myapp netstat -tlnp
+
+# Test connectivity FROM the container
+docker exec myapp curl -s http://api-service:8080/health
+docker exec myapp wget -qO- http://postgres:5432
+
+# Trace network path from container
+docker exec myapp traceroute google.com
+
+# Check DNS resolution inside container
+docker exec myapp nslookup postgres        # resolve container name
+docker exec myapp nslookup google.com     # resolve external name
+docker exec myapp cat /etc/resolv.conf    # see DNS config (127.0.0.11 = Docker DNS)
+
+# Check container's routing table
+docker exec myapp route -n
+docker exec myapp ip route show
+
+# Check ARP table (see MAC addresses on the Docker network)
+docker exec myapp arp -a
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Docker Networking in Docker Compose</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker Compose automatically creates a user-defined bridge network for each project and connects all services to it. Services communicate using their service names as hostnames — this is Docker's embedded DNS at work.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# docker-compose.yml — Complete networking example
+
+services:
+
+  # Nginx reverse proxy — only service exposed to outside world
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"       # HTTP
+      - "443:443"     # HTTPS
+    networks:
+      - frontend      # connected to frontend network
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+
+  # API service — accessible only via nginx (no external port)
+  api:
+    build: .
+    # NO ports: section → not directly accessible from outside
+    networks:
+      - frontend      # nginx can reach api here
+      - backend       # api can reach postgres + redis here
+    environment:
+      - DATABASE_URL=postgresql://user:pass@postgres:5432/mydb
+      #                                     ^^^^^^^^
+      #                   "postgres" is resolved by Docker DNS to postgres container IP
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # PostgreSQL — only accessible from api via backend network
+  postgres:
+    image: postgres:15-alpine
+    # NO ports: section → completely internal
+    networks:
+      - backend       # ONLY on backend — nginx and external cannot reach it
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis — only accessible from api via backend network
+  redis:
+    image: redis:7.2-alpine
+    # NO ports: section
+    networks:
+      - backend
+    command: redis-server --requirepass redispassword
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispassword", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+# Network definitions
+networks:
+  frontend:
+    driver: bridge                  # nginx ↔ api
+  backend:
+    driver: bridge
+    internal: true                  # no internet access for backend services
+
+volumes:
+  postgres-data:
+
+# Communication paths:
+# External → nginx:80/443 ✅
+# nginx    → api (via frontend network, by service name "api") ✅
+# api      → postgres:5432 (via backend network, by service name "postgres") ✅
+# api      → redis:6379 (via backend network, by service name "redis") ✅
+# nginx    → postgres (NO — different networks, not connected) ❌
+# External → postgres (NO — no ports published, on internal network) ❌
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Docker Compose Network Naming:</strong> Docker Compose names networks as <code>PROJECT_NAME_NETWORK_NAME</code>. If your project directory is <code>myapp</code> and you define a network called <code>backend</code>, Docker creates it as <code>myapp_backend</code>. When running <code>docker network ls</code>, you'll see this prefixed name. Inside Compose, services still reference it as just <code>backend</code>.
+  </div>
+
+  <div style="margin-top: 1rem; background: #fdf4ff; border-left: 4px solid #a855f7; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "There are four main ways to access a container from the host: (1) Published ports — using iptables DNAT rules created by -p, accessible via localhost:HOST_PORT. (2) Direct container IP — on Linux only, the host can reach the container's bridge IP directly since the host IS the bridge gateway. (3) docker exec — execute commands or open a shell directly inside the container. (4) docker cp — copy files to/from a container. For container-to-host access, use host.docker.internal (automatic on Docker Desktop, requires --add-host host.docker.internal:host-gateway on Linux). In Docker Compose, services access each other by service name — resolved by Docker's embedded DNS at 127.0.0.11."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER NETWORKING WORKFLOW
+# Full multi-tier application network setup
+# ══════════════════════════════════════════════════════════════
+
+
+# ── PART 1: Demonstrate Default Bridge Limitations ────────────────
+
+echo "=== Default bridge: no DNS, IP-only communication ==="
+
+docker run -d --name container-a nginx:alpine
+docker run -d --name container-b alpine sleep infinity
+
+# Get container-a's IP
+IP_A=$(docker inspect container-a --format='{{.NetworkSettings.IPAddress}}')
+echo "Container A IP: $IP_A"
+
+# Communication by IP works
+docker exec container-b ping -c 2 $IP_A
+echo "✅ Ping by IP works"
+
+# Communication by name FAILS on default bridge
+docker exec container-b ping -c 2 container-a 2>&1 | head -3
+echo "❌ Ping by name fails on default bridge"
+
+docker rm -f container-a container-b
+
+
+# ── PART 2: User-Defined Network with DNS ─────────────────────────
+
+echo "=== User-defined network: DNS resolution by name ==="
+
+# Create a custom network
+docker network create \
+  --subnet 10.20.0.0/24 \
+  --gateway 10.20.0.1 \
+  demo-network
+
+# Start services on the custom network
+docker run -d \
+  --name web-service \
+  --network demo-network \
+  nginx:alpine
+
+docker run -d \
+  --name api-service \
+  --network demo-network \
+  alpine sleep infinity
+
+# DNS resolution works!
+docker exec api-service ping -c 2 web-service
+echo "✅ DNS resolution by container name works"
+
+# Check what DNS server is used inside container
+docker exec api-service cat /etc/resolv.conf
+# Output shows: nameserver 127.0.0.11 (Docker's embedded DNS)
+
+docker rm -f web-service api-service
+docker network rm demo-network
+
+
+# ── PART 3: Network Isolation Architecture ────────────────────────
+
+echo "=== Multi-network isolation: frontend/backend separation ==="
+
+# Create isolated networks
+docker network create frontend-net
+docker network create --internal backend-net
+
+# Database: backend-net only (--internal = no internet)
+docker run -d \
+  --name mydb \
+  --network backend-net \
+  -e POSTGRES_PASSWORD=secret \
+  -e POSTGRES_DB=appdb \
+  postgres:15-alpine
+
+# API: both networks (bridge between tiers)
+docker run -d \
+  --name myapi \
+  --network frontend-net \
+  -e DB_HOST=mydb \
+  -e DB_PASSWORD=secret \
+  alpine sleep infinity
+docker network connect backend-net myapi
+
+# Frontend: frontend-net only (cannot reach database)
+docker run -d \
+  --name myfrontend \
+  --network frontend-net \
+  alpine sleep infinity
+
+# Test isolation
+echo "Testing network isolation..."
+docker exec myfrontend ping -c 1 myapi > /dev/null 2>&1 \
+  && echo "✅ frontend → api: ALLOWED" \
+  || echo "❌ frontend → api: BLOCKED"
+
+docker exec myfrontend ping -c 1 mydb > /dev/null 2>&1 \
+  && echo "⚠️  frontend → db: ALLOWED (bad!)" \
+  || echo "✅ frontend → db: BLOCKED (isolated!)"
+
+docker exec myapi ping -c 1 mydb > /dev/null 2>&1 \
+  && echo "✅ api → db: ALLOWED" \
+  || echo "❌ api → db: BLOCKED"
+
+# Verify api can reach postgres by service name
+docker exec myapi nslookup mydb
+echo "✅ API resolves database hostname via Docker DNS"
+
+docker rm -f mydb myapi myfrontend
+docker network rm frontend-net backend-net
+
+
+# ── PART 4: Port Mapping Security Patterns ────────────────────────
+
+echo "=== Port mapping: secure vs insecure patterns ==="
+
+# INSECURE: bound to all interfaces
+docker run -d \
+  --name insecure-db \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=secret \
+  postgres:15-alpine
+
+echo "Insecure DB binds to all interfaces:"
+ss -tlnp | grep 5432 || docker port insecure-db
+
+# SECURE: bound to localhost only
+docker run -d \
+  --name secure-db \
+  -p 127.0.0.1:5433:5432 \
+  -e POSTGRES_PASSWORD=secret \
+  postgres:15-alpine
+
+echo "Secure DB binds to localhost only:"
+docker port secure-db
+
+# MOST SECURE: no port mapping (container network only)
+docker network create prod-net
+docker run -d \
+  --name prod-db \
+  --network prod-net \
+  -e POSTGRES_PASSWORD=secret \
+  postgres:15-alpine
+
+echo "Production DB: not accessible from outside Docker at all"
+docker port prod-db  # empty — no ports published
+
+# Test access
+curl -s --connect-timeout 2 http://localhost:5432 \
+  && echo "Port 5432 accessible" \
+  || echo "✅ prod-db: inaccessible from host"
+
+docker rm -f insecure-db secure-db prod-db
+docker network rm prod-net
+
+
+# ── PART 5: Full Application Stack ───────────────────────────────
+
+echo "=== Full production-like stack ==="
+
+# Networks
+docker network create app-frontend
+docker network create --internal app-backend
+
+# Database (backend only)
+docker run -d \
+  --name app-postgres \
+  --network app-backend \
+  -e POSTGRES_DB=appdb \
+  -e POSTGRES_USER=appuser \
+  -e POSTGRES_PASSWORD=apppass \
+  -v app-pgdata:/var/lib/postgresql/data \
+  postgres:15-alpine
+
+# Wait for postgres
+until docker exec app-postgres pg_isready -U appuser 2>/dev/null; do
+  sleep 1; done
+echo "✅ Database ready"
+
+# API (both networks, no external ports)
+docker run -d \
+  --name app-api \
+  --network app-frontend \
+  -e DB_URL=postgresql://appuser:apppass@app-postgres:5432/appdb \
+  alpine sleep infinity
+docker network connect app-backend app-api
+
+echo "✅ API running, connected to both networks"
+echo "API can reach DB: $(docker exec app-api ping -c 1 app-postgres > /dev/null 2>&1 && echo YES || echo NO)"
+
+# Nginx (frontend only, externally exposed)
+docker run -d \
+  --name app-nginx \
+  --network app-frontend \
+  -p 80:80 \
+  nginx:alpine
+
+echo "✅ Nginx exposed on port 80"
+echo "Testing external access..."
+curl -s -o /dev/null -w "%{http_code}" http://localhost:80
+echo " → HTTP status from nginx"
+
+# Show final network topology
+echo ""
+echo "=== Network Topology ==="
+echo "app-frontend members:"
+docker network inspect app-frontend \
+  --format='{{range .Containers}}  - {{.Name}}{{println}}{{end}}'
+
+echo "app-backend members:"
+docker network inspect app-backend \
+  --format='{{range .Containers}}  - {{.Name}}{{println}}{{end}}'
+
+# Cleanup
+docker rm -f app-postgres app-api app-nginx
+docker network rm app-frontend app-backend
+docker volume rm app-pgdata`,
+            ],
+
+            questions: [
+              {
+                question:
+                  "How does Docker isolate container networks from each other and from the host?",
+                solution:
+                  "<p>Docker uses <strong>Linux network namespaces</strong> to isolate each container's network stack. A network namespace is a complete copy of the Linux network stack: its own virtual network interface (<code>eth0</code>), its own IP address, routing table, iptables rules, and ARP table. A container cannot see or access any network interfaces outside its own namespace — no host interfaces, no other containers' interfaces. Docker connects these isolated namespaces to each other and to the outside world using <strong>virtual Ethernet pairs (veth pairs)</strong>: one end placed inside the container (appears as eth0), the other connected to a Linux bridge on the host (appears as vethXXXXXX). Traffic flows through this virtual cable between container and bridge. The host's iptables rules then control what traffic can enter/leave the bridge from/to the outside network. This entire system runs in the kernel with near-zero overhead.</p>",
+              },
+              {
+                question:
+                  "What is the critical difference between the default bridge network and a user-defined bridge network?",
+                solution:
+                  "<p>The most important difference is <strong>automatic DNS resolution</strong>. On the default bridge (<code>docker0</code>), containers can ONLY communicate by hardcoded IP address — there is no DNS. Container IPs can change every restart, making hardcoded IPs fragile. On a user-defined bridge network, Docker runs an embedded DNS server at <code>127.0.0.11</code> for each network. Every container automatically registers its container name, hostname, and aliases with this DNS. Containers resolve each other by name — <code>curl http://api-service:3000</code> just works. Additional differences: user-defined bridges provide better isolation (each custom network is separate), allow live connect/disconnect without container restart, support custom subnets and gateways, and don't use the legacy <code>--link</code> mechanism. The Docker documentation explicitly recommends never using the default bridge network for multi-container applications — always create user-defined networks.</p>",
+              },
+              {
+                question: "How does port mapping work under the hood?",
+                solution:
+                  "<p>Port mapping is implemented using the host's <strong>iptables</strong> (Linux kernel firewall/NAT) — specifically DNAT (Destination Network Address Translation). When you specify <code>-p 8080:3000</code>, Docker adds an iptables rule to the PREROUTING chain: 'Any TCP packet arriving at host port 8080 → rewrite destination to the container's internal IP (e.g., 172.17.0.2) and port 3000 before routing.' This rewriting happens in the kernel at wire speed — no user-space processing overhead. Docker also adds MASQUERADE rules so outbound container traffic appears to originate from the host's IP (NAT). The entire port mapping system runs in the kernel and adds negligible latency. Important implication: since iptables manages this, <code>docker run -p 0.0.0.0:8080:3000</code> creates rules matching ALL interfaces, making the service accessible from any network. <code>-p 127.0.0.1:8080:3000</code> creates rules matching ONLY the loopback interface — accessible only from the same machine.</p>",
+              },
+              {
+                question:
+                  "What is the difference between EXPOSE in a Dockerfile and -p at runtime?",
+                solution:
+                  "<p><code>EXPOSE</code> is purely <strong>documentation metadata</strong> — it records which port the containerized application listens on inside the image. It does NOT create any iptables rules, does NOT publish any port, and has absolutely zero effect on the container's network accessibility. It is a communication to operators: 'this application uses port X.' The only runtime behavior EXPOSE enables is with the uppercase <code>-P</code> flag: <code>docker run -P myimage</code> automatically maps all EXPOSE'd ports to random available host ports. The actual port binding, the actual iptables rules, the actual external accessibility — all of that is controlled EXCLUSIVELY by the <code>-p</code> flag at runtime. You can run a container without any EXPOSE in the Dockerfile and still publish ports with <code>-p</code>. You can have EXPOSE in the Dockerfile and still have zero published ports if no <code>-p</code> is specified. EXPOSE documents intent; -p creates reality.</p>",
+              },
+              {
+                question:
+                  "How do containers on the same user-defined network communicate? Walk through a real example.",
+                solution:
+                  "<p>Step by step: (1) Create network: <code>docker network create app-net</code>. Docker creates a Linux bridge (e.g., br-a1b2c3) and starts Docker's embedded DNS at 127.0.0.11 for this network. (2) Start containers: <code>docker run -d --name api --network app-net myapi:1.0</code> and <code>docker run -d --name postgres --network app-net postgres:15</code>. Docker creates veth pairs for each, assigns IPs (e.g., api=10.0.0.2, postgres=10.0.0.3), and registers both names with the embedded DNS. (3) API container makes a connection: the application code uses <code>postgres:5432</code> as the database host. (4) DNS resolution: the container queries 127.0.0.11 (Docker's DNS) for 'postgres'. Docker DNS returns 10.0.0.3. (5) Packet travels: api's eth0 → veth pair → Linux bridge → postgres's veth pair → postgres's eth0. All within the host kernel — no physical network involved. The entire flow is resolved by container name dynamically, so if postgres restarts and gets a new IP, the next DNS query returns the new IP automatically.</p>",
+              },
+              {
+                question:
+                  "How would you design a network topology for a 3-tier application (frontend, API, database)?",
+                solution:
+                  "<p>The correct architecture uses two separate networks to enforce security boundaries: (1) <strong>frontend-network</strong> (bridge): connects nginx reverse proxy and the API service. Only nginx publishes external ports (-p 80:80, -p 443:443). (2) <strong>backend-network</strong> (bridge, --internal): connects the API service and the database. The --internal flag prevents any container on this network from reaching the internet. The database has NO port mappings — it is completely unreachable from outside Docker. The API service is the only container connected to BOTH networks — it acts as the bridge between tiers. This means: nginx can reach the API by name, the API can reach the database by name, but nginx cannot reach the database directly, and no external traffic can reach the database. In Docker Compose, define both networks in the top-level networks: section, assign each service to appropriate networks, and omit ports: for the database entirely. This is defense-in-depth — even if the frontend is compromised, the attacker cannot directly access the database.</p>",
+              },
+              {
+                question: "What is host networking and when should you use it?",
+                solution:
+                  "<p><code>--network host</code> removes all Docker network isolation — the container uses the host's actual network stack directly, with no virtual interfaces, no bridge, no NAT, and no port mapping. The container shares the host's IP address and opens ports directly on the host's interfaces. Benefits: maximum network performance (eliminates veth pair overhead and NAT processing), ability to access all host network interfaces, and the container can see all host-level network traffic. Drawbacks: zero network isolation (a compromised container can sniff all host traffic), port conflicts (if the host already uses port 80, the container can't use it), and does NOT work on macOS or Windows (Docker runs in a VM on these platforms, so --network host connects to the VM's network, not the actual host machine's network). Use cases: high-performance network applications where bridge overhead matters, network monitoring/debugging tools that need to see host traffic (tcpdump, netstat agents), and applications requiring specific low-level network access. Never use host networking for web-facing services in production due to the complete lack of isolation.</p>",
+              },
+              {
+                question:
+                  "How do you connect to a service running on the host from inside a container?",
+                solution:
+                  "<p>The special hostname <code>host.docker.internal</code> resolves to the host machine's IP from inside a container. On <strong>Docker Desktop (macOS and Windows)</strong>, this hostname is automatically configured — it works without any extra flags: <code>docker run --rm alpine ping host.docker.internal</code>. On <strong>Linux</strong>, it is NOT automatic — you must add it explicitly: <code>docker run --add-host host.docker.internal:host-gateway</code>. The <code>host-gateway</code> value is a special Docker keyword that resolves to the host's gateway IP visible from the container's network. Practical usage: if you have a PostgreSQL running natively on the host and want a container to connect to it: <code>docker run --add-host host.docker.internal:host-gateway -e DB_HOST=host.docker.internal myapp</code>. Alternative on Linux: get the docker0 bridge IP with <code>ip addr show docker0 | grep inet</code> (usually 172.17.0.1) and use that IP directly — it's the host's IP as seen from default bridge containers.</p>",
+              },
+              {
+                question:
+                  "What does docker network inspect reveal and how do you use it for debugging?",
+                solution:
+                  "<p><code>docker network inspect NETWORK_NAME</code> returns a JSON document containing: the network's name, ID, creation time, driver, and scope; IPAM configuration (subnet, gateway, IP ranges); options (e.g., the bridge interface name, MTU settings); and most importantly, the <strong>Containers section</strong> — every container currently connected to the network with its container name, IPv4 address, IPv6 address, and MAC address. For debugging: (1) Check if a container is actually on the expected network — containers not appearing here explains connectivity failures. (2) Find a container's IP when you need to test direct connectivity: <code>docker network inspect app-net --format='{{json .Containers}}'</code>. (3) Verify subnet configuration: <code>docker network inspect app-net --format='{{range .IPAM.Config}}{{.Subnet}}{{end}}'</code>. (4) Confirm the bridge interface name to cross-reference with <code>ip link show</code> on the host. (5) Check for IP conflicts — if two networks have overlapping subnets, routing issues occur. (6) Verify which containers are NOT connected to a network that should be — common cause of 'connection refused' errors in multi-container setups.</p>",
+              },
+              {
+                question:
+                  "Why should you never publish database ports to 0.0.0.0 in production?",
+                solution:
+                  "<p>Publishing a port to 0.0.0.0 (the default when you use <code>-p 5432:5432</code> without an IP) means Docker creates iptables rules that accept connections from ANY network interface on the host — including public-facing interfaces. A database accessible on a public IP is an open invitation for: brute-force attacks against database credentials, exploitation of known database vulnerabilities (CVEs), and unauthorized data access if credentials are weak or default. Three safer approaches in order of security: (1) <strong>Bind to localhost</strong>: <code>-p 127.0.0.1:5432:5432</code> — only processes on the same machine can connect. (2) <strong>No port mapping at all</strong>: deploy the database on a user-defined Docker network with no -p flag. It is ONLY accessible by other containers on the same network — completely invisible to the host OS and external networks. (3) <strong>Use --internal network</strong>: combine no port mapping with <code>--internal</code> on the network, preventing even internet-bound traffic from the database container itself. In production: databases should NEVER have published ports. Application containers on the same Docker network connect to them by container name and internal port — no port mapping needed for internal container-to-container communication.</p>",
+              },
+              {
+                question:
+                  "How does Docker Compose handle networking? How do services communicate with each other?",
+                solution:
+                  "<p>Docker Compose automatically creates a <strong>user-defined bridge network</strong> for each project, named <code>PROJECTNAME_default</code>. All services defined in the Compose file are automatically connected to this default network unless you specify custom networks. Since it's a user-defined bridge, Docker's embedded DNS is active — services communicate using their <strong>service names as hostnames</strong>. If you define a service named <code>postgres</code>, other services connect to it via <code>postgres:5432</code> — Docker DNS resolves 'postgres' to that container's IP. For advanced topologies, define multiple networks in the top-level <code>networks:</code> section and assign each service to specific networks using the service-level <code>networks:</code> key. Services only on the same network can communicate. This is how you isolate database tiers: put only the api and postgres services on a backend network, and only the nginx and api on a frontend network. Compose namespaces networks as <code>PROJECTDIR_NETWORKNAME</code> — visible in <code>docker network ls</code>. Running <code>docker compose down</code> removes containers and networks but preserves volumes. <code>docker compose down -v</code> also removes volumes — dangerous with database data.</p>",
+              },
+              {
+                question:
+                  "What is the --internal flag when creating a network? When do you use it?",
+                solution:
+                  "<p>The <code>--internal</code> flag creates a bridge network with no external connectivity — containers on this network cannot reach the internet or the host network. Internally, Docker removes the default gateway that would otherwise route traffic out through the host. Containers on an internal network can still communicate with each other (the bridge still functions for intra-network traffic), but any attempt to reach an external IP or hostname fails. Use cases: (1) <strong>Database networks</strong> — your PostgreSQL container has no reason to initiate outbound connections. Putting it on an internal network ensures it cannot exfiltrate data, download malicious code, or be used as a pivot point even if the database process is compromised. (2) <strong>Compliance requirements</strong> — PCI-DSS and HIPAA requirements often mandate that data-processing components have restricted network access. (3) <strong>Defense-in-depth</strong> — even if an attacker exploits a vulnerability in your database container, they cannot reach external systems from it. In Docker Compose: <code>networks: backend: internal: true</code>. The API service is on BOTH the frontend (non-internal, for external API calls) and backend (internal) networks, giving it internet access through the frontend network while the database remains isolated.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/network/",
+              "https://docs.docker.com/network/bridge/",
+              "https://docs.docker.com/network/host/",
+              "https://docs.docker.com/network/overlay/",
+              "https://docs.docker.com/engine/reference/commandline/network_create/",
+              "https://docs.docker.com/engine/reference/commandline/network_inspect/",
+              "https://docs.docker.com/compose/networking/",
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advance",
+        concepts: [
+          {
+            topic: "Docker Compose",
+            tags: ["Multi-Container", "Orchestration", "Development"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application's services, networks, and volumes. Then, with a single command, you create and start all the services from your configuration.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Docker Compose File Structure
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-yaml">
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://user:pass@db:5432/myapp
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=myapp
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    driver: bridge
+</code></pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Docker Compose Commands
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Start all services
+docker-compose up
+
+# Start in detached mode
+docker-compose up -d
+
+# Stop all services
+docker-compose down
+
+# Build and start
+docker-compose up --build
+
+# View logs
+docker-compose logs
+
+# Scale services
+docker-compose up --scale web=3
+
+# Execute command in service
+docker-compose exec web bash
+</code></pre>
+  </div>
+</div>`,
+          },
+          {
+            topic: "Multi-Stage Builds",
+            tags: ["Optimization", "Build", "Size Reduction"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Multi-stage builds are a powerful feature that allows you to create smaller, more optimized Docker images by using multiple FROM statements in a single Dockerfile. Each FROM instruction begins a new build stage, allowing you to selectively copy artifacts from one stage to another.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Multi-Stage Builds
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Smaller final image sizes</li>
+     <li style="margin-top: 0.5rem;">Improved security (no build tools in production)</li>
+     <li style="margin-top: 0.5rem;">Faster deployment times</li>
+     <li style="margin-top: 0.5rem;">Better cache utilization</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-dockerfile">
+# Multi-stage Dockerfile for Node.js application
+FROM node:16-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM node:16-alpine AS production
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+WORKDIR /app
+
+COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+
+USER nextjs
+
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+</code></pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Multi-Stage Patterns
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-dockerfile">
+# Go application with separate build and runtime
+FROM golang:1.19-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+
+# Minimal runtime image
+FROM scratch
+COPY --from=builder /app/main .
+EXPOSE 8080
+CMD ["./main"]
+</code></pre>
+  </div>
+</div>`,
+          },
+          {
+            topic: "Docker Security",
+            tags: ["Security", "Best Practices", "Hardening"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Docker security involves implementing best practices to protect containers, images, and the host system. Security should be considered at every stage of the container lifecycle, from image creation to runtime execution.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Security Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Non-Root Users:</span> Run containers as non-root users to minimize potential impact.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Minimal Base Images:</span> Use minimal base images like Alpine or distroless images.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Image Scanning:</span> Regularly scan images for vulnerabilities.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Secrets Management:</span> Use Docker secrets or environment variables for sensitive data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Resource Limits:</span> Set CPU and memory limits to prevent DoS attacks.
+     </li>
+   </ol>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-dockerfile">
+# Secure Dockerfile example
+FROM node:16-alpine
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nodejs -u 1001
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm ci --production && npm cache clean --force
+
+# Copy application code
+COPY --chown=nodejs:nodejs . .
+
+# Switch to non-root user
+USER nodejs
+
+# Expose port and run application
+EXPOSE 3000
+CMD ["node", "server.js"]
+</code></pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Runtime Security
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Run with security options
+docker run --read-only \
+  --tmpfs /tmp \
+  --memory="256m" \
+  --cpus="0.5" \
+  --cap-drop ALL \
+  --cap-add CHOWN \
+  --security-opt no-new-privileges \
+  myapp
+
+# Scan image for vulnerabilities
+docker scan myimage:latest
+
+# Use Docker Bench for Security
+docker run -it --net host --pid host --userns host --cap-add audit_control \
+    -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
+    -v /etc:/etc:ro \
+    -v /usr/bin/containerd:/usr/bin/containerd:ro \
+    -v /usr/bin/runc:/usr/bin/runc:ro \
+    -v /usr/lib/systemd:/usr/lib/systemd:ro \
+    -v /var/lib:/var/lib:ro \
+    -v /var/run/docker.sock:/var/run/docker.sock:ro \
+    --label docker_bench_security \
+    docker/docker-bench-security
+</code></pre>
+  </div>
+</div>`,
+          },
+          {
+            topic: "Docker Optimization",
+            tags: ["Performance", "Best Practices", "Efficiency"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Optimizing Docker images and containers is crucial for improving build times, reducing storage costs, and enhancing runtime performance. This involves various techniques from layer optimization to resource management.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Image Optimization Techniques
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Layer Caching:</span> Order instructions to maximize cache utilization.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">.dockerignore:</span> Exclude unnecessary files from build context.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Minimal Base Images:</span> Use Alpine or distroless images.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multi-Stage Builds:</span> Separate build and runtime environments.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Package Cleanup:</span> Remove package manager cache in the same layer.
+     </li>
+   </ol>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-dockerfile">
+# Optimized Dockerfile
+FROM node:16-alpine AS deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+FROM node:16-alpine AS runner
+WORKDIR /app
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+COPY --from=builder /app/dist ./dist
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
+USER nextjs
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+</code></pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Runtime Optimization
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Resource limits
+docker run --memory="512m" --cpus="1.0" myapp
+
+# Health checks
+docker run --health-cmd='curl -f http://localhost/ || exit 1' \
+  --health-interval=30s \
+  --health-timeout=3s \
+  --health-retries=3 \
+  myapp
+
+# Restart policies
+docker run --restart=unless-stopped myapp
+
+# Logging drivers
+docker run --log-driver=json-file --log-opt max-size=10m myapp
+</code></pre>
+  </div>
+</div>`,
+          },
+          {
+            topic: "Docker Registry",
+            tags: ["Repository", "Distribution", "CI/CD"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Docker registries are storage systems for Docker images. They allow you to store, share, and distribute Docker images. While Docker Hub is the most popular public registry, organizations often use private registries for better control and security.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Registry Types
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Docker Hub:</span> Default public registry with free and paid tiers.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Private Registries:</span> Self-hosted or cloud-hosted private registries.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Third-Party Registries:</span> AWS ECR, Google GCR, Azure ACR, GitHub Packages.
+     </li>
+   </ol>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Login to registries
+docker login                    # Docker Hub
+docker login myregistry.com    # Private registry
+
+# Push and pull images
+docker tag myapp:latest username/myapp:latest
+docker push username/myapp:latest
+docker pull username/myapp:latest
+
+# Private registry operations
+docker tag myapp:latest myregistry.com/myapp:latest
+docker push myregistry.com/myapp:latest
+docker pull myregistry.com/myapp:latest
+
+# AWS ECR
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-west-2.amazonaws.com
+docker push 123456789012.dkr.ecr.us-west-2.amazonaws.com/myapp:latest
+</code></pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     CI/CD Integration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-yaml">
+# GitHub Actions example
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Build Docker image
+      run: docker build -t myapp:$ {{ github.sha }} .
+      
+    - name: Log in to Docker Hub
+      run: echo $ {{ secrets.DOCKER_PASSWORD }} | docker login -u $ {{ secrets.DOCKER_USERNAME }} --password-stdin
+      
+    - name: Push to Docker Hub
+      run: |
+        docker tag myapp:$ {{ github.sha }} username/myapp:latest
+        docker push username/myapp:latest
+</code></pre>
+  </div>
+</div>`,
+          },
+        ],
+      },
+    ],
+  },
 ];

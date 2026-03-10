@@ -73,6 +73,7 @@ export async function getStaticPaths() {
     "python",
     "redis",
     "nest",
+    "docker",
   ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },
@@ -87,7 +88,7 @@ export async function getStaticProps({ params }) {
   const { slug } = params;
   const topicPrepareData = prepareData.find((item) => item.category === slug);
   const topicInterviewData = interviewData.filter(
-    (item) => item.topic === slug
+    (item) => item.topic === slug,
   );
 
   return {
@@ -241,7 +242,7 @@ function PaginationComponent({
                 )}
                 <span className="relative z-10">{page}</span>
               </motion.button>
-            )
+            ),
           )}
         </div>
 
@@ -661,7 +662,7 @@ export default function BasicTabs({
 
   React.useEffect(() => {
     const filteredTopic = topicInterviewData.filter(
-      (item) => item.categories === interviewSelection
+      (item) => item.categories === interviewSelection,
     );
     setInterviewQues(filteredTopic[0] || {});
     setInterviewPage(1); // Reset to first page when changing interview level
@@ -936,14 +937,14 @@ export default function BasicTabs({
                         topic === "Javascript"
                           ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                           : topic === "React"
-                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                          : topic === "Node"
-                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                          : topic === "Typescript"
-                          ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                          : topic === "AWS S3"
-                          ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                          : ""
+                            ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                            : topic === "Node"
+                              ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                              : topic === "Typescript"
+                                ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                                : topic === "AWS S3"
+                                  ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                                  : ""
                       }`}
                       style={
                         level === "Beginner"
@@ -963,14 +964,14 @@ export default function BasicTabs({
                         topic === "Javascript"
                           ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                           : topic === "React"
-                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                          : topic === "Node"
-                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                          : topic === "Typescript"
-                          ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                          : topic === "AWS S3"
-                          ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                          : ""
+                            ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                            : topic === "Node"
+                              ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                              : topic === "Typescript"
+                                ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                                : topic === "AWS S3"
+                                  ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                                  : ""
                       }`}
                       style={
                         level === "Advance"
@@ -1027,7 +1028,7 @@ export default function BasicTabs({
                                 style={{ color: themeColors.text }}
                                 onClick={() =>
                                   router.push(
-                                    `/learn/${topic}/${concept.topic}`
+                                    `/learn/${topic}/${concept.topic}`,
                                   )
                                 }
                               >
@@ -1051,7 +1052,7 @@ export default function BasicTabs({
                                 className="text-right cursor-pointer md:flex"
                                 onClick={() =>
                                   router.push(
-                                    `/learn/${topic}/${concept.topic}`
+                                    `/learn/${topic}/${concept.topic}`,
                                   )
                                 }
                               >
@@ -1066,7 +1067,7 @@ export default function BasicTabs({
                                     }}
                                     onClick={() =>
                                       router.push(
-                                        `/learn/${topic}/${concept.topic}`
+                                        `/learn/${topic}/${concept.topic}`,
                                       )
                                     }
                                     className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
@@ -1093,7 +1094,7 @@ export default function BasicTabs({
                                   <div
                                     onClick={() =>
                                       router.push(
-                                        `/learn/${topic}/${concept.topic}`
+                                        `/learn/${topic}/${concept.topic}`,
                                       )
                                     }
                                     className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
@@ -1122,7 +1123,7 @@ export default function BasicTabs({
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       router.push(
-                                        `/test/${topic}/${concept.topic}`
+                                        `/test/${topic}/${concept.topic}`,
                                       );
                                     }}
                                     initial={{ opacity: 0, scale: 0.5 }}
@@ -1157,7 +1158,7 @@ export default function BasicTabs({
                                     onClick={() => {
                                       e.stopPropagation();
                                       router.push(
-                                        `/test/${topic}/${concept.topic}`
+                                        `/test/${topic}/${concept.topic}`,
                                       );
                                     }}
                                     className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
@@ -1206,7 +1207,7 @@ export default function BasicTabs({
                       <PaginationComponent
                         currentPage={beginnerPage}
                         totalPages={getTotalPages(
-                          filteredPrepareData[0]?.concepts?.length || 0
+                          filteredPrepareData[0]?.concepts?.length || 0,
                         )}
                         onPageChange={setBeginnerPage}
                         themeColors={themeColors}
@@ -1256,7 +1257,7 @@ export default function BasicTabs({
                                 style={{ color: themeColors.text }}
                                 onClick={() => {
                                   router.push(
-                                    `/learn/${topic}/${concept.topic}`
+                                    `/learn/${topic}/${concept.topic}`,
                                   );
                                 }}
                               >
@@ -1281,7 +1282,7 @@ export default function BasicTabs({
                                 className="text-right cursor-pointer md:flex"
                                 onClick={() =>
                                   router.push(
-                                    `/learn/${topic}/${concept.topic}`
+                                    `/learn/${topic}/${concept.topic}`,
                                   )
                                 }
                               >
@@ -1296,7 +1297,7 @@ export default function BasicTabs({
                                     }}
                                     onClick={() =>
                                       router.push(
-                                        `/learn/${topic}/${concept.topic}`
+                                        `/learn/${topic}/${concept.topic}`,
                                       )
                                     }
                                     className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
@@ -1323,7 +1324,7 @@ export default function BasicTabs({
                                   <div
                                     onClick={() =>
                                       router.push(
-                                        `/learn/${topic}/${concept.topic}`
+                                        `/learn/${topic}/${concept.topic}`,
                                       )
                                     }
                                     className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
@@ -1331,14 +1332,14 @@ export default function BasicTabs({
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : topic === "React"
-                                  ? "text-React-text bg-white hover:bg-React-bg "
-                                  : topic === "Node"
-                                  ? "text-Node-text bg-white hover:bg-Node-bg "
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                  : topic === "AWS S3"
-                                  ? "text-AWS-text bg-white hover:bg-AWS-bg "
-                                  : ""
+                                    ? "text-React-text bg-white hover:bg-React-bg "
+                                    : topic === "Node"
+                                      ? "text-Node-text bg-white hover:bg-Node-bg "
+                                      : topic === "Typescript"
+                                        ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                        : topic === "AWS S3"
+                                          ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                          : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
                                   >
@@ -1355,7 +1356,7 @@ export default function BasicTabs({
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       router.push(
-                                        `/test/${topic}/${concept.topic}`
+                                        `/test/${topic}/${concept.topic}`,
                                       );
                                     }}
                                     initial={{ opacity: 0, scale: 0.5 }}
@@ -1390,7 +1391,7 @@ export default function BasicTabs({
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       router.push(
-                                        `/test/${topic}/${concept.topic}`
+                                        `/test/${topic}/${concept.topic}`,
                                       );
                                     }}
                                     className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
@@ -1439,7 +1440,7 @@ export default function BasicTabs({
                       <PaginationComponent
                         currentPage={advancePage}
                         totalPages={getTotalPages(
-                          filteredPrepareData[1]?.concepts?.length || 0
+                          filteredPrepareData[1]?.concepts?.length || 0,
                         )}
                         onPageChange={setAdvancePage}
                         themeColors={themeColors}
@@ -1463,14 +1464,14 @@ export default function BasicTabs({
                       topic === "Javascript"
                         ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                         : topic === "React"
-                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                        : topic === "Node"
-                        ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                        : topic === "Typescript"
-                        ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                        : topic === "AWS S3"
-                        ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                        : ""
+                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                          : topic === "Node"
+                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                            : topic === "Typescript"
+                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                              : topic === "AWS S3"
+                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                                : ""
                     }`}
                     style={
                       interviewSelection === "Junior"
@@ -1490,14 +1491,14 @@ export default function BasicTabs({
                       topic === "Javascript"
                         ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                         : topic === "React"
-                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                        : topic === "Node"
-                        ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                        : topic === "Typescript"
-                        ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                        : topic === "AWS S3"
-                        ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                        : ""
+                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                          : topic === "Node"
+                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                            : topic === "Typescript"
+                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                              : topic === "AWS S3"
+                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                                : ""
                     }`}
                     style={
                       interviewSelection === "Mid"
@@ -1517,14 +1518,14 @@ export default function BasicTabs({
                       topic === "Javascript"
                         ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                         : topic === "React"
-                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                        : topic === "Node"
-                        ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                        : topic === "Typescript"
-                        ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
-                        : topic === "AWS S3"
-                        ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                        : ""
+                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                          : topic === "Node"
+                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                            : topic === "Typescript"
+                              ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
+                              : topic === "AWS S3"
+                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                                : ""
                     }`}
                     style={
                       interviewSelection === "Senior"
@@ -1555,7 +1556,7 @@ export default function BasicTabs({
                     <PaginationComponent
                       currentPage={interviewPage}
                       totalPages={getTotalPages(
-                        interviewQues?.questions?.length || 0
+                        interviewQues?.questions?.length || 0,
                       )}
                       onPageChange={setInterviewPage}
                       themeColors={themeColors}
@@ -1579,7 +1580,7 @@ export default function BasicTabs({
                     <PaginationComponent
                       currentPage={interviewPage}
                       totalPages={getTotalPages(
-                        interviewQues?.questions?.length || 0
+                        interviewQues?.questions?.length || 0,
                       )}
                       onPageChange={setInterviewPage}
                       themeColors={themeColors}
@@ -1603,7 +1604,7 @@ export default function BasicTabs({
                     <PaginationComponent
                       currentPage={interviewPage}
                       totalPages={getTotalPages(
-                        interviewQues?.questions?.length || 0
+                        interviewQues?.questions?.length || 0,
                       )}
                       onPageChange={setInterviewPage}
                       themeColors={themeColors}
