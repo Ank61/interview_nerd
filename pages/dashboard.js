@@ -21,6 +21,8 @@ import {
   Home,
   User,
   Settings,
+  Container,
+  ArrowRight,
 } from "lucide-react";
 
 export default function Dashboard({
@@ -406,6 +408,82 @@ export default function Dashboard({
                     </Card>
                   </motion.div>
                 </div>
+
+                {/* Docker Practice Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.55 }}
+                >
+                  <Card className="shadow-lg border border-cyan-100 bg-gradient-to-br from-cyan-50/30 to-blue-50/30 h-fit">
+                    <CardHeader className="pb-4">
+                      <CardTitle className="flex items-center gap-2">
+                        <Container className="w-5 h-5 text-cyan-600" />
+                        Docker Practice
+                      </CardTitle>
+                      <p className="text-gray-600 text-sm mt-2">
+                        Write Dockerfiles, learn container concepts and nail
+                        Docker interview questions
+                      </p>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <motion.button
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={() =>
+                            router.push("/docker-practice/concepts")
+                          }
+                          className="p-4 rounded-xl border-2 border-cyan-200 bg-white hover:bg-cyan-50 hover:border-cyan-400 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
+                        >
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg bg-cyan-100 group-hover:bg-cyan-200 transition-colors">
+                              <Container
+                                size={20}
+                                className="text-cyan-600"
+                              />
+                            </div>
+                            <span className="font-semibold text-gray-900 text-sm">
+                              Learn Concepts
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            Images, containers, networking &amp; Compose
+                          </p>
+                        </motion.button>
+
+                        <motion.button
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={() =>
+                            router.push("/docker-practice/exercises")
+                          }
+                          className="p-4 rounded-xl border-2 border-blue-200 bg-white hover:bg-blue-50 hover:border-blue-400 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
+                        >
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg bg-blue-100 group-hover:bg-blue-200 transition-colors">
+                              <Zap size={20} className="text-blue-600" />
+                            </div>
+                            <span className="font-semibold text-gray-900 text-sm">
+                              Dockerfile Exercises
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-500">
+                            Hands-on Dockerfile writing challenges
+                          </p>
+                        </motion.button>
+                      </div>
+
+                      <button
+                        onClick={() => router.push("/docker-practice")}
+                        className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-cyan-700 bg-cyan-100 hover:bg-cyan-200 transition-colors duration-200"
+                      >
+                        View All Docker Practice
+                        <ArrowRight size={16} />
+                      </button>
+                    </CardContent>
+                  </Card>
+                </motion.div>
 
                 {/* Sidebar */}
                 <div className="space-y-6">
