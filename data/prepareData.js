@@ -181448,78 +181448,1279 @@ echo "  • Reliability: Health checks + restart policies"
           },
           {
             topic: "Docker Registry",
-            tags: ["Repository", "Distribution", "CI/CD"],
+            tags: [
+              "docker",
+              "registry",
+              "container-registry",
+              "docker-hub",
+              "ecr",
+              "acr",
+              "gcr",
+              "artifact-management",
+              "ci-cd",
+              "image-distribution",
+              "devops",
+              "interview",
+            ],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Docker registries are storage systems for Docker images. They allow you to store, share, and distribute Docker images. While Docker Hub is the most popular public registry, organizations often use private registries for better control and security.
-   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Registry Types
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Docker Hub:</span> Default public registry with free and paid tiers.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Private Registries:</span> Self-hosted or cloud-hosted private registries.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Third-Party Registries:</span> AWS ECR, Google GCR, Azure ACR, GitHub Packages.
-     </li>
-   </ol>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Login to registries
-docker login                    # Docker Hub
-docker login myregistry.com    # Private registry
 
-# Push and pull images
-docker tag myapp:latest username/myapp:latest
-docker push username/myapp:latest
-docker pull username/myapp:latest
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker registries are the backbone of container distribution—they store, manage, and serve container images. Whether you're pulling base images from Docker Hub, pushing your own images to a private registry, or orchestrating multi-region deployments, understanding registry architecture, authentication, and integration patterns is essential. Registries are not just storage; they're critical infrastructure for CI/CD pipelines, production deployments, and supply chain security. Key concepts include registry authentication, image tagging strategies, garbage collection, replication, and integration with cloud providers. Mastering registry operations—from basic push/pull to advanced patterns like registry mirroring and image promotion—is a core competency for DevOps engineers and platform teams.
+  </p>
 
-# Private registry operations
-docker tag myapp:latest myregistry.com/myapp:latest
-docker push myregistry.com/myapp:latest
-docker pull myregistry.com/myapp:latest
+  <!-- ============================================================ -->
+  <!-- SECTION 1: REGISTRY ARCHITECTURE AND TYPES                   -->
+  <!-- ============================================================ -->
 
-# AWS ECR
-aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-west-2.amazonaws.com
-docker push 123456789012.dkr.ecr.us-west-2.amazonaws.com/myapp:latest
-</code></pre>
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Registry Architecture and Types
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A Docker registry is a stateless server that stores and distributes Docker images. The default registry is Docker Hub, but production environments almost always use private registries for security, performance, and compliance reasons. The registry follows the OCI Distribution Specification, making it interoperable across tools.
+  </p>
+
+  <div style="margin-top: 1rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Registry Type</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Examples</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Best For</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Key Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Public Cloud Registry</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">AWS ECR, Google GCR, Azure ACR</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Production workloads in cloud</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Managed, IAM integration, vulnerability scanning, geo-replication</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Self-Hosted Registry</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker Registry (OSS), Harbor, Quay, Nexus, Artifactory</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Air-gapped environments, compliance, cost control</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Full control, on-premises, custom auth, replication</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Public Registry</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker Hub, GitHub Container Registry, GitLab Container Registry</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Open source, public images, development</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Free tier, community images, built-in CI/CD integration</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     CI/CD Integration
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-yaml">
-# GitHub Actions example
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">1.1. Registry URL Structure</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker image names follow a specific format that tells the Docker client which registry to use and where to store the image.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── IMAGE NAME FORMAT ──────────────────────────────────────────────
+# [registry-host]/[namespace]/[repository]:[tag]
+
+# Examples:
+# Docker Hub (default registry, no host specified)
+ubuntu:22.04                    # Official image (no namespace)
+username/myapp:latest           # User namespace
+
+# Private registry (host specified)
+myregistry.com:5000/myapp:1.0.0
+myregistry.com/team/myapp:latest
+
+# Cloud registry (host includes region/account)
+123456789012.dkr.ecr.us-west-2.amazonaws.com/myapp:latest
+myregistry.azurecr.io/myapp:latest
+gcr.io/project-id/myapp:latest
+
+
+# ── PULLING FROM DIFFERENT REGISTRIES ──────────────────────────────
+# Docker Hub (public, no login required for public images)
+docker pull ubuntu:22.04
+docker pull alpine:3.19
+
+# Docker Hub (private repository — requires login)
+docker pull username/private-repo:latest
+
+# AWS ECR (requires AWS authentication)
+docker pull 123456789012.dkr.ecr.us-west-2.amazonaws.com/myapp:latest
+
+# Self-hosted registry (requires login if private)
+docker pull myregistry.com:5000/myapp:latest
+
+
+# ── PUSHING TO DIFFERENT REGISTRIES ────────────────────────────────
+# Tag local image for target registry
+docker tag myapp:latest username/myapp:latest           # Docker Hub
+docker tag myapp:latest myregistry.com/myapp:latest     # Private registry
+
+# Push to registry
+docker push username/myapp:latest
+docker push myregistry.com/myapp:latest
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">1.2. Running a Private Docker Registry (OSS)</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The open-source Docker Registry is the reference implementation. It can be deployed on-premises or in the cloud for complete control over image storage.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── START A LOCAL REGISTRY (FOR DEVELOPMENT) ──────────────────────
+docker run -d \
+  -p 5000:5000 \
+  --name registry \
+  --restart always \
+  registry:2
+
+# Test the registry
+docker tag alpine:3.19 localhost:5000/alpine:3.19
+docker push localhost:5000/alpine:3.19
+docker pull localhost:5000/alpine:3.19
+
+
+# ── PRODUCTION REGISTRY WITH TLS AND AUTH ─────────────────────────
+# Create directory for certificates
+mkdir -p /certs
+# Generate self-signed certificate (production uses CA-signed)
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout /certs/domain.key \
+  -x509 -days 365 -out /certs/domain.crt
+
+# Create htpasswd file for basic auth
+docker run --entrypoint htpasswd httpd:2 -Bbn myuser mypassword > /auth/htpasswd
+
+# Run registry with TLS and auth
+docker run -d \
+  -p 443:5000 \
+  --name registry \
+  -v /certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
+  -v /auth:/auth \
+  -e "REGISTRY_AUTH=htpasswd" \
+  -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+  -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+  -v /var/lib/registry:/var/lib/registry \
+  registry:2
+
+
+# ── REGISTRY CONFIGURATION (config.yml) ───────────────────────────
+version: 0.1
+log:
+  level: info
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+  delete:
+    enabled: true
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+auth:
+  htpasswd:
+    realm: basic-realm
+    path: /auth/htpasswd
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker registries implement the OCI Distribution Specification. The image name format is [registry-host]/[namespace]/[repository]:[tag]. If no registry host is specified, Docker Hub is assumed. Public cloud registries like AWS ECR, Google GCR, and Azure ACR are managed services with IAM integration and vulnerability scanning. Self-hosted options include the open-source Docker Registry, Harbor (which adds security scanning and replication), and commercial solutions like JFrog Artifactory or Sonatype Nexus. For production, choose a registry that supports TLS, authentication, and storage backend integration with your infrastructure (S3, GCS, Azure Blob)."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: REGISTRY AUTHENTICATION                           -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Registry Authentication
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Authentication to registries is handled by <code>docker login</code>, which stores credentials in platform-specific credential helpers (macOS Keychain, Windows Credential Manager, or ~/.docker/config.json). For CI/CD, use tokens or IAM roles instead of storing long-lived passwords.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">2.1. Basic Authentication</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── LOGIN TO REGISTRIES ────────────────────────────────────────────
+# Docker Hub (interactive)
+docker login
+# Enter username and password
+
+# Docker Hub with username/password (non-interactive)
+echo "mypassword" | docker login -u myusername --password-stdin
+
+# Private registry
+docker login myregistry.com:5000
+
+
+# ── CONFIGURATION FILE (~/.docker/config.json) ────────────────────
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "auth": "base64encoded(username:password)"
+    },
+    "myregistry.com:5000": {
+      "auth": "base64encoded(username:password)"
+    }
+  },
+  "credsStore": "osxkeychain"  # macOS Keychain
+}
+
+# Security: config.json contains base64-encoded credentials
+# NEVER commit this file to version control!
+# Use credential helpers to avoid storing credentials in plain text
+
+
+# ── CREDENTIAL HELPERS (MORE SECURE) ──────────────────────────────
+# Install docker-credential-helper
+# For AWS: docker-credential-ecr-login
+# For GCR: docker-credential-gcr
+# For Azure: docker-credential-acr
+
+# Configure ~/.docker/config.json for AWS ECR
+{
+  "credsStore": "ecr-login"
+}
+# Docker will call the helper to get credentials dynamically
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">2.2. Cloud Provider Authentication</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── AWS ECR AUTHENTICATION ─────────────────────────────────────────
+# Install AWS CLI and configure credentials
+aws configure
+
+# Get login token (valid for 12 hours)
+aws ecr get-login-password --region us-west-2 | \
+  docker login --username AWS --password-stdin \
+  123456789012.dkr.ecr.us-west-2.amazonaws.com
+
+# Or use the credential helper (recommended)
+# Install: https://github.com/awslabs/amazon-ecr-credential-helper
+{
+  "credsStore": "ecr-login"
+}
+# Docker will automatically authenticate with ECR using IAM credentials
+
+
+# ── GOOGLE GCR AUTHENTICATION ─────────────────────────────────────
+# Install gcloud CLI
+gcloud auth configure-docker
+
+# Or use credential helper
+{
+  "credsStore": "gcloud"
+}
+
+
+# ── AZURE ACR AUTHENTICATION ──────────────────────────────────────
+# Install Azure CLI
+az login
+az acr login --name myregistry
+
+# Or use credential helper
+{
+  "credsStore": "acr"
+}
+
+
+# ── SERVICE ACCOUNTS / MACHINE USERS ──────────────────────────────
+# Create a Docker Hub access token (not your password)
+# Use token in CI/CD
+echo $DOCKER_ACCESS_TOKEN | docker login -u myusername --password-stdin
+
+# AWS ECR with IAM role (for EC2/EKS)
+# No explicit credentials needed — uses instance/profile role
+# IAM policy must include ecr:GetAuthorizationToken, ecr:Push, ecr:Pull
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Registry authentication uses <code>docker login</code>, which stores credentials in ~/.docker/config.json. For security, use credential helpers (aws-ecr, gcloud, azure) that dynamically retrieve short-lived tokens rather than storing long-lived passwords. In CI/CD, use service accounts or IAM roles—never hardcode passwords. AWS ECR requires <code>aws ecr get-login-password</code> to get a 12-hour token, but the ecr-login credential helper is better for automation. Always use <code>--password-stdin</code> instead of passing passwords directly on the command line, which exposes them in shell history and process listings."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: IMAGE TAGGING STRATEGIES                          -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Image Tagging Strategies
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Tagging strategy determines traceability, rollback capability, and release management. The naive use of <code>:latest</code> is widely considered an anti-pattern for production because it destroys the ability to know exactly which version is running.
+  </p>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ The :latest Anti-pattern:</strong> <code>:latest</code> is mutable—it points to a different image over time. Two different deployments at different times will run different versions. You cannot roll back to a previous state because you don't know what :latest was. Never use <code>:latest</code> in production.
+  </div>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">3.1. Recommended Tagging Strategies</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── STRATEGY 1: Git Commit SHA (Most Traceable) ────────────────────
+# Build and tag with commit SHA
+docker build -t myapp:$(git rev-parse --short HEAD) .
+docker tag myapp:$(git rev-parse --short HEAD) myregistry.com/myapp:$(git rev-parse --short HEAD)
+docker push myregistry.com/myapp:$(git rev-parse --short HEAD)
+
+# Benefits: Exact mapping to source code, immutable, perfect traceability
+# Example: myapp:a1b2c3d
+
+
+# ── STRATEGY 2: Semantic Versioning + Build Metadata ──────────────
+# Tag with version from git tag
+VERSION=$(git describe --tags --abbrev=0)
+BUILD=$(git rev-parse --short HEAD)
+docker build -t myapp:$ {VERSION}-$ {BUILD} .
+docker tag myapp:$ {VERSION}-$ {BUILD} myregistry.com/myapp:$ {VERSION}
+docker push myregistry.com/myapp:$ {VERSION}
+docker push myregistry.com/myapp:$ {VERSION}-$ {BUILD}
+
+# Example: myapp:1.2.3 (major version), myapp:1.2.3-a1b2c3d (specific build)
+
+
+# ── STRATEGY 3: Environment + Timestamp ───────────────────────────
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+docker build -t myapp:$ {TIMESTAMP} .
+docker tag myapp:$ {TIMESTAMP} myregistry.com/myapp:staging
+docker push myregistry.com/myapp:staging
+
+# Example: myapp:staging (always the latest staging), myapp:20240330-143022 (specific)
+
+
+# ── STRATEGY 4: Multiple Tags (Best Practice) ─────────────────────
+# Tag with multiple identifiers for flexibility
+COMMIT_SHA=$(git rev-parse --short HEAD)
+VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "dev")
+
+docker build -t myapp:$ {COMMIT_SHA} .
+
+# Tag with semantic version (if available)
+if [ -n "$VERSION" ]; then
+  docker tag myapp:$ {COMMIT_SHA} myapp:$ {VERSION}
+  docker push myapp:$ {VERSION}
+fi
+
+# Always tag latest for convenience (but never use in production)
+docker tag myapp:$ {COMMIT_SHA} myapp:latest
+docker push myapp:latest
+
+# In production deployments, always reference the commit SHA
+kubectl set image deployment/myapp myapp=myapp:a1b2c3d
+
+
+# ── BEST PRACTICE SUMMARY ──────────────────────────────────────────
+# - Use immutable tags (commit SHA, timestamp) for production
+# - Use environment tags (staging, production) as mutable pointers
+# - Never use :latest in production
+# - Keep tags short but meaningful (8-char SHA is sufficient)
+# - Delete old tags to manage registry storage
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Production tagging must use immutable tags. The best practice is to tag with the Git commit SHA (e.g., myapp:a1b2c3d) because it provides exact traceability to source code. Additionally, tag with semantic version if you're doing releases (e.g., myapp:1.2.3). The <code>:latest</code> tag should only be used for local development—never in production, because it's mutable and you lose the ability to know exactly what version is running. For deployment, reference the immutable tag (SHA) in your Kubernetes manifests or Docker Compose files. This enables perfect rollbacks—just redeploy the previous SHA."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: CI/CD INTEGRATION PATTERNS                        -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. CI/CD Integration Patterns
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Registry integration is central to modern CI/CD pipelines. Images are built, tagged, scanned, and pushed to registries as part of the pipeline. The registry then acts as the artifact store for deployments.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">4.1. GitHub Actions Integration</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-yaml">
+# .github/workflows/docker-build-push.yml
 name: Build and Push Docker Image
 
 on:
   push:
-    branches: [ main ]
+    branches: [main, develop]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io  # GitHub Container Registry
+  IMAGE_NAME: $ {{ github.repository }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Build Docker image
-      run: docker build -t myapp:$ {{ github.sha }} .
-      
-    - name: Log in to Docker Hub
-      run: echo $ {{ secrets.DOCKER_PASSWORD }} | docker login -u $ {{ secrets.DOCKER_USERNAME }} --password-stdin
-      
-    - name: Push to Docker Hub
-      run: |
-        docker tag myapp:$ {{ github.sha }} username/myapp:latest
-        docker push username/myapp:latest
-</code></pre>
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all tags for versioning
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: $ {{ env.REGISTRY }}
+        username: $ {{ github.actor }}
+        password: $ {{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata (tags, labels)
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: $ {{ env.REGISTRY }}/$ {{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=sha,format=short
+          type=raw,value=latest,enable=$ {{ github.ref == 'refs/heads/main' }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: $ {{ github.event_name != 'pull_request' }}
+        tags: $ {{ steps.meta.outputs.tags }}
+        labels: $ {{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        build-args: |
+          BUILD_VERSION=$ {{ github.sha }}
+          BUILD_DATE=$ {{ github.event.head_commit.timestamp }}
+    </code></pre>
   </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">4.2. GitLab CI Integration</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-yaml">
+# .gitlab-ci.yml
+variables:
+  DOCKER_REGISTRY: registry.gitlab.com
+  DOCKER_IMAGE: $DOCKER_REGISTRY/$CI_PROJECT_PATH
+
+stages:
+  - build
+  - test
+  - push
+  - deploy
+
+build:
+  stage: build
+  image: docker:24
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker tag $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA $DOCKER_IMAGE:ci-$CI_PIPELINE_ID
+  artifacts:
+    paths:
+      - image-tag.txt
+  only:
+    - main
+    - develop
+
+test:
+  stage: test
+  image: docker:24
+  services:
+    - docker:dind
+  script:
+    - docker run --rm $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA npm test
+    - docker run --rm $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA npm run lint
+  only:
+    - main
+    - develop
+
+push:
+  stage: push
+  image: docker:24
+  services:
+    - docker:dind
+  before_script:
+    - echo $CI_JOB_TOKEN | docker login -u $CI_REGISTRY_USER --password-stdin $DOCKER_REGISTRY
+  script:
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA
+    - if [ "$CI_COMMIT_BRANCH" == "main" ]; then
+        docker tag $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA $DOCKER_IMAGE:latest;
+        docker push $DOCKER_IMAGE:latest;
+      fi
+  only:
+    - main
+    - develop
+
+deploy-staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl set image deployment/myapp myapp=$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA -n staging
+    - kubectl rollout status deployment/myapp -n staging
+  environment:
+    name: staging
+  only:
+    - develop
+
+deploy-production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl set image deployment/myapp myapp=$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA -n production
+    - kubectl rollout status deployment/myapp -n production
+  environment:
+    name: production
+  only:
+    - main
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">4.3. Jenkins Pipeline Integration</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-groovy">
+// Jenkinsfile
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_REGISTRY = 'myregistry.com'
+        DOCKER_IMAGE = "$ {DOCKER_REGISTRY}/myapp"
+        COMMIT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+    }
+    
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    docker.build("$ {DOCKER_IMAGE}:$ {COMMIT_SHA}")
+                }
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                script {
+                    docker.image("$ {DOCKER_IMAGE}:$ {COMMIT_SHA}").inside {
+                        sh 'npm test'
+                        sh 'npm run lint'
+                    }
+                }
+            }
+        }
+        
+        stage('Security Scan') {
+            steps {
+                script {
+                    sh "trivy image --severity HIGH,CRITICAL --exit-code 1 $ {DOCKER_IMAGE}:$ {COMMIT_SHA}"
+                }
+            }
+        }
+        
+        stage('Push to Registry') {
+            steps {
+                script {
+                    docker.withRegistry("https://$ {DOCKER_REGISTRY}", 'docker-credentials') {
+                        docker.image("$ {DOCKER_IMAGE}:$ {COMMIT_SHA}").push()
+                        if (env.BRANCH_NAME == 'main') {
+                            docker.image("$ {DOCKER_IMAGE}:$ {COMMIT_SHA}").push('latest')
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                sh """
+                    kubectl set image deployment/myapp myapp=$ {DOCKER_IMAGE}:$ {COMMIT_SHA} -n staging
+                    kubectl rollout status deployment/myapp -n staging
+                """
+            }
+        }
+        
+        stage('Deploy to Production') {
+            when {
+                branch 'main'
+            }
+            steps {
+                input message: 'Deploy to production?', ok: 'Deploy'
+                sh """
+                    kubectl set image deployment/myapp myapp=$ {DOCKER_IMAGE}:$ {COMMIT_SHA} -n production
+                    kubectl rollout status deployment/myapp -n production
+                """
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "CI/CD integration with registries follows a build-tag-push pattern. Build the image with an immutable tag (Git commit SHA), run tests and scans, then push to the registry. Use environment-specific tags (staging, production) as mutable pointers to the latest immutable tag for that environment. Always push to the registry from CI—never from local machines. Use OIDC/IAM roles instead of long-lived credentials. For GitHub Actions, use <code>docker/metadata-action</code> to automatically generate proper tags based on branch, PR, and tags. For GitLab CI, use the built-in registry integration. For Jenkins, use the Docker Pipeline plugin. After pushing, trigger deployments by updating Kubernetes manifests or using GitOps tools like ArgoCD that pull images from the registry."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: REGISTRY OPERATIONS AND MAINTENANCE               -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Registry Operations and Maintenance
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Registries require ongoing maintenance—cleaning up old images, managing storage, and ensuring high availability. Without proper maintenance, registries can fill up with unused images, increasing costs and slowing down operations.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">5.1. Garbage Collection</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DOCKER REGISTRY GARBAGE COLLECTION ────────────────────────────
+# Stop the registry (must be read-only or stopped)
+docker stop registry
+
+# Run garbage collection (removes blobs not referenced by any manifest)
+docker run --rm -v /var/lib/registry:/var/lib/registry registry:2 garbage-collect /etc/docker/registry/config.yml
+
+# With delete enabled (dry run first)
+docker run --rm -v /var/lib/registry:/var/lib/registry registry:2 garbage-collect --dry-run /etc/docker/registry/config.yml
+
+# Restart registry
+docker start registry
+
+
+# ── REGISTRY API OPERATIONS ───────────────────────────────────────
+# List repositories
+curl -X GET https://myregistry.com/v2/_catalog
+
+# List tags for a repository
+curl -X GET https://myregistry.com/v2/myapp/tags/list
+
+# Get manifest digest
+curl -I -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+  https://myregistry.com/v2/myapp/manifests/latest
+
+# Delete a tag (requires DELETE enabled in registry config)
+curl -X DELETE https://myregistry.com/v2/myapp/manifests/<digest>
+
+
+# ── AWS ECR CLEANUP (Untagged images) ─────────────────────────────
+# Delete all untagged images in a repository
+aws ecr list-images --repository-name myapp --filter "tagStatus=UNTAGGED" \
+  --query 'imageIds[*]' --output text | \
+  while read image; do
+    aws ecr batch-delete-image --repository-name myapp --image-ids imageDigest=$image
+  done
+
+
+# ── RETENTION POLICIES (ECR) ──────────────────────────────────────
+# Create lifecycle policy to keep only 5 latest images
+aws ecr put-lifecycle-policy --repository-name myapp \
+  --lifecycle-policy-text '{
+    "rules": [
+      {
+        "rulePriority": 1,
+        "description": "Keep only 5 images",
+        "selection": {
+          "tagStatus": "any",
+          "countType": "imageCountMoreThan",
+          "countNumber": 5
+        },
+        "action": {
+          "type": "expire"
+        }
+      }
+    ]
+  }'
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">5.2. Registry Mirroring and Replication</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DOCKER HUB MIRROR (CACHE) ─────────────────────────────────────
+# Configure Docker daemon to use a mirror
+# /etc/docker/daemon.json
+{
+  "registry-mirrors": ["https://mirror.example.com"]
+}
+# Speeds up pulls in air-gapped or high-latency environments
+
+
+# ── HARBOR REPLICATION (Push-based) ───────────────────────────────
+# Harbor supports replication rules to sync images between registries
+# Useful for:
+# - Multi-region deployments
+# - Disaster recovery
+# - Air-gapped environments
+# - Cloud-to-on-prem sync
+
+
+# ── DOCKER REGISTRY PROXY CACHE ───────────────────────────────────
+# Run registry as a pull-through cache
+docker run -d \
+  -p 5000:5000 \
+  -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io \
+  --name registry-cache \
+  registry:2
+
+# Pull through the cache
+docker pull localhost:5000/library/alpine:3.19
+# First pull goes to Docker Hub, subsequent pulls from cache
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">5.3. Storage Backends</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-yaml">
+# ── REGISTRY CONFIGURATION WITH S3 BACKEND ────────────────────────
+# config.yml
+version: 0.1
+storage:
+  s3:
+    accesskey: your_access_key
+    secretkey: your_secret_key
+    region: us-west-2
+    bucket: my-registry-bucket
+    encrypt: true
+    secure: true
+    v4auth: true
+    rootdirectory: /docker/registry
+  delete:
+    enabled: true
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
+
+
+# ── SUPPORTED STORAGE BACKENDS ────────────────────────────────────
+# - Filesystem (local disk) — for development
+# - S3 / GCS / Azure Blob — for production cloud deployments
+# - Ceph / Swift — for on-premises
+# - NFS — shared storage for HA deployments
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Registry maintenance involves garbage collection to remove unreferenced blobs, image retention policies to limit storage growth, and replication for availability. For self-hosted registries, run garbage collection when storage usage is high or after deleting many tags. Cloud registries like ECR provide built-in lifecycle policies—set rules to expire old images or keep only the latest N images. Use registry mirrors in air-gapped environments or to cache Docker Hub images for faster pulls. For production, configure the registry with a cloud storage backend (S3, GCS, Azure Blob) for durability and scalability, and set up replication between regions for disaster recovery."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: REGISTRY SECURITY                                 -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Registry Security
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Registries contain your organization's intellectual property and may contain vulnerabilities. Securing the registry is critical—unauthorized access can lead to IP theft, supply chain attacks, or injection of malicious images.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">6.1. Access Control</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── PRINCIPLE OF LEAST PRIVILEGE ──────────────────────────────────
+# Developers: push/pull to development repositories
+# CI/CD: push to all repositories
+# Production: pull-only access
+# Auditors: read-only access
+
+# AWS ECR IAM Policy Example (Pull-only for production)
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:DescribeImages",
+        "ecr:GetAuthorizationToken"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
+
+# ── SCAN IMAGES ON PUSH ───────────────────────────────────────────
+# AWS ECR: Enable scan on push
+aws ecr put-image-scanning-configuration \
+  --repository-name myapp \
+  --image-scanning-configuration scanOnPush=true
+
+# Harbor: Built-in vulnerability scanning with Trivy/Clair
+
+
+# ── IMMUTABLE TAGS (Prevent Overwrites) ───────────────────────────
+# AWS ECR: Enable immutable tags
+aws ecr create-repository \
+  --repository-name myapp \
+  --image-tag-mutability IMMUTABLE
+
+# Prevents: docker push myregistry.com/myapp:latest
+# Requires new tag for each push
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">6.2. Image Signing and Verification</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DOCKER CONTENT TRUST ──────────────────────────────────────────
+# Enable content trust
+export DOCKER_CONTENT_TRUST=1
+
+# Push signed image
+docker push myregistry.com/myapp:latest
+# Image is signed with the Notary server
+
+# Pull only signed images
+docker pull myregistry.com/myapp:latest
+# Fails if image is not signed
+
+
+# ── COSIGN (Sigstore) — OCI Signing ───────────────────────────────
+# Install cosign: https://docs.sigstore.dev/cosign/installation
+
+# Generate key pair
+cosign generate-key-pair
+
+# Sign image
+cosign sign --key cosign.key myregistry.com/myapp:latest
+
+# Verify signature
+cosign verify --key cosign.pub myregistry.com/myapp:latest
+
+# Verify in Kubernetes (with admission controller)
+# Reject unsigned images
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Registry security includes access control, vulnerability scanning, and image signing. Use IAM roles and least-privilege permissions—developers push to dev repos, CI/CD pushes everywhere, production only pulls. Enable image scanning on push to detect vulnerabilities before deployment. Set immutable tags to prevent overwriting production images. For supply chain security, use Docker Content Trust or Cosign to sign images, and configure Kubernetes admission controllers to verify signatures before deployment. Cloud registries provide these features natively—AWS ECR supports IAM, scan-on-push, and immutable tags; Azure ACR has built-in vulnerability scanning and quarantine policies."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: MULTI-ARCHITECTURE IMAGES                         -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    7. Multi-Architecture Images (Manifest Lists)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Modern registries support multi-architecture images using manifest lists (also called fat manifests). A single tag can point to different images for different platforms (amd64, arm64, arm/v7). This enables seamless cross-platform deployments.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── BUILD FOR MULTIPLE ARCHITECTURES ──────────────────────────────
+# Create a builder for multi-arch builds
+docker buildx create --name multiarch --use
+docker buildx inspect --bootstrap
+
+# Build and push multi-arch image
+docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7 \
+  -t myregistry.com/myapp:latest \
+  --push \
+  .
+
+# Docker automatically pulls the correct architecture for the platform
+
+
+# ── MANIFEST LIST STRUCTURE ───────────────────────────────────────
+# A single tag references multiple platform-specific manifests
+{
+  "schemaVersion": 2,
+  "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
+  "manifests": [
+    {
+      "platform": {
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      "digest": "sha256:..."
+    },
+    {
+      "platform": {
+        "architecture": "arm64",
+        "os": "linux"
+      },
+      "digest": "sha256:..."
+    }
+  ]
+}
+
+
+# ── INSPECT MULTI-ARCH IMAGE ──────────────────────────────────────
+# See all architectures in a manifest list
+docker manifest inspect myregistry.com/myapp:latest
+
+# Pull specific architecture
+docker pull --platform linux/arm64 myregistry.com/myapp:latest
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Multi-architecture images use manifest lists (fat manifests) that contain references to platform-specific images. When you pull <code>myapp:latest</code>, the Docker client selects the appropriate architecture automatically. This is essential for mixed environments with x86_64 (AMD64) servers and ARM64 (Apple Silicon, Graviton, Raspberry Pi) nodes. Use <code>docker buildx</code> to build and push multi-arch images in a single command. Most cloud registries support manifest lists natively—ECR, GCR, ACR, and Docker Hub all do. In CI/CD, set up buildx with QEMU emulation to build all architectures on a single runner."
+  </div>
+
+  <div style="margin-top: 2rem; padding: 1rem; background: #f0fdf4; border-left: 4px solid #22c55e; border-radius: 4px;">
+    <strong>📊 Registry Best Practices Summary:</strong>
+    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+      <li><strong>Tagging:</strong> Use immutable tags (commit SHA) for production; never use :latest</li>
+      <li><strong>Authentication:</strong> Use credential helpers and IAM roles, never store passwords in config.json</li>
+      <li><strong>CI/CD:</strong> Build, test, scan, then push; use OIDC for authentication</li>
+      <li><strong>Security:</strong> Enable scan-on-push, immutable tags, and least-privilege IAM</li>
+      <li><strong>Maintenance:</strong> Set retention policies to delete old images; run garbage collection regularly</li>
+      <li><strong>Multi-arch:</strong> Use buildx to create manifest lists for cross-platform deployments</li>
+    </ul>
+  </div>
+
 </div>`,
-          },
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER REGISTRY DEMO
+# Demonstrates registry setup, authentication, CI/CD patterns, and maintenance
+# ══════════════════════════════════════════════════════════════
+
+set -e
+PROJECT_DIR="docker-registry-demo"
+mkdir -p $PROJECT_DIR && cd $PROJECT_DIR
+
+
+# ── PART 1: Create a sample application ───────────────────────────
+cat > Dockerfile << 'EOF'
+FROM alpine:3.19
+RUN apk add --no-cache curl
+COPY --chmod=755 <<-'EOF' /healthcheck.sh
+#!/bin/sh
+curl -f http://localhost:8080/health || exit 1
+EOF
+CMD ["sh", "-c", "echo 'Server running' && tail -f /dev/null"]
+EOF
+
+
+# ── PART 2: Start a local registry ────────────────────────────────
+echo "=== Starting local Docker registry ==="
+docker run -d \
+  -p 5000:5000 \
+  --name local-registry \
+  --restart always \
+  registry:2
+
+echo "Registry running at localhost:5000"
+
+
+# ── PART 3: Build and push to local registry ──────────────────────
+COMMIT_SHA=$(git rev-parse --short HEAD 2>/dev/null || echo "nosha")
+echo "=== Building image with tag: $ {COMMIT_SHA} ==="
+docker build -t localhost:5000/myapp:$ {COMMIT_SHA} .
+
+echo "=== Pushing to local registry ==="
+docker push localhost:5000/myapp:$ {COMMIT_SHA}
+
+echo "=== Tagging as latest (dev convenience) ==="
+docker tag localhost:5000/myapp:$ {COMMIT_SHA} localhost:5000/myapp:latest
+docker push localhost:5000/myapp:latest
+
+echo ""
+echo "Images in registry:"
+curl -s http://localhost:5000/v2/_catalog | python3 -m json.tool
+
+
+# ── PART 4: Pull and test images ──────────────────────────────────
+echo ""
+echo "=== Pulling from registry ==="
+docker pull localhost:5000/myapp:$ {COMMIT_SHA}
+
+echo "=== Running pulled image ==="
+docker run -d --name test-container -p 8080:8080 localhost:5000/myapp:$ {COMMIT_SHA}
+sleep 2
+docker ps | grep test-container
+
+echo "=== Cleaning up test container ==="
+docker rm -f test-container
+
+
+# ── PART 5: Registry API operations ───────────────────────────────
+echo ""
+echo "=== Registry API: List repositories ==="
+curl -s http://localhost:5000/v2/_catalog
+
+echo ""
+echo "=== Registry API: List tags for myapp ==="
+curl -s http://localhost:5000/v2/myapp/tags/list | python3 -m json.tool
+
+
+# ── PART 6: Simulate CI/CD pipeline with tagging strategies ───────
+echo ""
+echo "=== CI/CD Simulation ==="
+
+# Simulate different branches
+for BRANCH in main develop feature/new-feature; do
+  BRANCH_TAG=$(echo $BRANCH | sed 's/\\//-/g')
+  docker tag localhost:5000/myapp:$ {COMMIT_SHA} localhost:5000/myapp:$ {BRANCH_TAG}
+  docker push localhost:5000/myapp:$ {BRANCH_TAG}
+  echo "Pushed $ {BRANCH_TAG}"
+done
+
+# Simulate semantic version release
+VERSION="1.0.0"
+docker tag localhost:5000/myapp:$ {COMMIT_SHA} localhost:5000/myapp:$ {VERSION}
+docker push localhost:5000/myapp:$ {VERSION}
+echo "Pushed $ {VERSION}"
+
+echo ""
+echo "All tags for myapp:"
+curl -s http://localhost:5000/v2/myapp/tags/list | python3 -m json.tool
+
+
+# ── PART 7: Registry authentication (with htpasswd) ───────────────
+echo ""
+echo "=== Setting up registry with authentication ==="
+mkdir -p auth
+
+# Create htpasswd file
+docker run --rm --entrypoint htpasswd httpd:2 -Bbn testuser testpassword > auth/htpasswd
+
+# Stop and remove old registry
+docker rm -f local-registry
+
+# Start registry with auth
+docker run -d \
+  -p 5000:5000 \
+  --name auth-registry \
+  -v $(pwd)/auth:/auth \
+  -e "REGISTRY_AUTH=htpasswd" \
+  -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+  -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+  registry:2
+
+echo ""
+echo "Testing unauthenticated pull (should fail):"
+docker pull localhost:5000/myapp:latest 2>&1 | head -2 || true
+
+echo ""
+echo "Testing login:"
+echo "testpassword" | docker login -u testuser --password-stdin localhost:5000
+
+echo ""
+echo "Pull after login:"
+docker pull localhost:5000/myapp:latest
+
+# Cleanup auth registry
+docker rm -f auth-registry
+docker logout localhost:5000
+
+
+# ── PART 8: Registry garbage collection simulation ────────────────
+echo ""
+echo "=== Garbage Collection Demo ==="
+
+# Start registry with volume
+docker run -d \
+  -p 5000:5000 \
+  --name gc-registry \
+  -v registry-data:/var/lib/registry \
+  registry:2
+
+# Push some images
+for i in 1 2 3; do
+  docker tag alpine:3.19 localhost:5000/alpine:test$i
+  docker push localhost:5000/alpine:test$i
+done
+
+echo "Images before deletion:"
+curl -s http://localhost:5000/v2/alpine/tags/list
+
+# Delete a tag via API (requires delete enabled)
+# Note: Docker registry OSS doesn't support delete by default
+echo "Note: Delete requires registry config with storage.delete.enabled=true"
+
+docker rm -f gc-registry
+docker volume rm registry-data
+
+
+# ── PART 9: Registry mirror (pull-through cache) ──────────────────
+echo ""
+echo "=== Registry Mirror Demo ==="
+
+# Start registry as pull-through cache
+docker run -d \
+  -p 5001:5000 \
+  --name registry-cache \
+  -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io \
+  registry:2
+
+echo "First pull (goes to Docker Hub):"
+time docker pull localhost:5001/library/alpine:3.19
+
+echo ""
+echo "Second pull (from cache):"
+time docker pull localhost:5001/library/alpine:3.19
+
+docker rm -f registry-cache
+
+
+# ── PART 10: Multi-architecture build simulation ──────────────────
+echo ""
+echo "=== Multi-architecture Build Demo ==="
+
+# Check if buildx is available
+if docker buildx version &> /dev/null; then
+  echo "Creating multi-arch builder..."
+  docker buildx create --name multiarch-builder --use 2>/dev/null || true
+  docker buildx inspect --bootstrap
+
+  echo ""
+  echo "Building for multiple architectures (simulated)..."
+  docker buildx build \
+    --platform linux/amd64,linux/arm64 \
+    -t localhost:5000/myapp:multiarch \
+    --load=false \
+    . 2>&1 | head -10
+else
+  echo "buildx not available (requires Docker 19.03+)"
+fi
+
+
+# ── PART 11: Cleanup ──────────────────────────────────────────────
+echo ""
+echo "=== Cleaning up ==="
+docker rm -f local-registry gc-registry 2>/dev/null || true
+docker rmi localhost:5000/myapp:$ {COMMIT_SHA} localhost:5000/myapp:latest 2>/dev/null || true
+docker system prune -f
+
+cd .. && rm -rf $PROJECT_DIR
+
+echo ""
+echo "✅ Docker registry demo complete"
+echo ""
+echo "📊 Key takeaways:"
+echo "  • Registry URL format: [host]/[namespace]/[repo]:[tag]"
+echo "  • Use immutable tags (commit SHA) for production"
+echo "  • Authentication: docker login with credential helpers"
+echo "  • CI/CD: build, tag with SHA, push, deploy"
+echo "  • Maintenance: garbage collection, retention policies"
+echo "  • Multi-arch: buildx creates manifest lists"
+`,
+            ],
+
+            questions: [
+              {
+                question: "What is the difference between a Docker registry and a repository?",
+                solution: "<p>A <strong>registry</strong> is a storage system that hosts multiple repositories—it's the server or service (e.g., Docker Hub, AWS ECR). A <strong>repository</strong> is a collection of related images within a registry (e.g., <code>ubuntu</code> is a repository with tags like 22.04, 20.04). The full image name includes both: <code>docker.io/library/ubuntu:22.04</code> where <code>docker.io</code> is the registry, <code>library/ubuntu</code> is the repository, and <code>22.04</code> is the tag. Registries can host thousands of repositories. The registry implements the OCI Distribution Specification and manages authentication, storage, and replication. Repositories are logical groupings within a registry.</p>",
+              },
+              {
+                question: "Why is using the :latest tag considered an anti-pattern in production?",
+                solution: "<p>The <code>:latest</code> tag is mutable—it points to different images over time. When you deploy <code>myapp:latest</code> to production, you don't know which version you're running. If you deploy twice, you may get different images. Rollback is impossible because you don't know what <code>:latest</code> was yesterday. The proper approach is to use <strong>immutable tags</strong> like Git commit SHAs (<code>myapp:a1b2c3d</code>) or semantic versions (<code>myapp:1.2.3</code>). Store the exact tag used for each deployment in your deployment configuration. For convenience, you can still update <code>:latest</code> for development, but never reference it in production manifests.</p>",
+              },
+              {
+                question: "How do you authenticate to AWS ECR in a CI/CD pipeline?",
+                solution: "<p>Use IAM roles with OIDC (OpenID Connect) integration rather than storing long-term credentials. For GitHub Actions: use <code>aws-actions/configure-aws-credentials</code> with OIDC, then <code>aws ecr get-login-password</code> to get a 12-hour token. For GitLab CI: use the built-in AWS integration with OIDC. For Jenkins: use the AWS credentials plugin with an IAM role attached to the EC2 instance. The recommended pattern is to use the <code>ecr-login</code> credential helper—configure <code>~/.docker/config.json</code> with <code>{\"credsStore\": \"ecr-login\"}</code>. Docker will automatically call the helper to get short-lived tokens without manual login steps.</p>",
+              },
+              {
+                question: "How do you implement image retention policies to manage registry storage?",
+                solution: "<p>For cloud registries, use built-in lifecycle policies. In AWS ECR, create lifecycle rules to expire images older than N days or keep only the latest N images: <code>aws ecr put-lifecycle-policy</code> with rules like <code>\"countNumber\": 10</code>. In Azure ACR, use retention policies with <code>az acr config retention update</code>. For self-hosted Harbor, use retention rules in the UI. For the open-source Docker Registry, implement scheduled jobs that query the API, identify old tags, delete them, then run garbage collection. Always test retention policies in dev first—permanent deletion is irreversible. Typical strategy: keep all images for 30 days, keep weekly snapshots for 6 months, keep monthly for 1 year.</p>",
+              },
+              {
+                question: "What is a manifest list and how does it enable multi-architecture support?",
+                solution: "<p>A manifest list (fat manifest) is a JSON file that references multiple platform-specific manifests. When you pull an image tag that points to a manifest list, the Docker client selects the appropriate manifest for your platform (e.g., amd64, arm64, arm/v7). This enables a single tag like <code>myapp:latest</code> to work seamlessly across different architectures. Create manifest lists with <code>docker buildx build --platform linux/amd64,linux/arm64 --push .</code>. The buildx command builds each architecture, creates the manifest list, and pushes everything. Use <code>docker manifest inspect myapp:latest</code> to see the manifest list structure. Cloud registries (ECR, GCR, ACR) and Docker Hub all support manifest lists.</p>",
+              },
+              {
+                question: "How do you set up a private Docker registry with authentication?",
+                solution: "<p>Run the official registry:2 image with environment variables for authentication. Create an htpasswd file: <code>docker run --entrypoint htpasswd httpd:2 -Bbn myuser mypassword > auth/htpasswd</code>. Mount the auth directory and set environment variables: <code>docker run -d -p 5000:5000 -v $(pwd)/auth:/auth -e REGISTRY_AUTH=htpasswd -e REGISTRY_AUTH_HTPASSWD_REALM='Registry Realm' -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd registry:2</code>. For TLS, mount certificates and set <code>REGISTRY_HTTP_TLS_CERTIFICATE</code> and <code>REGISTRY_HTTP_TLS_KEY</code>. For production, use a managed service (ECR, GCR, ACR) or a feature-rich self-hosted option like Harbor (which adds vulnerability scanning, replication, and UI).</p>",
+              },
+              {
+                question: "What is Docker Content Trust and how does it improve supply chain security?",
+                solution: "<p>Docker Content Trust (DCT) enables image signing using Notary (based on The Update Framework, TUF). When <code>DOCKER_CONTENT_TRUST=1</code> is set, Docker only pulls images signed by trusted publishers. Publishers sign images when pushing. DCT prevents man-in-the-middle attacks (tampered images) and ensures images come from trusted sources. For stronger security, use Cosign (Sigstore) which integrates with OCI registries, supports keyless signing with OIDC, and provides transparency logs. In Kubernetes, admission controllers can verify signatures before deployment. DCT and Cosign address supply chain attacks where an attacker compromises a registry or network to inject malicious images.</p>",
+              },
+              {
+                question: "How do you manage image tags in a monorepo with multiple services?",
+                solution: "<p>In a monorepo, each service needs its own repository and tagging strategy. Use a naming convention like <code>myregistry.com/service-name:commit-sha</code>. In CI, build each service separately, tag with the same commit SHA, and push. For deployment, use the commit SHA to reference the exact image for each service. Example: <code>docker build -t myregistry.com/frontend:$ {COMMIT_SHA} -f frontend/Dockerfile ./frontend</code> and similarly for backend. Use matrix builds to parallelize. For versioned releases, tag with semantic version plus service name: <code>myregistry.com/frontend:1.2.3</code> and <code>myregistry.com/backend:1.2.3</code>. Maintain a manifest file that maps service to image tag for the release.</p>",
+              },
+              {
+                question: "What is the purpose of registry garbage collection and how do you perform it?",
+                solution: "<p>Registry garbage collection removes unreferenced blobs—layers that are no longer referenced by any manifest (tag). When you delete a tag, the underlying blobs remain until garbage collection runs. To perform garbage collection on the open-source Docker Registry: stop the registry, run <code>docker run --rm -v /var/lib/registry:/var/lib/registry registry:2 garbage-collect /etc/docker/registry/config.yml</code>, then restart. For cloud registries, garbage collection is automatic when you delete tags—no manual intervention needed. Regular garbage collection prevents storage bloat. Schedule it monthly or when storage usage exceeds thresholds. Always test in staging first.</p>",
+              },
+              {
+                question: "How do you implement a registry mirror for air-gapped environments?",
+                solution: "<p>A registry mirror acts as a pull-through cache. Configure the Docker daemon with <code>{\"registry-mirrors\": [\"https://mirror.example.com\"]}</code> in /etc/docker/daemon.json. Then run a registry in proxy mode: <code>docker run -d -p 5000:5000 -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io registry:2</code>. The first pull goes to Docker Hub and caches the image; subsequent pulls come from the mirror. For air-gapped environments (no internet), use a full replica: pre-populate the mirror by pulling all required images and pushing to the internal registry. Use tools like <code>skopeo</code> or <code>docker pull/push</code> scripts to sync images. Harbor supports replication rules to sync from a source registry to a target.</p>",
+              },
+              {
+                question: "What is the difference between Docker Hub, GitHub Container Registry, and a cloud provider registry?",
+                solution: "<p><strong>Docker Hub</strong>: The default public registry. Offers official images, community repositories, free tier with limits, and paid plans for private repos. Best for open-source and development. <strong>GitHub Container Registry (GHCR)</strong>: Integrated with GitHub, uses GitHub packages, supports fine-grained permissions via GitHub teams, and has seamless GitHub Actions integration. Best for GitHub-centric workflows. <strong>Cloud provider registries (ECR, GCR, ACR)</strong>: Managed services with IAM integration, vulnerability scanning, geo-replication, and SLA guarantees. Best for production workloads on that cloud. All support OCI images, but differ in authentication (IAM vs tokens), pricing, and features. Choose based on your CI/CD platform and cloud provider.</p>",
+              },
+              {
+                question: "How do you secure a private Docker registry?",
+                solution: "<p>Registry security includes: (1) <strong>Authentication</strong>: Use htpasswd, LDAP, or OIDC. For cloud, use IAM roles. (2) <strong>Authorization</strong>: Implement least-privilege—read-only for production, read-write for CI, read for auditors. (3) <strong>TLS</strong>: Always enable HTTPS—never expose a registry without TLS. (4) <strong>Image scanning</strong>: Enable scan-on-push to detect vulnerabilities. (5) <strong>Immutable tags</strong>: Prevent overwriting production images. (6) <strong>Network access</strong>: Restrict to VPC/internal network; use VPN or service mesh for external access. (7) <strong>Audit logging</strong>: Enable access logs for compliance. (8) <strong>Image signing</strong>: Use DCT or Cosign to verify image provenance. Harbor provides all these features in a self-hosted package.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/registry/",
+              "https://docs.docker.com/engine/reference/commandline/login/",
+              "https://docs.aws.amazon.com/ecr/",
+              "https://cloud.google.com/container-registry",
+              "https://azure.microsoft.com/en-us/services/container-registry/",
+              "https://github.com/features/packages",
+              "https://goharbor.io/",
+              "https://docs.docker.com/engine/security/trust/",
+              "https://github.com/sigstore/cosign",
+              "https://docs.docker.com/build/building/multi-platform/",
+              "https://docs.docker.com/registry/garbage-collection/",
+              "https://docs.docker.com/registry/recipes/mirror/",
+            ],
+          }
         ],
       },
     ],

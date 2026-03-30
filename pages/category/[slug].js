@@ -180,11 +180,10 @@ function PaginationComponent({
           whileTap={{ scale: 0.95 }}
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-            currentPage === 1
-              ? "opacity-40 cursor-not-allowed text-gray-400"
-              : "hover:shadow-md"
-          }`}
+          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === 1
+            ? "opacity-40 cursor-not-allowed text-gray-400"
+            : "hover:shadow-md"
+            }`}
           style={{
             color: currentPage === 1 ? "#9CA3AF" : themeColors.text,
             backgroundColor: currentPage === 1 ? "transparent" : themeColors.bg,
@@ -210,11 +209,10 @@ function PaginationComponent({
                 whileHover={{ scale: currentPage !== page ? 1.1 : 1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => onPageChange(page)}
-                className={`relative px-3.5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 min-w-[44px] ${
-                  currentPage === page
-                    ? "text-white shadow-lg transform scale-105"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-md"
-                }`}
+                className={`relative px-3.5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 min-w-[44px] ${currentPage === page
+                  ? "text-white shadow-lg transform scale-105"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-md"
+                  }`}
                 style={{
                   backgroundColor:
                     currentPage === page ? themeColors.bg : "transparent",
@@ -224,9 +222,8 @@ function PaginationComponent({
                     currentPage === page
                       ? `0 4px 12px ${themeColors.bg}40, 0 2px 4px ${themeColors.bg}20`
                       : "none",
-                  border: `1px solid ${
-                    currentPage === page ? themeColors.border : "white"
-                  }`,
+                  border: `1px solid ${currentPage === page ? themeColors.border : "white"
+                    }`,
                 }}
               >
                 {currentPage === page && (
@@ -252,11 +249,10 @@ function PaginationComponent({
           whileTap={{ scale: 0.95 }}
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-            currentPage === totalPages
-              ? "opacity-40 cursor-not-allowed text-gray-400"
-              : "hover:shadow-md"
-          }`}
+          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === totalPages
+            ? "opacity-40 cursor-not-allowed text-gray-400"
+            : "hover:shadow-md"
+            }`}
           style={{
             color: currentPage === totalPages ? "#9CA3AF" : themeColors.text,
             backgroundColor:
@@ -933,25 +929,24 @@ export default function BasicTabs({
                     <TabsTrigger
                       value="Beginner"
                       onClick={() => setLevel("Beginner")}
-                      className={`bg-white ${
-                        topic === "Javascript"
-                          ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                          : topic === "React"
-                            ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                            : topic === "Node"
-                              ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                              : topic === "Typescript"
-                                ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                                : topic === "AWS S3"
-                                  ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                                  : ""
-                      }`}
+                      className={`bg-white ${topic === "Javascript"
+                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                        : topic === "React"
+                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                          : topic === "Node"
+                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                            : topic === "Typescript"
+                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                              : topic === "AWS S3"
+                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                                : ""
+                        }`}
                       style={
                         level === "Beginner"
                           ? {
-                              backgroundColor: themeColors.light,
-                              color: themeColors.text,
-                            }
+                            backgroundColor: themeColors.light,
+                            color: themeColors.text,
+                          }
                           : {}
                       }
                     >
@@ -960,25 +955,24 @@ export default function BasicTabs({
                     <TabsTrigger
                       value="Advance"
                       onClick={() => setLevel("Advance")}
-                      className={`bg-white ${
-                        topic === "Javascript"
-                          ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                          : topic === "React"
-                            ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                            : topic === "Node"
-                              ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                              : topic === "Typescript"
-                                ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                                : topic === "AWS S3"
-                                  ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                                  : ""
-                      }`}
+                      className={`bg-white ${topic === "Javascript"
+                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                        : topic === "React"
+                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                          : topic === "Node"
+                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                            : topic === "Typescript"
+                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                              : topic === "AWS S3"
+                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                                : ""
+                        }`}
                       style={
                         level === "Advance"
                           ? {
-                              backgroundColor: themeColors.light,
-                              color: themeColors.text,
-                            }
+                            backgroundColor: themeColors.light,
+                            color: themeColors.text,
+                          }
                           : {}
                       }
                     >
@@ -1012,7 +1006,7 @@ export default function BasicTabs({
                                       data-theme-bg={themeColors.topic}
                                       checked={
                                         !!learnedConcepts[
-                                          getConceptKey(topic, concept.topic)
+                                        getConceptKey(topic, concept.topic)
                                         ]
                                       }
                                       onCheckedChange={() =>
@@ -1076,12 +1070,12 @@ export default function BasicTabs({
                                       color: themeColors.text,
                                     }}
                                     onMouseEnter={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.bg)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.bg)
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.light)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.light)
                                     }
                                   >
                                     <BookOpenCheck
@@ -1103,12 +1097,12 @@ export default function BasicTabs({
                                       color: themeColors.text,
                                     }}
                                     onMouseEnter={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.bg)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.bg)
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.light)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.light)
                                     }
                                   >
                                     <BookOpenCheck
@@ -1139,12 +1133,12 @@ export default function BasicTabs({
                                       color: themeColors.text,
                                     }}
                                     onMouseEnter={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.bg)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.bg)
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.light)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.light)
                                     }
                                   >
                                     <Code
@@ -1167,12 +1161,12 @@ export default function BasicTabs({
                                       color: themeColors.text,
                                     }}
                                     onMouseEnter={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.bg)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.bg)
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.light)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.light)
                                     }
                                   >
                                     <Code
@@ -1241,7 +1235,7 @@ export default function BasicTabs({
                                       data-theme-bg={themeColors.topic}
                                       checked={
                                         !!learnedConcepts[
-                                          getConceptKey(topic, concept.topic)
+                                        getConceptKey(topic, concept.topic)
                                         ]
                                       }
                                       onCheckedChange={() =>
@@ -1306,12 +1300,12 @@ export default function BasicTabs({
                                       color: themeColors.text,
                                     }}
                                     onMouseEnter={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.bg)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.bg)
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.light)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.light)
                                     }
                                   >
                                     <BookOpenCheck
@@ -1328,19 +1322,18 @@ export default function BasicTabs({
                                       )
                                     }
                                     className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                              ${
-                                topic === "Javascript"
-                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : topic === "React"
-                                    ? "text-React-text bg-white hover:bg-React-bg "
-                                    : topic === "Node"
-                                      ? "text-Node-text bg-white hover:bg-Node-bg "
-                                      : topic === "Typescript"
-                                        ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                        : topic === "AWS S3"
-                                          ? "text-AWS-text bg-white hover:bg-AWS-bg "
-                                          : ""
-                              } 
+                              ${topic === "Javascript"
+                                        ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                        : topic === "React"
+                                          ? "text-React-text bg-white hover:bg-React-bg "
+                                          : topic === "Node"
+                                            ? "text-Node-text bg-white hover:bg-Node-bg "
+                                            : topic === "Typescript"
+                                              ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                              : topic === "AWS S3"
+                                                ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                                : ""
+                                      } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
                                   >
                                     {" "}
@@ -1372,12 +1365,12 @@ export default function BasicTabs({
                                       color: themeColors.text,
                                     }}
                                     onMouseEnter={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.bg)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.bg)
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.light)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.light)
                                     }
                                   >
                                     <Code
@@ -1400,12 +1393,12 @@ export default function BasicTabs({
                                       color: themeColors.text,
                                     }}
                                     onMouseEnter={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.bg)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.bg)
                                     }
                                     onMouseLeave={(e) =>
-                                      (e.target.style.backgroundColor =
-                                        themeColors.light)
+                                    (e.target.style.backgroundColor =
+                                      themeColors.light)
                                     }
                                   >
                                     <Code
@@ -1460,25 +1453,24 @@ export default function BasicTabs({
                   <TabsTrigger
                     value="Junior"
                     onClick={() => setInterviewSelection("Junior")}
-                    className={`bg-white ${
-                      topic === "Javascript"
-                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                        : topic === "React"
-                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                          : topic === "Node"
-                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                            : topic === "Typescript"
-                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                              : topic === "AWS S3"
-                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                                : ""
-                    }`}
+                    className={`bg-white ${topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                        : topic === "Node"
+                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                          : topic === "Typescript"
+                            ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                            : topic === "AWS S3"
+                              ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                              : ""
+                      }`}
                     style={
                       interviewSelection === "Junior"
                         ? {
-                            backgroundColor: themeColors.light,
-                            color: themeColors.text,
-                          }
+                          backgroundColor: themeColors.light,
+                          color: themeColors.text,
+                        }
                         : {}
                     }
                   >
@@ -1487,25 +1479,24 @@ export default function BasicTabs({
                   <TabsTrigger
                     value="Mid"
                     onClick={() => setInterviewSelection("Mid")}
-                    className={`bg-white ${
-                      topic === "Javascript"
-                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                        : topic === "React"
-                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                          : topic === "Node"
-                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                            : topic === "Typescript"
-                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                              : topic === "AWS S3"
-                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                                : ""
-                    }`}
+                    className={`bg-white ${topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                        : topic === "Node"
+                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                          : topic === "Typescript"
+                            ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                            : topic === "AWS S3"
+                              ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                              : ""
+                      }`}
                     style={
                       interviewSelection === "Mid"
                         ? {
-                            backgroundColor: themeColors.light,
-                            color: themeColors.text,
-                          }
+                          backgroundColor: themeColors.light,
+                          color: themeColors.text,
+                        }
                         : {}
                     }
                   >
@@ -1514,25 +1505,24 @@ export default function BasicTabs({
                   <TabsTrigger
                     value="Senior"
                     onClick={() => setInterviewSelection("Senior")}
-                    className={`bg-white ${
-                      topic === "Javascript"
-                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                        : topic === "React"
-                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                          : topic === "Node"
-                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                            : topic === "Typescript"
-                              ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
-                              : topic === "AWS S3"
-                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                                : ""
-                    }`}
+                    className={`bg-white ${topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                        : topic === "Node"
+                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                          : topic === "Typescript"
+                            ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
+                            : topic === "AWS S3"
+                              ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                              : ""
+                      }`}
                     style={
                       interviewSelection === "Senior"
                         ? {
-                            backgroundColor: themeColors.light,
-                            color: themeColors.text,
-                          }
+                          backgroundColor: themeColors.light,
+                          color: themeColors.text,
+                        }
                         : {}
                     }
                   >
@@ -1543,13 +1533,13 @@ export default function BasicTabs({
                   <div className="flex flex-col gap-3">
                     {paginatedInterviewData.length > 0
                       ? paginatedInterviewData.map((item, index) => (
-                          <AccordionQuestion
-                            key={index}
-                            question={item}
-                            topic={topic}
-                            index={index}
-                          />
-                        ))
+                        <AccordionQuestion
+                          key={index}
+                          question={item}
+                          topic={topic}
+                          index={index}
+                        />
+                      ))
                       : null}
                   </div>
                   {interviewQues?.questions?.length > 0 && (
@@ -1567,13 +1557,13 @@ export default function BasicTabs({
                   <div className="flex flex-col gap-3">
                     {paginatedInterviewData.length > 0
                       ? paginatedInterviewData.map((item, index) => (
-                          <AccordionQuestion
-                            key={index}
-                            question={item}
-                            topic={topic}
-                            index={index}
-                          />
-                        ))
+                        <AccordionQuestion
+                          key={index}
+                          question={item}
+                          topic={topic}
+                          index={index}
+                        />
+                      ))
                       : null}
                   </div>
                   {interviewQues?.questions?.length > 0 && (
@@ -1591,13 +1581,13 @@ export default function BasicTabs({
                   <div className="flex flex-col gap-3">
                     {paginatedInterviewData.length > 0
                       ? paginatedInterviewData.map((item, index) => (
-                          <AccordionQuestion
-                            key={index}
-                            question={item}
-                            topic={topic}
-                            index={index}
-                          />
-                        ))
+                        <AccordionQuestion
+                          key={index}
+                          question={item}
+                          topic={topic}
+                          index={index}
+                        />
+                      ))
                       : null}
                   </div>
                   {interviewQues?.questions?.length > 0 && (

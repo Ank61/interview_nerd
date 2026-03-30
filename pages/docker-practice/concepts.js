@@ -191,10 +191,12 @@ export default function DockerConcepts() {
                 {/* Footer CTA */}
                 <div className="px-6 pb-5">
                   <button
-                    onClick={() => router.push("/docker-practice/exercises")}
+                    onClick={() =>
+                      router.push(`/docker-practice/concepts/${concept.id}`)
+                    }
                     className="w-full py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-500 shadow hover:shadow-md transition-all duration-200"
                   >
-                    Practice Exercises →
+                    View Questions →
                   </button>
                 </div>
               </motion.div>
