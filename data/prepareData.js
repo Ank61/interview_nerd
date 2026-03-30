@@ -171247,7 +171247,7 @@ FROM node:18-alpine AS runtime
 
 # Using ARG before FROM for dynamic base selection
 ARG NODE_VERSION=18
-FROM node:\${NODE_VERSION}-alpine
+FROM node:\$ {NODE_VERSION}-alpine
     </code></pre>
   </div>
 
@@ -172232,7 +172232,7 @@ CMD ["node", "src/server.js"]       # Exec form
                 question:
                   "What's the difference between ARG and ENV? When would you use each?",
                 solution:
-                  "<p><strong>ARG</strong> is a build-time variable — only available during <code>docker build</code>. It does NOT persist in the final image and is NOT accessible to running containers. Use ARG for values needed during build: base image version, build flags, npm registry URL. Syntax: <code>ARG NODE_VERSION=18</code> then <code>FROM node:\${NODE_VERSION}</code>. Override at build: <code>docker build --build-arg NODE_VERSION=20 .</code>. <strong>ENV</strong> is a runtime environment variable — persists in the image and is available to running containers. Use ENV for application config: <code>ENV NODE_ENV=production</code>, <code>ENV PORT=3000</code>. These can be overridden at runtime: <code>docker run -e NODE_ENV=development</code>. <strong>Key difference:</strong> ARG = build config, ENV = runtime config. ARG can be used before FROM, ENV cannot. ARGs are visible in docker history (don't use for secrets). ENVs are visible in running containers via <code>docker inspect</code>.</p>",
+                  "<p><strong>ARG</strong> is a build-time variable — only available during <code>docker build</code>. It does NOT persist in the final image and is NOT accessible to running containers. Use ARG for values needed during build: base image version, build flags, npm registry URL. Syntax: <code>ARG NODE_VERSION=18</code> then <code>FROM node:\$ {NODE_VERSION}</code>. Override at build: <code>docker build --build-arg NODE_VERSION=20 .</code>. <strong>ENV</strong> is a runtime environment variable — persists in the image and is available to running containers. Use ENV for application config: <code>ENV NODE_ENV=production</code>, <code>ENV PORT=3000</code>. These can be overridden at runtime: <code>docker run -e NODE_ENV=development</code>. <strong>Key difference:</strong> ARG = build config, ENV = runtime config. ARG can be used before FROM, ENV cannot. ARGs are visible in docker history (don't use for secrets). ENVs are visible in running containers via <code>docker inspect</code>.</p>",
               },
               {
                 question:
@@ -175941,314 +175941,5510 @@ docker volume rm app-pgdata`,
         concepts: [
           {
             topic: "Docker Compose",
-            tags: ["Multi-Container", "Orchestration", "Development"],
+            tags: [
+              "docker",
+              "docker-compose",
+              "multi-container",
+              "orchestration",
+              "yaml",
+              "devops",
+              "interview",
+            ],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Docker Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application's services, networks, and volumes. Then, with a single command, you create and start all the services from your configuration.
-   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Docker Compose File Structure
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-yaml">
-version: '3.8'
-
+ 
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker Compose is a tool for defining and running multi-container Docker applications using a declarative YAML file. Instead of managing each container manually with long <code>docker run</code> commands, Compose lets you describe your entire application stack — services, networks, volumes, environment variables, health checks, resource limits, and startup dependencies — in a single <code>docker-compose.yml</code> file, then spin it all up or tear it all down with one command. Docker Compose is not just a convenience tool for development: understanding it deeply — the full YAML schema, service lifecycle, dependency management, override files, scaling, health checks, secrets handling, and how Compose interacts with Docker's networking and volume systems — is essential for production deployments and appears heavily in senior DevOps and backend engineering interviews. Docker Compose V2 (the <code>docker compose</code> plugin, without the hyphen) is now the current standard and ships built-in with Docker Desktop.
+  </p>
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 1: COMPOSE FILE STRUCTURE & SCHEMA                   -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Compose File Structure &amp; Schema
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A Compose file has four top-level keys: <code>services</code>, <code>networks</code>, <code>volumes</code>, and <code>configs</code>/<code>secrets</code>. Each service definition maps directly to a <code>docker run</code> command but in a readable, version-controlled YAML format. Understanding every commonly-used key and what it maps to under the hood is the foundation of Compose mastery.
+  </p>
+ 
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The version: Field</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    In Compose V2 (current), the <code>version:</code> field at the top of the file is <strong>optional and ignored</strong>. It was used by the legacy Python-based Compose V1 (<code>docker-compose</code>) to select schema features. You may still see <code>version: '3.8'</code> in many files for backward compatibility, but modern Compose ignores it entirely. Do not rely on it. This is a very common interview trip-up — many candidates recite version numbers without knowing this changed.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── FULL ANNOTATED COMPOSE FILE ─────────────────────────────────
+# Every commonly-used key explained
+ 
+# version: '3.8'   ← ignored in Compose V2, omit it in new files
+ 
 services:
-  web:
+ 
+  # ── SERVICE: api ──────────────────────────────────────────────
+  api:
+ 
+    # --- Image source: build from Dockerfile OR pull from registry
+    build:
+      context: ./api           # build context directory
+      dockerfile: Dockerfile   # Dockerfile name (default: "Dockerfile")
+      args:                    # ARG values passed to Dockerfile
+        NODE_VERSION: "20"
+        BUILD_ENV: production
+      target: production       # multi-stage build target
+      cache_from:              # images to use as layer cache
+        - myrepo/api:latest
+    # OR: pull a pre-built image
+    # image: myrepo/api:1.0
+ 
+    # --- Container identity
+    container_name: my-api     # fixed name (default: PROJECT_SERVICE_N)
+    hostname: api-server       # hostname INSIDE the container
+ 
+    # --- Port mapping: HOST:CONTAINER
+    ports:
+      - "3000:3000"            # binds to 0.0.0.0 (all interfaces)
+      - "127.0.0.1:9229:9229"  # binds to localhost only (safer)
+      - "9090"                 # random host port → container 9090
+ 
+    # --- Environment variables
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://user:pass@postgres:5432/appdb
+      # Note: "postgres" is the SERVICE NAME — Docker DNS resolves it
+    # OR load from a file:
+    env_file:
+      - .env
+      - .env.production
+ 
+    # --- Volume mounts
+    volumes:
+      - ./src:/app/src:ro              # bind mount, read-only
+      - /app/node_modules              # anonymous volume (preserve container path)
+      - app-logs:/var/log/app          # named volume
+      - type: bind                     # long-form syntax
+        source: ./config
+        target: /app/config
+        read_only: true
+ 
+    # --- Networks
+    networks:
+      - frontend-net
+      - backend-net
+ 
+    # --- Startup dependencies
+    depends_on:
+      postgres:
+        condition: service_healthy    # wait for healthcheck to pass
+      redis:
+        condition: service_started    # just wait for container to start
+      migrations:
+        condition: service_completed_successfully  # wait for one-shot job
+ 
+    # --- Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s          # how often to check
+      timeout: 10s           # how long before timeout = failure
+      retries: 3             # failures before marked unhealthy
+      start_period: 40s      # grace period on container start
+ 
+    # --- Restart policy
+    restart: unless-stopped
+    # Options: no | always | on-failure | on-failure:3 | unless-stopped
+ 
+    # --- Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"        # max 50% of one CPU core
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+      replicas: 2             # run 2 instances (Swarm mode)
+ 
+    # --- Security options
+    user: "1001:1001"         # run as non-root user
+    read_only: true           # read-only root filesystem
+    security_opt:
+      - no-new-privileges:true
+ 
+    # --- Runtime configuration
+    command: ["node", "dist/server.js"]        # overrides CMD in Dockerfile
+    entrypoint: ["docker-entrypoint.sh"]       # overrides ENTRYPOINT
+    working_dir: /app
+    stdin_open: true          # keeps stdin open (-i flag)
+    tty: true                 # allocates pseudo-TTY (-t flag)
+ 
+    # --- Logging
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+ 
+    # --- Labels
+    labels:
+      com.example.service: api
+      com.example.version: "1.0"
+ 
+    # --- Extra hosts (/etc/hosts entries)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+ 
+    # --- Profiles (only start when profile is active)
+    profiles:
+      - production
+ 
+ 
+  # ── SERVICE: postgres ─────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: app-postgres
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # named volume → persistent
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro  # auto-run on first start
+    networks:
+      - backend-net
+    # No ports: → not accessible from host, only from containers on backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d appdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+ 
+ 
+  # ── SERVICE: redis ────────────────────────────────────────────
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --requirepass redispass --appendonly yes
+    networks:
+      - backend-net
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+ 
+ 
+  # ── SERVICE: nginx (reverse proxy) ────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - frontend-net
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+ 
+ 
+  # ── SERVICE: migrations (one-shot job) ────────────────────────
+  migrations:
+    build:
+      context: ./api
+      target: migrations
+    command: ["npm", "run", "db:migrate"]
+    environment:
+      DATABASE_URL: postgresql://user:pass@postgres:5432/appdb
+    networks:
+      - backend-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # No restart: → run once and exit
+ 
+ 
+# ── TOP-LEVEL NETWORKS ──────────────────────────────────────────
+networks:
+  frontend-net:
+    driver: bridge            # nginx ↔ api
+  backend-net:
+    driver: bridge
+    internal: true            # api ↔ postgres ↔ redis, no internet
+ 
+ 
+# ── TOP-LEVEL VOLUMES ───────────────────────────────────────────
+volumes:
+  postgres-data:              # named volume (managed by Docker)
+    driver: local
+  redis-data:
+    driver: local
+  app-logs:
+    driver: local
+ 
+# Communication matrix:
+# External → nginx:80/443             ✅
+# nginx    → api (frontend-net)       ✅
+# api      → postgres (backend-net)   ✅
+# api      → redis (backend-net)      ✅
+# nginx    → postgres                 ❌ (different networks)
+# External → postgres                 ❌ (no ports, internal network)
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "A Compose file has four top-level keys: services (container definitions), networks (virtual network topology), volumes (persistent storage), and secrets/configs. Each service maps directly to a docker run command in YAML. The version: field is ignored in Compose V2 and can be omitted. Key service-level fields: build (Dockerfile location), image (registry image), ports (HOST:CONTAINER mapping), environment (env vars), volumes (bind mounts and named volumes), networks (which networks to join), depends_on (startup ordering with conditions), healthcheck (liveness probe), and restart (restart policy). The depends_on with condition: service_healthy is the correct way to wait for a service to be ready — not sleep hacks."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 2: CORE COMMANDS                                     -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Core Commands
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Docker Compose V2 uses <code>docker compose</code> (space, no hyphen) as a Docker CLI plugin. The legacy V1 used <code>docker-compose</code> (hyphen). Both syntaxes work if both are installed, but V2 is the standard. Understanding every flag and subcommand — and especially the behavioral differences between them — is essential for both day-to-day usage and interviews.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── UP — Start the entire stack ──────────────────────────────────
+ 
+# Basic start (attaches to stdout, Ctrl+C stops everything)
+docker compose up
+ 
+# Detached mode (runs in background — most common for dev/prod)
+docker compose up -d
+ 
+# Force rebuild all images before starting
+docker compose up -d --build
+ 
+# Rebuild only if Dockerfile or build context changed
+docker compose up -d --build api
+ 
+# Remove orphan containers (containers for services removed from compose file)
+docker compose up -d --remove-orphans
+ 
+# Pull latest images before starting
+docker compose up -d --pull always
+ 
+# Start specific services only (and their dependencies)
+docker compose up -d api postgres
+ 
+# Scale a service to N replicas at start
+docker compose up -d --scale api=3 --scale worker=2
+# Note: container_name must NOT be set when scaling (causes name conflicts)
+ 
+# Wait until all services are healthy before returning
+docker compose up -d --wait
+# Returns exit code 0 only when all healthchecks pass — great for CI
+ 
+ 
+# ── DOWN — Stop and remove everything ────────────────────────────
+ 
+# Stop and remove containers + networks (preserves volumes)
+docker compose down
+ 
+# Also remove named volumes (DESTRUCTIVE — deletes database data!)
+docker compose down -v
+ 
+# Also remove images built by this compose file
+docker compose down --rmi all
+docker compose down --rmi local    # only remove locally-built images
+ 
+# Remove orphan containers too
+docker compose down --remove-orphans
+ 
+# Full cleanup (nuclear option for dev environments)
+docker compose down -v --rmi local --remove-orphans
+ 
+ 
+# ── BUILD — Build/rebuild images ─────────────────────────────────
+ 
+# Build all services with build: defined
+docker compose build
+ 
+# Build specific service
+docker compose build api
+ 
+# Build without cache (fresh build)
+docker compose build --no-cache
+ 
+# Build in parallel (faster for many services)
+docker compose build --parallel
+ 
+# Pass build arguments
+docker compose build --build-arg NODE_ENV=production
+ 
+# See build output (useful for debugging)
+docker compose build --progress plain
+ 
+ 
+# ── LOGS — View output ───────────────────────────────────────────
+ 
+# View logs of all services
+docker compose logs
+ 
+# Follow logs in real time (-f flag)
+docker compose logs -f
+ 
+# Follow specific service
+docker compose logs -f api
+ 
+# Follow multiple specific services
+docker compose logs -f api nginx
+ 
+# Show last N lines
+docker compose logs --tail 100 api
+ 
+# Show timestamps
+docker compose logs -f -t api
+ 
+# Logs since a specific time
+docker compose logs --since 30m api        # last 30 minutes
+docker compose logs --since "2024-01-15"   # since a date
+ 
+ 
+# ── PS — Container status ────────────────────────────────────────
+ 
+# List all containers in this Compose project
+docker compose ps
+ 
+# Show only running containers
+docker compose ps --status running
+ 
+# Show stopped containers too
+docker compose ps -a
+ 
+# JSON output for scripting
+docker compose ps --format json
+ 
+# Show only service names
+docker compose ps --services
+ 
+# Show status of a specific service
+docker compose ps api
+ 
+ 
+# ── EXEC — Run commands in running containers ─────────────────────
+ 
+# Open interactive shell
+docker compose exec api bash
+docker compose exec api sh      # if bash not available
+ 
+# Run one-off command (non-interactive)
+docker compose exec api npm run db:seed
+docker compose exec postgres psql -U user -d appdb
+ 
+# Run as specific user
+docker compose exec --user root api bash
+ 
+# Run in specific service instance (when scaled)
+docker compose exec --index 2 api bash    # second replica
+ 
+ 
+# ── RUN — Run one-off commands in a NEW container ─────────────────
+# Creates a NEW container from the service image, runs command, exits
+# Unlike exec (which runs in existing container)
+ 
+# Run migrations (one-off task)
+docker compose run --rm api npm run db:migrate
+ 
+# Open a shell without starting the service
+docker compose run --rm api bash
+ 
+# Override entrypoint
+docker compose run --rm --entrypoint "" api sh -c "echo hello"
+ 
+# Run without port mapping (avoids conflicts)
+docker compose run --no-deps --rm api npm test
+ 
+# Pass env var override
+docker compose run --rm -e NODE_ENV=test api npm test
+ 
+# --rm: auto-remove container after exit (always use this for one-offs)
+# --no-deps: don't start linked dependencies
+ 
+ 
+# ── RESTART / STOP / START / PAUSE ───────────────────────────────
+ 
+# Stop containers without removing them (preserves container state)
+docker compose stop
+ 
+# Stop specific service
+docker compose stop api
+ 
+# Start stopped containers (without recreating)
+docker compose start
+ 
+# Restart a service (useful after config changes)
+docker compose restart api
+ 
+# Pause / unpause (freeze container processes)
+docker compose pause api
+docker compose unpause api
+ 
+ 
+# ── PULL / PUSH ───────────────────────────────────────────────────
+ 
+# Pull latest images for all services
+docker compose pull
+ 
+# Pull specific service
+docker compose pull postgres
+ 
+# Push locally-built images to registry
+docker compose push api
+ 
+ 
+# ── CONFIG — Validate and view resolved config ────────────────────
+ 
+# Validate the compose file (check for syntax errors)
+docker compose config
+ 
+# View fully-resolved config (merges all override files)
+docker compose config --quiet && echo "Valid!"
+ 
+# Show service names
+docker compose config --services
+ 
+# Show volume names
+docker compose config --volumes
+ 
+# Output as JSON
+docker compose config --format json
+ 
+ 
+# ── TOP / STATS / IMAGES ─────────────────────────────────────────
+ 
+# Show processes running inside all containers
+docker compose top
+ 
+# Show resource usage (CPU, memory, network, disk I/O)
+docker stats $(docker compose ps -q)
+ 
+# List images used by compose services
+docker compose images
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "The key command distinctions: <code>docker compose up -d --build</code> rebuilds images and starts all services. <code>docker compose down -v</code> tears everything down including volumes — dangerous with production data. <code>docker compose exec</code> runs a command in an ALREADY running container; <code>docker compose run --rm</code> spins up a NEW temporary container. <code>docker compose up --wait</code> is the CI-safe way to start and block until all healthchecks pass. <code>docker compose config</code> validates and resolves the full merged config — essential for debugging override files. Always use <code>--remove-orphans</code> after removing a service from the Compose file to clean up stale containers."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 3: OVERRIDE FILES & ENVIRONMENTS                     -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Override Files &amp; Multi-Environment Strategy
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    One of the most powerful and interview-tested Compose features is the override file system. Docker Compose automatically merges multiple files, enabling you to maintain a single base configuration and layer environment-specific overrides — without duplicating YAML. This is the correct pattern for managing dev/staging/production differences.
+  </p>
+ 
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Override Merging Works</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Compose automatically loads <code>docker-compose.yml</code> as the base and <code>docker-compose.override.yml</code> as an automatic override if it exists — no flags needed. For additional files, use <code>-f</code> flags. Merging rules: scalar values (strings, numbers) are replaced by the override. List values (ports, volumes, environment) are <strong>appended</strong>, not replaced. Map values (labels, build args) are merged. This means you never accidentally lose base config entries when overriding.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── docker-compose.yml (BASE — committed to git) ─────────────────
+# Contains production-ready defaults. No dev-only extras.
+ 
+services:
+  api:
+    image: myrepo/api:$ {IMAGE_TAG:-latest}  # variable substitution
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    networks:
+      - frontend-net
+      - backend-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+ 
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: $ {POSTGRES_DB}
+      POSTGRES_USER: $ {POSTGRES_USER}
+      POSTGRES_PASSWORD: $ {POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $ {POSTGRES_USER} -d $ {POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+ 
+networks:
+  frontend-net:
+  backend-net:
+    internal: true
+ 
+volumes:
+  postgres-data:
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── docker-compose.override.yml (DEV — auto-loaded, git-ignored) ──
+# Automatically merged with base file in development
+# Commit to git but keep dev-only settings here
+ 
+services:
+  api:
+    build:                          # in dev: build from source
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app                      # hot-reload: mount source code
+      - /app/node_modules           # anonymous volume for node_modules
+    ports:
+      - "3000:3000"                 # expose to host for direct testing
+      - "127.0.0.1:9229:9229"       # Node.js debugger port
+    environment:
+      NODE_ENV: development
+      DEBUG: "app:*"
+    command: ["npm", "run", "dev"]  # nodemon for hot-reload
+    restart: "no"                   # don't auto-restart in dev
+ 
+  postgres:
+    ports:
+      - "127.0.0.1:5432:5432"       # expose to host for GUI tools
+    environment:
+      POSTGRES_PASSWORD: devpassword  # simple dev password
+ 
+  # Dev-only services (not in base file)
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"   # web UI
+      - "1025:1025"   # SMTP
+ 
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-net
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── docker-compose.prod.yml (PRODUCTION override) ─────────────────
+ 
+services:
+  api:
+    image: myrepo/api:$ {IMAGE_TAG}   # must be set in CI/CD
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: /app/api
+ 
+  nginx:
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro   # real SSL certs
+ 
+# ── docker-compose.test.yml (CI testing) ──────────────────────────
+ 
+services:
+  api:
+    build:
+      context: .
+      target: test
+    command: ["npm", "test", "--", "--ci", "--coverage"]
+    environment:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://user:testpass@postgres:5432/testdb
+    depends_on:
+      postgres:
+        condition: service_healthy
+ 
+  postgres:
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_PASSWORD: testpass
+    tmpfs:
+      - /var/lib/postgresql/data    # in-memory DB for tests (fast, disposable)
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── USING OVERRIDE FILES ─────────────────────────────────────────
+ 
+# Development (default: auto-loads base + override.yml)
+docker compose up -d
+ 
+# Production (explicit file list — overrides auto-discovery)
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+ 
+# CI testing
+docker compose -f docker-compose.yml -f docker-compose.test.yml up --abort-on-container-exit
+ 
+# Validate merged config (always do this before deploying!)
+docker compose -f docker-compose.yml -f docker-compose.prod.yml config
+ 
+# Using a completely different file path
+docker compose -f ./infra/staging.yml up -d
+ 
+# Using COMPOSE_FILE env var (alternative to -f flags)
+export COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml
+docker compose up -d
+ 
+ 
+# ── .env FILE — Variable Substitution ────────────────────────────
+# Compose auto-loads .env from the same directory as the compose file
+# Variables available as $ {VAR_NAME} in the YAML
+ 
+# .env file (git-ignored — never commit secrets!)
+cat .env
+# POSTGRES_DB=appdb
+# POSTGRES_USER=appuser
+# POSTGRES_PASSWORD=supersecret123
+# IMAGE_TAG=v1.2.3
+ 
+# .env.example (committed to git — shows required variables)
+cat .env.example
+# POSTGRES_DB=
+# POSTGRES_USER=
+# POSTGRES_PASSWORD=
+# IMAGE_TAG=latest
+ 
+# Default values in compose file
+# $ {VAR:-default} → use default if VAR is unset or empty
+# $ {VAR-default}  → use default only if VAR is unset (empty string counts as set)
+# $ {VAR:?error}   → exit with error message if VAR is unset
+ 
+# Example:
+# image: myapp:$ {IMAGE_TAG:-latest}
+# → uses "latest" if IMAGE_TAG is not set
+ 
+# Load a different env file
+docker compose --env-file .env.staging up -d
+ 
+# Override a variable inline
+IMAGE_TAG=v2.0.0 docker compose up -d api
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker Compose automatically merges docker-compose.yml and docker-compose.override.yml — the override file is loaded automatically with no flags. For additional environments, use explicit -f flags: docker compose -f docker-compose.yml -f docker-compose.prod.yml. Merging rules: scalars are replaced, lists are appended, maps are merged. The .env file in the same directory is auto-loaded for variable substitution — use $ {VAR:-default} syntax. Never commit secrets in the compose file or .env — commit a .env.example with empty values. Always run docker compose config after merging override files to validate the final resolved configuration before deploying."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 4: VOLUMES & DATA PERSISTENCE                        -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Volumes &amp; Data Persistence
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Volumes are how Docker persists data across container restarts and recreations. Understanding the three types of mounts — named volumes, bind mounts, and tmpfs — their lifecycles, and their correct use cases is critical for building stateful applications correctly.
+  </p>
+ 
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Type</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Syntax</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Managed By</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Use Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Named Volume</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">mydata:/var/lib/data</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Databases, persistent app state</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Bind Mount</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">./src:/app/src</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Host filesystem</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Dev hot-reload, config files</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Anonymous Volume</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">/app/node_modules</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker (no name)</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Preserve container paths from host overlay</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">tmpfs</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">tmpfs: [/tmp]</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Memory only</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Test DBs, secrets at runtime, temp files</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+services:
+ 
+  api:
+    volumes:
+      # ── Bind Mounts ────────────────────────────────────────────
+      # Short syntax: HOST_PATH:CONTAINER_PATH[:OPTIONS]
+      - ./src:/app/src                    # dev: hot-reload source
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro  # read-only config
+      - /var/run/docker.sock:/var/run/docker.sock  # expose Docker daemon
+ 
+      # Long syntax (more explicit, supports all options)
+      - type: bind
+        source: ./config
+        target: /app/config
+        read_only: true
+        bind:
+          propagation: shared   # bind propagation: shared|slave|private
+ 
+      # ── Named Volumes ──────────────────────────────────────────
+      - app-uploads:/app/uploads          # declared in top-level volumes:
+ 
+      # ── Anonymous Volumes ──────────────────────────────────────
+      # Protects container's node_modules from being overwritten
+      # by the host when you bind-mount the entire app directory
+      - /app/node_modules
+ 
+      # ── tmpfs (memory-only) ────────────────────────────────────
+    tmpfs:
+      - /tmp
+      - /run
+ 
+ 
+  postgres:
+    volumes:
+      # Named volume for persistent data (survives container restart)
+      - postgres-data:/var/lib/postgresql/data
+ 
+      # Bind mount init SQL (runs on first container creation only)
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+ 
+      # tmpfs for test environments (in-memory, ultra-fast, auto-deleted)
+    # tmpfs:
+    #   - /var/lib/postgresql/data        # enable for CI/test
+ 
+ 
+# ── TOP-LEVEL VOLUME DECLARATIONS ────────────────────────────────
+volumes:
+  postgres-data:                    # simple named volume (local driver)
+    driver: local
+ 
+  app-uploads:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/efs/uploads       # mount an NFS/EFS share
+ 
+  redis-data:
+    driver: local
+    labels:
+      com.example.description: "Redis persistence"
+ 
+  # External volume (created outside of Compose — not managed by Compose)
+  shared-config:
+    external: true                   # must exist before docker compose up
+    name: my-shared-config
+ 
+  # Volume shared between Compose projects
+  cross-project-volume:
+    external: true
+    name: other-project_data
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── VOLUME LIFECYCLE COMMANDS ────────────────────────────────────
+ 
+# Named volumes persist after: docker compose down
+# Named volumes are DELETED by: docker compose down -v  ← DESTRUCTIVE
+ 
+# List all volumes for the current project
+docker compose ls
+docker volume ls -f label=com.docker.compose.project=myapp
+ 
+# Inspect a named volume (find where Docker stores it on the host)
+docker volume inspect myapp_postgres-data
+# Output includes "Mountpoint": "/var/lib/docker/volumes/myapp_postgres-data/_data"
+ 
+# Backup a named volume
+docker run --rm \
+  -v myapp_postgres-data:/data \
+  -v $(pwd)/backups:/backup \
+  alpine tar czf /backup/postgres-$(date +%Y%m%d).tar.gz -C /data .
+ 
+# Restore a named volume
+docker run --rm \
+  -v myapp_postgres-data:/data \
+  -v $(pwd)/backups:/backup \
+  alpine tar xzf /backup/postgres-20240101.tar.gz -C /data
+ 
+# Remove unused volumes
+docker volume prune
+ 
+# Remove specific volumes
+docker volume rm myapp_postgres-data
+ 
+ 
+# ── THE node_modules PATTERN ─────────────────────────────────────
+# Classic problem: mounting ./:/app overwrites the container's node_modules
+# with the host's (or empty host directory). Solution: anonymous volume.
+ 
+# This is WRONG (host node_modules overwrites container's):
+# volumes:
+#   - .:/app
+ 
+# This is CORRECT (anonymous volume shadows /app/node_modules):
+# volumes:
+#   - .:/app
+#   - /app/node_modules    ← anonymous volume takes precedence
+# Docker volume mount priority: more-specific path wins
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "There are three mount types. Named volumes (mydata:/path) are managed by Docker, persist across restarts and docker compose down, and are only deleted with docker compose down -v. Bind mounts (./src:/app/src) use a host filesystem path — perfect for dev hot-reload but bad for production since they expose host directory structure. Anonymous volumes (/app/node_modules) protect specific container paths from being overwritten by bind mounts — the classic node_modules pattern. tmpfs mounts are memory-only — perfect for test databases in CI (no I/O overhead, auto-cleaned). Always declare named volumes in the top-level volumes: key, even if just as postgres-data: with no options — this makes Compose manage the volume lifecycle."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 5: HEALTH CHECKS & DEPENDENCY MANAGEMENT            -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Health Checks &amp; Dependency Management
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <code>depends_on</code> by itself only waits for a container to <em>start</em> — not for the service inside it to be <em>ready</em>. A PostgreSQL container may be "started" but still initializing its data directory. The correct pattern combines <code>depends_on</code> with <code>condition: service_healthy</code> and a properly configured <code>healthcheck</code>. This is one of the most common interview questions about Compose.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+services:
+ 
+  # ── HEALTH CHECK DEFINITIONS ─────────────────────────────────
+ 
+  postgres:
+    image: postgres:15-alpine
+    healthcheck:
+      # test: command to run inside the container
+      # ["CMD", ...] → exec form, no shell, preferred
+      # ["CMD-SHELL", "..."] → runs in /bin/sh, supports &&, pipes
+      test: ["CMD-SHELL", "pg_isready -U $ {POSTGRES_USER} -d $ {POSTGRES_DB}"]
+      interval: 10s       # run every 10 seconds
+      timeout: 5s         # fail if no response in 5 seconds
+      retries: 5          # mark unhealthy after 5 consecutive failures
+      start_period: 30s   # grace period: don't count failures for 30s after start
+ 
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --requirepass redispass
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+ 
+  api:
     build: .
+    healthcheck:
+      # HTTP health endpoint check
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      # -f flag: curl returns exit code 22 on HTTP 4xx/5xx (counts as failure)
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s    # API needs time to connect to DB on startup
+ 
+  nginx:
+    image: nginx:alpine
+    healthcheck:
+      test: ["CMD-SHELL", "nginx -t && curl -f http://localhost/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+ 
+ 
+  # ── DEPENDS_ON CONDITIONS ────────────────────────────────────
+ 
+  worker:
+    build: ./worker
+    depends_on:
+      # service_healthy: wait until healthcheck passes ✅ CORRECT
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+ 
+      # service_started: just wait for container to be created
+      # (does NOT guarantee the process inside is ready — use carefully)
+      message-broker:
+        condition: service_started
+ 
+      # service_completed_successfully: wait for a one-shot job to finish
+      # Use for migration containers that run and exit
+      db-migrations:
+        condition: service_completed_successfully
+ 
+    restart: unless-stopped
+ 
+ 
+  # ── ONE-SHOT MIGRATION PATTERN ────────────────────────────────
+  # Run migrations BEFORE api starts. Exit 0 = success.
+  db-migrations:
+    build:
+      context: .
+      target: migrations    # multi-stage: only migration deps
+    command: ["npm", "run", "db:migrate"]
+    environment:
+      DATABASE_URL: postgresql://user:pass@postgres:5432/appdb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # NO restart: field → defaults to "no" → runs once and exits
+    # api uses condition: service_completed_successfully
+ 
+ 
+  # ── DISABLE INHERITED HEALTHCHECK ────────────────────────────
+  # Sometimes a base image defines a healthcheck you want to remove
+  some-service:
+    image: some-image-with-healthcheck
+    healthcheck:
+      disable: true
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── CHECKING HEALTH STATUS ───────────────────────────────────────
+ 
+# See health status in ps output
+docker compose ps
+# STATUS column shows: Up (healthy) | Up (unhealthy) | Up (health: starting)
+ 
+# Inspect health check history (last 5 results)
+docker inspect app-postgres \
+  --format='{{json .State.Health}}' | python3 -m json.tool
+ 
+# Output:
+# {
+#   "Status": "healthy",
+#   "FailingStreak": 0,
+#   "Log": [
+#     {
+#       "Start": "2024-01-15T10:00:00Z",
+#       "End":   "2024-01-15T10:00:00.123Z",
+#       "ExitCode": 0,
+#       "Output": "/var/run/postgresql:5432 - accepting connections"
+#     }
+#   ]
+# }
+ 
+# Wait for healthy status in CI scripts
+until [ "$(docker inspect --format='{{.State.Health.Status}}' app-postgres)" = "healthy" ]; do
+  echo "Waiting for postgres..."; sleep 2
+done
+echo "Postgres is healthy!"
+ 
+# docker compose up --wait does this automatically for all services
+docker compose up -d --wait
+echo "All services healthy, exit code: $?"
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Common Mistake:</strong> Using <code>depends_on: [postgres]</code> (simple list form) only waits for the postgres <em>container</em> to start — not for PostgreSQL to be ready to accept connections. This causes race conditions where the API starts, tries to connect to the database, fails, and crashes. The fix: always pair <code>depends_on</code> with <code>condition: service_healthy</code> AND a proper <code>healthcheck</code> on the dependency service. If you cannot add a healthcheck, use a startup script with retry logic (e.g., wait-for-it.sh or dockerize).
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "depends_on has three conditions. service_started (the simple list default) only waits for the container process to launch — not for the service inside to be ready. service_healthy waits for the dependency's healthcheck to pass — this is the correct way to handle database readiness. service_completed_successfully waits for a one-shot container (like a migration job) to exit with code 0. The healthcheck itself is a command run inside the container: pg_isready for PostgreSQL, redis-cli ping for Redis, curl -f for HTTP endpoints. start_period gives a grace window after container start where failures don't count — crucial for services with slow initialization."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 6: PROFILES & SCALING                                -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Profiles &amp; Scaling
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Profiles let you define optional services in a single Compose file that are only started when explicitly activated. This is the modern alternative to maintaining multiple override files for dev-only tooling. Scaling lets you run multiple replicas of a service — important for load testing and understanding Compose's limitations versus Swarm/Kubernetes.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── PROFILES ─────────────────────────────────────────────────────
+# Services without profiles: are ALWAYS started
+# Services with profiles: are ONLY started when that profile is active
+ 
+services:
+ 
+  # Core services — always started (no profiles key)
+  api:
+    image: myapp/api:latest
+    networks: [app-net]
+ 
+  postgres:
+    image: postgres:15-alpine
+    networks: [app-net]
+ 
+ 
+  # Dev-only services (only with --profile dev)
+  mailhog:
+    image: mailhog/mailhog
+    profiles: [dev]
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+ 
+  adminer:
+    image: adminer:latest
+    profiles: [dev, debug]
+    ports:
+      - "8080:8080"
+    networks: [app-net]
+ 
+ 
+  # Debug tools (only with --profile debug)
+  pgadmin:
+    image: dpage/pgadmin4
+    profiles: [debug]
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks: [app-net]
+ 
+ 
+  # Docs server (only with --profile docs)
+  docs:
+    image: squidfunk/mkdocs-material
+    profiles: [docs]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docs:/docs
+ 
+ 
+networks:
+  app-net:
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── USING PROFILES ───────────────────────────────────────────────
+ 
+# Start only core services (no profiles)
+docker compose up -d
+# Starts: api, postgres
+# Does NOT start: mailhog, adminer, pgadmin, docs
+ 
+# Activate specific profile
+docker compose --profile dev up -d
+# Starts: api, postgres, mailhog, adminer
+ 
+# Activate multiple profiles
+docker compose --profile dev --profile debug up -d
+# Starts: api, postgres, mailhog, adminer, pgadmin
+ 
+# Using COMPOSE_PROFILES env var
+export COMPOSE_PROFILES=dev,debug
+docker compose up -d
+ 
+# Start a profile service separately (after core is running)
+docker compose --profile debug up -d pgadmin
+ 
+# Stop specific profile services
+docker compose --profile dev down
+ 
+# Run a one-off command using a profiled service
+docker compose --profile dev run --rm adminer
+ 
+ 
+# ── SCALING ──────────────────────────────────────────────────────
+# Run multiple replicas of a service
+ 
+# Scale during up
+docker compose up -d --scale api=3 --scale worker=5
+ 
+# Scale a running service (without restarting others)
+docker compose up -d --scale api=5 --no-recreate
+ 
+# Scale down
+docker compose up -d --scale api=1
+ 
+# Check how many replicas are running
+docker compose ps api
+ 
+# REQUIREMENTS FOR SCALING:
+# 1. Do NOT set container_name (creates name conflict)
+# 2. Do NOT use fixed host port mapping (-p 8080:3000 → conflict!)
+#    Use random port (-p 3000) OR no port mapping + load balancer
+# 3. Load balancing between replicas is NOT automatic in Compose
+#    (Compose is for development; use Swarm/K8s for production scaling)
+ 
+# ── DEPLOY REPLICAS IN COMPOSE FILE ──────────────────────────────
+services:
+  worker:
+    build: ./worker
+    deploy:
+      replicas: 3          # Compose respects replicas: in some versions
+    # No container_name: (required for replicas > 1)
+    # No fixed ports: (use random or no mapping)
+ 
+# Container names when scaled: PROJECT_SERVICE_N
+# e.g.: myapp-api-1, myapp-api-2, myapp-api-3
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Profiles let you define optional services that only start when a profile is explicitly activated with --profile NAME or the COMPOSE_PROFILES env var. Services without a profiles: key always start — use this for core services. Services with profiles: are dev-only tools, debug utilities, or optional add-ons. For scaling: docker compose up --scale api=3 starts 3 replicas of the api service. Two requirements: no container_name (causes conflict) and no fixed host port mapping (causes port conflict — use random ports or no mapping). Compose scaling has no built-in load balancing — it's a development tool. For production horizontal scaling, use Docker Swarm (deploy.replicas in the compose file) or Kubernetes."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 7: SECRETS & PRODUCTION BEST PRACTICES              -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    7. Secrets &amp; Production Best Practices
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Hardcoding passwords in Compose files or .env files is a common security mistake. Docker Compose supports a <code>secrets</code> mechanism that mounts sensitive values as files inside containers — avoiding environment variable exposure. Combined with other hardening practices, this is the correct production-grade approach.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── DOCKER SECRETS ────────────────────────────────────────────────
+# Secrets are mounted at /run/secrets/SECRET_NAME inside the container
+# The application reads the file instead of an env var
+# Avoids secrets appearing in:
+#   - docker inspect output
+#   - environment variable dumps
+#   - application logs that print env vars
+#   - container image layers
+ 
+services:
+ 
+  api:
+    image: myapp/api:1.0
+    secrets:
+      - db_password          # mounts as /run/secrets/db_password
+      - api_key              # mounts as /run/secrets/api_key
+      - source: ssl_cert     # long form: specify source and target
+        target: /etc/ssl/cert.pem
+        uid: "1001"
+        gid: "1001"
+        mode: 0440           # file permissions (octal)
+    environment:
+      # Application reads password from file, not env var
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      # Many apps support _FILE suffix convention (PostgreSQL image supports it)
+ 
+  postgres:
+    image: postgres:15-alpine
+    secrets:
+      - db_password
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: appuser
+      # PostgreSQL official image reads from _FILE env vars:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+ 
+ 
+# ── SECRET SOURCES ────────────────────────────────────────────────
+secrets:
+ 
+  # File-based (dev) — reads from a local file
+  db_password:
+    file: ./secrets/db_password.txt   # gitignored file containing just the password
+ 
+  api_key:
+    file: ./secrets/api_key.txt
+ 
+  ssl_cert:
+    file: ./certs/server.crt
+ 
+  # External (production/Swarm) — references a Swarm secret
+  # docker secret create db_password - <<< "my-secure-password"
+  prod_db_password:
+    external: true
+    name: prod_db_password_v2      # versioned secret name
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── PRODUCTION HARDENING CHECKLIST ────────────────────────────────
+ 
+services:
+  api:
+    image: myrepo/api:$ {IMAGE_TAG:?IMAGE_TAG must be set}   # fail if not set
+    # No build: in production — use pre-built images from registry
+    # No volumes: for source code — code is baked into the image
+ 
+    # Run as non-root user
+    user: "1001:1001"
+ 
+    # Read-only root filesystem (write only to explicit volumes/tmpfs)
+    read_only: true
+    tmpfs:
+      - /tmp                          # allow writes to /tmp only
+      - /app/logs                     # allow log writes
+ 
+    # Drop all Linux capabilities (principle of least privilege)
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE              # only add back what's needed
+ 
+    # Prevent privilege escalation
+    security_opt:
+      - no-new-privileges:true
+ 
+    # Resource limits (prevent runaway containers)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+ 
+    # Structured logging with size limit
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+        labels: "service,version"
+ 
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+ 
+    # Restart on failure
+    restart: unless-stopped
+ 
+    # No port exposure — traffic goes through reverse proxy only
+    # ports: ← OMIT for backend services
+ 
+    # Secret injection
+    secrets:
+      - db_password
+      - api_secret_key
+ 
+    environment:
+      NODE_ENV: production
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      # Never: DB_PASSWORD: mysecretpassword  ← exposed in docker inspect
+ 
+ 
+  # ── REVERSE PROXY PATTERN ────────────────────────────────────
+  # Only nginx faces the internet. Backend services are on internal networks.
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - certbot-data:/etc/letsencrypt:ro
+    networks:
+      - frontend-net             # can reach api
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── PRODUCTION DEPLOYMENT COMMANDS ───────────────────────────────
+ 
+# Validate config before deployment
+docker compose -f docker-compose.yml -f docker-compose.prod.yml config --quiet \
+  && echo "Config valid"
+ 
+# Pull latest images (non-destructive — just downloads)
+IMAGE_TAG=v1.2.3 docker compose pull
+ 
+# Deploy with zero-downtime rolling update (basic)
+IMAGE_TAG=v1.2.3 docker compose up -d --no-deps api
+# --no-deps: don't restart dependencies (postgres, redis stay up)
+ 
+# Full deploy (rebuild + restart everything)
+IMAGE_TAG=v1.2.3 docker compose -f docker-compose.yml -f docker-compose.prod.yml \
+  up -d --remove-orphans --wait
+ 
+# Check deploy status
+docker compose ps
+docker compose logs -f --tail 50 api
+ 
+# Quick rollback (change IMAGE_TAG and re-deploy)
+IMAGE_TAG=v1.2.2 docker compose up -d --no-deps api
+ 
+# Production cleanup (keeps volumes!)
+docker compose down --remove-orphans --rmi local
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "For secrets, use Docker's secrets mechanism rather than environment variables — secrets are mounted as files at /run/secrets/NAME inside the container, avoiding exposure through docker inspect and environment variable dumps. Many official images (PostgreSQL, MySQL) support a _FILE suffix convention: POSTGRES_PASSWORD_FILE=/run/secrets/db_password. Production hardening checklist: run containers as non-root (user: 1001:1001), set read_only: true with tmpfs for writable paths, cap_drop: [ALL], security_opt: [no-new-privileges:true], resource limits under deploy.resources, log rotation via json-file driver options, and IMAGE_TAG:?error syntax to fail fast if the version tag isn't set in CI/CD."
+  </div>
+ 
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER COMPOSE WORKFLOW
+# Demonstrates all major features end-to-end
+# ══════════════════════════════════════════════════════════════
+ 
+set -e   # exit on any error
+ 
+PROJECT_DIR="compose-demo"
+mkdir -p $PROJECT_DIR && cd $PROJECT_DIR
+ 
+ 
+# ── PART 1: Write the Compose files ──────────────────────────────
+ 
+# Base docker-compose.yml
+cat > docker-compose.yml << 'EOF'
+services:
+ 
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: \$ {NODE_ENV:-production}
+      PORT: 3000
+      DATABASE_URL: postgresql://demo:demo@postgres:5432/demodb
+      REDIS_URL: redis://:redispass@redis:6379
+    networks:
+      - frontend-net
+      - backend-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+ 
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: demodb
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d demodb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+ 
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --requirepass redispass
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+ 
+networks:
+  frontend-net:
+  backend-net:
+    internal: true
+ 
+volumes:
+  postgres-data:
+  redis-data:
+EOF
+ 
+# Dev override (auto-loaded)
+cat > docker-compose.override.yml << 'EOF'
+services:
+  api:
+    build:
+      context: ./api
+    volumes:
+      - ./api:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
+      - "127.0.0.1:9229:9229"
     environment:
-      - NODE_ENV=production
-      - DATABASE_URL=postgresql://user:pass@db:5432/myapp
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-      - /app/node_modules
-
-  db:
-    image: postgres:13
-    environment:
-      - POSTGRES_DB=myapp
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      NODE_ENV: development
+    restart: "no"
+ 
+  postgres:
     ports:
-      - "5432:5432"
-
+      - "127.0.0.1:5432:5432"
+ 
   redis:
-    image: redis:alpine
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
+ 
+  adminer:
+    image: adminer
+    profiles: [dev]
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-net
+EOF
+ 
+# Create a minimal API app for demo
+mkdir -p api
+cat > api/Dockerfile << 'EOF'
+FROM node:20-alpine
+WORKDIR /app
+RUN apk add --no-cache wget
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]
+EOF
+ 
+cat > api/package.json << 'EOF'
+{"name":"demo-api","version":"1.0.0","main":"server.js","dependencies":{}}
+EOF
+ 
+cat > api/server.js << 'EOF'
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url === "/health") {
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify({ status: "healthy", ts: new Date() }));
+  } else {
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify({ message: "Hello from Docker Compose!" }));
+  }
+});
+server.listen(3000, () => console.log("API running on :3000"));
+EOF
+ 
+ 
+# ── PART 2: Validate config ──────────────────────────────────────
+echo "=== Validating Compose config ==="
+docker compose config --quiet && echo "✅ Config is valid"
+echo ""
+echo "Services defined:"
+docker compose config --services
+ 
+ 
+# ── PART 3: Start the stack ──────────────────────────────────────
+echo ""
+echo "=== Starting stack with --wait (blocks until all healthy) ==="
+docker compose up -d --build --wait
+echo "✅ All services are healthy"
+ 
+ 
+# ── PART 4: Inspect status ───────────────────────────────────────
+echo ""
+echo "=== Service status ==="
+docker compose ps
+ 
+echo ""
+echo "=== Health check history for postgres ==="
+docker inspect compose-demo-postgres-1 \
+  --format='{{range .State.Health.Log}}Exit: {{.ExitCode}} | {{.Output}}{{end}}' \
+  2>/dev/null || echo "(inspect by name may vary)"
+ 
+ 
+# ── PART 5: Test connectivity ────────────────────────────────────
+echo ""
+echo "=== Testing API health endpoint ==="
+curl -s http://localhost:3000/health | python3 -m json.tool
+ 
+echo ""
+echo "=== Testing internal DNS resolution ==="
+docker compose exec api wget -qO- http://postgres 2>&1 | head -3 || true
+# postgres resolves by name even though it's not an HTTP server
+# (connection refused = DNS worked! It found the IP)
+ 
+ 
+# ── PART 6: Exec and run commands ───────────────────────────────
+echo ""
+echo "=== Running one-off command with docker compose run ==="
+docker compose run --rm postgres \
+  psql -h postgres -U demo -d demodb -c "SELECT version();" 2>/dev/null \
+  || echo "(psql demo — postgres accessible by service name)"
+ 
+echo ""
+echo "=== Checking environment inside api container ==="
+docker compose exec api env | grep -E "NODE_ENV|PORT|DATABASE"
+ 
+ 
+# ── PART 7: Logs ─────────────────────────────────────────────────
+echo ""
+echo "=== Last 5 lines from each service ==="
+docker compose logs --tail 5
+ 
+ 
+# ── PART 8: Profiles demo ────────────────────────────────────────
+echo ""
+echo "=== Starting adminer with --profile dev ==="
+docker compose --profile dev up -d adminer
+echo "Adminer available at http://localhost:8080"
+docker compose ps --status running
+ 
+ 
+# ── PART 9: Scaling ──────────────────────────────────────────────
+echo ""
+echo "=== Scaling api to 2 replicas ==="
+# Must remove container_name and fixed port for scaling
+# (our demo api doesn't have those, so this works)
+docker compose up -d --scale api=2 --no-recreate
+docker compose ps api
+ 
+ 
+# ── PART 10: Override for CI/CD ──────────────────────────────────
+echo ""
+echo "=== What prod config looks like ==="
+cat > docker-compose.prod.yml << 'EOF'
+services:
+  api:
+    image: myrepo/api:\$ {IMAGE_TAG:-latest}
+    read_only: true
+    user: "1001:1001"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    restart: unless-stopped
+EOF
+ 
+IMAGE_TAG=v1.2.3 docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.prod.yml \
+  config --quiet && echo "✅ Prod config valid"
+ 
+ 
+# ── PART 11: Cleanup ─────────────────────────────────────────────
+echo ""
+echo "=== Cleanup ==="
+docker compose --profile dev down -v --remove-orphans --rmi local
+echo "✅ Stack torn down, volumes removed"
+ 
+cd .. && rm -rf $PROJECT_DIR
+echo "✅ Demo complete"`,
+            ],
 
-volumes:
-  postgres_data:
+            questions: [
+              {
+                question:
+                  "What is the difference between docker compose up, docker compose start, and docker compose run?",
+                solution:
+                  "<p><code>docker compose up</code> is the primary command: it creates (if needed) and starts all service containers, their networks, and volumes. With <code>--build</code> it rebuilds images first. With <code>-d</code> it runs detached. It also recreates containers if their configuration has changed (image, environment, volumes, etc.). <code>docker compose start</code> starts containers that already exist but are stopped — it does NOT create new containers or networks. It is for resuming a stopped stack without recreating anything. <code>docker compose run --rm SERVICE COMMAND</code> creates and starts a brand-new, one-off container from the service's image, runs the specified command, and (with --rm) removes the container on exit. It does NOT start the service's normal command. It does start dependencies by default (use <code>--no-deps</code> to suppress). Use run for one-off tasks: migrations, seeding, debugging shells. Key behavioral note: run creates containers named PROJECT_SERVICE_run_N (not the normal name), so multiple runs can execute simultaneously without naming conflicts.</p>",
+              },
+              {
+                question:
+                  "How does depends_on work, and why is it not enough to ensure a service is ready?",
+                solution:
+                  "<p><code>depends_on</code> controls container <em>startup order</em> — it does not guarantee the <em>application inside</em> is ready to accept connections. With no condition (or <code>condition: service_started</code>), Compose simply waits for the dependency container's process to start. The database container may be running but PostgreSQL is still initializing its data directory, replaying WAL logs, or running startup scripts. The API starts immediately after, tries to connect, and fails. The correct pattern: combine <code>depends_on</code> with <code>condition: service_healthy</code> and a proper <code>healthcheck</code> on the dependency. Compose will wait until the dependency's healthcheck passes before starting the dependent service. <code>condition: service_completed_successfully</code> is for one-shot containers like migrations — Compose waits for exit code 0. <code>docker compose up -d --wait</code> extends this to the entire stack, blocking the command until ALL services report healthy. For legacy images without healthcheck support, the common fallback is a custom entrypoint script using tools like wait-for-it.sh or dockerize that retry the connection until it succeeds.</p>",
+              },
+              {
+                question:
+                  "Explain Docker Compose override files. How does merging work for lists vs scalars?",
+                solution:
+                  "<p>Docker Compose automatically loads <code>docker-compose.yml</code> as the base and <code>docker-compose.override.yml</code> (if present) as an automatic layer — no flags needed. For additional files, specify them with <code>-f</code> flags in order: <code>docker compose -f docker-compose.yml -f docker-compose.prod.yml</code>. Merge behavior differs by value type: <strong>scalars</strong> (strings, numbers, booleans — like image, command, restart) are <em>replaced</em> by the override. <strong>Lists</strong> (ports, volumes, environment as a list, dns) are <em>appended</em> — the override values are added to the base values. <strong>Maps</strong> (environment as key-value, labels, build.args) are <em>merged</em> — override keys replace matching base keys, new keys are added, unmatched base keys are preserved. This means: if you add a port in an override, both the base port AND the override port are active. If you change a command, only the override command is used. Validate the fully-resolved config with <code>docker compose config</code> before deploying — this shows exactly what Compose will create after all merging. The COMPOSE_FILE environment variable can replace -f flags: <code>COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml</code>.</p>",
+              },
+              {
+                question:
+                  "What is the difference between a named volume, bind mount, and anonymous volume in Compose?",
+                solution:
+                  "<p><strong>Named volumes</strong> (<code>mydata:/var/lib/data</code>) are managed entirely by Docker, stored in Docker's volume directory (typically <code>/var/lib/docker/volumes/</code>), persist after <code>docker compose down</code>, and are only deleted with <code>docker compose down -v</code> or explicit <code>docker volume rm</code>. They must be declared in the top-level <code>volumes:</code> key. Best for: databases and any persistent application state. <strong>Bind mounts</strong> (<code>./src:/app/src</code>) map a specific host filesystem path directly into the container. Changes on either side are instantly visible to the other. They are NOT managed by Docker and are not affected by <code>docker compose down</code>. Best for: development hot-reload (code changes immediately reflected) and injecting config files. <strong>Anonymous volumes</strong> (<code>/app/node_modules</code> — container path only, no host path) are Docker-managed like named volumes but have a random UUID as their name and are generally deleted when the container is removed. Their critical use case: when you bind-mount an entire directory (e.g., <code>./:/app</code>), the host directory's contents overlay the container's path — including overwriting the container's <code>node_modules</code> (which may be empty on the host). Declaring <code>/app/node_modules</code> as an anonymous volume 'shields' that path from the bind mount overlay, preserving the container-installed modules.</p>",
+              },
+              {
+                question:
+                  "How do you pass secrets to containers in Compose without using environment variables?",
+                solution:
+                  "<p>Docker Compose's <code>secrets</code> mechanism mounts sensitive values as files inside the container at <code>/run/secrets/SECRET_NAME</code> rather than as environment variables. This avoids multiple exposure vectors: environment variables appear in <code>docker inspect</code> output, are logged by many frameworks on startup, and can be read by any process in the container. The Compose secrets config has two parts: the service-level <code>secrets:</code> key (listing which secrets the service gets access to) and the top-level <code>secrets:</code> key (defining where the secret comes from — either a local file with <code>file: ./secrets/db_password.txt</code> or <code>external: true</code> for Docker Swarm-managed secrets). The application then reads the secret from the filesystem: <code>fs.readFileSync('/run/secrets/db_password', 'utf8').trim()</code>. Many official Docker images support a <code>_FILE</code> environment variable convention: setting <code>POSTGRES_PASSWORD_FILE=/run/secrets/db_password</code> tells the image's entrypoint to read the password from the file rather than the env var. For local development with file-based secrets, create the secrets directory, add it to <code>.gitignore</code>, and document required secrets in <code>.env.example</code>.</p>",
+              },
+              {
+                question:
+                  "How does Docker Compose handle networking? What is the default network behavior?",
+                solution:
+                  "<p>When you run <code>docker compose up</code>, Compose automatically creates a user-defined bridge network named <code>PROJECTNAME_default</code> and connects all services to it. Because it's a user-defined bridge (not the default docker0 bridge), Docker's embedded DNS server at 127.0.0.11 is active — all services can reach each other by their <strong>service name</strong> as the hostname. A service named <code>postgres</code> is reachable as <code>postgres:5432</code> from any other service in the project — no IP addresses, no links, no configuration needed. For more complex topologies, define custom networks in the top-level <code>networks:</code> key and assign services to specific networks using the service-level <code>networks:</code> key. A service assigned to multiple networks (like an API tier that needs to reach both the frontend reverse proxy and the backend database) bridges those network segments. The <code>internal: true</code> flag on a network removes the default route out — containers on that network have no internet access. Compose namespaces everything: networks become <code>PROJECT_NETWORKNAME</code>, visible in <code>docker network ls</code>. Running <code>docker compose down</code> removes the networks; <code>docker compose down -v</code> also removes volumes.</p>",
+              },
+              {
+                question:
+                  "What are Compose profiles and when do you use them?",
+                solution:
+                  "<p>Profiles let you define optional services in a single Compose file that are <em>only</em> started when that profile is explicitly activated. Services without a <code>profiles:</code> key are always started — these are your core application services. Services with <code>profiles: [dev]</code> only start when you pass <code>--profile dev</code> or set <code>COMPOSE_PROFILES=dev</code>. A service can belong to multiple profiles: <code>profiles: [dev, debug]</code>. The primary use cases: (1) Dev tooling — MailHog (fake SMTP server), Adminer (database GUI), documentation servers. These are useful in development but must not run in production. (2) Debug tools — pgAdmin, Redis Commander, application profilers. (3) Optional infrastructure — monitoring stack (Prometheus + Grafana), feature-flag services, extra workers. Before profiles existed, the pattern was maintaining separate override files for dev tooling. Profiles are cleaner because everything lives in one file, and developers just activate the profiles they need. Profile services also participate in dependency resolution: if a profiled service depends_on a core service, that dependency is respected when the profile is activated. You can also target a profiled service directly: <code>docker compose --profile dev up -d adminer</code>.</p>",
+              },
+              {
+                question:
+                  "How do you do a zero-downtime deployment with Docker Compose?",
+                solution:
+                  "<p>True zero-downtime deployments require an orchestrator like Docker Swarm or Kubernetes — Docker Compose is not designed for this. However, for single-host deployments, you can minimize downtime with this pattern: (1) Pull the new image while the old container is still running: <code>IMAGE_TAG=v2.0 docker compose pull api</code>. (2) Restart only the changed service without touching dependencies: <code>IMAGE_TAG=v2.0 docker compose up -d --no-deps api</code>. The <code>--no-deps</code> flag prevents restarting postgres, redis, and other dependencies. Compose stops the old api container, starts the new one, and waits for the healthcheck to pass before returning. (3) There is a small window of downtime between stopping the old container and the new one becoming healthy. To reduce this: use <code>--wait</code> (confirm new container is healthy before the command exits), have a proper <code>healthcheck</code> with a reasonable <code>start_period</code>, and configure your reverse proxy (nginx) to retry failed upstream connections. For actual zero-downtime, the pattern is: spin up a second Compose stack (v2) on a different port, health-check it, then switch nginx upstream to the new stack, then tear down the old stack. But this is complex manual orchestration — a real use case for Swarm's rolling updates.</p>",
+              },
+              {
+                question:
+                  "What does docker compose down -v do and when is it dangerous?",
+                solution:
+                  "<p><code>docker compose down</code> stops all running containers, removes them, and removes the networks created by Compose. It does NOT remove volumes — named volumes persist. <code>docker compose down -v</code> (or <code>--volumes</code>) additionally removes all named volumes declared in the Compose file AND anonymous volumes. This is <strong>catastrophic if run against a production database</strong>: all PostgreSQL data, Redis persistence, uploaded files, and any other data stored in named volumes is permanently deleted with no recovery path. Safe uses: destroying a development environment to start fresh, CI/CD pipelines where a clean slate is intentional between test runs, and when explicitly migrating data to a different storage mechanism. Safer alternatives for production: just use <code>docker compose down</code> (preserves volumes), or <code>docker compose stop</code> (keeps containers AND volumes). Before running down -v anywhere important, always verify which volumes are mounted: <code>docker compose config --volumes</code> and backup critical volumes first using <code>docker run --rm -v VOLUME:/data alpine tar czf - -C /data . > backup.tar.gz</code>.</p>",
+              },
+              {
+                question:
+                  "How do you structure a Compose file for a microservices application with shared and service-specific configurations?",
+                solution:
+                  "<p>The recommended pattern uses Compose's YAML anchors and extension fields for shared config, combined with override files for environment differences. (1) <strong>YAML anchors</strong>: define a reusable block with <code>&amp;anchor-name</code> and reference it with <code>*anchor-name</code>. Use <code>&lt;&lt;: *anchor</code> to merge into a service. Common anchor: logging config, resource limits, common labels, shared restart policy. (2) <strong>Extension fields</strong> (x-fields): top-level keys starting with x- are ignored by Compose but valid YAML — use them as anchor definitions: <code>x-common-env: &amp;common-env</code>. (3) <strong>Network segmentation</strong>: group services into networks by trust level. All services get the monitoring network for Prometheus scraping. Public services get the edge network. Database services get the data network with internal: true. (4) <strong>Per-environment override files</strong>: base file has no port mappings (services communicate internally). Override adds port mappings for dev. Prod override adds resource limits, logging drivers, and image tags. (5) <strong>External services</strong>: declare external: true on volumes and networks that exist outside this Compose project — useful for sharing a database volume between a primary app and a background worker deployed in separate Compose files.</p>",
+              },
+              {
+                question:
+                  "What is the COMPOSE_PROJECT_NAME and why does it matter?",
+                solution:
+                  "<p><code>COMPOSE_PROJECT_NAME</code> is the project name Compose uses as a namespace prefix for all resources it creates. By default, it is the basename of the directory containing the Compose file (e.g., if your compose file is in <code>/home/user/myapp/</code>, the project name is <code>myapp</code>). Compose prefixes: containers as <code>myapp-SERVICE-1</code>, networks as <code>myapp_NETWORK</code>, volumes as <code>myapp_VOLUME</code>. Why it matters: (1) <strong>Isolation between projects</strong>: two different apps in different directories get different project names, so their networks and volumes don't collide. (2) <strong>Running multiple instances</strong>: set different project names to run the same Compose file multiple times on one host (e.g., different feature branches): <code>docker compose -p feature-branch-123 up -d</code>. Each instance gets its own namespaced containers, networks, and volumes. (3) <strong>CI/CD isolation</strong>: use the branch name or PR number as the project name so parallel CI runs don't interfere: <code>COMPOSE_PROJECT_NAME=pr-456 docker compose up -d</code>. (4) <strong>Troubleshooting</strong>: when running <code>docker network ls</code> or <code>docker volume ls</code>, the project prefix immediately tells you which Compose project owns each resource. Set it explicitly with <code>-p NAME</code>, the <code>COMPOSE_PROJECT_NAME</code> env var, or the <code>name:</code> top-level key in the Compose file.</p>",
+              },
+              {
+                question:
+                  "How does Docker Compose V2 differ from V1, and what are the practical implications?",
+                solution:
+                  "<p>Docker Compose V1 was a standalone Python application installed separately as <code>docker-compose</code> (with a hyphen). Docker Compose V2 is a Go-based Docker CLI plugin that ships built-in with Docker Desktop and Docker Engine, invoked as <code>docker compose</code> (with a space). Key differences: (1) <strong>version: field is ignored</strong> in V2 — the schema is Compose Specification (a merged standard), not versioned. V1 used version: to select feature sets. Many teams still write <code>version: '3.8'</code> for V1 compatibility, but it does nothing in V2. (2) <strong>Performance</strong>: V2 is significantly faster due to Go vs Python, especially for large stacks. (3) <strong>depends_on with conditions</strong>: service_healthy and service_completed_successfully conditions are V2 features. V1 only had the simple list form. (4) <strong>--wait flag</strong>: V2 only. Blocks until all services are healthy. (5) <strong>Profiles</strong>: Compose Specification feature, works in V2. (6) <strong>Container naming</strong>: V1 used underscores (myapp_web_1), V2 uses hyphens (myapp-web-1). This is a breaking change for any tooling that hardcodes container names. (7) <strong>docker-compose.yml and docker compose.yaml</strong>: V2 also recognizes compose.yaml and compose.yml (without the docker- prefix) as valid default filenames. Practical implication: use <code>docker compose</code> in all new scripts and Dockerfiles. Add <code>docker-compose</code> as a fallback only if you need V1 compatibility.</p>",
+              },
+            ],
 
-networks:
-  default:
-    driver: bridge
-</code></pre>
-  </div>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Common Docker Compose Commands
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Start all services
-docker-compose up
-
-# Start in detached mode
-docker-compose up -d
-
-# Stop all services
-docker-compose down
-
-# Build and start
-docker-compose up --build
-
-# View logs
-docker-compose logs
-
-# Scale services
-docker-compose up --scale web=3
-
-# Execute command in service
-docker-compose exec web bash
-</code></pre>
-  </div>
-</div>`,
+            links: [
+              "https://docs.docker.com/compose/",
+              "https://docs.docker.com/compose/compose-file/",
+              "https://docs.docker.com/compose/compose-file/05-services/",
+              "https://docs.docker.com/compose/compose-file/06-networks/",
+              "https://docs.docker.com/compose/compose-file/07-volumes/",
+              "https://docs.docker.com/compose/compose-file/09-secrets/",
+              "https://docs.docker.com/compose/profiles/",
+              "https://docs.docker.com/compose/multiple-compose-files/",
+              "https://docs.docker.com/compose/environment-variables/",
+              "https://docs.docker.com/compose/production/",
+            ],
           },
           {
             topic: "Multi-Stage Builds",
-            tags: ["Optimization", "Build", "Size Reduction"],
+            tags: [
+              "docker",
+              "multi-stage",
+              "dockerfile",
+              "optimization",
+              "build",
+              "size-reduction",
+              "security",
+              "devops",
+              "interview",
+            ],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Multi-stage builds are a powerful feature that allows you to create smaller, more optimized Docker images by using multiple FROM statements in a single Dockerfile. Each FROM instruction begins a new build stage, allowing you to selectively copy artifacts from one stage to another.
-   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Multi-Stage Builds
-   </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Smaller final image sizes</li>
-     <li style="margin-top: 0.5rem;">Improved security (no build tools in production)</li>
-     <li style="margin-top: 0.5rem;">Faster deployment times</li>
-     <li style="margin-top: 0.5rem;">Better cache utilization</li>
-   </ul>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-dockerfile">
-# Multi-stage Dockerfile for Node.js application
-FROM node:16-alpine AS builder
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Multi-stage builds are one of the most important Dockerfile features for production-grade Docker images. Before multi-stage builds existed, teams maintained two separate Dockerfiles — one "builder" with all the compilers, SDKs, and dev tooling, and one lean "runtime" — with brittle shell scripts to copy artifacts between them. Multi-stage builds solve this entirely: a single Dockerfile can contain multiple <code>FROM</code> instructions, each starting a new build stage with its own filesystem, and you selectively <code>COPY --from=STAGE</code> only the artifacts you need into the final image. The intermediate stages never appear in the final image — all their layers, tools, source code, and secrets used during the build are completely discarded. Understanding multi-stage builds deeply — the mechanics, caching behavior, named vs numbered stages, build targets, parallel stages, and language-specific patterns — is essential for writing production Dockerfiles and is a consistent senior DevOps and backend interview topic.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: HOW MULTI-STAGE BUILDS WORK                       -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. How Multi-Stage Builds Work
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Every <code>FROM</code> instruction in a Dockerfile starts a new build stage with a completely fresh filesystem. Stages are numbered from 0 and can be given names with the <code>AS name</code> clause. Each stage builds independently — it has no access to the previous stage's filesystem except through explicit <code>COPY --from</code> instructions. The Docker build engine only includes the final stage's layers in the output image. All intermediate stages are build-time artifacts that never reach your registry or production host.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The Problem Multi-Stage Builds Solve</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    A compiled Go binary needs the Go toolchain (400MB+) to build, but only needs a minimal OS (or nothing at all) to run. A Node.js app needs TypeScript, webpack, ESLint, and thousands of dev dependencies to compile, but only needs the compiled JS output and production <code>node_modules</code> to run. Without multi-stage builds, you either ship the build tools (huge, insecure images) or maintain separate builder and runtime Dockerfiles with manual artifact copying (brittle, complex). Multi-stage builds collapse this into a single, self-contained, version-controlled Dockerfile.
+  </p>
+
+  <div style="margin-top: 1rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Approach</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Image Size</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Security</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Complexity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Single stage (build tools included)</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ 800MB–2GB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ Compilers, package managers in prod</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Simple</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Two Dockerfiles + shell script</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Small runtime image</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Clean runtime</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ Brittle, hard to maintain</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Multi-stage build</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Small runtime image</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Clean runtime</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Single Dockerfile</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-dockerfile">
+# ── ANATOMY OF A MULTI-STAGE DOCKERFILE ─────────────────────────
+
+# Stage 0: named "deps" — install dependencies only
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci                           # install ALL deps (including devDependencies)
+
+# Stage 1: named "builder" — compile the application
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules   # copy from stage 0
+COPY . .                                             # copy source
+RUN npm run build                                    # compile TypeScript → dist/
+
+# Stage 2: named "production" — the final, lean runtime image
+FROM node:20-alpine AS production
+# This stage starts with a FRESH filesystem — no source, no devDeps, no compiler
+WORKDIR /app
+
+# Only copy what the running application needs:
+COPY --from=builder /app/dist ./dist             # compiled output
+COPY --from=deps /app/node_modules ./node_modules  # we could also re-run npm ci --omit=dev
+
+# Key facts about the final image:
+# ✅ Contains: node runtime, dist/, node_modules/
+# ❌ Does NOT contain: TypeScript compiler, source .ts files, devDependencies,
+#                       webpack, test frameworks, linting tools
+
+USER node                            # non-root
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+
+
+# ── STAGE REFERENCING ────────────────────────────────────────────
+
+# Reference by name (preferred — readable and refactor-safe)
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+
+# Reference by index (fragile — breaks if you insert a stage)
+COPY --from=0 /app/node_modules ./node_modules
+COPY --from=1 /app/dist ./dist
+
+# Reference from a REGISTRY IMAGE (not just other stages!)
+# Pull a binary from an official image without adding that image as a base
+COPY --from=golang:1.22-alpine /usr/local/go/bin/go /usr/local/bin/go
+COPY --from=alpine:3.19 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+# ── BUILD COMMANDS ───────────────────────────────────────────────
+
+# Build the final (last) stage — default behavior
+docker build -t myapp:latest .
+
+# Build ONLY up to a specific stage (--target)
+docker build --target builder -t myapp:builder .
+docker build --target deps -t myapp:deps .
+
+# Very useful for:
+# - Running tests: docker build --target test .
+# - Debugging a build stage without completing the full build
+# - CI pipelines that need intermediate artifacts
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Each FROM instruction starts a new build stage with a completely fresh filesystem. Stages are named with AS and referenced in COPY --from=STAGE_NAME. The Docker build engine builds all required stages but only includes the FINAL stage's layers in the output image — all intermediate stages are discarded. This means a 2GB Go toolchain used in the builder stage adds zero bytes to the final image. Stages can also copy from registry images using COPY --from=golang:1.22-alpine — not just from other stages in the same Dockerfile. Use --target to build only up to a specific stage, which is how you run tests or debug intermediate stages."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: LANGUAGE-SPECIFIC PATTERNS                        -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Language-Specific Patterns
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Each language ecosystem has its own optimal multi-stage pattern based on its build output, runtime requirements, and dependency management. Knowing the canonical pattern for the language stack you're asked about in an interview — and being able to explain the size reduction rationale — is a strong signal of production Docker experience.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Go — From 800MB to Under 10MB with scratch</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Go: The most dramatic size reduction possible
+# Builder: ~800MB (Go toolchain + modules)
+# Final:   ~8MB (statically-linked binary + nothing else)
+
+FROM golang:1.22-alpine AS builder
+
+# Install git (needed for go mod download with private repos)
+RUN apk add --no-cache git ca-certificates tzdata
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+
+# Dependency layer — cache this separately
+COPY go.mod go.sum ./
+RUN go mod download        # download all dependencies
+RUN go mod verify          # verify checksums
+
+# Build the binary
+COPY . .
+RUN CGO_ENABLED=0 \        # disable cgo → fully static binary (no libc dependency)
+    GOOS=linux \
+    GOARCH=amd64 \
+    go build \
+    -ldflags="-w -s" \     # -w: strip debug info, -s: strip symbol table → smaller binary
+    -o /app/server \
+    ./cmd/server
+
+
+# ── Option A: FROM scratch (smallest possible — just the binary) ──
+FROM scratch AS production-scratch
+
+# Copy only what's needed from builder AND from alpine
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/  # HTTPS
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo             # timezones
+COPY --from=builder /etc/passwd /etc/passwd                             # for USER directive
+
+COPY --from=builder /app/server /server
+
+# scratch has no shell, no package manager, no nothing
+# → attack surface is essentially zero
+# Downside: cannot docker exec bash/sh for debugging
+
+EXPOSE 8080
+ENTRYPOINT ["/server"]
+
+
+# ── Option B: FROM distroless (recommended for production) ────────
+FROM gcr.io/distroless/static-debian12 AS production-distroless
+# distroless: no shell, no package manager, just libc + SSL certs
+# Smaller than alpine, larger than scratch, but includes useful runtime libs
+# Google uses distroless in production for their own services
+
+COPY --from=builder /app/server /server
+
+EXPOSE 8080
+ENTRYPOINT ["/server"]
+
+
+# ── Option C: FROM alpine (for debuggability) ─────────────────────
+FROM alpine:3.19 AS production-alpine
+# ~7MB base, includes shell and basic tools for debugging
+# Best for teams that occasionally need docker exec access
+
+RUN apk add --no-cache ca-certificates tzdata && \
+    addgroup -S appgroup && adduser -S appuser -G appgroup
+
+COPY --from=builder /app/server /server
+
+USER appuser
+EXPOSE 8080
+ENTRYPOINT ["/server"]
+
+# Size comparison:
+# Single-stage (golang:alpine): ~850MB
+# Multi-stage with scratch:      ~8MB   (99% reduction!)
+# Multi-stage with distroless:   ~20MB
+# Multi-stage with alpine:       ~22MB
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Node.js / TypeScript — Production Dependencies Only</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Node.js/TypeScript: ~1.2GB dev image → ~180MB production image
+
+# Stage 1: Install ALL dependencies (dev + prod)
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci                # exact versions from lockfile (ci = reproducible)
+
+# Stage 2: Build (TypeScript compilation, webpack bundling, etc.)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build         # tsc, webpack, vite build — whatever your toolchain is
+RUN npm run test:ci       # run tests DURING build (fail fast if tests fail)
+
+# Stage 3: Install ONLY production dependencies (no devDeps)
+FROM node:20-alpine AS prod-deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev    # --omit=dev skips devDependencies → much smaller
+
+# Stage 4: Final runtime image
+FROM node:20-alpine AS production
+
+# Security: create non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser  --system --uid 1001 --ingroup nodejs nextjs
+
+WORKDIR /app
+
+# Copy ONLY what the running app needs:
+COPY --from=prod-deps --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder   --chown=nextjs:nodejs /app/dist          ./dist
+COPY --from=builder   --chown=nextjs:nodejs /app/package.json  ./package.json
+
+# NOT copied: source .ts files, devDependencies (jest, typescript, webpack, etc.)
+
+USER nextjs
+EXPOSE 3000
+
+# Use exec form (not shell form) — correct signal handling, no shell process
+CMD ["node", "dist/server.js"]
+
+# Size comparison:
+# node:20 with all devDeps: ~1.2GB
+# Multi-stage production:    ~180MB (85% reduction)
+
+
+# ── NEXT.JS SPECIFIC PATTERN ─────────────────────────────────────
+FROM node:20-alpine AS nextjs-production
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser  --system --uid 1001 nextjs
+
+# Next.js standalone output (set output: 'standalone' in next.config.js)
+# Creates a self-contained .next/standalone directory with only required files
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static     ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public           ./public
+
+USER nextjs
+EXPOSE 3000
+CMD ["node", "server.js"]
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Python — Virtual Environment Pattern</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Python: Build venv in builder, copy the whole venv to runtime
+# Avoids pip, build tools, and C compilers in the final image
+
+FROM python:3.12-slim AS builder
+
+# Install build dependencies (needed to compile C extensions like psycopg2)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment in a known location
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"   # activate venv
+
+# Install dependencies INTO the venv
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+
+# ── Final stage: only the venv + app code ────────────────────────
+FROM python:3.12-slim AS production
+
+# Install only RUNTIME system deps (not compilers)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the entire virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"   # activate venv in runtime too
+
+# App setup
+RUN useradd --create-home appuser
+WORKDIR /home/appuser/app
+COPY --chown=appuser:appuser . .
+
+USER appuser
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# What's NOT in the final image: gcc, libpq-dev, pip, build headers
+# What IS in the final image: python runtime, venv with installed packages, app code
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Java / Maven — Compiled JAR Pattern</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Java: Maven/Gradle build → JRE runtime only (not full JDK)
+# JDK: ~580MB | JRE: ~220MB | custom jlink runtime: ~60MB
+
+FROM maven:3.9-eclipse-temurin-21 AS builder
+WORKDIR /app
+
+# Cache Maven dependencies separately
+COPY pom.xml .
+RUN mvn dependency:go-offline -q   # download all deps, cache this layer
+
+COPY src ./src
+RUN mvn package -DskipTests -q     # build JAR
+# -DskipTests: tests run in CI separately, not in the Docker build
+
+
+# ── Option A: JRE runtime (standard) ─────────────────────────────
+FROM eclipse-temurin:21-jre-alpine AS production-jre
+# JRE = Java Runtime Environment (run bytecode, no compiler)
+# NOT JDK (Java Development Kit — includes compiler, jstack, etc.)
+
+RUN addgroup -S javagroup && adduser -S javauser -G javagroup
+WORKDIR /app
+
+COPY --from=builder /app/target/app-*.jar app.jar
+
+USER javauser
+EXPOSE 8080
+# JVM tuning for containers:
+ENTRYPOINT ["java",
+  "-XX:+UseContainerSupport",
+  "-XX:MaxRAMPercentage=75.0",
+  "-XX:+ExitOnOutOfMemoryError",
+  "-jar", "app.jar"]
+
+
+# ── Option B: Custom jlink runtime (smallest possible) ────────────
+FROM eclipse-temurin:21 AS jlink-builder
+RUN jlink \
+    --add-modules java.base,java.logging,java.net.http,java.sql \
+    --strip-debug \
+    --no-man-pages \
+    --no-header-files \
+    --compress=2 \
+    --output /opt/jre-minimal
+
+FROM debian:12-slim AS production-jlink
+COPY --from=jlink-builder /opt/jre-minimal /opt/jre-minimal
+COPY --from=builder /app/target/app-*.jar /app/app.jar
+
+ENV PATH="/opt/jre-minimal/bin:$PATH"
+ENV JAVA_HOME="/opt/jre-minimal"
+
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Custom jlink runtime: ~60MB vs JRE: ~220MB vs JDK: ~580MB
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "The language-specific patterns all follow the same principle: use a fat builder image (Go toolchain, Node+TypeScript, Maven+JDK, Python+gcc) and copy only the runtime artifacts to a lean base. Go and Rust produce statically-linked binaries that can run on scratch (zero-byte base image). Node.js separates devDependencies (TypeScript, webpack) from production node_modules. Python copies the entire compiled virtualenv to avoid reinstalling. Java uses JRE (runtime only) instead of JDK (development kit), or jlink for a custom minimal runtime. The key insight: the attack surface scales with image size — fewer tools in the runtime image means fewer CVE vulnerabilities to patch."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: LAYER CACHING IN MULTI-STAGE BUILDS               -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Layer Caching &amp; Build Performance
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Docker's layer cache is invalidated when any instruction's input changes. Ordering your Dockerfile instructions from <em>least frequently changing</em> to <em>most frequently changing</em> is the single most impactful optimization for build speed. In multi-stage builds, each stage has its own cache chain — a cache miss in one stage doesn't invalidate unrelated stages.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The Dependency-First Pattern</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The most important caching pattern: copy dependency manifests (<code>package.json</code>, <code>go.mod</code>, <code>requirements.txt</code>, <code>pom.xml</code>) and install dependencies BEFORE copying source code. Dependencies change rarely; source code changes constantly. This way, the expensive <code>npm ci</code> or <code>go mod download</code> layer is only re-executed when your dependencies change — not on every code change.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-dockerfile">
+# ── WRONG: Cache-busting on every source change ──────────────────
+FROM node:20-alpine
+WORKDIR /app
+COPY . .                   # ← copies everything including source code
+RUN npm ci                 # ← cache busted every time ANY file changes!
+RUN npm run build
+
+
+# ── CORRECT: Dependency layer cached independently ────────────────
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Layer 1: package files only (changes rarely — maybe once a week)
+COPY package.json package-lock.json ./
+
+# Layer 2: install deps (cached as long as package*.json unchanged)
+RUN npm ci
+# This layer is ONLY re-executed when package.json or package-lock.json changes
+# All your source code changes don't touch this layer
+
+# Layer 3: source code (changes constantly — every commit)
+COPY . .
+
+# Layer 4: build (re-runs every commit, but deps layer is still cached)
+RUN npm run build
+
+
+# ── GO DEPENDENCY CACHING ────────────────────────────────────────
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+
+# go.mod and go.sum change rarely
+COPY go.mod go.sum ./
+RUN go mod download       # cached unless go.mod/go.sum changes
+RUN go mod verify
+
+# Source code changes every commit
+COPY . .
+RUN go build -o /app/server ./cmd/server
+
+
+# ── BUILDKIT CACHE MOUNTS (Advanced) ─────────────────────────────
+# BuildKit's --mount=type=cache persists a cache directory BETWEEN builds
+# Unlike layer caching (which only works if nothing above changed),
+# cache mounts ALWAYS persist across builds regardless of other changes
+
+# syntax=docker/dockerfile:1
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+
+# npm cache persists between builds in a dedicated cache volume
+# Even if package.json changes, re-downloads are served from the cache
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
+
 COPY . .
 RUN npm run build
 
-# Production stage
-FROM node:16-alpine AS production
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
-WORKDIR /app
-
-COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
-
-USER nextjs
-
-EXPOSE 3000
-CMD ["node", "dist/server.js"]
-</code></pre>
-  </div>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Advanced Multi-Stage Patterns
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-dockerfile">
-# Go application with separate build and runtime
-FROM golang:1.19-alpine AS builder
+# Go with module cache mount
+FROM golang:1.22 AS builder
 WORKDIR /app
 COPY go.mod go.sum ./
-RUN go mod download
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    go build -o /app/server ./cmd/server
+# /go/pkg/mod: module cache (downloaded packages)
+# /root/.cache/go-build: compilation cache (intermediate build artifacts)
+# Second build of unchanged packages: near-instantaneous
 
-# Minimal runtime image
-FROM scratch
-COPY --from=builder /app/main .
-EXPOSE 8080
-CMD ["./main"]
-</code></pre>
+
+# ── PARALLEL STAGES ──────────────────────────────────────────────
+# BuildKit builds independent stages in PARALLEL automatically
+# Stages that don't depend on each other run concurrently
+
+FROM node:20-alpine AS frontend-deps
+WORKDIR /frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci                         # ─┐ runs in PARALLEL with ↓
+
+FROM node:20-alpine AS backend-deps
+WORKDIR /backend
+COPY backend/package.json backend/package-lock.json ./
+RUN npm ci                         # ─┘ these two npm ci calls run simultaneously
+
+FROM node:20-alpine AS frontend-builder
+WORKDIR /frontend
+COPY --from=frontend-deps /frontend/node_modules ./node_modules
+COPY frontend/ .
+RUN npm run build
+
+FROM node:20-alpine AS backend-builder
+WORKDIR /backend
+COPY --from=backend-deps /backend/node_modules ./node_modules
+COPY backend/ .
+RUN npm run build
+
+FROM node:20-alpine AS production
+COPY --from=frontend-builder /frontend/dist /app/public
+COPY --from=backend-builder  /backend/dist  /app/server
+    </code></pre>
   </div>
-</div>`,
-          },
-          {
-            topic: "Docker Security",
-            tags: ["Security", "Best Practices", "Hardening"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Docker security involves implementing best practices to protect containers, images, and the host system. Security should be considered at every stage of the container lifecycle, from image creation to runtime execution.
-   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Security Best Practices
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use Non-Root Users:</span> Run containers as non-root users to minimize potential impact.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Minimal Base Images:</span> Use minimal base images like Alpine or distroless images.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Image Scanning:</span> Regularly scan images for vulnerabilities.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Secrets Management:</span> Use Docker secrets or environment variables for sensitive data.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Resource Limits:</span> Set CPU and memory limits to prevent DoS attacks.
-     </li>
-   </ol>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-dockerfile">
-# Secure Dockerfile example
-FROM node:16-alpine
 
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nodejs -u 1001
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── CACHE MANAGEMENT COMMANDS ────────────────────────────────────
 
-# Set working directory
+# Build with BuildKit enabled (default in Docker 23+)
+DOCKER_BUILDKIT=1 docker build -t myapp .
+
+# Build with explicit cache source (remote cache from registry)
+docker buildx build \
+  --cache-from type=registry,ref=myrepo/myapp:buildcache \
+  --cache-to   type=registry,ref=myrepo/myapp:buildcache,mode=max \
+  -t myrepo/myapp:latest .
+# mode=max: cache ALL stages (not just final)
+# Great for CI: first build is slow, subsequent builds hit the remote cache
+
+# Force no-cache rebuild
+docker build --no-cache -t myapp .
+
+# See which layers hit cache vs were rebuilt
+docker build --progress=plain -t myapp . 2>&1 | grep -E "CACHED|RUN"
+# Lines with "CACHED" = served from cache
+# Lines with "RUN" = actually executed
+
+# View and prune build cache
+docker system df
+docker builder prune      # remove all build cache
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "The golden caching rule: order instructions from least-changing to most-changing. Copy dependency manifests (package.json, go.mod, pom.xml) and install dependencies BEFORE copying source code. This way the expensive install step is cached independently of source changes. BuildKit's --mount=type=cache goes further: it persists a cache directory across ALL builds even when the layer itself is invalidated — npm, pip, and Go module caches persist permanently. BuildKit also runs independent stages in parallel automatically. For CI, use --cache-from type=registry to pull the build cache from a registry image so each CI run benefits from previous builds."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: ADVANCED PATTERNS                                  -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Advanced Patterns
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Beyond the basic builder/runtime pattern, multi-stage builds enable sophisticated workflows: embedding tests into the build process so a failed test prevents an image from being built, creating separate targets for different environments from a single Dockerfile, and using build arguments to parameterize stages.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Embedding Tests in the Build</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── TEST AS A BUILD STAGE ────────────────────────────────────────
+# Tests run DURING the build.
+# If tests fail → docker build fails → image is never created.
+# Enforces: "no broken code can be deployed" at the image level.
+
+FROM node:20-alpine AS deps
 WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
 
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm ci --production && npm cache clean --force
-
-# Copy application code
-COPY --chown=nodejs:nodejs . .
-
-# Switch to non-root user
-USER nodejs
-
-# Expose port and run application
-EXPOSE 3000
-CMD ["node", "server.js"]
-</code></pre>
-  </div>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Runtime Security
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Run with security options
-docker run --read-only \
-  --tmpfs /tmp \
-  --memory="256m" \
-  --cpus="0.5" \
-  --cap-drop ALL \
-  --cap-add CHOWN \
-  --security-opt no-new-privileges \
-  myapp
-
-# Scan image for vulnerabilities
-docker scan myimage:latest
-
-# Use Docker Bench for Security
-docker run -it --net host --pid host --userns host --cap-add audit_control \
-    -e DOCKER_CONTENT_TRUST=$DOCKER_CONTENT_TRUST \
-    -v /etc:/etc:ro \
-    -v /usr/bin/containerd:/usr/bin/containerd:ro \
-    -v /usr/bin/runc:/usr/bin/runc:ro \
-    -v /usr/lib/systemd:/usr/lib/systemd:ro \
-    -v /var/lib:/var/lib:ro \
-    -v /var/run/docker.sock:/var/run/docker.sock:ro \
-    --label docker_bench_security \
-    docker/docker-bench-security
-</code></pre>
-  </div>
-</div>`,
-          },
-          {
-            topic: "Docker Optimization",
-            tags: ["Performance", "Best Practices", "Efficiency"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Optimizing Docker images and containers is crucial for improving build times, reducing storage costs, and enhancing runtime performance. This involves various techniques from layer optimization to resource management.
-   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Image Optimization Techniques
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Layer Caching:</span> Order instructions to maximize cache utilization.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">.dockerignore:</span> Exclude unnecessary files from build context.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Minimal Base Images:</span> Use Alpine or distroless images.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Multi-Stage Builds:</span> Separate build and runtime environments.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Package Cleanup:</span> Remove package manager cache in the same layer.
-     </li>
-   </ol>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-dockerfile">
-# Optimized Dockerfile
-FROM node:16-alpine AS deps
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
-
-FROM node:16-alpine AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-FROM node:16-alpine AS runner
+# Test stage: runs after build but before production image
+FROM node:20-alpine AS test
 WORKDIR /app
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
+COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
-USER nextjs
+COPY . .
+
+# This command MUST exit 0 for the build to proceed
+RUN npm run test -- --coverage --ci
+RUN npm run lint
+RUN npm run typecheck
+
+# Production stage: only created if test stage succeeded
+FROM node:20-alpine AS production
+WORKDIR /app
+# ... rest of production stage
+
+# ── HOW TO USE ────────────────────────────────────────────────────
+# Default build (runs ALL stages including test):
+docker build -t myapp:latest .
+
+# Skip tests (CI already ran them separately, just need the image):
+docker build --target production -t myapp:latest .
+
+# Run ONLY tests (for CI unit test step):
+docker build --target test .
+# Exit code of docker build = exit code of the test command
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Dev/Test/Production Targets from One Dockerfile</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── SINGLE DOCKERFILE, MULTIPLE TARGETS ──────────────────────────
+# One Dockerfile serves all environments.
+
+FROM node:20-alpine AS base
+WORKDIR /app
+COPY package.json package-lock.json ./
+
+# ── development target ────────────────────────────────────────────
+FROM base AS development
+RUN npm ci
+COPY . .
+CMD ["npm", "run", "dev"]
+# docker build --target development -t myapp:dev .
+# docker run -v $(pwd):/app myapp:dev
+
+
+# ── test target ───────────────────────────────────────────────────
+FROM base AS test
+RUN npm ci
+COPY . .
+RUN npm run test -- --ci --coverage
+# docker build --target test .
+
+
+# ── production builder (intermediate) ────────────────────────────
+FROM base AS builder
+RUN npm ci
+COPY . .
+RUN npm run build
+RUN npm prune --omit=dev
+
+
+# ── production target ─────────────────────────────────────────────
+FROM node:20-alpine AS production
+RUN addgroup --system nodejs && adduser --system --ingroup nodejs nodeuser
+WORKDIR /app
+
+COPY --from=builder --chown=nodeuser:nodejs /app/dist         ./dist
+COPY --from=builder --chown=nodeuser:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nodeuser:nodejs /app/package.json ./package.json
+
+USER nodeuser
 EXPOSE 3000
 CMD ["node", "dist/server.js"]
-</code></pre>
-  </div>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Runtime Optimization
-   </h4>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Resource limits
-docker run --memory="512m" --cpus="1.0" myapp
+# docker build --target production -t myapp:prod .
+# docker build -t myapp:prod .   ← also works (production is the last stage)
 
-# Health checks
+
+# ── Using in Docker Compose ────────────────────────────────────────
+# services:
+#   api:
+#     build:
+#       context: .
+#       target: development   # dev uses hot-reload
+#     volumes:
+#       - .:/app
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Build Arguments and Secrets</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── BUILD ARGUMENTS (ARG) ─────────────────────────────────────────
+# ARG values are build-time only — not in the final image's environment
+# ENV values persist into the runtime environment
+
+FROM node:20-alpine AS builder
+
+ARG NODE_ENV=production      # has a default value
+ARG APP_VERSION              # no default — must be passed via --build-arg
+
+RUN echo "Building version ${APP_VERSION} for ${NODE_ENV}"
+
+# ARG can be promoted to ENV if you need it at runtime
+ENV APP_VERSION=${APP_VERSION}
+
+# NOTE: ARG is stage-scoped — must re-declare in each stage that needs it
+FROM node:20-alpine AS production
+ARG APP_VERSION
+LABEL version="${APP_VERSION}"
+
+
+# ── BUILD SECRETS (BuildKit) ─────────────────────────────────────
+# For secrets needed DURING build (private npm registry tokens, SSH keys)
+# --secret mounts are NOT stored in image layers!
+
+# syntax=docker/dockerfile:1
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Token is available ONLY during this RUN, never in any layer
+RUN --mount=type=secret,id=npm_token \
+    NPM_TOKEN=$(cat /run/secrets/npm_token) \
+    npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# How to provide the secret at build time:
+# docker build --secret id=npm_token,src=./.npmrc-token -t myapp .
+# docker build --secret id=npm_token,env=NPM_TOKEN -t myapp .
+
+
+# ── COMMON ANTI-PATTERN: Secret in ARG ───────────────────────────
+# NEVER do this — the secret is visible in docker history and image metadata
+FROM node:20-alpine AS bad-example
+ARG NPM_TOKEN                # ← VISIBLE IN: docker history, image layers
+RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+RUN npm ci
+# Even if you delete .npmrc in a later layer, the token is in the layer history!
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ ARG Security Warning:</strong> ARG values are stored in the image's build metadata and are visible via <code>docker history --no-trunc IMAGE</code>. Never pass secrets (tokens, passwords, private keys) as ARG values — use BuildKit's <code>--mount=type=secret</code> instead. The difference: ARG is build metadata stored in the image; BuildKit secrets are in-memory mounts during a single RUN instruction and leave no trace in the image.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Embedding tests as a build stage means a failed test produces a non-zero exit code from RUN npm test, which fails the docker build, which prevents the image from being pushed. Use --target test to run only tests in CI, and --target production to build the runtime image. For multiple environments, define dev/test/production as named targets in the same Dockerfile — Compose's build.target selects which target to build. For build-time secrets, always use BuildKit's --mount=type=secret, never ARG — ARG values are permanently stored in image metadata and visible via docker history."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: BASE IMAGE SELECTION & SECURITY                   -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Base Image Selection &amp; Security
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Choosing the right base image for each stage is as important as the multi-stage structure itself. The builder stage can use a large, feature-rich image. The runtime stage should use the smallest image that satisfies the application's runtime requirements — directly minimizing the CVE attack surface.
+  </p>
+
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Base Image</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Approx Size</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Shell</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">CVEs</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">ubuntu:24.04</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~80MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ bash</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ Many</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Familiarity, apt packages</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">debian:12-slim</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~75MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ bash</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">⚠️ Moderate</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Good balance, apt packages</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">alpine:3.19</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~7MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ sh</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Few</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Most runtime images</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">distroless</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~2–20MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ None</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Minimal</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Production security-focused</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">scratch</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">0 bytes</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌ None</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">✅ Zero</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Go/Rust static binaries</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-dockerfile">
+# ── PINNING BASE IMAGE VERSIONS ──────────────────────────────────
+# Never use :latest in production — unpredictable, not reproducible
+
+# ❌ Unpredictable
+FROM node:latest
+
+# ✅ Pinned to minor version
+FROM node:20.12-alpine3.19
+
+# ✅ Pinned to exact digest (most reproducible — immutable)
+FROM node:20-alpine@sha256:bf77dc26e48ea95fca9d1aceb5acfa69d2e546b765ec2abfb502975f1a2d4def
+
+# Get digest:
+docker pull node:20-alpine
+docker inspect node:20-alpine --format='{{index .RepoDigests 0}}'
+
+
+# ── SCANNING FOR VULNERABILITIES ─────────────────────────────────
+docker scout cves myapp:latest          # Docker Scout (built into Docker Desktop)
+trivy image myapp:latest                # Trivy (popular open-source scanner)
+snyk container test myapp:latest        # Snyk
+
+
+# ── .dockerignore — Crucial for Security AND Build Speed ─────────
+# .git              ← git history has no place in an image
+# node_modules      ← install fresh inside container
+# .env              ← NEVER copy secrets into images!
+# .env.*
+# dist              ← built by the container, not copied from host
+# *.log
+# coverage
+# .github
+# Dockerfile*
+# docker-compose*
+# README.md
+# docs/
+# tests/            ← test files not needed in production image
+
+# ALPINE GOTCHA: musl vs glibc
+# Alpine uses musl libc. C extensions compiled for glibc fail on alpine.
+# → Use python:3.12-slim (debian-slim based) for Python apps with C extensions
+# → Use node:20-alpine safely (Node is compiled for musl on alpine images)
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Base image selection for the runtime stage directly determines the CVE attack surface. scratch is zero bytes with no OS — only works for statically-linked binaries (Go, Rust with CGO_ENABLED=0). distroless has no shell or package manager but includes SSL certs and libc — recommended for security-focused production. alpine at ~7MB is the most popular balance — minimal but has a shell for debugging. Key tradeoff: distroless/scratch have near-zero attack surface but make debugging impossible. Always pin base image versions — never :latest. Always maintain .dockerignore to prevent .env files and credentials from leaking into the build context and into the final image."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE MULTI-STAGE BUILD DEMO
+# Shows size reduction, caching, test embedding, and targets
+# ══════════════════════════════════════════════════════════════
+
+set -e
+PROJECT_DIR="multistage-demo"
+mkdir -p $PROJECT_DIR && cd $PROJECT_DIR
+
+
+# ── PART 1: Create a simple Go app ───────────────────────────────
+mkdir -p cmd/server
+cat > cmd/server/main.go << 'EOF'
+package main
+
+import (
+    "encoding/json"
+    "net/http"
+    "os"
+)
+
+func main() {
+    version := os.Getenv("APP_VERSION")
+    if version == "" { version = "dev" }
+
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
+        json.NewEncoder(w).Encode(map[string]string{
+            "message": "Hello from multi-stage build!",
+            "version": version,
+        })
+    })
+    http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        w.Write([]byte("ok"))
+    })
+    http.ListenAndServe(":8080", nil)
+}
+EOF
+
+cat > go.mod << 'EOF'
+module github.com/demo/multistage
+go 1.22
+EOF
+
+
+# ── PART 2: Write the multi-stage Dockerfile ────────────────────
+cat > Dockerfile << 'EOF'
+# syntax=docker/dockerfile:1
+
+# Stage 1: deps (cached layer for go modules)
+FROM golang:1.22-alpine AS deps
+RUN apk add --no-cache git ca-certificates
+WORKDIR /app
+COPY go.mod go.sum* ./
+RUN go mod download 2>/dev/null || true
+
+# Stage 2: test
+FROM deps AS test
+COPY . .
+RUN go vet ./...
+RUN go test ./... -v -count=1
+
+# Stage 3: builder
+FROM deps AS builder
+ARG APP_VERSION=dev
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build \
+    -ldflags="-w -s" \
+    -o /app/server \
+    ./cmd/server
+
+# Stage 4: production (final image — FROM scratch)
+FROM scratch AS production
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /app/server /server
+EXPOSE 8080
+ENTRYPOINT ["/server"]
+EOF
+
+cat > .dockerignore << 'EOF'
+.git
+*.md
+.env*
+Dockerfile*
+EOF
+
+
+# ── PART 3: Build and compare sizes ─────────────────────────────
+echo "=== Building multi-stage production image ==="
+docker build --build-arg APP_VERSION=1.0.0 -t demo-go:multistage .
+
+echo ""
+echo "=== Building naive single-stage image for comparison ==="
+cat > Dockerfile.naive << 'EOF'
+FROM golang:1.22-alpine
+RUN apk add --no-cache git ca-certificates
+WORKDIR /app
+COPY . .
+RUN go build -o /server ./cmd/server
+EXPOSE 8080
+CMD ["/server"]
+EOF
+docker build -f Dockerfile.naive -t demo-go:naive .
+
+echo ""
+echo "=== Size comparison ==="
+docker images demo-go --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
+# Expected:
+# demo-go   multistage   ~8MB   (binary + CA certs only)
+# demo-go   naive        ~350MB (full Go toolchain + Alpine)
+
+
+# ── PART 4: Run the production image ────────────────────────────
+echo ""
+echo "=== Testing production container ==="
+docker run -d --name demo-app -p 8080:8080 demo-go:multistage
+sleep 1
+
+echo "Health check:"
+curl -s http://localhost:8080/health
+
+echo ""
+echo "Main endpoint:"
+curl -s http://localhost:8080/ | python3 -m json.tool
+
+docker rm -f demo-app
+
+
+# ── PART 5: Run only the test stage ─────────────────────────────
+echo ""
+echo "=== Running tests via --target test ==="
+docker build --target test -t demo-go:test . && echo "✅ All tests passed"
+
+
+# ── PART 6: Demonstrate layer caching ───────────────────────────
+echo ""
+echo "=== First build (no cache): timing all layers ==="
+time docker build --no-cache -t demo-go:timing . 2>&1 | \
+  grep -E "^Step|=> \[" | head -15
+
+echo ""
+echo "=== Simulating a source code change ==="
+touch cmd/server/main.go
+
+echo "=== Second build: go mod download CACHED, only app recompiled ==="
+time docker build -t demo-go:timing . 2>&1 | \
+  grep -E "CACHED|go build" | head -10
+# go mod download shows as CACHED → skipped entirely
+# Only go build runs → much faster
+
+
+# ── PART 7: Build arguments ─────────────────────────────────────
+echo ""
+echo "=== Build with explicit version tag ==="
+docker build --build-arg APP_VERSION=2.0.0 -t demo-go:v2.0.0 .
+docker run -d --name demo-v2 -p 8081:8080 demo-go:v2.0.0
+sleep 1
+curl -s http://localhost:8081/ | python3 -m json.tool
+docker rm -f demo-v2
+
+
+# ── PART 8: Inspect image layers ────────────────────────────────
+echo ""
+echo "=== Image layers: multi-stage (should be very few) ==="
+docker history demo-go:multistage
+echo ""
+echo "=== Image layers: naive (many Go toolchain layers) ==="
+docker history demo-go:naive | wc -l
+echo "layers in naive image"
+
+echo ""
+echo "=== Verify scratch image contents (no shell!) ==="
+# scratch has no ls, no sh — only the binary exists
+docker run --rm -d --name scratch-test demo-go:multistage
+docker exec scratch-test ls / 2>&1 || echo "✅ No shell in scratch image (expected)"
+docker rm -f scratch-test
+
+
+# ── PART 9: Node.js multi-stage example ────────────────────────
+echo ""
+echo "=== Node.js multi-stage pattern ==="
+mkdir -p nodeapp
+cat > nodeapp/package.json << 'EOF'
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'TypeScript compiled'",
+    "start": "node server.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
+EOF
+cat > nodeapp/server.js << 'EOF'
+const http = require("http");
+http.createServer((req, res) => {
+  res.writeHead(200, {"Content-Type": "application/json"});
+  res.end(JSON.stringify({status: "ok", runtime: "node"}));
+}).listen(3000, () => console.log("Listening :3000"));
+EOF
+
+cat > nodeapp/Dockerfile << 'EOF'
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine AS prod-deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+FROM node:20-alpine AS production
+RUN addgroup -S nodejs && adduser -S nodeuser -G nodejs
+WORKDIR /app
+COPY --from=prod-deps --chown=nodeuser:nodejs /app/node_modules ./node_modules
+COPY --from=builder   --chown=nodeuser:nodejs /app/server.js    ./server.js
+USER nodeuser
+EXPOSE 3000
+CMD ["node", "server.js"]
+EOF
+
+docker build -t demo-node:multistage nodeapp/
+docker images demo-node --format "table {{.Tag}}\t{{.Size}}"
+
+
+# ── PART 10: Cleanup ────────────────────────────────────────────
+echo ""
+echo "=== Final size comparison summary ==="
+docker images | grep -E "demo-go|demo-node" | \
+  awk '{printf "%-30s %s\n", $1":"$2, $7}'
+
+docker rmi demo-go:multistage demo-go:naive demo-go:test \
+          demo-go:timing demo-go:v2.0.0 demo-node:multistage 2>/dev/null || true
+cd .. && rm -rf $PROJECT_DIR
+echo "✅ Multi-stage build demo complete"`,
+            ],
+
+            questions: [
+              {
+                question:
+                  "What is a multi-stage build and what problem does it solve?",
+                solution:
+                  "<p>A multi-stage build uses multiple <code>FROM</code> instructions in a single Dockerfile, where each FROM starts a new build stage with a completely fresh filesystem. You selectively copy artifacts from one stage to another using <code>COPY --from=STAGE_NAME</code>. The Docker build engine builds all required stages but the output image only contains the final stage's layers — all intermediate stages are discarded entirely. The problem it solves: production Docker images historically had to choose between including build tools (creating huge, insecure images with compilers, package managers, and dev tooling that have no business being in production) or maintaining two separate Dockerfiles with brittle shell scripts to copy artifacts between them. Multi-stage builds collapse this into a single, self-contained Dockerfile: the builder stage uses a fat image with all the tools needed to compile, and the production stage uses the smallest image that can run the compiled output. The result: a Go app's image drops from ~850MB (including the Go toolchain) to ~8MB (just the binary), with the added security benefit that the production image contains no compilers, no package managers, and no source code.</p>",
+              },
+              {
+                question:
+                  "How does Docker decide which stages to build and what ends up in the final image?",
+                solution:
+                  "<p>By default, Docker builds the LAST stage in the Dockerfile and all stages it depends on (through COPY --from references). Stages that are not referenced by the final stage are not built at all — they're completely skipped unless explicitly targeted. The final image contains ONLY the layers from the final stage — all intermediate stage layers are build-time artifacts that never enter the image. Even if an intermediate stage had a 2GB Go toolchain and GB of compiled intermediate objects, none of that appears in the final image. Only what you explicitly <code>COPY --from=builder</code> is transferred. You can target a specific stage with <code>docker build --target STAGE_NAME</code>, which causes Docker to build only up to that stage and stop — the output image is that stage's filesystem. This is how you build a test-only image: <code>docker build --target test -t myapp:test .</code>. Stage references in COPY --from can point to named stages (AS name), numbered stages (0-indexed), or even external registry images (<code>COPY --from=golang:1.22-alpine /usr/local/go ...</code>).</p>",
+              },
+              {
+                question:
+                  "Explain Docker layer caching and how to optimize it in multi-stage Dockerfiles.",
+                solution:
+                  "<p>Docker builds images layer by layer. Each instruction (FROM, RUN, COPY, ADD) creates a layer. When rebuilding, Docker checks if a layer's inputs have changed — if not, it uses the cached layer (shows as CACHED in build output). Cache is invalidated from the changed instruction onwards: if layer 3 changes, layers 4, 5, 6... are all rebuilt even if their inputs are identical. The optimization strategy: order instructions from least-changing to most-changing. The critical pattern is the dependency-first approach: copy only the dependency manifest (package.json, go.mod, requirements.txt) and install dependencies BEFORE copying source code. Since dependencies change rarely but source code changes every commit, this ensures the expensive install step is cached on 90%+ of builds. The next level is BuildKit cache mounts (<code>RUN --mount=type=cache,target=/root/.npm npm ci</code>): these persist a directory between builds even when the layer is invalidated, acting like a permanent package download cache. Multi-stage builds also benefit from BuildKit's parallel stage execution: independent stages that don't have a COPY --from dependency on each other are built simultaneously, which can dramatically reduce total build time for applications with separate frontend/backend build pipelines.</p>",
+              },
+              {
+                question:
+                  "How do you embed tests in a multi-stage Dockerfile and what are the benefits?",
+                solution:
+                  "<p>Create a dedicated test stage that runs your test suite as a RUN instruction: <code>RUN npm test -- --ci</code>. If the tests fail, they exit with a non-zero code, which fails the RUN instruction, which fails the entire <code>docker build</code> command. The production image is never created. Benefits: (1) <strong>Enforcement</strong> — broken code literally cannot be packaged into a deployable image. No CI misconfiguration can accidentally skip tests. (2) <strong>Single artifact</strong> — the same Dockerfile that builds the production image also runs the tests, in the same environment. Tests that pass locally with a specific Node version will use exactly that version. (3) <strong>Flexibility</strong> — <code>docker build --target test</code> runs only the test stage for the CI unit test step; <code>docker build --target production</code> or just <code>docker build</code> runs the full pipeline including tests. You can also build a test image and use it to run specific test suites: <code>docker run --rm myapp:test npm run test:integration</code>. The tradeoff: build time increases because tests run during the image build. For large test suites, many teams run tests in a separate CI step and use <code>--target production</code> to skip tests when building the deployable image.</p>",
+              },
+              {
+                question:
+                  "What is the difference between scratch, distroless, and alpine as base images? When do you use each?",
+                solution:
+                  "<p><code>scratch</code> is the empty base image — literally zero bytes. No OS, no shell, no package manager, no SSL certs, no timezone data. Only works for statically-linked binaries that have zero external dependencies. Go compiled with CGO_ENABLED=0 and Rust with musl target produce such binaries. Attack surface: essentially zero. Debugging: impossible (no shell for docker exec). <code>distroless</code> (gcr.io/distroless/*) is Google's minimal base — no shell, no package manager, but includes SSL certificates, timezone data, and basic libc. Google uses it for their own production services. Variants exist for different runtimes: distroless/java, distroless/python3, distroless/nodejs. ~2-20MB depending on variant. Great security/debuggability balance for production. <code>alpine</code> at ~7MB uses musl libc and includes a minimal shell (sh), basic utilities, and the apk package manager. The go-to choice for most production images because it is small enough for security, but you can still <code>docker exec sh</code> for debugging. Caveat: musl libc vs glibc compatibility — C extensions compiled for glibc may fail on Alpine. The practical guideline: use alpine for most services, distroless for security-critical production services, and scratch only for Go/Rust static binaries.</p>",
+              },
+              {
+                question:
+                  "What is the difference between ARG and ENV in a Dockerfile, and how do they interact with multi-stage builds?",
+                solution:
+                  "<p><code>ARG</code> defines build-time variables passed via <code>--build-arg</code>. They are only available during the build process and are NOT present in the running container's environment. <code>ENV</code> sets environment variables that ARE present in the running container — they're baked into the image and visible in <code>docker inspect</code> and inside the container at runtime. Interaction: you can promote an ARG to an ENV: <code>ENV APP_VERSION=\\${APP_VERSION}</code>, which takes the build-time ARG value and bakes it into the runtime environment. Critical multi-stage behavior: ARG values do NOT automatically carry over between stages. If you define <code>ARG APP_VERSION</code> in stage 1, stage 2 does NOT have access to it unless you re-declare it with <code>ARG APP_VERSION</code> in stage 2 (the re-declaration inherits the value from the original --build-arg). Security implications: ARG values are stored in the image's build metadata and are visible via <code>docker history --no-trunc</code> even after the build. NEVER pass secrets as ARG values. Use BuildKit's <code>--mount=type=secret</code> for secrets — these are in-memory mounts during a single RUN instruction and leave absolutely no trace in the image layers or metadata.</p>",
+              },
+              {
+                question:
+                  "How would you write a multi-stage Dockerfile for a Node.js/TypeScript application?",
+                solution:
+                  "<p>The optimal pattern uses 4 stages: (1) <strong>deps</strong>: copies package.json + package-lock.json only, runs npm ci to install ALL dependencies including devDependencies. This layer caches independently of source code changes. (2) <strong>builder</strong>: copies node_modules from deps, copies source code, runs <code>npm run build</code> (TypeScript compilation, webpack/vite bundling). Optionally runs tests here to fail fast on broken builds. (3) <strong>prod-deps</strong>: starts fresh, copies only package.json, runs <code>npm ci --omit=dev</code> to install production dependencies only — no TypeScript compiler, no test frameworks, no linting tools. (4) <strong>production</strong>: starts from node:20-alpine, creates a non-root user, copies dist/ from builder and node_modules from prod-deps. Sets USER to the non-root user, EXPOSE 3000, CMD node dist/server.js. What's in the final image: Node runtime, dist/ folder (compiled JS), production node_modules. What's NOT: TypeScript source, TypeScript compiler, webpack, jest, eslint, devDependencies. Size reduction: typically from ~1.2GB (with all devDeps) to ~180MB. The --omit=dev step is often the single biggest size reduction — devDependencies can easily be 10x larger than production dependencies in a TypeScript project.</p>",
+              },
+              {
+                question:
+                  "Explain BuildKit cache mounts and how they differ from regular layer caching.",
+                solution:
+                  "<p>Regular Docker layer caching works by checksumming a layer's inputs. If the inputs haven't changed since the last build, the cached layer is reused. But if anything above it in the Dockerfile changes, the layer is rebuilt from scratch — including re-downloading all npm packages or Go modules. BuildKit cache mounts (<code>RUN --mount=type=cache,target=/path</code>) work differently: they mount a persistent cache volume at a specific path during a RUN instruction. This cache volume persists across ALL builds regardless of whether the layer's inputs changed. Practical impact: even if package.json changes (cache-busting the npm install layer), npm can still use the cache volume's downloaded packages and only fetch the new packages. For Go: mounting /go/pkg/mod (module cache) and /root/.cache/go-build (compilation cache) means even a full cache miss only downloads new modules and recompiles changed packages. The syntax: <code>RUN --mount=type=cache,target=/root/.npm npm ci</code>. The Dockerfile must start with <code># syntax=docker/dockerfile:1</code> to enable BuildKit syntax. For CI where the builder changes per run (ephemeral runners), combine with <code>--cache-from type=registry</code> to export the build cache to a registry image so subsequent CI runs can pull it.</p>",
+              },
+              {
+                question:
+                  "How do you pass private credentials (npm tokens, SSH keys) needed during build without leaking them into the image?",
+                solution:
+                  "<p>The wrong approach — never do this: passing credentials as ARG values (<code>docker build --build-arg NPM_TOKEN=secret</code>). ARG values are permanently stored in the image's build metadata and visible via <code>docker history --no-trunc</code> and in registry manifest metadata, even if you never set them as ENV or delete them in a subsequent layer. The correct approach is BuildKit's <code>--mount=type=secret</code>: the secret is passed at build time (<code>docker build --secret id=npm_token,src=./.npm-token</code> or <code>--secret id=npm_token,env=NPM_TOKEN</code>), mounted as a file at <code>/run/secrets/npm_token</code> during a specific RUN instruction, and is NOT written to any layer. The secret exists only in memory during that RUN step. In the Dockerfile: <code>RUN --mount=type=secret,id=npm_token NPM_TOKEN=$(cat /run/secrets/npm_token) npm ci</code>. For private Git repositories accessed during go mod download, use <code>--mount=type=ssh</code> which forwards the host's SSH agent socket: <code>RUN --mount=type=ssh go mod download</code>, built with <code>docker build --ssh default</code>. The SSH socket is forwarded for the duration of the RUN instruction and leaves no trace in the image. Both require the Dockerfile to declare <code># syntax=docker/dockerfile:1</code>.</p>",
+              },
+              {
+                question:
+                  "What is a .dockerignore file and why is it important for multi-stage builds?",
+                solution:
+                  "<p>The .dockerignore file specifies patterns for files and directories to exclude from the build context sent to the Docker daemon when you run <code>docker build</code>. The build context is the entire directory tree that Docker sends to the daemon — every file in it is potentially available to COPY instructions. Without .dockerignore: (1) <strong>Security risk</strong>: <code>COPY . .</code> might inadvertently copy .env files, AWS credentials, or private keys into the image. These are then readable by anyone who pulls the image. (2) <strong>Performance</strong>: Docker sends the entire build context to the daemon before building. A 500MB node_modules directory gets uploaded every time even if you immediately overwrite it with <code>npm ci</code> inside the container. (3) <strong>Correctness</strong>: copying the host's node_modules creates platform-specific binary mismatches (binaries compiled for macOS don't work in a Linux container). Essential entries: .git, node_modules, .env and .env.*, dist/, *.log, coverage/, tests/, Dockerfile*, docker-compose*, and README. In multi-stage builds, .dockerignore is especially critical because COPY . . is a common instruction in the builder stage — a missing .env entry could quietly leak credentials into the final image that gets pushed to a public registry.</p>",
+              },
+              {
+                question:
+                  "What is the COPY --from=IMAGE pattern and when do you use it?",
+                solution:
+                  "<p><code>COPY --from</code> can reference not just named stages within the same Dockerfile but also any image from a registry. The syntax is identical: <code>COPY --from=golang:1.22-alpine /usr/local/go/bin/go /usr/local/bin/go</code>. Docker pulls the referenced image (using its local cache) and copies from its filesystem. Use cases: (1) <strong>Grabbing static binaries from official images</strong>: copy just the compiled binary from an official tool's image without making it a base image. Example: <code>COPY --from=gcr.io/distroless/static-debian12 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/</code> to get SSL certs for a scratch-based image. (2) <strong>Cross-platform toolchain injection</strong>: <code>COPY --from=golangci/golangci-lint:latest /usr/bin/golangci-lint /usr/bin/golangci-lint</code> to pull a linting tool into a CI stage without managing the download yourself. (3) <strong>Version-pinned tools</strong>: copy a specific version of a tool (migrate, grpc, buf) from its official image directly into your builder stage. This avoids curl-piping-to-bash installation scripts and keeps tools version-pinned to the image tag. Referenced external images are cached locally just like any pulled image, so repeat builds don't re-pull them.</p>",
+              },
+              {
+                question:
+                  "How would you optimize a slow Docker build? Walk through a systematic approach.",
+                solution:
+                  "<p>Systematic optimization: (1) <strong>Diagnose first</strong>: run <code>docker build --progress=plain</code> to see exactly which layers hit cache vs were rebuilt, and how long each RUN takes. (2) <strong>Fix cache ordering</strong>: the most common problem — COPY . . before installing dependencies. Move dependency manifests before source code: copy package.json → npm ci → copy source → npm build. A 3-minute npm install drops to a sub-second cache hit on non-dependency changes. (3) <strong>Add .dockerignore</strong>: if the build context is large, adding .dockerignore reduces the time to send context to the daemon. (4) <strong>Parallelize stages</strong>: use BuildKit (default in Docker 23+) which automatically runs independent stages in parallel. Restructure so frontend and backend builds are independent stages. (5) <strong>Use cache mounts</strong>: add BuildKit --mount=type=cache to npm, pip, Go, and Maven install steps so downloads persist across cache-busting builds. (6) <strong>Use remote cache in CI</strong>: add --cache-from type=registry and --cache-to type=registry so each CI run benefits from the previous run's cached layers even on ephemeral runners. (7) <strong>Minimize layer count</strong>: chain RUN commands with && to reduce layers, especially in the builder stage. (8) <strong>Choose smaller base images</strong>: switching from node:20 (1GB) to node:20-alpine (180MB) reduces pull time, layer copy time, and final image size.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/build/building/multi-stage/",
+              "https://docs.docker.com/build/cache/",
+              "https://docs.docker.com/build/building/secrets/",
+              "https://docs.docker.com/build/buildkit/",
+              "https://docs.docker.com/reference/dockerfile/",
+              "https://github.com/GoogleContainerTools/distroless",
+              "https://docs.docker.com/scout/",
+              "https://docs.docker.com/build/cache/backends/",
+            ],
+          },
+          {
+            topic: "Docker Security",
+            tags: [
+              "docker",
+              "security",
+              "container-security",
+              "hardening",
+              "best-practices",
+              "devsecops",
+              "cve",
+              "image-scanning",
+              "runtime-security",
+              "kubernetes-security",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker security is a multi-layered discipline that spans the entire container lifecycle — from the base images you choose, through the Dockerfile instructions you write, to the runtime flags and orchestration policies that govern running containers. The core principle is <strong>defense in depth</strong>: no single control is sufficient, and security must be embedded at every stage. Production incidents involving containers almost always trace back to one of a small set of root causes: containers running as root, outdated base images with known vulnerabilities (CVEs), secrets accidentally baked into images, overly permissive capabilities, or the absence of resource limits enabling denial-of-service attacks. Understanding the full security model — Linux kernel namespaces and cgroups, the container attack surface, capability dropping, seccomp and AppArmor profiles, image vulnerability scanning, and supply chain integrity — is essential for deploying containers in production and is a core topic in senior DevOps, Platform Engineering, and Security interviews.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: THE CONTAINER SECURITY MODEL                      -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. The Container Security Model: Namespaces, Cgroups, and the Shared Kernel
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Containers are not virtual machines — they share the host kernel. Understanding what this means for security is foundational. Docker uses Linux <strong>namespaces</strong> to provide isolation: each container gets its own view of the filesystem (mount namespace), process tree (PID namespace), network interfaces (net namespace), users (user namespace), and inter-process communication (IPC namespace). A process running in a container cannot see or interact with processes in other containers or on the host — with one critical exception: the kernel is shared. A kernel vulnerability (like Dirty Pipe or Dirty COW) exploited from inside a container gives the attacker access to the host kernel, potentially breaking out of all namespace isolation. This is why <strong>kernel security updates are critical</strong>, and why defense-in-depth (dropping capabilities, seccomp, AppArmor) is necessary to limit what a compromised container can do.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <strong>Control groups (cgroups)</strong> provide the other half of the security model: resource limits. Without cgroup limits, a single container can exhaust all host memory or CPU, triggering the OOM killer on the host or causing a denial-of-service for all other containers. Resource limits are a security control as much as a performance control — they prevent a compromised container from starving other workloads.
+  </p>
+
+  <div style="margin-top: 1rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Isolation Mechanism</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">What It Isolates</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Security Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">PID namespace</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Process trees</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Container cannot see or signal host/other container processes</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Mount namespace</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Filesystem mount points</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Container gets its own root filesystem; host filesystems inaccessible unless explicitly mounted</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Network namespace</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Network interfaces, routing, iptables</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Container has its own virtual interface; cannot sniff host traffic</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">User namespace</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">UID/GID mapping</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">root inside container can map to non-root UID on host — most important security feature</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Cgroups</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">CPU, memory, disk I/O</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Prevents resource exhaustion DoS; limits blast radius of compromised container</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Containers share the host kernel but isolate processes using Linux namespaces — each container gets its own process tree, network stack, mount points, and users. The shared kernel is the biggest security risk: a kernel vulnerability exploited from inside a container compromises the entire host. This is why defense-in-depth matters — dropping capabilities, seccomp profiles, and user namespaces limit what a compromised container can do even if it gains code execution. Cgroups provide resource isolation, preventing a compromised container from DoSing other containers by exhausting memory or CPU. The user namespace is particularly important because it allows a container's root to map to a non-root UID on the host, removing the privilege escalation path if a container breakout occurs."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: IMAGE SECURITY — BUILDING SECURE IMAGES           -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Image Security: Building Secure Images
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    The security of a running container is determined almost entirely by the image it was built from. A poorly constructed image with a root user, outdated packages with known CVEs, and secrets baked into layers cannot be secured at runtime. Security starts at the Dockerfile.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">2.1. Non-Root Users — The Most Critical Rule</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Containers run as root by default. If an attacker compromises a root-running container, they have root privileges within that container's namespace — they can install packages, modify system files, and crucially, if there's any kernel exploit or misconfiguration, they have a much easier path to host breakout. Running as a non-root user is the single most effective security control you can implement in a Dockerfile. The principle: <strong>the container should have the minimum privileges necessary to run the application</strong> — nothing more.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── WRONG: Running as root (default) ──────────────────────────────
+FROM node:20-alpine
+WORKDIR /app
+COPY . .
+RUN npm ci
+EXPOSE 3000
+CMD ["node", "server.js"]
+# ❌ Any process in this container runs as root
+# ❌ If compromised, attacker has root in the container namespace
+
+
+# ── CORRECT: Create and switch to a non-root user ─────────────────
+FROM node:20-alpine
+
+# Create a non-root user with a fixed UID (1001 is conventional)
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser  --system --uid 1001 --ingroup nodejs nodeuser
+
+WORKDIR /app
+
+# Copy files with correct ownership (chown during COPY)
+COPY --chown=nodeuser:nodejs package*.json ./
+RUN npm ci && npm cache clean --force
+
+COPY --chown=nodeuser:nodejs . .
+
+# Switch to non-root user before running the application
+USER nodeuser
+
+EXPOSE 3000
+CMD ["node", "server.js"]
+# ✅ Process runs as nodeuser (UID 1001), not root
+# ✅ Attacker would need additional privilege escalation to escape
+
+
+# ── BEST PRACTICE: Verify user at runtime ─────────────────────────
+# After building, confirm no root processes:
+docker run --rm myapp id
+# uid=1001(nodeuser) gid=1001(nodejs) groups=1001(nodejs)
+
+# Also check that no process is running as root:
+docker exec myapp ps aux
+# USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+# nodeuser     1  0.0  0.1  12345  1234 ?        Ssl  00:00  0:00 node server.js
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">2.2. Minimal Base Images — Reducing Attack Surface</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Every package in your base image is a potential vector for vulnerabilities. The larger the image, the more CVEs you inherit. Minimal base images like Alpine (~7MB), distroless (~2-20MB), or even scratch (0 bytes for static binaries) dramatically reduce the attack surface compared to full distributions like Ubuntu (~80MB) or Debian (~75MB). The tradeoff: debugging is harder without a shell, and musl libc (Alpine) can cause compatibility issues with C extensions compiled for glibc.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── BASE IMAGE COMPARISON: CVE Count (as of 2024) ─────────────────
+# ubuntu:22.04:     ~100-150 CVEs in base (varies by patch date)
+# debian:12-slim:   ~80-120 CVEs
+# alpine:3.19:      ~5-15 CVEs (musl libc is significantly smaller codebase)
+# distroless:       ~0-5 CVEs (only the absolute minimum libraries)
+# scratch:          0 CVEs (no operating system at all)
+
+
+# ── GO APPLICATION: Scratch (smallest possible) ───────────────────
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build \
+    -ldflags="-w -s" \
+    -o /app/server \
+    ./cmd/server
+
+FROM scratch
+# Copy SSL certs and timezone data (needed for HTTPS and logging)
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /app/server /server
+USER 1001:1001
+EXPOSE 8080
+ENTRYPOINT ["/server"]
+# ✅ Attack surface: essentially zero — no shell, no package manager, no OS
+
+
+# ── NODE.JS APPLICATION: Alpine (balance of size and debugability) ─
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+RUN npm prune --omit=dev
+
+FROM node:20-alpine
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nodeuser
+WORKDIR /app
+COPY --from=builder --chown=nodeuser:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodeuser:nodejs /app/node_modules ./node_modules
+USER nodeuser
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+# ✅ 180MB image, ~10-15 CVEs, has a shell for debugging if needed
+
+
+# ── PYTHON APPLICATION: Distroless (security-focused) ─────────────
+FROM python:3.12-slim AS builder
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM gcr.io/distroless/python3-debian12
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+COPY --chown=nonroot:nonroot . /app
+WORKDIR /app
+USER nonroot
+EXPOSE 8000
+CMD ["main.py"]
+# ✅ No shell, no package manager, ~30MB image, minimal CVEs
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">2.3. Image Scanning — Finding CVEs Before Deployment</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Even with minimal base images, vulnerabilities are discovered daily. Image scanning tools compare packages in your image against vulnerability databases (NVD, GitHub Advisory DB) to identify known CVEs. This must be automated in CI — fail builds on critical vulnerabilities before images are pushed to a registry or deployed to production.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DOCKER SCOUT (Built into Docker Desktop / Docker CLI) ─────────
+# Scan an image for vulnerabilities
+docker scout cves myapp:latest
+
+# Scan with detailed output
+docker scout cves --format sarif myapp:latest > vulns.sarif
+
+# Compare two images (e.g., dev vs prod, or before/after fix)
+docker scout compare myapp:latest myapp:previous
+
+# Fail build if critical vulnerabilities exist (for CI)
+docker scout cves myapp:latest --exit-code --only-severity critical
+
+
+# ── TRIVY (Open-source, popular in CI pipelines) ──────────────────
+# Install: brew install trivy (macOS) or apt install trivy (Linux)
+
+# Basic scan
+trivy image myapp:latest
+
+# JSON output for processing
+trivy image --format json --output results.json myapp:latest
+
+# Fail on critical/high severity
+trivy image --severity CRITICAL,HIGH --exit-code 1 myapp:latest
+
+# Scan a directory (Dockerfile analysis)
+trivy config --severity HIGH,CRITICAL .
+
+
+# ── SNYK (Commercial, developer-first) ───────────────────────────
+# Install: npm install -g snyk
+
+snyk container test myapp:latest --file=Dockerfile
+snyk container monitor myapp:latest --project-name=myapp-prod
+
+
+# ── GITHUB ACTIONS CI INTEGRATION ─────────────────────────────────
+# .github/workflows/container-scan.yml
+name: Container Security Scan
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t myapp:$ {{ github.sha }} .
+      - name: Run Trivy scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: myapp:$ {{ github.sha }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">2.4. Multi-Stage Builds for Security</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Multi-stage builds are a security control as much as a size optimization. By using a builder stage with compilers and build tools, then copying only the runtime artifacts to a minimal final image, you ensure that compilers, package managers (pip, npm, apt), source code, and build-time secrets never appear in the production image. This eliminates entire classes of vulnerabilities: a production image without npm cannot be exploited to install malicious packages; without a shell, many post-exploitation techniques are impossible.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── MULTI-STAGE SECURITY BENEFITS ─────────────────────────────────
+# What's in the builder stage (NOT in final image):
+# - Go compiler, Node.js TypeScript compiler, Python build tools (gcc)
+# - Full source code (including .env files, tests, documentation)
+# - Package managers (apt, apk, pip, npm)
+# - Build-time secrets (npm tokens, SSH keys) — if using --mount=type=secret
+
+# What's in the final stage (production image):
+# - ONLY the compiled application artifacts (binary, dist/ folder)
+# - ONLY production dependencies (node_modules with no devDeps)
+# - The minimal runtime environment (distroless, alpine, scratch)
+
+# Example: Node.js with devDependencies excluded
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci                     # installs devDependencies AND prod deps
+COPY . .
+RUN npm run build              # TypeScript compilation
+
+FROM node:20-alpine AS production
+# Start fresh — no devDependencies, no source TypeScript
+WORKDIR /app
+COPY --from=builder /app/dist ./dist           # compiled JS only
+COPY --from=builder /app/package*.json ./
+RUN npm ci --omit=dev                          # production dependencies ONLY
+# ❌ NOT copied: .ts files, devDependencies (jest, typescript, eslint, webpack)
+# ❌ NOT installed: TypeScript compiler, testing frameworks, linters
+
+USER node
+CMD ["node", "dist/server.js"]
+
+# Security impact: A compromised production container cannot run npm install,
+# cannot modify source code (no source present), cannot run TypeScript compiler,
+# and has no development tools to aid privilege escalation.
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Image security starts with the Dockerfile. The most critical rule: never run containers as root — create a non-root user with USER instruction. Second: use minimal base images. Alpine (~7MB) is a good balance between size and debuggability; distroless (no shell) for security-critical workloads; scratch for Go/Rust static binaries. Third: use multi-stage builds to ensure compilers, package managers, and source code never reach the production image. Fourth: scan every image for CVEs before deployment using Trivy, Docker Scout, or Snyk — fail builds on critical vulnerabilities. The combination of non-root + minimal base + multi-stage + scanning reduces the attack surface by orders of magnitude: a typical Node.js image goes from 1.2GB (full dev tooling, root user) to ~180MB (non-root, production deps only, minimal base) with 10-20% of the CVEs."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: RUNTIME SECURITY — DOCKER RUN FLAGS               -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Runtime Security: Docker Run Flags
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    The Dockerfile determines what's in the image, but runtime flags determine how the container is executed. Even a perfectly built image can be run insecurely if the runtime configuration is wrong. The key runtime security controls are: dropping Linux capabilities, setting resource limits, making filesystems read-only, and enabling security profiles (seccomp, AppArmor, SELinux).
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">3.1. Linux Capabilities — Dropping Privileges</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Linux capabilities break root privileges into small, granular units. Even if a container runs as root, you can drop all but the specific capabilities the application needs. The default Docker capability set is too permissive for most applications. The principle: <strong>drop all capabilities, then add back only what's required</strong>.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── CAPABILITY BASICS ─────────────────────────────────────────────
+# List capabilities granted to a running container
+docker run --rm myapp capsh --print
+# Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
+
+
+# ── DROP ALL CAPABILITIES, ADD ONLY WHAT'S NEEDED ─────────────────
+# For a typical web app that only needs to bind to port 80/443 (<1024)
+docker run \
+  --cap-drop ALL \
+  --cap-add NET_BIND_SERVICE \
+  myapp
+
+# For an app that needs to read timezone files but nothing else
+docker run \
+  --cap-drop ALL \
+  --cap-add SYS_TIME \
+  myapp
+
+# For an app that needs to change file ownership (e.g., copying files)
+docker run \
+  --cap-drop ALL \
+  --cap-add CHOWN \
+  myapp
+
+
+# ── COMMON CAPABILITIES REFERENCE ─────────────────────────────────
+# NET_BIND_SERVICE  → Bind to ports <1024 (most web apps need this)
+# CHOWN             → Change file ownership
+# DAC_OVERRIDE      → Bypass file permissions (rarely needed)
+# KILL              → Send signals to processes (useful for graceful shutdown)
+# SYS_TIME          → Change system time (for timezone-aware apps)
+# SYS_ADMIN         → Most dangerous, mount filesystems, perform sysadmin tasks (AVOID if possible)
+
+# Check what capabilities your app actually needs:
+# Run with --cap-add ALL --security-opt=apparmor=unconfined, then use
+# strace or audit to see which syscalls fail, then reduce
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">3.2. Resource Limits — Preventing DoS</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Without resource limits, a single container can consume all host memory (triggering OOM killer and killing other containers) or all CPU cores (starving other workloads). Setting memory and CPU limits is a critical security control to contain the blast radius of a compromised container or a bug causing resource exhaustion.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── MEMORY LIMITS ─────────────────────────────────────────────────
+# Hard limit (container cannot exceed this)
+docker run --memory="512m" myapp
+
+# Memory + swap limit (swap is usually disabled in production)
+docker run --memory="512m" --memory-swap="512m" myapp
+
+# Memory reservation (soft limit, used for scheduling)
+docker run --memory-reservation="256m" myapp
+
+# OOM score adjustment (make container more/less likely to be killed)
+docker run --oom-score-adj=-500 myapp
+# Negative values = less likely to be killed
+
+
+# ── CPU LIMITS ────────────────────────────────────────────────────
+# CPU shares (relative weight, not a hard limit)
+docker run --cpu-shares=512 myapp   # default 1024, 512 = half the weight
+
+# CPU cores hard limit (e.g., use 0.5 cores)
+docker run --cpus="0.5" myapp
+
+# CPU period/quota for fine-grained control
+docker run --cpu-period=100000 --cpu-quota=50000 myapp  # 50% of one core
+
+
+# ── COMBINED RESOURCE LIMITS FOR PRODUCTION ──────────────────────
+docker run \
+  --memory="512m" \
+  --memory-swap="512m" \
+  --cpus="0.5" \
+  --pids-limit=100 \           # Prevent fork bomb DoS
+  --ulimit nofile=65536:65536 \ # Limit file descriptors
+  myapp
+
+
+# ── KUBERNETES RESOURCE LIMITS ───────────────────────────────────
+# apiVersion: v1
+# kind: Pod
+# spec:
+#   containers:
+#   - name: app
+#     resources:
+#       requests:
+#         memory: "256Mi"
+#         cpu: "250m"
+#       limits:
+#         memory: "512Mi"
+#         cpu: "500m"
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">3.3. Read-Only Root Filesystem</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Making the root filesystem read-only prevents attackers from writing malicious binaries or modifying system files. Any writes the application needs must go to a writable volume (like /tmp). This is a powerful security control: even if an attacker gains code execution, they cannot persist changes to the container's filesystem.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── READ-ONLY FILESYSTEM ─────────────────────────────────────────
+# Run with --read-only, provide a writable tmpfs for temporary files
+docker run \
+  --read-only \
+  --tmpfs /tmp:rw,noexec,nosuid,size=100m \
+  myapp
+
+# If your app writes logs, mount a volume for them
+docker run \
+  --read-only \
+  -v /var/log/myapp:/var/log:rw \
+  myapp
+
+
+# ── DOCKERFILE COMPATIBILITY FOR READ-ONLY ───────────────────────
+# The app must not write to the container's root filesystem
+# All writes must go to:
+# - Volumes mounted with -v
+# - tmpfs mounts with --tmpfs
+# - /dev/shm (shared memory, rarely used)
+
+# Check your app for filesystem writes during development:
+# Run with --read-only and see which writes fail, then mount those paths
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">3.4. Seccomp & AppArmor — System Call Filtering</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Seccomp (secure computing mode) filters the system calls a container can make. A typical application only needs a small subset of Linux's ~400 system calls. By restricting syscalls, you prevent exploit techniques that rely on uncommon syscalls. Docker provides a default seccomp profile that blocks ~50 dangerous syscalls; you can create custom profiles for stricter filtering.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DEFAULT SECCOMP PROFILE ──────────────────────────────────────
+# Docker's default profile blocks ~50 syscalls:
+# - kernel module loading (init_module, finit_module)
+# - reboot, kexec (system shutdown/reboot)
+# - bpf (BPF program loading — eBPF exploits)
+# - perf_event_open (performance monitoring, used in side-channel attacks)
+# - process_vm_readv, process_vm_writev (cross-process memory access)
+
+docker run --security-opt seccomp=default.json myapp
+
+
+# ── CUSTOM SECCOMP PROFILE (STRICT) ──────────────────────────────
+# Create a minimal seccomp profile that only allows syscalls your app needs
+cat > seccomp-strict.json << 'EOF'
+{
+  "defaultAction": "SCMP_ACT_ERRNO",
+  "architectures": ["SCMP_ARCH_X86_64"],
+  "syscalls": [
+    {"names": ["read", "write", "open", "close", "stat", "fstat", "lseek", "mmap", "munmap", "brk", "rt_sigaction", "rt_sigprocmask", "ioctl", "nanosleep", "exit", "exit_group"], "action": "SCMP_ACT_ALLOW"}
+  ]
+}
+EOF
+
+docker run --security-opt seccomp=seccomp-strict.json myapp
+
+
+# ── APPARMOR (Ubuntu/Debian) ─────────────────────────────────────
+# AppArmor restricts file access, network access, and capabilities
+# Docker provides a default profile
+
+docker run --security-opt apparmor=docker-default myapp
+
+# Disable AppArmor (NOT recommended in production)
+docker run --security-opt apparmor=unconfined myapp
+
+
+# ── NO NEW PRIVILEGES ────────────────────────────────────────────
+# Prevents processes inside container from gaining new privileges
+# via setuid binaries (like sudo, su)
+
+docker run --security-opt no-new-privileges myapp
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Runtime security is configured through Docker run flags. The baseline: <code>--cap-drop ALL --cap-add NET_BIND_SERVICE</code> to drop all Linux capabilities except what the app needs — usually just binding to ports below 1024. Set resource limits: <code>--memory="512m" --cpus="0.5" --pids-limit=100</code> to prevent DoS attacks. Use <code>--read-only --tmpfs /tmp</code> to make the root filesystem read-only, preventing attackers from writing binaries to the container. Enable <code>--security-opt no-new-privileges</code> to block privilege escalation via setuid binaries. For system call filtering, the default seccomp profile blocks ~50 dangerous syscalls, and you can create stricter profiles. In production, these flags should be part of your orchestrator's Pod spec (Kubernetes securityContext) rather than manual docker run commands."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: SECRETS MANAGEMENT                                -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Secrets Management: Never Bake Secrets Into Images
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Secrets (API keys, database passwords, TLS certificates, private keys) embedded in Docker images are one of the most common security failures. Once a secret is in a layer, it's there forever — even if you delete it in a later layer, it remains in the image history and is accessible to anyone who can pull the image. Secrets must be injected at runtime, never at build time.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">4.1. Build-Time Secrets — BuildKit Mounts</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    For secrets needed during the build (private npm tokens, GitHub access tokens for go mod download), use BuildKit's <code>--mount=type=secret</code>. The secret is mounted as a file during a specific RUN instruction and is not stored in any layer.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# syntax=docker/dockerfile:1
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Secret mounted only during this RUN — not in any layer
+RUN --mount=type=secret,id=npm_token \
+    NPM_TOKEN=$(cat /run/secrets/npm_token) \
+    npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+
+# Build command:
+# docker build --secret id=npm_token,src=./.npmrc-token -t myapp .
+
+# Or read from environment variable:
+# docker build --secret id=npm_token,env=NPM_TOKEN -t myapp .
+
+
+# ── DANGEROUS: Never do this ──────────────────────────────────────
+# ARG NPM_TOKEN
+# RUN npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+# The token is stored in the image's metadata (docker history)
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">4.2. Runtime Secrets — Docker Secrets & Orchestrators</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    For runtime secrets, use Docker Swarm secrets, Kubernetes secrets, or HashiCorp Vault. Never pass secrets via environment variables (they're visible in <code>docker inspect</code>, logs, and /proc of child processes). Instead, mount secrets as files.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DOCKER SWARM SECRETS ─────────────────────────────────────────
+# Create secret
+echo "my-database-password" | docker secret create db_password -
+
+# Use in service (mounted as /run/secrets/db_password)
+docker service create \
+  --secret db_password \
+  --name myapp \
+  myapp:latest
+
+
+# ── KUBERNETES SECRETS ───────────────────────────────────────────
+# Create secret (imperative)
+kubectl create secret generic db-credentials \
+  --from-literal=password='my-database-password'
+
+# Use in Pod (mounted as file)
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: myapp
+    image: myapp:latest
+    volumeMounts:
+    - name: secrets
+      mountPath: /app/secrets
+      readOnly: true
+  volumes:
+  - name: secrets
+    secret:
+      secretName: db-credentials
+
+
+# ── NEVER USE ENVIRONMENT VARIABLES FOR SECRETS ──────────────────
+# Environment variables are visible in:
+# - docker inspect (anyone with image access)
+# - /proc/self/environ of running container (if process is compromised)
+# - Logs if the app prints env vars
+# - Cloud provider metadata services (if exposed)
+
+# Wrong:
+docker run -e DB_PASSWORD=secret myapp
+
+# Correct:
+docker run -v /path/to/secrets:/secrets:ro myapp
+# App reads /secrets/db_password
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Secrets must never be baked into images — they remain in layers forever and anyone with image access can retrieve them. For build-time secrets (like npm tokens), use BuildKit's <code>--mount=type=secret</code> — the secret is mounted during a specific RUN instruction and leaves no trace in any layer. For runtime secrets, use Docker Swarm secrets, Kubernetes secrets, or HashiCorp Vault. Always mount secrets as files, never environment variables. Environment variables are visible in <code>docker inspect</code>, container logs, and can be read from /proc of a compromised container. The file mount approach ensures secrets are only in memory and on the filesystem of the container, and can be rotated without rebuilding the image."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: SUPPLY CHAIN SECURITY                             -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Supply Chain Security: Image Signing & Provenance
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Supply chain attacks — where an attacker compromises a base image, a dependency, or a build tool — are increasingly common. Defending the supply chain requires: pinning base images to digests (immutable references), signing images with Docker Content Trust (Notary), and verifying image provenance with attestations (SLSA, Cosign).
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── PINNING BASE IMAGES TO DIGESTS (IMMUTABLE) ───────────────────
+# Instead of:
+FROM node:20-alpine
+
+# Use digest (immutable, never changes)
+FROM node:20-alpine@sha256:bf77dc26e48ea95fca9d1aceb5acfa69d2e546b765ec2abfb502975f1a2d4def
+
+# Get the digest:
+docker pull node:20-alpine
+docker inspect node:20-alpine --format='{{index .RepoDigests 0}}'
+
+
+# ── DOCKER CONTENT TRUST (IMAGE SIGNING) ─────────────────────────
+# Enable Content Trust (requires Notary server)
+export DOCKER_CONTENT_TRUST=1
+
+# Push an image — automatically signed
+docker push myregistry.com/myapp:latest
+
+# Pull with signature verification (only pulls if signature valid)
+docker pull myregistry.com/myapp:latest
+
+
+# ── COSIGN (Sigstore) — Image Signing and Verification ──────────
+# Install cosign: https://docs.sigstore.dev/cosign/installation
+
+# Sign an image with a key
+cosign sign --key cosign.key myregistry.com/myapp:latest
+
+# Verify signature
+cosign verify --key cosign.pub myregistry.com/myapp:latest
+
+
+# ── SLSA PROVENANCE (Build Attestations) ────────────────────────
+# Generate provenance attestation (GitHub Actions + SLSA)
+# Verifies: where the image came from, how it was built, what source commit
+# Kubernetes admission controllers can reject images without attestation
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Supply chain security ensures that the image you run is the one your CI built and not a tampered version. Pin base images to digests (node:20-alpine@sha256:...) so you always get the same immutable image, not a moving tag. Enable Docker Content Trust (DOCKER_CONTENT_TRUST=1) to require signatures when pulling images — ensures images come from trusted publishers. For production, use Cosign (Sigstore) to sign images with a private key and verify signatures in Kubernetes admission controllers. Generate SLSA provenance attestations to prove how the image was built — which source commit, which CI runner, which build command — so you can reject images that didn't come from your official CI pipeline."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: SECURITY AUDITING & MONITORING                    -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Security Auditing & Monitoring
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Continuous security monitoring is essential for production containers. Tools like Docker Bench Security (CIS benchmarks) check host and Docker daemon configuration against industry standards. Falco (CNCF project) provides runtime threat detection — monitoring system calls, file access, and network activity for suspicious behavior.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DOCKER BENCH SECURITY (CIS BENCHMARKS) ───────────────────────
+# Run security audit against Docker host
+docker run -it --net host --pid host --userns host --cap-add audit_control \
+  -v /etc:/etc:ro \
+  -v /usr/bin/containerd:/usr/bin/containerd:ro \
+  -v /usr/bin/runc:/usr/bin/runc:ro \
+  -v /usr/lib/systemd:/usr/lib/systemd:ro \
+  -v /var/lib:/var/lib:ro \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  --label docker_bench_security \
+  docker/docker-bench-security
+
+# Checks:
+# - Host configuration (kernel parameters, user namespaces)
+# - Docker daemon configuration (logging level, TLS)
+# - Container images (non-root user, no latest tags)
+# - Runtime (capabilities dropped, read-only root, resource limits)
+
+
+# ── FALCO — RUNTIME THREAT DETECTION ────────────────────────────
+# Install Falco (CNCF project, monitors syscalls)
+curl -s https://falco.org/repo/falcosecurity-packages.asc | apt-key add -
+echo "deb https://download.falco.org/packages/deb stable main" | tee -a /etc/apt/sources.list.d/falcosecurity.list
+apt-get update && apt-get install -y falco
+
+# Detect:
+# - Unexpected shell execution in containers
+# - Read of sensitive files (/etc/shadow, .aws/credentials)
+# - Write to unusual directories (/root, /etc)
+# - Outbound network connections to suspicious IPs
+# - Privilege escalation attempts
+
+# Example alert:
+# "Shell spawned in a container (user=root container=myapp shell=sh)"
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Security monitoring combines configuration auditing and runtime detection. Docker Bench Security runs CIS benchmarks against the Docker host and daemon — it should be part of your security compliance checks. For runtime detection, Falco monitors system calls and can alert on suspicious behavior: a shell spawning in a container, reading of sensitive files, outbound connections to unexpected IPs, or privilege escalation attempts. In Kubernetes, these alerts integrate with SIEM systems for incident response. The key is to move beyond just scanning images before deployment — you need runtime visibility to detect active compromises."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 7: COMPLETE PRODUCTION DOCKERFILE EXAMPLE            -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    7. Complete Production-Ready Dockerfile (All Security Controls)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# syntax=docker/dockerfile:1
+# ─────────────────────────────────────────────────────────────────
+# PRODUCTION DOCKERFILE WITH FULL SECURITY HARDENING
+# Node.js application (TypeScript) — all security controls applied
+# ─────────────────────────────────────────────────────────────────
+
+# Stage 1: Builder (all build tools, dev dependencies)
+FROM node:20-alpine@sha256:bf77dc26e48ea95fca9d1aceb5acfa69d2e546b765ec2abfb502975f1a2d4def AS builder
+
+# Install only the build dependencies needed (no unnecessary packages)
+RUN apk add --no-cache --virtual .build-deps \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user early (even in builder, for COPY --chown)
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nodeuser
+
+WORKDIR /app
+
+# Copy dependency manifests first (for caching)
+COPY package*.json ./
+
+# Install ALL dependencies (including devDependencies)
+# --mount=type=cache speeds up npm installs across builds
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
+
+# Copy source code
+COPY --chown=nodeuser:nodejs . .
+
+# Build the application (TypeScript compilation)
+RUN npm run build
+
+# Run tests (fail build if tests fail)
+RUN npm run test:ci
+
+# Remove devDependencies (keep only what's needed for runtime)
+RUN npm prune --omit=dev
+
+
+# Stage 2: Production Dependencies (install only runtime deps)
+FROM node:20-alpine@sha256:bf77dc26e48ea95fca9d1aceb5acfa69d2e546b765ec2abfb502975f1a2d4def AS deps-prod
+
+WORKDIR /app
+COPY package*.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --omit=dev && \
+    npm cache clean --force
+
+
+# Stage 3: Final Runtime Image (minimal, secure)
+FROM node:20-alpine@sha256:bf77dc26e48ea95fca9d1aceb5acfa69d2e546b765ec2abfb502975f1a2d4def
+
+# Install runtime OS packages (if absolutely necessary)
+# RUN apk add --no-cache tzdata ca-certificates
+
+# Create non-root user (same UID/GID as builder for consistency)
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nodeuser
+
+WORKDIR /app
+
+# Copy production dependencies and built artifacts
+COPY --from=deps-prod --chown=nodeuser:nodejs /app/node_modules ./node_modules
+COPY --from=builder   --chown=nodeuser:nodejs /app/dist          ./dist
+COPY --from=builder   --chown=nodeuser:nodejs /app/package.json  ./package.json
+
+# Switch to non-root user
+USER nodeuser
+
+# Security: read-only root filesystem will be enforced at runtime
+# But we still need a writable tmpfs for temp files
+# The container will be run with --read-only --tmpfs /tmp
+
+# Expose port
+EXPOSE 3000
+
+# Health check (for orchestration)
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {r.statusCode === 200 ? process.exit(0) : process.exit(1)})"
+
+# Run the application (exec form for proper signal handling)
+CMD ["node", "dist/server.js"]
+
+
+# ─────────────────────────────────────────────────────────────────
+# RUNTIME COMMAND (docker run or Kubernetes spec):
+# ─────────────────────────────────────────────────────────────────
+
+# docker run \
+#   --read-only \                                    # root filesystem read-only
+#   --tmpfs /tmp:rw,noexec,nosuid,size=100m \        # writable tmpfs for temp files
+#   --cap-drop ALL \                                 # drop all capabilities
+#   --cap-add NET_BIND_SERVICE \                     # only add what's needed
+#   --security-opt no-new-privileges \               # prevent privilege escalation
+#   --memory="512m" \                                # hard memory limit
+#   --cpus="0.5" \                                   # CPU limit
+#   --pids-limit=100 \                               # limit number of processes
+#   --restart=on-failure:5 \                         # restart policy
+#   myapp:latest
+    </code></pre>
+  </div>
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER SECURITY DEMO
+# Demonstrates image scanning, runtime security, and auditing
+# ══════════════════════════════════════════════════════════════
+
+set -e
+PROJECT_DIR="docker-security-demo"
+mkdir -p $PROJECT_DIR && cd $PROJECT_DIR
+
+
+# ── PART 1: Create a vulnerable example app ───────────────────────
+cat > Dockerfile.vulnerable << 'EOF'
+FROM node:20-alpine
+WORKDIR /app
+COPY . .
+RUN npm ci
+EXPOSE 3000
+CMD ["node", "server.js"]
+EOF
+
+cat > Dockerfile.secure << 'EOF'
+# syntax=docker/dockerfile:1
+FROM node:20-alpine AS builder
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 --ingroup nodejs nodeuser
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY --chown=nodeuser:nodejs . .
+RUN npm run build
+
+FROM node:20-alpine
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 --ingroup nodejs nodeuser
+WORKDIR /app
+COPY --from=builder --chown=nodeuser:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodeuser:nodejs /app/node_modules ./node_modules
+USER nodeuser
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+EOF
+
+cat > package.json << 'EOF'
+{
+  "name": "security-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'Building...' && mkdir -p dist && echo 'console.log(\"Hello World\")' > dist/server.js",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
+EOF
+
+echo "module.exports = { server: () => console.log('Hello') }" > server.js
+
+
+# ── PART 2: Build vulnerable and secure images ────────────────────
+echo "=== Building vulnerable image (root user, no hardening) ==="
+docker build -f Dockerfile.vulnerable -t demo:vulnerable .
+
+echo ""
+echo "=== Building secure image (non-root, multi-stage) ==="
+docker build -f Dockerfile.secure -t demo:secure .
+
+
+# ── PART 3: Compare images (size, user, layers) ───────────────────
+echo ""
+echo "=== Image size comparison ==="
+docker images demo --format "table {{.Tag}}\\t{{.Size}}"
+
+echo ""
+echo "=== User in vulnerable image (runs as root) ==="
+docker run --rm demo:vulnerable id
+# uid=0(root) gid=0(root) groups=0(root)
+
+echo ""
+echo "=== User in secure image (non-root) ==="
+docker run --rm demo:secure id
+# uid=1001(nodeuser) gid=1001(nodejs)
+
+
+# ── PART 4: Scan for vulnerabilities with Trivy ──────────────────
+# Install trivy if not present
+if ! command -v trivy &> /dev/null; then
+    echo "Trivy not installed. Install with: brew install trivy (macOS) or apt install trivy (Linux)"
+else
+    echo ""
+    echo "=== Scanning vulnerable image ==="
+    trivy image --severity HIGH,CRITICAL --exit-code 0 demo:vulnerable
+
+    echo ""
+    echo "=== Scanning secure image ==="
+    trivy image --severity HIGH,CRITICAL --exit-code 0 demo:secure
+fi
+
+
+# ── PART 5: Runtime security demonstration ────────────────────────
+echo ""
+echo "=== Running vulnerable container (root, no limits) ==="
+docker run -d --name vuln-demo demo:vulnerable sleep 3600
+
+echo "Can the root container install packages?"
+docker exec vuln-demo apk add curl 2>&1 | head -5
+# ✅ Root can install packages
+
+echo ""
+echo "Can the root container read host files (if mounted)?"
+docker exec vuln-demo cat /etc/hosts | head -2
+# Root can read mounted files
+
+
+echo ""
+echo "=== Running secure container (non-root, read-only, caps dropped) ==="
+docker run -d \
+  --read-only \
+  --tmpfs /tmp:rw,noexec,nosuid,size=50m \
+  --cap-drop ALL \
+  --cap-add NET_BIND_SERVICE \
+  --security-opt no-new-privileges \
+  --memory="256m" \
+  --cpus="0.25" \
+  --name secure-demo \
+  demo:secure sleep 3600
+
+echo "Can the non-root container install packages?"
+docker exec secure-demo apk add curl 2>&1 || echo "❌ Cannot install packages (apk not in PATH / permission denied)"
+
+echo ""
+echo "Can the container write to root filesystem?"
+docker exec secure-demo touch /test.txt 2>&1 || echo "❌ Cannot write (read-only filesystem)"
+
+echo ""
+echo "Resource limits:"
+docker inspect secure-demo --format='Memory: {{.HostConfig.Memory}}, CPUs: {{.HostConfig.NanoCpus}}'
+
+
+# ── PART 6: Docker Bench Security audit ───────────────────────────
+echo ""
+echo "=== Running Docker Bench Security (CIS benchmarks) ==="
+docker run -it --rm \
+  --net host --pid host --userns host --cap-add audit_control \
+  -v /etc:/etc:ro \
+  -v /var/lib:/var/lib:ro \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  docker/docker-bench-security \
+  | grep -E "\\[WARN\\]|\\[FAIL\\]" | head -10 || true
+
+
+# ── PART 7: Secrets management demonstration ──────────────────────
+echo ""
+echo "=== Secret injection with BuildKit (safe) ==="
+echo "my-secret-token-12345" > .secret-token
+
+cat > Dockerfile.secret << 'EOF'
+# syntax=docker/dockerfile:1
+FROM alpine:3.19
+RUN --mount=type=secret,id=mysecret \
+    cat /run/secrets/mysecret > /tmp/token.txt && \
+    chmod 600 /tmp/token.txt && \
+    echo "Secret written to /tmp/token.txt"
+CMD ["cat", "/tmp/token.txt"]
+EOF
+
+# Build with secret (secret is NOT stored in any layer)
+DOCKER_BUILDKIT=1 docker build --secret id=mysecret,src=.secret-token -t demo:secret .
+docker run --rm demo:secret
+
+echo ""
+echo "Check if secret is in image history:"
+docker history demo:secret --no-trunc | grep secret-token || echo "✅ Secret not in image history"
+
+echo ""
+echo "=== Dangerous: Using ARG for secret (DO NOT DO THIS) ==="
+cat > Dockerfile.arg-secret << 'EOF'
+FROM alpine:3.19
+ARG SECRET_TOKEN
+RUN echo $SECRET_TOKEN > /tmp/token.txt
+CMD ["cat", "/tmp/token.txt"]
+EOF
+
+docker build --build-arg SECRET_TOKEN=my-secret-token-12345 -t demo:arg-secret .
+echo "Secret IS visible in docker history:"
+docker history demo:arg-secret --no-trunc | grep -i secret || true
+
+
+# ── PART 8: Capabilities demonstration ────────────────────────────
+echo ""
+echo "=== Default capabilities (too permissive) ==="
+docker run --rm alpine:3.19 capsh --print | grep "Current:" | head -1
+
+echo ""
+echo "=== Minimal capabilities (only NET_BIND_SERVICE) ==="
+docker run --rm --cap-drop ALL --cap-add NET_BIND_SERVICE alpine:3.19 capsh --print | grep "Current:"
+
+
+# ── PART 9: Clean up ─────────────────────────────────────────────
+echo ""
+echo "=== Cleaning up containers ==="
+docker rm -f vuln-demo secure-demo 2>/dev/null || true
+docker rmi demo:vulnerable demo:secure demo:secret demo:arg-secret 2>/dev/null || true
+cd .. && rm -rf $PROJECT_DIR
+echo "✅ Docker security demo complete"
+`,
+            ],
+
+            questions: [
+              {
+                question: "Why should containers run as non-root users? How do you enforce this?",
+                solution: "<p>Containers run as root by default. If an attacker compromises a root-running container, they have root privileges within that container's namespace — they can install packages, modify system files, and if there's a kernel exploit or misconfiguration, they have a much easier path to host breakout. Running as non-root implements the principle of least privilege. Enforce it in the Dockerfile: <code>RUN adduser --system --uid 1001 appuser && USER appuser</code>. Also enforce at runtime with <code>--user 1001:1001</code> and validate with <code>docker run --rm myapp id</code>. In Kubernetes, set <code>securityContext.runAsNonRoot: true</code> and <code>securityContext.runAsUser: 1001</code>. Even better: combine with <code>securityContext.allowPrivilegeEscalation: false</code> and <code>readOnlyRootFilesystem: true</code>.</p>",
+              },
+              {
+                question: "What is the difference between scratch, distroless, and alpine base images? When should you use each?",
+                solution: "<p><strong>scratch</strong> is the empty base image — zero bytes. No OS, no shell, no SSL certs. Only works for statically-linked binaries (Go with CGO_ENABLED=0, Rust). Attack surface: zero. Use for security-critical Go/Rust services where you absolutely minimize the attack surface. <strong>distroless</strong> (Google) contains only the application runtime (Java, Python, Node) and minimal dependencies (libc, SSL certs) — no shell, no package manager. ~2-20MB. Use for production workloads where you need runtime libraries but don't want a shell (makes debugging harder but much more secure). <strong>alpine</strong> ~7MB includes musl libc, a shell (sh), and the apk package manager. Best balance of size and debuggability. Use for most production services — you can docker exec in for debugging. Caveat: musl vs glibc compatibility can break C extensions.</p>",
+              },
+              {
+                question: "How do you prevent secrets from being baked into Docker images?",
+                solution: "<p>Never use <code>ARG</code> for secrets — ARG values are stored in image metadata and visible via <code>docker history</code>. For build-time secrets (npm tokens, SSH keys for go mod download), use BuildKit's <code>--mount=type=secret</code>. The secret is mounted as a file during a specific RUN instruction and leaves no trace in any layer. For runtime secrets, use orchestrator secrets: Docker Swarm secrets (mounted at /run/secrets/) or Kubernetes secrets (mounted as files). Never pass secrets via environment variables — they're visible in <code>docker inspect</code>, container logs, and can be read from /proc of a compromised container. The correct pattern: mount secrets as files, have your application read from those files.</p>",
+              },
+              {
+                question: "What are Linux capabilities and why should you drop them?",
+                solution: "<p>Linux capabilities break root privileges into small, granular units. A process can be root but have only specific capabilities. Docker containers inherit a default set of ~14 capabilities (including CHOWN, DAC_OVERRIDE, NET_BIND_SERVICE, etc.). This default set is too permissive for most applications. The principle: <code>--cap-drop ALL</code>, then add back only what's needed. For a typical web app, only <code>--cap-add NET_BIND_SERVICE</code> (to bind to ports <1024) is needed. For apps that need to change file ownership, add <code>--cap-add CHOWN</code>. Dropping capabilities reduces the attack surface — if a container is compromised, the attacker has fewer privileged operations available.</p>",
+              },
+              {
+                question: "How do you set resource limits on containers and why are they a security control?",
+                solution: "<p>Resource limits are a security control because they prevent denial-of-service attacks — a single compromised container can't exhaust host memory or CPU. Set memory limits with <code>--memory=\"512m\"</code> and <code>--memory-swap=\"512m\"</code> (disable swap). Set CPU limits with <code>--cpus=\"0.5\"</code> (half a core). Set process limits with <code>--pids-limit=100</code> to prevent fork bombs. In Kubernetes, set <code>resources.limits</code> and <code>resources.requests</code>. Without limits, a container with a memory leak will eventually trigger the host OOM killer, which may kill other containers. CPU limits ensure fair scheduling and prevent noisy neighbors.</p>",
+              },
+              {
+                question: "What is Docker Content Trust and how does it improve security?",
+                solution: "<p>Docker Content Trust (DCT) enables image signing and verification using Notary (based on The Update Framework, TUF). When <code>DOCKER_CONTENT_TRUST=1</code> is set, Docker only pulls images that have been signed by a trusted publisher. It prevents man-in-the-middle attacks (tampered images) and ensures images come from the expected source. To use DCT: the publisher signs images when pushing (<code>docker trust sign myimage:latest</code>), and consumers set <code>DOCKER_CONTENT_TRUST=1</code> before pulling. For stronger security, use Cosign (Sigstore) which integrates with OCI registries and provides better key management and transparency logs.</p>",
+              },
+              {
+                question: "What is the difference between seccomp and AppArmor?",
+                solution: "<p><strong>Seccomp</strong> (secure computing mode) filters system calls. It operates at the syscall level — a seccomp profile specifies which syscalls a container can make (e.g., allow read/write, deny bpf). Docker provides a default seccomp profile that blocks ~50 dangerous syscalls. <strong>AppArmor</strong> (on Ubuntu/Debian) is a mandatory access control (MAC) system that restricts file access, network access, and capabilities. It operates at the file/network level — an AppArmor profile specifies which files a process can read/write. Both are used together: seccomp for syscall filtering, AppArmor for file system and network restrictions. In production, you should use both, plus <code>--security-opt no-new-privileges</code> to block setuid binaries.</p>",
+              },
+              {
+                question: "How do you scan Docker images for vulnerabilities?",
+                solution: "<p><strong>Docker Scout</strong> (built into Docker Desktop) scans images against vulnerability databases and provides fix recommendations. <strong>Trivy</strong> (open-source, Aqua Security) is the most popular CI scanner — it scans OS packages, language-specific dependencies, and even misconfigurations. <strong>Snyk</strong> (commercial) provides developer-first scanning with IDE integration. Best practice: integrate scanning into CI — build image, scan, fail on CRITICAL or HIGH vulnerabilities, then push only if passing. Use <code>--severity CRITICAL,HIGH --exit-code 1</code> with Trivy. Also scan base images before using them — a vulnerable base image infects all derived images. For Kubernetes, use admission controllers that reject images with critical vulnerabilities.</p>",
+              },
+              {
+                question: "What is Falco and what security use cases does it cover?",
+                solution: "<p>Falco is a CNCF runtime security tool that monitors system calls and kernel events to detect suspicious behavior. It runs as a kernel module or eBPF probe and evaluates activity against rules. Common use cases: detecting a shell spawning in a container (<code>spawned process with name sh in container</code>), reading sensitive files (<code>read /etc/shadow from container</code>), outbound network connections to suspicious IPs, privilege escalation attempts, and unexpected binary execution. Falco can send alerts to SIEM systems (Splunk, ELK), trigger webhooks, or use Kubernetes admission controllers to block malicious activity. It's essential for runtime threat detection — scanning images catches known vulnerabilities, but Falco catches active exploitation.</p>",
+              },
+              {
+                question: "What is a .dockerignore file and why is it critical for security?",
+                solution: "<p>The .dockerignore file specifies patterns to exclude from the build context sent to the Docker daemon. Without it, you risk: (1) <strong>Secret leakage</strong>: <code>.env</code> files, AWS credentials, and private keys in the build context get copied into the image (if COPY . . is used). (2) <strong>Large build context</strong>: sending 500MB of node_modules to the daemon every build. (3) <strong>Incorrect builds</strong>: copying host-compiled binaries (e.g., macOS node_modules) into a Linux container. Essential entries: <code>.git</code>, <code>node_modules</code>, <code>.env*</code>, <code>*.log</code>, <code>coverage/</code>, <code>.github/</code>. In multi-stage builds, .dockerignore is even more critical because builder stages often use <code>COPY . .</code> — a missing .dockerignore entry could leak secrets into the final image.</p>",
+              },
+              {
+                question: "How does the user namespace (userns) improve container security?",
+                solution: "<p>The user namespace maps UIDs inside the container to different UIDs on the host. The critical security benefit: a process that is root (UID 0) inside the container can be mapped to a non-root UID (e.g., 100000) on the host. If an attacker breaks out of the container namespace, they gain only the privileges of that non-root user on the host — not root. This is the most important defense-in-depth mechanism for containers. Enable with <code>docker run --userns=host</code> (for user namespace remapping configured in dockerd) or in Kubernetes with <code>securityContext.runAsUser</code> and <code>securityContext.fsGroup</code>. User namespaces dramatically reduce the impact of container escapes.</p>",
+              },
+              {
+                question: "What is the read-only root filesystem flag and why use it?",
+                solution: "<p><code>--read-only</code> makes the container's root filesystem read-only, preventing any writes. This stops attackers from writing malicious binaries or modifying system files even if they compromise the container. For applications that need to write temporary files, use <code>--tmpfs /tmp:rw,noexec,nosuid,size=100m</code> to mount a writable tmpfs at /tmp. For application logs, mount a writable volume. The combination of read-only root + tmpfs for temp files means the container's attack surface is dramatically reduced — there's no way to persist changes or install new software. In Kubernetes, set <code>securityContext.readOnlyRootFilesystem: true</code>.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/engine/security/",
+              "https://docs.docker.com/engine/security/rootless/",
+              "https://docs.docker.com/engine/security/seccomp/",
+              "https://docs.docker.com/engine/security/apparmor/",
+              "https://docs.docker.com/engine/reference/run/#security-configuration",
+              "https://github.com/docker/docker-bench-security",
+              "https://falco.org/",
+              "https://aquasecurity.github.io/trivy/",
+              "https://docs.docker.com/build/building/secrets/",
+              "https://docs.docker.com/engine/security/trust/",
+              "https://github.com/sigstore/cosign",
+              "https://www.cisecurity.org/benchmark/docker",
+            ],
+          },
+          {
+            topic: "Docker Optimization",
+            tags: [
+              "docker",
+              "optimization",
+              "performance",
+              "dockerfile",
+              "layer-caching",
+              "image-size",
+              "build-speed",
+              "resource-management",
+              "multi-stage",
+              "devops",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker optimization spans three critical dimensions: <strong>image size</strong> (storage and pull time), <strong>build speed</strong> (developer productivity and CI/CD efficiency), and <strong>runtime performance</strong> (resource utilization and application responsiveness). Poorly optimized Docker images can be 10-100x larger than necessary, causing slow deployments, high storage costs, and increased security risk. Slow builds destroy developer productivity and lengthen CI pipelines. Runtime misconfigurations lead to resource starvation, noisy neighbors, and OOM kills. Optimization isn't just about best practices—it's about understanding Docker's layer model, the build cache, and the tradeoffs between image size and debuggability. Mastering these techniques is essential for production Docker deployments and is a core competency for DevOps and Platform Engineering roles.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: IMAGE LAYERS AND THE BUILD CACHE                  -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Understanding Image Layers and the Build Cache
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Every instruction in a Dockerfile creates a layer. Layers are cached and reused across builds—as long as the instruction's inputs haven't changed. When a layer changes, all subsequent layers are rebuilt. This makes the <strong>order of instructions</strong> the single most important factor in build performance. The cache is keyed on the instruction itself plus any files involved in COPY/ADD. Understanding this cache behavior allows you to design Dockerfiles that rebuild only what's necessary.
+  </p>
+
+  <div style="margin-top: 1rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Instruction Type</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Cache Key</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Optimization Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">FROM</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Base image ID</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Pin to digest for consistency; use smaller bases</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">RUN</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Command string + arguments</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Chain commands; minimize layers; order rarely-changed first</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">COPY/ADD</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">File contents + metadata</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Copy only what's needed; order dependencies first</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">ENV/ARG</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Variable name + value</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Minimize changes; group together</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-dockerfile">
+# ── BAD: Cache busted on every code change ────────────────────────
+FROM node:20-alpine
+WORKDIR /app
+COPY . .                    # ❌ Copies everything, including source
+RUN npm ci                  # ❌ Re-runs on EVERY file change
+RUN npm run build           # ❌ Re-runs on EVERY file change
+RUN npm prune --omit=dev
+
+# Build time on code change: 2-3 minutes
+# Dependency install runs EVERY time, even when package.json unchanged
+
+
+# ── GOOD: Dependency layer cached independently ──────────────────
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./   # ✅ Only dependency manifests
+RUN npm ci                               # ✅ Cached unless deps change
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .                                 # ✅ Source copied AFTER deps
+RUN npm run build
+
+FROM node:20-alpine AS production
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=deps /app/node_modules ./node_modules
+
+# Build time on code change: 10-15 seconds (only build step re-runs)
+# npm ci runs only when package.json changes (once a week, not per commit)
+
+
+# ── VISUALIZING CACHE WITH BUILDKIT ───────────────────────────────
+# docker build --progress=plain -t myapp .
+
+# Output shows which layers are cached vs rebuilt:
+# #1 [internal] load build definition from Dockerfile
+# #2 [internal] load .dockerignore
+# #3 [internal] load metadata for docker.io/library/node:20-alpine
+# #4 [deps 1/4] FROM docker.io/library/node:20-alpine
+# #5 [deps 2/4] WORKDIR /app
+# #6 [deps 3/4] COPY package.json package-lock.json ./
+# #7 [deps 4/4] RUN npm ci
+# #7 CACHED                                  ✅ ← CACHE HIT!
+# #8 [builder 1/2] COPY --from=deps /app/node_modules ./node_modules
+# #9 [builder 2/2] COPY . .
+# #10 [builder 3/3] RUN npm run build         🔨 ← REBUILT (source changed)
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker's layer cache is keyed on instruction content and file changes. The optimization is to order instructions from least-changing to most-changing. Copy dependency manifests (package.json, go.mod, requirements.txt) and run installation commands BEFORE copying source code. This way, the expensive install layer is cached across 90%+ of builds—only re-running when dependencies change. Each instruction creates a layer; chaining commands with && reduces layer count. Use <code>docker build --progress=plain</code> to see cache hits and misses. For CI, use <code>--cache-from</code> to pull the cache from a registry image, so even ephemeral runners benefit from previous builds."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: IMAGE SIZE OPTIMIZATION                           -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Image Size Optimization
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Image size affects storage costs, registry transfer times, deployment speed, and cold start latency. A 2GB image takes minutes to pull on a slow connection and consumes significant disk space. Optimization techniques can reduce image size by 80-95% without sacrificing functionality.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">2.1. Minimal Base Images</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Choosing the right base image is the biggest lever for image size. The tradeoff is between size, debuggability, and compatibility.
+  </p>
+
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Base Image</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Size</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Shell</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Package Manager</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Use Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">ubuntu:24.04</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~80MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">bash</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">apt</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Familiarity, full OS features</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">debian:12-slim</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~75MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">bash</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">apt</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Balance of size and compatibility</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">alpine:3.19</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~7MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">sh</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">apk</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Most production workloads</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">distroless</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">~2-20MB</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Security-focused production</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">scratch</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">0 bytes</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">❌</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Go/Rust static binaries</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">2.2. Package Cleanup in the Same Layer</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Package managers (apt, apk, npm, pip) leave caches that bloat images. These caches must be cleaned in the <strong>same RUN layer</strong> as the installation—otherwise, the cache remains in an intermediate layer and is still present in the final image.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── WRONG: Package cache persists in final image ─────────────────
+FROM ubuntu:22.04
+RUN apt-get update
+RUN apt-get install -y curl
+RUN rm -rf /var/lib/apt/lists/*      # ❌ This creates a NEW layer
+# The apt cache is still in the previous layer → final image ~200MB
+
+
+# ── CORRECT: Clean in the same layer as install ──────────────────
+FROM ubuntu:22.04
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
+# Final image ~100MB (cache removed in same layer)
+
+
+# ── ALPINE: Clean apk cache ──────────────────────────────────────
+FROM alpine:3.19
+RUN apk add --no-cache --update curl
+# --no-cache prevents writing the cache in the first place
+
+
+# ── NODE.JS: Clean npm cache ─────────────────────────────────────
+FROM node:20-alpine
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+# npm cache clean --force removes the ~50MB cache in same layer
+
+
+# ── PYTHON: Clean pip cache ──────────────────────────────────────
+FROM python:3.12-slim
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+# --no-cache-dir prevents writing the cache entirely
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">2.3. Multi-Stage Builds for Size Reduction</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Multi-stage builds are the most powerful tool for image size optimization. The builder stage contains all build tools and dependencies; the final stage copies only the runtime artifacts. This can reduce image size by 80-95%.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── GO: 850MB → 8MB (99% reduction) ──────────────────────────────
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o /app/server
+
+FROM scratch
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=builder /app/server /server
+ENTRYPOINT ["/server"]
+
+
+# ── NODE.JS: 1.2GB → 180MB (85% reduction) ───────────────────────
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine AS production
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nodeuser
+WORKDIR /app
+COPY --from=builder --chown=nodeuser:nodejs /app/dist ./dist
+COPY --from=deps --chown=nodeuser:nodejs /app/node_modules ./node_modules
+USER nodeuser
+CMD ["node", "dist/server.js"]
+
+
+# ── PYTHON: 900MB → 150MB (83% reduction) ────────────────────────
+FROM python:3.12-slim AS builder
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.12-slim
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+COPY --chown=nonroot:nonroot . /app
+USER nonroot
+CMD ["python", "app.py"]
+
+
+# ── SIZE COMPARISON SUMMARY ──────────────────────────────────────
+# Language   | Single-Stage          | Multi-Stage Optimized
+# -----------|-----------------------|------------------------
+# Go         | 850MB (golang:alpine) | 8MB (scratch)
+# Node.js    | 1.2GB (node:20)       | 180MB (node:20-alpine)
+# Python     | 900MB (python:3.12)   | 150MB (python:3.12-slim)
+# Java       | 580MB (openjdk:21)    | 220MB (eclipse-temurin:21-jre)
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">2.4. .dockerignore — Excluding Unnecessary Files</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The build context is sent to the Docker daemon before building. Large contexts slow down build start times and can inadvertently include secrets. .dockerignore prevents this.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── ESSENTIAL .DOCKERIGNORE ENTRIES ──────────────────────────────
+# .dockerignore
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Dependencies (install fresh in container)
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+.env
+.env.*
+.venv
+
+# Build artifacts (rebuilt in container)
+dist/
+build/
+out/
+target/
+*.log
+*.pid
+
+# Local development files
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Secrets (CRITICAL!)
+.secrets/
+*.key
+*.pem
+*.crt
+*.env
+.env.local
+.env.production
+
+# CI/CD
+.github/
+.gitlab/
+.terraform/
+.tflint.d/
+
+# Documentation
+README.md
+CHANGELOG.md
+docs/
+*.md
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Image size optimization starts with choosing minimal base images—Alpine (~7MB) for most workloads, distroless for security-critical services, scratch for Go/Rust static binaries. Multi-stage builds are essential: the builder stage uses a full SDK (Go compiler, Node with TypeScript, Python with build tools), and the final stage copies only runtime artifacts. Always clean package manager caches in the same RUN layer that installs them—apt-get cleanup, npm cache clean, pip --no-cache-dir. A .dockerignore file prevents node_modules, .env files, and .git from entering the build context. Combined, these techniques reduce typical images from 1-2GB to 100-200MB or less, dramatically improving pull times and deployment speed."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: BUILD PERFORMANCE OPTIMIZATION                    -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Build Performance Optimization
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Fast builds are critical for developer productivity and CI/CD efficiency. Slow builds disrupt flow and increase CI costs. Build optimization focuses on maximizing cache reuse, parallelizing independent stages, and using advanced BuildKit features.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">3.1. BuildKit — The Modern Build Engine</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    BuildKit is Docker's next-generation build engine (enabled by default in Docker 23+). It provides parallel stage execution, cache mounts, and better cache management. Enable it with <code>DOCKER_BUILDKIT=1</code> or by default in newer versions.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── ENABLE BUILDKIT ──────────────────────────────────────────────
+export DOCKER_BUILDKIT=1
+docker build -t myapp .
+
+# Or in daemon config (/etc/docker/daemon.json):
+{
+  "features": {
+    "buildkit": true
+  }
+}
+
+
+# ── PARALLEL STAGES (BuildKit automatically parallelizes) ────────
+# Dockerfile with independent stages:
+FROM node:20-alpine AS frontend
+WORKDIR /frontend
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ .
+RUN npm run build
+
+FROM node:20-alpine AS backend
+WORKDIR /backend
+COPY backend/package*.json ./
+RUN npm ci
+COPY backend/ .
+RUN npm run build
+
+FROM node:20-alpine AS production
+COPY --from=frontend /frontend/dist /app/public
+COPY --from=backend /backend/dist /app/server
+
+# BuildKit runs frontend and backend stages in PARALLEL
+# Result: total build time = max(frontend time, backend time), not sum
+
+
+# ── CACHE MOUNTS (persistent across builds) ──────────────────────
+# syntax=docker/dockerfile:1
+
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
+COPY . .
+RUN --mount=type=cache,target=/root/.npm \
+    npm run build
+
+# Even when package.json changes (cache-busting the layer),
+# the mounted /root/.npm directory persists across builds
+# npm only downloads new packages, not everything from scratch
+
+
+# ── GO MODULE CACHE MOUNT ────────────────────────────────────────
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+COPY . .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    go build -o /app/server
+
+
+# ── REMOTE CACHE (CI/CD optimization) ────────────────────────────
+# Build with remote cache from registry
+docker buildx build \
+  --cache-from type=registry,ref=myrepo/myapp:buildcache \
+  --cache-to type=registry,ref=myrepo/myapp:buildcache,mode=max \
+  -t myrepo/myapp:latest \
+  --push .
+
+# First CI run: builds everything, pushes cache
+# Second CI run: pulls cache layers, only rebuilds changed layers
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">3.2. Build Context Optimization</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The build context is sent to the Docker daemon before the build starts. Large contexts (e.g., including node_modules) slow down every build. Use .dockerignore and consider using <code>--context</code> for remote builds.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── MEASURE BUILD CONTEXT SIZE ───────────────────────────────────
+# Check context size before building
+tar -czf - . | wc -c
+
+# With .dockerignore properly set, context should be <5MB for most apps
+# Without .dockerignore, node_modules alone can be 500MB+
+
+
+# ── DOCKER BUILD CONTEXT OPTIONS ─────────────────────────────────
+# Build from current directory (default)
+docker build -t myapp .
+
+# Build from a specific directory (avoids sending entire repo)
+docker build -t myapp -f docker/Dockerfile .
+
+# Build from a URL (tar archive)
+docker build -t myapp https://github.com/user/repo/archive/main.tar.gz
+
+# Build with piped context (for CI, avoids temp files)
+tar -czf - . | docker build -t myapp -
+
+
+# ── ADVANCED: DOCKER BUILDX WITH DIFFERENT CONTEXTS ──────────────
+# Build from a local directory with specific includes
+docker buildx build \
+  -f Dockerfile \
+  --build-context app=./app \
+  --build-context lib=./lib \
+  -t myapp .
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Build performance optimization starts with proper layer ordering—copy dependency manifests first to cache the install step. Enable BuildKit for parallel stage execution and cache mounts. Cache mounts persist across builds even when layers are invalidated, so npm install only downloads new packages, not everything. In CI, use remote cache with <code>--cache-from type=registry</code> so ephemeral runners pull cached layers from previous builds. Use .dockerignore to keep the build context small—node_modules and .git should never be sent to the daemon. For large monorepos, use <code>--build-context</code> to selectively include only needed directories."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: RUNTIME PERFORMANCE OPTIMIZATION                  -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Runtime Performance Optimization
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Runtime optimization ensures containers use resources efficiently, respond quickly, and remain healthy. This includes resource limits, health checks, logging configuration, and restart policies.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">4.1. Resource Limits — CPU and Memory</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Resource limits prevent a single container from starving other containers or the host. They also help the orchestrator schedule containers efficiently.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── MEMORY LIMITS ─────────────────────────────────────────────────
+# Hard limit (container OOM-killed if exceeded)
+docker run --memory="512m" myapp
+
+# Memory + swap (disable swap for performance predictability)
+docker run --memory="512m" --memory-swap="512m" myapp
+
+# Memory reservation (soft limit for scheduling)
+docker run --memory-reservation="256m" myapp
+
+
+# ── CPU LIMITS ────────────────────────────────────────────────────
+# CPU shares (relative weight, not a hard limit)
+docker run --cpu-shares=512 myapp   # half the weight of default 1024
+
+# CPU cores (hard limit, fractional cores allowed)
+docker run --cpus="1.5" myapp
+
+# CPU period/quota for fine-grained control
+docker run --cpu-period=100000 --cpu-quota=50000 myapp  # 50% of one core
+
+
+# ── OTHER RESOURCE LIMITS ────────────────────────────────────────
+# Limit number of processes (prevents fork bombs)
+docker run --pids-limit=100 myapp
+
+# Limit file descriptors
+docker run --ulimit nofile=65536:65536 myapp
+
+# Limit disk I/O (read/write bps)
+docker run --device-read-bps /dev/sda:10mb --device-write-bps /dev/sda:10mb myapp
+
+
+# ── COMBINED PRODUCTION EXAMPLE ──────────────────────────────────
+docker run \
+  --memory="512m" \
+  --memory-swap="512m" \
+  --cpus="0.5" \
+  --pids-limit=100 \
+  --restart=unless-stopped \
+  --log-driver=json-file \
+  --log-opt max-size=10m \
+  --log-opt max-file=3 \
+  myapp:latest
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">4.2. Health Checks — Liveness and Readiness</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Health checks allow orchestrators to detect when a container is unhealthy and take action—restarting unresponsive containers (liveness) or removing them from load balancers (readiness).
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# ── HEALTHCHECK IN DOCKERFILE ────────────────────────────────────
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+# Options:
+# --interval: how often to check (default 30s)
+# --timeout: max time for check to complete (default 30s)
+# --start-period: grace period before first check (default 0s)
+# --retries: failures before unhealthy (default 3)
+
+
+# ── HEALTHCHECK WITH CURL (HTTP apps) ────────────────────────────
+FROM node:20-alpine
+# ... app setup ...
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+EXPOSE 3000
+
+
+# ── HEALTHCHECK WITH PG_ISREADY (PostgreSQL) ─────────────────────
+FROM postgres:15
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
+  CMD pg_isready -U postgres || exit 1
+
+
+# ── DOCKER RUN WITH HEALTHCHECK ──────────────────────────────────
 docker run --health-cmd='curl -f http://localhost/ || exit 1' \
   --health-interval=30s \
   --health-timeout=3s \
   --health-retries=3 \
   myapp
 
-# Restart policies
+# Check container health
+docker ps --format "table {{.Names}}\t{{.Status}}"
+# CONTAINER ID   STATUS
+# abc123         Up 2 hours (healthy)
+
+
+# ── KUBERNETES READINESS AND LIVENESS PROBES ─────────────────────
+# apiVersion: v1
+# kind: Pod
+# spec:
+#   containers:
+#   - name: app
+#     readinessProbe:
+#       httpGet:
+#         path: /ready
+#         port: 3000
+#       initialDelaySeconds: 5
+#       periodSeconds: 10
+#     livenessProbe:
+#       httpGet:
+#         path: /health
+#         port: 3000
+#       initialDelaySeconds: 15
+#       periodSeconds: 20
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">4.3. Logging Optimization</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Uncontrolled logs can fill disk space, cause performance degradation, and increase costs. Configure log rotation and consider using structured logging.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── JSON-FILE LOGGING (DEFAULT) WITH ROTATION ────────────────────
+docker run \
+  --log-driver=json-file \
+  --log-opt max-size=10m \
+  --log-opt max-file=3 \
+  myapp
+
+# Keeps 3 files of 10MB each = 30MB max logs per container
+
+
+# ── NO LOGGING (discard all output) ──────────────────────────────
+docker run --log-driver=none myapp
+
+
+# ── SYSLOG (forward to system syslog) ────────────────────────────
+docker run \
+  --log-driver=syslog \
+  --log-opt syslog-address=tcp://192.168.0.1:514 \
+  myapp
+
+
+# ── FLUENTD (structured logging for aggregators) ─────────────────
+docker run \
+  --log-driver=fluentd \
+  --log-opt fluentd-address=localhost:24224 \
+  --log-opt tag="docker.{{.Name}}" \
+  myapp
+
+
+# ── JOURNALD (systemd-based systems) ─────────────────────────────
+docker run \
+  --log-driver=journald \
+  --log-opt tag="myapp" \
+  myapp
+
+
+# ── IN DOCKERFILE: LOG TO STDOUT (not files) ─────────────────────
+# ❌ Wrong: writing to files in container
+RUN echo "logs" > /var/log/app.log
+CMD ["node", "server.js"]  # writes to /var/log/app.log
+
+# ✅ Correct: write to stdout (docker logs captures it)
+CMD ["node", "server.js"]  # console.log() writes to stdout
+# Then docker logs container_id shows the logs
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">4.4. Restart Policies — Self-Healing</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Restart policies ensure containers recover from crashes automatically, reducing manual intervention.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── RESTART POLICY OPTIONS ───────────────────────────────────────
+# Always restart regardless of exit code
+docker run --restart=always myapp
+
+# Restart unless explicitly stopped
 docker run --restart=unless-stopped myapp
 
-# Logging drivers
-docker run --log-driver=json-file --log-opt max-size=10m myapp
-</code></pre>
+# Restart on failure (max 5 times)
+docker run --restart=on-failure:5 myapp
+
+
+# ── COMPOSE EXAMPLE ──────────────────────────────────────────────
+# docker-compose.yml
+services:
+  app:
+    image: myapp:latest
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+
+# ── KUBERNETES (restartPolicy in Pod spec) ───────────────────────
+# spec:
+#   restartPolicy: Always  # Default: always restart
+#   restartPolicy: OnFailure  # Only on non-zero exit
+#   restartPolicy: Never
+    </code></pre>
   </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Runtime optimization focuses on resource efficiency and reliability. Set memory and CPU limits—<code>--memory=\"512m\" --cpus=\"0.5\"</code>—to prevent resource exhaustion and ensure fair scheduling. Use health checks to enable orchestrators to detect and restart unhealthy containers. Configure log rotation with <code>--log-opt max-size=10m max-file=3</code> to prevent disk fills. Set restart policies (<code>--restart=unless-stopped</code>) for self-healing. In production, these settings should be part of your orchestration configuration (Kubernetes resources requests/limits, Docker Compose deploy section) rather than ad-hoc docker run commands. The combination ensures containers are efficient, observable, and resilient."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5: LANGUAGE-SPECIFIC OPTIMIZATION PATTERNS           -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Language-Specific Optimization Patterns
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Each language ecosystem has its own optimization patterns based on package managers, build tools, and runtime characteristics. Understanding these patterns is essential for building efficient production images.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Node.js / TypeScript</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Node.js Production-Optimized Dockerfile
+# Features: dev/prod separation, npm cache mount, distroless option
+
+# syntax=docker/dockerfile:1
+
+# Stage 1: Install all dependencies (including dev)
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
+
+# Stage 2: Build application (TypeScript, webpack, etc.)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+# Stage 3: Production dependencies only (no devDeps)
+FROM node:20-alpine AS prod-deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --omit=dev && \
+    npm cache clean --force
+
+# Stage 4: Final runtime (distroless for security, or alpine for debugging)
+FROM gcr.io/distroless/nodejs20-debian12 AS production
+WORKDIR /app
+COPY --from=builder --chown=nonroot:nonroot /app/dist ./dist
+COPY --from=prod-deps --chown=nonroot:nonroot /app/node_modules ./node_modules
+USER nonroot
+EXPOSE 3000
+CMD ["dist/server.js"]
+
+# Size: ~180MB (vs 1.2GB for node:20 with devDeps)
+# Build time on code change: 10-15 seconds (npm ci cached)
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Go</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Go Production-Optimized Dockerfile
+# Features: static binary, scratch base, module cache mount
+
+# syntax=docker/dockerfile:1
+
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+
+# Install build dependencies (if needed)
+RUN apk add --no-cache git ca-certificates
+
+# Module cache mount for faster repeated builds
+COPY go.mod go.sum ./
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download && \
+    go mod verify
+
+# Build with optimizations
+COPY . .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=0 GOOS=linux go build \
+    -ldflags="-w -s -X main.version=$(git describe --tags --always)" \
+    -o /app/server \
+    ./cmd/server
+
+# Final stage: scratch (smallest possible)
+FROM scratch
+# Copy SSL certs (required for HTTPS calls)
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+# Copy timezone data
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+# Copy the binary
+COPY --from=builder /app/server /server
+EXPOSE 8080
+ENTRYPOINT ["/server"]
+
+# Size: ~8-15MB (vs 850MB for golang:alpine)
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Python</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Python Production-Optimized Dockerfile
+# Features: virtual environment, pip cache mount, distroless option
+
+# syntax=docker/dockerfile:1
+
+FROM python:3.12-slim AS builder
+WORKDIR /app
+
+# Install build dependencies (for C extensions like psycopg2)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install dependencies with cache mount
+COPY requirements.txt .
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-cache-dir -r requirements.txt
+
+# Final stage: runtime only
+FROM python:3.12-slim
+WORKDIR /app
+
+# Install runtime system dependencies (no compilers)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy application code
+COPY --chown=nonroot:nonroot . .
+
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash nonroot && \
+    chown -R nonroot:nonroot /app
+USER nonroot
+
+EXPOSE 8000
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Size: ~150MB (vs 900MB for python:3.12 with build tools)
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Java / Spring Boot</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-dockerfile">
+# Java Spring Boot Production-Optimized Dockerfile
+# Features: layered JAR, JRE-only runtime, JVM tuning
+
+# syntax=docker/dockerfile:1
+
+FROM eclipse-temurin:21-jdk AS builder
+WORKDIR /app
+
+# Cache Maven dependencies
+COPY pom.xml mvnw ./
+COPY .mvn ./.mvn
+RUN ./mvnw dependency:go-offline
+
+# Build application
+COPY src ./src
+RUN ./mvnw package -DskipTests
+
+# Extract layered JAR for better layer caching (Spring Boot 2.3+)
+RUN java -Djarmode=layertools -jar target/*.jar extract --destination extracted
+
+# Final stage: JRE only (no JDK)
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Copy extracted layers in order of change frequency
+COPY --from=builder /app/extracted/dependencies/ ./
+COPY --from=builder /app/extracted/spring-boot-loader/ ./
+COPY --from=builder /app/extracted/snapshot-dependencies/ ./
+COPY --from=builder /app/extracted/application/ ./
+
+USER appuser
+EXPOSE 8080
+
+# JVM optimization for containers
+ENTRYPOINT ["java", \
+  "-XX:+UseContainerSupport", \
+  "-XX:MaxRAMPercentage=75.0", \
+  "-XX:+ExitOnOutOfMemoryError", \
+  "-jar", "app.jar"]
+
+# Size: ~220MB (vs 580MB for full JDK)
+# Build time: layered JAR means application code changes rebuild only the last layer
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Language-specific optimization patterns share common principles: separate build and runtime stages, cache dependencies separately, and minimize final image contents. For Node.js, use <code>npm ci --omit=dev</code> to exclude devDependencies and copy only the built <code>dist/</code> folder. For Go, compile statically with <code>CGO_ENABLED=0</code> and run on <code>scratch</code> for the smallest possible image. For Python, use a virtual environment in the builder and copy it to the final image, separating system build deps from runtime deps. For Java, use the layered JAR feature (Spring Boot 2.3+) to maximize layer caching, and use JRE (not JDK) for the final image. The result is consistently 80-90% size reduction and 10x faster builds on code changes."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 6: MEASURING AND MONITORING OPTIMIZATION             -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Measuring and Monitoring Optimization
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    You can't optimize what you don't measure. Tools like dive, docker stats, and container monitoring platforms help visualize image layers, build performance, and runtime resource usage.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+    <pre><code className="language-bash">
+# ── DIVE — IMAGE LAYER ANALYSIS ───────────────────────────────────
+# Install: brew install dive (macOS) or download from GitHub
+
+dive myapp:latest
+
+# Shows:
+# - Each layer's size and command
+# - Efficient vs wasted space
+# - Files added, modified, deleted per layer
+# - Final image filesystem with file sizes
+
+
+# ── DOCKER STATS — LIVE CONTAINER METRICS ────────────────────────
+# Real-time resource usage of running containers
+docker stats
+
+# Output:
+# CONTAINER ID   NAME     CPU %     MEM USAGE / LIMIT   MEM %     NET I/O
+# abc123         myapp    12.34%    256MiB / 512MiB     50.00%    1.2MB / 2.3MB
+
+
+# ── DOCKER SYSTEM DF — DISK USAGE ────────────────────────────────
+docker system df
+
+# TYPE            TOTAL     ACTIVE    SIZE        RECLAIMABLE
+# Images          15        5         2.3GB       1.8GB (78%)
+# Containers      8         3         512MB       256MB (50%)
+# Local Volumes   4         2         1.2GB       600MB (50%)
+# Build Cache     25        0         3.5GB       3.5GB (100%)
+
+
+# ── DOCKER HISTORY — LAYER METADATA ──────────────────────────────
+docker history myapp:latest --format "table {{.CreatedBy}}\t{{.Size}}"
+
+# Shows each layer's command and size — identify which layers are large
+
+
+# ── PROMETHEUS METRICS FOR CONTAINERS ────────────────────────────
+# cadvisor (cAdvisor) exports container metrics to Prometheus
+# Monitor over time:
+# - CPU usage per container
+# - Memory usage trends
+# - Network I/O
+# - Filesystem usage
+# - OOM kill events
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Measuring optimization requires both static and dynamic analysis. Use <code>dive</code> to inspect image layers and identify wasted space—it shows each layer's size and what files were added. <code>docker history</code> shows layer sizes and commands. For runtime, <code>docker stats</code> provides live resource usage; in production, use Prometheus with cAdvisor to collect historical metrics on CPU, memory, and OOM events. <code>docker system df</code> tracks disk usage across images, containers, and build cache. Regular measurement ensures optimization efforts have measurable impact and prevents regressions."
+  </div>
+
+  <div style="margin-top: 2rem; padding: 1rem; background: #f0fdf4; border-left: 4px solid #22c55e; border-radius: 4px;">
+    <strong>📊 Optimization Impact Summary:</strong>
+    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+      <li>Proper layer ordering: <strong>70-90% faster builds</strong> on code changes</li>
+      <li>Multi-stage builds + minimal base: <strong>80-95% smaller images</strong></li>
+      <li>Resource limits: <strong>Prevents DoS and OOM kills</strong></li>
+      <li>Health checks: <strong>Auto-healing reduces downtime</strong></li>
+      <li>Log rotation: <strong>Prevents disk space exhaustion</strong></li>
+    </ul>
+  </div>
+
 </div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER OPTIMIZATION DEMO
+# Demonstrates image size reduction, build cache, and runtime tuning
+# ══════════════════════════════════════════════════════════════
+
+set -e
+PROJECT_DIR="docker-optimization-demo"
+mkdir -p $PROJECT_DIR && cd $PROJECT_DIR
+
+
+# ── PART 1: Create a sample Node.js app ───────────────────────────
+cat > package.json << 'EOF'
+{
+  "name": "optimization-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "mkdir -p dist && echo 'console.log(\"Hello from optimized app\")' > dist/server.js",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
+EOF
+
+cat > server.js << 'EOF'
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from Docker!', timestamp: new Date().toISOString() });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
+app.listen(port, () => {
+  console.log(\`App listening on port \${port}\`);
+});
+EOF
+
+cat > .dockerignore << 'EOF'
+node_modules
+.git
+.env
+*.log
+Dockerfile*
+README.md
+EOF
+
+
+# ── PART 2: Create optimized Dockerfile ───────────────────────────
+cat > Dockerfile << 'EOF'
+# syntax=docker/dockerfile:1
+
+# Stage 1: Dependencies (cached layer)
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci && \
+    npm cache clean --force
+
+# Stage 2: Builder (source code, build step)
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+# Stage 3: Production dependencies only
+FROM node:20-alpine AS prod-deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --omit=dev && \
+    npm cache clean --force
+
+# Stage 4: Final runtime
+FROM node:20-alpine
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nodeuser
+WORKDIR /app
+COPY --from=builder --chown=nodeuser:nodejs /app/dist ./dist
+COPY --from=prod-deps --chown=nodeuser:nodejs /app/node_modules ./node_modules
+USER nodeuser
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+CMD ["node", "dist/server.js"]
+EOF
+
+
+# ── PART 3: Create unoptimized Dockerfile for comparison ──────────
+cat > Dockerfile.unoptimized << 'EOF'
+FROM node:20
+WORKDIR /app
+COPY . .
+RUN npm ci
+RUN npm run build
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+EOF
+
+
+# ── PART 4: Build both images and compare sizes ───────────────────
+echo "=== Building unoptimized image ==="
+docker build -f Dockerfile.unoptimized -t demo:unoptimized .
+
+echo ""
+echo "=== Building optimized image ==="
+docker build -t demo:optimized .
+
+echo ""
+echo "=== Size comparison ==="
+docker images demo --format "table {{.Tag}}\\t{{.Size}}"
+echo ""
+echo "Expected: optimized is 80-90% smaller"
+
+
+# ── PART 5: Analyze layers with dive (if installed) ───────────────
+if command -v dive &> /dev/null; then
+    echo "=== Analyzing optimized image layers (press Ctrl+C to exit) ==="
+    dive demo:optimized
+else
+    echo "dive not installed. Install with: brew install dive"
+    echo "Or view layers with: docker history demo:optimized"
+    echo ""
+    echo "=== Layer comparison ==="
+    echo "Optimized layers:"
+    docker history demo:optimized --format "table {{.CreatedBy}}\\t{{.Size}}"
+fi
+
+
+# ── PART 6: Build cache demonstration ─────────────────────────────
+echo ""
+echo "=== First build (cache cold) ==="
+time docker build -t demo:cache-test .
+
+echo ""
+echo "=== Modify source code (simulate code change) ==="
+echo "console.log('Modified at $(date)');" >> server.js
+
+echo ""
+echo "=== Second build (cache warm, only changed layers rebuilt) ==="
+time docker build -t demo:cache-test .
+
+echo ""
+echo "Build times: Second build should be much faster (cache hit on deps)"
+
+
+# ── PART 7: Runtime optimization demonstration ────────────────────
+echo ""
+echo "=== Running optimized container with resource limits ==="
+docker run -d \
+  --name demo-optimized \
+  --memory="256m" \
+  --memory-swap="256m" \
+  --cpus="0.5" \
+  --pids-limit=100 \
+  --restart=unless-stopped \
+  --log-driver=json-file \
+  --log-opt max-size=10m \
+  --log-opt max-file=3 \
+  -p 3000:3000 \
+  demo:optimized
+
+echo "Container started. Checking health..."
+sleep 3
+
+echo ""
+echo "Container status:"
+docker ps --filter name=demo-optimized
+
+echo ""
+echo "Testing endpoint:"
+curl -s http://localhost:3000/ | python3 -m json.tool
+
+echo ""
+echo "Resource usage:"
+docker stats --no-stream --filter name=demo-optimized
+
+
+# ── PART 8: Stress test (demonstrate resource limits) ────────────
+echo ""
+echo "=== Stress test (will be limited by memory/cpu) ==="
+docker exec demo-optimized node -e "
+  const arr = [];
+  setInterval(() => {
+    arr.push(new Array(1000000).fill('x'));
+    console.log('Memory usage:', process.memoryUsage().rss / 1024 / 1024, 'MB');
+  }, 1000);
+" &
+STRESS_PID=$!
+
+echo "Monitoring for 5 seconds..."
+sleep 5
+echo "Container should hit memory limit and be OOM-killed (or be CPU limited)"
+
+docker stop demo-optimized 2>/dev/null || true
+kill $STRESS_PID 2>/dev/null || true
+
+
+# ── PART 9: Logging demonstration ─────────────────────────────────
+echo ""
+echo "=== Testing log rotation ==="
+docker run -d --name demo-logs --log-driver=json-file --log-opt max-size=1m --log-opt max-file=2 demo:optimized
+
+echo "Generating logs (20MB)..."
+docker exec demo-logs sh -c "for i in \$(seq 1 200); do echo 'Log line \$i'; done" 2>/dev/null
+
+echo "Checking log files:"
+docker exec demo-logs ls -la /var/log/ 2>/dev/null || echo "Logs are handled by docker daemon, not inside container"
+
+docker rm -f demo-logs
+
+
+# ── PART 10: Cleanup ──────────────────────────────────────────────
+echo ""
+echo "=== Cleaning up ==="
+docker rm -f demo-optimized demo-logs 2>/dev/null || true
+docker rmi demo:unoptimized demo:optimized demo:cache-test 2>/dev/null || true
+cd .. && rm -rf $PROJECT_DIR
+
+echo "✅ Docker optimization demo complete"
+echo ""
+echo "📊 Optimization summary:"
+echo "  • Image size: 80-95% reduction"
+echo "  • Build time: 70-90% faster on code changes"
+echo "  • Runtime: Resource limits prevent DoS"
+echo "  • Reliability: Health checks + restart policies"
+`,
+            ],
+
+            questions: [
+              {
+                question: "What is the most important factor for Docker build performance, and how do you optimize it?",
+                solution: "<p>The most important factor is <strong>layer ordering to maximize cache reuse</strong>. Docker caches layers based on the instruction content and file changes. When a layer changes, all subsequent layers are rebuilt. The optimization is to order instructions from <strong>least-changing to most-changing</strong>. Copy dependency manifests (package.json, go.mod, requirements.txt) and run installation commands BEFORE copying source code. This way, the expensive <code>npm ci</code> or <code>go mod download</code> layer is cached across 90%+ of builds—only re-executing when dependencies change. For Node.js: copy package.json → RUN npm ci → COPY source → RUN build. For Go: copy go.mod → RUN go mod download → COPY source → go build. Use BuildKit's <code>--mount=type=cache</code> to persist package caches across builds even when layers are invalidated.</p>",
+              },
+              {
+                question: "How do multi-stage builds reduce image size? Give an example.",
+                solution: "<p>Multi-stage builds use multiple <code>FROM</code> instructions, each starting a fresh filesystem. The builder stage contains all the tools needed to compile the application (Go compiler, Node with TypeScript, Maven with JDK). The final stage copies only the runtime artifacts from the builder, discarding everything else. Example: Go app with <code>FROM golang:1.22-alpine AS builder</code> (850MB) that compiles the binary, then <code>FROM scratch</code> (0 bytes) that copies only the binary (8MB). The final image is 8MB—99% reduction. The intermediate builder layers never appear in the final image. This also improves security: compilers, package managers, and source code aren't in the production image.</p>",
+              },
+              {
+                question: "What is the difference between Alpine, Distroless, and Scratch? When would you choose each?",
+                solution: "<p><strong>Alpine</strong> (~7MB) uses musl libc and includes a shell (sh) and package manager (apk). Best for most production workloads—small enough for security, but you can <code>docker exec</code> for debugging. <strong>Distroless</strong> (~2-20MB) has no shell or package manager but includes runtime libraries (SSL certs, libc). Security-focused—used by Google for production services. You can't exec into it, which reduces attack surface. <strong>Scratch</strong> (0 bytes) is empty—no OS, no shell, no libraries. Only works for statically-linked binaries (Go with CGO_ENABLED=0, Rust). Choose Alpine for debuggability, Distroless for security-critical services, Scratch for Go/Rust when you want the absolute smallest image and don't need debugging.</p>",
+              },
+              {
+                question: "How do you prevent secrets from being baked into images?",
+                solution: "<p>Never use <code>ARG</code> for secrets—ARG values are stored in image metadata and visible via <code>docker history</code>. Use BuildKit's <code>--mount=type=secret</code> for build-time secrets: <code>RUN --mount=type=secret,id=npm_token npm ci</code>, and build with <code>docker build --secret id=npm_token,src=./.npmrc</code>. The secret is only available in-memory during that RUN instruction and leaves no trace. For runtime secrets, use orchestrator secrets (Docker Swarm secrets, Kubernetes secrets) mounted as files—never environment variables. Environment variables are visible in <code>docker inspect</code>, container logs, and can be read from /proc of a compromised container. Always use <code>.dockerignore</code> to exclude .env files from the build context.</p>",
+              },
+              {
+                question: "What resource limits should you set on containers and why?",
+                solution: "<p>Set <strong>memory limits</strong> (<code>--memory=\"512m\"</code>) to prevent a single container from exhausting host memory and triggering OOM killer on other containers. Set <strong>CPU limits</strong> (<code>--cpus=\"0.5\"</code>) to ensure fair scheduling and prevent noisy neighbors. Set <strong>process limits</strong> (<code>--pids-limit=100</code>) to prevent fork bomb DoS attacks. Set <strong>log rotation</strong> (<code>--log-opt max-size=10m --log-opt max-file=3</code>) to prevent disk space exhaustion. These limits are security controls as much as performance controls—they contain the blast radius of a compromised container or a bug causing resource exhaustion. In Kubernetes, set both <code>requests</code> (scheduling) and <code>limits</code> (enforcement).</p>",
+              },
+              {
+                question: "What is a health check and why is it important?",
+                solution: "<p>A health check tells the orchestrator whether a container is functioning correctly. <strong>Liveness probes</strong> determine if a container should be restarted (e.g., deadlocked application). <strong>Readiness probes</strong> determine if a container should receive traffic (e.g., still warming up, database connection not ready). In Docker: <code>HEALTHCHECK --interval=30s CMD curl -f http://localhost/ || exit 1</code>. In Kubernetes: <code>livenessProbe</code> and <code>readinessProbe</code>. Health checks enable self-healing—unhealthy containers are automatically restarted or removed from load balancers. Without them, a crashed container stays running (or in the load balancer) until manually intervened, causing downtime.</p>",
+              },
+              {
+                question: "How do you analyze and debug Docker image size issues?",
+                solution: "<p>Use <code>dive</code> to analyze image layers interactively—it shows each layer's size, which files were added, and highlights wasted space (e.g., files added in one layer and deleted in another). <code>docker history --no-trunc</code> shows each layer's command and size. For specific files, use <code>docker run --rm myapp du -sh /path</code> or <code>docker export</code> then analyze the tar. Common issues: package manager cache not cleaned in the same layer, multiple RUN commands that should be chained, unnecessary files (test fixtures, documentation) copied from build context, and using full base images instead of slim variants. Also check that <code>.dockerignore</code> excludes node_modules, .git, and other large directories from the build context.</p>",
+              },
+              {
+                question: "What is BuildKit and how does it improve builds?",
+                solution: "<p>BuildKit is Docker's modern build engine (enabled by default in Docker 23+). Improvements: (1) <strong>Parallel stage execution</strong>—independent stages run simultaneously, reducing total build time. (2) <strong>Cache mounts</strong> (<code>--mount=type=cache</code>)—persistent directories across builds even when layers are invalidated, so package managers only download new packages. (3) <strong>Remote cache</strong> (<code>--cache-from type=registry</code>)—CI builds can pull cached layers from registry, making ephemeral runners fast. (4) <strong>Secret mounts</strong> (<code>--mount=type=secret</code>)—secrets available during build without being stored in layers. (5) <strong>Better multi-platform builds</strong> (<code>docker buildx</code>). Enable with <code>DOCKER_BUILDKIT=1</code> or via daemon config.</p>",
+              },
+              {
+                question: "How do you optimize Docker builds for CI/CD pipelines?",
+                solution: "<p>CI/CD optimization: (1) <strong>Use BuildKit with remote cache</strong>: <code>docker buildx build --cache-from type=registry,ref=myrepo/cache --cache-to type=registry,ref=myrepo/cache,mode=max</code>. First build pushes cache; subsequent builds pull it. (2) <strong>Maximize layer caching</strong>: copy dependency manifests before source code. (3) <strong>Use .dockerignore</strong> to reduce build context size. (4) <strong>Use multi-stage builds</strong> to keep final images small and build layers separate. (5) <strong>Parallelize independent builds</strong> across different CI jobs (e.g., frontend and backend). (6) <strong>Use Docker Build Cloud or GitHub Actions caching</strong> for faster builds. (7) <strong>Consider build arguments</strong> to vary builds (e.g., dev vs prod) without duplicating Dockerfiles.</p>",
+              },
+              {
+                question: "What is the difference between COPY and ADD in Dockerfile?",
+                solution: "<p><code>COPY</code> copies files from the build context into the image. It's simple, predictable, and should be preferred for most cases. <code>ADD</code> has additional features: (1) <strong>URL support</strong>—can download files from URLs. (2) <strong>Automatic tar extraction</strong>—if source is a local tar archive, it's extracted into the destination. Because of these features, ADD is less predictable and can lead to unexpected behavior (e.g., downloading a file that changes URL content between builds). Best practice: use COPY for local files, use RUN with curl or wget for downloading remote files (and clean up after), avoid automatic tar extraction—explicitly extract with RUN tar. The exception: ADD is useful for copying local tar archives when extraction is desired.</p>",
+              },
+              {
+                question: "How do you optimize Node.js Docker images specifically?",
+                solution: "<p>Node.js optimization: (1) <strong>Multi-stage builds</strong>: separate deps, builder, and production stages. (2) <strong>Use <code>npm ci --omit=dev</code></strong> in production stage—installs only production dependencies, excluding TypeScript, testing, and linting tools. (3) <strong>Copy package.json before source code</strong> to cache npm ci layer. (4) <strong>Use <code>npm cache clean --force</code></strong> in same layer to remove ~50MB cache. (5) <strong>Use Alpine or distroless base</strong> (node:20-alpine is ~180MB vs node:20 at ~1GB). (6) <strong>Set <code>NODE_ENV=production</code></strong> to optimize module loading. (7) <strong>Use <code>--mount=type=cache,target=/root/.npm</code></strong> for persistent npm cache across builds. (8) <strong>Run as non-root user</strong> (adduser, USER). Result: 1.2GB → 180MB image size, 10x faster builds on code changes.</p>",
+              },
+              {
+                question: "How do you optimize Go Docker images specifically?",
+                solution: "<p>Go optimization: (1) <strong>Multi-stage builds</strong> with builder stage using <code>golang:alpine</code> and final stage using <code>scratch</code>. (2) <strong>Set <code>CGO_ENABLED=0</code></strong> to produce a statically-linked binary with no libc dependency—can run on scratch. (3) <strong>Use <code>-ldflags=\"-w -s\"</code></strong> to strip debug info and symbol table, reducing binary size by 20-30%. (4) <strong>Use <code>--mount=type=cache,target=/go/pkg/mod</code></strong> for persistent module cache. (5) <strong>Use <code>--mount=type=cache,target=/root/.cache/go-build</code></strong> for persistent build cache. (6) <strong>Copy only the binary to final stage</strong>—no source code, no Go toolchain. (7) <strong>Copy SSL certs from builder</strong> if your app makes HTTPS calls. Result: 850MB → 8-15MB image size, near-instant builds on code changes (only go build runs).</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/build/building/multi-stage/",
+              "https://docs.docker.com/build/cache/",
+              "https://docs.docker.com/engine/reference/commandline/build/",
+              "https://docs.docker.com/build/buildkit/",
+              "https://github.com/wagoodman/dive",
+              "https://docs.docker.com/engine/reference/run/#healthcheck",
+              "https://docs.docker.com/config/containers/resource_constraints/",
+              "https://docs.docker.com/engine/reference/builder/",
+              "https://docs.docker.com/build/building/secrets/",
+              "https://docs.docker.com/engine/reference/commandline/system_df/",
+              "https://docs.docker.com/engine/reference/commandline/stats/",
+            ],
           },
           {
             topic: "Docker Registry",
