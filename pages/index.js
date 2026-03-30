@@ -45,6 +45,7 @@ import {
   Settings,
   FileText,
   Trophy,
+  Container,
 } from "lucide-react";
 // import snippetsData from "../data/snippets.json";
 import { useSession, signOut } from "next-auth/react";
@@ -126,9 +127,8 @@ export default function Home() {
                   <Settings className="w-4 h-4" />
                   <span>Tools</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
-                      isToolsDropdownOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 transition-transform duration-200 ${isToolsDropdownOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
                 {isToolsDropdownOpen && (
@@ -180,6 +180,17 @@ export default function Home() {
                           <div className="font-medium">
                             JavaScript Playground
                           </div>
+                        </div>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => router.push("/docker-practice")}
+                        className="w-full justify-start text-gray-600 hover:text-cyan-700 hover:bg-cyan-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                      >
+                        <Container className="w-5 h-5 text-cyan-600" />
+                        <div className="text-left">
+                          <div className="font-medium">Docker Practice</div>
                         </div>
                       </Button>
                     </div>
@@ -284,9 +295,8 @@ export default function Home() {
                       Tools
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        isMobileToolsOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-4 h-4 transition-transform duration-200 ${isMobileToolsOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
                   {isMobileToolsOpen && (
@@ -340,16 +350,25 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          // session
-                          // ? router.push("/playground")
                           router.push("/playground");
-                          // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
                         className="w-full justify-start text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 py-2"
                       >
                         <Code className="w-4 h-4" />
                         JavaScript Playground
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          router.push("/docker-practice");
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full justify-start text-cyan-600 hover:text-cyan-700 font-medium flex items-center gap-2 py-2"
+                      >
+                        <Container className="w-4 h-4" />
+                        Docker Practice
                       </Button>
                     </div>
                   )}
@@ -645,6 +664,32 @@ export default function Home() {
                   >
                     <FileCode2 className="mr-2 w-4 h-4" />
                     Practice Python
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <Container className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Docker Practice
+                  </h3>
+                  <p className="text-blue-100 text-sm mb-4">
+                    Write Dockerfiles, learn container concepts and nail Docker
+                    interview questions
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() => router.push("/docker-practice")}
+                    className="bg-white text-cyan-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <Container className="mr-2 w-4 h-4" />
+                    Practice Docker
                   </Button>
                 </div>
               </motion.div>
@@ -1287,11 +1332,10 @@ export default function Home() {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentPage === page
-                      ? "bg-white w-8"
-                      : "bg-white/30 hover:bg-white/60"
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${currentPage === page
+                    ? "bg-white w-8"
+                    : "bg-white/30 hover:bg-white/60"
+                    }`}
                   aria-label={`Go to page ${page + 1}`}
                 />
               ))}
@@ -1473,6 +1517,79 @@ export default function Home() {
               </Card>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Docker Practice Section */}
+      <section className="container mx-auto px-4 py-12 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.55 }}
+          >
+            <Card className="shadow-lg border border-cyan-100 bg-gradient-to-br from-cyan-50/30 to-blue-50/30 h-fit">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-2">
+                  <Container className="w-5 h-5 text-cyan-600" />
+                  Docker Practice
+                </CardTitle>
+                <p className="text-gray-600 text-sm mt-2">
+                  Write Dockerfiles, learn container concepts and nail Docker
+                  interview questions
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => router.push("/docker-practice/concepts")}
+                    className="p-4 rounded-xl border-2 border-cyan-200 bg-white hover:bg-cyan-50 hover:border-cyan-400 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 rounded-lg bg-cyan-100 group-hover:bg-cyan-200 transition-colors">
+                        <Container size={20} className="text-cyan-600" />
+                      </div>
+                      <span className="font-semibold text-gray-900 text-sm">
+                        Learn Concepts
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Images, containers, networking &amp; Compose
+                    </p>
+                  </motion.button>
+
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => router.push("/docker-practice/exercises")}
+                    className="p-4 rounded-xl border-2 border-blue-200 bg-white hover:bg-blue-50 hover:border-blue-400 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 rounded-lg bg-blue-100 group-hover:bg-blue-200 transition-colors">
+                        <Zap size={20} className="text-blue-600" />
+                      </div>
+                      <span className="font-semibold text-gray-900 text-sm">
+                        Dockerfile Exercises
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Hands-on Dockerfile writing challenges
+                    </p>
+                  </motion.button>
+                </div>
+
+                <button
+                  onClick={() => router.push("/docker-practice")}
+                  className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-cyan-700 bg-cyan-100 hover:bg-cyan-200 transition-colors duration-200"
+                >
+                  View All Docker Practice
+                  <ArrowRight size={16} />
+                </button>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
