@@ -178432,15 +178432,15 @@ FROM node:20-alpine AS builder
 ARG NODE_ENV=production      # has a default value
 ARG APP_VERSION              # no default — must be passed via --build-arg
 
-RUN echo "Building version ${APP_VERSION} for ${NODE_ENV}"
+RUN echo "Building version $ {APP_VERSION} for $ {NODE_ENV}"
 
 # ARG can be promoted to ENV if you need it at runtime
-ENV APP_VERSION=${APP_VERSION}
+ENV APP_VERSION=$ {APP_VERSION}
 
 # NOTE: ARG is stage-scoped — must re-declare in each stage that needs it
 FROM node:20-alpine AS production
 ARG APP_VERSION
-LABEL version="${APP_VERSION}"
+LABEL version="$ {APP_VERSION}"
 
 
 # ── BUILD SECRETS (BuildKit) ─────────────────────────────────────
@@ -178471,7 +178471,7 @@ RUN npm run build
 # NEVER do this — the secret is visible in docker history and image metadata
 FROM node:20-alpine AS bad-example
 ARG NPM_TOKEN                # ← VISIBLE IN: docker history, image layers
-RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+RUN echo "//registry.npmjs.org/:_authToken=$ {NPM_TOKEN}" > .npmrc
 RUN npm ci
 # Even if you delete .npmrc in a later layer, the token is in the layer history!
     </code></pre>
@@ -178884,7 +178884,7 @@ echo "✅ Multi-stage build demo complete"`,
                 question:
                   "What is the difference between ARG and ENV in a Dockerfile, and how do they interact with multi-stage builds?",
                 solution:
-                  "<p><code>ARG</code> defines build-time variables passed via <code>--build-arg</code>. They are only available during the build process and are NOT present in the running container's environment. <code>ENV</code> sets environment variables that ARE present in the running container — they're baked into the image and visible in <code>docker inspect</code> and inside the container at runtime. Interaction: you can promote an ARG to an ENV: <code>ENV APP_VERSION=\\${APP_VERSION}</code>, which takes the build-time ARG value and bakes it into the runtime environment. Critical multi-stage behavior: ARG values do NOT automatically carry over between stages. If you define <code>ARG APP_VERSION</code> in stage 1, stage 2 does NOT have access to it unless you re-declare it with <code>ARG APP_VERSION</code> in stage 2 (the re-declaration inherits the value from the original --build-arg). Security implications: ARG values are stored in the image's build metadata and are visible via <code>docker history --no-trunc</code> even after the build. NEVER pass secrets as ARG values. Use BuildKit's <code>--mount=type=secret</code> for secrets — these are in-memory mounts during a single RUN instruction and leave absolutely no trace in the image layers or metadata.</p>",
+                  "<p><code>ARG</code> defines build-time variables passed via <code>--build-arg</code>. They are only available during the build process and are NOT present in the running container's environment. <code>ENV</code> sets environment variables that ARE present in the running container — they're baked into the image and visible in <code>docker inspect</code> and inside the container at runtime. Interaction: you can promote an ARG to an ENV: <code>ENV APP_VERSION=\\$ {APP_VERSION}</code>, which takes the build-time ARG value and bakes it into the runtime environment. Critical multi-stage behavior: ARG values do NOT automatically carry over between stages. If you define <code>ARG APP_VERSION</code> in stage 1, stage 2 does NOT have access to it unless you re-declare it with <code>ARG APP_VERSION</code> in stage 2 (the re-declaration inherits the value from the original --build-arg). Security implications: ARG values are stored in the image's build metadata and are visible via <code>docker history --no-trunc</code> even after the build. NEVER pass secrets as ARG values. Use BuildKit's <code>--mount=type=secret</code> for secrets — these are in-memory mounts during a single RUN instruction and leave absolutely no trace in the image layers or metadata.</p>",
               },
               {
                 question:
@@ -181184,7 +181184,7 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(\`App listening on port \${port}\`);
+  console.log(\`App listening on port \$ {port}\`);
 });
 EOF
 
