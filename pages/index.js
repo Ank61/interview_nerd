@@ -43,9 +43,11 @@ import {
   Brain,
   ChevronDown,
   Settings,
-  FileText,
   Trophy,
   Container,
+  Code2,
+  FileText,
+  Terminal,
 } from "lucide-react";
 // import snippetsData from "../data/snippets.json";
 import { useSession, signOut } from "next-auth/react";
@@ -191,6 +193,28 @@ export default function Home() {
                         <Container className="w-5 h-5 text-cyan-600" />
                         <div className="text-left">
                           <div className="font-medium">Docker Practice</div>
+                        </div>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => router.push("/go-practice")}
+                        className="w-full justify-start text-gray-600 hover:text-teal-700 hover:bg-teal-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                      >
+                        <Code2 className="w-5 h-5 text-teal-600" />
+                        <div className="text-left">
+                          <div className="font-medium">Go Practice</div>
+                        </div>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => router.push("/linux-practice")}
+                        className="w-full justify-start text-gray-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                      >
+                        <Terminal className="w-5 h-5 text-green-600" />
+                        <div className="text-left">
+                          <div className="font-medium">Linux Practice</div>
                         </div>
                       </Button>
                     </div>
@@ -369,6 +393,30 @@ export default function Home() {
                       >
                         <Container className="w-4 h-4" />
                         Docker Practice
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          router.push("/go-practice");
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full justify-start text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2 py-2"
+                      >
+                        <Code2 className="w-4 h-4" />
+                        Go Practice
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          router.push("/linux-practice");
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
+                      >
+                        <Terminal className="w-4 h-4" />
+                        Linux Practice
                       </Button>
                     </div>
                   )}
@@ -556,7 +604,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -690,6 +738,58 @@ export default function Home() {
                   >
                     <Container className="mr-2 w-4 h-4" />
                     Practice Docker
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <Code2 className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Go Practice
+                  </h3>
+                  <p className="text-blue-100 text-sm mb-4">
+                    Master Golang from the ground up with interactive exercises and real-world interviewer questions
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() => router.push("/go-practice")}
+                    className="bg-white text-teal-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <Code2 className="mr-2 w-4 h-4" />
+                    Practice Go
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm h-full flex flex-col justify-between">
+                  <div>
+                    <Terminal className="w-12 h-12 text-white mx-auto mb-4" />
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      Linux Practice
+                    </h3>
+                    <p className="text-blue-100 text-sm mb-4">
+                      Master Linux command line, file permissions, and shell scripting with interactive environments
+                    </p>
+                  </div>
+                  <Button
+                    size="sm"
+                    onClick={() => router.push("/linux-practice")}
+                    className="bg-white text-orange-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <Terminal className="mr-2 w-4 h-4" />
+                    Practice Linux
                   </Button>
                 </div>
               </motion.div>
@@ -1521,7 +1621,7 @@ export default function Home() {
       </section>
 
       {/* Docker Practice Section */}
-      <section className="container mx-auto px-4 py-12 bg-gray-50">
+      {/* <section className="container mx-auto px-4 py-12 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1591,7 +1691,7 @@ export default function Home() {
             </Card>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features Section */}
       <section id="features" className="container mx-auto px-4 py-16">

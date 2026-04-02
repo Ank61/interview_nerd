@@ -99,7 +99,7 @@ export default function DockerPracticeMode() {
               className="text-center mb-12"
             >
               {/* Docker whale / container icon badge */}
-              <div className="flex justify-center mb-6">
+              {/* <div className="flex justify-center mb-6">
                 <motion.div
                   className="p-4 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 shadow-2xl"
                   initial={{ scale: 0.8, rotate: -10 }}
@@ -108,16 +108,16 @@ export default function DockerPracticeMode() {
                 >
                   <Container size={52} className="text-white" />
                 </motion.div>
-              </div>
+              </div> */}
 
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent mb-6">
                 Docker Practice
               </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              {/* <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Master Docker from the ground up. Learn core concepts with
                 structured guidance or jump straight into hands-on Dockerfile
                 exercises.
-              </p>
+              </p> */}
             </motion.div>
 
             {/* Mode Cards */}

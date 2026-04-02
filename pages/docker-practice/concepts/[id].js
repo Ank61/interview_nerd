@@ -18,6 +18,11 @@ import {
   Lightbulb,
   ChevronDown,
   ChevronUp,
+  AlertTriangle,
+  FileCheck,
+  TrendingUp,
+  Award,
+  MessageCircle,
 } from "lucide-react";
 import { dockerConcepts } from "@/data/dockerData";
 
@@ -88,16 +93,23 @@ export default function ConceptExercises() {
   const [userCode, setUserCode] = useState("");
   const [showSolution, setShowSolution] = useState(false);
   const [showHints, setShowHints] = useState(false);
+  const [showQuestions, setShowQuestions] = useState(false);
+  const [showCommands, setShowCommands] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
+  const hasExtraResources = concept?.interview_questions_summary || concept?.best_practices_checklist || concept?.common_mistakes || concept?.optimization_techniques || concept?.bonus_challenge;
+
   // Initialise selected once exercises are available (after hydration)
-  const activeExercise = selected ?? exercises[0] ?? null;
+  const activeMode = selected ?? (hasExtraResources ? "overview" : exercises[0]);
+  const activeExercise = typeof activeMode === 'object' ? activeMode : null;
 
   const selectExercise = (ex) => {
     setSelected(ex);
     setUserCode("");
     setShowSolution(false);
     setShowHints(false);
+    setShowQuestions(false);
+    setShowCommands(false);
     setFeedback(null);
   };
 
@@ -232,12 +244,44 @@ export default function ConceptExercises() {
 
           {/* Exercise list */}
           <div className="flex-1 overflow-y-auto py-3 px-3 space-y-2">
+            {hasExtraResources && (
+              <button
+                onClick={() => {
+                  setSelected("overview");
+                  setFeedback(null);
+                }}
+                className={`w-full text-left p-3 rounded-xl border transition-all duration-200 mb-4 ${
+                  activeMode === "overview"
+                    ? "border-cyan-400 bg-cyan-50 shadow-sm"
+                    : "border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50"
+                }`}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <p
+                    className={`font-medium text-sm leading-5 flex items-center gap-2 ${
+                      activeMode === "overview" ? "text-cyan-900" : "text-gray-800"
+                    }`}
+                  >
+                    <BookOpen size={16} className={activeMode === "overview" ? "text-cyan-600" : "text-gray-400"} />
+                    Study Guide
+                  </p>
+                  <ChevronRight
+                    size={14}
+                    className={`mt-0.5 shrink-0 ${
+                      activeMode === "overview" ? "text-cyan-600" : "text-gray-400"
+                    }`}
+                  />
+                </div>
+              </button>
+            )}
+
+            {exercises.length > 0 && <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-1">Exercises</div>}
             {exercises.map((ex) => (
               <button
                 key={ex.id}
                 onClick={() => selectExercise(ex)}
                 className={`w-full text-left p-3 rounded-xl border transition-all duration-200 ${
-                  activeExercise?.id === ex.id
+                  activeMode?.id === ex.id
                     ? "border-cyan-400 bg-cyan-50 shadow-sm"
                     : "border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50"
                 }`}
@@ -245,7 +289,7 @@ export default function ConceptExercises() {
                 <div className="flex items-start justify-between gap-2">
                   <p
                     className={`font-medium text-sm leading-5 ${
-                      activeExercise?.id === ex.id
+                      activeMode?.id === ex.id
                         ? "text-cyan-900"
                         : "text-gray-800"
                     }`}
@@ -255,7 +299,7 @@ export default function ConceptExercises() {
                   <ChevronRight
                     size={14}
                     className={`mt-0.5 shrink-0 ${
-                      activeExercise?.id === ex.id
+                      activeMode?.id === ex.id
                         ? "text-cyan-600"
                         : "text-gray-400"
                     }`}
@@ -288,7 +332,143 @@ export default function ConceptExercises() {
 
         {/* ── Right panel ── */}
         <main className="flex-1 overflow-y-auto">
-          {activeExercise ? (
+          {activeMode === "overview" ? (
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6"
+              >
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Study Guide: {concept.title}</h2>
+                <p className="text-gray-600 mb-6">{concept.summary}</p>
+                
+                <div className="space-y-8">
+                  {concept.interview_questions_summary && (
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
+                        <Terminal size={20} className="text-cyan-600"/> Interview Questions
+                      </h3>
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {concept.interview_questions_summary.map((q, i) => (
+                          <li key={i} className="bg-cyan-50 border border-cyan-100 rounded-xl p-3 text-sm text-cyan-900 flex items-start gap-2">
+                            <span className="text-cyan-500 mt-0.5">•</span>
+                            {q}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {concept.best_practices_checklist && (
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
+                        <FileCheck size={20} className="text-green-600"/> Best Practices
+                      </h3>
+                      <ul className="space-y-2">
+                        {concept.best_practices_checklist.map((p, i) => (
+                          <li key={i} className="flex items-center gap-2 text-gray-700 text-sm">
+                            <CheckCircle size={16} className="text-green-500 shrink-0" />
+                            {p}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {concept.common_mistakes && (
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
+                        <AlertTriangle size={20} className="text-red-500"/> Common Mistakes
+                      </h3>
+                      <ul className="space-y-2">
+                        {concept.common_mistakes.map((m, i) => (
+                          <li key={i} className="flex items-center gap-2 text-gray-700 text-sm">
+                            <XCircle size={16} className="text-red-500 shrink-0" />
+                            {m}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {concept.optimization_techniques && (
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
+                        <TrendingUp size={20} className="text-purple-600"/> Optimization Techniques
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {concept.optimization_techniques.map((t, i) => (
+                          <div key={i} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                              {t.savings}
+                            </div>
+                            <h4 className="font-bold text-gray-900 text-sm mb-1 pr-10">{t.name}</h4>
+                            <p className="text-xs text-gray-600 mb-2">{t.description}</p>
+                            <div className="bg-gray-50 border border-gray-100 rounded-md p-2 text-xs font-mono text-gray-700">
+                              {t.example}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {concept.bonus_challenge && (
+                    <div className="mt-8 border-t border-gray-200 pt-8">
+                      <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-6 relative overflow-hidden">
+                        <div className="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                          <Award size={120} className="text-amber-600" />
+                        </div>
+                        <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2 mb-2 relative z-10">
+                          <Award size={24} className="text-amber-600"/> {concept.bonus_challenge.title}
+                        </h3>
+                        <p className="text-sm text-amber-800 mb-4 relative z-10 max-w-2xl">{concept.bonus_challenge.description}</p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                          <div>
+                            <h4 className="text-sm font-bold text-amber-900 mb-2">Requirements</h4>
+                            <ul className="space-y-1">
+                              {concept.bonus_challenge.requirements?.map((r, i) => (
+                                <li key={i} className="text-xs text-amber-800 flex items-start gap-1.5"><span className="text-amber-500 font-bold">•</span> {r}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-bold text-amber-900 mb-2">Success Metrics</h4>
+                            <ul className="space-y-1">
+                              {concept.bonus_challenge.success_metrics?.map((m, i) => (
+                                <li key={i} className="text-xs text-amber-800 flex items-start gap-1.5"><span className="text-amber-500 font-bold">✓</span> {m}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        {concept.bonus_challenge.phases && (
+                          <div className="mt-6 relative z-10">
+                            <h4 className="text-sm font-bold text-amber-900 mb-3">Implementation Phases</h4>
+                            <div className="space-y-3">
+                              {concept.bonus_challenge.phases.map((p, i) => (
+                                <div key={i} className="bg-white/60 border border-amber-100 rounded-xl p-3 shadow-sm">
+                                  <h5 className="text-xs font-bold text-amber-900 mb-1">Phase {p.phase}: {p.name}</h5>
+                                  <div className="flex flex-wrap gap-1.5 mt-2">
+                                    {p.tasks.map((t, j) => (
+                                      <span key={j} className="text-[10px] bg-white border border-amber-200 text-amber-700 px-2 py-0.5 rounded-full">{t}</span>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              </motion.div>
+            </div>
+          ) : activeExercise ? (
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-5">
               {/* Exercise description */}
               <motion.div
@@ -324,42 +504,119 @@ export default function ConceptExercises() {
                   {activeExercise.description}
                 </p>
 
-                {/* Hints toggle */}
-                <button
-                  onClick={() => setShowHints(!showHints)}
-                  className="mt-4 flex items-center gap-2 text-sm text-amber-600 hover:text-amber-700 font-medium transition-colors"
-                >
-                  <Lightbulb size={16} />
-                  {showHints ? "Hide hints" : "Show hints"}
-                  {showHints ? (
-                    <ChevronUp size={14} />
-                  ) : (
-                    <ChevronDown size={14} />
-                  )}
-                </button>
-
-                <AnimatePresence>
-                  {showHints && (
-                    <motion.ol
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="mt-3 space-y-1.5 overflow-hidden"
+                <div className="flex flex-wrap gap-4 mt-4 bg-gray-50 border border-gray-100 rounded-xl p-2 px-3">
+                  {/* Hints toggle */}
+                  {activeExercise.hints && activeExercise.hints.length > 0 && (
+                    <button
+                      onClick={() => setShowHints(!showHints)}
+                      className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${showHints ? "text-amber-700" : "text-amber-600 hover:text-amber-700"}`}
                     >
-                      {activeExercise.hints.map((hint, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2 text-sm text-gray-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2"
-                        >
-                          <span className="font-bold text-amber-600 shrink-0">
-                            {i + 1}.
-                          </span>
-                          {hint}
-                        </li>
-                      ))}
-                    </motion.ol>
+                      <Lightbulb size={16} />
+                      {showHints ? "Hide hints" : "Show hints"}
+                      {showHints ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    </button>
                   )}
-                </AnimatePresence>
+                  
+                  {/* Interview Qs toggle */}
+                  {activeExercise.interview_questions && activeExercise.interview_questions.length > 0 && (
+                    <button
+                      onClick={() => setShowQuestions(!showQuestions)}
+                      className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${showQuestions ? "text-purple-700" : "text-purple-600 hover:text-purple-700"}`}
+                    >
+                      <MessageCircle size={16} />
+                      {showQuestions ? "Hide Interview Qs" : "Interview Questions"}
+                      {showQuestions ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    </button>
+                  )}
+
+                  {/* Commands to Practice toggle */}
+                  {activeExercise.commands_to_practice && activeExercise.commands_to_practice.length > 0 && (
+                    <button
+                      onClick={() => setShowCommands(!showCommands)}
+                      className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${showCommands ? "text-blue-700" : "text-blue-600 hover:text-blue-700"}`}
+                    >
+                      <Terminal size={16} />
+                      {showCommands ? "Hide Commands" : "Commands"}
+                      {showCommands ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    </button>
+                  )}
+                </div>
+
+                <div className="space-y-3 mt-3">
+                  <AnimatePresence>
+                    {showHints && activeExercise.hints && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <ol className="space-y-1.5">
+                          {activeExercise.hints.map((hint, i) => (
+                            <li
+                              key={i}
+                              className="flex items-start gap-2 text-sm text-gray-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2"
+                            >
+                              <span className="font-bold text-amber-600 shrink-0">
+                                {i + 1}.
+                              </span>
+                              {hint}
+                            </li>
+                          ))}
+                        </ol>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <AnimatePresence>
+                    {showQuestions && activeExercise.interview_questions && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <ul className="space-y-1.5">
+                          {activeExercise.interview_questions.map((q, i) => (
+                            <li
+                              key={i}
+                              className="flex items-start gap-2 text-sm text-gray-700 bg-purple-50 border border-purple-100 rounded-lg px-3 py-2"
+                            >
+                              <span className="font-bold text-purple-600 shrink-0 mt-0.5">
+                                •
+                              </span>
+                              {q}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <AnimatePresence>
+                    {showCommands && activeExercise.commands_to_practice && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <ul className="space-y-1.5">
+                          {activeExercise.commands_to_practice.map((cmd, i) => (
+                            <li
+                              key={i}
+                              className="flex items-start gap-2 text-sm text-gray-700 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2"
+                            >
+                              <span className="font-mono font-medium text-blue-700 bg-white/60 px-1 py-0.5 rounded border border-blue-200">
+                                {cmd}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </motion.div>
 
               {/* Editor */}
@@ -484,11 +741,20 @@ export default function ConceptExercises() {
               {/* Mobile exercise list */}
               <div className="md:hidden bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
                 <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-3">
-                  Other Exercises
+                  Other Sections
                 </p>
                 <div className="space-y-2">
+                  {hasExtraResources && activeMode !== "overview" && (
+                    <button
+                      onClick={() => { setSelected("overview"); setFeedback(null); }}
+                      className="w-full text-left p-3 rounded-xl border border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50 transition-all font-medium flex justify-between text-sm items-center text-gray-800"
+                    >
+                      <span className="flex items-center gap-2"><BookOpen size={16} className="text-cyan-600"/> Study Guide</span>
+                      <ChevronRight size={14} className="text-gray-400" />
+                    </button>
+                  )}
                   {exercises
-                    .filter((e) => e.id !== activeExercise.id)
+                    .filter((e) => e.id !== activeMode?.id)
                     .map((ex) => (
                       <button
                         key={ex.id}

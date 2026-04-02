@@ -143133,7 +143133,7 @@ SET STATISTICS TIME OFF;`,
             ],
           },
           {
-            topic: "Comparison Operators (=, >, <, >=, <=, <>)",
+            topic: "Comparison Operators",
             tags: ["Operators", "Comparison", "Filtering"],
             explanation: `<div>
     <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -148796,7 +148796,7 @@ END;`,
             ],
           },
           {
-            topic: "Transaction Control: BEGIN, COMMIT, ROLLBACK",
+            topic: "Transaction Control",
             tags: [
               "BEGIN TRANSACTION",
               "COMMIT",
@@ -150006,7 +150006,7 @@ END;`,
             ],
           },
           {
-            topic: "Transactions: ACID Properties",
+            topic: "ACID Properties",
             tags: [
               "ACID",
               "Transactions",

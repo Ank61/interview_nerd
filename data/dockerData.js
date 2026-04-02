@@ -1,30 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// dockerData.js
-//
-// Central data file for all Docker Practice pages.
-// ➜ To add a new CONCEPT:  push an entry into `dockerConcepts`.
-//   Each concept has `exercises` — hands-on Dockerfile / Compose challenges.
-// ➜ To add a new global EXERCISE: push an entry into `dockerExercises`.
-// ─────────────────────────────────────────────────────────────────────────────
-
-// ─── Concept Cards (shown on /docker-practice/concepts) ──────────────────────
-// Each object supports:
-//   id           {number}   – unique, used as React key & dynamic route param
-//   level        {string}   – "Beginner" | "Intermediate" | "Advanced"
-//   icon         {string}   – lucide-react icon name
-//   title        {string}   – card heading
-//   summary      {string}   – 1-2 sentence overview
-//   topics       {string[]} – bullet list of sub-topics
-//   exercises    {object[]} – hands-on challenges:
-//     ├─ id          {number}
-//     ├─ title       {string}
-//     ├─ difficulty  {string}  "Beginner" | "Intermediate" | "Advanced"
-//     ├─ fileType    {string}  "Dockerfile" | "docker-compose.yml"
-//     ├─ description {string}  scenario
-//     ├─ hints       {string[]}
-//     ├─ solution    {string}  reference file content
-//     └─ tags        {string[]}
-// ─────────────────────────────────────────────────────────────────────────────
 export const dockerConcepts = [
   // ── 1 · Images & Containers ─────────────────────────────────────────────────
   {
@@ -125,6 +98,181 @@ export const dockerConcepts = [
           "docker run -it --rm debug-ubuntu",
           "docker images | grep debug-ubuntu",
           "docker history debug-ubuntu"
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Understanding Image Layers & Build Cache",
+        "difficulty": "Beginner",
+        "fileType": "Dockerfile",
+        "description": "Create a Python application Dockerfile that demonstrates layer caching. Rebuild the image with and without code changes to understand when layers are reused vs rebuilt. Learn to optimize build time.",
+        "hints": [
+          "Order matters: put frequently changing instructions (like COPY source code) near the end",
+          "Dependencies (requirements.txt) change less often than application code",
+          "Use `docker build --no-cache` to force rebuild all layers",
+          "Check layer sizes with `docker history <image>`"
+        ],
+        "solution": "FROM python:3.9-slim\n\nWORKDIR /app\n\n# Install system dependencies (rarely changes)\nRUN apt-get update && apt-get install -y --no-install-recommends \\\n    gcc \\\n    && rm -rf /var/lib/apt/lists/*\n\n# Copy and install Python dependencies (changes occasionally)\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Copy application code (changes frequently)\nCOPY app/ ./app/\nCOPY main.py .\n\nEXPOSE 5000\nCMD [\"python\", \"main.py\"]",
+        "tags": ["layer-caching", "build-optimization", "RUN", "COPY"],
+        "interview_questions": [
+          "What happens to the cache when you modify requirements.txt?",
+          "How does Docker determine if a layer can be reused?",
+          "Why put COPY operations for code at the end?",
+          "What's the difference between image layers and container layers?"
+        ],
+        "commands_to_practice": [
+          "docker build -t cache-demo .",
+          "docker build -t cache-demo . # Second build uses cache",
+          "docker build --no-cache -t cache-demo .",
+          "docker history cache-demo",
+          "docker images --filter dangling=true"
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Environment Variables & Configuration",
+        "difficulty": "Beginner",
+        "fileType": "Dockerfile",
+        "description": "Build a containerized app that accepts environment variables for configuration (database URL, API keys, debug mode). Use ENV instruction, .env files, and runtime -e flags. Demonstrate different ways to pass configuration.",
+        "hints": [
+          "Use ENV in Dockerfile for default values",
+          "Override with -e or --env-file at runtime",
+          "Never hardcode secrets in Dockerfiles",
+          "Use ARG for build-time variables, ENV for runtime"
+        ],
+        "solution": "FROM node:18-alpine\n\nWORKDIR /app\n\n# Build-time argument\nARG NODE_ENV=production\n\n# Runtime environment variables with defaults\nENV NODE_ENV=$NODE_ENV \\\n    PORT=3000 \\\n    LOG_LEVEL=info\n\nCOPY package*.json ./\nRUN npm ci --only=production\n\nCOPY . .\n\nEXPOSE $PORT\n\nCMD [\"node\", \"server.js\"]",
+        "tags": ["ENV", "ARG", "configuration", "environment-variables"],
+        "interview_questions": [
+          "What's the difference between ARG and ENV?",
+          "Why shouldn't you put secrets in ENV instructions?",
+          "How do environment variables in Dockerfile differ from runtime -e flags?",
+          "What's the precedence when the same variable is set multiple ways?"
+        ],
+        "commands_to_practice": [
+          "docker build --build-arg NODE_ENV=development -t config-app .",
+          "docker run -e PORT=8080 -e LOG_LEVEL=debug config-app",
+          "docker run --env-file .env config-app",
+          "docker inspect config-app | grep Env",
+          "docker exec config-app env"
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Volume Basics - Data Persistence",
+        "difficulty": "Beginner",
+        "fileType": "docker-run",
+        "description": "Create a PostgreSQL container with a named volume for data persistence. Demonstrate that data survives container deletion. Practice with bind mounts vs named volumes. Backup and restore volume data.",
+        "hints": [
+          "Use -v flag with named volumes: -v pgdata:/var/lib/postgresql/data",
+          "Bind mounts use absolute paths: -v /host/path:/container/path",
+          "Named volumes are managed by Docker and persisted in /var/lib/docker/volumes",
+          "Test persistence by creating data, removing container, and recreating it"
+        ],
+        "solution": "# Create named volume\ndocker volume create pgdata\n\n# Run PostgreSQL with volume\ndocker run -d --name postgres \\\n  -e POSTGRES_PASSWORD=secret \\\n  -v pgdata:/var/lib/postgresql/data \\\n  postgres:15-alpine\n\n# Create some data\ndocker exec -it postgres psql -U postgres -c \"CREATE DATABASE testdb;\"\n\n# Stop and remove container\ndocker stop postgres && docker rm postgres\n\n# Recreate container - data persists!\ndocker run -d --name postgres \\\n  -e POSTGRES_PASSWORD=secret \\\n  -v pgdata:/var/lib/postgresql/data \\\n  postgres:15-alpine\n\n# Verify data exists\ndocker exec -it postgres psql -U postgres -c \"\\l\"",
+        "tags": ["volumes", "persistence", "bind-mounts", "data-management"],
+        "interview_questions": [
+          "What's the difference between named volumes and bind mounts?",
+          "Where does Docker store named volumes on the host?",
+          "What happens to volume data when you run `docker rm`?",
+          "How do you backup a Docker volume?"
+        ],
+        "commands_to_practice": [
+          "docker volume create my-volume",
+          "docker run -v my-volume:/data alpine",
+          "docker run -v $(pwd):/app alpine # bind mount",
+          "docker volume ls",
+          "docker volume inspect my-volume",
+          "docker volume rm my-volume"
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Container Lifecycle & Restart Policies",
+        "difficulty": "Beginner",
+        "fileType": "docker-run",
+        "description": "Practice complete container lifecycle: create, start, stop, restart, pause, unpause, kill. Configure restart policies (no, always, unless-stopped, on-failure) and test behavior when containers crash or system reboots.",
+        "hints": [
+          "Restart policies: --restart=no|always|unless-stopped|on-failure[:max-retries]",
+          "Use `docker pause` to freeze a running container",
+          "Kill sends SIGKILL, stop sends SIGTERM then SIGKILL",
+          "Test crash behavior with exit codes"
+        ],
+        "solution": "# Run with restart policy\ndocker run -d --name webapp \\\n  --restart=unless-stopped \\\n  nginx:alpine\n\n# Lifecycle commands\ndocker pause webapp      # Freeze the container\ndocker unpause webapp    # Resume\ndocker stop webapp       # Graceful shutdown (SIGTERM)\ndocker start webapp      # Start stopped container\ndocker restart webapp    # Stop then start\ndocker kill webapp       # Force kill (SIGKILL)\n\n# Test on-failure restart\ndocker run -d --name crasher \\\n  --restart=on-failure:3 \\\n  alpine sh -c \"echo 'Starting...'; sleep 5; exit 1\"\n\n# Watch restarts\ndocker logs -f crasher\ndocker inspect crasher | grep -A 5 RestartCount",
+        "tags": ["lifecycle", "restart-policy", "docker-stop", "docker-start"],
+        "interview_questions": [
+          "What's the difference between `stop` and `kill`?",
+          "When would you use `unless-stopped` vs `always`?",
+          "What happens to containers with restart=always after system reboot?",
+          "How does Docker handle the grace period during shutdown?"
+        ],
+        "commands_to_practice": [
+          "docker run --restart=always nginx",
+          "docker pause container_name",
+          "docker unpause container_name",
+          "docker stop -t 30 container_name",
+          "docker kill -s SIGUSR1 container_name",
+          "docker inspect container_name | grep RestartPolicy"
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Interactive vs Detached Containers",
+        "difficulty": "Beginner",
+        "fileType": "docker-run",
+        "description": "Practice running containers interactively (-it), in detached mode (-d), and attaching/detaching from running containers. Execute commands in running containers with `docker exec`.",
+        "hints": [
+          "-it combines -i (interactive) and -t (TTY/terminal)",
+          "-d runs in background (detached)",
+          "Use Ctrl+P, Ctrl+Q to detach without stopping",
+          "`docker attach` reconnects to main process",
+          "`docker exec -it` runs new process in running container"
+        ],
+        "solution": "# Interactive container with shell\ndocker run -it --name interactive ubuntu bash\n# Inside container: run commands, exit to stop\n\n# Detached container\ndocker run -d --name background nginx:alpine\n\n# Attach to running container\ndocker attach background\n# Detach: Ctrl+P, Ctrl+Q (leaves it running)\n\n# Execute command in running container\ndocker exec -it background sh\n# Now you have a shell while nginx keeps running\n\n# Non-interactive exec\ndocker exec background ls /usr/share/nginx/html\n\n# Run temporary container (--rm removes after exit)\ndocker run -it --rm alpine sh",
+        "tags": ["interactive", "detached", "docker-exec", "docker-attach"],
+        "interview_questions": [
+          "What's the difference between `docker attach` and `docker exec`?",
+          "Why use `--rm` flag? When is it useful?",
+          "What happens when you exit from `docker attach` vs `docker exec`?",
+          "How do you keep a container running in detached mode?"
+        ],
+        "commands_to_practice": [
+          "docker run -it alpine sh",
+          "docker run -d --name web nginx",
+          "docker attach web",
+          "docker exec -it web bash",
+          "docker run -it --rm ubuntu bash",
+          "docker logs -f container_name"
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Working with Docker Registry",
+        "difficulty": "Intermediate",
+        "fileType": "docker-push",
+        "description": "Tag and push custom images to Docker Hub. Pull specific versions. Practice semantic versioning. Set up a local Docker registry for private images. Understand image naming conventions.",
+        "hints": [
+          "Tag format: [registry/][username/]name[:tag]",
+          "Use multiple tags: latest, version number, git commit SHA",
+          "Login with `docker login`",
+          "Default registry is Docker Hub (docker.io)",
+          "Run local registry with official registry:2 image"
+        ],
+        "solution": "# Build and tag image\ndocker build -t myapp:1.0.0 .\n\n# Add multiple tags\ndocker tag myapp:1.0.0 myapp:latest\ndocker tag myapp:1.0.0 username/myapp:1.0.0\ndocker tag myapp:1.0.0 username/myapp:latest\n\n# Login to Docker Hub\ndocker login\n\n# Push to Docker Hub\ndocker push username/myapp:1.0.0\ndocker push username/myapp:latest\n\n# Pull specific version\ndocker pull username/myapp:1.0.0\n\n# Run local registry\ndocker run -d -p 5000:5000 --name registry registry:2\n\n# Tag for local registry\ndocker tag myapp:1.0.0 localhost:5000/myapp:1.0.0\n\n# Push to local registry\ndocker push localhost:5000/myapp:1.0.0",
+        "tags": ["registry", "docker-hub", "tagging", "versioning"],
+        "interview_questions": [
+          "What's the difference between image name and tag?",
+          "Why use multiple tags for the same image?",
+          "How do you implement semantic versioning with Docker images?",
+          "What are the security considerations when using public registries?",
+          "How would you implement image scanning in your CI/CD pipeline?"
+        ],
+        "commands_to_practice": [
+          "docker login",
+          "docker tag source_image:tag target_image:tag",
+          "docker push username/image:tag",
+          "docker pull username/image:tag",
+          "docker search ubuntu",
+          "docker logout"
         ]
       },
       {
@@ -277,7 +425,99 @@ export const dockerConcepts = [
           "docker network disconnect my-network container2",
           "docker network inspect my-network"
         ]
-      }
+      },
+      {
+        "id": 15,
+        "title": "Image Inspection & Troubleshooting",
+        "difficulty": "Intermediate",
+        "fileType": "docker-inspect",
+        "description": "Master image and container inspection commands. Analyze image layers, find which layer added what files, debug why images are large. Use dive tool or docker history for deep analysis.",
+        "hints": [
+          "Use `docker history` to see layer sizes",
+          "Use `docker inspect` for detailed JSON metadata",
+          "Install dive tool for interactive layer exploration",
+          "Look for large layers and optimize them",
+          "Check for unnecessary files in layers"
+        ],
+        "solution": "# Inspect image layers and sizes\ndocker history nginx:alpine\n\n# Get detailed image information\ndocker inspect nginx:alpine\n\n# Format specific fields\ndocker inspect --format='{{.Config.Env}}' nginx:alpine\ndocker inspect --format='{{.Config.ExposedPorts}}' nginx:alpine\n\n# Compare image sizes\ndocker images nginx\n\n# Find large files in image\ndocker run --rm nginx:alpine du -sh /*\n\n# Save image to tar for analysis\ndocker save nginx:alpine -o nginx.tar\ntar -xvf nginx.tar\n\n# Using dive (install separately)\ndive nginx:alpine\n\n# Check container details\ndocker inspect container_name | jq '.[] | {State, RestartCount, LogPath}'",
+        "tags": ["inspection", "debugging", "docker-history", "optimization"],
+        "interview_questions": [
+          "How do you identify which layer is causing an image to be large?",
+          "What's the difference between image size and virtual size?",
+          "How can you see what files a specific layer added?",
+          "What's the purpose of `docker inspect`'s --format flag?",
+          "How would you debug a container that keeps crashing?"
+        ],
+        "commands_to_practice": [
+          "docker history image_name",
+          "docker inspect image_name",
+          "docker inspect --format='{{json .Config}}' image_name | jq",
+          "docker images --filter dangling=true",
+          "docker system df",
+          "docker save image_name -o backup.tar"
+        ]
+      },
+      {
+        "id": 16,
+        "title": "Container Resource Monitoring & Stats",
+        "difficulty": "Intermediate",
+        "fileType": "docker-stats",
+        "description": "Monitor container resource usage in real-time. Set up alerts for high CPU/memory usage. Export metrics for external monitoring. Understand cgroups and how Docker enforces limits.",
+        "hints": [
+          "`docker stats` shows live metrics",
+          "Use --format to customize output",
+          "Combine with resource limits for testing",
+          "Export to monitoring tools (Prometheus, Grafana)",
+          "Check /sys/fs/cgroup for cgroup info"
+        ],
+        "solution": "# Real-time stats for all containers\ndocker stats\n\n# Stats for specific containers\ndocker stats nginx redis\n\n# Format output as table\ndocker stats --format \"table {{.Name}}\\t{{.CPUPerc}}\\t{{.MemUsage}}\\t{{.NetIO}}\"\n\n# One-time snapshot (no streaming)\ndocker stats --no-stream\n\n# Monitor container with limits\ndocker run -d --name limited \\\n  --memory=512m \\\n  --cpus=1.0 \\\n  nginx:alpine\n\ndocker stats limited\n\n# Check cgroup settings\ndocker inspect limited | grep -A 10 \"Memory\"\n\n# Export metrics (script example)\nwhile true; do\n  docker stats --no-stream --format '{{.Name}},{{.CPUPerc}},{{.MemUsage}}' >> metrics.csv\n  sleep 5\ndone",
+        "tags": ["monitoring", "docker-stats", "metrics", "performance"],
+        "interview_questions": [
+          "What metrics does `docker stats` provide?",
+          "How do you integrate Docker metrics with external monitoring?",
+          "What's the difference between memory usage and memory limit?",
+          "How can you monitor historical container performance?",
+          "What are the limitations of docker stats for production monitoring?"
+        ],
+        "commands_to_practice": [
+          "docker stats",
+          "docker stats --no-stream",
+          "docker stats --format 'table {{.Container}}\\t{{.CPUPerc}}'",
+          "docker top container_name",
+          "docker events",
+          "docker inspect -f '{{.State.Status}}' container_name"
+        ]
+      },
+      {
+        "id": 17,
+        "title": "Multi-Architecture Images",
+        "difficulty": "Intermediate",
+        "fileType": "Dockerfile",
+        "description": "Build Docker images that work on multiple architectures (amd64, arm64). Use buildx for multi-platform builds. Understand manifest lists and platform-specific base images.",
+        "hints": [
+          "Enable buildx: docker buildx create --use",
+          "Build for multiple platforms: --platform linux/amd64,linux/arm64",
+          "Use manifest lists for automatic platform selection",
+          "Test on different architectures with QEMU",
+          "Consider platform-specific optimizations"
+        ],
+        "solution": "# Create and use buildx builder\ndocker buildx create --name multiarch --use\ndocker buildx inspect --bootstrap\n\n# Simple Dockerfile\nFROM --platform=$BUILDPLATFORM golang:1.21-alpine AS builder\nARG TARGETPLATFORM\nARG BUILDPLATFORM\nWORKDIR /app\nCOPY . .\nRUN go build -o app .\n\nFROM alpine:latest\nCOPY --from=builder /app/app /usr/local/bin/\nCMD [\"app\"]\n\n# Build for multiple platforms\ndocker buildx build \\\n  --platform linux/amd64,linux/arm64,linux/arm/v7 \\\n  -t username/myapp:latest \\\n  --push \\\n  .\n\n# Inspect manifest\ndocker buildx imagetools inspect username/myapp:latest",
+        "tags": ["multi-arch", "buildx", "arm64", "cross-platform"],
+        "interview_questions": [
+          "What's a manifest list and why is it important?",
+          "How does Docker choose the right image for your platform?",
+          "What are the challenges of multi-architecture builds?",
+          "When would you need platform-specific optimizations?",
+          "How do you test multi-arch images without native hardware?"
+        ],
+        "commands_to_practice": [
+          "docker buildx create --use",
+          "docker buildx build --platform linux/amd64,linux/arm64 -t image .",
+          "docker buildx imagetools inspect image",
+          "docker manifest inspect image",
+          "docker pull --platform linux/arm64 image"
+        ]
+      },
     ],
     "bonus_challenge": {
       "title": "Troubleshooting Production Container",
@@ -396,6 +636,129 @@ export const dockerConcepts = [
           "docker run ping-app -c 1 8.8.8.8",
           "docker run --entrypoint sh alpine",
           "docker inspect image-name | grep -A 5 Entrypoint"
+        ]
+      },
+      {
+        "id": 9,
+        "title": "WORKDIR Best Practices",
+        "difficulty": "Beginner",
+        "fileType": "Dockerfile",
+        "description": "Create a Dockerfile demonstrating proper WORKDIR usage. Show how WORKDIR creates directories, affects relative paths in subsequent instructions, and impacts container entry points. Build a simple Node.js app with proper directory structure.",
+        "hints": [
+          "WORKDIR creates the directory if it doesn't exist",
+          "All subsequent RUN, CMD, COPY, ADD use WORKDIR as base",
+          "Use absolute paths for WORKDIR for clarity",
+          "Avoid using 'cd' in RUN commands - use WORKDIR instead",
+          "WORKDIR persists across build stages"
+        ],
+        "solution": "FROM node:18-alpine\n\n# Bad practice: using cd in RUN\n# RUN cd /app && npm install  # DON'T DO THIS\n\n# Good practice: use WORKDIR\nWORKDIR /app\n\n# Copy package files (relative to /app)\nCOPY package*.json ./\n\n# Install dependencies (runs in /app)\nRUN npm ci --only=production\n\n# Create additional directories\nWORKDIR /app/logs\nWORKDIR /app/uploads\n\n# Go back to main app directory\nWORKDIR /app\n\n# Copy application source\nCOPY . .\n\n# Create non-root user and set ownership\nRUN addgroup -g 1001 appgroup && \\\n    adduser -D -u 1001 -G appgroup appuser && \\\n    chown -R appuser:appgroup /app\n\nUSER appuser\n\nEXPOSE 3000\n\n# CMD will execute in /app directory\nCMD [\"node\", \"server.js\"]",
+        "tags": ["WORKDIR", "directory-structure", "best-practices"],
+        "interview_questions": [
+          "What happens if WORKDIR points to a non-existent directory?",
+          "Why is using WORKDIR better than RUN cd?",
+          "How does WORKDIR affect COPY and ADD instructions?",
+          "Can you use relative paths with WORKDIR?",
+          "How do multiple WORKDIR commands interact?"
+        ],
+        "commands_to_practice": [
+          "docker build -t workdir-demo .",
+          "docker run --rm workdir-demo pwd",
+          "docker run --rm workdir-demo ls -la",
+          "docker exec -it container_name pwd",
+          "docker inspect workdir-demo | grep WorkingDir"
+        ]
+      },
+      {
+        "id": 10,
+        "title": "RUN Command Optimization Patterns",
+        "difficulty": "Beginner",
+        "fileType": "Dockerfile",
+        "description": "Master RUN instruction optimization by creating a Dockerfile that demonstrates command chaining, apt-get best practices, cleaning up in the same layer, and using backslashes for readability. Compare optimized vs non-optimized approaches.",
+        "hints": [
+          "Chain commands with && to keep them in one layer",
+          "Always run apt-get update && apt-get install in same RUN",
+          "Clean up apt cache with rm -rf /var/lib/apt/lists/*",
+          "Use \\ for multi-line readability",
+          "Sort packages alphabetically for maintainability"
+        ],
+        "solution": "FROM ubuntu:22.04\n\n# ❌ BAD: Multiple RUN commands create unnecessary layers\n# RUN apt-get update\n# RUN apt-get install -y curl\n# RUN apt-get install -y vim\n# RUN apt-get install -y git\n# Each RUN = new layer = larger image\n\n# ❌ BAD: Not cleaning up in same layer\n# RUN apt-get update && apt-get install -y curl vim git\n# RUN rm -rf /var/lib/apt/lists/*  # This doesn't reduce previous layer size!\n\n# ✅ GOOD: Single RUN with cleanup\nRUN apt-get update && apt-get install -y --no-install-recommends \\\n    curl \\\n    git \\\n    vim \\\n    wget \\\n  && rm -rf /var/lib/apt/lists/* \\\n  && apt-get clean\n\n# ✅ GOOD: Installing build deps, using them, then removing\nRUN apt-get update && apt-get install -y --no-install-recommends \\\n    build-essential \\\n    python3-dev \\\n  && pip3 install some-package \\\n  && apt-get purge -y --auto-remove build-essential python3-dev \\\n  && rm -rf /var/lib/apt/lists/*\n\n# ✅ GOOD: Creating multiple directories in one RUN\nRUN mkdir -p /app/data /app/logs /app/config \\\n  && chmod 755 /app/data\n\n# ✅ GOOD: Setting up user in one layer\nRUN groupadd -r appgroup -g 1001 \\\n  && useradd -r -g appgroup -u 1001 appuser \\\n  && mkdir -p /home/appuser \\\n  && chown -R appuser:appgroup /home/appuser\n\nWORKDIR /app\n\nCMD [\"/bin/bash\"]",
+        "tags": ["RUN", "layer-optimization", "apt-get", "cleanup"],
+        "interview_questions": [
+          "Why chain commands with && instead of multiple RUN instructions?",
+          "What's the purpose of --no-install-recommends flag?",
+          "Why must apt-get update and install be in the same RUN?",
+          "What happens if you clean up apt cache in a separate RUN?",
+          "How do you temporarily install build dependencies?",
+          "What's the difference between apt-get clean and rm -rf /var/lib/apt/lists/*?"
+        ],
+        "commands_to_practice": [
+          "docker build -t run-optimization .",
+          "docker history run-optimization",
+          "docker images | grep run-optimization",
+          "docker run --rm run-optimization apt list --installed",
+          "docker build --no-cache -t run-optimization ."
+        ]
+      },
+      {
+        "id": 11,
+        "title": "Base Image Selection Strategy",
+        "difficulty": "Beginner",
+        "fileType": "Dockerfile",
+        "description": "Create three variants of the same Python application using different base images: debian (full), alpine, and distroless. Compare image sizes, build times, and compatibility. Understand trade-offs of each approach.",
+        "hints": [
+          "Full images: better compatibility, larger size",
+          "Alpine: smallest size, potential libc issues",
+          "Distroless: security-focused, no shell",
+          "Consider your dependencies and requirements",
+          "Measure final image sizes with docker images"
+        ],
+        "solution": "# Variant 1: Debian-based (full compatibility)\nFROM python:3.11-slim AS debian-variant\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nCMD [\"python\", \"app.py\"]\n# Size: ~150MB, Full package ecosystem, Easy debugging\n\n# Variant 2: Alpine-based (minimal size)\nFROM python:3.11-alpine AS alpine-variant\nWORKDIR /app\n\n# Install build dependencies for packages with C extensions\nRUN apk add --no-cache --virtual .build-deps \\\n    gcc \\\n    musl-dev \\\n    linux-headers \\\n  && apk add --no-cache libffi-dev openssl-dev\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt \\\n  && apk del .build-deps\n\nCOPY . .\nCMD [\"python\", \"app.py\"]\n# Size: ~50MB, Potential compatibility issues, Slower builds\n\n# Variant 3: Distroless (security-focused)\nFROM python:3.11-slim AS builder\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --user --no-cache-dir -r requirements.txt\n\nFROM gcr.io/distroless/python3-debian11\nWORKDIR /app\nCOPY --from=builder /root/.local /root/.local\nCOPY . .\nENV PATH=/root/.local/bin:$PATH\nCMD [\"app.py\"]\n# Size: ~60MB, No shell (harder debugging), Better security\n\n# Comparison script\n# docker build --target debian-variant -t app:debian .\n# docker build --target alpine-variant -t app:alpine .\n# docker build -t app:distroless .\n# docker images | grep app",
+        "tags": ["base-images", "alpine", "distroless", "debian", "optimization"],
+        "interview_questions": [
+          "What are the main differences between debian, alpine, and distroless images?",
+          "When would you choose alpine over debian-slim?",
+          "What are the security advantages of distroless images?",
+          "What problems can arise with alpine-based Python images?",
+          "How do you debug a distroless container that has no shell?",
+          "What's the difference between python:3.11 and python:3.11-slim?"
+        ],
+        "commands_to_practice": [
+          "docker images --format 'table {{.Repository}}:{{.Tag}}\\t{{.Size}}'",
+          "docker run --rm app:alpine sh -c 'ldd /usr/local/bin/python'",
+          "docker run --rm app:distroless # No shell available",
+          "docker history app:debian --no-trunc",
+          "docker scout cves app:alpine"
+        ]
+      },
+      {
+        "id": 12,
+        "title": "LABEL and Metadata Best Practices",
+        "difficulty": "Beginner",
+        "fileType": "Dockerfile",
+        "description": "Create a well-documented Docker image using LABEL instructions following OCI image spec standards. Include version info, maintainer details, source URLs, and build metadata. Implement label schemas for CI/CD integration.",
+        "hints": [
+          "Use OCI standard labels (org.opencontainers.image.*)",
+          "Include version, revision, created date",
+          "Add maintainer and documentation URLs",
+          "Use ARG to inject dynamic values",
+          "Keep labels organized and readable"
+        ],
+        "solution": "FROM node:18-alpine\n\n# Build arguments for dynamic metadata\nARG BUILD_DATE\nARG VCS_REF\nARG VERSION=1.0.0\n\n# OCI Standard Labels\nLABEL org.opencontainers.image.title=\"My Node.js Application\" \\\n      org.opencontainers.image.description=\"A sample Node.js microservice for demo purposes\" \\\n      org.opencontainers.image.version=\"${VERSION}\" \\\n      org.opencontainers.image.created=\"${BUILD_DATE}\" \\\n      org.opencontainers.image.revision=\"${VCS_REF}\" \\\n      org.opencontainers.image.authors=\"DevOps Team <devops@example.com>\" \\\n      org.opencontainers.image.vendor=\"Example Corp\" \\\n      org.opencontainers.image.licenses=\"MIT\" \\\n      org.opencontainers.image.url=\"https://example.com\" \\\n      org.opencontainers.image.source=\"https://github.com/example/myapp\" \\\n      org.opencontainers.image.documentation=\"https://docs.example.com/myapp\"\n\n# Custom labels for internal tooling\nLABEL com.example.department=\"engineering\" \\\n      com.example.team=\"backend\" \\\n      com.example.environment=\"production\" \\\n      com.example.release-id=\"${VERSION}\" \\\n      com.example.build-tool=\"docker-buildx\"\n\nWORKDIR /app\n\nCOPY package*.json ./\nRUN npm ci --only=production\n\nCOPY . .\n\nEXPOSE 3000\n\nCMD [\"node\", \"server.js\"]",
+        "tags": ["LABEL", "metadata", "OCI", "documentation"],
+        "interview_questions": [
+          "Why use OCI-compliant label names?",
+          "How do labels help with image management in production?",
+          "What's the difference between LABEL and ENV?",
+          "How do you query image labels at runtime?",
+          "What information should always be in image labels?",
+          "How do labels integrate with container orchestration platforms?"
+        ],
+        "commands_to_practice": [
+          "docker build --build-arg VERSION=2.0.0 --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg VCS_REF=$(git rev-parse --short HEAD) -t myapp .",
+          "docker inspect myapp | jq '.[0].Config.Labels'",
+          "docker images --filter 'label=org.opencontainers.image.version=1.0.0'",
+          "docker inspect --format='{{json .Config.Labels}}' myapp | jq",
+          "docker image inspect myapp -f '{{.Config.Labels}}'"
         ]
       },
       {
@@ -593,6 +956,198 @@ export const dockerConcepts = [
           "docker buildx create --use",
           "docker buildx build --platform linux/amd64,linux/arm64 -t app .",
           "docker system df"
+        ]
+      },
+      {
+        "id": 13,
+        "title": "HEALTHCHECK Implementation",
+        "difficulty": "Intermediate",
+        "fileType": "Dockerfile",
+        "description": "Implement comprehensive health checks for different application types: HTTP service, database, queue processor. Configure appropriate intervals, timeouts, and retry logic. Demonstrate how orchestrators use health check status.",
+        "hints": [
+          "HEALTHCHECK CMD runs inside the container",
+          "Use --interval, --timeout, --start-period, --retries",
+          "Exit code 0 = healthy, 1 = unhealthy",
+          "Install curl/wget if needed for HTTP checks",
+          "Consider startup time with --start-period"
+        ],
+        "solution": "# Example 1: HTTP API Health Check\nFROM node:18-alpine AS api-service\n\n# Install curl for health checks\nRUN apk add --no-cache curl\n\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY . .\n\n# Comprehensive health check\nHEALTHCHECK --interval=30s \\\n            --timeout=10s \\\n            --start-period=40s \\\n            --retries=3 \\\n  CMD curl -f http://localhost:3000/health || exit 1\n\nEXPOSE 3000\nCMD [\"node\", \"server.js\"]\n\n# Example 2: Database Health Check\nFROM postgres:15-alpine AS database\n\nHEALTHCHECK --interval=10s \\\n            --timeout=5s \\\n            --start-period=30s \\\n            --retries=5 \\\n  CMD pg_isready -U postgres || exit 1\n\n# Example 3: Python Worker with Custom Check\nFROM python:3.11-slim AS worker\n\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\n\n# Custom health check script\nCOPY healthcheck.py /healthcheck.py\nRUN chmod +x /healthcheck.py\n\nHEALTHCHECK --interval=30s \\\n            --timeout=10s \\\n            --start-period=60s \\\n            --retries=3 \\\n  CMD python /healthcheck.py || exit 1\n\nCMD [\"python\", \"worker.py\"]\n\n# healthcheck.py example:\n\"\"\"\nimport sys\nimport redis\nimport psycopg2\n\ntry:\n    # Check Redis connection\n    r = redis.Redis(host='redis', port=6379)\n    r.ping()\n    \n    # Check database connection\n    conn = psycopg2.connect(\"dbname=mydb user=user host=db\")\n    conn.close()\n    \n    # Check if worker is processing\n    # Add your custom logic here\n    \n    sys.exit(0)  # Healthy\nexcept Exception as e:\n    print(f\"Health check failed: {e}\")\n    sys.exit(1)  # Unhealthy\n\"\"\"",
+        "tags": ["HEALTHCHECK", "monitoring", "reliability"],
+        "interview_questions": [
+          "What's the difference between liveness and readiness probes?",
+          "How do orchestrators like Kubernetes use HEALTHCHECK?",
+          "What happens when a container fails health checks?",
+          "Why use --start-period? When would you increase it?",
+          "What's the best way to implement a health check endpoint?",
+          "How do health checks affect container restarts?"
+        ],
+        "commands_to_practice": [
+          "docker run -d --name api api-service",
+          "docker inspect api | grep -A 20 Healthcheck",
+          "watch -n 1 'docker inspect api | grep Health -A 10'",
+          "docker ps # Shows health status",
+          "docker events --filter event=health_status",
+          "docker inspect --format='{{.State.Health.Status}}' api"
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Multi-stage Build for Java Spring Boot",
+        "difficulty": "Intermediate",
+        "fileType": "Dockerfile",
+        "description": "Create an optimized multi-stage Dockerfile for a Java Spring Boot application using Maven. First stage builds the JAR, second stage runs it. Implement layer caching for Maven dependencies and minimize final image size using JRE instead of JDK.",
+        "hints": [
+          "Use maven:3.9-eclipse-temurin for build stage",
+          "Copy pom.xml first and run dependency download for caching",
+          "Use eclipse-temurin:17-jre-alpine for runtime",
+          "Extract layers from Spring Boot JAR for better caching",
+          "Run as non-root user"
+        ],
+        "solution": "# Build stage\nFROM maven:3.9-eclipse-temurin-17 AS builder\n\nWORKDIR /app\n\n# Copy pom.xml and download dependencies (cached layer)\nCOPY pom.xml .\nRUN mvn dependency:go-offline -B\n\n# Copy source and build\nCOPY src ./src\nRUN mvn clean package -DskipTests -B\n\n# Extract JAR layers for better caching\nRUN mkdir -p target/dependency && \\\n    cd target/dependency && \\\n    jar -xf ../*.jar\n\n# Runtime stage\nFROM eclipse-temurin:17-jre-alpine\n\n# Add necessary packages\nRUN apk add --no-cache curl\n\n# Create non-root user\nRUN addgroup -g 1001 appgroup && \\\n    adduser -D -u 1001 -G appgroup appuser\n\nWORKDIR /app\n\n# Copy layers from builder (in order of change frequency)\nCOPY --from=builder /app/target/dependency/BOOT-INF/lib ./lib\nCOPY --from=builder /app/target/dependency/META-INF ./META-INF\nCOPY --from=builder /app/target/dependency/BOOT-INF/classes ./\n\n# Alternatively, copy the entire JAR\n# COPY --from=builder /app/target/*.jar app.jar\n\nRUN chown -R appuser:appgroup /app\nUSER appuser\n\n# JVM tuning for containers\nENV JAVA_OPTS=\"-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -XX:+UseG1GC\"\n\nEXPOSE 8080\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \\\n  CMD curl -f http://localhost:8080/actuator/health || exit 1\n\n# Run with extracted layers\nENTRYPOINT [\"java\", \"-cp\", \".:lib/*\", \"com.example.Application\"]\n\n# Or run with JAR\n# ENTRYPOINT [\"java\", \"-jar\", \"app.jar\"]",
+        "tags": ["java", "spring-boot", "maven", "multi-stage", "jvm"],
+        "interview_questions": [
+          "Why separate dependency download from source compilation?",
+          "What's the benefit of extracting JAR layers?",
+          "Why use JRE instead of JDK in production?",
+          "What do the JVM container flags do?",
+          "How does Maven dependency caching work in Docker?",
+          "What's the difference between ADD and COPY for JAR files?",
+          "How do you handle Spring Boot actuator in containers?"
+        ],
+        "commands_to_practice": [
+          "docker build -t spring-app .",
+          "docker run -d -p 8080:8080 -m 512m --name spring-app spring-app",
+          "docker logs -f spring-app",
+          "docker exec spring-app java -XX:+PrintFlagsFinal -version | grep -i container",
+          "docker stats spring-app",
+          "curl http://localhost:8080/actuator/health"
+        ]
+      },
+      {
+        "id": 15,
+        "title": "SHELL Instruction and Shell Forms",
+        "difficulty": "Intermediate",
+        "fileType": "Dockerfile",
+        "description": "Understand and use the SHELL instruction to change the default shell. Demonstrate differences between shell form and exec form for RUN, CMD, and ENTRYPOINT. Show Windows vs Linux shell handling and PowerShell usage.",
+        "hints": [
+          "Default shell on Linux: [\"/bin/sh\", \"-c\"]",
+          "SHELL changes default for subsequent instructions",
+          "Exec form doesn't invoke a shell",
+          "Shell form enables variable expansion and piping",
+          "Consider signal handling differences"
+        ],
+        "solution": "# Example 1: Changing shell for RUN commands\nFROM ubuntu:22.04\n\n# Default shell is /bin/sh -c\nRUN echo \"Using default shell: $0\"\n\n# Change to bash for better features\nSHELL [\"/bin/bash\", \"-c\"]\n\nRUN echo \"Now using bash: $0\" && \\\n    [[ \"$0\" == *\"bash\"* ]] && echo \"Confirmed!\"\n\n# Use bash-specific features\nRUN source /etc/profile && \\\n    echo \"Process substitution: \" <(echo \"test\")\n\n# Example 2: Demonstrating exec vs shell form\nFROM alpine:latest\n\n# Shell form - invokes /bin/sh\nRUN echo \"This runs in shell: ps shows /bin/sh\"\n\n# Exec form - no shell\nRUN [\"echo\", \"Direct execution without shell\"]\n\n# Shell form with variable expansion\nENV NAME=World\nRUN echo \"Hello, $NAME\"  # Works\n\n# Exec form - no variable expansion\nRUN [\"echo\", \"Hello, $NAME\"]  # Prints literally \"Hello, $NAME\"\n\n# To use variables in exec form\nRUN [\"sh\", \"-c\", \"echo Hello, $NAME\"]  # Works\n\n# Example 3: Signal handling differences\nFROM node:18-alpine\n\nWORKDIR /app\nCOPY server.js .\n\n# ❌ Shell form - signals go to shell, not node\n# CMD node server.js\n\n# ✅ Exec form - signals go directly to node\nCMD [\"node\", \"server.js\"]\n\n# Example 4: Windows container with PowerShell\n# FROM mcr.microsoft.com/windows/servercore:ltsc2022\n# SHELL [\"powershell\", \"-Command\"]\n# RUN Write-Host \"Using PowerShell\"\n# RUN Get-ChildItem Env:",
+        "tags": ["SHELL", "exec-form", "shell-form", "signals", "bash"],
+        "interview_questions": [
+          "What's the difference between shell form and exec form?",
+          "How does SHELL instruction affect subsequent RUN commands?",
+          "Why does signal handling differ between shell and exec forms?",
+          "When would you need to change the default shell?",
+          "How do environment variables work in exec vs shell form?",
+          "What happens to signals in a shell form CMD?"
+        ],
+        "commands_to_practice": [
+          "docker build -t shell-demo .",
+          "docker run --rm shell-demo",
+          "docker run --rm shell-demo sh -c 'echo $0'",
+          "docker run shell-demo # Test signal handling with Ctrl+C",
+          "docker inspect shell-demo | grep -A 3 Cmd"
+        ]
+      },
+      {
+        "id": 16,
+        "title": "USER Instruction and Permissions",
+        "difficulty": "Intermediate",
+        "fileType": "Dockerfile",
+        "description": "Master the USER instruction by creating containers that run as non-root users. Handle file permissions, understand UID/GID mapping, and implement security best practices. Demonstrate issues that arise from incorrect permissions.",
+        "hints": [
+          "Create user with specific UID/GID for consistency",
+          "Set ownership before switching to USER",
+          "Use numeric UIDs for better portability",
+          "Consider volume mount permissions",
+          "Root may still be needed for specific tasks"
+        ],
+        "solution": "FROM python:3.11-slim\n\n# Create user early in the build\nRUN groupadd -r -g 1001 appgroup && \\\n    useradd -r -u 1001 -g appgroup -m -d /home/appuser -s /bin/bash appuser\n\nWORKDIR /app\n\n# Install dependencies as root\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Copy application files\nCOPY --chown=appuser:appgroup . .\n\n# Create directories that the app will write to\nRUN mkdir -p /app/logs /app/data && \\\n    chown -R appuser:appgroup /app/logs /app/data\n\n# Demonstrate permission handling\nRUN ls -la /app\n\n# Switch to non-root user\nUSER appuser\n\n# Verify current user\nRUN whoami && id\n\n# ❌ This would fail - no permission to install packages\n# RUN apt-get update && apt-get install -y vim\n\n# ✅ This works - writing to owned directory\nRUN echo \"test\" > /app/logs/build.log\n\nEXPOSE 8000\n\n# Alternative: Using numeric UID (better for k8s)\n# USER 1001:1001\n\n# For volumes, consider runtime permissions:\n# docker run -v /host/data:/app/data --user 1001:1001 app\n\nCMD [\"python\", \"app.py\"]\n\n# Example with specific capabilities\n# If you need to bind to privileged ports (<1024)\n# Keep USER root, or use:\n# RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/python3.11\n# USER appuser",
+        "tags": ["USER", "permissions", "security", "non-root"],
+        "interview_questions": [
+          "Why run containers as non-root users?",
+          "What problems can arise with USER and volume mounts?",
+          "How do you handle files that need root permissions?",
+          "What's the difference between numeric and named UIDs?",
+          "How do USER permissions interact with COPY --chown?",
+          "What are Linux capabilities and when would you use them?"
+        ],
+        "commands_to_practice": [
+          "docker build -t user-demo .",
+          "docker run --rm user-demo id",
+          "docker run --rm user-demo whoami",
+          "docker run --rm user-demo ls -la /app",
+          "docker run --user 0 user-demo whoami",
+          "docker run -v $(pwd)/data:/app/data user-demo ls -la /app/data"
+        ]
+      },
+      {
+        "id": 17,
+        "title": "ONBUILD Triggers for Template Images",
+        "difficulty": "Advanced",
+        "fileType": "Dockerfile",
+        "description": "Create a base image with ONBUILD instructions that automatically configure child images. Build a reusable Node.js base image that handles npm install, copying source code, and setting up the environment for any child image.",
+        "hints": [
+          "ONBUILD executes in child images, not the base",
+          "Use for creating template/parent images",
+          "Common in language-specific base images",
+          "Be careful with ONBUILD - can make debugging harder",
+          "Document ONBUILD triggers clearly"
+        ],
+        "solution": "# Parent Image: node-base with ONBUILD\n# File: Dockerfile.base\nFROM node:18-alpine\n\n# Install common dependencies\nRUN apk add --no-cache dumb-init curl\n\n# Set up working directory\nWORKDIR /app\n\n# ONBUILD triggers - execute when this image is used as FROM\nONBUILD COPY package*.json ./\nONBUILD RUN npm ci --only=production && npm cache clean --force\nONBUILD COPY . .\nONBUILD RUN if [ -f \"postinstall.sh\" ]; then sh postinstall.sh; fi\n\n# Create user\nRUN addgroup -g 1001 nodejs && \\\n    adduser -D -u 1001 -G nodejs nodejs && \\\n    chown -R nodejs:nodejs /app\n\nUSER nodejs\n\nEXPOSE 3000\n\n# Default command (can be overridden)\nCMD [\"dumb-init\", \"node\", \"index.js\"]\n\n# Build parent: docker build -f Dockerfile.base -t node-base .\n\n# ============================================\n# Child Image: Specific application\n# File: Dockerfile\nFROM node-base\n\n# ONBUILD triggers fire here automatically:\n# 1. COPY package*.json ./\n# 2. RUN npm ci --only=production\n# 3. COPY . .\n# 4. RUN postinstall.sh if exists\n\n# Child can add its own customization\nENV NODE_ENV=production\nEXPOSE 8080\n\n# Override default command if needed\nCMD [\"dumb-init\", \"node\", \"server.js\"]\n\n# Build child: docker build -t my-app .\n# The child Dockerfile is minimal but gets all ONBUILD behavior\n\n# ============================================\n# Example: Python ONBUILD base\n# FROM python:3.11-slim\n# WORKDIR /app\n# ONBUILD COPY requirements.txt .\n# ONBUILD RUN pip install --no-cache-dir -r requirements.txt\n# ONBUILD COPY . .\n# CMD [\"python\", \"app.py\"]",
+        "tags": ["ONBUILD", "base-images", "templates", "inheritance"],
+        "interview_questions": [
+          "What is ONBUILD and when should you use it?",
+          "Why is ONBUILD considered an anti-pattern by some?",
+          "How do you debug issues caused by ONBUILD triggers?",
+          "What's the order of execution for ONBUILD instructions?",
+          "Can ONBUILD instructions be nested?",
+          "How do you view ONBUILD triggers in an image?",
+          "What are alternatives to ONBUILD for creating reusable base images?"
+        ],
+        "commands_to_practice": [
+          "docker build -f Dockerfile.base -t node-base .",
+          "docker inspect node-base | grep -A 10 OnBuild",
+          "docker history node-base",
+          "docker build -t my-app .",
+          "docker history my-app | grep -i onbuild"
+        ]
+      },
+      {
+        "id": 18,
+        "title": "Advanced .dockerignore Patterns",
+        "difficulty": "Intermediate",
+        "fileType": ".dockerignore",
+        "description": "Master .dockerignore patterns for different project types. Create ignore files for monorepos, multi-language projects, and complex directory structures. Understand pattern matching, negation, and performance optimization.",
+        "hints": [
+          "Use ! to negate patterns (include exceptions)",
+          "Patterns are relative to build context",
+          "Order matters - later rules override earlier ones",
+          "Use **/ for recursive matching",
+          "Test with docker build --no-cache"
+        ],
+        "solution": "# .dockerignore for Full-Stack Monorepo\n\n# Git and version control\n.git\n.gitignore\n.gitattributes\n.github/\n\n# Documentation\n*.md\n!README.md  # Exception: keep README.md\nDOCS/\ndocs/\n\n# IDE and editor files\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n.DS_Store\n\n# Environment and secrets\n.env\n.env.*\n!.env.example  # Keep example env file\n*.key\n*.pem\n*.p12\n\n# Dependencies\nnode_modules/\n**/node_modules/\nvenv/\n.venv/\n**/__pycache__/\n*.pyc\n*.pyo\n*.egg-info/\nvendor/\n\n# Build outputs\nbuild/\ndist/\n*.log\n*.tgz\n*.zip\n\n# Testing\n.coverage\nhtmlcov/\n.pytest_cache/\njest.config.js\n*.test.js\n*.spec.js\n**/__tests__/\n**/__mocks__/\ncoverage/\n\n# Temporary files\n*.tmp\n*.temp\n.cache/\n\n# Database files\n*.db\n*.sqlite\n*.sqlite3\n\n# CI/CD\n.gitlab-ci.yml\n.travis.yml\nJenkinsfile\n.circleci/\n\n# Docker files (don't copy into themselves)\nDockerfile*\ndocker-compose*.yml\n.dockerignore\n\n# OS specific\nThumbs.db\n.DS_Store\n\n# Project specific\nscripts/local-dev/\ntools/\n\n# Large media (copy selectively)\n*.mp4\n*.mov\n*.avi\n\n# Keep specific files despite broader ignore\n!scripts/entrypoint.sh\n!config/production.json\n\n# ============================================\n# Example 2: Python-specific\n\n# Byte-compiled / optimized / DLL files\n__pycache__/\n*.py[cod]\n*$py.class\n\n# Distribution / packaging\n.Python\nbuild/\ndevelop-eggs/\ndist/\ndownloads/\neggs/\n.eggs/\nlib/\nlib64/\nparts/\nsdist/\nvar/\nwheels/\n*.egg-info/\n.installed.cfg\n*.egg\n\n# Testing\n.tox/\n.coverage\n.coverage.*\n.cache\nnosetests.xml\ncoverage.xml\n*.cover\n.pytest_cache/\n\n# Environments\n.env\n.venv\nenv/\nvenv/\nENV/\nenv.bak/\nvenv.bak/\n\n# ============================================\n# Example 3: Node.js specific\n\nnode_modules/\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\n.pnpm-debug.log*\n.yarn/\n\n# Testing\ncoverage/\n.nyc_output\n\n# Production\nbuild/\ndist/\n.next/\nout/\n\n# Misc\n.DS_Store\n*.pem\n\n# Local env files\n.env*.local",
+        "tags": [".dockerignore", "patterns", "optimization", "monorepo"],
+        "interview_questions": [
+          "How does .dockerignore affect build context size?",
+          "What's the difference between .gitignore and .dockerignore?",
+          "How do you use ! for pattern negation?",
+          "What happens if .dockerignore doesn't exist?",
+          "How do you debug what files are being sent to build context?",
+          "Can you have multiple .dockerignore files?",
+          "How does .dockerignore impact build speed and layer caching?"
+        ],
+        "commands_to_practice": [
+          "docker build --progress=plain -t app . 2>&1 | grep 'Sending build context'",
+          "docker build --no-cache -t app .",
+          "du -sh . # Check directory size before build",
+          "docker system df -v",
+          "tar -czf - . | docker build -t app -"
         ]
       }
     ],
@@ -1872,471 +2427,471 @@ export const dockerConcepts = [
     ]
   },
   // ── 6 · Multi-stage Builds & Optimisation ───────────────────────────────────
-{
-  "id": 6,
-  "level": "Advanced",
-  "icon": "Wrench",
-  "title": "Multi-stage Builds & Optimisation",
-  "summary": "Dramatically reduce image sizes with multi-stage builds, .dockerignore, minimal base images (alpine, distroless, scratch) and BuildKit cache mounts. Master image optimization techniques for production deployments.",
-  "topics": [
-    "Multi-stage Dockerfile syntax",
-    "Choosing a minimal base image",
-    ".dockerignore best practices",
-    "BuildKit & cache mounts",
-    "Scanning images with Trivy",
-    "Layer optimization strategies",
-    "Distroless & scratch images",
-    "Build arguments & labels",
-    "Security scanning & SBOM",
-    "CI/CD optimization patterns"
-  ],
-  "exercises": [
-    {
-      "id": 1,
-      "title": "Multi-Stage React Application",
-      "difficulty": "Intermediate",
-      "fileType": "Dockerfile",
-      "description": "Create an optimized multi-stage Dockerfile for a React application. The build stage should compile the React app, and the final stage should serve the static files using Nginx with gzip compression and security headers. Optimize layer caching and minimize final image size.",
-      "hints": [
-        "Use node:20-alpine for build stage to keep it small",
-        "Copy package.json first to leverage layer caching",
-        "Use npm ci instead of npm install for reproducible builds",
-        "Add .dockerignore to exclude node_modules and build artifacts",
-        "Use nginx:alpine for serving static files",
-        "Configure nginx with custom config for gzip and caching",
-        "Use multi-stage to exclude build dependencies from final image"
-      ],
-      "solution": "# syntax=docker/dockerfile:1\n\n# Build stage\nFROM node:20-alpine AS builder\n\n# Set working directory\nWORKDIR /app\n\n# Copy package files first for better caching\nCOPY package.json package-lock.json ./\n\n# Install dependencies (using ci for reproducible builds)\nRUN npm ci --only=production\n\n# Copy source code\nCOPY . .\n\n# Build the application\nRUN npm run build\n\n# Production stage\nFROM nginx:alpine\n\n# Install necessary packages for security\nRUN apk add --no-cache curl && \\\n    rm -rf /var/cache/apk/*\n\n# Copy custom nginx configuration\nCOPY nginx.conf /etc/nginx/nginx.conf\nCOPY security-headers.conf /etc/nginx/conf.d/security-headers.conf\n\n# Copy built assets from builder stage\nCOPY --from=builder /app/build /usr/share/nginx/html\n\n# Create non-root user for nginx\nRUN adduser -D -H -u 1000 -s /bin/sh www-data && \\\n    chown -R www-data:www-data /usr/share/nginx/html\n\n# Switch to non-root user\nUSER www-data\n\n# Expose port\nEXPOSE 80\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\\n    CMD curl -f http://localhost/ || exit 1\n\n# Run nginx\nCMD [\"nginx\", \"-g\", \"daemon off;\"]\n\n# nginx.conf\nuser www-data;\nworker_processes auto;\nerror_log /dev/stdout warn;\npid /tmp/nginx.pid;\n\nevents {\n    worker_connections 1024;\n}\n\nhttp {\n    include /etc/nginx/mime.types;\n    default_type application/octet-stream;\n\n    # Logging to stdout/stderr\n    access_log /dev/stdout;\n    error_log /dev/stdout;\n\n    # Gzip compression\n    gzip on;\n    gzip_vary on;\n    gzip_min_length 1024;\n    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;\n\n    # Security headers\n    add_header X-Frame-Options \"SAMEORIGIN\" always;\n    add_header X-Content-Type-Options \"nosniff\" always;\n    add_header X-XSS-Protection \"1; mode=block\" always;\n\n    server {\n        listen 80;\n        server_name localhost;\n        root /usr/share/nginx/html;\n        index index.html;\n\n        # Cache static assets\n        location ~* \\.(jpg|jpeg|png|gif|ico|css|js)$ {\n            expires 1y;\n            add_header Cache-Control \"public, immutable\";\n        }\n\n        # Handle SPA routing\n        location / {\n            try_files $uri $uri/ /index.html;\n        }\n    }\n}\n\n# .dockerignore\nnode_modules\nnpm-debug.log\n.git\n.gitignore\n.env\n.env.*\n.DS_Store\nbuild\ncoverage\n.nyc_output\n*.log\nDockerfile\n.dockerignore\nREADME.md",
-      "tags": ["multi-stage", "react", "nginx", "optimization", "security"],
-      "interview_questions": [
-        "Why use multi-stage builds for React applications?",
-        "What's the difference between `npm install` and `npm ci` in Docker builds?",
-        "How do you optimize layer caching for Node.js dependencies?",
-        "What are the benefits of using nginx:alpine over a full nginx image?",
-        "How would you implement caching strategies for static assets?",
-        "What security headers should be added to production nginx?",
-        "Why run nginx as non-root user in production?"
-      ],
-      "commands_to_practice": [
-        "docker build -t react-app .",
-        "docker build --no-cache -t react-app .",
-        "docker images | grep react-app",
-        "docker history react-app",
-        "docker run -d -p 80:80 --name react-app react-app",
-        "curl -I http://localhost",
-        "docker exec react-app ps aux"
-      ]
-    },
-    {
-      "id": 2,
-      "title": "Optimized Go Binary with Scratch",
-      "difficulty": "Advanced",
-      "fileType": "Dockerfile",
-      "description": "Create an ultra-minimal Docker image for a Go application using multi-stage builds with scratch base. Optimize the binary size with compiler flags, handle timezone data, and ensure proper signal handling for graceful shutdown.",
-      "hints": [
-        "Use golang:1.22-alpine as builder",
-        "Set CGO_ENABLED=0 for static binary",
-        "Use -ldflags to strip debug info",
-        "Consider using upx to compress binary",
-        "Handle timezone data with zoneinfo",
-        "Implement proper signal handling"
-      ],
-      "solution": "# syntax=docker/dockerfile:1\n\n# Build stage\nFROM golang:1.22-alpine AS builder\n\n# Install build dependencies\nRUN apk add --no-cache git ca-certificates tzdata upx\n\n# Set build arguments\nARG VERSION=1.0.0\nARG BUILD_DATE\nARG VCS_REF\n\nWORKDIR /app\n\n# Copy go mod files first for caching\nCOPY go.mod go.sum ./\nRUN go mod download\n\n# Copy source code\nCOPY . .\n\n# Build static binary with optimizations\nRUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \\\n    -ldflags=\"-w -s \\\n        -X main.version=${VERSION} \\\n        -X main.buildDate=${BUILD_DATE} \\\n        -X main.gitCommit=${VCS_REF}\" \\\n    -a -installsuffix cgo \\\n    -o /app/app \\\n    ./cmd/server\n\n# Compress binary (optional, reduces size but increases startup time)\nRUN upx --best --lzma /app/app\n\n# Final stage - scratch\nFROM scratch\n\n# Copy timezone data from builder\nCOPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo\n\n# Copy CA certificates for HTTPS requests\nCOPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/\n\n# Copy the binary\nCOPY --from=builder /app/app /app\n\n# Copy static assets if any\nCOPY --from=builder /app/static /static\n\n# Expose port\nEXPOSE 8080\n\n# Set user (scratch doesn't have user management, but we can set numeric ID)\nUSER 1000:1000\n\n# Health check (requires curl, so skip for scratch or use minimal busybox)\n# Alternative: Use a minimal busybox image if health check is needed\n\n# Run the application\nENTRYPOINT [\"/app\"]\nCMD [\"--help\"]\n\n# Alternative with busybox (if health check needed)\n# FROM busybox:glibc\n# COPY --from=builder /app/app /app\n# EXPOSE 8080\n# HEALTHCHECK --interval=30s --timeout=3s CMD wget --spider http://localhost:8080/health\n# ENTRYPOINT [\"/app\"]\n\n# Multi-platform build\n# docker buildx build --platform linux/amd64,linux/arm64 -t go-app:latest .\n\n# Security scanning\n# trivy image --severity HIGH,CRITICAL go-app:latest\n\n# Image size comparison\n# docker images | grep go-app",
-      "tags": ["scratch", "go", "static-binary", "ultra-minimal", "upx"],
-      "interview_questions": [
-        "Why use scratch as base image? What are the trade-offs?",
-        "What's the purpose of CGO_ENABLED=0?",
-        "How do -ldflags=\"-w -s\" affect binary size?",
-        "What are the challenges of debugging scratch-based containers?",
-        "How do you handle timezone data in scratch images?",
-        "What's the impact of using UPX compression?",
-        "How do you implement health checks for scratch images?"
-      ],
-      "commands_to_practice": [
-        "docker build -t go-app .",
-        "docker build --build-arg VERSION=2.0.0 -t go-app:v2 .",
-        "docker images | grep go-app",
-        "docker run --rm go-app --version",
-        "docker history go-app",
-        "docker run --rm --entrypoint sh go-app",
-        "trivy image --severity HIGH go-app"
-      ]
-    },
-    {
-      "id": 3,
-      "title": "BuildKit Cache Mount Optimization",
-      "difficulty": "Advanced",
-      "fileType": "Dockerfile",
-      "description": "Implement advanced BuildKit cache mounts for multiple package managers (npm, pip, apt) to dramatically speed up CI/CD builds. Optimize layer caching and reduce build times by 50-80%.",
-      "hints": [
-        "Enable BuildKit with `DOCKER_BUILDKIT=1`",
-        "Use cache mounts for package managers",
-        "Implement mount type=cache for npm, pip, apt",
-        "Use bind mounts for sharing between stages",
-        "Implement cache persistence across builds"
-      ],
-      "solution": "# syntax=docker/dockerfile:1\n\n# Multi-stage with cache mounts\nFROM node:20-alpine AS node-base\nWORKDIR /app\n\n# Cache npm packages\nCOPY package*.json ./\nRUN --mount=type=cache,target=/root/.npm \\\n    npm ci --only=production\n\nFROM python:3.11-slim AS python-base\nWORKDIR /app\n\n# Cache pip packages\nCOPY requirements.txt ./\nRUN --mount=type=cache,target=/root/.cache/pip \\\n    pip install --no-cache-dir -r requirements.txt\n\nFROM ubuntu:22.04 AS apt-base\n\n# Cache apt packages\nRUN --mount=type=cache,target=/var/cache/apt,sharing=locked \\\n    --mount=type=cache,target=/var/lib/apt,sharing=locked \\\n    apt-get update && \\\n    apt-get install -y --no-install-recommends \\\n        curl \\\n        wget \\\n        git \\\n        build-essential && \\\n    rm -rf /var/lib/apt/lists/*\n\n# Full application with multiple caches\nFROM python:3.11-slim AS final\n\n# Enable BuildKit\nENV DOCKER_BUILDKIT=1\n\nWORKDIR /app\n\n# Copy package files\nCOPY package.json package-lock.json ./\nCOPY requirements.txt ./\n\n# Install dependencies with cache mounts\nRUN --mount=type=cache,target=/root/.npm \\\n    --mount=type=cache,target=/root/.cache/pip \\\n    npm ci --only=production && \\\n    pip install --no-cache-dir -r requirements.txt\n\n# Copy application code\nCOPY . .\n\n# Use cache mount for build step\nRUN --mount=type=cache,target=/app/.cache \\\n    --mount=type=bind,source=.,target=/app,ro \\\n    npm run build\n\n# Use secret mount for private repositories\nRUN --mount=type=secret,id=github_token \\\n    --mount=type=cache,target=/root/.cache/pip \\\n    GITHUB_TOKEN=$(cat /run/secrets/github_token) \\\n    pip install git+https://oauth2:${GITHUB_TOKEN}@github.com/private/repo.git\n\nEXPOSE 8000\n\nCMD [\"gunicorn\", \"app:app\", \"-b\", \"0.0.0.0:8000\"]\n\n# docker-compose with BuildKit\n# docker-compose.yml\nversion: '3.8'\n\nservices:\n  app:\n    build:\n      context: .\n      dockerfile: Dockerfile\n      args:\n        DOCKER_BUILDKIT: 1\n    environment:\n      DOCKER_BUILDKIT: 1\n    volumes:\n      - npm-cache:/root/.npm\n      - pip-cache:/root/.cache/pip\n\nvolumes:\n  npm-cache:\n  pip-cache:\n\n# Build script with cache optimization\n#!/bin/bash\n# build-with-cache.sh\n\n# Enable BuildKit\nexport DOCKER_BUILDKIT=1\n\n# Build with cache mounts\ndocker build \\\n  --progress=plain \\\n  --build-arg BUILDKIT_INLINE_CACHE=1 \\\n  --cache-from myapp:latest \\\n  -t myapp:latest \\\n  .\n\n# Use buildx for better caching\ndocker buildx build \\\n  --cache-to type=registry,ref=myregistry/myapp:cache,mode=max \\\n  --cache-from type=registry,ref=myregistry/myapp:cache \\\n  -t myapp:latest \\\n  .\n\n# Monitor cache usage\ndocker system df\ndocker builder du\n\n# Clean old cache\ndocker builder prune --keep-storage=10GB\n\n# BuildKit configuration\n# /etc/docker/daemon.json\n{\n  \"features\": {\n    \"buildkit\": true\n  },\n  \"builder\": {\n    \"gc\": {\n      \"enabled\": true,\n      \"defaultKeepStorage\": \"10GB\"\n    }\n  }\n}",
-      "tags": ["BuildKit", "cache-mount", "optimization", "ci-cd"],
-      "interview_questions": [
-        "What is BuildKit and how does it improve Docker builds?",
-        "How do cache mounts differ from layer caching?",
-        "What's the difference between `--mount=type=cache` and `--mount=type=bind`?",
-        "How do you share cache between CI/CD pipeline runs?",
-        "What are the security implications of using cache mounts?",
-        "How do you implement multi-stage builds with BuildKit cache mounts?",
-        "What's the impact of `sharing=locked` vs `sharing=private`?"
-      ],
-      "commands_to_practice": [
-        "DOCKER_BUILDKIT=1 docker build -t app .",
-        "docker build --progress=plain -t app .",
-        "docker builder prune",
-        "docker system df",
-        "docker buildx create --use",
-        "docker buildx build --cache-to type=local,dest=/tmp/cache ."
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Distroless Images for Java Applications",
-      "difficulty": "Advanced",
-      "fileType": "Dockerfile",
-      "description": "Create a secure, minimal Docker image for a Java Spring Boot application using Google's distroless Java base images. Implement multi-stage builds, optimize JVM settings, and ensure the image is production-ready.",
-      "hints": [
-        "Use eclipse-temurin as builder for compilation",
-        "Use gcr.io/distroless/java17-debian11 as final base",
-        "Configure JVM memory limits for containers",
-        "Add health checks with exec probes",
-        "Handle signal propagation properly"
-      ],
-      "solution": "# syntax=docker/dockerfile:1\n\n# Build stage\nFROM eclipse-temurin:17-jdk-alpine AS builder\n\nWORKDIR /app\n\n# Copy maven wrapper and pom files\nCOPY mvnw .\nCOPY .mvn .mvn\nCOPY pom.xml .\n\n# Download dependencies (cached layer)\nRUN ./mvnw dependency:go-offline -B\n\n# Copy source code\nCOPY src src\n\n# Build the application\nRUN ./mvnw package -DskipTests -B\n\n# Extract layers for better caching with distroless\nRUN java -Djarmode=layertools -jar target/*.jar extract\n\n# Final stage - Distroless\nFROM gcr.io/distroless/java17-debian11\n\n# Set environment variables for JVM\nENV JAVA_OPTS=\"-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom\"\n\n# Copy layers from builder\nCOPY --from=builder /app/dependencies/ ./\nCOPY --from=builder /app/spring-boot-loader/ ./\nCOPY --from=builder /app/snapshot-dependencies/ ./\nCOPY --from=builder /app/application/ ./\n\n# Create non-root user (distroless doesn't have useradd, but runs as non-root by default)\n# Distroless images already run as non-root user (65532)\n\n# Expose port\nEXPOSE 8080\n\n# Health check using exec probe (distroless has no shell, so use exec form)\n# Note: Health check requires binary, so we rely on container orchestration\n\n# Run the application\nENTRYPOINT [\"java\", \"org.springframework.boot.loader.JarLauncher\"]\n\n# Alternative with custom JVM options\n# ENTRYPOINT [\"java\", \"-XX:+UseContainerSupport\", \"-XX:MaxRAMPercentage=75.0\", \"org.springframework.boot.loader.JarLauncher\"]\n\n# For debugging (if needed)\n# docker run --entrypoint /busybox/sh -it myapp\n\n# Multi-architecture build\n# docker buildx build --platform linux/amd64,linux/arm64 -t java-app:latest .\n\n# Security scanning\ndocker scan java-app:latest\ntrivy image --severity HIGH,CRITICAL java-app:latest\n\n# Docker Compose with JVM tuning\nversion: '3.8'\n\nservices:\n  app:\n    build: .\n    image: java-app:latest\n    ports:\n      - \"8080:8080\"\n    environment:\n      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0\n      - SPRING_PROFILES_ACTIVE=production\n    deploy:\n      resources:\n        limits:\n          memory: 512M\n          cpus: '1'\n        reservations:\n          memory: 256M\n          cpus: '0.5'\n\n# JVM optimization script\n#!/bin/bash\n# jvm-optimize.sh\n\necho \"Testing JVM memory usage...\"\n\n# Run with different memory limits\nfor mem in 128m 256m 512m 1g; do\n  echo \"Testing with memory limit: $mem\"\n  docker run --rm \\\n    --memory=$mem \\\n    java-app:latest \\\n    java -XX:+PrintFlagsFinal -version | grep MaxHeapSize\ndone\n\n# Calculate optimal heap size\nMAX_MEMORY=$(docker run --rm java-app:latest cat /sys/fs/cgroup/memory/memory.limit_in_bytes)\nHEAP_SIZE=$((MAX_MEMORY * 75 / 100))\necho \"Recommended heap size: $HEAP_SIZE bytes\"",
-      "tags": ["distroless", "java", "spring-boot", "jvm", "security"],
-      "interview_questions": [
-        "What are distroless images and why are they more secure?",
-        "How do distroless images differ from Alpine-based images?",
-        "What are the trade-offs of using distroless images?",
-        "How do you debug distroless containers?",
-        "What JVM flags are important for containerized Java apps?",
-        "How do you implement health checks for distroless images?",
-        "What's the purpose of Spring Boot's layertools?"
-      ],
-      "commands_to_practice": [
-        "docker build -t java-app .",
-        "docker images | grep java-app",
-        "docker run --rm -d -p 8080:8080 --name java-app java-app",
-        "docker exec -it java-app /bin/sh",
-        "docker run --entrypoint /busybox/sh -it java-app",
-        "docker inspect java-app | grep -A 10 \"Config\""
-      ]
-    },
-    {
-      "id": 5,
-      "title": "Layer Optimization & .dockerignore Mastery",
-      "difficulty": "Advanced",
-      "fileType": ".dockerignore",
-      "description": "Master Docker layer optimization and .dockerignore patterns. Create a comprehensive .dockerignore file, optimize layer ordering, and reduce image size by 90%. Implement strategies for monorepos and large projects.",
-      "hints": [
-        "Order Dockerfile layers from least to most frequently changing",
-        "Use .dockerignore to exclude unnecessary files",
-        "Combine RUN commands to reduce layers",
-        "Use multi-stage builds to exclude build tools",
-        "Implement build-specific ignores for different environments"
-      ],
-      "solution": "# .dockerignore - Comprehensive version\n# Git\n.git/\n.gitignore\n.gitattributes\n.gitmodules\n\n# Version control\n.svn/\n.hg/\n\n# CI/CD\n.github/\n.gitlab/\n.ci/\n.travis.yml\ncircle.yml\n\n# Dependencies\nnode_modules/\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\npackage-lock.json\nbower_components/\n\n# Python\n__pycache__/\n*.py[cod]\n*$py.class\n*.so\n.Python\nenv/\nvenv/\n.venv/\n*.egg-info/\ndist/\nbuild/\n*.egg\n\n# Java\n*.class\n*.jar\n*.war\n*.ear\n*.log\n.idea/\ntarget/\nout/\n\n# Go\n*.exe\n*.exe~\n*.dll\n*.so\n*.dylib\n*.test\n*.out\nvendor/\n\n# Node\n*.log\n.pnpm-debug.log\nyarn-debug.log*\nyarn-error.log*\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n.DS_Store\n\n# Environment\n.env\n.env.*\n.env.local\n.env.production\n\n# Build outputs\ndist/\nbuild/\ncoverage/\n.nyc_output/\n*.min.js\n*.min.css\n\n# Docker\nDockerfile*\n.dockerignore\ndocker-compose*.yml\ndocker-compose*.yaml\n\n# Testing\ncoverage/\n.nyc_output/\ntest/\ntests/\n*.test.js\n*.spec.js\n*.test.ts\n*.spec.ts\n__tests__/\n\n# Logs\nlogs/\n*.log\nnpm-debug.log*\n\n# OS\n.DS_Store\nThumbs.db\nDesktop.ini\n\n# Temporary files\n*.tmp\n*.temp\n*.cache\n\n# Secrets\n*.pem\n*.key\n*.crt\n*.secret\nsecrets/\n\n# Documentation\nREADME.md\nREADME.rst\nCONTRIBUTING.md\nCHANGELOG.md\nLICENSE\nLICENSE.txt\n*.md\n!.github/README.md\n\n# Media (if not needed)\n*.psd\n*.ai\n*.sketch\n*.mp4\n*.mp3\n*.mov\n\n# Optimized Dockerfile with layer strategy\n# syntax=docker/dockerfile:1\n\n# Leverage build cache with optimal layer order\nFROM node:20-alpine AS deps\nWORKDIR /app\n\n# Layer 1: Copy only package files (changes rarely)\nCOPY package.json package-lock.json ./\n\n# Layer 2: Install dependencies (cached unless package files change)\nRUN --mount=type=cache,target=/root/.npm \\\n    npm ci --only=production\n\n# Layer 3: Copy source (changes frequently)\nFROM deps AS builder\nCOPY . .\nRUN npm run build\n\n# Layer 4: Final minimal image\nFROM nginx:alpine\n\n# Copy from builder\nCOPY --from=builder /app/build /usr/share/nginx/html\n\n# Layer optimization verification script\n#!/bin/bash\n# analyze-layers.sh\n\nIMAGE_NAME=${1:-myapp:latest}\n\necho \"=== Analyzing layers for $IMAGE_NAME ===\"\ndocker history $IMAGE_NAME --no-trunc --format \"table {{.CreatedBy}}\\t{{.Size}}\"\n\necho \"\"\necho \"=== Layer sizes ===\"\ndocker history $IMAGE_NAME --format \"{{.Size}}\" | awk '{sum+=$1} END {print \"Total: \" sum}'\n\necho \"\"\necho \"=== Cache efficiency ===\"\ndocker build --no-cache -t test:latest . 2>&1 | grep -c \"CACHED\"\n\n# Find largest files in image\ndocker run --rm --entrypoint sh $IMAGE_NAME -c \"find / -type f -size +10M 2>/dev/null | xargs ls -lh 2>/dev/null\"\n\n# Optimize image with docker-slim\n# docker-slim build myapp\n\n# Check for unnecessary files\n# docker run --rm -it myapp ls -la /usr/share/doc\n\n# Remove unnecessary packages\n# Use apt-get purge instead of remove\n\n# Combine RUN commands\n# Before\nRUN apt-get update\nRUN apt-get install -y package1\nRUN apt-get install -y package2\nRUN rm -rf /var/lib/apt/lists/*\n\n# After\nRUN apt-get update && \\\n    apt-get install -y --no-install-recommends package1 package2 && \\\n    apt-get clean && \\\n    rm -rf /var/lib/apt/lists/*\n\n# Use --no-install-recommends for apt\nRUN apt-get install -y --no-install-recommends curl\n\n# Clean package manager caches in same layer\nRUN pip install --no-cache-dir package\n\n# Use specific versions instead of latest\nFROM node:20-alpine\nFROM python:3.11-slim\n\n# Build script with optimization\n#!/bin/bash\n# optimize-build.sh\n\n# Build with compression\ndocker build -t myapp:latest .\n\n# Compare with original\ndocker images | grep myapp\n\n# Save and compress image\ndocker save myapp:latest | gzip > myapp.tar.gz\n\n# Analyze with dive\ndive myapp:latest\n\n# Check for vulnerabilities\ndocker scan myapp:latest\n\n# Multi-stage with .dockerignore verification\ncat .dockerignore | while read pattern; do\n  echo \"Checking pattern: $pattern\"\n  find . -path \"$pattern\" -type f | head -5\ndone",
-      "tags": [".dockerignore", "layer-optimization", "caching", "image-size"],
-      "interview_questions": [
-        "What's the optimal order of instructions in a Dockerfile for caching?",
-        "How does .dockerignore affect build context and cache?",
-        "What's the difference between COPY and ADD for optimization?",
-        "How do you reduce the number of layers in an image?",
-        "What tools can you use to analyze image layers?",
-        "How do you identify and remove unnecessary files from images?",
-        "What's the impact of combining RUN commands on caching?"
-      ],
-      "commands_to_practice": [
-        "docker history myapp:latest",
-        "docker history --no-trunc myapp:latest",
-        "docker build --no-cache -t test .",
-        "docker images --digests",
-        "dive myapp:latest",
-        "docker run --rm myapp du -sh /",
-        "docker system df"
-      ]
-    },
-    {
-      "id": 6,
-      "title": "Security Scanning & SBOM Generation",
-      "difficulty": "Advanced",
-      "fileType": "ci-script",
-      "description": "Implement comprehensive security scanning for Docker images using Trivy, Grype, and Snyk. Generate SBOM (Software Bill of Materials) and integrate security checks into CI/CD pipeline. Implement vulnerability management strategy.",
-      "hints": [
-        "Use Trivy for vulnerability scanning",
-        "Generate SBOM with Syft or Trivy",
-        "Implement fail-fast on critical vulnerabilities",
-        "Create vulnerability reporting dashboard",
-        "Set up automated patching workflow"
-      ],
-      "solution": "# .github/workflows/security-scan.yml\nname: Security Scan\n\non:\n  push:\n    branches: [ main, develop ]\n  pull_request:\n    branches: [ main ]\n  schedule:\n    - cron: '0 2 * * *'  # Daily scan\n\njobs:\n  security-scan:\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Checkout code\n        uses: actions/checkout@v3\n      \n      - name: Build Docker image\n        run: docker build -t myapp:latest .\n      \n      - name: Run Trivy vulnerability scanner\n        uses: aquasecurity/trivy-action@master\n        with:\n          image-ref: myapp:latest\n          format: 'sarif'\n          output: 'trivy-results.sarif'\n          severity: 'CRITICAL,HIGH'\n      \n      - name: Upload Trivy results to GitHub Security\n        uses: github/codeql-action/upload-sarif@v2\n        with:\n          sarif_file: 'trivy-results.sarif'\n      \n      - name: Generate SBOM with Syft\n        run: |\n          syft myapp:latest -o spdx-json > sbom.json\n      \n      - name: Upload SBOM\n        uses: actions/upload-artifact@v3\n        with:\n          name: sbom\n          path: sbom.json\n      \n      - name: Run Snyk security scan\n        uses: snyk/actions/docker@master\n        env:\n          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}\n        with:\n          image: myapp:latest\n          args: --file=Dockerfile\n\n# Security scanning script\n#!/bin/bash\n# security-scan.sh\n\nIMAGE_NAME=${1:-myapp:latest}\n\necho \"=== Security Scanning for $IMAGE_NAME ===\"\n\n# 1. Trivy scan\necho \"Running Trivy scan...\"\ntrivy image --severity HIGH,CRITICAL --exit-code 1 --ignore-unfixed $IMAGE_NAME\n\n# 2. Generate SBOM\necho \"Generating SBOM...\"\ntrivy image --format cyclonedx --output sbom.json $IMAGE_NAME\n\n# 3. Grype scan\necho \"Running Grype scan...\"\ngrype $IMAGE_NAME --fail-on high\n\n# 4. Docker Scout\necho \"Running Docker Scout...\"\ndocker scout quickview $IMAGE_NAME\ndocker scout cves $IMAGE_NAME\n\n# 5. Check for outdated base images\necho \"Checking base image...\"\ndocker inspect $IMAGE_NAME | grep -A 5 \"Image\"\n\n# 6. Check for exposed secrets\necho \"Checking for secrets...\"\ndocker run --rm $IMAGE_NAME env | grep -i -E '(password|secret|key|token)' || echo \"No secrets found\"\n\n# 7. Check for unnecessary packages\necho \"Checking unnecessary packages...\"\ndocker run --rm $IMAGE_NAME which curl wget vim 2>/dev/null && echo \"WARNING: Development tools found\"\n\n# 8. Check for running as root\necho \"Checking user...\"\ndocker run --rm $IMAGE_NAME whoami | grep root && echo \"WARNING: Running as root\"\n\n# Dockerfile with security labels\n# syntax=docker/dockerfile:1\n\nFROM node:20-alpine AS builder\n\n# Add security labels\nLABEL maintainer=\"security@example.com\" \\\n      org.opencontainers.image.title=\"MyApp\" \\\n      org.opencontainers.image.version=\"1.0.0\" \\\n      org.opencontainers.image.created=\"2024-01-01T00:00:00Z\" \\\n      org.opencontainers.image.source=\"https://github.com/example/app\" \\\n      org.opencontainers.image.vendor=\"Example Corp\" \\\n      security.updated=\"2024-01-01T00:00:00Z\" \\\n      security.scanned=\"true\"\n\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY . .\n\nFROM node:20-alpine\n\n# Copy security labels from builder\nCOPY --from=builder /app /app\n\n# Run as non-root\nUSER node\n\nEXPOSE 3000\n\nCMD [\"node\", \"server.js\"]\n\n# Vulnerability management dashboard\n#!/usr/bin/env python3\n# vuln-dashboard.py\n\nimport json\nimport subprocess\nfrom datetime import datetime\n\ndef scan_image(image_name):\n    \"\"\"Run security scan and return results\"\"\"\n    result = subprocess.run(\n        ['trivy', 'image', '--format', 'json', image_name],\n        capture_output=True,\n        text=True\n    )\n    return json.loads(result.stdout)\n\ndef generate_report(vulns):\n    \"\"\"Generate HTML report\"\"\"\n    html = f\"\"\"\n    <html>\n    <head><title>Security Scan Report</title></head>\n    <body>\n    <h1>Vulnerability Report</h1>\n    <p>Generated: {datetime.now()}</p>\n    \n    <h2>Critical Vulnerabilities</h2>\n    <ul>\n    \"\"\"\n    \n    for vuln in vulns.get('Results', []):\n        for v in vuln.get('Vulnerabilities', []):\n            if v['Severity'] == 'CRITICAL':\n                html += f\"\"\"\n                <li>\n                    <strong>{v['VulnerabilityID']}</strong>: {v['Title']}<br>\n                    Package: {v['PkgName']}<br>\n                    Severity: {v['Severity']}<br>\n                    Fixed Version: {v.get('FixedVersion', 'Not available')}<br>\n                </li>\n                \"\"\"\n    \n    html += \"\"\"\n    </ul>\n    </body>\n    </html>\n    \"\"\"\n    \n    with open('scan-report.html', 'w') as f:\n        f.write(html)\n\n# CI/CD integration\n# GitLab CI example\n# .gitlab-ci.yml\nstages:\n  - build\n  - scan\n  - deploy\n\nvariables:\n  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA\n\nbuild:\n  stage: build\n  script:\n    - docker build -t $DOCKER_IMAGE .\n\nsecurity-scan:\n  stage: scan\n  script:\n    - trivy image --severity HIGH,CRITICAL --exit-code 1 $DOCKER_IMAGE\n    - syft $DOCKER_IMAGE -o spdx-json > sbom.json\n  artifacts:\n    paths:\n      - sbom.json\n\nsnyk-scan:\n  stage: scan\n  script:\n    - snyk container test $DOCKER_IMAGE --file=Dockerfile\n  allow_failure: true\n\ndeploy:\n  stage: deploy\n  script:\n    - docker push $DOCKER_IMAGE\n  only:\n    - main",
-      "tags": ["security", "scanning", "SBOM", "vulnerability", "trivy"],
-      "interview_questions": [
-        "What is SBOM and why is it important?",
-        "How do you integrate security scanning into CI/CD?",
-        "What's the difference between Trivy, Grype, and Snyk?",
-        "How do you prioritize vulnerability fixes?",
-        "What's the process for patching base images?",
-        "How do you ensure compliance with security standards?",
-        "What's the role of vulnerability management in DevOps?"
-      ],
-      "commands_to_practice": [
-        "trivy image myapp:latest",
-        "trivy image --severity HIGH,CRITICAL myapp:latest",
-        "syft myapp:latest -o spdx-json > sbom.json",
-        "docker scout quickview myapp:latest",
-        "docker scan myapp:latest",
-        "grype myapp:latest"
-      ]
-    },
-    {
-      "id": 7,
-      "title": "CI/CD Pipeline Optimization",
-      "difficulty": "Advanced",
-      "fileType": "ci-script",
-      "description": "Design and implement an optimized CI/CD pipeline for Docker builds with layer caching, parallel builds, and deployment strategies. Achieve sub-2-minute build times for large applications.",
-      "hints": [
-        "Use Docker BuildKit with cache mounts",
-        "Implement remote build cache",
-        "Use parallel stages for testing",
-        "Implement image tagging strategy",
-        "Use buildx for multi-platform builds"
-      ],
-      "solution": "# .github/workflows/ci-cd.yml\nname: CI/CD Pipeline\n\non:\n  push:\n    branches: [ main, develop ]\n    tags:\n      - 'v*'\n  pull_request:\n    branches: [ main ]\n\nenv:\n  REGISTRY: ghcr.io\n  IMAGE_NAME: ${{ github.repository }}\n\njobs:\n  build-and-test:\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Checkout\n        uses: actions/checkout@v3\n      \n      - name: Set up Docker Buildx\n        uses: docker/setup-buildx-action@v2\n        with:\n          driver-opts: |\n            image=moby/buildkit:master\n            network=host\n      \n      - name: Cache Docker layers\n        uses: actions/cache@v3\n        with:\n          path: /tmp/.buildx-cache\n          key: ${{ runner.os }}-buildx-${{ github.sha }}\n          restore-keys: |\n            ${{ runner.os }}-buildx-\n      \n      - name: Build and test\n        uses: docker/build-push-action@v4\n        with:\n          context: .\n          target: test\n          load: true\n          tags: myapp:test\n          cache-from: type=local,src=/tmp/.buildx-cache\n          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max\n      \n      - name: Run tests\n        run: |\n          docker run --rm myapp:test npm test\n      \n      - name: Build production image\n        if: github.event_name != 'pull_request'\n        uses: docker/build-push-action@v4\n        with:\n          context: .\n          target: production\n          push: false\n          tags: myapp:prod\n          cache-from: type=local,src=/tmp/.buildx-cache\n      \n      - name: Security scan\n        if: github.event_name != 'pull_request'\n        run: |\n          trivy image --severity HIGH,CRITICAL --exit-code 1 myapp:prod\n      \n      - name: Move cache\n        run: |\n          rm -rf /tmp/.buildx-cache\n          mv /tmp/.buildx-cache-new /tmp/.buildx-cache\n\n  build-and-push:\n    needs: build-and-test\n    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Checkout\n        uses: actions/checkout@v3\n      \n      - name: Set up Docker Buildx\n        uses: docker/setup-buildx-action@v2\n      \n      - name: Log in to registry\n        uses: docker/login-action@v2\n        with:\n          registry: ${{ env.REGISTRY }}\n          username: ${{ github.actor }}\n          password: ${{ secrets.GITHUB_TOKEN }}\n      \n      - name: Extract metadata\n        id: meta\n        uses: docker/metadata-action@v4\n        with:\n          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\n          tags: |\n            type=ref,event=branch\n            type=ref,event=pr\n            type=semver,pattern={{version}}\n            type=semver,pattern={{major}}.{{minor}}\n            type=sha\n            type=raw,value=latest,enable={{is_default_branch}}\n      \n      - name: Build and push\n        uses: docker/build-push-action@v4\n        with:\n          context: .\n          target: production\n          push: true\n          tags: ${{ steps.meta.outputs.tags }}\n          labels: ${{ steps.meta.outputs.labels }}\n          cache-from: type=gha\n          cache-to: type=gha,mode=max\n          platforms: linux/amd64,linux/arm64\n\n  deploy:\n    needs: build-and-push\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Deploy to production\n        run: |\n          curl -X POST https://api.example.com/deploy \\\n            -H \"Authorization: Bearer ${{ secrets.DEPLOY_TOKEN }}\" \\\n            -H \"Content-Type: application/json\" \\\n            -d '{\"image\":\"${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}\"}'\n\n# Build cache optimization script\n#!/bin/bash\n# build-optimized.sh\n\nexport DOCKER_BUILDKIT=1\n\n# Use registry cache\ndocker build \\\n  --cache-from myregistry/myapp:latest \\\n  --cache-from myregistry/myapp:cache \\\n  -t myapp:latest \\\n  .\n\n# Use inline cache\ndocker build \\\n  --build-arg BUILDKIT_INLINE_CACHE=1 \\\n  -t myapp:latest \\\n  .\n\n# Push with cache\ndocker buildx build \\\n  --push \\\n  --cache-to type=registry,ref=myregistry/myapp:cache,mode=max \\\n  --cache-from type=registry,ref=myregistry/myapp:cache \\\n  -t myapp:latest \\\n  .\n\n# Parallel builds with matrix\nfor target in test lint build; do\n  docker build --target $target -t myapp:$target . &\ndone\nwait\n\n# Pre-build dependencies\ndocker build --target deps -t myapp:deps .\ndocker build --cache-from myapp:deps -t myapp:latest .\n\n# Build statistics\ntime docker build -t myapp:latest .\ndocker system df\ndocker builder du\n\n# Optimize CI/CD script\n#!/bin/bash\n# gitlab-ci-optimized.sh\n\n# Use buildx with registry cache\ndocker buildx build \\\n  --cache-from type=registry,ref=$CI_REGISTRY_IMAGE:cache \\\n  --cache-to type=registry,ref=$CI_REGISTRY_IMAGE:cache,mode=max \\\n  --build-arg BUILDKIT_INLINE_CACHE=1 \\\n  -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA \\\n  .\n\n# Parallel testing\ndocker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA npm test &\ndocker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA npm run lint &\ndocker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA npm run audit &\nwait\n\n# Optimize layer caching\n# Use --mount=type=cache for CI\ndocker build --progress=plain -t myapp:latest . 2>&1 | tee build.log\n\n# Analyze cache hits\ngrep \"CACHED\" build.log | wc -l\n\n# Calculate savings\nCACHED_LAYERS=$(grep -c \"CACHED\" build.log)\nTOTAL_LAYERS=$(grep -c \"RUN\\|COPY\\|ADD\" Dockerfile)\necho \"Cache hit rate: $((CACHED_LAYERS * 100 / TOTAL_LAYERS))%\"",
-      "tags": ["ci-cd", "pipeline", "github-actions", "buildx", "caching"],
-      "interview_questions": [
-        "How do you optimize Docker builds in CI/CD pipelines?",
-        "What strategies do you use for build cache in CI/CD?",
-        "How do you implement multi-platform builds in CI?",
-        "What's the difference between inline cache and registry cache?",
-        "How do you handle secrets in CI/CD Docker builds?",
-        "What's the optimal tagging strategy for Docker images?",
-        "How do you reduce build times for large monorepos?"
-      ],
-      "commands_to_practice": [
-        "docker buildx create --use",
-        "docker buildx build --push --platform linux/amd64,linux/arm64 -t myapp:latest .",
-        "docker build --cache-from myapp:latest -t myapp:new .",
-        "docker system prune -a --filter until=24h",
-        "docker builder prune --keep-storage=10GB"
-      ]
-    },
-    {
-      "id": 8,
-      "title": "Extreme Image Optimization Challenge",
-      "difficulty": "Expert",
-      "fileType": "Dockerfile",
-      "description": "Take an existing bloated Docker image (500MB+) and optimize it to under 20MB using every optimization technique: multi-stage builds, minimal base images, binary stripping, compression, and removing unnecessary files. Document the optimization journey.",
-      "hints": [
-        "Start with alpine or distroless",
-        "Use multi-stage builds to exclude build tools",
-        "Strip debug symbols from binaries",
-        "Remove package manager caches",
-        "Combine layers and clean up in same RUN",
-        "Use .dockerignore aggressively",
-        "Consider scratch for static binaries",
-        "Analyze with dive and docker history"
-      ],
-      "solution": "# Original bloated Dockerfile (500MB+)\n# FROM ubuntu:latest\n# RUN apt-get update && apt-get install -y python3 python3-pip\n# COPY . /app\n# RUN pip install -r requirements.txt\n# CMD [\"python3\", \"app.py\"]\n\n# Optimized version (<20MB)\n# syntax=docker/dockerfile:1\n\n# Stage 1: Builder\nFROM python:3.11-alpine AS builder\n\nWORKDIR /app\n\n# Install build dependencies\nRUN apk add --no-cache gcc musl-dev libffi-dev\n\n# Copy requirements and install\nCOPY requirements.txt .\nRUN pip install --no-cache-dir --user -r requirements.txt\n\n# Stage 2: Minimal runtime\nFROM python:3.11-alpine\n\n# Install only runtime dependencies\nRUN apk add --no-cache libffi\n\n# Create non-root user\nRUN addgroup -g 1000 appuser && \\\n    adduser -D -u 1000 -G appuser appuser\n\nWORKDIR /app\n\n# Copy installed packages from builder\nCOPY --from=builder --chown=appuser:appuser /root/.local /home/appuser/.local\n\n# Copy application\nCOPY --chown=appuser:appuser . .\n\n# Set PATH\nENV PATH=/home/appuser/.local/bin:$PATH\n\n# Switch to non-root user\nUSER appuser\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \\\n    CMD python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\"\n\nEXPOSE 8000\n\nCMD [\"python\", \"app.py\"]\n\n# Optimize with upx for compiled binaries\n# Dockerfile for Go\nFROM golang:1.22-alpine AS builder\n\nRUN apk add --no-cache upx\n\nWORKDIR /app\nCOPY . .\n\nRUN CGO_ENABLED=0 go build -ldflags=\"-w -s\" -o app .\nRUN upx --best --lzma app\n\nFROM scratch\nCOPY --from=builder /app/app /app\nCOPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/\nENTRYPOINT [\"/app\"]\n\n# Optimization script\n#!/bin/bash\n# extreme-optimize.sh\n\nIMAGE_NAME=${1:-myapp}\n\necho \"=== Extreme Optimization Challenge ===\"\n\n# 1. Analyze current image\necho \"Analyzing original image...\"\ndocker images | grep $IMAGE_NAME\ndocker history $IMAGE_NAME\n\n# 2. Find largest files\ndocker run --rm $IMAGE_NAME find / -type f -size +10M 2>/dev/null | head -20\n\n# 3. Check for unnecessary packages\ndocker run --rm $IMAGE_NAME which curl wget vim python3-pip 2>/dev/null\n\n# 4. Check for debug symbols\ndocker run --rm $IMAGE_NAME file /usr/bin/python3 | grep debug\n\n# 5. Optimize Dockerfile\ncat > Dockerfile.optimized << 'EOF'\n# syntax=docker/dockerfile:1\n\n# Build stage\nFROM alpine:3.19 AS builder\nRUN apk add --no-cache python3 py3-pip\nCOPY requirements.txt .\nRUN pip install --no-cache-dir --user -r requirements.txt\n\n# Runtime stage\nFROM alpine:3.19\nRUN apk add --no-cache python3\nCOPY --from=builder /root/.local /root/.local\nCOPY . .\nENV PATH=/root/.local/bin:$PATH\nCMD [\"python3\", \"app.py\"]\nEOF\n\n# 6. Build optimized image\nDOCKER_BUILDKIT=1 docker build -f Dockerfile.optimized -t $IMAGE_NAME:optimized .\n\n# 7. Compare sizes\nprintf \"\\n=== Size Comparison ===\\n\"\ndocker images | grep $IMAGE_NAME\n\n# 8. Compare layers\ndocker history $IMAGE_NAME:original\ndocker history $IMAGE_NAME:optimized\n\n# 9. Run dive analysis\ndive $IMAGE_NAME:original\ndive $IMAGE_NAME:optimized\n\n# 10. Check for vulnerabilities\ntrivy image $IMAGE_NAME:optimized\n\n# Optimization checklist\ncat > optimization-checklist.md << 'EOF'\n# Docker Image Optimization Checklist\n\n## ✅ Base Image\n- [ ] Use alpine or distroless instead of full OS\n- [ ] Use specific version tags\n- [ ] Consider scratch for static binaries\n\n## ✅ Multi-stage Builds\n- [ ] Separate build and runtime stages\n- [ ] Copy only necessary artifacts\n- [ ] Use --from to copy between stages\n\n## ✅ Layer Optimization\n- [ ] Combine RUN commands\n- [ ] Order layers by change frequency\n- [ ] Clean caches in same layer\n\n## ✅ Dependency Management\n- [ ] Use --no-cache for package managers\n- [ ] Use --no-install-recommends for apt\n- [ ] Remove unnecessary dev dependencies\n\n## ✅ Binary Optimization\n- [ ] Strip debug symbols (-ldflags=\"-w -s\")\n- [ ] Use UPX compression for binaries\n- [ ] Enable static linking when possible\n\n## ✅ .dockerignore\n- [ ] Exclude development files\n- [ ] Exclude version control files\n- [ ] Exclude test files and coverage\n\n## ✅ Security\n- [ ] Run as non-root user\n- [ ] Remove package managers from final image\n- [ ] Scan for vulnerabilities\n\n## ✅ Final Checks\n- [ ] Verify functionality\n- [ ] Check startup time\n- [ ] Test health checks\n- [ ] Document size reduction\nEOF\n\necho \"Optimization checklist created: optimization-checklist.md\"\n\n# Benchmark script\n#!/bin/bash\n# benchmark-optimization.sh\n\necho \"Benchmarking image optimization...\"\n\n# Original image\necho \"Original image:\"\ntime docker run --rm original-app npm test\ndocker images original-app --format \"{{.Size}}\"\n\n# Optimized image\necho \"Optimized image:\"\ntime docker run --rm optimized-app npm test\ndocker images optimized-app --format \"{{.Size}}\"\n\n# Startup time comparison\necho \"Startup time comparison:\"\ntime docker run --rm original-app echo \"Started\"\ntime docker run --rm optimized-app echo \"Started\"\n\n# Security comparison\necho \"Security comparison:\"\ntrivy image --severity HIGH original-app\ntrivy image --severity HIGH optimized-app",
-      "tags": ["extreme-optimization", "challenge", "size-reduction", "best-practices"],
-      "interview_questions": [
-        "What's the smallest possible image size for your application?",
-        "How do you approach extreme image optimization?",
-        "What trade-offs are involved in extreme optimization?",
-        "How do you balance security, size, and functionality?",
-        "What tools do you use to analyze and optimize images?",
-        "What's your process for optimizing a bloated image?",
-        "How do you verify that an optimized image still works correctly?"
-      ],
-      "commands_to_practice": [
-        "dive myapp:latest",
-        "docker history myapp:latest --no-trunc",
-        "docker run --rm myapp du -sh /",
-        "docker images | sort -k7 -h",
-        "docker system df",
-        "docker build --progress=plain -t myapp . 2>&1 | tee build.log"
-      ]
-    }
-  ],
-  "bonus_challenge": {
-    "title": "Enterprise Image Optimization Program",
-    "description": "Design and implement an enterprise-wide Docker image optimization program. Create guidelines, automation tools, and metrics to reduce image sizes across the organization by 70% while maintaining security and performance.",
-    "requirements": [
-      "Create base images optimized for each language/framework",
-      "Implement automated image scanning and optimization CI/CD",
-      "Develop image size tracking dashboard",
-      "Create optimization guidelines and best practices documentation",
-      "Implement automated dependency updates and vulnerability patching",
-      "Design multi-stage build templates for common use cases"
+  {
+    "id": 6,
+    "level": "Advanced",
+    "icon": "Wrench",
+    "title": "Multi-stage Builds & Optimisation",
+    "summary": "Dramatically reduce image sizes with multi-stage builds, .dockerignore, minimal base images (alpine, distroless, scratch) and BuildKit cache mounts. Master image optimization techniques for production deployments.",
+    "topics": [
+      "Multi-stage Dockerfile syntax",
+      "Choosing a minimal base image",
+      ".dockerignore best practices",
+      "BuildKit & cache mounts",
+      "Scanning images with Trivy",
+      "Layer optimization strategies",
+      "Distroless & scratch images",
+      "Build arguments & labels",
+      "Security scanning & SBOM",
+      "CI/CD optimization patterns"
     ],
-    "phases": [
+    "exercises": [
       {
-        "phase": 1,
-        "name": "Assessment & Inventory",
-        "tasks": [
-          "Inventory all existing images across organization",
-          "Analyze current sizes and layers",
-          "Identify optimization opportunities",
-          "Create baseline metrics"
+        "id": 1,
+        "title": "Multi-Stage React Application",
+        "difficulty": "Intermediate",
+        "fileType": "Dockerfile",
+        "description": "Create an optimized multi-stage Dockerfile for a React application. The build stage should compile the React app, and the final stage should serve the static files using Nginx with gzip compression and security headers. Optimize layer caching and minimize final image size.",
+        "hints": [
+          "Use node:20-alpine for build stage to keep it small",
+          "Copy package.json first to leverage layer caching",
+          "Use npm ci instead of npm install for reproducible builds",
+          "Add .dockerignore to exclude node_modules and build artifacts",
+          "Use nginx:alpine for serving static files",
+          "Configure nginx with custom config for gzip and caching",
+          "Use multi-stage to exclude build dependencies from final image"
+        ],
+        "solution": "# syntax=docker/dockerfile:1\n\n# Build stage\nFROM node:20-alpine AS builder\n\n# Set working directory\nWORKDIR /app\n\n# Copy package files first for better caching\nCOPY package.json package-lock.json ./\n\n# Install dependencies (using ci for reproducible builds)\nRUN npm ci --only=production\n\n# Copy source code\nCOPY . .\n\n# Build the application\nRUN npm run build\n\n# Production stage\nFROM nginx:alpine\n\n# Install necessary packages for security\nRUN apk add --no-cache curl && \\\n    rm -rf /var/cache/apk/*\n\n# Copy custom nginx configuration\nCOPY nginx.conf /etc/nginx/nginx.conf\nCOPY security-headers.conf /etc/nginx/conf.d/security-headers.conf\n\n# Copy built assets from builder stage\nCOPY --from=builder /app/build /usr/share/nginx/html\n\n# Create non-root user for nginx\nRUN adduser -D -H -u 1000 -s /bin/sh www-data && \\\n    chown -R www-data:www-data /usr/share/nginx/html\n\n# Switch to non-root user\nUSER www-data\n\n# Expose port\nEXPOSE 80\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \\\n    CMD curl -f http://localhost/ || exit 1\n\n# Run nginx\nCMD [\"nginx\", \"-g\", \"daemon off;\"]\n\n# nginx.conf\nuser www-data;\nworker_processes auto;\nerror_log /dev/stdout warn;\npid /tmp/nginx.pid;\n\nevents {\n    worker_connections 1024;\n}\n\nhttp {\n    include /etc/nginx/mime.types;\n    default_type application/octet-stream;\n\n    # Logging to stdout/stderr\n    access_log /dev/stdout;\n    error_log /dev/stdout;\n\n    # Gzip compression\n    gzip on;\n    gzip_vary on;\n    gzip_min_length 1024;\n    gzip_types text/plain text/css text/xml text/javascript application/javascript application/xml+rss application/json;\n\n    # Security headers\n    add_header X-Frame-Options \"SAMEORIGIN\" always;\n    add_header X-Content-Type-Options \"nosniff\" always;\n    add_header X-XSS-Protection \"1; mode=block\" always;\n\n    server {\n        listen 80;\n        server_name localhost;\n        root /usr/share/nginx/html;\n        index index.html;\n\n        # Cache static assets\n        location ~* \\.(jpg|jpeg|png|gif|ico|css|js)$ {\n            expires 1y;\n            add_header Cache-Control \"public, immutable\";\n        }\n\n        # Handle SPA routing\n        location / {\n            try_files $uri $uri/ /index.html;\n        }\n    }\n}\n\n# .dockerignore\nnode_modules\nnpm-debug.log\n.git\n.gitignore\n.env\n.env.*\n.DS_Store\nbuild\ncoverage\n.nyc_output\n*.log\nDockerfile\n.dockerignore\nREADME.md",
+        "tags": ["multi-stage", "react", "nginx", "optimization", "security"],
+        "interview_questions": [
+          "Why use multi-stage builds for React applications?",
+          "What's the difference between `npm install` and `npm ci` in Docker builds?",
+          "How do you optimize layer caching for Node.js dependencies?",
+          "What are the benefits of using nginx:alpine over a full nginx image?",
+          "How would you implement caching strategies for static assets?",
+          "What security headers should be added to production nginx?",
+          "Why run nginx as non-root user in production?"
+        ],
+        "commands_to_practice": [
+          "docker build -t react-app .",
+          "docker build --no-cache -t react-app .",
+          "docker images | grep react-app",
+          "docker history react-app",
+          "docker run -d -p 80:80 --name react-app react-app",
+          "curl -I http://localhost",
+          "docker exec react-app ps aux"
         ]
       },
       {
-        "phase": 2,
-        "name": "Base Image Development",
-        "tasks": [
-          "Create optimized base images for Node.js, Python, Go, Java",
-          "Implement security hardening",
-          "Set up automated base image updates",
-          "Document base image usage"
+        "id": 2,
+        "title": "Optimized Go Binary with Scratch",
+        "difficulty": "Advanced",
+        "fileType": "Dockerfile",
+        "description": "Create an ultra-minimal Docker image for a Go application using multi-stage builds with scratch base. Optimize the binary size with compiler flags, handle timezone data, and ensure proper signal handling for graceful shutdown.",
+        "hints": [
+          "Use golang:1.22-alpine as builder",
+          "Set CGO_ENABLED=0 for static binary",
+          "Use -ldflags to strip debug info",
+          "Consider using upx to compress binary",
+          "Handle timezone data with zoneinfo",
+          "Implement proper signal handling"
+        ],
+        "solution": "# syntax=docker/dockerfile:1\n\n# Build stage\nFROM golang:1.22-alpine AS builder\n\n# Install build dependencies\nRUN apk add --no-cache git ca-certificates tzdata upx\n\n# Set build arguments\nARG VERSION=1.0.0\nARG BUILD_DATE\nARG VCS_REF\n\nWORKDIR /app\n\n# Copy go mod files first for caching\nCOPY go.mod go.sum ./\nRUN go mod download\n\n# Copy source code\nCOPY . .\n\n# Build static binary with optimizations\nRUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \\\n    -ldflags=\"-w -s \\\n        -X main.version=${VERSION} \\\n        -X main.buildDate=${BUILD_DATE} \\\n        -X main.gitCommit=${VCS_REF}\" \\\n    -a -installsuffix cgo \\\n    -o /app/app \\\n    ./cmd/server\n\n# Compress binary (optional, reduces size but increases startup time)\nRUN upx --best --lzma /app/app\n\n# Final stage - scratch\nFROM scratch\n\n# Copy timezone data from builder\nCOPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo\n\n# Copy CA certificates for HTTPS requests\nCOPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/\n\n# Copy the binary\nCOPY --from=builder /app/app /app\n\n# Copy static assets if any\nCOPY --from=builder /app/static /static\n\n# Expose port\nEXPOSE 8080\n\n# Set user (scratch doesn't have user management, but we can set numeric ID)\nUSER 1000:1000\n\n# Health check (requires curl, so skip for scratch or use minimal busybox)\n# Alternative: Use a minimal busybox image if health check is needed\n\n# Run the application\nENTRYPOINT [\"/app\"]\nCMD [\"--help\"]\n\n# Alternative with busybox (if health check needed)\n# FROM busybox:glibc\n# COPY --from=builder /app/app /app\n# EXPOSE 8080\n# HEALTHCHECK --interval=30s --timeout=3s CMD wget --spider http://localhost:8080/health\n# ENTRYPOINT [\"/app\"]\n\n# Multi-platform build\n# docker buildx build --platform linux/amd64,linux/arm64 -t go-app:latest .\n\n# Security scanning\n# trivy image --severity HIGH,CRITICAL go-app:latest\n\n# Image size comparison\n# docker images | grep go-app",
+        "tags": ["scratch", "go", "static-binary", "ultra-minimal", "upx"],
+        "interview_questions": [
+          "Why use scratch as base image? What are the trade-offs?",
+          "What's the purpose of CGO_ENABLED=0?",
+          "How do -ldflags=\"-w -s\" affect binary size?",
+          "What are the challenges of debugging scratch-based containers?",
+          "How do you handle timezone data in scratch images?",
+          "What's the impact of using UPX compression?",
+          "How do you implement health checks for scratch images?"
+        ],
+        "commands_to_practice": [
+          "docker build -t go-app .",
+          "docker build --build-arg VERSION=2.0.0 -t go-app:v2 .",
+          "docker images | grep go-app",
+          "docker run --rm go-app --version",
+          "docker history go-app",
+          "docker run --rm --entrypoint sh go-app",
+          "trivy image --severity HIGH go-app"
         ]
       },
       {
-        "phase": 3,
-        "name": "CI/CD Integration",
-        "tasks": [
-          "Add image size checks to CI pipelines",
-          "Implement automated optimization suggestions",
-          "Set up image size tracking",
-          "Create optimization reports"
+        "id": 3,
+        "title": "BuildKit Cache Mount Optimization",
+        "difficulty": "Advanced",
+        "fileType": "Dockerfile",
+        "description": "Implement advanced BuildKit cache mounts for multiple package managers (npm, pip, apt) to dramatically speed up CI/CD builds. Optimize layer caching and reduce build times by 50-80%.",
+        "hints": [
+          "Enable BuildKit with `DOCKER_BUILDKIT=1`",
+          "Use cache mounts for package managers",
+          "Implement mount type=cache for npm, pip, apt",
+          "Use bind mounts for sharing between stages",
+          "Implement cache persistence across builds"
+        ],
+        "solution": "# syntax=docker/dockerfile:1\n\n# Multi-stage with cache mounts\nFROM node:20-alpine AS node-base\nWORKDIR /app\n\n# Cache npm packages\nCOPY package*.json ./\nRUN --mount=type=cache,target=/root/.npm \\\n    npm ci --only=production\n\nFROM python:3.11-slim AS python-base\nWORKDIR /app\n\n# Cache pip packages\nCOPY requirements.txt ./\nRUN --mount=type=cache,target=/root/.cache/pip \\\n    pip install --no-cache-dir -r requirements.txt\n\nFROM ubuntu:22.04 AS apt-base\n\n# Cache apt packages\nRUN --mount=type=cache,target=/var/cache/apt,sharing=locked \\\n    --mount=type=cache,target=/var/lib/apt,sharing=locked \\\n    apt-get update && \\\n    apt-get install -y --no-install-recommends \\\n        curl \\\n        wget \\\n        git \\\n        build-essential && \\\n    rm -rf /var/lib/apt/lists/*\n\n# Full application with multiple caches\nFROM python:3.11-slim AS final\n\n# Enable BuildKit\nENV DOCKER_BUILDKIT=1\n\nWORKDIR /app\n\n# Copy package files\nCOPY package.json package-lock.json ./\nCOPY requirements.txt ./\n\n# Install dependencies with cache mounts\nRUN --mount=type=cache,target=/root/.npm \\\n    --mount=type=cache,target=/root/.cache/pip \\\n    npm ci --only=production && \\\n    pip install --no-cache-dir -r requirements.txt\n\n# Copy application code\nCOPY . .\n\n# Use cache mount for build step\nRUN --mount=type=cache,target=/app/.cache \\\n    --mount=type=bind,source=.,target=/app,ro \\\n    npm run build\n\n# Use secret mount for private repositories\nRUN --mount=type=secret,id=github_token \\\n    --mount=type=cache,target=/root/.cache/pip \\\n    GITHUB_TOKEN=$(cat /run/secrets/github_token) \\\n    pip install git+https://oauth2:${GITHUB_TOKEN}@github.com/private/repo.git\n\nEXPOSE 8000\n\nCMD [\"gunicorn\", \"app:app\", \"-b\", \"0.0.0.0:8000\"]\n\n# docker-compose with BuildKit\n# docker-compose.yml\nversion: '3.8'\n\nservices:\n  app:\n    build:\n      context: .\n      dockerfile: Dockerfile\n      args:\n        DOCKER_BUILDKIT: 1\n    environment:\n      DOCKER_BUILDKIT: 1\n    volumes:\n      - npm-cache:/root/.npm\n      - pip-cache:/root/.cache/pip\n\nvolumes:\n  npm-cache:\n  pip-cache:\n\n# Build script with cache optimization\n#!/bin/bash\n# build-with-cache.sh\n\n# Enable BuildKit\nexport DOCKER_BUILDKIT=1\n\n# Build with cache mounts\ndocker build \\\n  --progress=plain \\\n  --build-arg BUILDKIT_INLINE_CACHE=1 \\\n  --cache-from myapp:latest \\\n  -t myapp:latest \\\n  .\n\n# Use buildx for better caching\ndocker buildx build \\\n  --cache-to type=registry,ref=myregistry/myapp:cache,mode=max \\\n  --cache-from type=registry,ref=myregistry/myapp:cache \\\n  -t myapp:latest \\\n  .\n\n# Monitor cache usage\ndocker system df\ndocker builder du\n\n# Clean old cache\ndocker builder prune --keep-storage=10GB\n\n# BuildKit configuration\n# /etc/docker/daemon.json\n{\n  \"features\": {\n    \"buildkit\": true\n  },\n  \"builder\": {\n    \"gc\": {\n      \"enabled\": true,\n      \"defaultKeepStorage\": \"10GB\"\n    }\n  }\n}",
+        "tags": ["BuildKit", "cache-mount", "optimization", "ci-cd"],
+        "interview_questions": [
+          "What is BuildKit and how does it improve Docker builds?",
+          "How do cache mounts differ from layer caching?",
+          "What's the difference between `--mount=type=cache` and `--mount=type=bind`?",
+          "How do you share cache between CI/CD pipeline runs?",
+          "What are the security implications of using cache mounts?",
+          "How do you implement multi-stage builds with BuildKit cache mounts?",
+          "What's the impact of `sharing=locked` vs `sharing=private`?"
+        ],
+        "commands_to_practice": [
+          "DOCKER_BUILDKIT=1 docker build -t app .",
+          "docker build --progress=plain -t app .",
+          "docker builder prune",
+          "docker system df",
+          "docker buildx create --use",
+          "docker buildx build --cache-to type=local,dest=/tmp/cache ."
         ]
       },
       {
-        "phase": 4,
-        "name": "Migration & Training",
-        "tasks": [
-          "Migrate applications to optimized base images",
-          "Provide training on Docker optimization",
-          "Create internal workshops and documentation",
-          "Establish optimization champions"
+        "id": 4,
+        "title": "Distroless Images for Java Applications",
+        "difficulty": "Advanced",
+        "fileType": "Dockerfile",
+        "description": "Create a secure, minimal Docker image for a Java Spring Boot application using Google's distroless Java base images. Implement multi-stage builds, optimize JVM settings, and ensure the image is production-ready.",
+        "hints": [
+          "Use eclipse-temurin as builder for compilation",
+          "Use gcr.io/distroless/java17-debian11 as final base",
+          "Configure JVM memory limits for containers",
+          "Add health checks with exec probes",
+          "Handle signal propagation properly"
+        ],
+        "solution": "# syntax=docker/dockerfile:1\n\n# Build stage\nFROM eclipse-temurin:17-jdk-alpine AS builder\n\nWORKDIR /app\n\n# Copy maven wrapper and pom files\nCOPY mvnw .\nCOPY .mvn .mvn\nCOPY pom.xml .\n\n# Download dependencies (cached layer)\nRUN ./mvnw dependency:go-offline -B\n\n# Copy source code\nCOPY src src\n\n# Build the application\nRUN ./mvnw package -DskipTests -B\n\n# Extract layers for better caching with distroless\nRUN java -Djarmode=layertools -jar target/*.jar extract\n\n# Final stage - Distroless\nFROM gcr.io/distroless/java17-debian11\n\n# Set environment variables for JVM\nENV JAVA_OPTS=\"-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/./urandom\"\n\n# Copy layers from builder\nCOPY --from=builder /app/dependencies/ ./\nCOPY --from=builder /app/spring-boot-loader/ ./\nCOPY --from=builder /app/snapshot-dependencies/ ./\nCOPY --from=builder /app/application/ ./\n\n# Create non-root user (distroless doesn't have useradd, but runs as non-root by default)\n# Distroless images already run as non-root user (65532)\n\n# Expose port\nEXPOSE 8080\n\n# Health check using exec probe (distroless has no shell, so use exec form)\n# Note: Health check requires binary, so we rely on container orchestration\n\n# Run the application\nENTRYPOINT [\"java\", \"org.springframework.boot.loader.JarLauncher\"]\n\n# Alternative with custom JVM options\n# ENTRYPOINT [\"java\", \"-XX:+UseContainerSupport\", \"-XX:MaxRAMPercentage=75.0\", \"org.springframework.boot.loader.JarLauncher\"]\n\n# For debugging (if needed)\n# docker run --entrypoint /busybox/sh -it myapp\n\n# Multi-architecture build\n# docker buildx build --platform linux/amd64,linux/arm64 -t java-app:latest .\n\n# Security scanning\ndocker scan java-app:latest\ntrivy image --severity HIGH,CRITICAL java-app:latest\n\n# Docker Compose with JVM tuning\nversion: '3.8'\n\nservices:\n  app:\n    build: .\n    image: java-app:latest\n    ports:\n      - \"8080:8080\"\n    environment:\n      - JAVA_OPTS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0\n      - SPRING_PROFILES_ACTIVE=production\n    deploy:\n      resources:\n        limits:\n          memory: 512M\n          cpus: '1'\n        reservations:\n          memory: 256M\n          cpus: '0.5'\n\n# JVM optimization script\n#!/bin/bash\n# jvm-optimize.sh\n\necho \"Testing JVM memory usage...\"\n\n# Run with different memory limits\nfor mem in 128m 256m 512m 1g; do\n  echo \"Testing with memory limit: $mem\"\n  docker run --rm \\\n    --memory=$mem \\\n    java-app:latest \\\n    java -XX:+PrintFlagsFinal -version | grep MaxHeapSize\ndone\n\n# Calculate optimal heap size\nMAX_MEMORY=$(docker run --rm java-app:latest cat /sys/fs/cgroup/memory/memory.limit_in_bytes)\nHEAP_SIZE=$((MAX_MEMORY * 75 / 100))\necho \"Recommended heap size: $HEAP_SIZE bytes\"",
+        "tags": ["distroless", "java", "spring-boot", "jvm", "security"],
+        "interview_questions": [
+          "What are distroless images and why are they more secure?",
+          "How do distroless images differ from Alpine-based images?",
+          "What are the trade-offs of using distroless images?",
+          "How do you debug distroless containers?",
+          "What JVM flags are important for containerized Java apps?",
+          "How do you implement health checks for distroless images?",
+          "What's the purpose of Spring Boot's layertools?"
+        ],
+        "commands_to_practice": [
+          "docker build -t java-app .",
+          "docker images | grep java-app",
+          "docker run --rm -d -p 8080:8080 --name java-app java-app",
+          "docker exec -it java-app /bin/sh",
+          "docker run --entrypoint /busybox/sh -it java-app",
+          "docker inspect java-app | grep -A 10 \"Config\""
         ]
       },
       {
-        "phase": 5,
-        "name": "Monitoring & Continuous Improvement",
-        "tasks": [
-          "Track image size trends over time",
-          "Monitor security vulnerabilities",
-          "Automate dependency updates",
-          "Regular optimization reviews"
+        "id": 5,
+        "title": "Layer Optimization & .dockerignore Mastery",
+        "difficulty": "Advanced",
+        "fileType": ".dockerignore",
+        "description": "Master Docker layer optimization and .dockerignore patterns. Create a comprehensive .dockerignore file, optimize layer ordering, and reduce image size by 90%. Implement strategies for monorepos and large projects.",
+        "hints": [
+          "Order Dockerfile layers from least to most frequently changing",
+          "Use .dockerignore to exclude unnecessary files",
+          "Combine RUN commands to reduce layers",
+          "Use multi-stage builds to exclude build tools",
+          "Implement build-specific ignores for different environments"
+        ],
+        "solution": "# .dockerignore - Comprehensive version\n# Git\n.git/\n.gitignore\n.gitattributes\n.gitmodules\n\n# Version control\n.svn/\n.hg/\n\n# CI/CD\n.github/\n.gitlab/\n.ci/\n.travis.yml\ncircle.yml\n\n# Dependencies\nnode_modules/\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\npackage-lock.json\nbower_components/\n\n# Python\n__pycache__/\n*.py[cod]\n*$py.class\n*.so\n.Python\nenv/\nvenv/\n.venv/\n*.egg-info/\ndist/\nbuild/\n*.egg\n\n# Java\n*.class\n*.jar\n*.war\n*.ear\n*.log\n.idea/\ntarget/\nout/\n\n# Go\n*.exe\n*.exe~\n*.dll\n*.so\n*.dylib\n*.test\n*.out\nvendor/\n\n# Node\n*.log\n.pnpm-debug.log\nyarn-debug.log*\nyarn-error.log*\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n.DS_Store\n\n# Environment\n.env\n.env.*\n.env.local\n.env.production\n\n# Build outputs\ndist/\nbuild/\ncoverage/\n.nyc_output/\n*.min.js\n*.min.css\n\n# Docker\nDockerfile*\n.dockerignore\ndocker-compose*.yml\ndocker-compose*.yaml\n\n# Testing\ncoverage/\n.nyc_output/\ntest/\ntests/\n*.test.js\n*.spec.js\n*.test.ts\n*.spec.ts\n__tests__/\n\n# Logs\nlogs/\n*.log\nnpm-debug.log*\n\n# OS\n.DS_Store\nThumbs.db\nDesktop.ini\n\n# Temporary files\n*.tmp\n*.temp\n*.cache\n\n# Secrets\n*.pem\n*.key\n*.crt\n*.secret\nsecrets/\n\n# Documentation\nREADME.md\nREADME.rst\nCONTRIBUTING.md\nCHANGELOG.md\nLICENSE\nLICENSE.txt\n*.md\n!.github/README.md\n\n# Media (if not needed)\n*.psd\n*.ai\n*.sketch\n*.mp4\n*.mp3\n*.mov\n\n# Optimized Dockerfile with layer strategy\n# syntax=docker/dockerfile:1\n\n# Leverage build cache with optimal layer order\nFROM node:20-alpine AS deps\nWORKDIR /app\n\n# Layer 1: Copy only package files (changes rarely)\nCOPY package.json package-lock.json ./\n\n# Layer 2: Install dependencies (cached unless package files change)\nRUN --mount=type=cache,target=/root/.npm \\\n    npm ci --only=production\n\n# Layer 3: Copy source (changes frequently)\nFROM deps AS builder\nCOPY . .\nRUN npm run build\n\n# Layer 4: Final minimal image\nFROM nginx:alpine\n\n# Copy from builder\nCOPY --from=builder /app/build /usr/share/nginx/html\n\n# Layer optimization verification script\n#!/bin/bash\n# analyze-layers.sh\n\nIMAGE_NAME=${1:-myapp:latest}\n\necho \"=== Analyzing layers for $IMAGE_NAME ===\"\ndocker history $IMAGE_NAME --no-trunc --format \"table {{.CreatedBy}}\\t{{.Size}}\"\n\necho \"\"\necho \"=== Layer sizes ===\"\ndocker history $IMAGE_NAME --format \"{{.Size}}\" | awk '{sum+=$1} END {print \"Total: \" sum}'\n\necho \"\"\necho \"=== Cache efficiency ===\"\ndocker build --no-cache -t test:latest . 2>&1 | grep -c \"CACHED\"\n\n# Find largest files in image\ndocker run --rm --entrypoint sh $IMAGE_NAME -c \"find / -type f -size +10M 2>/dev/null | xargs ls -lh 2>/dev/null\"\n\n# Optimize image with docker-slim\n# docker-slim build myapp\n\n# Check for unnecessary files\n# docker run --rm -it myapp ls -la /usr/share/doc\n\n# Remove unnecessary packages\n# Use apt-get purge instead of remove\n\n# Combine RUN commands\n# Before\nRUN apt-get update\nRUN apt-get install -y package1\nRUN apt-get install -y package2\nRUN rm -rf /var/lib/apt/lists/*\n\n# After\nRUN apt-get update && \\\n    apt-get install -y --no-install-recommends package1 package2 && \\\n    apt-get clean && \\\n    rm -rf /var/lib/apt/lists/*\n\n# Use --no-install-recommends for apt\nRUN apt-get install -y --no-install-recommends curl\n\n# Clean package manager caches in same layer\nRUN pip install --no-cache-dir package\n\n# Use specific versions instead of latest\nFROM node:20-alpine\nFROM python:3.11-slim\n\n# Build script with optimization\n#!/bin/bash\n# optimize-build.sh\n\n# Build with compression\ndocker build -t myapp:latest .\n\n# Compare with original\ndocker images | grep myapp\n\n# Save and compress image\ndocker save myapp:latest | gzip > myapp.tar.gz\n\n# Analyze with dive\ndive myapp:latest\n\n# Check for vulnerabilities\ndocker scan myapp:latest\n\n# Multi-stage with .dockerignore verification\ncat .dockerignore | while read pattern; do\n  echo \"Checking pattern: $pattern\"\n  find . -path \"$pattern\" -type f | head -5\ndone",
+        "tags": [".dockerignore", "layer-optimization", "caching", "image-size"],
+        "interview_questions": [
+          "What's the optimal order of instructions in a Dockerfile for caching?",
+          "How does .dockerignore affect build context and cache?",
+          "What's the difference between COPY and ADD for optimization?",
+          "How do you reduce the number of layers in an image?",
+          "What tools can you use to analyze image layers?",
+          "How do you identify and remove unnecessary files from images?",
+          "What's the impact of combining RUN commands on caching?"
+        ],
+        "commands_to_practice": [
+          "docker history myapp:latest",
+          "docker history --no-trunc myapp:latest",
+          "docker build --no-cache -t test .",
+          "docker images --digests",
+          "dive myapp:latest",
+          "docker run --rm myapp du -sh /",
+          "docker system df"
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Security Scanning & SBOM Generation",
+        "difficulty": "Advanced",
+        "fileType": "ci-script",
+        "description": "Implement comprehensive security scanning for Docker images using Trivy, Grype, and Snyk. Generate SBOM (Software Bill of Materials) and integrate security checks into CI/CD pipeline. Implement vulnerability management strategy.",
+        "hints": [
+          "Use Trivy for vulnerability scanning",
+          "Generate SBOM with Syft or Trivy",
+          "Implement fail-fast on critical vulnerabilities",
+          "Create vulnerability reporting dashboard",
+          "Set up automated patching workflow"
+        ],
+        "solution": "# .github/workflows/security-scan.yml\nname: Security Scan\n\non:\n  push:\n    branches: [ main, develop ]\n  pull_request:\n    branches: [ main ]\n  schedule:\n    - cron: '0 2 * * *'  # Daily scan\n\njobs:\n  security-scan:\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Checkout code\n        uses: actions/checkout@v3\n      \n      - name: Build Docker image\n        run: docker build -t myapp:latest .\n      \n      - name: Run Trivy vulnerability scanner\n        uses: aquasecurity/trivy-action@master\n        with:\n          image-ref: myapp:latest\n          format: 'sarif'\n          output: 'trivy-results.sarif'\n          severity: 'CRITICAL,HIGH'\n      \n      - name: Upload Trivy results to GitHub Security\n        uses: github/codeql-action/upload-sarif@v2\n        with:\n          sarif_file: 'trivy-results.sarif'\n      \n      - name: Generate SBOM with Syft\n        run: |\n          syft myapp:latest -o spdx-json > sbom.json\n      \n      - name: Upload SBOM\n        uses: actions/upload-artifact@v3\n        with:\n          name: sbom\n          path: sbom.json\n      \n      - name: Run Snyk security scan\n        uses: snyk/actions/docker@master\n        env:\n          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}\n        with:\n          image: myapp:latest\n          args: --file=Dockerfile\n\n# Security scanning script\n#!/bin/bash\n# security-scan.sh\n\nIMAGE_NAME=${1:-myapp:latest}\n\necho \"=== Security Scanning for $IMAGE_NAME ===\"\n\n# 1. Trivy scan\necho \"Running Trivy scan...\"\ntrivy image --severity HIGH,CRITICAL --exit-code 1 --ignore-unfixed $IMAGE_NAME\n\n# 2. Generate SBOM\necho \"Generating SBOM...\"\ntrivy image --format cyclonedx --output sbom.json $IMAGE_NAME\n\n# 3. Grype scan\necho \"Running Grype scan...\"\ngrype $IMAGE_NAME --fail-on high\n\n# 4. Docker Scout\necho \"Running Docker Scout...\"\ndocker scout quickview $IMAGE_NAME\ndocker scout cves $IMAGE_NAME\n\n# 5. Check for outdated base images\necho \"Checking base image...\"\ndocker inspect $IMAGE_NAME | grep -A 5 \"Image\"\n\n# 6. Check for exposed secrets\necho \"Checking for secrets...\"\ndocker run --rm $IMAGE_NAME env | grep -i -E '(password|secret|key|token)' || echo \"No secrets found\"\n\n# 7. Check for unnecessary packages\necho \"Checking unnecessary packages...\"\ndocker run --rm $IMAGE_NAME which curl wget vim 2>/dev/null && echo \"WARNING: Development tools found\"\n\n# 8. Check for running as root\necho \"Checking user...\"\ndocker run --rm $IMAGE_NAME whoami | grep root && echo \"WARNING: Running as root\"\n\n# Dockerfile with security labels\n# syntax=docker/dockerfile:1\n\nFROM node:20-alpine AS builder\n\n# Add security labels\nLABEL maintainer=\"security@example.com\" \\\n      org.opencontainers.image.title=\"MyApp\" \\\n      org.opencontainers.image.version=\"1.0.0\" \\\n      org.opencontainers.image.created=\"2024-01-01T00:00:00Z\" \\\n      org.opencontainers.image.source=\"https://github.com/example/app\" \\\n      org.opencontainers.image.vendor=\"Example Corp\" \\\n      security.updated=\"2024-01-01T00:00:00Z\" \\\n      security.scanned=\"true\"\n\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY . .\n\nFROM node:20-alpine\n\n# Copy security labels from builder\nCOPY --from=builder /app /app\n\n# Run as non-root\nUSER node\n\nEXPOSE 3000\n\nCMD [\"node\", \"server.js\"]\n\n# Vulnerability management dashboard\n#!/usr/bin/env python3\n# vuln-dashboard.py\n\nimport json\nimport subprocess\nfrom datetime import datetime\n\ndef scan_image(image_name):\n    \"\"\"Run security scan and return results\"\"\"\n    result = subprocess.run(\n        ['trivy', 'image', '--format', 'json', image_name],\n        capture_output=True,\n        text=True\n    )\n    return json.loads(result.stdout)\n\ndef generate_report(vulns):\n    \"\"\"Generate HTML report\"\"\"\n    html = f\"\"\"\n    <html>\n    <head><title>Security Scan Report</title></head>\n    <body>\n    <h1>Vulnerability Report</h1>\n    <p>Generated: {datetime.now()}</p>\n    \n    <h2>Critical Vulnerabilities</h2>\n    <ul>\n    \"\"\"\n    \n    for vuln in vulns.get('Results', []):\n        for v in vuln.get('Vulnerabilities', []):\n            if v['Severity'] == 'CRITICAL':\n                html += f\"\"\"\n                <li>\n                    <strong>{v['VulnerabilityID']}</strong>: {v['Title']}<br>\n                    Package: {v['PkgName']}<br>\n                    Severity: {v['Severity']}<br>\n                    Fixed Version: {v.get('FixedVersion', 'Not available')}<br>\n                </li>\n                \"\"\"\n    \n    html += \"\"\"\n    </ul>\n    </body>\n    </html>\n    \"\"\"\n    \n    with open('scan-report.html', 'w') as f:\n        f.write(html)\n\n# CI/CD integration\n# GitLab CI example\n# .gitlab-ci.yml\nstages:\n  - build\n  - scan\n  - deploy\n\nvariables:\n  DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA\n\nbuild:\n  stage: build\n  script:\n    - docker build -t $DOCKER_IMAGE .\n\nsecurity-scan:\n  stage: scan\n  script:\n    - trivy image --severity HIGH,CRITICAL --exit-code 1 $DOCKER_IMAGE\n    - syft $DOCKER_IMAGE -o spdx-json > sbom.json\n  artifacts:\n    paths:\n      - sbom.json\n\nsnyk-scan:\n  stage: scan\n  script:\n    - snyk container test $DOCKER_IMAGE --file=Dockerfile\n  allow_failure: true\n\ndeploy:\n  stage: deploy\n  script:\n    - docker push $DOCKER_IMAGE\n  only:\n    - main",
+        "tags": ["security", "scanning", "SBOM", "vulnerability", "trivy"],
+        "interview_questions": [
+          "What is SBOM and why is it important?",
+          "How do you integrate security scanning into CI/CD?",
+          "What's the difference between Trivy, Grype, and Snyk?",
+          "How do you prioritize vulnerability fixes?",
+          "What's the process for patching base images?",
+          "How do you ensure compliance with security standards?",
+          "What's the role of vulnerability management in DevOps?"
+        ],
+        "commands_to_practice": [
+          "trivy image myapp:latest",
+          "trivy image --severity HIGH,CRITICAL myapp:latest",
+          "syft myapp:latest -o spdx-json > sbom.json",
+          "docker scout quickview myapp:latest",
+          "docker scan myapp:latest",
+          "grype myapp:latest"
+        ]
+      },
+      {
+        "id": 7,
+        "title": "CI/CD Pipeline Optimization",
+        "difficulty": "Advanced",
+        "fileType": "ci-script",
+        "description": "Design and implement an optimized CI/CD pipeline for Docker builds with layer caching, parallel builds, and deployment strategies. Achieve sub-2-minute build times for large applications.",
+        "hints": [
+          "Use Docker BuildKit with cache mounts",
+          "Implement remote build cache",
+          "Use parallel stages for testing",
+          "Implement image tagging strategy",
+          "Use buildx for multi-platform builds"
+        ],
+        "solution": "# .github/workflows/ci-cd.yml\nname: CI/CD Pipeline\n\non:\n  push:\n    branches: [ main, develop ]\n    tags:\n      - 'v*'\n  pull_request:\n    branches: [ main ]\n\nenv:\n  REGISTRY: ghcr.io\n  IMAGE_NAME: ${{ github.repository }}\n\njobs:\n  build-and-test:\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Checkout\n        uses: actions/checkout@v3\n      \n      - name: Set up Docker Buildx\n        uses: docker/setup-buildx-action@v2\n        with:\n          driver-opts: |\n            image=moby/buildkit:master\n            network=host\n      \n      - name: Cache Docker layers\n        uses: actions/cache@v3\n        with:\n          path: /tmp/.buildx-cache\n          key: ${{ runner.os }}-buildx-${{ github.sha }}\n          restore-keys: |\n            ${{ runner.os }}-buildx-\n      \n      - name: Build and test\n        uses: docker/build-push-action@v4\n        with:\n          context: .\n          target: test\n          load: true\n          tags: myapp:test\n          cache-from: type=local,src=/tmp/.buildx-cache\n          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max\n      \n      - name: Run tests\n        run: |\n          docker run --rm myapp:test npm test\n      \n      - name: Build production image\n        if: github.event_name != 'pull_request'\n        uses: docker/build-push-action@v4\n        with:\n          context: .\n          target: production\n          push: false\n          tags: myapp:prod\n          cache-from: type=local,src=/tmp/.buildx-cache\n      \n      - name: Security scan\n        if: github.event_name != 'pull_request'\n        run: |\n          trivy image --severity HIGH,CRITICAL --exit-code 1 myapp:prod\n      \n      - name: Move cache\n        run: |\n          rm -rf /tmp/.buildx-cache\n          mv /tmp/.buildx-cache-new /tmp/.buildx-cache\n\n  build-and-push:\n    needs: build-and-test\n    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Checkout\n        uses: actions/checkout@v3\n      \n      - name: Set up Docker Buildx\n        uses: docker/setup-buildx-action@v2\n      \n      - name: Log in to registry\n        uses: docker/login-action@v2\n        with:\n          registry: ${{ env.REGISTRY }}\n          username: ${{ github.actor }}\n          password: ${{ secrets.GITHUB_TOKEN }}\n      \n      - name: Extract metadata\n        id: meta\n        uses: docker/metadata-action@v4\n        with:\n          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\n          tags: |\n            type=ref,event=branch\n            type=ref,event=pr\n            type=semver,pattern={{version}}\n            type=semver,pattern={{major}}.{{minor}}\n            type=sha\n            type=raw,value=latest,enable={{is_default_branch}}\n      \n      - name: Build and push\n        uses: docker/build-push-action@v4\n        with:\n          context: .\n          target: production\n          push: true\n          tags: ${{ steps.meta.outputs.tags }}\n          labels: ${{ steps.meta.outputs.labels }}\n          cache-from: type=gha\n          cache-to: type=gha,mode=max\n          platforms: linux/amd64,linux/arm64\n\n  deploy:\n    needs: build-and-push\n    runs-on: ubuntu-latest\n    \n    steps:\n      - name: Deploy to production\n        run: |\n          curl -X POST https://api.example.com/deploy \\\n            -H \"Authorization: Bearer ${{ secrets.DEPLOY_TOKEN }}\" \\\n            -H \"Content-Type: application/json\" \\\n            -d '{\"image\":\"${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}\"}'\n\n# Build cache optimization script\n#!/bin/bash\n# build-optimized.sh\n\nexport DOCKER_BUILDKIT=1\n\n# Use registry cache\ndocker build \\\n  --cache-from myregistry/myapp:latest \\\n  --cache-from myregistry/myapp:cache \\\n  -t myapp:latest \\\n  .\n\n# Use inline cache\ndocker build \\\n  --build-arg BUILDKIT_INLINE_CACHE=1 \\\n  -t myapp:latest \\\n  .\n\n# Push with cache\ndocker buildx build \\\n  --push \\\n  --cache-to type=registry,ref=myregistry/myapp:cache,mode=max \\\n  --cache-from type=registry,ref=myregistry/myapp:cache \\\n  -t myapp:latest \\\n  .\n\n# Parallel builds with matrix\nfor target in test lint build; do\n  docker build --target $target -t myapp:$target . &\ndone\nwait\n\n# Pre-build dependencies\ndocker build --target deps -t myapp:deps .\ndocker build --cache-from myapp:deps -t myapp:latest .\n\n# Build statistics\ntime docker build -t myapp:latest .\ndocker system df\ndocker builder du\n\n# Optimize CI/CD script\n#!/bin/bash\n# gitlab-ci-optimized.sh\n\n# Use buildx with registry cache\ndocker buildx build \\\n  --cache-from type=registry,ref=$CI_REGISTRY_IMAGE:cache \\\n  --cache-to type=registry,ref=$CI_REGISTRY_IMAGE:cache,mode=max \\\n  --build-arg BUILDKIT_INLINE_CACHE=1 \\\n  -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA \\\n  .\n\n# Parallel testing\ndocker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA npm test &\ndocker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA npm run lint &\ndocker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA npm run audit &\nwait\n\n# Optimize layer caching\n# Use --mount=type=cache for CI\ndocker build --progress=plain -t myapp:latest . 2>&1 | tee build.log\n\n# Analyze cache hits\ngrep \"CACHED\" build.log | wc -l\n\n# Calculate savings\nCACHED_LAYERS=$(grep -c \"CACHED\" build.log)\nTOTAL_LAYERS=$(grep -c \"RUN\\|COPY\\|ADD\" Dockerfile)\necho \"Cache hit rate: $((CACHED_LAYERS * 100 / TOTAL_LAYERS))%\"",
+        "tags": ["ci-cd", "pipeline", "github-actions", "buildx", "caching"],
+        "interview_questions": [
+          "How do you optimize Docker builds in CI/CD pipelines?",
+          "What strategies do you use for build cache in CI/CD?",
+          "How do you implement multi-platform builds in CI?",
+          "What's the difference between inline cache and registry cache?",
+          "How do you handle secrets in CI/CD Docker builds?",
+          "What's the optimal tagging strategy for Docker images?",
+          "How do you reduce build times for large monorepos?"
+        ],
+        "commands_to_practice": [
+          "docker buildx create --use",
+          "docker buildx build --push --platform linux/amd64,linux/arm64 -t myapp:latest .",
+          "docker build --cache-from myapp:latest -t myapp:new .",
+          "docker system prune -a --filter until=24h",
+          "docker builder prune --keep-storage=10GB"
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Extreme Image Optimization Challenge",
+        "difficulty": "Expert",
+        "fileType": "Dockerfile",
+        "description": "Take an existing bloated Docker image (500MB+) and optimize it to under 20MB using every optimization technique: multi-stage builds, minimal base images, binary stripping, compression, and removing unnecessary files. Document the optimization journey.",
+        "hints": [
+          "Start with alpine or distroless",
+          "Use multi-stage builds to exclude build tools",
+          "Strip debug symbols from binaries",
+          "Remove package manager caches",
+          "Combine layers and clean up in same RUN",
+          "Use .dockerignore aggressively",
+          "Consider scratch for static binaries",
+          "Analyze with dive and docker history"
+        ],
+        "solution": "# Original bloated Dockerfile (500MB+)\n# FROM ubuntu:latest\n# RUN apt-get update && apt-get install -y python3 python3-pip\n# COPY . /app\n# RUN pip install -r requirements.txt\n# CMD [\"python3\", \"app.py\"]\n\n# Optimized version (<20MB)\n# syntax=docker/dockerfile:1\n\n# Stage 1: Builder\nFROM python:3.11-alpine AS builder\n\nWORKDIR /app\n\n# Install build dependencies\nRUN apk add --no-cache gcc musl-dev libffi-dev\n\n# Copy requirements and install\nCOPY requirements.txt .\nRUN pip install --no-cache-dir --user -r requirements.txt\n\n# Stage 2: Minimal runtime\nFROM python:3.11-alpine\n\n# Install only runtime dependencies\nRUN apk add --no-cache libffi\n\n# Create non-root user\nRUN addgroup -g 1000 appuser && \\\n    adduser -D -u 1000 -G appuser appuser\n\nWORKDIR /app\n\n# Copy installed packages from builder\nCOPY --from=builder --chown=appuser:appuser /root/.local /home/appuser/.local\n\n# Copy application\nCOPY --chown=appuser:appuser . .\n\n# Set PATH\nENV PATH=/home/appuser/.local/bin:$PATH\n\n# Switch to non-root user\nUSER appuser\n\n# Health check\nHEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \\\n    CMD python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\"\n\nEXPOSE 8000\n\nCMD [\"python\", \"app.py\"]\n\n# Optimize with upx for compiled binaries\n# Dockerfile for Go\nFROM golang:1.22-alpine AS builder\n\nRUN apk add --no-cache upx\n\nWORKDIR /app\nCOPY . .\n\nRUN CGO_ENABLED=0 go build -ldflags=\"-w -s\" -o app .\nRUN upx --best --lzma app\n\nFROM scratch\nCOPY --from=builder /app/app /app\nCOPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/\nENTRYPOINT [\"/app\"]\n\n# Optimization script\n#!/bin/bash\n# extreme-optimize.sh\n\nIMAGE_NAME=${1:-myapp}\n\necho \"=== Extreme Optimization Challenge ===\"\n\n# 1. Analyze current image\necho \"Analyzing original image...\"\ndocker images | grep $IMAGE_NAME\ndocker history $IMAGE_NAME\n\n# 2. Find largest files\ndocker run --rm $IMAGE_NAME find / -type f -size +10M 2>/dev/null | head -20\n\n# 3. Check for unnecessary packages\ndocker run --rm $IMAGE_NAME which curl wget vim python3-pip 2>/dev/null\n\n# 4. Check for debug symbols\ndocker run --rm $IMAGE_NAME file /usr/bin/python3 | grep debug\n\n# 5. Optimize Dockerfile\ncat > Dockerfile.optimized << 'EOF'\n# syntax=docker/dockerfile:1\n\n# Build stage\nFROM alpine:3.19 AS builder\nRUN apk add --no-cache python3 py3-pip\nCOPY requirements.txt .\nRUN pip install --no-cache-dir --user -r requirements.txt\n\n# Runtime stage\nFROM alpine:3.19\nRUN apk add --no-cache python3\nCOPY --from=builder /root/.local /root/.local\nCOPY . .\nENV PATH=/root/.local/bin:$PATH\nCMD [\"python3\", \"app.py\"]\nEOF\n\n# 6. Build optimized image\nDOCKER_BUILDKIT=1 docker build -f Dockerfile.optimized -t $IMAGE_NAME:optimized .\n\n# 7. Compare sizes\nprintf \"\\n=== Size Comparison ===\\n\"\ndocker images | grep $IMAGE_NAME\n\n# 8. Compare layers\ndocker history $IMAGE_NAME:original\ndocker history $IMAGE_NAME:optimized\n\n# 9. Run dive analysis\ndive $IMAGE_NAME:original\ndive $IMAGE_NAME:optimized\n\n# 10. Check for vulnerabilities\ntrivy image $IMAGE_NAME:optimized\n\n# Optimization checklist\ncat > optimization-checklist.md << 'EOF'\n# Docker Image Optimization Checklist\n\n## ✅ Base Image\n- [ ] Use alpine or distroless instead of full OS\n- [ ] Use specific version tags\n- [ ] Consider scratch for static binaries\n\n## ✅ Multi-stage Builds\n- [ ] Separate build and runtime stages\n- [ ] Copy only necessary artifacts\n- [ ] Use --from to copy between stages\n\n## ✅ Layer Optimization\n- [ ] Combine RUN commands\n- [ ] Order layers by change frequency\n- [ ] Clean caches in same layer\n\n## ✅ Dependency Management\n- [ ] Use --no-cache for package managers\n- [ ] Use --no-install-recommends for apt\n- [ ] Remove unnecessary dev dependencies\n\n## ✅ Binary Optimization\n- [ ] Strip debug symbols (-ldflags=\"-w -s\")\n- [ ] Use UPX compression for binaries\n- [ ] Enable static linking when possible\n\n## ✅ .dockerignore\n- [ ] Exclude development files\n- [ ] Exclude version control files\n- [ ] Exclude test files and coverage\n\n## ✅ Security\n- [ ] Run as non-root user\n- [ ] Remove package managers from final image\n- [ ] Scan for vulnerabilities\n\n## ✅ Final Checks\n- [ ] Verify functionality\n- [ ] Check startup time\n- [ ] Test health checks\n- [ ] Document size reduction\nEOF\n\necho \"Optimization checklist created: optimization-checklist.md\"\n\n# Benchmark script\n#!/bin/bash\n# benchmark-optimization.sh\n\necho \"Benchmarking image optimization...\"\n\n# Original image\necho \"Original image:\"\ntime docker run --rm original-app npm test\ndocker images original-app --format \"{{.Size}}\"\n\n# Optimized image\necho \"Optimized image:\"\ntime docker run --rm optimized-app npm test\ndocker images optimized-app --format \"{{.Size}}\"\n\n# Startup time comparison\necho \"Startup time comparison:\"\ntime docker run --rm original-app echo \"Started\"\ntime docker run --rm optimized-app echo \"Started\"\n\n# Security comparison\necho \"Security comparison:\"\ntrivy image --severity HIGH original-app\ntrivy image --severity HIGH optimized-app",
+        "tags": ["extreme-optimization", "challenge", "size-reduction", "best-practices"],
+        "interview_questions": [
+          "What's the smallest possible image size for your application?",
+          "How do you approach extreme image optimization?",
+          "What trade-offs are involved in extreme optimization?",
+          "How do you balance security, size, and functionality?",
+          "What tools do you use to analyze and optimize images?",
+          "What's your process for optimizing a bloated image?",
+          "How do you verify that an optimized image still works correctly?"
+        ],
+        "commands_to_practice": [
+          "dive myapp:latest",
+          "docker history myapp:latest --no-trunc",
+          "docker run --rm myapp du -sh /",
+          "docker images | sort -k7 -h",
+          "docker system df",
+          "docker build --progress=plain -t myapp . 2>&1 | tee build.log"
         ]
       }
     ],
-    "deliverables": [
-      "Optimized base images for all languages",
-      "CI/CD optimization pipeline",
-      "Image size dashboard and metrics",
-      "Optimization guidelines and best practices",
-      "Training materials and workshops",
-      "Monthly optimization reports"
+    "bonus_challenge": {
+      "title": "Enterprise Image Optimization Program",
+      "description": "Design and implement an enterprise-wide Docker image optimization program. Create guidelines, automation tools, and metrics to reduce image sizes across the organization by 70% while maintaining security and performance.",
+      "requirements": [
+        "Create base images optimized for each language/framework",
+        "Implement automated image scanning and optimization CI/CD",
+        "Develop image size tracking dashboard",
+        "Create optimization guidelines and best practices documentation",
+        "Implement automated dependency updates and vulnerability patching",
+        "Design multi-stage build templates for common use cases"
+      ],
+      "phases": [
+        {
+          "phase": 1,
+          "name": "Assessment & Inventory",
+          "tasks": [
+            "Inventory all existing images across organization",
+            "Analyze current sizes and layers",
+            "Identify optimization opportunities",
+            "Create baseline metrics"
+          ]
+        },
+        {
+          "phase": 2,
+          "name": "Base Image Development",
+          "tasks": [
+            "Create optimized base images for Node.js, Python, Go, Java",
+            "Implement security hardening",
+            "Set up automated base image updates",
+            "Document base image usage"
+          ]
+        },
+        {
+          "phase": 3,
+          "name": "CI/CD Integration",
+          "tasks": [
+            "Add image size checks to CI pipelines",
+            "Implement automated optimization suggestions",
+            "Set up image size tracking",
+            "Create optimization reports"
+          ]
+        },
+        {
+          "phase": 4,
+          "name": "Migration & Training",
+          "tasks": [
+            "Migrate applications to optimized base images",
+            "Provide training on Docker optimization",
+            "Create internal workshops and documentation",
+            "Establish optimization champions"
+          ]
+        },
+        {
+          "phase": 5,
+          "name": "Monitoring & Continuous Improvement",
+          "tasks": [
+            "Track image size trends over time",
+            "Monitor security vulnerabilities",
+            "Automate dependency updates",
+            "Regular optimization reviews"
+          ]
+        }
+      ],
+      "deliverables": [
+        "Optimized base images for all languages",
+        "CI/CD optimization pipeline",
+        "Image size dashboard and metrics",
+        "Optimization guidelines and best practices",
+        "Training materials and workshops",
+        "Monthly optimization reports"
+      ],
+      "success_metrics": [
+        "70% reduction in average image size",
+        "50% reduction in build times",
+        "90% reduction in critical vulnerabilities",
+        "100% of images scanned before deployment",
+        "Zero images running as root in production",
+        "$100K annual savings in registry storage costs"
+      ]
+    },
+    "interview_questions_summary": [
+      "What are multi-stage builds and why are they important?",
+      "How do you reduce Docker image size? List 10 techniques.",
+      "What's the difference between alpine, distroless, and scratch?",
+      "How does BuildKit improve Docker builds?",
+      "What are cache mounts and when would you use them?",
+      "How do you optimize layer caching in Dockerfiles?",
+      "What tools do you use for image security scanning?",
+      "What's the purpose of .dockerignore and what should be in it?",
+      "How do you implement multi-platform builds?",
+      "What's the difference between COPY and ADD for optimization?",
+      "How do you handle secrets in Docker builds?",
+      "What's the impact of combining RUN commands?",
+      "How do you optimize build times in CI/CD pipelines?",
+      "What's the role of SBOM in container security?",
+      "How do you implement image size monitoring and alerts?"
     ],
-    "success_metrics": [
-      "70% reduction in average image size",
-      "50% reduction in build times",
-      "90% reduction in critical vulnerabilities",
-      "100% of images scanned before deployment",
-      "Zero images running as root in production",
-      "$100K annual savings in registry storage costs"
+    "best_practices_checklist": [
+      "Use multi-stage builds for all applications",
+      "Choose the smallest possible base image",
+      "Order Dockerfile layers for optimal caching",
+      "Use .dockerignore to exclude unnecessary files",
+      "Combine RUN commands and clean up in same layer",
+      "Use BuildKit with cache mounts for package managers",
+      "Strip debug symbols from binaries",
+      "Remove package managers from final images",
+      "Run containers as non-root user",
+      "Add health checks to all services",
+      "Scan images for vulnerabilities before deployment",
+      "Generate SBOM for compliance",
+      "Use specific version tags, never latest",
+      "Implement image size tracking",
+      "Optimize for multi-platform builds"
+    ],
+    "common_mistakes": [
+      "Using latest tag as base image",
+      "Not using .dockerignore and copying unnecessary files",
+      "Installing build tools in final image",
+      "Not combining RUN commands and creating too many layers",
+      "Running as root in production",
+      "Not cleaning package manager caches",
+      "Using full OS images when alpine would suffice",
+      "Not leveraging layer caching effectively",
+      "Not using BuildKit features",
+      "Forgetting to add health checks",
+      "Not scanning images for vulnerabilities",
+      "Using ADD when COPY is sufficient"
+    ],
+    "optimization_techniques": [
+      {
+        "name": "Multi-stage builds",
+        "savings": "50-90%",
+        "description": "Separate build dependencies from runtime",
+        "example": "Build with full SDK, run with minimal runtime"
+      },
+      {
+        "name": "Minimal base images",
+        "savings": "40-80%",
+        "description": "Use alpine, distroless, or scratch",
+        "example": "Ubuntu: 70MB → Alpine: 5MB → Scratch: 2MB"
+      },
+      {
+        "name": "Layer caching",
+        "savings": "30-70% build time",
+        "description": "Order layers by change frequency",
+        "example": "Copy package files before source code"
+      },
+      {
+        "name": "BuildKit cache mounts",
+        "savings": "40-60% build time",
+        "description": "Persist package caches across builds",
+        "example": "Cache npm, pip, apt packages"
+      },
+      {
+        "name": "Binary stripping",
+        "savings": "30-50%",
+        "description": "Remove debug symbols and unnecessary metadata",
+        "example": "go build -ldflags=\"-w -s\""
+      },
+      {
+        "name": "UPX compression",
+        "savings": "50-70%",
+        "description": "Compress binaries with UPX",
+        "example": "upx --best --lzma binary"
+      },
+      {
+        "name": "Dependency pruning",
+        "savings": "20-40%",
+        "description": "Remove unused dependencies",
+        "example": "npm prune --production"
+      }
     ]
-  },
-  "interview_questions_summary": [
-    "What are multi-stage builds and why are they important?",
-    "How do you reduce Docker image size? List 10 techniques.",
-    "What's the difference between alpine, distroless, and scratch?",
-    "How does BuildKit improve Docker builds?",
-    "What are cache mounts and when would you use them?",
-    "How do you optimize layer caching in Dockerfiles?",
-    "What tools do you use for image security scanning?",
-    "What's the purpose of .dockerignore and what should be in it?",
-    "How do you implement multi-platform builds?",
-    "What's the difference between COPY and ADD for optimization?",
-    "How do you handle secrets in Docker builds?",
-    "What's the impact of combining RUN commands?",
-    "How do you optimize build times in CI/CD pipelines?",
-    "What's the role of SBOM in container security?",
-    "How do you implement image size monitoring and alerts?"
-  ],
-  "best_practices_checklist": [
-    "Use multi-stage builds for all applications",
-    "Choose the smallest possible base image",
-    "Order Dockerfile layers for optimal caching",
-    "Use .dockerignore to exclude unnecessary files",
-    "Combine RUN commands and clean up in same layer",
-    "Use BuildKit with cache mounts for package managers",
-    "Strip debug symbols from binaries",
-    "Remove package managers from final images",
-    "Run containers as non-root user",
-    "Add health checks to all services",
-    "Scan images for vulnerabilities before deployment",
-    "Generate SBOM for compliance",
-    "Use specific version tags, never latest",
-    "Implement image size tracking",
-    "Optimize for multi-platform builds"
-  ],
-  "common_mistakes": [
-    "Using latest tag as base image",
-    "Not using .dockerignore and copying unnecessary files",
-    "Installing build tools in final image",
-    "Not combining RUN commands and creating too many layers",
-    "Running as root in production",
-    "Not cleaning package manager caches",
-    "Using full OS images when alpine would suffice",
-    "Not leveraging layer caching effectively",
-    "Not using BuildKit features",
-    "Forgetting to add health checks",
-    "Not scanning images for vulnerabilities",
-    "Using ADD when COPY is sufficient"
-  ],
-  "optimization_techniques": [
-    {
-      "name": "Multi-stage builds",
-      "savings": "50-90%",
-      "description": "Separate build dependencies from runtime",
-      "example": "Build with full SDK, run with minimal runtime"
-    },
-    {
-      "name": "Minimal base images",
-      "savings": "40-80%",
-      "description": "Use alpine, distroless, or scratch",
-      "example": "Ubuntu: 70MB → Alpine: 5MB → Scratch: 2MB"
-    },
-    {
-      "name": "Layer caching",
-      "savings": "30-70% build time",
-      "description": "Order layers by change frequency",
-      "example": "Copy package files before source code"
-    },
-    {
-      "name": "BuildKit cache mounts",
-      "savings": "40-60% build time",
-      "description": "Persist package caches across builds",
-      "example": "Cache npm, pip, apt packages"
-    },
-    {
-      "name": "Binary stripping",
-      "savings": "30-50%",
-      "description": "Remove debug symbols and unnecessary metadata",
-      "example": "go build -ldflags=\"-w -s\""
-    },
-    {
-      "name": "UPX compression",
-      "savings": "50-70%",
-      "description": "Compress binaries with UPX",
-      "example": "upx --best --lzma binary"
-    },
-    {
-      "name": "Dependency pruning",
-      "savings": "20-40%",
-      "description": "Remove unused dependencies",
-      "example": "npm prune --production"
-    }
-  ]
-}
+  }
 ];
 
 // ─── Global Exercises (shown on /docker-practice/exercises) ──────────────────
