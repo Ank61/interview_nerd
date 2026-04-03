@@ -250,26 +250,23 @@ export default function ConceptExercises() {
                   setSelected("overview");
                   setFeedback(null);
                 }}
-                className={`w-full text-left p-3 rounded-xl border transition-all duration-200 mb-4 ${
-                  activeMode === "overview"
-                    ? "border-cyan-400 bg-cyan-50 shadow-sm"
-                    : "border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50"
-                }`}
+                className={`w-full text-left p-3 rounded-xl border transition-all duration-200 mb-4 ${activeMode === "overview"
+                  ? "border-cyan-400 bg-cyan-50 shadow-sm"
+                  : "border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50"
+                  }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <p
-                    className={`font-medium text-sm leading-5 flex items-center gap-2 ${
-                      activeMode === "overview" ? "text-cyan-900" : "text-gray-800"
-                    }`}
+                    className={`font-medium text-sm leading-5 flex items-center gap-2 ${activeMode === "overview" ? "text-cyan-900" : "text-gray-800"
+                      }`}
                   >
                     <BookOpen size={16} className={activeMode === "overview" ? "text-cyan-600" : "text-gray-400"} />
                     Study Guide
                   </p>
                   <ChevronRight
                     size={14}
-                    className={`mt-0.5 shrink-0 ${
-                      activeMode === "overview" ? "text-cyan-600" : "text-gray-400"
-                    }`}
+                    className={`mt-0.5 shrink-0 ${activeMode === "overview" ? "text-cyan-600" : "text-gray-400"
+                      }`}
                   />
                 </div>
               </button>
@@ -280,29 +277,26 @@ export default function ConceptExercises() {
               <button
                 key={ex.id}
                 onClick={() => selectExercise(ex)}
-                className={`w-full text-left p-3 rounded-xl border transition-all duration-200 ${
-                  activeMode?.id === ex.id
-                    ? "border-cyan-400 bg-cyan-50 shadow-sm"
-                    : "border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50"
-                }`}
+                className={`w-full text-left p-3 rounded-xl border transition-all duration-200 ${activeMode?.id === ex.id
+                  ? "border-cyan-400 bg-cyan-50 shadow-sm"
+                  : "border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50"
+                  }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <p
-                    className={`font-medium text-sm leading-5 ${
-                      activeMode?.id === ex.id
-                        ? "text-cyan-900"
-                        : "text-gray-800"
-                    }`}
+                    className={`font-medium text-sm leading-5 ${activeMode?.id === ex.id
+                      ? "text-cyan-900"
+                      : "text-gray-800"
+                      }`}
                   >
                     {ex.title}
                   </p>
                   <ChevronRight
                     size={14}
-                    className={`mt-0.5 shrink-0 ${
-                      activeMode?.id === ex.id
-                        ? "text-cyan-600"
-                        : "text-gray-400"
-                    }`}
+                    className={`mt-0.5 shrink-0 ${activeMode?.id === ex.id
+                      ? "text-cyan-600"
+                      : "text-gray-400"
+                      }`}
                   />
                 </div>
                 <div className="flex items-center gap-2 mt-1.5">
@@ -342,12 +336,12 @@ export default function ConceptExercises() {
               >
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Study Guide: {concept.title}</h2>
                 <p className="text-gray-600 mb-6">{concept.summary}</p>
-                
+
                 <div className="space-y-8">
                   {concept.interview_questions_summary && (
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
-                        <Terminal size={20} className="text-cyan-600"/> Interview Questions
+                        <Terminal size={20} className="text-cyan-600" /> Interview Questions
                       </h3>
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {concept.interview_questions_summary.map((q, i) => (
@@ -363,7 +357,7 @@ export default function ConceptExercises() {
                   {concept.best_practices_checklist && (
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
-                        <FileCheck size={20} className="text-green-600"/> Best Practices
+                        <FileCheck size={20} className="text-green-600" /> Best Practices
                       </h3>
                       <ul className="space-y-2">
                         {concept.best_practices_checklist.map((p, i) => (
@@ -379,7 +373,7 @@ export default function ConceptExercises() {
                   {concept.common_mistakes && (
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
-                        <AlertTriangle size={20} className="text-red-500"/> Common Mistakes
+                        <AlertTriangle size={20} className="text-red-500" /> Common Mistakes
                       </h3>
                       <ul className="space-y-2">
                         {concept.common_mistakes.map((m, i) => (
@@ -395,7 +389,7 @@ export default function ConceptExercises() {
                   {concept.optimization_techniques && (
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-3">
-                        <TrendingUp size={20} className="text-purple-600"/> Optimization Techniques
+                        <TrendingUp size={20} className="text-purple-600" /> Optimization Techniques
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {concept.optimization_techniques.map((t, i) => (
@@ -413,7 +407,7 @@ export default function ConceptExercises() {
                       </div>
                     </div>
                   )}
-                  
+
                   {concept.bonus_challenge && (
                     <div className="mt-8 border-t border-gray-200 pt-8">
                       <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-6 relative overflow-hidden">
@@ -421,10 +415,10 @@ export default function ConceptExercises() {
                           <Award size={120} className="text-amber-600" />
                         </div>
                         <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2 mb-2 relative z-10">
-                          <Award size={24} className="text-amber-600"/> {concept.bonus_challenge.title}
+                          <Award size={24} className="text-amber-600" /> {concept.bonus_challenge.title}
                         </h3>
                         <p className="text-sm text-amber-800 mb-4 relative z-10 max-w-2xl">{concept.bonus_challenge.description}</p>
-                        
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                           <div>
                             <h4 className="text-sm font-bold text-amber-900 mb-2">Requirements</h4>
@@ -516,7 +510,7 @@ export default function ConceptExercises() {
                       {showHints ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                     </button>
                   )}
-                  
+
                   {/* Interview Qs toggle */}
                   {activeExercise.interview_questions && activeExercise.interview_questions.length > 0 && (
                     <button
@@ -690,13 +684,12 @@ export default function ConceptExercises() {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
-                          feedback === "correct"
-                            ? "bg-green-500/20 text-green-300 border border-green-500/30"
-                            : feedback === "partial"
+                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${feedback === "correct"
+                          ? "bg-green-500/20 text-green-300 border border-green-500/30"
+                          : feedback === "partial"
                             ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
                             : "bg-red-500/20 text-red-300 border border-red-500/30"
-                        }`}
+                          }`}
                       >
                         {feedback === "correct" ? (
                           <CheckCircle size={16} />
@@ -706,8 +699,8 @@ export default function ConceptExercises() {
                         {feedback === "correct"
                           ? "Perfect! 🎉"
                           : feedback === "partial"
-                          ? "Partially correct — review hints"
-                          : "Not quite — check the instructions again"}
+                            ? "Partially correct — review hints"
+                            : "Not quite — check the instructions again"}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -749,7 +742,7 @@ export default function ConceptExercises() {
                       onClick={() => { setSelected("overview"); setFeedback(null); }}
                       className="w-full text-left p-3 rounded-xl border border-gray-100 bg-gray-50 hover:border-cyan-200 hover:bg-cyan-50/50 transition-all font-medium flex justify-between text-sm items-center text-gray-800"
                     >
-                      <span className="flex items-center gap-2"><BookOpen size={16} className="text-cyan-600"/> Study Guide</span>
+                      <span className="flex items-center gap-2"><BookOpen size={16} className="text-cyan-600" /> Study Guide</span>
                       <ChevronRight size={14} className="text-gray-400" />
                     </button>
                   )}
