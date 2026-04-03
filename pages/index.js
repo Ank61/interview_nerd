@@ -217,10 +217,11 @@ export default function Home() {
                           <div className="font-medium">Linux Practice</div>
                         </div>
                       </Button>
-                    </div>
-                  </div>
-                )}
-              </div>
+                    </div >
+                  </div >
+                )
+                }
+              </div >
 
               <a
                 href="#testimonials"
@@ -228,49 +229,51 @@ export default function Home() {
               >
                 Testimonials
               </a>
-              {session ? (
-                <>
-                  <Link
-                    href="/dashboard"
-                    className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
-                  >
-                    Dashboard
-                  </Link>
-                  <Button
-                    size="sm"
-                    className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                  >
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/auth/login"
-                    className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
-                  >
-                    Login
-                  </Link>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push("/auth/signup")}
-                    className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
-                  >
-                    Get Started
-                  </Button>
-                  {/* <Link
+              {
+                session ? (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
+                    >
+                      Dashboard
+                    </Link>
+                    <Button
+                      size="sm"
+                      className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
+                      onClick={() => signOut({ callbackUrl: "/" })}
+                    >
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/auth/login"
+                      className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      Login
+                    </Link>
+                    <Button
+                      size="sm"
+                      onClick={() => router.push("/auth/signup")}
+                      className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
+                    >
+                      Get Started
+                    </Button>
+                    {/* <Link
                     href="/auth/signup"
                     className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
                   >
                     Signup
                   </Link> */}
-                </>
-              )}
-            </div>
+                  </>
+                )
+              }
+            </div >
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden">
+            < div className="md:hidden" >
               <button
                 onClick={toggleMobileMenu}
                 className="text-gray-600 hover:text-blue-600 transition-all duration-200 p-2"
@@ -281,208 +284,210 @@ export default function Home() {
                   <Menu className="w-6 h-6" />
                 )}
               </button>
-            </div>
-          </div>
+            </div >
+          </div >
 
           {/* Mobile Navigation Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
-              <div className="container mx-auto px-4 py-4 space-y-4">
-                <a
-                  href="#features"
-                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Features
-                </a>
-                <a
-                  href="#snippets"
-                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Snippets
-                </a>
-                <a
-                  href="#categories"
-                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Categories
-                </a>
-                <div className="border-t border-gray-200 pt-4">
-                  <button
-                    onClick={() => setIsMobileToolsOpen(!isMobileToolsOpen)}
-                    className="w-full text-left text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 font-medium flex items-center justify-between"
+          {
+            isMobileMenuOpen && (
+              <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+                <div className="container mx-auto px-4 py-4 space-y-4">
+                  <a
+                    href="#features"
+                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <span className="flex items-center gap-2">
-                      <Settings className="w-4 h-4" />
-                      Tools
-                    </span>
-                    <ChevronDown
-                      className={`w-4 h-4 transition-transform duration-200 ${isMobileToolsOpen ? "rotate-180" : ""
-                        }`}
-                    />
-                  </button>
-                  {isMobileToolsOpen && (
-                    <div className="pl-6 space-y-2 mt-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          // session
-                          // ?
-                          router.push("/sql-practice");
-                          // : router.push("/auth/login");
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full justify-start text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2 py-2"
-                      >
-                        <DatabaseZap className="w-4 h-4" />
-                        SQL Practice
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          // session
-                          // ? router.push("/mongodb-practice")
-                          router.push("/mongodb-practice");
-                          // : router.push("/auth/login");
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
-                      >
-                        <Database className="w-4 h-4" />
-                        MongoDB Practice
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          // session
-                          // ?
-                          router.push("/python-practice");
-                          // : router.push("/auth/login");
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full justify-start text-yellow-600 hover:text-yellow-700 font-medium flex items-center gap-2 py-2"
-                      >
-                        <FileCode2 className="w-4 h-4" />
-                        Python Practice
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          router.push("/playground");
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full justify-start text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 py-2"
-                      >
-                        <Code className="w-4 h-4" />
-                        JavaScript Playground
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          router.push("/docker-practice");
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full justify-start text-cyan-600 hover:text-cyan-700 font-medium flex items-center gap-2 py-2"
-                      >
-                        <Container className="w-4 h-4" />
-                        Docker Practice
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          router.push("/go-practice");
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full justify-start text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2 py-2"
-                      >
-                        <Code2 className="w-4 h-4" />
-                        Go Practice
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          router.push("/linux-practice");
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
-                      >
-                        <Terminal className="w-4 h-4" />
-                        Linux Practice
-                      </Button>
-                    </div>
-                  )}
-                </div>
-                <Link
-                  href="/resources"
-                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Resources
-                </Link>
-                <a
-                  href="#testimonials"
-                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Testimonials
-                </a>
-                <div className="border-t border-gray-200 pt-4">
-                  {session ? (
-                    <div className="space-y-2">
-                      <Link
-                        href="/dashboard"
-                        className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center font-medium"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        Dashboard
-                      </Link>
-                      <Button
-                        size="sm"
-                        className="w-full bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                        onClick={() => {
-                          signOut({ callbackUrl: "/" });
-                          setIsMobileMenuOpen(false);
-                        }}
-                      >
-                        Logout
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <Link
-                        href="/auth/login"
-                        className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        Login
-                      </Link>
-                      <Link
-                        href="/auth/signup"
-                        className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        Signup
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-        </nav>
-      </header>
+                    Features
+                  </a>
+                  <a
+                    href="#snippets"
+                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Snippets
+                  </a>
+                  <a
+                    href="#categories"
+                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Categories
+                  </a>
+                  <div className="border-t border-gray-200 pt-4">
+                    <button
+                      onClick={() => setIsMobileToolsOpen(!isMobileToolsOpen)}
+                      className="w-full text-left text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 font-medium flex items-center justify-between"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Settings className="w-4 h-4" />
+                        Tools
+                      </span>
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform duration-200 ${isMobileToolsOpen ? "rotate-180" : ""
+                          }`}
+                      />
+                    </button>
+                    {isMobileToolsOpen && (
+                      <div className="pl-6 space-y-2 mt-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            // session
+                            // ?
+                            router.push("/sql-practice");
+                            // : router.push("/auth/login");
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full justify-start text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2 py-2"
+                        >
+                          <DatabaseZap className="w-4 h-4" />
+                          SQL Practice
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            // session
+                            // ? router.push("/mongodb-practice")
+                            router.push("/mongodb-practice");
+                            // : router.push("/auth/login");
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
+                        >
+                          <Database className="w-4 h-4" />
+                          MongoDB Practice
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            // session
+                            // ?
+                            router.push("/python-practice");
+                            // : router.push("/auth/login");
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full justify-start text-yellow-600 hover:text-yellow-700 font-medium flex items-center gap-2 py-2"
+                        >
+                          <FileCode2 className="w-4 h-4" />
+                          Python Practice
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            router.push("/playground");
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full justify-start text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 py-2"
+                        >
+                          <Code className="w-4 h-4" />
+                          JavaScript Playground
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            router.push("/docker-practice");
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full justify-start text-cyan-600 hover:text-cyan-700 font-medium flex items-center gap-2 py-2"
+                        >
+                          <Container className="w-4 h-4" />
+                          Docker Practice
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            router.push("/go-practice");
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full justify-start text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2 py-2"
+                        >
+                          <Code2 className="w-4 h-4" />
+                          Go Practice
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            router.push("/linux-practice");
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
+                        >
+                          <Terminal className="w-4 h-4" />
+                          Linux Practice
+                        </Button>
+                      </div >
+                    )
+                    }
+                  </div >
+                  <Link
+                    href="/resources"
+                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Resources
+                  </Link>
+                  <a
+                    href="#testimonials"
+                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Testimonials
+                  </a>
+                  <div className="border-t border-gray-200 pt-4">
+                    {session ? (
+                      <div className="space-y-2">
+                        <Link
+                          href="/dashboard"
+                          className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center font-medium"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          Dashboard
+                        </Link>
+                        <Button
+                          size="sm"
+                          className="w-full bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                          onClick={() => {
+                            signOut({ callbackUrl: "/" });
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          Logout
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <Link
+                          href="/auth/login"
+                          className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          Login
+                        </Link>
+                        <Link
+                          href="/auth/signup"
+                          className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          Signup
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </div >
+              </div >
+            )}
+        </nav >
+      </header >
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-16">
+      < section className="container mx-auto px-4 py-16" >
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -578,10 +583,10 @@ export default function Home() {
             </Button>
           </motion.div>
         </div>
-      </section>
+      </section >
 
       {/* Code Playground Feature Section */}
-      <section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16">
+      < section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16" >
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -793,13 +798,13 @@ export default function Home() {
                   </Button>
                 </div>
               </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+            </div >
+          </div >
+        </div >
+      </section >
 
       {/* Tech Stacks Section */}
-      <section id="categories" className="container mx-auto px-4 py-16">
+      < section id="categories" className="container mx-auto px-4 py-16" >
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1233,10 +1238,10 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* MCQ Practice Section with Carousel */}
-      <section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16">
+      < section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16" >
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1461,10 +1466,10 @@ export default function Home() {
           </Link>
         </motion.div> */}
         {/* </div> */}
-      </section>
+      </section >
 
       {/* Major Components Section */}
-      <section className="container mx-auto px-4 py-16 bg-gray-50">
+      < section className="container mx-auto px-4 py-16 bg-gray-50" >
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1618,7 +1623,7 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Docker Practice Section */}
       {/* <section className="container mx-auto px-4 py-12 bg-gray-50">
@@ -2112,6 +2117,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }
