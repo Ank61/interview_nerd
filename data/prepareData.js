@@ -175933,6 +175933,1671 @@ docker volume rm app-pgdata`,
               "https://docs.docker.com/compose/networking/",
             ],
           },
+          {
+            topic: "Docker Health Checks",
+            tags: [
+              "docker",
+              "health-checks",
+              "monitoring",
+              "reliability",
+              "devops",
+              "interview",
+            ],
+            explanation: `<div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker Health Checks are a built-in mechanism for monitoring the actual health of containerized applications, going far beyond simple process-level checks. While Docker tracks whether the container process is running, a health check answers a more critical question: "Is the application inside the container actually working and able to handle requests?" A web server process might be running but stuck in an infinite loop, unable to serve traffic. A database might be up but deadlocked. Health checks detect these failure states that process monitoring alone cannot catch. Understanding health checks deeply — how to implement them correctly, how Docker uses health check results for orchestration decisions, how to diagnose health check failures, and the performance implications of poorly designed checks — is essential for building production-grade containerized systems and is a common topic in senior DevOps and backend engineering interviews.
+  </p>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1: HEALTH CHECK FUNDAMENTALS                         -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Health Check Fundamentals
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A health check is a command that Docker runs inside your container at regular intervals to determine whether the application is functioning correctly. Docker monitors the exit code of this command: exit 0 means healthy, exit 1 means unhealthy, and exit 2 means reserved (do not use). Based on consecutive health check results, Docker transitions the container through three health states: starting, healthy, and unhealthy.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The Three Health States</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Every container with a health check configured moves through these states:
+  </p>
+  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">starting:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">Initial state when the container first starts. Docker does not yet consider the container fully operational. The container remains in "starting" state until the first successful health check completes. This period allows slow-starting applications (databases initializing, applications warming up caches) to become ready before being marked healthy. The <code>start-period</code> parameter defines how long Docker will ignore failed health checks during startup.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">healthy:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">The container has passed the required number of consecutive health checks (defined by <code>--health-retries</code>, default 3). The application is considered fully operational and ready to handle traffic. In orchestration systems (Docker Swarm, Kubernetes), only healthy containers receive traffic from load balancers.</p>
+    </li>
+    <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600;">unhealthy:</span>
+      <p style="margin-top: 0.3rem; line-height: 1.75;">The container has failed the configured number of consecutive health checks. The application is malfunctioning even though the container process is still running. Docker does NOT automatically restart unhealthy containers unless combined with a restart policy. In orchestration systems, unhealthy containers are removed from load balancers and typically replaced with new containers.</p>
+    </li>
+  </ol>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Health Check Parameters — Full Control Over Behavior</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Docker provides five parameters to control health check behavior. Understanding how to tune these for your application's characteristics is critical:
+  </p>
+
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Parameter</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Default</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">--interval</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">30s</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Time between health checks</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">--timeout</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">30s</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Max time for check to complete</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">--start-period</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">0s</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Grace period before checks count toward retries</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">--retries</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">3</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Consecutive failures before unhealthy</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">--start-interval</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">5s</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Check frequency during start-period</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1.25rem;">
+    <pre><code className="language-bash">
+# ── BASIC HEALTH CHECK SYNTAX ────────────────────────────────────
+
+# Dockerfile HEALTHCHECK instruction
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+# Runtime health check (overrides Dockerfile)
+docker run -d \
+  --health-cmd "curl -f http://localhost:8080/health || exit 1" \
+  --health-interval=30s \
+  --health-timeout=3s \
+  --health-retries=3 \
+  myapp:1.0
+
+
+# ── CHECKING CONTAINER HEALTH STATUS ─────────────────────────────
+
+# View health status in docker ps
+docker ps
+# STATUS column shows: Up 2 minutes (healthy)
+# Or: Up 5 minutes (unhealthy)
+# Or: Up 10 seconds (health: starting)
+
+# Filter containers by health status
+docker ps --filter health=healthy
+docker ps --filter health=unhealthy
+docker ps --filter health=starting
+docker ps --filter health=none    # no health check defined
+
+# Get health status for specific container
+docker inspect myapp --format='{{.State.Health.Status}}'
+# Output: healthy | unhealthy | starting | none
+
+# Full health check details
+docker inspect myapp --format='{{json .State.Health}}' | python3 -m json.tool
+
+
+# ── VIEWING HEALTH CHECK LOGS ─────────────────────────────────────
+
+# See last 5 health check results (default)
+docker inspect myapp --format='{{json .State.Health}}' | python3 -m json.tool
+
+# Output structure:
+# {
+#   "Status": "healthy",
+#   "FailingStreak": 0,
+#   "Log": [
+#     {
+#       "Start": "2024-01-15T10:30:00.123Z",
+#       "End": "2024-01-15T10:30:00.456Z",
+#       "ExitCode": 0,
+#       "Output": "HTTP/1.1 200 OK..."
+#     },
+#     ...
+#   ]
+# }
+
+# Extract just the last health check result
+docker inspect myapp \
+  --format='{{range .State.Health.Log}}{{.ExitCode}} {{.Output}}{{end}}' \
+  | tail -1
+
+# Count consecutive failures
+docker inspect myapp --format='{{.State.Health.FailingStreak}}'
+
+# See full timestamps of all health checks
+docker inspect myapp \
+  --format='{{range .State.Health.Log}}{{.Start}} - Exit: {{.ExitCode}}{{println}}{{end}}'
+
+
+# ── DISABLE HEALTH CHECKS ─────────────────────────────────────────
+
+# Disable in Dockerfile
+HEALTHCHECK NONE
+
+# Disable at runtime (overrides Dockerfile HEALTHCHECK)
+docker run -d --no-healthcheck myapp:1.0
+
+
+# ── HEALTH CHECK STATE TRANSITIONS ───────────────────────────────
+
+# Scenario: container starts, health checks begin
+# 
+# Time 0s:   Container starts → Status: starting
+# Time 5s:   First check (during start-period) → Fails (ignored)
+# Time 10s:  Second check → Fails (ignored, still in start-period)
+# Time 15s:  Third check → Fails (ignored)
+# Time 20s:  Fourth check → Success! → Status: healthy
+#
+# Now in healthy state, regular interval checks every 30s
+# Time 50s:  Check fails → FailingStreak: 1 (still healthy)
+# Time 80s:  Check fails → FailingStreak: 2 (still healthy)
+# Time 110s: Check fails → FailingStreak: 3 → Status: unhealthy
+
+
+# ── DEBUGGING UNHEALTHY CONTAINERS ───────────────────────────────
+
+# When a container is unhealthy, investigate:
+
+# 1. Check what the health check command actually is
+docker inspect myapp --format='{{.Config.Healthcheck.Test}}'
+
+# 2. See the exact failure output
+docker inspect myapp \
+  --format='{{range .State.Health.Log}}{{.Output}}{{println}}{{end}}' \
+  | tail -1
+
+# 3. Run the health check command manually inside the container
+docker exec myapp curl -f http://localhost:8080/health
+# Or whatever your health check command is
+
+# 4. Check application logs for errors
+docker logs myapp --tail 100
+
+# 5. Verify the application is actually running
+docker exec myapp ps aux
+
+# 6. Check if the port is actually listening
+docker exec myapp ss -tlnp | grep 8080
+docker exec myapp netstat -tlnp | grep 8080
+
+# 7. Test DNS resolution (if health check uses domain names)
+docker exec myapp nslookup database-service
+docker exec myapp ping -c 2 database-service
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker health checks run a command inside the container at regular intervals to verify application health. The command's exit code determines health: 0 = healthy, 1 = unhealthy. Containers transition through three states: starting (initial grace period), healthy (passed required consecutive checks), and unhealthy (failed required consecutive checks). Five parameters control behavior: interval (time between checks, default 30s), timeout (max check duration, default 30s), retries (consecutive failures before unhealthy, default 3), start-period (grace period ignoring failures during startup, default 0s), and start-interval (check frequency during start-period, default 5s). Critical distinction: Docker does NOT automatically restart unhealthy containers — orchestrators like Swarm and Kubernetes use health status to route traffic and replace containers."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2: IMPLEMENTING HEALTH CHECKS                        -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Implementing Health Checks
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    The effectiveness of a health check depends entirely on what you check and how you check it. A poorly designed health check can give false positives (marking a broken app as healthy) or false negatives (marking a working app as unhealthy), defeating the entire purpose. Understanding the different types of health checks and when to use each is critical.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">HTTP-Based Health Checks — The Most Common Pattern</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    For web applications and APIs, an HTTP endpoint is the standard health check approach. The application exposes a dedicated endpoint (commonly <code>/health</code>, <code>/healthz</code>, or <code>/api/health</code>) that returns HTTP 200 when healthy, non-200 when unhealthy. The health endpoint should verify critical dependencies without being overly expensive.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-dockerfile">
+# ── WEB APPLICATION HEALTH CHECKS ─────────────────────────────────
+
+# Simple HTTP check with curl
+FROM node:18-alpine
+WORKDIR /app
+COPY . .
+RUN npm install
+
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 --start-period=40s \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+CMD ["node", "server.js"]
+
+
+# ── ALTERNATIVE: wget (if curl not available) ────────────────────
+
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+
+
+# ── ALTERNATIVE: nc (netcat) for basic port check ────────────────
+
+HEALTHCHECK --interval=10s --timeout=2s \
+  CMD nc -z localhost 3000 || exit 1
+
+# ⚠️ WARNING: nc only checks if port is OPEN, not if app is WORKING
+# Use nc only when HTTP check is not possible
+
+
+# ── PYTHON/FLASK APPLICATION ──────────────────────────────────────
+
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+
+# Health check using Python's built-in urllib
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s \
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')" || exit 1
+
+CMD ["python", "app.py"]
+
+
+# ── JAVA/SPRING BOOT APPLICATION ──────────────────────────────────
+
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY target/myapp.jar app.jar
+
+# Install curl
+RUN apk add --no-cache curl
+
+# Spring Boot Actuator health endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+# ── NGINX WEB SERVER ──────────────────────────────────────────────
+
+FROM nginx:1.25-alpine
+
+# Install curl
+RUN apk add --no-cache curl
+
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY html/ /usr/share/nginx/html/
+
+# Check nginx is serving content
+HEALTHCHECK --interval=10s --timeout=3s \
+  CMD curl -f http://localhost:80/ || exit 1
+
+# Alternative: check nginx status endpoint
+# HEALTHCHECK CMD curl -f http://localhost:80/nginx_status || exit 1
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Database Health Checks — Verifying Connection and Query Execution</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Database health checks should verify that the database process is not just running but can actually accept connections and execute queries. Most databases provide built-in health check commands optimized for this purpose.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ── POSTGRESQL ────────────────────────────────────────────────────
+
+FROM postgres:15-alpine
+
+# pg_isready checks if PostgreSQL is accepting connections
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 --start-period=30s \
+  CMD pg_isready -U postgres -d mydb || exit 1
+
+# Alternative: actually execute a query
+HEALTHCHECK --interval=10s --timeout=5s --start-period=30s \
+  CMD psql -U postgres -d mydb -c "SELECT 1" > /dev/null || exit 1
+
+
+# ── MYSQL/MARIADB ─────────────────────────────────────────────────
+
+FROM mysql:8.0
+
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 --start-period=60s \
+  CMD mysqladmin ping -h localhost -u root -p$MYSQL_ROOT_PASSWORD || exit 1
+
+# Alternative: execute test query
+HEALTHCHECK --interval=10s --timeout=5s --start-period=60s \
+  CMD mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SELECT 1" > /dev/null || exit 1
+
+
+# ── MONGODB ───────────────────────────────────────────────────────
+
+FROM mongo:7.0
+
+# mongosh (mongo shell) ping command
+HEALTHCHECK --interval=10s --timeout=5s --start-period=40s \
+  CMD mongosh --eval "db.adminCommand('ping')" --quiet || exit 1
+
+# Alternative: older mongo versions use 'mongo' instead of 'mongosh'
+# HEALTHCHECK CMD mongo --eval "db.adminCommand('ping')" --quiet || exit 1
+
+
+# ── REDIS ─────────────────────────────────────────────────────────
+
+FROM redis:7.2-alpine
+
+# redis-cli ping
+HEALTHCHECK --interval=5s --timeout=3s --retries=3 \
+  CMD redis-cli ping | grep PONG || exit 1
+
+# If Redis has authentication:
+HEALTHCHECK --interval=5s --timeout=3s \
+  CMD redis-cli -a $REDIS_PASSWORD ping | grep PONG || exit 1
+
+
+# ── ELASTICSEARCH ─────────────────────────────────────────────────
+
+FROM docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+
+# Check cluster health
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s \
+  CMD curl -f http://localhost:9200/_cluster/health || exit 1
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Application-Specific Health Endpoint Implementation</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    The best practice is implementing a dedicated health endpoint in your application code that checks the things that actually matter for your application's operation.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-javascript">
+// ── NODE.JS/EXPRESS HEALTH ENDPOINT ──────────────────────────────
+
+const express = require('express');
+const app = express();
+
+// Basic health check - just returns 200
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy' });
+});
+
+// Advanced health check - verifies dependencies
+app.get('/health', async (req, res) => {
+  try {
+    // Check database connection
+    await db.query('SELECT 1');
+    
+    // Check Redis connection
+    await redis.ping();
+    
+    // Check external API dependency
+    const apiResponse = await fetch('https://api.example.com/status');
+    if (!apiResponse.ok) throw new Error('API unhealthy');
+    
+    res.status(200).json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      checks: {
+        database: 'ok',
+        redis: 'ok',
+        externalApi: 'ok'
+      }
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: 'unhealthy',
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.listen(3000);
+    </code></pre>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-python">
+# ── PYTHON/FLASK HEALTH ENDPOINT ──────────────────────────────────
+
+from flask import Flask, jsonify
+import psycopg2
+import redis
+import requests
+from datetime import datetime
+
+app = Flask(__name__)
+
+@app.route('/health')
+def health_check():
+    try:
+        # Check PostgreSQL
+        conn = psycopg2.connect(
+            host='postgres',
+            database='mydb',
+            user='user',
+            password='password'
+        )
+        cursor = conn.cursor()
+        cursor.execute('SELECT 1')
+        cursor.close()
+        conn.close()
+        
+        # Check Redis
+        r = redis.Redis(host='redis', port=6379, db=0)
+        r.ping()
+        
+        # Check external dependency
+        response = requests.get('https://api.example.com/status', timeout=2)
+        response.raise_for_status()
+        
+        return jsonify({
+            'status': 'healthy',
+            'timestamp': datetime.utcnow().isoformat(),
+            'checks': {
+                'database': 'ok',
+                'redis': 'ok',
+                'external_api': 'ok'
+            }
+        }), 200
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'unhealthy',
+            'error': str(e),
+            'timestamp': datetime.utcnow().isoformat()
+        }), 503
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+    </code></pre>
+  </div>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-go">
+// ── GO HEALTH ENDPOINT ────────────────────────────────────────────
+
+package main
+
+import (
+    "database/sql"
+    "encoding/json"
+    "net/http"
+    "time"
+    
+    _ "github.com/lib/pq"
+    "github.com/go-redis/redis/v8"
+)
+
+type HealthResponse struct {
+    Status    string            \`json:"status"\`
+    Timestamp time.Time         \`json:"timestamp"\`
+    Checks    map[string]string \`json:"checks"\`
+}
+
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+    checks := make(map[string]string)
+    healthy := true
+    
+    // Check database
+    db, err := sql.Open("postgres", "postgres://user:pass@postgres/mydb?sslmode=disable")
+    if err == nil {
+        err = db.Ping()
+        db.Close()
+    }
+    if err != nil {
+        checks["database"] = "error: " + err.Error()
+        healthy = false
+    } else {
+        checks["database"] = "ok"
+    }
+    
+    // Check Redis
+    rdb := redis.NewClient(&redis.Options{
+        Addr: "redis:6379",
+    })
+    ctx := r.Context()
+    err = rdb.Ping(ctx).Err()
+    if err != nil {
+        checks["redis"] = "error: " + err.Error()
+        healthy = false
+    } else {
+        checks["redis"] = "ok"
+    }
+    
+    status := "healthy"
+    statusCode := http.StatusOK
+    if !healthy {
+        status = "unhealthy"
+        statusCode = http.StatusServiceUnavailable
+    }
+    
+    response := HealthResponse{
+        Status:    status,
+        Timestamp: time.Now(),
+        Checks:    checks,
+    }
+    
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(statusCode)
+    json.NewEncoder(w).Encode(response)
+}
+
+func main() {
+    http.HandleFunc("/health", healthHandler)
+    http.ListenAndServe(":8080", nil)
+}
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "For web applications, implement a dedicated /health HTTP endpoint that returns 200 when healthy, 503 when unhealthy. The endpoint should verify critical dependencies: database connectivity (execute SELECT 1), cache connectivity (redis.ping()), and essential external APIs. Use curl -f in the HEALTHCHECK command — the -f flag makes curl exit with code 1 on HTTP errors, which Docker interprets as unhealthy. For databases, use built-in health commands: pg_isready for PostgreSQL, mysqladmin ping for MySQL, redis-cli ping for Redis, mongosh --eval for MongoDB. Always set appropriate start-period for slow-starting applications — databases typically need 30-60 seconds. The health check should be fast (< 1 second) but thorough enough to catch real failures."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3: HEALTH CHECK BEST PRACTICES AND ANTI-PATTERNS    -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Health Check Best Practices and Anti-Patterns
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A well-designed health check can catch real failures early and prevent cascading outages. A poorly designed health check can cause more problems than it solves — marking healthy containers as unhealthy (false negatives causing unnecessary restarts), marking unhealthy containers as healthy (false positives allowing broken containers to serve traffic), or consuming excessive resources. Understanding what makes a good health check versus a bad one is critical.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">✅ DO: Design Lightweight, Fast Health Checks</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ── GOOD: Simple, fast check ─────────────────────────────────────
+
+# Check if application port is responding
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+# Good health endpoint implementation:
+# - Returns quickly (< 100ms typical)
+# - Checks critical path only
+# - No complex computations
+# - No external API calls with high latency
+
+
+# ── BAD: Expensive health check ──────────────────────────────────
+
+# ❌ ANTI-PATTERN: Health check does expensive work
+HEALTHCHECK --interval=10s --timeout=30s \
+  CMD curl -f http://localhost:3000/run-full-diagnostics || exit 1
+
+# Problems:
+# - Runs every 10 seconds → constant CPU/memory overhead
+# - 30 second timeout → ties up resources
+# - Could cause performance degradation under load
+# - Could trigger rate limits on dependencies
+
+
+# ── GOOD: Dependency checks with timeouts ────────────────────────
+
+# Health endpoint with proper timeout handling
+app.get('/health', async (req, res) => {
+  const checks = await Promise.all([
+    checkDatabase().timeout(2000),    // 2s max
+    checkRedis().timeout(1000),       // 1s max
+  ]);
+  
+  if (checks.every(c => c.ok)) {
+    res.status(200).json({ status: 'healthy' });
+  } else {
+    res.status(503).json({ status: 'unhealthy', checks });
+  }
+});
+
+
+# ── BAD: No timeouts on dependency checks ─────────────────────────
+
+# ❌ ANTI-PATTERN: Unbounded dependency checks
+app.get('/health', async (req, res) => {
+  await database.query('SELECT * FROM huge_table');  // No timeout!
+  await externalAPI.get('/slow-endpoint');           // No timeout!
+  res.status(200).json({ status: 'healthy' });
+});
+
+# Problems:
+# - Slow dependencies make health check slow
+# - Can timeout the entire health check
+# - Under load, health checks themselves become bottleneck
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">✅ DO: Set Appropriate start-period for Slow-Starting Apps</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-dockerfile">
+# ── GOOD: Adequate start-period ──────────────────────────────────
+
+# Database that takes 45 seconds to initialize
+FROM postgres:15-alpine
+HEALTHCHECK \
+  --interval=10s \
+  --timeout=5s \
+  --retries=3 \
+  --start-period=60s \     # Allows 60s for initialization
+  --start-interval=5s \    # Check every 5s during startup
+  CMD pg_isready -U postgres || exit 1
+
+
+# Java application with slow JVM startup
+FROM eclipse-temurin:17-jre
+HEALTHCHECK \
+  --interval=30s \
+  --timeout=10s \
+  --start-period=120s \    # JVM warmup + app initialization
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+
+# ── BAD: No start-period for slow apps ───────────────────────────
+
+# ❌ ANTI-PATTERN: No start-period for database
+FROM postgres:15-alpine
+HEALTHCHECK --interval=10s --timeout=5s --retries=3 \
+  CMD pg_isready -U postgres || exit 1
+
+# Problem: PostgreSQL needs 30-60s to initialize
+# Without start-period, first 3 checks fail → marked unhealthy
+# In orchestration, unhealthy container is killed and replaced
+# Replacement also takes 30-60s to start
+# Infinite restart loop — container never becomes healthy!
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">✅ DO: Use Separate Liveness and Readiness Checks (Kubernetes Pattern)</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    In Kubernetes (and advanced Docker setups), separate checks serve different purposes: <strong>liveness</strong> (should the container be restarted?) and <strong>readiness</strong> (should traffic be sent to this container?). While Docker only has one HEALTHCHECK, understanding this distinction improves your health check design.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── KUBERNETES EXAMPLE: Liveness vs Readiness ────────────────────
+
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: myapp
+    image: myapp:1.0
+    
+    # Liveness: Is the app broken? Should we restart it?
+    # Checks fundamental application health
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 3
+      failureThreshold: 3
+    
+    # Readiness: Is the app ready for traffic?
+    # Checks if app can handle requests right now
+    # (might temporarily fail during high load, dependency issues)
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 2
+      failureThreshold: 2
+
+
+# ── DOCKER COMPOSE EQUIVALENT ─────────────────────────────────────
+
+services:
+  myapp:
+    image: myapp:1.0
+    healthcheck:
+      # Docker only has one check, so make it liveness-focused
+      # (fundamental health, not temporary load issues)
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">❌ DON'T: Check External Dependencies That You Don't Control</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-javascript">
+// ── BAD: Health check fails when external API is down ────────────
+
+// ❌ ANTI-PATTERN
+app.get('/health', async (req, res) => {
+  try {
+    // Checking third-party payment API
+    await fetch('https://api.stripe.com/v1/status');
+    
+    // Checking third-party analytics
+    await fetch('https://analytics.google.com/status');
+    
+    res.status(200).json({ status: 'healthy' });
+  } catch (error) {
+    res.status(503).json({ status: 'unhealthy' });
+  }
+});
+
+// Problem: Your app gets marked unhealthy when external services have issues
+// Even though YOUR application is working fine
+// In orchestration, your containers get killed when Stripe has an outage!
+
+
+// ── GOOD: Only check dependencies you control ────────────────────
+
+app.get('/health', async (req, res) => {
+  try {
+    // Check YOUR database (you control this)
+    await db.query('SELECT 1');
+    
+    // Check YOUR cache (you control this)
+    await redis.ping();
+    
+    // Check YOUR message queue (you control this)
+    await rabbitmq.checkConnection();
+    
+    res.status(200).json({ status: 'healthy' });
+  } catch (error) {
+    res.status(503).json({ status: 'unhealthy', error: error.message });
+  }
+});
+
+// External API failures are handled with:
+// - Circuit breakers (stop calling when down)
+// - Timeouts (fail fast, don't wait forever)
+// - Fallbacks (degraded functionality instead of total failure)
+// But NOT by marking your health check as unhealthy
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">❌ DON'T: Make Health Checks Stateful or Side-Effecting</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-javascript">
+// ── BAD: Health check modifies state ──────────────────────────────
+
+// ❌ ANTI-PATTERN: Writing to database
+app.get('/health', async (req, res) => {
+  try {
+    // Writes a row on every health check!
+    await db.query('INSERT INTO health_checks (timestamp) VALUES (NOW())');
+    res.status(200).json({ status: 'healthy' });
+  } catch (error) {
+    res.status(503).json({ status: 'unhealthy' });
+  }
+});
+
+// Problem: Health check runs every 30 seconds
+// Writes 2,880 rows per day per container
+// Database bloat, unnecessary writes, performance degradation
+
+
+// ❌ ANTI-PATTERN: Consuming credits/resources
+app.get('/health', async (req, res) => {
+  // Sends an actual email on every check!
+  await sendEmail('Health check passed');
+  res.status(200).json({ status: 'healthy' });
+});
+
+// Problem: Sends 2,880 emails per day per container
+// Could trigger rate limits, cost money, or get blacklisted
+
+
+// ── GOOD: Read-only health check ─────────────────────────────────
+
+app.get('/health', async (req, res) => {
+  try {
+    // Read-only query
+    await db.query('SELECT 1');
+    
+    // Read-only Redis check
+    await redis.ping();
+    
+    res.status(200).json({ status: 'healthy' });
+  } catch (error) {
+    res.status(503).json({ status: 'unhealthy' });
+  }
+});
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">✅ DO: Log Health Check Failures for Debugging</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-javascript">
+// ── GOOD: Detailed health check with logging ─────────────────────
+
+const logger = require('./logger');
+
+app.get('/health', async (req, res) => {
+  const checks = {
+    database: 'unknown',
+    redis: 'unknown',
+    messageQueue: 'unknown'
+  };
+  
+  try {
+    // Check database
+    try {
+      await db.query('SELECT 1');
+      checks.database = 'ok';
+    } catch (err) {
+      checks.database = 'error';
+      logger.error('Health check failed: database', { error: err.message });
+    }
+    
+    // Check Redis
+    try {
+      await redis.ping();
+      checks.redis = 'ok';
+    } catch (err) {
+      checks.redis = 'error';
+      logger.error('Health check failed: redis', { error: err.message });
+    }
+    
+    // Check message queue
+    try {
+      await rabbitmq.checkConnection();
+      checks.messageQueue = 'ok';
+    } catch (err) {
+      checks.messageQueue = 'error';
+      logger.error('Health check failed: message queue', { error: err.message });
+    }
+    
+    // Determine overall health
+    const allHealthy = Object.values(checks).every(v => v === 'ok');
+    
+    if (allHealthy) {
+      res.status(200).json({ status: 'healthy', checks });
+    } else {
+      logger.warn('Health check failed', { checks });
+      res.status(503).json({ status: 'unhealthy', checks });
+    }
+    
+  } catch (error) {
+    logger.error('Health check error', { error: error.message });
+    res.status(503).json({ status: 'unhealthy', error: error.message });
+  }
+});
+
+// Now when container goes unhealthy, application logs show WHY
+// docker logs myapp will show: "Health check failed: database timeout"
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Common Mistake — Health Check Dependency Cascade:</strong> If service A health checks service B, and service B health checks service C, a failure in C marks B unhealthy, which marks A unhealthy, causing all three services to be restarted even though A and B are fine. Each service should only check its immediate, critical dependencies — not transitive dependencies.
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Good health checks are lightweight (< 100ms), read-only, and check only dependencies you control. DO: use appropriate start-period for slow-starting apps (60s+ for databases), implement dedicated /health endpoints that verify critical paths, set timeouts on all dependency checks, and log failures for debugging. DON'T: check external third-party APIs you don't control (health check fails when they have issues), make health checks stateful or write data (creates unnecessary load), use expensive queries or computations (runs every 30 seconds by default), or create dependency cascades where service A checks B checks C. In Kubernetes, liveness checks detect if the container should be restarted, readiness checks detect if it should receive traffic — Docker only has one HEALTHCHECK, so focus it on fundamental liveness."
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4: HEALTH CHECKS IN DOCKER COMPOSE AND ORCHESTRATION -->
+  <!-- ============================================================ -->
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Health Checks in Docker Compose and Orchestration
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Health checks become truly powerful when combined with orchestration tools. Docker Compose uses health checks to control startup order with <code>depends_on</code> conditions. Docker Swarm and Kubernetes use health checks to decide which containers receive traffic and when to replace failed containers. Understanding how health status integrates with orchestration is critical for production deployments.
+  </p>
+
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">Docker Compose — Service Dependency Management</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── DOCKER COMPOSE HEALTH-BASED DEPENDENCIES ─────────────────────
+
+services:
+  # PostgreSQL database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d myapp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Redis cache
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --requirepass redispass
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # API service - waits for database AND redis to be healthy
+  api:
+    build: ./api
+    environment:
+      DATABASE_URL: postgresql://user:secret@postgres:5432/myapp
+      REDIS_URL: redis://:redispass@redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy    # Wait for healthy state!
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+
+  # Frontend web server - waits for API
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  pgdata:
+
+
+# ── BEHAVIOR EXPLANATION ─────────────────────────────────────────
+
+# Without health checks:
+# depends_on: [postgres] only waits for container START
+# API tries to connect → postgres not ready yet → API crashes
+
+# With health checks and condition: service_healthy:
+# 1. postgres container starts
+# 2. Docker runs pg_isready health check every 10s
+# 3. After 30s start_period, checks start counting
+# 4. When 1 check succeeds → postgres status: healthy
+# 5. ONLY THEN does api container start
+# 6. api waits for its own health checks
+# 7. ONLY THEN does nginx container start
+
+# Result: Guaranteed startup order, no race conditions
+
+
+# ── AVAILABLE depends_on CONDITIONS ──────────────────────────────
+
+# service_started - wait for container to start (default, no health check needed)
+depends_on:
+  postgres:
+    condition: service_started
+
+# service_healthy - wait for healthy status (requires healthcheck defined)
+depends_on:
+  postgres:
+    condition: service_healthy
+
+# service_completed_successfully - wait for container to exit with code 0
+# (useful for init containers, migration runners)
+depends_on:
+  migration:
+    condition: service_completed_successfully
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Docker Swarm — Automatic Container Replacement</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── DOCKER SWARM SERVICE WITH HEALTH CHECK ───────────────────────
+
+# Create a Swarm service with health check
+docker service create \
+  --name myapi \
+  --replicas 3 \
+  --health-cmd "curl -f http://localhost:3000/health || exit 1" \
+  --health-interval 30s \
+  --health-timeout 10s \
+  --health-retries 3 \
+  --health-start-period 40s \
+  myapi:1.0
+
+# Swarm behavior with health checks:
+# 1. Swarm starts 3 replicas across cluster nodes
+# 2. Each replica reports health status to Swarm manager
+# 3. If replica becomes unhealthy:
+#    - Swarm STOPS routing traffic to it
+#    - Swarm waits for potential recovery
+#    - If still unhealthy after retries, Swarm KILLS the container
+#    - Swarm starts a NEW replica to maintain replica count
+# 4. Only healthy replicas receive traffic from ingress load balancer
+
+
+# View service health status
+docker service ps myapi
+
+# Output shows health status per replica:
+# ID            NAME      IMAGE        NODE    DESIRED STATE  CURRENT STATE
+# abc123        myapi.1   myapi:1.0    node1   Running        Running (healthy)
+# def456        myapi.2   myapi:1.0    node2   Running        Running (healthy)
+# ghi789        myapi.3   myapi:1.0    node3   Running        Running (unhealthy)
+
+
+# Inspect specific task health
+docker inspect <task-id> --format='{{json .Status.Health}}' | python3 -m json.tool
+
+
+# Update health check on running service
+docker service update \
+  --health-interval 10s \
+  --health-retries 5 \
+  myapi
+
+
+# ── ROLLING UPDATE WITH HEALTH CHECKS ────────────────────────────
+
+# Update service image with health-aware rolling update
+docker service update \
+  --image myapi:2.0 \
+  --update-delay 10s \
+  --update-failure-action rollback \
+  --health-start-period 60s \
+  myapi
+
+# Swarm update process:
+# 1. Stop 1 replica (myapi.1)
+# 2. Start new container with myapi:2.0
+# 3. Wait for health checks to pass (start-period: 60s)
+# 4. If healthy → proceed to next replica
+# 5. If unhealthy → ROLLBACK entire update automatically
+# 6. Continue until all replicas updated
+
+
+# Monitor update progress
+docker service ps myapi --filter "desired-state=running"
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.05rem; font-weight: 600;">Monitoring and Alerting on Health Status</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── MONITORING HEALTH STATUS ACROSS CONTAINERS ───────────────────
+
+# Count unhealthy containers
+docker ps --filter health=unhealthy --format '{{.Names}}' | wc -l
+
+# List all unhealthy containers with details
+docker ps --filter health=unhealthy \
+  --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+# Get health status for all containers (JSON for parsing)
+docker ps --format '{{.Names}}' | while read name; do
+  status=$(docker inspect $name --format='{{.State.Health.Status}}' 2>/dev/null || echo "none")
+  echo "$name: $status"
+done
+
+
+# ── HEALTH CHECK ALERTING SCRIPT ─────────────────────────────────
+
+#!/bin/bash
+# health-monitor.sh - Run this via cron every minute
+
+UNHEALTHY=$(docker ps --filter health=unhealthy -q)
+
+if [ ! -z "$UNHEALTHY" ]; then
+  # Send alert (Slack, PagerDuty, email, etc.)
+  for container in $UNHEALTHY; do
+    name=$(docker inspect $container --format='{{.Name}}')
+    logs=$(docker inspect $container \
+      --format='{{range .State.Health.Log}}{{.Output}}{{end}}' | tail -1)
+    
+    # Send to monitoring system
+    curl -X POST https://hooks.slack.com/services/YOUR/WEBHOOK/URL \
+      -H 'Content-Type: application/json' \
+      -d "{\"text\": \"🚨 Container $name is UNHEALTHY!\n\nLast check output:\n$logs\"}"
+  done
+fi
+
+
+# ── PROMETHEUS METRICS EXPORT ────────────────────────────────────
+
+# Export Docker container health to Prometheus
+# Using docker_container_health_status metric
+
+# Example docker-compose.yml with cAdvisor (container metrics)
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+# Prometheus scrape config
+# scrape_configs:
+#   - job_name: 'cadvisor'
+#     static_configs:
+#       - targets: ['cadvisor:8080']
+
+# Query unhealthy containers in Prometheus:
+# container_health_status{health_status="unhealthy"}
+
+
+# ── HEALTH CHECK LOGS RETENTION ──────────────────────────────────
+
+# Docker stores only last 5 health check results by default
+# To see more history, implement custom logging in health endpoint
+
+# Example: Log to file + stdout
+app.get('/health', async (req, res) => {
+  const result = await performHealthChecks();
+  
+  // Log to file for historical analysis
+  fs.appendFileSync('/var/log/health-checks.log', 
+    JSON.stringify({ timestamp: new Date(), ...result }) + '\n'
+  );
+  
+  // Also log to stdout (appears in docker logs)
+  console.log('Health check:', result);
+  
+  res.status(result.healthy ? 200 : 503).json(result);
+});
+    </code></pre>
+  </div>
+
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "In Docker Compose, depends_on with condition: service_healthy ensures services start only after dependencies are healthy — solving startup race conditions. Without this, depends_on only waits for container start, not readiness. In Docker Swarm, health checks control load balancing — unhealthy replicas are removed from the ingress router, preventing traffic to broken containers. Swarm also uses health status during rolling updates: if a new version's health checks fail, Swarm automatically rolls back. Docker stores only the last 5 health check results in .State.Health.Log — for longer history, implement custom logging in the health endpoint. Critical for production: monitor health status with scripts or tools like cAdvisor/Prometheus and alert on unhealthy states."
+  </div>
+
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER HEALTH CHECKS WORKFLOW
+# Demonstrates health check implementation, debugging, and orchestration
+# ══════════════════════════════════════════════════════════════
+
+
+# ── PART 1: Basic Health Check Implementation ─────────────────────
+
+echo "=== Part 1: Basic Health Check Setup ==="
+
+# Create a simple Node.js app with health endpoint
+mkdir -p /tmp/health-demo && cd /tmp/health-demo
+
+cat > server.js << 'EOF'
+const express = require('express');
+const app = express();
+
+let healthy = true;
+let requestCount = 0;
+
+app.get('/health', (req, res) => {
+  requestCount++;
+  console.log(\`Health check #\${requestCount} at \${new Date().toISOString()}\`);
+  
+  if (healthy) {
+    res.status(200).json({ 
+      status: 'healthy', 
+      uptime: process.uptime(),
+      checks: requestCount 
+    });
+  } else {
+    res.status(503).json({ 
+      status: 'unhealthy', 
+      message: 'Simulated failure' 
+    });
+  }
+});
+
+app.get('/toggle', (req, res) => {
+  healthy = !healthy;
+  res.json({ healthy, message: \`Health is now: \${healthy ? 'healthy' : 'unhealthy'}\` });
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello from health demo app!');
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+EOF
+
+cat > package.json << 'EOF'
+{
+  "name": "health-demo",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+EOF
+
+cat > Dockerfile << 'EOF'
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY server.js .
+
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+# Health check configuration
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 --start-period=5s \\
+  CMD curl -f http://localhost:3000/health || exit 1
+
+CMD ["node", "server.js"]
+EOF
+
+# Build the image
+docker build -t health-demo:1.0 .
+
+# Run container with health check
+docker run -d --name health-demo -p 3000:3000 health-demo:1.0
+
+echo "Waiting for container to start..."
+sleep 3
+
+# Watch health status evolve
+echo ""
+echo "=== Watching health status progression ==="
+for i in {1..6}; do
+  status=$(docker inspect health-demo --format='{{.State.Health.Status}}')
+  echo "Check $i: Status = $status"
+  sleep 2
+done
+
+# Show detailed health information
+echo ""
+echo "=== Detailed Health Status ==="
+docker inspect health-demo --format='{{json .State.Health}}' | python3 -m json.tool
+
+
+# ── PART 2: Simulating Health Check Failures ──────────────────────
+
+echo ""
+echo "=== Part 2: Simulating Failures ==="
+
+# Current status should be healthy
+docker ps --filter name=health-demo --format "{{.Status}}"
+
+# Trigger unhealthy state
+echo "Triggering unhealthy state..."
+curl -s http://localhost:3000/toggle | python3 -m json.tool
+
+# Watch it become unhealthy
+echo ""
+echo "Monitoring transition to unhealthy..."
+for i in {1..5}; do
+  status=$(docker inspect health-demo --format='{{.State.Health.Status}}')
+  failing=$(docker inspect health-demo --format='{{.State.Health.FailingStreak}}')
+  echo "Check $i: Status=$status, FailingStreak=$failing"
+  sleep 3
+done
+
+# Show unhealthy status
+docker ps --filter name=health-demo --format "table {{.Names}}\\t{{.Status}}"
+
+# Examine failure logs
+echo ""
+echo "=== Last Health Check Failure ==="
+docker inspect health-demo \\
+  --format='{{range .State.Health.Log}}{{.Output}}{{println}}{{end}}' \\
+  | tail -1
+
+
+# ── PART 3: Debugging Unhealthy Containers ────────────────────────
+
+echo ""
+echo "=== Part 3: Debugging Unhealthy Container ==="
+
+# Check what the health check command is
+echo "Health check command:"
+docker inspect health-demo --format='{{.Config.Healthcheck.Test}}'
+
+# Run the health check manually
+echo ""
+echo "Running health check manually:"
+docker exec health-demo curl -f http://localhost:3000/health
+echo "Exit code: $?"
+
+# Check application logs
+echo ""
+echo "Recent application logs:"
+docker logs health-demo --tail 10
+
+# Restore health
+echo ""
+echo "Restoring healthy state..."
+curl -s http://localhost:3000/toggle | python3 -m json.tool
+
+# Watch recovery
+echo ""
+echo "Monitoring recovery to healthy..."
+for i in {1..4}; do
+  status=$(docker inspect health-demo --format='{{.State.Health.Status}}')
+  echo "Check $i: Status=$status"
+  sleep 3
+done
+
+
+# ── PART 4: Docker Compose with Health Dependencies ───────────────
+
+echo ""
+echo "=== Part 4: Health-Based Service Dependencies ==="
+
+cd /tmp/health-demo
+cat > docker-compose.yml << 'EOF'
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d testdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  cache:
+    image: redis:7.2-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 2s
+      retries: 3
+
+  app:
+    build: .
+    ports:
+      - "3001:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
+EOF
+
+# Clean up previous container
+docker rm -f health-demo
+
+# Start the stack
+echo "Starting multi-service stack with health dependencies..."
+docker compose up -d
+
+# Watch services become healthy in order
+echo ""
+echo "Watching service health progression:"
+for i in {1..10}; do
+  db_status=$(docker inspect health-demo-db-1 --format='{{.State.Health.Status}}' 2>/dev/null || echo "starting")
+  cache_status=$(docker inspect health-demo-cache-1 --format='{{.State.Health.Status}}' 2>/dev/null || echo "starting")
+  app_status=$(docker inspect health-demo-app-1 --format='{{.State.Health.Status}}' 2>/dev/null || echo "not started")
+  
+  echo "Check $i: DB=$db_status, Cache=$cache_status, App=$app_status"
+  sleep 2
+done
+
+# Show final status
+echo ""
+docker compose ps
+
+
+# ── PART 5: Health Check Best Practices Demonstration ─────────────
+
+echo ""
+echo "=== Part 5: Advanced Health Check Patterns ==="
+
+cat > advanced-health.js << 'EOF'
+const express = require('express');
+const app = express();
+
+// Simulate database connection
+class Database {
+  constructor() {
+    this.connected = true;
+  }
+  
+  async ping() {
+    if (!this.connected) throw new Error('Database disconnected');
+    return true;
+  }
+}
+
+const db = new Database();
+
+// Advanced health endpoint with detailed checks
+app.get('/health', async (req, res) => {
+  const checks = {
+    database: 'unknown',
+    memory: 'unknown',
+    uptime: 'unknown'
+  };
+  
+  let allHealthy = true;
+  
+  // Check database
+  try {
+    await db.ping();
+    checks.database = 'ok';
+  } catch (err) {
+    checks.database = \`error: \${err.message}\`;
+    allHealthy = false;
+    console.error('Health check failed: database', err);
+  }
+  
+  // Check memory usage
+  const memUsage = process.memoryUsage();
+  const memUsedMB = Math.round(memUsage.heapUsed / 1024 / 1024);
+  checks.memory = \`\${memUsedMB}MB\`;
+  if (memUsedMB > 500) {
+    checks.memory += ' (high)';
+    allHealthy = false;
+  }
+  
+  // Check uptime
+  const uptime = Math.floor(process.uptime());
+  checks.uptime = \`\${uptime}s\`;
+  
+  const response = {
+    status: allHealthy ? 'healthy' : 'unhealthy',
+    timestamp: new Date().toISOString(),
+    checks: checks
+  };
+  
+  console.log('Health check:', JSON.stringify(response));
+  
+  res.status(allHealthy ? 200 : 503).json(response);
+});
+
+app.listen(3000, () => console.log('Advanced health demo running'));
+EOF
+
+echo "Created advanced health check example"
+
+
+# ── PART 6: Monitoring Health Across Multiple Containers ──────────
+
+echo ""
+echo "=== Part 6: Health Monitoring Dashboard ==="
+
+# Create monitoring script
+cat > monitor-health.sh << 'EOF'
+#!/bin/bash
+
+echo "=== Docker Container Health Status ==="
+echo ""
+
+# Header
+printf "%-30s %-15s %-10s %s\\n" "CONTAINER" "STATUS" "FAILING" "LAST CHECK"
+printf "%-30s %-15s %-10s %s\\n" "$(printf '%.30s' "------------------------------")" \\
+  "$(printf '%.15s' "---------------")" \\
+  "$(printf '%.10s' "----------")" \\
+  "----------"
+
+# Iterate all containers
+for container in $(docker ps --format '{{.Names}}'); do
+  status=$(docker inspect $container --format='{{.State.Health.Status}}' 2>/dev/null || echo "none")
+  failing=$(docker inspect $container --format='{{.State.Health.FailingStreak}}' 2>/dev/null || echo "n/a")
+  
+  if [ "$status" != "none" ]; then
+    last_check=$(docker inspect $container \\
+      --format='{{range .State.Health.Log}}{{.Start}}{{end}}' 2>/dev/null | tail -c 20 || echo "n/a")
+    
+    printf "%-30s %-15s %-10s %s\\n" "$container" "$status" "$failing" "$last_check"
+  fi
+done
+
+echo ""
+echo "Unhealthy containers:"
+docker ps --filter health=unhealthy --format "  - {{.Names}}" || echo "  None"
+EOF
+
+chmod +x monitor-health.sh
+./monitor-health.sh
+
+
+# ── CLEANUP ───────────────────────────────────────────────────────
+
+echo ""
+echo "=== Cleanup ==="
+echo "To stop the demo:"
+echo "  cd /tmp/health-demo && docker compose down"
+echo "  docker rm -f health-demo"
+echo ""
+echo "Demo files available at: /tmp/health-demo"`,
+            ],
+
+            questions: [
+              {
+                question:
+                  "How does Docker determine if a container is healthy, and what are the three health states?",
+                solution:
+                  "<p>Docker runs a health check command inside the container at regular intervals and examines the <strong>exit code</strong>: exit 0 means healthy, exit 1 means unhealthy, exit 2 is reserved (don't use). Based on consecutive results, containers transition through three states: (1) <strong>starting</strong> — initial state when container first launches, remains until the first successful health check, start-period defines how long failures are ignored during initialization; (2) <strong>healthy</strong> — container has passed the configured number of consecutive health checks (default: 3 via --retries), application is considered fully operational; (3) <strong>unhealthy</strong> — container has failed the configured number of consecutive health checks, application is malfunctioning even though the process is still running. Critical distinction: Docker does NOT automatically restart unhealthy containers unless combined with a restart policy. Orchestrators (Swarm, Kubernetes) use health status to route traffic and replace containers.</p>",
+              },
+              {
+                question: "What do the five health check parameters control?",
+                solution:
+                  "<p>The five parameters provide complete control over health check behavior: (1) <strong>--interval</strong> (default 30s) — time between consecutive health checks once the container is running normally. (2) <strong>--timeout</strong> (default 30s) — maximum time the health check command is allowed to run before Docker kills it and considers it failed. (3) <strong>--start-period</strong> (default 0s) — grace period during container startup where failed health checks don't count toward the retry limit, allows slow-starting apps (databases, JVM apps) to initialize before being marked unhealthy. (4) <strong>--retries</strong> (default 3) — number of consecutive failures required before marking the container unhealthy, also the number of consecutive successes required to transition from starting to healthy. (5) <strong>--start-interval</strong> (default 5s) — how frequently health checks run during the start-period, typically faster than normal interval to detect readiness quickly. Example: database with 60s startup needs --start-period=60s to avoid premature unhealthy marking.</p>",
+              },
+              {
+                question:
+                  "How do you view health check status and logs for a container?",
+                solution:
+                  "<p>Multiple methods provide different levels of detail: (1) <strong>docker ps</strong> — STATUS column shows health: 'Up 5 minutes (healthy)', 'Up 2 minutes (unhealthy)', or 'Up 10 seconds (health: starting)'. Filter by health: <code>docker ps --filter health=unhealthy</code>. (2) <strong>docker inspect</strong> — full health details: <code>docker inspect CONTAINER --format='{{json .State.Health}}' | python3 -m json.tool</code>. Returns Status, FailingStreak (consecutive failures), and Log array with last 5 health check results (Start time, End time, ExitCode, Output). (3) <strong>Extract specific data</strong> — current status: <code>docker inspect CONTAINER --format='{{.State.Health.Status}}'</code>; failing streak: <code>docker inspect CONTAINER --format='{{.State.Health.FailingStreak}}'</code>; last check output: <code>docker inspect CONTAINER --format='{{range .State.Health.Log}}{{.Output}}{{end}}' | tail -1</code>. (4) <strong>Application logs</strong> — health check output also appears in container logs if the health endpoint logs: <code>docker logs CONTAINER</code>.</p>",
+              },
+              {
+                question:
+                  "What is the difference between HEALTHCHECK in Dockerfile and health check flags at runtime?",
+                solution:
+                  "<p><strong>Dockerfile HEALTHCHECK</strong> defines the default health check baked into the image: <code>HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost/health || exit 1</code>. This travels with the image — anyone running this image gets the health check automatically. <strong>Runtime health check flags</strong> override the Dockerfile HEALTHCHECK: <code>docker run --health-cmd 'curl localhost/admin-health' --health-interval=10s myimage</code>. Runtime flags have precedence — they completely replace the Dockerfile HEALTHCHECK. Special case: <code>--no-healthcheck</code> flag disables health checks entirely, even if the Dockerfile defines one. In Docker Compose, the <code>healthcheck:</code> section also overrides Dockerfile HEALTHCHECK. Best practice: define sensible defaults in Dockerfile, allow runtime override for different deployment scenarios (production vs development intervals, different endpoints for different environments). To disable a Dockerfile health check: <code>HEALTHCHECK NONE</code> in Dockerfile, or <code>--no-healthcheck</code> at runtime.</p>",
+              },
+              {
+                question:
+                  "How do you implement a proper HTTP-based health check? What should and shouldn't it check?",
+                solution:
+                  "<p>A proper HTTP health endpoint (1) <strong>Returns appropriate status codes</strong>: HTTP 200 for healthy, HTTP 503 (Service Unavailable) for unhealthy. (2) <strong>Checks critical dependencies you control</strong>: database connectivity (execute SELECT 1), cache connectivity (redis.ping()), message queue connection. (3) <strong>Uses timeouts on all checks</strong>: each dependency check should have a timeout (2-3 seconds max) to prevent slow dependencies from blocking the health check. (4) <strong>Completes quickly</strong>: entire health check should finish in < 100ms typically, definitely < 1 second. (5) <strong>Is read-only</strong>: never writes data, never modifies state, never consumes credits/resources. DON'T check: (1) External third-party APIs you don't control (marks your app unhealthy when Stripe has an outage). (2) Expensive queries or computations (runs every 30 seconds, creates constant load). (3) Transitive dependencies (if you check service B which checks service C, failures cascade). Implementation: <code>app.get('/health', async (req, res) => { try { await Promise.all([db.query('SELECT 1').timeout(2000), redis.ping().timeout(1000)]); res.status(200).json({status: 'healthy'}); } catch (err) { res.status(503).json({status: 'unhealthy', error: err.message}); } });</code></p>",
+              },
+              {
+                question:
+                  "Why is start-period critical for database containers? What happens without it?",
+                solution:
+                  "<p>Database containers (PostgreSQL, MySQL, MongoDB) take 30-60+ seconds to initialize on first start: creating data directories, initializing system tables, starting background processes, accepting connections. Without <code>--start-period</code>, Docker begins health checks immediately and counts failures toward the retry limit. Scenario without start-period: (1) Container starts, PostgreSQL initializing. (2) Health check 1 at 0s: pg_isready fails (postgres not ready), FailingStreak=1. (3) Health check 2 at 30s: fails, FailingStreak=2. (4) Health check 3 at 60s: fails, FailingStreak=3 → marked UNHEALTHY. (5) In orchestration (Compose, Swarm), unhealthy container is killed and replaced. (6) Replacement starts, same 60s initialization, same failure → infinite restart loop. With proper start-period: <code>HEALTHCHECK --start-period=60s --start-interval=5s CMD pg_isready</code>. Health checks run every 5s during startup, but failures don't count toward retry limit for the first 60 seconds. Once PostgreSQL becomes ready (e.g., at 45s), next check succeeds → immediately marked healthy. Rule of thumb: set start-period to 2x typical initialization time, measure actual startup time in testing.</p>",
+              },
+              {
+                question:
+                  "How does depends_on work with health checks in Docker Compose? What's the difference between condition: service_started and condition: service_healthy?",
+                solution:
+                  "<p><code>depends_on</code> controls service startup order in Docker Compose. Two conditions: (1) <strong>service_started</strong> (default) — Compose waits only for the container to START, not for the application inside to be ready. Example: <code>depends_on: [postgres]</code> → Compose starts postgres container, immediately starts dependent service. If postgres takes 30s to initialize, dependent service tries to connect at 2s → connection refused → crash → restart loop. (2) <strong>service_healthy</strong> — Compose waits for the dependency to pass health checks before starting the dependent service. Example: <code>depends_on: postgres: {condition: service_healthy}</code>. Compose behavior: start postgres → run health checks → wait for healthy status → ONLY THEN start dependent service. Requires the dependency to have a HEALTHCHECK defined. Real-world pattern: <code>services:\n  postgres:\n    healthcheck:\n      test: pg_isready -U user\n      interval: 10s\n      retries: 5\n      start_period: 30s\n  api:\n    depends_on:\n      postgres: {condition: service_healthy}</code>. Result: API starts only after postgres is confirmed ready, no race conditions, no connection errors on startup. Third option: <code>service_completed_successfully</code> — for init containers that run once and exit (database migrations).</p>",
+              },
+              {
+                question:
+                  "How does Docker Swarm use health checks differently than standalone Docker?",
+                solution:
+                  "<p>In standalone Docker, health status is informational — Docker tracks it but doesn't act on it (no automatic restarts unless combined with restart policy). In <strong>Docker Swarm</strong>, health status directly controls traffic routing and container lifecycle: (1) <strong>Load balancing</strong> — Swarm's ingress network only routes traffic to healthy replicas. Unhealthy replica → removed from load balancer immediately → no traffic sent to it. (2) <strong>Automatic replacement</strong> — If a replica stays unhealthy after retries, Swarm kills the container and starts a new replica on a different node to maintain replica count. (3) <strong>Rolling updates</strong> — During <code>docker service update</code>, Swarm uses health checks to determine when new replicas are ready. Workflow: stop old replica → start new replica → wait for healthy status → proceed to next replica. If new replica fails health checks, Swarm can automatically rollback the entire update. (4) <strong>Service convergence</strong> — Swarm continuously monitors health and ensures desired replica count of HEALTHY containers, not just running containers. Command: <code>docker service create --replicas 3 --health-cmd 'curl localhost/health' --health-interval 30s myapp</code>. View per-replica health: <code>docker service ps myservice</code> shows health status for each replica. Critical for zero-downtime deployments: only healthy replicas receive production traffic.</p>",
+              },
+              {
+                question:
+                  "What are the most common health check anti-patterns and why are they problematic?",
+                solution:
+                  "<p>Five critical anti-patterns: (1) <strong>Checking external dependencies you don't control</strong> — <code>await fetch('https://stripe.com/status')</code> in health endpoint. Problem: your app gets marked unhealthy when Stripe has an outage, even though your application is fine. Your containers get restarted when third-party services fail. (2) <strong>No start-period for slow apps</strong> — database containers without start-period get marked unhealthy before initialization completes → infinite restart loop in orchestration. (3) <strong>Expensive/slow health checks</strong> — running complex queries, calling slow endpoints, no timeouts on dependency checks. Problem: health check runs every 30s by default, expensive checks create constant load, can become bottleneck under high traffic. (4) <strong>Stateful or side-effecting health checks</strong> — writing to database on every check, sending emails, consuming API credits. Problem: health check runs thousands of times per day, creates database bloat, costs money, can trigger rate limits. (5) <strong>Dependency cascades</strong> — service A checks service B, service B checks service C. Problem: C fails → B unhealthy → A unhealthy → all three services restart even though A and B are fine. Solution: each service checks only its immediate critical dependencies, implement timeouts, keep checks fast and read-only, use start-period generously for slow starters.</p>",
+              },
+              {
+                question:
+                  "How do you debug a container that's marked unhealthy? Walk through the debugging process.",
+                solution:
+                  "<p>Systematic debugging workflow: (1) <strong>Confirm unhealthy status</strong> — <code>docker ps --filter name=CONTAINER</code>, look for '(unhealthy)' in STATUS column. (2) <strong>View health check configuration</strong> — <code>docker inspect CONTAINER --format='{{.Config.Healthcheck.Test}}'</code> to see exactly what command Docker is running. (3) <strong>View recent health check results</strong> — <code>docker inspect CONTAINER --format='{{json .State.Health}}' | python3 -m json.tool</code>. Check FailingStreak, examine Log array for failure Output. (4) <strong>Check last failure output</strong> — <code>docker inspect CONTAINER --format='{{range .State.Health.Log}}{{.Output}}{{end}}' | tail -1</code>. Often shows exact error: 'Connection refused', 'HTTP 503', 'timeout'. (5) <strong>Run health check manually</strong> — <code>docker exec CONTAINER curl -f http://localhost:8080/health</code> (or whatever the health check command is). See the actual error interactively. (6) <strong>Check application logs</strong> — <code>docker logs CONTAINER --tail 100</code>. Health endpoint failures often log detailed errors. (7) <strong>Verify application is running</strong> — <code>docker exec CONTAINER ps aux</code>. Process might be dead even though container is running. (8) <strong>Check port is listening</strong> — <code>docker exec CONTAINER ss -tlnp | grep PORT</code>. Port might not be open. (9) <strong>Test dependencies</strong> — if health check verifies database, manually connect: <code>docker exec CONTAINER psql -U user -d db -c 'SELECT 1'</code>.</p>",
+              },
+              {
+                question:
+                  "What's the difference between liveness probes and readiness probes in Kubernetes, and how does this map to Docker health checks?",
+                solution:
+                  "<p>Kubernetes separates health checking into two distinct concepts: (1) <strong>Liveness probe</strong> — answers 'Is the container broken and should be restarted?' Checks fundamental application health. If liveness fails, Kubernetes kills and restarts the pod. Use case: detect deadlocks, infinite loops, corrupted state that requires restart. (2) <strong>Readiness probe</strong> — answers 'Is the container ready to handle traffic RIGHT NOW?' Checks if the app can currently serve requests. If readiness fails, Kubernetes removes the pod from service endpoints (load balancer) but does NOT restart it. Use case: temporary issues like warming up caches, handling dependency slowdowns, processing background jobs. Docker only has <strong>one HEALTHCHECK</strong> which acts more like a liveness probe — it tracks fundamental health, not temporary load issues. Docker Swarm removes unhealthy containers from load balancers (similar to readiness) but also eventually replaces them (similar to liveness). Best practice for Docker: make HEALTHCHECK focused on liveness (fundamental broken states requiring restart), not on temporary load or capacity issues. Example: liveness checks if app process responds, readiness checks if app has completed cache warmup and can handle production load. In Docker, implement the liveness check since Docker doesn't support separate probe types.</p>",
+              },
+              {
+                question:
+                  "How do you implement health check monitoring and alerting for production environments?",
+                solution:
+                  "<p>Production health monitoring requires multiple layers: (1) <strong>Container-level monitoring script</strong> — cron job running every minute: <code>docker ps --filter health=unhealthy -q | while read id; do name=$(docker inspect $id --format='{{.Name}}'); logs=$(docker inspect $id --format='{{range .State.Health.Log}}{{.Output}}{{end}}' | tail -1); curl -X POST $SLACK_WEBHOOK -d '{\"text\": \"Container $name UNHEALTHY: $logs\"}'; done</code>. (2) <strong>Metrics export to Prometheus</strong> — use cAdvisor to export container_health_status metric, query unhealthy containers: <code>container_health_status{health_status=\"unhealthy\"}</code>, configure Alertmanager rules to trigger on unhealthy status. (3) <strong>Service-level health endpoints for external monitoring</strong> — expose aggregated health at load balancer level so external monitoring (Pingdom, Datadog) can track overall service health. (4) <strong>Application logging from health endpoint</strong> — log detailed check results to stdout and to file: <code>app.get('/health', async (req, res) => { const checks = await runChecks(); console.log('Health check:', checks); fs.appendFileSync('/var/log/health.log', JSON.stringify(checks)); res.status(checks.healthy ? 200 : 503).json(checks); });</code>. (5) <strong>Swarm/orchestration integration</strong> — in Swarm, use <code>docker events --filter event=health_status</code> to stream health state changes, pipe to monitoring system. Store historical health data for pattern analysis (is container X always unhealthy on node Y?).</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/engine/reference/builder/#healthcheck",
+              "https://docs.docker.com/compose/compose-file/compose-file-v3/#healthcheck",
+              "https://docs.docker.com/engine/reference/commandline/inspect/",
+              "https://docs.docker.com/config/containers/start-containers-automatically/",
+            ],
+          },
         ],
       },
       {
@@ -182719,6 +184384,6106 @@ echo "  • Multi-arch: buildx creates manifest lists"
               "https://docs.docker.com/build/building/multi-platform/",
               "https://docs.docker.com/registry/garbage-collection/",
               "https://docs.docker.com/registry/recipes/mirror/",
+            ],
+          }
+        ],
+      },
+    ],
+  },
+  {
+    id: 14,
+    category: "python",
+    themeBgColor: "#0db7ed",
+    textColor: "#0a4f7c",
+    topicColor: "#0db7ed",
+    lightColor: "#e6f7ff",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          // ─────────────────────────────────────────────
+          //  1. VARIABLES (Dynamic Typing)
+          // ─────────────────────────────────────────────
+          {
+            topic: "Variables & Dynamic Typing",
+            tags: ["Python", "Syntax & Core"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    In Python, a variable is created the moment you assign a value to it. Unlike languages like Java or C++,
+    you do <strong>not</strong> need to declare the type of a variable — Python figures it out automatically.
+    This is called <strong>dynamic typing</strong>. The type of a variable can even change during the program.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+name = "Alice"        # str
+age = 25              # int
+height = 5.6          # float
+is_student = True     # bool
+
+print(type(name))     # &lt;class 'str'&gt;
+print(type(age))      # &lt;class 'int'&gt;
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    Notice that we never wrote <code>string name</code> or <code>int age</code>. Python infers the type from the value on the right side of <code>=</code>.
+    You can also reassign a variable to a completely different type — Python allows this freely.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Rules for Variables
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Naming Rules :</span> Variable names must start with a letter or underscore (<code>_</code>), not a number. They are case-sensitive (<code>name</code> and <code>Name</code> are different).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multiple Assignment :</span> Python lets you assign multiple variables in one line.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+x, y, z = 1, 2, 3
+a = b = c = 0    # all three get value 0
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Type Checking :</span> Use <code>type()</code> to check what type a variable currently holds.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+x = 10
+print(type(x))   # &lt;class 'int'&gt;
+x = "hello"
+print(type(x))   # &lt;class 'str'&gt;  — type changed!
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `# Variable reassignment across types
+score = 100
+print(score)         # 100
+
+score = "Hundred"
+print(score)         # Hundred
+
+# Multiple assignment
+a, b, c = 10, 20, 30
+print(a + b + c)     # 60
+
+# Swap two variables (unique to Python — no temp variable needed)
+x, y = 5, 9
+x, y = y, x
+print(x, y)          # 9 5`,
+            ],
+            questions: [
+              {
+                question: "What is dynamic typing in Python?",
+                solution:
+                  "<p>Dynamic typing means Python determines the type of a variable at runtime based on the value assigned to it. You don't need to explicitly declare types like <code>int x = 5</code>. Python automatically knows <code>x = 5</code> is an integer. The type can also change when a new value of a different type is assigned.</p>",
+              },
+              {
+                question: "Can a variable change its type in Python?",
+                solution:
+                  "<p>Yes. In Python, you can reassign a variable to a completely different type. For example: <code>x = 10</code> makes x an int, then <code>x = 'hello'</code> makes x a string. Python does not throw an error — this is the flexibility of dynamic typing. However, this can sometimes cause bugs if not handled carefully.</p>",
+              },
+              {
+                question: "What are the rules for naming variables in Python?",
+                solution:
+                  "<p>Variable names must start with a letter (a–z, A–Z) or an underscore (_). They cannot start with a number. They can contain letters, digits, and underscores. They are case-sensitive, so <code>name</code>, <code>Name</code>, and <code>NAME</code> are three different variables. Reserved keywords like <code>if</code>, <code>for</code>, <code>while</code> cannot be used as variable names.</p>",
+              },
+              {
+                question: "How do you assign multiple variables at once?",
+                solution:
+                  "<p>Python supports multiple assignment in a single line: <code>x, y, z = 1, 2, 3</code>. You can also assign the same value to multiple variables: <code>a = b = c = 0</code>. This also enables a clean swap without a temporary variable: <code>x, y = y, x</code>.</p>",
+              },
+              {
+                question: "What is the difference between dynamic typing and static typing?",
+                solution:
+                  "<p>In statically typed languages like Java or C++, you must declare the type of a variable before using it (e.g., <code>int age = 25;</code>), and the type cannot change. In dynamically typed languages like Python, the type is inferred at runtime and can change. Static typing catches type errors at compile time; dynamic typing is more flexible but moves type errors to runtime.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/introduction.html",
+              "https://realpython.com/python-variables/",
+              "https://www.w3schools.com/python/python_variables.asp",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  2. INDENTATION RULES
+          // ─────────────────────────────────────────────
+          {
+            topic: "Indentation Rules",
+            tags: ["Python", "Syntax & Core"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    In Python, <strong>indentation is not optional — it is part of the syntax</strong>. While languages like JavaScript and Java use curly braces <code>{}</code> to define blocks of code,
+    Python uses consistent whitespace (indentation) to group statements. The standard convention is <strong>4 spaces</strong> per indentation level.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+if True:
+    print("This is inside the if block")   # indented = belongs to if
+print("This is outside the if block")       # not indented = outside
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    Every time you start a new block (after <code>if</code>, <code>for</code>, <code>while</code>, <code>def</code>, <code>class</code>, etc.),
+    you must indent the next line. All lines at the same indentation level are part of the same block.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Indentation Scenarios
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">If / Else Blocks :</span>
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+age = 20
+if age >= 18:
+    print("Adult")      # inside if
+else:
+    print("Minor")      # inside else
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Nested Blocks :</span> Each level of nesting adds another 4 spaces.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+if True:
+    if True:
+        print("Nested block")   # 8 spaces deep
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">IndentationError :</span> Mixing tabs and spaces or incorrect indentation raises an error.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+# ❌ This will raise IndentationError
+if True:
+print("Missing indent!")    # should be indented
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `# Correct indentation with nested if
+score = 85
+
+if score >= 90:
+    print("Grade: A")
+elif score >= 75:
+    print("Grade: B")       # this runs
+    if score > 80:
+        print("Close to A!") # nested block — 8 spaces
+else:
+    print("Grade: C")
+
+# ❌ Wrong — will crash
+# if score > 50:
+# print("Pass")  # missing indent = IndentationError`,
+            ],
+            questions: [
+              {
+                question: "Why does Python use indentation instead of curly braces?",
+                solution:
+                  "<p>Python was designed with readability as a core goal. By enforcing indentation, Python code is visually consistent — any Python code you read will have the same structure. This eliminates disagreements about brace style and makes code easier to scan. Guido van Rossum (Python's creator) believed readable code is better code.</p>",
+              },
+              {
+                question: "How many spaces should you indent in Python?",
+                solution:
+                  "<p>The official Python style guide (PEP 8) recommends <strong>4 spaces</strong> per indentation level. Technically Python accepts any consistent number of spaces (even 2), but 4 spaces is the universal standard used across the Python community. Mixing different numbers of spaces in the same block will cause an <code>IndentationError</code>.</p>",
+              },
+              {
+                question: "Can you use tabs instead of spaces in Python?",
+                solution:
+                  "<p>Technically yes, but it is strongly discouraged. Python 3 does not allow mixing tabs and spaces in the same block — it will raise a <code>TabError</code>. Most editors automatically convert tabs to 4 spaces when writing Python. Always configure your editor to use spaces for Python files.</p>",
+              },
+              {
+                question: "What is an IndentationError?",
+                solution:
+                  "<p>An <code>IndentationError</code> is raised when Python cannot determine the correct block structure due to improper indentation. Common causes: forgetting to indent after a colon (<code>if</code>, <code>for</code>, <code>def</code>, etc.), inconsistently mixing tabs and spaces, or un-indenting to a level that doesn't match any outer block.</p>",
+              },
+              {
+                question: "Does indentation matter inside strings?",
+                solution:
+                  "<p>No. Indentation only matters for code blocks, not inside string literals. A multi-line string (using triple quotes <code>\"\"\"</code>) will include any leading spaces literally as part of the string content — Python does not strip them. So if you indent a multi-line string for visual consistency, those spaces become part of the string value.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/reference/lexical_analysis.html#indentation",
+              "https://peps.python.org/pep-0008/#indentation",
+              "https://www.w3schools.com/python/python_syntax.asp",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  3. COMMENTS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Comments",
+            tags: ["Python", "Syntax & Core"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Comments are lines in your code that Python completely ignores during execution.
+    They exist purely for humans — to explain what the code is doing, why a decision was made,
+    or to temporarily disable a line while debugging. Good comments make code much easier to read and maintain.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Types of Comments in Python
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single-line Comments :</span> Start with a <code>#</code>. Everything after <code>#</code> on that line is ignored.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+# This entire line is a comment
+name = "Alice"   # inline comment — also ignored by Python
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multi-line Comments :</span> Python has no official multi-line comment syntax. The common approach is to use consecutive <code>#</code> lines, or use a triple-quoted string <code>"""..."""</code> (which Python evaluates but discards if not assigned).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+# This is line 1 of a multi-line comment
+# This is line 2
+# This is line 3
+
+"""
+This is also commonly used as a multi-line comment.
+Python runs it as a string expression but ignores it
+since it's not assigned to anything.
+"""
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Docstrings :</span> Triple-quoted strings placed right after a <code>def</code> or <code>class</code> are called <em>docstrings</em>. They document what a function does and are accessible via <code>help()</code>.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+def greet(name):
+    """This function prints a greeting message."""
+    print("Hello,", name)
+
+help(greet)    # displays the docstring
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `# Single-line comment — calculating area of a circle
+import math
+
+radius = 7   # radius in cm
+
+# Formula: π × r²
+area = math.pi * radius ** 2
+print(area)   # 153.93...
+
+"""
+Multi-line note:
+This program calculates the area of a circle.
+It uses Python's built-in math module for pi.
+"""
+
+def add(a, b):
+    """Returns the sum of two numbers."""
+    return a + b
+
+print(add(3, 5))   # 8`,
+            ],
+            questions: [
+              {
+                question: "What symbol is used for single-line comments in Python?",
+                solution:
+                  "<p>The hash symbol <code>#</code> is used for single-line comments. Any text on a line after <code>#</code> is completely ignored by the Python interpreter. You can place a comment on its own line or at the end of a code line (called an inline comment).</p>",
+              },
+              {
+                question: "Does Python have a multi-line comment syntax like /* */ in other languages?",
+                solution:
+                  "<p>No, Python does not have a dedicated multi-line comment syntax. The common workaround is to use multiple <code>#</code> lines one after another. Some developers use triple-quoted strings (<code>\"\"\"...\"\"\"</code>) as block comments, but strictly speaking, these are string literals, not comments — Python evaluates them but discards the result since it is not assigned to anything.</p>",
+              },
+              {
+                question: "What is a docstring and how is it different from a comment?",
+                solution:
+                  "<p>A docstring (documentation string) is a triple-quoted string placed immediately after a <code>def</code> or <code>class</code> statement. Unlike comments (which are stripped out), docstrings are stored as the <code>__doc__</code> attribute of the function or class and can be retrieved at runtime using <code>help()</code>. Comments are for developers reading the code; docstrings are for users of the function/class.</p>",
+              },
+              {
+                question: "Can comments be used to temporarily disable code?",
+                solution:
+                  "<p>Yes. This is called 'commenting out' code. Adding a <code>#</code> before a line of code prevents it from running without deleting it. This is a common technique during debugging — you can quickly disable a line and re-enable it by removing the <code>#</code>. Most code editors support this with a keyboard shortcut (usually Ctrl+/ or Cmd+/).</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/controlflow.html#documentation-strings",
+              "https://peps.python.org/pep-0257/",
+              "https://www.w3schools.com/python/python_comments.asp",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  4. DATA TYPES
+          // ─────────────────────────────────────────────
+          {
+            topic: "Data Types",
+            tags: ["Python", "Data Types"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Every value in Python has a <strong>data type</strong> that tells Python what kind of data it is and what operations can be performed on it.
+    The most fundamental types you'll use daily are <code>int</code>, <code>float</code>, <code>bool</code>, and <code>str</code>.
+    Python automatically assigns the correct type when you create a variable.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Core Data Types
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">int (Integer) :</span> Whole numbers, positive or negative, with no decimal point. Python integers have unlimited precision.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+age = 25
+temperature = -10
+big_number = 1_000_000   # underscores for readability
+print(type(age))          # &lt;class 'int'&gt;
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">float (Floating-point) :</span> Numbers with a decimal point. Used for measurements, percentages, and calculations requiring precision.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+price = 9.99
+pi = 3.14159
+scientific = 1.5e3       # same as 1500.0
+print(type(price))       # &lt;class 'float'&gt;
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">bool (Boolean) :</span> Represents one of two values: <code>True</code> or <code>False</code>. Note the capital first letter — required in Python. Internally, <code>True == 1</code> and <code>False == 0</code>.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+is_active = True
+has_error = False
+print(type(is_active))   # &lt;class 'bool'&gt;
+print(True + True)       # 2  (bool is a subtype of int)
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">str (String) :</span> A sequence of characters, enclosed in single <code>'...'</code> or double <code>"..."</code> quotes. Strings are <em>immutable</em> — you cannot change individual characters after creation.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+name = "Alice"
+greeting = 'Hello, World!'
+multi = """This is a
+multi-line string"""
+
+print(len(name))          # 5
+print(name[0])            # A  (indexing)
+print(name.upper())       # ALICE
+print("Hello" + " " + "Alice")   # string concatenation
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Type Conversion
+  </h4>
+  <p style="line-height: 1.75;">
+    You can convert between types using built-in functions: <code>int()</code>, <code>float()</code>, <code>str()</code>, <code>bool()</code>.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+x = "42"
+print(int(x) + 8)    # 50 — string converted to int
+
+y = 3
+print(float(y))      # 3.0
+
+print(str(100))      # "100"
+print(bool(0))       # False
+print(bool(5))       # True (any non-zero is True)
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Exploring all four core types
+age = 30             # int
+gpa = 3.85           # float
+passed = True        # bool
+name = "John"        # str
+
+print(type(age))     # <class 'int'>
+print(type(gpa))     # <class 'float'>
+print(type(passed))  # <class 'bool'>
+print(type(name))    # <class 'str'>
+
+# Type conversion in action
+user_input = "100"          # comes in as a string
+converted = int(user_input) # now it's an int
+print(converted + 50)       # 150
+
+# f-string formatting (combines types into a sentence)
+print(f"Name: {name}, Age: {age}, GPA: {gpa}, Passed: {passed}")`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between int and float?",
+                solution:
+                  "<p><code>int</code> represents whole numbers without a decimal point (e.g., 1, 100, -5). <code>float</code> represents numbers with a decimal point (e.g., 3.14, -0.5, 1.0). If you write <code>x = 5</code>, Python creates an int. If you write <code>x = 5.0</code>, Python creates a float — even though the value is mathematically the same. When you mix int and float in arithmetic, Python automatically returns a float.</p>",
+              },
+              {
+                question: "Why are True and False capitalized in Python?",
+                solution:
+                  "<p>In Python, <code>True</code> and <code>False</code> are reserved keywords and must be capitalized. Writing <code>true</code> or <code>false</code> (lowercase) will cause a <code>NameError</code> because Python will try to find a variable with that name. This is different from JavaScript, which accepts both forms. Python's boolean type is actually a subclass of <code>int</code>, so <code>True == 1</code> and <code>False == 0</code>.</p>",
+              },
+              {
+                question: "What does immutable mean for strings?",
+                solution:
+                  "<p>Immutable means once a string is created, its individual characters cannot be changed in place. For example, <code>name = 'Alice'; name[0] = 'B'</code> will raise a <code>TypeError</code>. If you want a modified version, you must create a new string: <code>name = 'B' + name[1:]</code>. String methods like <code>.upper()</code> or <code>.replace()</code> always return a new string rather than modifying the original.</p>",
+              },
+              {
+                question: "What happens when you do int('abc')?",
+                solution:
+                  "<p>It raises a <code>ValueError: invalid literal for int() with base 10: 'abc'</code>. The <code>int()</code> function can only convert strings that contain valid numeric characters. Converting <code>'42'</code> works fine, but <code>'abc'</code> or <code>'3.14'</code> will fail (for <code>'3.14'</code> you need <code>float()</code> first, then <code>int()</code>). Always wrap conversions in <code>try/except</code> when dealing with user input.</p>",
+              },
+              {
+                question: "What values are considered False in Python (falsy values)?",
+                solution:
+                  "<p>In Python, the following values evaluate to <code>False</code> when used in a boolean context: <code>0</code> (int zero), <code>0.0</code> (float zero), <code>''</code> (empty string), <code>None</code>, <code>[]</code> (empty list), <code>{}</code> (empty dict), <code>()</code> (empty tuple). Everything else is <code>True</code>. This is useful in conditions like <code>if name:</code> to check that a string is not empty.</p>",
+              },
+              {
+                question: "How is a string different from other data types?",
+                solution:
+                  "<p>A string (<code>str</code>) is a sequence type — it is an ordered collection of characters. This means you can index into it (<code>name[0]</code>), slice it (<code>name[1:3]</code>), iterate over it with a <code>for</code> loop, and check its length with <code>len()</code>. In contrast, <code>int</code>, <code>float</code>, and <code>bool</code> are scalar types — they represent a single value and do not support indexing or iteration.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/stdtypes.html",
+              "https://realpython.com/python-data-types/",
+              "https://www.w3schools.com/python/python_datatypes.asp",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  5. OPERATORS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Operators",
+            tags: ["Python", "Operators"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Operators are special symbols that perform operations on values (called <em>operands</em>).
+    Python has three main categories of operators you'll use constantly: <strong>Arithmetic</strong>, <strong>Comparison</strong>, and <strong>Logical</strong>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Arithmetic Operators
+  </h4>
+  <p style="line-height: 1.75;">Used to perform mathematical calculations.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+a, b = 10, 3
+
+print(a + b)    # 13   — Addition
+print(a - b)    # 7    — Subtraction
+print(a * b)    # 30   — Multiplication
+print(a / b)    # 3.33 — Division (always returns float)
+print(a // b)   # 3    — Floor Division (rounds down)
+print(a % b)    # 1    — Modulus (remainder)
+print(a ** b)   # 1000 — Exponentiation (10³)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Comparison Operators
+  </h4>
+  <p style="line-height: 1.75;">Compare two values and always return a <code>bool</code> (<code>True</code> or <code>False</code>).</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+x, y = 5, 10
+
+print(x == y)   # False  — Equal to
+print(x != y)   # True   — Not equal to
+print(x > y)    # False  — Greater than
+print(x < y)    # True   — Less than
+print(x >= 5)   # True   — Greater than or equal to
+print(x <= 4)   # False  — Less than or equal to
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Logical Operators
+  </h4>
+  <p style="line-height: 1.75;">Combine multiple conditions together. Used heavily in <code>if</code> statements.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+age = 20
+has_id = True
+
+# and — True only if BOTH conditions are True
+print(age >= 18 and has_id)     # True
+
+# or — True if AT LEAST ONE condition is True
+print(age < 18 or has_id)       # True
+
+# not — flips the boolean value
+print(not has_id)                # False
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Arithmetic in a real scenario
+price = 250
+discount = 30
+quantity = 4
+
+total = (price - discount) * quantity
+print(f"Total: {total}")         # Total: 880
+
+# Floor division and modulus — great for grouping
+students = 27
+groups = students // 5           # 5 full groups
+leftover = students % 5          # 2 students left over
+print(f"Groups: {groups}, Leftover: {leftover}")
+
+# Comparison + Logical combined
+score = 72
+passed = score >= 50
+distinction = score >= 75
+
+if passed and not distinction:
+    print("Passed — but no distinction")
+
+# Chaining comparisons (unique Python feature)
+x = 15
+print(10 < x < 20)   # True — Python allows this directly`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between / and // in Python?",
+                solution:
+                  "<p><code>/</code> is true division — it always returns a <code>float</code>, even if the result is a whole number (e.g., <code>10 / 2</code> gives <code>5.0</code>). <code>//</code> is floor division — it returns an <code>int</code> (or float if either operand is a float) by rounding down to the nearest whole number (e.g., <code>10 // 3</code> gives <code>3</code>). Floor division is useful when you need a count of complete groups.</p>",
+              },
+              {
+                question: "What is the modulus operator (%) used for?",
+                solution:
+                  "<p>The <code>%</code> operator returns the <strong>remainder</strong> after division. For example, <code>10 % 3</code> gives <code>1</code> because 10 = 3×3 + 1. Common uses include: checking if a number is even or odd (<code>n % 2 == 0</code> means even), cycling through a fixed range of indices, and breaking a number into components (e.g., converting seconds to minutes and seconds).</p>",
+              },
+              {
+                question: "What is the difference between = and == in Python?",
+                solution:
+                  "<p><code>=</code> is the <strong>assignment operator</strong> — it assigns a value to a variable (e.g., <code>x = 5</code>). <code>==</code> is the <strong>equality comparison operator</strong> — it checks if two values are equal and returns <code>True</code> or <code>False</code> (e.g., <code>x == 5</code> returns <code>True</code>). A very common beginner mistake is writing <code>if x = 5:</code> instead of <code>if x == 5:</code>, which will cause a <code>SyntaxError</code>.</p>",
+              },
+              {
+                question: "How does the 'and' operator work in Python?",
+                solution:
+                  "<p>The <code>and</code> operator returns <code>True</code> only if <strong>both</strong> conditions on either side are <code>True</code>. If the first condition is <code>False</code>, Python short-circuits and does not even evaluate the second condition (since the result is already determined to be <code>False</code>). This short-circuit behaviour is useful for avoiding errors, e.g., <code>if list and list[0] == 'x':</code> — the second condition only runs if the list is not empty.</p>",
+              },
+              {
+                question: "What does the ** operator do?",
+                solution:
+                  "<p><code>**</code> is the exponentiation operator. <code>2 ** 3</code> means 2 raised to the power of 3, which equals 8. It is equivalent to <code>math.pow(2, 3)</code> but returns an <code>int</code> when both operands are integers, whereas <code>math.pow()</code> always returns a float. You can also use it for square roots: <code>16 ** 0.5</code> gives <code>4.0</code>.</p>",
+              },
+              {
+                question: "Can you chain comparison operators in Python?",
+                solution:
+                  "<p>Yes — this is a unique and elegant Python feature. You can write <code>10 &lt; x &lt; 20</code> directly, and Python evaluates it as <code>10 &lt; x and x &lt; 20</code>. This is more readable than most other languages. You can chain any number of comparisons: <code>1 &lt;= score &lt;= 100</code> or <code>a &lt; b &lt; c &lt; d</code>.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/reference/expressions.html#operator-precedence",
+              "https://realpython.com/python-operators-expressions/",
+              "https://www.w3schools.com/python/python_operators.asp",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  6. INPUT / OUTPUT
+          // ─────────────────────────────────────────────
+          {
+            topic: "Input & Output",
+            tags: ["Python", "Input / Output"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Every program needs to communicate — it takes data in (<strong>input</strong>) and presents results back (<strong>output</strong>).
+    In Python, the two most fundamental tools for this are <code>print()</code> for output and <code>input()</code> for reading user input from the terminal.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    print() — Output
+  </h4>
+  <p style="line-height: 1.75;">Displays values to the screen. You can print strings, numbers, variables, or expressions — or combine them.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+print("Hello, World!")          # basic string
+print(42)                       # number
+print(3 + 5)                    # expression result → 8
+
+# Printing multiple values
+print("Name:", "Alice", "Age:", 25)    # Name: Alice Age: 25
+
+# Custom separator (default is a space)
+print("a", "b", "c", sep="-")         # a-b-c
+
+# Custom end character (default is newline)
+print("Hello", end=" ")
+print("World")                         # Hello World  (on one line)
+
+# f-strings — best way to embed variables in strings
+name = "Bob"
+score = 95
+print(f"Student: {name}, Score: {score}")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    input() — User Input
+  </h4>
+  <p style="line-height: 1.75;">Pauses the program and waits for the user to type something and press Enter. <strong>Important:</strong> <code>input()</code> always returns a <code>str</code>. If you need a number, you must explicitly convert it.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+name = input("What is your name? ")
+print("Hello,", name)
+
+# Converting input to a number
+age = int(input("Enter your age: "))   # convert str → int
+print("Next year you will be", age + 1)
+
+# input always returns str — common mistake:
+# x = input("Enter a number: ")
+# print(x + 1)   ❌ TypeError — can't add str and int
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Simple calculator using input/output
+print("=== Simple Calculator ===")
+
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+
+print(f"\\nResults for {num1} and {num2}:")
+print(f"  Addition:       {num1 + num2}")
+print(f"  Subtraction:    {num1 - num2}")
+print(f"  Multiplication: {num1 * num2}")
+
+if num2 != 0:
+    print(f"  Division:       {num1 / num2:.2f}")   # 2 decimal places
+else:
+    print("  Division: undefined (cannot divide by zero)")`,
+            ],
+            questions: [
+              {
+                question: "What does print() do in Python?",
+                solution:
+                  "<p><code>print()</code> is a built-in function that outputs values to the standard output (usually the terminal or console). It can accept multiple arguments separated by commas, and by default separates them with a space and adds a newline at the end. You can customise both behaviours using the <code>sep</code> and <code>end</code> keyword arguments.</p>",
+              },
+              {
+                question: "Why must you convert the result of input() to int or float?",
+                solution:
+                  "<p>The <code>input()</code> function always returns a string (<code>str</code>), regardless of what the user typed. So even if a user types <code>25</code>, Python stores it as the string <code>'25'</code>, not the integer <code>25</code>. If you try to do arithmetic with it directly, you get a <code>TypeError</code>. Always wrap it: <code>age = int(input(...))</code> or <code>price = float(input(...))</code>.</p>",
+              },
+              {
+                question: "What are f-strings and why are they useful?",
+                solution:
+                  "<p>An f-string (formatted string literal) is a string prefixed with <code>f</code> that allows you to embed Python expressions directly inside curly braces <code>{}</code>. For example, <code>f\"Hello {name}, you are {age} years old\"</code> automatically inserts the values of <code>name</code> and <code>age</code>. F-strings are the modern, recommended way to format strings in Python 3.6+ — they are more readable and faster than <code>.format()</code> or <code>%</code> formatting.</p>",
+              },
+              {
+                question: "How do you print without moving to a new line?",
+                solution:
+                  "<p>By default, <code>print()</code> adds a newline character <code>\\n</code> at the end. To suppress this, use the <code>end</code> parameter: <code>print('Hello', end=' ')</code> will end with a space instead of a newline. Subsequent <code>print()</code> calls will continue on the same line. You can set <code>end</code> to any string, including an empty string <code>''</code>.</p>",
+              },
+              {
+                question: "How can you safely handle bad input from users?",
+                solution:
+                  "<p>Wrap your <code>input()</code> conversion in a <code>try/except</code> block to handle invalid input gracefully. For example: <code>try: age = int(input('Enter age: ')) except ValueError: print('Please enter a valid number')</code>. This catches the <code>ValueError</code> that <code>int()</code> raises when it receives a non-numeric string. For real programs, you often put this in a loop so the user can retry.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/functions.html#print",
+              "https://docs.python.org/3/library/functions.html#input",
+              "https://realpython.com/python-f-strings/",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  7. LOOPS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Loops",
+            tags: ["Python", "Loops"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Loops let you repeat a block of code multiple times without writing it out again and again.
+    Python has two types of loops: <code>for</code> loops (used when you know how many times to repeat, or want to iterate over items)
+    and <code>while</code> loops (used when you repeat as long as a condition is true).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. for Loop
+  </h4>
+  <p style="line-height: 1.75;">Used to iterate over a sequence — a range of numbers, a string, a list, etc.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Loop using range()
+for i in range(5):           # 0, 1, 2, 3, 4
+    print(i)
+
+# range(start, stop, step)
+for i in range(1, 10, 2):    # 1, 3, 5, 7, 9
+    print(i)
+
+# Loop over a string
+for char in "Python":
+    print(char)              # P y t h o n (each letter)
+
+# Loop over a list
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. while Loop
+  </h4>
+  <p style="line-height: 1.75;">Keeps running as long as a condition remains <code>True</code>. Be careful — if the condition never becomes <code>False</code>, you get an infinite loop.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+count = 0
+while count < 5:
+    print(count)
+    count += 1               # count = count + 1
+
+# while with user input
+password = ""
+while password != "secret":
+    password = input("Enter password: ")
+print("Access granted!")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Loop Control — break, continue, else
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">break :</span> Immediately exits the loop.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">continue :</span> Skips the rest of the current iteration and jumps to the next one.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">else (on a loop) :</span> Runs after the loop finishes normally (i.e., was NOT exited with <code>break</code>).
+    </li>
+  </ol>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# break example
+for i in range(10):
+    if i == 5:
+        break          # stop the loop at 5
+    print(i)           # prints 0 1 2 3 4
+
+# continue example
+for i in range(6):
+    if i % 2 == 0:
+        continue       # skip even numbers
+    print(i)           # prints 1 3 5
+
+# else on a loop
+for i in range(5):
+    print(i)
+else:
+    print("Loop finished!")    # runs after the loop
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Multiplication table using nested for loops
+num = 5
+print(f"Multiplication table for {num}:")
+for i in range(1, 11):
+    print(f"  {num} x {i} = {num * i}")
+
+# FizzBuzz — a classic loop challenge
+for i in range(1, 21):
+    if i % 3 == 0 and i % 5 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)
+
+# Summing user inputs with a while loop
+total = 0
+while True:
+    val = input("Enter a number (or 'done' to stop): ")
+    if val == "done":
+        break
+    total += int(val)
+print(f"Total: {total}")`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between a for loop and a while loop?",
+                solution:
+                  "<p>A <code>for</code> loop is used when you know in advance how many times to repeat (e.g., iterate over a list, or a <code>range()</code>). A <code>while</code> loop is used when you repeat based on a condition and don't know ahead of time how many iterations are needed. As a rule of thumb: if you have a sequence to iterate over, use <code>for</code>; if you're waiting for something to change, use <code>while</code>.</p>",
+              },
+              {
+                question: "What does range() do and what are its parameters?",
+                solution:
+                  "<p><code>range()</code> generates a sequence of integers. It accepts 1 to 3 arguments: <code>range(stop)</code> generates 0 to stop–1. <code>range(start, stop)</code> generates start to stop–1. <code>range(start, stop, step)</code> generates values from start to stop–1, stepping by step. For example, <code>range(2, 10, 3)</code> gives 2, 5, 8. The stop value is always excluded.</p>",
+              },
+              {
+                question: "What does break do inside a loop?",
+                solution:
+                  "<p><code>break</code> immediately terminates the entire loop — no more iterations happen after it. Execution jumps to the first line after the loop body. It is often used inside an <code>if</code> statement to exit a loop early when a condition is met, like finding an item in a list or receiving a quit command from the user.</p>",
+              },
+              {
+                question: "What does continue do inside a loop?",
+                solution:
+                  "<p><code>continue</code> skips the rest of the current iteration and immediately jumps to the next one. The loop does not exit — it continues from the top with the next value. It is useful for skipping certain items, for example: <code>if i % 2 == 0: continue</code> inside a loop will skip all even numbers and only process odd ones.</p>",
+              },
+              {
+                question: "How do you avoid an infinite while loop?",
+                solution:
+                  "<p>An infinite loop occurs when the condition in a <code>while</code> loop never becomes <code>False</code>. To avoid it: always ensure the loop variable is modified inside the loop body (e.g., <code>count += 1</code>), use <code>break</code> to exit when a condition is met, or structure the condition so it can logically become <code>False</code>. During development, you can press Ctrl+C in the terminal to manually interrupt a running infinite loop.</p>",
+              },
+              {
+                question: "What is enumerate() and when should you use it?",
+                solution:
+                  "<p><code>enumerate()</code> is a built-in that adds a counter to an iterable so you get both the index and the value in each iteration. Instead of writing <code>for i in range(len(items)): item = items[i]</code>, you write <code>for i, item in enumerate(items):</code>. It is the Pythonic (idiomatic) way to loop when you need the index. You can also set a custom start: <code>enumerate(items, start=1)</code>.</p>",
+              },
+              {
+                question: "Can you have a loop inside another loop?",
+                solution:
+                  "<p>Yes — this is called a <strong>nested loop</strong>. The inner loop runs completely for every single iteration of the outer loop. For example, to build a multiplication table, you'd use an outer loop for rows (1–10) and an inner loop for columns (1–10), giving 100 total iterations. Be mindful that nested loops multiply their iteration counts, which can become slow for large inputs.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+              "https://realpython.com/python-for-loop/",
+              "https://www.w3schools.com/python/python_while_loops.asp",
+            ],
+          },
+          // ─────────────────────────────────────────────
+          //  1. LISTS (Arrays Equivalent)
+          // ─────────────────────────────────────────────
+          {
+            topic: "Lists",
+            tags: ["Python", "Data Structures"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>list</strong> is Python's most commonly used data structure. It is an ordered, mutable collection of items.
+    Think of it as the Python equivalent of arrays in other languages — except Python lists can hold items of
+    <em>different types</em> in the same list, and they grow or shrink dynamically without declaring a size.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Creation
+  </h4>
+  <p style="line-height: 1.75;">Lists are created using square brackets <code>[]</code> with items separated by commas.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Empty list
+empty = []
+
+# List of integers
+numbers = [10, 20, 30, 40, 50]
+
+# List of strings
+fruits = ["apple", "banana", "cherry"]
+
+# Mixed types (valid in Python)
+mixed = [1, "hello", 3.14, True]
+
+# List from range
+squares = list(range(1, 6))   # [1, 2, 3, 4, 5]
+
+print(len(fruits))            # 3 — number of items
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Indexing & Slicing
+  </h4>
+  <p style="line-height: 1.75;">
+    Each item in a list has an index starting from <code>0</code>. Python also supports <strong>negative indexing</strong>
+    — <code>-1</code> refers to the last item, <code>-2</code> to the second last, and so on.
+    <strong>Slicing</strong> lets you extract a portion of the list using <code>[start:stop:step]</code>.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+nums = [10, 20, 30, 40, 50]
+
+# Indexing
+print(nums[0])      # 10  — first item
+print(nums[2])      # 30  — third item
+print(nums[-1])     # 50  — last item
+print(nums[-2])     # 40  — second last
+
+# Slicing  [start : stop]  (stop is excluded)
+print(nums[1:4])    # [20, 30, 40]
+print(nums[:3])     # [10, 20, 30]  — from start
+print(nums[2:])     # [30, 40, 50]  — to end
+print(nums[:])      # [10, 20, 30, 40, 50]  — full copy
+
+# Step
+print(nums[::2])    # [10, 30, 50]  — every second item
+print(nums[::-1])   # [50, 40, 30, 20, 10]  — reversed
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Methods
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">append() :</span> Adds a single item to the <em>end</em> of the list. Modifies the list in place and returns <code>None</code>.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+fruits = ["apple", "banana"]
+fruits.append("cherry")
+print(fruits)   # ["apple", "banana", "cherry"]
+
+# append adds the whole item as-is
+fruits.append(["mango", "grape"])
+print(fruits)   # ["apple", "banana", "cherry", ["mango", "grape"]]
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">pop() :</span> Removes and <em>returns</em> an item by index. Default is the last item (<code>-1</code>).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+nums = [10, 20, 30, 40]
+
+last = nums.pop()       # removes & returns 40
+print(last)             # 40
+print(nums)             # [10, 20, 30]
+
+second = nums.pop(1)    # removes & returns item at index 1
+print(second)           # 20
+print(nums)             # [10, 30]
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">sort() :</span> Sorts the list <em>in place</em> in ascending order by default. Use <code>reverse=True</code> for descending. The original list is modified.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+scores = [42, 7, 99, 15, 66]
+scores.sort()
+print(scores)                   # [7, 15, 42, 66, 99]
+
+scores.sort(reverse=True)
+print(scores)                   # [99, 66, 42, 15, 7]
+
+# sorted() returns a NEW list without changing the original
+original = [3, 1, 2]
+new = sorted(original)
+print(original)                 # [3, 1, 2]  — unchanged
+print(new)                      # [1, 2, 3]
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">reverse() :</span> Reverses the list <em>in place</em>. This is different from sorting — it just flips the current order without sorting the values.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+items = ["a", "b", "c", "d"]
+items.reverse()
+print(items)    # ["d", "c", "b", "a"]
+
+# You can also reverse with slicing (returns a new list)
+items2 = [1, 2, 3, 4, 5]
+print(items2[::-1])    # [5, 4, 3, 2, 1]  — original unchanged
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Iteration
+  </h4>
+  <p style="line-height: 1.75;">You can loop through a list using a <code>for</code> loop. Use <code>enumerate()</code> when you also need the index.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+fruits = ["apple", "banana", "cherry"]
+
+# Basic iteration
+for fruit in fruits:
+    print(fruit)
+
+# With index using enumerate()
+for index, fruit in enumerate(fruits):
+    print(f"{index}: {fruit}")
+# 0: apple
+# 1: banana
+# 2: cherry
+
+# List comprehension — concise way to build a new list
+squares = [x ** 2 for x in range(1, 6)]
+print(squares)    # [1, 4, 9, 16, 25]
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Student grade tracker using list methods
+grades = []
+
+# Add grades
+grades.append(85)
+grades.append(92)
+grades.append(78)
+grades.append(95)
+grades.append(60)
+
+print("Original grades:", grades)
+
+# Sort in descending order
+grades.sort(reverse=True)
+print("Sorted (best first):", grades)
+
+# Remove the lowest grade
+lowest = grades.pop()
+print(f"Removed lowest: {lowest}")
+print("After removal:", grades)
+
+# Slice — top 3 grades
+top3 = grades[:3]
+print("Top 3 grades:", top3)
+
+# Average
+average = sum(grades) / len(grades)
+print(f"Average: {average:.2f}")
+
+# Iterate and label
+for i, g in enumerate(grades, start=1):
+    label = "Pass" if g >= 75 else "Fail"
+    print(f"  Grade {i}: {g} — {label}")`,
+            ],
+            questions: [
+              {
+                question: "What is a list in Python and how is it different from an array?",
+                solution:
+                  "<p>A Python list is an ordered, mutable sequence that can hold items of <em>any</em> data type — even mixed types in the same list. Unlike arrays in languages like Java or C, you do not need to declare a fixed size or a single type. Python lists grow and shrink dynamically. The closest equivalent in JavaScript is an array, but Python lists have richer built-in methods and support more flexible slicing syntax.</p>",
+              },
+              {
+                question: "What is the difference between positive and negative indexing?",
+                solution:
+                  "<p>Positive indexing starts from 0 at the beginning of the list — <code>list[0]</code> is the first item, <code>list[1]</code> is the second, and so on. Negative indexing starts from -1 at the end — <code>list[-1]</code> is the last item, <code>list[-2]</code> is the second last. Negative indexing is very convenient when you want to access items from the end without knowing the list's length.</p>",
+              },
+              {
+                question: "How does slicing work in Python lists?",
+                solution:
+                  "<p>Slicing extracts a sub-list using the syntax <code>list[start:stop:step]</code>. The <code>start</code> index is included, the <code>stop</code> index is excluded. All three are optional — omitting <code>start</code> defaults to 0, omitting <code>stop</code> defaults to the end, omitting <code>step</code> defaults to 1. A step of <code>-1</code> reverses the list. Slicing always returns a new list — the original is never modified.</p>",
+              },
+              {
+                question: "What is the difference between append() and extend()?",
+                solution:
+                  "<p><code>append()</code> adds its argument as a single item to the end of the list. If you append a list, that list becomes one element (a nested list). <code>extend()</code> takes an iterable and adds each of its items individually to the end. For example: <code>[1,2].append([3,4])</code> gives <code>[1, 2, [3, 4]]</code>, while <code>[1,2].extend([3,4])</code> gives <code>[1, 2, 3, 4]</code>.</p>",
+              },
+              {
+                question: "What is the difference between sort() and sorted()?",
+                solution:
+                  "<p><code>sort()</code> is a list method that modifies the list <em>in place</em> and returns <code>None</code>. The original list is permanently changed. <code>sorted()</code> is a built-in function that takes any iterable and returns a <em>new</em> sorted list, leaving the original unchanged. Use <code>sort()</code> when you want to sort the list itself; use <code>sorted()</code> when you need to preserve the original order.</p>",
+              },
+              {
+                question: "What is the difference between reverse() and [::-1]?",
+                solution:
+                  "<p><code>reverse()</code> is a list method that reverses the list <em>in place</em> — modifying the original and returning <code>None</code>. The slice <code>[::-1]</code> returns a <em>new</em> reversed list without touching the original. If you want to reverse and keep the original intact, use slicing. If memory efficiency matters and you do not need the original order, use <code>reverse()</code>.</p>",
+              },
+              {
+                question: "How do you check if an item exists in a list?",
+                solution:
+                  "<p>Use the <code>in</code> keyword: <code>if 'apple' in fruits:</code>. It returns <code>True</code> if the item is found, <code>False</code> otherwise. You can also use <code>not in</code> to check for absence. For finding the position of an item, use <code>list.index(item)</code> which returns the index of the first match, or raises a <code>ValueError</code> if not found.</p>",
+              },
+              {
+                question: "What is a list comprehension?",
+                solution:
+                  "<p>A list comprehension is a concise, Pythonic way to create a new list from an existing iterable in a single line. Syntax: <code>[expression for item in iterable if condition]</code>. For example, <code>[x**2 for x in range(10) if x % 2 == 0]</code> gives the squares of all even numbers from 0 to 9. It is generally faster and more readable than an equivalent <code>for</code> loop that builds a list with <code>append()</code>.</p>",
+              },
+              {
+                question: "Does pop() raise an error on an empty list?",
+                solution:
+                  "<p>Yes. Calling <code>pop()</code> on an empty list raises an <code>IndexError: pop from empty list</code>. Similarly, calling <code>pop(i)</code> with an index that does not exist raises <code>IndexError: pop index out of range</code>. Always check <code>if list:</code> or <code>if len(list) > 0:</code> before popping when there is a chance the list could be empty.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists",
+              "https://realpython.com/python-lists-tuples/",
+              "https://www.w3schools.com/python/python_lists.asp",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  2. STRINGS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Strings",
+            tags: ["Python", "Strings"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>string</strong> in Python is an ordered, <em>immutable</em> sequence of characters.
+    You can create strings with single quotes <code>'...'</code>, double quotes <code>"..."</code>, or triple quotes <code>"""..."""</code> for multi-line strings.
+    Because strings are sequences, they support the same indexing and slicing syntax as lists.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Indexing & Slicing
+  </h4>
+  <p style="line-height: 1.75;">
+    Each character in a string has an index starting from <code>0</code>. Negative indexing works exactly the same way as in lists.
+    Slicing extracts a substring using <code>[start:stop:step]</code>.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+text = "Python"
+
+# Indexing
+print(text[0])      # P  — first character
+print(text[3])      # h
+print(text[-1])     # n  — last character
+print(text[-3])     # h  — third from end
+
+# Slicing
+print(text[0:3])    # Pyt  — index 0,1,2 (3 excluded)
+print(text[2:])     # thon — from index 2 to end
+print(text[:4])     # Pyth — from start to index 3
+print(text[::2])    # Pto  — every second character
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Reverse a String with [::-1]
+  </h4>
+  <p style="line-height: 1.75;">
+    The most Pythonic way to reverse a string is using the slice <code>[::-1]</code>.
+    It creates a new string with all characters in reverse order.
+    Strings are immutable, so this always returns a new string — the original is untouched.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+word = "hello"
+reversed_word = word[::-1]
+print(reversed_word)    # olleh
+
+# Common use: check if a word is a palindrome
+def is_palindrome(s):
+    return s == s[::-1]
+
+print(is_palindrome("racecar"))    # True
+print(is_palindrome("python"))     # False
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common String Methods
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">lower() / upper() :</span> Return a new string converted to all lowercase or all uppercase. The original string is unchanged (strings are immutable).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+name = "Alice SMITH"
+print(name.lower())    # alice smith
+print(name.upper())    # ALICE SMITH
+
+# Practical use: case-insensitive comparison
+user_input = "YES"
+if user_input.lower() == "yes":
+    print("User agreed!")
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">split() :</span> Splits a string into a <em>list</em> of substrings based on a delimiter. Default delimiter is any whitespace (spaces, tabs, newlines).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+sentence = "Hello World from Python"
+words = sentence.split()
+print(words)    # ["Hello", "World", "from", "Python"]
+
+# Split by a custom delimiter
+csv = "Alice,30,Engineer"
+parts = csv.split(",")
+print(parts)    # ["Alice", "30", "Engineer"]
+
+# Split with maxsplit
+data = "one:two:three:four"
+print(data.split(":", 2))    # ["one", "two", "three:four"]
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">join() :</span> The opposite of split. Takes a list of strings and joins them into one string, inserting a separator between each item. Called on the separator string, not the list.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+words = ["Hello", "World", "from", "Python"]
+
+# Join with a space
+sentence = " ".join(words)
+print(sentence)    # Hello World from Python
+
+# Join with a custom separator
+path = "/".join(["usr", "local", "bin"])
+print(path)        # usr/local/bin
+
+# Join with no separator
+letters = ["P", "y", "t", "h", "o", "n"]
+print("".join(letters))    # Python
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">replace() :</span> Returns a new string where all occurrences of a substring are replaced with another. An optional third argument limits the number of replacements.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+text = "I like cats. Cats are great. Cats!"
+
+# Replace all occurrences
+print(text.replace("Cats", "Dogs"))
+# I like cats. Dogs are great. Dogs!
+
+# Replace only the first 1 occurrence
+print(text.replace("Cats", "Dogs", 1))
+# I like cats. Dogs are great. Cats!
+
+# Remove characters by replacing with empty string
+messy = "h-e-l-l-o"
+clean = messy.replace("-", "")
+print(clean)    # hello
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `# Username normalizer — combining multiple string methods
+raw_inputs = [
+    "  ALICE SMITH  ",
+    "bob.jones@GMAIL.COM",
+    "Charlie   Brown",
+]
+
+print("=== Normalizing usernames ===")
+for raw in raw_inputs:
+    # strip() removes leading/trailing whitespace
+    cleaned = raw.strip()
+
+    # lowercase everything
+    lowered = cleaned.lower()
+
+    # replace spaces and dots with underscores
+    username = lowered.replace(" ", "_").replace(".", "_")
+
+    print(f"  Raw: {repr(raw)}")
+    print(f"  Username: {username}")
+    print()
+
+# Sentence analyser
+sentence = "the quick brown fox jumps over the lazy dog"
+words = sentence.split()
+print(f"Word count: {len(words)}")
+print(f"Unique words: {len(set(words))}")
+print(f"Reversed sentence: {' '.join(words[::-1])}")
+print(f"Capitalised: {' '.join(w.capitalize() for w in words)}")
+
+# Palindrome checker using [::-1]
+def check_palindrome(word):
+    w = word.lower().replace(" ", "")
+    return f"'{word}' is {'a palindrome' if w == w[::-1] else 'NOT a palindrome'}"
+
+print(check_palindrome("racecar"))
+print(check_palindrome("A man a plan a canal Panama"))
+print(check_palindrome("python"))`,
+            ],
+            questions: [
+              {
+                question: "Are strings mutable in Python?",
+                solution:
+                  "<p>No — strings in Python are <strong>immutable</strong>. Once a string is created, you cannot change any of its individual characters. For example, <code>name = 'Alice'; name[0] = 'B'</code> raises a <code>TypeError</code>. All string methods like <code>upper()</code>, <code>replace()</code>, and <code>split()</code> return a <em>new</em> string rather than modifying the original. If you need a modified version, you reassign the variable: <code>name = name.replace('A', 'B')</code>.</p>",
+              },
+              {
+                question: "How does [::-1] reverse a string?",
+                solution:
+                  "<p>The slice <code>[::-1]</code> uses the step parameter. <code>start</code> and <code>stop</code> are omitted (defaulting to the full string), and <code>step</code> is <code>-1</code>, which means traverse the string from right to left one character at a time. This produces a new string with all characters in reverse order. It is the most idiomatic and concise way to reverse a string in Python — no loop or function needed.</p>",
+              },
+              {
+                question: "What is the difference between split() and list()?",
+                solution:
+                  "<p><code>split()</code> splits a string into a list of <em>substrings</em> based on a separator (whitespace by default). For example, <code>'hello world'.split()</code> gives <code>['hello', 'world']</code>. <code>list()</code> splits a string into a list of individual <em>characters</em>: <code>list('hello')</code> gives <code>['h', 'e', 'l', 'l', 'o']</code>. Use <code>split()</code> for words/tokens and <code>list()</code> when you need to work with each character.</p>",
+              },
+              {
+                question: "Why is join() called on the separator string instead of the list?",
+                solution:
+                  "<p>This is a deliberate Python design choice. <code>join()</code> is a string method because the separator is a string, and the method needs to know what string to insert between items. The syntax is <code>separator.join(list)</code>. For example, <code>', '.join(['a', 'b', 'c'])</code> gives <code>'a, b, c'</code>. It can feel unintuitive at first, but it is consistent — the method belongs to the string type that is doing the joining.</p>",
+              },
+              {
+                question: "What does replace() do if the target substring is not found?",
+                solution:
+                  "<p>If the substring to replace is not found in the string, <code>replace()</code> simply returns a copy of the original string unchanged — it does not raise an error. For example, <code>'hello'.replace('z', 'x')</code> returns <code>'hello'</code>. This makes it safe to call without checking whether the substring exists first.</p>",
+              },
+              {
+                question: "How do you check if a string contains a substring?",
+                solution:
+                  "<p>Use the <code>in</code> keyword: <code>if 'world' in 'hello world':</code> returns <code>True</code>. For case-insensitive checking, convert both sides to the same case first: <code>if 'world' in text.lower():</code>. Other useful methods include <code>str.startswith('prefix')</code> and <code>str.endswith('suffix')</code> for checking the beginning or end of a string.</p>",
+              },
+              {
+                question: "What is the difference between lower() and casefold()?",
+                solution:
+                  "<p>Both convert a string to lowercase, but <code>casefold()</code> is more aggressive and handles special Unicode characters correctly for case-insensitive comparisons. For example, the German letter <code>ß</code> becomes <code>ss</code> with <code>casefold()</code> but stays as <code>ß</code> with <code>lower()</code>. For standard English text, they behave identically. Use <code>casefold()</code> when building applications that handle international characters.</p>",
+              },
+              {
+                question: "How do you split a string into individual characters?",
+                solution:
+                  "<p>There are two common approaches. First, <code>list('Python')</code> returns <code>['P', 'y', 't', 'h', 'o', 'n']</code>. Second, you can iterate directly over a string with a <code>for</code> loop: <code>for char in 'Python': print(char)</code>. You can also use a list comprehension: <code>[c for c in 'Python']</code>. Calling <code>split()</code> without arguments will NOT split into characters — it splits by whitespace into words.</p>",
+              },
+              {
+                question: "What other useful string methods should I know?",
+                solution:
+                  "<p>Beyond the core methods covered here, the most commonly used ones are: <code>strip()</code> / <code>lstrip()</code> / <code>rstrip()</code> — remove whitespace from edges. <code>startswith()</code> / <code>endswith()</code> — check string edges. <code>find()</code> — returns index of first match or -1. <code>count()</code> — counts occurrences. <code>capitalize()</code> — first letter uppercase, rest lowercase. <code>title()</code> — capitalises first letter of each word. <code>isdigit()</code> / <code>isalpha()</code> / <code>isalnum()</code> — check character types.</p>",
+              },
+              {
+                question: "What is an f-string and how is it related to strings?",
+                solution:
+                  "<p>An f-string (formatted string literal) is a string prefixed with <code>f</code> that allows you to embed Python expressions directly inside curly braces <code>{}</code>. For example: <code>f'Hello {name}, you are {age} years old'</code>. It is the modern recommended way (Python 3.6+) to build strings that include variable values. You can also format numbers inside them: <code>f'{price:.2f}'</code> formats a float to 2 decimal places.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/stdtypes.html#string-methods",
+              "https://realpython.com/python-strings/",
+              "https://www.w3schools.com/python/python_strings.asp",
+            ],
+          },
+          // ─────────────────────────────────────────────
+          //  1. DICTIONARIES (HashMap)
+          // ─────────────────────────────────────────────
+          {
+            topic: "Dictionaries",
+            tags: ["Python", "Data Structures"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>dictionary</strong> is Python's built-in implementation of a <em>HashMap</em>. It stores data as
+    <strong>key-value pairs</strong>, where each key is unique and maps to a value.
+    Dictionaries are <em>ordered</em> (Python 3.7+), <em>mutable</em>, and optimised for fast lookups by key —
+    retrieving a value by key is O(1) on average. Keys must be immutable types (strings, numbers, tuples).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Create & Update
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Creating a dictionary
+person = {"name": "Alice", "age": 25, "city": "Delhi"}
+
+# Empty dictionary
+empty = {}
+empty2 = dict()
+
+# Create from keyword arguments
+person2 = dict(name="Bob", age=30)
+
+# Updating values
+person["age"] = 26           # update existing key
+person["email"] = "a@b.com"  # add new key
+
+# Update multiple keys at once
+person.update({"age": 27, "country": "India"})
+print(person)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Access Values
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+person = {"name": "Alice", "age": 25}
+
+# Direct access — raises KeyError if key missing
+print(person["name"])      # Alice
+
+# Safe access with get() — returns None (or default) if missing
+print(person.get("age"))           # 25
+print(person.get("phone"))         # None
+print(person.get("phone", "N/A"))  # N/A  ← custom default
+
+# Check if key exists
+if "name" in person:
+    print("Key exists!")
+
+# Delete a key
+del person["age"]
+
+# Remove and return a value
+val = person.pop("name", "not found")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Core Methods
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">get() :</span> Safe key access with an optional default value. Never raises <code>KeyError</code>.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">keys() / values() / items() :</span> Return <em>view objects</em> — dynamic views of the dictionary's content.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+scores = {"Alice": 90, "Bob": 85, "Charlie": 92}
+
+print(scores.keys())    # dict_keys(["Alice", "Bob", "Charlie"])
+print(scores.values())  # dict_values([90, 85, 92])
+print(scores.items())   # dict_items([("Alice",90), ("Bob",85), ...])
+
+# Iterating
+for name, score in scores.items():
+    print(f"{name}: {score}")
+
+# Convert to list
+names = list(scores.keys())
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Frequency Counting :</span> One of the most common interview patterns — count occurrences of each item using a dictionary.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+# Count character frequency
+text = "hello world"
+freq = {}
+for char in text:
+    freq[char] = freq.get(char, 0) + 1
+print(freq)   # {'h':1, 'e':1, 'l':3, 'o':2, ' ':1, 'w':1, 'r':1, 'd':1}
+
+# Cleaner with collections.Counter
+from collections import Counter
+freq2 = Counter("hello world")
+print(freq2.most_common(3))   # [('l', 3), ('o', 2), ('h', 1)]
+
+# Count word frequency
+words = ["apple", "banana", "apple", "cherry", "banana", "apple"]
+word_count = {}
+for word in words:
+    word_count[word] = word_count.get(word, 0) + 1
+print(word_count)   # {'apple': 3, 'banana': 2, 'cherry': 1}
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `# Group anagrams — classic dict interview problem
+from collections import defaultdict
+
+def group_anagrams(words):
+    groups = defaultdict(list)
+    for word in words:
+        key = "".join(sorted(word))   # sorted chars as key
+        groups[key].append(word)
+    return list(groups.values())
+
+words = ["eat", "tea", "tan", "ate", "nat", "bat"]
+print(group_anagrams(words))
+# [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]
+
+# Two Sum using dict — O(n)
+def two_sum(nums, target):
+    seen = {}   # value -> index
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
+
+print(two_sum([2, 7, 11, 15], 9))   # [0, 1]
+
+# Nested dictionary
+company = {
+    "engineering": {"Alice": 95000, "Bob": 88000},
+    "marketing":   {"Charlie": 72000, "Diana": 78000},
+}
+for dept, employees in company.items():
+    avg = sum(employees.values()) / len(employees)
+    print(f"{dept}: avg salary = {avg:,.0f}")`,
+            ],
+            questions: [
+              {
+                question: "What is a dictionary in Python and how does it work internally?",
+                solution:
+                  "<p>A dictionary is a hash map — it stores key-value pairs and uses a hash function to convert each key into an index in an internal array. This is why key lookup is O(1) on average. When two keys produce the same hash (collision), Python handles it with open addressing. Keys must be <em>hashable</em> (immutable), so strings, numbers, and tuples can be keys, but lists cannot.</p>",
+              },
+              {
+                question: "What is the difference between dict['key'] and dict.get('key')?",
+                solution:
+                  "<p><code>dict['key']</code> raises a <code>KeyError</code> if the key does not exist — use it when you are certain the key is present. <code>dict.get('key')</code> returns <code>None</code> by default (or a custom default you provide as the second argument) if the key is missing — never raises an error. In interview code and production code, <code>get()</code> is safer and preferred when a key's existence is uncertain.</p>",
+              },
+              {
+                question: "How do you iterate over a dictionary?",
+                solution:
+                  "<p>There are three ways: <code>for key in d:</code> iterates over keys only. <code>for key in d.keys():</code> same as above, but more explicit. <code>for val in d.values():</code> iterates over values only. <code>for key, val in d.items():</code> iterates over key-value pairs as tuples — this is the most common pattern in interviews. <code>items()</code> returns a view object, so it reflects changes to the dictionary in real time.</p>",
+              },
+              {
+                question: "How do you merge two dictionaries in Python?",
+                solution:
+                  "<p>In Python 3.9+, use the merge operator: <code>merged = d1 | d2</code>. In Python 3.5+, use unpacking: <code>merged = {**d1, **d2}</code>. You can also use <code>d1.update(d2)</code>, which modifies <code>d1</code> in place. In all cases, if both dicts have the same key, the value from the right-side dictionary wins.</p>",
+              },
+              {
+                question: "What is a defaultdict and when should you use it?",
+                solution:
+                  "<p><code>collections.defaultdict</code> is a subclass of dict that automatically creates a default value for missing keys instead of raising a <code>KeyError</code>. You pass a factory function when creating it: <code>defaultdict(int)</code> defaults to 0, <code>defaultdict(list)</code> defaults to an empty list. It is ideal for frequency counting (<code>d[key] += 1</code>) and grouping (<code>d[key].append(val)</code>) without needing to check if the key exists first.</p>",
+              },
+              {
+                question: "How is frequency counting done using a dictionary?",
+                solution:
+                  "<p>The standard pattern is: <code>freq[item] = freq.get(item, 0) + 1</code> in a loop. This safely handles the first occurrence (where <code>get</code> returns 0) and increments subsequent ones. Alternatively, use <code>collections.Counter</code> which does this in one line: <code>Counter(iterable)</code>. Counter also provides <code>.most_common(n)</code> to get the n most frequent items — a very common interview requirement.</p>",
+              },
+              {
+                question: "Are dictionaries ordered in Python?",
+                solution:
+                  "<p>Yes — since Python 3.7, dictionaries maintain <em>insertion order</em> as part of the language specification. Items are returned in the order they were inserted when iterating. Before Python 3.7, dictionaries were unordered. If you specifically need ordering guarantees in older code, <code>collections.OrderedDict</code> was used, but it is rarely needed in modern Python.</p>",
+              },
+              {
+                question: "What is a dict comprehension?",
+                solution:
+                  "<p>A dict comprehension creates a dictionary in a single line using the syntax <code>{key: value for item in iterable}</code>. For example, <code>{name: len(name) for name in ['Alice', 'Bob']}</code> gives <code>{'Alice': 5, 'Bob': 3}</code>. You can also add a condition: <code>{k: v for k, v in d.items() if v > 0}</code> filters out entries with non-positive values. It is the Pythonic equivalent of building a dict with a loop and multiple <code>d[k] = v</code> assignments.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/stdtypes.html#dict",
+              "https://realpython.com/python-dicts/",
+              "https://docs.python.org/3/library/collections.html#collections.Counter",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  2. SETS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Sets",
+            tags: ["Python", "Data Structures"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>set</strong> is an unordered collection of <em>unique</em> elements. It automatically removes duplicates,
+    and membership testing (<code>in</code>) is O(1) — just like a dictionary. Sets are mutable, but the elements inside them
+    must be immutable (hashable). Sets are extremely useful in interviews for deduplication, fast lookup, and mathematical set operations.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Creating Sets & Unique Elements
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Creating a set — duplicates are removed automatically
+nums = {1, 2, 3, 2, 1, 4}
+print(nums)          # {1, 2, 3, 4}
+
+# From a list — most common use: deduplication
+names = ["Alice", "Bob", "Alice", "Charlie", "Bob"]
+unique = set(names)
+print(unique)        # {'Alice', 'Bob', 'Charlie'}
+
+# Empty set — MUST use set(), not {} (that creates a dict)
+empty = set()
+
+# Membership test — O(1)
+print("Alice" in unique)    # True
+print("Dave" in unique)     # False
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Core Methods
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">add() :</span> Adds a single element. Does nothing if it already exists (no duplicates, no error).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+fruits = {"apple", "banana"}
+fruits.add("cherry")
+fruits.add("apple")    # already exists — no change, no error
+print(fruits)          # {'apple', 'banana', 'cherry'}
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">remove() / discard() :</span> Both remove an element. <code>remove()</code> raises a <code>KeyError</code> if not found; <code>discard()</code> does nothing — safer choice.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+nums = {1, 2, 3, 4}
+nums.remove(3)        # removes 3
+# nums.remove(99)     # KeyError!
+
+nums.discard(99)      # no error — safe removal
+print(nums)           # {1, 2, 4}
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Union / Intersection / Difference / Symmetric Difference :</span>
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+A = {1, 2, 3, 4}
+B = {3, 4, 5, 6}
+
+# Union — all elements from both (| operator)
+print(A | B)             # {1, 2, 3, 4, 5, 6}
+print(A.union(B))        # same
+
+# Intersection — only common elements (& operator)
+print(A & B)             # {3, 4}
+print(A.intersection(B)) # same
+
+# Difference — in A but NOT in B (- operator)
+print(A - B)             # {1, 2}
+print(A.difference(B))   # same
+
+# Symmetric Difference — in either but NOT in both (^ operator)
+print(A ^ B)             # {1, 2, 5, 6}
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `# Find common elements between two lists (interview classic)
+list1 = [1, 2, 3, 4, 5, 2, 3]
+list2 = [3, 4, 5, 6, 7, 4, 5]
+
+common = set(list1) & set(list2)
+print("Common:", common)          # {3, 4, 5}
+
+only_in_list1 = set(list1) - set(list2)
+print("Only in list1:", only_in_list1)  # {1, 2}
+
+# Check if two strings are anagrams
+def is_anagram(s1, s2):
+    # Same characters AND same frequencies
+    from collections import Counter
+    return Counter(s1) == Counter(s2)
+
+# But for just unique chars check:
+def same_unique_chars(s1, s2):
+    return set(s1) == set(s2)
+
+print(is_anagram("listen", "silent"))    # True
+print(is_anagram("hello", "world"))      # False
+
+# Remove duplicates while preserving order
+def dedupe_ordered(lst):
+    seen = set()
+    result = []
+    for item in lst:
+        if item not in seen:
+            seen.add(item)
+            result.append(item)
+    return result
+
+data = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3]
+print(dedupe_ordered(data))   # [3, 1, 4, 5, 9, 2, 6]`,
+            ],
+            questions: [
+              {
+                question: "What is a set in Python and when should you use it?",
+                solution:
+                  "<p>A set is an unordered collection of unique hashable elements backed by a hash table. Use a set when: (1) you need to remove duplicates from a list, (2) you need fast O(1) membership testing (<code>in</code> check), or (3) you need to perform set algebra (union, intersection, difference). Do not use a set when order matters or when you need to store duplicate values — use a list instead.</p>",
+              },
+              {
+                question: "What is the difference between remove() and discard()?",
+                solution:
+                  "<p>Both remove an element from a set. The difference is in error handling: <code>remove(x)</code> raises a <code>KeyError</code> if <code>x</code> is not in the set. <code>discard(x)</code> does nothing if <code>x</code> is absent — it never raises an error. In most cases, <code>discard()</code> is the safer choice because you don't need to check membership before removing.</p>",
+              },
+              {
+                question: "Why can't you use {} to create an empty set?",
+                solution:
+                  "<p><code>{}</code> creates an empty <em>dictionary</em>, not an empty set — because dictionaries were added to Python's syntax first. To create an empty set you must use <code>set()</code>. This is a very common beginner mistake. Once you have a non-empty set, the <code>{1, 2, 3}</code> syntax works correctly — the ambiguity only exists with empty braces.</p>",
+              },
+              {
+                question: "What is the time complexity of 'in' for a set vs a list?",
+                solution:
+                  "<p>Membership testing with <code>in</code> is O(1) average for a set (hash-based lookup) and O(n) for a list (linear scan). This means for large collections, a set can be dramatically faster. For example, checking 1 million items: a list might take seconds, while a set takes microseconds. This is why converting a list to a set before repeated membership checks is a common optimisation in interview solutions.</p>",
+              },
+              {
+                question: "What is the difference between union and update on sets?",
+                solution:
+                  "<p><code>A | B</code> or <code>A.union(B)</code> returns a <em>new</em> set containing all elements from both sets — neither original is modified. <code>A.update(B)</code> (or <code>A |= B</code>) modifies set <code>A</code> <em>in place</em> by adding all elements from <code>B</code>. The same pattern applies to intersection: <code>intersection()</code> returns new, <code>intersection_update()</code> modifies in place.</p>",
+              },
+              {
+                question: "Can a set contain a list or another set as an element?",
+                solution:
+                  "<p>No. Set elements must be <em>hashable</em> (immutable). Lists are mutable and therefore not hashable — attempting <code>my_set.add([1, 2])</code> raises a <code>TypeError: unhashable type: 'list'</code>. For the same reason, you cannot have a set of sets. If you need a set of sequences, use tuples instead of lists: <code>my_set.add((1, 2))</code> works fine because tuples are immutable.</p>",
+              },
+              {
+                question: "How do sets help in the 'two sum' and 'duplicate detection' problems?",
+                solution:
+                  "<p>For <strong>duplicate detection</strong>: iterate through the list and check <code>if item in seen_set</code> before adding — O(n) total. For <strong>two sum</strong>: for each number, check if its complement (<code>target - num</code>) is already in a set — O(n) with O(n) space. Without a set, both problems would require nested loops at O(n²). Sets make these linear-time solutions possible.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/stdtypes.html#set",
+              "https://realpython.com/python-sets/",
+              "https://www.w3schools.com/python/python_sets.asp",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  3. LOOPS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Loops",
+            tags: ["Python", "Control Flow"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Loops allow you to repeat a block of code. Python has two loop types: <code>for</code> (iterate over a sequence)
+    and <code>while</code> (repeat while a condition holds). Understanding <code>range()</code>, <code>enumerate()</code>,
+    <code>break</code>, and <code>continue</code> is essential for both everyday coding and technical interviews.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    for Loop
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Iterate over a list
+for item in [10, 20, 30]:
+    print(item)
+
+# Iterate over a string
+for char in "hello":
+    print(char)
+
+# Iterate over dict items
+person = {"name": "Alice", "age": 25}
+for key, val in person.items():
+    print(f"{key} = {val}")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    range()
+  </h4>
+  <p style="line-height: 1.75;"><code>range(start, stop, step)</code> — <code>stop</code> is always excluded. Generates numbers lazily (memory efficient).</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+range(5)          # 0, 1, 2, 3, 4
+range(1, 6)       # 1, 2, 3, 4, 5
+range(0, 10, 2)   # 0, 2, 4, 6, 8
+range(5, 0, -1)   # 5, 4, 3, 2, 1  (count down)
+
+for i in range(1, 6):
+    print(i)   # 1 2 3 4 5
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    while Loop
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Standard while
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+
+# Infinite loop with break
+while True:
+    user = input("Type 'quit' to exit: ")
+    if user == "quit":
+        break
+    print(f"You typed: {user}")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Loop Control — break, continue, else
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# break — exit the loop entirely
+for i in range(10):
+    if i == 5: break
+    print(i)          # 0 1 2 3 4
+
+# continue — skip current iteration
+for i in range(6):
+    if i % 2 == 0: continue
+    print(i)          # 1 3 5
+
+# else on a loop — runs only if loop was NOT broken
+for i in range(5):
+    if i == 10: break
+else:
+    print("Loop completed without break")  # this runs
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Binary search using while loop
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+nums = [1, 3, 5, 7, 9, 11, 13]
+print(binary_search(nums, 7))    # 3
+print(binary_search(nums, 6))    # -1
+
+# Nested loops — matrix traversal
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+for row in matrix:
+    for val in row:
+        print(val, end=" ")
+    print()
+
+# Loop with enumerate and zip together
+names  = ["Alice", "Bob", "Charlie"]
+scores = [90, 85, 92]
+for i, (name, score) in enumerate(zip(names, scores), start=1):
+    print(f"{i}. {name}: {score}")`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between for and while loops?",
+                solution:
+                  "<p>A <code>for</code> loop is used when you know what you are iterating over — a list, a range, a string, etc. It automatically handles the iteration state. A <code>while</code> loop is used when you repeat based on a condition and the number of iterations is not known in advance. As a rule: if you can naturally express iteration as 'for each item in X', use <code>for</code>; if you're waiting for a condition to change, use <code>while</code>.</p>",
+              },
+              {
+                question: "What does range() return and is it memory efficient?",
+                solution:
+                  "<p><code>range()</code> does not return a list — it returns a lazy <em>range object</em> that generates numbers on demand. This is extremely memory efficient: <code>range(1_000_000)</code> uses a tiny fixed amount of memory regardless of size, whereas <code>list(range(1_000_000))</code> allocates memory for one million integers. In a loop, Python requests one value at a time from the range object, so always prefer <code>range()</code> over <code>list(range())</code> when you just need to iterate.</p>",
+              },
+              {
+                question: "When does the 'else' clause on a loop execute?",
+                solution:
+                  "<p>The <code>else</code> block after a loop runs only if the loop completed <em>without</em> hitting a <code>break</code> statement. If <code>break</code> exits the loop early, the <code>else</code> is skipped. This is useful for search patterns: loop through items looking for a target, <code>break</code> if found, and the <code>else</code> block handles the 'not found' case — cleaner than using a boolean flag variable.</p>",
+              },
+              {
+                question: "What is the difference between break and continue?",
+                solution:
+                  "<p><code>break</code> terminates the entire loop immediately — no more iterations happen. <code>continue</code> skips the rest of the current iteration and jumps directly to the next one — the loop itself continues. Think of <code>break</code> as 'exit the loop' and <code>continue</code> as 'skip this round'. Both can be used in nested loops, but they only affect the <em>innermost</em> loop they are placed in.</p>",
+              },
+              {
+                question: "How do you loop over a list with its index?",
+                solution:
+                  "<p>Use <code>enumerate()</code>: <code>for i, item in enumerate(my_list):</code>. This is the Pythonic way — avoid <code>for i in range(len(my_list)): item = my_list[i]</code> as it is verbose and error-prone. <code>enumerate()</code> accepts an optional <code>start</code> parameter: <code>enumerate(my_list, start=1)</code> starts counting from 1 instead of 0.</p>",
+              },
+              {
+                question: "How do you iterate over two lists simultaneously?",
+                solution:
+                  "<p>Use <code>zip()</code>: <code>for a, b in zip(list1, list2):</code>. It pairs elements by position and stops at the shortest list. If you need to continue past the shortest list with a fill value, use <code>itertools.zip_longest(list1, list2, fillvalue=None)</code>. You can also combine <code>zip()</code> with <code>enumerate()</code>: <code>for i, (a, b) in enumerate(zip(list1, list2)):</code>.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+              "https://realpython.com/python-for-loop/",
+              "https://docs.python.org/3/library/functions.html#func-range",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  4. CONDITIONAL STATEMENTS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Conditional Statements",
+            tags: ["Python", "Control Flow"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Conditional statements let your program make decisions. Python uses <code>if</code>, <code>elif</code> (else-if),
+    and <code>else</code> to branch execution based on whether conditions evaluate to <code>True</code> or <code>False</code>.
+    Python does <strong>not</strong> have a <code>switch</code> statement (Python 3.10+ has <code>match</code>, but <code>if/elif</code> covers most cases).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    if / elif / else
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+score = 78
+
+if score >= 90:
+    print("Grade: A")
+elif score >= 80:
+    print("Grade: B")
+elif score >= 70:
+    print("Grade: C")    # ← this runs
+else:
+    print("Grade: F")
+
+# One-liner (ternary / conditional expression)
+status = "Pass" if score >= 50 else "Fail"
+print(status)    # Pass
+
+# Nested if
+age = 20
+has_id = True
+if age >= 18:
+    if has_id:
+        print("Entry allowed")
+    else:
+        print("Need ID")
+else:
+    print("Too young")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Truthy & Falsy Values
+  </h4>
+  <p style="line-height: 1.75;">Python evaluates non-boolean values in conditions. Knowing which values are falsy is critical in interviews.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Falsy values — all evaluate to False in a condition
+# 0, 0.0, "", [], {}, set(), None, False
+
+if []:           print("never")      # empty list is falsy
+if 0:            print("never")
+if None:         print("never")
+
+# Truthy — everything else
+if [1, 2]:       print("list with items is truthy")
+if "hello":      print("non-empty string is truthy")
+if 42:           print("non-zero is truthy")
+
+# Practical pattern: guard clause
+def process(data):
+    if not data:     # covers None, [], "", {}
+        return "No data provided"
+    return f"Processing {len(data)} items"
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# FizzBuzz — most common interview warm-up
+for i in range(1, 101):
+    if i % 15 == 0:      # check 15 BEFORE 3 and 5
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)
+
+# Ternary expressions in list comprehension
+nums = [-3, 0, 5, -1, 8, -2]
+labels = ["positive" if n > 0 else "zero" if n == 0 else "negative"
+          for n in nums]
+print(labels)
+# ['negative', 'zero', 'positive', 'negative', 'positive', 'negative']
+
+# Short-circuit evaluation
+user = None
+name = user or "Guest"    # "Guest" because user is falsy
+print(name)               # Guest
+
+x = 10
+result = x > 5 and "big" or "small"
+print(result)    # big`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between if/elif/else and multiple if statements?",
+                solution:
+                  "<p>With <code>if/elif/else</code>, only the <em>first</em> matching branch executes — once a condition is true, the rest are skipped. With multiple separate <code>if</code> statements, <em>every</em> condition is evaluated independently and multiple blocks can run. For mutually exclusive conditions (like grade ranges), always use <code>elif</code> — it's more efficient and avoids unexpected multiple matches.</p>",
+              },
+              {
+                question: "What is a ternary operator in Python?",
+                solution:
+                  "<p>Python's ternary expression syntax is <code>value_if_true if condition else value_if_false</code>. For example: <code>status = 'Pass' if score >= 50 else 'Fail'</code>. It evaluates the condition and returns one of two values — all on one line. Unlike C-style <code>? :</code>, Python's reads almost like English. It can be nested, but deeply nested ternaries reduce readability — use regular <code>if/else</code> for complex cases.</p>",
+              },
+              {
+                question: "What values are falsy in Python?",
+                solution:
+                  "<p>The following values evaluate to <code>False</code> in a boolean context: <code>None</code>, <code>False</code>, <code>0</code>, <code>0.0</code>, <code>0j</code> (complex zero), <code>''</code> (empty string), <code>[]</code> (empty list), <code>()</code> (empty tuple), <code>{}</code> (empty dict), <code>set()</code> (empty set), and <code>range(0)</code>. Everything else is truthy. This is exploited in guard clauses like <code>if not data: return</code>, which safely catches None, empty lists, and empty strings all at once.</p>",
+              },
+              {
+                question: "What is short-circuit evaluation?",
+                solution:
+                  "<p>Python's <code>and</code> and <code>or</code> operators use short-circuit evaluation — they stop evaluating as soon as the result is determined. <code>A and B</code>: if A is falsy, B is never evaluated (result is A). <code>A or B</code>: if A is truthy, B is never evaluated (result is A). This is used practically: <code>user = input_val or 'default'</code> assigns 'default' if input_val is falsy. Also safe for: <code>if lst and lst[0] == x</code> — the second part only runs if the list is non-empty.</p>",
+              },
+              {
+                question: "Does Python have a switch statement?",
+                solution:
+                  "<p>Python 3.10+ introduced <code>match/case</code> (structural pattern matching), which can serve as a switch. Before that, the standard approach was a chain of <code>if/elif/else</code> statements. Another common pattern for simple dispatch is a dictionary mapping: <code>handlers = {'add': add_fn, 'sub': sub_fn}; result = handlers.get(op, default_fn)()</code> — this is often cleaner than a long elif chain when the logic is simple.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/controlflow.html#if-statements",
+              "https://realpython.com/python-conditional-statements/",
+              "https://peps.python.org/pep-0634/",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  5. FUNCTIONS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Functions",
+            tags: ["Python", "Functions"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>function</strong> is a reusable block of code defined with the <code>def</code> keyword.
+    Functions take inputs (<em>parameters</em>), perform operations, and optionally <code>return</code> a result.
+    Understanding default arguments, *args, **kwargs, and scope is essential for interviews.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Defining & Returning
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Basic function
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("Alice"))    # Hello, Alice!
+
+# Multiple return values (returns a tuple)
+def min_max(nums):
+    return min(nums), max(nums)
+
+lo, hi = min_max([3, 1, 4, 1, 5, 9])
+print(lo, hi)    # 1 9
+
+# No return — implicitly returns None
+def say_hi():
+    print("Hi!")
+
+result = say_hi()
+print(result)    # None
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Default Arguments
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+print(greet("Alice"))           # Hello, Alice!
+print(greet("Bob", "Hi"))       # Hi, Bob!
+print(greet("Charlie", greeting="Hey"))  # keyword arg
+
+# ⚠️ Mutable default argument trap — classic bug
+def append_item(item, lst=[]):    # DON'T do this
+    lst.append(item)
+    return lst
+
+print(append_item(1))   # [1]
+print(append_item(2))   # [1, 2]  ← unexpected! same list reused
+
+# Correct pattern — use None as default
+def append_item_safe(item, lst=None):
+    if lst is None:
+        lst = []
+    lst.append(item)
+    return lst
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    *args and **kwargs
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# *args — variable number of positional arguments (tuple)
+def total(*args):
+    return sum(args)
+
+print(total(1, 2, 3, 4))    # 10
+
+# **kwargs — variable keyword arguments (dict)
+def display(**kwargs):
+    for key, val in kwargs.items():
+        print(f"{key}: {val}")
+
+display(name="Alice", age=25, city="Delhi")
+
+# Lambda — anonymous one-liner function
+square = lambda x: x ** 2
+print(square(5))    # 25
+
+nums = [3, 1, 4, 1, 5]
+nums.sort(key=lambda x: -x)   # sort descending
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Recursive functions — fibonacci and factorial
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+print(factorial(5))   # 120
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+print([fibonacci(i) for i in range(8)])   # [0,1,1,2,3,5,8,13]
+
+# Memoized fibonacci using a dict cache
+def fib_memo(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fib_memo(n-1, memo) + fib_memo(n-2, memo)
+    return memo[n]
+
+print(fib_memo(50))   # fast!
+
+# Higher-order functions
+def apply(func, lst):
+    return [func(x) for x in lst]
+
+print(apply(lambda x: x**2, [1,2,3,4,5]))   # [1,4,9,16,25]
+
+# Closure — function remembering outer state
+def make_counter(start=0):
+    count = [start]
+    def increment(by=1):
+        count[0] += by
+        return count[0]
+    return increment
+
+counter = make_counter()
+print(counter())    # 1
+print(counter())    # 2
+print(counter(5))   # 7`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between parameters and arguments?",
+                solution:
+                  "<p><em>Parameters</em> are the variable names listed in the function definition: <code>def greet(name):</code> — <code>name</code> is a parameter. <em>Arguments</em> are the actual values passed when calling the function: <code>greet('Alice')</code> — <code>'Alice'</code> is an argument. Positional arguments match by position; keyword arguments match by name: <code>greet(name='Alice')</code>.</p>",
+              },
+              {
+                question: "What is the mutable default argument trap?",
+                solution:
+                  "<p>Default argument values are evaluated <em>once</em> when the function is defined, not each time it is called. If the default is a mutable object like a list or dict, it is shared across all calls that use the default. This means changes in one call persist into the next. The fix is to always use <code>None</code> as the default for mutable types and create a fresh object inside the function body: <code>if lst is None: lst = []</code>.</p>",
+              },
+              {
+                question: "What is the difference between *args and **kwargs?",
+                solution:
+                  "<p><code>*args</code> collects any number of extra <em>positional</em> arguments into a tuple. <code>**kwargs</code> collects any number of extra <em>keyword</em> arguments into a dictionary. The names <code>args</code> and <code>kwargs</code> are conventions — the <code>*</code> and <code>**</code> syntax is what matters. They are often used together to write flexible wrapper functions that pass all arguments through to another function: <code>def wrapper(*args, **kwargs): original(*args, **kwargs)</code>.</p>",
+              },
+              {
+                question: "What does a function return if there is no return statement?",
+                solution:
+                  "<p>Python implicitly returns <code>None</code>. Any function that reaches the end without a <code>return</code> statement (or has a bare <code>return</code> with no value) returns <code>None</code>. This is a common source of bugs: <code>result = my_list.sort()</code> stores <code>None</code> because <code>sort()</code> modifies in place and returns nothing. Always check whether a method returns a value or modifies in place.</p>",
+              },
+              {
+                question: "What is a lambda function and when should you use it?",
+                solution:
+                  "<p>A lambda is an anonymous one-expression function: <code>lambda args: expression</code>. It is syntactic sugar for a simple function defined inline. Use lambdas as short throwaway functions, especially as arguments to <code>sort(key=...)</code>, <code>map()</code>, and <code>filter()</code>. Avoid lambdas when the logic is complex — a named <code>def</code> is more readable and testable. In interviews, lambdas commonly appear in sorting: <code>items.sort(key=lambda x: x[1])</code>.</p>",
+              },
+              {
+                question: "What is recursion and what is the base case?",
+                solution:
+                  "<p>Recursion is when a function calls itself to solve a smaller version of the same problem. Every recursive function needs a <em>base case</em> — a condition where it stops calling itself and returns a value directly. Without a base case, the function calls itself infinitely and raises a <code>RecursionError: maximum recursion depth exceeded</code>. Python's default recursion limit is 1000 calls, set via <code>sys.setrecursionlimit()</code>.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
+              "https://realpython.com/defining-your-own-python-function/",
+              "https://realpython.com/python-lambda/",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  6. LIST COMPREHENSION
+          // ─────────────────────────────────────────────
+          {
+            topic: "List Comprehension",
+            tags: ["Python", "Pythonic Patterns"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    List comprehension is a concise, Pythonic way to create a new list from an existing iterable — all in a single line.
+    It replaces the common pattern of creating an empty list, looping, and calling <code>append()</code>.
+    It is faster than an equivalent loop in most cases and is extremely common in interview solutions.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Basic Syntax
+  </h4>
+  <p style="line-height: 1.75;"><code>[expression  for  item  in  iterable]</code></p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Loop version
+squares = []
+for x in range(1, 6):
+    squares.append(x ** 2)
+
+# Comprehension version — equivalent, shorter
+squares = [x ** 2 for x in range(1, 6)]
+print(squares)    # [1, 4, 9, 16, 25]
+
+# String transformation
+names = ["alice", "bob", "charlie"]
+upper = [name.upper() for name in names]
+print(upper)      # ['ALICE', 'BOB', 'CHARLIE']
+
+# Extract values from list of dicts
+people = [{"name": "Alice", "age": 25}, {"name": "Bob", "age": 30}]
+ages = [p["age"] for p in people]
+print(ages)       # [25, 30]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Conditional Comprehension
+  </h4>
+  <p style="line-height: 1.75;"><code>[expression  for  item  in  iterable  if  condition]</code> — the <code>if</code> at the end <em>filters</em> items.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Filter — keep only even numbers
+evens = [x for x in range(10) if x % 2 == 0]
+print(evens)    # [0, 2, 4, 6, 8]
+
+# Transform + filter together
+long_names = [name.upper() for name in names if len(name) > 4]
+
+# Ternary inside comprehension — if/else on the expression
+labels = ["even" if x % 2 == 0 else "odd" for x in range(6)]
+print(labels)   # ['even', 'odd', 'even', 'odd', 'even', 'odd']
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Nested & Dictionary / Set Comprehension
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Flatten a 2D list
+matrix = [[1,2,3],[4,5,6],[7,8,9]]
+flat = [val for row in matrix for val in row]
+print(flat)    # [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Dict comprehension
+squares_dict = {x: x**2 for x in range(1, 6)}
+print(squares_dict)   # {1:1, 2:4, 3:9, 4:16, 5:25}
+
+# Set comprehension — automatically unique
+unique_lens = {len(name) for name in ["hi","hey","hello","ok","hi"]}
+print(unique_lens)    # {2, 3, 5}
+
+# Generator expression — lazy, memory efficient
+total = sum(x**2 for x in range(1, 1001))   # no list created
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Real-world comprehension patterns for interviews
+
+# 1. Remove duplicates preserving order
+nums = [1, 3, 2, 1, 4, 3, 5]
+seen = set()
+unique = [x for x in nums if not (x in seen or seen.add(x))]
+print(unique)   # [1, 3, 2, 4, 5]
+
+# 2. Prime numbers up to N
+def get_primes(n):
+    return [x for x in range(2, n+1)
+            if all(x % d != 0 for d in range(2, int(x**0.5)+1))]
+print(get_primes(30))  # [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+
+# 3. Transpose a matrix
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+transposed = [[row[i] for row in matrix] for i in range(3)]
+print(transposed)  # [[1,4,7],[2,5,8],[3,6,9]]
+
+# 4. Filter + transform from a CSV-like structure
+data = [
+    {"name": "Alice", "score": 88, "active": True},
+    {"name": "Bob",   "score": 45, "active": False},
+    {"name": "Carol", "score": 92, "active": True},
+]
+passing = [d["name"] for d in data if d["active"] and d["score"] >= 50]
+print(passing)  # ['Alice', 'Carol']`,
+            ],
+            questions: [
+              {
+                question: "What is list comprehension and how is it different from a regular loop?",
+                solution:
+                  "<p>List comprehension is a compact syntax for creating a list: <code>[expr for item in iterable]</code>. It is equivalent to a <code>for</code> loop with <code>append()</code> but runs faster (the loop is implemented in C internally), is more readable once you are familiar with the syntax, and expresses the intent — 'build a list' — directly. The trade-off is that very complex comprehensions can become hard to read; in those cases a regular loop is clearer.</p>",
+              },
+              {
+                question: "What is the difference between filtering (if at the end) and ternary (if/else on the expression)?",
+                solution:
+                  "<p>Filtering: <code>[x for x in lst if x > 0]</code> — the <code>if</code> at the end decides whether an item is <em>included</em> at all. Items that fail the condition are dropped. Ternary: <code>[x if x > 0 else 0 for x in lst]</code> — every item is always included, but its <em>value</em> is transformed based on the condition. You can also combine both: <code>[x*2 if x > 0 else 0 for x in lst if x != -99]</code>.</p>",
+              },
+              {
+                question: "What is a generator expression and how does it differ from list comprehension?",
+                solution:
+                  "<p>A generator expression uses parentheses instead of brackets: <code>(x**2 for x in range(n))</code>. It is <em>lazy</em> — it generates values one at a time on demand and does not build the entire list in memory. This makes it ideal for large data sets or when you only need to iterate once (e.g., <code>sum(x**2 for x in range(1_000_000))</code> never allocates a million-item list). If you need to access elements multiple times or by index, use a list comprehension instead.</p>",
+              },
+              {
+                question: "How do you flatten a 2D list using comprehension?",
+                solution:
+                  "<p>Use a nested comprehension with two <code>for</code> clauses: <code>[val for row in matrix for val in row]</code>. Read left to right: for each row in matrix, for each val in that row, include val. This is equivalent to two nested loops. For deeper nesting or irregular structures, <code>itertools.chain.from_iterable(matrix)</code> is more readable and efficient.</p>",
+              },
+              {
+                question: "Are there dict and set comprehensions in Python?",
+                solution:
+                  "<p>Yes. Dict comprehension: <code>{k: v for k, v in iterable}</code> — for example <code>{name: len(name) for name in words}</code>. Set comprehension: <code>{expr for item in iterable}</code> — uses curly braces but no colon, automatically deduplicates. Both support filtering with <code>if</code> at the end. Dict comprehensions are particularly useful for inverting a dictionary: <code>{v: k for k, v in original.items()}</code>.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions",
+              "https://realpython.com/list-comprehension-python/",
+              "https://peps.python.org/pep-0202/",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  7. BUILT-IN FUNCTIONS (VERY IMPORTANT)
+          // ─────────────────────────────────────────────
+          {
+            topic: "Built-in Functions",
+            tags: ["Python", "Built-ins"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Python ships with powerful built-in functions that are available without any import.
+    Mastering these is critical for writing concise, readable interview solutions.
+    These functions are implemented in C and are significantly faster than equivalent hand-written loops.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    len(), sum(), min(), max()
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+nums = [3, 1, 4, 1, 5, 9, 2, 6]
+
+print(len(nums))     # 8  — number of elements
+print(sum(nums))     # 31 — total sum
+print(min(nums))     # 1  — smallest
+print(max(nums))     # 9  — largest
+
+# sum with a start value
+print(sum(nums, 10))   # 41  (10 + 31)
+
+# min/max with a key function
+words = ["banana", "fig", "apple", "kiwi"]
+print(min(words, key=len))    # fig  — shortest
+print(max(words, key=len))    # banana — longest
+
+# min/max on 2D data
+students = [("Alice", 90), ("Bob", 85), ("Carol", 92)]
+print(max(students, key=lambda s: s[1]))   # ('Carol', 92)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    sorted()
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+nums = [3, 1, 4, 1, 5, 9]
+print(sorted(nums))              # [1, 1, 3, 4, 5, 9]
+print(sorted(nums, reverse=True))# [9, 5, 4, 3, 1, 1]
+
+# Sort by custom key — does NOT modify original
+people = [("Alice", 30), ("Bob", 25), ("Carol", 35)]
+by_age = sorted(people, key=lambda p: p[1])
+print(by_age)   # [('Bob',25), ('Alice',30), ('Carol',35)]
+
+# Sort by multiple keys
+data = [("Alice",30), ("Bob",25), ("Anna",30)]
+result = sorted(data, key=lambda x: (x[1], x[0]))
+print(result)   # [('Bob',25), ('Alice',30), ('Anna',30)]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    enumerate()
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+fruits = ["apple", "banana", "cherry"]
+
+for i, fruit in enumerate(fruits):
+    print(f"{i}: {fruit}")
+# 0: apple   1: banana   2: cherry
+
+# Custom start index
+for i, fruit in enumerate(fruits, start=1):
+    print(f"{i}. {fruit}")
+# 1. apple   2. banana   3. cherry
+
+# Convert to list of tuples
+print(list(enumerate(fruits)))
+# [(0, 'apple'), (1, 'banana'), (2, 'cherry')]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    zip()
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+names  = ["Alice", "Bob", "Charlie"]
+scores = [90, 85, 92]
+cities = ["Delhi", "Mumbai", "Pune"]
+
+# Pair two lists
+for name, score in zip(names, scores):
+    print(f"{name}: {score}")
+
+# Zip three lists
+for name, score, city in zip(names, scores, cities):
+    print(f"{name} from {city} scored {score}")
+
+# Unzip — transpose a list of tuples
+pairs = [(1, 'a'), (2, 'b'), (3, 'c')]
+nums, letters = zip(*pairs)
+print(nums)      # (1, 2, 3)
+print(letters)   # ('a', 'b', 'c')
+
+# Create a dict from two lists
+mapping = dict(zip(names, scores))
+print(mapping)   # {'Alice': 90, 'Bob': 85, 'Charlie': 92}
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Interview problems solved with built-ins
+
+# 1. Find the second largest (no sort needed — uses set + sorted)
+def second_largest(nums):
+    unique = list(set(nums))
+    if len(unique) < 2:
+        return None
+    return sorted(unique)[-2]
+
+print(second_largest([3, 1, 4, 1, 5, 9, 9]))   # 5
+
+# 2. Rotate array k steps to the right
+def rotate(nums, k):
+    k %= len(nums)
+    return nums[-k:] + nums[:-k]
+
+print(rotate([1,2,3,4,5], 2))   # [4, 5, 1, 2, 3]
+
+# 3. Zip to check if two lists are equal ignoring order
+def same_elements(a, b):
+    return sorted(a) == sorted(b)
+
+print(same_elements([3,1,2], [1,2,3]))   # True
+
+# 4. Running total using enumerate
+prices = [10, 25, 5, 40, 15]
+running = []
+for i, p in enumerate(prices):
+    running.append(sum(prices[:i+1]))
+print(running)   # [10, 35, 40, 80, 95]
+
+# 5. Create lookup dict from parallel lists
+keys   = ["id", "name", "score"]
+values = [101, "Alice", 95]
+record = dict(zip(keys, values))
+print(record)   # {'id': 101, 'name': 'Alice', 'score': 95}`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between sorted() and list.sort()?",
+                solution:
+                  "<p><code>sorted(iterable)</code> is a built-in function that works on <em>any</em> iterable and returns a <em>new</em> sorted list — the original is unchanged. <code>list.sort()</code> is a list method that sorts the list <em>in place</em> and returns <code>None</code>. Use <code>sorted()</code> when you need a new sorted copy; use <code>sort()</code> when you want to modify the list and save memory. Both accept <code>key=</code> and <code>reverse=</code> arguments.</p>",
+              },
+              {
+                question: "How does the key parameter work in sorted(), min(), and max()?",
+                solution:
+                  "<p>The <code>key</code> parameter accepts a function that is applied to each element before comparison. The element is sorted/compared <em>based on the return value of key(element)</em>, but the original elements are returned — not the key values. For example, <code>sorted(words, key=len)</code> sorts by string length but returns the original words. A lambda is commonly used: <code>key=lambda x: x[1]</code> sorts by the second element of each tuple.</p>",
+              },
+              {
+                question: "Why should you use enumerate() instead of range(len())?",
+                solution:
+                  "<p><code>enumerate(lst)</code> is more Pythonic, readable, and less error-prone than <code>for i in range(len(lst)): item = lst[i]</code>. It directly gives you both the index and the value, avoids off-by-one errors, and works on any iterable (not just indexable sequences). It also signals clearly to the reader that both the index and the value are being used — which <code>range(len())</code> does not convey as clearly.</p>",
+              },
+              {
+                question: "What happens when the lists passed to zip() have different lengths?",
+                solution:
+                  "<p><code>zip()</code> stops at the <em>shortest</em> list — extra elements from longer lists are silently ignored. If you need to zip lists of different lengths and fill the missing values, use <code>itertools.zip_longest(list1, list2, fillvalue=None)</code>. This is an important edge case to mention in interviews when processing data from multiple sources that might not always be aligned.</p>",
+              },
+              {
+                question: "How do you sort a list of objects by multiple criteria?",
+                solution:
+                  "<p>Return a tuple from the <code>key</code> function — Python compares tuples element by element. For example, <code>sorted(students, key=lambda s: (s.grade, s.name))</code> sorts by grade first, then by name alphabetically for ties. To sort one key ascending and another descending, negate numeric keys: <code>key=lambda s: (-s.score, s.name)</code> sorts by score descending, then name ascending.</p>",
+              },
+              {
+                question: "What does zip(*iterable) do (unpacking with *)?",
+                solution:
+                  "<p>The <code>*</code> operator unpacks a list of tuples as separate arguments to <code>zip()</code>. This effectively <em>transposes</em> a 2D structure. For example, <code>pairs = [(1,'a'), (2,'b'), (3,'c')]</code> — calling <code>zip(*pairs)</code> is equivalent to <code>zip((1,'a'), (2,'b'), (3,'c'))</code>, which gives <code>(1,2,3)</code> and <code>('a','b','c')</code>. This is a common interview trick for transposing matrices or unzipping a list of pairs.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/functions.html",
+              "https://realpython.com/python-built-in-functions/",
+              "https://docs.python.org/3/library/functions.html#sorted",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  8. STACK & QUEUE (Python Way)
+          // ─────────────────────────────────────────────
+          {
+            topic: "Stack & Queue",
+            tags: ["Python", "Data Structures"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Python does not have dedicated built-in Stack or Queue classes, but implements both efficiently using
+    existing data structures. A <strong>stack</strong> (LIFO — Last In First Out) uses a plain list.
+    A <strong>queue</strong> (FIFO — First In First Out) uses <code>collections.deque</code> for O(1) operations on both ends.
+    Understanding when to use each is a core interview skill.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Stack → list
+  </h4>
+  <p style="line-height: 1.75;">
+    A list works perfectly as a stack. Use <code>append()</code> to push and <code>pop()</code> to pop — both are O(1).
+    The top of the stack is always <code>stack[-1]</code>.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+stack = []
+
+# Push
+stack.append(1)
+stack.append(2)
+stack.append(3)
+print(stack)         # [1, 2, 3]  ← 3 is on top
+
+# Peek (look at top without removing)
+print(stack[-1])     # 3
+
+# Pop (remove from top)
+top = stack.pop()
+print(top)           # 3
+print(stack)         # [1, 2]
+
+# Check empty
+if not stack:
+    print("Stack is empty")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Queue → collections.deque
+  </h4>
+  <p style="line-height: 1.75;">
+    Use <code>collections.deque</code> (double-ended queue) for a queue. <code>append()</code> enqueues to the right,
+    <code>popleft()</code> dequeues from the left — both O(1). <strong>Never use a list as a queue</strong> because
+    <code>list.pop(0)</code> is O(n) — it shifts every element.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+from collections import deque
+
+queue = deque()
+
+# Enqueue (add to the back)
+queue.append("Alice")
+queue.append("Bob")
+queue.append("Charlie")
+print(queue)         # deque(['Alice', 'Bob', 'Charlie'])
+
+# Peek front
+print(queue[0])      # Alice
+
+# Dequeue (remove from front) — O(1)
+first = queue.popleft()
+print(first)         # Alice
+print(queue)         # deque(['Bob', 'Charlie'])
+
+# deque also supports O(1) prepend
+queue.appendleft("Dave")
+print(queue)         # deque(['Dave', 'Bob', 'Charlie'])
+
+# Check empty
+if not queue:
+    print("Queue is empty")
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When to use Stack vs Queue
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Stack (LIFO) :</span> Balanced parentheses, undo operations, DFS (depth-first search), function call simulation, backtracking.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Queue (FIFO) :</span> BFS (breadth-first search), task scheduling, sliding window, level-order tree traversal.</li>
+  </ol>
+</div>`,
+            examples: [
+              `from collections import deque
+
+# Stack — valid parentheses (classic interview problem)
+def is_valid_parens(s):
+    stack = []
+    matching = {')': '(', '}': '{', ']': '['}
+    for char in s:
+        if char in "({[":
+            stack.append(char)
+        elif char in ")}]":
+            if not stack or stack[-1] != matching[char]:
+                return False
+            stack.pop()
+    return len(stack) == 0
+
+print(is_valid_parens("()[]{}"))    # True
+print(is_valid_parens("([)]"))      # False
+print(is_valid_parens("{[()]}"))    # True
+
+# Queue — BFS level-order traversal
+def bfs(graph, start):
+    visited = set([start])
+    queue = deque([start])
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbour in graph.get(node, []):
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append(neighbour)
+    return order
+
+graph = {1: [2,3], 2: [4,5], 3: [6], 4: [], 5: [], 6: []}
+print(bfs(graph, 1))   # [1, 2, 3, 4, 5, 6]`,
+            ],
+            questions: [
+              {
+                question: "Why is deque preferred over list for a queue?",
+                solution:
+                  "<p>Removing from the front of a list with <code>list.pop(0)</code> is O(n) because Python must shift every remaining element one position to the left. <code>deque.popleft()</code> is O(1) because a deque is a doubly-linked list internally — removing from either end requires only pointer updates. For any FIFO use case (BFS, task queues, sliding window), always use <code>collections.deque</code>.</p>",
+              },
+              {
+                question: "What is LIFO and FIFO?",
+                solution:
+                  "<p><strong>LIFO</strong> (Last In First Out) is the stack principle — the last element added is the first one removed. Think of a stack of plates. <strong>FIFO</strong> (First In First Out) is the queue principle — the first element added is the first one removed. Think of a line at a ticket counter. Choosing the wrong data structure (stack vs queue) in interview problems like BFS/DFS is a common and costly mistake.</p>",
+              },
+              {
+                question: "How do you implement DFS using a stack?",
+                solution:
+                  "<p>Use a list as a stack: push the starting node, then loop while the stack is non-empty — pop a node, process it, and push its unvisited neighbours. Because you push and pop from the same end, the most recently added neighbour is processed first — giving depth-first behaviour. This iterative DFS is equivalent to recursive DFS, but avoids Python's recursion limit for very deep graphs.</p>",
+              },
+              {
+                question: "What is collections.deque and what other operations does it support?",
+                solution:
+                  "<p><code>deque</code> (double-ended queue) supports O(1) operations on both ends: <code>append()</code> (right), <code>appendleft()</code> (left), <code>pop()</code> (right), <code>popleft()</code> (left). It also supports a <code>maxlen</code> parameter — when full, adding to one end automatically removes from the other. This makes it perfect for sliding window problems: <code>deque(maxlen=k)</code> maintains a fixed-size window automatically.</p>",
+              },
+              {
+                question: "How would you implement a stack using two queues?",
+                solution:
+                  "<p>This is a classic interview question. Method 1 (costly push): to push, enqueue to an empty queue2, then move all elements from queue1 to queue2, then swap them — O(n) push, O(1) pop. Method 2 (costly pop): push normally to queue1 — O(1). To pop, move all but the last element to queue2, save the last, swap queues — O(n) pop. The reverse (queue using two stacks) is also common: push to stack1 O(1); pop from stack2, refilling from stack1 when empty — amortized O(1).</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/collections.html#collections.deque",
+              "https://realpython.com/how-to-implement-python-stack/",
+              "https://realpython.com/queue-in-python/",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  9. TUPLES
+          // ─────────────────────────────────────────────
+          {
+            topic: "Tuples",
+            tags: ["Python", "Data Structures"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>tuple</strong> is an ordered, <em>immutable</em> sequence — like a list that cannot be changed after creation.
+    Tuples are defined with parentheses <code>()</code> or just commas. Because they are immutable, they are
+    <em>hashable</em> (can be used as dictionary keys or set elements), slightly faster than lists,
+    and conventionally used to group related but fixed data — like a coordinate, a record, or a function returning multiple values.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Creating Tuples
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Standard creation
+point = (3, 5)
+rgb   = (255, 128, 0)
+
+# Parentheses are optional — the comma makes it a tuple
+coords = 10, 20
+print(type(coords))    # &lt;class 'tuple'&gt;
+
+# Single-element tuple — trailing comma is required
+single = (42,)         # (42,) is a tuple
+not_tuple = (42)       # just the int 42
+
+# Empty tuple
+empty = ()
+empty2 = tuple()
+
+# From a list
+nums = tuple([1, 2, 3])
+
+# Indexing and slicing — same as list
+t = (10, 20, 30, 40)
+print(t[0])     # 10
+print(t[-1])    # 40
+print(t[1:3])   # (20, 30)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Packing & Unpacking
+  </h4>
+  <p style="line-height: 1.75;">
+    <strong>Packing</strong> — grouping multiple values into a tuple.
+    <strong>Unpacking</strong> — extracting tuple values directly into variables. Python's unpacking is one of its most elegant features.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Packing
+person = ("Alice", 25, "Engineer")
+
+# Unpacking — variable count must match
+name, age, job = person
+print(name)    # Alice
+print(age)     # 25
+
+# Swap variables using tuple packing/unpacking
+a, b = 5, 10
+a, b = b, a
+print(a, b)    # 10 5
+
+# Extended unpacking with *
+first, *rest = (1, 2, 3, 4, 5)
+print(first)   # 1
+print(rest)    # [2, 3, 4, 5]  ← rest becomes a list
+
+*head, last = (1, 2, 3, 4, 5)
+print(head)    # [1, 2, 3, 4]
+print(last)    # 5
+
+# Unpacking in a loop
+students = [("Alice", 90), ("Bob", 85), ("Charlie", 92)]
+for name, score in students:
+    print(f"{name}: {score}")
+
+# Function returning multiple values (actually a tuple)
+def divmod_custom(a, b):
+    return a // b, a % b    # packs into a tuple
+
+quotient, remainder = divmod_custom(17, 5)
+print(quotient, remainder)    # 3 2
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Tuples as Dictionary Keys & Set Elements
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Tuples are hashable — can be dict keys
+grid = {}
+grid[(0, 0)] = "start"
+grid[(3, 4)] = "end"
+print(grid[(0, 0)])    # start
+
+# Tuples in a set
+visited = set()
+visited.add((1, 2))
+visited.add((3, 4))
+print((1, 2) in visited)    # True
+
+# Lists cannot be dict keys — TypeError
+# grid[[0, 0]] = "x"   ← TypeError: unhashable type: 'list'
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Tuples in interview patterns
+
+# 1. Named tuple — readable, lightweight data class
+from collections import namedtuple
+
+Point  = namedtuple("Point",  ["x", "y"])
+Person = namedtuple("Person", ["name", "age", "score"])
+
+p = Point(3, 5)
+print(p.x, p.y)     # 3 5  (dot notation)
+
+alice = Person("Alice", 25, 92)
+print(alice.name)   # Alice
+
+# 2. Sort list of tuples
+records = [("Bob", 85), ("Alice", 92), ("Charlie", 78)]
+records.sort(key=lambda r: r[1], reverse=True)
+print(records)   # [('Alice', 92), ('Bob', 85), ('Charlie', 78)]
+
+# 3. Tuple as coordinate key in a grid problem
+def count_islands(grid):
+    rows, cols = len(grid), len(grid[0])
+    visited = set()
+
+    def dfs(r, c):
+        if (r, c) in visited or r < 0 or c < 0 or r >= rows or c >= cols:
+            return
+        if grid[r][c] == 0:
+            return
+        visited.add((r, c))
+        for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:
+            dfs(r+dr, c+dc)
+
+    islands = 0
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 1 and (r, c) not in visited:
+                dfs(r, c)
+                islands += 1
+    return islands
+
+g = [[1,1,0,0],[1,0,0,1],[0,0,1,1]]
+print(count_islands(g))   # 3`,
+            ],
+            questions: [
+              {
+                question: "What is the difference between a tuple and a list?",
+                solution:
+                  "<p>Both are ordered sequences that support indexing and slicing. The key differences: (1) <strong>Mutability</strong> — lists are mutable (you can add, remove, change elements); tuples are immutable (fixed after creation). (2) <strong>Hashability</strong> — tuples can be used as dictionary keys or set elements; lists cannot. (3) <strong>Performance</strong> — tuples are slightly faster to create and iterate over. (4) <strong>Semantics</strong> — by convention, lists store homogeneous items of varying count; tuples store heterogeneous but related items of fixed structure (like a record).</p>",
+              },
+              {
+                question: "How do you create a single-element tuple?",
+                solution:
+                  "<p>You must include a trailing comma: <code>(42,)</code> is a tuple with one element. <code>(42)</code> is just the integer 42 in parentheses — Python treats the parentheses as grouping, not as tuple syntax. This is a very common beginner mistake. For an empty tuple, <code>()</code> works fine because there is no ambiguity. The comma is what makes something a tuple, not the parentheses.</p>",
+              },
+              {
+                question: "What is tuple unpacking and why is it useful?",
+                solution:
+                  "<p>Tuple unpacking (also called destructuring) assigns the elements of a tuple directly to multiple variables in one statement: <code>name, age = ('Alice', 25)</code>. It is useful for: swapping variables without a temp variable (<code>a, b = b, a</code>), unpacking function return values (<code>q, r = divmod(17, 5)</code>), iterating over lists of tuples (<code>for name, score in records:</code>), and the extended <code>*</code> syntax for collecting remaining elements. It makes code more readable and expressive.</p>",
+              },
+              {
+                question: "Why can tuples be used as dictionary keys but not lists?",
+                solution:
+                  "<p>Dictionary keys must be <em>hashable</em> — their hash value must never change during their lifetime. Tuples are immutable, so their hash value is fixed — Python can safely compute and cache it. Lists are mutable — you could change a list after using it as a key, which would corrupt the dictionary's internal hash table. This is why Python raises <code>TypeError: unhashable type: 'list'</code> when you try to use a list as a dict key or add it to a set.</p>",
+              },
+              {
+                question: "What is a namedtuple and when should you use it?",
+                solution:
+                  "<p><code>collections.namedtuple</code> creates a tuple subclass with named fields — you access elements by name (<code>p.x</code>) instead of index (<code>p[0]</code>). It is lightweight (same memory as a regular tuple), immutable, and makes code far more readable when dealing with structured records. Use it when you have a simple data record with 2–5 fields and do not need methods or mutability — it is lighter than a full class and more readable than a plain tuple.</p>",
+              },
+              {
+                question: "What does the * operator do in tuple unpacking?",
+                solution:
+                  "<p>The <code>*</code> in unpacking (extended unpacking) collects all remaining elements into a list. <code>first, *rest = (1, 2, 3, 4, 5)</code> gives <code>first=1</code> and <code>rest=[2, 3, 4, 5]</code>. <code>*head, last = (1, 2, 3, 4, 5)</code> gives <code>head=[1, 2, 3, 4]</code> and <code>last=5</code>. There can only be one <code>*</code> variable per unpacking expression. Note that the collected variable is always a <em>list</em>, even if unpacking from a tuple.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences",
+              "https://realpython.com/python-tuple/",
+              "https://docs.python.org/3/library/collections.html#collections.namedtuple",
+            ],
+          },
+          // ─────────────────────────────────────────────
+          //  1. COLLECTIONS MODULE
+          // ─────────────────────────────────────────────
+          {
+            topic: "Collections Module",
+            tags: ["Python", "Collections", "Data Structures"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The <code>collections</code> module provides specialised container data types that extend Python's built-in
+    <code>dict</code>, <code>list</code>, and <code>tuple</code>. Three of them appear constantly in interviews:
+    <code>Counter</code> for frequency counting, <code>defaultdict</code> for safe key access, and <code>deque</code>
+    for efficient double-ended queues. Knowing these can turn a 20-line solution into 5 lines.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Counter
+  </h4>
+  <p style="line-height: 1.75;">
+    <code>Counter</code> is a dict subclass designed to count hashable objects. It accepts any iterable and
+    automatically builds a frequency map. Elements with zero or negative counts are valid and supported.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+from collections import Counter
+
+# Count characters in a string
+c = Counter("mississippi")
+print(c)
+# Counter({'i': 4, 's': 4, 'p': 2, 'm': 1})
+
+# Count elements in a list
+words = ["apple", "banana", "apple", "cherry", "banana", "apple"]
+wc = Counter(words)
+print(wc)                      # Counter({'apple': 3, 'banana': 2, 'cherry': 1})
+print(wc["apple"])             # 3
+print(wc["grape"])             # 0  ← missing keys return 0, not KeyError
+
+# most_common(n) — top n most frequent
+print(wc.most_common(2))       # [('apple', 3), ('banana', 2)]
+
+# Arithmetic on Counters
+a = Counter("aab")
+b = Counter("abc")
+print(a + b)    # Counter({'a': 3, 'b': 2, 'c': 1})
+print(a - b)    # Counter({'a': 1})   — drops zero/negative
+print(a & b)    # Counter({'a': 1, 'b': 1})  — min of each
+print(a | b)    # Counter({'a': 2, 'b': 1, 'c': 1})  — max of each
+
+# Convert back to dict or sorted list
+print(dict(wc))
+print(sorted(wc.items(), key=lambda x: -x[1]))
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    defaultdict
+  </h4>
+  <p style="line-height: 1.75;">
+    <code>defaultdict</code> is a dict subclass that calls a factory function to supply a default value
+    when a missing key is accessed — eliminating the need for <code>if key not in d</code> checks.
+    The factory is any callable: <code>int</code> (default 0), <code>list</code> (default []), <code>set</code> (default set()), etc.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+from collections import defaultdict
+
+# defaultdict(int) — default value is 0
+freq = defaultdict(int)
+for char in "hello world":
+    freq[char] += 1      # no KeyError on first access
+print(dict(freq))
+
+# defaultdict(list) — default value is []
+groups = defaultdict(list)
+data = [("fruit","apple"),("veggie","carrot"),("fruit","banana")]
+for category, item in data:
+    groups[category].append(item)
+print(dict(groups))
+# {'fruit': ['apple', 'banana'], 'veggie': ['carrot']}
+
+# defaultdict(set) — default value is set()
+graph = defaultdict(set)
+edges = [(1,2),(1,3),(2,4)]
+for u, v in edges:
+    graph[u].add(v)
+    graph[v].add(u)
+print(dict(graph))   # undirected adjacency list
+
+# Nested defaultdict
+nested = defaultdict(lambda: defaultdict(int))
+nested["Alice"]["math"] += 95
+nested["Alice"]["english"] += 87
+print(nested["Alice"]["math"])   # 95
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    deque
+  </h4>
+  <p style="line-height: 1.75;">
+    <code>deque</code> (double-ended queue) supports O(1) append and pop from <em>both</em> ends.
+    A regular list's <code>pop(0)</code> is O(n). Use <code>deque</code> for queues, BFS, sliding window problems,
+    and any pattern where you need efficient head removal.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+from collections import deque
+
+d = deque([1, 2, 3])
+
+d.append(4)       # add right  → [1,2,3,4]
+d.appendleft(0)   # add left   → [0,1,2,3,4]
+d.pop()           # remove right → 4
+d.popleft()       # remove left  → 0
+print(d)          # deque([1, 2, 3])
+
+# rotate — move n elements from right to left (or left to right)
+d.rotate(1)       # → deque([3, 1, 2])
+d.rotate(-1)      # → deque([1, 2, 3])
+
+# maxlen — fixed-size sliding window buffer
+window = deque(maxlen=3)
+for x in [1, 2, 3, 4, 5]:
+    window.append(x)   # auto-drops oldest when full
+    print(list(window))
+# [1] [1,2] [1,2,3] [2,3,4] [3,4,5]
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `from collections import Counter, defaultdict, deque
+
+# 1. Top K frequent elements — Counter
+def top_k_frequent(nums, k):
+    return [val for val, _ in Counter(nums).most_common(k)]
+
+print(top_k_frequent([1,1,1,2,2,3], 2))   # [1, 2]
+
+# 2. Group anagrams — defaultdict
+def group_anagrams(words):
+    groups = defaultdict(list)
+    for word in words:
+        groups[tuple(sorted(word))].append(word)
+    return list(groups.values())
+
+print(group_anagrams(["eat","tea","tan","ate","nat","bat"]))
+# [['eat', 'tea', 'ate'], ['tan', 'nat'], ['bat']]
+
+# 3. BFS shortest path — deque
+def bfs_shortest(graph, start, end):
+    queue  = deque([(start, [start])])
+    visited = set([start])
+    while queue:
+        node, path = queue.popleft()
+        if node == end:
+            return path
+        for neighbour in graph.get(node, []):
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append((neighbour, path + [neighbour]))
+    return []
+
+g = {1:[2,3], 2:[4], 3:[4], 4:[5], 5:[]}
+print(bfs_shortest(g, 1, 5))   # [1, 2, 4, 5] or [1, 3, 4, 5]
+
+# 4. Check if two strings are anagrams — Counter
+def is_anagram(s1, s2):
+    return Counter(s1) == Counter(s2)
+
+print(is_anagram("listen", "silent"))   # True`,
+            ],
+            questions: [
+              {
+                question: "What is Counter and what makes it different from a regular dict?",
+                solution:
+                  "<p><code>Counter</code> is a dict subclass where values are intended to be counts (integers). Key differences: accessing a missing key returns <code>0</code> instead of raising <code>KeyError</code>; it provides <code>most_common(n)</code> for top-n elements; and it supports arithmetic operators (<code>+</code>, <code>-</code>, <code>&</code>, <code>|</code>) for combining counters. These features make it the standard tool for any frequency-counting or histogram problem in interviews.</p>",
+              },
+              {
+                question: "What is the difference between defaultdict and a regular dict with get()?",
+                solution:
+                  "<p><code>dict.get(key, default)</code> returns a default value but does <em>not</em> insert the key into the dict. <code>defaultdict</code> actually <em>creates and stores</em> the default value the first time a missing key is accessed. This means after <code>dd['x'] += 1</code>, the key <code>'x'</code> exists with value 1 — no separate initialisation needed. The factory is called once per missing key, so <code>defaultdict(list)</code> creates a fresh empty list for each new key, not the same shared list.</p>",
+              },
+              {
+                question: "Why is deque's popleft() O(1) but list's pop(0) is O(n)?",
+                solution:
+                  "<p>A Python list is backed by a contiguous array. Removing the first element requires shifting every remaining element one position to the left — O(n) work. A <code>deque</code> is a doubly-linked list of fixed-size blocks. Removing from either end only requires updating a pointer — O(1). For any FIFO queue, BFS, or sliding window pattern where you remove from the front, always use <code>deque</code> over a list.</p>",
+              },
+              {
+                question: "How does deque(maxlen=k) work and where is it used?",
+                solution:
+                  "<p>When a <code>deque</code> is created with <code>maxlen=k</code>, it acts as a fixed-size circular buffer. When a new element is appended and the deque is already full, the element on the <em>opposite end</em> is automatically discarded. This makes it ideal for sliding window problems — you get a self-managing window without manually tracking boundaries. For example, maintaining the last k values in a stream: just keep appending, and the old values fall off automatically.</p>",
+              },
+              {
+                question: "When would you use Counter arithmetic?",
+                solution:
+                  "<p>Counter arithmetic is useful for comparing frequency distributions. <code>A & B</code> (intersection) gives the minimum count for shared elements — used in 'minimum character deletions to make anagram' type problems. <code>A - B</code> removes matching counts — used to find what's 'left over' after one counter cancels another. <code>A | B</code> gives the maximum counts — useful for merging frequency requirements. Note that <code>-</code> and <code>&</code> drop non-positive results, while <code>subtract()</code> allows negative counts.</p>",
+              },
+              {
+                question: "How do you build a graph adjacency list using defaultdict?",
+                solution:
+                  "<p>Use <code>defaultdict(list)</code> or <code>defaultdict(set)</code>. For each edge <code>(u, v)</code>, simply do <code>graph[u].append(v)</code> — no need to check if <code>u</code> already has a list. For undirected graphs, add both directions: <code>graph[u].append(v); graph[v].append(u)</code>. Using <code>set</code> instead of <code>list</code> prevents duplicate edges. This pattern is used in virtually every graph BFS/DFS problem.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/collections.html",
+              "https://realpython.com/python-collections-module/",
+              "https://docs.python.org/3/library/collections.html#collections.Counter",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  2. HEAP / PRIORITY QUEUE
+          // ─────────────────────────────────────────────
+          {
+            topic: "Heap / Priority Queue",
+            tags: ["Python", "heapq", "Data Structures"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>heap</strong> is a complete binary tree that satisfies the <em>heap property</em>: in a min-heap,
+    every parent is smaller than or equal to its children, so the smallest element is always at the root.
+    Python's <code>heapq</code> module implements a <strong>min-heap</strong> on top of a regular list.
+    Heaps power priority queues — data structures where the highest-priority (smallest for min-heap) element
+    is always dequeued first. They appear constantly in interview problems involving "top k", "median", "merge k sorted lists", and shortest path.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Core Operations
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+import heapq
+
+# heapify — convert a list into a valid heap IN PLACE — O(n)
+nums = [5, 3, 8, 1, 9, 2]
+heapq.heapify(nums)
+print(nums)     # [1, 3, 2, 5, 9, 8]  ← heap-ordered list
+                # nums[0] is always the smallest
+
+# heappush — add an element maintaining heap order — O(log n)
+heapq.heappush(nums, 0)
+print(nums[0])  # 0  ← new smallest
+
+# heappop — remove and return the SMALLEST element — O(log n)
+smallest = heapq.heappop(nums)
+print(smallest)   # 0
+print(nums[0])    # 1  ← next smallest
+
+# Peek without removing
+print(nums[0])    # always the smallest — O(1)
+
+# heappushpop — push then pop in one call (faster than two)
+heapq.heappushpop(nums, 100)   # pushes 100, pops 1
+
+# nsmallest / nlargest — return sorted top-n — O(n log k)
+data = [5, 3, 8, 1, 9, 2, 7]
+print(heapq.nsmallest(3, data))  # [1, 2, 3]
+print(heapq.nlargest(3, data))   # [9, 8, 7]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Max Heap — Negate the Values
+  </h4>
+  <p style="line-height: 1.75;">
+    Python only provides a min-heap. To simulate a <strong>max-heap</strong>, store negated values and negate again when popping.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+import heapq
+
+max_heap = []
+for val in [5, 3, 8, 1, 9]:
+    heapq.heappush(max_heap, -val)    # store negated
+
+largest = -heapq.heappop(max_heap)   # negate back
+print(largest)    # 9
+
+# nlargest is often simpler for just extracting top-k
+nums = [5, 3, 8, 1, 9, 2]
+print(heapq.nlargest(3, nums))    # [9, 8, 5]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Heap with Tuples — Priority + Data
+  </h4>
+  <p style="line-height: 1.75;">
+    Push tuples <code>(priority, data)</code> — Python compares tuples element by element, so the heap orders by the first element (priority) automatically.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+import heapq
+
+tasks = []
+heapq.heappush(tasks, (3, "low priority task"))
+heapq.heappush(tasks, (1, "urgent task"))
+heapq.heappush(tasks, (2, "normal task"))
+
+while tasks:
+    priority, task = heapq.heappop(tasks)
+    print(f"[{priority}] {task}")
+# [1] urgent task
+# [2] normal task
+# [3] low priority task
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `import heapq
+from collections import Counter
+
+# 1. Top K frequent elements — heap + Counter
+def top_k_frequent(nums, k):
+    freq = Counter(nums)
+    # nlargest by frequency value
+    return heapq.nlargest(k, freq.keys(), key=lambda x: freq[x])
+
+print(top_k_frequent([1,1,1,2,2,3], 2))   # [1, 2]
+
+# 2. K closest points to origin
+def k_closest(points, k):
+    # Store (distance, point) — heap orders by distance
+    heap = []
+    for x, y in points:
+        dist = x*x + y*y   # no need for sqrt
+        heapq.heappush(heap, (dist, (x, y)))
+    return [heapq.heappop(heap)[1] for _ in range(k)]
+
+points = [[1,3],[-2,2],[5,8],[0,1]]
+print(k_closest(points, 2))   # [(-2, 2), (0, 1)]  — two closest
+
+# 3. Merge k sorted lists
+def merge_k_sorted(lists):
+    heap = []
+    for i, lst in enumerate(lists):
+        if lst:
+            heapq.heappush(heap, (lst[0], i, 0))
+    result = []
+    while heap:
+        val, list_idx, elem_idx = heapq.heappop(heap)
+        result.append(val)
+        next_idx = elem_idx + 1
+        if next_idx < len(lists[list_idx]):
+            heapq.heappush(heap, (lists[list_idx][next_idx], list_idx, next_idx))
+    return result
+
+lists = [[1,4,7],[2,5,8],[3,6,9]]
+print(merge_k_sorted(lists))   # [1,2,3,4,5,6,7,8,9]
+
+# 4. Kth largest element — min-heap of size k
+def kth_largest(nums, k):
+    heap = nums[:k]
+    heapq.heapify(heap)         # min-heap of k elements
+    for num in nums[k:]:
+        if num > heap[0]:
+            heapq.heapreplace(heap, num)
+    return heap[0]              # smallest of the k largest
+
+print(kth_largest([3,2,1,5,6,4], 2))   # 5`,
+            ],
+            questions: [
+              {
+                question: "What is a heap and what are its time complexities?",
+                solution:
+                  "<p>A heap is a complete binary tree stored as an array where each parent is smaller (min-heap) or larger (max-heap) than its children. Key complexities: <code>heapify()</code> — O(n) to build from a list. <code>heappush()</code> — O(log n) to insert. <code>heappop()</code> — O(log n) to remove the minimum. Peek at minimum via <code>heap[0]</code> — O(1). <code>nsmallest(k, iterable)</code> — O(n log k). These complexities make heaps ideal when you need repeated access to the minimum/maximum element.</p>",
+              },
+              {
+                question: "Why does Python only have a min-heap and how do you simulate a max-heap?",
+                solution:
+                  "<p>Python's <code>heapq</code> only provides a min-heap. To simulate a max-heap, <em>negate all values</em> before pushing: <code>heappush(heap, -val)</code>. When popping, negate back: <code>val = -heappop(heap)</code>. For tuples, negate the priority: <code>heappush(heap, (-score, item))</code>. This trick works because negating reverses the ordering — the largest positive value becomes the smallest (most negative), so the heap always pops the original largest first.</p>",
+              },
+              {
+                question: "What is the difference between heapq.nsmallest() and repeatedly calling heappop()?",
+                solution:
+                  "<p>For one-time retrieval of k smallest from an unsorted list, <code>heapq.nsmallest(k, iterable)</code> is often faster and simpler — it uses heapify + k pops internally (O(n + k log n)) and can fall back to sorted() for small k. Repeatedly calling <code>heappop()</code> on a pre-heapified list is better when you are processing the heap incrementally (e.g., adding new elements between pops). Use <code>nsmallest/nlargest</code> for one-shot queries, manual push/pop for dynamic priority queues.</p>",
+              },
+              {
+                question: "How does storing (priority, data) tuples in a heap work?",
+                solution:
+                  "<p>Python compares tuples lexicographically — first by index 0, then index 1 if equal. So <code>(1, 'task_a')</code> < <code>(2, 'task_b')</code> and the heap orders by the first element (priority). This pattern lets you attach any data to a heap element while controlling the ordering. If two priorities are equal and the data is not comparable (e.g., custom objects), add a tie-breaking counter as the second element: <code>(priority, counter, data)</code>.</p>",
+              },
+              {
+                question: "How do you find the Kth largest element efficiently?",
+                solution:
+                  "<p>Maintain a <em>min-heap of size k</em>. Heapify the first k elements, then for each remaining element: if it is larger than the heap's minimum (<code>heap[0]</code>), replace the minimum with <code>heapreplace()</code>. After processing all elements, <code>heap[0]</code> is the kth largest — it is the smallest among the k largest values seen. This is O(n log k) time and O(k) space, much better than sorting (O(n log n)) when k << n.</p>",
+              },
+              {
+                question: "What is the difference between heappushpop() and heapreplace()?",
+                solution:
+                  "<p><code>heappushpop(heap, item)</code> pushes the item then pops and returns the smallest — equivalent to push then pop but faster. If item is smaller than the current minimum, it just returns item directly. <code>heapreplace(heap, item)</code> pops and returns the smallest, then pushes item — the heap size stays the same. It raises <code>IndexError</code> on empty heaps. <code>heapreplace</code> is slightly faster because it skips a size check. Use <code>heapreplace</code> in the 'kth largest' sliding heap pattern.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/heapq.html",
+              "https://realpython.com/python-heapq-module/",
+              "https://docs.python.org/3/library/heapq.html#basic-examples",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  3. RECURSION BASICS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Recursion",
+            tags: ["Python", "Recursion", "Algorithms"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Recursion</strong> is when a function calls itself to solve a smaller version of the same problem.
+    Every recursive solution has two essential parts: a <strong>base case</strong> that stops the recursion
+    and a <strong>recursive case</strong> that reduces the problem toward the base case.
+    Understanding the call stack, recursion depth, and when to use memoization separates good from great interview answers.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Base Case & Call Stack
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Factorial — classic recursion example
+def factorial(n):
+    # Base case — stop recursion
+    if n <= 1:
+        return 1
+    # Recursive case — reduce toward base case
+    return n * factorial(n - 1)
+
+print(factorial(5))   # 120
+
+# Call stack for factorial(4):
+# factorial(4)  → 4 * factorial(3)
+#   factorial(3)  → 3 * factorial(2)
+#     factorial(2)  → 2 * factorial(1)
+#       factorial(1)  → returns 1   ← base case
+#     factorial(2)  → 2 * 1 = 2
+#   factorial(3)  → 3 * 2 = 6
+# factorial(4)  → 4 * 6 = 24
+
+# Fibonacci — illustrates exponential cost without memoization
+def fib(n):
+    if n <= 1:       # base cases: fib(0)=0, fib(1)=1
+        return n
+    return fib(n-1) + fib(n-2)   # two recursive calls
+
+print(fib(10))    # 55  — but O(2^n) time!
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Memoization — Caching Recursive Results
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Manual memo dict
+def fib_memo(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fib_memo(n-1, memo) + fib_memo(n-2, memo)
+    return memo[n]
+
+# Cleaner: functools.lru_cache decorator
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib_cached(n):
+    if n <= 1:
+        return n
+    return fib_cached(n-1) + fib_cached(n-2)
+
+print(fib_cached(100))   # instant — O(n) with cache
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Recursion vs Iteration & Python Limits
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+import sys
+print(sys.getrecursionlimit())    # default 1000
+
+# Increase if needed (use with caution)
+sys.setrecursionlimit(10000)
+
+# Iterative fibonacci — no stack overflow risk
+def fib_iter(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a
+
+print(fib_iter(50))    # fast and safe
+
+# Tail recursion pattern (Python doesn't optimise it,
+# but shows intent)
+def factorial_tail(n, acc=1):
+    if n <= 1:
+        return acc
+    return factorial_tail(n-1, n * acc)
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `from functools import lru_cache
+
+# 1. Power function — O(log n) via recursion
+def power(base, exp):
+    if exp == 0:
+        return 1
+    if exp % 2 == 0:
+        half = power(base, exp // 2)
+        return half * half         # avoid double recursion
+    return base * power(base, exp - 1)
+
+print(power(2, 10))   # 1024
+
+# 2. Flatten a nested list recursively
+def flatten(lst):
+    result = []
+    for item in lst:
+        if isinstance(item, list):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+    return result
+
+print(flatten([1, [2, [3, 4], 5], [6, 7]]))   # [1,2,3,4,5,6,7]
+
+# 3. Generate all subsets (power set)
+def subsets(nums):
+    if not nums:
+        return [[]]
+    rest = subsets(nums[1:])
+    return rest + [[nums[0]] + s for s in rest]
+
+print(subsets([1, 2, 3]))
+# [[], [3], [2], [2,3], [1], [1,3], [1,2], [1,2,3]]
+
+# 4. Coin change — minimum coins (top-down DP)
+@lru_cache(maxsize=None)
+def min_coins(amount, coins):
+    if amount == 0:
+        return 0
+    if amount < 0:
+        return float('inf')
+    return 1 + min(min_coins(amount - c, coins) for c in coins)
+
+print(min_coins(11, (1, 5, 6, 9)))   # 2  (5+6)`,
+            ],
+            questions: [
+              {
+                question: "What are the two essential parts of every recursive function?",
+                solution:
+                  "<p>Every recursive function must have: (1) a <strong>base case</strong> — the condition that stops the recursion and returns a value directly without calling itself again. Without a base case, the function calls itself infinitely, exhausting the call stack. (2) a <strong>recursive case</strong> — where the function calls itself with a <em>simpler or smaller</em> input, progressing toward the base case. The problem must get strictly simpler with each recursive call.</p>",
+              },
+              {
+                question: "What is the call stack and how does recursion use it?",
+                solution:
+                  "<p>The call stack is a region of memory where Python stores information about active function calls — local variables, the return address, and the current state. Each recursive call adds a new <em>stack frame</em> to the top of the call stack. When a base case is hit, frames are resolved from top to bottom (the stack 'unwinds'). Python's default recursion limit is 1000 — exceeding it raises <code>RecursionError: maximum recursion depth exceeded</code>. This is why deep recursion (e.g., on a 10,000-item list) should use iteration instead.</p>",
+              },
+              {
+                question: "What is memoization and how does it improve recursion?",
+                solution:
+                  "<p>Memoization is caching the result of a function call so it is only computed once. Without memoization, <code>fib(n)</code> has exponential O(2^n) time because it recalculates the same subproblems repeatedly. With memoization, each unique input is computed once and stored — reducing to O(n) time. The cleanest Python way is <code>@functools.lru_cache(maxsize=None)</code>, which automatically caches results without any manual dict management.</p>",
+              },
+              {
+                question: "When should you use recursion vs iteration?",
+                solution:
+                  "<p>Use recursion when the problem has a naturally recursive structure: tree traversals, divide-and-conquer, backtracking, generating permutations/subsets. Recursion is cleaner to read but uses O(depth) stack space and risks stack overflow. Use iteration when: the problem is a simple loop, the input is very large (deep recursion), or you need explicit control over the stack. In Python specifically, prefer iteration for anything with depth > ~500 since Python does not optimise tail calls.</p>",
+              },
+              {
+                question: "What is the time complexity of naive fibonacci recursion and how is it improved?",
+                solution:
+                  "<p>Naive recursive fibonacci is O(2^n) time — each call branches into two, creating an exponential tree of redundant calculations. <code>fib(50)</code> would require over a trillion calls. With memoization (<code>@lru_cache</code>), each value is computed exactly once — O(n) time and O(n) space. With a bottom-up iterative approach using two variables, it is O(n) time and O(1) space — the most efficient. For an interview, mention all three and their trade-offs.</p>",
+              },
+              {
+                question: "What is backtracking and how does it relate to recursion?",
+                solution:
+                  "<p>Backtracking is a recursive technique that incrementally builds a solution and abandons ('backtracks') a path as soon as it determines the current partial solution cannot lead to a valid answer. It explores a decision tree using recursion: at each step, try a choice, recurse, then <em>undo</em> the choice before trying the next one. Classic backtracking problems include generating permutations, combinations, subsets, N-Queens, and Sudoku solver. The key pattern: <code>choose → explore → unchoose</code>.</p>",
+              },
+            ],
+            links: [
+              "https://realpython.com/python-recursion/",
+              "https://docs.python.org/3/library/functools.html#functools.lru_cache",
+              "https://realpython.com/lru-cache-python/",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  4. LAMBDA FUNCTIONS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Lambda Functions",
+            tags: ["Python", "Functions", "Functional"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>lambda</strong> is an anonymous, single-expression function created inline without a <code>def</code> statement.
+    Syntax: <code>lambda parameters: expression</code>. The expression is automatically returned — no <code>return</code> keyword needed.
+    Lambdas are most useful as <em>throwaway functions</em> passed to <code>sorted()</code>, <code>map()</code>, <code>filter()</code>,
+    and <code>min()</code>/<code>max()</code> with a <code>key</code> argument.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Basic Syntax
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Regular function
+def square(x):
+    return x ** 2
+
+# Equivalent lambda
+square = lambda x: x ** 2
+print(square(5))   # 25
+
+# Multiple parameters
+add = lambda a, b: a + b
+print(add(3, 4))   # 7
+
+# Conditional expression inside lambda
+absolute = lambda x: x if x >= 0 else -x
+print(absolute(-7))   # 7
+
+# Immediately invoked
+print((lambda x, y: x + y)(3, 5))   # 8
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Lambda as key= in sorted(), min(), max()
+  </h4>
+  <p style="line-height: 1.75;">This is the most common use of lambdas in interview code.</p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Sort list of tuples by second element
+pairs = [(1, 3), (4, 1), (2, 5), (3, 2)]
+sorted_pairs = sorted(pairs, key=lambda x: x[1])
+print(sorted_pairs)   # [(4,1), (3,2), (1,3), (2,5)]
+
+# Sort strings by length then alphabetically
+words = ["banana", "fig", "apple", "kiwi", "date"]
+print(sorted(words, key=lambda w: (len(w), w)))
+# ['fig', 'date', 'kiwi', 'apple', 'banana']
+
+# Sort list of dicts by a field
+students = [{"name":"Alice","score":92},{"name":"Bob","score":85},{"name":"Carol","score":98}]
+top = sorted(students, key=lambda s: s["score"], reverse=True)
+print(top[0]["name"])   # Carol
+
+# min/max with key
+nums = [-5, 3, -1, 8, -2]
+print(min(nums, key=lambda x: abs(x)))   # -1  (closest to 0)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Lambda with map() and filter()
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+nums = [1, 2, 3, 4, 5, 6]
+
+# map — apply function to every element → returns iterator
+squares = list(map(lambda x: x**2, nums))
+print(squares)   # [1, 4, 9, 16, 25, 36]
+
+# filter — keep elements where function returns True → iterator
+evens = list(filter(lambda x: x % 2 == 0, nums))
+print(evens)     # [2, 4, 6]
+
+# Note: list comprehensions are usually preferred over map/filter
+squares2 = [x**2 for x in nums]
+evens2   = [x for x in nums if x % 2 == 0]
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Lambda patterns in interview solutions
+
+# 1. Sort intervals by start time
+intervals = [[3,6],[1,4],[8,10],[2,5]]
+intervals.sort(key=lambda x: x[0])
+print(intervals)   # [[1,4],[2,5],[3,6],[8,10]]
+
+# 2. Group and sort — sort by freq desc, then value asc
+from collections import Counter
+nums = [5,3,1,3,5,5,2,1]
+freq = Counter(nums)
+# Sort by frequency descending, then by value ascending
+result = sorted(nums, key=lambda x: (-freq[x], x))
+print(result)   # [5,5,5,3,3,1,1,2]
+
+# 3. Custom comparator using functools.cmp_to_key
+from functools import cmp_to_key
+
+def compare(a, b):
+    # For "largest number" problem: which concat is bigger?
+    if a + b > b + a:
+        return -1    # a should come first
+    elif a + b < b + a:
+        return 1
+    return 0
+
+nums2 = ["10","2","9","39","17"]
+nums2.sort(key=cmp_to_key(compare))
+print("".join(nums2))   # 93921710
+
+# 4. Reduce with lambda
+from functools import reduce
+product = reduce(lambda acc, x: acc * x, [1,2,3,4,5])
+print(product)   # 120`,
+            ],
+            questions: [
+              {
+                question: "What is a lambda function and what are its limitations?",
+                solution:
+                  "<p>A lambda is an anonymous function defined in a single expression: <code>lambda params: expr</code>. Limitations: (1) only one expression — no statements, no assignments, no loops. (2) Cannot include docstrings or multiple lines. (3) Harder to test and debug because it has no name in stack traces. (4) PEP 8 recommends against assigning a lambda to a variable — use <code>def</code> instead for named functions. Use lambdas only as throwaway inline arguments to higher-order functions.</p>",
+              },
+              {
+                question: "When should you use a lambda vs a regular def function?",
+                solution:
+                  "<p>Use a lambda when: the function is simple (one expression), it is used in only one place, and it is passed inline as a <code>key=</code>, <code>map()</code>, or <code>filter()</code> argument. Use a regular <code>def</code> when: the logic is complex, the function is reused, you need a docstring or type hints, or readability matters. In interviews, lambdas are idiomatic for sort keys; in production code, named functions are almost always clearer.</p>",
+              },
+              {
+                question: "How do you sort by multiple criteria using a lambda?",
+                solution:
+                  "<p>Return a tuple from the key function: <code>sorted(lst, key=lambda x: (x[1], x[0]))</code>. Python compares tuples lexicographically — first by the first element, then by the second for ties. To sort one field ascending and another descending, negate the numeric field: <code>key=lambda x: (-x.score, x.name)</code> sorts by score descending, then name ascending. This tuple trick replaces the need for a custom comparator in most interview problems.</p>",
+              },
+              {
+                question: "What is cmp_to_key and when do you need it?",
+                solution:
+                  "<p><code>functools.cmp_to_key</code> converts an old-style comparison function (returning negative/0/positive) into a key function. You need it when the comparison is not reducible to a simple key — for example, the 'largest number' problem where you compare string concatenations <code>a+b</code> vs <code>b+a</code>. A regular lambda key cannot express this because there is no simple value to extract — you need to compare pairs of elements. In that case, define a comparator and wrap it with <code>cmp_to_key</code>.</p>",
+              },
+              {
+                question: "What is the difference between map()/filter() and list comprehensions?",
+                solution:
+                  "<p>Both achieve the same result. <code>map(lambda x: x**2, lst)</code> is equivalent to <code>[x**2 for x in lst]</code>. <code>filter(lambda x: x>0, lst)</code> is equivalent to <code>[x for x in lst if x>0]</code>. In Python 3, <code>map()</code> and <code>filter()</code> return lazy iterators (memory efficient for large data). List comprehensions are generally preferred in Python code for readability. In interviews, either approach is acceptable — use whichever you can write faster and more confidently.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/reference/expressions.html#lambda",
+              "https://realpython.com/python-lambda/",
+              "https://docs.python.org/3/library/functools.html#functools.cmp_to_key",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  5. SORTING (Important for DSA)
+          // ─────────────────────────────────────────────
+          {
+            topic: "Sorting",
+            tags: ["Python", "Sorting", "DSA"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Python's built-in sort uses <strong>Timsort</strong> — a hybrid of merge sort and insertion sort — with O(n log n)
+    worst case and O(n) best case (for already-sorted data). It is a stable sort, meaning equal elements maintain their
+    original relative order. Mastering custom sorting with <code>key=</code>, multi-key tuples, and <code>cmp_to_key</code>
+    is essential for DSA interviews.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    sort() vs sorted()
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+nums = [3, 1, 4, 1, 5, 9, 2, 6]
+
+# sorted() — returns NEW list, original unchanged
+new = sorted(nums)
+print(nums)   # [3, 1, 4, 1, 5, 9, 2, 6]  original intact
+print(new)    # [1, 1, 2, 3, 4, 5, 6, 9]
+
+# sort() — modifies IN PLACE, returns None
+nums.sort()
+print(nums)   # [1, 1, 2, 3, 4, 5, 6, 9]
+
+# Descending
+nums.sort(reverse=True)
+sorted_desc = sorted(nums, reverse=True)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Custom Sorting with key=
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Sort by second element of each tuple
+arr = [(1,3),(4,1),(2,5),(3,2)]
+arr.sort(key=lambda x: x[1])
+print(arr)   # [(4,1),(3,2),(1,3),(2,5)]
+
+# Sort strings by length
+words = ["banana","fig","apple","kiwi"]
+print(sorted(words, key=len))
+# ['fig', 'kiwi', 'apple', 'banana']
+
+# Sort by length THEN alphabetically (stable sort guarantees)
+print(sorted(words, key=lambda w: (len(w), w)))
+# ['fig', 'kiwi', 'apple', 'banana']
+
+# Sort list of dicts
+students = [
+    {"name":"Alice", "gpa":3.8, "age":20},
+    {"name":"Bob",   "gpa":3.5, "age":22},
+    {"name":"Carol", "gpa":3.8, "age":19},
+]
+# Sort by gpa descending, then age ascending for ties
+students.sort(key=lambda s: (-s["gpa"], s["age"]))
+for s in students:
+    print(s["name"], s["gpa"], s["age"])
+# Carol 3.8 19
+# Alice 3.8 20
+# Bob   3.5 22
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Sorting Patterns in DSA
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+from functools import cmp_to_key
+
+# Largest number problem — sort by string concatenation
+def largest_number(nums):
+    nums = list(map(str, nums))
+    nums.sort(key=cmp_to_key(lambda a, b: 1 if a+b < b+a else -1))
+    return "0" if nums[0] == "0" else "".join(nums)
+
+print(largest_number([3,30,34,5,9]))   # "9534330"
+
+# Sort intervals — common in interval merge problems
+intervals = [[1,3],[2,6],[8,10],[15,18]]
+intervals.sort(key=lambda x: x[0])    # sort by start
+print(intervals)  # [[1,3],[2,6],[8,10],[15,18]]
+
+# Sort characters in a string
+s = "dcba"
+sorted_s = "".join(sorted(s))
+print(sorted_s)   # abcd
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `from functools import cmp_to_key
+
+# 1. Merge overlapping intervals
+def merge_intervals(intervals):
+    intervals.sort(key=lambda x: x[0])
+    merged = [intervals[0]]
+    for start, end in intervals[1:]:
+        if start <= merged[-1][1]:
+            merged[-1][1] = max(merged[-1][1], end)
+        else:
+            merged.append([start, end])
+    return merged
+
+print(merge_intervals([[1,3],[2,6],[8,10],[15,18]]))
+# [[1,6],[8,10],[15,18]]
+
+# 2. Meeting rooms — can attend all?
+def can_attend_all(intervals):
+    intervals.sort(key=lambda x: x[0])
+    for i in range(1, len(intervals)):
+        if intervals[i][0] < intervals[i-1][1]:
+            return False
+    return True
+
+print(can_attend_all([[0,30],[5,10],[15,20]]))   # False
+print(can_attend_all([[7,10],[2,4]]))             # True
+
+# 3. Sort by frequency then value
+from collections import Counter
+def frequency_sort(nums):
+    freq = Counter(nums)
+    return sorted(nums, key=lambda x: (freq[x], -x))
+
+print(frequency_sort([1,1,2,2,2,3]))   # [3,1,1,2,2,2]
+
+# 4. Minimum number of arrows to burst balloons
+def find_min_arrows(points):
+    points.sort(key=lambda x: x[1])   # sort by end
+    arrows, end = 0, float('-inf')
+    for start, finish in points:
+        if start > end:
+            arrows += 1
+            end = finish
+    return arrows
+
+print(find_min_arrows([[10,16],[2,8],[1,6],[7,12]]))   # 2`,
+            ],
+            questions: [
+              {
+                question: "What sorting algorithm does Python use and what is its complexity?",
+                solution:
+                  "<p>Python uses <strong>Timsort</strong>, a hybrid of merge sort and insertion sort developed by Tim Peters. Worst case: O(n log n) time. Best case: O(n) when the data is already sorted or nearly sorted. Space: O(n) auxiliary. Timsort is a <em>stable</em> sort — equal elements maintain their relative order. This stability is crucial when sorting by multiple keys sequentially or when the original order matters for ties.</p>",
+              },
+              {
+                question: "What does stable sort mean and why does it matter?",
+                solution:
+                  "<p>A stable sort preserves the relative order of elements that compare as equal. For example, if you sort <code>[('Alice',30),('Bob',25),('Carol',30)]</code> by age, Alice and Carol have the same age — stable sort guarantees Alice still appears before Carol (their original order). This matters when sorting by multiple criteria: you can sort by secondary key first, then by primary key, and ties in the primary key will preserve the secondary-key order.</p>",
+              },
+              {
+                question: "How do you sort in descending order?",
+                solution:
+                  "<p>Pass <code>reverse=True</code>: <code>sorted(lst, reverse=True)</code> or <code>lst.sort(reverse=True)</code>. For custom keys, you can negate numeric values: <code>key=lambda x: -x.score</code> sorts by score descending. For multi-key sorts with mixed directions, use negation for numeric descending fields: <code>key=lambda x: (-x.score, x.name)</code> — score descending, name ascending. For string fields, there is no direct negation; use <code>cmp_to_key</code> for complex mixed-direction requirements.</p>",
+              },
+              {
+                question: "Why is sorting intervals by start time such a common interview pattern?",
+                solution:
+                  "<p>Most interval problems (merge intervals, meeting rooms, minimum platforms, activity selection) require you to process intervals in chronological order. Sorting by start time lets you make a single linear pass with a greedy algorithm — compare each interval to only the previous one (or the last merged interval). Without sorting, you would need O(n²) comparisons. The pattern is: <code>intervals.sort(key=lambda x: x[0])</code> then a single loop — O(n log n) total.</p>",
+              },
+              {
+                question: "How do you sort a string or sort the characters of a string?",
+                solution:
+                  "<p>Strings are immutable in Python so you cannot sort them in place. Convert to a sorted list, then join: <code>''.join(sorted(s))</code> gives the characters in alphabetical order. For descending: <code>''.join(sorted(s, reverse=True))</code>. This is commonly used in anagram detection: two strings are anagrams if and only if <code>sorted(s1) == sorted(s2)</code> — though <code>Counter(s1) == Counter(s2)</code> is O(n) vs O(n log n) for the sorted approach.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/howto/sorting.html",
+              "https://realpython.com/python-sort/",
+              "https://docs.python.org/3/library/functools.html#functools.cmp_to_key",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  6. TWO-POINTER / ITERATION TRICKS
+          // ─────────────────────────────────────────────
+          {
+            topic: "Two-Pointer & Iteration Tricks",
+            tags: ["Python", "Two Pointer", "DSA", "Patterns"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The <strong>two-pointer</strong> technique uses two index variables moving through a sequence — often from both ends,
+    or at different speeds — to solve problems in O(n) that would otherwise require O(n²).
+    Combined with Python's iteration features (<code>enumerate()</code>, multiple variable assignment, <code>zip()</code>),
+    these patterns produce concise, highly efficient interview solutions.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Two Pointers — Opposite Ends
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Two Sum in sorted array — O(n)
+def two_sum_sorted(arr, target):
+    left, right = 0, len(arr) - 1
+    while left < right:
+        total = arr[left] + arr[right]
+        if total == target:
+            return [left, right]
+        elif total < target:
+            left += 1    # need bigger sum — move left pointer right
+        else:
+            right -= 1   # need smaller sum — move right pointer left
+    return []
+
+print(two_sum_sorted([1, 3, 5, 7, 9], 10))   # [1, 3]  (3+7)
+
+# Reverse a list/string in place
+def reverse_list(arr):
+    left, right = 0, len(arr) - 1
+    while left < right:
+        arr[left], arr[right] = arr[right], arr[left]
+        left += 1
+        right -= 1
+    return arr
+
+print(reverse_list([1, 2, 3, 4, 5]))   # [5, 4, 3, 2, 1]
+
+# Check palindrome
+def is_palindrome(s):
+    left, right = 0, len(s) - 1
+    while left < right:
+        if s[left] != s[right]:
+            return False
+        left += 1
+        right -= 1
+    return True
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Two Pointers — Same Direction (Slow/Fast)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Remove duplicates from sorted array — in place
+def remove_duplicates(nums):
+    if not nums:
+        return 0
+    slow = 0
+    for fast in range(1, len(nums)):
+        if nums[fast] != nums[slow]:
+            slow += 1
+            nums[slow] = nums[fast]
+    return slow + 1   # length of deduplicated array
+
+nums = [1, 1, 2, 3, 3, 4]
+k = remove_duplicates(nums)
+print(nums[:k])   # [1, 2, 3, 4]
+
+# Move zeros to end — maintain relative order
+def move_zeros(nums):
+    slow = 0   # points to next position for non-zero
+    for fast in range(len(nums)):
+        if nums[fast] != 0:
+            nums[slow], nums[fast] = nums[fast], nums[slow]
+            slow += 1
+    return nums
+
+print(move_zeros([0,1,0,3,12]))   # [1, 3, 12, 0, 0]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    enumerate() & Multiple Variable Assignment
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# enumerate — index + value in one loop
+fruits = ["apple","banana","cherry"]
+for i, fruit in enumerate(fruits, start=1):
+    print(f"{i}. {fruit}")
+
+# Multiple variable swap (no temp variable needed)
+a, b = 1, 2
+a, b = b, a       # swap in one line
+print(a, b)   # 2 1
+
+# Iterate with current and previous (common pattern)
+nums = [1, 5, 2, 8, 3]
+prev = nums[0]
+for curr in nums[1:]:
+    if curr < prev:
+        print(f"Drop: {prev} → {curr}")
+    prev = curr
+
+# Use zip to compare adjacent elements
+for a, b in zip(nums, nums[1:]):
+    print(a, b)   # (1,5) (5,2) (2,8) (8,3)
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Two-pointer interview problems
+
+# 1. Container with most water — O(n)
+def max_water(heights):
+    left, right = 0, len(heights) - 1
+    max_vol = 0
+    while left < right:
+        width = right - left
+        vol   = width * min(heights[left], heights[right])
+        max_vol = max(max_vol, vol)
+        # Move the shorter wall inward
+        if heights[left] < heights[right]:
+            left += 1
+        else:
+            right -= 1
+    return max_vol
+
+print(max_water([1,8,6,2,5,4,8,3,7]))   # 49
+
+# 2. Three sum — sort + two pointers — O(n²)
+def three_sum(nums):
+    nums.sort()
+    result = []
+    for i in range(len(nums) - 2):
+        if i > 0 and nums[i] == nums[i-1]:
+            continue   # skip duplicates
+        left, right = i+1, len(nums)-1
+        while left < right:
+            total = nums[i] + nums[left] + nums[right]
+            if total == 0:
+                result.append([nums[i], nums[left], nums[right]])
+                while left < right and nums[left] == nums[left+1]: left += 1
+                while left < right and nums[right] == nums[right-1]: right -= 1
+                left += 1; right -= 1
+            elif total < 0: left += 1
+            else:           right -= 1
+    return result
+
+print(three_sum([-1,0,1,2,-1,-4]))   # [[-1,-1,2],[-1,0,1]]
+
+# 3. Trapping rain water — O(n)
+def trap(height):
+    left, right = 0, len(height)-1
+    left_max = right_max = water = 0
+    while left < right:
+        if height[left] < height[right]:
+            if height[left] >= left_max: left_max = height[left]
+            else: water += left_max - height[left]
+            left += 1
+        else:
+            if height[right] >= right_max: right_max = height[right]
+            else: water += right_max - height[right]
+            right -= 1
+    return water
+
+print(trap([0,1,0,2,1,0,1,3,2,1,2,1]))   # 6`,
+            ],
+            questions: [
+              {
+                question: "What is the two-pointer technique and when should you use it?",
+                solution:
+                  "<p>The two-pointer technique uses two index variables to traverse a data structure simultaneously, reducing O(n²) solutions to O(n). Use opposite-direction pointers when the array is sorted and you are looking for a pair with a target sum or checking symmetry. Use same-direction (slow/fast) pointers when partitioning arrays in-place — removing elements, moving zeros, finding cycle in linked list. The key insight: moving pointers strategically based on conditions eliminates the need for nested loops.</p>",
+              },
+              {
+                question: "Why does two-pointer work on sorted arrays for the two-sum problem?",
+                solution:
+                  "<p>With a sorted array, the sum of the two outermost pointers tells you which direction to move. If <code>arr[left] + arr[right] < target</code>, the sum is too small — increasing left (moving right) increases the sum. If the sum is too large, decreasing right (moving left) decreases it. Since every move strictly progresses toward the target and each pointer moves at most n steps total, the algorithm is O(n). This reasoning only works because the array is sorted — on unsorted arrays, use a hash map instead.</p>",
+              },
+              {
+                question: "What is the slow/fast pointer pattern?",
+                solution:
+                  "<p>The slow pointer marks the 'write position' — where the next valid element should go. The fast pointer scans forward. When fast finds a valid element, it is written to slow's position, and slow advances. This processes the entire array in one pass without extra space. Classic uses: remove duplicates from sorted array, move zeros, remove element by value. In linked lists, the fast pointer moves twice per step — used to detect cycles and find the middle node.</p>",
+              },
+              {
+                question: "How does zip(nums, nums[1:]) work for adjacent comparisons?",
+                solution:
+                  "<p><code>zip(lst, lst[1:])</code> creates pairs of consecutive elements: <code>(lst[0],lst[1]), (lst[1],lst[2]), ...</code>. This is the Pythonic way to compare adjacent elements without index arithmetic. For example, checking if a list is sorted: <code>all(a <= b for a, b in zip(lst, lst[1:]))</code>. It avoids off-by-one errors and is more readable than <code>for i in range(len(lst)-1): if lst[i] ...</code>. Works on strings too: <code>zip(s, s[1:])</code>.</p>",
+              },
+              {
+                question: "How do you handle duplicates in two-pointer problems?",
+                solution:
+                  "<p>After finding a valid pair/triplet, skip over duplicate values by advancing the pointer while the next value equals the current: <code>while left < right and nums[left] == nums[left+1]: left += 1</code>. In the outer loop of 3-sum, skip the outer duplicate: <code>if i > 0 and nums[i] == nums[i-1]: continue</code>. Always skip <em>after</em> processing the match, not before — and guard with <code>left < right</code> to avoid index errors. Forgetting duplicate handling is one of the most common mistakes in interval and two-pointer problems.</p>",
+              },
+            ],
+            links: [
+              "https://realpython.com/python-enumerate/",
+              "https://leetcode.com/articles/two-pointer-technique/",
+              "https://docs.python.org/3/library/functions.html#zip",
+            ],
+          },
+
+
+          // ─────────────────────────────────────────────
+          //  7. STRING & LIST TRICKS — PREFIX SUMS & SLIDING WINDOW
+          // ─────────────────────────────────────────────
+          {
+            topic: "Prefix Sums & Sliding Window",
+            tags: ["Python", "Arrays", "Strings", "DSA", "Patterns"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Prefix sums</strong> and the <strong>sliding window</strong> technique are two of the most impactful
+    algorithmic patterns for array and string problems. Prefix sums precompute cumulative totals to answer
+    range-sum queries in O(1). The sliding window maintains a contiguous subarray of variable or fixed length,
+    processing it in a single linear pass. Both turn O(n²) brute-force solutions into O(n).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Prefix Sums
+  </h4>
+  <p style="line-height: 1.75;">
+    Build an array where <code>prefix[i]</code> = sum of all elements from index 0 to i-1.
+    Then the sum of any subarray <code>[l, r]</code> = <code>prefix[r+1] - prefix[l]</code> in O(1).
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+nums = [2, 4, 1, 7, 3, 5]
+
+# Build prefix sum array — O(n)
+prefix = [0] * (len(nums) + 1)
+for i, val in enumerate(nums):
+    prefix[i+1] = prefix[i] + val
+
+print(prefix)   # [0, 2, 6, 7, 14, 17, 22]
+
+# Range sum query [l, r] — O(1)
+def range_sum(l, r):
+    return prefix[r+1] - prefix[l]
+
+print(range_sum(1, 3))   # 4+1+7 = 12
+print(range_sum(0, 5))   # entire array = 22
+
+# Concise with itertools.accumulate
+from itertools import accumulate
+prefix2 = [0] + list(accumulate(nums))
+print(prefix2)   # [0, 2, 6, 7, 14, 17, 22]
+
+# Prefix sum with hash map — subarray sum equals k
+def subarray_sum_k(nums, k):
+    count = 0
+    curr_sum = 0
+    seen = {0: 1}   # prefix_sum -> frequency
+    for num in nums:
+        curr_sum += num
+        # If (curr_sum - k) was seen, a valid subarray exists
+        count += seen.get(curr_sum - k, 0)
+        seen[curr_sum] = seen.get(curr_sum, 0) + 1
+    return count
+
+print(subarray_sum_k([1,1,1], 2))   # 2
+print(subarray_sum_k([3,4,7,2,-3,1,4,2], 7))   # 4
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Sliding Window — Fixed Size
+  </h4>
+  <p style="line-height: 1.75;">
+    For a window of fixed size <code>k</code>: compute the first window, then slide by adding the new element and subtracting the element leaving the window.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Maximum sum subarray of size k — O(n)
+def max_sum_k(nums, k):
+    window_sum = sum(nums[:k])    # first window
+    max_sum = window_sum
+    for i in range(k, len(nums)):
+        window_sum += nums[i]       # add incoming
+        window_sum -= nums[i - k]   # remove outgoing
+        max_sum = max(max_sum, window_sum)
+    return max_sum
+
+print(max_sum_k([2, 1, 5, 1, 3, 2], 3))   # 9  (5+1+3)
+
+# Average of all windows of size k
+def avg_windows(nums, k):
+    window_sum = sum(nums[:k])
+    result = [window_sum / k]
+    for i in range(k, len(nums)):
+        window_sum += nums[i] - nums[i-k]
+        result.append(window_sum / k)
+    return result
+
+print(avg_windows([1,3,-1,-3,5,3,6,7], 3))
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Sliding Window — Variable Size
+  </h4>
+  <p style="line-height: 1.75;">
+    Use <code>left</code> and <code>right</code> pointers. Expand right to grow the window, shrink by advancing left when a constraint is violated.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Longest substring without repeating characters — O(n)
+def length_of_longest_substring(s):
+    char_index = {}   # char -> last seen index
+    left = 0
+    max_len = 0
+    for right, char in enumerate(s):
+        if char in char_index and char_index[char] >= left:
+            left = char_index[char] + 1   # shrink window
+        char_index[char] = right
+        max_len = max(max_len, right - left + 1)
+    return max_len
+
+print(length_of_longest_substring("abcabcbb"))   # 3 (abc)
+print(length_of_longest_substring("pwwkew"))     # 3 (wke)
+
+# Minimum window substring — O(n)
+from collections import Counter
+def min_window(s, t):
+    need  = Counter(t)
+    have, total_need = 0, len(need)
+    window = {}
+    left = 0
+    result = ""
+    min_len = float("inf")
+    for right, char in enumerate(s):
+        window[char] = window.get(char, 0) + 1
+        if char in need and window[char] == need[char]:
+            have += 1
+        while have == total_need:
+            if right - left + 1 < min_len:
+                min_len = right - left + 1
+                result  = s[left:right+1]
+            window[s[left]] -= 1
+            if s[left] in need and window[s[left]] < need[s[left]]:
+                have -= 1
+            left += 1
+    return result
+
+print(min_window("ADOBECODEBANC", "ABC"))   # "BANC"
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `from collections import Counter, defaultdict
+from itertools import accumulate
+
+# 1. Continuous subarray sum divisible by k (prefix sum + modulo)
+def check_subarray_sum(nums, k):
+    seen = {0: -1}
+    prefix = 0
+    for i, num in enumerate(nums):
+        prefix = (prefix + num) % k
+        if prefix in seen:
+            if i - seen[prefix] >= 2:   # subarray length >= 2
+                return True
+        else:
+            seen[prefix] = i
+    return False
+
+print(check_subarray_sum([23,2,4,6,7], 6))   # True  (2+4=6)
+print(check_subarray_sum([23,2,6,4,7], 6))   # True  (23+2+6+4+7=42)
+
+# 2. Longest repeating character replacement (sliding window)
+def character_replacement(s, k):
+    count = defaultdict(int)
+    left = max_count = result = 0
+    for right, char in enumerate(s):
+        count[char] += 1
+        max_count = max(max_count, count[char])
+        # Window size - max_freq > k means we need to shrink
+        if (right - left + 1) - max_count > k:
+            count[s[left]] -= 1
+            left += 1
+        result = max(result, right - left + 1)
+    return result
+
+print(character_replacement("AABABBA", 1))   # 4 (AABA or ABBA)
+
+# 3. Number of subarrays with product less than k
+def num_subarrays_product_less_k(nums, k):
+    if k <= 1:
+        return 0
+    left = count = 0
+    product = 1
+    for right, num in enumerate(nums):
+        product *= num
+        while product >= k:
+            product //= nums[left]
+            left += 1
+        count += right - left + 1   # all subarrays ending at right
+    return count
+
+print(num_subarrays_product_less_k([10,5,2,6], 100))   # 8`,
+            ],
+            questions: [
+              {
+                question: "What is a prefix sum and why is it useful?",
+                solution:
+                  "<p>A prefix sum array stores cumulative totals: <code>prefix[i]</code> = sum of elements from index 0 to i-1. Once built in O(n), any subarray sum <code>[l, r]</code> = <code>prefix[r+1] - prefix[l]</code> is answered in O(1). Without prefix sums, each range sum query would require O(n) recomputation. This is invaluable for problems asking: 'how many subarrays sum to k?', 'find a subarray with a given sum', or 'sum of all subarrays in a range'.</p>",
+              },
+              {
+                question: "How does the 'subarray sum equals k' problem use prefix sums with a hash map?",
+                solution:
+                  "<p>Track the running prefix sum as you iterate. For each position, check if <code>prefix_sum - k</code> was seen before — if so, the subarray between that earlier position and the current one has sum exactly k. Use a dictionary mapping <code>prefix_sum → count</code> to handle multiple occurrences. Initialise with <code>{0: 1}</code> to handle subarrays starting at index 0. This reduces the problem from O(n²) (nested loops) to O(n) with O(n) space.</p>",
+              },
+              {
+                question: "What is the sliding window technique and when do you use fixed vs variable size?",
+                solution:
+                  "<p>Sliding window maintains a contiguous subarray by tracking left and right boundaries. <strong>Fixed size</strong>: when k (window size) is given — compute the first window, then add the new right element and subtract the leaving left element each step. <strong>Variable size</strong>: when finding the longest/shortest window satisfying a constraint — expand right to grow, shrink by advancing left when the constraint is violated. The key decision: fixed window when k is given explicitly; variable window when the problem says 'longest', 'shortest', or 'at most k'.</p>",
+              },
+              {
+                question: "How do you decide between sliding window and two pointers?",
+                solution:
+                  "<p>They are closely related — sliding window is a specific application of two pointers on contiguous subarrays. Use <strong>sliding window</strong> when the problem involves a contiguous subarray/substring with a sum, count, or frequency constraint. Use <strong>two pointers</strong> when working with sorted arrays looking for pairs/triplets summing to a target, or when you need to partition an array. The distinction is subtle: sliding window almost always involves tracking a window state (sum, character counts); two pointers typically just compare or manipulate the values at the two positions.</p>",
+              },
+              {
+                question: "What is the template for variable-size sliding window?",
+                solution:
+                  "<p>The standard template: initialise <code>left = 0</code>, a window state (dict, sum, etc.), and result. Loop <code>right</code> from 0 to n-1: (1) add <code>s[right]</code> to window state. (2) While the window violates the constraint: remove <code>s[left]</code> from state, increment left. (3) Update result with current valid window (<code>right - left + 1</code>). This guarantees each element is added and removed at most once — O(n) total. The 'while' vs 'if' choice: use 'while' to shrink to valid; use 'if' when you only need to maintain a fixed size.</p>",
+              },
+              {
+                question: "What does itertools.accumulate do?",
+                solution:
+                  "<p><code>itertools.accumulate(iterable)</code> returns a running cumulative sum (or other binary operation). <code>list(accumulate([1,2,3,4]))</code> gives <code>[1, 3, 6, 10]</code>. Prefixing with 0 gives the standard prefix sum array: <code>[0] + list(accumulate(nums))</code>. You can also use it for running maximum, product, or any associative operation: <code>accumulate(nums, max)</code> gives the running maximum. It is more concise than a manual loop for building cumulative arrays.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/itertools.html#itertools.accumulate",
+              "https://realpython.com/python-itertools/",
+              "https://leetcode.com/articles/sliding-window-algorithm/",
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advance",
+        concepts: [
+          {
+            topic: "Docker Compose",
+            tags: [
+              "docker",
+              "docker-compose",
+              "multi-container",
+              "orchestration",
+              "yaml",
+              "devops",
+              "interview",
+            ],
+            explanation: `<div>
+ 
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Docker Compose is a tool for defining and running multi-container Docker applications using a declarative YAML file. Instead of managing each container manually with long <code>docker run</code> commands, Compose lets you describe your entire application stack — services, networks, volumes, environment variables, health checks, resource limits, and startup dependencies — in a single <code>docker-compose.yml</code> file, then spin it all up or tear it all down with one command. Docker Compose is not just a convenience tool for development: understanding it deeply — the full YAML schema, service lifecycle, dependency management, override files, scaling, health checks, secrets handling, and how Compose interacts with Docker's networking and volume systems — is essential for production deployments and appears heavily in senior DevOps and backend engineering interviews. Docker Compose V2 (the <code>docker compose</code> plugin, without the hyphen) is now the current standard and ships built-in with Docker Desktop.
+  </p>
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 1: COMPOSE FILE STRUCTURE & SCHEMA                   -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Compose File Structure &amp; Schema
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    A Compose file has four top-level keys: <code>services</code>, <code>networks</code>, <code>volumes</code>, and <code>configs</code>/<code>secrets</code>. Each service definition maps directly to a <code>docker run</code> command but in a readable, version-controlled YAML format. Understanding every commonly-used key and what it maps to under the hood is the foundation of Compose mastery.
+  </p>
+ 
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">The version: Field</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    In Compose V2 (current), the <code>version:</code> field at the top of the file is <strong>optional and ignored</strong>. It was used by the legacy Python-based Compose V1 (<code>docker-compose</code>) to select schema features. You may still see <code>version: '3.8'</code> in many files for backward compatibility, but modern Compose ignores it entirely. Do not rely on it. This is a very common interview trip-up — many candidates recite version numbers without knowing this changed.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── FULL ANNOTATED COMPOSE FILE ─────────────────────────────────
+# Every commonly-used key explained
+ 
+# version: '3.8'   ← ignored in Compose V2, omit it in new files
+ 
+services:
+ 
+  # ── SERVICE: api ──────────────────────────────────────────────
+  api:
+ 
+    # --- Image source: build from Dockerfile OR pull from registry
+    build:
+      context: ./api           # build context directory
+      dockerfile: Dockerfile   # Dockerfile name (default: "Dockerfile")
+      args:                    # ARG values passed to Dockerfile
+        NODE_VERSION: "20"
+        BUILD_ENV: production
+      target: production       # multi-stage build target
+      cache_from:              # images to use as layer cache
+        - myrepo/api:latest
+    # OR: pull a pre-built image
+    # image: myrepo/api:1.0
+ 
+    # --- Container identity
+    container_name: my-api     # fixed name (default: PROJECT_SERVICE_N)
+    hostname: api-server       # hostname INSIDE the container
+ 
+    # --- Port mapping: HOST:CONTAINER
+    ports:
+      - "3000:3000"            # binds to 0.0.0.0 (all interfaces)
+      - "127.0.0.1:9229:9229"  # binds to localhost only (safer)
+      - "9090"                 # random host port → container 9090
+ 
+    # --- Environment variables
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: postgresql://user:pass@postgres:5432/appdb
+      # Note: "postgres" is the SERVICE NAME — Docker DNS resolves it
+    # OR load from a file:
+    env_file:
+      - .env
+      - .env.production
+ 
+    # --- Volume mounts
+    volumes:
+      - ./src:/app/src:ro              # bind mount, read-only
+      - /app/node_modules              # anonymous volume (preserve container path)
+      - app-logs:/var/log/app          # named volume
+      - type: bind                     # long-form syntax
+        source: ./config
+        target: /app/config
+        read_only: true
+ 
+    # --- Networks
+    networks:
+      - frontend-net
+      - backend-net
+ 
+    # --- Startup dependencies
+    depends_on:
+      postgres:
+        condition: service_healthy    # wait for healthcheck to pass
+      redis:
+        condition: service_started    # just wait for container to start
+      migrations:
+        condition: service_completed_successfully  # wait for one-shot job
+ 
+    # --- Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s          # how often to check
+      timeout: 10s           # how long before timeout = failure
+      retries: 3             # failures before marked unhealthy
+      start_period: 40s      # grace period on container start
+ 
+    # --- Restart policy
+    restart: unless-stopped
+    # Options: no | always | on-failure | on-failure:3 | unless-stopped
+ 
+    # --- Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"        # max 50% of one CPU core
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+      replicas: 2             # run 2 instances (Swarm mode)
+ 
+    # --- Security options
+    user: "1001:1001"         # run as non-root user
+    read_only: true           # read-only root filesystem
+    security_opt:
+      - no-new-privileges:true
+ 
+    # --- Runtime configuration
+    command: ["node", "dist/server.js"]        # overrides CMD in Dockerfile
+    entrypoint: ["docker-entrypoint.sh"]       # overrides ENTRYPOINT
+    working_dir: /app
+    stdin_open: true          # keeps stdin open (-i flag)
+    tty: true                 # allocates pseudo-TTY (-t flag)
+ 
+    # --- Logging
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+ 
+    # --- Labels
+    labels:
+      com.example.service: api
+      com.example.version: "1.0"
+ 
+    # --- Extra hosts (/etc/hosts entries)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+ 
+    # --- Profiles (only start when profile is active)
+    profiles:
+      - production
+ 
+ 
+  # ── SERVICE: postgres ─────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: app-postgres
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - postgres-data:/var/lib/postgresql/data  # named volume → persistent
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro  # auto-run on first start
+    networks:
+      - backend-net
+    # No ports: → not accessible from host, only from containers on backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d appdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+ 
+ 
+  # ── SERVICE: redis ────────────────────────────────────────────
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --requirepass redispass --appendonly yes
+    networks:
+      - backend-net
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+ 
+ 
+  # ── SERVICE: nginx (reverse proxy) ────────────────────────────
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - frontend-net
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+ 
+ 
+  # ── SERVICE: migrations (one-shot job) ────────────────────────
+  migrations:
+    build:
+      context: ./api
+      target: migrations
+    command: ["npm", "run", "db:migrate"]
+    environment:
+      DATABASE_URL: postgresql://user:pass@postgres:5432/appdb
+    networks:
+      - backend-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # No restart: → run once and exit
+ 
+ 
+# ── TOP-LEVEL NETWORKS ──────────────────────────────────────────
+networks:
+  frontend-net:
+    driver: bridge            # nginx ↔ api
+  backend-net:
+    driver: bridge
+    internal: true            # api ↔ postgres ↔ redis, no internet
+ 
+ 
+# ── TOP-LEVEL VOLUMES ───────────────────────────────────────────
+volumes:
+  postgres-data:              # named volume (managed by Docker)
+    driver: local
+  redis-data:
+    driver: local
+  app-logs:
+    driver: local
+ 
+# Communication matrix:
+# External → nginx:80/443             ✅
+# nginx    → api (frontend-net)       ✅
+# api      → postgres (backend-net)   ✅
+# api      → redis (backend-net)      ✅
+# nginx    → postgres                 ❌ (different networks)
+# External → postgres                 ❌ (no ports, internal network)
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "A Compose file has four top-level keys: services (container definitions), networks (virtual network topology), volumes (persistent storage), and secrets/configs. Each service maps directly to a docker run command in YAML. The version: field is ignored in Compose V2 and can be omitted. Key service-level fields: build (Dockerfile location), image (registry image), ports (HOST:CONTAINER mapping), environment (env vars), volumes (bind mounts and named volumes), networks (which networks to join), depends_on (startup ordering with conditions), healthcheck (liveness probe), and restart (restart policy). The depends_on with condition: service_healthy is the correct way to wait for a service to be ready — not sleep hacks."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 2: CORE COMMANDS                                     -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Core Commands
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Docker Compose V2 uses <code>docker compose</code> (space, no hyphen) as a Docker CLI plugin. The legacy V1 used <code>docker-compose</code> (hyphen). Both syntaxes work if both are installed, but V2 is the standard. Understanding every flag and subcommand — and especially the behavioral differences between them — is essential for both day-to-day usage and interviews.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-bash">
+# ── UP — Start the entire stack ──────────────────────────────────
+ 
+# Basic start (attaches to stdout, Ctrl+C stops everything)
+docker compose up
+ 
+# Detached mode (runs in background — most common for dev/prod)
+docker compose up -d
+ 
+# Force rebuild all images before starting
+docker compose up -d --build
+ 
+# Rebuild only if Dockerfile or build context changed
+docker compose up -d --build api
+ 
+# Remove orphan containers (containers for services removed from compose file)
+docker compose up -d --remove-orphans
+ 
+# Pull latest images before starting
+docker compose up -d --pull always
+ 
+# Start specific services only (and their dependencies)
+docker compose up -d api postgres
+ 
+# Scale a service to N replicas at start
+docker compose up -d --scale api=3 --scale worker=2
+# Note: container_name must NOT be set when scaling (causes name conflicts)
+ 
+# Wait until all services are healthy before returning
+docker compose up -d --wait
+# Returns exit code 0 only when all healthchecks pass — great for CI
+ 
+ 
+# ── DOWN — Stop and remove everything ────────────────────────────
+ 
+# Stop and remove containers + networks (preserves volumes)
+docker compose down
+ 
+# Also remove named volumes (DESTRUCTIVE — deletes database data!)
+docker compose down -v
+ 
+# Also remove images built by this compose file
+docker compose down --rmi all
+docker compose down --rmi local    # only remove locally-built images
+ 
+# Remove orphan containers too
+docker compose down --remove-orphans
+ 
+# Full cleanup (nuclear option for dev environments)
+docker compose down -v --rmi local --remove-orphans
+ 
+ 
+# ── BUILD — Build/rebuild images ─────────────────────────────────
+ 
+# Build all services with build: defined
+docker compose build
+ 
+# Build specific service
+docker compose build api
+ 
+# Build without cache (fresh build)
+docker compose build --no-cache
+ 
+# Build in parallel (faster for many services)
+docker compose build --parallel
+ 
+# Pass build arguments
+docker compose build --build-arg NODE_ENV=production
+ 
+# See build output (useful for debugging)
+docker compose build --progress plain
+ 
+ 
+# ── LOGS — View output ───────────────────────────────────────────
+ 
+# View logs of all services
+docker compose logs
+ 
+# Follow logs in real time (-f flag)
+docker compose logs -f
+ 
+# Follow specific service
+docker compose logs -f api
+ 
+# Follow multiple specific services
+docker compose logs -f api nginx
+ 
+# Show last N lines
+docker compose logs --tail 100 api
+ 
+# Show timestamps
+docker compose logs -f -t api
+ 
+# Logs since a specific time
+docker compose logs --since 30m api        # last 30 minutes
+docker compose logs --since "2024-01-15"   # since a date
+ 
+ 
+# ── PS — Container status ────────────────────────────────────────
+ 
+# List all containers in this Compose project
+docker compose ps
+ 
+# Show only running containers
+docker compose ps --status running
+ 
+# Show stopped containers too
+docker compose ps -a
+ 
+# JSON output for scripting
+docker compose ps --format json
+ 
+# Show only service names
+docker compose ps --services
+ 
+# Show status of a specific service
+docker compose ps api
+ 
+ 
+# ── EXEC — Run commands in running containers ─────────────────────
+ 
+# Open interactive shell
+docker compose exec api bash
+docker compose exec api sh      # if bash not available
+ 
+# Run one-off command (non-interactive)
+docker compose exec api npm run db:seed
+docker compose exec postgres psql -U user -d appdb
+ 
+# Run as specific user
+docker compose exec --user root api bash
+ 
+# Run in specific service instance (when scaled)
+docker compose exec --index 2 api bash    # second replica
+ 
+ 
+# ── RUN — Run one-off commands in a NEW container ─────────────────
+# Creates a NEW container from the service image, runs command, exits
+# Unlike exec (which runs in existing container)
+ 
+# Run migrations (one-off task)
+docker compose run --rm api npm run db:migrate
+ 
+# Open a shell without starting the service
+docker compose run --rm api bash
+ 
+# Override entrypoint
+docker compose run --rm --entrypoint "" api sh -c "echo hello"
+ 
+# Run without port mapping (avoids conflicts)
+docker compose run --no-deps --rm api npm test
+ 
+# Pass env var override
+docker compose run --rm -e NODE_ENV=test api npm test
+ 
+# --rm: auto-remove container after exit (always use this for one-offs)
+# --no-deps: don't start linked dependencies
+ 
+ 
+# ── RESTART / STOP / START / PAUSE ───────────────────────────────
+ 
+# Stop containers without removing them (preserves container state)
+docker compose stop
+ 
+# Stop specific service
+docker compose stop api
+ 
+# Start stopped containers (without recreating)
+docker compose start
+ 
+# Restart a service (useful after config changes)
+docker compose restart api
+ 
+# Pause / unpause (freeze container processes)
+docker compose pause api
+docker compose unpause api
+ 
+ 
+# ── PULL / PUSH ───────────────────────────────────────────────────
+ 
+# Pull latest images for all services
+docker compose pull
+ 
+# Pull specific service
+docker compose pull postgres
+ 
+# Push locally-built images to registry
+docker compose push api
+ 
+ 
+# ── CONFIG — Validate and view resolved config ────────────────────
+ 
+# Validate the compose file (check for syntax errors)
+docker compose config
+ 
+# View fully-resolved config (merges all override files)
+docker compose config --quiet && echo "Valid!"
+ 
+# Show service names
+docker compose config --services
+ 
+# Show volume names
+docker compose config --volumes
+ 
+# Output as JSON
+docker compose config --format json
+ 
+ 
+# ── TOP / STATS / IMAGES ─────────────────────────────────────────
+ 
+# Show processes running inside all containers
+docker compose top
+ 
+# Show resource usage (CPU, memory, network, disk I/O)
+docker stats $(docker compose ps -q)
+ 
+# List images used by compose services
+docker compose images
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "The key command distinctions: <code>docker compose up -d --build</code> rebuilds images and starts all services. <code>docker compose down -v</code> tears everything down including volumes — dangerous with production data. <code>docker compose exec</code> runs a command in an ALREADY running container; <code>docker compose run --rm</code> spins up a NEW temporary container. <code>docker compose up --wait</code> is the CI-safe way to start and block until all healthchecks pass. <code>docker compose config</code> validates and resolves the full merged config — essential for debugging override files. Always use <code>--remove-orphans</code> after removing a service from the Compose file to clean up stale containers."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 3: OVERRIDE FILES & ENVIRONMENTS                     -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Override Files &amp; Multi-Environment Strategy
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    One of the most powerful and interview-tested Compose features is the override file system. Docker Compose automatically merges multiple files, enabling you to maintain a single base configuration and layer environment-specific overrides — without duplicating YAML. This is the correct pattern for managing dev/staging/production differences.
+  </p>
+ 
+  <h5 style="margin-top: 1.25rem; font-size: 1.05rem; font-weight: 600;">How Override Merging Works</h5>
+  <p style="line-height: 1.75; margin-top: 0.5rem;">
+    Compose automatically loads <code>docker-compose.yml</code> as the base and <code>docker-compose.override.yml</code> as an automatic override if it exists — no flags needed. For additional files, use <code>-f</code> flags. Merging rules: scalar values (strings, numbers) are replaced by the override. List values (ports, volumes, environment) are <strong>appended</strong>, not replaced. Map values (labels, build args) are merged. This means you never accidentally lose base config entries when overriding.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── docker-compose.yml (BASE — committed to git) ─────────────────
+# Contains production-ready defaults. No dev-only extras.
+ 
+services:
+  api:
+    image: myrepo/api:$ {IMAGE_TAG:-latest}  # variable substitution
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    networks:
+      - frontend-net
+      - backend-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+ 
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: $ {POSTGRES_DB}
+      POSTGRES_USER: $ {POSTGRES_USER}
+      POSTGRES_PASSWORD: $ {POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $ {POSTGRES_USER} -d $ {POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+ 
+networks:
+  frontend-net:
+  backend-net:
+    internal: true
+ 
+volumes:
+  postgres-data:
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── docker-compose.override.yml (DEV — auto-loaded, git-ignored) ──
+# Automatically merged with base file in development
+# Commit to git but keep dev-only settings here
+ 
+services:
+  api:
+    build:                          # in dev: build from source
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app                      # hot-reload: mount source code
+      - /app/node_modules           # anonymous volume for node_modules
+    ports:
+      - "3000:3000"                 # expose to host for direct testing
+      - "127.0.0.1:9229:9229"       # Node.js debugger port
+    environment:
+      NODE_ENV: development
+      DEBUG: "app:*"
+    command: ["npm", "run", "dev"]  # nodemon for hot-reload
+    restart: "no"                   # don't auto-restart in dev
+ 
+  postgres:
+    ports:
+      - "127.0.0.1:5432:5432"       # expose to host for GUI tools
+    environment:
+      POSTGRES_PASSWORD: devpassword  # simple dev password
+ 
+  # Dev-only services (not in base file)
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"   # web UI
+      - "1025:1025"   # SMTP
+ 
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-net
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── docker-compose.prod.yml (PRODUCTION override) ─────────────────
+ 
+services:
+  api:
+    image: myrepo/api:$ {IMAGE_TAG}   # must be set in CI/CD
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: /app/api
+ 
+  nginx:
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro   # real SSL certs
+ 
+# ── docker-compose.test.yml (CI testing) ──────────────────────────
+ 
+services:
+  api:
+    build:
+      context: .
+      target: test
+    command: ["npm", "test", "--", "--ci", "--coverage"]
+    environment:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://user:testpass@postgres:5432/testdb
+    depends_on:
+      postgres:
+        condition: service_healthy
+ 
+  postgres:
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_PASSWORD: testpass
+    tmpfs:
+      - /var/lib/postgresql/data    # in-memory DB for tests (fast, disposable)
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── USING OVERRIDE FILES ─────────────────────────────────────────
+ 
+# Development (default: auto-loads base + override.yml)
+docker compose up -d
+ 
+# Production (explicit file list — overrides auto-discovery)
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+ 
+# CI testing
+docker compose -f docker-compose.yml -f docker-compose.test.yml up --abort-on-container-exit
+ 
+# Validate merged config (always do this before deploying!)
+docker compose -f docker-compose.yml -f docker-compose.prod.yml config
+ 
+# Using a completely different file path
+docker compose -f ./infra/staging.yml up -d
+ 
+# Using COMPOSE_FILE env var (alternative to -f flags)
+export COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml
+docker compose up -d
+ 
+ 
+# ── .env FILE — Variable Substitution ────────────────────────────
+# Compose auto-loads .env from the same directory as the compose file
+# Variables available as $ {VAR_NAME} in the YAML
+ 
+# .env file (git-ignored — never commit secrets!)
+cat .env
+# POSTGRES_DB=appdb
+# POSTGRES_USER=appuser
+# POSTGRES_PASSWORD=supersecret123
+# IMAGE_TAG=v1.2.3
+ 
+# .env.example (committed to git — shows required variables)
+cat .env.example
+# POSTGRES_DB=
+# POSTGRES_USER=
+# POSTGRES_PASSWORD=
+# IMAGE_TAG=latest
+ 
+# Default values in compose file
+# $ {VAR:-default} → use default if VAR is unset or empty
+# $ {VAR-default}  → use default only if VAR is unset (empty string counts as set)
+# $ {VAR:?error}   → exit with error message if VAR is unset
+ 
+# Example:
+# image: myapp:$ {IMAGE_TAG:-latest}
+# → uses "latest" if IMAGE_TAG is not set
+ 
+# Load a different env file
+docker compose --env-file .env.staging up -d
+ 
+# Override a variable inline
+IMAGE_TAG=v2.0.0 docker compose up -d api
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Docker Compose automatically merges docker-compose.yml and docker-compose.override.yml — the override file is loaded automatically with no flags. For additional environments, use explicit -f flags: docker compose -f docker-compose.yml -f docker-compose.prod.yml. Merging rules: scalars are replaced, lists are appended, maps are merged. The .env file in the same directory is auto-loaded for variable substitution — use $ {VAR:-default} syntax. Never commit secrets in the compose file or .env — commit a .env.example with empty values. Always run docker compose config after merging override files to validate the final resolved configuration before deploying."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 4: VOLUMES & DATA PERSISTENCE                        -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Volumes &amp; Data Persistence
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Volumes are how Docker persists data across container restarts and recreations. Understanding the three types of mounts — named volumes, bind mounts, and tmpfs — their lifecycles, and their correct use cases is critical for building stateful applications correctly.
+  </p>
+ 
+  <div style="margin-top: 0.75rem; background: #fafafa; border: 1px solid #e4e4e7; border-radius: 8px; padding: 1.25rem; font-size: 0.9rem;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+      <thead>
+        <tr style="background: #f4f4f5;">
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Type</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Syntax</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Managed By</th>
+          <th style="padding: 0.6rem; text-align: left; border: 1px solid #d4d4d8;">Use Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Named Volume</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">mydata:/var/lib/data</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Databases, persistent app state</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Bind Mount</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">./src:/app/src</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Host filesystem</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Dev hot-reload, config files</td>
+        </tr>
+        <tr>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">Anonymous Volume</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">/app/node_modules</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Docker (no name)</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Preserve container paths from host overlay</td>
+        </tr>
+        <tr style="background:#fafafa">
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-weight:600;">tmpfs</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;font-family:monospace;">tmpfs: [/tmp]</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Memory only</td>
+          <td style="padding:0.5rem;border:1px solid #d4d4d8;">Test DBs, secrets at runtime, temp files</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+services:
+ 
+  api:
+    volumes:
+      # ── Bind Mounts ────────────────────────────────────────────
+      # Short syntax: HOST_PATH:CONTAINER_PATH[:OPTIONS]
+      - ./src:/app/src                    # dev: hot-reload source
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro  # read-only config
+      - /var/run/docker.sock:/var/run/docker.sock  # expose Docker daemon
+ 
+      # Long syntax (more explicit, supports all options)
+      - type: bind
+        source: ./config
+        target: /app/config
+        read_only: true
+        bind:
+          propagation: shared   # bind propagation: shared|slave|private
+ 
+      # ── Named Volumes ──────────────────────────────────────────
+      - app-uploads:/app/uploads          # declared in top-level volumes:
+ 
+      # ── Anonymous Volumes ──────────────────────────────────────
+      # Protects container's node_modules from being overwritten
+      # by the host when you bind-mount the entire app directory
+      - /app/node_modules
+ 
+      # ── tmpfs (memory-only) ────────────────────────────────────
+    tmpfs:
+      - /tmp
+      - /run
+ 
+ 
+  postgres:
+    volumes:
+      # Named volume for persistent data (survives container restart)
+      - postgres-data:/var/lib/postgresql/data
+ 
+      # Bind mount init SQL (runs on first container creation only)
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+ 
+      # tmpfs for test environments (in-memory, ultra-fast, auto-deleted)
+    # tmpfs:
+    #   - /var/lib/postgresql/data        # enable for CI/test
+ 
+ 
+# ── TOP-LEVEL VOLUME DECLARATIONS ────────────────────────────────
+volumes:
+  postgres-data:                    # simple named volume (local driver)
+    driver: local
+ 
+  app-uploads:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/efs/uploads       # mount an NFS/EFS share
+ 
+  redis-data:
+    driver: local
+    labels:
+      com.example.description: "Redis persistence"
+ 
+  # External volume (created outside of Compose — not managed by Compose)
+  shared-config:
+    external: true                   # must exist before docker compose up
+    name: my-shared-config
+ 
+  # Volume shared between Compose projects
+  cross-project-volume:
+    external: true
+    name: other-project_data
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── VOLUME LIFECYCLE COMMANDS ────────────────────────────────────
+ 
+# Named volumes persist after: docker compose down
+# Named volumes are DELETED by: docker compose down -v  ← DESTRUCTIVE
+ 
+# List all volumes for the current project
+docker compose ls
+docker volume ls -f label=com.docker.compose.project=myapp
+ 
+# Inspect a named volume (find where Docker stores it on the host)
+docker volume inspect myapp_postgres-data
+# Output includes "Mountpoint": "/var/lib/docker/volumes/myapp_postgres-data/_data"
+ 
+# Backup a named volume
+docker run --rm \
+  -v myapp_postgres-data:/data \
+  -v $(pwd)/backups:/backup \
+  alpine tar czf /backup/postgres-$(date +%Y%m%d).tar.gz -C /data .
+ 
+# Restore a named volume
+docker run --rm \
+  -v myapp_postgres-data:/data \
+  -v $(pwd)/backups:/backup \
+  alpine tar xzf /backup/postgres-20240101.tar.gz -C /data
+ 
+# Remove unused volumes
+docker volume prune
+ 
+# Remove specific volumes
+docker volume rm myapp_postgres-data
+ 
+ 
+# ── THE node_modules PATTERN ─────────────────────────────────────
+# Classic problem: mounting ./:/app overwrites the container's node_modules
+# with the host's (or empty host directory). Solution: anonymous volume.
+ 
+# This is WRONG (host node_modules overwrites container's):
+# volumes:
+#   - .:/app
+ 
+# This is CORRECT (anonymous volume shadows /app/node_modules):
+# volumes:
+#   - .:/app
+#   - /app/node_modules    ← anonymous volume takes precedence
+# Docker volume mount priority: more-specific path wins
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "There are three mount types. Named volumes (mydata:/path) are managed by Docker, persist across restarts and docker compose down, and are only deleted with docker compose down -v. Bind mounts (./src:/app/src) use a host filesystem path — perfect for dev hot-reload but bad for production since they expose host directory structure. Anonymous volumes (/app/node_modules) protect specific container paths from being overwritten by bind mounts — the classic node_modules pattern. tmpfs mounts are memory-only — perfect for test databases in CI (no I/O overhead, auto-cleaned). Always declare named volumes in the top-level volumes: key, even if just as postgres-data: with no options — this makes Compose manage the volume lifecycle."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 5: HEALTH CHECKS & DEPENDENCY MANAGEMENT            -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Health Checks &amp; Dependency Management
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <code>depends_on</code> by itself only waits for a container to <em>start</em> — not for the service inside it to be <em>ready</em>. A PostgreSQL container may be "started" but still initializing its data directory. The correct pattern combines <code>depends_on</code> with <code>condition: service_healthy</code> and a properly configured <code>healthcheck</code>. This is one of the most common interview questions about Compose.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+services:
+ 
+  # ── HEALTH CHECK DEFINITIONS ─────────────────────────────────
+ 
+  postgres:
+    image: postgres:15-alpine
+    healthcheck:
+      # test: command to run inside the container
+      # ["CMD", ...] → exec form, no shell, preferred
+      # ["CMD-SHELL", "..."] → runs in /bin/sh, supports &&, pipes
+      test: ["CMD-SHELL", "pg_isready -U $ {POSTGRES_USER} -d $ {POSTGRES_DB}"]
+      interval: 10s       # run every 10 seconds
+      timeout: 5s         # fail if no response in 5 seconds
+      retries: 5          # mark unhealthy after 5 consecutive failures
+      start_period: 30s   # grace period: don't count failures for 30s after start
+ 
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --requirepass redispass
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+ 
+  api:
+    build: .
+    healthcheck:
+      # HTTP health endpoint check
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      # -f flag: curl returns exit code 22 on HTTP 4xx/5xx (counts as failure)
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s    # API needs time to connect to DB on startup
+ 
+  nginx:
+    image: nginx:alpine
+    healthcheck:
+      test: ["CMD-SHELL", "nginx -t && curl -f http://localhost/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+ 
+ 
+  # ── DEPENDS_ON CONDITIONS ────────────────────────────────────
+ 
+  worker:
+    build: ./worker
+    depends_on:
+      # service_healthy: wait until healthcheck passes ✅ CORRECT
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+ 
+      # service_started: just wait for container to be created
+      # (does NOT guarantee the process inside is ready — use carefully)
+      message-broker:
+        condition: service_started
+ 
+      # service_completed_successfully: wait for a one-shot job to finish
+      # Use for migration containers that run and exit
+      db-migrations:
+        condition: service_completed_successfully
+ 
+    restart: unless-stopped
+ 
+ 
+  # ── ONE-SHOT MIGRATION PATTERN ────────────────────────────────
+  # Run migrations BEFORE api starts. Exit 0 = success.
+  db-migrations:
+    build:
+      context: .
+      target: migrations    # multi-stage: only migration deps
+    command: ["npm", "run", "db:migrate"]
+    environment:
+      DATABASE_URL: postgresql://user:pass@postgres:5432/appdb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # NO restart: field → defaults to "no" → runs once and exits
+    # api uses condition: service_completed_successfully
+ 
+ 
+  # ── DISABLE INHERITED HEALTHCHECK ────────────────────────────
+  # Sometimes a base image defines a healthcheck you want to remove
+  some-service:
+    image: some-image-with-healthcheck
+    healthcheck:
+      disable: true
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── CHECKING HEALTH STATUS ───────────────────────────────────────
+ 
+# See health status in ps output
+docker compose ps
+# STATUS column shows: Up (healthy) | Up (unhealthy) | Up (health: starting)
+ 
+# Inspect health check history (last 5 results)
+docker inspect app-postgres \
+  --format='{{json .State.Health}}' | python3 -m json.tool
+ 
+# Output:
+# {
+#   "Status": "healthy",
+#   "FailingStreak": 0,
+#   "Log": [
+#     {
+#       "Start": "2024-01-15T10:00:00Z",
+#       "End":   "2024-01-15T10:00:00.123Z",
+#       "ExitCode": 0,
+#       "Output": "/var/run/postgresql:5432 - accepting connections"
+#     }
+#   ]
+# }
+ 
+# Wait for healthy status in CI scripts
+until [ "$(docker inspect --format='{{.State.Health.Status}}' app-postgres)" = "healthy" ]; do
+  echo "Waiting for postgres..."; sleep 2
+done
+echo "Postgres is healthy!"
+ 
+# docker compose up --wait does this automatically for all services
+docker compose up -d --wait
+echo "All services healthy, exit code: $?"
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>⚠️ Common Mistake:</strong> Using <code>depends_on: [postgres]</code> (simple list form) only waits for the postgres <em>container</em> to start — not for PostgreSQL to be ready to accept connections. This causes race conditions where the API starts, tries to connect to the database, fails, and crashes. The fix: always pair <code>depends_on</code> with <code>condition: service_healthy</code> AND a proper <code>healthcheck</code> on the dependency service. If you cannot add a healthcheck, use a startup script with retry logic (e.g., wait-for-it.sh or dockerize).
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "depends_on has three conditions. service_started (the simple list default) only waits for the container process to launch — not for the service inside to be ready. service_healthy waits for the dependency's healthcheck to pass — this is the correct way to handle database readiness. service_completed_successfully waits for a one-shot container (like a migration job) to exit with code 0. The healthcheck itself is a command run inside the container: pg_isready for PostgreSQL, redis-cli ping for Redis, curl -f for HTTP endpoints. start_period gives a grace window after container start where failures don't count — crucial for services with slow initialization."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 6: PROFILES & SCALING                                -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Profiles &amp; Scaling
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Profiles let you define optional services in a single Compose file that are only started when explicitly activated. This is the modern alternative to maintaining multiple override files for dev-only tooling. Scaling lets you run multiple replicas of a service — important for load testing and understanding Compose's limitations versus Swarm/Kubernetes.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── PROFILES ─────────────────────────────────────────────────────
+# Services without profiles: are ALWAYS started
+# Services with profiles: are ONLY started when that profile is active
+ 
+services:
+ 
+  # Core services — always started (no profiles key)
+  api:
+    image: myapp/api:latest
+    networks: [app-net]
+ 
+  postgres:
+    image: postgres:15-alpine
+    networks: [app-net]
+ 
+ 
+  # Dev-only services (only with --profile dev)
+  mailhog:
+    image: mailhog/mailhog
+    profiles: [dev]
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+ 
+  adminer:
+    image: adminer:latest
+    profiles: [dev, debug]
+    ports:
+      - "8080:8080"
+    networks: [app-net]
+ 
+ 
+  # Debug tools (only with --profile debug)
+  pgadmin:
+    image: dpage/pgadmin4
+    profiles: [debug]
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+    networks: [app-net]
+ 
+ 
+  # Docs server (only with --profile docs)
+  docs:
+    image: squidfunk/mkdocs-material
+    profiles: [docs]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docs:/docs
+ 
+ 
+networks:
+  app-net:
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── USING PROFILES ───────────────────────────────────────────────
+ 
+# Start only core services (no profiles)
+docker compose up -d
+# Starts: api, postgres
+# Does NOT start: mailhog, adminer, pgadmin, docs
+ 
+# Activate specific profile
+docker compose --profile dev up -d
+# Starts: api, postgres, mailhog, adminer
+ 
+# Activate multiple profiles
+docker compose --profile dev --profile debug up -d
+# Starts: api, postgres, mailhog, adminer, pgadmin
+ 
+# Using COMPOSE_PROFILES env var
+export COMPOSE_PROFILES=dev,debug
+docker compose up -d
+ 
+# Start a profile service separately (after core is running)
+docker compose --profile debug up -d pgadmin
+ 
+# Stop specific profile services
+docker compose --profile dev down
+ 
+# Run a one-off command using a profiled service
+docker compose --profile dev run --rm adminer
+ 
+ 
+# ── SCALING ──────────────────────────────────────────────────────
+# Run multiple replicas of a service
+ 
+# Scale during up
+docker compose up -d --scale api=3 --scale worker=5
+ 
+# Scale a running service (without restarting others)
+docker compose up -d --scale api=5 --no-recreate
+ 
+# Scale down
+docker compose up -d --scale api=1
+ 
+# Check how many replicas are running
+docker compose ps api
+ 
+# REQUIREMENTS FOR SCALING:
+# 1. Do NOT set container_name (creates name conflict)
+# 2. Do NOT use fixed host port mapping (-p 8080:3000 → conflict!)
+#    Use random port (-p 3000) OR no port mapping + load balancer
+# 3. Load balancing between replicas is NOT automatic in Compose
+#    (Compose is for development; use Swarm/K8s for production scaling)
+ 
+# ── DEPLOY REPLICAS IN COMPOSE FILE ──────────────────────────────
+services:
+  worker:
+    build: ./worker
+    deploy:
+      replicas: 3          # Compose respects replicas: in some versions
+    # No container_name: (required for replicas > 1)
+    # No fixed ports: (use random or no mapping)
+ 
+# Container names when scaled: PROJECT_SERVICE_N
+# e.g.: myapp-api-1, myapp-api-2, myapp-api-3
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "Profiles let you define optional services that only start when a profile is explicitly activated with --profile NAME or the COMPOSE_PROFILES env var. Services without a profiles: key always start — use this for core services. Services with profiles: are dev-only tools, debug utilities, or optional add-ons. For scaling: docker compose up --scale api=3 starts 3 replicas of the api service. Two requirements: no container_name (causes conflict) and no fixed host port mapping (causes port conflict — use random ports or no mapping). Compose scaling has no built-in load balancing — it's a development tool. For production horizontal scaling, use Docker Swarm (deploy.replicas in the compose file) or Kubernetes."
+  </div>
+ 
+ 
+  <!-- ============================================================ -->
+  <!-- SECTION 7: SECRETS & PRODUCTION BEST PRACTICES              -->
+  <!-- ============================================================ -->
+ 
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    7. Secrets &amp; Production Best Practices
+  </h4>
+ 
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Hardcoding passwords in Compose files or .env files is a common security mistake. Docker Compose supports a <code>secrets</code> mechanism that mounts sensitive values as files inside containers — avoiding environment variable exposure. Combined with other hardening practices, this is the correct production-grade approach.
+  </p>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+    <pre><code className="language-yaml">
+# ── DOCKER SECRETS ────────────────────────────────────────────────
+# Secrets are mounted at /run/secrets/SECRET_NAME inside the container
+# The application reads the file instead of an env var
+# Avoids secrets appearing in:
+#   - docker inspect output
+#   - environment variable dumps
+#   - application logs that print env vars
+#   - container image layers
+ 
+services:
+ 
+  api:
+    image: myapp/api:1.0
+    secrets:
+      - db_password          # mounts as /run/secrets/db_password
+      - api_key              # mounts as /run/secrets/api_key
+      - source: ssl_cert     # long form: specify source and target
+        target: /etc/ssl/cert.pem
+        uid: "1001"
+        gid: "1001"
+        mode: 0440           # file permissions (octal)
+    environment:
+      # Application reads password from file, not env var
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      # Many apps support _FILE suffix convention (PostgreSQL image supports it)
+ 
+  postgres:
+    image: postgres:15-alpine
+    secrets:
+      - db_password
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: appuser
+      # PostgreSQL official image reads from _FILE env vars:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+ 
+ 
+# ── SECRET SOURCES ────────────────────────────────────────────────
+secrets:
+ 
+  # File-based (dev) — reads from a local file
+  db_password:
+    file: ./secrets/db_password.txt   # gitignored file containing just the password
+ 
+  api_key:
+    file: ./secrets/api_key.txt
+ 
+  ssl_cert:
+    file: ./certs/server.crt
+ 
+  # External (production/Swarm) — references a Swarm secret
+  # docker secret create db_password - <<< "my-secure-password"
+  prod_db_password:
+    external: true
+    name: prod_db_password_v2      # versioned secret name
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-yaml">
+# ── PRODUCTION HARDENING CHECKLIST ────────────────────────────────
+ 
+services:
+  api:
+    image: myrepo/api:$ {IMAGE_TAG:?IMAGE_TAG must be set}   # fail if not set
+    # No build: in production — use pre-built images from registry
+    # No volumes: for source code — code is baked into the image
+ 
+    # Run as non-root user
+    user: "1001:1001"
+ 
+    # Read-only root filesystem (write only to explicit volumes/tmpfs)
+    read_only: true
+    tmpfs:
+      - /tmp                          # allow writes to /tmp only
+      - /app/logs                     # allow log writes
+ 
+    # Drop all Linux capabilities (principle of least privilege)
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE              # only add back what's needed
+ 
+    # Prevent privilege escalation
+    security_opt:
+      - no-new-privileges:true
+ 
+    # Resource limits (prevent runaway containers)
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+ 
+    # Structured logging with size limit
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+        labels: "service,version"
+ 
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+ 
+    # Restart on failure
+    restart: unless-stopped
+ 
+    # No port exposure — traffic goes through reverse proxy only
+    # ports: ← OMIT for backend services
+ 
+    # Secret injection
+    secrets:
+      - db_password
+      - api_secret_key
+ 
+    environment:
+      NODE_ENV: production
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      # Never: DB_PASSWORD: mysecretpassword  ← exposed in docker inspect
+ 
+ 
+  # ── REVERSE PROXY PATTERN ────────────────────────────────────
+  # Only nginx faces the internet. Backend services are on internal networks.
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - certbot-data:/etc/letsencrypt:ro
+    networks:
+      - frontend-net             # can reach api
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    </code></pre>
+  </div>
+ 
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.75rem;">
+    <pre><code className="language-bash">
+# ── PRODUCTION DEPLOYMENT COMMANDS ───────────────────────────────
+ 
+# Validate config before deployment
+docker compose -f docker-compose.yml -f docker-compose.prod.yml config --quiet \
+  && echo "Config valid"
+ 
+# Pull latest images (non-destructive — just downloads)
+IMAGE_TAG=v1.2.3 docker compose pull
+ 
+# Deploy with zero-downtime rolling update (basic)
+IMAGE_TAG=v1.2.3 docker compose up -d --no-deps api
+# --no-deps: don't restart dependencies (postgres, redis stay up)
+ 
+# Full deploy (rebuild + restart everything)
+IMAGE_TAG=v1.2.3 docker compose -f docker-compose.yml -f docker-compose.prod.yml \
+  up -d --remove-orphans --wait
+ 
+# Check deploy status
+docker compose ps
+docker compose logs -f --tail 50 api
+ 
+# Quick rollback (change IMAGE_TAG and re-deploy)
+IMAGE_TAG=v1.2.2 docker compose up -d --no-deps api
+ 
+# Production cleanup (keeps volumes!)
+docker compose down --remove-orphans --rmi local
+    </code></pre>
+  </div>
+ 
+  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;">
+    <strong>🎯 Interview Answer:</strong> "For secrets, use Docker's secrets mechanism rather than environment variables — secrets are mounted as files at /run/secrets/NAME inside the container, avoiding exposure through docker inspect and environment variable dumps. Many official images (PostgreSQL, MySQL) support a _FILE suffix convention: POSTGRES_PASSWORD_FILE=/run/secrets/db_password. Production hardening checklist: run containers as non-root (user: 1001:1001), set read_only: true with tmpfs for writable paths, cap_drop: [ALL], security_opt: [no-new-privileges:true], resource limits under deploy.resources, log rotation via json-file driver options, and IMAGE_TAG:?error syntax to fail fast if the version tag isn't set in CI/CD."
+  </div>
+ 
+</div>`,
+
+            examples: [
+              `# ══════════════════════════════════════════════════════════════
+# COMPLETE DOCKER COMPOSE WORKFLOW
+# Demonstrates all major features end-to-end
+# ══════════════════════════════════════════════════════════════
+ 
+set -e   # exit on any error
+ 
+PROJECT_DIR="compose-demo"
+mkdir -p $PROJECT_DIR && cd $PROJECT_DIR
+ 
+ 
+# ── PART 1: Write the Compose files ──────────────────────────────
+ 
+# Base docker-compose.yml
+cat > docker-compose.yml << 'EOF'
+services:
+ 
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: \$ {NODE_ENV:-production}
+      PORT: 3000
+      DATABASE_URL: postgresql://demo:demo@postgres:5432/demodb
+      REDIS_URL: redis://:redispass@redis:6379
+    networks:
+      - frontend-net
+      - backend-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+ 
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: demodb
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demo -d demodb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+ 
+  redis:
+    image: redis:7.2-alpine
+    command: redis-server --requirepass redispass
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redispass", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+ 
+networks:
+  frontend-net:
+  backend-net:
+    internal: true
+ 
+volumes:
+  postgres-data:
+  redis-data:
+EOF
+ 
+# Dev override (auto-loaded)
+cat > docker-compose.override.yml << 'EOF'
+services:
+  api:
+    build:
+      context: ./api
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+      - "127.0.0.1:9229:9229"
+    environment:
+      NODE_ENV: development
+    restart: "no"
+ 
+  postgres:
+    ports:
+      - "127.0.0.1:5432:5432"
+ 
+  redis:
+    ports:
+      - "127.0.0.1:6379:6379"
+ 
+  adminer:
+    image: adminer
+    profiles: [dev]
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-net
+EOF
+ 
+# Create a minimal API app for demo
+mkdir -p api
+cat > api/Dockerfile << 'EOF'
+FROM node:20-alpine
+WORKDIR /app
+RUN apk add --no-cache wget
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["node", "server.js"]
+EOF
+ 
+cat > api/package.json << 'EOF'
+{"name":"demo-api","version":"1.0.0","main":"server.js","dependencies":{}}
+EOF
+ 
+cat > api/server.js << 'EOF'
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url === "/health") {
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify({ status: "healthy", ts: new Date() }));
+  } else {
+    res.writeHead(200, {"Content-Type": "application/json"});
+    res.end(JSON.stringify({ message: "Hello from Docker Compose!" }));
+  }
+});
+server.listen(3000, () => console.log("API running on :3000"));
+EOF
+ 
+ 
+# ── PART 2: Validate config ──────────────────────────────────────
+echo "=== Validating Compose config ==="
+docker compose config --quiet && echo "✅ Config is valid"
+echo ""
+echo "Services defined:"
+docker compose config --services
+ 
+ 
+# ── PART 3: Start the stack ──────────────────────────────────────
+echo ""
+echo "=== Starting stack with --wait (blocks until all healthy) ==="
+docker compose up -d --build --wait
+echo "✅ All services are healthy"
+ 
+ 
+# ── PART 4: Inspect status ───────────────────────────────────────
+echo ""
+echo "=== Service status ==="
+docker compose ps
+ 
+echo ""
+echo "=== Health check history for postgres ==="
+docker inspect compose-demo-postgres-1 \
+  --format='{{range .State.Health.Log}}Exit: {{.ExitCode}} | {{.Output}}{{end}}' \
+  2>/dev/null || echo "(inspect by name may vary)"
+ 
+ 
+# ── PART 5: Test connectivity ────────────────────────────────────
+echo ""
+echo "=== Testing API health endpoint ==="
+curl -s http://localhost:3000/health | python3 -m json.tool
+ 
+echo ""
+echo "=== Testing internal DNS resolution ==="
+docker compose exec api wget -qO- http://postgres 2>&1 | head -3 || true
+# postgres resolves by name even though it's not an HTTP server
+# (connection refused = DNS worked! It found the IP)
+ 
+ 
+# ── PART 6: Exec and run commands ───────────────────────────────
+echo ""
+echo "=== Running one-off command with docker compose run ==="
+docker compose run --rm postgres \
+  psql -h postgres -U demo -d demodb -c "SELECT version();" 2>/dev/null \
+  || echo "(psql demo — postgres accessible by service name)"
+ 
+echo ""
+echo "=== Checking environment inside api container ==="
+docker compose exec api env | grep -E "NODE_ENV|PORT|DATABASE"
+ 
+ 
+# ── PART 7: Logs ─────────────────────────────────────────────────
+echo ""
+echo "=== Last 5 lines from each service ==="
+docker compose logs --tail 5
+ 
+ 
+# ── PART 8: Profiles demo ────────────────────────────────────────
+echo ""
+echo "=== Starting adminer with --profile dev ==="
+docker compose --profile dev up -d adminer
+echo "Adminer available at http://localhost:8080"
+docker compose ps --status running
+ 
+ 
+# ── PART 9: Scaling ──────────────────────────────────────────────
+echo ""
+echo "=== Scaling api to 2 replicas ==="
+# Must remove container_name and fixed port for scaling
+# (our demo api doesn't have those, so this works)
+docker compose up -d --scale api=2 --no-recreate
+docker compose ps api
+ 
+ 
+# ── PART 10: Override for CI/CD ──────────────────────────────────
+echo ""
+echo "=== What prod config looks like ==="
+cat > docker-compose.prod.yml << 'EOF'
+services:
+  api:
+    image: myrepo/api:\$ {IMAGE_TAG:-latest}
+    read_only: true
+    user: "1001:1001"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    restart: unless-stopped
+EOF
+ 
+IMAGE_TAG=v1.2.3 docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.prod.yml \
+  config --quiet && echo "✅ Prod config valid"
+ 
+ 
+# ── PART 11: Cleanup ─────────────────────────────────────────────
+echo ""
+echo "=== Cleanup ==="
+docker compose --profile dev down -v --remove-orphans --rmi local
+echo "✅ Stack torn down, volumes removed"
+ 
+cd .. && rm -rf $PROJECT_DIR
+echo "✅ Demo complete"`,
+            ],
+
+            questions: [
+              {
+                question:
+                  "What is the difference between docker compose up, docker compose start, and docker compose run?",
+                solution:
+                  "<p><code>docker compose up</code> is the primary command: it creates (if needed) and starts all service containers, their networks, and volumes. With <code>--build</code> it rebuilds images first. With <code>-d</code> it runs detached. It also recreates containers if their configuration has changed (image, environment, volumes, etc.). <code>docker compose start</code> starts containers that already exist but are stopped — it does NOT create new containers or networks. It is for resuming a stopped stack without recreating anything. <code>docker compose run --rm SERVICE COMMAND</code> creates and starts a brand-new, one-off container from the service's image, runs the specified command, and (with --rm) removes the container on exit. It does NOT start the service's normal command. It does start dependencies by default (use <code>--no-deps</code> to suppress). Use run for one-off tasks: migrations, seeding, debugging shells. Key behavioral note: run creates containers named PROJECT_SERVICE_run_N (not the normal name), so multiple runs can execute simultaneously without naming conflicts.</p>",
+              },
+              {
+                question:
+                  "How does depends_on work, and why is it not enough to ensure a service is ready?",
+                solution:
+                  "<p><code>depends_on</code> controls container <em>startup order</em> — it does not guarantee the <em>application inside</em> is ready to accept connections. With no condition (or <code>condition: service_started</code>), Compose simply waits for the dependency container's process to start. The database container may be running but PostgreSQL is still initializing its data directory, replaying WAL logs, or running startup scripts. The API starts immediately after, tries to connect, and fails. The correct pattern: combine <code>depends_on</code> with <code>condition: service_healthy</code> and a proper <code>healthcheck</code> on the dependency. Compose will wait until the dependency's healthcheck passes before starting the dependent service. <code>condition: service_completed_successfully</code> is for one-shot containers like migrations — Compose waits for exit code 0. <code>docker compose up -d --wait</code> extends this to the entire stack, blocking the command until ALL services report healthy. For legacy images without healthcheck support, the common fallback is a custom entrypoint script using tools like wait-for-it.sh or dockerize that retry the connection until it succeeds.</p>",
+              },
+              {
+                question:
+                  "Explain Docker Compose override files. How does merging work for lists vs scalars?",
+                solution:
+                  "<p>Docker Compose automatically loads <code>docker-compose.yml</code> as the base and <code>docker-compose.override.yml</code> (if present) as an automatic layer — no flags needed. For additional files, specify them with <code>-f</code> flags in order: <code>docker compose -f docker-compose.yml -f docker-compose.prod.yml</code>. Merge behavior differs by value type: <strong>scalars</strong> (strings, numbers, booleans — like image, command, restart) are <em>replaced</em> by the override. <strong>Lists</strong> (ports, volumes, environment as a list, dns) are <em>appended</em> — the override values are added to the base values. <strong>Maps</strong> (environment as key-value, labels, build.args) are <em>merged</em> — override keys replace matching base keys, new keys are added, unmatched base keys are preserved. This means: if you add a port in an override, both the base port AND the override port are active. If you change a command, only the override command is used. Validate the fully-resolved config with <code>docker compose config</code> before deploying — this shows exactly what Compose will create after all merging. The COMPOSE_FILE environment variable can replace -f flags: <code>COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml</code>.</p>",
+              },
+              {
+                question:
+                  "What is the difference between a named volume, bind mount, and anonymous volume in Compose?",
+                solution:
+                  "<p><strong>Named volumes</strong> (<code>mydata:/var/lib/data</code>) are managed entirely by Docker, stored in Docker's volume directory (typically <code>/var/lib/docker/volumes/</code>), persist after <code>docker compose down</code>, and are only deleted with <code>docker compose down -v</code> or explicit <code>docker volume rm</code>. They must be declared in the top-level <code>volumes:</code> key. Best for: databases and any persistent application state. <strong>Bind mounts</strong> (<code>./src:/app/src</code>) map a specific host filesystem path directly into the container. Changes on either side are instantly visible to the other. They are NOT managed by Docker and are not affected by <code>docker compose down</code>. Best for: development hot-reload (code changes immediately reflected) and injecting config files. <strong>Anonymous volumes</strong> (<code>/app/node_modules</code> — container path only, no host path) are Docker-managed like named volumes but have a random UUID as their name and are generally deleted when the container is removed. Their critical use case: when you bind-mount an entire directory (e.g., <code>./:/app</code>), the host directory's contents overlay the container's path — including overwriting the container's <code>node_modules</code> (which may be empty on the host). Declaring <code>/app/node_modules</code> as an anonymous volume 'shields' that path from the bind mount overlay, preserving the container-installed modules.</p>",
+              },
+              {
+                question:
+                  "How do you pass secrets to containers in Compose without using environment variables?",
+                solution:
+                  "<p>Docker Compose's <code>secrets</code> mechanism mounts sensitive values as files inside the container at <code>/run/secrets/SECRET_NAME</code> rather than as environment variables. This avoids multiple exposure vectors: environment variables appear in <code>docker inspect</code> output, are logged by many frameworks on startup, and can be read by any process in the container. The Compose secrets config has two parts: the service-level <code>secrets:</code> key (listing which secrets the service gets access to) and the top-level <code>secrets:</code> key (defining where the secret comes from — either a local file with <code>file: ./secrets/db_password.txt</code> or <code>external: true</code> for Docker Swarm-managed secrets). The application then reads the secret from the filesystem: <code>fs.readFileSync('/run/secrets/db_password', 'utf8').trim()</code>. Many official Docker images support a <code>_FILE</code> environment variable convention: setting <code>POSTGRES_PASSWORD_FILE=/run/secrets/db_password</code> tells the image's entrypoint to read the password from the file rather than the env var. For local development with file-based secrets, create the secrets directory, add it to <code>.gitignore</code>, and document required secrets in <code>.env.example</code>.</p>",
+              },
+              {
+                question:
+                  "How does Docker Compose handle networking? What is the default network behavior?",
+                solution:
+                  "<p>When you run <code>docker compose up</code>, Compose automatically creates a user-defined bridge network named <code>PROJECTNAME_default</code> and connects all services to it. Because it's a user-defined bridge (not the default docker0 bridge), Docker's embedded DNS server at 127.0.0.11 is active — all services can reach each other by their <strong>service name</strong> as the hostname. A service named <code>postgres</code> is reachable as <code>postgres:5432</code> from any other service in the project — no IP addresses, no links, no configuration needed. For more complex topologies, define custom networks in the top-level <code>networks:</code> key and assign services to specific networks using the service-level <code>networks:</code> key. A service assigned to multiple networks (like an API tier that needs to reach both the frontend reverse proxy and the backend database) bridges those network segments. The <code>internal: true</code> flag on a network removes the default route out — containers on that network have no internet access. Compose namespaces everything: networks become <code>PROJECT_NETWORKNAME</code>, visible in <code>docker network ls</code>. Running <code>docker compose down</code> removes the networks; <code>docker compose down -v</code> also removes volumes.</p>",
+              },
+              {
+                question:
+                  "What are Compose profiles and when do you use them?",
+                solution:
+                  "<p>Profiles let you define optional services in a single Compose file that are <em>only</em> started when that profile is explicitly activated. Services without a <code>profiles:</code> key are always started — these are your core application services. Services with <code>profiles: [dev]</code> only start when you pass <code>--profile dev</code> or set <code>COMPOSE_PROFILES=dev</code>. A service can belong to multiple profiles: <code>profiles: [dev, debug]</code>. The primary use cases: (1) Dev tooling — MailHog (fake SMTP server), Adminer (database GUI), documentation servers. These are useful in development but must not run in production. (2) Debug tools — pgAdmin, Redis Commander, application profilers. (3) Optional infrastructure — monitoring stack (Prometheus + Grafana), feature-flag services, extra workers. Before profiles existed, the pattern was maintaining separate override files for dev tooling. Profiles are cleaner because everything lives in one file, and developers just activate the profiles they need. Profile services also participate in dependency resolution: if a profiled service depends_on a core service, that dependency is respected when the profile is activated. You can also target a profiled service directly: <code>docker compose --profile dev up -d adminer</code>.</p>",
+              },
+              {
+                question:
+                  "How do you do a zero-downtime deployment with Docker Compose?",
+                solution:
+                  "<p>True zero-downtime deployments require an orchestrator like Docker Swarm or Kubernetes — Docker Compose is not designed for this. However, for single-host deployments, you can minimize downtime with this pattern: (1) Pull the new image while the old container is still running: <code>IMAGE_TAG=v2.0 docker compose pull api</code>. (2) Restart only the changed service without touching dependencies: <code>IMAGE_TAG=v2.0 docker compose up -d --no-deps api</code>. The <code>--no-deps</code> flag prevents restarting postgres, redis, and other dependencies. Compose stops the old api container, starts the new one, and waits for the healthcheck to pass before returning. (3) There is a small window of downtime between stopping the old container and the new one becoming healthy. To reduce this: use <code>--wait</code> (confirm new container is healthy before the command exits), have a proper <code>healthcheck</code> with a reasonable <code>start_period</code>, and configure your reverse proxy (nginx) to retry failed upstream connections. For actual zero-downtime, the pattern is: spin up a second Compose stack (v2) on a different port, health-check it, then switch nginx upstream to the new stack, then tear down the old stack. But this is complex manual orchestration — a real use case for Swarm's rolling updates.</p>",
+              },
+              {
+                question:
+                  "What does docker compose down -v do and when is it dangerous?",
+                solution:
+                  "<p><code>docker compose down</code> stops all running containers, removes them, and removes the networks created by Compose. It does NOT remove volumes — named volumes persist. <code>docker compose down -v</code> (or <code>--volumes</code>) additionally removes all named volumes declared in the Compose file AND anonymous volumes. This is <strong>catastrophic if run against a production database</strong>: all PostgreSQL data, Redis persistence, uploaded files, and any other data stored in named volumes is permanently deleted with no recovery path. Safe uses: destroying a development environment to start fresh, CI/CD pipelines where a clean slate is intentional between test runs, and when explicitly migrating data to a different storage mechanism. Safer alternatives for production: just use <code>docker compose down</code> (preserves volumes), or <code>docker compose stop</code> (keeps containers AND volumes). Before running down -v anywhere important, always verify which volumes are mounted: <code>docker compose config --volumes</code> and backup critical volumes first using <code>docker run --rm -v VOLUME:/data alpine tar czf - -C /data . > backup.tar.gz</code>.</p>",
+              },
+              {
+                question:
+                  "How do you structure a Compose file for a microservices application with shared and service-specific configurations?",
+                solution:
+                  "<p>The recommended pattern uses Compose's YAML anchors and extension fields for shared config, combined with override files for environment differences. (1) <strong>YAML anchors</strong>: define a reusable block with <code>&amp;anchor-name</code> and reference it with <code>*anchor-name</code>. Use <code>&lt;&lt;: *anchor</code> to merge into a service. Common anchor: logging config, resource limits, common labels, shared restart policy. (2) <strong>Extension fields</strong> (x-fields): top-level keys starting with x- are ignored by Compose but valid YAML — use them as anchor definitions: <code>x-common-env: &amp;common-env</code>. (3) <strong>Network segmentation</strong>: group services into networks by trust level. All services get the monitoring network for Prometheus scraping. Public services get the edge network. Database services get the data network with internal: true. (4) <strong>Per-environment override files</strong>: base file has no port mappings (services communicate internally). Override adds port mappings for dev. Prod override adds resource limits, logging drivers, and image tags. (5) <strong>External services</strong>: declare external: true on volumes and networks that exist outside this Compose project — useful for sharing a database volume between a primary app and a background worker deployed in separate Compose files.</p>",
+              },
+              {
+                question:
+                  "What is the COMPOSE_PROJECT_NAME and why does it matter?",
+                solution:
+                  "<p><code>COMPOSE_PROJECT_NAME</code> is the project name Compose uses as a namespace prefix for all resources it creates. By default, it is the basename of the directory containing the Compose file (e.g., if your compose file is in <code>/home/user/myapp/</code>, the project name is <code>myapp</code>). Compose prefixes: containers as <code>myapp-SERVICE-1</code>, networks as <code>myapp_NETWORK</code>, volumes as <code>myapp_VOLUME</code>. Why it matters: (1) <strong>Isolation between projects</strong>: two different apps in different directories get different project names, so their networks and volumes don't collide. (2) <strong>Running multiple instances</strong>: set different project names to run the same Compose file multiple times on one host (e.g., different feature branches): <code>docker compose -p feature-branch-123 up -d</code>. Each instance gets its own namespaced containers, networks, and volumes. (3) <strong>CI/CD isolation</strong>: use the branch name or PR number as the project name so parallel CI runs don't interfere: <code>COMPOSE_PROJECT_NAME=pr-456 docker compose up -d</code>. (4) <strong>Troubleshooting</strong>: when running <code>docker network ls</code> or <code>docker volume ls</code>, the project prefix immediately tells you which Compose project owns each resource. Set it explicitly with <code>-p NAME</code>, the <code>COMPOSE_PROJECT_NAME</code> env var, or the <code>name:</code> top-level key in the Compose file.</p>",
+              },
+              {
+                question:
+                  "How does Docker Compose V2 differ from V1, and what are the practical implications?",
+                solution:
+                  "<p>Docker Compose V1 was a standalone Python application installed separately as <code>docker-compose</code> (with a hyphen). Docker Compose V2 is a Go-based Docker CLI plugin that ships built-in with Docker Desktop and Docker Engine, invoked as <code>docker compose</code> (with a space). Key differences: (1) <strong>version: field is ignored</strong> in V2 — the schema is Compose Specification (a merged standard), not versioned. V1 used version: to select feature sets. Many teams still write <code>version: '3.8'</code> for V1 compatibility, but it does nothing in V2. (2) <strong>Performance</strong>: V2 is significantly faster due to Go vs Python, especially for large stacks. (3) <strong>depends_on with conditions</strong>: service_healthy and service_completed_successfully conditions are V2 features. V1 only had the simple list form. (4) <strong>--wait flag</strong>: V2 only. Blocks until all services are healthy. (5) <strong>Profiles</strong>: Compose Specification feature, works in V2. (6) <strong>Container naming</strong>: V1 used underscores (myapp_web_1), V2 uses hyphens (myapp-web-1). This is a breaking change for any tooling that hardcodes container names. (7) <strong>docker-compose.yml and docker compose.yaml</strong>: V2 also recognizes compose.yaml and compose.yml (without the docker- prefix) as valid default filenames. Practical implication: use <code>docker compose</code> in all new scripts and Dockerfiles. Add <code>docker-compose</code> as a fallback only if you need V1 compatibility.</p>",
+              },
+            ],
+
+            links: [
+              "https://docs.docker.com/compose/",
+              "https://docs.docker.com/compose/compose-file/",
+              "https://docs.docker.com/compose/compose-file/05-services/",
+              "https://docs.docker.com/compose/compose-file/06-networks/",
+              "https://docs.docker.com/compose/compose-file/07-volumes/",
+              "https://docs.docker.com/compose/compose-file/09-secrets/",
+              "https://docs.docker.com/compose/profiles/",
+              "https://docs.docker.com/compose/multiple-compose-files/",
+              "https://docs.docker.com/compose/environment-variables/",
+              "https://docs.docker.com/compose/production/",
             ],
           }
         ],
