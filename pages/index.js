@@ -1236,6 +1236,105 @@ export default function Home() {
                 </CardContent>
               </Card>
             </motion.div>
+
+            {/* Go Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push("/category/go")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-teal-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-50/50 to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 40 40"
+                        className="w-12 h-12"
+                        fill="none"
+                      >
+                        <rect width="40" height="40" rx="8" fill="#00ACD7" fillOpacity="0.12" />
+                        <text
+                          x="50%"
+                          y="54%"
+                          dominantBaseline="middle"
+                          textAnchor="middle"
+                          fontSize="22"
+                          fontWeight="bold"
+                          fontFamily="'Arial', sans-serif"
+                          fill="#00ACD7"
+                        >
+                          Go
+                        </text>
+                      </svg>
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">
+                      Golang
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-teal-600 mb-3 group-hover:scale-110 transition-transform">
+                    30+
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                    Goroutines, channels, interfaces & concurrency
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Linux Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push("/linux-practice")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-green-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="#16a34a"
+                        className="w-12 h-12"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
+                        />
+                      </svg>
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">
+                      Linux
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-green-600 mb-3 group-hover:scale-110 transition-transform">
+                    32+
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                    Commands, scripting, networking, SSH & sysadmin
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
           </div>
         </div>
       </section >

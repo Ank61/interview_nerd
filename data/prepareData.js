@@ -190490,4 +190490,3827 @@ echo "✅ Demo complete"`,
       },
     ],
   },
+  {
+    id: 15,
+    category: "linux",
+    themeBgColor: "#DCFCE7",
+    textColor: "#166534",
+    topicColor: "#16a34a",
+    lightColor: "#f0fdf4",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "Basic Navigation & File Operations",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Linux file system navigation is the foundation of command-line mastery. Every task — from deploying code to debugging servers — starts with knowing how to move through directories and manage files.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Essential Commands</h4>
+<pre><code class="language-bash">
+pwd           # Print current working directory
+ls -lah       # List files (long format, all, human-readable sizes)
+cd /var/log   # Change to absolute path
+cd ..         # Go up one directory
+cd -          # Jump back to previous directory
+mkdir -p a/b  # Create nested directories
+cp -r src dst # Copy directory recursively
+mv old new    # Move or rename
+rm -rf dir/   # Remove directory (use with caution!)
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Absolute vs Relative Paths</h4>
+<p style="line-height: 1.75;">An <strong>absolute path</strong> starts from root: <code>/home/ubuntu/app</code>. A <strong>relative path</strong> starts from your current location: <code>./config</code> or <code>../logs</code>. Use <code>pwd</code> anytime you get disoriented.</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Hidden Files</h4>
+<p style="line-height: 1.75;">Files beginning with a dot (<code>.</code>) are hidden. Use <code>ls -a</code> to reveal them. Common hidden files: <code>.bashrc</code>, <code>.env</code>, <code>.ssh/</code>.</p>
+</div>`,
+            examples: [
+              `# Navigate and inspect
+pwd && ls -lah
+cd /var/log && ls -lt | head -5
+
+# Create directory tree
+mkdir -p /tmp/myproject/src/components
+
+# Safe copy with progress
+cp -rv ./src/ ./backup/
+
+# Find a file by name
+find /etc -name "*.conf" 2>/dev/null`
+            ],
+            questions: [
+              {
+                question: "What is the difference between an absolute and relative path?",
+                solution: "<p>An <strong>absolute path</strong> always starts from the root directory (<code>/</code>) and specifies the full path regardless of your current location. Example: <code>/home/ubuntu/app/index.js</code>. A <strong>relative path</strong> is relative to your current working directory. Example: <code>./app/index.js</code> or <code>../logs/</code>. Use <code>pwd</code> to find your current directory when using relative paths.</p>"
+              },
+              {
+                question: "What does the `-p` flag do in `mkdir`?",
+                solution: "<p>The <code>-p</code> flag (parents) tells mkdir to create all necessary parent directories if they don't exist, without throwing an error. For example, <code>mkdir -p a/b/c</code> creates all three directories in one command. Without <code>-p</code>, mkdir would fail if <code>a/b</code> doesn't already exist.</p>"
+              },
+              {
+                question: "What's the difference between `rm -r` and `rmdir`?",
+                solution: "<p><code>rmdir</code> can only remove <strong>empty</strong> directories — it will fail if the directory contains any files or subdirectories. <code>rm -r</code> (recursive) removes the directory and all of its contents, including nested files and subdirectories. <code>rm -rf</code> adds the <code>-f</code> (force) flag to suppress prompts — use with extreme caution.</p>"
+              },
+            ],
+            links: [
+              "https://linuxcommand.org/lc3_lts0020.php",
+              "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+            ],
+          },
+          {
+            topic: "Text Processing & Search",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Linux is a text-based OS at heart. Knowing how to search, filter, and transform text streams is essential for log analysis, configuration management, and data extraction.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">grep — Global Regular Expression Print</h4>
+<pre><code class="language-bash">
+grep 'error' app.log          # Search for 'error'
+grep -i 'error' app.log       # Case-insensitive
+grep -v 'debug' app.log       # Invert: lines NOT matching
+grep -n 'fail' app.log        # Show line numbers
+grep -r 'TODO' ./src/         # Recursive search
+grep -A 3 'Exception' app.log # 3 lines after match
+grep -c 'error' app.log       # Count matching lines
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">sed — Stream Editor</h4>
+<pre><code class="language-bash">
+sed 's/old/new/' file.txt      # Replace first occurrence per line
+sed 's/old/new/g' file.txt     # Replace ALL occurrences
+sed -i 's/foo/bar/g' file.txt  # Edit file in place
+sed -i.bak 's/x/y/g' file.txt  # Edit in place, save backup
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">awk — Column Processor</h4>
+<pre><code class="language-bash">
+awk '{print $1}' file.txt         # Print 1st column
+awk -F ',' '{print $3}' data.csv  # CSV: print 3rd column
+awk 'NR>1 {print $2, $5}' file.txt # Skip header, print cols 2 and 5
+</code></pre>
+</div>`,
+            examples: [
+              `# Find all error logs from today
+grep "$(date +%Y-%m-%d)" /var/log/syslog | grep -i error
+
+# Replace a config value in place
+sed -i 's/DEBUG=true/DEBUG=false/g' .env
+
+# Extract usernames from /etc/passwd
+awk -F ':' '{print $1}' /etc/passwd
+
+# Sort unique IP addresses from access log
+awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -10`
+            ],
+            questions: [
+              {
+                question: "Explain what `grep -v` does.",
+                solution: "<p><code>grep -v</code> inverts the match — it prints all lines that do <strong>NOT</strong> match the given pattern. For example, <code>grep -v 'debug' app.log</code> shows all log lines except debug messages. It's useful for filtering out noise when searching for specific content.</p>"
+              },
+              {
+                question: "What is the purpose of the pipe `|` operator?",
+                solution: "<p>The pipe operator (<code>|</code>) connects the <strong>stdout</strong> of one command to the <strong>stdin</strong> of the next. This allows you to chain small, focused commands into powerful pipelines. Example: <code>ps aux | grep nginx | awk '{print $2}'</code> — lists all processes, filters for nginx, then extracts just the PIDs. This composability is a core philosophy of Unix/Linux.</p>"
+              },
+            ],
+            links: [
+              "https://www.gnu.org/software/grep/manual/grep.html",
+              "https://www.grymoire.com/Unix/Sed.html",
+              "https://www.grymoire.com/Unix/Awk.html",
+            ],
+          },
+          {
+            topic: "Process & System Monitoring",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Understanding what's running on your system and how resources are being used is critical for debugging performance issues and maintaining server health.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Viewing Processes</h4>
+<pre><code class="language-bash">
+ps aux                    # All processes (BSD syntax)
+ps -ef                    # All processes (System V)
+ps aux | grep nginx       # Filter by process name
+top                       # Live process monitor
+htop                      # Enhanced live monitor (if installed)
+pgrep nginx               # Get PID by name
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Killing Processes</h4>
+<pre><code class="language-bash">
+kill PID           # Send SIGTERM (graceful shutdown)
+kill -9 PID        # Send SIGKILL (immediate, no cleanup)
+kill -15 PID       # Send SIGTERM explicitly
+pkill nginx        # Kill by name
+killall node       # Kill all processes named 'node'
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">System Resources</h4>
+<pre><code class="language-bash">
+free -h            # RAM usage (human-readable)
+vmstat 1 5         # Virtual memory stats every 1s, 5 times
+uptime             # System uptime and load average
+df -h              # Disk usage
+iostat             # CPU and disk I/O stats
+</code></pre>
+</div>`,
+            examples: [
+              `# Find the top 5 CPU consuming processes
+ps aux --sort=-%cpu | head -6
+
+# Kill a process by name
+pkill -f "node server.js"
+
+# Watch memory usage live (refresh every 2s)
+watch -n 2 free -h
+
+# Check system load averages
+uptime`
+            ],
+            questions: [
+              {
+                question: "What is a zombie process?",
+                solution: "<p>A zombie process is a process that has completed execution but still has an entry in the process table because its parent hasn't read its exit status yet (hasn't called <code>wait()</code>). Zombie processes don't consume CPU or memory, but they occupy a slot in the process table. They appear as <code>Z</code> in <code>ps</code> output. You typically can't kill them directly — you need to kill or signal the parent process to reap them.</p>"
+              },
+              {
+                question: "What is the difference between SIGTERM and SIGKILL?",
+                solution: "<p><strong>SIGTERM (signal 15)</strong> is the default kill signal. It asks the process to terminate gracefully — the process can catch this signal, clean up resources, flush buffers, and then exit. Most well-behaved applications respond to SIGTERM. <strong>SIGKILL (signal 9)</strong> is immediate and unconditional — the kernel forcibly terminates the process with no chance for cleanup. This can lead to data corruption or incomplete transactions. Always try SIGTERM first; use SIGKILL only as a last resort.</p>"
+              },
+            ],
+            links: [
+              "https://www.man7.org/linux/man-pages/man1/ps.1.html",
+              "https://www.man7.org/linux/man-pages/man1/top.1.html",
+            ],
+          },
+          {
+            topic: "Permissions & File Ownership",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Linux permissions are a three-layer security model controlling who can read, write, and execute files. Misconfigured permissions are one of the most common causes of deployment and security issues.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Permission Structure</h4>
+<p style="line-height: 1.75;">A permission string like <code>-rwxr-xr--</code> breaks down as:</p>
+<ul style="margin-left: 1.5rem; list-style: disc;">
+  <li><code>-</code> — type (- for file, d for directory, l for symlink)</li>
+  <li><code>rwx</code> — Owner permissions (read, write, execute)</li>
+  <li><code>r-x</code> — Group permissions</li>
+  <li><code>r--</code> — Others permissions</li>
+</ul>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">chmod (Change Mode)</h4>
+<pre><code class="language-bash">
+chmod 755 script.sh     # Owner: rwx, Group: r-x, Others: r-x
+chmod 600 id_rsa        # Owner: rw-, Group: ---, Others: ---
+chmod u+x deploy.sh     # Add execute for user (owner)
+chmod a-w readonly.txt  # Remove write for all (a = all)
+chmod -R 644 ./public/  # Recursive permission change
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">chown (Change Owner)</h4>
+<pre><code class="language-bash">
+chown ubuntu file.txt            # Change owner
+chown ubuntu:ubuntu file.txt     # Change owner and group
+chown -R www-data /var/www/html  # Recursive ownership change
+</code></pre>
+</div>`,
+            examples: [
+              `# Secure SSH key (must be 600 or ssh refuses to use it)
+chmod 600 ~/.ssh/id_rsa
+
+# Standard web directory permissions
+chmod 755 /var/www/html
+find /var/www/html -type f -exec chmod 644 {} \\;
+
+# Check current permissions
+ls -la /etc/passwd
+
+# Add yourself to the docker group
+sudo usermod -aG docker $USER`
+            ],
+            questions: [
+              {
+                question: "What does the permission `777` imply, and why is it dangerous?",
+                solution: "<p><code>chmod 777</code> grants <strong>full read, write, and execute permissions</strong> to the owner, group, AND all other users on the system. This is dangerous because: (1) Any user on the system can modify or delete the file. (2) Any user can execute malicious scripts. (3) For web servers, it allows web processes to write arbitrary files. The principle of least privilege dictates you should only grant the minimum permissions necessary.</p>"
+              },
+              {
+                question: "How do you recursively apply permissions to a directory?",
+                solution: "<p>Use the <code>-R</code> (recursive) flag: <code>chmod -R 755 /var/www/html</code>. However, be careful — applying <code>755</code> to all files in a web directory is wrong, because files should be <code>644</code> while directories should be <code>755</code>. The correct approach is: <code>find /var/www/html -type d -exec chmod 755 {} \\;</code> for directories and <code>find /var/www/html -type f -exec chmod 644 {} \\;</code> for files.</p>"
+              },
+            ],
+            links: [
+              "https://www.man7.org/linux/man-pages/man1/chmod.1.html",
+              "https://linuxize.com/post/linux-file-permissions/",
+            ],
+          },
+          {
+            topic: "Package Management",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Package managers handle the installation, updating, and removal of software. Knowing your package manager is essential for provisioning servers and maintaining software dependencies.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">apt — Debian/Ubuntu</h4>
+<pre><code class="language-bash">
+sudo apt update              # Refresh package index
+sudo apt upgrade -y          # Upgrade all packages
+sudo apt install nginx       # Install a package
+sudo apt remove nginx        # Remove (keep config files)
+sudo apt purge nginx         # Remove + config files
+sudo apt autoremove          # Clean unused dependencies
+apt search redis             # Search for a package
+apt show nodejs              # Show package details
+dpkg -l | grep python        # List installed packages matching 'python'
+dpkg -S /usr/bin/python3     # Find which package owns a file
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">yum/dnf — RHEL/CentOS/Fedora</h4>
+<pre><code class="language-bash">
+sudo dnf update              # Update all packages
+sudo dnf install nginx       # Install a package
+sudo dnf remove nginx        # Remove a package
+sudo dnf search redis        # Search packages
+rpm -qa | grep python        # List installed RPM packages
+</code></pre>
+</div>`,
+            examples: [
+              `# Full system update on Ubuntu
+sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y
+
+# Install multiple packages at once
+sudo apt install -y git curl wget vim htop
+
+# Hold a package at a specific version (prevent upgrade)
+sudo apt-mark hold nginx
+
+# Check which package provides a command
+dpkg -S $(which curl)`
+            ],
+            questions: [
+              {
+                question: "What is the difference between `apt remove` and `apt purge`?",
+                solution: "<p><code>apt remove</code> uninstalls the package binary but leaves behind configuration files (in <code>/etc/</code> and elsewhere). This is useful if you want to reinstall later with the same config. <code>apt purge</code> completely removes the package AND all its configuration files. Use purge when you want a completely clean slate.</p>"
+              },
+              {
+                question: "Why must you run `apt update` before `apt install`?",
+                solution: "<p><code>apt update</code> refreshes the local package index cache — it downloads the latest list of available packages and their versions from the configured repositories. Without running <code>apt update</code> first, apt may try to install from outdated package lists, resulting in 'package not found' errors or installing old versions. <code>apt update</code> doesn't actually install or upgrade anything — it only updates the local cache.</p>"
+              },
+            ],
+            links: [
+              "https://ubuntu.com/server/docs/package-management",
+              "https://www.debian.org/doc/manuals/debian-reference/ch02.en.html",
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Intermediate",
+        concepts: [
+          {
+            topic: "Shell Scripting",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Shell scripting automates repetitive tasks. A well-crafted script can save hours of manual work and eliminate human error in routine operations like backups, deployments, and log rotations.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Script Structure</h4>
+<pre><code class="language-bash">
+#!/bin/bash
+set -euo pipefail    # Strict mode: exit on error, unbound vars, pipe failures
+
+NAME="$1"             # First argument
+echo "Hello, $ {NAME}!"
+
+# Variables
+COUNT=5
+GREETING="Welcome"
+
+# Command substitution
+CURRENT_DATE=$(date +%Y-%m-%d)
+echo "Today is $CURRENT_DATE"
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Control Structures</h4>
+<pre><code class="language-bash">
+# Conditionals
+if [ -f "/etc/nginx/nginx.conf" ]; then
+  echo "Nginx config found"
+elif [ -f "/etc/apache2/apache2.conf" ]; then
+  echo "Apache config found"
+else
+  echo "No web server config found"
+fi
+
+# For loop
+for file in *.log; do
+  echo "Processing $file"
+done
+
+# While loop
+COUNTER=0
+while [ $COUNTER -lt 5 ]; do
+  echo "Count: $COUNTER"
+  ((COUNTER++))
+done
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Functions</h4>
+<pre><code class="language-bash">
+log() {
+  echo "[$(date '+%H:%M:%S')] $1"
+}
+
+log "Starting deployment..."
+log "Done!"
+</code></pre>
+</div>`,
+            examples: [
+              `#!/bin/bash
+set -euo pipefail
+
+# Backup script with timestamp
+BACKUP_DIR="/tmp/backups"
+SOURCE="$ {1:-/etc}"
+
+[ -z "$SOURCE" ] && { echo "Usage: $0 <source_dir>"; exit 1; }
+[ ! -d "$SOURCE" ] && { echo "Error: $SOURCE is not a directory"; exit 1; }
+
+mkdir -p "$BACKUP_DIR"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+BACKUP_FILE="$BACKUP_DIR/$(basename $SOURCE)_$TIMESTAMP.tar.gz"
+
+tar -czf "$BACKUP_FILE" "$SOURCE"
+echo "Backup created: $BACKUP_FILE ($(du -sh $BACKUP_FILE | cut -f1))"`
+            ],
+            questions: [
+              {
+                question: "What is the shebang line and why is it important?",
+                solution: "<p>The shebang (<code>#!</code>) is the first line of a script that tells the OS which interpreter to use. Common examples: <code>#!/bin/bash</code> for bash, <code>#!/usr/bin/env python3</code> for Python. Without it, the system doesn't know how to execute the file. <code>#!/usr/bin/env bash</code> is preferred over <code>#!/bin/bash</code> because it searches the PATH for bash, making the script more portable across systems where bash may be installed in different locations.</p>"
+              },
+              {
+                question: "What does `set -euo pipefail` do?",
+                solution: "<p><ul><li><code>-e</code>: Exit immediately if any command fails (returns non-zero exit code).</li><li><code>-u</code>: Treat unset variables as errors. This catches typos in variable names like <code>$USERR</code> instead of silently using empty strings.</li><li><code>-o pipefail</code>: A pipeline fails if any command in it fails. Without this, <code>false | true</code> returns success because the last command (<code>true</code>) succeeded.</li></ul>Together, they constitute 'strict mode' and catch subtle bugs that would otherwise silently produce wrong results.</p>"
+              },
+            ],
+            links: [
+              "https://www.shellscript.sh/",
+              "https://google.github.io/styleguide/shellguide.html",
+            ],
+          },
+          {
+            topic: "Networking Commands",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Network troubleshooting is a daily task for DevOps engineers. Knowing the right tool for each scenario — from checking open ports to tracing packet routes — is essential.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Port & Socket Inspection</h4>
+<pre><code class="language-bash">
+ss -tulpn               # All TCP/UDP listening sockets with process
+ss -tnp | grep :443     # Active connections on port 443
+netstat -tulpn          # Legacy (same as ss but slower)
+lsof -i :8080           # What's using port 8080?
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Connectivity Testing</h4>
+<pre><code class="language-bash">
+ping -c 4 google.com          # Test ICMP connectivity
+nc -zv host 5432              # Test if port 5432 is reachable
+curl -I https://example.com   # Check HTTP headers
+curl -o /dev/null -w "%{http_code}" https://api.example.com
+traceroute 8.8.8.8            # Trace network hops
+mtr google.com                # Interactive traceroute
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Network Interface & DNS</h4>
+<pre><code class="language-bash">
+ip addr show                  # Show all interfaces & IPs
+ip route show                 # Show routing table
+dig google.com                # DNS lookup
+nslookup google.com           # Alternative DNS lookup
+cat /etc/resolv.conf          # Current DNS servers
+cat /etc/hosts                # Local hostname overrides
+</code></pre>
+</div>`,
+            examples: [
+              `# Check which process is listening on port 80
+sudo ss -tulpn | grep ':80'
+
+# Test database connectivity from an app server
+nc -zv db.internal 5432 && echo "DB reachable" || echo "DB unreachable"
+
+# Check HTTP response time
+curl -o /dev/null -s -w "Connect: %{time_connect}s Total: %{time_total}s\\n" https://api.example.com
+
+# View active network connections
+ss -tnp | grep ESTABLISHED
+
+# DNS resolution check
+dig +short api.example.com`
+            ],
+            questions: [
+              {
+                question: "What does `netstat -tulpn` show you?",
+                solution: "<p>It shows all network sockets: <code>-t</code> = TCP, <code>-u</code> = UDP, <code>-l</code> = listening sockets only, <code>-p</code> = show PID and process name, <code>-n</code> = show numeric addresses (don't resolve hostnames). This command is essential for checking which services are listening on which ports. Note: <code>netstat</code> is deprecated; the modern replacement is <code>ss -tulpn</code> which is faster.</p>"
+              },
+              {
+                question: "What is the purpose of the `/etc/hosts` file?",
+                solution: "<p><code>/etc/hosts</code> is a local hostname-to-IP mapping file that is checked <strong>before</strong> DNS. You can add entries to override DNS resolution locally. Common uses: (1) Pointing a domain to a local IP during development: <code>127.0.0.1 api.myapp.local</code>. (2) Blocking sites by pointing them to 0.0.0.0. (3) In containerized environments, Docker and Kubernetes inject container hostnames here. On Linux, resolution order is controlled by <code>/etc/nsswitch.conf</code>.</p>"
+              },
+            ],
+            links: [
+              "https://www.man7.org/linux/man-pages/man8/ss.8.html",
+              "https://curl.se/docs/manpage.html",
+            ],
+          },
+          {
+            topic: "SSH & Remote Access",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  SSH (Secure Shell) is the standard protocol for secure remote server management. It encrypts all traffic and supports authentication via passwords or cryptographic key pairs.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Connecting to Servers</h4>
+<pre><code class="language-bash">
+ssh user@hostname                    # Connect (default port 22)
+ssh -p 2222 user@hostname            # Non-standard port
+ssh -i ~/.ssh/mykey.pem user@host    # Specify private key
+ssh -v user@host                     # Verbose (debug connection issues)
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Key-Based Authentication</h4>
+<pre><code class="language-bash">
+ssh-keygen -t ed25519 -C "my-key"   # Generate key pair
+cat ~/.ssh/id_ed25519.pub            # View public key
+ssh-copy-id user@host                # Copy public key to server
+# Or manually:
+cat ~/.ssh/id_ed25519.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">File Transfer</h4>
+<pre><code class="language-bash">
+scp file.txt user@host:~/            # Copy file to remote
+scp -r ./dir user@host:/tmp/         # Copy directory recursively
+rsync -avz ./src/ user@host:/app/    # Efficient sync (only changed files)
+rsync --delete -avz ./src/ user@host:/app/  # Sync and delete remote extras
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Port Forwarding (Tunneling)</h4>
+<pre><code class="language-bash">
+# Local forwarding: access remote service locally
+ssh -L 5432:db-host:5432 -N admin@jump.example.com
+
+# Remote forwarding: expose local service remotely
+ssh -R 8080:localhost:8080 user@server
+
+# SOCKS proxy
+ssh -D 9090 user@server
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">~/.ssh/config</h4>
+<pre><code class="language-bash">
+Host prod
+  HostName 10.0.1.5
+  User ubuntu
+  IdentityFile ~/.ssh/prod_key
+  Port 22
+
+Host dev-db
+  HostName 192.168.1.100
+  User admin
+  ProxyJump prod           # Jump through 'prod' to reach dev-db
+</code></pre>
+</div>`,
+            examples: [
+              `# Generate a strong key pair
+ssh-keygen -t ed25519 -C "$(whoami)@$(hostname)-$(date +%Y%m%d)"
+
+# Deploy code with rsync (common deployment pattern)
+rsync -avz --exclude='node_modules' --exclude='.git' \\
+  ./app/ ubuntu@prod.example.com:/var/www/app/
+
+# Create tunnel to access remote DB locally
+ssh -L 5432:rds.example.com:5432 -N -f ubuntu@bastion.example.com
+psql -h localhost -U myuser -d mydb
+
+# Run command on remote server without interactive shell
+ssh ubuntu@server 'systemctl restart nginx && systemctl status nginx'`
+            ],
+            questions: [
+              {
+                question: "How does public key authentication work?",
+                solution: "<p>Public key authentication uses asymmetric cryptography: (1) You generate a key pair — a <strong>private key</strong> (stays on your machine, secret) and a <strong>public key</strong> (shared with servers). (2) Your public key is added to <code>~/.ssh/authorized_keys</code> on the server. (3) When you connect, the server sends a random challenge encrypted with your public key. (4) Only you can decrypt it with your private key and respond correctly. (5) The server verifies the response and grants access. This eliminates password transmission over the network.</p>"
+              },
+              {
+                question: "What is local port forwarding and when would you use it?",
+                solution: "<p>Local port forwarding (<code>ssh -L local_port:target_host:target_port user@jump_host</code>) creates a tunnel: traffic sent to <code>local_port</code> on your machine is forwarded through the SSH connection to <code>target_host:target_port</code>. Use cases: (1) Access a database (e.g., RDS on port 5432) that's only reachable from a bastion/jump host. (2) Access internal web services from your developer machine. (3) Securely access services behind a firewall. Example: <code>ssh -L 5432:internal-db:5432 -N admin@bastion</code>.</p>"
+              },
+            ],
+            links: [
+              "https://www.ssh.com/academy/ssh/keygen",
+              "https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys",
+            ],
+          },
+          {
+            topic: "Disk & Storage Management",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Running out of disk space can crash production services. Knowing how to monitor, analyze, and free disk space is a critical sysadmin skill.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Disk Usage</h4>
+<pre><code class="language-bash">
+df -h                        # Filesystem disk usage (human-readable)
+df -h /var                   # Specific mount point
+du -sh /var/log              # Directory total size
+du -sh /var/log/*            # Each item inside a directory
+du -sh * | sort -rh          # Sort by size (largest first)
+du --max-depth=1 /var        # One level deep
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Finding Large Files</h4>
+<pre><code class="language-bash">
+find / -type f -size +500M 2>/dev/null          # Files > 500MB
+find /var/log -name "*.log" -mtime +30 -delete  # Delete logs older than 30 days
+ls -lhS /var/log/*.log | head -10               # Largest log files
+ncdu /var                                        # Interactive disk analyzer (if installed)
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Block Devices</h4>
+<pre><code class="language-bash">
+lsblk                        # List block devices (tree view)
+lsblk -f                     # Show filesystem types
+fdisk -l                     # Partition table details
+blkid                        # Device UUIDs and filesystems
+mount | column -t            # All currently mounted filesystems
+</code></pre>
+</div>`,
+            examples: [
+              `# Disk health check script
+df -h | awk 'NR>1 {
+  gsub(/%/, "", $5)
+  if ($5 > 85) print "WARNING:", $6, "at", $5"% capacity"
+}'
+
+# Find and remove old Docker images/containers consuming disk
+docker system prune -af
+
+# Find the 10 largest files on the system
+find / -type f -printf "%s %p\\n" 2>/dev/null | sort -rn | head -10 | awk '{printf "%.1fMB %s\\n", $1/1024/1024, $2}'
+
+# Check inodes (inode exhaustion can fill disk too)
+df -i`
+            ],
+            questions: [
+              {
+                question: "What is the difference between `df` and `du`?",
+                solution: "<p><code>df</code> (disk free) shows <strong>filesystem-level</strong> statistics — how much space is used and available on each mounted filesystem/partition. It reads from the filesystem metadata. <code>du</code> (disk usage) walks the directory tree and calculates the actual size of files and directories. The numbers can differ slightly because df counts filesystem overhead (e.g., reserved blocks). Use <code>df -h</code> for an overview and <code>du -sh dir/</code> to drill into what's consuming space.</p>"
+              },
+              {
+                question: "What does mounting a filesystem mean in Linux?",
+                solution: "<p>Mounting makes a storage device or filesystem <strong>accessible at a specific directory path</strong> (the mount point) within the existing directory tree. For example, <code>mount /dev/sdb1 /mnt/data</code> makes the contents of the partition <code>/dev/sdb1</code> accessible at <code>/mnt/data/</code>. In Linux, everything is part of one unified directory tree — physical disks, USB drives, network shares, and even virtual filesystems like <code>/proc</code> and <code>/sys</code> are accessed through mount points.</p>"
+              },
+            ],
+            links: [
+              "https://www.man7.org/linux/man-pages/man1/df.1.html",
+              "https://www.man7.org/linux/man-pages/man1/du.1.html",
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 15,
+    category: "go",
+    themeBgColor: "#DCFCE7",
+    textColor: "#166534",
+    topicColor: "#16a34a",
+    lightColor: "#f0fdf4",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "Go Tooling & Project Structure",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Go ships with a powerful, opinionated built-in toolchain. Unlike languages that rely on third-party build tools (Maven, Webpack, Cargo), Go gives you everything out of the box — dependency management, building, running, testing, formatting, and vetting — all via the single <code>go</code> command. Understanding this toolchain is essential for every Go developer.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">What is a Module? — <code>go mod init</code></h4>
+<p style="line-height: 1.75;">A <strong>module</strong> is the fundamental unit of versioning and distribution in Go (introduced in Go 1.11, made default in Go 1.16). Every Go project should be a module. You create one with:</p>
+<pre><code class="language-bash">
+go mod init github.com/yourname/myapp
+</code></pre>
+<p style="line-height: 1.75;">This generates two critical files:</p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li><code>go.mod</code> — declares your module path, the minimum Go version, and all direct dependencies with their versions.</li>
+  <li><code>go.sum</code> — records the cryptographic checksums of every dependency (direct + transitive). This file should always be committed to version control — it prevents supply-chain attacks by ensuring everyone gets the exact same bytes.</li>
+</ul>
+<pre><code class="language-go">
+// go.mod — example
+module github.com/yourname/myapp
+
+go 1.22
+
+require (
+  github.com/gin-gonic/gin v1.9.1
+  github.com/lib/pq        v1.10.9
+)
+</code></pre>
+<p style="line-height: 1.75;">The module path (e.g., <code>github.com/yourname/myapp</code>) is not just a name — it is the <strong>import path prefix</strong> used throughout your code when importing your own packages. It does not need to match a real URL during development, but it must for public packages.</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Modules vs Packages — The Key Distinction</h4>
+<p style="line-height: 1.75;">These two terms are often confused, even by experienced developers:</p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>A <strong>package</strong> is a directory of <code>.go</code> files that all share the same <code>package</code> declaration at the top. It is the basic unit of code organization, compilation, and reuse.</li>
+  <li>A <strong>module</strong> is a tree of packages rooted at a <code>go.mod</code> file. It is the unit of versioning and distribution — what you tag with <code>v1.2.3</code> on GitHub.</li>
+</ul>
+<pre><code class="language-go">
+// Every .go file must declare which package it belongs to
+package main    // special: defines an executable entry point
+package utils   // library package — reusable, not directly executable
+package db      // another library package
+</code></pre>
+<p style="line-height: 1.75;"><strong>Rules to remember:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>All files in the same directory <em>must</em> declare the same package name (except <code>_test.go</code> files which may use <code>package foo_test</code>).</li>
+  <li>Only one package per module can be named <code>main</code> with a <code>main()</code> function — that is the entry point. (Multiple <code>main</code> packages can exist in <code>cmd/</code> subdirectories.)</li>
+  <li>Package names are conventionally lowercase, short, and single words: <code>http</code>, <code>json</code>, <code>db</code>, <code>auth</code>.</li>
+  <li>The package name in the <code>package</code> declaration does not have to match the directory name, but by strong convention it should.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Imports — How Go Resolves Dependencies</h4>
+<p style="line-height: 1.75;">Import paths in Go are just strings that map to either a standard library package, an internal package, or an external module path.</p>
+<pre><code class="language-go">
+import (
+  // Standard library — no module path prefix needed
+  "fmt"
+  "os"
+  "net/http"
+  "encoding/json"
+
+  // Internal package — uses your module path as prefix
+  "github.com/yourname/myapp/internal/db"
+  "github.com/yourname/myapp/pkg/utils"
+
+  // Third-party — must be declared in go.mod
+  "github.com/gin-gonic/gin"
+  "github.com/lib/pq"
+)
+</code></pre>
+<p style="line-height: 1.75;"><strong>Critical Go import rules:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li><strong>Unused imports are a compile error</strong> — not a warning. Go refuses to compile if you import something you don't use. This enforces clean code at the language level.</li>
+  <li><strong>Circular imports are forbidden</strong> — Package A cannot import B if B imports A. Design your package hierarchy to be a DAG (directed acyclic graph).</li>
+  <li><strong>Aliasing imports</strong> — You can rename an import to avoid conflicts or improve readability:</li>
+</ul>
+<pre><code class="language-go">
+import (
+  "fmt"
+  myfmt "github.com/yourname/myapp/fmt"  // aliased to avoid collision
+
+  _ "github.com/lib/pq"   // blank import: run init() for side effects only
+  . "math"                 // dot import: use exported names without prefix (avoid!)
+)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Workspace Structure — Standard Go Layout</h4>
+<p style="line-height: 1.75;">Go does not enforce a specific project layout, but the community has converged on a widely-used structure:</p>
+<pre><code class="language-bash">
+myapp/
+├── go.mod                  # Module declaration + dependencies
+├── go.sum                  # Dependency checksums (commit this!)
+├── main.go                 # Entry point for single-binary apps
+│
+├── cmd/                    # Multiple binaries (each has its own main.go)
+│   ├── server/
+│   │   └── main.go         # go build ./cmd/server
+│   └── worker/
+│       └── main.go         # go build ./cmd/worker
+│
+├── internal/               # Private packages — compiler enforced
+│   ├── db/
+│   │   ├── db.go
+│   │   └── db_test.go
+│   └── auth/
+│       └── auth.go
+│
+├── pkg/                    # Public reusable packages (importable externally)
+│   └── utils/
+│       └── utils.go
+│
+├── api/                    # API definitions: OpenAPI specs, Protobuf files
+│   └── openapi.yaml
+│
+├── configs/                # Config files (yaml, json, toml)
+│   └── config.yaml
+│
+└── scripts/                # Shell scripts for CI, migrations, etc.
+    └── migrate.sh
+</code></pre>
+<p style="line-height: 1.75;"><strong>The <code>internal/</code> directory</strong> is special — it is <em>compiler-enforced</em> access control. Any package inside <code>internal/</code> can only be imported by code rooted at the parent of <code>internal/</code>. External modules attempting to import it will get a compile error. This is Go's way of having "package-private" visibility at the module level.</p>
+<pre><code class="language-bash">
+# ALLOWED: same module, parent of internal/
+github.com/yourname/myapp/cmd/server  →  can import  github.com/yourname/myapp/internal/db
+
+# FORBIDDEN: external module
+github.com/someone/otherapp           →  cannot import  github.com/yourname/myapp/internal/db
+# compile error: use of internal package not allowed
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;"><code>go run</code> — Compile and Execute in One Step</h4>
+<pre><code class="language-bash">
+go run main.go          # Run a single file
+go run .                # Run the package in the current directory
+go run ./cmd/server     # Run a specific package by path
+go run -race main.go    # Run with the race detector enabled
+</code></pre>
+<p style="line-height: 1.75;"><code>go run</code> compiles your code into a temporary binary, runs it, then discards the binary. It does <em>not</em> produce an artifact on disk. Use it during development for fast iteration. It supports all build flags including <code>-race</code> (data race detection) and <code>-tags</code> (build tags).</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;"><code>go build</code> — Compile to a Binary</h4>
+<pre><code class="language-bash">
+go build .                          # Build current package → binary named after module
+go build -o bin/server .            # Specify output path and name
+go build ./...                      # Build all packages (checks for errors)
+go build ./cmd/server               # Build a specific sub-package
+
+# Cross-compilation — Go makes this trivial
+GOOS=linux   GOARCH=amd64  go build -o bin/server-linux .
+GOOS=darwin  GOARCH=arm64  go build -o bin/server-mac   .
+GOOS=windows GOARCH=amd64  go build -o bin/server.exe   .
+
+# Production build — strip debug symbols, reduce binary size
+go build -ldflags="-s -w" -o bin/server .
+
+# Embed version info at build time
+go build -ldflags="-X main.version=1.2.3" -o bin/server .
+</code></pre>
+<p style="line-height: 1.75;"><code>go build</code> produces a statically linked binary by default (on most platforms) — no runtime dependencies, no DLL hell. This is one of Go's most operationally powerful features: you can copy the binary to any machine with the same OS/arch and it just works. Cross-compilation is first-class in Go: set <code>GOOS</code> and <code>GOARCH</code> environment variables and Go handles the rest with zero additional tooling.</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;"><code>go test</code> — Built-in Testing</h4>
+<pre><code class="language-bash">
+go test ./...                  # Run all tests in all packages recursively
+go test -v ./...               # Verbose — print each test name + PASS/FAIL
+go test -run TestFoo ./...     # Run only tests whose names match regex "TestFoo"
+go test -cover ./...           # Show coverage % per package
+go test -coverprofile=c.out ./... && go tool cover -html=c.out  # HTML coverage report
+go test -race ./...            # Run tests with the race detector
+go test -bench=. ./...         # Run benchmarks
+go test -benchmem -bench=. ./...  # Benchmarks + memory allocations
+go test -count=1 ./...         # Disable test caching (force re-run)
+go test -timeout 30s ./...     # Set a deadline (default is 10 minutes)
+</code></pre>
+<p style="line-height: 1.75;">Test files in Go follow strict conventions:</p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>Test files must end in <code>_test.go</code> — they are excluded from production builds automatically.</li>
+  <li>Test functions must be named <code>TestXxx(t *testing.T)</code> — where <code>Xxx</code> starts with an uppercase letter.</li>
+  <li>Benchmark functions: <code>BenchmarkXxx(b *testing.B)</code></li>
+  <li>Example functions (also used as docs): <code>ExampleXxx()</code></li>
+  <li>Test setup/teardown: <code>TestMain(m *testing.M)</code></li>
+</ul>
+<pre><code class="language-go">
+// utils/utils_test.go
+package utils_test   // black-box testing (external package)
+// OR
+package utils        // white-box testing (same package, access unexported)
+
+import (
+  "testing"
+  "github.com/yourname/myapp/pkg/utils"
+)
+
+func TestAdd(t *testing.T) {
+  got := utils.Add(2, 3)
+  want := 5
+  if got != want {
+    t.Errorf("Add(2, 3) = %d; want %d", got, want)
+  }
+}
+
+// Table-driven tests — idiomatic Go pattern
+func TestAddTable(t *testing.T) {
+  tests := []struct {
+    name    string
+    a, b    int
+    want    int
+  }{
+    {"positive", 2, 3, 5},
+    {"negative", -1, -1, -2},
+    {"zero",     0, 0, 0},
+  }
+  for _, tt := range tests {
+    t.Run(tt.name, func(t *testing.T) {
+      if got := utils.Add(tt.a, tt.b); got != tt.want {
+        t.Errorf("Add(%d, %d) = %d; want %d", tt.a, tt.b, got, tt.want)
+      }
+    })
+  }
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Dependency Management Commands</h4>
+<pre><code class="language-bash">
+go get github.com/gin-gonic/gin           # Add latest version of a dependency
+go get github.com/gin-gonic/gin@v1.9.1   # Pin to a specific version
+go get github.com/gin-gonic/gin@latest   # Update to latest
+go get github.com/gin-gonic/gin@none     # Remove a dependency
+
+go mod tidy       # Add missing + remove unused dependencies from go.mod/go.sum
+go mod download   # Download all dependencies to local module cache (~/.cache/go)
+go mod vendor     # Copy dependencies into a local vendor/ directory
+go mod verify     # Verify checksums match go.sum (detect tampering)
+go mod graph      # Print the full module dependency graph
+go list -m all    # List all modules (direct + transitive)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Other Essential Go Tools</h4>
+<pre><code class="language-bash">
+go fmt ./...      # Format all code (uses gofmt — non-negotiable in Go culture)
+go vet ./...      # Static analysis: catches common mistakes (unreachable code, wrong printf args, etc.)
+go doc fmt.Println  # View documentation for any symbol
+go env            # Print all Go environment variables (GOPATH, GOCACHE, etc.)
+go clean -cache   # Clear the build cache
+</code></pre>
+<p style="line-height: 1.75;"><code>go fmt</code> is not optional in the Go community — it is expected that all committed Go code is formatted with <code>gofmt</code>. This eliminates style debates entirely. Most editors run it automatically on save.</p>
+</div>`,
+
+            examples: [
+              `# --- Bootstrap a brand new project ---
+mkdir myapp && cd myapp
+go mod init github.com/yourname/myapp
+
+# Create standard directory structure
+mkdir -p cmd/server cmd/worker internal/db internal/auth pkg/utils
+
+# Create entry point
+cat > main.go << 'EOF'
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, Go!")
+}
+EOF
+
+# Run immediately without building a binary
+go run .`,
+
+              `# --- Add and manage dependencies ---
+go get github.com/gin-gonic/gin@latest
+go get github.com/joho/godotenv@v1.5.1
+
+# After editing imports, sync go.mod
+go mod tidy
+
+# Verify nothing has been tampered with
+go mod verify
+
+# Vendor dependencies for reproducible offline builds
+go mod vendor`,
+
+              `# --- Build for multiple platforms ---
+# Local build
+go build -o bin/server ./cmd/server
+
+# Production build (smaller binary, strip debug info)
+go build -ldflags="-s -w" -o bin/server ./cmd/server
+
+# Cross-compile for Linux from macOS
+GOOS=linux GOARCH=amd64 go build -o bin/server-linux ./cmd/server
+
+# Cross-compile for Windows
+GOOS=windows GOARCH=amd64 go build -o bin/server.exe ./cmd/server
+
+# Embed version at build time
+go build -ldflags="-X main.version=$(git describe --tags)" -o bin/server .`,
+
+              `# --- Testing workflow ---
+# Run all tests
+go test ./...
+
+# Verbose with race detector (always use in CI)
+go test -v -race ./...
+
+# Run a specific test by name
+go test -v -run TestUserLogin ./internal/auth/
+
+# Generate HTML coverage report
+go test -coverprofile=coverage.out ./...
+go tool cover -html=coverage.out -o coverage.html
+
+# Run benchmarks with memory stats
+go test -bench=. -benchmem ./pkg/utils/
+
+# Force re-run (bypass cache)
+go test -count=1 ./...`,
+
+              `# --- Code quality pipeline (typical CI) ---
+go fmt ./...           # Format
+go vet ./...           # Static analysis
+go mod tidy            # Clean dependencies
+go mod verify          # Verify checksums
+go test -race ./...    # Tests with race detection
+go build ./...         # Ensure everything compiles`
+            ],
+
+            questions: [
+              {
+                question: "What is the difference between a module and a package in Go?",
+                solution: `<p>A <strong>package</strong> is a directory of <code>.go</code> files that all share the same <code>package</code> declaration at the top of each file. It is the basic unit of code organization and compilation. A <strong>module</strong> is a collection of packages rooted at a <code>go.mod</code> file — it is the unit of versioning and distribution.</p>
+<p style="margin-top: 0.75rem;">Think of it this way: a module is like a Git repository, and packages are like directories within that repository. You might have a module <code>github.com/yourname/myapp</code> containing packages <code>internal/db</code>, <code>pkg/utils</code>, and <code>cmd/server</code>. The module is what you tag with <code>v1.2.3</code>; the packages are what you import in your code.</p>
+<p style="margin-top: 0.75rem;"><strong>Key rule:</strong> all <code>.go</code> files in the same directory must declare the same package name. The package name in the declaration doesn't have to match the directory name, but by convention it always should.</p>`
+              },
+              {
+                question: "What does `go mod init` actually create and why does the module path matter?",
+                solution: `<p><code>go mod init &lt;modulepath&gt;</code> creates two files: <code>go.mod</code> and (once you add dependencies) <code>go.sum</code>.</p>
+<ul style="padding-left: 1.5rem; margin-top: 0.5rem; line-height: 1.75;">
+  <li><strong>go.mod</strong> — declares the module path, minimum Go version, and direct dependencies with locked versions.</li>
+  <li><strong>go.sum</strong> — records cryptographic checksums for every dependency (direct + transitive). Commit this file. It prevents supply-chain attacks.</li>
+</ul>
+<p style="margin-top: 0.75rem;">The module path is critical because it becomes the <strong>import path prefix</strong> for all internal packages. If your module is <code>github.com/yourname/myapp</code>, then a package at <code>pkg/utils/</code> is imported as <code>"github.com/yourname/myapp/pkg/utils"</code>. If you change the module path, all internal imports break. It doesn't need to match a real URL locally, but for publishable open-source code, it must resolve to where the code lives (so <code>go get</code> can find it).</p>`
+              },
+              {
+                question: "Why does Go refuse to compile with unused imports, and how do you handle side-effect-only imports?",
+                solution: `<p>Unused imports are a <strong>compile-time error</strong> in Go, not just a warning. This is a deliberate design decision by the Go team to enforce clean, maintainable code. Unused imports slow down compilation (Go reads and processes every import), indicate dead code or an incomplete refactor, and create ambiguity about what a package actually depends on.</p>
+<p style="margin-top: 0.75rem;">Sometimes you need to import a package purely for its <code>init()</code> side effects — registering a database driver, codec, or HTTP handler. In that case, use the <strong>blank identifier</strong>:</p>
+<pre><code class="language-go">import _ "github.com/lib/pq"         // registers PostgreSQL driver
+import _ "image/png"                  // registers PNG decoder
+import _ "net/http/pprof"             // registers /debug/pprof HTTP handlers
+</code></pre>
+<p style="margin-top: 0.75rem;">The <code>_</code> tells the compiler "I know I'm not using this directly — just run its init()." Without it, the compiler would reject the file.</p>`
+              },
+              {
+                question: "What is the difference between `go run` and `go build`, and when should you use each?",
+                solution: `<p><code>go run</code> compiles the code into a <em>temporary</em> binary, executes it, then discards the binary. No artifact is saved to disk. It's fast to invoke and ideal for development iteration.</p>
+<p style="margin-top: 0.75rem;"><code>go build</code> compiles the code into a <em>persistent binary</em> saved to disk (e.g., <code>./myapp</code> or <code>./bin/server</code>). This binary can be copied to any machine with the same OS/architecture and run without the Go toolchain installed — because Go produces statically linked binaries by default.</p>
+<p style="margin-top: 0.75rem;"><strong>When to use which:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Use <code>go run</code> during local development for quick feedback.</li>
+  <li>Use <code>go build</code> for CI pipelines, Docker images, and anything you deploy.</li>
+  <li>Use <code>go build ./...</code> in CI just to verify everything compiles, even if you don't need the binaries immediately.</li>
+</ul>
+<p style="margin-top: 0.75rem;">For production binaries, add <code>-ldflags="-s -w"</code> to strip debug symbols and reduce binary size by 20–30%.</p>`
+              },
+              {
+                question: "What does `go mod tidy` do and when should you run it?",
+                solution: `<p><code>go mod tidy</code> reconciles your <code>go.mod</code> and <code>go.sum</code> with your actual source code by:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>Adding</strong> any modules that are imported in your code but not yet declared in <code>go.mod</code>.</li>
+  <li><strong>Removing</strong> any modules declared in <code>go.mod</code> that are no longer imported anywhere.</li>
+  <li><strong>Updating</strong> <code>go.sum</code> to match all required modules.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>When to run it:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>After adding or removing any import statement.</li>
+  <li>After running <code>go get</code> to add a dependency.</li>
+  <li>Before committing to version control.</li>
+  <li>As a step in your CI pipeline to ensure <code>go.mod</code> is always consistent with the code.</li>
+</ul>
+<p style="margin-top: 0.75rem;">A common CI check is: run <code>go mod tidy</code> and then verify that <code>go.mod</code> and <code>go.sum</code> have no uncommitted changes (using <code>git diff --exit-code</code>). If they do, the build fails — meaning a developer forgot to tidy before pushing.</p>`
+              },
+              {
+                question: "How does the `internal/` directory work and why is it enforced by the compiler?",
+                solution: `<p>The <code>internal/</code> directory is a compiler-enforced access control mechanism. Any package nested inside an <code>internal/</code> directory can <strong>only be imported by code within the parent of that <code>internal/</code> directory tree</strong>. Attempts from outside that tree cause a hard compile error:</p>
+<pre><code class="language-bash"># Module: github.com/yourname/myapp
+
+# ALLOWED — same module, inside parent tree
+github.com/yourname/myapp/cmd/server  →  github.com/yourname/myapp/internal/db  ✓
+
+# FORBIDDEN — external module
+github.com/someone/other              →  github.com/yourname/myapp/internal/db  ✗
+# Error: use of internal package github.com/yourname/myapp/internal/db not allowed
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Why this matters:</strong> Go has no <code>private</code> or <code>protected</code> keyword at the module level. Before <code>internal/</code>, the only way to prevent external use of a package was documentation ("please don't import this"). The compiler enforcement means you can refactor or delete internal packages without worrying about breaking external consumers — because they <em>can't</em> import them. It's the clean way to have a stable public API (<code>pkg/</code>) while keeping implementation details truly private (<code>internal/</code>).</p>`
+              },
+              {
+                question: "What are table-driven tests in Go and why are they considered idiomatic?",
+                solution: `<p>Table-driven tests are a Go testing pattern where you define all your test cases as a slice of structs, then range over them running a sub-test for each. They are considered the idiomatic Go approach to testing because they keep test logic DRY, make adding new cases trivial (just add a struct literal), and produce clear output with <code>t.Run()</code>.</p>
+<pre><code class="language-go">func TestAdd(t *testing.T) {
+  tests := []struct {
+    name string
+    a, b int
+    want int
+  }{
+    {"both positive", 2, 3, 5},
+    {"both negative", -1, -2, -3},
+    {"zero", 0, 0, 0},
+  }
+  for _, tt := range tests {
+    t.Run(tt.name, func(t *testing.T) {
+      if got := Add(tt.a, tt.b); got != tt.want {
+        t.Errorf("Add(%d,%d) = %d; want %d", tt.a, tt.b, got, tt.want)
+      }
+    })
+  }
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">Using <code>t.Run()</code> creates named sub-tests. This means you can run a single failing case in isolation: <code>go test -run "TestAdd/both_negative"</code>. Without table-driven tests, you'd write a separate function per case — which gets repetitive fast and makes it hard to see the full coverage at a glance.</p>`
+              },
+              {
+                question: "What is cross-compilation in Go and how do you use it?",
+                solution: `<p>Cross-compilation is the ability to build a binary for a <em>different</em> OS or CPU architecture than the one you're currently running on. Go makes this first-class with zero additional tooling — just set two environment variables before <code>go build</code>:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><code>GOOS</code> — target operating system: <code>linux</code>, <code>darwin</code>, <code>windows</code>, <code>freebsd</code></li>
+  <li><code>GOARCH</code> — target CPU architecture: <code>amd64</code>, <code>arm64</code>, <code>386</code>, <code>arm</code></li>
+</ul>
+<pre><code class="language-bash">
+# Build for Linux amd64 from a Mac
+GOOS=linux GOARCH=amd64 go build -o bin/server-linux ./cmd/server
+
+# Build for Windows from Linux
+GOOS=windows GOARCH=amd64 go build -o bin/server.exe ./cmd/server
+</code></pre>
+<p style="margin-top: 0.75rem;">This works because Go includes its own compiler and standard library for each target — it doesn't rely on the host system's C compiler or libc (unless you use cgo). This is why Docker images for Go apps can be built on a Mac developer's machine and deployed to a Linux server seamlessly, without Docker needing to cross-compile — you just build for <code>GOOS=linux</code> before packaging.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/doc/code",
+              "https://go.dev/ref/mod",
+              "https://pkg.go.dev/cmd/go",
+              "https://go.dev/blog/using-go-modules",
+              "https://go.dev/doc/modules/gomod-ref",
+              "https://go.dev/doc/faq#unused_variable_and_import",
+              "https://pkg.go.dev/testing",
+              "https://go.dev/blog/subtests",
+            ],
+          },
+          {
+            topic: "Variables & Types",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Go is a <strong>statically typed, compiled language</strong>. Every variable has a type that is known at compile time — not at runtime. Unlike JavaScript (dynamic) or Python (dynamic), Go will refuse to compile if you assign a string to an integer variable, pass the wrong type to a function, or compare incompatible types. This strictness is a feature: it catches entire categories of bugs before your code ever runs.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Declaring Variables — Three Ways</h4>
+<p style="line-height: 1.75;">Go gives you three syntaxes for declaring variables, each with a distinct purpose:</p>
+
+<pre><code class="language-go">
+// 1. Full declaration — explicit type, explicit value
+var age int = 25
+var name string = "Alice"
+var isAdmin bool = true
+
+// 2. Type-inferred declaration — compiler deduces the type from the value
+var score = 100        // inferred as int
+var pi = 3.14159       // inferred as float64
+var greeting = "Hello" // inferred as string
+
+// 3. Short variable declaration — most common, only inside functions
+age := 25
+name := "Alice"
+pi := 3.14159
+isAdmin := true
+</code></pre>
+
+<p style="line-height: 1.75;"><strong>The := operator</strong> (short variable declaration) is syntactic sugar — it declares <em>and</em> assigns in one step. It can only be used inside a function body. At the package level (outside any function), you must use <code>var</code>. The compiler infers the type from the right-hand side.</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">var vs := — When to Use Which</h4>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>Use <strong>:=</strong> inside functions for most variable declarations — it's idiomatic and concise.</li>
+  <li>Use <strong>var</strong> at the package level (global scope).</li>
+  <li>Use <strong>var</strong> inside functions when you want to declare a variable but not assign a value yet (zero value initialization).</li>
+  <li>Use <strong>var</strong> when you need to explicitly set a type that differs from what inference would give — e.g., <code>var x float64 = 1</code> (without var, <code>x := 1</code> would be inferred as <code>int</code>).</li>
+</ul>
+
+<pre><code class="language-go">
+// Package-level — must use var
+var globalTimeout = 30 * time.Second
+var maxRetries int = 3
+
+// Inside a function
+func process() {
+  // declare without value — gets zero value
+  var result string      // result == ""
+  var count int          // count == 0
+  var ready bool         // ready == false
+
+  // declare + assign immediately — use :=
+  name := "Alice"
+  total := 0
+
+  // := can declare MULTIPLE variables at once
+  // at least one must be new on the left side
+  x, y := 10, 20
+  min, max := getRange()   // capturing multiple return values
+  val, err := strconv.Atoi("42")
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Grouped var Declarations</h4>
+<pre><code class="language-go">
+// Idiomatic for related package-level variables
+var (
+  host     = "localhost"
+  port     = 8080
+  timeout  = 30 * time.Second
+  maxConns = 100
+)
+
+// Inside functions too
+var (
+  firstName string
+  lastName  string
+  age       int
+)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Zero Values — Every Variable Has a Default</h4>
+<p style="line-height: 1.75;">This is one of Go's most important design decisions. In Go, <strong>every variable is always initialized</strong>. There is no concept of an "uninitialized variable" like in C. When you declare a variable without assigning a value, it gets the <strong>zero value</strong> for its type automatically. This eliminates a whole class of bugs.</p>
+
+<pre><code class="language-go">
+var i int       // 0
+var f float64   // 0.0
+var b bool      // false
+var s string    // "" (empty string, NOT nil)
+var p *int      // nil (pointers zero to nil)
+var sl []int    // nil (slices zero to nil)
+var m map[string]int  // nil (maps zero to nil)
+var fn func()         // nil (functions zero to nil)
+var err error         // nil (interfaces zero to nil)
+</code></pre>
+
+<p style="line-height: 1.75;"><strong>Practical implications of zero values:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>A <code>var count int</code> is ready to use as a counter immediately — no need to write <code>count := 0</code>.</li>
+  <li>A <code>var buf bytes.Buffer</code> is usable without any constructor call — <code>bytes.Buffer</code>'s zero value is a valid empty buffer.</li>
+  <li>A nil slice (<code>var s []int</code>) has length 0 and can be appended to — <code>append(s, 1)</code> works fine.</li>
+  <li>A nil map reads return zero values for any key, but <em>writing to a nil map panics</em> — always initialize maps with <code>make</code>.</li>
+</ul>
+<pre><code class="language-go">
+// Zero value structs — fields are individually zeroed
+type User struct {
+  Name  string   // ""
+  Age   int      // 0
+  Admin bool     // false
+}
+
+var u User   // {Name:"", Age:0, Admin:false}
+// u is fully usable — no constructor needed
+
+// Nil map READ is safe, WRITE panics
+var m map[string]int
+v := m["key"]   // returns 0, no panic — zero value of int
+m["key"] = 1    // PANIC: assignment to entry in nil map
+
+// Always initialize maps before writing:
+m = make(map[string]int)
+m["key"] = 1    // safe
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Basic Types — The Full Picture</h4>
+<pre><code class="language-go">
+// --- Integer types ---
+var a int     = 42      // platform-dependent: 64-bit on 64-bit systems (most common)
+var b int8    = 127     // -128 to 127
+var c int16   = 32767   // -32768 to 32767
+var d int32   = 2147483647
+var e int64   = 9223372036854775807
+var f uint    = 42      // unsigned, platform-dependent
+var g uint8   = 255     // 0 to 255 — also aliased as "byte"
+var h uint16  = 65535
+var i uint32  = 4294967295
+var j uint64  = 18446744073709551615
+var k uintptr = 0xc0000b4000  // stores a raw pointer address
+
+// Aliases (these ARE the same type, not just similar)
+var b2 byte = 255   // byte == uint8
+var r rune = 'A'    // rune == int32, represents a Unicode code point
+
+// --- Floating point ---
+var f32 float32 = 3.14   // 32-bit IEEE 754
+var f64 float64 = 3.14   // 64-bit IEEE 754 — default for floating point literals
+// NOTE: float64 is almost always preferred for precision
+
+// --- Complex numbers (rarely used outside scientific computing) ---
+var c64  complex64  = 1 + 2i
+var c128 complex128 = 1 + 2i
+
+// --- Boolean ---
+var isReady bool = true
+var isDone  bool = false
+// NOTE: no truthy/falsy in Go — only true/false, strictly
+
+// --- String ---
+var s string = "Hello, World"
+// Strings in Go are immutable sequences of bytes (UTF-8 encoded)
+// NOT null-terminated like C, NOT mutable like Java StringBuilder
+// len(s) returns BYTES, not characters
+s2 := "Hello, 世界"
+fmt.Println(len(s2))         // 13 (bytes, not 8 characters)
+fmt.Println([]rune(s2))      // convert to rune slice for character iteration
+
+// Multi-line raw string literal — backticks, no escape processing
+query := \`
+  SELECT *
+  FROM users
+  WHERE age > 18
+\`
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Type Inference — What the Compiler Infers</h4>
+<p style="line-height: 1.75;">When you use <code>:=</code> or <code>var x = value</code>, Go infers the type from the literal value. The rules are deterministic — knowing them prevents subtle bugs:</p>
+<pre><code class="language-go">
+x := 42          // int   (not int8, int16, int32 — always int)
+y := 3.14        // float64  (not float32 — always float64)
+z := true        // bool
+s := "hello"     // string
+c := 'A'         // rune (int32) — single quotes = rune, not string
+b := 1 + 2i      // complex128
+
+// TRAP: int and float64 are the defaults — to get other types, be explicit
+var small int8  = 42         // explicit int8
+var precise float32 = 3.14   // explicit float32
+small2 := int8(42)           // type conversion syntax
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Type Conversions — Explicit, Always</h4>
+<p style="line-height: 1.75;">Go has <strong>no implicit type conversions</strong>. There is no automatic coercion between numeric types. Every conversion must be written explicitly using the <code>T(value)</code> syntax. This prevents hidden precision loss and overflows.</p>
+<pre><code class="language-go">
+var i int = 42
+var f float64 = float64(i)   // must convert explicitly
+var u uint = uint(f)
+
+// This will NOT compile:
+var i int = 42
+var f float64 = i   // ERROR: cannot use i (int) as float64
+
+// String conversions
+n := 65
+s1 := string(n)              // "A" — interprets n as a Unicode code point!
+s2 := strconv.Itoa(n)        // "65" — numeric string (almost always what you want)
+s3 := fmt.Sprintf("%d", n)   // "65" — versatile formatting
+
+// String to int
+num, err := strconv.Atoi("42")   // always check err
+if err != nil {
+  log.Fatal(err)
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Constants — Compile-Time Values</h4>
+<p style="line-height: 1.75;">Constants in Go are values computed entirely at compile time. They can be typed or <strong>untyped</strong>. Untyped constants are one of Go's most elegant features — they carry extra precision and can be used in more contexts without explicit conversion.</p>
+<pre><code class="language-go">
+// Typed constant — fixed type
+const MaxSize int = 100
+const Pi float64 = 3.14159265358979323846
+
+// Untyped constant — more flexible
+const Limit = 100      // untyped integer constant
+const Ratio = 0.5      // untyped floating-point constant
+const AppName = "myapp" // untyped string constant
+
+// Untyped constants adapt to the context they're used in
+var x float64 = Limit   // works! 100 adapts to float64
+var y int     = Limit   // works! 100 adapts to int
+var z int32   = Limit   // works! 100 adapts to int32
+// A typed const int would require explicit conversion in each case.
+
+// Grouped constant declarations
+const (
+  StatusOK    = 200
+  StatusNotFound = 404
+  StatusError = 500
+)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">iota — Auto-Incrementing Constants</h4>
+<p style="line-height: 1.75;"><code>iota</code> is a special identifier available only inside <code>const</code> blocks. It starts at 0 and increments by 1 for each constant in the block. It's Go's idiomatic way to define enumerations.</p>
+<pre><code class="language-go">
+type Direction int
+
+const (
+  North Direction = iota   // 0
+  East                     // 1
+  South                    // 2
+  West                     // 3
+)
+
+// iota with expressions — each constant gets the expression applied
+type ByteSize float64
+
+const (
+  _           = iota             // discard first value (0) with blank identifier
+  KB ByteSize = 1 << (10 * iota) // 1 << 10 = 1024
+  MB                             // 1 << 20 = 1048576
+  GB                             // 1 << 30
+  TB                             // 1 << 40
+)
+
+// Custom string representation with iota
+type Weekday int
+
+const (
+  Sunday Weekday = iota
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+)
+
+func (d Weekday) String() string {
+  return [...]string{"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"}[d]
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Unused Variables — Compile Error</h4>
+<p style="line-height: 1.75;">Just like unused imports, Go refuses to compile if you declare a variable inside a function and never use it. This prevents accumulation of dead code. The blank identifier <code>_</code> is the escape hatch when you want to discard a value:</p>
+<pre><code class="language-go">
+// This will NOT compile:
+func main() {
+  x := 42   // ERROR: x declared and not used
+}
+
+// Use _ to intentionally discard a value
+val, _ := strconv.Atoi("42")    // discard the error (careful — only when safe)
+for _, v := range items { ... } // discard the index
+_, exists := m["key"]           // only care about existence, not value
+
+// NOTE: unused package-level variables are allowed — only function-level locals error
+var globalCounter int  // fine even if never used (but bad practice)
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- var vs := in practice ---
+package main
+
+import "fmt"
+
+// Package level — must use var
+var appVersion = "1.0.0"
+var maxConnections int = 100
+
+func main() {
+  // Zero value declarations — declare now, assign later
+  var userInput string
+  var retryCount int
+  var succeeded bool
+
+  fmt.Println(userInput, retryCount, succeeded) // "" 0 false
+
+  // Short declaration inside functions
+  name := "Alice"
+  age := 30
+  score := 98.5
+
+  // Multiple assignment
+  x, y := 10, 20
+  x, z := 30, 40  // x is reassigned, z is new — valid because z is new
+
+  fmt.Println(name, age, score, x, y, z)
+}`,
+
+              `// --- Type inference traps ---
+package main
+
+import "fmt"
+
+func main() {
+  // Integer literal always infers as int
+  a := 42
+  fmt.Printf("%T\n", a)  // int
+
+  // Floating point literal always infers as float64
+  b := 3.14
+  fmt.Printf("%T\n", b)  // float64
+
+  // Single-quoted character = rune (int32), NOT string
+  c := 'A'
+  fmt.Printf("%T = %v\n", c, c)  // int32 = 65
+
+  // To get a specific numeric type, be explicit
+  var small int8 = 42
+  var precise float32 = 3.14
+  
+  // Or use conversion syntax
+  d := int8(42)
+  e := float32(3.14)
+  fmt.Println(small, precise, d, e)
+
+  // No implicit conversion — this won't compile:
+  // var i int = 1
+  // var f float64 = i  // ERROR
+  // var f float64 = float64(i)  // must be explicit
+}`,
+
+              `// --- Zero values in depth ---
+package main
+
+import "fmt"
+
+type Config struct {
+  Host    string
+  Port    int
+  Debug   bool
+  Timeout float64
+}
+
+func main() {
+  // Struct zero value — every field initialized to its type's zero value
+  var cfg Config
+  fmt.Println(cfg)  // { 0 false 0}
+
+  // Zero-value struct is immediately usable without a constructor
+  // Many Go types are designed this way (bytes.Buffer, sync.Mutex, etc.)
+
+  // Nil slice — zero value, but safe to append
+  var names []string
+  fmt.Println(names == nil, len(names))  // true 0
+  names = append(names, "Alice")         // safe — append handles nil slice
+
+  // Nil map — zero value
+  var scores map[string]int
+  fmt.Println(scores == nil)  // true
+  fmt.Println(scores["Alice"]) // 0 — reading nil map is safe, returns zero value
+
+  // Writing to nil map PANICS:
+  // scores["Alice"] = 100  // panic: assignment to entry in nil map
+
+  // Always make before writing:
+  scores = make(map[string]int)
+  scores["Alice"] = 100  // safe
+}`,
+
+              `// --- Constants and iota ---
+package main
+
+import "fmt"
+
+type LogLevel int
+
+const (
+  DEBUG LogLevel = iota  // 0
+  INFO                   // 1
+  WARN                   // 2
+  ERROR                  // 3
+  FATAL                  // 4
+)
+
+func (l LogLevel) String() string {
+  return [...]string{"DEBUG", "INFO", "WARN", "ERROR", "FATAL"}[l]
+}
+
+type ByteSize float64
+
+const (
+  _           = iota             // skip 0
+  KB ByteSize = 1 << (10 * iota) // 1024
+  MB                             // 1048576
+  GB                             // 1073741824
+)
+
+// Untyped constants — flexible usage
+const MaxItems = 100
+
+func main() {
+  level := WARN
+  fmt.Println(level)          // WARN  (uses String() method)
+  fmt.Println(int(level))     // 2
+
+  fmt.Printf("1 KB = %.0f bytes\n", float64(KB))
+  fmt.Printf("1 MB = %.0f bytes\n", float64(MB))
+  fmt.Printf("1 GB = %.0f bytes\n", float64(GB))
+
+  // Untyped constant adapts to context
+  var x int = MaxItems       // works
+  var y float64 = MaxItems   // works — untyped adapts
+  fmt.Println(x, y)
+}`,
+
+              `// --- Type conversions and string handling ---
+package main
+
+import (
+  "fmt"
+  "strconv"
+)
+
+func main() {
+  // Numeric conversions — always explicit
+  i := 42
+  f := float64(i)
+  u := uint(f)
+  fmt.Println(i, f, u)
+
+  // int to string — two very different results!
+  n := 65
+  s1 := string(n)           // "A" — Unicode code point 65
+  s2 := strconv.Itoa(n)     // "65" — decimal string
+  s3 := fmt.Sprintf("%d", n) // "65" — formatted string
+  fmt.Println(s1, s2, s3)   // A 65 65
+
+  // string to int — always check error
+  num, err := strconv.Atoi("123")
+  if err != nil {
+    fmt.Println("parse error:", err)
+    return
+  }
+  fmt.Println(num + 1)  // 124
+
+  // String byte length vs character (rune) length
+  s := "Hello, 世界"
+  fmt.Println(len(s))          // 13 bytes (not 9 characters)
+  fmt.Println(len([]rune(s)))  // 9 characters
+
+  // Iterate by bytes (wrong for multi-byte chars)
+  for i, b := range []byte(s) { _ = i; _ = b }
+
+  // Iterate by runes (correct for Unicode)
+  for i, r := range s {
+    fmt.Printf("index=%d rune=%c\n", i, r)
+  }
+}`
+            ],
+
+            questions: [
+              {
+                question: "What is the difference between `var x int = 5`, `var x = 5`, and `x := 5`?",
+                solution: `<p>All three declare a variable <code>x</code> with value <code>5</code>, but with key differences:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><code>var x int = 5</code> — full declaration with explicit type. Verbose but unambiguous. Useful when you want to document the type clearly or when the inferred type would differ (e.g., <code>var x float64 = 5</code>).</li>
+  <li><code>var x = 5</code> — type is inferred from the value (<code>int</code>). Can be used at package level and inside functions.</li>
+  <li><code>x := 5</code> — short variable declaration. Infers type AND declares in one step. <strong>Only valid inside a function body.</strong> This is the most idiomatic Go syntax for local variables.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>When := can't be used:</strong> at the package level (outside any function). All package-level variables must use <code>var</code>. Also, <code>:=</code> requires at least one <em>new</em> variable on the left side — you can't use it to reassign an existing variable unless you're also declaring a new one alongside it.</p>`
+              },
+              {
+                question: "What are zero values in Go, and why does the language guarantee them?",
+                solution: `<p>Every variable in Go is automatically initialized to its type's <strong>zero value</strong> if no explicit value is provided. The zero values are:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><code>int</code>, all numeric types → <code>0</code></li>
+  <li><code>float64</code>, <code>float32</code> → <code>0.0</code></li>
+  <li><code>bool</code> → <code>false</code></li>
+  <li><code>string</code> → <code>""</code> (empty string, not nil)</li>
+  <li>pointers, slices, maps, channels, functions, interfaces → <code>nil</code></li>
+  <li>structs → each field is recursively zero-valued</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Why this matters:</strong> Go guarantees zero values to eliminate entire bug classes common in C/C++ where reading an uninitialized variable is undefined behavior. It also enables a powerful design pattern: Go types are often designed so their zero value is immediately useful. For example, <code>var buf bytes.Buffer</code> is a valid empty buffer with no constructor needed, and <code>var mu sync.Mutex</code> is a valid, unlocked mutex. This is called <em>"making the zero value useful."</em></p>`
+              },
+              {
+                question: "Why does Go have no implicit type conversions, and what problems does that prevent?",
+                solution: `<p>Go requires all type conversions to be <strong>explicit</strong> using the <code>T(value)</code> syntax. There is zero automatic coercion between numeric types — not even between <code>int</code> and <code>int64</code>, or <code>float32</code> and <code>float64</code>.</p>
+<p style="margin-top: 0.75rem;">This prevents several real-world bugs common in other languages:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>Silent precision loss</strong> — in languages with implicit coercion, assigning a <code>float64</code> to an <code>int</code> silently truncates. In Go, the programmer must write <code>int(f)</code> and consciously accept the truncation.</li>
+  <li><strong>Integer overflow surprises</strong> — passing a large <code>int64</code> to a function expecting <code>int32</code> silently wraps in some languages. Go rejects this at compile time.</li>
+  <li><strong>Confusing string conversions</strong> — <code>string(65)</code> gives <code>"A"</code> (Unicode code point), not <code>"65"</code>. This is explicit and documented. In Go you use <code>strconv.Itoa(65)</code> for the numeric string — you must consciously choose.</li>
+</ul>
+<p style="margin-top: 0.75rem;">The tradeoff is slightly more verbose code (more casts to write), but the compiler becomes a safety net that prevents an entire class of subtle numeric bugs.</p>`
+              },
+              {
+                question: "What is the difference between a typed and an untyped constant in Go?",
+                solution: `<p>A <strong>typed constant</strong> has a specific, fixed type declared explicitly:</p>
+<pre><code class="language-go">const Max int32 = 100
+</code></pre>
+<p style="margin-top: 0.75rem;">An <strong>untyped constant</strong> has no fixed type — it carries just a value with a <em>default kind</em> (integer, float, string, etc.):</p>
+<pre><code class="language-go">const Max = 100  // untyped integer constant
+</code></pre>
+<p style="margin-top: 0.75rem;">The key difference is flexibility. An untyped constant can be used wherever its value fits, adapting its type to the context. A typed constant requires explicit conversion when used in a different type context:</p>
+<pre><code class="language-go">const TypedMax int32 = 100
+const UntypedMax = 100
+
+var a int64 = UntypedMax  // works — untyped adapts
+var b int64 = TypedMax    // ERROR: cannot use int32 as int64
+var c int64 = int64(TypedMax)  // must convert explicitly
+</code></pre>
+<p style="margin-top: 0.75rem;">Untyped constants also carry extra precision — an untyped integer constant can represent values larger than any fixed integer type during compile-time calculations. This is why most package-level constants in Go (including all standard library constants like <code>math.Pi</code>) are untyped.</p>`
+              },
+              {
+                question: "What is `iota` and how does it work?",
+                solution: `<p><code>iota</code> is a special pre-declared identifier in Go that is available only inside <code>const</code> blocks. It represents the index of the current constant specification within that block — starting at <code>0</code> and incrementing by <code>1</code> for each constant.</p>
+<pre><code class="language-go">const (
+  A = iota  // 0
+  B         // 1
+  C         // 2
+)
+</code></pre>
+<p style="margin-top: 0.75rem;"><code>iota</code> resets to 0 at the start of every new <code>const</code> block. It's most commonly used to define enumerations, but its real power comes from using it in expressions:</p>
+<pre><code class="language-go">const (
+  _  = iota              // skip 0 with blank identifier
+  KB = 1 << (10 * iota)  // 1 << 10 = 1024
+  MB                     // 1 << 20
+  GB                     // 1 << 30
+)
+</code></pre>
+<p style="margin-top: 0.75rem;">You can also skip values with <code>_</code>, or give a constant a specific value to reset the sequence. <code>iota</code> is Go's idiomatic replacement for C-style <code>enum</code> — it doesn't create a new type by itself, but pairing it with a named type (<code>type Direction int</code>) plus a <code>String()</code> method gives you a fully functional, printable enumeration.</p>`
+              },
+              {
+                question: "What is the difference between `byte` and `rune` in Go?",
+                solution: `<p>Both are type aliases:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><code>byte</code> is an alias for <code>uint8</code> — represents a single <strong>byte</strong> (0–255). Used when working with raw binary data, ASCII text, or byte slices (<code>[]byte</code>).</li>
+  <li><code>rune</code> is an alias for <code>int32</code> — represents a single <strong>Unicode code point</strong>. Used when working with text that may contain multi-byte characters (Chinese, Arabic, emoji, etc.).</li>
+</ul>
+<p style="margin-top: 0.75rem;">This distinction is critical for string handling. Go strings are sequences of bytes (UTF-8 encoded). <code>len(s)</code> returns the <em>byte count</em>, not the character count. For the string <code>"Hello, 世界"</code>, <code>len()</code> returns <code>13</code> (bytes), not <code>9</code> (characters), because each Chinese character is 3 bytes in UTF-8.</p>
+<p style="margin-top: 0.75rem;">To correctly iterate over characters, use a <code>range</code> loop (which yields runes) or convert to <code>[]rune</code>:</p>
+<pre><code class="language-go">s := "Hello, 世界"
+fmt.Println(len(s))           // 13 — bytes
+fmt.Println(len([]rune(s)))   // 9  — characters
+
+for i, r := range s {
+  fmt.Printf("%d: %c\n", i, r)  // correct character iteration
+}
+</code></pre>`
+              },
+              {
+                question: "Why does Go have unused variable errors (not just warnings), and how do you intentionally discard a value?",
+                solution: `<p>Go makes unused local variables a <strong>compile error</strong> by design. The reasoning is the same as unused imports: unused variables indicate bugs (a wrong variable used in a calculation), dead code from incomplete refactors, or wasted allocation. Making it an error — not a lint warning — means CI always catches it, regardless of tooling setup.</p>
+<p style="margin-top: 0.75rem;">Note that this only applies to <strong>local variables inside functions</strong>. Package-level variables are allowed to be unused (though it's bad practice).</p>
+<p style="margin-top: 0.75rem;">To intentionally discard a value, use the <strong>blank identifier</strong> <code>_</code>:</p>
+<pre><code class="language-go">// Discard error (only when you're certain it's safe)
+val, _ := strconv.Atoi("42")
+
+// Discard loop index
+for _, name := range names {
+  fmt.Println(name)
+}
+
+// Discard map value, only check existence
+_, exists := m["key"]
+if exists { ... }
+
+// Discard multiple return values
+_, _, thirdValue := threeReturnValues()
+</code></pre>
+<p style="margin-top: 0.75rem;"><code>_</code> is not a variable — it's a write-only sink. You cannot read from it. Each use of <code>_</code> is independent, so you can use it multiple times in the same statement.</p>`
+              },
+              {
+                question: "What's the difference between `string(65)` and `strconv.Itoa(65)` in Go?",
+                solution: `<p>This is a classic Go trap that catches developers coming from other languages:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><code>string(65)</code> — converts the integer <code>65</code> as a <strong>Unicode code point</strong> to its string representation. Code point 65 is the character <code>'A'</code>, so this produces <code>"A"</code>.</li>
+  <li><code>strconv.Itoa(65)</code> — converts the integer <code>65</code> to its <strong>decimal string representation</strong>, producing <code>"65"</code>.</li>
+</ul>
+<p style="margin-top: 0.75rem;">Almost always when you want to convert a number to a string for display or storage, you want <code>strconv.Itoa()</code> (for integers) or <code>fmt.Sprintf("%f", f)</code> (for floats), not the <code>string()</code> conversion. The <code>string(n)</code> form is useful when you actually want to work with Unicode code points — for example, building strings from character values.</p>
+<p style="margin-top: 0.75rem;">The Go compiler now emits a warning for <code>string(intValue)</code> conversions in newer versions (Go 1.15+) via <code>go vet</code>, precisely because this is such a common source of confusion.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/basics/8",
+              "https://go.dev/tour/basics/11",
+              "https://go.dev/tour/basics/14",
+              "https://go.dev/tour/basics/15",
+              "https://go.dev/ref/spec#Types",
+              "https://go.dev/ref/spec#Constants",
+              "https://go.dev/ref/spec#Iota",
+              "https://go.dev/blog/constants",
+              "https://go.dev/doc/faq#convert_slice_to_string",
+            ],
+          },
+          {
+            topic: "Functions",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Functions are first-class citizens in Go. They are values — they can be assigned to variables, passed as arguments, and returned from other functions. Go functions have a few features that set them apart from most languages: <strong>multiple return values</strong>, <strong>named returns</strong>, <strong>variadic parameters</strong>, and a deeply embedded culture of returning errors explicitly. Understanding these patterns is not optional — they appear in every real Go codebase.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Basic Function Anatomy</h4>
+<pre><code class="language-go">
+// func  name     (parameters)       return type
+   func  add      (a int, b int)     int {
+     return a + b
+   }
+
+// Shorthand when parameters share a type
+func add(a, b int) int {
+  return a + b
+}
+
+// Multiple parameters of different types
+func greet(name string, age int, admin bool) string {
+  return fmt.Sprintf("Hello %s, age %d", name, age)
+}
+
+// No return value (void equivalent)
+func logMessage(msg string) {
+  fmt.Println(msg)
+}
+
+// No parameters, no return
+func resetState() {
+  globalCounter = 0
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Multiple Return Values — Go's Signature Feature</h4>
+<p style="line-height: 1.75;">Go functions can return multiple values. This is not a workaround or a tuple hack — it is a first-class language feature used pervasively throughout the standard library and all real Go code. The most common use is returning a result alongside an error.</p>
+<pre><code class="language-go">
+// Return two values — wrap return types in parentheses
+func divide(a, b float64) (float64, error) {
+  if b == 0 {
+    return 0, errors.New("division by zero")
+  }
+  return a / b, nil
+}
+
+// Calling a multi-return function — must capture all values
+result, err := divide(10, 2)
+if err != nil {
+  log.Fatal(err)
+}
+fmt.Println(result) // 5.0
+
+// Discard a value you don't need with _
+result, _ := divide(10, 2)  // ignoring error — only when truly safe
+
+// Multiple non-error returns are also common
+func minMax(nums []int) (int, int) {
+  min, max := nums[0], nums[0]
+  for _, n := range nums[1:] {
+    if n < min { min = n }
+    if n > max { max = n }
+  }
+  return min, max
+}
+
+lo, hi := minMax([]int{3, 1, 4, 1, 5, 9, 2, 6})
+fmt.Println(lo, hi)  // 1 9
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">The Error Return Pattern — The Most Important Go Idiom</h4>
+<p style="line-height: 1.75;">Go does not have exceptions. There is no <code>try/catch/throw</code>. Errors are <strong>values</strong> — they are returned explicitly as the last return value of a function. This is not a limitation; it is a deliberate design choice that makes error handling visible, traceable, and impossible to accidentally ignore (when you follow the pattern correctly).</p>
+<pre><code class="language-go">
+// The canonical Go error pattern
+result, err := doSomething()
+if err != nil {
+  // handle or propagate — never silently swallow
+  return fmt.Errorf("doSomething failed: %w", err)
+}
+// safe to use result here
+
+// Real-world example — chained operations
+func loadUserFromDB(id int) (*User, error) {
+  row, err := db.QueryRow("SELECT * FROM users WHERE id = ?", id)
+  if err != nil {
+    return nil, fmt.Errorf("query failed: %w", err)
+  }
+
+  var user User
+  if err := row.Scan(&user.Name, &user.Email); err != nil {
+    return nil, fmt.Errorf("scan failed: %w", err)
+  }
+
+  return &user, nil
+}
+
+// Caller handles the error
+user, err := loadUserFromDB(42)
+if err != nil {
+  log.Printf("could not load user: %v", err)
+  return
+}
+fmt.Println(user.Name)
+</code></pre>
+<p style="line-height: 1.75;"><strong>The error interface</strong> — <code>error</code> is just a built-in interface with one method:</p>
+<pre><code class="language-go">
+type error interface {
+  Error() string
+}
+
+// Creating errors
+err1 := errors.New("something went wrong")          // simple static message
+err2 := fmt.Errorf("user %d not found", userID)     // formatted message
+err3 := fmt.Errorf("db query: %w", originalErr)     // wrapping — preserves chain
+
+// Unwrapping — check if an error wraps a specific type
+var notFound *NotFoundError
+if errors.As(err, &notFound) {
+  // err is or wraps a *NotFoundError
+}
+
+// Check if error IS a specific sentinel value
+if errors.Is(err, sql.ErrNoRows) {
+  // handle not-found case
+}
+</code></pre>
+<p style="line-height: 1.75;"><strong>Rules the Go community follows:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>Error is always the <em>last</em> return value, by convention.</li>
+  <li>Return <code>nil</code> for no error, never an empty string or magic value.</li>
+  <li>On error, zero-value or <code>nil</code> the other return values.</li>
+  <li>Add context when propagating: <code>fmt.Errorf("context: %w", err)</code> — never just <code>return err</code> naked in a deep call stack.</li>
+  <li>Never use <code>_</code> to discard errors unless you have an explicit, documented reason.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Named Return Values</h4>
+<p style="line-height: 1.75;">Go allows you to name the return values in the function signature. Named returns create pre-declared local variables initialized to their zero values. A bare <code>return</code> (also called a <strong>naked return</strong>) automatically returns the current values of these named variables.</p>
+<pre><code class="language-go">
+// Named return values declared in signature
+func divide(a, b float64) (result float64, err error) {
+  if b == 0 {
+    err = errors.New("division by zero")
+    return  // naked return — returns (0.0, err) because result is zero-valued
+  }
+  result = a / b
+  return  // naked return — returns (result, nil)
+}
+
+// Named returns are most valuable for documentation
+func parseConfig(path string) (cfg *Config, err error) {
+  // reader sees immediately: this function returns a *Config and an error
+  // without having to read the body
+
+  f, err := os.Open(path)
+  if err != nil {
+    return  // cfg is nil, err is set
+  }
+  defer f.Close()
+
+  cfg = &Config{}
+  if err = json.NewDecoder(f).Decode(cfg); err != nil {
+    return  // cfg is nil (or partial), err is set
+  }
+  return  // cfg is populated, err is nil
+}
+
+// Named returns shine with defer for error wrapping
+func connectDB(dsn string) (db *sql.DB, err error) {
+  defer func() {
+    if err != nil {
+      err = fmt.Errorf("connectDB: %w", err)  // wrap all errors with context
+    }
+  }()
+
+  db, err = sql.Open("postgres", dsn)
+  if err != nil {
+    return  // defer will wrap this
+  }
+  if err = db.Ping(); err != nil {
+    return  // defer will wrap this too
+  }
+  return
+}
+</code></pre>
+<p style="line-height: 1.75;"><strong>When to use named returns vs when to avoid:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li><strong>Use</strong> when the return values benefit from documentation — e.g., a function returning two <code>int</code>s where names clarify their meaning.</li>
+  <li><strong>Use</strong> when using <code>defer</code> to post-process return values (error wrapping is the canonical case).</li>
+  <li><strong>Avoid</strong> in short functions where naked returns reduce clarity — the reader has to scroll up to the signature to know what's being returned.</li>
+  <li><strong>Never mix</strong> naked returns and explicit returns in the same function — it makes the flow very hard to follow.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Variadic Functions</h4>
+<p style="line-height: 1.75;">A variadic function accepts a variable number of arguments for its last parameter. The parameter is declared with <code>...</code> before the type and is received inside the function as a slice of that type.</p>
+<pre><code class="language-go">
+// Declare with ... before the type
+func sum(nums ...int) int {
+  total := 0
+  for _, n := range nums {
+    total += n
+  }
+  return total
+}
+
+// Call with any number of arguments
+sum()           // 0
+sum(1)          // 1
+sum(1, 2, 3)    // 6
+sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)  // 55
+
+// Spread a slice into a variadic function with ...
+nums := []int{1, 2, 3, 4, 5}
+sum(nums...)    // spread operator — passes slice elements as individual args
+
+// Variadic with preceding fixed parameters
+func logWithPrefix(prefix string, messages ...string) {
+  for _, msg := range messages {
+    fmt.Printf("[%s] %s\n", prefix, msg)
+  }
+}
+
+logWithPrefix("INFO", "server started", "listening on :8080")
+logWithPrefix("ERROR", "connection refused")
+
+// The variadic parameter is a slice inside the function
+func debugArgs(args ...interface{}) {
+  fmt.Printf("received %d args\n", len(args))
+  for i, arg := range args {
+    fmt.Printf("  [%d] %T = %v\n", i, arg, arg)
+  }
+}
+
+// fmt.Println is itself variadic:
+// func Println(a ...any) (n int, err error)
+</code></pre>
+<p style="line-height: 1.75;"><strong>Important rules for variadic functions:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>The variadic parameter must be the <em>last</em> parameter.</li>
+  <li>A function can have at most <em>one</em> variadic parameter.</li>
+  <li>If no arguments are passed, the variadic parameter is a <code>nil</code> slice (not an empty slice) — <code>len(args) == 0</code>.</li>
+  <li>You can only spread (<code>...</code>) a slice into a variadic call — not an array. Convert arrays to slices first: <code>arr[:]</code>.</li>
+  <li>Spreading <code>nil</code> is valid: <code>sum(nil...)</code> passes no elements.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Functions as Values — First-Class Functions</h4>
+<p style="line-height: 1.75;">In Go, functions are values with types. A function's type is its full signature. You can assign functions to variables, store them in maps, pass them as arguments, and return them from other functions.</p>
+<pre><code class="language-go">
+// Function type — declared explicitly
+type MathFn func(int, int) int
+
+// Function assigned to a variable
+add := func(a, b int) int { return a + b }
+mul := func(a, b int) int { return a * b }
+
+fmt.Println(add(2, 3))  // 5
+fmt.Println(mul(2, 3))  // 6
+
+// Function stored in a map — dispatch table pattern
+ops := map[string]MathFn{
+  "+": func(a, b int) int { return a + b },
+  "-": func(a, b int) int { return a - b },
+  "*": func(a, b int) int { return a * b },
+}
+
+result := ops["*"](6, 7)  // 42
+
+// Function as a parameter
+func apply(a, b int, fn func(int, int) int) int {
+  return fn(a, b)
+}
+
+apply(3, 4, add)  // 7
+apply(3, 4, func(a, b int) int { return a * b })  // 12 — inline anonymous function
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Higher-Order Functions</h4>
+<p style="line-height: 1.75;">A higher-order function either takes a function as an argument, returns a function, or both. These patterns are foundational in Go for middleware, decorators, functional transformations, and configuration.</p>
+<pre><code class="language-go">
+// --- Functions returning functions ---
+
+// Closure factory — each call creates an independent counter
+func makeCounter() func() int {
+  count := 0        // captured in the closure
+  return func() int {
+    count++
+    return count
+  }
+}
+
+counter1 := makeCounter()
+counter2 := makeCounter()
+
+counter1()  // 1
+counter1()  // 2
+counter1()  // 3
+counter2()  // 1 — independent state
+
+// Middleware / decorator pattern — wraps a function with extra behavior
+type Handler func(http.ResponseWriter, *http.Request)
+
+func withLogging(h Handler) Handler {
+  return func(w http.ResponseWriter, r *http.Request) {
+    start := time.Now()
+    h(w, r)   // call the original handler
+    log.Printf("%s %s took %v", r.Method, r.URL.Path, time.Since(start))
+  }
+}
+
+func withAuth(h Handler) Handler {
+  return func(w http.ResponseWriter, r *http.Request) {
+    token := r.Header.Get("Authorization")
+    if token == "" {
+      http.Error(w, "unauthorized", http.StatusUnauthorized)
+      return
+    }
+    h(w, r)
+  }
+}
+
+// Chain middleware (compose higher-order functions)
+http.HandleFunc("/api/data", withLogging(withAuth(myHandler)))
+
+// --- Map, Filter, Reduce (manual, no generics needed for clarity) ---
+
+// Map — transform each element
+func mapInts(nums []int, fn func(int) int) []int {
+  result := make([]int, len(nums))
+  for i, n := range nums {
+    result[i] = fn(n)
+  }
+  return result
+}
+
+doubled := mapInts([]int{1, 2, 3, 4}, func(n int) int { return n * 2 })
+// [2, 4, 6, 8]
+
+// Filter — keep elements matching a predicate
+func filterInts(nums []int, fn func(int) bool) []int {
+  var result []int
+  for _, n := range nums {
+    if fn(n) {
+      result = append(result, n)
+    }
+  }
+  return result
+}
+
+evens := filterInts([]int{1, 2, 3, 4, 5, 6}, func(n int) bool { return n%2 == 0 })
+// [2, 4, 6]
+
+// Reduce — fold elements into a single value
+func reduceInts(nums []int, initial int, fn func(int, int) int) int {
+  acc := initial
+  for _, n := range nums {
+    acc = fn(acc, n)
+  }
+  return acc
+}
+
+total := reduceInts([]int{1, 2, 3, 4, 5}, 0, func(acc, n int) int { return acc + n })
+// 15
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Closures — Capturing Variables</h4>
+<p style="line-height: 1.75;">A closure is a function that references variables from its surrounding scope. The closure <em>captures</em> the variable by reference — not by value. This means changes to the captured variable are reflected inside the closure, and vice versa.</p>
+<pre><code class="language-go">
+// Closure captures 'base' by reference
+func makeAdder(base int) func(int) int {
+  return func(x int) int {
+    return base + x   // base is captured from the outer function
+  }
+}
+
+add5  := makeAdder(5)
+add10 := makeAdder(10)
+
+add5(3)   // 8
+add10(3)  // 13
+
+// TRAP: Loop variable capture — classic Go gotcha
+funcs := make([]func(), 5)
+for i := 0; i < 5; i++ {
+  i := i  // SHADOW i — create a new variable per iteration
+  funcs[i] = func() { fmt.Println(i) }
+}
+for _, f := range funcs { f() }  // 0 1 2 3 4
+
+// Without shadowing:
+for i := 0; i < 5; i++ {
+  funcs[i] = func() { fmt.Println(i) }
+}
+for _, f := range funcs { f() }  // 5 5 5 5 5 — all capture same variable
+
+// NOTE: In Go 1.22+, loop variable semantics changed —
+// each iteration now gets its own copy, so the trap no longer applies.
+// But you'll see the shadowing pattern in older codebases — understand it.
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Anonymous Functions and Immediately Invoked Functions</h4>
+<pre><code class="language-go">
+// Anonymous function assigned to a variable
+double := func(n int) int { return n * 2 }
+fmt.Println(double(5))  // 10
+
+// Immediately invoked function expression (IIFE)
+result := func(a, b int) int {
+  return a + b
+}(3, 4)  // called immediately with args 3 and 4
+fmt.Println(result)  // 7
+
+// Common pattern: IIFE in goroutines to capture variables
+for _, item := range items {
+  item := item  // shadow for capture (pre-1.22)
+  go func() {
+    process(item)
+  }()
+}
+
+// Common pattern: IIFE for scoped error handling
+if err := func() error {
+  f, err := os.Open("file.txt")
+  if err != nil { return err }
+  defer f.Close()
+  return processFile(f)
+}(); err != nil {
+  log.Fatal(err)
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">defer — Schedule Cleanup at Function Exit</h4>
+<p style="line-height: 1.75;"><code>defer</code> schedules a function call to run when the surrounding function returns — regardless of how it returns (normal return, early return, or panic). Deferred calls are executed in <strong>LIFO</strong> (last-in, first-out) order.</p>
+<pre><code class="language-go">
+func processFile(path string) error {
+  f, err := os.Open(path)
+  if err != nil {
+    return fmt.Errorf("open: %w", err)
+  }
+  defer f.Close()   // guaranteed to run when processFile returns
+
+  // ... read and process f ...
+  return nil
+}
+
+// Multiple defers — LIFO order
+func multiDefer() {
+  defer fmt.Println("third")
+  defer fmt.Println("second")
+  defer fmt.Println("first")
+  // Output: first, second, third
+}
+
+// defer captures arguments at the time of the defer call, not at execution
+func deferArgs() {
+  x := 10
+  defer fmt.Println(x)   // captures x=10 NOW
+  x = 20
+  // Output: 10 (not 20)
+}
+
+// EXCEPTION: defer with a closure captures by reference
+func deferClosure() {
+  x := 10
+  defer func() { fmt.Println(x) }()  // captures reference to x
+  x = 20
+  // Output: 20
+}
+
+// Real-world: defer for mutex unlock
+func (s *Server) updateUser(id int, fn func(*User)) {
+  s.mu.Lock()
+  defer s.mu.Unlock()  // guaranteed unlock even if fn panics
+  fn(s.users[id])
+}
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- Multiple return values + error pattern ---
+package main
+
+import (
+  "errors"
+  "fmt"
+  "strconv"
+)
+
+var ErrNegative = errors.New("input must be non-negative")
+
+func sqrt(x float64) (float64, error) {
+  if x < 0 {
+    return 0, fmt.Errorf("sqrt(%v): %w", x, ErrNegative)
+  }
+  // Newton's method
+  z := x / 2
+  for i := 0; i < 10; i++ {
+    z -= (z*z - x) / (2 * z)
+  }
+  return z, nil
+}
+
+func parseAndSqrt(s string) (float64, error) {
+  n, err := strconv.ParseFloat(s, 64)
+  if err != nil {
+    return 0, fmt.Errorf("parseAndSqrt: invalid input %q: %w", s, err)
+  }
+  result, err := sqrt(n)
+  if err != nil {
+    return 0, fmt.Errorf("parseAndSqrt: %w", err)
+  }
+  return result, nil
+}
+
+func main() {
+  for _, input := range []string{"9", "2.25", "-4", "abc"} {
+    if result, err := parseAndSqrt(input); err != nil {
+      fmt.Printf("error: %v\n", err)
+      // Check if it's specifically our ErrNegative
+      if errors.Is(err, ErrNegative) {
+        fmt.Println("  -> negative number error")
+      }
+    } else {
+      fmt.Printf("sqrt(%s) = %.4f\n", input, result)
+    }
+  }
+}`,
+
+              `// --- Named returns with defer-based error wrapping ---
+package main
+
+import (
+  "fmt"
+  "os"
+  "encoding/json"
+)
+
+type Config struct {
+  Host string \`json:"host"\`
+  Port int    \`json:"port"\`
+}
+
+// Named returns let defer modify the returned error
+func loadConfig(path string) (cfg *Config, err error) {
+  // Wrap all errors with function context — one defer, covers everything
+  defer func() {
+    if err != nil {
+      err = fmt.Errorf("loadConfig(%q): %w", path, err)
+    }
+  }()
+
+  f, err := os.Open(path)
+  if err != nil {
+    return  // naked return: cfg=nil, err=os error (defer wraps it)
+  }
+  defer f.Close()
+
+  cfg = &Config{}
+  if err = json.NewDecoder(f).Decode(cfg); err != nil {
+    cfg = nil
+    return  // naked return: cfg=nil, err=decode error (defer wraps it)
+  }
+
+  return  // naked return: cfg=populated, err=nil (defer is a no-op)
+}
+
+func main() {
+  cfg, err := loadConfig("config.json")
+  if err != nil {
+    fmt.Println(err)
+    // Error message: loadConfig("config.json"): open config.json: no such file
+    return
+  }
+  fmt.Printf("Connecting to %s:%d\n", cfg.Host, cfg.Port)
+}`,
+
+              `// --- Variadic functions ---
+package main
+
+import "fmt"
+
+// Basic variadic
+func sum(nums ...int) int {
+  total := 0
+  for _, n := range nums {
+    total += n
+  }
+  return total
+}
+
+// Variadic with fixed prefix parameter
+func logFields(level string, fields ...string) {
+  fmt.Printf("[%s]", level)
+  for _, f := range fields {
+    fmt.Printf(" %s", f)
+  }
+  fmt.Println()
+}
+
+// Wrapping a variadic function — must spread with ...
+func sumPositive(nums ...int) int {
+  var pos []int
+  for _, n := range nums {
+    if n > 0 {
+      pos = append(pos, n)
+    }
+  }
+  return sum(pos...)  // spread pos slice into sum's variadic parameter
+}
+
+func main() {
+  fmt.Println(sum())                    // 0
+  fmt.Println(sum(1, 2, 3))            // 6
+  
+  nums := []int{4, 5, 6}
+  fmt.Println(sum(nums...))            // 15 — spread slice
+
+  logFields("INFO", "user=alice", "action=login", "ip=127.0.0.1")
+  logFields("ERROR", "msg=timeout")
+
+  fmt.Println(sumPositive(1, -2, 3, -4, 5))  // 9
+}`,
+
+              `// --- Higher-order functions and middleware ---
+package main
+
+import (
+  "fmt"
+  "time"
+)
+
+// Function type alias for readability
+type Transformer func(int) int
+
+// Apply a chain of transformers
+func pipeline(val int, fns ...Transformer) int {
+  for _, fn := range fns {
+    val = fn(val)
+  }
+  return val
+}
+
+// Function factory — returns configured functions
+func multiplier(factor int) Transformer {
+  return func(n int) int { return n * factor }
+}
+
+func adder(amount int) Transformer {
+  return func(n int) int { return n + amount }
+}
+
+// Decorator / middleware pattern
+func timed(name string, fn func() error) func() error {
+  return func() error {
+    start := time.Now()
+    err := fn()
+    fmt.Printf("%s took %v\n", name, time.Since(start))
+    return err
+  }
+}
+
+// Memoize — cache results of expensive function calls
+func memoize(fn func(int) int) func(int) int {
+  cache := make(map[int]int)
+  return func(n int) int {
+    if v, ok := cache[n]; ok {
+      return v
+    }
+    result := fn(n)
+    cache[n] = result
+    return result
+  }
+}
+
+func main() {
+  // Pipeline: start with 3, double it, add 10, triple it
+  result := pipeline(3,
+    multiplier(2),  // 6
+    adder(10),      // 16
+    multiplier(3),  // 48
+  )
+  fmt.Println(result)  // 48
+
+  // Memoized fibonacci
+  var fib func(int) int
+  fib = func(n int) int {
+    if n <= 1 { return n }
+    return fib(n-1) + fib(n-2)
+  }
+  fastFib := memoize(fib)
+  fmt.Println(fastFib(40))  // fast on repeated calls
+}`,
+
+              `// --- Closures and the loop variable trap ---
+package main
+
+import "fmt"
+
+func makeCounter(start int) (increment func(), get func() int, reset func()) {
+  count := start
+
+  increment = func() { count++ }
+  get       = func() int { return count }
+  reset     = func() { count = start }  // captures start too
+
+  return
+}
+
+func main() {
+  inc, get, reset := makeCounter(0)
+
+  inc(); inc(); inc()
+  fmt.Println(get())  // 3
+  reset()
+  fmt.Println(get())  // 0
+
+  // Loop variable trap — pre Go 1.22
+  funcs := make([]func(), 3)
+
+  // WRONG — all closures share the same 'i'
+  for i := 0; i < 3; i++ {
+    funcs[i] = func() { fmt.Print(i, " ") }
+  }
+  for _, f := range funcs { f() }  // 3 3 3
+
+  fmt.Println()
+
+  // CORRECT — shadow i to create a new variable per iteration
+  for i := 0; i < 3; i++ {
+    i := i  // new variable scoped to this iteration
+    funcs[i] = func() { fmt.Print(i, " ") }
+  }
+  for _, f := range funcs { f() }  // 0 1 2
+
+  fmt.Println()
+
+  // Alternative: pass as argument to the closure
+  for i := 0; i < 3; i++ {
+    funcs[i] = func(n int) func() {
+      return func() { fmt.Print(n, " ") }
+    }(i)
+  }
+  for _, f := range funcs { f() }  // 0 1 2
+}`
+            ],
+
+            questions: [
+              {
+                question: "Why does Go return errors as values instead of using exceptions?",
+                solution: `<p>This is one of Go's most deliberate design decisions. The Go team rejected exceptions because:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>Exceptions create invisible control flow.</strong> Any function call might throw, and the caller may not know. Errors as return values make failure paths <em>explicit</em> in the type signature — a function that returns <code>(T, error)</code> is announcing "this can fail."</li>
+  <li><strong>Errors are forced into the call site.</strong> You cannot accidentally ignore an error return in a linted Go codebase — the compiler flags unused variables, and linters flag unchecked errors. With exceptions, it's trivially easy to forget a <code>try/catch</code>.</li>
+  <li><strong>Error handling is just code.</strong> Because errors are values, you can store them, pass them around, wrap them, inspect them, and test error handling paths like any other code — no special try/catch mechanics needed.</li>
+</ul>
+<p style="margin-top: 0.75rem;">The pattern is: always check <code>if err != nil</code> immediately after a call that returns an error. When propagating up the stack, wrap with context: <code>return fmt.Errorf("operation: %w", err)</code>. The <code>%w</code> verb wraps the error so callers can use <code>errors.Is</code> and <code>errors.As</code> to inspect it.</p>`
+              },
+              {
+                question: "What are named return values and when should you use (or avoid) them?",
+                solution: `<p>Named return values are variables declared in the function signature that are pre-initialized to their zero values and returned by a bare <code>return</code> statement (naked return):</p>
+<pre><code class="language-go">func divide(a, b float64) (result float64, err error) {
+  if b == 0 {
+    err = errors.New("division by zero")
+    return  // returns (0.0, err)
+  }
+  result = a / b
+  return   // returns (result, nil)
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Use them when:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>The return values benefit from documentation — two <code>int</code>s become <code>(min, max int)</code>.</li>
+  <li>Using <code>defer</code> to post-process error values — the most practical use case. A single deferred function can add context to all errors the function returns.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Avoid them when:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>The function is short and naked returns reduce readability — the reader must scroll to the signature to know what's returned.</li>
+  <li>You mix naked returns and explicit returns in the same function — extremely confusing.</li>
+  <li>The names add no meaning (e.g., <code>(s string, err error)</code> — <code>s</code> tells you nothing).</li>
+</ul>`
+              },
+              {
+                question: "How do variadic functions work, and how do you pass a slice to one?",
+                solution: `<p>A variadic function accepts zero or more arguments for its last parameter, declared with <code>...</code> before the type. Inside the function, the variadic parameter behaves as a slice of that type:</p>
+<pre><code class="language-go">func sum(nums ...int) int {
+  // nums is []int inside here
+  total := 0
+  for _, n := range nums { total += n }
+  return total
+}
+
+sum(1, 2, 3)  // called with individual arguments
+</code></pre>
+<p style="margin-top: 0.75rem;">To pass an existing slice to a variadic function, use the <strong>spread operator</strong> <code>...</code> after the slice:</p>
+<pre><code class="language-go">nums := []int{1, 2, 3}
+sum(nums...)   // spreads the slice — equivalent to sum(1, 2, 3)
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Key rules:</strong> variadic parameter must be the last (and only variadic) parameter; if no arguments are passed, the parameter is a nil slice (not empty); you can only spread a slice, not an array (convert with <code>arr[:]</code>). Variadic functions are used heavily in the standard library — <code>fmt.Println</code>, <code>append</code>, and <code>errors.Join</code> are all variadic.</p>`
+              },
+              {
+                question: "What is a closure in Go, and what is the loop variable capture trap?",
+                solution: `<p>A closure is a function that captures variables from its enclosing scope. The closure holds a <em>reference</em> to the captured variable, not a copy — so mutations to the variable are visible inside the closure and vice versa:</p>
+<pre><code class="language-go">func makeAdder(n int) func(int) int {
+  return func(x int) int { return n + x }  // captures n by reference
+}
+add5 := makeAdder(5)
+add5(3)  // 8
+</code></pre>
+<p style="margin-top: 0.75rem;">The <strong>loop variable trap</strong>: when you create closures inside a loop, all closures capture the <em>same</em> loop variable. By the time they execute, the loop has finished and the variable holds its final value:</p>
+<pre><code class="language-go">// Wrong — all print 3
+for i := 0; i < 3; i++ {
+  go func() { fmt.Println(i) }()
+}
+
+// Fix 1: shadow the variable (pre-Go 1.22 idiom)
+for i := 0; i < 3; i++ {
+  i := i  // new variable per iteration
+  go func() { fmt.Println(i) }()
+}
+
+// Fix 2: pass as argument
+for i := 0; i < 3; i++ {
+  go func(n int) { fmt.Println(n) }(i)
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Note:</strong> Go 1.22 (released Feb 2024) changed loop variable semantics — each iteration now gets its own copy automatically. But you'll encounter the old pattern in every pre-1.22 codebase, so understanding it remains essential.</p>`
+              },
+              {
+                question: "What is a higher-order function? Give practical Go examples.",
+                solution: `<p>A higher-order function either accepts a function as a parameter, returns a function, or both. They are Go's primary tool for abstraction, code reuse, and building composable systems.</p>
+<p style="margin-top: 0.75rem;"><strong>Accepts a function (callback pattern):</strong></p>
+<pre><code class="language-go">func filter(nums []int, fn func(int) bool) []int {
+  var result []int
+  for _, n := range nums { if fn(n) { result = append(result, n) } }
+  return result
+}
+evens := filter([]int{1,2,3,4}, func(n int) bool { return n%2 == 0 })
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Returns a function (factory / decorator pattern):</strong></p>
+<pre><code class="language-go">// Middleware decorator — adds logging to any handler
+func withLogging(h http.HandlerFunc) http.HandlerFunc {
+  return func(w http.ResponseWriter, r *http.Request) {
+    log.Printf("%s %s", r.Method, r.URL.Path)
+    h(w, r)
+  }
+}
+http.HandleFunc("/api", withLogging(myHandler))
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Real-world uses in Go:</strong> HTTP middleware chains, <code>sort.Slice</code> (takes a less function), <code>sync.Once.Do</code> (takes a function), testing helpers, retry logic wrappers, and memoization. The <code>sort.Slice(items, func(i, j int) bool {...})</code> pattern is one of the most common higher-order function usages in Go.</p>`
+              },
+              {
+                question: "How does `defer` work, and what are its most important use cases and gotchas?",
+                solution: `<p><code>defer</code> schedules a function call to execute when the surrounding function returns — whether it returns normally, returns early, or panics. Deferred calls run in <strong>LIFO order</strong> (last deferred = first to run).</p>
+<p style="margin-top: 0.75rem;"><strong>Primary use cases:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Resource cleanup: <code>defer f.Close()</code>, <code>defer rows.Close()</code>, <code>defer mu.Unlock()</code> — immediately after acquiring a resource, defer its release. This is idiomatic Go.</li>
+  <li>Named return error wrapping: use a deferred closure to add context to all errors a function can return.</li>
+  <li>Panic recovery: <code>defer func() { recover() }()</code> is the only way to catch a panic.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Critical gotchas:</strong></p>
+<pre><code class="language-go">// 1. Arguments evaluated at defer time, not execution time
+x := 10
+defer fmt.Println(x)  // prints 10, not 20
+x = 20
+
+// 2. But closures capture by reference
+defer func() { fmt.Println(x) }()  // prints 20
+
+// 3. defer in a loop doesn't run until the function returns
+// (NOT when each iteration ends — can leak resources)
+for _, f := range files {
+  defer f.Close()  // ALL deferred until function exits — use a helper function instead
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">For loops with deferred cleanup, extract the body into a helper function so each call's defer runs at the end of that call, not the outer loop function.</p>`
+              },
+              {
+                question: "What is the difference between passing a function as a parameter vs storing it in a struct field?",
+                solution: `<p>Both are valid Go patterns and serve different purposes:</p>
+<p style="margin-top: 0.75rem;"><strong>Function parameter</strong> — the function is provided per-call. Suitable for callbacks, predicates, and one-off customization:</p>
+<pre><code class="language-go">func retry(attempts int, fn func() error) error {
+  for i := 0; i < attempts; i++ {
+    if err := fn(); err == nil { return nil }
+    time.Sleep(time.Second)
+  }
+  return errors.New("max retries exceeded")
+}
+// Each call to retry can use a different function
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Struct field</strong> — the function is configured once at construction time and used throughout the struct's lifetime. Suitable for dependency injection, strategy pattern, and replacing interfaces when only one method is needed:</p>
+<pre><code class="language-go">type Emailer struct {
+  send func(to, subject, body string) error  // injectable dependency
+}
+
+func (e *Emailer) WelcomeUser(user User) error {
+  return e.send(user.Email, "Welcome!", "Thanks for signing up.")
+}
+
+// In production: e := Emailer{send: ses.Send}
+// In tests:      e := Emailer{send: func(...) error { return nil }}
+</code></pre>
+<p style="margin-top: 0.75rem;">Struct function fields are a lightweight alternative to interfaces when you only need to inject a single behavior. An interface requires defining a type + method; a function field is just a field. However, for multiple methods, interfaces are cleaner and more testable.</p>`
+              },
+              {
+                question: "Can a Go function return another function that modifies the outer function's return values? How?",
+                solution: `<p>Yes — this is done by combining <strong>named return values</strong> with a <strong>deferred closure</strong>. The deferred closure can read and modify named return variables because it captures them by reference, and it runs <em>after</em> the return statement but <em>before</em> the caller receives the values.</p>
+<pre><code class="language-go">func connectDB(dsn string) (db *sql.DB, err error) {
+  defer func() {
+    if err != nil {
+      // Runs after any return in this function
+      // Can modify 'err' before the caller sees it
+      err = fmt.Errorf("connectDB: %w", err)
+    }
+  }()
+
+  db, err = sql.Open("postgres", dsn)
+  if err != nil {
+    return  // naked return — defer fires, wraps error
+  }
+  if err = db.Ping(); err != nil {
+    return  // naked return — defer fires, wraps error
+  }
+  return    // err is nil — defer is a no-op
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">This is the idiomatic pattern for adding consistent error context to every error path in a function without repeating <code>fmt.Errorf</code> at every return. The caller always sees errors prefixed with the function name, making stack traces much easier to read. This pattern is impossible without the combination of named returns + deferred closures — it's one of the most elegant uses of both features together.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/basics/4",
+              "https://go.dev/tour/basics/6",
+              "https://go.dev/tour/basics/7",
+              "https://go.dev/ref/spec#Function_declarations",
+              "https://go.dev/ref/spec#Defer_statements",
+              "https://go.dev/blog/defer-panic-and-recover",
+              "https://go.dev/blog/error-handling-and-go",
+              "https://go.dev/blog/errors-are-values",
+              "https://go.dev/ref/spec#Handling_panics",
+              "https://go.dev/doc/faq#exceptions",
+            ],
+          },
+          {
+            topic: "Control Flow",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Go deliberately has a minimal, opinionated set of control flow constructs. There is no <code>while</code>, no <code>do-while</code>, no <code>ternary operator</code>, and no <code>foreach</code>. Instead, Go unifies all looping into a single, flexible <code>for</code> statement, extends <code>switch</code> far beyond what most languages offer, and gives <code>if</code> a scoped initialization syntax that makes the error pattern cleaner. Less syntax, more consistency — this is the Go philosophy.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">if — With an Initialization Statement</h4>
+<p style="line-height: 1.75;">Go's <code>if</code> looks familiar but has one powerful addition: an optional <strong>initialization statement</strong> separated from the condition by a semicolon. Variables declared in the init statement are scoped to the entire <code>if/else</code> block — they don't leak into the surrounding function.</p>
+<pre><code class="language-go">
+// Standard if
+if x > 10 {
+  fmt.Println("big")
+}
+
+// if-else
+if x > 10 {
+  fmt.Println("big")
+} else {
+  fmt.Println("small")
+}
+
+// if-else if-else
+if x < 0 {
+  fmt.Println("negative")
+} else if x == 0 {
+  fmt.Println("zero")
+} else {
+  fmt.Println("positive")
+}
+
+// Init statement — the idiomatic Go pattern for error checks
+// val and err are scoped to this if/else block ONLY
+if val, err := strconv.Atoi("42"); err != nil {
+  fmt.Println("parse error:", err)
+} else {
+  fmt.Println("parsed:", val)  // val is accessible here too
+}
+// val and err are NOT accessible here — they don't leak out
+
+// Why this matters — compare verbose version:
+val, err := strconv.Atoi("42")   // val and err pollute function scope
+if err != nil {
+  fmt.Println("parse error:", err)
+}
+// val and err still exist here even though we're done with them
+
+// The init form is preferred when you only need the variable in the condition
+if n, err := fmt.Fprintf(w, "hello"); err != nil {
+  log.Printf("write failed after %d bytes: %v", n, err)
+}
+</code></pre>
+<p style="line-height: 1.75;"><strong>Important rules for Go if statements:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>Braces <code>{}</code> are <strong>always required</strong> — even for single-line bodies. No braceless <code>if</code>.</li>
+  <li>The opening brace must be on the <strong>same line</strong> as the <code>if</code> — Go's automatic semicolon insertion would break a newline here.</li>
+  <li>No parentheses around the condition — <code>if (x > 0)</code> compiles but is un-idiomatic.</li>
+  <li>No ternary operator — <code>x > 0 ? a : b</code> does not exist in Go. Use a full <code>if/else</code> block.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">switch — Powerful and Fall-Through-Free</h4>
+<p style="line-height: 1.75;">Go's <code>switch</code> is dramatically more powerful than C or Java's. Cases do <strong>not fall through by default</strong> — no need for <code>break</code> at the end of every case. Go's <code>switch</code> also accepts expressions in cases, can switch on no condition at all (acting like if-else chains), and can type-switch on interface values.</p>
+<pre><code class="language-go">
+// Basic switch — no fallthrough by default
+switch day {
+case "Monday":
+  fmt.Println("start of week")
+case "Friday":
+  fmt.Println("end of week")
+case "Saturday", "Sunday":   // multiple values per case
+  fmt.Println("weekend")
+default:
+  fmt.Println("midweek")
+}
+
+// Switch with initialization statement (same as if)
+switch os := runtime.GOOS; os {
+case "linux":
+  fmt.Println("Linux")
+case "darwin":
+  fmt.Println("macOS")
+default:
+  fmt.Printf("other: %s\n", os)
+}
+
+// Expressionless switch — equivalent to if-else if chain
+// Each case is a boolean expression — much cleaner than long if-else chains
+switch {
+case score >= 90:
+  grade = "A"
+case score >= 80:
+  grade = "B"
+case score >= 70:
+  grade = "C"
+default:
+  grade = "F"
+}
+
+// Explicit fallthrough — opt-in when you need C-style behavior
+switch n {
+case 1:
+  fmt.Println("one")
+  fallthrough   // explicitly continue into next case
+case 2:
+  fmt.Println("one or two")   // runs if n==1 OR n==2
+case 3:
+  fmt.Println("three")
+}
+
+// break in switch — exit early from a case
+switch status {
+case "active":
+  if !isVerified {
+    break   // exit this case early
+  }
+  processActiveUser()
+}
+
+// Type switch — switch on the dynamic type of an interface value
+func describe(i interface{}) string {
+  switch v := i.(type) {
+  case int:
+    return fmt.Sprintf("int: %d", v)
+  case string:
+    return fmt.Sprintf("string: %q (len=%d)", v, len(v))
+  case bool:
+    return fmt.Sprintf("bool: %v", v)
+  case []int:
+    return fmt.Sprintf("[]int with %d elements", len(v))
+  case nil:
+    return "nil"
+  default:
+    return fmt.Sprintf("unknown type: %T", v)
+  }
+}
+
+describe(42)          // "int: 42"
+describe("hello")     // "string: \"hello\" (len=5)"
+describe(nil)         // "nil"
+describe(3.14)        // "unknown type: float64"
+</code></pre>
+<p style="line-height: 1.75;"><strong>switch vs if-else — when to use which:</strong></p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>Use <code>switch</code> when branching on a single variable against multiple discrete values — cleaner and faster to scan.</li>
+  <li>Use expressionless <code>switch</code> (no condition) to replace long <code>if-else if</code> chains with complex boolean conditions.</li>
+  <li>Use <code>if</code> for simple two-branch logic or when conditions involve different variables.</li>
+  <li>Use type <code>switch</code> whenever you have an <code>interface{}</code> or <code>any</code> and need to branch on its concrete type — this is far safer than manual type assertions.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">for — Go's Only Loop</h4>
+<p style="line-height: 1.75;">Go has exactly <strong>one looping construct</strong>: <code>for</code>. It covers every looping scenario from other languages — traditional C-style loop, while loop, infinite loop, and range-based iteration. No <code>while</code>, no <code>do-while</code>, no <code>foreach</code> — all handled by different forms of <code>for</code>.</p>
+
+<pre><code class="language-go">
+// --- Form 1: Classic 3-clause for (C-style) ---
+for i := 0; i < 10; i++ {
+  fmt.Println(i)
+}
+
+// All three clauses are optional individually
+for i := 0; i < 10; {   // no post statement
+  i += 2
+}
+
+for ; i < 10; i++ {     // no init (i already declared)
+  fmt.Println(i)
+}
+
+// --- Form 2: Condition-only for (replaces while) ---
+// Go has no while keyword — use for with just a condition
+n := 1
+for n < 100 {
+  n *= 2
+}
+fmt.Println(n)  // 128
+
+// Equivalent to while (n < 100) { n *= 2 } in other languages
+
+// --- Form 3: Infinite loop ---
+// for with no condition loops forever — must break or return
+for {
+  conn, err := listener.Accept()
+  if err != nil {
+    log.Println(err)
+    continue
+  }
+  go handleConn(conn)
+}
+
+// --- Form 4: for range — iterate over data structures ---
+
+// Range over slice — yields index, value
+fruits := []string{"apple", "banana", "cherry"}
+for i, v := range fruits {
+  fmt.Printf("[%d] %s\n", i, v)
+}
+
+// Discard index when not needed
+for _, v := range fruits {
+  fmt.Println(v)
+}
+
+// Discard value — only iterate for index
+for i := range fruits {
+  fmt.Println(i)
+}
+
+// Range over map — yields key, value (ORDER IS NOT GUARANTEED)
+ages := map[string]int{"Alice": 30, "Bob": 25}
+for name, age := range ages {
+  fmt.Printf("%s is %d\n", name, age)
+}
+
+// Range over string — yields byte index, rune (Unicode code point)
+for i, r := range "Hello, 世界" {
+  fmt.Printf("index=%d rune=%c\n", i, r)
+  // Note: index jumps by byte size of rune, not always +1
+}
+
+// Range over channel — receive values until channel is closed
+ch := make(chan int)
+go func() {
+  for i := 0; i < 5; i++ { ch <- i }
+  close(ch)
+}()
+for v := range ch {
+  fmt.Println(v)  // 0 1 2 3 4
+}
+
+// Range over integer — Go 1.22+
+for i := range 5 {
+  fmt.Println(i)  // 0 1 2 3 4
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">break and continue</h4>
+<pre><code class="language-go">
+// break — exit the innermost loop
+for i := 0; i < 10; i++ {
+  if i == 5 {
+    break   // stops at 5
+  }
+  fmt.Println(i)
+}
+
+// continue — skip to next iteration
+for i := 0; i < 10; i++ {
+  if i%2 == 0 {
+    continue   // skip even numbers
+  }
+  fmt.Println(i)  // prints 1 3 5 7 9
+}
+
+// Labeled break — break out of an OUTER loop from an inner loop
+// This is Go's answer to "how do I break nested loops?"
+outer:
+for i := 0; i < 5; i++ {
+  for j := 0; j < 5; j++ {
+    if i+j == 6 {
+      break outer   // breaks the outer loop entirely, not just inner
+    }
+    fmt.Printf("(%d,%d) ", i, j)
+  }
+}
+
+// Labeled continue — continue the outer loop from inside an inner loop
+outer:
+for i := 0; i < 3; i++ {
+  for j := 0; j < 3; j++ {
+    if j == 1 {
+      continue outer   // skip to next iteration of outer loop
+    }
+    fmt.Printf("(%d,%d) ", i, j)
+  }
+}
+// Output: (0,0) (1,0) (2,0)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">goto — Exists, But Rarely Used</h4>
+<pre><code class="language-go">
+// goto exists in Go but is almost never the right tool
+// The compiler prevents jumping over variable declarations
+// The one legitimate use: error handling in generated code or low-level code
+
+func riskyOperation() error {
+  if err := stepOne(); err != nil {
+    goto cleanup
+  }
+  if err := stepTwo(); err != nil {
+    goto cleanup
+  }
+  return nil
+
+cleanup:
+  rollback()
+  return err   // NOTE: in practice, use defer instead — cleaner
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Common Patterns and Idioms</h4>
+<pre><code class="language-go">
+// --- Pattern 1: Early return (guard clauses) ---
+// Preferred over deeply nested if-else
+func processUser(u *User) error {
+  if u == nil {
+    return errors.New("user is nil")
+  }
+  if !u.IsActive {
+    return errors.New("user is inactive")
+  }
+  if u.Age < 18 {
+    return errors.New("user must be 18+")
+  }
+  // happy path — no nesting
+  doWork(u)
+  return nil
+}
+
+// --- Pattern 2: Scoped error check with if-init ---
+func readFile(path string) ([]byte, error) {
+  if f, err := os.Open(path); err != nil {
+    return nil, fmt.Errorf("open: %w", err)
+  } else {
+    defer f.Close()
+    return io.ReadAll(f)
+  }
+}
+
+// --- Pattern 3: Loop with index tracking ---
+// Find first matching element
+func findFirst(items []string, target string) int {
+  for i, v := range items {
+    if v == target {
+      return i
+    }
+  }
+  return -1   // not found
+}
+
+// --- Pattern 4: Infinite loop with select (very common in goroutines) ---
+func worker(jobs <-chan Job, quit <-chan struct{}) {
+  for {
+    select {
+    case job := <-jobs:
+      process(job)
+    case <-quit:
+      return   // clean shutdown
+    }
+  }
+}
+
+// --- Pattern 5: Range with index mutation ---
+// You CANNOT mutate a slice through a range value copy — use index
+nums := []int{1, 2, 3, 4, 5}
+for i := range nums {
+  nums[i] *= 2   // correct — modify via index
+}
+// NOT: for _, v := range nums { v *= 2 }  — modifies a copy, not the slice
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Range Value is a Copy — The Most Common Loop Trap</h4>
+<pre><code class="language-go">
+type Point struct{ X, Y int }
+
+points := []Point{{1, 2}, {3, 4}, {5, 6}}
+
+// WRONG — v is a copy, modifications don't affect the slice
+for _, v := range points {
+  v.X = 0   // modifies a local copy — original unchanged
+}
+
+// CORRECT — modify through index
+for i := range points {
+  points[i].X = 0   // modifies the actual element
+}
+
+// CORRECT — use pointer slice
+ppoints := []*Point{{1, 2}, {3, 4}}
+for _, p := range ppoints {
+  p.X = 0   // safe — p is a pointer copy, but it points to the original
+}
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- if with init statement — error handling patterns ---
+package main
+
+import (
+  "fmt"
+  "os"
+  "strconv"
+)
+
+func classify(n int) string {
+  switch {
+  case n < 0:
+    return "negative"
+  case n == 0:
+    return "zero"
+  case n < 10:
+    return "small"
+  case n < 100:
+    return "medium"
+  default:
+    return "large"
+  }
+}
+
+func main() {
+  // if with init — val and err scoped to block only
+  if val, err := strconv.Atoi("123"); err != nil {
+    fmt.Println("error:", err)
+  } else {
+    fmt.Println("parsed:", val, "->", classify(val))
+  }
+
+  // Chained init statements — file open and stat
+  if f, err := os.Open("go.mod"); err != nil {
+    fmt.Println("cannot open:", err)
+  } else if info, err := f.Stat(); err != nil {
+    f.Close()
+    fmt.Println("cannot stat:", err)
+  } else {
+    fmt.Printf("file: %s, size: %d bytes\n", info.Name(), info.Size())
+    f.Close()
+  }
+
+  // Guard clauses — early return instead of nesting
+  args := os.Args[1:]
+  if len(args) == 0 {
+    fmt.Println("usage: program <number>")
+    return
+  }
+  n, err := strconv.Atoi(args[0])
+  if err != nil {
+    fmt.Println("not a number:", args[0])
+    return
+  }
+  fmt.Println(classify(n))
+}`,
+
+              `// --- switch — all forms ---
+package main
+
+import (
+  "fmt"
+  "runtime"
+)
+
+type Shape interface {
+  Area() float64
+}
+type Circle struct{ Radius float64 }
+type Rectangle struct{ Width, Height float64 }
+func (c Circle) Area() float64      { return 3.14159 * c.Radius * c.Radius }
+func (r Rectangle) Area() float64  { return r.Width * r.Height }
+
+func describeShape(s Shape) string {
+  // Type switch — idiomatic way to handle interface variants
+  switch v := s.(type) {
+  case Circle:
+    return fmt.Sprintf("circle with radius %.2f, area=%.2f", v.Radius, v.Area())
+  case Rectangle:
+    return fmt.Sprintf("rectangle %gx%g, area=%.2f", v.Width, v.Height, v.Area())
+  default:
+    return fmt.Sprintf("unknown shape: %T", v)
+  }
+}
+
+func main() {
+  // Switch with init statement
+  switch os := runtime.GOOS; os {
+  case "darwin":
+    fmt.Println("macOS")
+  case "linux":
+    fmt.Println("Linux")
+  default:
+    fmt.Printf("Other: %s\n", os)
+  }
+
+  // Multiple values per case
+  for _, day := range []string{"Mon", "Sat", "Sun", "Wed"} {
+    switch day {
+    case "Sat", "Sun":
+      fmt.Println(day, "-> weekend")
+    case "Mon", "Fri":
+      fmt.Println(day, "-> near weekend")
+    default:
+      fmt.Println(day, "-> midweek")
+    }
+  }
+
+  // Expressionless switch — replaces if-else chain
+  score := 85
+  var grade string
+  switch {
+  case score >= 90:
+    grade = "A"
+  case score >= 80:
+    grade = "B"
+  case score >= 70:
+    grade = "C"
+  default:
+    grade = "F"
+  }
+  fmt.Printf("score=%d grade=%s\n", score, grade)
+
+  // Type switch
+  for _, s := range []Shape{Circle{5}, Rectangle{3, 4}} {
+    fmt.Println(describeShape(s))
+  }
+}`,
+
+              `// --- for: all four forms ---
+package main
+
+import "fmt"
+
+func main() {
+  // Form 1: Classic 3-clause
+  for i := 0; i < 5; i++ {
+    fmt.Print(i, " ")
+  }
+  fmt.Println()  // 0 1 2 3 4
+
+  // Form 2: Condition-only (while equivalent)
+  n := 1
+  for n < 128 {
+    n *= 2
+  }
+  fmt.Println(n)  // 128
+
+  // Form 3: Infinite loop with break
+  count := 0
+  for {
+    count++
+    if count >= 5 { break }
+  }
+  fmt.Println(count)  // 5
+
+  // Form 4: range over slice
+  fruits := []string{"apple", "banana", "cherry"}
+  for i, v := range fruits {
+    fmt.Printf("[%d]=%s\n", i, v)
+  }
+
+  // Range — discard index
+  for _, v := range fruits { fmt.Print(v, " ") }
+  fmt.Println()
+
+  // Range over map (unordered)
+  ages := map[string]int{"Alice": 30, "Bob": 25, "Carol": 35}
+  for name, age := range ages {
+    fmt.Printf("%s=%d\n", name, age)
+  }
+
+  // Range over string — yields runes, not bytes
+  for i, r := range "Go🚀" {
+    fmt.Printf("index=%d char=%c bytes=%d\n", i, r, len(string(r)))
+  }
+
+  // Range over integer (Go 1.22+)
+  for i := range 3 {
+    fmt.Print(i, " ")  // 0 1 2
+  }
+  fmt.Println()
+}`,
+
+              `// --- Labeled break/continue, range mutation trap ---
+package main
+
+import "fmt"
+
+func main() {
+  // Labeled break — exit outer loop from inner
+  fmt.Println("labeled break:")
+outer:
+  for i := 0; i < 4; i++ {
+    for j := 0; j < 4; j++ {
+      if i+j == 4 {
+        fmt.Printf("breaking at (%d,%d)\n", i, j)
+        break outer
+      }
+      fmt.Printf("(%d,%d) ", i, j)
+    }
+  }
+
+  // Labeled continue — skip to next outer iteration
+  fmt.Println("\nlabeled continue:")
+loop:
+  for i := 0; i < 3; i++ {
+    for j := 0; j < 3; j++ {
+      if j == 1 {
+        continue loop
+      }
+      fmt.Printf("(%d,%d) ", i, j)
+    }
+  }
+  fmt.Println()
+
+  // Range value is a COPY — mutation trap
+  type Point struct{ X, Y int }
+  points := []Point{{1, 2}, {3, 4}, {5, 6}}
+
+  // WRONG — modifying copy
+  for _, p := range points {
+    p.X = 99  // no effect on original
+  }
+  fmt.Println("after wrong mutation:", points)  // unchanged
+
+  // CORRECT — modify via index
+  for i := range points {
+    points[i].X = 99
+  }
+  fmt.Println("after correct mutation:", points)  // all X = 99
+}`,
+
+              `// --- Real-world patterns: worker loop, retry, pipeline ---
+package main
+
+import (
+  "errors"
+  "fmt"
+  "time"
+)
+
+// Retry loop — condition-only for as while
+func retry(attempts int, delay time.Duration, fn func() error) error {
+  for i := 0; i < attempts; i++ {
+    if err := fn(); err == nil {
+      return nil
+    } else if i < attempts-1 {
+      fmt.Printf("attempt %d failed, retrying in %v\n", i+1, delay)
+      time.Sleep(delay)
+    }
+  }
+  return fmt.Errorf("failed after %d attempts", attempts)
+}
+
+// Batch processor — range with chunking
+func processBatch(items []int, batchSize int, fn func([]int) error) error {
+  for i := 0; i < len(items); i += batchSize {
+    end := i + batchSize
+    if end > len(items) {
+      end = len(items)
+    }
+    if err := fn(items[i:end]); err != nil {
+      return fmt.Errorf("batch starting at %d: %w", i, err)
+    }
+  }
+  return nil
+}
+
+// Find with early return — avoids boolean flag variables
+func contains(haystack []string, needle string) bool {
+  for _, v := range haystack {
+    if v == needle {
+      return true   // exit immediately — no flag variable needed
+    }
+  }
+  return false
+}
+
+func main() {
+  call := 0
+  err := retry(3, 10*time.Millisecond, func() error {
+    call++
+    if call < 3 { return errors.New("not ready") }
+    return nil
+  })
+  fmt.Println("retry result:", err)
+
+  nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+  processBatch(nums, 3, func(batch []int) error {
+    fmt.Println("processing batch:", batch)
+    return nil
+  })
+
+  words := []string{"go", "is", "great"}
+  fmt.Println(contains(words, "is"))    // true
+  fmt.Println(contains(words, "rust"))  // false
+}`
+            ],
+
+            questions: [
+              {
+                question: "Why does Go have no `while` loop, and how do you replicate all looping patterns using only `for`?",
+                solution: `<p>Go's designers chose to unify all looping into a single <code>for</code> keyword to reduce cognitive overhead — one loop construct to learn, one to read. Every looping pattern maps cleanly:</p>
+<pre><code class="language-go">// while (condition) — condition-only for
+for n < 100 { n *= 2 }
+
+// while (true) — infinite loop
+for { ... }
+
+// do-while — infinite loop with end-of-body break condition
+for {
+  work()
+  if done { break }
+}
+
+// for-each — range form
+for i, v := range slice { ... }
+
+// C-style — three-clause form
+for i := 0; i < n; i++ { ... }
+</code></pre>
+<p style="margin-top: 0.75rem;">There is no <code>do-while</code> directly, but the infinite loop + trailing break achieves the same thing: execute the body at least once, check condition at the end. In practice, do-while is rarely needed in Go code.</p>`
+              },
+              {
+                question: "What is the init statement in `if` and `switch`, and why is it useful?",
+                solution: `<p>Both <code>if</code> and <code>switch</code> accept an optional initialization statement before the condition, separated by a semicolon. Variables declared in this statement are scoped to the entire <code>if/else</code> or <code>switch</code> block — they do not leak into the surrounding function scope.</p>
+<pre><code class="language-go">// Without init — err and val pollute function scope
+val, err := strconv.Atoi(s)
+if err != nil { return err }
+use(val)
+// val and err still visible here — clutter
+
+// With init — scoped to the if block
+if val, err := strconv.Atoi(s); err != nil {
+  return err
+} else {
+  use(val)
+}
+// val and err gone here — clean scope
+</code></pre>
+<p style="margin-top: 0.75rem;">This is especially valuable in functions with multiple error checks — each one can declare its own scoped variables without progressively polluting the function namespace. It also makes the intent clear: "declare this variable, and immediately check whether the operation failed."</p>`
+              },
+              {
+                question: "How does Go's `switch` differ from C or Java's `switch`?",
+                solution: `<p>Go's <code>switch</code> has several significant differences:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>No implicit fallthrough</strong> — cases do NOT fall through by default. No need for <code>break</code> at the end of every case. To explicitly fall through, you must write <code>fallthrough</code>.</li>
+  <li><strong>Multiple values per case</strong> — <code>case "Sat", "Sun":</code> matches either value.</li>
+  <li><strong>Expressionless switch</strong> — <code>switch { case x > 0: ... }</code> with no switched variable. Each case is an independent boolean expression. This replaces long if-else chains cleanly.</li>
+  <li><strong>Init statement</strong> — same as <code>if</code>: <code>switch os := runtime.GOOS; os { ... }</code>.</li>
+  <li><strong>Type switch</strong> — <code>switch v := i.(type) { case int: ... }</code> branches on the runtime type of an interface — impossible in C/Java switch.</li>
+  <li><strong>Cases can be non-constant</strong> — case values can be variables, function calls, or any expression (not just compile-time constants like in C).</li>
+</ul>`
+              },
+              {
+                question: "What is a type switch in Go and when do you use it?",
+                solution: `<p>A type switch branches on the <em>dynamic type</em> of an interface value. It is the safe, idiomatic alternative to a chain of type assertions:</p>
+<pre><code class="language-go">func process(i interface{}) {
+  switch v := i.(type) {
+  case int:
+    fmt.Printf("integer: %d\n", v)
+  case string:
+    fmt.Printf("string: %q\n", v)
+  case []int:
+    fmt.Printf("int slice, len=%d\n", len(v))
+  case nil:
+    fmt.Println("nil")
+  default:
+    fmt.Printf("unknown: %T\n", v)
+  }
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">Inside each case, <code>v</code> has the <em>concrete type</em> of that case — so in <code>case string</code>, <code>v</code> is a <code>string</code> with all string methods available. This is safer than manual type assertions (<code>s, ok := i.(string)</code>) because the compiler guarantees exhaustiveness through the <code>default</code> case, and you never accidentally access the wrong type.</p>
+<p style="margin-top: 0.75rem;"><strong>Common uses:</strong> JSON unmarshalling into <code>interface{}</code>, handling <code>any</code> in generic utility functions, implementing visitor patterns, and working with <code>error</code> subtypes.</p>`
+              },
+              {
+                question: "What are the four forms of the `for` loop in Go?",
+                solution: `<p>Go's <code>for</code> has four distinct forms:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>Three-clause</strong> — <code>for init; condition; post { }</code>: classic C-style loop with initializer, condition check, and post statement.</li>
+  <li><strong>Condition-only</strong> — <code>for condition { }</code>: equivalent to <code>while</code> in other languages. Loops as long as the condition is true.</li>
+  <li><strong>Infinite</strong> — <code>for { }</code>: no condition at all. Runs forever until a <code>break</code>, <code>return</code>, or <code>panic</code> exits it. Used for server loops, event loops, and background workers.</li>
+  <li><strong>Range</strong> — <code>for i, v := range x { }</code>: iterates over slices (index+value), maps (key+value), strings (byte-index+rune), channels (values until closed), and in Go 1.22+, integers (0..n-1).</li>
+</ul>
+<p style="margin-top: 0.75rem;">All four use the same <code>for</code> keyword — Go's compiler distinguishes them by the syntax. <code>break</code> and <code>continue</code> work in all forms, and labels (<code>outer:</code>) allow breaking or continuing an enclosing loop from inside a nested one.</p>`
+              },
+              {
+                question: "What does `range` return for different data types, and what is the order guarantee for maps?",
+                solution: `<p>The <code>range</code> keyword returns different pairs depending on what it iterates over:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>slice / array</strong> → <code>index int, value T</code></li>
+  <li><strong>map</strong> → <code>key K, value V</code></li>
+  <li><strong>string</strong> → <code>byteIndex int, rune rune</code> (index is the byte offset, not character number)</li>
+  <li><strong>channel</strong> → <code>value T</code> (one value, no index; blocks until value received or channel closed)</li>
+  <li><strong>integer (Go 1.22+)</strong> → <code>index int</code> (0 to n-1, single value only)</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Map iteration order is explicitly randomized in Go.</strong> The Go runtime intentionally randomizes map iteration order on every run to prevent developers from relying on accidental ordering. If you need deterministic output from a map, collect the keys into a slice, sort it with <code>sort.Strings(keys)</code>, then range over the sorted keys. Never write code that depends on map iteration order.</p>`
+              },
+              {
+                question: "What is the range value copy trap, and how do you correctly mutate slice elements in a loop?",
+                solution: `<p>When you use <code>for _, v := range slice</code>, <code>v</code> is a <strong>copy</strong> of the element — not a reference to it. Modifying <code>v</code> has no effect on the original slice:</p>
+<pre><code class="language-go">type User struct{ Name string; Active bool }
+users := []User{{"Alice", false}, {"Bob", false}}
+
+// WRONG — modifying a copy
+for _, u := range users {
+  u.Active = true   // u is a copy; original unchanged
+}
+fmt.Println(users[0].Active)  // false — unchanged!
+
+// CORRECT — modify through index
+for i := range users {
+  users[i].Active = true
+}
+
+// ALSO CORRECT — if slice contains pointers
+pUsers := []*User{{"Alice", false}, {"Bob", false}}
+for _, u := range pUsers {
+  u.Active = true   // u is a pointer copy — modifies original
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">The rule: if you need to mutate slice elements, always use the index form <code>for i := range slice</code> and write <code>slice[i].Field = value</code>. The value copy form <code>for _, v := range</code> is safe for reads and for pointer slices, but silently does nothing for value mutations — a bug that's easy to miss because the code compiles without warning.</p>`
+              },
+              {
+                question: "How do labeled `break` and `continue` work, and when do you need them?",
+                solution: `<p>By default, <code>break</code> exits the <em>innermost</em> enclosing loop, and <code>continue</code> advances the <em>innermost</em> loop's next iteration. Labels let you target an <em>outer</em> loop from inside a nested one.</p>
+<pre><code class="language-go">outer:
+for i := 0; i < 5; i++ {
+  for j := 0; j < 5; j++ {
+    if i+j == 6 {
+      break outer   // exits the outer for loop entirely
+    }
+  }
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">Without labels, the only way to exit nested loops is with a boolean flag variable or by extracting the inner loop into a function and returning. Labels are Go's cleaner solution. They are placed on the line immediately before the loop statement.</p>
+<p style="margin-top: 0.75rem;"><strong>Labeled break with switch inside a loop</strong> is a subtle but important case. Inside a loop, <code>break</code> inside a <code>switch</code> breaks the <code>switch</code> — not the loop. To break the enclosing loop from inside a switch, you need a label:</p>
+<pre><code class="language-go">loop:
+for _, v := range items {
+  switch v {
+  case "stop":
+    break loop   // exits the for loop
+  case "skip":
+    continue loop  // next iteration of for loop
+  }
+}
+</code></pre>`
+              },
+              {
+                question: "Why is there no ternary operator in Go, and what is the idiomatic alternative?",
+                solution: `<p>Go deliberately omitted the ternary operator (<code>condition ? a : b</code>) because the Go team found that it was frequently misused to write complex, hard-to-read one-liners. Go prioritizes explicit, readable code over concise-but-clever code.</p>
+<p style="margin-top: 0.75rem;">The idiomatic alternative is a full <code>if/else</code> block or a helper function for repeated patterns:</p>
+<pre><code class="language-go">// Instead of: label := (score >= 60) ? "pass" : "fail"
+var label string
+if score >= 60 {
+  label = "pass"
+} else {
+  label = "fail"
+}
+
+// For repeated use, extract a helper
+func ternary[T any](cond bool, a, b T) T {
+  if cond { return a }
+  return b
+}
+label := ternary(score >= 60, "pass", "fail")
+</code></pre>
+<p style="margin-top: 0.75rem;">Note that the generic <code>ternary</code> helper (available since Go 1.18) doesn't give you short-circuit evaluation — both <code>a</code> and <code>b</code> are evaluated before the function is called. For expressions with side effects or expensive computations, the explicit <code>if/else</code> block is the only correct choice.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/flowcontrol/1",
+              "https://go.dev/tour/flowcontrol/5",
+              "https://go.dev/tour/flowcontrol/9",
+              "https://go.dev/tour/flowcontrol/10",
+              "https://go.dev/ref/spec#For_statements",
+              "https://go.dev/ref/spec#Switch_statements",
+              "https://go.dev/ref/spec#Labeled_statements",
+              "https://go.dev/ref/spec#Break_statements",
+              "https://go.dev/doc/faq#no_while",
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Intermediate",
+        concepts: [
+          {
+            topic: "Shell Scripting",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Shell scripting automates repetitive tasks. A well-crafted script can save hours of manual work and eliminate human error in routine operations like backups, deployments, and log rotations.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Script Structure</h4>
+<pre><code class="language-bash">
+#!/bin/bash
+set -euo pipefail    # Strict mode: exit on error, unbound vars, pipe failures
+
+NAME="$1"             # First argument
+echo "Hello, $ {NAME}!"
+
+# Variables
+COUNT=5
+GREETING="Welcome"
+
+# Command substitution
+CURRENT_DATE=$(date +%Y-%m-%d)
+echo "Today is $CURRENT_DATE"
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Control Structures</h4>
+<pre><code class="language-bash">
+# Conditionals
+if [ -f "/etc/nginx/nginx.conf" ]; then
+  echo "Nginx config found"
+elif [ -f "/etc/apache2/apache2.conf" ]; then
+  echo "Apache config found"
+else
+  echo "No web server config found"
+fi
+
+# For loop
+for file in *.log; do
+  echo "Processing $file"
+done
+
+# While loop
+COUNTER=0
+while [ $COUNTER -lt 5 ]; do
+  echo "Count: $COUNTER"
+  ((COUNTER++))
+done
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Functions</h4>
+<pre><code class="language-bash">
+log() {
+  echo "[$(date '+%H:%M:%S')] $1"
+}
+
+log "Starting deployment..."
+log "Done!"
+</code></pre>
+</div>`,
+            examples: [
+              `#!/bin/bash
+set -euo pipefail
+
+# Backup script with timestamp
+BACKUP_DIR="/tmp/backups"
+SOURCE="$ {1:-/etc}"
+
+[ -z "$SOURCE" ] && { echo "Usage: $0 <source_dir>"; exit 1; }
+[ ! -d "$SOURCE" ] && { echo "Error: $SOURCE is not a directory"; exit 1; }
+
+mkdir -p "$BACKUP_DIR"
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+BACKUP_FILE="$BACKUP_DIR/$(basename $SOURCE)_$TIMESTAMP.tar.gz"
+
+tar -czf "$BACKUP_FILE" "$SOURCE"
+echo "Backup created: $BACKUP_FILE ($(du -sh $BACKUP_FILE | cut -f1))"`
+            ],
+            questions: [
+              {
+                question: "What is the shebang line and why is it important?",
+                solution: "<p>The shebang (<code>#!</code>) is the first line of a script that tells the OS which interpreter to use. Common examples: <code>#!/bin/bash</code> for bash, <code>#!/usr/bin/env python3</code> for Python. Without it, the system doesn't know how to execute the file. <code>#!/usr/bin/env bash</code> is preferred over <code>#!/bin/bash</code> because it searches the PATH for bash, making the script more portable across systems where bash may be installed in different locations.</p>"
+              },
+              {
+                question: "What does `set -euo pipefail` do?",
+                solution: "<p><ul><li><code>-e</code>: Exit immediately if any command fails (returns non-zero exit code).</li><li><code>-u</code>: Treat unset variables as errors. This catches typos in variable names like <code>$USERR</code> instead of silently using empty strings.</li><li><code>-o pipefail</code>: A pipeline fails if any command in it fails. Without this, <code>false | true</code> returns success because the last command (<code>true</code>) succeeded.</li></ul>Together, they constitute 'strict mode' and catch subtle bugs that would otherwise silently produce wrong results.</p>"
+              },
+            ],
+            links: [
+              "https://www.shellscript.sh/",
+              "https://google.github.io/styleguide/shellguide.html",
+            ],
+          },
+          {
+            topic: "Networking Commands",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Network troubleshooting is a daily task for DevOps engineers. Knowing the right tool for each scenario — from checking open ports to tracing packet routes — is essential.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Port & Socket Inspection</h4>
+<pre><code class="language-bash">
+ss -tulpn               # All TCP/UDP listening sockets with process
+ss -tnp | grep :443     # Active connections on port 443
+netstat -tulpn          # Legacy (same as ss but slower)
+lsof -i :8080           # What's using port 8080?
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Connectivity Testing</h4>
+<pre><code class="language-bash">
+ping -c 4 google.com          # Test ICMP connectivity
+nc -zv host 5432              # Test if port 5432 is reachable
+curl -I https://example.com   # Check HTTP headers
+curl -o /dev/null -w "%{http_code}" https://api.example.com
+traceroute 8.8.8.8            # Trace network hops
+mtr google.com                # Interactive traceroute
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Network Interface & DNS</h4>
+<pre><code class="language-bash">
+ip addr show                  # Show all interfaces & IPs
+ip route show                 # Show routing table
+dig google.com                # DNS lookup
+nslookup google.com           # Alternative DNS lookup
+cat /etc/resolv.conf          # Current DNS servers
+cat /etc/hosts                # Local hostname overrides
+</code></pre>
+</div>`,
+            examples: [
+              `# Check which process is listening on port 80
+sudo ss -tulpn | grep ':80'
+
+# Test database connectivity from an app server
+nc -zv db.internal 5432 && echo "DB reachable" || echo "DB unreachable"
+
+# Check HTTP response time
+curl -o /dev/null -s -w "Connect: %{time_connect}s Total: %{time_total}s\\n" https://api.example.com
+
+# View active network connections
+ss -tnp | grep ESTABLISHED
+
+# DNS resolution check
+dig +short api.example.com`
+            ],
+            questions: [
+              {
+                question: "What does `netstat -tulpn` show you?",
+                solution: "<p>It shows all network sockets: <code>-t</code> = TCP, <code>-u</code> = UDP, <code>-l</code> = listening sockets only, <code>-p</code> = show PID and process name, <code>-n</code> = show numeric addresses (don't resolve hostnames). This command is essential for checking which services are listening on which ports. Note: <code>netstat</code> is deprecated; the modern replacement is <code>ss -tulpn</code> which is faster.</p>"
+              },
+              {
+                question: "What is the purpose of the `/etc/hosts` file?",
+                solution: "<p><code>/etc/hosts</code> is a local hostname-to-IP mapping file that is checked <strong>before</strong> DNS. You can add entries to override DNS resolution locally. Common uses: (1) Pointing a domain to a local IP during development: <code>127.0.0.1 api.myapp.local</code>. (2) Blocking sites by pointing them to 0.0.0.0. (3) In containerized environments, Docker and Kubernetes inject container hostnames here. On Linux, resolution order is controlled by <code>/etc/nsswitch.conf</code>.</p>"
+              },
+            ],
+            links: [
+              "https://www.man7.org/linux/man-pages/man8/ss.8.html",
+              "https://curl.se/docs/manpage.html",
+            ],
+          },
+          {
+            topic: "SSH & Remote Access",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  SSH (Secure Shell) is the standard protocol for secure remote server management. It encrypts all traffic and supports authentication via passwords or cryptographic key pairs.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Connecting to Servers</h4>
+<pre><code class="language-bash">
+ssh user@hostname                    # Connect (default port 22)
+ssh -p 2222 user@hostname            # Non-standard port
+ssh -i ~/.ssh/mykey.pem user@host    # Specify private key
+ssh -v user@host                     # Verbose (debug connection issues)
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Key-Based Authentication</h4>
+<pre><code class="language-bash">
+ssh-keygen -t ed25519 -C "my-key"   # Generate key pair
+cat ~/.ssh/id_ed25519.pub            # View public key
+ssh-copy-id user@host                # Copy public key to server
+# Or manually:
+cat ~/.ssh/id_ed25519.pub | ssh user@host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">File Transfer</h4>
+<pre><code class="language-bash">
+scp file.txt user@host:~/            # Copy file to remote
+scp -r ./dir user@host:/tmp/         # Copy directory recursively
+rsync -avz ./src/ user@host:/app/    # Efficient sync (only changed files)
+rsync --delete -avz ./src/ user@host:/app/  # Sync and delete remote extras
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Port Forwarding (Tunneling)</h4>
+<pre><code class="language-bash">
+# Local forwarding: access remote service locally
+ssh -L 5432:db-host:5432 -N admin@jump.example.com
+
+# Remote forwarding: expose local service remotely
+ssh -R 8080:localhost:8080 user@server
+
+# SOCKS proxy
+ssh -D 9090 user@server
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">~/.ssh/config</h4>
+<pre><code class="language-bash">
+Host prod
+  HostName 10.0.1.5
+  User ubuntu
+  IdentityFile ~/.ssh/prod_key
+  Port 22
+
+Host dev-db
+  HostName 192.168.1.100
+  User admin
+  ProxyJump prod           # Jump through 'prod' to reach dev-db
+</code></pre>
+</div>`,
+            examples: [
+              `# Generate a strong key pair
+ssh-keygen -t ed25519 -C "$(whoami)@$(hostname)-$(date +%Y%m%d)"
+
+# Deploy code with rsync (common deployment pattern)
+rsync -avz --exclude='node_modules' --exclude='.git' \\
+  ./app/ ubuntu@prod.example.com:/var/www/app/
+
+# Create tunnel to access remote DB locally
+ssh -L 5432:rds.example.com:5432 -N -f ubuntu@bastion.example.com
+psql -h localhost -U myuser -d mydb
+
+# Run command on remote server without interactive shell
+ssh ubuntu@server 'systemctl restart nginx && systemctl status nginx'`
+            ],
+            questions: [
+              {
+                question: "How does public key authentication work?",
+                solution: "<p>Public key authentication uses asymmetric cryptography: (1) You generate a key pair — a <strong>private key</strong> (stays on your machine, secret) and a <strong>public key</strong> (shared with servers). (2) Your public key is added to <code>~/.ssh/authorized_keys</code> on the server. (3) When you connect, the server sends a random challenge encrypted with your public key. (4) Only you can decrypt it with your private key and respond correctly. (5) The server verifies the response and grants access. This eliminates password transmission over the network.</p>"
+              },
+              {
+                question: "What is local port forwarding and when would you use it?",
+                solution: "<p>Local port forwarding (<code>ssh -L local_port:target_host:target_port user@jump_host</code>) creates a tunnel: traffic sent to <code>local_port</code> on your machine is forwarded through the SSH connection to <code>target_host:target_port</code>. Use cases: (1) Access a database (e.g., RDS on port 5432) that's only reachable from a bastion/jump host. (2) Access internal web services from your developer machine. (3) Securely access services behind a firewall. Example: <code>ssh -L 5432:internal-db:5432 -N admin@bastion</code>.</p>"
+              },
+            ],
+            links: [
+              "https://www.ssh.com/academy/ssh/keygen",
+              "https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys",
+            ],
+          },
+          {
+            topic: "Disk & Storage Management",
+            tags: ["linux"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Running out of disk space can crash production services. Knowing how to monitor, analyze, and free disk space is a critical sysadmin skill.
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Disk Usage</h4>
+<pre><code class="language-bash">
+df -h                        # Filesystem disk usage (human-readable)
+df -h /var                   # Specific mount point
+du -sh /var/log              # Directory total size
+du -sh /var/log/*            # Each item inside a directory
+du -sh * | sort -rh          # Sort by size (largest first)
+du --max-depth=1 /var        # One level deep
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Finding Large Files</h4>
+<pre><code class="language-bash">
+find / -type f -size +500M 2>/dev/null          # Files > 500MB
+find /var/log -name "*.log" -mtime +30 -delete  # Delete logs older than 30 days
+ls -lhS /var/log/*.log | head -10               # Largest log files
+ncdu /var                                        # Interactive disk analyzer (if installed)
+</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Block Devices</h4>
+<pre><code class="language-bash">
+lsblk                        # List block devices (tree view)
+lsblk -f                     # Show filesystem types
+fdisk -l                     # Partition table details
+blkid                        # Device UUIDs and filesystems
+mount | column -t            # All currently mounted filesystems
+</code></pre>
+</div>`,
+            examples: [
+              `# Disk health check script
+df -h | awk 'NR>1 {
+  gsub(/%/, "", $5)
+  if ($5 > 85) print "WARNING:", $6, "at", $5"% capacity"
+}'
+
+# Find and remove old Docker images/containers consuming disk
+docker system prune -af
+
+# Find the 10 largest files on the system
+find / -type f -printf "%s %p\\n" 2>/dev/null | sort -rn | head -10 | awk '{printf "%.1fMB %s\\n", $1/1024/1024, $2}'
+
+# Check inodes (inode exhaustion can fill disk too)
+df -i`
+            ],
+            questions: [
+              {
+                question: "What is the difference between `df` and `du`?",
+                solution: "<p><code>df</code> (disk free) shows <strong>filesystem-level</strong> statistics — how much space is used and available on each mounted filesystem/partition. It reads from the filesystem metadata. <code>du</code> (disk usage) walks the directory tree and calculates the actual size of files and directories. The numbers can differ slightly because df counts filesystem overhead (e.g., reserved blocks). Use <code>df -h</code> for an overview and <code>du -sh dir/</code> to drill into what's consuming space.</p>"
+              },
+              {
+                question: "What does mounting a filesystem mean in Linux?",
+                solution: "<p>Mounting makes a storage device or filesystem <strong>accessible at a specific directory path</strong> (the mount point) within the existing directory tree. For example, <code>mount /dev/sdb1 /mnt/data</code> makes the contents of the partition <code>/dev/sdb1</code> accessible at <code>/mnt/data/</code>. In Linux, everything is part of one unified directory tree — physical disks, USB drives, network shares, and even virtual filesystems like <code>/proc</code> and <code>/sys</code> are accessed through mount points.</p>"
+              },
+            ],
+            links: [
+              "https://www.man7.org/linux/man-pages/man1/df.1.html",
+              "https://www.man7.org/linux/man-pages/man1/du.1.html",
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];

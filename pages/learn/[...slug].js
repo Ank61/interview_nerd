@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/router";
 import { prepareData } from "@/data/prepareData";
+import { linuxPrepareData } from "@/data/linuxPrepareData";
 import { motion } from "framer-motion";
 
 export default function Learn({
@@ -650,7 +651,14 @@ export async function getStaticPaths() {
     ];
   }, []);
 
-  const allPaths = [...dbPaths];
+  // Add linux paths from separate data file
+  const linuxPaths = linuxPrepareData.type.flatMap((typeItem) =>
+    typeItem.concepts.map((conceptItem) => ({
+      params: { slug: [linuxPrepareData.category, conceptItem.topic] },
+    }))
+  );
+
+  const allPaths = [...dbPaths, ...linuxPaths];
   const uniquePaths = allPaths.filter(
     (path, index, self) =>
       index ===
@@ -670,37 +678,57 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const slug = params.slug;
   const selected = slug[slug.length - 1];
+  const categorySlug = slug[0];
   let themeColor = {};
   let nextTopic = null;
   let explanation = "";
   let category = "";
   let example = "";
 
-  prepareData.forEach((item) => {
-    if (item.type) {
-      item.type.forEach((typeItem) => {
-        typeItem.concepts.forEach((conceptItem, index) => {
-          if (conceptItem.topic === selected) {
-            console.log("catogory 2", item?.category, selected);
-            category = item?.category || selected;
-            themeColor = {
-              category: item.category,
-              themeBgColor: item.themeBgColor,
-              textColor: item.textColor,
-              topicColor: item.topicColor,
-              lightColor: item.lightColor || item.themeBgColor,
-            };
-            explanation = conceptItem.explanation || "";
-            const next = typeItem.concepts[index + 1];
-            if (next) {
-              nextTopic = next.topic;
-            }
-            example = conceptItem.examples || "";
-          }
-        });
+  // Check linuxPrepareData first if category is linux
+  if (categorySlug === "linux") {
+    linuxPrepareData.type.forEach((typeItem) => {
+      typeItem.concepts.forEach((conceptItem, index) => {
+        if (conceptItem.topic === selected) {
+          category = linuxPrepareData.category;
+          themeColor = {
+            category: linuxPrepareData.category,
+            themeBgColor: linuxPrepareData.themeBgColor,
+            textColor: linuxPrepareData.textColor,
+            topicColor: linuxPrepareData.topicColor,
+            lightColor: linuxPrepareData.lightColor,
+          };
+          explanation = conceptItem.explanation || "";
+          const next = typeItem.concepts[index + 1];
+          if (next) nextTopic = next.topic;
+          example = conceptItem.examples || "";
+        }
       });
-    }
-  });
+    });
+  } else {
+    prepareData.forEach((item) => {
+      if (item.type) {
+        item.type.forEach((typeItem) => {
+          typeItem.concepts.forEach((conceptItem, index) => {
+            if (conceptItem.topic === selected) {
+              category = item?.category || selected;
+              themeColor = {
+                category: item.category,
+                themeBgColor: item.themeBgColor,
+                textColor: item.textColor,
+                topicColor: item.topicColor,
+                lightColor: item.lightColor || item.themeBgColor,
+              };
+              explanation = conceptItem.explanation || "";
+              const next = typeItem.concepts[index + 1];
+              if (next) nextTopic = next.topic;
+              example = conceptItem.examples || "";
+            }
+          });
+        });
+      }
+    });
+  }
 
   return {
     props: {

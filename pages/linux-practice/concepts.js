@@ -9,7 +9,12 @@ import {
   Terminal, 
   ChevronRight,
   BookOpen,
-  ArrowLeft
+  ArrowLeft,
+  Code,
+  Globe,
+  Lock,
+  Package,
+  HardDrive,
 } from "lucide-react";
 import { linuxConcepts } from "@/data/linuxData";
 
@@ -20,6 +25,11 @@ const iconMap = {
   Activity: Activity,
   Shield: Shield,
   Terminal: Terminal,
+  Code: Code,
+  Globe: Globe,
+  Lock: Lock,
+  Package: Package,
+  HardDrive: HardDrive,
 };
 
 export default function LinuxConcepts() {

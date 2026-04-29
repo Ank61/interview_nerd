@@ -49,6 +49,7 @@ import { interviewData } from "@/data/interviewData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
+import { linuxPrepareData } from "@/data/linuxPrepareData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
 import GamificationDashboard from "@/components/gamification/GamificationDashboard";
@@ -74,6 +75,8 @@ export async function getStaticPaths() {
     "redis",
     "nest",
     "docker",
+    "linux",
+    "go"
   ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },
@@ -86,7 +89,11 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  const topicPrepareData = prepareData.find((item) => item.category === slug);
+  // For linux, use the separate linuxPrepareData to avoid the 8MB prepareData file size limit
+  const topicPrepareData =
+    slug === "linux"
+      ? linuxPrepareData
+      : prepareData.find((item) => item.category === slug);
   const topicInterviewData = interviewData.filter(
     (item) => item.topic === slug,
   );
