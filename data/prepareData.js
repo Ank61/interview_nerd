@@ -194003,6 +194003,5835 @@ label := ternary(score >= 60, "pass", "fail")
               "https://go.dev/doc/faq#no_while",
             ],
           },
+          {
+            topic: "Arrays, Slices & Maps",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Arrays, slices, and maps are the three fundamental collection types in Go. Of the three, <strong>slices are by far the most important</strong> — they are used everywhere, and a deep understanding of their internals (the three-field header, how <code>append</code> works, when copies are made, when data is shared) separates developers who write correct Go from those who introduce subtle bugs. Maps are the second critical topic. Arrays are mostly a foundation for slices rather than a direct tool.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Arrays — Fixed Size, Value Semantics</h4>
+<p style="line-height: 1.75;">An array in Go has a <strong>fixed length that is part of its type</strong>. <code>[3]int</code> and <code>[4]int</code> are completely different, incompatible types. Arrays are values — assigning one array to another copies every element.</p>
+<pre><code class="language-go">
+// Array declaration — size is part of the type
+var a [3]int              // [0, 0, 0] — zero initialized
+b := [3]int{1, 2, 3}     // literal
+c := [...]int{1, 2, 3}   // ... lets compiler count elements = [3]int
+
+// Accessing elements
+fmt.Println(b[0])         // 1
+fmt.Println(len(b))       // 3
+
+// Arrays are VALUE types — assignment copies all elements
+x := [3]int{1, 2, 3}
+y := x          // full copy of all elements
+y[0] = 99
+fmt.Println(x)  // [1 2 3] — unchanged
+fmt.Println(y)  // [99 2 3]
+
+// Passing array to function also copies — expensive for large arrays
+func sum(arr [5]int) int { ... }   // receives a copy of the 5-element array
+
+// Two-dimensional array
+matrix := [3][3]int{
+  {1, 2, 3},
+  {4, 5, 6},
+  {7, 8, 9},
+}
+fmt.Println(matrix[1][2])  // 6
+
+// Arrays are comparable if their element type is comparable
+a1 := [3]int{1, 2, 3}
+a2 := [3]int{1, 2, 3}
+fmt.Println(a1 == a2)  // true
+</code></pre>
+<p style="line-height: 1.75;"><strong>When to use arrays vs slices:</strong> In practice, arrays are rarely used directly in Go code. The main uses are: fixed-size buffers where the size is truly part of the semantics (e.g., <code>[16]byte</code> for a UUID, <code>[32]byte</code> for a SHA-256 hash), and as the underlying backing for slices. In almost every other case, use a slice.</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Slice Internals — The Three-Field Header</h4>
+<p style="line-height: 1.75;">This is the most important thing to understand about Go. A slice is <strong>not</strong> an array. A slice is a lightweight <strong>header</strong> — a struct with exactly three fields — that describes a window into an underlying array:</p>
+<pre><code class="language-go">
+// Conceptually, a slice header looks like this:
+type SliceHeader struct {
+  Data uintptr  // pointer to the first element of the underlying array
+  Len  int      // number of elements visible through this slice
+  Cap  int      // total elements in the underlying array from Data forward
+}
+</code></pre>
+<p style="line-height: 1.75;">When you pass a slice to a function, you pass this 24-byte header by value. The header is copied, but the underlying array is <strong>shared</strong>. This means:</p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li>Modifying elements through the copy modifies the original — they share the same backing array.</li>
+  <li>Appending to the copy may or may not affect the original — depends on capacity.</li>
+  <li>Changing the length or capacity of the copy never affects the original header.</li>
+</ul>
+<pre><code class="language-go">
+// Visualizing the three fields
+s := make([]int, 3, 5)
+// Data → [0, 0, 0, _, _]  (underlying array of cap=5)
+// Len  = 3
+// Cap  = 5
+
+fmt.Println(len(s))  // 3
+fmt.Println(cap(s))  // 5
+
+// The slice sees only elements [0:3] even though [3:5] exist
+// Those extra slots are reserved capacity for future appends
+
+// Peek at internals with reflect
+h := (*reflect.SliceHeader)(unsafe.Pointer(&s))
+fmt.Println(h.Len, h.Cap)  // 3, 5
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Creating Slices — Four Ways</h4>
+<pre><code class="language-go">
+// 1. Slice literal — creates backing array + slice header
+s1 := []int{1, 2, 3}       // len=3, cap=3
+s2 := []string{"a", "b"}   // len=2, cap=2
+
+// 2. make([]T, len, cap) — allocates a backing array, returns slice
+s3 := make([]int, 5)        // len=5, cap=5, all zeros
+s4 := make([]int, 3, 10)    // len=3, cap=10 — pre-allocate for growth
+
+// 3. var declaration — nil slice, no backing array
+var s5 []int                // len=0, cap=0, Data=nil
+fmt.Println(s5 == nil)      // true
+fmt.Println(len(s5))        // 0 — safe, no panic
+
+// 4. Slicing an existing array or slice
+arr := [5]int{1, 2, 3, 4, 5}
+s6 := arr[1:4]              // [2, 3, 4] — len=3, cap=4
+// cap = len(arr) - low index = 5 - 1 = 4
+
+// nil slice vs empty slice — both have len 0, but different identity
+var nilSlice []int           // nil — no backing array
+emptySlice := []int{}       // non-nil — has a backing array (zero size)
+emptySlice2 := make([]int, 0)  // non-nil — same as above
+
+fmt.Println(nilSlice == nil)     // true
+fmt.Println(emptySlice == nil)   // false
+// Both are safe to range over, append to, and pass to len/cap
+// Prefer nil slice for "no value"; prefer empty slice for JSON (encodes as [] not null)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Length vs Capacity — The Critical Distinction</h4>
+<pre><code class="language-go">
+s := make([]int, 3, 6)
+//               ^  ^
+//              len cap
+
+// len — how many elements you can access (s[0] through s[len-1])
+// cap — how many elements the backing array holds from the start pointer
+
+fmt.Println(len(s))  // 3
+fmt.Println(cap(s))  // 6
+
+s[0] = 10   // OK  — index 0 is within len
+s[3] = 10   // PANIC: index out of range — index 3 >= len(s) which is 3
+
+// You can re-slice to reveal capacity (as long as you don't exceed it)
+s2 := s[:5]          // len=5, cap=6 — reveals hidden elements
+fmt.Println(s2)      // [10 0 0 0 0]
+
+// 3-index slice — controls both len AND cap of the result
+// s[low : high : max]  →  len = high-low, cap = max-low
+s3 := s[1:3:4]       // len=2, cap=3
+// Useful for preventing the re-slice from accessing parent's memory
+
+// Full slice expression prevents the caller from seeing the parent's remaining capacity
+full := make([]byte, 256)
+chunk := full[10:20:20]  // len=10, cap=10 — caller cannot grow into full's memory
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">append — How It Really Works</h4>
+<p style="line-height: 1.75;"><code>append</code> is the most important slice operation to understand deeply. It adds elements to a slice and returns the (possibly new) slice. The key insight: <strong>if there is capacity remaining, append uses it in place; if not, it allocates a new, larger backing array and copies everything over.</strong></p>
+<pre><code class="language-go">
+// append returns the updated slice — you MUST use the return value
+s := []int{1, 2, 3}   // len=3, cap=3
+s = append(s, 4)       // len=4, cap=6 (new backing array allocated)
+
+// Appending multiple elements at once
+s = append(s, 5, 6, 7)
+
+// Appending another slice with ...
+other := []int{8, 9, 10}
+s = append(s, other...)
+
+// The growth algorithm (implementation detail, but important to know):
+// When cap is exceeded, Go allocates a new array.
+// Historically: double capacity when small, 25% growth when large.
+// Go 1.18+: smoother growth curve — roughly 1.25x-2x depending on current size.
+// You should NOT rely on exact growth factors — use benchmarks.
+
+// Demonstrating in-place vs new allocation
+a := make([]int, 3, 6)    // len=3, cap=6 — has 3 spare slots
+a[0], a[1], a[2] = 1, 2, 3
+
+b := append(a, 4)   // cap not exceeded — uses slot 3 in place
+                    // b and a share the SAME backing array
+b[0] = 99
+fmt.Println(a[0])   // 99 — a is affected! shared backing array
+
+c := append(b, 5, 6, 7)  // cap exceeded (need 7, cap is 6)
+                          // new backing array allocated
+                          // c and a no longer share memory
+c[0] = 0
+fmt.Println(a[0])   // 99 — a is unaffected now
+fmt.Println(b[0])   // 99 — b still shares with a (b used in-place)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">The Append Trap — Shared Backing Arrays</h4>
+<p style="line-height: 1.75;">The most dangerous slice pitfall: two slices share a backing array, you append to one and it modifies the other's data without reallocating:</p>
+<pre><code class="language-go">
+// Classic shared-backing-array trap
+original := make([]int, 3, 6)  // len=3, cap=6
+original[0], original[1], original[2] = 1, 2, 3
+
+// slice1 and original share the same backing array
+slice1 := original[:3]   // same data, same cap=6
+
+// append does NOT reallocate — cap=6 has room
+slice1 = append(slice1, 99)
+// Now backing array is [1, 2, 3, 99, _, _]
+
+// Re-slicing original reveals slot 3 was written
+original2 := original[:4]
+fmt.Println(original2)  // [1 2 3 99] — original's backing array was mutated!
+
+// THE FIX: use copy() to create an independent slice
+safe := make([]int, len(original))
+copy(safe, original)
+safe = append(safe, 99)  // safe has its own backing array — original untouched
+
+// OR: use the 3-index slice to cap the slice at len,
+// forcing any append to reallocate immediately
+capped := original[:3:3]   // len=3, cap=3 — no spare capacity
+capped = append(capped, 99)  // immediately allocates new backing array
+// original is now safe from modification via capped
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">copy — Explicit Memory Independence</h4>
+<pre><code class="language-go">
+// copy(dst, src) — copies min(len(dst), len(src)) elements
+// Returns number of elements copied
+src := []int{1, 2, 3, 4, 5}
+dst := make([]int, 3)
+n := copy(dst, src)        // copies 3 elements (min of len(dst)=3, len(src)=5)
+fmt.Println(dst)           // [1 2 3]
+fmt.Println(n)             // 3
+
+// Copy entire slice
+clone := make([]int, len(src))
+copy(clone, src)           // full independent copy
+
+// Copy into a sub-slice
+buf := make([]int, 10)
+copy(buf[2:5], src)        // copy src into positions 2,3,4 of buf
+
+// Copy from string to byte slice
+b := make([]byte, 5)
+copy(b, "hello")           // works! string → []byte copy
+fmt.Println(b)             // [104 101 108 108 111]
+
+// Overlapping copies are safe — copy handles them correctly
+s := []int{1, 2, 3, 4, 5}
+copy(s[1:], s[:])          // shift right by one — safe
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Common Slice Operations</h4>
+<pre><code class="language-go">
+// --- Delete element at index i (order-preserving) ---
+s := []int{1, 2, 3, 4, 5}
+i := 2
+s = append(s[:i], s[i+1:]...)   // [1 2 4 5]
+// WARNING: this modifies the backing array — if another slice shares it,
+// the data at the tail is overwritten
+
+// --- Delete element at index i (fast, order-NOT-preserving) ---
+s[i] = s[len(s)-1]    // replace target with last element
+s = s[:len(s)-1]      // shrink length by 1
+
+// --- Insert element at index i ---
+s = append(s[:i+1], s[i:]...)  // make room
+s[i] = newVal
+
+// --- Prepend ---
+s = append([]int{newVal}, s...)   // allocates new backing array
+
+// --- Reverse in place ---
+for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+  s[i], s[j] = s[j], s[i]
+}
+
+// --- Deduplicate (preserving order) ---
+func dedup(s []int) []int {
+  seen := make(map[int]bool)
+  result := s[:0]   // reuse backing array — len=0, cap=cap(s)
+  for _, v := range s {
+    if !seen[v] {
+      seen[v] = true
+      result = append(result, v)
+    }
+  }
+  return result
+}
+
+// --- Filter without allocating new backing array ---
+func filter(s []int, keep func(int) bool) []int {
+  n := s[:0]          // zero-len slice sharing s's backing array
+  for _, v := range s {
+    if keep(v) {
+      n = append(n, v)
+    }
+  }
+  return n
+}
+
+// --- Stack (LIFO) using a slice ---
+stack := []int{}
+stack = append(stack, 1)   // push
+stack = append(stack, 2)
+top := stack[len(stack)-1]  // peek
+stack = stack[:len(stack)-1]  // pop
+
+// --- Queue (FIFO) — slices are poor queues (O(n) dequeue), use channels or linked list
+queue := []int{}
+queue = append(queue, 1)     // enqueue
+front := queue[0]            // peek
+queue = queue[1:]            // dequeue — O(n) memory usage grows! use circular buffer
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Performance: Pre-allocating with make</h4>
+<pre><code class="language-go">
+// BAD — repeated reallocation: O(log n) allocations
+func buildSlice(n int) []int {
+  var s []int
+  for i := 0; i < n; i++ {
+    s = append(s, i)   // reallocates ~log2(n) times
+  }
+  return s
+}
+
+// GOOD — pre-allocate when final size is known
+func buildSlicePrealloc(n int) []int {
+  s := make([]int, 0, n)  // len=0, cap=n — no reallocations
+  for i := 0; i < n; i++ {
+    s = append(s, i)
+  }
+  return s
+}
+
+// ALSO GOOD — if all values can be computed by index
+func buildSliceDirect(n int) []int {
+  s := make([]int, n)   // len=n, all zero — fill directly
+  for i := range s {
+    s[i] = i
+  }
+  return s
+}
+
+// Checking allocations with testing.B (benchmark)
+// go test -bench=. -benchmem
+// BenchmarkBad       100000    15234 ns/op    8192 B/op    13 allocs/op
+// BenchmarkGood      100000     4521 ns/op    4096 B/op     1 allocs/op
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Maps — Internals and Usage</h4>
+<p style="line-height: 1.75;">A map in Go is a <strong>reference type</strong> backed by a hash table. Unlike slices (which have an explicit header struct), a map variable is itself a pointer to the underlying hash map data structure. Assigning a map to another variable gives you two pointers to the same hash table.</p>
+<pre><code class="language-go">
+// Creating maps
+var m1 map[string]int          // nil map — reads return zero, writes PANIC
+m2 := map[string]int{}         // empty map — safe to read and write
+m3 := make(map[string]int)     // empty map — idiomatic for dynamic maps
+m4 := make(map[string]int, 100) // hint initial capacity — fewer rehashes
+
+// Map literal with values
+m5 := map[string]int{
+  "Alice": 30,
+  "Bob":   25,
+  "Carol": 35,   // trailing comma required
+}
+
+// Map key types — must be comparable (support == and !=)
+// Valid key types: string, int, float, bool, pointer, array, struct (if all fields comparable)
+// INVALID key types: slice, map, function (not comparable)
+
+// Reading — always returns zero value if key missing, NEVER panics
+age := m5["Alice"]     // 30
+age2 := m5["Unknown"]  // 0 — zero value of int, no panic
+
+// The comma-ok idiom — distinguish "missing key" from "key with zero value"
+val, ok := m5["Alice"]
+if ok {
+  fmt.Println("found:", val)
+} else {
+  fmt.Println("not found")
+}
+
+// Writing
+m5["Dave"] = 40
+
+// Deleting — safe to delete non-existent keys
+delete(m5, "Bob")
+delete(m5, "NonExistent")  // no panic, no-op
+
+// Length
+fmt.Println(len(m5))
+
+// Maps are reference types — assignment shares the same hash table
+a := map[string]int{"x": 1}
+b := a
+b["x"] = 99
+fmt.Println(a["x"])  // 99 — a and b point to the same map
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Map Iteration, Concurrency, and Patterns</h4>
+<pre><code class="language-go">
+// Iteration — order is INTENTIONALLY RANDOMIZED every run
+for k, v := range m5 {
+  fmt.Printf("%s: %d\n", k, v)
+}
+
+// Deterministic iteration — sort keys first
+keys := make([]string, 0, len(m5))
+for k := range m5 {
+  keys = append(keys, k)
+}
+sort.Strings(keys)
+for _, k := range keys {
+  fmt.Printf("%s: %d\n", k, m5[k])
+}
+
+// --- Concurrency: maps are NOT safe for concurrent use ---
+// Concurrent reads are safe. Concurrent writes, or mixed read+write, are NOT.
+// Use sync.RWMutex or sync.Map for concurrent access.
+
+type SafeMap struct {
+  mu sync.RWMutex
+  m  map[string]int
+}
+
+func (s *SafeMap) Get(key string) (int, bool) {
+  s.mu.RLock()
+  defer s.mu.RUnlock()
+  v, ok := s.m[key]
+  return v, ok
+}
+
+func (s *SafeMap) Set(key string, val int) {
+  s.mu.Lock()
+  defer s.mu.Unlock()
+  s.m[key] = val
+}
+
+// --- Common map patterns ---
+
+// Counting occurrences
+words := []string{"go", "is", "go", "fast", "go"}
+count := make(map[string]int)
+for _, w := range words {
+  count[w]++   // zero value of int is 0 — no need to initialize
+}
+fmt.Println(count)  // map[fast:1 go:3 is:1]
+
+// Grouping (map of slices)
+type Person struct{ Name, Dept string }
+people := []Person{{"Alice", "Eng"}, {"Bob", "HR"}, {"Carol", "Eng"}}
+
+byDept := make(map[string][]Person)
+for _, p := range people {
+  byDept[p.Dept] = append(byDept[p.Dept], p)  // append to nil slice is safe
+}
+
+// Set (map with empty struct values — zero memory overhead)
+set := make(map[string]struct{})
+set["go"] = struct{}{}
+set["rust"] = struct{}{}
+_, exists := set["go"]   // check membership
+fmt.Println(exists)      // true
+
+// Memoization / cache
+cache := make(map[int]int)
+var fib func(n int) int
+fib = func(n int) int {
+  if n <= 1 { return n }
+  if v, ok := cache[n]; ok { return v }
+  result := fib(n-1) + fib(n-2)
+  cache[n] = result
+  return result
+}
+
+// Deleting while iterating — SAFE in Go (unlike many languages)
+for k, v := range m5 {
+  if v < 0 {
+    delete(m5, k)   // safe to delete during range iteration
+  }
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Map Internals — What You Need to Know</h4>
+<p style="line-height: 1.75;">Go maps are implemented as a hash table with buckets. Each bucket holds up to 8 key-value pairs. When the load factor exceeds ~6.5 items per bucket, the map grows by doubling the number of buckets — this is called <strong>rehashing</strong>. The important implications:</p>
+<ul style="line-height: 1.75; padding-left: 1.5rem;">
+  <li><strong>Map operations are O(1) amortized</strong> — individual operations can be O(n) during rehashing but amortize to O(1).</li>
+  <li><strong>Map addresses are not stable</strong> — you cannot take the address of a map value (<code>&m["key"]</code> is a compile error) because rehashing would invalidate the pointer.</li>
+  <li><strong>Provide a capacity hint</strong> with <code>make(map[K]V, n)</code> when you know the approximate size — it reduces the number of rehashes.</li>
+  <li><strong>Map iteration is randomized</strong> — the Go runtime explicitly randomizes the iteration start point to prevent developers from accidentally depending on ordering.</li>
+  <li><strong>Maps never shrink</strong> — once a map grows to hold 1 million entries, deleting all entries does not return that memory to the OS. The backing memory stays allocated. To reclaim it, assign a new map.</li>
+</ul>
+<pre><code class="language-go">
+// Maps never shrink — memory leak pattern
+bigMap := make(map[int][]byte)
+for i := 0; i < 1_000_000; i++ {
+  bigMap[i] = make([]byte, 100)
+}
+for k := range bigMap {
+  delete(bigMap, k)
+}
+// bigMap is now empty but still holds its allocated buckets in memory
+// FIX: reassign
+bigMap = make(map[int][]byte)  // old map is GC'd
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Slices of Structs vs Slices of Pointers</h4>
+<pre><code class="language-go">
+type User struct {
+  Name  string
+  Score int
+}
+
+// []User — values stored inline in the slice's backing array (cache-friendly)
+users := []User{{"Alice", 10}, {"Bob", 20}}
+users[0].Score = 99   // direct modification — correct
+
+// []*User — pointers stored in backing array, data scattered in heap (cache-unfriendly)
+pUsers := []*User{{"Alice", 10}, {"Bob", 20}}
+pUsers[0].Score = 99  // modifies the actual User via pointer
+
+// When to use []T vs []*T:
+// Use []T  when:
+//   - T is small (< ~64 bytes)
+//   - You don't need to share/mutate elements outside the slice
+//   - Cache performance matters (tight loops over large collections)
+// Use []*T when:
+//   - T is large and copying is expensive
+//   - Elements are shared between multiple data structures
+//   - Elements may be nil (optional)
+//   - You need polymorphism (interface types already are pointers conceptually)
+
+// TRAP: range over []T gives a copy — mutation requires index
+for _, u := range users {
+  u.Score = 0    // modifies copy — original unchanged!
+}
+for i := range users {
+  users[i].Score = 0   // correct
+}
+
+// range over []*T — pointer copy still points to original
+for _, u := range pUsers {
+  u.Score = 0   // correct — u is a pointer, modifies original
+}
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- Slice internals: shared backing arrays and append behavior ---
+package main
+
+import "fmt"
+
+func printSlice(label string, s []int) {
+  fmt.Printf("%s: %v len=%d cap=%d\n", label, s, len(s), cap(s))
+}
+
+func main() {
+  // Demonstrate three-field header and sharing
+  base := make([]int, 5, 8)
+  for i := range base { base[i] = i + 1 }
+  printSlice("base", base)  // [1 2 3 4 5] len=5 cap=8
+
+  // sub shares base's backing array
+  sub := base[1:4]
+  printSlice("sub", sub)   // [2 3 4] len=3 cap=7 (cap = 8-1 = 7)
+
+  // Modifying sub changes base (same memory)
+  sub[0] = 99
+  printSlice("base after sub[0]=99", base)  // [1 99 3 4 5]
+
+  // Append within capacity — still shares memory
+  sub2 := append(sub, 100)
+  printSlice("sub2", sub2)
+  printSlice("base after append within cap", base)  // base[3] is now 100!
+
+  // Append beyond capacity — new backing array, no longer shares
+  sub3 := sub[:7]  // can't — would panic, sub cap is 7 but len would be 7
+  _ = sub3
+  
+  // Force reallocation with 3-index slice
+  isolated := base[1:4:4]   // len=3, cap=3 — capped!
+  printSlice("isolated", isolated)  // len=3 cap=3
+  isolated = append(isolated, 999)  // MUST reallocate
+  printSlice("isolated after append", isolated)
+  printSlice("base unaffected", base)   // base is now safe
+}`,
+
+              `// --- append growth, pre-allocation, and performance ---
+package main
+
+import "fmt"
+
+func demonstrateGrowth() {
+  var s []int
+  prevCap := 0
+  for i := 0; i < 20; i++ {
+    s = append(s, i)
+    if cap(s) != prevCap {
+      fmt.Printf("len=%d cap grew to %d\n", len(s), cap(s))
+      prevCap = cap(s)
+    }
+  }
+}
+
+func buildWithoutPrealloc(n int) []int {
+  var s []int
+  for i := 0; i < n; i++ {
+    s = append(s, i)
+  }
+  return s
+}
+
+func buildWithPrealloc(n int) []int {
+  s := make([]int, 0, n)
+  for i := 0; i < n; i++ {
+    s = append(s, i)
+  }
+  return s
+}
+
+func main() {
+  demonstrateGrowth()
+
+  // Appending multiple elements
+  s := []int{1, 2, 3}
+  s = append(s, 4, 5, 6)          // individual elements
+  other := []int{7, 8, 9}
+  s = append(s, other...)         // spread another slice
+  fmt.Println(s)                  // [1 2 3 4 5 6 7 8 9]
+
+  // copy vs append for cloning
+  original := []int{1, 2, 3, 4, 5}
+
+  // Clone with append
+  clone1 := append([]int(nil), original...)
+
+  // Clone with make+copy
+  clone2 := make([]int, len(original))
+  copy(clone2, original)
+
+  clone1[0] = 99
+  clone2[0] = 88
+  fmt.Println(original)  // [1 2 3 4 5] — untouched
+  fmt.Println(clone1)    // [99 2 3 4 5]
+  fmt.Println(clone2)    // [88 2 3 4 5]
+}`,
+
+              `// --- Common slice operations: delete, insert, filter, dedup ---
+package main
+
+import "fmt"
+
+func deleteOrdered(s []int, i int) []int {
+  return append(s[:i], s[i+1:]...)
+}
+
+func deleteFast(s []int, i int) []int {
+  s[i] = s[len(s)-1]
+  return s[:len(s)-1]
+}
+
+func insert(s []int, i, val int) []int {
+  s = append(s, 0)         // grow by one
+  copy(s[i+1:], s[i:])     // shift right
+  s[i] = val
+  return s
+}
+
+func filter(s []int, keep func(int) bool) []int {
+  result := s[:0]   // reuse backing array — no allocation
+  for _, v := range s {
+    if keep(v) {
+      result = append(result, v)
+    }
+  }
+  return result
+}
+
+func dedup(s []int) []int {
+  seen := make(map[int]struct{}, len(s))
+  result := s[:0]
+  for _, v := range s {
+    if _, ok := seen[v]; !ok {
+      seen[v] = struct{}{}
+      result = append(result, v)
+    }
+  }
+  return result
+}
+
+func main() {
+  s := []int{1, 2, 3, 4, 5}
+
+  fmt.Println(deleteOrdered(append([]int{}, s...), 2))  // [1 2 4 5]
+  fmt.Println(deleteFast(append([]int{}, s...), 2))     // [1 2 5 4]
+  fmt.Println(insert(append([]int{}, s...), 2, 99))     // [1 2 99 3 4 5]
+
+  nums := []int{1, 2, 3, 4, 5, 6, 7, 8}
+  evens := filter(nums, func(n int) bool { return n%2 == 0 })
+  fmt.Println(evens)  // [2 4 6 8]
+
+  duped := []int{1, 2, 2, 3, 1, 4, 3, 5}
+  fmt.Println(dedup(duped))  // [1 2 3 4 5]
+}`,
+
+              `// --- Maps: all patterns ---
+package main
+
+import (
+  "fmt"
+  "sort"
+)
+
+func main() {
+  // Counting
+  words := []string{"go", "is", "fast", "go", "is", "go"}
+  freq := make(map[string]int)
+  for _, w := range words {
+    freq[w]++
+  }
+  fmt.Println(freq)  // map[fast:1 go:3 is:2]
+
+  // Comma-ok idiom
+  if v, ok := freq["go"]; ok {
+    fmt.Println("go appears", v, "times")
+  }
+  if _, ok := freq["python"]; !ok {
+    fmt.Println("python not found")
+  }
+
+  // Sorted iteration
+  keys := make([]string, 0, len(freq))
+  for k := range freq { keys = append(keys, k) }
+  sort.Strings(keys)
+  for _, k := range keys {
+    fmt.Printf("%s: %d\n", k, freq[k])
+  }
+
+  // Set using map[T]struct{}
+  set := make(map[string]struct{})
+  for _, w := range words {
+    set[w] = struct{}{}
+  }
+  fmt.Println("unique words:", len(set))
+
+  // Grouping
+  data := []struct{ Name, Team string }{
+    {"Alice", "Eng"}, {"Bob", "HR"},
+    {"Carol", "Eng"}, {"Dave", "HR"},
+  }
+  byTeam := make(map[string][]string)
+  for _, d := range data {
+    byTeam[d.Team] = append(byTeam[d.Team], d.Name)
+  }
+  fmt.Println(byTeam)
+
+  // Safe delete during iteration
+  for k, v := range freq {
+    if v == 1 { delete(freq, k) }
+  }
+  fmt.Println("after removing singletons:", freq)
+}`,
+
+              `// --- Maps: concurrency safety with sync.RWMutex ---
+package main
+
+import (
+  "fmt"
+  "sync"
+)
+
+type Cache struct {
+  mu    sync.RWMutex
+  store map[string]string
+}
+
+func NewCache() *Cache {
+  return &Cache{store: make(map[string]string)}
+}
+
+func (c *Cache) Get(key string) (string, bool) {
+  c.mu.RLock()           // multiple concurrent readers allowed
+  defer c.mu.RUnlock()
+  v, ok := c.store[key]
+  return v, ok
+}
+
+func (c *Cache) Set(key, val string) {
+  c.mu.Lock()            // exclusive write lock
+  defer c.mu.Unlock()
+  c.store[key] = val
+}
+
+func (c *Cache) Delete(key string) {
+  c.mu.Lock()
+  defer c.mu.Unlock()
+  delete(c.store, key)
+}
+
+func (c *Cache) Len() int {
+  c.mu.RLock()
+  defer c.mu.RUnlock()
+  return len(c.store)
+}
+
+func main() {
+  cache := NewCache()
+  var wg sync.WaitGroup
+
+  // Concurrent writers
+  for i := 0; i < 5; i++ {
+    wg.Add(1)
+    go func(n int) {
+      defer wg.Done()
+      cache.Set(fmt.Sprintf("key%d", n), fmt.Sprintf("val%d", n))
+    }(i)
+  }
+  wg.Wait()
+
+  fmt.Println("cache size:", cache.Len())
+
+  if v, ok := cache.Get("key3"); ok {
+    fmt.Println("key3 =", v)
+  }
+}`
+            ],
+
+            questions: [
+              {
+                question: "What are the three fields of a slice header and what does each represent?",
+                solution: `<p>A Go slice is a 24-byte struct (on 64-bit systems) with exactly three fields:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>Data (pointer)</strong> — a pointer to the first element of the underlying array. This is what the slice "sees" as its start.</li>
+  <li><strong>Len (int)</strong> — the number of elements currently accessible through this slice. <code>s[i]</code> is valid for <code>0 ≤ i < len</code>. Accessing beyond len causes a runtime panic.</li>
+  <li><strong>Cap (int)</strong> — the total number of elements in the underlying array starting from the Data pointer. <code>cap ≥ len</code> always. The extra slots (<code>len</code> to <code>cap-1</code>) are reserved capacity for future <code>append</code> operations.</li>
+</ul>
+<p style="margin-top: 0.75rem;">When you pass a slice to a function, this 24-byte header is copied — but both the original and the copy point to the <em>same</em> underlying array. This means modifications to elements are visible through both, but changes to length and capacity (via <code>append</code>) are not reflected in the caller unless the new slice is returned.</p>`
+              },
+              {
+                question: "Explain exactly what `append` does when there is remaining capacity vs when capacity is exceeded.",
+                solution: `<p><code>append(s, elements...)</code> behaves differently depending on whether there is spare capacity:</p>
+<p style="margin-top: 0.75rem;"><strong>Case 1: len(s) + new elements ≤ cap(s) — capacity sufficient:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Elements are written directly into the backing array at positions <code>len(s)</code> through <code>len(s)+n-1</code>.</li>
+  <li><strong>No new allocation.</strong> The returned slice shares the same backing array as the original.</li>
+  <li>This is the dangerous case — any slice that already pointed to those positions will see the written data.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Case 2: len(s) + new elements > cap(s) — capacity exceeded:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Go allocates a <strong>new, larger backing array</strong> (roughly 2x for small slices, ~1.25x for large ones in Go 1.18+).</li>
+  <li>All existing elements are copied to the new array.</li>
+  <li>New elements are written at the end.</li>
+  <li>The returned slice points to the <strong>new array</strong> — it no longer shares memory with the original.</li>
+</ul>
+<pre><code class="language-go">a := make([]int, 3, 6)  // cap has 3 spare slots
+b := append(a, 1)       // in-place — b and a share backing array
+c := append(b, 2,3,4)   // exceeds cap — c gets new backing array
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Critical rule:</strong> always assign the return value of <code>append</code> back to the same variable — <code>s = append(s, v)</code>. Discarding the return value is a bug.</p>`
+              },
+              {
+                question: "What is the difference between a nil slice and an empty slice? When does it matter?",
+                solution: `<p>Both have length 0 and behave identically for most operations, but they are internally different:</p>
+<pre><code class="language-go">var s1 []int          // nil slice: Data=nil, Len=0, Cap=0
+s2 := []int{}         // empty slice: Data=non-nil, Len=0, Cap=0
+s3 := make([]int, 0)  // empty slice: same as s2
+</code></pre>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><code>len(s1) == 0</code>, <code>len(s2) == 0</code> — both true</li>
+  <li><code>s1 == nil</code> is true; <code>s2 == nil</code> is false</li>
+  <li>Both are safe to range over, append to, and pass to functions expecting <code>[]int</code></li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>When it matters — JSON marshalling:</strong></p>
+<pre><code class="language-go">type Resp struct{ Items []int }
+json.Marshal(Resp{Items: nil})      // {"Items":null}
+json.Marshal(Resp{Items: []int{}})  // {"Items":[]}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Convention:</strong> return a nil slice when there are "no results" and the distinction between "not set" and "empty set" matters (e.g., API responses). Use an empty slice (<code>make([]T, 0)</code> or <code>[]T{}</code>) when you need JSON <code>[]</code> instead of <code>null</code>, or when you need to be explicit that a collection was initialized but happens to be empty.</p>`
+              },
+              {
+                question: "What is the shared backing array trap with slices, and what are the two ways to prevent it?",
+                solution: `<p>When you slice an existing slice or array — <code>s2 := s1[a:b]</code> — both share the same underlying array. If you <code>append</code> to <code>s2</code> while it still has spare capacity (i.e., <code>len(s2) < cap(s2)</code>), the new element is written into the shared memory, silently corrupting data visible through <code>s1</code>:</p>
+<pre><code class="language-go">s1 := make([]int, 4, 8)   // [0,0,0,0,_,_,_,_]
+s2 := s1[:2]               // shares backing array, cap=8
+s2 = append(s2, 99)        // writes to s1[2]! No reallocation.
+fmt.Println(s1)            // [0, 0, 99, 0] — corrupted!
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Fix 1 — Full copy:</strong> use <code>copy</code> or <code>append([]T(nil), src...)</code> to create a completely independent slice.</p>
+<pre><code class="language-go">s2 := make([]int, 2)
+copy(s2, s1[:2])           // independent memory
+// OR
+s2 := append([]int(nil), s1[:2]...)
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Fix 2 — Three-index slice:</strong> cap the sub-slice so any append immediately reallocates.</p>
+<pre><code class="language-go">s2 := s1[0:2:2]   // len=2, cap=2 — forced realloc on next append
+s2 = append(s2, 99)  // cap exceeded → new backing array → s1 safe
+</code></pre>`
+              },
+              {
+                question: "Why should you pre-allocate slices with `make([]T, 0, n)` and when is it important?",
+                solution: `<p>Every time <code>append</code> exceeds a slice's capacity, Go must: allocate a new array (~2x larger), copy all existing elements to the new array, and update the slice header. For a slice built by appending <code>n</code> elements from zero capacity, this happens roughly <code>log₂(n)</code> times — meaning <code>log₂(1000) ≈ 10</code> allocations and copies for 1000 elements.</p>
+<p style="margin-top: 0.75rem;">Pre-allocating with <code>make([]T, 0, n)</code> tells the runtime to allocate enough backing array upfront — zero reallocations during the fill loop:</p>
+<pre><code class="language-go">// Without pre-allocation: ~13 allocs for n=10000
+var s []int
+for i := 0; i < n; i++ { s = append(s, i) }
+
+// With pre-allocation: 1 alloc
+s := make([]int, 0, n)
+for i := 0; i < n; i++ { s = append(s, i) }
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>When it's important:</strong> hot paths, large collections (hundreds+ elements), request handlers in high-throughput servers. The capacity hint doesn't need to be exact — even a rough estimate dramatically reduces allocations. If you know the exact final size, you can also use <code>make([]T, n)</code> and assign by index, which is marginally faster than append.</p>`
+              },
+              {
+                question: "What makes a type valid as a map key in Go?",
+                solution: `<p>Map keys must be <strong>comparable</strong> — they must support the <code>==</code> and <code>!=</code> operators. The Go spec defines which types are comparable:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>Valid:</strong> all basic types (<code>string</code>, <code>int</code>, <code>float64</code>, <code>bool</code>), pointers, arrays (if element type is comparable), structs (if all fields are comparable), interfaces</li>
+  <li><strong>Invalid:</strong> slices, maps, functions — none of these support <code>==</code></li>
+</ul>
+<pre><code class="language-go">type Point struct{ X, Y int }
+m := map[Point]string{}   // valid — struct with comparable fields
+m[Point{1, 2}] = "here"  // OK
+
+type Bad struct{ data []int }
+// map[Bad]string{}  // compile error: Bad contains []int which is not comparable
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Interface keys are allowed but dangerous</strong> — the interface value must be comparable at runtime, or the program panics. If you store a slice inside an interface and use it as a map key, you get a runtime panic. Struct keys are safe and very useful for multi-dimensional lookups: <code>map[[2]string]int</code> or <code>map[struct{X,Y int}]Value</code>.</p>`
+              },
+              {
+                question: "Why are maps not safe for concurrent use and what are the solutions?",
+                solution: `<p>Go's built-in map is <strong>not goroutine-safe</strong>. Concurrent writes, or concurrent read+write, cause a <strong>fatal runtime error</strong> (not just a panic — the program is killed with "concurrent map read and write"). This is detected by Go's race detector and also happens in production without it.</p>
+<p style="margin-top: 0.75rem;">Concurrent reads (no writes) are safe. Everything else requires synchronization.</p>
+<p style="margin-top: 0.75rem;"><strong>Solution 1: sync.RWMutex</strong> — most common, full control:</p>
+<pre><code class="language-go">type SafeMap struct {
+  mu sync.RWMutex
+  m  map[string]int
+}
+func (s *SafeMap) Get(k string) (int, bool) {
+  s.mu.RLock(); defer s.mu.RUnlock()
+  v, ok := s.m[k]; return v, ok
+}
+func (s *SafeMap) Set(k string, v int) {
+  s.mu.Lock(); defer s.mu.Unlock()
+  s.m[k] = v
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Solution 2: sync.Map</strong> — built-in concurrent map, optimized for two specific cases: (a) keys are written once and read many times, or (b) multiple goroutines operate on disjoint key sets. For general use, a mutex-protected map is faster and simpler.</p>
+<pre><code class="language-go">var m sync.Map
+m.Store("key", 42)
+v, ok := m.Load("key")
+m.Delete("key")
+m.Range(func(k, v any) bool { fmt.Println(k, v); return true })
+</code></pre>`
+              },
+              {
+                question: "Do maps in Go ever shrink? What are the implications?",
+                solution: `<p>No. Once a Go map grows to accommodate N entries, deleting all entries does <strong>not</strong> release the allocated bucket memory back to the OS or GC. The map retains its internal bucket structure. This means:</p>
+<pre><code class="language-go">m := make(map[int][]byte)
+for i := 0; i < 1_000_000; i++ {
+  m[i] = make([]byte, 100)
+}
+// ~100MB allocated
+for k := range m { delete(m, k) }
+// m is empty but still holds ~100MB of bucket memory!
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Why:</strong> Go's map uses a fixed bucket structure. Shrinking would require rehashing all remaining entries, which could be expensive and cause latency spikes at unpredictable times.</p>
+<p style="margin-top: 0.75rem;"><strong>Fix:</strong> reassign the variable to a new map — the old map becomes eligible for GC:</p>
+<pre><code class="language-go">m = make(map[int][]byte)   // old map GC'd, memory reclaimed
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Practical impact:</strong> long-lived caches or maps that grow and shrink over time (e.g., session stores) can accumulate memory. The fix is periodic full replacement, or using a purpose-built cache library that manages memory explicitly.</p>`
+              },
+              {
+                question: "What is the difference between `[]T` (slice of values) and `[]*T` (slice of pointers), and when do you choose each?",
+                solution: `<p>The choice affects memory layout, mutation semantics, and cache performance:</p>
+<p style="margin-top: 0.75rem;"><strong>[]T — slice of values:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Data is stored <em>inline</em> in the slice's backing array — all elements are contiguous in memory. Excellent cache locality for iteration.</li>
+  <li>Values are copied on assignment and range. Mutation requires index: <code>s[i].Field = v</code>.</li>
+  <li>Best for small structs, read-heavy workloads, tight iteration loops.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>[]*T — slice of pointers:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Only pointers are stored in the backing array — actual data is scattered on the heap. Poor cache locality for large collections.</li>
+  <li>Range gives you a pointer copy that still points to original data — <code>p.Field = v</code> works correctly without index.</li>
+  <li>Best for large structs (expensive to copy), shared ownership, optional elements (<code>nil</code> pointer = absent), and polymorphism via interfaces.</li>
+</ul>
+<pre><code class="language-go">// []User — mutation requires index
+users := []User{{"Alice", 0}}
+for i := range users { users[i].Score = 100 }  // correct
+
+// []*User — mutation via pointer in range
+pUsers := []*User{{"Bob", 0}}
+for _, u := range pUsers { u.Score = 100 }  // correct
+</code></pre>`
+              },
+              {
+                question: "How does `copy` work, and what are its key behaviors?",
+                solution: `<p><code>copy(dst, src)</code> copies elements from <code>src</code> into <code>dst</code> and returns the number of elements copied, which is <code>min(len(dst), len(src))</code>. Key behaviors:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>It copies min(len(dst), len(src)) elements</strong> — if dst is smaller, only dst-many elements are copied. If src is smaller, only src-many.</li>
+  <li><strong>It works on overlapping slices</strong> — <code>copy(s[1:], s)</code> shifts all elements right by one; Go handles the overlap correctly.</li>
+  <li><strong>It works from string to []byte</strong> — <code>copy(b, "hello")</code> is valid without explicit conversion.</li>
+  <li><strong>It does NOT allocate</strong> — dst must already have sufficient length (not just capacity).</li>
+</ul>
+<pre><code class="language-go">// Common mistake — copy into zero-len slice
+src := []int{1, 2, 3}
+dst := make([]int, 0, 3)  // cap=3 but len=0!
+n := copy(dst, src)        // n=0 — copies nothing (min(0,3)=0)
+
+// Correct:
+dst = make([]int, len(src))  // len=3
+copy(dst, src)               // copies all 3 elements
+</code></pre>
+<p style="margin-top: 0.75rem;"><code>copy</code> is the correct tool whenever you need to guarantee two slices are <em>completely independent</em> — no shared backing array, no possibility of one corrupting the other via append.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/moretypes/7",
+              "https://go.dev/tour/moretypes/11",
+              "https://go.dev/tour/moretypes/15",
+              "https://go.dev/blog/slices-intro",
+              "https://go.dev/blog/slices",
+              "https://go.dev/ref/spec#Slice_types",
+              "https://go.dev/ref/spec#Making_slices_maps_and_channels",
+              "https://go.dev/ref/spec#Appending_and_copying_slices",
+              "https://go.dev/doc/faq#nil_error",
+              "https://pkg.go.dev/sync#Map",
+            ],
+          },
+          {
+            topic: "Structs",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Go has no classes, no inheritance, and no class hierarchies. Instead, it has <strong>structs</strong> — named collections of fields — and a powerful composition model built on <strong>embedding</strong>. This is not a limitation. It is Go's most deliberate design decision: favour shallow, explicit composition over deep inheritance trees. Understanding structs, embedding, methods, and the difference between value and pointer receivers is foundational to writing idiomatic Go.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Struct Definition</h4>
+<pre><code class="language-go">
+// Basic struct definition
+type User struct {
+  Name    string
+  Email   string
+  Age     int
+  Admin   bool
+}
+
+// Instantiation — struct literal
+u1 := User{
+  Name:  "Alice",
+  Email: "alice@example.com",
+  Age:   30,
+  Admin: true,
+}
+
+// Positional literal — fragile, avoid in production code
+u2 := User{"Bob", "bob@example.com", 25, false}
+// Breaking: adding a field changes all positional literals everywhere
+
+// Zero-value struct — every field is zero-valued
+var u3 User   // {Name:"" Email:"" Age:0 Admin:false}
+
+// Partial initialization — unset fields get zero values
+u4 := User{Name: "Carol"}   // Email:"", Age:0, Admin:false
+
+// Accessing and modifying fields
+fmt.Println(u1.Name)   // Alice
+u1.Age = 31
+
+// Struct size — fields are laid out in order, with padding for alignment
+// Ordering fields from largest to smallest type reduces padding
+type Padded struct {
+  A bool    // 1 byte + 7 bytes padding
+  B float64 // 8 bytes
+  C bool    // 1 byte + 7 bytes padding
+}  // total: 24 bytes
+
+type Packed struct {
+  B float64 // 8 bytes
+  A bool    // 1 byte
+  C bool    // 1 byte + 6 bytes padding
+}  // total: 16 bytes — same fields, smaller size
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Structs are Value Types</h4>
+<p style="line-height: 1.75;">Like arrays, structs in Go are <strong>value types</strong>. Assigning a struct to a new variable, or passing it to a function, copies every field. Modifications to the copy do not affect the original.</p>
+<pre><code class="language-go">
+a := User{Name: "Alice", Age: 30}
+b := a           // full copy of all fields
+b.Name = "Bob"
+fmt.Println(a.Name)  // "Alice" — unchanged
+fmt.Println(b.Name)  // "Bob"
+
+// Passing to a function — also a copy
+func birthday(u User) {
+  u.Age++   // modifies the copy, not the original
+}
+birthday(a)
+fmt.Println(a.Age)  // 30 — unchanged
+
+// To modify the original, pass a pointer
+func birthdayPtr(u *User) {
+  u.Age++
+}
+birthdayPtr(&a)
+fmt.Println(a.Age)  // 31 — modified
+
+// Comparing structs — comparable if all fields are comparable
+p1 := User{Name: "Alice", Age: 30}
+p2 := User{Name: "Alice", Age: 30}
+fmt.Println(p1 == p2)  // true — field-by-field comparison
+
+// Structs containing slices, maps, or functions are NOT comparable
+type WithSlice struct {
+  Tags []string
+}
+// w1 == w2  // compile error: invalid operation
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Methods — Attaching Behaviour to Structs</h4>
+<p style="line-height: 1.75;">A method is a function with a <strong>receiver</strong> — a special first argument that binds the function to a type. Go methods are defined outside the struct body, which means you can add methods to any named type in the same package.</p>
+<pre><code class="language-go">
+type Rectangle struct {
+  Width  float64
+  Height float64
+}
+
+// Value receiver — receives a copy of the struct
+func (r Rectangle) Area() float64 {
+  return r.Width * r.Height
+}
+
+func (r Rectangle) Perimeter() float64 {
+  return 2 * (r.Width + r.Height)
+}
+
+// Pointer receiver — receives a pointer to the original struct
+func (r *Rectangle) Scale(factor float64) {
+  r.Width *= factor    // modifies the original
+  r.Height *= factor
+}
+
+func (r *Rectangle) String() string {
+  return fmt.Sprintf("Rectangle(%.2f x %.2f)", r.Width, r.Height)
+}
+
+// Calling methods
+rect := Rectangle{Width: 4, Height: 3}
+fmt.Println(rect.Area())       // 12
+fmt.Println(rect.Perimeter())  // 14
+rect.Scale(2)                  // Go auto-takes address: (&rect).Scale(2)
+fmt.Println(rect)              // Rectangle(8.00 x 6.00)
+
+// Methods on non-struct types — any named type in the same package
+type Celsius float64
+type Fahrenheit float64
+
+func (c Celsius) ToFahrenheit() Fahrenheit {
+  return Fahrenheit(c*9/5 + 32)
+}
+
+func (c Celsius) String() string {
+  return fmt.Sprintf("%.1f°C", float64(c))
+}
+
+temp := Celsius(100)
+fmt.Println(temp)               // 100.0°C
+fmt.Println(temp.ToFahrenheit()) // 212
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Value Receiver vs Pointer Receiver — The Most Important Method Decision</h4>
+<p style="line-height: 1.75;">Choosing between a value receiver <code>(r Rectangle)</code> and a pointer receiver <code>(r *Rectangle)</code> has significant implications for correctness, performance, and interface satisfaction.</p>
+<pre><code class="language-go">
+// VALUE RECEIVER — use when:
+// 1. The method does not modify the receiver
+// 2. The struct is small (copying is cheap)
+// 3. The struct should be treated as a value (like time.Time)
+func (r Rectangle) Area() float64 { return r.Width * r.Height }
+
+// POINTER RECEIVER — use when:
+// 1. The method modifies the receiver — MUST use pointer receiver
+// 2. The struct is large (avoid expensive copies)
+// 3. Consistency — if ANY method uses pointer receiver, ALL should
+func (r *Rectangle) Scale(f float64) { r.Width *= f; r.Height *= f }
+
+// Auto-dereferencing — Go handles the & and * automatically for method calls
+rect := Rectangle{4, 3}
+pRect := &Rectangle{4, 3}
+
+rect.Scale(2)    // Go rewrites as (&rect).Scale(2) — automatic address-of
+pRect.Area()     // Go rewrites as (*pRect).Area() — automatic dereference
+
+// BUT: auto-addressing does NOT work on non-addressable values
+// These fail to compile:
+// Rectangle{4, 3}.Scale(2)   // ERROR: cannot take address of temporary
+// getRect().Scale(2)          // ERROR: cannot take address of function return value
+
+// Interface satisfaction rule — CRITICAL
+// If a method has a pointer receiver, only *T satisfies the interface
+// If a method has a value receiver, both T and *T satisfy the interface
+
+type Scaler interface {
+  Scale(float64)
+}
+var s Scaler
+s = &rect   // OK: *Rectangle has Scale (pointer receiver)
+s = rect    // COMPILE ERROR: Rectangle does not implement Scaler
+            // (Scale has pointer receiver, so only *Rectangle qualifies)
+
+// Consistency rule: if any method needs pointer receiver, use pointer for all
+// Mixing value and pointer receivers on the same type is confusing and
+// leads to subtle interface satisfaction bugs
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Struct Tags</h4>
+<p style="line-height: 1.75;">Struct fields can have <strong>tags</strong> — string literals following the field type that provide metadata consumed by packages via reflection. The most common use is JSON, database, and validation annotations.</p>
+<pre><code class="language-go">
+type User struct {
+  ID       int       \`json:"id"                  db:"id"\`
+  Name     string    \`json:"name"                db:"name"\`
+  Email    string    \`json:"email,omitempty"     db:"email"\`
+  Password string    \`json:"-"\`                  // "-" means exclude from JSON
+  Age      int       \`json:"age,omitempty"\`
+  Admin    bool      \`json:"is_admin"            validate:"required"\`
+  CreateAt time.Time \`json:"created_at"          db:"created_at"\`
+}
+
+// JSON marshalling respects tags
+u := User{ID: 1, Name: "Alice", Email: "alice@x.com"}
+data, _ := json.Marshal(u)
+// {"id":1,"name":"Alice","email":"alice@x.com","is_admin":false}
+// Note: Password excluded (json:"-"), Age omitted (omitempty + zero value)
+
+// Reading tags at runtime via reflection
+t := reflect.TypeOf(User{})
+for i := 0; i < t.NumField(); i++ {
+  field := t.Field(i)
+  jsonTag := field.Tag.Get("json")
+  dbTag   := field.Tag.Get("db")
+  fmt.Printf("field=%s json=%s db=%s\n", field.Name, jsonTag, dbTag)
+}
+
+// Tag format: \`key:"value" key2:"value2"\`
+// Values can contain options separated by comma: "name,omitempty"
+// Common tag keys: json, db, yaml, xml, validate, form, binding, env
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Anonymous Fields and Struct Embedding</h4>
+<p style="line-height: 1.75;">Go's answer to inheritance is <strong>embedding</strong>. When you embed a type inside a struct without giving it a field name (an <em>anonymous field</em>), its fields and methods are <strong>promoted</strong> — they become accessible directly on the outer struct as if they were defined there.</p>
+<pre><code class="language-go">
+type Animal struct {
+  Name string
+}
+
+func (a Animal) Speak() string {
+  return a.Name + " makes a sound"
+}
+
+func (a *Animal) SetName(name string) {
+  a.Name = name
+}
+
+// Dog embeds Animal — anonymous field (no field name, just type)
+type Dog struct {
+  Animal          // embedded — promotes Name, Speak(), SetName()
+  Breed  string
+}
+
+d := Dog{
+  Animal: Animal{Name: "Rex"},
+  Breed:  "Labrador",
+}
+
+// Promoted access — as if Name and Speak were defined on Dog
+fmt.Println(d.Name)    // "Rex" — promoted from Animal
+fmt.Println(d.Speak()) // "Rex makes a sound" — promoted method
+
+// Explicit access still works
+fmt.Println(d.Animal.Name)    // "Rex"
+fmt.Println(d.Animal.Speak()) // "Rex makes a sound"
+
+// Pointer embedding — embeds *Animal instead of Animal
+type Cat struct {
+  *Animal          // embedded pointer
+  Indoor bool
+}
+
+cat := Cat{
+  Animal: &Animal{Name: "Whiskers"},
+  Indoor: true,
+}
+fmt.Println(cat.Name)    // "Whiskers" — promoted through pointer
+cat.SetName("Shadow")    // works — pointer receiver method promoted
+fmt.Println(cat.Name)    // "Shadow"
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Composition Over Inheritance — The Go Way</h4>
+<p style="line-height: 1.75;">Embedding is <em>not</em> inheritance. The embedded type does not know it is embedded, there is no <code>super</code>, and there is no dynamic dispatch on the outer type. What you get is <strong>field and method promotion</strong> — a composition mechanism that is far more flexible than single-inheritance and avoids the fragile base class problem.</p>
+<pre><code class="language-go">
+// Building complex types through composition
+type Logger struct {
+  prefix string
+}
+
+func (l *Logger) Log(msg string) {
+  fmt.Printf("[%s] %s\n", l.prefix, msg)
+}
+
+type Metrics struct {
+  requests int64
+}
+
+func (m *Metrics) Increment() {
+  atomic.AddInt64(&m.requests, 1)
+}
+
+func (m *Metrics) Count() int64 {
+  return atomic.LoadInt64(&m.requests)
+}
+
+// Server composes Logger and Metrics — gets all their methods
+type Server struct {
+  *Logger             // promoted: Log()
+  *Metrics            // promoted: Increment(), Count()
+  host string
+  port int
+}
+
+func NewServer(host string, port int) *Server {
+  return &Server{
+    Logger:  &Logger{prefix: "SERVER"},
+    Metrics: &Metrics{},
+    host:    host,
+    port:    port,
+  }
+}
+
+func (s *Server) HandleRequest(path string) {
+  s.Increment()                              // Metrics.Increment()
+  s.Log("handling " + path)                 // Logger.Log()
+  fmt.Printf("count: %d\n", s.Count())      // Metrics.Count()
+}
+
+// Overriding promoted methods — outer type's method wins
+type VerboseLogger struct {
+  Logger         // embed Logger
+}
+
+// This method shadows Logger.Log
+func (v *VerboseLogger) Log(msg string) {
+  fmt.Printf("[VERBOSE] ")
+  v.Logger.Log(msg)   // still can call embedded method explicitly
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Method Sets and Promotion Rules</h4>
+<pre><code class="language-go">
+// RULE 1: Embedding T promotes T's value and pointer receiver methods
+// RULE 2: Embedding *T promotes T's value AND pointer receiver methods
+// RULE 3: If outer struct has method with same name — outer method wins
+// RULE 4: If two embedded types have same method name — ambiguous, compile error
+
+type A struct{}
+func (A) Hello() { fmt.Println("A") }
+
+type B struct{}
+func (B) Hello() { fmt.Println("B") }
+
+type Ambiguous struct {
+  A
+  B
+}
+
+// a := Ambiguous{}
+// a.Hello()          // COMPILE ERROR: ambiguous selector a.Hello
+// a.A.Hello()        // OK: explicit disambiguation
+// a.B.Hello()        // OK: explicit disambiguation
+
+// Embedding for interface satisfaction — powerful pattern
+type io.ReadWriter interface {
+  Read(p []byte) (n int, err error)
+  Write(p []byte) (n int, err error)
+}
+
+type LoggingReadWriter struct {
+  io.ReadWriter       // embed the interface itself!
+  logger *Logger
+}
+
+func (l *LoggingReadWriter) Read(p []byte) (int, error) {
+  n, err := l.ReadWriter.Read(p)   // delegate to embedded
+  l.logger.Log(fmt.Sprintf("read %d bytes", n))
+  return n, err
+}
+// Write is promoted from the embedded ReadWriter — no need to implement it
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Constructor Functions — The Go Pattern</h4>
+<p style="line-height: 1.75;">Go has no constructors or <code>new</code> keyword for custom initialization. The idiomatic pattern is a <strong>package-level function</strong> named <code>New</code> or <code>NewTypeName</code> that validates inputs, sets defaults, and returns an initialized value.</p>
+<pre><code class="language-go">
+type Config struct {
+  Host        string
+  Port        int
+  MaxConns    int
+  Timeout     time.Duration
+  TLS         bool
+}
+
+// Option pattern — flexible, extensible configuration
+type Option func(*Config)
+
+func WithPort(port int) Option {
+  return func(c *Config) { c.Port = port }
+}
+func WithTLS(tls bool) Option {
+  return func(c *Config) { c.TLS = tls }
+}
+func WithTimeout(d time.Duration) Option {
+  return func(c *Config) { c.Timeout = d }
+}
+func WithMaxConns(n int) Option {
+  return func(c *Config) { c.MaxConns = n }
+}
+
+func NewConfig(host string, opts ...Option) (*Config, error) {
+  if host == "" {
+    return nil, errors.New("host is required")
+  }
+  // Apply defaults
+  cfg := &Config{
+    Host:     host,
+    Port:     8080,
+    MaxConns: 100,
+    Timeout:  30 * time.Second,
+  }
+  // Apply options
+  for _, opt := range opts {
+    opt(cfg)
+  }
+  return cfg, nil
+}
+
+// Clean call site — only specify what differs from defaults
+cfg, err := NewConfig("localhost",
+  WithPort(9090),
+  WithTLS(true),
+  WithMaxConns(500),
+)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Anonymous Structs</h4>
+<pre><code class="language-go">
+// Anonymous struct — no type name, defined inline
+point := struct {
+  X, Y int
+}{X: 10, Y: 20}
+
+fmt.Println(point.X)  // 10
+
+// Common use: one-off test data
+tests := []struct {
+  input    string
+  expected int
+}{
+  {"42", 42},
+  {"0",  0},
+  {"-1", -1},
+}
+
+for _, tt := range tests {
+  result, _ := strconv.Atoi(tt.input)
+  if result != tt.expected {
+    fmt.Printf("FAIL: %s → %d, want %d\n", tt.input, result, tt.expected)
+  }
+}
+
+// Anonymous struct in JSON — quick unmarshalling without defining a type
+var resp struct {
+  Status string \`json:"status"\`
+  Count  int    \`json:"count"\`
+}
+json.Unmarshal(body, &resp)
+fmt.Println(resp.Status, resp.Count)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Struct Memory Layout and the Zero Value Design</h4>
+<pre><code class="language-go">
+// Go structs are designed to have a useful zero value
+// Standard library examples:
+var mu sync.Mutex      // zero value = unlocked mutex, ready to use
+var wg sync.WaitGroup  // zero value = 0 count, ready to use
+var buf bytes.Buffer   // zero value = empty buffer, ready to use
+
+// Design your own structs with useful zero values
+type RateLimiter struct {
+  mu       sync.Mutex   // zero: unlocked
+  requests int          // zero: 0 requests
+  limit    int          // zero: 0 — but is 0 a valid limit?
+}
+// Problem: limit=0 means "allow 0 requests" — not a useful zero value
+// Solution: treat 0 as "unlimited" or use a constructor
+
+// Embed sync types correctly — never copy after first use
+type Cache struct {
+  mu    sync.RWMutex   // must not be copied after first Lock call
+  store map[string]any
+}
+// Pass *Cache everywhere — never copy a Cache value after use begins
+
+// Struct size inspection
+fmt.Println(unsafe.Sizeof(User{}))      // size in bytes
+fmt.Println(unsafe.Alignof(User{}))     // alignment requirement
+fmt.Println(unsafe.Offsetof(User{}.Age)) // byte offset of field
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- Struct basics: value semantics, methods, pointer vs value receiver ---
+package main
+
+import "fmt"
+
+type Point struct {
+  X, Y float64
+}
+
+// Value receiver — reads only, struct is small
+func (p Point) Distance(q Point) float64 {
+  dx, dy := p.X-q.X, p.Y-q.Y
+  return math.Sqrt(dx*dx + dy*dy)
+}
+
+func (p Point) String() string {
+  return fmt.Sprintf("(%.2f, %.2f)", p.X, p.Y)
+}
+
+// Pointer receiver — mutates the struct
+func (p *Point) Translate(dx, dy float64) {
+  p.X += dx
+  p.Y += dy
+}
+
+func (p *Point) Scale(factor float64) {
+  p.X *= factor
+  p.Y *= factor
+}
+
+func main() {
+  p := Point{3, 4}
+  q := Point{0, 0}
+
+  fmt.Println(p)               // (3.00, 4.00)
+  fmt.Println(p.Distance(q))  // 5.00
+
+  p.Translate(1, 1)           // auto: (&p).Translate(1, 1)
+  fmt.Println(p)              // (4.00, 5.00)
+
+  // Value copy — translation doesn't affect copy
+  copy := p
+  copy.Translate(10, 10)
+  fmt.Println(p)     // (4.00, 5.00) — unchanged
+  fmt.Println(copy)  // (14.00, 15.00)
+
+  // Pointer — both variables see the change
+  pp := &Point{1, 2}
+  alias := pp
+  alias.Translate(5, 5)
+  fmt.Println(pp)  // (6.00, 7.00) — affected
+}`,
+
+              `// --- Embedding: composition over inheritance ---
+package main
+
+import (
+  "fmt"
+  "time"
+)
+
+// Base types to compose from
+type Timestamps struct {
+  CreatedAt time.Time
+  UpdatedAt time.Time
+}
+
+func (t *Timestamps) Touch() {
+  t.UpdatedAt = time.Now()
+}
+
+func (t Timestamps) Age() time.Duration {
+  return time.Since(t.CreatedAt)
+}
+
+type Auditable struct {
+  CreatedBy string
+  UpdatedBy string
+}
+
+func (a *Auditable) SetUpdatedBy(user string) {
+  a.UpdatedBy = user
+}
+
+// Compose by embedding — gets all fields and methods of both
+type Article struct {
+  Timestamps           // promoted: CreatedAt, UpdatedAt, Touch(), Age()
+  Auditable            // promoted: CreatedBy, UpdatedBy, SetUpdatedBy()
+  Title   string
+  Body    string
+  Tags    []string
+}
+
+type Product struct {
+  Timestamps           // same embedded types, different outer type
+  Auditable
+  Name  string
+  Price float64
+  SKU   string
+}
+
+func main() {
+  now := time.Now()
+  article := Article{
+    Timestamps: Timestamps{CreatedAt: now, UpdatedAt: now},
+    Auditable:  Auditable{CreatedBy: "alice", UpdatedBy: "alice"},
+    Title:      "Go Structs",
+    Body:       "...",
+  }
+
+  // Promoted field and method access
+  fmt.Println(article.CreatedAt)     // Timestamps.CreatedAt
+  fmt.Println(article.CreatedBy)     // Auditable.CreatedBy
+  article.Touch()                    // Timestamps.Touch()
+  article.SetUpdatedBy("bob")        // Auditable.SetUpdatedBy()
+  fmt.Println(article.UpdatedBy)     // "bob"
+  fmt.Printf("age: %v\n", article.Age())
+
+  // Explicit access when needed
+  fmt.Println(article.Timestamps.CreatedAt)
+  fmt.Println(article.Auditable.CreatedBy)
+}`,
+
+              `// --- Option pattern constructor ---
+package main
+
+import (
+  "errors"
+  "fmt"
+  "time"
+)
+
+type DBConfig struct {
+  host        string
+  port        int
+  database    string
+  maxConns    int
+  idleConns   int
+  connTimeout time.Duration
+  queryTimeout time.Duration
+  tlsEnabled  bool
+}
+
+type DBOption func(*DBConfig)
+
+func WithDBPort(p int) DBOption {
+  return func(c *DBConfig) { c.port = p }
+}
+func WithMaxConns(n int) DBOption {
+  return func(c *DBConfig) { c.maxConns = n }
+}
+func WithIdleConns(n int) DBOption {
+  return func(c *DBConfig) { c.idleConns = n }
+}
+func WithConnTimeout(d time.Duration) DBOption {
+  return func(c *DBConfig) { c.connTimeout = d }
+}
+func WithTLSEnabled(b bool) DBOption {
+  return func(c *DBConfig) { c.tlsEnabled = b }
+}
+
+func NewDBConfig(host, database string, opts ...DBOption) (*DBConfig, error) {
+  if host == "" {
+    return nil, errors.New("host required")
+  }
+  if database == "" {
+    return nil, errors.New("database name required")
+  }
+
+  cfg := &DBConfig{
+    host:         host,
+    database:     database,
+    port:         5432,
+    maxConns:     25,
+    idleConns:    5,
+    connTimeout:  5 * time.Second,
+    queryTimeout: 30 * time.Second,
+  }
+
+  for _, opt := range opts {
+    opt(cfg)
+  }
+
+  if cfg.idleConns > cfg.maxConns {
+    return nil, errors.New("idleConns cannot exceed maxConns")
+  }
+
+  return cfg, nil
+}
+
+func main() {
+  cfg, err := NewDBConfig("localhost", "myapp",
+    WithDBPort(5433),
+    WithMaxConns(50),
+    WithIdleConns(10),
+    WithTLSEnabled(true),
+    WithConnTimeout(10*time.Second),
+  )
+  if err != nil {
+    fmt.Println("config error:", err)
+    return
+  }
+  fmt.Printf("%+v\n", cfg)
+}`,
+
+              `// --- Struct tags: JSON marshalling patterns ---
+package main
+
+import (
+  "encoding/json"
+  "fmt"
+  "time"
+)
+
+type Address struct {
+  Street string \`json:"street"\`
+  City   string \`json:"city"\`
+  Zip    string \`json:"zip"\`
+}
+
+type User struct {
+  ID        int       \`json:"id"\`
+  Username  string    \`json:"username"\`
+  Email     string    \`json:"email,omitempty"\`
+  Password  string    \`json:"-"\`               // never marshal
+  Age       int       \`json:"age,omitempty"\`
+  Address   *Address  \`json:"address,omitempty"\` // pointer: null if nil
+  Tags      []string  \`json:"tags,omitempty"\`   // omit if empty
+  CreatedAt time.Time \`json:"created_at"\`
+  UpdatedAt time.Time \`json:"updated_at,omitempty"\`
+}
+
+func main() {
+  u := User{
+    ID:       1,
+    Username: "alice",
+    Email:    "alice@example.com",
+    Password: "secret123",
+    Address:  &Address{"123 Main St", "Springfield", "12345"},
+    Tags:     []string{"admin", "verified"},
+    CreatedAt: time.Now(),
+  }
+
+  data, _ := json.MarshalIndent(u, "", "  ")
+  fmt.Println(string(data))
+  // Password is absent, Age omitted (0 + omitempty)
+
+  // Unmarshal
+  jsonStr := \`{"id":2,"username":"bob","email":"bob@x.com","age":25}\`
+  var u2 User
+  json.Unmarshal([]byte(jsonStr), &u2)
+  fmt.Printf("%+v\n", u2)
+
+  // Anonymous struct for one-off response shaping
+  resp := struct {
+    User    string \`json:"user"\`
+    Message string \`json:"message"\`
+    OK      bool   \`json:"ok"\`
+  }{
+    User:    u.Username,
+    Message: "login successful",
+    OK:      true,
+  }
+  data2, _ := json.Marshal(resp)
+  fmt.Println(string(data2))
+}`,
+
+              `// --- Interface embedding + method promotion for decorators ---
+package main
+
+import (
+  "fmt"
+  "io"
+  "strings"
+)
+
+// Embed an interface inside a struct — elegant delegation pattern
+type CountingReader struct {
+  io.Reader        // promotes Read() method
+  BytesRead int64
+}
+
+func (cr *CountingReader) Read(p []byte) (int, error) {
+  n, err := cr.Reader.Read(p)  // delegate to inner reader
+  cr.BytesRead += int64(n)
+  return n, err
+}
+
+type LoggingWriter struct {
+  io.Writer
+  Log []string
+}
+
+func (lw *LoggingWriter) Write(p []byte) (int, error) {
+  lw.Log = append(lw.Log, string(p))
+  return lw.Writer.Write(p)
+}
+
+func main() {
+  // CountingReader wraps any io.Reader
+  r := &CountingReader{
+    Reader: strings.NewReader("Hello, Go structs!"),
+  }
+
+  buf := make([]byte, 5)
+  for {
+    n, err := r.Read(buf)
+    if n > 0 {
+      fmt.Printf("read: %q\n", buf[:n])
+    }
+    if err == io.EOF { break }
+  }
+  fmt.Printf("total bytes read: %d\n", r.BytesRead)  // 18
+
+  // LoggingWriter wraps any io.Writer
+  var sb strings.Builder
+  lw := &LoggingWriter{Writer: &sb}
+  fmt.Fprintf(lw, "hello ")
+  fmt.Fprintf(lw, "world")
+  fmt.Println("log:", lw.Log)       // ["hello " "world"]
+  fmt.Println("buf:", sb.String())  // "hello world"
+}`
+            ],
+
+            questions: [
+              {
+                question: "Go has no classes or inheritance. How does it achieve code reuse?",
+                solution: `<p>Go achieves code reuse through two mechanisms: <strong>embedding</strong> and <strong>interfaces</strong>.</p>
+<p style="margin-top: 0.75rem;"><strong>Embedding</strong> promotes the fields and methods of an inner type to the outer struct. This is compositional reuse — you assemble behaviour from small, focused types rather than inheriting from a base class:</p>
+<pre><code class="language-go">type Logger struct{}
+func (l *Logger) Log(msg string) { fmt.Println(msg) }
+
+type Server struct {
+  *Logger        // Server now has Log() without any inheritance
+  host string
+}
+s := Server{Logger: &Logger{}, host: "localhost"}
+s.Log("started")   // promoted method
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Why this is better than inheritance:</strong> there is no fragile base class problem — the embedded type has no knowledge of the outer type. There is no method resolution order (MRO) ambiguity (Go gives a compile error on ambiguous selectors). You can embed any number of types without the diamond inheritance problem. And behaviour is explicit — you can see exactly which type provides each method.</p>
+<p style="margin-top: 0.75rem;"><strong>Interfaces</strong> complete the picture — they define shared behaviour contracts without coupling types to a hierarchy. Any type that implements the methods satisfies the interface implicitly.</p>`
+              },
+              {
+                question: "What is the difference between a value receiver and a pointer receiver, and how do you choose?",
+                solution: `<p>A <strong>value receiver</strong> <code>(r Rectangle)</code> receives a copy of the struct. A <strong>pointer receiver</strong> <code>(r *Rectangle)</code> receives a pointer to the original.</p>
+<p style="margin-top: 0.75rem;"><strong>Rules for choosing:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>If the method <strong>modifies the receiver</strong>, you must use a pointer receiver — a value receiver modifies only the copy.</li>
+  <li>If the struct is <strong>large</strong>, use a pointer receiver to avoid expensive copies on every method call.</li>
+  <li><strong>Consistency rule</strong>: if any method on a type uses a pointer receiver, all methods should. Mixing causes confusion and interface satisfaction issues.</li>
+  <li>Value receivers are fine for <strong>small, immutable value types</strong> like <code>time.Time</code> — copying is cheap and the copy-semantics are intentional.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Interface satisfaction gotcha:</strong></p>
+<pre><code class="language-go">type Stringer interface { String() string }
+
+type T struct{ name string }
+func (t *T) String() string { return t.name }  // pointer receiver
+
+var s Stringer
+s = &T{"alice"}   // OK — *T implements Stringer
+s = T{"alice"}    // COMPILE ERROR — T does not implement Stringer
+                  // because String() has a pointer receiver
+</code></pre>
+<p style="margin-top: 0.75rem;">Value receiver methods are in both T's and *T's method set. Pointer receiver methods are only in *T's method set. This is why pointer receivers can cause surprising interface failures.</p>`
+              },
+              {
+                question: "What is struct embedding and how is it different from inheritance?",
+                solution: `<p>Struct embedding is syntactic sugar for composition — you include a type as an anonymous (unnamed) field, and its fields and methods are <strong>promoted</strong> to the outer struct:</p>
+<pre><code class="language-go">type Animal struct{ Name string }
+func (a Animal) Speak() string { return a.Name }
+
+type Dog struct {
+  Animal       // embedded — promotes Name and Speak()
+  Breed string
+}
+
+d := Dog{Animal: Animal{"Rex"}, Breed: "Lab"}
+d.Name    // promoted — same as d.Animal.Name
+d.Speak() // promoted — same as d.Animal.Speak()
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Key differences from inheritance:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>No polymorphism</strong> — a <code>Dog</code> is not an <code>Animal</code>. You cannot pass a <code>Dog</code> where an <code>Animal</code> is expected. There is no "is-a" relationship, only "has-a".</li>
+  <li><strong>No super</strong> — the embedded type has no knowledge of the outer struct. You cannot call <code>super.Method()</code>. The outer struct can call <code>d.Animal.Speak()</code> explicitly if it wants the embedded method.</li>
+  <li><strong>No dynamic dispatch</strong> — if <code>Dog</code> defines its own <code>Speak()</code>, calling <code>d.Speak()</code> calls <code>Dog</code>'s version. But calling <code>d.Animal.Speak()</code> always calls <code>Animal</code>'s version. The outer method simply shadows, not overrides.</li>
+  <li><strong>Explicit disambiguation</strong> — if two embedded types have the same method name, the compiler errors and forces explicit access: <code>d.Animal.Method()</code>.</li>
+</ul>`
+              },
+              {
+                question: "What are struct tags and how are they used?",
+                solution: `<p>Struct tags are raw string literals placed after a field's type in the struct definition. They are invisible at compile time — they are purely metadata read at runtime via reflection by external packages.</p>
+<pre><code class="language-go">type User struct {
+  Name  string \`json:"name"           db:"name"\`
+  Email string \`json:"email,omitempty" db:"email"\`
+  Pass  string \`json:"-"\`              // excluded from JSON
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">The format is: backtick-quoted string with space-separated <code>key:"value"</code> pairs. Values can contain comma-separated options (e.g., <code>"email,omitempty"</code>).</p>
+<p style="margin-top: 0.75rem;"><strong>Common tag keys:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><code>json</code> — used by <code>encoding/json</code> for marshal/unmarshal field names and options (<code>omitempty</code>, <code>-</code>)</li>
+  <li><code>db</code> — used by <code>sqlx</code>, <code>GORM</code>, and other ORMs for column names</li>
+  <li><code>yaml</code> — used by <code>gopkg.in/yaml.v3</code></li>
+  <li><code>validate</code> — used by <code>go-playground/validator</code> for input validation rules</li>
+  <li><code>env</code> — used by config packages to bind environment variables to struct fields</li>
+</ul>
+<p style="margin-top: 0.75rem;">Tags are accessed at runtime: <code>field.Tag.Get("json")</code>. They carry zero runtime cost unless you explicitly read them via reflection.</p>`
+              },
+              {
+                question: "What is the zero value of a struct and how should you design structs to take advantage of it?",
+                solution: `<p>A struct's zero value is the struct with every field set to its respective zero value (<code>0</code>, <code>""</code>, <code>false</code>, <code>nil</code>). You get this automatically from <code>var u User</code>.</p>
+<p style="margin-top: 0.75rem;">Go's standard library frequently designs types so their <strong>zero value is immediately useful</strong> — requiring no constructor call:</p>
+<pre><code class="language-go">var mu sync.Mutex       // zero = unlocked, ready to use
+var wg sync.WaitGroup   // zero = 0 count, ready to use
+var buf bytes.Buffer    // zero = empty buffer, ready to use
+var once sync.Once      // zero = not yet run, ready to use
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>How to design your own structs this way:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Ask: "is the zero value of this struct a valid, usable state?"</li>
+  <li>Use <code>nil</code> slices and maps — they behave correctly at zero value (range over nil is safe, append to nil is safe).</li>
+  <li>Avoid boolean fields like <code>initialized bool</code> — instead design so the zero struct is already initialized.</li>
+  <li>When zero is not a valid state (e.g., a connection pool with 0 max connections), document it clearly or require a constructor.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Critical note:</strong> types that contain <code>sync.Mutex</code>, <code>sync.RWMutex</code>, or <code>sync.WaitGroup</code> must never be copied after first use — always pass by pointer after the first Lock/Add call. Embedding these types in your struct means the struct itself must be passed by pointer.</p>`
+              },
+              {
+                question: "What happens when two embedded types in a struct have a method with the same name?",
+                solution: `<p>When two embedded types promote a method with the same name to the outer struct, accessing that method through the outer struct causes a <strong>compile error</strong> — the selector is ambiguous.</p>
+<pre><code class="language-go">type A struct{}
+func (A) Hello() { fmt.Println("A") }
+
+type B struct{}
+func (B) Hello() { fmt.Println("B") }
+
+type C struct{ A; B }
+
+c := C{}
+c.Hello()    // COMPILE ERROR: ambiguous selector c.Hello
+c.A.Hello()  // OK — explicit disambiguation
+c.B.Hello()  // OK — explicit disambiguation
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Resolution:</strong> if the outer struct defines its own method with the same name, that method <em>shadows</em> the embedded ones — the outer method wins and there is no ambiguity:</p>
+<pre><code class="language-go">func (c C) Hello() {
+  c.A.Hello()  // can still call embedded explicitly
+  c.B.Hello()
+}
+c.Hello()  // calls C.Hello — no ambiguity
+</code></pre>
+<p style="margin-top: 0.75rem;">This is Go's deliberate choice: composition conflicts are caught at compile time, not silently resolved by MRO rules. If you hit an ambiguous selector, you must either explicitly qualify the access or add a method on the outer type that resolves the conflict.</p>`
+              },
+              {
+                question: "Explain the functional options pattern for constructors. Why is it preferred?",
+                solution: `<p>The functional options pattern is Go's idiomatic solution for constructors that have many optional parameters. Instead of a function with a long parameter list or a Config struct literal, you define a <code>type Option func(*T)</code> and provide named constructor functions that return options:</p>
+<pre><code class="language-go">type Server struct { host string; port int; timeout time.Duration }
+type Option func(*Server)
+
+func WithPort(p int) Option     { return func(s *Server) { s.port = p } }
+func WithTimeout(d time.Duration) Option { return func(s *Server) { s.timeout = d } }
+
+func NewServer(host string, opts ...Option) *Server {
+  s := &Server{host: host, port: 8080, timeout: 30 * time.Second} // defaults
+  for _, opt := range opts { opt(s) }
+  return s
+}
+
+// Call site is self-documenting
+s := NewServer("localhost", WithPort(9090), WithTimeout(60*time.Second))
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Advantages over alternatives:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>vs. long parameter list: adding a new option is backwards-compatible — existing callers are unaffected.</li>
+  <li>vs. exported Config struct: options are validated and encapsulated inside <code>New</code>. The struct's fields can remain unexported.</li>
+  <li>vs. builder pattern: simpler — no <code>Build()</code> step, no intermediate builder type.</li>
+  <li>Options are composable — you can define option sets: <code>productionOpts := []Option{WithTLS(true), WithTimeout(5*time.Second)}</code></li>
+</ul>
+<p style="margin-top: 0.75rem;">This pattern is used in major Go libraries including <code>grpc-go</code>, <code>zap</code>, and <code>go-redis</code>.</p>`
+              },
+              {
+                question: "What is an anonymous struct and when is it useful?",
+                solution: `<p>An anonymous struct is a struct type defined inline without a type name. It is declared and instantiated in one expression:</p>
+<pre><code class="language-go">point := struct{ X, Y int }{X: 10, Y: 20}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>The three most common use cases:</strong></p>
+<p style="margin-top: 0.75rem;"><strong>1. Table-driven test cases</strong> — the most idiomatic use:</p>
+<pre><code class="language-go">tests := []struct {
+  input    string
+  want     int
+  wantErr  bool
+}{
+  {"42", 42, false},
+  {"abc", 0, true},
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>2. One-off JSON unmarshalling</strong> — when you only need to decode a specific shape once and don't want to define a full named type:</p>
+<pre><code class="language-go">var resp struct {
+  Status string \`json:"status"\`
+  Token  string \`json:"token"\`
+}
+json.Unmarshal(body, &resp)
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>3. Grouping related constants or data</strong> in a package without polluting the type namespace. Named types are preferred for anything used in more than one place or that needs methods. Anonymous structs should be treated as throwaway types.</p>`
+              },
+              {
+                question: "Can you embed an interface in a struct? What does that achieve?",
+                solution: `<p>Yes — and it is a powerful and underused pattern. Embedding an interface in a struct means the struct has a field of that interface type (unnamed), and all of the interface's methods are promoted to the outer struct:</p>
+<pre><code class="language-go">type CountingReader struct {
+  io.Reader       // embed the interface — promotes Read()
+  BytesRead int64
+}
+
+func (cr *CountingReader) Read(p []byte) (int, error) {
+  n, err := cr.Reader.Read(p)   // delegate to whatever is stored in the field
+  cr.BytesRead += int64(n)
+  return n, err
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>What this achieves — the decorator/wrapper pattern:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>You only need to implement the methods you want to intercept. All others are delegated automatically through the embedded interface field.</li>
+  <li>This lets you wrap any implementation of <code>io.Reader</code> — files, HTTP bodies, strings — with zero coupling to the concrete type.</li>
+  <li>The outer struct itself satisfies <code>io.Reader</code> because it promotes <code>Read()</code>.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Gotcha:</strong> if the interface field is <code>nil</code> (the zero value of an interface is nil), calling any promoted method that isn't overridden by the outer struct will panic at runtime — you're calling a method through a nil interface. Always initialize the embedded interface field in the constructor.</p>`
+              },
+              {
+                question: "How does Go handle struct field alignment and padding? Why does field order matter for memory?",
+                solution: `<p>Go (like most languages targeting modern CPUs) aligns each field in a struct to its natural alignment — typically the size of the type. The compiler inserts invisible <em>padding bytes</em> between fields to satisfy alignment requirements.</p>
+<pre><code class="language-go">// Poorly ordered — lots of padding
+type Bad struct {
+  A bool    // 1 byte + 7 bytes padding
+  B float64 // 8 bytes
+  C bool    // 1 byte + 7 bytes padding
+}  // total: 24 bytes
+
+// Well ordered — minimal padding (largest fields first)
+type Good struct {
+  B float64 // 8 bytes
+  A bool    // 1 byte
+  C bool    // 1 byte + 6 bytes padding (struct alignment = 8)
+}  // total: 16 bytes — 33% smaller, same data
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Why it matters:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Smaller structs mean more fit in a cache line (64 bytes) — better performance in tight loops over large slices of structs.</li>
+  <li>When you have millions of structs (e.g., in-memory databases, game entities), the difference between 24 and 16 bytes per struct is a 33% memory reduction.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Practical rule:</strong> order fields from largest alignment requirement to smallest: <code>float64</code> and pointers (8 bytes) first, then <code>int32</code>/<code>float32</code> (4 bytes), then <code>int16</code> (2 bytes), then <code>bool</code>/<code>byte</code> (1 byte). For most application code, this doesn't matter. For hot-path data structures, it can make a measurable difference. Use <code>unsafe.Sizeof(T{})</code> to inspect the actual size.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/moretypes/2",
+              "https://go.dev/tour/moretypes/8",
+              "https://go.dev/ref/spec#Struct_types",
+              "https://go.dev/ref/spec#Method_sets",
+              "https://go.dev/ref/spec#Selectors",
+              "https://go.dev/doc/effective_go#embedding",
+              "https://go.dev/doc/effective_go#methods",
+              "https://dave.cheney.net/2016/01/18/functional-options-for-friendly-apis",
+              "https://go.dev/blog/laws-of-reflection",
+              "https://pkg.go.dev/encoding/json#Marshal",
+            ],
+          },
+          {
+            topic: "Methods",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Methods in Go are functions with a <strong>receiver argument</strong> — a special parameter that binds the function to a named type. They are how Go attaches behaviour to data. Unlike classes in OOP languages, Go methods are defined outside the type body, can be added to any named type (not just structs), and have an explicit, visible receiver rather than an implicit <code>this</code> or <code>self</code>. The choice between a value receiver and a pointer receiver is one of the most consequential decisions in Go API design — it affects correctness, performance, memory, and interface satisfaction.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Method Syntax — The Receiver</h4>
+<pre><code class="language-go">
+// Function (no receiver)
+func add(a, b int) int { return a + b }
+
+// Method (has receiver)
+// func  (receiver)     name      (params)   return
+   func  (r Rectangle)  Area()    float64  { return r.Width * r.Height }
+   func  (r *Rectangle) Scale(f float64)   { r.Width *= f }
+
+// The receiver is just a named parameter — convention is a short
+// 1-2 letter abbreviation of the type name, NOT self or this
+type Rectangle struct { Width, Height float64 }
+
+func (r Rectangle) Area() float64 {
+  return r.Width * r.Height   // r is a copy — reads are fine
+}
+
+func (r Rectangle) Perimeter() float64 {
+  return 2 * (r.Width + r.Height)
+}
+
+func (r *Rectangle) Scale(factor float64) {
+  r.Width *= factor    // r is a pointer — writes affect original
+  r.Height *= factor
+}
+
+func (r Rectangle) String() string {
+  return fmt.Sprintf("Rectangle(%.2f x %.2f)", r.Width, r.Height)
+}
+
+// Calling methods
+rect := Rectangle{Width: 4, Height: 3}
+fmt.Println(rect.Area())       // 12 — value receiver
+rect.Scale(2)                  // pointer receiver — Go auto-takes address
+fmt.Println(rect)              // Rectangle(8.00 x 6.00)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Methods on Any Named Type — Not Just Structs</h4>
+<p style="line-height: 1.75;">You can define methods on <em>any named type declared in the same package</em> — not just structs. This is one of Go's most expressive features, enabling you to give behaviour to primitive aliases, slices, maps, and function types.</p>
+<pre><code class="language-go">
+// Methods on a numeric alias
+type Celsius float64
+type Fahrenheit float64
+
+func (c Celsius) ToFahrenheit() Fahrenheit {
+  return Fahrenheit(c*9/5 + 32)
+}
+
+func (c Celsius) String() string {
+  return fmt.Sprintf("%.1f°C", float64(c))
+}
+
+func (f Fahrenheit) ToCelsius() Celsius {
+  return Celsius((f - 32) * 5 / 9)
+}
+
+temp := Celsius(100)
+fmt.Println(temp)                // 100.0°C  (uses String())
+fmt.Println(temp.ToFahrenheit()) // 212
+
+// Methods on a string alias
+type HTTPMethod string
+
+const (
+  GET    HTTPMethod = "GET"
+  POST   HTTPMethod = "POST"
+  PUT    HTTPMethod = "PUT"
+  DELETE HTTPMethod = "DELETE"
+)
+
+func (m HTTPMethod) IsSafe() bool {
+  return m == GET
+}
+
+func (m HTTPMethod) IsIdempotent() bool {
+  return m == GET || m == PUT || m == DELETE
+}
+
+// Methods on a slice type
+type IntSlice []int
+
+func (s IntSlice) Sum() int {
+  total := 0
+  for _, v := range s { total += v }
+  return total
+}
+
+func (s IntSlice) Filter(fn func(int) bool) IntSlice {
+  var result IntSlice
+  for _, v := range s {
+    if fn(v) { result = append(result, v) }
+  }
+  return result
+}
+
+func (s *IntSlice) Append(vals ...int) {
+  *s = append(*s, vals...)
+}
+
+nums := IntSlice{1, 2, 3, 4, 5, 6}
+fmt.Println(nums.Sum())                                    // 21
+fmt.Println(nums.Filter(func(n int) bool { return n%2 == 0 })) // [2 4 6]
+
+// Methods on a function type — handler middleware pattern
+type HandlerFunc func(http.ResponseWriter, *http.Request)
+
+func (f HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+  f(w, r)
+}
+// This is exactly how net/http.HandlerFunc works — a function type
+// that implements an interface, enabling plain functions to be used
+// wherever http.Handler is expected
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Value Receiver — Deep Dive</h4>
+<p style="line-height: 1.75;">A value receiver receives a <strong>full copy</strong> of the struct at the moment of the method call. The method operates on this copy — any mutations are local to the method and discarded when it returns.</p>
+<pre><code class="language-go">
+type Counter struct {
+  count int
+  name  string
+}
+
+// Value receiver — operates on a copy
+func (c Counter) Value() int {
+  return c.count
+}
+
+func (c Counter) String() string {
+  return fmt.Sprintf("%s=%d", c.name, c.count)
+}
+
+// TRAP: this compiles but does nothing useful
+func (c Counter) BrokenIncrement() {
+  c.count++   // modifies the copy — caller's Counter is unchanged
+}
+
+c := Counter{name: "hits", count: 0}
+c.BrokenIncrement()
+fmt.Println(c.count)   // 0 — BrokenIncrement had no effect
+
+// When value receivers ARE correct:
+// 1. The method is read-only
+// 2. Intentional copy semantics (like time.Time — mutation creates a new value)
+// 3. The type is small and cheap to copy
+
+type Color struct { R, G, B uint8 }
+
+func (c Color) Darken(amount uint8) Color {
+  // Returns a NEW darkened color — doesn't mutate original
+  // This is intentional: colors are values, not mutable objects
+  sub := func(v uint8) uint8 {
+    if amount > v { return 0 }
+    return v - amount
+  }
+  return Color{sub(c.R), sub(c.G), sub(c.B)}
+}
+
+red := Color{255, 0, 0}
+darkRed := red.Darken(50)   // returns a new Color, red is unchanged
+fmt.Println(red)            // {255 0 0}
+fmt.Println(darkRed)        // {205 0 0}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pointer Receiver — Deep Dive</h4>
+<p style="line-height: 1.75;">A pointer receiver receives a pointer to the original value. The method can read and modify the original struct through the pointer. This is the correct choice for mutation, large structs, and types with internal state.</p>
+<pre><code class="language-go">
+type Counter struct {
+  count int
+  name  string
+  mu    sync.Mutex
+}
+
+// Pointer receiver — required for mutation
+func (c *Counter) Increment() {
+  c.mu.Lock()
+  defer c.mu.Unlock()
+  c.count++
+}
+
+func (c *Counter) Add(n int) {
+  c.mu.Lock()
+  defer c.mu.Unlock()
+  c.count += n
+}
+
+func (c *Counter) Reset() {
+  c.mu.Lock()
+  defer c.mu.Unlock()
+  c.count = 0
+}
+
+// Pointer receiver for read — consistent with other pointer receiver methods
+func (c *Counter) Value() int {
+  c.mu.RLock()
+  defer c.mu.RUnlock()
+  return c.count
+}
+
+c := &Counter{name: "requests"}
+c.Increment()
+c.Increment()
+c.Add(10)
+fmt.Println(c.Value())   // 12
+
+// CRITICAL: sync.Mutex MUST use pointer receivers — never copy a Mutex
+// If Counter used value receivers, the mutex would be copied too,
+// creating a separate mutex per call — completely defeating the purpose
+// go vet catches: "passes lock by value"
+
+// Pointer receivers for large structs — avoid expensive copies
+type ImageProcessor struct {
+  pixels    [][]uint32   // could be millions of pixels
+  width     int
+  height    int
+  filters   []FilterFunc
+  metadata  map[string]string
+}
+
+// Passing by value would copy the entire pixels slice header + metadata map
+// Use pointer receiver — only the pointer (8 bytes) is passed
+func (ip *ImageProcessor) ApplyFilter(f FilterFunc) {
+  ip.filters = append(ip.filters, f)
+}
+
+func (ip *ImageProcessor) Resize(w, h int) {
+  ip.width = w
+  ip.height = h
+  // ... expensive resize operation
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">The Decision Framework — Value vs Pointer Receiver</h4>
+<pre><code class="language-go">
+// ✅ USE POINTER RECEIVER WHEN:
+
+// 1. Method modifies the receiver — MANDATORY
+func (s *Server) SetTimeout(d time.Duration) { s.timeout = d }
+
+// 2. Struct contains a sync type (Mutex, WaitGroup, etc.) — MANDATORY
+// Copying a Mutex defeats its purpose
+func (c *Cache) Get(key string) (any, bool) {
+  c.mu.RLock()
+  defer c.mu.RUnlock()
+  v, ok := c.store[key]
+  return v, ok
+}
+
+// 3. Struct is large — avoid expensive copies on every call
+// Rule of thumb: structs larger than ~64 bytes (one cache line)
+func (p *PageRenderer) Render(w io.Writer) error { ... }
+
+// 4. Consistency — if ANY method uses pointer receiver, ALL should
+// Mixed receivers on the same type cause confusion and interface bugs
+type UserService struct { db *sql.DB }
+func (s *UserService) Create(u User) error { ... }
+func (s *UserService) Find(id int) (*User, error) { ... }
+func (s *UserService) Delete(id int) error { ... }
+// ALL use pointer receivers — consistent set
+
+// ✅ USE VALUE RECEIVER WHEN:
+
+// 1. Method is read-only AND struct is small AND immutable semantics desired
+type Point struct { X, Y float64 }
+func (p Point) Distance(q Point) float64 { ... }
+func (p Point) String() string { ... }
+
+// 2. Type is a primitive alias — immutable value semantics
+type Direction int
+func (d Direction) String() string { return [...]string{"N","E","S","W"}[d] }
+
+// 3. Intentional copy-on-modify (functional style)
+type Config struct { host string; port int }
+func (c Config) WithPort(p int) Config {
+  c.port = p   // modify the copy
+  return c     // return the modified copy
+}
+// cfg2 := cfg.WithPort(9090)  — cfg unchanged, cfg2 has new port
+
+// ❌ NEVER DO:
+// Mix value and pointer receivers on the same type inconsistently
+type Bad struct { x int }
+func (b Bad) Read() int  { return b.x }     // value
+func (b *Bad) Write(n int) { b.x = n }      // pointer
+// This is technically legal but causes interface satisfaction confusion
+// If an interface requires both Read and Write, only *Bad satisfies it
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Method Sets — The Rules That Govern Interface Satisfaction</h4>
+<p style="line-height: 1.75;">The method set of a type determines which interfaces it satisfies. This is where value vs pointer receivers become critical for interface design:</p>
+<pre><code class="language-go">
+// The rules (memorize these):
+// Type T  has method set: all methods with VALUE receiver (T)
+// Type *T has method set: all methods with VALUE receiver (T)
+//                      + all methods with POINTER receiver (*T)
+
+// In other words: *T always has a superset of T's methods
+
+type Animal struct{ Name string }
+
+func (a Animal) Breathe() string  { return a.Name + " breathes" }  // value
+func (a *Animal) Eat(food string) { fmt.Println(a.Name, "eats", food) } // pointer
+
+// T  (Animal) method set:  { Breathe }
+// *T (*Animal) method set: { Breathe, Eat }
+
+type Breather interface { Breathe() string }
+type Eater    interface { Eat(string) }
+type LivingThing interface { Breathe() string; Eat(string) }
+
+var _ Breather    = Animal{}    // ✅ Animal has Breathe (value receiver)
+var _ Breather    = &Animal{}   // ✅ *Animal also has Breathe
+var _ Eater       = Animal{}    // ❌ COMPILE ERROR: Animal missing Eat
+var _ Eater       = &Animal{}   // ✅ *Animal has Eat (pointer receiver)
+var _ LivingThing = Animal{}    // ❌ COMPILE ERROR: Animal missing Eat
+var _ LivingThing = &Animal{}   // ✅ *Animal has both
+
+// PRACTICAL IMPLICATION:
+// If your type has ANY pointer receiver methods, you must use *T everywhere
+// interfaces are involved — never pass T by value to functions expecting interfaces
+
+func makeSound(b Breather) {
+  fmt.Println(b.Breathe())
+}
+makeSound(Animal{})    // ✅ works
+makeSound(&Animal{})   // ✅ works
+
+func feed(e Eater, food string) {
+  e.Eat(food)
+}
+feed(&Animal{Name: "Dog"}, "bone")  // ✅ works
+// feed(Animal{Name: "Dog"}, "bone") // ❌ compile error
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Auto-Dereferencing — What Go Does Automatically</h4>
+<p style="line-height: 1.75;">Go automatically inserts <code>&</code> or <code>*</code> when calling methods, as long as the value is <em>addressable</em>. This syntactic convenience hides the distinction from the call site — but only for variables, not for temporaries.</p>
+<pre><code class="language-go">
+type T struct{ val int }
+func (t *T) Double() { t.val *= 2 }
+func (t T)  Value() int { return t.val }
+
+// Addressable variable — auto-address-of for pointer receiver
+x := T{val: 5}
+x.Double()      // Go rewrites as: (&x).Double()
+fmt.Println(x.Value())   // 10
+
+// Pointer — auto-dereference for value receiver
+p := &T{val: 5}
+p.Double()      // fine — p is already *T
+fmt.Println(p.Value())   // p.Value() rewrites as (*p).Value()
+
+// NON-addressable values — auto-address FAILS
+// 1. Struct literal (temporary)
+T{val: 5}.Double()       // COMPILE ERROR: cannot take address of T literal
+
+// 2. Map values
+m := map[string]T{"a": {val: 5}}
+m["a"].Double()          // COMPILE ERROR: cannot take address of map value
+// Fix: use *T in the map, or copy-modify-store
+v := m["a"]
+v.Double()
+m["a"] = v
+
+// 3. Function return value (temporary)
+func getT() T { return T{val: 5} }
+getT().Double()          // COMPILE ERROR: cannot take address of return value
+
+// 4. Interface values (even if the concrete type is addressable)
+var i interface{} = T{val: 5}
+// i.(T).Double()   // COMPILE ERROR — interface value is not addressable
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Method Values and Method Expressions</h4>
+<p style="line-height: 1.75;">In Go, methods are first-class values. You can extract a method from a specific instance (a <strong>method value</strong>) or from the type itself (a <strong>method expression</strong>).</p>
+<pre><code class="language-go">
+type Adder struct{ base int }
+func (a Adder) Add(n int) int { return a.base + n }
+
+adder := Adder{base: 10}
+
+// METHOD VALUE — bound to a specific receiver instance
+// The receiver is "baked in" — calling the function needs no receiver argument
+addFrom10 := adder.Add         // type: func(int) int
+fmt.Println(addFrom10(5))      // 15
+fmt.Println(addFrom10(20))     // 30
+
+// Useful for passing methods as callbacks
+nums := []int{1, 2, 3, 4, 5}
+// mapInts(nums, adder.Add) — pass method as a function argument
+
+// METHOD EXPRESSION — bound to the type, not an instance
+// The first argument becomes the receiver
+addExpr := Adder.Add           // type: func(Adder, int) int
+fmt.Println(addExpr(adder, 5)) // 15 — must pass receiver explicitly
+fmt.Println(addExpr(Adder{base: 100}, 5)) // 105
+
+// Pointer receiver method expressions
+type Counter struct{ n int }
+func (c *Counter) Inc() { c.n++ }
+
+incFn := (*Counter).Inc         // type: func(*Counter)
+c := &Counter{}
+incFn(c)
+incFn(c)
+fmt.Println(c.n)  // 2
+
+// Practical use: registering methods as event handlers or goroutines
+type Server struct{ host string }
+func (s *Server) handleConn(conn net.Conn) { ... }
+
+s := &Server{host: "localhost"}
+go s.handleConn(conn)      // method value — s is captured
+// equivalent to:
+go func() { s.handleConn(conn) }()
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Chaining Methods — Fluent API Pattern</h4>
+<pre><code class="language-go">
+// Method chaining by returning the receiver
+type QueryBuilder struct {
+  table      string
+  conditions []string
+  orderBy    string
+  limit      int
+}
+
+func NewQuery(table string) *QueryBuilder {
+  return &QueryBuilder{table: table, limit: -1}
+}
+
+func (q *QueryBuilder) Where(condition string) *QueryBuilder {
+  q.conditions = append(q.conditions, condition)
+  return q   // return pointer to self — enables chaining
+}
+
+func (q *QueryBuilder) OrderBy(field string) *QueryBuilder {
+  q.orderBy = field
+  return q
+}
+
+func (q *QueryBuilder) Limit(n int) *QueryBuilder {
+  q.limit = n
+  return q
+}
+
+func (q *QueryBuilder) Build() string {
+  query := "SELECT * FROM " + q.table
+  if len(q.conditions) > 0 {
+    query += " WHERE " + strings.Join(q.conditions, " AND ")
+  }
+  if q.orderBy != "" {
+    query += " ORDER BY " + q.orderBy
+  }
+  if q.limit > 0 {
+    query += fmt.Sprintf(" LIMIT %d", q.limit)
+  }
+  return query
+}
+
+// Clean, readable call site
+sql := NewQuery("users").
+  Where("age > 18").
+  Where("active = true").
+  OrderBy("created_at DESC").
+  Limit(10).
+  Build()
+
+// NOTE: chaining only works cleanly with pointer receivers — value receivers
+// would return copies, and chaining on copies loses earlier mutations
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Methods and Interfaces — The Connection</h4>
+<pre><code class="language-go">
+// Interfaces are satisfied implicitly by method sets
+// This is where receiver choice directly determines API usability
+
+type Writer interface {
+  Write(p []byte) (n int, err error)
+}
+
+// A type that satisfies Writer with a pointer receiver
+type FileWriter struct {
+  f    *os.File
+  size int64
+}
+
+func (fw *FileWriter) Write(p []byte) (int, error) {
+  n, err := fw.f.Write(p)
+  fw.size += int64(n)
+  return n, err
+}
+
+// Only *FileWriter satisfies Writer — FileWriter does not
+var w Writer = &FileWriter{f: f}   // ✅
+// var w Writer = FileWriter{f: f} // ❌ compile error
+
+// Standard library: implement Stringer for automatic fmt support
+type Status int
+const (
+  Pending Status = iota
+  Active
+  Suspended
+  Deleted
+)
+
+func (s Status) String() string {
+  switch s {
+  case Pending:   return "pending"
+  case Active:    return "active"
+  case Suspended: return "suspended"
+  case Deleted:   return "deleted"
+  default:        return fmt.Sprintf("unknown(%d)", int(s))
+  }
+}
+
+// Any type with String() string satisfies fmt.Stringer
+// fmt.Println, fmt.Sprintf with %v, %s all call String() automatically
+user := struct {
+  Name   string
+  Status Status
+}{"Alice", Active}
+fmt.Printf("%s has status: %v\n", user.Name, user.Status)
+// "Alice has status: active"
+
+// Implement error interface
+type ValidationError struct {
+  Field   string
+  Message string
+}
+
+func (e *ValidationError) Error() string {
+  return fmt.Sprintf("validation failed on %q: %s", e.Field, e.Message)
+}
+
+// *ValidationError now satisfies the error interface
+func validateAge(age int) error {
+  if age < 0 {
+    return &ValidationError{Field: "age", Message: "must be non-negative"}
+  }
+  if age > 150 {
+    return &ValidationError{Field: "age", Message: "unrealistic value"}
+  }
+  return nil
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Promoted Methods and Overriding</h4>
+<pre><code class="language-go">
+// When you embed a type, its methods are promoted
+// The outer type can override a promoted method by defining one with the same name
+
+type Base struct{ ID int }
+
+func (b Base) Describe() string {
+  return fmt.Sprintf("Base{ID: %d}", b.ID)
+}
+
+func (b Base) Type() string {
+  return "base"
+}
+
+type Extended struct {
+  Base
+  Name string
+}
+
+// Override Describe — shadows Base.Describe
+func (e Extended) Describe() string {
+  return fmt.Sprintf("Extended{ID: %d, Name: %q}", e.ID, e.Name)
+}
+// Type() is NOT overridden — still promoted from Base
+
+e := Extended{Base: Base{ID: 1}, Name: "widget"}
+fmt.Println(e.Describe())      // Extended{ID: 1, Name: "widget"} — outer wins
+fmt.Println(e.Base.Describe()) // Base{ID: 1} — can still reach embedded
+fmt.Println(e.Type())          // "base" — promoted from Base
+
+// CRITICAL: this is NOT polymorphism
+// If Base has a method that calls Describe(), it calls Base.Describe,
+// not Extended.Describe — there is no virtual dispatch
+
+func (b Base) Print() {
+  fmt.Println(b.Describe())   // always calls Base.Describe, never Extended.Describe
+}
+
+e.Print()   // "Base{ID: 1}" — NOT "Extended{ID: 1, Name: widget}"
+// This is the key difference from inheritance in Java/C++ where
+// overridden methods are called polymorphically through the base
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Methods in Real Backend Patterns</h4>
+<pre><code class="language-go">
+// Repository pattern — all pointer receivers (stateful, modifying)
+type UserRepository struct {
+  db    *sql.DB
+  cache *redis.Client
+}
+
+func NewUserRepository(db *sql.DB, cache *redis.Client) *UserRepository {
+  return &UserRepository{db: db, cache: cache}
+}
+
+func (r *UserRepository) Create(ctx context.Context, u *User) error {
+  _, err := r.db.ExecContext(ctx,
+    "INSERT INTO users (name, email) VALUES ($1, $2)",
+    u.Name, u.Email,
+  )
+  return err
+}
+
+func (r *UserRepository) FindByID(ctx context.Context, id int) (*User, error) {
+  // Try cache first
+  if u, err := r.fromCache(ctx, id); err == nil {
+    return u, nil
+  }
+  var u User
+  err := r.db.QueryRowContext(ctx,
+    "SELECT id, name, email FROM users WHERE id = $1", id,
+  ).Scan(&u.ID, &u.Name, &u.Email)
+  if err == sql.ErrNoRows {
+    return nil, fmt.Errorf("user %d not found: %w", id, ErrNotFound)
+  }
+  return &u, err
+}
+
+// Service layer — composes repositories
+type UserService struct {
+  repo   *UserRepository
+  mailer *Mailer
+  logger *Logger
+}
+
+func (s *UserService) Register(ctx context.Context, req RegisterRequest) (*User, error) {
+  if err := req.Validate(); err != nil {
+    return nil, fmt.Errorf("register: %w", err)
+  }
+  u := &User{Name: req.Name, Email: req.Email}
+  if err := s.repo.Create(ctx, u); err != nil {
+    return nil, fmt.Errorf("register: create: %w", err)
+  }
+  s.mailer.SendWelcome(u)
+  s.logger.Log("user registered: " + u.Email)
+  return u, nil
+}
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- Value receiver vs pointer receiver: concrete effects ---
+package main
+
+import "fmt"
+
+type BankAccount struct {
+  owner   string
+  balance float64
+}
+
+// Value receiver — read-only, returns info without mutating
+func (a BankAccount) Balance() float64 { return a.balance }
+func (a BankAccount) Owner() string    { return a.owner }
+func (a BankAccount) String() string {
+  return fmt.Sprintf("Account[%s: $%.2f]", a.owner, a.balance)
+}
+
+// Pointer receiver — mutates the struct
+func (a *BankAccount) Deposit(amount float64) error {
+  if amount <= 0 {
+    return fmt.Errorf("deposit amount must be positive, got %.2f", amount)
+  }
+  a.balance += amount
+  return nil
+}
+
+func (a *BankAccount) Withdraw(amount float64) error {
+  if amount <= 0 {
+    return fmt.Errorf("withdrawal amount must be positive")
+  }
+  if amount > a.balance {
+    return fmt.Errorf("insufficient funds: have %.2f, need %.2f", a.balance, amount)
+  }
+  a.balance -= amount
+  return nil
+}
+
+func (a *BankAccount) Transfer(to *BankAccount, amount float64) error {
+  if err := a.Withdraw(amount); err != nil {
+    return fmt.Errorf("transfer from %s: %w", a.owner, err)
+  }
+  to.Deposit(amount)
+  return nil
+}
+
+func main() {
+  alice := &BankAccount{owner: "Alice", balance: 1000}
+  bob   := &BankAccount{owner: "Bob",   balance: 500}
+
+  fmt.Println(alice)             // Account[Alice: $1000.00]
+  alice.Deposit(200)
+  fmt.Println(alice.Balance())   // 1200.00
+
+  err := alice.Transfer(bob, 300)
+  if err != nil { fmt.Println(err); return }
+
+  fmt.Println(alice)  // Account[Alice: $900.00]
+  fmt.Println(bob)    // Account[Bob: $800.00]
+
+  err = alice.Withdraw(10000)
+  fmt.Println(err)    // insufficient funds: have 900.00, need 10000.00
+
+  // Value copy — the WRONG way to use this type
+  copy := *alice       // copy the struct value
+  copy.Deposit(999)    // modifies copy only
+  fmt.Println(alice.Balance())  // 900.00 — alice unchanged
+  fmt.Println(copy.Balance())   // 1899.00 — only copy changed
+}`,
+
+              `// --- Method sets and interface satisfaction ---
+package main
+
+import (
+  "fmt"
+  "math"
+)
+
+type Shape interface {
+  Area() float64
+  Perimeter() float64
+}
+
+type Resizable interface {
+  Scale(factor float64)
+}
+
+type Circle struct {
+  Radius float64
+}
+
+// Value receivers — Circle is small and immutable-feeling
+func (c Circle) Area() float64      { return math.Pi * c.Radius * c.Radius }
+func (c Circle) Perimeter() float64 { return 2 * math.Pi * c.Radius }
+func (c Circle) String() string     { return fmt.Sprintf("Circle(r=%.2f)", c.Radius) }
+
+type Rectangle struct {
+  Width, Height float64
+}
+
+// Pointer receivers — has Scale which must mutate
+func (r *Rectangle) Area() float64      { return r.Width * r.Height }
+func (r *Rectangle) Perimeter() float64 { return 2 * (r.Width + r.Height) }
+func (r *Rectangle) Scale(f float64)    { r.Width *= f; r.Height *= f }
+func (r *Rectangle) String() string {
+  return fmt.Sprintf("Rect(%.2fx%.2f)", r.Width, r.Height)
+}
+
+func printShape(s Shape) {
+  fmt.Printf("area=%.2f perimeter=%.2f\n", s.Area(), s.Perimeter())
+}
+
+func main() {
+  c := Circle{Radius: 5}
+  r := &Rectangle{Width: 4, Height: 3}
+
+  // Circle — value receiver means both Circle and *Circle satisfy Shape
+  printShape(c)    // ✅ works
+  printShape(&c)   // ✅ also works
+
+  // Rectangle — pointer receiver means ONLY *Rectangle satisfies Shape
+  printShape(r)    // ✅ works
+  // printShape(Rectangle{4, 3})  // ❌ COMPILE ERROR
+
+  // Resizable — only *Rectangle has Scale
+  var res Resizable = r
+  res.Scale(2)
+  fmt.Println(r)  // Rect(8.00x6.00)
+
+  // Using shapes polymorphically
+  shapes := []Shape{c, &c, r, &Rectangle{1, 1}}
+  for _, s := range shapes {
+    printShape(s)
+  }
+}`,
+
+              `// --- Methods on non-struct types ---
+package main
+
+import (
+  "fmt"
+  "sort"
+  "strings"
+)
+
+// Method on string alias
+type CommaSeparated string
+
+func (cs CommaSeparated) Split() []string {
+  parts := strings.Split(string(cs), ",")
+  for i, p := range parts {
+    parts[i] = strings.TrimSpace(p)
+  }
+  return parts
+}
+
+func (cs CommaSeparated) Contains(val string) bool {
+  for _, p := range cs.Split() {
+    if p == val { return true }
+  }
+  return false
+}
+
+func (cs CommaSeparated) Count() int {
+  return len(cs.Split())
+}
+
+// Methods on a slice type — sortable collection
+type People []struct {
+  Name string
+  Age  int
+}
+
+func (p People) Len() int           { return len(p) }
+func (p People) Less(i, j int) bool { return p[i].Age < p[j].Age }
+func (p People) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
+func (p People) OldestFirst() People {
+  sorted := make(People, len(p))
+  copy(sorted, p)
+  sort.Sort(sort.Reverse(sorted))
+  return sorted
+}
+
+func (p People) Names() []string {
+  names := make([]string, len(p))
+  for i, person := range p {
+    names[i] = person.Name
+  }
+  return names
+}
+
+// Method on a function type
+type Predicate func(int) bool
+
+func (p Predicate) And(q Predicate) Predicate {
+  return func(n int) bool { return p(n) && q(n) }
+}
+
+func (p Predicate) Or(q Predicate) Predicate {
+  return func(n int) bool { return p(n) || q(n) }
+}
+
+func (p Predicate) Not() Predicate {
+  return func(n int) bool { return !p(n) }
+}
+
+func main() {
+  cs := CommaSeparated("go, rust, python, java")
+  fmt.Println(cs.Split())        // [go rust python java]
+  fmt.Println(cs.Contains("go")) // true
+  fmt.Println(cs.Count())        // 4
+
+  people := People{
+    {"Alice", 30}, {"Bob", 25}, {"Carol", 35},
+  }
+  sort.Sort(people)
+  fmt.Println(people.Names())               // [Bob Alice Carol]
+  fmt.Println(people.OldestFirst().Names()) // [Carol Alice Bob]
+
+  isEven    := Predicate(func(n int) bool { return n%2 == 0 })
+  isPositive := Predicate(func(n int) bool { return n > 0 })
+  isEvenAndPositive := isEven.And(isPositive)
+
+  for _, n := range []int{-2, -1, 0, 1, 2, 3, 4} {
+    if isEvenAndPositive(n) {
+      fmt.Print(n, " ")
+    }
+  }  // 2 4
+}`,
+
+              `// --- Method values, method expressions, and chaining ---
+package main
+
+import (
+  "fmt"
+  "strings"
+)
+
+type StringBuilder struct {
+  buf   strings.Builder
+  lines int
+}
+
+func (sb *StringBuilder) Write(s string) *StringBuilder {
+  sb.buf.WriteString(s)
+  return sb
+}
+
+func (sb *StringBuilder) WriteLine(s string) *StringBuilder {
+  sb.buf.WriteString(s)
+  sb.buf.WriteByte('\n')
+  sb.lines++
+  return sb
+}
+
+func (sb *StringBuilder) Indent(level int) *StringBuilder {
+  sb.buf.WriteString(strings.Repeat("  ", level))
+  return sb
+}
+
+func (sb *StringBuilder) String() string  { return sb.buf.String() }
+func (sb *StringBuilder) LineCount() int  { return sb.lines }
+
+func main() {
+  // Method chaining — returns *StringBuilder from every method
+  result := new(StringBuilder).
+    WriteLine("package main").
+    WriteLine("").
+    WriteLine("import \"fmt\"").
+    WriteLine("").
+    WriteLine("func main() {").
+    Indent(1).WriteLine("fmt.Println(\"Hello, Go!\")").
+    WriteLine("}")
+
+  fmt.Println(result.String())
+  fmt.Println("lines:", result.LineCount())
+
+  // Method values — bind method to specific instance
+  sb := new(StringBuilder)
+  writeLine := sb.WriteLine   // bound to sb — type: func(string) *StringBuilder
+
+  writeLine("line one")
+  writeLine("line two")
+  writeLine("line three")
+  fmt.Println(sb.String())
+
+  // Method expression — takes receiver as first argument
+  writeExpr := (*StringBuilder).WriteLine   // type: func(*StringBuilder, string) *StringBuilder
+  sb2 := new(StringBuilder)
+  writeExpr(sb2, "via method expression")
+  fmt.Println(sb2.String())
+}`,
+
+              `// --- Real backend pattern: repository with pointer receivers ---
+package main
+
+import (
+  "context"
+  "errors"
+  "fmt"
+  "sync"
+  "time"
+)
+
+var ErrNotFound = errors.New("not found")
+var ErrDuplicate = errors.New("already exists")
+
+type User struct {
+  ID        int
+  Name      string
+  Email     string
+  CreatedAt time.Time
+}
+
+// In-memory repository — all pointer receivers (has state, must mutate)
+type UserStore struct {
+  mu      sync.RWMutex
+  store   map[int]*User
+  byEmail map[string]int
+  nextID  int
+}
+
+func NewUserStore() *UserStore {
+  return &UserStore{
+    store:   make(map[int]*User),
+    byEmail: make(map[string]int),
+    nextID:  1,
+  }
+}
+
+func (s *UserStore) Create(ctx context.Context, name, email string) (*User, error) {
+  s.mu.Lock()
+  defer s.mu.Unlock()
+
+  if _, exists := s.byEmail[email]; exists {
+    return nil, fmt.Errorf("create user: %w", ErrDuplicate)
+  }
+
+  u := &User{
+    ID:        s.nextID,
+    Name:      name,
+    Email:     email,
+    CreatedAt: time.Now(),
+  }
+  s.store[s.nextID] = u
+  s.byEmail[email] = s.nextID
+  s.nextID++
+  return u, nil
+}
+
+func (s *UserStore) FindByID(ctx context.Context, id int) (*User, error) {
+  s.mu.RLock()
+  defer s.mu.RUnlock()
+  u, ok := s.store[id]
+  if !ok {
+    return nil, fmt.Errorf("user %d: %w", id, ErrNotFound)
+  }
+  return u, nil
+}
+
+func (s *UserStore) FindByEmail(ctx context.Context, email string) (*User, error) {
+  s.mu.RLock()
+  defer s.mu.RUnlock()
+  id, ok := s.byEmail[email]
+  if !ok {
+    return nil, fmt.Errorf("email %q: %w", email, ErrNotFound)
+  }
+  return s.store[id], nil
+}
+
+func (s *UserStore) Update(ctx context.Context, id int, name string) error {
+  s.mu.Lock()
+  defer s.mu.Unlock()
+  u, ok := s.store[id]
+  if !ok {
+    return fmt.Errorf("update user %d: %w", id, ErrNotFound)
+  }
+  u.Name = name
+  return nil
+}
+
+func (s *UserStore) Delete(ctx context.Context, id int) error {
+  s.mu.Lock()
+  defer s.mu.Unlock()
+  u, ok := s.store[id]
+  if !ok {
+    return fmt.Errorf("delete user %d: %w", id, ErrNotFound)
+  }
+  delete(s.byEmail, u.Email)
+  delete(s.store, id)
+  return nil
+}
+
+func (s *UserStore) Count() int {
+  s.mu.RLock()
+  defer s.mu.RUnlock()
+  return len(s.store)
+}
+
+func main() {
+  ctx := context.Background()
+  store := NewUserStore()
+
+  u1, _ := store.Create(ctx, "Alice", "alice@example.com")
+  u2, _ := store.Create(ctx, "Bob",   "bob@example.com")
+  fmt.Println(u1, u2)
+
+  _, err := store.Create(ctx, "Alice2", "alice@example.com")
+  fmt.Println(err)  // create user: already exists
+
+  found, _ := store.FindByEmail(ctx, "bob@example.com")
+  fmt.Println(found.Name)  // Bob
+
+  store.Update(ctx, u1.ID, "Alice Updated")
+  updated, _ := store.FindByID(ctx, u1.ID)
+  fmt.Println(updated.Name)  // Alice Updated
+
+  fmt.Println("count:", store.Count())  // 2
+  store.Delete(ctx, u2.ID)
+  fmt.Println("count:", store.Count())  // 1
+
+  _, err = store.FindByID(ctx, u2.ID)
+  fmt.Println(errors.Is(err, ErrNotFound))  // true
+}`
+            ],
+
+            questions: [
+              {
+                question: "What is a method receiver in Go and how does it differ from a regular function parameter?",
+                solution: `<p>A method receiver is a special parameter declared between the <code>func</code> keyword and the method name that binds the function to a named type. It is syntactically and semantically distinct from a regular parameter — it determines which type "owns" the method, placing it in that type's method set and making it callable with dot notation.</p>
+<pre><code class="language-go">// Function — called as add(a, b)
+func add(a, b int) int { return a + b }
+
+// Method — called as r.Area() after binding to Rectangle
+func (r Rectangle) Area() float64 { return r.Width * r.Height }
+</code></pre>
+<p style="margin-top: 0.75rem;">Practically, a method is equivalent to a function where the receiver is the first argument — <code>r.Area()</code> is the same as <code>Rectangle.Area(r)</code> (method expression syntax). The receiver parameter follows the same conventions as other parameters: it is a copy for value receivers, a pointer for pointer receivers. Convention is to name it with a short 1-2 letter abbreviation of the type name — <code>r</code> for Rectangle, <code>s</code> for Server, <code>c</code> for Counter — never <code>self</code> or <code>this</code>.</p>`
+              },
+              {
+                question: "Explain the exact rules of Go's method sets. Which types satisfy which interfaces?",
+                solution: `<p>The method set rules in Go determine which interfaces a type satisfies:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li>Type <strong>T</strong> has a method set containing only methods declared with a <strong>value receiver</strong> on T.</li>
+  <li>Type <strong>*T</strong> has a method set containing methods declared with <strong>value receivers AND pointer receivers</strong> on T.</li>
+</ul>
+<p style="margin-top: 0.75rem;">Consequence: <code>*T</code> always has a superset of <code>T</code>'s methods. If any method uses a pointer receiver, only <code>*T</code> satisfies an interface requiring that method.</p>
+<pre><code class="language-go">type Stringer interface { String() string }
+type Resetter interface { Reset() }
+
+type MyType struct{}
+func (m MyType)  String() string { return "hello" }  // value receiver
+func (m *MyType) Reset()         { }                  // pointer receiver
+
+// Method sets:
+// MyType  → { String }         satisfies: Stringer
+// *MyType → { String, Reset }  satisfies: Stringer AND Resetter
+
+var s Stringer = MyType{}    // ✅
+var r Resetter = MyType{}    // ❌ COMPILE ERROR
+var r Resetter = &MyType{}   // ✅
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Practical rule:</strong> if you intend a type to satisfy an interface and any of its methods use pointer receivers, always use <code>&MyType{}</code> when assigning to the interface — never the value form.</p>`
+              },
+              {
+                question: "When does Go automatically take the address of a variable for a pointer receiver call, and when does it fail?",
+                solution: `<p>Go automatically inserts <code>&</code> when you call a pointer receiver method on an <strong>addressable</strong> value — typically a named variable:</p>
+<pre><code class="language-go">x := MyStruct{}
+x.PointerMethod()   // Go rewrites as (&x).PointerMethod() — works
+</code></pre>
+<p style="margin-top: 0.75rem;">This auto-addressing <strong>fails</strong> for non-addressable values — values the compiler cannot take the address of because they have no stable memory location:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>Struct literals</strong>: <code>MyStruct{}.PointerMethod()</code> — compile error</li>
+  <li><strong>Function return values</strong>: <code>getMyStruct().PointerMethod()</code> — compile error</li>
+  <li><strong>Map values</strong>: <code>m["key"].PointerMethod()</code> — compile error (maps can rehash, pointers would be invalidated)</li>
+  <li><strong>Interface values</strong>: even if the underlying concrete type is a pointer, the interface box itself is not addressable</li>
+</ul>
+<p style="margin-top: 0.75rem;">The fix in all cases is to assign to a named variable first, then call the method. Or change the design so the method doesn't require a pointer receiver (if it's truly read-only).</p>`
+              },
+              {
+                question: "What is the consistency rule for receivers, and what breaks when you mix value and pointer receivers?",
+                solution: `<p>The consistency rule: <strong>if any method on a type uses a pointer receiver, all methods should use pointer receivers.</strong></p>
+<p style="margin-top: 0.75rem;">Mixing value and pointer receivers on the same type is technically legal but causes subtle problems:</p>
+<p style="margin-top: 0.75rem;"><strong>1. Interface satisfaction ambiguity</strong></p>
+<pre><code class="language-go">type Doer interface { DoA(); DoB() }
+
+type T struct{}
+func (t T)  DoA() {}    // value receiver
+func (t *T) DoB() {}    // pointer receiver
+
+// T's method set:  { DoA }       — does NOT satisfy Doer
+// *T's method set: { DoA, DoB }  — satisfies Doer
+
+// Passing T{} to a Doer variable fails — confusing because DoA works
+var d Doer = T{}    // ❌ COMPILE ERROR: T does not implement Doer
+var d Doer = &T{}   // ✅ works
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>2. Cognitive overhead</strong> — readers of your code must check each method signature to know whether the receiver has the latest state or a stale copy.</p>
+<p style="margin-top: 0.75rem;"><strong>3. Copy-after-use bugs with sync types</strong> — if any method uses a value receiver on a struct containing a <code>sync.Mutex</code>, calling that method copies the mutex, which is undefined behaviour. <code>go vet</code> catches this with "passes lock by value."</p>
+<p style="margin-top: 0.75rem;"><strong>The rule is pragmatic:</strong> use all pointer receivers unless the type is a small, genuinely immutable value type (like <code>time.Time</code>, <code>Color</code>, <code>Point</code>).</p>`
+              },
+              {
+                question: "What is a method value vs a method expression in Go?",
+                solution: `<p>Both are ways to treat a method as a first-class function value:</p>
+<p style="margin-top: 0.75rem;"><strong>Method value</strong> — extracted from a specific instance. The receiver is bound ("baked in") at extraction time:</p>
+<pre><code class="language-go">c := Counter{n: 10}
+inc := c.Increment   // type: func() — c is captured
+inc()                // equivalent to c.Increment()
+inc()                // modifies c.n directly
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Method expression</strong> — extracted from the type itself. The receiver becomes the first explicit argument:</p>
+<pre><code class="language-go">incExpr := (*Counter).Increment   // type: func(*Counter)
+incExpr(&c)                        // must pass receiver explicitly
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Practical uses:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Method values are used as callbacks, goroutines (<code>go s.handleConn(conn)</code>), and anywhere you need to pass a method without its receiver.</li>
+  <li>Method expressions are useful for dispatch tables and when you want to select which receiver to use at runtime: <code>ops[op](receiver, args)</code>.</li>
+  <li>Both avoid the closure-with-loop-variable trap — a method value binds to the receiver at extraction time, not lazily.</li>
+</ul>`
+              },
+              {
+                question: "Why must types containing `sync.Mutex` always use pointer receivers?",
+                solution: `<p>A <code>sync.Mutex</code> must never be copied after its first use. Its internal state (whether it is locked, how many goroutines are waiting) is stored in the struct itself. Copying a locked or contended mutex produces two independent mutexes — one that looks locked (the copy) and one that is actually locked (the original) — completely breaking the synchronization guarantee.</p>
+<pre><code class="language-go">type Counter struct {
+  mu sync.Mutex
+  n  int
+}
+
+// Value receiver COPIES the entire Counter, including mu
+// Each call gets its own mutex — no mutual exclusion at all
+func (c Counter) BrokenIncrement() {  // ❌ value receiver
+  c.mu.Lock()
+  defer c.mu.Unlock()
+  c.n++  // modifying a copy, mutex protecting nothing
+}
+
+// Pointer receiver — all callers share the same mutex
+func (c *Counter) Increment() {       // ✅ pointer receiver
+  c.mu.Lock()
+  defer c.mu.Unlock()
+  c.n++
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><code>go vet</code> detects this with the message "passes lock by value: Counter contains sync.Mutex". The fix is always to use pointer receivers on any type that embeds or contains a sync primitive (<code>sync.Mutex</code>, <code>sync.RWMutex</code>, <code>sync.WaitGroup</code>, <code>sync.Once</code>, <code>sync.Cond</code>), and always pass the type by pointer — never assign it by value or return it by value after any goroutine has touched it.</p>`
+              },
+              {
+                question: "How does Go's method promotion differ from inheritance, and why does that matter?",
+                solution: `<p>Method promotion via embedding looks like inheritance but lacks its defining characteristic: <strong>there is no dynamic dispatch</strong>. When an embedded type's method is promoted, the promoted method still operates on the embedded type — it has no knowledge of the outer type and cannot call any overridden version of itself.</p>
+<pre><code class="language-go">type Base struct{}
+func (b Base) Describe() string { return "I am Base" }
+func (b Base) Print() {
+  fmt.Println(b.Describe())  // always calls Base.Describe — not polymorphic
+}
+
+type Extended struct{ Base }
+func (e Extended) Describe() string { return "I am Extended" }
+
+e := Extended{}
+e.Print()       // prints "I am Base" — NOT "I am Extended"
+e.Describe()    // prints "I am Extended" — direct call works
+</code></pre>
+<p style="margin-top: 0.75rem;">In Java or C++, if <code>Base.Print()</code> calls <code>this.Describe()</code> and <code>Extended</code> overrides <code>Describe()</code>, the overridden version is called. In Go, this never happens — <code>Base.Print()</code> always calls <code>Base.Describe()</code>.</p>
+<p style="margin-top: 0.75rem;"><strong>Why it matters for backend design:</strong> if you need true polymorphism (behaviour that changes based on the concrete type), you must use <strong>interfaces</strong>, not embedding. Embedding is for code reuse and delegation. Interfaces are for polymorphism.</p>`
+              },
+              {
+                question: "Can you define methods on types from other packages?",
+                solution: `<p>No. You can only define methods on types declared in the <strong>same package</strong>. Attempting to define a method on an imported type is a compile error:</p>
+<pre><code class="language-go">// In package main — trying to add a method to http.Request from net/http
+func (r http.Request) Host() string { ... }  // COMPILE ERROR
+// cannot define new methods on non-local type http.Request
+</code></pre>
+<p style="margin-top: 0.75rem;">This is a deliberate design decision — it prevents packages from secretly extending types they don't own and creating unexpected coupling.</p>
+<p style="margin-top: 0.75rem;"><strong>The correct approaches when you need extra behaviour on an external type:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>Wrapper type</strong> — define a new named type in your package: <code>type MyRequest http.Request</code>, then add methods. Conversion between <code>MyRequest</code> and <code>http.Request</code> is explicit.</li>
+  <li><strong>Embedding</strong> — embed the external type in your own struct: <code>type MyRequest struct { http.Request; ... }</code>. You get all promoted methods and can add new ones.</li>
+  <li><strong>Helper function</strong> — if you only need the behaviour once, a standalone function <code>func extractHost(r *http.Request) string</code> is simpler and more transparent than a wrapper type.</li>
+</ul>`
+              },
+              {
+                question: "What is the `Stringer` interface and why should you implement it?",
+                solution: `<p><code>fmt.Stringer</code> is a standard library interface in the <code>fmt</code> package:</p>
+<pre><code class="language-go">type Stringer interface {
+  String() string
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">Any type that implements <code>String() string</code> automatically gets used by the entire <code>fmt</code> family — <code>fmt.Println</code>, <code>fmt.Printf</code> with <code>%v</code> and <code>%s</code>, <code>fmt.Sprintf</code>, and even <code>log</code> package output. Without it, <code>fmt.Println</code> prints the raw struct: <code>{Alice 30 true}</code>. With it, you control the output entirely.</p>
+<pre><code class="language-go">type User struct { Name string; Age int; Admin bool }
+
+func (u User) String() string {
+  role := "user"
+  if u.Admin { role = "admin" }
+  return fmt.Sprintf("User(%s, age=%d, role=%s)", u.Name, u.Age, role)
+}
+
+u := User{"Alice", 30, true}
+fmt.Println(u)           // User(Alice, age=30, role=admin)
+fmt.Printf("%v\n", u)   // User(Alice, age=30, role=admin)
+fmt.Printf("%s\n", u)   // User(Alice, age=30, role=admin)
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Important receiver choice:</strong> <code>String()</code> is almost always implemented with a value receiver so that both <code>T</code> and <code>*T</code> satisfy <code>Stringer</code> — this is important because fmt often receives interface values and you want it to work regardless of whether you pass a value or pointer. If <code>String()</code> has a pointer receiver, <code>fmt.Println(myValue)</code> (not a pointer) won't use your custom string.</p>`
+              },
+              {
+                question: "How do you implement the `error` interface, and what's the difference between returning `error` and a concrete error type?",
+                solution: `<p>The <code>error</code> interface has a single method:</p>
+<pre><code class="language-go">type error interface {
+  Error() string
+}
+</code></pre>
+<p style="margin-top: 0.75rem;">Any type that implements <code>Error() string</code> satisfies <code>error</code>. Custom error types carry structured information about failures:</p>
+<pre><code class="language-go">type NotFoundError struct {
+  Resource string
+  ID       int
+}
+
+func (e *NotFoundError) Error() string {
+  return fmt.Sprintf("%s with id %d not found", e.Resource, e.ID)
+}
+
+func FindUser(id int) (*User, error) {
+  // ...
+  return nil, &NotFoundError{Resource: "user", ID: id}
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Return <code>error</code> (interface), not <code>*NotFoundError</code> (concrete type)</strong> — this is one of Go's most important rules. Returning a concrete error type leaks implementation details and prevents callers from treating errors uniformly. More critically, it creates a nil interface trap:</p>
+<pre><code class="language-go">// WRONG — returns *NotFoundError, not error
+func FindUser(id int) (*User, *NotFoundError) { ... }
+
+// The nil interface trap:
+func getError() *NotFoundError { return nil }
+var err error = getError()
+fmt.Println(err == nil)  // FALSE — interface is non-nil even though pointer is nil!
+// The interface holds a (*NotFoundError, nil) pair — type is set, value is nil
+</code></pre>
+<p style="margin-top: 0.75rem;">Always return the <code>error</code> interface from functions. Callers who need the concrete type can use <code>errors.As(err, &notFoundErr)</code> to extract it safely.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/methods/1",
+              "https://go.dev/tour/methods/6",
+              "https://go.dev/tour/methods/7",
+              "https://go.dev/ref/spec#Method_declarations",
+              "https://go.dev/ref/spec#Method_sets",
+              "https://go.dev/ref/spec#Calls",
+              "https://go.dev/doc/effective_go#methods",
+              "https://go.dev/doc/effective_go#interfaces_and_types",
+              "https://go.dev/doc/faq#methods_on_values_or_pointers",
+              "https://pkg.go.dev/fmt#Stringer",
+            ],
+          },
+          {
+            topic: "Interfaces",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Interfaces are the single most powerful feature in Go. They are the mechanism that enables polymorphism, testability, decoupling, and composable architecture — all without inheritance hierarchies, annotations, or explicit declarations. In Python or Java, you declare that a class <em>implements</em> an interface. In Go, you just write the methods — if your type has the right methods, it satisfies the interface <strong>automatically</strong>. This implicit satisfaction is not just a convenience; it is a fundamentally different design philosophy that changes how you architect systems.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interface Basics — Defining a Contract</h4>
+<p style="line-height: 1.75;">An interface in Go is a named set of method signatures. It defines <em>what</em> something can do, without specifying <em>how</em> it does it or <em>what</em> it is.</p>
+<pre><code class="language-go">
+// An interface is just a set of method signatures
+type Writer interface {
+  Write(p []byte) (n int, err error)
+}
+
+type Reader interface {
+  Read(p []byte) (n int, err error)
+}
+
+type Closer interface {
+  Close() error
+}
+
+// Any type that has a Write([]byte)(int, error) method satisfies Writer
+// No declaration, no registration, no annotation needed
+
+// The empty interface — satisfied by every type
+// Go 1.18+ spelling: any (preferred)
+var x any = 42
+x = "hello"
+x = []int{1, 2, 3}
+x = struct{ Name string }{"Alice"}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Implicit Satisfaction — The Core Mechanism</h4>
+<p style="line-height: 1.75;">This is the most important thing to understand about Go interfaces. A type satisfies an interface <strong>implicitly</strong> — purely by having the required methods. There is no <code>implements</code> keyword, no registration, no base class. The compiler checks satisfaction at the point of assignment, not the point of definition.</p>
+<pre><code class="language-go">
+// Define an interface in YOUR package
+type Storer interface {
+  Save(key string, val []byte) error
+  Load(key string) ([]byte, error)
+  Delete(key string) error
+}
+
+// Implement it in ANY package — no connection to the interface
+type FileStore struct { dir string }
+
+func (f *FileStore) Save(key string, val []byte) error {
+  return os.WriteFile(filepath.Join(f.dir, key), val, 0644)
+}
+
+func (f *FileStore) Load(key string) ([]byte, error) {
+  return os.ReadFile(filepath.Join(f.dir, key))
+}
+
+func (f *FileStore) Delete(key string) error {
+  return os.Remove(filepath.Join(f.dir, key))
+}
+
+// FileStore implicitly satisfies Storer — no "implements Storer" anywhere
+var s Storer = &FileStore{dir: "/tmp"}
+
+// So does this Redis implementation
+type RedisStore struct { client *redis.Client }
+func (r *RedisStore) Save(key string, val []byte) error { ... }
+func (r *RedisStore) Load(key string) ([]byte, error)  { ... }
+func (r *RedisStore) Delete(key string) error           { ... }
+
+var s2 Storer = &RedisStore{client: redisClient}
+
+// CRITICAL INSIGHT: FileStore and RedisStore know NOTHING about Storer
+// Storer doesn't know about FileStore or RedisStore
+// They are completely decoupled — yet fully interchangeable
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interface Internals — The Two-Word Header</h4>
+<p style="line-height: 1.75;">An interface value is a two-word struct internally: a <strong>type pointer</strong> (pointing to a type descriptor) and a <strong>data pointer</strong> (pointing to the concrete value). Understanding this prevents a critical bug.</p>
+<pre><code class="language-go">
+// Conceptually, an interface value looks like:
+type iface struct {
+  tab  *itab   // pointer to type information + method table
+  data unsafe.Pointer  // pointer to the concrete value
+}
+
+// A nil interface has BOTH words as nil
+var w Writer   // tab=nil, data=nil
+fmt.Println(w == nil)  // true
+
+// A non-nil interface with nil concrete value — THE NIL INTERFACE TRAP
+var fw *FileStore = nil         // fw is a nil pointer
+var w2 Writer = fw              // w2 has tab=*FileStore, data=nil
+fmt.Println(w2 == nil)          // FALSE — tab is set, so interface is non-nil
+fmt.Println(fw == nil)          // TRUE — the concrete pointer is nil
+
+// This bites you in error handling — the most common Go trap
+func getError() *MyError {
+  return nil   // returns a typed nil
+}
+
+err := getError()           // err is *MyError(nil)
+var e error = err           // e is error{tab=*MyError, data=nil}
+fmt.Println(e == nil)       // FALSE — even though the underlying pointer is nil
+if e != nil {
+  fmt.Println("error!")     // THIS PRINTS — a major source of bugs
+}
+
+// THE FIX: always return the error interface, never a concrete error type
+func getErrorFixed() error {
+  return nil   // returns a true nil interface
+}
+e2 := getErrorFixed()
+fmt.Println(e2 == nil)  // TRUE — correct
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interface Design — Small is Beautiful</h4>
+<p style="line-height: 1.75;">Go's standard library and community have converged on a clear principle: <strong>interfaces should be small</strong>. The most powerful Go interfaces have one or two methods. Larger interfaces become harder to mock, harder to satisfy, and tie implementations together unnecessarily.</p>
+<pre><code class="language-go">
+// Go standard library — masterclass in small interfaces
+type io.Reader interface {
+  Read(p []byte) (n int, err error)   // 1 method
+}
+
+type io.Writer interface {
+  Write(p []byte) (n int, err error)  // 1 method
+}
+
+type io.Closer interface {
+  Close() error                       // 1 method
+}
+
+type error interface {
+  Error() string                      // 1 method
+}
+
+type fmt.Stringer interface {
+  String() string                     // 1 method
+}
+
+type sort.Interface interface {
+  Len() int            // 3 methods — still small and focused
+  Less(i, j int) bool
+  Swap(i, j int)
+}
+
+// Because interfaces are small, the same type can satisfy MANY interfaces
+// os.File satisfies: io.Reader, io.Writer, io.Closer, io.Seeker,
+//                    io.ReadWriter, io.ReadCloser, io.WriteCloser,
+//                    io.ReadWriteCloser, io.ReadWriteSeeker
+// This is interface composition in action
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interface Composition — Building Larger Contracts</h4>
+<p style="line-height: 1.75;">Interfaces can embed other interfaces, composing them into larger contracts without code duplication. This mirrors how small UNIX tools compose to build complex pipelines.</p>
+<pre><code class="language-go">
+// Standard library interface composition
+type io.ReadWriter interface {
+  io.Reader   // embeds Reader
+  io.Writer   // embeds Writer
+}
+
+type io.ReadWriteCloser interface {
+  io.Reader
+  io.Writer
+  io.Closer
+}
+
+// Your own composed interfaces
+type ReadWriter interface {
+  Reader
+  Writer
+}
+
+// Define building blocks
+type Encoder interface {
+  Encode(v any) error
+}
+
+type Decoder interface {
+  Decode(v any) error
+}
+
+type Codec interface {
+  Encoder   // composed
+  Decoder   // composed
+}
+
+// Function accepts the smallest interface it actually needs
+// Don't demand Codec if you only need to decode
+func deserialize(r Decoder, target any) error {
+  return r.Decode(target)
+}
+
+// Compose in function signatures too
+type StorageBackend interface {
+  io.ReadWriter
+  io.Closer
+  Flush() error
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interface Segregation — Accept the Narrowest Interface</h4>
+<p style="line-height: 1.75;">One of the most important Go interface principles: <strong>functions should accept the narrowest interface they actually need</strong>. Accept interfaces, return concrete types. This maximises flexibility and testability while keeping APIs honest about their requirements.</p>
+<pre><code class="language-go">
+// BAD — demanding a large interface when only Read is needed
+type BigInterface interface {
+  Read(p []byte) (int, error)
+  Write(p []byte) (int, error)
+  Close() error
+  Seek(offset int64, whence int) (int64, error)
+  Stat() (os.FileInfo, error)
+}
+
+func processData(f BigInterface) { ... }
+// Now processData is hard to test — need to mock 5 methods
+// And it can't be called with an http.Response body, strings.Reader, etc.
+
+// GOOD — accept the narrowest interface that covers your needs
+func processData(r io.Reader) { ... }
+// Now processData works with: os.File, http.Response.Body,
+// strings.NewReader, bytes.Buffer, bufio.Reader, any net.Conn,
+// anything from the internet — all without changing processData
+
+// GREAT — compose only what you need
+func copyAndClose(dst io.Writer, src io.ReadCloser) error {
+  defer src.Close()
+  _, err := io.Copy(dst, src)
+  return err
+}
+// Exactly two behaviours needed: read+close from source, write to dest
+// This is honest — you see exactly what the function needs
+
+// The "accept interfaces, return concrete types" principle:
+// ACCEPT: interfaces — makes callers flexible
+// RETURN: concrete types — gives callers full information
+
+func NewFileStore(dir string) *FileStore {  // return concrete *FileStore
+  return &FileStore{dir: dir}
+}
+// Caller can use it as Storer, io.Closer, or anything else *FileStore satisfies
+// If you returned Storer, the caller would be locked into only those 3 methods
+
+// Exception: return an interface when the concrete type is an implementation detail
+func NewLogger(level string) Logger {   // Logger is an interface
+  switch level {
+  case "json":  return &JSONLogger{}
+  case "text":  return &TextLogger{}
+  default:      return &TextLogger{}
+  }
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Type Assertions and Type Switches</h4>
+<p style="line-height: 1.75;">Since interfaces erase the concrete type, you sometimes need to recover it. Go provides two mechanisms: type assertions and type switches.</p>
+<pre><code class="language-go">
+// TYPE ASSERTION — extract the concrete type from an interface
+var w io.Writer = os.Stdout
+
+// Single-value form — panics if wrong type
+f := w.(*os.File)   // extract *os.File — panics if w is not *os.File
+
+// Two-value form — safe, never panics
+f, ok := w.(*os.File)
+if ok {
+  fmt.Println("is a file:", f.Name())
+} else {
+  fmt.Println("not a file")
+}
+
+// TYPE SWITCH — branch on concrete type
+func inspect(i any) string {
+  switch v := i.(type) {
+  case nil:
+    return "nil"
+  case int:
+    return fmt.Sprintf("int(%d)", v)
+  case float64:
+    return fmt.Sprintf("float64(%.2f)", v)
+  case string:
+    return fmt.Sprintf("string(%q)", v)
+  case bool:
+    return fmt.Sprintf("bool(%v)", v)
+  case []byte:
+    return fmt.Sprintf("[]byte(len=%d)", len(v))
+  case error:
+    return fmt.Sprintf("error(%q)", v.Error())
+  case fmt.Stringer:
+    return fmt.Sprintf("Stringer(%q)", v.String())
+  default:
+    return fmt.Sprintf("unknown(%T)", v)
+  }
+}
+
+// Checking for optional interface — the "interface upgrade" pattern
+// Does this io.Writer also support io.ReaderFrom? Use it for efficiency if so.
+func copyTo(w io.Writer, r io.Reader) error {
+  if rf, ok := w.(io.ReaderFrom); ok {
+    _, err := rf.ReadFrom(r)   // more efficient path
+    return err
+  }
+  _, err := io.Copy(w, r)     // fallback
+  return err
+}
+
+// errors.As and errors.Is use this pattern internally
+type ValidationError struct {
+  Field string
+  Msg   string
+}
+func (e *ValidationError) Error() string {
+  return fmt.Sprintf("%s: %s", e.Field, e.Msg)
+}
+
+err := validateUser(u)
+var ve *ValidationError
+if errors.As(err, &ve) {
+  fmt.Println("invalid field:", ve.Field)
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interfaces for Testability — Dependency Injection</h4>
+<p style="line-height: 1.75;">The most practical benefit of Go interfaces: they make dependency injection effortless and testing painless. You define an interface for any external dependency (database, HTTP client, email sender, clock), inject it via the constructor, and swap it out in tests — no reflection, no frameworks needed.</p>
+<pre><code class="language-go">
+// Define interfaces for your dependencies
+type UserRepository interface {
+  Create(ctx context.Context, u *User) error
+  FindByID(ctx context.Context, id int) (*User, error)
+  FindByEmail(ctx context.Context, email string) (*User, error)
+  Update(ctx context.Context, u *User) error
+  Delete(ctx context.Context, id int) error
+}
+
+type Mailer interface {
+  Send(to, subject, body string) error
+}
+
+type Clock interface {
+  Now() time.Time
+}
+
+// Service depends on interfaces — not concrete types
+type UserService struct {
+  repo   UserRepository   // interface
+  mailer Mailer           // interface
+  clock  Clock            // interface
+  logger *slog.Logger
+}
+
+func NewUserService(repo UserRepository, mailer Mailer, clock Clock, logger *slog.Logger) *UserService {
+  return &UserService{repo: repo, mailer: mailer, clock: clock, logger: logger}
+}
+
+func (s *UserService) Register(ctx context.Context, req RegisterRequest) (*User, error) {
+  if err := req.Validate(); err != nil {
+    return nil, fmt.Errorf("register: %w", err)
+  }
+  u := &User{
+    Name:      req.Name,
+    Email:     req.Email,
+    CreatedAt: s.clock.Now(),
+  }
+  if err := s.repo.Create(ctx, u); err != nil {
+    return nil, fmt.Errorf("register: %w", err)
+  }
+  s.mailer.Send(u.Email, "Welcome!", "Thanks for registering.")
+  return u, nil
+}
+
+// In production — wire real implementations
+func main() {
+  db := connectDB()
+  service := NewUserService(
+    NewPostgresUserRepo(db),
+    NewSESMailer(awsSession),
+    RealClock{},
+    slog.Default(),
+  )
+  _ = service
+}
+
+// In tests — wire fake implementations, no framework needed
+type fakeRepo struct {
+  users map[int]*User
+  nextID int
+}
+func (f *fakeRepo) Create(ctx context.Context, u *User) error {
+  f.nextID++
+  u.ID = f.nextID
+  f.users[u.ID] = u
+  return nil
+}
+func (f *fakeRepo) FindByID(ctx context.Context, id int) (*User, error) {
+  u, ok := f.users[id]
+  if !ok { return nil, ErrNotFound }
+  return u, nil
+}
+// ... implement remaining methods
+
+type fakeClock struct{ fixed time.Time }
+func (c fakeClock) Now() time.Time { return c.fixed }
+
+type fakeMailer struct{ sent []string }
+func (m *fakeMailer) Send(to, subject, body string) error {
+  m.sent = append(m.sent, to)
+  return nil
+}
+
+func TestRegister(t *testing.T) {
+  repo   := &fakeRepo{users: make(map[int]*User)}
+  mailer := &fakeMailer{}
+  clock  := fakeClock{fixed: time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)}
+
+  svc := NewUserService(repo, mailer, clock, slog.Default())
+
+  u, err := svc.Register(context.Background(), RegisterRequest{
+    Name: "Alice", Email: "alice@example.com",
+  })
+  if err != nil { t.Fatal(err) }
+
+  if u.Name != "Alice" { t.Errorf("got %s, want Alice", u.Name) }
+  if len(mailer.sent) != 1 { t.Errorf("expected 1 email, got %d", len(mailer.sent)) }
+  if !u.CreatedAt.Equal(clock.fixed) { t.Error("wrong creation time") }
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interface Pollution — When NOT to Use Interfaces</h4>
+<p style="line-height: 1.75;">Go interfaces are powerful, but overuse is a real problem. Go proverb: <strong>"Don't design with interfaces, discover them."</strong> Premature abstraction creates complexity without value.</p>
+<pre><code class="language-go">
+// ❌ Interface pollution — interface with only one implementation
+// If there is only ever going to be one concrete type, the interface adds
+// indirection without any benefit
+type UserServiceInterface interface {
+  Register(ctx context.Context, req RegisterRequest) (*User, error)
+  Login(ctx context.Context, email, password string) (string, error)
+  Logout(ctx context.Context, token string) error
+  // ... 15 more methods
+}
+// Just use *UserService directly — add the interface when you need a second impl
+// or when you need to mock it for testing
+
+// ❌ Interfaces defined in the implementation package
+// package userservice
+type Repository interface {   // defined in the impl package
+  // ...
+}
+// Interfaces should be defined where they are USED (the consumer package)
+// not where they are implemented. This is the key to decoupling.
+
+// ✅ Interface defined in the consumer package
+// package api
+type UserStore interface {    // defined where it's needed
+  FindByID(ctx context.Context, id int) (*User, error)
+}
+// api package doesn't import userservice — userservice doesn't import api
+// Zero coupling — api defines what it needs, userservice provides it
+
+// ❌ Returning interface from constructor when you have one implementation
+func NewUserService() UserServiceInterface {  // unnecessarily hides the type
+  return &userServiceImpl{}
+}
+// Callers can't access any methods *userServiceImpl has beyond the interface
+
+// ✅ Return concrete types, accept interfaces
+func NewUserService(repo UserRepository) *UserService {
+  return &UserService{repo: repo}
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">The io Package — The Gold Standard of Interface Design</h4>
+<pre><code class="language-go">
+// The io package is the best example of Go interface design in the wild
+// Study it to understand the philosophy
+
+// Every function accepts the smallest possible interface
+func io.Copy(dst Writer, src Reader) (written int64, err error)
+// dst just needs Write — not Close, not Seek
+// src just needs Read — not Close, not Seek
+// Result: works with files, HTTP bodies, strings, buffers, network conns, pipes
+
+func io.ReadFull(r Reader, buf []byte) (n int, err error)
+// Only needs Read
+
+func io.WriteString(w Writer, s string) (n int, err error)
+// Only needs Write
+
+// Composed interfaces only when you genuinely need both behaviours
+func io.Copy needs ReadWriter if source and dest are the same stream
+type ReadWriter interface { Reader; Writer }
+
+// The standard library defines interfaces at the point of use, not definition
+// os.File doesn't know about io.Reader — io.Reader was written to match os.File's
+// existing Read method. This is "retroactive interface satisfaction."
+
+// You can do the same with third-party types
+type RedisClient interface {    // defined in YOUR package
+  Get(ctx context.Context, key string) *redis.StringCmd
+  Set(ctx context.Context, key string, value any, exp time.Duration) *redis.StatusCmd
+}
+// go-redis *redis.Client already has these methods — it satisfies your interface
+// without knowing about your interface or your package
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Compile-Time Interface Verification</h4>
+<p style="line-height: 1.75;">Because satisfaction is checked at the point of assignment, you can accidentally ship code where a type doesn't satisfy an interface — the error only shows up when you try to use it. Add a compile-time check with a blank identifier assignment to catch this at the type definition site:</p>
+<pre><code class="language-go">
+// Verify at compile time that *FileStore satisfies Storer
+// This line does nothing at runtime — it's purely a compile-time check
+var _ Storer = (*FileStore)(nil)
+// If *FileStore is missing any Storer methods, this line causes a compile error
+// immediately, at the point of the type definition — not at the call site
+
+// Common pattern for interface verification in the same file as the type
+type FileStore struct { dir string }
+var _ Storer      = (*FileStore)(nil)   // verify Storer
+var _ io.Closer   = (*FileStore)(nil)   // verify io.Closer
+var _ fmt.Stringer = (*FileStore)(nil)  // verify Stringer
+
+// Alternative syntax with interface assignment
+var _ Storer = &FileStore{}
+
+// Why this matters: in a large codebase, you might refactor an interface
+// (add a method) and forget to update an implementation. The compile-time
+// check makes the error appear at the implementation file, not somewhere
+// deep in test code or production
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Interfaces and Generics — Go 1.18+</h4>
+<p style="line-height: 1.75;">With Go 1.18, interfaces gained a new role: they can be used as <strong>type constraints</strong> in generic functions. This extended the interface system without changing its existing semantics.</p>
+<pre><code class="language-go">
+// Interface as type constraint — specifies which types a generic can accept
+type Number interface {
+  int | int8 | int16 | int32 | int64 |
+  uint | uint8 | uint16 | uint32 | uint64 |
+  float32 | float64
+}
+
+func Sum[T Number](nums []T) T {
+  var total T
+  for _, n := range nums { total += n }
+  return total
+}
+
+Sum([]int{1, 2, 3})        // 6
+Sum([]float64{1.1, 2.2})  // 3.3
+
+// The comparable constraint — any type that supports == and !=
+func Contains[T comparable](slice []T, val T) bool {
+  for _, v := range slice {
+    if v == val { return true }
+  }
+  return false
+}
+
+Contains([]string{"go", "rust"}, "go")  // true
+Contains([]int{1, 2, 3}, 4)             // false
+
+// any = interface{} — unchanged, still the broadest constraint
+func Map[T, U any](slice []T, fn func(T) U) []U {
+  result := make([]U, len(slice))
+  for i, v := range slice { result[i] = fn(v) }
+  return result
+}
+
+// Interface used both as regular interface AND constraint
+type Stringer interface {
+  String() string
+}
+
+// As regular interface:
+func Print(s Stringer) { fmt.Println(s.String()) }
+
+// As type constraint:
+func PrintAll[T Stringer](items []T) {
+  for _, item := range items { fmt.Println(item.String()) }
+}
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- Implicit satisfaction: the core of Go interfaces ---
+package main
+
+import (
+  "fmt"
+  "math"
+  "sort"
+)
+
+// Define the interface in the CONSUMER package — not the implementor
+type Shape interface {
+  Area() float64
+  Perimeter() float64
+  String() string
+}
+
+// Three types — none of them know about Shape
+type Circle    struct{ Radius float64 }
+type Rectangle struct{ W, H float64 }
+type Triangle  struct{ A, B, C float64 }
+
+func (c Circle) Area() float64      { return math.Pi * c.Radius * c.Radius }
+func (c Circle) Perimeter() float64 { return 2 * math.Pi * c.Radius }
+func (c Circle) String() string     { return fmt.Sprintf("Circle(r=%.2f)", c.Radius) }
+
+func (r Rectangle) Area() float64      { return r.W * r.H }
+func (r Rectangle) Perimeter() float64 { return 2 * (r.W + r.H) }
+func (r Rectangle) String() string     { return fmt.Sprintf("Rect(%.2fx%.2f)", r.W, r.H) }
+
+func (t Triangle) Area() float64 {
+  s := (t.A + t.B + t.C) / 2
+  return math.Sqrt(s * (s-t.A) * (s-t.B) * (s-t.C))
+}
+func (t Triangle) Perimeter() float64 { return t.A + t.B + t.C }
+func (t Triangle) String() string {
+  return fmt.Sprintf("Triangle(%.2f,%.2f,%.2f)", t.A, t.B, t.C)
+}
+
+// Works with any Shape — now and in the future
+func totalArea(shapes []Shape) float64 {
+  total := 0.0
+  for _, s := range shapes { total += s.Area() }
+  return total
+}
+
+func largestShape(shapes []Shape) Shape {
+  if len(shapes) == 0 { return nil }
+  largest := shapes[0]
+  for _, s := range shapes[1:] {
+    if s.Area() > largest.Area() { largest = s }
+  }
+  return largest
+}
+
+func sortByArea(shapes []Shape) {
+  sort.Slice(shapes, func(i, j int) bool {
+    return shapes[i].Area() < shapes[j].Area()
+  })
+}
+
+func main() {
+  shapes := []Shape{
+    Circle{Radius: 5},
+    Rectangle{W: 4, H: 6},
+    Triangle{A: 3, B: 4, C: 5},
+  }
+
+  for _, s := range shapes {
+    fmt.Printf("%s: area=%.2f perimeter=%.2f\n",
+      s, s.Area(), s.Perimeter())
+  }
+
+  fmt.Printf("\ntotal area: %.2f\n", totalArea(shapes))
+  fmt.Printf("largest: %s\n", largestShape(shapes))
+
+  sortByArea(shapes)
+  fmt.Println("\nsorted by area:")
+  for _, s := range shapes { fmt.Println(" ", s) }
+}`,
+
+              `// --- The nil interface trap — most important Go interface gotcha ---
+package main
+
+import (
+  "errors"
+  "fmt"
+)
+
+type MyError struct {
+  Code    int
+  Message string
+}
+
+func (e *MyError) Error() string {
+  return fmt.Sprintf("error %d: %s", e.Code, e.Message)
+}
+
+// WRONG: returns concrete *MyError
+func riskyOperation(fail bool) *MyError {
+  if fail {
+    return &MyError{Code: 500, Message: "something broke"}
+  }
+  return nil   // typed nil — NOT a nil error interface!
+}
+
+// CORRECT: returns error interface
+func safeOperation(fail bool) error {
+  if fail {
+    return &MyError{Code: 500, Message: "something broke"}
+  }
+  return nil   // true nil interface
+}
+
+func main() {
+  // The trap
+  e := riskyOperation(false)   // returns (*MyError)(nil)
+  var err error = e            // interface now holds {type=*MyError, value=nil}
+  fmt.Println("e == nil:", e == nil)   // true — concrete pointer is nil
+  fmt.Println("err == nil:", err == nil) // FALSE — interface has type info!
+  if err != nil {
+    fmt.Println("BUG: we think there's an error but there isn't")
+  }
+
+  // Correct behavior
+  err2 := safeOperation(false)
+  fmt.Println("err2 == nil:", err2 == nil)  // true
+
+  // When it actually fails
+  err3 := safeOperation(true)
+  fmt.Println("err3 == nil:", err3 == nil)  // false — correctly non-nil
+
+  // Using errors.As to safely extract concrete type
+  err4 := safeOperation(true)
+  var myErr *MyError
+  if errors.As(err4, &myErr) {
+    fmt.Printf("got MyError with code %d\n", myErr.Code)
+  }
+}`,
+
+              `// --- Interface segregation + dependency injection + testing ---
+package main
+
+import (
+  "context"
+  "fmt"
+  "time"
+)
+
+// Small, focused interfaces — one responsibility each
+type UserFinder interface {
+  FindByID(ctx context.Context, id int) (*User, error)
+}
+
+type UserCreator interface {
+  Create(ctx context.Context, u *User) error
+}
+
+type UserRepository interface {
+  UserFinder
+  UserCreator
+  Delete(ctx context.Context, id int) error
+}
+
+type Notifier interface {
+  Notify(to, message string) error
+}
+
+type Clock interface {
+  Now() time.Time
+}
+
+type User struct {
+  ID        int
+  Name      string
+  Email     string
+  CreatedAt time.Time
+}
+
+// Service only depends on what it ACTUALLY uses
+type UserService struct {
+  repo     UserRepository
+  notifier Notifier
+  clock    Clock
+}
+
+func NewUserService(repo UserRepository, n Notifier, c Clock) *UserService {
+  return &UserService{repo: repo, notifier: n, clock: c}
+}
+
+func (s *UserService) CreateUser(ctx context.Context, name, email string) (*User, error) {
+  u := &User{Name: name, Email: email, CreatedAt: s.clock.Now()}
+  if err := s.repo.Create(ctx, u); err != nil {
+    return nil, fmt.Errorf("create user: %w", err)
+  }
+  s.notifier.Notify(email, "Welcome to the platform!")
+  return u, nil
+}
+
+// Minimal finder service — only needs UserFinder, not the full repo
+type ProfileService struct {
+  finder UserFinder   // narrowest possible interface
+}
+
+func (s *ProfileService) GetProfile(ctx context.Context, id int) (string, error) {
+  u, err := s.finder.FindByID(ctx, id)
+  if err != nil { return "", err }
+  return fmt.Sprintf("Profile: %s (%s)", u.Name, u.Email), nil
+}
+
+// --- Test doubles — no mocking framework needed ---
+type memoryRepo struct {
+  users  map[int]*User
+  nextID int
+}
+func newMemoryRepo() *memoryRepo {
+  return &memoryRepo{users: make(map[int]*User), nextID: 1}
+}
+func (m *memoryRepo) Create(_ context.Context, u *User) error {
+  m.nextID++; u.ID = m.nextID; m.users[u.ID] = u; return nil
+}
+func (m *memoryRepo) FindByID(_ context.Context, id int) (*User, error) {
+  u, ok := m.users[id]
+  if !ok { return nil, fmt.Errorf("user %d not found", id) }
+  return u, nil
+}
+func (m *memoryRepo) Delete(_ context.Context, id int) error {
+  delete(m.users, id); return nil
+}
+
+type captureNotifier struct{ messages []string }
+func (c *captureNotifier) Notify(to, msg string) error {
+  c.messages = append(c.messages, fmt.Sprintf("%s: %s", to, msg))
+  return nil
+}
+
+type fixedClock struct{ t time.Time }
+func (f fixedClock) Now() time.Time { return f.t }
+
+func main() {
+  repo     := newMemoryRepo()
+  notifier := &captureNotifier{}
+  clock    := fixedClock{t: time.Date(2024, 6, 1, 12, 0, 0, 0, time.UTC)}
+
+  svc := NewUserService(repo, notifier, clock)
+  ctx := context.Background()
+
+  u, err := svc.CreateUser(ctx, "Alice", "alice@example.com")
+  if err != nil { fmt.Println("error:", err); return }
+
+  fmt.Printf("created user: id=%d name=%s at=%s\n",
+    u.ID, u.Name, u.CreatedAt.Format(time.RFC3339))
+  fmt.Println("notifications sent:", notifier.messages)
+
+  profile := &ProfileService{finder: repo}
+  p, _ := profile.GetProfile(ctx, u.ID)
+  fmt.Println(p)
+}`,
+
+              `// --- Type assertions, type switches, interface upgrades ---
+package main
+
+import (
+  "fmt"
+  "io"
+  "strings"
+)
+
+type Named interface {
+  Name() string
+}
+
+type Versioned interface {
+  Version() string
+}
+
+type Describable interface {
+  Named
+  Versioned
+  Describe() string
+}
+
+type Plugin struct {
+  name    string
+  version string
+  config  map[string]string
+}
+func (p *Plugin) Name() string    { return p.name }
+func (p *Plugin) Version() string { return p.version }
+func (p *Plugin) Describe() string {
+  return fmt.Sprintf("Plugin %s v%s", p.name, p.version)
+}
+
+type SimplePlugin struct{ name string }
+func (s *SimplePlugin) Name() string { return s.name }
+
+// Interface upgrade pattern — check for optional capabilities
+func printInfo(n Named) {
+  fmt.Printf("name: %s", n.Name())
+
+  // Does it also have a version?
+  if v, ok := n.(Versioned); ok {
+    fmt.Printf(", version: %s", v.Version())
+  }
+
+  // Does it have full describe?
+  if d, ok := n.(Describable); ok {
+    fmt.Printf(", describe: %s", d.Describe())
+  }
+  fmt.Println()
+}
+
+// Type switch — handle each concrete type differently
+func process(items []any) {
+  for _, item := range items {
+    switch v := item.(type) {
+    case nil:
+      fmt.Println("nil item")
+    case int:
+      fmt.Printf("int: %d doubled=%d\n", v, v*2)
+    case string:
+      fmt.Printf("string: %q upper=%s\n", v, strings.ToUpper(v))
+    case []int:
+      sum := 0
+      for _, n := range v { sum += n }
+      fmt.Printf("[]int: len=%d sum=%d\n", len(v), sum)
+    case Named:
+      fmt.Printf("Named: %s\n", v.Name())  // v is Named here
+    default:
+      fmt.Printf("unknown: %T = %v\n", v, v)
+    }
+  }
+}
+
+// io.Writer upgrade — use more efficient path if available
+func writeString(w io.Writer, s string) (int, error) {
+  // If writer supports WriteString, use it (avoids []byte conversion)
+  if sw, ok := w.(interface{ WriteString(string) (int, error) }); ok {
+    return sw.WriteString(s)
+  }
+  return w.Write([]byte(s))
+}
+
+func main() {
+  printInfo(&Plugin{name: "auth", version: "1.2.3"})
+  printInfo(&SimplePlugin{name: "logger"})
+
+  process([]any{
+    42,
+    "hello",
+    []int{1, 2, 3, 4},
+    nil,
+    &Plugin{name: "cache", version: "2.0"},
+    3.14,
+  })
+}`,
+
+              `// --- Compile-time verification + io interface composition ---
+package main
+
+import (
+  "bytes"
+  "fmt"
+  "io"
+  "strings"
+)
+
+// Define your interfaces
+type ReadWriteResetter interface {
+  io.Reader
+  io.Writer
+  Reset()
+}
+
+// Implementation
+type Buffer struct {
+  buf bytes.Buffer
+}
+
+// Compile-time interface satisfaction checks — fail here, not at call site
+var _ io.Reader          = (*Buffer)(nil)
+var _ io.Writer          = (*Buffer)(nil)
+var _ ReadWriteResetter  = (*Buffer)(nil)
+
+func (b *Buffer) Read(p []byte) (int, error)  { return b.buf.Read(p) }
+func (b *Buffer) Write(p []byte) (int, error) { return b.buf.Write(p) }
+func (b *Buffer) Reset()                      { b.buf.Reset() }
+func (b *Buffer) String() string              { return b.buf.String() }
+
+// Pipeline using io interfaces — works with any Reader/Writer
+func pipeline(r io.Reader, processors ...func(string) string) (string, error) {
+  data, err := io.ReadAll(r)
+  if err != nil { return "", err }
+
+  result := string(data)
+  for _, p := range processors {
+    result = p(result)
+  }
+  return result, nil
+}
+
+func main() {
+  buf := &Buffer{}
+
+  // Write via io.Writer interface
+  fmt.Fprintf(buf, "  Hello, Go Interfaces!  ")
+
+  // Read via io.Reader interface
+  result, err := pipeline(
+    buf,
+    strings.TrimSpace,
+    strings.ToUpper,
+    func(s string) string { return ">> " + s + " <<" },
+  )
+  if err != nil { fmt.Println(err); return }
+  fmt.Println(result)  // >> HELLO, GO INTERFACES! 
+
+  // The same pipeline works with any io.Reader
+  result2, _ := pipeline(
+    strings.NewReader("   from a string reader   "),
+    strings.TrimSpace,
+    strings.ToTitle,
+  )
+  fmt.Println(result2)
+
+  // Compose io interfaces — bytes.Buffer satisfies io.ReadWriter
+  var rw io.ReadWriter = &bytes.Buffer{}
+  fmt.Fprintf(rw, "buffered data")
+  out, _ := io.ReadAll(rw)
+  fmt.Println(string(out))
+}`
+            ],
+
+            questions: [
+              {
+                question: "How does Go's implicit interface satisfaction work, and how is it different from Java or Python?",
+                solution: `<p>In Go, a type satisfies an interface <strong>automatically</strong> if it has all the required methods — no <code>implements</code> keyword, no explicit declaration, no registration. The compiler checks satisfaction at the point of assignment.</p>
+<pre><code class="language-go">type Greeter interface { Greet() string }
+
+type English struct{}
+func (e English) Greet() string { return "Hello" }
+
+type Spanish struct{}
+func (s Spanish) Greet() string { return "Hola" }
+
+var g Greeter = English{}   // ✅ — English has Greet()
+var g Greeter = Spanish{}   // ✅ — Spanish has Greet()
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Java</strong>: requires <code>class English implements Greeter</code>. The implementor must know about the interface at compile time. If a library type doesn't implement your interface, you need a wrapper class.</p>
+<p style="margin-top: 0.75rem;"><strong>Python</strong>: uses duck typing dynamically — no compile-time check. AttributeError at runtime if a method is missing.</p>
+<p style="margin-top: 0.75rem;"><strong>Go</strong>: compile-time duck typing. The type and the interface are completely decoupled — they can be in different packages, different repositories, written by different teams. A type from a third-party library automatically satisfies your interface if it has the right methods. This enables <em>retroactive interface satisfaction</em> — you can define an interface that existing types already satisfy, without modifying those types.</p>`
+              },
+              {
+                question: "What is the nil interface trap and how do you avoid it?",
+                solution: `<p>An interface value in Go is a two-word struct: a type pointer and a data pointer. A <strong>nil interface</strong> has both words nil. A <strong>non-nil interface with nil data</strong> has the type word set but the data word nil — and it is <strong>not equal to nil</strong> even though the underlying pointer is nil.</p>
+<pre><code class="language-go">type MyError struct{ Code int }
+func (e *MyError) Error() string { return fmt.Sprintf("error %d", e.Code) }
+
+func getError() *MyError { return nil }  // returns typed nil
+
+var err error = getError()    // interface: {type=*MyError, data=nil}
+fmt.Println(err == nil)       // FALSE — type word is set!
+if err != nil {
+  // THIS RUNS — even though the underlying pointer is nil
+  fmt.Println("BUG")
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>The fix</strong>: always return the <code>error</code> interface directly, never a concrete error pointer:</p>
+<pre><code class="language-go">func getError() error {  // return interface, not *MyError
+  return nil             // true nil interface — both words nil
+}
+var err error = getError()
+fmt.Println(err == nil)  // TRUE
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Root rule</strong>: never assign a typed nil pointer to an interface variable. Functions that return errors must have <code>error</code> (not <code>*ConcreteError</code>) as their return type. This is one of the most common and hardest-to-debug issues in Go codebases.</p>`
+              },
+              {
+                question: "What does 'accept interfaces, return concrete types' mean and why is it important?",
+                solution: `<p>This is one of Go's most important API design guidelines:</p>
+<p style="margin-top: 0.75rem;"><strong>Accept interfaces</strong> — when writing a function, declare its parameters as the <em>narrowest interface</em> that covers your actual needs. This maximises the number of types callers can pass:</p>
+<pre><code class="language-go">// BAD — locks callers to *os.File only
+func processData(f *os.File) { ... }
+
+// GOOD — works with files, HTTP bodies, strings, buffers, pipes, anything
+func processData(r io.Reader) { ... }
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Return concrete types</strong> — when returning values, return the most specific concrete type you have. This gives callers full access to the type's capabilities:</p>
+<pre><code class="language-go">// BAD — locks callers to only Storer methods
+func NewFileStore(dir string) Storer { return &FileStore{dir: dir} }
+
+// GOOD — callers can use *FileStore as Storer, io.Closer, or anything else
+func NewFileStore(dir string) *FileStore { return &FileStore{dir: dir} }
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Exception</strong>: return an interface when the implementation is a genuine secret — a factory that can return different concrete types based on configuration. But even then, keep the interface narrow.</p>
+<p style="margin-top: 0.75rem;">The principle maximises both flexibility at call sites (any compatible type works) and capability at return sites (full concrete type available).</p>`
+              },
+              {
+                question: "Where should an interface be defined — in the package that implements it or the package that uses it?",
+                solution: `<p><strong>Define interfaces in the package that uses them</strong> (the consumer), not the package that implements them (the producer). This is the opposite of what Java developers instinctively do.</p>
+<p style="margin-top: 0.75rem;"><strong>Why consumer-side interfaces create better decoupling:</strong></p>
+<pre><code class="language-go">// WRONG — producer defines the interface
+// package userservice
+type Repository interface { Create(*User) error; FindByID(int) (*User, error) }
+// Now every consumer must import userservice just to get the interface type
+
+// CORRECT — consumer defines exactly what it needs
+// package api
+type UserFinder interface {
+  FindByID(ctx context.Context, id int) (*User, error)
+}
+// api doesn't import userservice. userservice doesn't import api.
+// Zero coupling in either direction.
+</code></pre>
+<p style="margin-top: 0.75rem;">This matches the Go standard library pattern: <code>io.Reader</code> is defined in package <code>io</code> (the consumer of the Read behaviour), not in <code>os</code> (the implementor). <code>os.File</code> satisfies <code>io.Reader</code> without importing the <code>io</code> package.</p>
+<p style="margin-top: 0.75rem;"><strong>Consequence</strong>: your consumer package can define a minimal interface matching only the methods it needs. Even if the concrete type has 20 methods, your interface might have 2 — making it trivial to mock and easy to satisfy with different implementations.</p>`
+              },
+              {
+                question: "What is interface composition and why is it preferred over large interfaces?",
+                solution: `<p>Interface composition embeds smaller interfaces to build larger ones:</p>
+<pre><code class="language-go">type Reader  interface { Read([]byte) (int, error) }
+type Writer  interface { Write([]byte) (int, error) }
+type Closer  interface { Close() error }
+
+type ReadWriter      interface { Reader; Writer }
+type ReadWriteCloser interface { Reader; Writer; Closer }
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Why small interfaces composed together beat one large interface:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>Flexibility</strong>: a function that only needs <code>io.Reader</code> can accept any reader — files, HTTP bodies, strings, network connections. A function demanding <code>io.ReadWriteCloser</code> excludes most of them.</li>
+  <li><strong>Testability</strong>: mocking a 1-method interface requires implementing 1 method. Mocking a 10-method interface requires 10. Tests stay lean.</li>
+  <li><strong>Composability</strong>: types naturally satisfy multiple small interfaces. <code>os.File</code> satisfies <code>Reader</code>, <code>Writer</code>, <code>Closer</code>, <code>Seeker</code>, and all their combinations — without knowing about any of them.</li>
+  <li><strong>Honesty</strong>: a function signature with <code>io.Reader</code> tells you exactly what it does: reads data. A function taking a large interface is harder to reason about.</li>
+</ul>
+<p style="margin-top: 0.75rem;">Go proverb: <em>"The bigger the interface, the weaker the abstraction."</em></p>`
+              },
+              {
+                question: "What is a type assertion and when should you use it vs a type switch?",
+                solution: `<p>A <strong>type assertion</strong> extracts a specific concrete type from an interface. It comes in two forms:</p>
+<pre><code class="language-go">var w io.Writer = os.Stdout
+
+// Single-value — panics if assertion fails
+f := w.(*os.File)
+
+// Two-value — safe, returns false instead of panicking
+f, ok := w.(*os.File)
+if ok { fmt.Println(f.Name()) }
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Always use the two-value form</strong> unless you are 100% certain of the type and a panic is the correct response to failure. The single-value form is a runtime panic waiting to happen.</p>
+<p style="margin-top: 0.75rem;"><strong>A type switch</strong> handles multiple possible types cleanly:</p>
+<pre><code class="language-go">switch v := i.(type) {
+case string:  fmt.Println("string:", v)
+case int:     fmt.Println("int:", v)
+case error:   fmt.Println("error:", v.Error())
+default:      fmt.Printf("unknown: %T\n", v)
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>When to use which:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Use a <strong>type assertion</strong> when checking for one optional capability (<em>interface upgrade</em> pattern): <code>if sw, ok := w.(io.StringWriter); ok { sw.WriteString(s) }</code></li>
+  <li>Use a <strong>type switch</strong> when handling multiple concrete types — cleaner than chained type assertions, and the variable <code>v</code> has the concrete type in each case branch.</li>
+  <li>Prefer <code>errors.Is</code> and <code>errors.As</code> over raw type assertions for error handling — they handle wrapped errors correctly.</li>
+</ul>`
+              },
+              {
+                question: "How do interfaces enable testing without mocking frameworks?",
+                solution: `<p>Because Go interfaces are satisfied implicitly, you can create test doubles (fakes, stubs, mocks) by simply defining a struct that implements the interface — no framework, no code generation, no reflection magic.</p>
+<pre><code class="language-go">// Production code depends on an interface
+type Mailer interface {
+  Send(to, subject, body string) error
+}
+
+type Service struct{ mailer Mailer }
+
+// In tests — hand-written fake satisfies Mailer
+type fakeMailer struct{ sent []string }
+func (f *fakeMailer) Send(to, subject, body string) error {
+  f.sent = append(f.sent, to)
+  return nil
+}
+
+func TestWelcomeEmail(t *testing.T) {
+  m := &fakeMailer{}
+  svc := Service{mailer: m}
+  svc.RegisterUser("alice@x.com")
+
+  if len(m.sent) != 1 || m.sent[0] != "alice@x.com" {
+    t.Errorf("expected welcome email, got %v", m.sent)
+  }
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Why this beats mocking frameworks:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Fakes are plain Go code — readable, debuggable, refactorable.</li>
+  <li>The compiler verifies the fake implements the interface — no runtime surprises.</li>
+  <li>Fakes can have rich internal state (<code>sent []string</code>, error injection, call counts) without DSL syntax.</li>
+  <li>No dependency on a framework that might not compile or lag behind Go versions.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>The key</strong>: keep interfaces small (1-3 methods) so fakes are cheap to write. A 10-method interface forces you to implement 10 methods per fake — this is the real cost of large interfaces.</p>`
+              },
+              {
+                question: "What is the compile-time interface verification pattern and when should you use it?",
+                solution: `<p>Because Go interfaces are satisfied implicitly, a type might accidentally stop satisfying an interface after a refactor (e.g., a method is renamed or its signature changes). The error only surfaces when you try to assign the type to the interface — which might be in a completely different file or only at runtime.</p>
+<p style="margin-top: 0.75rem;">The solution is a blank identifier assignment at the top of the file where the type is defined:</p>
+<pre><code class="language-go">type FileStore struct { dir string }
+
+// Compile-time checks — zero runtime cost
+var _ Storer    = (*FileStore)(nil)
+var _ io.Closer = (*FileStore)(nil)
+
+// If FileStore is missing any method, this line causes a compile error HERE
+// not somewhere deep in the codebase that uses FileStore as a Storer
+</code></pre>
+<p style="margin-top: 0.75rem;"><code>(*FileStore)(nil)</code> creates a nil pointer of type <code>*FileStore</code> and attempts to assign it to the interface. No allocation occurs — it's a compile-time check only. The blank identifier <code>_</code> discards the result so the compiler doesn't complain about an unused variable.</p>
+<p style="margin-top: 0.75rem;"><strong>When to add it:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Any time a type is the primary implementation of a public interface.</li>
+  <li>When refactoring — add checks to all types that must satisfy their interfaces before changing anything.</li>
+  <li>In libraries where a type promises to implement standard interfaces like <code>io.Reader</code>, <code>http.Handler</code>, <code>json.Marshaler</code>.</li>
+</ul>`
+              },
+              {
+                question: "When should you NOT use an interface in Go?",
+                solution: `<p>Go proverb: <em>"Don't design with interfaces, discover them."</em> Premature interfaces are one of the most common Go mistakes:</p>
+<p style="margin-top: 0.75rem;"><strong>Don't use an interface when:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>There is only one implementation now and you can't foresee a second.</strong> An interface with one implementation adds indirection without value. Use the concrete type — add the interface when the second implementation actually appears.</li>
+  <li><strong>You're defining the interface in the same package as the only implementation.</strong> This is the most common sign of interface pollution. If both the interface and its only implementor live in the same package, the interface is probably unnecessary.</li>
+  <li><strong>The interface is huge.</strong> If you need 10 methods, the abstraction is probably wrong. Break it into smaller pieces or reconsider whether an interface is needed.</li>
+  <li><strong>You just want to be "flexible for the future."</strong> YAGNI — you aren't gonna need it. Concrete types are easy to wrap in interfaces later. Unnecessary interfaces are hard to remove.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Do use an interface when:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>You have or can clearly foresee two or more implementations (production + test fake counts).</li>
+  <li>You want to accept any type that can perform an operation (like <code>io.Writer</code>).</li>
+  <li>You need to break a dependency cycle between packages.</li>
+  <li>You need to mock a dependency in tests.</li>
+</ul>`
+              },
+              {
+                question: "How are interfaces used as type constraints in Go generics (1.18+)?",
+                solution: `<p>In Go 1.18, interfaces gained a second role as <strong>type constraints</strong> for generic functions and types. A type constraint specifies which concrete types may be used as a type argument.</p>
+<pre><code class="language-go">// Interface as a type constraint with a union of types
+type Number interface {
+  int | int32 | int64 | float32 | float64
+}
+
+func Sum[T Number](nums []T) T {
+  var total T
+  for _, n := range nums { total += n }
+  return total
+}
+
+Sum([]int{1, 2, 3})        // works
+Sum([]float64{1.1, 2.2})   // works
+// Sum([]string{"a","b"})  // compile error — string not in Number
+
+// comparable — built-in constraint: any type supporting == and !=
+func Contains[T comparable](slice []T, val T) bool {
+  for _, v := range slice { if v == val { return true } }
+  return false
+}
+
+// any — alias for interface{}, broadest constraint
+func Map[T, U any](s []T, fn func(T) U) []U {
+  r := make([]U, len(s))
+  for i, v := range s { r[i] = fn(v) }
+  return r
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Key distinction:</strong> an interface used as a regular parameter (<code>func Print(s fmt.Stringer)</code>) is satisfied by any type with the methods, called via dynamic dispatch. An interface used as a type constraint (<code>func F[T fmt.Stringer](v T)</code>) is resolved at compile time — the generic is instantiated for each concrete type T, producing specialized code with no dynamic dispatch overhead.</p>
+<p style="margin-top: 0.75rem;">Type union constraints (<code>int | float64</code>) can only be used as type constraints, not as regular interface parameters — trying to use them as a regular parameter type is a compile error.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/methods/9",
+              "https://go.dev/tour/methods/10",
+              "https://go.dev/tour/methods/11",
+              "https://go.dev/ref/spec#Interface_types",
+              "https://go.dev/doc/effective_go#interfaces",
+              "https://go.dev/doc/effective_go#interface_conversions",
+              "https://go.dev/blog/laws-of-reflection",
+              "https://go.dev/blog/interfaces",
+              "https://go.dev/doc/faq#implements_interface",
+              "https://go.dev/ref/spec#Type_assertions",
+              "https://pkg.go.dev/io",
+            ],
+          },
+          {
+            topic: "Pointers",
+            tags: ["go"],
+            explanation: `<div>
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  A pointer is a variable that stores the <strong>memory address</strong> of another variable. Go uses pointers extensively — they are how you mutate values across function boundaries, share large data structures without copying, and signal optional values. Unlike C, Go pointers are safe: there is no pointer arithmetic, the garbage collector manages memory, and nil pointer dereferences cause a clean runtime panic rather than undefined behaviour. Understanding pointers is not optional in Go — every backend developer hits pointer bugs within their first week.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">The Two Pointer Operators</h4>
+<pre><code class="language-go">
+// & — address-of operator
+// Takes a variable and returns a pointer to it (its memory address)
+x := 42
+p := &x          // p is of type *int, holds the address of x
+fmt.Println(p)   // 0xc0000b4000 — a memory address
+fmt.Println(&x)  // same address
+
+// * — dereference operator
+// Takes a pointer and returns the value it points to
+fmt.Println(*p)  // 42 — the value at the address p holds
+
+// Modifying through a pointer
+*p = 100
+fmt.Println(x)   // 100 — x was changed through the pointer
+fmt.Println(*p)  // 100
+
+// The * in a TYPE DECLARATION means "pointer to"
+var q *int       // q is a pointer to int, zero value is nil
+fmt.Println(q)   // <nil>
+// fmt.Println(*q)  // PANIC: nil pointer dereference
+
+// Summary:
+// &x  → give me the address of x        (produces a *T)
+// *p  → give me the value at address p  (produces a T)
+// *T  → type: pointer to T              (in declarations)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pass by Value — Go's Default</h4>
+<p style="line-height: 1.75;">Go is a <strong>pass-by-value</strong> language. When you pass a variable to a function, the function receives a <em>complete copy</em> of that value. The original is untouched. This is true for all basic types, arrays, and structs.</p>
+<pre><code class="language-go">
+func double(n int) {
+  n *= 2        // modifies only the local copy
+}
+
+x := 5
+double(x)
+fmt.Println(x)  // 5 — unchanged, double received a copy
+
+// Same with structs
+type Point struct{ X, Y int }
+
+func moveRight(p Point) {
+  p.X += 10     // modifies only the copy
+}
+
+pt := Point{1, 2}
+moveRight(pt)
+fmt.Println(pt)  // {1 2} — unchanged
+
+// Arrays are also copied entirely
+func zeroFirst(arr [3]int) {
+  arr[0] = 0    // modifies only the copy
+}
+
+arr := [3]int{1, 2, 3}
+zeroFirst(arr)
+fmt.Println(arr)  // [1 2 3] — unchanged
+
+// The copy cost:
+// int copy     — 8 bytes  — negligible
+// Point copy   — 16 bytes — negligible
+// [1000]int copy — 8000 bytes — expensive
+// Large struct copy — expensive if called in a tight loop
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Passing Pointers — Enabling Mutation</h4>
+<p style="line-height: 1.75;">To mutate a value across a function boundary, pass a pointer to it. The function receives a copy of the pointer — but both the original pointer and the copy point to the same underlying data. Writes through the pointer affect the original.</p>
+<pre><code class="language-go">
+// Pass *int — function receives a copy of the pointer, not a copy of the int
+func doublePtr(n *int) {
+  *n *= 2       // dereference and modify — affects the original
+}
+
+x := 5
+doublePtr(&x)   // pass the address of x
+fmt.Println(x)  // 10 — modified through the pointer
+
+// Pass *Point
+func moveRightPtr(p *Point) {
+  p.X += 10    // Go auto-dereferences: p.X is (*p).X
+}
+
+pt := Point{1, 2}
+moveRightPtr(&pt)
+fmt.Println(pt)  // {11 2} — modified
+
+// Auto-dereference for struct fields — Go allows p.Field instead of (*p).Field
+// Both are equivalent, but p.Field is idiomatic
+type User struct {
+  Name  string
+  Email string
+  Age   int
+}
+
+func birthday(u *User) {
+  u.Age++        // same as (*u).Age++
+  u.Name = "Updated " + u.Name
+}
+
+user := User{Name: "Alice", Email: "alice@x.com", Age: 30}
+birthday(&user)
+fmt.Println(user)  // {Updated Alice alice@x.com 31}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pointer Declarations and the new() Function</h4>
+<pre><code class="language-go">
+// Declare a pointer variable — zero value is nil
+var p *int
+fmt.Println(p)        // <nil>
+fmt.Println(p == nil) // true
+
+// Take address of an existing variable
+x := 42
+p = &x
+
+// new(T) — allocates a zeroed T on the heap, returns *T
+p2 := new(int)
+fmt.Println(*p2)      // 0 — zero value of int
+*p2 = 99
+fmt.Println(*p2)      // 99
+
+// new() with struct
+u := new(User)         // *User pointing to zeroed User{}
+u.Name = "Alice"       // auto-dereference
+fmt.Println(*u)        // {Alice  0}
+
+// Struct literal pointer — most common pattern (preferred over new())
+u2 := &User{Name: "Bob", Age: 25}   // allocates User, returns *User
+// Equivalent to:
+// tmp := User{Name: "Bob", Age: 25}
+// u2 := &tmp
+
+// All of these produce a *User:
+a := new(User)                    // zeroed
+b := &User{}                      // zeroed (identical to new)
+c := &User{Name: "Carol"}         // partially initialized
+
+// Pointer to a non-struct literal — requires a variable
+// This DOES NOT compile:
+// p := &42         // cannot take address of integer literal
+
+// Workaround for pointer to basic type literal (common in tests and APIs)
+func intPtr(n int) *int { return &n }
+func strPtr(s string) *string { return &s }
+func boolPtr(b bool) *bool { return &b }
+
+// Or inline via a helper (Go 1.18+ with generics)
+func ptr[T any](v T) *T { return &v }
+
+timeout := ptr(30 * time.Second)
+enabled := ptr(true)
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Nil Pointers — The Most Common Runtime Panic</h4>
+<pre><code class="language-go">
+// A nil pointer has no address — dereferencing it panics
+var p *User
+fmt.Println(p)        // <nil>
+// fmt.Println(p.Name)  // PANIC: nil pointer dereference
+// p.Age++              // PANIC: nil pointer dereference
+
+// Always check before dereferencing an untrusted pointer
+func getAge(u *User) int {
+  if u == nil {
+    return 0   // safe default
+  }
+  return u.Age
+}
+
+// Nil pointer from a failed lookup — very common pattern
+func findUser(id int) *User {
+  // returns nil if not found
+  return nil
+}
+
+user := findUser(99)
+if user == nil {
+  fmt.Println("user not found")
+  return
+}
+fmt.Println(user.Name)  // safe — we checked
+
+// nil pointer in a chain — any nil in the chain panics
+type Order struct {
+  User    *User
+  Product *Product
+}
+
+var order Order
+// order.User.Name   // PANIC: order.User is nil
+if order.User != nil {
+  fmt.Println(order.User.Name)  // safe
+}
+
+// Optional chaining equivalent — Go has no ?. operator
+// You must check each level explicitly
+func getOrderUserName(o *Order) string {
+  if o == nil || o.User == nil {
+    return ""
+  }
+  return o.User.Name
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pointers vs Values — When to Use Each</h4>
+<pre><code class="language-go">
+// USE A POINTER when:
+
+// 1. You need to mutate the original value
+func (c *Counter) Increment() { c.count++ }   // must use *Counter
+
+// 2. The struct is large — avoid expensive copies
+type PageData struct {
+  HTML     string          // could be 100KB
+  Metadata map[string]string
+  Assets   []string
+}
+func render(d *PageData) string { ... }   // pass pointer, not 8KB copy
+
+// 3. The value represents shared, mutable state
+type Cache struct {
+  mu    sync.RWMutex
+  store map[string]any
+}
+// Never copy a Cache — pass *Cache everywhere
+
+// 4. Optional values — nil pointer means "not present"
+type Config struct {
+  Timeout  *time.Duration  // nil means "use default"
+  MaxRetry *int            // nil means "no limit"
+  TLSCert  *tls.Certificate // nil means "no TLS"
+}
+
+cfg := Config{
+  Timeout: func() *time.Duration {
+    d := 30 * time.Second
+    return &d
+  }(),
+}
+if cfg.Timeout != nil {
+  fmt.Println("timeout:", *cfg.Timeout)
+}
+
+// 5. Interfaces with pointer receivers — must pass pointer
+type Storer interface { Save(key string, val []byte) error }
+type FileStore struct { dir string }
+func (f *FileStore) Save(key string, val []byte) error { ... }
+var s Storer = &FileStore{}   // *FileStore, not FileStore
+
+// USE A VALUE when:
+
+// 1. The type is small and immutable semantics are desired
+type Point struct{ X, Y float64 }
+func distance(a, b Point) float64 { ... }  // copying 16 bytes is fine
+
+// 2. The function is read-only and the type is simple
+func isAdult(age int) bool { return age >= 18 }
+
+// 3. You want a copy explicitly — protecting the original from modification
+func process(cfg Config) {  // if process modifies cfg, caller's copy is safe
+  cfg.Timeout = nil         // modifies the local copy only
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pointer Internals — Stack vs Heap</h4>
+<p style="line-height: 1.75;">Go's compiler decides whether to allocate a variable on the <strong>stack</strong> or the <strong>heap</strong> through a process called <strong>escape analysis</strong>. You don't control this directly, but understanding it explains performance and GC pressure.</p>
+<pre><code class="language-go">
+// Stack allocation — fast, automatically freed when function returns
+func stackAlloc() int {
+  x := 42      // x lives on the stack — no GC involved
+  return x     // value is copied to caller — x's stack slot is freed
+}
+
+// Heap allocation — when a value "escapes" the function
+func heapAlloc() *int {
+  x := 42      // x escapes to the heap — must survive after function returns
+  return &x    // returning address forces heap allocation
+}
+
+// Taking the address causes escape
+func escapeExample() {
+  x := 42
+  p := &x        // x might escape — compiler decides
+  fmt.Println(p) // if p outlives this function, x is on heap
+}
+
+// Check escape analysis:
+// go build -gcflags="-m" ./...
+// Output: "./main.go:5:2: x escapes to heap"
+
+// Large objects escape even without pointers
+func largeEscape() {
+  data := make([]byte, 1<<20)  // 1MB — allocated on heap regardless
+  _ = data
+}
+
+// Practical implications:
+// Returning *T causes a heap allocation for T
+// Heap allocations = GC pressure in hot paths
+// BUT: premature optimization is wrong — profile first
+
+// In hot paths, consider:
+// 1. sync.Pool for reusing objects
+// 2. Passing a pointer IN instead of returning one
+func processInPlace(buf *[]byte) {  // caller owns the buffer
+  *buf = append(*buf, "data"...)    // reuse caller's buffer
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pointer Receivers vs Value Receivers — Revisited Through the Pointer Lens</h4>
+<pre><code class="language-go">
+// This is the practical application of pass-by-value to methods
+
+type Server struct {
+  host     string
+  port     int
+  conns    map[string]net.Conn
+  mu       sync.RWMutex
+}
+
+// Value receiver — receives a COPY of Server
+// The copy includes a copy of the sync.RWMutex — this is WRONG
+// go vet reports: "passes lock by value: Server contains sync.RWMutex"
+func (s Server) BrokenGetHost() string {
+  s.mu.RLock()         // locking the COPY — useless
+  defer s.mu.RUnlock()
+  return s.host        // safe read but the lock is broken
+}
+
+// Pointer receiver — receives a pointer to the ORIGINAL Server
+// The mutex is shared — locking works correctly
+func (s *Server) GetHost() string {
+  s.mu.RLock()
+  defer s.mu.RUnlock()
+  return s.host
+}
+
+func (s *Server) AddConn(id string, conn net.Conn) {
+  s.mu.Lock()
+  defer s.mu.Unlock()
+  s.conns[id] = conn
+}
+
+// Pointer receiver modifying vs value receiver returning new
+type Config struct {
+  Host    string
+  Port    int
+  Timeout time.Duration
+}
+
+// Value receiver — functional style: returns new Config, original unchanged
+func (c Config) WithPort(port int) Config {
+  c.Port = port   // modify the copy
+  return c        // return the modified copy
+}
+
+// Pointer receiver — mutates in place
+func (c *Config) SetPort(port int) {
+  c.Port = port
+}
+
+cfg := Config{Host: "localhost", Port: 8080}
+cfg2 := cfg.WithPort(9090)   // cfg unchanged, cfg2 has port 9090
+cfg.SetPort(7070)             // cfg itself is modified
+
+fmt.Println(cfg.Port)   // 7070
+fmt.Println(cfg2.Port)  // 9090
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pointer Tricks and Patterns</h4>
+<pre><code class="language-go">
+// --- Pattern 1: Swapping two values ---
+func swap(a, b *int) {
+  *a, *b = *b, *a
+}
+x, y := 10, 20
+swap(&x, &y)
+fmt.Println(x, y)  // 20 10
+
+// Go doesn't need this for basic swaps — multiple assignment handles it
+x, y = y, x
+
+// --- Pattern 2: Optional fields with pointer semantics ---
+type SearchOptions struct {
+  Limit     *int           // nil = no limit
+  Offset    *int           // nil = start from beginning
+  SortField *string        // nil = use default sort
+}
+
+func search(query string, opts SearchOptions) []Result {
+  limit := 100   // default
+  if opts.Limit != nil {
+    limit = *opts.Limit
+  }
+  // ...
+}
+
+// --- Pattern 3: In-place modification of a slice ---
+// Slices are already reference-like (header copied, backing array shared)
+// But to replace the slice itself (e.g., grow it), you need *[]T
+func appendToSlice(s *[]int, val int) {
+  *s = append(*s, val)
+}
+
+nums := []int{1, 2, 3}
+appendToSlice(&nums, 4)
+fmt.Println(nums)  // [1 2 3 4]
+
+// --- Pattern 4: Linked list node ---
+type Node struct {
+  Value int
+  Next  *Node   // pointer to next — nil terminates the list
+}
+
+head := &Node{Value: 1,
+  Next: &Node{Value: 2,
+    Next: &Node{Value: 3, Next: nil}}}
+
+for n := head; n != nil; n = n.Next {
+  fmt.Println(n.Value)  // 1 2 3
+}
+
+// --- Pattern 5: Returning pointer to allow method chaining ---
+type Builder struct { parts []string }
+
+func (b *Builder) Add(s string) *Builder {
+  b.parts = append(b.parts, s)
+  return b   // return self pointer for chaining
+}
+
+func (b *Builder) Build() string {
+  return strings.Join(b.parts, " ")
+}
+
+result := (&Builder{}).Add("Hello").Add("Go").Add("Pointers").Build()
+fmt.Println(result)  // Hello Go Pointers
+
+// --- Pattern 6: Pointer to interface — almost always wrong ---
+var w io.Writer = os.Stdout
+// p := &w              // *io.Writer — rarely what you want
+// Almost never take the address of an interface — pass *ConcreteType instead
+// The one exception: reflect and certain serialization scenarios
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Common Pointer Bugs and How to Avoid Them</h4>
+<pre><code class="language-go">
+// --- Bug 1: Returning address of loop variable (pre Go 1.22) ---
+users := []User{{Name: "Alice"}, {Name: "Bob"}, {Name: "Carol"}}
+
+// WRONG — all pointers point to the same loop variable's final value
+ptrs := make([]*User, len(users))
+for i, u := range users {
+  ptrs[i] = &u   // u is reused each iteration — all ptrs point to same u!
+}
+// After loop: u = Carol (final value)
+fmt.Println(ptrs[0].Name)  // "Carol" — BUG (pre-Go 1.22)
+
+// CORRECT — use the slice index to get the actual element's address
+for i := range users {
+  ptrs[i] = &users[i]   // address of the actual slice element
+}
+fmt.Println(ptrs[0].Name)  // "Alice" — correct
+
+// NOTE: Go 1.22+ fixed this — loop variable is now per-iteration
+// But you'll see the old pattern in code — always know both forms
+
+// --- Bug 2: Modifying a copy when you think you have the original ---
+type Config struct{ debug bool }
+
+configs := []Config{{debug: false}, {debug: false}}
+for _, cfg := range configs {
+  cfg.debug = true   // modifies a copy — configs unchanged!
+}
+fmt.Println(configs[0].debug)  // false — not modified
+
+// Fix: use index
+for i := range configs {
+  configs[i].debug = true
+}
+
+// --- Bug 3: Nil pointer dereference in struct chains ---
+type Response struct {
+  Data *ResponseData
+}
+type ResponseData struct {
+  User *User
+}
+
+var resp Response  // Data is nil
+// resp.Data.User  // PANIC — resp.Data is nil
+
+// Safe access pattern
+if resp.Data != nil && resp.Data.User != nil {
+  fmt.Println(resp.Data.User.Name)
+}
+
+// --- Bug 4: Pointer to interface (almost always wrong) ---
+var w io.Writer = os.Stdout
+pw := &w            // pw is *io.Writer — type is WRONG for most APIs
+// io.Copy(pw, r)   // doesn't compile — io.Copy wants io.Writer, not *io.Writer
+
+// --- Bug 5: Forgetting to dereference when comparing ---
+a := 42
+b := 42
+pa := &a
+pb := &b
+fmt.Println(pa == pb)   // false — different addresses
+fmt.Println(*pa == *pb) // true — same values
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Pointers and Concurrency</h4>
+<pre><code class="language-go">
+// Pointers create SHARED STATE — the source of all concurrency bugs
+// Two goroutines holding a pointer to the same data can race
+
+type Counter struct {
+  count int
+}
+
+c := &Counter{}
+
+// DATA RACE — both goroutines write to c.count without synchronization
+for i := 0; i < 1000; i++ {
+  go func() { c.count++ }()   // RACE CONDITION
+}
+
+// Detected by: go test -race ./...
+
+// Fix 1: sync.Mutex
+type SafeCounter struct {
+  mu    sync.Mutex
+  count int
+}
+func (c *SafeCounter) Inc() {
+  c.mu.Lock()
+  defer c.mu.Unlock()
+  c.count++
+}
+
+// Fix 2: sync/atomic for simple counters
+type AtomicCounter struct {
+  count int64
+}
+func (c *AtomicCounter) Inc() {
+  atomic.AddInt64(&c.count, 1)
+}
+func (c *AtomicCounter) Value() int64 {
+  return atomic.LoadInt64(&c.count)
+}
+
+// Fix 3: channel-based ownership transfer
+// Pass the pointer through a channel — only one goroutine holds it at a time
+jobs := make(chan *Job, 100)
+go func() {
+  job := &Job{ID: 1}
+  jobs <- job    // transfer ownership to worker
+}()
+// Original goroutine should not use job pointer after sending
+
+// The rule: a pointer shared across goroutines needs synchronization
+// A pointer owned by exactly one goroutine is safe without locks
+</code></pre>
+</div>`,
+
+            examples: [
+              `// --- Pass by value vs pass by pointer — concrete effects ---
+package main
+
+import "fmt"
+
+type Rectangle struct {
+  Width  float64
+  Height float64
+}
+
+func (r Rectangle) Area() float64 { return r.Width * r.Height }
+
+// Value — receives a copy, cannot modify original
+func scaleValue(r Rectangle, factor float64) Rectangle {
+  r.Width *= factor
+  r.Height *= factor
+  return r   // must return the modified copy
+}
+
+// Pointer — receives the address, modifies the original
+func scalePointer(r *Rectangle, factor float64) {
+  r.Width *= factor
+  r.Height *= factor
+  // no return needed — original is modified
+}
+
+// Demonstrating the difference
+func main() {
+  r := Rectangle{Width: 4, Height: 3}
+  fmt.Printf("original: %+v area=%.2f\n", r, r.Area())
+
+  // Value receiver — original untouched, get new copy back
+  scaled := scaleValue(r, 2)
+  fmt.Printf("after scaleValue: original=%+v scaled=%+v\n", r, scaled)
+
+  // Pointer receiver — original is modified
+  scalePointer(&r, 2)
+  fmt.Printf("after scalePointer: r=%+v area=%.2f\n", r, r.Area())
+
+  // Demonstrating that pointer copies share the underlying data
+  p1 := &r
+  p2 := p1          // p2 is a copy of the pointer — same address
+  p2.Width = 999
+  fmt.Printf("p1.Width=%v r.Width=%v (same)\n", p1.Width, r.Width)
+
+  // new vs address-of
+  a := new(Rectangle)       // *Rectangle, zero value
+  b := &Rectangle{4, 3}     // *Rectangle, initialized
+
+  a.Width = 10              // auto-dereference
+  fmt.Println(*a, *b)
+}`,
+
+              `// --- Nil pointer patterns and safe access ---
+package main
+
+import "fmt"
+
+type Address struct {
+  Street string
+  City   string
+  Zip    string
+}
+
+type User struct {
+  Name    string
+  Age     int
+  Email   string
+  Address *Address  // optional — nil if not provided
+}
+
+// Safe accessor — check before dereference
+func (u *User) City() string {
+  if u == nil || u.Address == nil {
+    return ""
+  }
+  return u.Address.City
+}
+
+// Return *User to signal "not found" with nil
+func findUser(id int, users []*User) *User {
+  for _, u := range users {
+    if u != nil && u.Age == id {  // using Age as fake ID
+      return u
+    }
+  }
+  return nil   // not found
+}
+
+// Optional value pattern — pointer field means "optional"
+type Config struct {
+  Host     string
+  Port     int
+  MaxConns *int    // nil = use default (100)
+  Debug    *bool   // nil = use default (false)
+}
+
+func (c *Config) GetMaxConns() int {
+  if c.MaxConns == nil { return 100 }
+  return *c.MaxConns
+}
+
+func (c *Config) IsDebug() bool {
+  if c.Debug == nil { return false }
+  return *c.Debug
+}
+
+// Helper to get pointer to literal — common need
+func intPtr(n int) *int     { return &n }
+func boolPtr(b bool) *bool  { return &b }
+
+func main() {
+  users := []*User{
+    {Name: "Alice", Age: 30, Address: &Address{"1 Main St", "NYC", "10001"}},
+    {Name: "Bob",   Age: 25, Address: nil},
+    nil,
+  }
+
+  for _, u := range users {
+    if u == nil {
+      fmt.Println("nil user")
+      continue
+    }
+    fmt.Printf("%s lives in %q\n", u.Name, u.City())
+  }
+
+  found := findUser(25, users)
+  if found == nil {
+    fmt.Println("not found")
+  } else {
+    fmt.Println("found:", found.Name)
+  }
+
+  cfg := Config{
+    Host:     "localhost",
+    Port:     8080,
+    MaxConns: intPtr(50),
+    Debug:    boolPtr(true),
+  }
+  fmt.Println("maxConns:", cfg.GetMaxConns())
+  fmt.Println("debug:", cfg.IsDebug())
+
+  cfg2 := Config{Host: "prod.server.com", Port: 443}
+  fmt.Println("maxConns:", cfg2.GetMaxConns())  // 100 (default)
+  fmt.Println("debug:", cfg2.IsDebug())          // false (default)
+}`,
+
+              `// --- Loop variable pointer bug (pre-1.22) and correct alternatives ---
+package main
+
+import "fmt"
+
+type Task struct {
+  ID   int
+  Name string
+}
+
+func main() {
+  tasks := []Task{
+    {1, "Write tests"},
+    {2, "Review PR"},
+    {3, "Deploy"},
+  }
+
+  // BUG: address of loop variable (pre-Go 1.22)
+  ptrs1 := make([]*Task, len(tasks))
+  for i, t := range tasks {
+    ptrs1[i] = &t    // t is reused each iteration — all point to same address!
+    _ = i
+  }
+  fmt.Println("BUGGY pointers (pre-1.22):")
+  for _, p := range ptrs1 {
+    fmt.Printf("  %+v at %p\n", *p, p)
+    // All three have the same address and same final value (Deploy)
+  }
+
+  // FIX 1: Take address of slice element (always safe)
+  ptrs2 := make([]*Task, len(tasks))
+  for i := range tasks {
+    ptrs2[i] = &tasks[i]
+  }
+  fmt.Println("\nFix 1 — slice index address:")
+  for _, p := range ptrs2 {
+    fmt.Printf("  %+v at %p\n", *p, p)
+  }
+
+  // FIX 2: Shadow the loop variable (pre-1.22 idiom)
+  ptrs3 := make([]*Task, len(tasks))
+  for i, t := range tasks {
+    t := t              // new variable t scoped to this iteration
+    ptrs3[i] = &t
+  }
+  fmt.Println("\nFix 2 — shadow variable:")
+  for _, p := range ptrs3 {
+    fmt.Printf("  %+v\n", *p)
+  }
+
+  // Goroutine version of the bug — very common in real code
+  done := make(chan struct{}, len(tasks))
+
+  fmt.Println("\nGoroutine loop (safe with shadow):")
+  for _, t := range tasks {
+    t := t   // shadow — capture this iteration's value
+    go func() {
+      fmt.Printf("  processing task %d: %s\n", t.ID, t.Name)
+      done <- struct{}{}
+    }()
+  }
+  for range tasks { <-done }
+}`,
+
+              `// --- Stack vs heap, escape analysis, and pointer performance ---
+package main
+
+import (
+  "fmt"
+  "runtime"
+)
+
+type SmallStruct struct {
+  X, Y int
+}
+
+type LargeStruct struct {
+  Data [1024]int   // 8KB
+  Name string
+}
+
+// Returns value — compiler may keep on stack (no escape)
+func stackLikely() SmallStruct {
+  s := SmallStruct{1, 2}
+  return s   // copy returned — s might stay on stack
+}
+
+// Returns pointer — s MUST be on heap (escapes the function)
+func heapCertain() *SmallStruct {
+  s := SmallStruct{1, 2}
+  return &s   // address returned — s escapes to heap
+}
+
+// Check with: go build -gcflags="-m" ./...
+// "s escapes to heap" for heapCertain
+// "s does not escape" for stackLikely (maybe)
+
+func printMemStats(label string) {
+  var m runtime.MemStats
+  runtime.ReadMemStats(&m)
+  fmt.Printf("%s: alloc=%dKB numGC=%d\n",
+    label, m.Alloc/1024, m.NumGC)
+}
+
+// High allocation pattern — avoid in hot paths
+func buildSliceHighAlloc(n int) []*SmallStruct {
+  result := make([]*SmallStruct, n)
+  for i := range result {
+    s := &SmallStruct{X: i, Y: i * 2}  // each escapes to heap
+    result[i] = s
+  }
+  return result
+}
+
+// Lower allocation — store values, not pointers (when mutation not needed)
+func buildSliceLowAlloc(n int) []SmallStruct {
+  result := make([]SmallStruct, n)
+  for i := range result {
+    result[i] = SmallStruct{X: i, Y: i * 2}  // in-place, no per-element alloc
+  }
+  return result
+}
+
+func main() {
+  runtime.GC()
+  printMemStats("start")
+
+  _ = buildSliceHighAlloc(10000)
+  runtime.GC()
+  printMemStats("after high alloc")
+
+  _ = buildSliceLowAlloc(10000)
+  runtime.GC()
+  printMemStats("after low alloc")
+
+  // Demonstrating escape
+  s1 := stackLikely()
+  s2 := heapCertain()
+  fmt.Println(s1, *s2)
+}`,
+
+              `// --- Pointers in real backend code: repository + linked list ---
+package main
+
+import (
+  "errors"
+  "fmt"
+  "sync"
+)
+
+// --- Real pattern: pointer-based repository ---
+var ErrNotFound = errors.New("not found")
+
+type Product struct {
+  ID    int
+  Name  string
+  Price float64
+  Stock int
+}
+
+type ProductStore struct {
+  mu      sync.RWMutex
+  items   map[int]*Product   // store pointers — updates affect stored value
+  nextID  int
+}
+
+func NewProductStore() *ProductStore {
+  return &ProductStore{
+    items:  make(map[int]*Product),
+    nextID: 1,
+  }
+}
+
+func (s *ProductStore) Add(name string, price float64, stock int) *Product {
+  s.mu.Lock()
+  defer s.mu.Unlock()
+  p := &Product{ID: s.nextID, Name: name, Price: price, Stock: stock}
+  s.items[s.nextID] = p
+  s.nextID++
+  return p
+}
+
+func (s *ProductStore) Get(id int) (*Product, error) {
+  s.mu.RLock()
+  defer s.mu.RUnlock()
+  p, ok := s.items[id]
+  if !ok { return nil, fmt.Errorf("product %d: %w", id, ErrNotFound) }
+  return p, nil
+}
+
+func (s *ProductStore) UpdatePrice(id int, newPrice float64) error {
+  s.mu.Lock()
+  defer s.mu.Unlock()
+  p, ok := s.items[id]
+  if !ok { return fmt.Errorf("product %d: %w", id, ErrNotFound) }
+  p.Price = newPrice   // modifies through pointer — the stored *Product is updated
+  return nil
+}
+
+// --- Pointer-based linked list ---
+type ListNode struct {
+  Val  int
+  Next *ListNode
+}
+
+func newList(vals ...int) *ListNode {
+  if len(vals) == 0 { return nil }
+  head := &ListNode{Val: vals[0]}
+  cur := head
+  for _, v := range vals[1:] {
+    cur.Next = &ListNode{Val: v}
+    cur = cur.Next
+  }
+  return head
+}
+
+func (n *ListNode) String() string {
+  if n == nil { return "nil" }
+  s := fmt.Sprintf("%d", n.Val)
+  for cur := n.Next; cur != nil; cur = cur.Next {
+    s += fmt.Sprintf(" -> %d", cur.Val)
+  }
+  return s
+}
+
+func reverseList(head *ListNode) *ListNode {
+  var prev *ListNode
+  cur := head
+  for cur != nil {
+    next := cur.Next   // save next
+    cur.Next = prev    // reverse pointer
+    prev = cur         // advance prev
+    cur = next         // advance cur
+  }
+  return prev
+}
+
+func main() {
+  store := NewProductStore()
+  p1 := store.Add("Laptop", 999.99, 10)
+  p2 := store.Add("Mouse",   29.99, 50)
+  fmt.Printf("added: %+v\n", *p1)
+  fmt.Printf("added: %+v\n", *p2)
+
+  store.UpdatePrice(p1.ID, 899.99)
+  retrieved, _ := store.Get(p1.ID)
+  fmt.Printf("after update: price=%.2f\n", retrieved.Price)
+
+  _, err := store.Get(999)
+  fmt.Println("missing:", errors.Is(err, ErrNotFound))
+
+  list := newList(1, 2, 3, 4, 5)
+  fmt.Println("original:", list)
+  fmt.Println("reversed:", reverseList(list))
+}`
+            ],
+
+            questions: [
+              {
+                question: "What is the difference between `&` and `*` in Go?",
+                solution: `<p>These are the two fundamental pointer operators:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>&x</strong> — the <em>address-of</em> operator. Takes a variable <code>x</code> and returns a pointer to it (the memory address where <code>x</code> lives). The result type is <code>*T</code> where <code>T</code> is the type of <code>x</code>.</li>
+  <li><strong>*p</strong> — the <em>dereference</em> operator. Takes a pointer <code>p</code> and returns the value stored at that address. The result type is <code>T</code> where <code>p</code> is <code>*T</code>.</li>
+  <li><strong>*T</strong> in a type declaration — means "pointer to T". This is the third use of <code>*</code>, purely syntactic, not an operator.</li>
+</ul>
+<pre><code class="language-go">x := 42
+p := &x          // p is *int, holds address of x
+fmt.Println(*p)  // 42 — dereference: value at the address
+*p = 99          // write through pointer
+fmt.Println(x)   // 99 — x was modified
+</code></pre>
+<p style="margin-top: 0.75rem;">Memory model: <code>x</code> lives at some address (say <code>0xc0000b4000</code>). <code>&x</code> evaluates to <code>0xc0000b4000</code>. <code>p</code> stores <code>0xc0000b4000</code>. <code>*p</code> follows that address and reads the <code>int</code> value stored there.</p>`
+              },
+              {
+                question: "Go is pass-by-value. What exactly does that mean, and how do pointers change the picture?",
+                solution: `<p>Pass-by-value means that when you call a function, <strong>every argument is copied</strong>. The function receives its own independent copy of each argument. Modifying the copy inside the function never affects the original variable at the call site.</p>
+<pre><code class="language-go">func double(n int) { n *= 2 }  // n is a copy
+x := 5
+double(x)
+fmt.Println(x)  // 5 — unchanged
+</code></pre>
+<p style="margin-top: 0.75rem;">When you pass a pointer, Go still passes by value — but what is copied is the pointer (the address), not the thing being pointed to. Both the original pointer and the copy point to the same underlying data. Writing through the copied pointer modifies the original data:</p>
+<pre><code class="language-go">func doublePtr(n *int) { *n *= 2 }  // n is a copy of the pointer
+x := 5
+doublePtr(&x)
+fmt.Println(x)  // 10 — modified through the pointer
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Key insight</strong>: Go is always pass-by-value. Pointers don't change this rule — they just change what value is being copied. A copied pointer still points to the original data, so you get the effect of pass-by-reference without the mechanism.</p>`
+              },
+              {
+                question: "When should you use a pointer vs a value? What is the decision framework?",
+                solution: `<p>Four clear reasons to use a pointer:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75; margin-top: 0.5rem;">
+  <li><strong>Mutation</strong> — if the function or method must modify the original value, it must receive a pointer. This is the primary reason.</li>
+  <li><strong>Large data</strong> — if the struct is large (roughly >64 bytes, one cache line), copying on every function call is wasteful. Pass a pointer to avoid the copy.</li>
+  <li><strong>Shared mutable state</strong> — types containing <code>sync.Mutex</code> or other sync primitives must never be copied. Always pass by pointer.</li>
+  <li><strong>Optional values</strong> — a nil pointer naturally represents "no value" for optional fields in structs and function parameters.</li>
+</ul>
+<p style="margin-top: 0.75rem;">Use a value when:</p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>The function is read-only and the type is small — copies are cheap and value semantics are clearer.</li>
+  <li>You want immutable semantics — the caller's data cannot be accidentally modified.</li>
+  <li>The type is a simple value type like <code>Point</code>, <code>Color</code>, <code>time.Time</code> — these are conceptually values, not objects.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Consistency rule</strong>: if any method on a type uses a pointer receiver, all methods should — this ensures the type always satisfies interfaces correctly and avoids confusing mix of copy and reference semantics.</p>`
+              },
+              {
+                question: "What is a nil pointer dereference and how do you prevent it?",
+                solution: `<p>A nil pointer has no address — it is the zero value of any pointer type. Dereferencing it (reading or writing through it) causes an immediate <strong>runtime panic</strong>: <code>runtime error: invalid memory address or nil pointer dereference</code>.</p>
+<pre><code class="language-go">var p *User
+p.Name = "Alice"   // PANIC — p is nil, no User exists at its address
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Prevention strategies:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>Check before dereference</strong>: always check <code>if p != nil</code> before using a pointer you didn't create yourself.</li>
+  <li><strong>Fail early at construction</strong>: if a pointer is required to be non-nil, check in the constructor and return an error or panic with a clear message immediately.</li>
+  <li><strong>Pointer receiver methods with nil check</strong>: a method can be called on a nil pointer receiver — it doesn't panic until you dereference. Use this to write nil-safe methods:</li>
+</ul>
+<pre><code class="language-go">func (u *User) Name() string {
+  if u == nil { return "" }
+  return u.name
+}
+</code></pre>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>Use the race detector and tests</strong>: <code>go test -race</code> and thorough tests catch nil deferences before production.</li>
+  <li><strong>Return errors, not nil pointers</strong>: when a function can fail, return <code>(T, error)</code> and check the error before using T. Returning a nil pointer and expecting callers to check is error-prone.</li>
+</ul>`
+              },
+              {
+                question: "What is the loop variable pointer bug in Go and how do you fix it?",
+                solution: `<p>Before Go 1.22, the loop variable in a <code>for range</code> loop was a <strong>single variable reused each iteration</strong>. Taking its address inside the loop gave you a pointer to the same memory location — which held the last iteration's value by the time the pointers were used:</p>
+<pre><code class="language-go">items := []string{"a", "b", "c"}
+ptrs := make([]*string, len(items))
+
+for i, v := range items {
+  ptrs[i] = &v   // BUG: &v is always the same address — v is reused
+}
+// After loop: v == "c"
+fmt.Println(*ptrs[0])  // "c" — not "a"!
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Fix 1 — take address of slice element</strong> (always safe, always correct):</p>
+<pre><code class="language-go">for i := range items {
+  ptrs[i] = &items[i]   // address of the actual element
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Fix 2 — shadow the variable</strong> (pre-1.22 idiom, still seen in older code):</p>
+<pre><code class="language-go">for i, v := range items {
+  v := v              // new v, scoped to this iteration
+  ptrs[i] = &v
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Go 1.22+</strong>: each loop iteration now gets its own copy of the loop variable automatically. The bug no longer exists in code compiled with Go 1.22+ — but you will see the shadow fix pattern throughout existing Go codebases and must understand it.</p>`
+              },
+              {
+                question: "What is escape analysis and when does a variable go on the heap vs the stack?",
+                solution: `<p>Go's compiler performs <strong>escape analysis</strong> to decide whether to allocate a variable on the stack or the heap. Stack allocations are fast and automatically freed when the function returns. Heap allocations require garbage collection.</p>
+<p style="margin-top: 0.75rem;"><strong>A variable escapes to the heap when:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li>Its address is returned from the function (<code>return &x</code>) — the address must remain valid after the function returns.</li>
+  <li>Its address is stored in a variable that outlives the function.</li>
+  <li>It is captured by a closure that outlives the function.</li>
+  <li>It is too large for the stack (Go's goroutine stacks start at 8KB and grow, but very large objects go to heap).</li>
+  <li>It is stored in an interface value — the concrete value is heap-allocated.</li>
+</ul>
+<pre><code class="language-go">func noEscape() int {
+  x := 42
+  return x   // value copied out — x stays on stack
+}
+
+func escapes() *int {
+  x := 42
+  return &x  // address returned — x must go to heap
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Check with</strong>: <code>go build -gcflags="-m" ./...</code></p>
+<p style="margin-top: 0.75rem;"><strong>Practical implication</strong>: returning pointers from hot-path functions increases GC pressure. In performance-critical code, prefer returning values (copying) over returning pointers when the struct is small, or use <code>sync.Pool</code> to reuse heap objects.</p>`
+              },
+              {
+                question: "Why is taking the address of a map value not allowed in Go?",
+                solution: `<p>Map values are not addressable in Go — you cannot write <code>&m["key"]</code>. This causes a compile error: <em>"cannot take the address of m[\"key\"]"</em>.</p>
+<p style="margin-top: 0.75rem;"><strong>Why</strong>: Go maps are implemented as hash tables that can <strong>rehash</strong> — when the load factor gets too high, the runtime allocates a new, larger backing array and moves all key-value pairs to new positions. If you held a pointer to a map value, that pointer would become dangling (pointing to freed memory) after a rehash. Go prevents this at compile time rather than allowing the subtle memory corruption bug.</p>
+<pre><code class="language-go">m := map[string]int{"a": 1}
+// p := &m["a"]  // COMPILE ERROR: cannot take address of map value
+
+// Workaround 1: copy to a local variable
+v := m["a"]
+p := &v   // fine — v is on the stack
+
+// Workaround 2: use map of pointers
+m2 := map[string]*int{}
+n := 1
+m2["a"] = &n
+*m2["a"] = 99   // modify through pointer — fine
+fmt.Println(n)  // 99
+</code></pre>
+<p style="margin-top: 0.75rem;">The same restriction applies to struct fields inside a map value: <code>m["key"].Field = val</code> does not compile if the map stores values (not pointers). You must copy out, modify, copy back — or store pointers in the map.</p>`
+              },
+              {
+                question: "How do pointers interact with interfaces? What is a pointer to an interface and why is it almost always wrong?",
+                solution: `<p>Interfaces and pointers interact in two common ways:</p>
+<p style="margin-top: 0.75rem;"><strong>1. Concrete pointer types satisfying interfaces</strong> — this is correct and common. A pointer to a concrete type can satisfy an interface, and is often required when methods have pointer receivers:</p>
+<pre><code class="language-go">type Writer interface { Write([]byte) (int, error) }
+type MyWriter struct { buf []byte }
+func (m *MyWriter) Write(p []byte) (int, error) { ... }
+
+var w Writer = &MyWriter{}  // *MyWriter satisfies Writer — correct
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>2. Pointer to an interface (<code>*io.Writer</code>)</strong> — this is almost always wrong:</p>
+<pre><code class="language-go">var w io.Writer = os.Stdout
+pw := &w           // pw is *io.Writer — almost never what you want
+io.Copy(pw, r)     // COMPILE ERROR: *io.Writer does not implement io.Writer
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Why it's wrong</strong>: an interface value is already a two-word header that internally contains a pointer to the concrete value. Taking the address of an interface adds another layer of indirection with no benefit, and the resulting <code>*io.Writer</code> type does not satisfy the <code>io.Writer</code> interface — making it useless for passing to functions.</p>
+<p style="margin-top: 0.75rem;"><strong>The one exception</strong>: you need <code>*interface{}</code> in some reflection and unmarshalling scenarios where you explicitly want to swap out the concrete value stored in the interface — e.g., <code>json.Unmarshal</code> takes <code>any</code> which is effectively an interface, and it needs the pointer to write back through it.</p>`
+              },
+              {
+                question: "How do pointers cause data races and what are the solutions?",
+                solution: `<p>A pointer creates <strong>shared state</strong>. When multiple goroutines hold pointers to the same data, concurrent reads and writes without synchronization cause a <strong>data race</strong> — undefined behaviour that produces corrupted data, panics, or silent wrong answers. Go's race detector (<code>go test -race</code>) catches these.</p>
+<pre><code class="language-go">counter := &Counter{}
+// DATA RACE — concurrent writes to counter.n
+for i := 0; i < 1000; i++ {
+  go func() { counter.n++ }()
+}
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Solutions:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><strong>sync.Mutex</strong> — protect every read and write with a lock. The mutex must be part of the same struct as the data (so they're always acquired together), and the struct must be passed by pointer (copying a mutex breaks it).</li>
+  <li><strong>sync/atomic</strong> — for simple counters and flags: <code>atomic.AddInt64(&n, 1)</code>. Faster than a mutex for single-value updates.</li>
+  <li><strong>Channel ownership transfer</strong> — send the pointer through a channel. Only one goroutine holds the pointer at a time — no lock needed. The sender must not use the pointer after sending.</li>
+  <li><strong>Immutable data</strong> — if the pointed-to data is never written after creation, concurrent reads are always safe without synchronization.</li>
+</ul>
+<p style="margin-top: 0.75rem;"><strong>Always run</strong> <code>go test -race ./...</code> in CI. The race detector has near-zero false positive rate and catches the vast majority of pointer-related concurrency bugs.</p>`
+              },
+              {
+                question: "What is the difference between `new(T)` and `&T{}`?",
+                solution: `<p>Both allocate a <code>T</code> on the heap and return a <code>*T</code>, but with different initialization:</p>
+<pre><code class="language-go">// new(T) — allocates a zeroed T, returns *T
+p1 := new(int)          // *int pointing to 0
+p2 := new(User)         // *User pointing to User{"", 0, false}
+
+// &T{} — allocates T with a struct literal, returns *T
+p3 := &User{}           // same as new(User) — fully zeroed
+p4 := &User{Name: "Alice", Age: 30}   // partially initialized
+</code></pre>
+<p style="margin-top: 0.75rem;"><strong>Practical differences:</strong></p>
+<ul style="padding-left: 1.5rem; line-height: 1.75;">
+  <li><code>new(T)</code> can only create a zeroed value — no field initialization syntax.</li>
+  <li><code>&T{field: val}</code> allows partial or full initialization inline — this is the idiomatic Go choice in almost all cases.</li>
+  <li>Both produce the same result for zeroed structs: <code>new(User)</code> and <code>&User{}</code> are identical in effect.</li>
+  <li><code>new</code> is mostly useful for basic types: <code>new(int)</code>, <code>new(bool)</code> — when you want a pointer to a primitive without a named variable.</li>
+</ul>
+<p style="margin-top: 0.75rem;">In practice, <code>&T{}</code> and <code>&T{field: val}</code> are far more common in Go code than <code>new(T)</code>. You will see <code>new</code> occasionally but it is not the default choice. The two are semantically interchangeable for zero-initialization — pick the one that reads most clearly.</p>`
+              }
+            ],
+
+            links: [
+              "https://go.dev/tour/moretypes/1",
+              "https://go.dev/tour/moretypes/3",
+              "https://go.dev/tour/moretypes/4",
+              "https://go.dev/ref/spec#Address_operators",
+              "https://go.dev/ref/spec#Pointer_types",
+              "https://go.dev/doc/effective_go#pointers_vs_values",
+              "https://go.dev/doc/faq#pass_by_value",
+              "https://go.dev/doc/faq#methods_on_values_or_pointers",
+              "https://go.dev/blog/laws-of-reflection",
+              "https://pkg.go.dev/sync/atomic",
+            ],
+          },
         ],
       },
       {
