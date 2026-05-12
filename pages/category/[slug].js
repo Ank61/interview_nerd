@@ -50,6 +50,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { linuxPrepareData } from "@/data/linuxPrepareData";
+// import { dsaPrepareData } from "@/data/dsaPrepareData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
 import GamificationDashboard from "@/components/gamification/GamificationDashboard";
@@ -76,7 +77,8 @@ export async function getStaticPaths() {
     "nest",
     "docker",
     "linux",
-    "go"
+    "go",
+    "dsa"
   ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },
