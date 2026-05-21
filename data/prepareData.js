@@ -271,10 +271,10 @@ var y = a();
               "https://dev.to/jps27cse/exploring-asynchronous-javascript-callbacks-promises-and-asyncawait-16k6",
             ],
           },
-          {
-            topic: "Promises and Asynchronous JavaScript",
-            tags: [""],
-            explanation: `<div>
+        {
+          topic: "Promises and Asynchronous JavaScript",
+          tags: [""],
+          explanation: `<div>
             <p style="line-height: 1.75; margin-top: 1.5rem;">
             Promises in JavaScript are used to handle asynchronous operations like fetching data from a server, reading files, or waiting for an event to happen without blocking the execution of other code.They provide a cleaner and more structured alternative to traditional callback-based asynchronous code. JavaScript is a single-threaded language, which means it can only perform one task at a time. To manage long-running tasks without freezing the interface or halting other code, JavaScript uses asynchronous patterns, such as Promises.
 A Promise is an object representing the eventual completion (or failure) of an asynchronous operation. It allows you to attach callbacks to handle the result once it's available, even if the task takes time.
@@ -660,12 +660,12 @@ handleData();
   <strong>Advantage:</strong> It provides a cleaner and more readable syntax, making it easier to handle async operations, especially when combined with <code>try...catch</code> for error handling.
 </p>
 </div>`,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "What is the difference between Promise.all and Promise.allSettled?",
-                solution: `
+          examples: [""],
+          questions: [
+            {
+              question:
+                "What is the difference between Promise.all and Promise.allSettled?",
+              solution: `
                   Promise.all returns a single promise that resolves when all promises in the input array resolve or rejects when any promise rejects. 
                   In contrast, Promise.allSettled returns a promise that resolves after all promises have either resolved or rejected.
             
@@ -694,10 +694,10 @@ Promise.all([promise1, promise2, promise3])
 </code>
                   Summary: Promise.all stops at the first rejection, while Promise.allSettled collects the outcomes of all promises, even if some reject.
                 `,
-              },
-              {
-                question: "How do you handle errors in a chain of Promises?",
-                solution: `
+            },
+            {
+              question: "How do you handle errors in a chain of Promises?",
+              solution: `
                   1. Use catch() blocks: Attach a catch block to the end of your promise chain to catch any errors.
             
                   Example:
@@ -725,11 +725,11 @@ Promise.all([promise1, promise2, promise3])
             
                   4. Use Promise.prototype.finally(): Add a finally block to execute code regardless of the promise outcome.
                 `,
-              },
-              {
-                question:
-                  "What is the difference between async/await and using Promises with .then?",
-                solution: `
+            },
+            {
+              question:
+                "What is the difference between async/await and using Promises with .then?",
+              solution: `
                   Promises with .then:
                   - Use .then() for handling asynchronous operations.
                   - Can become nested and hard to read with multiple .then() calls.
@@ -766,10 +766,10 @@ Promise.all([promise1, promise2, promise3])
                   - Async/await is easier to read and maintain.
                   - Async/await uses try-catch for error handling, while Promises use .catch().
                 `,
-              },
-              {
-                question: "How do you cancel a Promise?",
-                solution: `
+            },
+            {
+              question: "How do you cancel a Promise?",
+              solution: `
                   Promises cannot be canceled directly, but cancellation-like behavior can be implemented.
             
                   1. Use a cancel token: Libraries like axios support cancel tokens that can reject promises.
@@ -796,11 +796,11 @@ Promise.all([promise1, promise2, promise3])
             
                   3. Use async/await with a timeout: Reject the promise after a set time limit.
                 `,
-              },
-              {
-                question:
-                  "What is the difference between a resolved Promise and a fulfilled Promise?",
-                solution: `
+            },
+            {
+              question:
+                "What is the difference between a resolved Promise and a fulfilled Promise?",
+              solution: `
                   Resolved: A promise is resolved when it has either been fulfilled or rejected. It refers to the final state of the promise.
             
                   Fulfilled: A promise is fulfilled when it has successfully resolved and returned a value.
@@ -820,11 +820,11 @@ Promise.all([promise1, promise2, promise3])
                     console.log(\`Promise is resolved but rejected with error: \ {error}\`);
                   });
                 `,
-              },
-              {
-                question:
-                  "How do you handle multiple errors in a chain of Promises?",
-                solution: `
+            },
+            {
+              question:
+                "How do you handle multiple errors in a chain of Promises?",
+              solution: `
                   1. Use catch blocks after each .then() to handle specific errors for each promise.
             
                   Example:
@@ -838,10 +838,10 @@ Promise.all([promise1, promise2, promise3])
             
                   3. Use async/await with try-catch to handle errors in sequential operations.
                 `,
-              },
-              {
-                question: "What is the purpose of Promise.prototype.finally?",
-                solution: `
+            },
+            {
+              question: "What is the purpose of Promise.prototype.finally?",
+              solution: `
                   Promise.prototype.finally allows code execution regardless of whether a promise is resolved or rejected.
             
                   - It is used for cleanup tasks, such as closing connections or releasing resources.
@@ -859,11 +859,11 @@ Promise.all([promise1, promise2, promise3])
                       console.log("Promise settled");
                     });
                 `,
-              },
-              {
-                question:
-                  "Can you explain the concept of 'Promise hell' and how to avoid it?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain the concept of 'Promise hell' and how to avoid it?",
+              solution: `
                   Promise hell (also known as callback hell) refers to deeply nested and difficult-to-read Promise chains.
             
                   Characteristics of Promise hell:
@@ -889,11 +889,11 @@ Promise.all([promise1, promise2, promise3])
                         });
                     });
                 `,
-              },
-              {
-                question:
-                  "How do you create a Promise that resolves after a certain amount of time?",
-                solution: `
+            },
+            {
+              question:
+                "How do you create a Promise that resolves after a certain amount of time?",
+              solution: `
                   You can create a Promise that resolves after a set time using setTimeout.
             
                   Example:
@@ -908,17 +908,17 @@ Promise.all([promise1, promise2, promise3])
                     console.log("Resolved after 2 seconds");
                   });
                 `,
-              },
-            ],
-            links: [
-              "https://dev.to/swarnaliroy94/methods-of-promise-all-any-finally-o2e",
-              "https://medium.com/deno-the-complete-reference/some-javascript-promise-interview-questions-2e2e6c668e89",
-            ],
-          },
-          {
-            topic: "Event Loop, Microtasks, and Macrotasks",
-            tags: [""],
-            explanation: `
+            },
+          ],
+          links: [
+            "https://dev.to/swarnaliroy94/methods-of-promise-all-any-finally-o2e",
+            "https://medium.com/deno-the-complete-reference/some-javascript-promise-interview-questions-2e2e6c668e89",
+          ],
+        },
+        {
+          topic: "Event Loop, Microtasks, and Macrotasks",
+          tags: [""],
+          explanation: `
     <p style="line-height: 1.75; margin-top: 1.5rem;">
         In JavaScript, the event loop is the mechanism that handles asynchronous operations and ensures that the JavaScript code is executed in an orderly fashion. JavaScript runs on a single thread, meaning it can only do one thing at a time. However, it manages to handle asynchronous tasks like I/O operations, network requests, and timers using the event loop.For synchronous operations javascript uses only Call Stack.
         Web API's like geolocation API, web storage API or setTimeout() methods are asynchronous in nature and they do not run on call satck. So, they done block the execution in the call stack. Web API's responses are placed in callback queue.
@@ -1054,17 +1054,17 @@ Timeout 2
         <li>Repeat the process by checking for microtasks again, then execute another macrotask, and so on.</li>
     </ol>
     `,
-            examples: [""],
-            questions: [{}],
-            links: [
-              "https://www.hellojavascript.info/docs/browser-related-questions/miscellaneous-browser-questions/event-loop-microtasks-macrotasks",
-              "https://www.youtube.com/watch?v=eiC58R16hb8&t=664s",
-            ],
-          },
-          {
-            topic: "Higher-Order Functions",
-            tags: [""],
-            explanation: `
+          examples: [""],
+          questions: [{}],
+          links: [
+            "https://www.hellojavascript.info/docs/browser-related-questions/miscellaneous-browser-questions/event-loop-microtasks-macrotasks",
+            "https://www.youtube.com/watch?v=eiC58R16hb8&t=664s",
+          ],
+        },
+        {
+          topic: "Higher-Order Functions",
+          tags: [""],
+          explanation: `
             <p style="margin-top: 1.0rem;">
 A higher-order function is a function that either accepts one or more functions as arguments, returns a function as its result, or does both. This allows functions to be treated as first-class citizens in programming, enabling a more functional programming style.
 </p>
@@ -1181,40 +1181,40 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
 </pre>
 </ol>
 `,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "Explain the concept of the message queue in the context of the Event Loop.",
-                solution:
-                  "The message queue is where asynchronous events and their respective callback functions are held. When an asynchronous event occurs (like a timer completion or an HTTP request response), its callback is placed in the message queue.",
-              },
-              {
-                question:
-                  "Can you explain the difference between the microtask queue and the task queue in JavaScript?",
-                solution:
-                  "Both queues are used to store callbacks, but the microtask queue (also known as Job Queue) has a higher priority and is processed before the task queue. Microtasks typically include Promises, whereas the task queue includes other asynchronous tasks like setTimeout callbacks.",
-              },
-              {
-                question:
-                  "Can you explain the difference between setTimeout and setImmediate?",
-                solution:
-                  "`setTimeout` schedules a callback function to be executed after a specified delay (minimum of 4ms in browsers), whereas `setImmediate` schedules a callback to be executed in the next iteration of the Event Loop, but it’s not universally supported (primarily in Node.js).",
-              },
-              {
-                question:
-                  "Can you explain the concept of race conditions in JavaScript and how the Event Loop helps in preventing them?",
-                solution:
-                  "Race conditions occur when the output of code is dependent on the sequence/timing of asynchronous operations. The Event Loop ensures proper order of execution by queuing callbacks, preventing unpredictable outcomes in concurrent operations.",
-              },
-              {
-                question: "Can you explain what the Message Queue is?",
-                solution:
-                  "The Message Queue in JavaScript stores callbacks from asynchronous operations like events or timeouts, which are processed by the Event Loop when the Call Stack is empty.",
-              },
-              {
-                question: "What is process.nextTick() in Node.js?",
-                solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.
+          examples: [""],
+          questions: [
+            {
+              question:
+                "Explain the concept of the message queue in the context of the Event Loop.",
+              solution:
+                "The message queue is where asynchronous events and their respective callback functions are held. When an asynchronous event occurs (like a timer completion or an HTTP request response), its callback is placed in the message queue.",
+            },
+            {
+              question:
+                "Can you explain the difference between the microtask queue and the task queue in JavaScript?",
+              solution:
+                "Both queues are used to store callbacks, but the microtask queue (also known as Job Queue) has a higher priority and is processed before the task queue. Microtasks typically include Promises, whereas the task queue includes other asynchronous tasks like setTimeout callbacks.",
+            },
+            {
+              question:
+                "Can you explain the difference between setTimeout and setImmediate?",
+              solution:
+                "`setTimeout` schedules a callback function to be executed after a specified delay (minimum of 4ms in browsers), whereas `setImmediate` schedules a callback to be executed in the next iteration of the Event Loop, but it’s not universally supported (primarily in Node.js).",
+            },
+            {
+              question:
+                "Can you explain the concept of race conditions in JavaScript and how the Event Loop helps in preventing them?",
+              solution:
+                "Race conditions occur when the output of code is dependent on the sequence/timing of asynchronous operations. The Event Loop ensures proper order of execution by queuing callbacks, preventing unpredictable outcomes in concurrent operations.",
+            },
+            {
+              question: "Can you explain what the Message Queue is?",
+              solution:
+                "The Message Queue in JavaScript stores callbacks from asynchronous operations like events or timeouts, which are processed by the Event Loop when the Call Stack is empty.",
+            },
+            {
+              question: "What is process.nextTick() in Node.js?",
+              solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.
                 <pre><code className="language-javascript">
                 console.log('Start');
                 process.nextTick(() => {   
@@ -1230,10 +1230,10 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
                   <p>
                   In this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.
                   </p>`,
-              },
-              {
-                question: `What will be printed after executing the code?`,
-                solution: `<pre><code className="language-javascript">
+            },
+            {
+              question: `What will be printed after executing the code?`,
+              solution: `<pre><code className="language-javascript">
      async function async1() {
       console.log("async1 start");
         await async2();
@@ -1279,16 +1279,16 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
       "async1 end"
       "promise2"
       "setTimeout </span>"`,
-              },
-            ],
-            links: [
-              "https://medium.com/@a35851150/interview-qustions-on-event-loop-in-js-901c567a1271",
-            ],
-          },
-          {
-            topic: "Prototypal Inheritance",
-            tags: [""],
-            explanation: `<>Prototype inheritance is a feature in javascript which lets you share property and mehtods of other object so that you dont have to copy these properties everywhere.
+            },
+          ],
+          links: [
+            "https://medium.com/@a35851150/interview-qustions-on-event-loop-in-js-901c567a1271",
+          ],
+        },
+        {
+          topic: "Prototypal Inheritance",
+          tags: [""],
+          explanation: `<>Prototype inheritance is a feature in javascript which lets you share property and mehtods of other object so that you dont have to copy these properties everywhere.
             Imagine you have an object like a "blueprint" that has some properties (like a name) and methods (like a function to say hello). Other objects can "inherit" or borrow those properties and methods, meaning they can use them even if they don't directly have them.
 
 For example:
@@ -1301,14 +1301,14 @@ const animal = {
 const dog = Object.create(animal);  // dog borrows properties from animal
 dog.speak(); // Output: "I am an animal"
 Here, dog doesn't have a speak function on its own, but it looks at the animal object to find it and uses it.</>`,
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "Modules (ES6 Modules)",
-            tags: [""],
-            explanation: `
+          examples: [""],
+          questions: [{}],
+          links: [""],
+        },
+        {
+          topic: "Modules (ES6 Modules)",
+          tags: [""],
+          explanation: `
             <p>
             ES6 (ECMAScript 2015) introduced a native module system to JavaScript, which allows developers to organize their code more efficiently and effectively. Modules are basically separate pieces of code that can be moved from one file to another and to another. This helps manage code dependencies, reuse, and maintenance on large code bases. Modules also act as the foundation of many JavaScript design patterns. Most of the JavaScript modules export an object literal, a function, or a constructor
             </p>
@@ -1398,12 +1398,12 @@ export * from './mathUtils.js';</code></pre>
     <pre><code>import { add } from './utils/math.js'; // relative path</code></pre>
   </li>
 </ol>`,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "What are ES6 modules, and how do they differ from traditional JavaScript scripts?",
-                solution: `ES6 modules are a way to structure JavaScript code into reusable pieces. Unlike traditional scripts that can pollute the global namespace, modules encapsulate their code, allowing for better organization and maintainability. ES6 modules use the import and export keywords to share functionality between files.
+          examples: [""],
+          questions: [
+            {
+              question:
+                "What are ES6 modules, and how do they differ from traditional JavaScript scripts?",
+              solution: `ES6 modules are a way to structure JavaScript code into reusable pieces. Unlike traditional scripts that can pollute the global namespace, modules encapsulate their code, allowing for better organization and maintainability. ES6 modules use the import and export keywords to share functionality between files.
               <pre><code className="language-javascript">
 // math.js
 export const add = (a, b) => a + b;
@@ -1411,11 +1411,11 @@ export const add = (a, b) => a + b;
 import { add } from './math.js';
 console.log(add(2, 3)); // 5
 </code></pre>`,
-              },
-              {
-                question:
-                  "What is the difference between named exports and default exports?",
-                solution: `Named exports allow you to export multiple variables or functions from a module, while a default export allows you to export a single entity from a module.
+            },
+            {
+              question:
+                "What is the difference between named exports and default exports?",
+              solution: `Named exports allow you to export multiple variables or functions from a module, while a default export allows you to export a single entity from a module.
               <pre><code className="language-javascript">
 // Named exports
 export const add = (a, b) => a + b;
@@ -1424,58 +1424,58 @@ export const subtract = (a, b) => a - b;
 const greet = (name) => \`Hello, \ {name}!\`;
 export default greet;
 </code></pre>`,
-              },
-              {
-                question:
-                  "How do you import a default export and a named export from a module?",
-                solution: `To import both a default export and named exports, you can do the following:
+            },
+            {
+              question:
+                "How do you import a default export and a named export from a module?",
+              solution: `To import both a default export and named exports, you can do the following:
               <pre><code className="language-javascript">
 import greet, { add, subtract } from './math.js';
 console.log(greet('Alice')); // "Hello, Alice!"
 console.log(add(5, 3)); // 8
 console.log(subtract(5, 3)); // 2
 </code></pre>`,
-              },
-              {
-                question:
-                  "What is module scope, and how does it differ from global scope?",
-                solution: `Module scope means that variables and functions defined within a module are not accessible outside of that module unless they are explicitly exported. In contrast, global scope allows variables and functions to be accessed anywhere in the application.
+            },
+            {
+              question:
+                "What is module scope, and how does it differ from global scope?",
+              solution: `Module scope means that variables and functions defined within a module are not accessible outside of that module unless they are explicitly exported. In contrast, global scope allows variables and functions to be accessed anywhere in the application.
               <pre><code className="language-javascript">
 // math.js
 const privateVar = 42; // Not accessible outside this module
 export const publicVar = 'I am public'; // Accessible
 </code></pre>`,
-              },
-              {
-                question: "What are re-exports in ES6 modules?",
-                solution: `Re-exports allow you to export items from one module into another. This can be useful for aggregating exports.
+            },
+            {
+              question: "What are re-exports in ES6 modules?",
+              solution: `Re-exports allow you to export items from one module into another. This can be useful for aggregating exports.
               <pre><code className="language-javascript">
 // moreUtils.js
 export * from './mathUtils.js'; // Re-exports all exports from mathUtils.js
 </code></pre>`,
-              },
-              {
-                question:
-                  "Can you explain circular dependencies in ES6 modules?",
-                solution: `Circular dependencies occur when two or more modules depend on each other. This can lead to issues where one module may not be fully defined when another module tries to use it. It's generally best to avoid circular dependencies or to refactor the code to eliminate them.
+            },
+            {
+              question:
+                "Can you explain circular dependencies in ES6 modules?",
+              solution: `Circular dependencies occur when two or more modules depend on each other. This can lead to issues where one module may not be fully defined when another module tries to use it. It's generally best to avoid circular dependencies or to refactor the code to eliminate them.
               <pre><code className="language-javascript">
 // a.js
 import { b } from './b.js';
 // b.js
 import { a } from './a.js';
 </code></pre>`,
-              },
-              {
-                question: "How do you load ES6 modules in a web browser?",
-                solution: `You can load ES6 modules in a web browser by using the script type="module" tag in your HTML file. This allows you to directly include and use modules.type="module" tag`,
-              },
-            ],
-            links: [""],
-          },
-          {
-            topic: "Currying",
-            tags: [""],
-            explanation: `<div>
+            },
+            {
+              question: "How do you load ES6 modules in a web browser?",
+              solution: `You can load ES6 modules in a web browser by using the script type="module" tag in your HTML file. This allows you to directly include and use modules.type="module" tag`,
+            },
+          ],
+          links: [""],
+        },
+        {
+          topic: "Currying",
+          tags: [""],
+          explanation: `<div>
 <p style="margin-top: 1.0rem;">
 Currying is a functional programming technique where a function that takes multiple arguments is transformed into a chain of functions, each taking a single argument. Instead of passing all arguments to the function at once, you pass them separately, returning a new function for each argument until all arguments are provided.
 </p>
@@ -1558,111 +1558,111 @@ infoLog('This is an informational message'); // Outputs: [INFO] This is an infor
 </code></pre>
 </div>
 `,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "What is the difference between curried and non-curried functions?",
-                solution:
-                  "<p>Non-curried functions take all arguments at once, whereas curried functions take them one at a time, returning a new function for each argument until all arguments are provided. For example, a non-curried function might look like <code>function add(a, b) { return a + b; }</code>, whereas a curried version would be <code>function add(a) { return function(b) { return a + b; }; }</code>.</p>",
-              },
-              {
-                question:
-                  "How would you optimize a curried function when dealing with a large number of arguments?",
-                solution:
-                  "<p>Optimizing a curried function with a large number of arguments involves using techniques such as memoization to cache the intermediate results and avoid redundant computations. Another approach could be tail recursion optimization (if supported by the JavaScript engine) to prevent deep recursion stacks. Additionally, you could group some arguments together to reduce the number of functions in the curried chain.</p>",
-              },
-              {
-                question:
-                  "How does currying help with functional composition, and can you give an example where currying simplifies real-world business logic?",
-                solution:
-                  "<p>Currying simplifies functional composition by making it easier to pass functions as data and chain them together. In real-world business logic, currying is useful for breaking complex processes into smaller steps. For example, in an e-commerce app, currying can be used to first apply user discounts, then add taxes, and finally compute the total amount. Here's an example:</p> <pre><code class='language-javascript'>function applyDiscount(discount) { return function(price) { return price - (price * discount); }; } function applyTax(tax) { return function(price) { return price + (price * tax); }; } const calculateTotal = compose(applyTax(0.15), applyDiscount(0.10)); console.log(calculateTotal(100)); // Calculates total after discount and tax.</code></pre>",
-              },
-              {
-                question:
-                  "In what scenarios would currying introduce more complexity rather than simplifying code?",
-                solution:
-                  "<p>Currying introduces complexity when the functions don't naturally lend themselves to partial application or when too many arguments are required, leading to deeply nested function calls. For instance, currying can become cumbersome when managing highly dynamic or optional parameters. In these cases, the readability and maintainability of the code might suffer, especially for teams unfamiliar with functional programming concepts.</p>",
-              },
-              {
-                question:
-                  "Can you explain how currying can be used to control side effects, particularly in asynchronous operations or API calls?",
-                solution:
-                  "<p>Currying can help control side effects by isolating logic in smaller functions. For example, in an asynchronous API call, you can curry functions to handle different stages of the call: preparing the request, sending the request, and handling the response. This makes the code modular and reusable. Here's an example:</p> <pre><code class='language-javascript'>function makeApiCall(baseUrl) { return function(endpoint) { return function(data) { return fetch(baseUrl + endpoint, { method: 'POST', body: JSON.stringify(data) }) .then(response => response.json()); }; }; } const apiCall = makeApiCall('https://api.example.com'); const postUser = apiCall('/users'); postUser({ name: 'John' }).then(console.log);</code></pre> <p>Here, side effects (like API calls) are delayed until all arguments are supplied, giving control over when the effect actually occurs.</p>",
-              },
-              {
-                question:
-                  "How can currying be used in an event-driven system like React, and what are the trade-offs?",
-                solution:
-                  "<p>In React or any event-driven system, currying can be used to create handlers that pre-fill certain arguments based on context or state. For instance, you might curry a click handler to partially apply a state or ID. However, the trade-off is that currying can lead to more complex debugging, as intermediate functions might clutter the call stack and make tracing more difficult. In addition, currying in React must be used cautiously to avoid unnecessary re-renders and performance bottlenecks due to new function instances being created in every render.</p>",
-              },
-              {
-                question:
-                  "Describe a situation where you had to refactor non-curried code into curried functions in a large codebase. What challenges did you face?",
-                solution:
-                  "<p>Refactoring non-curried code to use currying can simplify certain logic flows, but it comes with challenges such as maintaining backward compatibility and ensuring the changes don't introduce bugs. One common challenge is ensuring that teams are familiar with the functional programming paradigm, as not everyone may be comfortable with curried functions. Another challenge is maintaining readability, especially when debugging complex chains of curried functions. Thorough unit testing is necessary to ensure that partial applications still behave as expected after refactoring.</p>",
-              },
-              {
-                question:
-                  "What are the potential memory or performance impacts of currying in JavaScript, and how can you mitigate them?",
-                solution:
-                  "<p>Currying can introduce performance overhead, particularly in memory consumption, since each partially applied function may hold onto references to arguments in closures. This can lead to excessive memory usage if not managed properly. To mitigate this, you can use memoization to cache results or ensure that curried functions are not overused in scenarios where simple argument passing would suffice. Additionally, using tail-call optimization (where supported) can help reduce stack depth for recursive curried functions.</p>",
-              },
-              {
-                question:
-                  "How does currying differ from partial application, and in what situations would you prefer one over the other?",
-                solution:
-                  "<p>Currying transforms a function with multiple arguments into a chain of functions, each taking a single argument, while partial application fixes a number of arguments and returns a function that expects the rest. Currying is useful when you need to break down a function step-by-step for greater flexibility, while partial application is preferred when you have a known subset of arguments ready upfront. For example, currying allows for more reusable, fine-grained control over functions, whereas partial application simplifies reuse when certain arguments are predetermined.</p>",
-              },
-              {
-                question:
-                  "How would you implement a generic currying function in JavaScript that can handle any number of arguments?",
-                solution:
-                  "<p>A generic currying function can be implemented by recursively applying arguments until all are provided. Here's a sample implementation:</p><pre><code class='language-javascript'>function curry(fn) { const arity = fn.length; return function curried(...args) { if (args.length >= arity) { return fn(...args); } else { return function(...nextArgs) { return curried(...args, ...nextArgs); }; } }; }</code></pre><p>This function checks if the required number of arguments has been provided, and if not, it returns a function waiting for the remaining arguments. If all arguments are provided, it invokes the original function.</p>",
-              },
-              {
-                question:
-                  "What are the advantages and disadvantages of using currying in middleware functions, especially in frameworks like Express.js?",
-                solution:
-                  "<p>In middleware functions, currying can make it easier to create reusable components by pre-filling context or configurations before passing control to the next middleware. For example, you can curry a middleware that checks user roles, pre-filling the role to check:</p><pre><code class='language-javascript'>const requireRole = role => (req, res, next) => { if (req.user.role !== role) { res.status(403).send('Forbidden'); } else { next(); } };</code></pre><p>However, the disadvantage is that currying can make error handling more complicated, especially if the flow is interrupted by a missing argument, leading to subtle bugs. It may also introduce cognitive overhead for teams unfamiliar with this pattern in middleware logic.</p>",
-              },
-              {
-                question:
-                  "How would you debug issues related to incorrect arguments passed to curried functions, especially in deeply nested applications?",
-                solution:
-                  "<p>To debug incorrect arguments in curried functions, you can leverage techniques such as logging each step of the curried function to track how arguments are passed. For deeply nested applications, using a combination of stack traces and intermediate value checks (such as console.log in each curried function) can help pinpoint the step where the arguments go wrong. Another option is to write unit tests for each curried step to ensure that the right arguments are being passed down the chain.</p>",
-              },
-              {
-                question:
-                  "How would you apply currying to a function that interacts with a stateful system, such as a database, without causing side effects?",
-                solution:
-                  "<p>When interacting with a stateful system like a database, currying should be used carefully to avoid side effects by isolating state mutations. You can create curried functions that build up the query parameters or conditions incrementally before finally executing the query. For example:</p><pre><code class='language-javascript'>const buildQuery = table => column => value => `SELECT * FROM  {table} WHERE  {column} = ' {value}'`; const queryUsers = buildQuery('users')('age')(25); // 'SELECT * FROM users WHERE age = 25'</code></pre><p>By deferring the actual database call until all parameters are supplied, you ensure that the curried function doesn’t inadvertently trigger state changes prematurely.</p>",
-              },
-              {
-                question:
-                  "How would you handle asynchronous operations inside curried functions, particularly with promises?",
-                solution:
-                  "<p>Currying can handle asynchronous operations by returning promises at each step of the function chain. This allows each step to wait for the previous one to resolve before proceeding:</p><pre><code class='language-javascript'>function asyncCurry(fn) { return function curried(...args) { return args.length >= fn.length ? Promise.resolve(fn(...args)) : (...nextArgs) => curried(...args, ...nextArgs); }; }</code></pre><p>This approach allows you to curry asynchronous functions by ensuring that all arguments are supplied before executing the final promise. Each step can perform an async operation and chain promises in a way that avoids nested callbacks.</p>",
-              },
-              {
-                question:
-                  "What are some real-world examples of currying in popular JavaScript libraries or frameworks, and how do they benefit from this pattern?",
-                solution:
-                  "<p>Currying is commonly used in libraries like Lodash and Ramda, where utility functions are curried by default to promote reusability. For example, Ramda's <code>R.map</code> function is curried, allowing you to first specify the function to apply and then the data structure:</p><pre><code class='language-javascript'>const increment = R.map(x => x + 1); const result = increment([1, 2, 3]); // [2, 3, 4]</code></pre><p>This pattern allows for flexible, reusable code, as you can partially apply functions and reuse them in different contexts without rewriting the entire logic.</p>",
-              },
-              {
-                question:
-                  "What are the potential downsides of overusing currying, particularly in large teams or projects?",
-                solution:
-                  "<p>Overusing currying can lead to code that is harder to understand and maintain, especially for developers unfamiliar with functional programming concepts. Currying can obscure the flow of data and make debugging more challenging, as errors may occur deep within a chain of curried functions. Additionally, over-currying can result in excessive function creation, impacting performance. In large teams, clear documentation and consistent patterns are necessary to avoid confusion and ensure that the benefits of currying outweigh the added complexity.</p>",
-              },
-            ],
-            links: [""],
-          },
-          {
-            topic: "Memoization",
-            tags: [""],
-            explanation: `<div>
+          examples: [""],
+          questions: [
+            {
+              question:
+                "What is the difference between curried and non-curried functions?",
+              solution:
+                "<p>Non-curried functions take all arguments at once, whereas curried functions take them one at a time, returning a new function for each argument until all arguments are provided. For example, a non-curried function might look like <code>function add(a, b) { return a + b; }</code>, whereas a curried version would be <code>function add(a) { return function(b) { return a + b; }; }</code>.</p>",
+            },
+            {
+              question:
+                "How would you optimize a curried function when dealing with a large number of arguments?",
+              solution:
+                "<p>Optimizing a curried function with a large number of arguments involves using techniques such as memoization to cache the intermediate results and avoid redundant computations. Another approach could be tail recursion optimization (if supported by the JavaScript engine) to prevent deep recursion stacks. Additionally, you could group some arguments together to reduce the number of functions in the curried chain.</p>",
+            },
+            {
+              question:
+                "How does currying help with functional composition, and can you give an example where currying simplifies real-world business logic?",
+              solution:
+                "<p>Currying simplifies functional composition by making it easier to pass functions as data and chain them together. In real-world business logic, currying is useful for breaking complex processes into smaller steps. For example, in an e-commerce app, currying can be used to first apply user discounts, then add taxes, and finally compute the total amount. Here's an example:</p> <pre><code class='language-javascript'>function applyDiscount(discount) { return function(price) { return price - (price * discount); }; } function applyTax(tax) { return function(price) { return price + (price * tax); }; } const calculateTotal = compose(applyTax(0.15), applyDiscount(0.10)); console.log(calculateTotal(100)); // Calculates total after discount and tax.</code></pre>",
+            },
+            {
+              question:
+                "In what scenarios would currying introduce more complexity rather than simplifying code?",
+              solution:
+                "<p>Currying introduces complexity when the functions don't naturally lend themselves to partial application or when too many arguments are required, leading to deeply nested function calls. For instance, currying can become cumbersome when managing highly dynamic or optional parameters. In these cases, the readability and maintainability of the code might suffer, especially for teams unfamiliar with functional programming concepts.</p>",
+            },
+            {
+              question:
+                "Can you explain how currying can be used to control side effects, particularly in asynchronous operations or API calls?",
+              solution:
+                "<p>Currying can help control side effects by isolating logic in smaller functions. For example, in an asynchronous API call, you can curry functions to handle different stages of the call: preparing the request, sending the request, and handling the response. This makes the code modular and reusable. Here's an example:</p> <pre><code class='language-javascript'>function makeApiCall(baseUrl) { return function(endpoint) { return function(data) { return fetch(baseUrl + endpoint, { method: 'POST', body: JSON.stringify(data) }) .then(response => response.json()); }; }; } const apiCall = makeApiCall('https://api.example.com'); const postUser = apiCall('/users'); postUser({ name: 'John' }).then(console.log);</code></pre> <p>Here, side effects (like API calls) are delayed until all arguments are supplied, giving control over when the effect actually occurs.</p>",
+            },
+            {
+              question:
+                "How can currying be used in an event-driven system like React, and what are the trade-offs?",
+              solution:
+                "<p>In React or any event-driven system, currying can be used to create handlers that pre-fill certain arguments based on context or state. For instance, you might curry a click handler to partially apply a state or ID. However, the trade-off is that currying can lead to more complex debugging, as intermediate functions might clutter the call stack and make tracing more difficult. In addition, currying in React must be used cautiously to avoid unnecessary re-renders and performance bottlenecks due to new function instances being created in every render.</p>",
+            },
+            {
+              question:
+                "Describe a situation where you had to refactor non-curried code into curried functions in a large codebase. What challenges did you face?",
+              solution:
+                "<p>Refactoring non-curried code to use currying can simplify certain logic flows, but it comes with challenges such as maintaining backward compatibility and ensuring the changes don't introduce bugs. One common challenge is ensuring that teams are familiar with the functional programming paradigm, as not everyone may be comfortable with curried functions. Another challenge is maintaining readability, especially when debugging complex chains of curried functions. Thorough unit testing is necessary to ensure that partial applications still behave as expected after refactoring.</p>",
+            },
+            {
+              question:
+                "What are the potential memory or performance impacts of currying in JavaScript, and how can you mitigate them?",
+              solution:
+                "<p>Currying can introduce performance overhead, particularly in memory consumption, since each partially applied function may hold onto references to arguments in closures. This can lead to excessive memory usage if not managed properly. To mitigate this, you can use memoization to cache results or ensure that curried functions are not overused in scenarios where simple argument passing would suffice. Additionally, using tail-call optimization (where supported) can help reduce stack depth for recursive curried functions.</p>",
+            },
+            {
+              question:
+                "How does currying differ from partial application, and in what situations would you prefer one over the other?",
+              solution:
+                "<p>Currying transforms a function with multiple arguments into a chain of functions, each taking a single argument, while partial application fixes a number of arguments and returns a function that expects the rest. Currying is useful when you need to break down a function step-by-step for greater flexibility, while partial application is preferred when you have a known subset of arguments ready upfront. For example, currying allows for more reusable, fine-grained control over functions, whereas partial application simplifies reuse when certain arguments are predetermined.</p>",
+            },
+            {
+              question:
+                "How would you implement a generic currying function in JavaScript that can handle any number of arguments?",
+              solution:
+                "<p>A generic currying function can be implemented by recursively applying arguments until all are provided. Here's a sample implementation:</p><pre><code class='language-javascript'>function curry(fn) { const arity = fn.length; return function curried(...args) { if (args.length >= arity) { return fn(...args); } else { return function(...nextArgs) { return curried(...args, ...nextArgs); }; } }; }</code></pre><p>This function checks if the required number of arguments has been provided, and if not, it returns a function waiting for the remaining arguments. If all arguments are provided, it invokes the original function.</p>",
+            },
+            {
+              question:
+                "What are the advantages and disadvantages of using currying in middleware functions, especially in frameworks like Express.js?",
+              solution:
+                "<p>In middleware functions, currying can make it easier to create reusable components by pre-filling context or configurations before passing control to the next middleware. For example, you can curry a middleware that checks user roles, pre-filling the role to check:</p><pre><code class='language-javascript'>const requireRole = role => (req, res, next) => { if (req.user.role !== role) { res.status(403).send('Forbidden'); } else { next(); } };</code></pre><p>However, the disadvantage is that currying can make error handling more complicated, especially if the flow is interrupted by a missing argument, leading to subtle bugs. It may also introduce cognitive overhead for teams unfamiliar with this pattern in middleware logic.</p>",
+            },
+            {
+              question:
+                "How would you debug issues related to incorrect arguments passed to curried functions, especially in deeply nested applications?",
+              solution:
+                "<p>To debug incorrect arguments in curried functions, you can leverage techniques such as logging each step of the curried function to track how arguments are passed. For deeply nested applications, using a combination of stack traces and intermediate value checks (such as console.log in each curried function) can help pinpoint the step where the arguments go wrong. Another option is to write unit tests for each curried step to ensure that the right arguments are being passed down the chain.</p>",
+            },
+            {
+              question:
+                "How would you apply currying to a function that interacts with a stateful system, such as a database, without causing side effects?",
+              solution:
+                "<p>When interacting with a stateful system like a database, currying should be used carefully to avoid side effects by isolating state mutations. You can create curried functions that build up the query parameters or conditions incrementally before finally executing the query. For example:</p><pre><code class='language-javascript'>const buildQuery = table => column => value => `SELECT * FROM  {table} WHERE  {column} = ' {value}'`; const queryUsers = buildQuery('users')('age')(25); // 'SELECT * FROM users WHERE age = 25'</code></pre><p>By deferring the actual database call until all parameters are supplied, you ensure that the curried function doesn’t inadvertently trigger state changes prematurely.</p>",
+            },
+            {
+              question:
+                "How would you handle asynchronous operations inside curried functions, particularly with promises?",
+              solution:
+                "<p>Currying can handle asynchronous operations by returning promises at each step of the function chain. This allows each step to wait for the previous one to resolve before proceeding:</p><pre><code class='language-javascript'>function asyncCurry(fn) { return function curried(...args) { return args.length >= fn.length ? Promise.resolve(fn(...args)) : (...nextArgs) => curried(...args, ...nextArgs); }; }</code></pre><p>This approach allows you to curry asynchronous functions by ensuring that all arguments are supplied before executing the final promise. Each step can perform an async operation and chain promises in a way that avoids nested callbacks.</p>",
+            },
+            {
+              question:
+                "What are some real-world examples of currying in popular JavaScript libraries or frameworks, and how do they benefit from this pattern?",
+              solution:
+                "<p>Currying is commonly used in libraries like Lodash and Ramda, where utility functions are curried by default to promote reusability. For example, Ramda's <code>R.map</code> function is curried, allowing you to first specify the function to apply and then the data structure:</p><pre><code class='language-javascript'>const increment = R.map(x => x + 1); const result = increment([1, 2, 3]); // [2, 3, 4]</code></pre><p>This pattern allows for flexible, reusable code, as you can partially apply functions and reuse them in different contexts without rewriting the entire logic.</p>",
+            },
+            {
+              question:
+                "What are the potential downsides of overusing currying, particularly in large teams or projects?",
+              solution:
+                "<p>Overusing currying can lead to code that is harder to understand and maintain, especially for developers unfamiliar with functional programming concepts. Currying can obscure the flow of data and make debugging more challenging, as errors may occur deep within a chain of curried functions. Additionally, over-currying can result in excessive function creation, impacting performance. In large teams, clear documentation and consistent patterns are necessary to avoid confusion and ensure that the benefits of currying outweigh the added complexity.</p>",
+            },
+          ],
+          links: [""],
+        },
+        {
+          topic: "Memoization",
+          tags: [""],
+          explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">Memoization is an optimization method used to improve the overall performance of capabilities by caching their formerly computed effects. When a memoized function is called with a given set of arguments, it first tests if the end result for the ones arguments is already saved in a cache. If so, it returns the cached end result instead of recalculating it. Otherwise, it computes the end result, stores it in the cache, and returns it.
    </p>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -1701,8 +1701,8 @@ console.log(memoizedSlowFunction(5));  // Fetching from cache
     </code></pre>
    </div>
             </>`,
-            examples: [
-              `let cache = {};
+          examples: [
+            `let cache = {};
 const addTen = function(num){
         if(num in cache){
           console.log("Inside Memoization block")
@@ -1721,12 +1721,12 @@ Inside Regular execution block
 30
 Inside Memoization block
 30`,
-            ],
-            questions: [
-              {
-                question:
-                  "Can you write a memoization function for calculating the Fibonacci series?",
-                solution: `<p>Here’s a memoization function for calculating the Fibonacci series:</p>
+          ],
+          questions: [
+            {
+              question:
+                "Can you write a memoization function for calculating the Fibonacci series?",
+              solution: `<p>Here’s a memoization function for calculating the Fibonacci series:</p>
             <pre><code className="language-javascript">
             function memoizedFibonacci() {
               const cache = {};
@@ -1747,11 +1747,11 @@ Inside Memoization block
             console.log(fibonacci(5));  // Outputs: 5
             </code></pre>
             <p>This function caches previously computed Fibonacci numbers in the <code>cache</code> object, reducing the number of recursive calls and improving performance.</p>`,
-              },
-              {
-                question:
-                  "Can you write a memoization function for finding the factorial of a number?",
-                solution: `<p>Here’s a memoization function for calculating the factorial of a number:</p>
+            },
+            {
+              question:
+                "Can you write a memoization function for finding the factorial of a number?",
+              solution: `<p>Here’s a memoization function for calculating the factorial of a number:</p>
             <pre><code className="language-javascript">
             function memoizedFactorial() {
               const cache = {};
@@ -1772,16 +1772,16 @@ Inside Memoization block
             console.log(factorial(6));  // Outputs: 720
             </code></pre>
             <p>The <code>memoizedFactorial</code> function caches the results of previously computed factorials, speeding up future calls with the same input.</p>`,
-              },
-              {
-                question: "What is memoization in JavaScript?",
-                solution:
-                  "<p>Memoization is an optimization technique used to speed up function execution by storing the results of expensive function calls and returning the cached result when the same inputs occur again. It prevents redundant calculations, improving performance.</p>",
-              },
-              {
-                question:
-                  "Can you provide an example of memoization in JavaScript?",
-                solution: `<p>Here’s a simple example of a memoization function:</p>
+            },
+            {
+              question: "What is memoization in JavaScript?",
+              solution:
+                "<p>Memoization is an optimization technique used to speed up function execution by storing the results of expensive function calls and returning the cached result when the same inputs occur again. It prevents redundant calculations, improving performance.</p>",
+            },
+            {
+              question:
+                "Can you provide an example of memoization in JavaScript?",
+              solution: `<p>Here’s a simple example of a memoization function:</p>
             <pre><code className="language-javascript">
             function memoize(fn) {
               const cache = {};
@@ -1811,21 +1811,21 @@ Inside Memoization block
             console.log(memoizedSlowFunction(5)); // Returns cached result
             </code></pre>
             <p>In this example, the <code>memoize</code> function caches the results of the <code>slowFunction</code>. The second time it’s called with the same argument, it returns the cached result instead of recalculating it.</p>`,
-              },
-              {
-                question: "When should you use memoization?",
-                solution:
-                  "<p>Memoization should be used when a function is computationally expensive and is frequently called with the same arguments. This can happen in recursive algorithms (e.g., Fibonacci) or in situations where data fetching is repeated with the same parameters.</p>",
-              },
-              {
-                question: "What are the trade-offs of memoization?",
-                solution:
-                  "<p>While memoization can improve performance by reducing redundant calculations, it comes with the cost of increased memory usage to store cached results. For large input spaces, this memory overhead can become significant. You may need to implement cache eviction strategies for long-running applications.</p>",
-              },
-              {
-                question:
-                  "How does memoization improve recursive algorithms like Fibonacci?",
-                solution: `<p>Memoization optimizes recursive algorithms like Fibonacci by storing the results of subproblems to avoid redundant calculations. Without memoization, a naive recursive Fibonacci algorithm recalculates the same values multiple times, leading to an exponential time complexity. Memoization reduces this to linear time complexity (O(n)).</p>
+            },
+            {
+              question: "When should you use memoization?",
+              solution:
+                "<p>Memoization should be used when a function is computationally expensive and is frequently called with the same arguments. This can happen in recursive algorithms (e.g., Fibonacci) or in situations where data fetching is repeated with the same parameters.</p>",
+            },
+            {
+              question: "What are the trade-offs of memoization?",
+              solution:
+                "<p>While memoization can improve performance by reducing redundant calculations, it comes with the cost of increased memory usage to store cached results. For large input spaces, this memory overhead can become significant. You may need to implement cache eviction strategies for long-running applications.</p>",
+            },
+            {
+              question:
+                "How does memoization improve recursive algorithms like Fibonacci?",
+              solution: `<p>Memoization optimizes recursive algorithms like Fibonacci by storing the results of subproblems to avoid redundant calculations. Without memoization, a naive recursive Fibonacci algorithm recalculates the same values multiple times, leading to an exponential time complexity. Memoization reduces this to linear time complexity (O(n)).</p>
             <pre><code className="language-javascript">
             function memoizedFibonacci() {
               const cache = {};
@@ -1845,16 +1845,16 @@ Inside Memoization block
             console.log(fibonacci(10)); // Efficiently calculates the 10th Fibonacci number
             </code></pre>
             <p>In this example, the Fibonacci function uses memoization to store the results of previously computed Fibonacci numbers in the <code>cache</code>, improving performance.</p>`,
-              },
-              {
-                question: "Can memoization be applied to all functions?",
-                solution:
-                  "<p>No, memoization is best suited for pure functions, i.e., functions that return the same output given the same input without side effects. Functions that rely on external states or have non-deterministic behavior, such as generating random values or making network requests, are not suitable for memoization.</p>",
-              },
-              {
-                question:
-                  "How would you handle memoization for functions with complex inputs (objects or arrays)?",
-                solution: `<p>For functions with complex inputs like objects or arrays, memoization can be challenging because object references differ even if their contents are identical. One approach is to use <code>JSON.stringify()</code> to convert inputs into strings, which can be used as cache keys.</p>
+            },
+            {
+              question: "Can memoization be applied to all functions?",
+              solution:
+                "<p>No, memoization is best suited for pure functions, i.e., functions that return the same output given the same input without side effects. Functions that rely on external states or have non-deterministic behavior, such as generating random values or making network requests, are not suitable for memoization.</p>",
+            },
+            {
+              question:
+                "How would you handle memoization for functions with complex inputs (objects or arrays)?",
+              solution: `<p>For functions with complex inputs like objects or arrays, memoization can be challenging because object references differ even if their contents are identical. One approach is to use <code>JSON.stringify()</code> to convert inputs into strings, which can be used as cache keys.</p>
             <pre><code className="language-javascript">
             function memoize(fn) {
               const cache = {};
@@ -1871,26 +1871,26 @@ Inside Memoization block
             }
             </code></pre>
             <p>However, this approach can be inefficient for large, deeply nested objects, so specialized libraries like <code>lodash.memoize</code> or custom deep comparison functions might be needed for more complex cases.</p>`,
-              },
-              {
-                question:
-                  "What is the difference between memoization and caching?",
-                solution:
-                  "<p>Memoization is a specific form of caching where the focus is on storing the results of function calls based on their input arguments. Caching, in a broader sense, refers to storing any kind of data for quick retrieval, such as HTTP responses or database queries. Memoization typically applies to individual function calls, while caching is more general-purpose.</p>",
-              },
-              {
-                question:
-                  "How would you implement cache eviction in a memoization system?",
-                solution:
-                  "<p>To manage the memory overhead of memoization, you can implement cache eviction strategies such as Least Recently Used (LRU). In an LRU cache, the least recently accessed entries are removed when the cache reaches a certain size. This helps manage memory usage efficiently.</p>",
-              },
-            ],
-            links: [""],
-          },
-          {
-            topic: "Generators and Iterators",
-            tags: [""],
-            explanation: `<p style="margin-top: 1.0rem;">
+            },
+            {
+              question:
+                "What is the difference between memoization and caching?",
+              solution:
+                "<p>Memoization is a specific form of caching where the focus is on storing the results of function calls based on their input arguments. Caching, in a broader sense, refers to storing any kind of data for quick retrieval, such as HTTP responses or database queries. Memoization typically applies to individual function calls, while caching is more general-purpose.</p>",
+            },
+            {
+              question:
+                "How would you implement cache eviction in a memoization system?",
+              solution:
+                "<p>To manage the memory overhead of memoization, you can implement cache eviction strategies such as Least Recently Used (LRU). In an LRU cache, the least recently accessed entries are removed when the cache reaches a certain size. This helps manage memory usage efficiently.</p>",
+            },
+          ],
+          links: [""],
+        },
+        {
+          topic: "Generators and Iterators",
+          tags: [""],
+          explanation: `<p style="margin-top: 1.0rem;">
   Generators and Iterators in JavaScript are advanced functions that permit efficient coping with iterable data structures, like arrays or custom collections, in a flexible and memory-efficient way. Here’s an explanation of each concept:
 </p>
 
@@ -2104,11 +2104,11 @@ Each time yield is called, the generator pauses, and a promise is returned that 
 </ol>
 
 `,
-            examples: [
-              [
-                {
-                  questions: "Example 1: Fibonacci Sequence Generator",
-                  explanation: `
+          examples: [
+            [
+              {
+                questions: "Example 1: Fibonacci Sequence Generator",
+                explanation: `
                   <p>This generator produces the Fibonacci sequence up to a given number <code>n</code>. It starts with two numbers, 0 and 1, and continuously yields values until the next number exceeds <code>n</code>.</p>
                   <pre><code>
                   function* fibonacciGenerator(n) {
@@ -2134,11 +2134,11 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Uses <code>yield</code> to pause and return each value.</li>
                   </ul>
                 `,
-                },
-                {
-                  questions:
-                    "Example 2: Lazy Loading an Array with a Generator",
-                  explanation: `
+              },
+              {
+                questions:
+                  "Example 2: Lazy Loading an Array with a Generator",
+                explanation: `
                   <p>This generator implements a lazy loading mechanism by yielding chunks of data from an array in specified sizes. Instead of loading the entire array at once, it processes chunks lazily.</p>
                   <pre><code>
                   function* lazyLoadArray(data, chunkSize = 10) {
@@ -2161,10 +2161,10 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Efficient for large datasets.</li>
                   </ul>
                 `,
-                },
-                {
-                  questions: "Example 3: Delayed Yielding of Array Elements",
-                  explanation: `
+              },
+              {
+                questions: "Example 3: Delayed Yielding of Array Elements",
+                explanation: `
                   <p>This generator yields elements of an array with a 1-second delay between each. It uses <code>setTimeout</code> to create the delay and pauses between yields.</p>
                   <pre><code>
                   function* delayedGenerator(arr) {
@@ -2189,131 +2189,131 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Useful for pacing data processing or animations.</li>
                   </ul>
                 `,
-                },
-              ],
-            ],
-            questions: [
-              {
-                question:
-                  "What is a generator in JavaScript, and how is it different from a regular function?",
-                solution:
-                  "A generator in JavaScript is a special type of function that can pause and resume its execution. It is defined using the `function*` syntax. Unlike regular functions, which run to completion once invoked, generators allow you to pause the execution using `yield` and resume later with `next()`. This allows for more control over function execution and is useful for handling asynchronous code in a synchronous-like fashion.",
-              },
-              {
-                question:
-                  "How do you create and use a generator in JavaScript?",
-                solution: `To create a generator, use the function* syntax. Inside the generator, use the 'yield' keyword to pause the execution and produce values. To use a generator, call it to return an iterator, then use the .next() method to resume execution and retrieve the next yielded value. Example: <pre><code class="language-javascript"> function* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); </code></pre>`,
-              },
-              {
-                question:
-                  "What is the purpose of the `yield` keyword in a generator function?",
-                solution:
-                  "The `yield` keyword is used to pause the execution of a generator function and return a value to the calling code. The function can then be resumed from where it left off when `.next()` is called. Each `yield` statement can return different values in successive calls of `.next()`.",
-              },
-              {
-                question:
-                  "What does the `.next()` method do in a generator function?",
-                solution:
-                  "The `.next()` method is used to resume the execution of a paused generator function. It returns an object with two properties: `value`, which is the value yielded by the generator, and `done`, which is a boolean indicating whether the generator has completed its execution.",
-              },
-              {
-                question:
-                  "Explain how to handle asynchronous operations using generators.",
-                solution: `You can handle asynchronous operations using generators by yielding promises from the generator function and resuming execution once the promise resolves. This can be done manually using a loop or automatically with libraries like 'co' or 'async-await' (which is based on the concept of generators). Example: <pre><code class="language-javascript">\nfunction* asyncGenerator() {\n  const result1 = yield fetch('https://api.example.com/data1');\n  console.log(result1);\n  const result2 = yield fetch('https://api.example.com/data2');\n  console.log(result2);\n}\n</code></pre>`,
-              },
-              {
-                question:
-                  "What are the advantages of using generators over promises or async/await?",
-                solution:
-                  "Generators provide fine-grained control over the execution of a function, allowing you to pause and resume execution at multiple points, which can be useful in some cases, such as iterating over large data sets or handling cooperative multitasking. However, for handling asynchronous code specifically, `async/await` is generally simpler and more readable, as it was built on top of the generator concept.",
-              },
-              {
-                question:
-                  "How can you iterate over the values yielded by a generator?",
-                solution: `You can iterate over the values yielded by a generator using a 'for...of' loop, or by manually calling '.next()' on the generator object. Example using 'for...of' loop:<pre><code class="language-javascript">\nfunction* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nfor (const value of gen) {\n  console.log(value); // 1, 2, 3\n}\n </code></pre>`,
-              },
-              {
-                question:
-                  "How does the `return` statement behave in a generator function?",
-                solution:
-                  "When `return` is called in a generator function, it terminates the generator and produces a value, just like `yield`. However, unlike `yield`, `return` also sets the `done` property of the `.next()` result to `true`, indicating that the generator has finished executing. Any further calls to `.next()` will not yield more values.",
-              },
-              {
-                question:
-                  "What happens if you call `.next()` on a generator after it has finished?",
-                solution:
-                  "Once a generator has finished (either by returning or by exhausting all `yield` statements), subsequent calls to `.next()` will return an object with `value: undefined` and `done: true`, indicating that the generator is done and no more values will be yielded.",
-              },
-              {
-                question:
-                  "Can a generator be used to produce an infinite sequence? Provide an example.",
-                solution: `Yes, a generator can be used to produce an infinite sequence by using an infinite loop inside the generator function. For example:<pre><code class="language-javascript">\nfunction* infiniteSequence() {\n  let i = 0;\n  while (true) {\n    yield i++;\n  }\n}\nconst gen = infiniteSequence();\nconsole.log(gen.next().value); // 0\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\n// And so on, infinitely...\n</code></pre>`,
-              },
-              {
-                question:
-                  "How do you pass values back into a generator function?",
-                solution: `You can pass values back into a generator function by using the '.next(value)' method. The value passed will replace the 'yield' expression where the generator was paused. Example:\n<pre><code class="language-javascript">\nfunction* myGenerator() {\n  const first = yield 'First yield';\n  const second = yield first;\n  return second;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // 'First yield'\nconsole.log(gen.next(42).value); // 42\nconsole.log(gen.next(100).value); // 100\n</code></pre>`,
-              },
-              {
-                question:
-                  "How would you implement a generator function that produces Fibonacci numbers indefinitely?",
-                solution: `A generator can be used to produce an infinite sequence of Fibonacci numbers by maintaining two variables for the last two numbers in the sequence and updating them on each iteration. Here's an implementation:<pre><code class="language-javascript">\nfunction* fibonacciGenerator() {\n  let [prev, current] = [0, 1];\n  while (true) {\n    yield current;\n    [prev, current] = [current, prev + current];\n  }\n}\nconst gen = fibonacciGenerator();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\nconsole.log(gen.next().value); // 3</code></pre>`,
-              },
-              {
-                question:
-                  "What are the differences between using a generator and an iterator to traverse a sequence? When would you prefer one over the other?",
-                solution:
-                  "Both generators and iterators allow you to traverse sequences, but they differ in how they're implemented and used:\n1. **Iterators**: <span style='font-weight: 500;'>Iterators are objects</span> that implement the `next()` method, which returns `{ value, done }`. They require manual implementation of the iteration logic.\n2. **Generators**: <span style='font-weight: 500;'>Generators are functions</span> that automatically create an iterator when called. They manage the `next()` method and yield values on demand, making them simpler to implement for complex iteration logic.\n\n**When to prefer one:**\n- Use **iterators** when you need fine control over the iteration logic or when the iteration logic is tightly coupled with an object or class.\n- Use **generators** when you want a cleaner, easier-to-read implementation that handles state internally and produces values lazily.",
-              },
-              {
-                question:
-                  "Can you explain how backpressure in asynchronous processing can be managed with generators?",
-                solution:
-                  "Backpressure occurs when a producer (like a data source) generates values faster than a consumer (like a network or file system) can process them. Generators can help manage backpressure by yielding control at each `yield` point, allowing the consumer to process values at its own pace. In an asynchronous context, a generator can yield Promises, and the consumer can `await` the result, ensuring that it only processes the next value when it's ready, thus preventing overload.",
-              },
-              {
-                question:
-                  "Explain how you can combine a generator with `Promise.all` to handle multiple asynchronous tasks concurrently.",
-                solution: `To combine a generator with 'Promise.all', you can yield promises from the generator and collect them into an array. Once the generator yields all promises, you can use 'Promise.all()' to process them concurrently. Here's an example:<pre><code class="language-javascript">\nfunction* fetchMultiple(urls) {\n  for (const url of urls) {\n    yield fetch(url);\n  }\n}\n\nconst urls = ['https://api1.com', 'https://api2.com', 'https://api3.com'];\nconst gen = fetchMultiple(urls);\nconst promises = [...gen]; // Collect all promises\n\nPromise.all(promises).then((results) => {\n  console.log('All fetched:', results);\n}).catch((error) => {\n  console.error('Error fetching:', error);\n});\n</code></pre>`,
-              },
-              {
-                question:
-                  "How would you implement a generator-based coroutine system in JavaScript?",
-                solution: `Coroutines are functions that can pause and resume execution, typically used in cooperative multitasking. Generators can be used to implement coroutines by 'yield'ing control back and forth between different generators. Here's a basic example of a coroutine system using generators:<pre><code class="language-javascript">\nfunction* coroutineA() {\n  console.log('Start A');\n  yield;\n  console.log('End A');\n}\n\nfunction* coroutineB() {\n  console.log('Start B');\n  yield;\n  console.log('End B');\n}\n\nconst a = coroutineA();\nconst b = coroutineB();\n\n// Coroutine scheduler\nfunction scheduler() {\n  a.next(); // Start A\n  b.next(); // Start B\n  a.next(); // End A\n  b.next(); // End B\n}\nscheduler();\n </code></pre>In this example, 'scheduler()' controls when each coroutine ('coroutineA' and 'coroutine') resumes execution.`,
-              },
-              {
-                question:
-                  "How would you pause and resume an ongoing generator function from outside the generator?",
-                solution: `You can control a generator's execution from outside by calling '.next()', '.return()', or '.throw()' on the generator object. Here’s an example of how you can pause and resume:\n<pre><code class="language-javascript"> function* myGenerator() {\n  console.log('First part');\n  yield 'Paused';\n  console.log('Second part');\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // Logs: 'First part' and returns 'Paused'\nconsole.log(gen.next().value); // Logs: 'Second part' </code></pre>\nYou can resume the generator’s execution at any point by calling '.next()'.`,
-              },
-              {
-                question:
-                  "How can you implement a generator that handles both synchronous and asynchronous operations?",
-                solution: `To handle both synchronous and asynchronous operations in a generator, you can 'yield' both synchronous values and promises. The consumer of the generator needs to handle the yielded values appropriately. For example:<pre><code class="language-javascript">\nfunction* mixedGenerator() {\n  const syncValue = 'Synchronous value';\n  yield syncValue;\n  const asyncValue = yield new Promise((resolve) => setTimeout(() => resolve('Asynchronous value'), 1000));\n  yield asyncValue;\n}\n\nasync function processGenerator() {\n  const gen = mixedGenerator();\n  let result = gen.next();\n  console.log(result.value); // 'Synchronous value'\n\n  result = await gen.next().value; // Waiting for async value\n  console.log(result); // 'Asynchronous value'\n\n  result = gen.next(result).value;\n  console.log(result); // 'Asynchronous value'\n}\nprocessGenerator();\n</code></pre>`,
-              },
-              {
-                question:
-                  "What is the relationship between `async/await` and generators? Could you implement `async/await` using generators?",
-                solution: `The 'async/await' syntax in JavaScript is built on top of the generator pattern. In fact, you can implement 'async/await' using generators by yielding promises and manually resuming the generator when the promises resolve. Here’s a simplified version of how 'async/await' can be implemented using generators:\n<pre><code class="language-javascript">function asyncExecutor(generatorFunction) {\n  const generator = generatorFunction();\n\n  function handle(result) {\n    if (result.done) return result.value;\n    return result.value.then((value) => handle(generator.next(value)));\n  }\n\n  return handle(generator.next());\n}\n\nfunction* asyncTask() {\n  const result = yield new Promise((resolve) => setTimeout(() => resolve('Done!'), 1000));\n  console.log(result);\n}\n\nasyncExecutor(asyncTask);\n</code></pre>`,
-              },
-              {
-                question:
-                  "Can you explain the memory advantages of using generators for large datasets?",
-                solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`,
               },
             ],
-            links: [
-              "https://www.geeksforgeeks.org/javascript-iterator/",
-              "https://www.hellojavascript.info/docs/general-javascript-questions/generators-advance-interation/generators#can-generators-be-used-with-asyncawait",
-              "https://atomicjuggernaut.hashnode.dev/javascript-interview-question-generator-function",
-              "https://medium.com/deno-the-complete-reference/some-javascript-generators-memoization-interview-questions-c4a7c97fc3bd",
-              "https://medium.com/mighty-ghost-hack/js-interview-11-javascript-generator-88b163b0ea2f",
-            ],
-          },
-          {
-            topic: "Context and This Keyword",
-            tags: [""],
-            explanation: `<p style="margin-top: 1.0rem;">
+          ],
+          questions: [
+            {
+              question:
+                "What is a generator in JavaScript, and how is it different from a regular function?",
+              solution:
+                "A generator in JavaScript is a special type of function that can pause and resume its execution. It is defined using the `function*` syntax. Unlike regular functions, which run to completion once invoked, generators allow you to pause the execution using `yield` and resume later with `next()`. This allows for more control over function execution and is useful for handling asynchronous code in a synchronous-like fashion.",
+            },
+            {
+              question:
+                "How do you create and use a generator in JavaScript?",
+              solution: `To create a generator, use the function* syntax. Inside the generator, use the 'yield' keyword to pause the execution and produce values. To use a generator, call it to return an iterator, then use the .next() method to resume execution and retrieve the next yielded value. Example: <pre><code class="language-javascript"> function* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); </code></pre>`,
+            },
+            {
+              question:
+                "What is the purpose of the `yield` keyword in a generator function?",
+              solution:
+                "The `yield` keyword is used to pause the execution of a generator function and return a value to the calling code. The function can then be resumed from where it left off when `.next()` is called. Each `yield` statement can return different values in successive calls of `.next()`.",
+            },
+            {
+              question:
+                "What does the `.next()` method do in a generator function?",
+              solution:
+                "The `.next()` method is used to resume the execution of a paused generator function. It returns an object with two properties: `value`, which is the value yielded by the generator, and `done`, which is a boolean indicating whether the generator has completed its execution.",
+            },
+            {
+              question:
+                "Explain how to handle asynchronous operations using generators.",
+              solution: `You can handle asynchronous operations using generators by yielding promises from the generator function and resuming execution once the promise resolves. This can be done manually using a loop or automatically with libraries like 'co' or 'async-await' (which is based on the concept of generators). Example: <pre><code class="language-javascript">\nfunction* asyncGenerator() {\n  const result1 = yield fetch('https://api.example.com/data1');\n  console.log(result1);\n  const result2 = yield fetch('https://api.example.com/data2');\n  console.log(result2);\n}\n</code></pre>`,
+            },
+            {
+              question:
+                "What are the advantages of using generators over promises or async/await?",
+              solution:
+                "Generators provide fine-grained control over the execution of a function, allowing you to pause and resume execution at multiple points, which can be useful in some cases, such as iterating over large data sets or handling cooperative multitasking. However, for handling asynchronous code specifically, `async/await` is generally simpler and more readable, as it was built on top of the generator concept.",
+            },
+            {
+              question:
+                "How can you iterate over the values yielded by a generator?",
+              solution: `You can iterate over the values yielded by a generator using a 'for...of' loop, or by manually calling '.next()' on the generator object. Example using 'for...of' loop:<pre><code class="language-javascript">\nfunction* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nfor (const value of gen) {\n  console.log(value); // 1, 2, 3\n}\n </code></pre>`,
+            },
+            {
+              question:
+                "How does the `return` statement behave in a generator function?",
+              solution:
+                "When `return` is called in a generator function, it terminates the generator and produces a value, just like `yield`. However, unlike `yield`, `return` also sets the `done` property of the `.next()` result to `true`, indicating that the generator has finished executing. Any further calls to `.next()` will not yield more values.",
+            },
+            {
+              question:
+                "What happens if you call `.next()` on a generator after it has finished?",
+              solution:
+                "Once a generator has finished (either by returning or by exhausting all `yield` statements), subsequent calls to `.next()` will return an object with `value: undefined` and `done: true`, indicating that the generator is done and no more values will be yielded.",
+            },
+            {
+              question:
+                "Can a generator be used to produce an infinite sequence? Provide an example.",
+              solution: `Yes, a generator can be used to produce an infinite sequence by using an infinite loop inside the generator function. For example:<pre><code class="language-javascript">\nfunction* infiniteSequence() {\n  let i = 0;\n  while (true) {\n    yield i++;\n  }\n}\nconst gen = infiniteSequence();\nconsole.log(gen.next().value); // 0\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\n// And so on, infinitely...\n</code></pre>`,
+            },
+            {
+              question:
+                "How do you pass values back into a generator function?",
+              solution: `You can pass values back into a generator function by using the '.next(value)' method. The value passed will replace the 'yield' expression where the generator was paused. Example:\n<pre><code class="language-javascript">\nfunction* myGenerator() {\n  const first = yield 'First yield';\n  const second = yield first;\n  return second;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // 'First yield'\nconsole.log(gen.next(42).value); // 42\nconsole.log(gen.next(100).value); // 100\n</code></pre>`,
+            },
+            {
+              question:
+                "How would you implement a generator function that produces Fibonacci numbers indefinitely?",
+              solution: `A generator can be used to produce an infinite sequence of Fibonacci numbers by maintaining two variables for the last two numbers in the sequence and updating them on each iteration. Here's an implementation:<pre><code class="language-javascript">\nfunction* fibonacciGenerator() {\n  let [prev, current] = [0, 1];\n  while (true) {\n    yield current;\n    [prev, current] = [current, prev + current];\n  }\n}\nconst gen = fibonacciGenerator();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\nconsole.log(gen.next().value); // 3</code></pre>`,
+            },
+            {
+              question:
+                "What are the differences between using a generator and an iterator to traverse a sequence? When would you prefer one over the other?",
+              solution:
+                "Both generators and iterators allow you to traverse sequences, but they differ in how they're implemented and used:\n1. **Iterators**: <span style='font-weight: 500;'>Iterators are objects</span> that implement the `next()` method, which returns `{ value, done }`. They require manual implementation of the iteration logic.\n2. **Generators**: <span style='font-weight: 500;'>Generators are functions</span> that automatically create an iterator when called. They manage the `next()` method and yield values on demand, making them simpler to implement for complex iteration logic.\n\n**When to prefer one:**\n- Use **iterators** when you need fine control over the iteration logic or when the iteration logic is tightly coupled with an object or class.\n- Use **generators** when you want a cleaner, easier-to-read implementation that handles state internally and produces values lazily.",
+            },
+            {
+              question:
+                "Can you explain how backpressure in asynchronous processing can be managed with generators?",
+              solution:
+                "Backpressure occurs when a producer (like a data source) generates values faster than a consumer (like a network or file system) can process them. Generators can help manage backpressure by yielding control at each `yield` point, allowing the consumer to process values at its own pace. In an asynchronous context, a generator can yield Promises, and the consumer can `await` the result, ensuring that it only processes the next value when it's ready, thus preventing overload.",
+            },
+            {
+              question:
+                "Explain how you can combine a generator with `Promise.all` to handle multiple asynchronous tasks concurrently.",
+              solution: `To combine a generator with 'Promise.all', you can yield promises from the generator and collect them into an array. Once the generator yields all promises, you can use 'Promise.all()' to process them concurrently. Here's an example:<pre><code class="language-javascript">\nfunction* fetchMultiple(urls) {\n  for (const url of urls) {\n    yield fetch(url);\n  }\n}\n\nconst urls = ['https://api1.com', 'https://api2.com', 'https://api3.com'];\nconst gen = fetchMultiple(urls);\nconst promises = [...gen]; // Collect all promises\n\nPromise.all(promises).then((results) => {\n  console.log('All fetched:', results);\n}).catch((error) => {\n  console.error('Error fetching:', error);\n});\n</code></pre>`,
+            },
+            {
+              question:
+                "How would you implement a generator-based coroutine system in JavaScript?",
+              solution: `Coroutines are functions that can pause and resume execution, typically used in cooperative multitasking. Generators can be used to implement coroutines by 'yield'ing control back and forth between different generators. Here's a basic example of a coroutine system using generators:<pre><code class="language-javascript">\nfunction* coroutineA() {\n  console.log('Start A');\n  yield;\n  console.log('End A');\n}\n\nfunction* coroutineB() {\n  console.log('Start B');\n  yield;\n  console.log('End B');\n}\n\nconst a = coroutineA();\nconst b = coroutineB();\n\n// Coroutine scheduler\nfunction scheduler() {\n  a.next(); // Start A\n  b.next(); // Start B\n  a.next(); // End A\n  b.next(); // End B\n}\nscheduler();\n </code></pre>In this example, 'scheduler()' controls when each coroutine ('coroutineA' and 'coroutine') resumes execution.`,
+            },
+            {
+              question:
+                "How would you pause and resume an ongoing generator function from outside the generator?",
+              solution: `You can control a generator's execution from outside by calling '.next()', '.return()', or '.throw()' on the generator object. Here’s an example of how you can pause and resume:\n<pre><code class="language-javascript"> function* myGenerator() {\n  console.log('First part');\n  yield 'Paused';\n  console.log('Second part');\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // Logs: 'First part' and returns 'Paused'\nconsole.log(gen.next().value); // Logs: 'Second part' </code></pre>\nYou can resume the generator’s execution at any point by calling '.next()'.`,
+            },
+            {
+              question:
+                "How can you implement a generator that handles both synchronous and asynchronous operations?",
+              solution: `To handle both synchronous and asynchronous operations in a generator, you can 'yield' both synchronous values and promises. The consumer of the generator needs to handle the yielded values appropriately. For example:<pre><code class="language-javascript">\nfunction* mixedGenerator() {\n  const syncValue = 'Synchronous value';\n  yield syncValue;\n  const asyncValue = yield new Promise((resolve) => setTimeout(() => resolve('Asynchronous value'), 1000));\n  yield asyncValue;\n}\n\nasync function processGenerator() {\n  const gen = mixedGenerator();\n  let result = gen.next();\n  console.log(result.value); // 'Synchronous value'\n\n  result = await gen.next().value; // Waiting for async value\n  console.log(result); // 'Asynchronous value'\n\n  result = gen.next(result).value;\n  console.log(result); // 'Asynchronous value'\n}\nprocessGenerator();\n</code></pre>`,
+            },
+            {
+              question:
+                "What is the relationship between `async/await` and generators? Could you implement `async/await` using generators?",
+              solution: `The 'async/await' syntax in JavaScript is built on top of the generator pattern. In fact, you can implement 'async/await' using generators by yielding promises and manually resuming the generator when the promises resolve. Here’s a simplified version of how 'async/await' can be implemented using generators:\n<pre><code class="language-javascript">function asyncExecutor(generatorFunction) {\n  const generator = generatorFunction();\n\n  function handle(result) {\n    if (result.done) return result.value;\n    return result.value.then((value) => handle(generator.next(value)));\n  }\n\n  return handle(generator.next());\n}\n\nfunction* asyncTask() {\n  const result = yield new Promise((resolve) => setTimeout(() => resolve('Done!'), 1000));\n  console.log(result);\n}\n\nasyncExecutor(asyncTask);\n</code></pre>`,
+            },
+            {
+              question:
+                "Can you explain the memory advantages of using generators for large datasets?",
+              solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`,
+            },
+          ],
+          links: [
+            "https://www.geeksforgeeks.org/javascript-iterator/",
+            "https://www.hellojavascript.info/docs/general-javascript-questions/generators-advance-interation/generators#can-generators-be-used-with-asyncawait",
+            "https://atomicjuggernaut.hashnode.dev/javascript-interview-question-generator-function",
+            "https://medium.com/deno-the-complete-reference/some-javascript-generators-memoization-interview-questions-c4a7c97fc3bd",
+            "https://medium.com/mighty-ghost-hack/js-interview-11-javascript-generator-88b163b0ea2f",
+          ],
+        },
+        {
+          topic: "Context and This Keyword",
+          tags: [""],
+          explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, context refers to the environment in which a bit of code is executed. It dictates how variables and functions behave and how they're accessed. Understanding context is important as it influences the value of the <code>this</code> keyword and affects how functions interact with objects and the scope in which they operate.
 </p>
 
@@ -2453,128 +2453,128 @@ obj.greet(); // Hello, Charlie</code></pre>
   </li>
 </ol>
 `,
-            examples: [""],
-            questions: [
-              {
-                question: "What is the global context in JavaScript?",
-                solution:
-                  "The global context is the default execution context for JavaScript code, where variables and functions are accessible globally. In a browser, 'this' refers to the 'window' object, while in Node.js, it refers to the global object.",
-              },
-              {
-                question: "How does 'this' behave in a regular function?",
-                solution:
-                  "In a non-strict mode function, 'this' refers to the global object when the function is called as a standalone function. In strict mode, 'this' is undefined.",
-              },
-              {
-                question:
-                  "What is the difference between 'this' in a method and 'this' in a standalone function?",
-                solution:
-                  "When a function is called as a method of an object, 'this' refers to that object. In contrast, if the function is called as a standalone function, 'this' refers to the global object (in non-strict mode) or is undefined (in strict mode).",
-              },
-              {
-                question: "Explain how 'this' works in constructor functions.",
-                solution:
-                  "'this' in a constructor function refers to the new object being created when the function is invoked with the 'new' keyword. Properties can be attached to 'this' to create instance properties.",
-              },
-              {
-                question:
-                  "What is the significance of the 'use strict' directive in relation to 'this'?",
-                solution:
-                  "The 'use strict' directive enables strict mode, which changes the behavior of 'this' in functions. In strict mode, 'this' is undefined when the function is called as a standalone function, preventing accidental global variable creation.",
-              },
-              {
-                question:
-                  "How do arrow functions handle 'this' differently from regular functions?",
-                solution:
-                  "Arrow functions do not have their own 'this' context. Instead, they inherit 'this' from the surrounding lexical scope. This makes them useful in scenarios where you want to maintain the context of 'this' from the enclosing function.",
-              },
-              {
-                question:
-                  "What happens when you use 'this' inside an arrow function?",
-                solution:
-                  "'this' inside an arrow function refers to the 'this' value from the enclosing lexical context. This means that arrow functions do not create their own 'this', making them suitable for callbacks and methods where you need to preserve the outer context.",
-              },
-              {
-                question:
-                  "Can you explain how to use the 'bind', 'call', and 'apply' methods with respect to 'this'?",
-                solution:
-                  "'bind' creates a new function with a specified 'this' value, allowing you to control the context of the function. 'call' and 'apply' immediately invoke a function with a specified 'this' value. The main difference is that 'call' accepts arguments separately, while 'apply' takes an array of arguments.",
-              },
-              {
-                question:
-                  "What is the 'yield*' keyword, and how does it relate to context in generators?",
-                solution:
-                  "'yield*' is used to delegate execution to another generator function. It allows a generator to yield values from another generator, maintaining the context of the outer generator. This is useful for managing complex generator flows.",
-              },
-              {
-                question:
-                  "How does the execution context change when using `setTimeout` or `setInterval`?",
-                solution:
-                  "When using `setTimeout` or `setInterval`, the context of 'this' inside the callback function defaults to the global object in non-strict mode or is undefined in strict mode. To maintain the context, you can use an arrow function or bind the function explicitly.",
-              },
-              {
-                question:
-                  "Explain how the 'this' keyword behaves in event handlers in JavaScript.",
-                solution:
-                  "In event handlers, 'this' refers to the element that fired the event, unless the function is an arrow function. In arrow functions, 'this' retains the value from the surrounding lexical context.",
-              },
-              {
-                question:
-                  "What are the implications of using 'this' in nested functions, and how can you manage it?",
-                solution:
-                  "In nested functions, 'this' can refer to different contexts, leading to unexpected behavior. To manage this, you can store the value of 'this' in a variable (commonly named 'self' or 'that') or use arrow functions, which preserve the outer context.",
-              },
-              {
-                question:
-                  "How does the context of 'this' change when a method is called using the 'apply' method?",
-                solution:
-                  "'apply' allows you to invoke a function with a specified 'this' value, enabling you to set the context explicitly. This is particularly useful when calling methods from different objects or when using methods of one object on another.",
-              },
-              {
-                question:
-                  "What is the difference between using 'call', 'apply', and 'bind'? When would you use each?",
-                solution:
-                  "'call' and 'apply' invoke a function immediately with a specified 'this' value, while 'bind' returns a new function that, when called, has its 'this' value set to the provided value. Use 'call' when you have a fixed number of arguments, 'apply' for variable arguments (array), and 'bind' to create a new function with a bound context.",
-              },
-              {
-                question:
-                  "How does the concept of context affect the performance of JavaScript applications?",
-                solution:
-                  "Understanding context can affect performance in JavaScript applications, especially in scenarios involving frequent function calls or deep nesting. Using techniques like method binding and avoiding unnecessary context switching can optimize performance.",
-              },
-              {
-                question:
-                  "Can you provide an example of how context can lead to memory leaks in JavaScript?",
-                solution:
-                  "Memory leaks can occur when functions retain references to variables or objects through closures, especially when using 'this' improperly. For example, if an event listener is added without removing it, it can prevent the enclosing context from being garbage collected, causing a memory leak.",
-              },
-              {
-                question:
-                  "What is the difference between the 'new' keyword and the 'class' syntax in JavaScript concerning 'this'?",
-                solution:
-                  "Both 'new' and 'class' create instances where 'this' refers to the new object being created. However, 'class' provides a cleaner syntax with additional features like inheritance, whereas 'new' requires a constructor function and explicit handling of 'this'.",
-              },
-              {
-                question:
-                  "How do you handle context when working with promises and asynchronous code?",
-                solution:
-                  "In asynchronous code, 'this' can change context based on how a function is called. To manage context, you can use arrow functions, which maintain the outer 'this', or bind the function to the desired context before passing it to the promise handler.",
-              },
-            ],
-            links: [""],
-          },
-          {
-            topic: "Function Composition",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "Destructuring and Spread Operators",
-            tags: [""],
-            explanation: `<p style="margin-top: 1.0rem;">
+          examples: [""],
+          questions: [
+            {
+              question: "What is the global context in JavaScript?",
+              solution:
+                "The global context is the default execution context for JavaScript code, where variables and functions are accessible globally. In a browser, 'this' refers to the 'window' object, while in Node.js, it refers to the global object.",
+            },
+            {
+              question: "How does 'this' behave in a regular function?",
+              solution:
+                "In a non-strict mode function, 'this' refers to the global object when the function is called as a standalone function. In strict mode, 'this' is undefined.",
+            },
+            {
+              question:
+                "What is the difference between 'this' in a method and 'this' in a standalone function?",
+              solution:
+                "When a function is called as a method of an object, 'this' refers to that object. In contrast, if the function is called as a standalone function, 'this' refers to the global object (in non-strict mode) or is undefined (in strict mode).",
+            },
+            {
+              question: "Explain how 'this' works in constructor functions.",
+              solution:
+                "'this' in a constructor function refers to the new object being created when the function is invoked with the 'new' keyword. Properties can be attached to 'this' to create instance properties.",
+            },
+            {
+              question:
+                "What is the significance of the 'use strict' directive in relation to 'this'?",
+              solution:
+                "The 'use strict' directive enables strict mode, which changes the behavior of 'this' in functions. In strict mode, 'this' is undefined when the function is called as a standalone function, preventing accidental global variable creation.",
+            },
+            {
+              question:
+                "How do arrow functions handle 'this' differently from regular functions?",
+              solution:
+                "Arrow functions do not have their own 'this' context. Instead, they inherit 'this' from the surrounding lexical scope. This makes them useful in scenarios where you want to maintain the context of 'this' from the enclosing function.",
+            },
+            {
+              question:
+                "What happens when you use 'this' inside an arrow function?",
+              solution:
+                "'this' inside an arrow function refers to the 'this' value from the enclosing lexical context. This means that arrow functions do not create their own 'this', making them suitable for callbacks and methods where you need to preserve the outer context.",
+            },
+            {
+              question:
+                "Can you explain how to use the 'bind', 'call', and 'apply' methods with respect to 'this'?",
+              solution:
+                "'bind' creates a new function with a specified 'this' value, allowing you to control the context of the function. 'call' and 'apply' immediately invoke a function with a specified 'this' value. The main difference is that 'call' accepts arguments separately, while 'apply' takes an array of arguments.",
+            },
+            {
+              question:
+                "What is the 'yield*' keyword, and how does it relate to context in generators?",
+              solution:
+                "'yield*' is used to delegate execution to another generator function. It allows a generator to yield values from another generator, maintaining the context of the outer generator. This is useful for managing complex generator flows.",
+            },
+            {
+              question:
+                "How does the execution context change when using `setTimeout` or `setInterval`?",
+              solution:
+                "When using `setTimeout` or `setInterval`, the context of 'this' inside the callback function defaults to the global object in non-strict mode or is undefined in strict mode. To maintain the context, you can use an arrow function or bind the function explicitly.",
+            },
+            {
+              question:
+                "Explain how the 'this' keyword behaves in event handlers in JavaScript.",
+              solution:
+                "In event handlers, 'this' refers to the element that fired the event, unless the function is an arrow function. In arrow functions, 'this' retains the value from the surrounding lexical context.",
+            },
+            {
+              question:
+                "What are the implications of using 'this' in nested functions, and how can you manage it?",
+              solution:
+                "In nested functions, 'this' can refer to different contexts, leading to unexpected behavior. To manage this, you can store the value of 'this' in a variable (commonly named 'self' or 'that') or use arrow functions, which preserve the outer context.",
+            },
+            {
+              question:
+                "How does the context of 'this' change when a method is called using the 'apply' method?",
+              solution:
+                "'apply' allows you to invoke a function with a specified 'this' value, enabling you to set the context explicitly. This is particularly useful when calling methods from different objects or when using methods of one object on another.",
+            },
+            {
+              question:
+                "What is the difference between using 'call', 'apply', and 'bind'? When would you use each?",
+              solution:
+                "'call' and 'apply' invoke a function immediately with a specified 'this' value, while 'bind' returns a new function that, when called, has its 'this' value set to the provided value. Use 'call' when you have a fixed number of arguments, 'apply' for variable arguments (array), and 'bind' to create a new function with a bound context.",
+            },
+            {
+              question:
+                "How does the concept of context affect the performance of JavaScript applications?",
+              solution:
+                "Understanding context can affect performance in JavaScript applications, especially in scenarios involving frequent function calls or deep nesting. Using techniques like method binding and avoiding unnecessary context switching can optimize performance.",
+            },
+            {
+              question:
+                "Can you provide an example of how context can lead to memory leaks in JavaScript?",
+              solution:
+                "Memory leaks can occur when functions retain references to variables or objects through closures, especially when using 'this' improperly. For example, if an event listener is added without removing it, it can prevent the enclosing context from being garbage collected, causing a memory leak.",
+            },
+            {
+              question:
+                "What is the difference between the 'new' keyword and the 'class' syntax in JavaScript concerning 'this'?",
+              solution:
+                "Both 'new' and 'class' create instances where 'this' refers to the new object being created. However, 'class' provides a cleaner syntax with additional features like inheritance, whereas 'new' requires a constructor function and explicit handling of 'this'.",
+            },
+            {
+              question:
+                "How do you handle context when working with promises and asynchronous code?",
+              solution:
+                "In asynchronous code, 'this' can change context based on how a function is called. To manage context, you can use arrow functions, which maintain the outer 'this', or bind the function to the desired context before passing it to the promise handler.",
+            },
+          ],
+          links: [""],
+        },
+        {
+          topic: "Function Composition",
+          tags: [""],
+          explanation: "<></>",
+          examples: [""],
+          questions: [{}],
+          links: [""],
+        },
+        {
+          topic: "Destructuring and Spread Operators",
+          tags: [""],
+          explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, destructuring and the rest/spread operators are powerful ES6 features that simplify working with arrays, objects, and parameters. They help make code cleaner, more readable, and concise. Let's break them down:
 </p>
 
@@ -2688,12 +2688,12 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
   <li><strong>Rest Operator (...):</strong> Used to collect multiple elements into an array or object. Example: <code class="language-javascript">function(...Args)</code> or <code class="language-javascript">const [a, ...Rest] = arr</code></li>
 </ul>
 `,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "How can you destructure a dynamic property name from an object?",
-                solution: `
+          examples: [""],
+          questions: [
+            {
+              question:
+                "How can you destructure a dynamic property name from an object?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   You can destructure a dynamic property by using computed property names within an object destructuring pattern.
                 </p>
@@ -2703,11 +2703,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(dynamicValue); // Alice
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you merge two objects and overwrite properties using the spread operator?",
-                solution: `
+            },
+            {
+              question:
+                "How can you merge two objects and overwrite properties using the spread operator?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
                 </p>
@@ -2717,11 +2717,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(mergedObj); // { a: 1, b: 3, c: 4 }
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "What are some caveats of copying objects using the spread operator?",
-                solution: `
+            },
+            {
+              question:
+                "What are some caveats of copying objects using the spread operator?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator creates a shallow copy of the object, meaning nested objects are still referenced by the original object. Changes to the nested object will affect both the original and the copy.
                 </p>
@@ -2732,11 +2732,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                 </code></pre>
                 <p>To create a deep copy, you'd need to use methods like <code class="language-javascript">JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code class="language-javascript">_.cloneDeep()</code>.</p>
                 `,
-              },
-              {
-                question:
-                  "Can you explain how destructuring works in function parameters?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain how destructuring works in function parameters?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
                 </p>
@@ -2754,11 +2754,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum([1, 2])); // 3
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you use the spread operator to pass an array as arguments to a function?",
-                solution: `
+            },
+            {
+              question:
+                "How can you use the spread operator to pass an array as arguments to a function?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator allows you to pass elements of an array as individual arguments to a function.
                 </p>
@@ -2769,11 +2769,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum(...numbers)); // 6
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "What happens when you combine destructuring and default values?",
-                solution: `
+            },
+            {
+              question:
+                "What happens when you combine destructuring and default values?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code class="language-javascript">undefined</code>.
                 </p>
@@ -2788,11 +2788,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(age); // 25
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can destructuring be used in combination with the rest parameter in function arguments?",
-                solution: `
+            },
+            {
+              question:
+                "How can destructuring be used in combination with the rest parameter in function arguments?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
                 </p>
@@ -2815,11 +2815,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             // Logs: { age: 25, city: 'NY' }
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How does the spread operator work when used with iterables like strings?",
-                solution: `
+            },
+            {
+              question:
+                "How does the spread operator work when used with iterables like strings?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
                 </p>
@@ -2833,10 +2833,10 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             printChars(...str); // ['h', 'e', 'l', 'l', 'o']
                 </code></pre>
                 `,
-              },
-              {
-                question: "How can you swap values using array destructuring?",
-                solution: `
+            },
+            {
+              question: "How can you swap values using array destructuring?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   Array destructuring provides a clean way to swap values without needing a temporary variable.
                 </p>
@@ -2847,11 +2847,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(b); // 1
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you handle nested destructuring with default values?",
-                solution: `
+            },
+            {
+              question:
+                "How can you handle nested destructuring with default values?",
+              solution: `
                 <p style="margin-top: 0.5rem;">
                   Nested destructuring can also have default values for nested properties.
                 </p>
@@ -2861,11 +2861,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(zip);  // 10001 (default value)
                 </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you destructure a dynamic property name from an object?",
-                solution: `
+            },
+            {
+              question:
+                "How can you destructure a dynamic property name from an object?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can destructure a dynamic property by using computed property names within an object destructuring pattern.
                   </p>
@@ -2875,11 +2875,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(dynamicValue); // Alice
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you merge two objects and overwrite properties using the spread operator?",
-                solution: `
+            },
+            {
+              question:
+                "How can you merge two objects and overwrite properties using the spread operator?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
                   </p>
@@ -2889,11 +2889,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(mergedObj); // { a: 1, b: 3, c: 4 }
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "What are some caveats of copying objects using the spread operator?",
-                solution: `
+            },
+            {
+              question:
+                "What are some caveats of copying objects using the spread operator?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator creates a shallow copy of the object, which means nested objects are still referenced by the original object.
                   </p>
@@ -2906,11 +2906,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                     To create a deep copy, you'd need to use another method such as <code class="language-javascript">JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code class="language-javascript">_.cloneDeep()</code>.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Can you explain how destructuring works in function parameters?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain how destructuring works in function parameters?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
                   </p>
@@ -2928,11 +2928,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum([1, 2])); // 3
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you use the spread operator to pass an array as arguments to a function?",
-                solution: `
+            },
+            {
+              question:
+                "How can you use the spread operator to pass an array as arguments to a function?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator allows you to pass elements of an array as individual arguments to a function.
                   </p>
@@ -2943,11 +2943,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum(...numbers)); // 6
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "What happens when you combine destructuring and default values?",
-                solution: `
+            },
+            {
+              question:
+                "What happens when you combine destructuring and default values?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code class="language-javascript">undefined</code>.
                   </p>
@@ -2964,11 +2964,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(age); // 25
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can destructuring be used in combination with the rest parameter in function arguments?",
-                solution: `
+            },
+            {
+              question:
+                "How can destructuring be used in combination with the rest parameter in function arguments?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
                   </p>
@@ -2991,11 +2991,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             // Logs: { age: 25, city: 'NY' }
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How does the spread operator work when used with iterables like strings?",
-                solution: `
+            },
+            {
+              question:
+                "How does the spread operator work when used with iterables like strings?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
                   </p>
@@ -3009,10 +3009,10 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             printChars(...str); // ['h', 'e', 'l', 'l', 'o']
                   </code></pre>
                 `,
-              },
-              {
-                question: "How can you swap values using array destructuring?",
-                solution: `
+            },
+            {
+              question: "How can you swap values using array destructuring?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Array destructuring provides a clean way to swap values without needing a temporary variable.
                   </p>
@@ -3023,11 +3023,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(b); // 1
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you handle nested destructuring with default values?",
-                solution: `
+            },
+            {
+              question:
+                "How can you handle nested destructuring with default values?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Nested destructuring can also have default values for nested properties.
                   </p>
@@ -3037,14 +3037,14 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(zip);  // 10001 (default value)
                   </code></pre>
                 `,
-              },
-            ],
-            links: [""],
-          },
-          {
-            topic: "Proxy and Reflect",
-            tags: [""],
-            explanation: `<p style="margin-top: 1.0rem;">
+            },
+          ],
+          links: [""],
+        },
+        {
+          topic: "Proxy and Reflect",
+          tags: [""],
+          explanation: `<p style="margin-top: 1.0rem;">
             Proxy is an object that will be created from another object(target object), Using this proxy object we can intercept/modify all the operations that are happening on the object
   In JavaScript, Proxy and <strong>Reflect</strong> are advanced ES6 features that give developers control over object behavior and manipulation. They allow the interception of fundamental operations on objects and provide a way to perform default object operations. Let's break them down:
 </p>
@@ -3168,21 +3168,21 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
   <li>To sanitize inputs before writing to the object</li>
 </ol>
 `,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "What is a Proxy in JavaScript, and what is its primary purpose?",
-                solution: `
+          examples: [""],
+          questions: [
+            {
+              question:
+                "What is a Proxy in JavaScript, and what is its primary purpose?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A Proxy in JavaScript is an object that allows you to intercept and redefine fundamental operations performed on a target object, such as property access, assignment, and function invocation. It provides custom behavior for these operations by using a handler object that contains 'traps' for each type of operation.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you intercept property access using a Proxy?",
-                solution: `
+            },
+            {
+              question:
+                "How can you intercept property access using a Proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can intercept property access by defining a <code>get</code> trap inside the handler object. The <code>get</code> trap takes the target object and the property name as arguments, allowing you to customize the behavior when a property is accessed.
                   </p>
@@ -3192,11 +3192,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             const proxy = new Proxy(target, handler);
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How would you use a Proxy to validate a value before setting it on an object property?",
-                solution: `
+            },
+            {
+              question:
+                "How would you use a Proxy to validate a value before setting it on an object property?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can use the <code>set</code> trap in the handler object to validate a value before assigning it to a property. This trap takes the target object, property name, and the value being set as arguments.
                   </p>
@@ -3212,20 +3212,20 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             const proxy = new Proxy(target, handler);
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "What are traps in a Proxy, and can you name a few examples?",
-                solution: `
+            },
+            {
+              question:
+                "What are traps in a Proxy, and can you name a few examples?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Traps are the methods defined in the handler object that intercept operations performed on the target object. Some common traps include <code>get</code> (for property access), <code>set</code> (for property assignment), <code>deleteProperty</code> (for property deletion), and <code>apply</code> (for function invocation).
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Can you demonstrate how to log property access and assignment using a Proxy?",
-                solution: `
+            },
+            {
+              question:
+                "Can you demonstrate how to log property access and assignment using a Proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To log property access and assignment, you can define <code>get</code> and <code>set</code> traps in the handler object.
                   </p>
@@ -3245,11 +3245,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             proxy.name = 'Bob'; // Logs 'Setting property name to Bob'
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "What is the difference between the Proxy and Reflect objects in JavaScript?",
-                solution: `
+            },
+            {
+              question:
+                "What is the difference between the Proxy and Reflect objects in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Proxy</code> object allows you to intercept and redefine basic operations on an object, while the <code>Reflect</code> object provides methods for performing default operations on objects (such as property access, assignment, and deletion). <code>Reflect</code> is often used inside Proxy traps to access the default behavior of operations.
                   </p>
@@ -3258,11 +3258,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             };
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you use the `deleteProperty` trap to prevent certain properties from being deleted?",
-                solution: `
+            },
+            {
+              question:
+                "How can you use the `deleteProperty` trap to prevent certain properties from being deleted?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can use the <code>deleteProperty</code> trap to intercept and prevent specific properties from being deleted. If deletion is not allowed, you can throw an error or return false.
                   </p>
@@ -3280,11 +3280,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             // delete proxy.name; // Throws error
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "Why might you want to use the Reflect object in combination with Proxy?",
-                solution: `
+            },
+            {
+              question:
+                "Why might you want to use the Reflect object in combination with Proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect object allows you to call the default behavior of an operation inside a Proxy trap. This is useful when you want to modify or extend the behavior of an operation, but still want to retain the original behavior.
                   </p>
@@ -3297,11 +3297,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             const proxy = new Proxy(target, handler);
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "How can you create virtual or computed properties using a Proxy?",
-                solution: `
+            },
+            {
+              question:
+                "How can you create virtual or computed properties using a Proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can create virtual or computed properties using the <code>get</code> trap in a Proxy. For example, you can define a virtual 'fullName' property that returns a computed value based on the 'firstName' and 'lastName' properties of the target object.
                   </p>
@@ -3317,115 +3317,115 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             console.log(proxy.fullName); // 'John Doe'
                   </code></pre>
                 `,
-              },
-              {
-                question: "How do you create a Proxy in JavaScript?",
-                solution: `
+            },
+            {
+              question: "How do you create a Proxy in JavaScript?",
+              solution: `
                   <pre><code>const target = {};
             const handler = {};
             const proxy = new Proxy(target, handler);</code></pre>
                   <p style="margin-top: 0.5rem;">Here, <code>target</code> is the object you want to wrap, and <code>handler</code> contains the traps that intercept operations on the target object.</p>
                 `,
-              },
-              {
-                question:
-                  "Can you explain the function of the proxy object in JavaScript?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain the function of the proxy object in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The proxy object intercepts and redefines core operations on a target object, such as getting or setting properties, making it easier to control how the object behaves under certain conditions.
                   </p>
                 `,
-              },
-              {
-                question: "What is a trap in the context of a Proxy?",
-                solution: `
+            },
+            {
+              question: "What is a trap in the context of a Proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A trap is a method in the handler object that intercepts and customizes an operation on the target object, like accessing a property (<code>get</code>), setting a property (<code>set</code>), or deleting a property (<code>deleteProperty</code>).
                   </p>
                 `,
-              },
-              {
-                question: "What can we intercept with a JavaScript proxy trap?",
-                solution: `
+            },
+            {
+              question: "What can we intercept with a JavaScript proxy trap?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can intercept operations such as property access (<code>get</code>), property assignment (<code>set</code>), property deletion (<code>deleteProperty</code>), function invocation (<code>apply</code>), and more.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Does the proxy overwrite the variable when you implement a proxy?",
-                solution: `
+            },
+            {
+              question:
+                "Does the proxy overwrite the variable when you implement a proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     No, the proxy does not overwrite the variable. It wraps around the original object, allowing operations to be intercepted and customized without modifying the target object itself.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Can you explain the function of the proxy set method?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain the function of the proxy set method?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>set</code> method in the proxy's handler intercepts property assignments, allowing you to customize or validate the value before it is assigned to a property.
                   </p>
                 `,
-              },
-              {
-                question: "What is meant by invariants in JavaScript proxies?",
-                solution: `
+            },
+            {
+              question: "What is meant by invariants in JavaScript proxies?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Invariants are rules enforced by the JavaScript engine, ensuring that certain properties of objects cannot be violated by proxies. For example, if a property is non-configurable, it cannot be deleted by a proxy.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Is there a way to iterate over an object’s keys using a method that uses the [[OwnPropertyKeys]] internal method?",
-                solution: `
+            },
+            {
+              question:
+                "Is there a way to iterate over an object’s keys using a method that uses the [[OwnPropertyKeys]] internal method?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Yes, the <code>ownKeys</code> trap can be used in a Proxy to intercept the iteration of an object's keys and customize the behavior of <code>Object.keys()</code> and similar methods.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Do private (#) properties and methods require proxies in a class?",
-                solution: `
+            },
+            {
+              question:
+                "Do private (#) properties and methods require proxies in a class?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     No, private properties and methods (denoted by <code>#</code>) cannot be accessed or modified by proxies since they are not part of the object's accessible properties.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What is the benefit of using a Proxy vs. a wrapper function?",
-                solution: `
+            },
+            {
+              question:
+                "What is the benefit of using a Proxy vs. a wrapper function?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A Proxy offers more flexibility than a wrapper function because it allows you to intercept and customize a wide range of operations on an object, such as property access, property assignment, and method invocation, without changing the object's API or structure.
                   </p>
                 `,
-              },
-              {
-                question: "What is the Reflect API in JavaScript?",
-                solution: `
+            },
+            {
+              question: "What is the Reflect API in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect API is a built-in JavaScript object that provides static methods for performing common object operations like setting, deleting, or defining properties, and it works in conjunction with Proxy objects to access default behaviors.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Can you explain the function of the Reflect built-in JavaScript object?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain the function of the Reflect built-in JavaScript object?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect object provides methods that correspond to the fundamental operations you can perform on objects, such as <code>Reflect.get</code> for getting property values, <code>Reflect.set</code> for setting property values, and <code>Reflect.apply</code> for calling functions.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are some common methods provided by the Reflect API?",
-                solution: `
+            },
+            {
+              question:
+                "What are some common methods provided by the Reflect API?",
+              solution: `
                   <pre><code>Reflect.get() // Access a property
             Reflect.set() // Set a property
             Reflect.apply() // Call a function
@@ -3433,46 +3433,46 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             Reflect.deleteProperty() // Delete a property
             Reflect.has() // Check if a property exists</code></pre>
                 `,
-              },
-              {
-                question:
-                  "How does the Reflect API relate to Proxies in JavaScript?",
-                solution: `
+            },
+            {
+              question:
+                "How does the Reflect API relate to Proxies in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect API is often used inside Proxy traps to call the default behavior of an intercepted operation. For example, the <code>get</code> trap in a Proxy might use <code>Reflect.get</code> to retrieve the property’s default value.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Does the JavaScript proxy built-in object have any limitations?",
-                solution: `
+            },
+            {
+              question:
+                "Does the JavaScript proxy built-in object have any limitations?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Yes, Proxies cannot intercept operations on private properties or methods (denoted by <code>#</code>), and they also cannot intercept operations that rely on object identity, such as <code>===</code> comparisons.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Is it possible to proxy an inherited class with private fields in JavaScript?",
-                solution: `
+            },
+            {
+              question:
+                "Is it possible to proxy an inherited class with private fields in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     No, private fields and methods (denoted by <code>#</code>) cannot be intercepted by a Proxy since they are hidden from external access and only accessible within the class itself.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Can proxies intercept an object used in a strict equality test?",
-                solution: `
+            },
+            {
+              question:
+                "Can proxies intercept an object used in a strict equality test?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     No, proxies cannot intercept <code>===</code> or strict equality tests. The proxy will be treated as equal to itself, but it cannot modify the result of comparisons with other objects.
                   </p>
                 `,
-              },
-              {
-                question: "What is a revocable JavaScript proxy?",
-                solution: `
+            },
+            {
+              question: "What is a revocable JavaScript proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A revocable Proxy allows you to disable the proxy after it has been created. This can be useful in scenarios where you want to stop intercepting operations after a certain point.
                   </p>
@@ -3482,26 +3482,26 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             proxy.name; // Throws an error
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "Why would you use a WeakMap when attempting to revoke a proxy?",
-                solution: `
+            },
+            {
+              question:
+                "Why would you use a WeakMap when attempting to revoke a proxy?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A WeakMap can be used to store the proxy's target object, ensuring that the proxy is garbage-collected when it is no longer needed. This prevents memory leaks when revoking proxies in long-running applications.
                   </p>
                 `,
-              },
-            ],
-            links: [
-              "https://www.hellojavascript.info/docs/general-javascript-questions/miscellaneous-js-questions/proxy-and-reflect#what-are-some-common-use-cases-for-proxies",
-              "https://enlear.academy/javascript-proxy-and-reflect-c74cceb0dcc8",
-            ],
-          },
-          {
-            topic: "Falsy and Truthy",
-            tags: [""],
-            explanation: `<p style="margin-top: 1.0rem;">
+            },
+          ],
+          links: [
+            "https://www.hellojavascript.info/docs/general-javascript-questions/miscellaneous-js-questions/proxy-and-reflect#what-are-some-common-use-cases-for-proxies",
+            "https://enlear.academy/javascript-proxy-and-reflect-c74cceb0dcc8",
+          ],
+        },
+        {
+          topic: "Falsy and Truthy",
+          tags: [""],
+          explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, falsy and truthy values are utilized in conditional statements to decide the flow of logic. A value is considered falsy if it evaluates to false when used in a Boolean context, and truthy if it evaluates to true.
 </p>
 
@@ -3611,11 +3611,11 @@ Boolean({});            // true
 Boolean({ a: 1 });      // true
 </code></pre>
 `,
-            examples: [""],
-            questions: [
-              {
-                question: "What are falsy values in JavaScript?",
-                solution: `
+          examples: [""],
+          questions: [
+            {
+              question: "What are falsy values in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Falsy values in JavaScript are values that, when evaluated in a Boolean context, return false. These values include:
                     <ul style="margin-top: 0.5rem;">
@@ -3628,10 +3628,10 @@ Boolean({ a: 1 });      // true
                     </ul>
                   </p>
                 `,
-              },
-              {
-                question: "What are truthy values in JavaScript?",
-                solution: `
+            },
+            {
+              question: "What are truthy values in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Truthy values are all values in JavaScript that are not falsy. These include:
                     <ul style="margin-top: 0.5rem;">
@@ -3643,11 +3643,11 @@ Boolean({ a: 1 });      // true
                     </ul>
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does JavaScript treat falsy values in conditional statements?",
-                solution: `
+            },
+            {
+              question:
+                "How does JavaScript treat falsy values in conditional statements?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     When falsy values are used in conditional statements, JavaScript treats them as false. For example:
                   </p>
@@ -3655,11 +3655,11 @@ Boolean({ a: 1 });      // true
               console.log('This will not execute'); // 0 is falsy
             }</code></pre>
                 `,
-              },
-              {
-                question:
-                  "How does JavaScript treat truthy values in conditional statements?",
-                solution: `
+            },
+            {
+              question:
+                "How does JavaScript treat truthy values in conditional statements?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     When truthy values are used in conditional statements, JavaScript treats them as true. For example:
                   </p>
@@ -3667,11 +3667,11 @@ Boolean({ a: 1 });      // true
               console.log('This will execute'); // 1 is truthy
             }</code></pre>
                 `,
-              },
-              {
-                question:
-                  "Can you give an example of using falsy and truthy values in JavaScript?",
-                solution: `
+            },
+            {
+              question:
+                "Can you give an example of using falsy and truthy values in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Here is an example of using falsy and truthy values in JavaScript for assigning default values:
                   </p>
@@ -3679,19 +3679,19 @@ Boolean({ a: 1 });      // true
             let displayName = username || "Guest"; // Fallback to "Guest" if username is falsy
             console.log(displayName); // Outputs: "Guest"</code></pre>
                 `,
-              },
-              {
-                question:
-                  "What is the difference between falsy and truthy values in JavaScript?",
-                solution: `
+            },
+            {
+              question:
+                "What is the difference between falsy and truthy values in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Falsy values evaluate to false in a Boolean context, while truthy values evaluate to true. Falsy values include <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, and <code>NaN</code>. Everything else is truthy.
                   </p>
                 `,
-              },
-              {
-                question: "What are the Truthy and Falsy values?",
-                solution: `
+            },
+            {
+              question: "What are the Truthy and Falsy values?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A truthy value is similar to true, while a falsy value is similar to false. The falsy values in JavaScript include:
                     <ul style="margin-top: 0.5rem;">
@@ -3716,10 +3716,10 @@ Boolean({ a: 1 });      // true
             console.log("0" ? 'Truth' : 'Falsy'); // Outputs: Truth
                   </code></pre>
                 `,
-              },
-              {
-                question: "What is the difference between null and undefined?",
-                solution: `
+            },
+            {
+              question: "What is the difference between null and undefined?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     <strong>null</strong> represents an intentional absence of any value, while <strong>undefined</strong> means a variable has been declared but not assigned a value.
                   </p>
@@ -3727,11 +3727,11 @@ Boolean({ a: 1 });      // true
             let b; // b is undefined because it has not been assigned a value
                   </code></pre>
                 `,
-              },
-              {
-                question:
-                  "What is the difference between double equal (==) and triple equal (===)?",
-                solution: `
+            },
+            {
+              question:
+                "What is the difference between double equal (==) and triple equal (===)?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     <strong>Double equal (==)</strong> checks for equality after performing type coercion, while <strong>Triple equal (===)</strong> checks for both value and type without coercion.
                   </p>
@@ -3739,10 +3739,10 @@ Boolean({ a: 1 });      // true
             console.log(5 === '5'); // false (no type coercion)
                   </code></pre>
                 `,
-              },
-              {
-                question: "What is the 'this' keyword?",
-                solution: `
+            },
+            {
+              question: "What is the 'this' keyword?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <strong>'this'</strong> keyword refers to the object that is currently executing the JavaScript code. Each function execution has a reference to its executing context.
                   </p>
@@ -3755,10 +3755,10 @@ Boolean({ a: 1 });      // true
             console.log(obj.getValue()); // Outputs: 10
                   </code></pre>
                 `,
-              },
-              {
-                question: "How to check for a prime number?",
-                solution: `
+            },
+            {
+              question: "How to check for a prime number?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A prime number is a natural number greater than 1 that is not divisible by any number other than itself and 1. For example, 2, 3, 5, and 7 are prime numbers.
                   </p>
@@ -3771,10 +3771,10 @@ Boolean({ a: 1 });      // true
             console.log(isPrime(5)); // Outputs: true
                   </code></pre>
                 `,
-              },
-              {
-                question: "Find the largest element of an array.",
-                solution: `
+            },
+            {
+              question: "Find the largest element of an array.",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can find the largest element in an array using a loop.
                   </p>
@@ -3788,10 +3788,10 @@ Boolean({ a: 1 });      // true
             console.log(largest); // Outputs: 5
                   </code></pre>
                 `,
-              },
-              {
-                question: "How to use the JavaScript callback function?",
-                solution: `
+            },
+            {
+              question: "How to use the JavaScript callback function?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A callback function is a function passed as an argument to another function. This allows for asynchronous programming and event handling.
                   </p>
@@ -3804,10 +3804,10 @@ Boolean({ a: 1 });      // true
             });
                   </code></pre>
                 `,
-              },
-              {
-                question: "What is the difference between Let and Const?",
-                solution: `
+            },
+            {
+              question: "What is the difference between Let and Const?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     <strong>Let</strong> allows you to declare variables that can be reassigned, while <strong>Const</strong> declares variables that cannot be reassigned after their initial assignment.
                   </p>
@@ -3818,10 +3818,10 @@ Boolean({ a: 1 });      // true
             // b = 2; // Not allowed - TypeError
                   </code></pre>
                 `,
-              },
-              {
-                question: "What are the advantages of the Arrow function?",
-                solution: `
+            },
+            {
+              question: "What are the advantages of the Arrow function?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Arrow functions provide a more concise syntax for writing functions and lexically bind the <strong>'this'</strong> value.
                   </p>
@@ -3829,10 +3829,10 @@ Boolean({ a: 1 });      // true
             console.log(add(2, 3)); // Outputs: 5
                   </code></pre>
                 `,
-              },
-              {
-                question: "What is Closure in JavaScript?",
-                solution: `
+            },
+            {
+              question: "What is Closure in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A closure is a function that retains access to its lexical scope even when the function is executed outside that scope.
                   </p>
@@ -3848,14 +3848,14 @@ Boolean({ a: 1 });      // true
             console.log(counter()); // Outputs: 2
                   </code></pre>
                 `,
-              },
-            ],
-            links: [""],
-          },
-          {
-            topic: "Map",
-            tags: [""],
-            explanation: `<p style="margin-top: 1.0rem;">
+            },
+          ],
+          links: [""],
+        },
+        {
+          topic: "Map",
+          tags: [""],
+          explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, a <strong>Map</strong> is a set of key-value pairs where both the keys and the values may be of any data type. Unlike traditional objects where the keys are strings or symbols, Maps allow any type of key (including objects, functions, or any primitive type). Maps also offer better performance for frequent additions and deletions of key-value pairs when compared to regular objects.
 </p>
 
@@ -3967,276 +3967,276 @@ weakMap.delete(obj2);
 // obj2 is now eligible for garbage collection
 </code></pre>
 `,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "What are the performance implications of using Maps versus Objects for large datasets in JavaScript?",
-                solution: `
+          examples: [""],
+          questions: [
+            {
+              question:
+                "What are the performance implications of using Maps versus Objects for large datasets in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps provide better performance than Objects for large datasets in specific scenarios, particularly when frequent additions and deletions of key-value pairs are required. This is because Maps are optimized for such operations, whereas Objects need to handle key-string conversion and prototype chain traversal, which can introduce overhead. Additionally, Maps maintain insertion order and allow non-string keys, making them more versatile for complex data structures, but with the trade-off of slightly more memory consumption compared to Objects.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the internal implementation of Map in JavaScript ensure order preservation, and what are the potential trade-offs?",
-                solution: `
+            },
+            {
+              question:
+                "How does the internal implementation of Map in JavaScript ensure order preservation, and what are the potential trade-offs?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript maintain order by internally using linked lists or similar structures to track the insertion order of key-value pairs. This allows the <code>for...of</code> loop and methods like <code>entries()</code>, <code>keys()</code>, and <code>values()</code> to return items in the order of insertion. The trade-off is that order tracking introduces additional memory overhead and may lead to slower operations compared to unordered data structures. Moreover, maintaining this order could marginally affect performance in very large Maps when iterating or deleting elements.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "In what scenarios would a WeakMap's garbage collection behavior become crucial for maintaining application performance?",
-                solution: `
+            },
+            {
+              question:
+                "In what scenarios would a WeakMap's garbage collection behavior become crucial for maintaining application performance?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A WeakMap’s garbage collection behavior becomes critical in scenarios where you need to associate temporary or auxiliary data with objects without preventing those objects from being garbage collected. For example, in cases like DOM element caching, memoization of function results, or storing metadata for objects that have a limited lifecycle, WeakMap ensures that once an object is no longer needed and no other references exist, the object and its associated data are automatically garbage collected. This helps in preventing memory leaks and reduces the overall memory footprint in long-running applications or memory-sensitive environments.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the weak reference mechanism in a WeakMap affect the ability to enumerate or inspect keys and values?",
-                solution: `
+            },
+            {
+              question:
+                "How does the weak reference mechanism in a WeakMap affect the ability to enumerate or inspect keys and values?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     WeakMaps use weak references for keys, meaning that the JavaScript engine can garbage collect a key-value pair when there are no other references to the key object. As a result, WeakMaps do not support enumeration or inspection of keys and values through methods like <code>for...of</code>, <code>keys()</code>, or <code>values()</code>. This design ensures that the garbage collection process is transparent and automatic, but it also means that you cannot track or inspect the contents of a WeakMap programmatically, except by directly querying individual keys via the <code>get()</code> method.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Why are WeakMaps considered useful for managing memory in complex JavaScript applications, and how does this relate to the concept of 'memory leaks'?",
-                solution: `
+            },
+            {
+              question:
+                "Why are WeakMaps considered useful for managing memory in complex JavaScript applications, and how does this relate to the concept of 'memory leaks'?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     WeakMaps are especially useful in complex JavaScript applications where objects might need to be temporarily linked to additional data, such as DOM elements or components. If a regular Map or Object were used in these cases, the referenced objects would not be garbage collected as long as they are held as keys in the Map, leading to potential memory leaks where unused memory is not released. WeakMaps avoid this issue by allowing the garbage collector to clean up key-value pairs when no other references to the key object exist. This automatic memory management helps in maintaining the performance and scalability of large applications, preventing memory from being held unnecessarily.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the limitations of using WeakMaps in terms of key types, and why does JavaScript enforce these restrictions?",
-                solution: `
+            },
+            {
+              question:
+                "What are the limitations of using WeakMaps in terms of key types, and why does JavaScript enforce these restrictions?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The primary limitation of WeakMaps is that keys must be objects, not primitive values like strings or numbers. This restriction exists because WeakMaps rely on weak references, which only work with objects. Primitive values in JavaScript are immutable and not stored by reference, meaning that weak referencing them would be meaningless since primitives can't be garbage collected or tracked in the same way as objects.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the choice of key types in a Map affect lookup performance, and what best practices should be followed when using complex keys?",
-                solution: `
+            },
+            {
+              question:
+                "How does the choice of key types in a Map affect lookup performance, and what best practices should be followed when using complex keys?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     In Maps, keys can be of any type, including objects, unlike Objects, where keys must be strings or symbols. When using primitive values as keys, Map lookup performance is very fast since these are compared by value. However, when using complex objects as keys, the lookup performance can be slightly slower because Map checks object reference equality (i.e., if two objects are not the same instance, they are treated as different keys). For optimal performance, it’s recommended to use primitive types for keys when possible. If objects must be used as keys, ensure that key reuse (using the same object instance) is well-controlled to avoid unexpected behavior.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the memory and performance trade-offs of using Map versus Object for storing large numbers of key-value pairs in JavaScript?",
-                solution: `
+            },
+            {
+              question:
+                "What are the memory and performance trade-offs of using Map versus Object for storing large numbers of key-value pairs in JavaScript?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps generally consume more memory than Objects because they store additional metadata to support features such as preserving key insertion order and allowing non-string keys. However, Maps are optimized for scenarios involving frequent insertions and deletions, making them faster for these operations compared to Objects, which incur overhead due to string key conversion and potential prototype chain lookups. Maps also provide consistent performance for key lookups and deletions, regardless of the size of the dataset, whereas Object performance can degrade with large datasets due to hash collisions. Therefore, for large datasets with frequent operations, Maps offer better overall performance at the cost of higher memory consumption.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the iteration behavior of Map differ from that of Object, and when should iteration order be a deciding factor in choosing between them?",
-                solution: `
+            },
+            {
+              question:
+                "How does the iteration behavior of Map differ from that of Object, and when should iteration order be a deciding factor in choosing between them?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps guarantee iteration order, meaning that elements are iterated in the order in which they were inserted. In contrast, Objects do not guarantee a reliable iteration order, especially for non-integer keys, and older JavaScript engines may iterate keys in arbitrary order. When order of elements is important for your application, such as when rendering items in a specific sequence or when processing key-value pairs in insertion order, a Map is the preferred choice. The trade-off, however, is that Maps have a slightly higher overhead due to the need to track insertion order, so if order is irrelevant, Object may be more efficient.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "In what scenarios would the use of Map's size property provide a performance advantage over calculating an Object's size using Object.keys().length?",
-                solution: `
+            },
+            {
+              question:
+                "In what scenarios would the use of Map's size property provide a performance advantage over calculating an Object's size using Object.keys().length?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>size</code> property of a Map provides constant-time access to the number of entries, making it highly efficient. In contrast, calculating the number of entries in an Object requires iterating over its keys using <code>Object.keys(obj).length</code>, which has linear-time complexity. This difference is especially significant in performance-critical applications where the size of the dataset is frequently queried. For large data structures or when needing to check the size of a collection multiple times, using Map provides a clear advantage, as accessing the <code>size</code> property is instantaneous regardless of the number of elements stored.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the implications of Map's structural equality requirement for object keys, and how can developers manage the use of object keys effectively?",
-                solution: `
+            },
+            {
+              question:
+                "What are the implications of Map's structural equality requirement for object keys, and how can developers manage the use of object keys effectively?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript use reference equality for object keys, meaning that two distinct object instances with the same properties will be considered different keys. This can lead to unexpected behavior if object keys are created dynamically and not reused consistently. To manage this effectively, developers should ensure that the same object reference is reused if the same key is intended to be accessed multiple times. Alternatively, using a unique identifier or stringified version of the object as a key can help mitigate issues related to reference equality. This strategy is particularly useful when working with objects that are recreated during execution.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can Maps be leveraged to implement a cache in JavaScript, and what are the advantages and potential pitfalls of this approach?",
-                solution: `
+            },
+            {
+              question:
+                "How can Maps be leveraged to implement a cache in JavaScript, and what are the advantages and potential pitfalls of this approach?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps can be used to implement a simple cache by storing key-value pairs where the keys represent input data and the values represent cached results. Since Maps maintain insertion order and allow any data type as keys, they are well-suited for caching complex data structures. A key advantage of using Maps is the <code>has()</code> method, which enables fast lookup to check if an item is already cached. However, one pitfall is that Maps do not automatically manage cache size or expiration, so developers must implement strategies like manually clearing the Map or limiting its size to avoid excessive memory usage. For more advanced scenarios, <code>WeakMap</code> could be used for caching data with a limited lifecycle.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the spread operator (...) affect Maps in JavaScript, and what are the performance implications of converting Maps to Arrays and vice versa?",
-                solution: `
+            },
+            {
+              question:
+                "How does the spread operator (...) affect Maps in JavaScript, and what are the performance implications of converting Maps to Arrays and vice versa?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator can be used to convert a Map into an Array by spreading its entries, such as <code>[...myMap]</code>. Similarly, a Map can be created from an Array of key-value pairs by passing the array to the Map constructor. While these operations are convenient, they involve iterating over the entire Map or Array, which can be expensive for large datasets. The performance of such conversions depends on the size of the data structure. When working with large Maps or Arrays, it's important to minimize the frequency of such conversions to avoid performance bottlenecks.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How do Maps handle NaN as a key, and how does this differ from the behavior of Objects with NaN properties?",
-                solution: `
+            },
+            {
+              question:
+                "How do Maps handle NaN as a key, and how does this differ from the behavior of Objects with NaN properties?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript treat <code>NaN</code> as equal to itself, meaning that <code>map.set(NaN, 'value1')</code> followed by <code>map.set(NaN, 'value2')</code> will overwrite the original value, as both instances of <code>NaN</code> are considered the same key. In contrast, Objects treat <code>NaN</code> like any other property, but since object keys are strings, <code>NaN</code> is implicitly converted to the string "NaN". As a result, multiple <code>NaN</code> values can be added to an Object without overwriting each other, but this could lead to unexpected behavior, especially if numeric values are expected. Maps, with their strict treatment of <code>NaN</code> as equal, provide a more predictable approach.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does Map's insertion order preservation affect the performance of frequent reordering operations, and what alternatives exist for faster insertion and sorting?",
-                solution: `
+            },
+            {
+              question:
+                "How does Map's insertion order preservation affect the performance of frequent reordering operations, and what alternatives exist for faster insertion and sorting?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Map preserves the order of entries as they are inserted, which can slow down operations that involve frequent reordering, such as moving entries to the front or the back of the Map. This is because Maps are optimized for maintaining a stable insertion order, not for efficient reordering. In scenarios where reordering is frequent, a combination of an array and a plain object (for fast lookups) may provide better performance. Using an array for order and an object for quick access allows for more efficient manipulation, but at the cost of losing Map-specific features like non-string keys and the <code>size</code> property.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does JavaScript's garbage collection mechanism interact with entries in a Map, and when could this lead to potential memory retention issues?",
-                solution: `
+            },
+            {
+              question:
+                "How does JavaScript's garbage collection mechanism interact with entries in a Map, and when could this lead to potential memory retention issues?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript strongly reference both their keys and values, meaning that as long as a key-value pair is in the Map, neither the key nor the value will be garbage collected. This can lead to potential memory retention issues, especially if large objects are used as keys or values and are no longer needed. The garbage collector will not reclaim the memory for these objects as long as they remain referenced by the Map. To mitigate this, developers should ensure that unnecessary entries are removed from the Map using <code>map.delete(key)</code>, or consider using a <code>WeakMap</code> if they only need weak references for the keys.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the differences between Map and WeakMap in terms of key management and performance for long-running applications?",
-                solution: `
+            },
+            {
+              question:
+                "What are the differences between Map and WeakMap in terms of key management and performance for long-running applications?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The key difference between Map and WeakMap lies in key management. In a Map, keys can be of any type and are strongly referenced, meaning that they won't be garbage collected until they are explicitly removed. This can be problematic in long-running applications where memory usage may grow indefinitely if unused keys are not cleaned up. In contrast, WeakMap keys must be objects and are weakly referenced, allowing the garbage collector to automatically remove key-value pairs when the key is no longer referenced elsewhere. For long-running applications, using WeakMaps for short-lived objects can improve performance by reducing memory consumption and preventing memory leaks.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the <code>forEach</code> method in Map differ from iterating with a <code>for...of</code> loop, and what are the performance implications of each?",
-                solution: `
+            },
+            {
+              question:
+                "How does the <code>forEach</code> method in Map differ from iterating with a <code>for...of</code> loop, and what are the performance implications of each?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>forEach</code> method in Map executes a provided function once for each key-value pair, allowing custom iteration logic. It is generally considered less efficient than a <code>for...of</code> loop because <code>forEach</code> requires invoking a callback for each iteration, which introduces additional function call overhead. In contrast, <code>for...of</code> is more performant for simple iteration as it directly retrieves each entry without the need for function calls. When performance is critical, especially in large Maps, using <code>for...of</code> is preferable due to its lower overhead, while <code>forEach</code> is useful for more complex scenarios where custom logic is needed during iteration.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the considerations for using Map versus Set in terms of performance and functionality, and when should each be preferred?",
-                solution: `
+            },
+            {
+              question:
+                "What are the considerations for using Map versus Set in terms of performance and functionality, and when should each be preferred?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps and Sets serve different purposes in JavaScript. Maps are designed for key-value pairs, where each key can be of any type, while Sets are designed to store unique values without key-value associations. In terms of performance, both Maps and Sets offer fast lookup times (O(1) complexity) for their respective data types. However, Maps incur additional overhead for managing key-value pairs, while Sets are more lightweight since they only store values. Sets are preferable when you need to store unique values and perform operations like unions or intersections, while Maps should be used when key-value relationships are needed. Choosing the correct structure is crucial for optimizing both performance and memory usage.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can Maps be used to implement a Least Recently Used (LRU) cache, and what considerations should be taken into account for performance optimization?",
-                solution: `
+            },
+            {
+              question:
+                "How can Maps be used to implement a Least Recently Used (LRU) cache, and what considerations should be taken into account for performance optimization?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps can be used to implement a Least Recently Used (LRU) cache by tracking insertion order and moving accessed entries to the end of the Map to denote recent usage. The cache can be optimized by using the <code>delete</code> and <code>set</code> methods to remove the least recently used entry (the first item in the Map) and then reinsert it at the end when accessed. However, frequent reordering can introduce performance overhead, so developers should limit the cache size and ensure that eviction logic is efficient. A hybrid approach, using both a Map and a doubly-linked list, can further optimize performance by reducing the cost of reordering entries.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the trade-offs of using Maps with custom iterators, and how can custom iteration logic improve performance or flexibility?",
-                solution: `
+            },
+            {
+              question:
+                "What are the trade-offs of using Maps with custom iterators, and how can custom iteration logic improve performance or flexibility?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Custom iterators in Maps allow for more flexible iteration logic, such as skipping certain entries or performing operations in a specific order. While they provide greater control, custom iterators can introduce additional complexity and potential performance costs, especially if the iteration logic involves frequent lookups or modifications to the Map. The trade-off is between flexibility and performance—custom iterators allow fine-tuned control over the iteration process but may slow down iteration compared to using built-in methods like <code>for...of</code> or <code>entries()</code>. To improve performance, developers should ensure that custom iteration logic is optimized for the specific use case and avoid unnecessary modifications during iteration.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the limitations of using Maps with non-primitive keys and how does this affect equality checks?",
-                solution: `
+            },
+            {
+              question:
+                "What are the limitations of using Maps with non-primitive keys and how does this affect equality checks?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps allow any object type to be used as a key, unlike Objects, which only allow strings or symbols. However, this comes with a caveat: Map uses the <code>SameValueZero</code> algorithm for key comparison, meaning that two objects are considered distinct even if they have identical properties. For example, <code>map.set({}, 'value1')</code> followed by <code>map.set({}, 'value2')</code> will result in two separate entries, because the two empty objects are different instances. This limitation makes Map unsuitable for cases where you need deep equality comparisons of object keys, as Map only checks references, not the values or structure of the objects.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the size of a Map affect performance when performing lookups, and how can you optimize lookups in very large Maps?",
-                solution: `
+            },
+            {
+              question:
+                "How does the size of a Map affect performance when performing lookups, and how can you optimize lookups in very large Maps?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript have constant time complexity O(1) for lookups, but this performance can degrade slightly as the size of the Map grows due to internal hash table management. For very large Maps, optimizing lookups involves minimizing hash collisions by ensuring that keys are sufficiently unique. Additionally, splitting large Maps into smaller, more manageable chunks, such as using a Map of Maps or implementing a sharding mechanism, can help distribute the load and improve lookup performance. It's also advisable to avoid storing complex or large objects as keys, as this can slow down hash calculation and reference checks.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the trade-offs of using Maps with large datasets in memory-constrained environments, and how can you mitigate memory issues?",
-                solution: `
+            },
+            {
+              question:
+                "What are the trade-offs of using Maps with large datasets in memory-constrained environments, and how can you mitigate memory issues?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     While Maps offer efficient key-value storage, their memory consumption can be significant, especially with large datasets. This is due to Maps storing both keys and values in a separate structure from the main execution environment, which can result in higher memory overhead compared to Objects. In memory-constrained environments, this could lead to performance degradation or out-of-memory errors. To mitigate memory issues, developers can use <code>WeakMaps</code> for objects with short lifecycles, manually clear unused entries with <code>map.delete(key)</code>, or implement data eviction strategies, such as LRU caching, to remove less frequently used entries and free up memory.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What considerations should be made when using Maps for concurrent data operations in JavaScript, especially in multithreaded environments like Web Workers?",
-                solution: `
+            },
+            {
+              question:
+                "What considerations should be made when using Maps for concurrent data operations in JavaScript, especially in multithreaded environments like Web Workers?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     JavaScript is single-threaded by default, meaning that operations on Maps are generally safe from race conditions. However, in multithreaded environments like Web Workers or when using SharedArrayBuffer, concurrent access to Maps must be managed carefully. Since Maps are not inherently thread-safe, simultaneous read and write operations across threads can lead to inconsistent states or data corruption. To handle this, you should either avoid sharing Maps between threads, use message passing to synchronize data between workers, or implement locking mechanisms using external libraries that provide concurrency control, ensuring that only one thread can modify the Map at a time.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the garbage collection behavior of objects in Maps differ from WeakMaps, and when should you prefer one over the other?",
-                solution: `
+            },
+            {
+              question:
+                "How does the garbage collection behavior of objects in Maps differ from WeakMaps, and when should you prefer one over the other?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps strongly reference both their keys and values, meaning that objects stored as keys or values in a Map will not be garbage collected until they are explicitly removed from the Map. This is different from WeakMaps, where keys are weakly referenced and can be garbage collected when no other references to the key exist. WeakMaps are preferable when you need to associate metadata or temporary data with objects and ensure that memory is released when the object is no longer in use. Maps should be used when strong references to keys and values are required for the duration of their lifetime in memory.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the best practices for ensuring optimal performance when frequently adding and deleting key-value pairs in a large Map?",
-                solution: `
+            },
+            {
+              question:
+                "What are the best practices for ensuring optimal performance when frequently adding and deleting key-value pairs in a large Map?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To optimize performance when frequently adding and deleting key-value pairs in a large Map, it's important to minimize the number of rehashing operations. Rehashing occurs when the Map’s internal capacity is exceeded, leading to costly resizing operations. To avoid frequent resizing, it's recommended to pre-allocate a large initial size for the Map if you expect a large dataset. Additionally, batching operations, such as adding or removing multiple entries at once, can reduce the overhead of multiple rehashes. Regularly cleaning up unused entries using <code>map.delete(key)</code> will also ensure that the Map's memory footprint remains manageable.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you improve the efficiency of Map operations when working with hierarchical or nested data structures?",
-                solution: `
+            },
+            {
+              question:
+                "How can you improve the efficiency of Map operations when working with hierarchical or nested data structures?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     When working with hierarchical or nested data structures in Maps, performance can degrade if deeply nested lookups are frequent. To improve efficiency, consider flattening the data structure where possible or using a Map of Maps. This allows you to avoid deep lookups by grouping related key-value pairs into separate Maps, effectively reducing the depth of nested operations. Additionally, using a caching mechanism to store frequently accessed nested data can help avoid redundant lookups. It's also beneficial to use well-structured key naming conventions that allow for faster access and retrieval.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the <code>Symbol.iterator</code> property enhance the flexibility of Maps, and what are the potential use cases for customizing iteration behavior?",
-                solution: `
+            },
+            {
+              question:
+                "How does the <code>Symbol.iterator</code> property enhance the flexibility of Maps, and what are the potential use cases for customizing iteration behavior?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Symbol.iterator</code> property in Maps allows for custom iteration behavior by defining how the Map should be iterated over using constructs like <code>for...of</code> or spread syntax. This can be useful for customizing iteration logic, such as skipping certain entries, filtering results, or iterating in a specific order. Potential use cases include iterating over Maps with conditional logic (e.g., only iterating over entries that match a certain criterion) or modifying how key-value pairs are returned, such as swapping the key and value in each iteration. Custom iterators provide enhanced flexibility in how Maps are processed, especially in scenarios where fine-grained control over iteration is required.
                   </p>
                 `,
-              },
-            ],
-            links: [""],
-          },
-          {
-            topic: "Set",
-            tags: [""],
-            explanation: `<p style="margin-top: 1.0rem;">
+            },
+          ],
+          links: [""],
+        },
+        {
+          topic: "Set",
+          tags: [""],
+          explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, a <strong>Set</strong> is an integrated object that allows you to store unique values of any type, whether primitive values or object references. Unlike arrays, Sets automatically enforce uniqueness, meaning you can't have duplicate elements in a Set.
 </p>
 
@@ -4438,201 +4438,201 @@ console.log(weakSet.has(obj1)); // Output: true
 weakSet.delete(obj1);
 console.log(weakSet.has(obj1)); // Output: false
 </code></pre>`,
-            examples: [""],
-            questions: [
-              {
-                question:
-                  "What are the key differences between Sets and Arrays in JavaScript, and when would you prefer to use a Set?",
-                solution: `
+          examples: [""],
+          questions: [
+            {
+              question:
+                "What are the key differences between Sets and Arrays in JavaScript, and when would you prefer to use a Set?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets are collections of unique values, meaning they automatically prevent duplicate entries. In contrast, Arrays can contain duplicates and maintain the order of elements. You would prefer to use a Set when you need to ensure uniqueness, such as when storing a list of user IDs or tags. Additionally, Sets offer optimized performance for certain operations, like checking for existence (O(1) complexity), compared to the O(n) complexity for Arrays using <code>Array.includes()</code>.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How do you efficiently convert an Array with potential duplicates into a Set and back into an Array?",
-                solution: `
+            },
+            {
+              question:
+                "How do you efficiently convert an Array with potential duplicates into a Set and back into an Array?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To convert an Array into a Set, simply pass the Array to the Set constructor: <code>const uniqueSet = new Set(array);</code>. This removes any duplicate values. To convert the Set back into an Array, use the spread operator: <code>const uniqueArray = [...uniqueSet];</code>. This is a common pattern for deduplication in JavaScript.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are some performance considerations when using Sets with large datasets, and how can you mitigate potential issues?",
-                solution: `
+            },
+            {
+              question:
+                "What are some performance considerations when using Sets with large datasets, and how can you mitigate potential issues?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets have average time complexities of O(1) for add, delete, and has operations, but performance can degrade with very large datasets due to memory overhead and garbage collection. To mitigate potential issues, it's essential to avoid storing large objects or deeply nested structures as Set elements. If necessary, use <code>WeakSet</code> for temporary object storage, as it allows for automatic garbage collection of objects that are no longer in use.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How does the garbage collection behavior of Sets differ from WeakSets, and in what scenarios should you choose one over the other?",
-                solution: `
+            },
+            {
+              question:
+                "How does the garbage collection behavior of Sets differ from WeakSets, and in what scenarios should you choose one over the other?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets maintain strong references to their values, preventing them from being garbage collected as long as they remain in the Set. In contrast, WeakSets hold weak references to their objects, allowing for garbage collection if no other references to those objects exist. Choose Sets when you need to keep the values alive for the duration of the Set’s lifetime, and use WeakSets when associating metadata or transient data with objects that may be freed by the garbage collector.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the implications of using Sets in terms of memory usage compared to Arrays, especially when storing large amounts of data?",
-                solution: `
+            },
+            {
+              question:
+                "What are the implications of using Sets in terms of memory usage compared to Arrays, especially when storing large amounts of data?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets generally consume more memory than Arrays because they maintain additional internal structures to ensure uniqueness and optimize performance. When dealing with large datasets, this can lead to increased memory usage and potential performance issues. To manage memory effectively, avoid unnecessary duplication of data by leveraging Sets for deduplication only when needed. Additionally, consider using Typed Arrays for numeric data, which can be more memory-efficient.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you customize iteration over a Set using the <code>Symbol.iterator</code> property, and what use cases might benefit from this customization?",
-                solution: `
+            },
+            {
+              question:
+                "How can you customize iteration over a Set using the <code>Symbol.iterator</code> property, and what use cases might benefit from this customization?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Symbol.iterator</code> property allows you to define custom iteration behavior for a Set. For example, you might want to skip certain values or return values in a specific order. A use case for this customization could involve creating a Set of user roles and needing to filter out certain roles during iteration. Custom iterators enhance flexibility, allowing for tailored processing of the Set entries.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are the best practices for ensuring optimal performance when frequently adding and removing elements from a large Set?",
-                solution: `
+            },
+            {
+              question:
+                "What are the best practices for ensuring optimal performance when frequently adding and removing elements from a large Set?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To optimize performance with a large Set, batch operations whenever possible instead of adding or removing elements one at a time. Minimize frequent mutations, as Sets can incur overhead when resizing their internal storage. If a Set becomes too large or experiences high mutation rates, consider transitioning to another data structure or implementing a data eviction strategy to manage the size and ensure performance remains stable.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you determine if two Sets are equal in JavaScript, considering their contents?",
-                solution: `
+            },
+            {
+              question:
+                "How can you determine if two Sets are equal in JavaScript, considering their contents?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To check if two Sets are equal, you need to compare their sizes first; if they differ, they are not equal. Then, iterate through one Set and check if each element exists in the other Set using the <code>has()</code> method. Keep in mind that Set equality checks require a deep comparison of their elements if they contain objects, as Sets do not consider objects equal based on their contents but rather their references.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What methods are available for manipulating Sets in JavaScript, and how do they differ from Array methods?",
-                solution: `
+            },
+            {
+              question:
+                "What methods are available for manipulating Sets in JavaScript, and how do they differ from Array methods?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets provide several methods for manipulation, including <code>add(value)</code>, <code>delete(value)</code>, and <code>clear()</code>, which allow you to add, remove, and clear all values, respectively. Unlike Arrays, Sets do not have methods like <code>push()</code> or <code>pop()</code>, as they do not maintain order or allow duplicates. This makes Sets more suitable for scenarios where you need unique values without concern for ordering.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Can you explain the performance implications of using Sets for large datasets versus using an object for unique keys?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain the performance implications of using Sets for large datasets versus using an object for unique keys?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets provide O(1) time complexity for add, delete, and has operations, making them efficient for maintaining unique values. However, they may consume more memory than objects due to their internal data structures. Objects also have O(1) average time complexity for property access, but they can contain duplicate keys. If your data primarily consists of unique keys without associated values, Sets might be the better choice for performance and memory efficiency.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What is the significance of the order of elements in a Set, and how does it differ from that of an Array?",
-                solution: `
+            },
+            {
+              question:
+                "What is the significance of the order of elements in a Set, and how does it differ from that of an Array?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets maintain the insertion order of elements, allowing you to iterate through them in the order they were added. However, unlike Arrays, Sets do not have indexing, so you cannot access elements by position. This characteristic makes Sets suitable for use cases where the order of unique values is important, but direct indexing is not needed.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you convert a Set back to a Map, and what would be the use case for this transformation?",
-                solution: `
+            },
+            {
+              question:
+                "How can you convert a Set back to a Map, and what would be the use case for this transformation?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can convert a Set back to a Map by using the <code>Map</code> constructor and providing an iterable. For example: <code>const mapFromSet = new Map([...set].map(value => [value, someDefaultValue]));</code>. This transformation is useful when you want to associate additional data with each unique value from the Set, allowing you to leverage Map's key-value structure while starting from unique elements.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What is a practical scenario where you would use a Set instead of a Map?",
-                solution: `
+            },
+            {
+              question:
+                "What is a practical scenario where you would use a Set instead of a Map?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A practical scenario for using a Set instead of a Map is when you need to track a list of unique user IDs for authentication. In this case, you only need to store the IDs without any associated data. A Set provides efficient membership checking and ensures that each user ID is unique, making it ideal for this use case. Using a Map would be unnecessary overhead since you don't need key-value pairs.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How do Sets handle primitive types and object references, and what implications does this have for data storage?",
-                solution: `
+            },
+            {
+              question:
+                "How do Sets handle primitive types and object references, and what implications does this have for data storage?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets treat primitive types as unique values based on their value, while object references are treated as unique based on their reference. For example, two objects with the same properties are considered different if they are distinct instances. This behavior has implications for data storage: if you store objects in a Set, you must be aware that identical objects (with the same content) will not be treated as duplicates unless they are the same reference, which can lead to unexpected results.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "Can you explain the difference between <code>Set.prototype.forEach</code> and the traditional <code>for...of</code> loop when iterating over Sets?",
-                solution: `
+            },
+            {
+              question:
+                "Can you explain the difference between <code>Set.prototype.forEach</code> and the traditional <code>for...of</code> loop when iterating over Sets?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Both <code>Set.prototype.forEach</code> and the <code>for...of</code> loop allow you to iterate over the values in a Set, but they differ in syntax and use cases. <code>forEach</code> accepts a callback function and can pass additional arguments (the value and the Set itself) to the function. In contrast, <code>for...of</code> is simpler and more concise, iterating directly over the values without needing a callback. You might prefer <code>for...of</code> for cleaner code when no additional arguments or complex logic are required.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you create a Set of objects, and what precautions should you take when doing so?",
-                solution: `
+            },
+            {
+              question:
+                "How can you create a Set of objects, and what precautions should you take when doing so?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     You can create a Set of objects by simply passing an array of objects to the Set constructor: <code>const mySet = new Set([{ id: 1 }, { id: 2 }, { id: 1 }]);</code>. However, because Sets consider object references, two different object instances with the same properties will be treated as distinct entries. To ensure uniqueness based on object properties rather than references, you may need to implement a custom method to compare objects before adding them to the Set.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What happens when you attempt to add the same object to a Set multiple times?",
-                solution: `
+            },
+            {
+              question:
+                "What happens when you attempt to add the same object to a Set multiple times?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     When you attempt to add the same object instance to a Set multiple times, it will only be stored once, as Sets enforce uniqueness. If you have the same object reference, subsequent calls to <code>add()</code> will not change the Set. However, if you create a new object with the same properties, that new instance will be considered unique and added to the Set as a separate entry.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What is the difference between a Set and a WeakSet, and when should you choose one over the other?",
-                solution: `
+            },
+            {
+              question:
+                "What is the difference between a Set and a WeakSet, and when should you choose one over the other?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     A Set holds strong references to its values, meaning the values will not be garbage collected as long as they are in the Set. In contrast, a WeakSet holds weak references, allowing for garbage collection of its objects if there are no other references to them. You should choose a WeakSet when you want to associate metadata with objects and want those objects to be automatically cleaned up when they are no longer in use. A Set is preferable when you need to maintain a list of values and require the ability to iterate over them.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you efficiently determine if a large dataset contains duplicates using Sets?",
-                solution: `
+            },
+            {
+              question:
+                "How can you efficiently determine if a large dataset contains duplicates using Sets?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To determine if a large dataset contains duplicates using Sets, you can create a Set from the dataset. As you iterate through the dataset, attempt to add each element to the Set. If you encounter an element that already exists in the Set (using the <code>has</code> method), it indicates a duplicate. This approach is efficient because it leverages the O(1) time complexity of Sets for insertions and lookups, making it a suitable solution for large datasets.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What happens when you use non-primitive values as keys in a Set, and how does this affect equality checks?",
-                solution: `
+            },
+            {
+              question:
+                "What happens when you use non-primitive values as keys in a Set, and how does this affect equality checks?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     In a Set, non-primitive values (like objects or arrays) are treated based on reference equality, not structural equality. This means that two objects with the same properties will be considered distinct entries in the Set if they are different instances. For example, <code>const a = {}; const b = {}; mySet.add(a); mySet.add(b);</code> will result in two separate entries, even though <code>a</code> and <code>b</code> have identical structures. This behavior can lead to unexpected results when trying to check for duplicates based on content.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you create a Set from an Array and ensure unique values while ignoring case sensitivity?",
-                solution: `
+            },
+            {
+              question:
+                "How can you create a Set from an Array and ensure unique values while ignoring case sensitivity?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To create a Set from an Array while ensuring unique values that ignore case sensitivity, you can use the <code>map</code> method to convert all elements to a common case (e.g., lowercase) before passing them to the Set constructor: <code>const uniqueSet = new Set(array.map(item => item.toLowerCase()));</code>. This will ensure that values like "Apple" and "apple" are treated as the same entry in the Set.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What are some common use cases for utilizing Sets in JavaScript applications?",
-                solution: `
+            },
+            {
+              question:
+                "What are some common use cases for utilizing Sets in JavaScript applications?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Common use cases for utilizing Sets include:
                     <ul>
@@ -4643,29 +4643,29 @@ console.log(weakSet.has(obj1)); // Output: false
                     </ul>
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How can you use the <code>Set.prototype.values()</code> method, and how does it compare to <code>Set.prototype.entries()</code>?",
-                solution: `
+            },
+            {
+              question:
+                "How can you use the <code>Set.prototype.values()</code> method, and how does it compare to <code>Set.prototype.entries()</code>?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Set.prototype.values()</code> method returns a new iterator object that contains the values for each element in the Set, in insertion order. This method is similar to the <code>Set.prototype.entries()</code> method, which returns an iterator of [value, value] pairs. Since Sets only store unique values (without keys), both methods effectively yield the same values, but <code>values()</code> is typically used for clarity when you are only interested in the values.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "What is the performance impact of using a Set versus an Array when frequently checking for the existence of elements?",
-                solution: `
+            },
+            {
+              question:
+                "What is the performance impact of using a Set versus an Array when frequently checking for the existence of elements?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets provide O(1) average time complexity for existence checks using the <code>has</code> method, making them much faster than Arrays, which require O(n) time complexity for the same operation using the <code>includes</code> method. Therefore, when working with large datasets where frequent membership checks are necessary, using a Set will significantly improve performance compared to using an Array.
                   </p>
                 `,
-              },
-              {
-                question:
-                  "How do you handle complex data structures, like Sets of objects, and ensure they remain unique based on certain properties?",
-                solution: `
+            },
+            {
+              question:
+                "How do you handle complex data structures, like Sets of objects, and ensure they remain unique based on certain properties?",
+              solution: `
                   <p style="margin-top: 0.5rem;">
                     To ensure uniqueness based on specific properties in a Set of objects, you can use a helper structure, like a Map, to track seen properties while adding objects to the Set. For example, iterate over your objects, and for each object, check if its unique property exists in the Map before adding it to the Set. If not, add the object to both the Set and the Map: 
                   <code>
@@ -4681,10 +4681,10 @@ console.log(weakSet.has(obj1)); // Output: false
                   This approach will ensure that only unique objects based on the specified property are added to the Set.
                   </p>
                 `,
-              },
-            ],
-            links: [""],
-          },
+            },
+          ],
+          links: [""],
+        },
         ],
       },
       {
@@ -22642,6 +22642,2819 @@ function VirtualList({ items }) {
               "https://react.dev/learn/render-and-commit",
               "https://legacy.reactjs.org/docs/react-api.html#reactmemo",
             ],
+          },
+          {
+            topic: "Question Set 1",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers React rendering strategies, virtual DOM internals, performance optimization, memoization, reconciliation, Fiber architecture, batching, and Lighthouse improvements.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What is the difference between CSR, SSR, SSG, and ISR in Next.js?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Next.js supports four rendering strategies. Choosing the right one is critical for performance, SEO, and user experience.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. CSR – Client-Side Rendering
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    The browser downloads an empty HTML shell and JavaScript. React then renders the UI entirely on the client. Data is fetched after hydration.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// CSR in Next.js — fetch inside useEffect
+useEffect(() => {
+  fetch('/api/data').then(res => res.json()).then(setData);
+}, []);
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    <span style="font-weight: 600;">Use when:</span> Dashboards, admin panels, authenticated pages where SEO doesn't matter.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. SSR – Server-Side Rendering
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    HTML is generated on the server on every request. The client receives a fully rendered page.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Pages Router
+export async function getServerSideProps(context) {
+  const data = await fetchData();
+  return { props: { data } };
+}
+
+// App Router (Next.js 13+)
+// Server Components fetch by default — no special function needed
+async function Page() {
+  const data = await fetchData();
+  return &lt;div&gt;{data}&lt;/div&gt;;
+}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    <span style="font-weight: 600;">Use when:</span> Personalized pages, real-time data (e.g., stock prices, user feeds).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. SSG – Static Site Generation
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    HTML is generated at <strong>build time</strong> and served as static files via CDN. Fastest possible response.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Pages Router
+export async function getStaticProps() {
+  const data = await fetchData();
+  return { props: { data } };
+}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    <span style="font-weight: 600;">Use when:</span> Marketing pages, blog posts, documentation — content that rarely changes.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. ISR – Incremental Static Regeneration
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    SSG pages are regenerated in the background after a defined interval (revalidate), without a full rebuild.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+export async function getStaticProps() {
+  const data = await fetchData();
+  return { props: { data }, revalidate: 60 }; // regenerate every 60s
+}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    <span style="font-weight: 600;">Use when:</span> E-commerce product pages, news articles — content that changes occasionally.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Comparison
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">CSR:</span> Rendered in browser — poor SEO, fast after load.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">SSR:</span> Rendered per request — great SEO, higher TTFB.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">SSG:</span> Rendered at build — fastest, but stale data risk.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">ISR:</span> SSG + background refresh — best of SSG + SSR.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How does React's virtual DOM work internally?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The Virtual DOM (VDOM) is a lightweight, in-memory representation of the real DOM tree. React uses it to batch and minimize actual DOM mutations, which are expensive.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How It Works — Step by Step
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Initial Render:</span> React builds a VDOM tree — plain JS objects — from your JSX.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">State/Prop Change:</span> React creates a NEW VDOM tree reflecting the updated state.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Diffing (Reconciliation):</span> React compares the old VDOM tree with the new one using a diffing algorithm (O(n) heuristic, not O(n³)).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Patch:</span> Only the changed nodes are applied to the real DOM — called "committing".</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Diffing Heuristics React Uses
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Different element types</span> → unmount old, mount new subtree entirely.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Same element type</span> → update only changed attributes/props.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Lists with keys</span> → React uses keys to match old and new list items efficiently.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// JSX compiles to React.createElement calls:
+const element = &lt;h1 className="title"&gt;Hello&lt;/h1&gt;;
+
+// Becomes:
+const element = React.createElement('h1', { className: 'title' }, 'Hello');
+// → { type: 'h1', props: { className: 'title', children: 'Hello' } }
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <span style="font-weight: 600;">Important:</span> With React Fiber (React 16+), this work is split into units that can be paused, prioritized, and resumed — enabling concurrent rendering.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What causes unnecessary re-renders in React?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Unnecessary re-renders happen when a component re-renders without its output actually changing. This is one of the most common React performance issues.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Causes
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">New object/array/function references on every render:</span> Even if the value is the same, a new reference triggers a child re-render.
+      <pre><code className="language-javascript">
+// Bad — new object every render
+&lt;Child style={{ color: 'red' }} /&gt;
+
+// Good — stable reference
+const style = useMemo(() => ({ color: 'red' }), []);
+&lt;Child style={style} /&gt;
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Parent re-renders:</span> Any state change in a parent re-renders all children unless they are memoized with React.memo.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context value changes:</span> Every consumer re-renders when the context value object changes, even if the relevant slice didn't change.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Inline functions as props:</span> Functions defined inline in JSX are new references on every render.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">useState with the same value:</span> React bails out of re-rendering for primitives but not objects — always use functional updates and avoid mutating state.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Missing React.memo:</span> Heavy "leaf" components that receive stable props still re-render unless wrapped.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How to Detect
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">React DevTools Profiler</span> — highlights components that re-rendered and why.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">why-did-you-render</span> — library that logs unexpected re-renders to the console.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you optimize a slow React application?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Optimization is a systematic process — measure first, then fix. Never optimize blindly.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Step 1: Measure
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">React DevTools Profiler</span> — identify slow components and renders.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Chrome Performance tab</span> — find JS blocking, layout thrash, paint costs.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Lighthouse</span> — get FCP, LCP, CLS, TBT scores.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Rendering Optimizations
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">React.memo</span> — prevent re-renders of pure components with stable props.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">useMemo / useCallback</span> — stabilize expensive computations and function references.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Virtualization</span> — use react-window or react-virtual for large lists.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">State colocation</span> — move state down to only the component that needs it.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Context splitting</span> — split one large Context into multiple smaller contexts.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Bundle & Load Optimizations
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Code splitting</span> — React.lazy + Suspense to split routes and heavy components.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Tree shaking</span> — import only what you use (avoid barrel imports for large libs).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Image optimization</span> — use next/image, lazy load, proper sizes, WebP format.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Font optimization</span> — subset fonts, use font-display: swap, preload critical fonts.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Dependency audit</span> — replace heavy libs (e.g., moment.js → date-fns).</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Network & Caching
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">React Query / SWR</span> — built-in caching, background revalidation, deduplication.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">CDN</span> — serve static assets from the edge.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Prefetching</span> — preload next route data using Next.js Link prefetch.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Difference between useMemo, useCallback, and React.memo
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    All three are memoization tools but they serve different purposes and operate at different levels.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. useMemo — Memoize a Computed Value
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Returns a cached value. Recomputes only when dependencies change. Use for expensive calculations.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const sortedList = useMemo(() => {
+  return items.sort((a, b) => a.price - b.price);
+}, [items]);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. useCallback — Memoize a Function Reference
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Returns the same function reference across renders unless dependencies change. Use when passing callbacks to memoized children.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const handleClick = useCallback(() => {
+  doSomething(id);
+}, [id]);
+
+// Without useCallback, Child re-renders every time Parent renders
+&lt;Child onClick={handleClick} /&gt;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. React.memo — Memoize a Component
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    A HOC that prevents a functional component from re-rendering if its props haven't changed (shallow comparison by default).
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const Child = React.memo(({ name }) => {
+  return &lt;p&gt;{name}&lt;/p&gt;;
+});
+
+// Custom comparison
+const Child = React.memo(
+  ({ user }) => &lt;p&gt;{user.name}&lt;/p&gt;,
+  (prev, next) => prev.user.id === next.user.id
+);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Summary
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">useMemo</span> — caches a <em>value</em>.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">useCallback</span> — caches a <em>function</em>.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">React.memo</span> — caches a <em>component render</em>.</li>
+  </ol>
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <span style="font-weight: 600;">Rule of thumb:</span> useCallback + React.memo are used together. A memoized component is only effective if its callback props are also stable via useCallback.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When should you NOT use memoization?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Memoization has a cost — memory allocation, dependency comparison overhead, and code complexity. Overusing it is a very common mistake.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When NOT to Use
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cheap computations:</span> If the calculation is a simple string or arithmetic, the memoization overhead costs more than the calculation itself.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Props change on every render anyway:</span> If dependencies always change, useMemo/useCallback provide no benefit and add overhead.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Primitive props:</span> React.memo does a shallow comparison — primitive props (strings, numbers) are already compared by value. Wrapping in memo gives marginal benefit.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Components that always re-render by design:</span> e.g., a clock or real-time chart. Memoization only delays the inevitable re-render and adds confusion.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">As a first step:</span> Never add memoization pre-emptively. Profile first — optimize only bottlenecks you can measure.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Right Mindset
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Before memoizing, ask: <em>"Is this component/calculation actually slow, and can I prove it with a profiler?"</em> If no — don't memoize. Write clear code first, optimize later.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Explain React reconciliation.
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Reconciliation is the algorithm React uses to determine what changed in the VDOM tree and what updates need to be applied to the real DOM.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Algorithm
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Element type change:</span> If the type changes (e.g., &lt;div&gt; → &lt;span&gt;), React destroys the old subtree and builds a new one.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Same element type:</span> React keeps the existing DOM node and updates only the changed props/attributes.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Component type change:</span> The old component is unmounted, its state is destroyed, and the new component is mounted fresh.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lists:</span> React uses the key prop to match old and new items, avoiding full re-mounts on list order changes.
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Without keys — React destroys and remounts the whole list on reorder
+items.map(item => &lt;li&gt;{item.name}&lt;/li&gt;)
+
+// With keys — React matches by key, only patches what changed
+items.map(item => &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Complexity
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    A naive tree diff is O(n³). React's heuristic algorithm achieves O(n) by only comparing nodes at the same tree level and using keys for lists.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What are React Fiber and concurrent rendering?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React Fiber is the complete internal rewrite of React's rendering engine introduced in React 16. It enables asynchronous, interruptible rendering.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Problem Fiber Solves
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    The old "Stack Reconciler" rendered synchronously — it could not be paused. A large update would block the main thread, causing UI freezes. Fiber breaks work into small units ("fibers") that can be paused, prioritized, resumed, or abandoned.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Concepts
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Fiber node:</span> A JS object representing a unit of work for one component instance.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Two phases:</span>
+      <ul>
+        <li><strong>Render/Reconcile phase:</strong> Async, interruptible — builds the new fiber tree.</li>
+        <li><strong>Commit phase:</strong> Synchronous — applies changes to the real DOM (cannot be interrupted).</li>
+      </ul>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Priority lanes:</span> High-priority updates (user input) interrupt low-priority ones (background data fetches).
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Concurrent Rendering (React 18+)
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">useTransition</span> — marks updates as non-urgent, keeping UI responsive during heavy re-renders.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">useDeferredValue</span> — defers re-rendering of a non-critical value.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Suspense</span> — waits for async data/code without blocking the rest of the UI.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Automatic batching</span> — React 18 batches all state updates (even in setTimeout/Promises) into single renders.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const [isPending, startTransition] = useTransition();
+
+startTransition(() => {
+  // Heavy update — won't block input events
+  setFilteredList(filter(items, query));
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How does React batching work?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Batching is React's mechanism of grouping multiple state updates into a single re-render cycle to improve performance.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React 17 and Below
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Batching only happened inside React event handlers. Updates inside setTimeout, Promises, or native event listeners triggered separate renders per setState call.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// React 17 — 2 separate renders (inside setTimeout)
+setTimeout(() => {
+  setCount(c => c + 1); // render 1
+  setName('Alice');     // render 2
+}, 1000);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React 18 — Automatic Batching
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React 18 introduced automatic batching everywhere — event handlers, Promises, setTimeout, and native events all batch by default.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// React 18 — only 1 render
+setTimeout(() => {
+  setCount(c => c + 1);
+  setName('Alice');
+  // → batched into one re-render
+}, 1000);
+
+// Opt out of batching when needed
+import { flushSync } from 'react-dom';
+flushSync(() => setCount(c => c + 1)); // forces immediate render
+flushSync(() => setName('Alice'));
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why It Matters
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Batching prevents intermediate states from causing visual glitches or wasted renders. For example, setting both loading=true and data=null before a fetch should be batched so the component only renders once in the loading state.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you improve Lighthouse performance in a large app?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Lighthouse measures FCP, LCP, TBT, CLS, and TTI. Each metric maps to specific optimization strategies.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    LCP (Largest Contentful Paint) — load the hero content fast
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Preload LCP image</span> — add &lt;link rel="preload"&gt; for above-the-fold images.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Use next/image</span> — automatic WebP conversion, lazy loading, sizing.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">CDN</span> — serve assets from geographically close edge nodes.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">SSR/SSG</span> — deliver pre-rendered HTML instead of waiting for JS.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    TBT (Total Blocking Time) — reduce JS work on main thread
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Code splitting</span> — React.lazy, dynamic imports for routes/components.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Remove unused JS</span> — audit with webpack-bundle-analyzer, replace heavy deps.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Defer non-critical scripts</span> — use script defer/async attributes.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Move heavy work to Web Workers</span> — off-load parsing/calculations from main thread.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    CLS (Cumulative Layout Shift) — prevent unexpected shifts
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Set image width/height</span> — always define dimensions so the browser reserves space.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Skeleton loaders</span> — reserve layout space while content loads.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Avoid injecting content above fold</span> — ads or banners inserted dynamically push content down.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Font display swap</span> — use font-display: swap + preload to avoid FOIT.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    General
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">HTTP/2 + compression</span> — gzip/brotli, multiplexing.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Service Workers</span> — cache static assets for repeat visits.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Critical CSS inlining</span> — inline above-the-fold styles to unblock render.</li>
+  </ol>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
+          },
+
+          // ════════════════════════════════════════════════════════════════
+          //  STATE MANAGEMENT
+          // ════════════════════════════════════════════════════════════════
+
+          {
+            topic: "Question Set 2",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers state management solutions (Context API, Redux, Zustand, Recoil), when to use each, avoiding prop drilling, Redux middleware, and structuring global state in scalable applications.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Difference between Context API, Redux, Zustand, and Recoil
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Each solution targets a different scale and complexity of state management.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Context API
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Built into React. Passes values down a component tree without prop drilling. Not a state manager — it's a dependency injector.
+  </p>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Pros:</span> No dependency, simple setup.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Cons:</span> Every consumer re-renders on any value change. Bad for high-frequency updates.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Best for:</span> Themes, locale, auth user — slow-changing global values.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Redux (+ Redux Toolkit)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Centralized, predictable state container with a strict unidirectional data flow (actions → reducers → state).
+  </p>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Pros:</span> DevTools time-travel, middleware ecosystem, battle-tested at scale, fine-grained selector subscriptions.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Cons:</span> Boilerplate (reduced by RTK), learning curve, overkill for small apps.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Best for:</span> Large apps, complex state logic, teams that need audit trails.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Zustand
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Minimal, unopinionated store using hooks. No boilerplate. Store lives outside React tree.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const useStore = create(set => ({
+  count: 0,
+  increment: () => set(state => ({ count: state.count + 1 }))
+}));
+    </code></pre>
+  </div>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Pros:</span> Tiny bundle, no Provider needed, components subscribe to only the slice they use.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Best for:</span> Mid-size apps, teams that find Redux too verbose.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Recoil
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Atom-based state model designed for fine-grained subscriptions. Each atom is a piece of state; selectors derive from atoms.
+  </p>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Pros:</span> Components subscribe to exact atoms — zero unnecessary renders. Async selectors built-in.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Cons:</span> Still Meta-experimental feel, smaller ecosystem than Redux/Zustand.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Best for:</span> Apps with many independent, interdependent state pieces (e.g., complex forms, collaborative UIs).</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When is Context API a bad choice?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Context is often misused as a drop-in replacement for a state manager. This causes severe performance issues.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Bad Use Cases for Context
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">High-frequency updates:</span> Every time the context value changes, ALL consumers re-render — even if they only care about one field. E.g., storing a WebSocket message stream in Context will constantly re-render the entire app.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Large, heterogeneous global state:</span> Bundling unrelated state (user + cart + notifications + theme) in one Context means every consumer re-renders for any change.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Deeply nested providers:</span> Stacking many Contexts causes Provider hell and makes the tree hard to reason about.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Complex state transitions:</span> Context has no concept of reducers, middleware, or derived state — using it for complex logic leads to messy, scattered update logic.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Rule of Thumb
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Context is ideal for static or rarely-changing values (auth user, theme, locale). For anything that updates more than a few times per second or needs subscriptions — use Zustand, Redux, or Recoil.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you avoid prop drilling?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Prop drilling occurs when props are passed through many intermediate components that don't use them — only to reach a deeply nested child.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Solutions
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context API:</span> For truly global, infrequently-changing values (auth, theme). Avoids threading props through every level.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Zustand / Redux:</span> Global stores any component can subscribe to without providers in the component tree.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Component composition:</span> Instead of drilling, pass the fully-rendered child as children or a render prop.
+      <pre><code className="language-javascript">
+// Instead of drilling user prop through Layout → Sidebar → Avatar
+&lt;Layout header={&lt;Avatar user={user} /&gt;}&gt;
+  {children}
+&lt;/Layout&gt;
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">State colocation:</span> Move state down to the lowest common ancestor. Often drilling is a symptom of state being placed too high.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Custom hooks:</span> Encapsulate access to shared state. Components call the hook directly instead of receiving a prop.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Explain Redux middleware.
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Redux middleware sits between dispatching an action and the moment it reaches the reducer. It intercepts actions and can transform, delay, log, or cancel them.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Middleware Signature
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const myMiddleware = store => next => action => {
+  console.log('Dispatching:', action);
+  const result = next(action); // passes to next middleware or reducer
+  console.log('New state:', store.getState());
+  return result;
+};
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Middleware
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">redux-thunk:</span> Allows action creators to return functions instead of plain objects — enables async operations (API calls).
+      <pre><code className="language-javascript">
+const fetchUser = (id) => async (dispatch) => {
+  dispatch({ type: 'FETCH_START' });
+  const user = await api.getUser(id);
+  dispatch({ type: 'FETCH_SUCCESS', payload: user });
+};
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">redux-saga:</span> Uses generator functions to manage complex async flows (cancellation, parallel effects, retry logic).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">RTK Query:</span> Redux Toolkit's built-in data-fetching layer that replaces thunks for most API scenarios.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">redux-logger:</span> Logs actions and state changes to the console for debugging.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What problems does Zustand solve better than Redux?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Zustand was explicitly designed to address Redux's verbosity and boilerplate while keeping its core strengths.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Where Zustand Wins
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Zero boilerplate:</span> No actions, action types, or action creators needed. The store definition is a single function.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No Provider required:</span> The store lives outside React — any component anywhere can import and subscribe to it.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic slice subscriptions:</span> Components only re-render when the slice they subscribe to changes.
+      <pre><code className="language-javascript">
+// Only re-renders when count changes, not when name changes
+const count = useStore(state => state.count);
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Async actions built-in:</span> No thunk middleware needed — just use async/await in your store actions.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Tiny bundle:</span> ~1KB vs Redux + RTK at ~15KB.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Where Redux Still Wins
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">DevTools time-travel:</span> Redux DevTools are more powerful for debugging complex state flows.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Strict data flow enforcement:</span> Reducers and immutability checks with Immer make large-team codebases more predictable.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">RTK Query:</span> Redux Toolkit's data fetching is more feature-rich than Zustand's manual async.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you structure global state in a scalable application?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    There is no single answer — the right structure depends on the app's complexity, team size, and data access patterns. The key principle is: separate UI state, server state, and app state.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Three State Categories
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Server state</span> (data from APIs) → React Query or RTK Query. They handle caching, background sync, loading/error states, and deduplication automatically.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Global client state</span> (auth, cart, settings) → Zustand or Redux Toolkit. Keep slices small and domain-specific.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Local UI state</span> (modal open, input value, tab selection) → useState / useReducer within the component. Never promote to global unless two distant components truly need it.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Folder Structure Pattern
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+src/
+  store/
+    authStore.ts         // Zustand — user session
+    cartStore.ts         // Zustand — shopping cart
+  hooks/
+    useAuth.ts           // wraps store + query
+    useCart.ts
+  queries/
+    useProducts.ts       // React Query — products API
+    useOrders.ts         // React Query — orders API
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Principles
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Colocate state</span> — only lift to global when multiple distant components need it.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Normalize relational data</span> — avoid nesting. Store entities in flat maps keyed by ID.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Don't duplicate server state</span> — never copy API data into Redux if React Query already caches it.</li>
+  </ol>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
+          },
+
+          // ════════════════════════════════════════════════════════════════
+          //  HOOKS DEEP DIVE
+          // ════════════════════════════════════════════════════════════════
+
+          {
+            topic: "Question Set 3",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers useEffect lifecycle, common dependency mistakes, useRef vs useState, custom hooks architecture, conditional hooks, and React's internal hook state management.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Explain useEffect lifecycle completely.
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    useEffect maps to three class component lifecycle methods: componentDidMount, componentDidUpdate, and componentWillUnmount — all in one API.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Three Behaviors
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// 1. Run after every render (no dep array)
+useEffect(() => { console.log('rendered'); });
+
+// 2. Run only on mount (empty dep array)
+useEffect(() => {
+  // componentDidMount
+  return () => {
+    // componentWillUnmount — cleanup
+  };
+}, []);
+
+// 3. Run on mount + when deps change (componentDidUpdate)
+useEffect(() => {
+  fetchUser(userId);
+  return () => cancelRequest(); // cleanup previous effect
+}, [userId]);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Execution Order
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Render phase:</span> React renders the component (calls the function).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Commit phase:</span> React updates the DOM.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Browser paint:</span> The browser displays the updated UI.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">useEffect runs:</span> <em>After</em> paint — asynchronous, non-blocking.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useLayoutEffect vs useEffect
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    useLayoutEffect runs synchronously <em>after</em> DOM mutation but <em>before</em> paint. Use it only when reading layout measurements (getBoundingClientRect) to avoid flickering. Otherwise always prefer useEffect.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common mistakes with useEffect dependencies?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The dependency array is the most misunderstood part of useEffect. These mistakes lead to stale closures, infinite loops, or missed updates.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Mistakes
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Missing dependencies (stale closure):</span> The effect captures the value at the time it ran, not the latest one.
+      <pre><code className="language-javascript">
+// Bug — effect always sees count=0 (stale closure)
+useEffect(() => {
+  const id = setInterval(() => console.log(count), 1000);
+  return () => clearInterval(id);
+}, []); // count is missing!
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Object/array as dependency — infinite loop:</span> New reference on every render triggers infinite effect re-runs.
+      <pre><code className="language-javascript">
+// Bug — new object every render → infinite loop
+const config = { id: 1 };
+useEffect(() => { fetch(config) }, [config]);
+
+// Fix — use a primitive or useMemo
+useEffect(() => { fetch({ id }) }, [id]);
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Functions as dependencies:</span> Inline functions are new references every render. Use useCallback to stabilize them.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Suppressing ESLint warnings:</span> Disabling the exhaustive-deps rule hides real bugs. Fix the dependency properly.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Not cleaning up subscriptions:</span> A setInterval, WebSocket, or event listener not returned from cleanup causes memory leaks and multiple listeners.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Difference between useRef and useState
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Both store values between renders, but they have fundamentally different behaviors regarding re-rendering.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useState
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Changing state <strong>triggers a re-render</strong>.</li>
+    <li style="margin-top: 0.25rem;">State update is asynchronous — the new value is available in the next render cycle.</li>
+    <li style="margin-top: 0.25rem;">Used for anything that should be reflected in the UI.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useRef
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Mutating ref.current does <strong>NOT trigger a re-render</strong>.</li>
+    <li style="margin-top: 0.25rem;">Ref is mutable and synchronous — the new value is available immediately.</li>
+    <li style="margin-top: 0.25rem;">Persists across renders like state, but is a mutable container.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// useState — UI must show the count
+const [count, setCount] = useState(0);
+
+// useRef — track previous value without causing re-renders
+const prevCountRef = useRef(0);
+useEffect(() => { prevCountRef.current = count; }, [count]);
+
+// useRef — DOM access
+const inputRef = useRef(null);
+const focus = () => inputRef.current.focus();
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When to Use useRef
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">DOM access</span> — focus, scroll, measure an element.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Storing instance values</span> — interval IDs, previous values, abort controllers.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Avoiding re-renders</span> — values needed inside effects/callbacks but not rendered.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do custom hooks improve architecture?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Custom hooks extract and reuse stateful logic across components without changing the component hierarchy. They are the primary code-reuse mechanism in modern React.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Benefits
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Separation of concerns:</span> Components describe UI — hooks handle logic. Components become thin and readable.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Reusability:</span> Use the same data-fetching, form, or WebSocket logic in any component.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Testability:</span> Test the hook independently using renderHook from React Testing Library.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Composition:</span> Compose hooks from other hooks.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Instead of this logic in every component:
+function useWindowSize() {
+  const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
+  useEffect(() => {
+    const handler = () => setSize({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return size;
+}
+
+// Any component just does:
+const { w, h } = useWindowSize();
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Good Candidates for Custom Hooks
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Data fetching:</span> useFetchUser, useProducts</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Form management:</span> useForm, useFieldArray</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Browser APIs:</span> useLocalStorage, useMediaQuery, useOnlineStatus</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Complex subscriptions:</span> useWebSocket, useSSE</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Can hooks be conditional?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    No. Hooks must always be called in the same order on every render. Calling hooks inside if/else, loops, or nested functions violates the Rules of Hooks.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why Not?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React identifies hooks by their call order, not by name. If a hook is skipped conditionally, the order changes and React maps state to the wrong hook on subsequent renders, causing data corruption.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// BAD — breaks hook order
+if (isLoggedIn) {
+  const [data, setData] = useState(null); // ERROR
+}
+
+// GOOD — condition goes inside the hook
+const [data, setData] = useState(null);
+useEffect(() => {
+  if (isLoggedIn) fetchData().then(setData);
+}, [isLoggedIn]);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Workarounds
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Split into separate components:</span> Put the conditional logic at the component level, and use hooks freely inside each component.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Put the condition inside the hook:</span> The hook is always called, but does nothing when the condition is false.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How does React preserve hook state order internally?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React stores hook state in a linked list of "hook nodes" attached to the fiber node of each component. On every render, React walks the same linked list in order.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Internal Representation
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Conceptually, React maintains a list like:
+fiber.memoizedState = {
+  // Hook 1 (useState)
+  state: 0,
+  queue: { ... },
+  next: {
+    // Hook 2 (useEffect)
+    effect: { ... },
+    next: {
+      // Hook 3 (useMemo)
+      memoized: [result, deps],
+      next: null
+    }
+  }
+};
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    On Mount vs Update
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Mount:</span> React calls mountState, mountEffect etc., creating new nodes and appending them to the list.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Update:</span> React calls updateState, updateEffect etc., reading each node in the same order and comparing dependencies.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Because React relies on <em>position</em> in the list — not names — skipping a hook on re-render causes every subsequent hook to read from the wrong node, corrupting state.
+  </p>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
+          },
+
+          // ════════════════════════════════════════════════════════════════
+          //  REACT INTERNALS / ADVANCED
+          // ════════════════════════════════════════════════════════════════
+
+          {
+            topic: "Question Set 4",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers controlled vs uncontrolled components, hydration, code splitting, Suspense, Error Boundaries, portals, and list keys.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What are controlled vs uncontrolled components?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    These terms describe where the "source of truth" for form input values lives.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Controlled Components
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React state is the single source of truth. Every keystroke updates state, and the input's value is always driven by state.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const [value, setValue] = useState('');
+&lt;input value={value} onChange={e => setValue(e.target.value)} /&gt;
+    </code></pre>
+  </div>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Pros:</span> Full control — validation, formatting, conditional disabling on every keystroke.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Cons:</span> Every keystroke triggers a re-render (can be optimized).</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Uncontrolled Components
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    The DOM is the source of truth. Values are read via a ref when needed (e.g., on form submit).
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const inputRef = useRef(null);
+const handleSubmit = () => console.log(inputRef.current.value);
+&lt;input ref={inputRef} defaultValue="initial" /&gt;
+    </code></pre>
+  </div>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Pros:</span> No re-renders on typing. Simpler for simple forms. Works well with react-hook-form.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Cons:</span> Harder to validate in real-time, harder to conditionally clear/reset fields.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <span style="font-weight: 600;">Best practice:</span> Libraries like react-hook-form use uncontrolled inputs by default for performance, then read values only on submit.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Explain hydration in SSR apps.
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Hydration is the process by which React "attaches" event listeners and state to server-rendered HTML, making it interactive without re-rendering the entire DOM.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How It Works
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Server renders HTML:</span> The server runs React and produces a complete HTML string sent to the browser.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Browser displays HTML:</span> User sees content immediately (fast FCP/LCP) before JS loads.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">JS bundle downloads:</span> React's client bundle loads and runs.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Hydration:</span> React walks the existing DOM, matches it against the VDOM tree, and attaches event handlers — without replacing DOM nodes.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Next.js / React 18
+import { hydrateRoot } from 'react-dom/client';
+hydrateRoot(document.getElementById('root'), &lt;App /&gt;);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Hydration Mismatch Errors
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    If the client-rendered VDOM doesn't match the server HTML (e.g., using Date.now() or Math.random() in render), React throws a hydration error and falls back to client rendering.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Selective Hydration (React 18)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React 18 can hydrate parts of the page independently using Suspense boundaries, prioritizing interactive components the user is engaging with first.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What is code splitting and lazy loading?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Code splitting breaks the JS bundle into smaller chunks loaded on demand. Lazy loading defers loading non-critical resources until they are needed.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Without Code Splitting
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    The entire application JS (potentially MBs) downloads before the first screen renders — causing high TBT and slow TTI.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React.lazy + Suspense
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Lazy load a heavy component — only downloads when rendered
+const Dashboard = React.lazy(() => import('./Dashboard'));
+
+function App() {
+  return (
+    &lt;Suspense fallback={&lt;Spinner /&gt;}&gt;
+      &lt;Dashboard /&gt;
+    &lt;/Suspense&gt;
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Route-Level Splitting
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Each route becomes its own chunk
+const Home = lazy(() => import('./pages/Home'));
+const Settings = lazy(() => import('./pages/Settings'));
+
+// Next.js does this automatically per page
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What to Split
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Routes</span> — biggest win. Each page loads only its own code.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Heavy UI components</span> — modals, charts, rich text editors, maps.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Third-party libraries</span> — load moment.js or chart.js only when the chart is opened.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Difference between Suspense, lazy loading, and dynamic imports
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    These three concepts are closely related but operate at different layers.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Dynamic Imports (JavaScript/Webpack)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    A JavaScript/bundler feature. import() returns a Promise. Webpack/Vite/Next.js splits it into a separate chunk automatically.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const module = await import('./heavyModule');
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. React.lazy (React feature)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Wraps a dynamic import to create a lazily-loaded React component. React knows the component may not be ready immediately.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const Chart = React.lazy(() => import('./Chart'));
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Suspense (React boundary)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    A React component that catches "pending" states thrown by lazy components or data fetching (React 18+). Shows a fallback until the content is ready.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+&lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;
+  &lt;Chart /&gt;  {/* lazy component OR async Server Component */}
+&lt;/Suspense&gt;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Summary
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Dynamic import</span> → splits the bundle.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">React.lazy</span> → makes a component loadable on demand using dynamic import.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Suspense</span> → handles the loading state for lazy/async components.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Explain Error Boundaries.
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Error Boundaries are class components that catch JavaScript errors anywhere in their child tree and display a fallback UI instead of crashing the whole app.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Implementation
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true }; // update state to show fallback
+  }
+
+  componentDidCatch(error, info) {
+    logErrorToService(error, info.componentStack); // log to Sentry etc.
+  }
+
+  render() {
+    if (this.state.hasError) return &lt;h1&gt;Something went wrong.&lt;/h1&gt;;
+    return this.props.children;
+  }
+}
+
+// Usage
+&lt;ErrorBoundary&gt;
+  &lt;Dashboard /&gt;
+&lt;/ErrorBoundary&gt;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Error Boundaries Do NOT Catch
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Async errors</span> — errors in setTimeout, fetch callbacks (use try/catch).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Event handlers</span> — wrap in try/catch manually.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">The Error Boundary itself</span> — errors in the boundary's own render are not caught.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <span style="font-weight: 600;">Tip:</span> The react-error-boundary library provides a functional wrapper and easier reset mechanisms.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do portals work?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    ReactDOM.createPortal renders a child component into a different DOM node than its parent, while keeping it logically inside the React tree.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why Portals Exist
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    CSS properties like overflow: hidden or z-index on ancestor elements can clip or hide modals, tooltips, and dropdowns. Portals escape this by mounting outside the parent DOM hierarchy while staying inside the React component tree.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { createPortal } from 'react-dom';
+
+function Modal({ children }) {
+  return createPortal(
+    &lt;div className="modal"&gt;{children}&lt;/div&gt;,
+    document.getElementById('modal-root') // renders outside #root
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Important Behaviors
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Event bubbling:</span> Events from inside a portal bubble up through the React tree (not the DOM tree). Clicks inside a modal still bubble to the parent component.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Context:</span> Portal children still have access to Context providers in the React tree above them.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Common uses:</span> Modals, tooltips, dropdown menus, notification toasts.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What is the purpose of keys in lists?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Keys are unique identifiers that tell React which items in a list have changed, been added, or been removed. They are essential for efficient reconciliation.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Happens Without Keys
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React compares list items by position. If you prepend an item, React thinks every item changed and re-mounts the entire list — destroying and recreating DOM nodes, losing input state and animations.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Happens With Stable Keys
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React matches old and new items by key. Only the truly changed items are updated; unchanged items keep their DOM nodes and state.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Good — stable unique ID as key
+users.map(user => &lt;UserCard key={user.id} user={user} /&gt;)
+
+// Bad — index as key (see next question)
+users.map((user, i) => &lt;UserCard key={i} user={user} /&gt;)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Keys Must Be
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Unique among siblings</span> — not globally unique.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Stable</span> — don't use Math.random() or Date.now().</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Predictable</span> — from the data itself (ID, slug, UUID).</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why should indexes not be used as keys?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Index keys appear to work but cause subtle bugs when the list can be reordered, filtered, or prepended to.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Problem
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    When you prepend or delete an item, the index of every remaining item changes. React sees key=0 as the same element before and after — but it now maps to a completely different data item. This causes:
+  </p>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Wrong component state:</span> Input values, checkboxes, or animations from old items appear on wrong new items.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Missed DOM updates:</span> React thinks a node is reused and skips updating its content.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Performance issues:</span> React can't optimize re-use and may re-mount everything unnecessarily.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When Index Keys Are Acceptable
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Static lists</span> — the list never reorders, filters, or changes (e.g., a fixed list of tabs).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">No stateful children</span> — items are pure display with no input/animation state.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <span style="font-weight: 600;">Best practice:</span> Always use a stable, unique ID from your data model (database ID, UUID, slug).
+  </p>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
+          },
+
+          // ════════════════════════════════════════════════════════════════
+          //  API & DATA FETCHING
+          // ════════════════════════════════════════════════════════════════
+
+          {
+            topic: "Question Set 5",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers data fetching libraries (React Query, SWR, RTK Query), API caching, request cancellation, race condition prevention, and optimistic UI updates.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Difference between React Query, SWR, and Redux Toolkit Query
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    All three are server-state management libraries that handle caching, background sync, and loading states. They differ in design philosophy and ecosystem fit.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. React Query (TanStack Query)
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Most feature-rich — mutations, optimistic updates, pagination, infinite queries, devtools.</li>
+    <li style="margin-top: 0.25rem;">Framework-agnostic (Vue, Svelte support too).</li>
+    <li style="margin-top: 0.25rem;">Fine-grained cache control with queryKey-based invalidation.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Best for:</span> Any app that needs serious server-state management without Redux.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. SWR (by Vercel)
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Lightweight, minimal API — focused on the stale-while-revalidate pattern.</li>
+    <li style="margin-top: 0.25rem;">Excellent Next.js integration.</li>
+    <li style="margin-top: 0.25rem;">Simpler than React Query, fewer features (no query cancelation, less powerful devtools).</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Best for:</span> Next.js projects needing simple, fast data fetching.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. RTK Query (Redux Toolkit)
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Built into Redux Toolkit — server state lives in the Redux store, usable alongside global client state.</li>
+    <li style="margin-top: 0.25rem;">Code-gen API definition with createApi — typed endpoints, auto-generated hooks.</li>
+    <li style="margin-top: 0.25rem;">Tightly integrated with Redux DevTools.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Best for:</span> Apps already using Redux that want to unify client + server state in one store.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// React Query
+const { data, isLoading } = useQuery({ queryKey: ['user', id], queryFn: () => fetchUser(id) });
+
+// SWR
+const { data, isLoading } = useSWR(\`/api/user/\${id}\`, fetcher);
+
+// RTK Query
+const { data, isLoading } = useGetUserQuery(id);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you handle API caching?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    API caching reduces redundant network requests, improves performance, and makes UIs feel instant.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Client-Side Caching with React Query
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// staleTime — how long data is considered fresh (no refetch)
+// gcTime (cacheTime) — how long inactive data stays in cache
+const { data } = useQuery({
+  queryKey: ['products'],
+  queryFn: fetchProducts,
+  staleTime: 1000 * 60 * 5,  // 5 min fresh
+  gcTime: 1000 * 60 * 10,    // 10 min in cache
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Cache Invalidation
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const queryClient = useQueryClient();
+
+// After a mutation, invalidate the cached query to refetch
+mutation.mutate(newProduct, {
+  onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] })
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    HTTP-Level Caching
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Cache-Control headers:</span> max-age, s-maxage, stale-while-revalidate on the server.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">ETags / If-None-Match:</span> Server sends 304 Not Modified if the resource hasn't changed.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">CDN caching:</span> Cache GET endpoints at the edge (Cloudflare, Fastly, Vercel Edge).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Next.js fetch caching:</span> Server Components can cache fetch results across requests using force-cache or next.revalidate.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you cancel API requests in React?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Canceling stale requests prevents race conditions and memory leaks when a component unmounts before its fetch completes.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. AbortController (native)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+useEffect(() => {
+  const controller = new AbortController();
+
+  fetch(\`/api/user/\${id}\`, { signal: controller.signal })
+    .then(res => res.json())
+    .then(setData)
+    .catch(err => {
+      if (err.name !== 'AbortError') setError(err);
+    });
+
+  return () => controller.abort(); // cancel on cleanup
+}, [id]);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Axios CancelToken
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+useEffect(() => {
+  const source = axios.CancelToken.source();
+  axios.get(\`/api/user/\${id}\`, { cancelToken: source.token })
+    .then(res => setData(res.data))
+    .catch(err => { if (!axios.isCancel(err)) setError(err); });
+  return () => source.cancel();
+}, [id]);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. React Query (automatic)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React Query automatically cancels in-flight requests when a query key changes or a component unmounts — no manual AbortController needed.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you prevent race conditions in API calls?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Race conditions occur when multiple async requests are in-flight and a slower earlier request resolves after a faster later request, overwriting newer data with stale data.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Example Scenario
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    User types "re" → request A fires. User types "react" → request B fires. Request A resolves last. UI shows results for "re" even though user typed "react".
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Solution 1: AbortController
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+useEffect(() => {
+  const controller = new AbortController();
+  fetch(\`/api/search?q=\${query}\`, { signal: controller.signal })
+    .then(r => r.json()).then(setResults)
+    .catch(e => { if (e.name !== 'AbortError') setError(e); });
+  return () => controller.abort(); // cancel previous request when query changes
+}, [query]);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Solution 2: Ignore stale responses
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+useEffect(() => {
+  let isCurrent = true;
+  fetchData(query).then(data => {
+    if (isCurrent) setResults(data); // only update if effect is still active
+  });
+  return () => { isCurrent = false; };
+}, [query]);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Solution 3: React Query
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    React Query deduplications requests and automatically discards stale responses when query keys change — race conditions are handled by default.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you design optimistic UI updates?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Optimistic UI instantly updates the client UI as if the server request already succeeded, then reverts if it fails. This makes apps feel instant — like liking a tweet.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Pattern
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Optimistically update local state</span> before the API call.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Fire the API call</span> in the background.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">On success</span> — confirm (or sync with server response).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">On error</span> — rollback to previous state and show an error toast.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    With React Query
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const mutation = useMutation({
+  mutationFn: updateTodo,
+  onMutate: async (newTodo) => {
+    await queryClient.cancelQueries({ queryKey: ['todos'] });
+    const previousTodos = queryClient.getQueryData(['todos']);
+    // Optimistically update
+    queryClient.setQueryData(['todos'], old => [...old, newTodo]);
+    return { previousTodos }; // save for rollback
+  },
+  onError: (err, newTodo, context) => {
+    // Rollback on error
+    queryClient.setQueryData(['todos'], context.previousTodos);
+  },
+  onSettled: () => {
+    queryClient.invalidateQueries({ queryKey: ['todos'] });
+  }
+});
+    </code></pre>
+  </div>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
+          },
+
+          // ════════════════════════════════════════════════════════════════
+          //  SECURITY
+          // ════════════════════════════════════════════════════════════════
+
+          {
+            topic: "Question Set 5",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers XSS prevention, dangerouslySetInnerHTML risks, JWT token storage strategies, and browser storage comparison (localStorage, sessionStorage, cookies).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you prevent XSS in React?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Cross-Site Scripting (XSS) occurs when malicious scripts are injected into a web page and executed in the victim's browser. React has built-in protections, but they can be bypassed.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React's Built-in Protection
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    JSX automatically escapes all string values before rendering. {userInput} is safe — React converts &lt;script&gt; into &amp;lt;script&amp;gt;.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Where XSS Can Still Occur
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">dangerouslySetInnerHTML:</span> Bypasses React's escaping. Never use with unsanitized user input.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">href with user input:</span>
+      <pre><code className="language-javascript">
+// BAD — allows javascript: protocol
+&lt;a href={userInput}&gt;Click me&lt;/a&gt;
+
+// GOOD — validate the URL
+const safeUrl = /^https?:\/\//.test(url) ? url : '#';
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">eval() or new Function():</span> Never use with user-provided strings.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Server-side rendering:</span> Unsanitized user data injected into the HTML response before React hydrates.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Best Practices
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Sanitize HTML</span> — if you must render HTML, use DOMPurify before passing to dangerouslySetInnerHTML.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Content Security Policy (CSP)</span> — set a strong CSP header to block inline scripts.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Input validation</span> — validate and sanitize on both client and server.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What is dangerouslySetInnerHTML and why is it risky?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    dangerouslySetInnerHTML is React's explicit escape hatch for injecting raw HTML into a DOM element — equivalent to setting element.innerHTML directly.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Renders raw HTML — bypasses React's XSS protection
+&lt;div dangerouslySetInnerHTML={{ __html: htmlContent }} /&gt;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why It's Risky
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">XSS vector:</span> If htmlContent contains &lt;script&gt;alert('xss')&lt;/script&gt; from user input, it executes in the browser.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Bypasses React's protection:</span> React normally escapes all string output — dangerouslySetInnerHTML disables this entirely.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Event hijacking:</span> Injected HTML can attach event listeners or override existing ones.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When It's Acceptable + How to Use Safely
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Trusted CMS content</span> — sanitize with DOMPurify before rendering.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Markdown renderers</span> — after converting markdown to HTML, sanitize the output.</li>
+  </ol>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import DOMPurify from 'dompurify';
+const clean = DOMPurify.sanitize(dirtyHTML);
+&lt;div dangerouslySetInnerHTML={{ __html: clean }} /&gt;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you securely store JWT tokens?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    JWT storage is a security trade-off. Each option has specific attack surface trade-offs.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Option 1: localStorage / sessionStorage
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Risk:</span> Accessible by any JavaScript on the page — vulnerable to XSS. If an attacker injects a script, they steal the token instantly.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Verdict:</span> Avoid for authentication tokens.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Option 2: HttpOnly Cookies (Recommended)
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">HttpOnly — not accessible by JavaScript (prevents XSS token theft).</li>
+    <li style="margin-top: 0.25rem;">Secure — only sent over HTTPS.</li>
+    <li style="margin-top: 0.25rem;">SameSite=Strict or Lax — prevents CSRF attacks.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Risk remaining:</span> CSRF (mitigated by SameSite + CSRF tokens for mutations).</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Verdict:</span> Best option for most apps.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Option 3: In-Memory (JS variable / React state)
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Not accessible to other tabs or page refresh — most secure against XSS.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Risk:</span> Token lost on refresh — requires a refresh token in HttpOnly cookie to re-issue the access token.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Verdict:</span> Best for high-security SPAs — access token in memory, refresh token in HttpOnly cookie.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Difference between localStorage, sessionStorage, and cookies
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    All three store key-value data in the browser, but differ in persistence, scope, and security characteristics.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Comparison Table
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">localStorage:</span>
+      <ul>
+        <li>Persists until explicitly cleared (survives browser close).</li>
+        <li>Scoped to origin — shared across all tabs of the same domain.</li>
+        <li>~5-10MB. Accessible by JS. Never sent to server automatically.</li>
+        <li>Use: non-sensitive preferences (theme, language).</li>
+      </ul>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">sessionStorage:</span>
+      <ul>
+        <li>Cleared when the browser tab/window closes.</li>
+        <li>Scoped to the tab — not shared between tabs.</li>
+        <li>~5-10MB. Accessible by JS.</li>
+        <li>Use: wizard/multi-step form state, one-session data.</li>
+      </ul>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cookies:</span>
+      <ul>
+        <li>Configurable expiry (session or date-based).</li>
+        <li>Sent to server on every request matching the domain/path.</li>
+        <li>~4KB. Can be HttpOnly (not JS-accessible) and Secure (HTTPS only).</li>
+        <li>Use: authentication tokens, server-side sessions.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Security Summary
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    For sensitive data: HttpOnly cookies are the safest — XSS can't read them and they're not in JS scope. localStorage and sessionStorage are readable by any script on the page, making them unsuitable for tokens.
+  </p>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
+          },
+
+          // ════════════════════════════════════════════════════════════════
+          //  SCENARIO / ARCHITECTURE
+          // ════════════════════════════════════════════════════════════════
+
+          {
+            topic: "Question Set 6",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers debugging slow pages, scalable frontend architecture, reusable components, authentication, RBAC, large table optimization, forms, infinite scrolling, file uploads, drag-and-drop, and SEO.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    A React page is slow. How do you debug it?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Debugging performance issues requires a systematic approach — measure, identify, fix, verify.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Step 1: Characterize the Slowness
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Initial load slow?</span> → Bundle size, SSR, network, images.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Slow after interaction?</span> → Re-renders, expensive computations, missing memoization.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Janky scrolling?</span> → Layout thrash, unvirtualized large lists, heavy CSS.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Step 2: Tools to Use
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">React DevTools Profiler</span> — record interactions, see which components rendered, how long each took, and "why did this render?"</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Chrome Performance tab</span> — flame chart for JS execution, long tasks, layout/paint costs.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Lighthouse</span> — FCP, LCP, TBT, CLS scores with actionable suggestions.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">webpack-bundle-analyzer</span> — visualize bundle chunks, find unexpectedly large dependencies.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">why-did-you-render</span> — patches React to log unnecessary re-renders to the console.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Network tab</span> — waterfall of API calls, request size, TTFB.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Step 3: Common Fixes by Root Cause
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Excessive re-renders</span> → React.memo, useCallback, state colocation.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Large bundle</span> → Code splitting, tree shaking, replace heavy libs.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Large list</span> → Virtualize with react-window.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Slow computation</span> → useMemo, move to Web Worker, paginate.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Slow API</span> → Caching with React Query, optimistic updates, pagination.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you structure a scalable frontend architecture?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A scalable frontend architecture separates concerns clearly, minimizes coupling between modules, and allows teams to work in parallel without stepping on each other.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Recommended Folder Structure
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+src/
+  features/            // Feature-based modules (vertical slices)
+    auth/
+      components/      // AuthForm, LoginButton
+      hooks/           // useAuth, useSession
+      api.ts           // API calls
+      store.ts         // Zustand/Redux slice
+      index.ts         // public API — what other features can import
+    products/
+  components/          // Shared, reusable, dumb UI components
+    Button/
+    Modal/
+    Table/
+  hooks/               // Global hooks (useDebounce, useWindowSize)
+  lib/                 // Third-party wrappers (axios instance, queryClient)
+  pages/               // Route-level components (thin, compose features)
+  types/               // Global TypeScript types
+  utils/               // Pure utility functions
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Principles
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Feature-based (vertical slices):</span> Group by domain, not by file type. All auth code lives in /features/auth — not spread across /components/auth + /hooks/auth + /api/auth.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Public API pattern:</span> Each feature exports only what other features need via its index.ts. Internal implementation details stay private.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Dumb components:</span> Shared UI components are purely presentational — no data fetching, no business logic.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Absolute imports:</span> Use tsconfig paths — import from '@/features/auth' not '../../../../features/auth'.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Separate server state from client state:</span> React Query for API data, Zustand for UI/global client state.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you build reusable UI components?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Reusable components are the foundation of a scalable design system. They must be flexible, composable, and accessible.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Principles
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single responsibility:</span> Each component does one thing well. A Button only renders a button — no modals, no API calls.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Props over internals:</span> Expose the right props for customization. Use children for composition — don't hardcode internal content.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Forwarding refs:</span> Always forward refs for form elements and interactive components so consumers can control focus.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Spread native props:</span> Pass through ...rest props to the underlying element so consumers can add className, aria-*, data-* attributes.
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+interface ButtonProps extends React.ButtonHTMLAttributes&lt;HTMLButtonElement&gt; {
+  variant?: 'primary' | 'secondary' | 'ghost';
+  isLoading?: boolean;
+}
+
+const Button = React.forwardRef&lt;HTMLButtonElement, ButtonProps&gt;(
+  ({ variant = 'primary', isLoading, children, ...rest }, ref) => (
+    &lt;button
+      ref={ref}
+      className={clsx('btn', \`btn--\${variant}\`, { 'btn--loading': isLoading })}
+      disabled={isLoading || rest.disabled}
+      {...rest}
+    &gt;
+      {isLoading ? &lt;Spinner /&gt; : children}
+    &lt;/button&gt;
+  )
+);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced Patterns
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Compound components:</span> Select with Select.Option. Related components share state via context.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Render props:</span> Share logic with flexible rendering — e.g., &lt;DataTable renderRow={(row) =&gt; ...} /&gt;.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Storybook:</span> Document and visually test every variant in isolation.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you handle authentication in React?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Authentication in React involves managing tokens securely, protecting routes, and persisting sessions across page refreshes.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Architecture Overview
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Tokens:</span> Access token in memory (JS variable/React state), refresh token in HttpOnly cookie.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Auth state:</span> Store the user object in global state (Zustand or Context) — not the token itself.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Route protection:</span> PrivateRoute component or Next.js middleware checks auth before rendering.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Auth store (Zustand)
+const useAuthStore = create(set => ({
+  user: null,
+  accessToken: null,
+  login: async (credentials) => {
+    const { user, accessToken } = await api.login(credentials);
+    set({ user, accessToken });
+  },
+  logout: () => { api.logout(); set({ user: null, accessToken: null }); }
+}));
+
+// Protected Route
+function PrivateRoute({ children }) {
+  const user = useAuthStore(s => s.user);
+  return user ? children : &lt;Navigate to="/login" replace /&gt;;
+}
+
+// Axios interceptor for token refresh
+axios.interceptors.response.use(null, async (error) => {
+  if (error.response?.status === 401) {
+    const { accessToken } = await api.refreshToken(); // uses HttpOnly cookie
+    useAuthStore.setState({ accessToken });
+    return axios(error.config); // retry original request
+  }
+  return Promise.reject(error);
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you implement role-based access control?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Role-Based Access Control (RBAC) restricts UI elements and routes based on the authenticated user's role.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Layers
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Route-level protection</span> — redirect unauthorized users.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Component-level hiding</span> — show/hide buttons, menu items, sections.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">API-level enforcement</span> — always enforce on the server. Frontend RBAC is for UX only — never trust it for security.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Permission definitions
+const PERMISSIONS = {
+  admin: ['read', 'write', 'delete', 'manage_users'],
+  editor: ['read', 'write'],
+  viewer: ['read'],
+};
+
+// Hook
+function usePermission(permission) {
+  const role = useAuthStore(s => s.user?.role);
+  return PERMISSIONS[role]?.includes(permission) ?? false;
+}
+
+// Protected Route
+function RoleRoute({ role, children }) {
+  const user = useAuthStore(s => s.user);
+  if (!user) return &lt;Navigate to="/login" /&gt;;
+  if (!PERMISSIONS[user.role]?.includes(role))
+    return &lt;Navigate to="/403" /&gt;;
+  return children;
+}
+
+// Component-level
+function DeleteButton({ id }) {
+  const canDelete = usePermission('delete');
+  if (!canDelete) return null;
+  return &lt;button onClick={() => deleteItem(id)}&gt;Delete&lt;/button&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you optimize a large table with 10k rows?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Rendering 10,000 DOM nodes at once is the core problem — it causes slow initial render, janky scroll, and high memory usage. The solution is virtualization.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Virtualization (Primary Fix)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    Only render the rows currently visible in the viewport (typically ~20-30 rows). Use react-virtual or react-window.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { useVirtualizer } from '@tanstack/react-virtual';
+
+const rowVirtualizer = useVirtualizer({
+  count: rows.length,
+  getScrollElement: () => parentRef.current,
+  estimateSize: () => 40, // row height
+});
+
+return (
+  &lt;div ref={parentRef} style={{ height: '600px', overflow: 'auto' }}&gt;
+    &lt;div style={{ height: rowVirtualizer.getTotalSize() }}&gt;
+      {rowVirtualizer.getVirtualItems().map(vRow => (
+        &lt;div key={vRow.index} style={{ transform: \`translateY(\${vRow.start}px)\` }}&gt;
+          &lt;TableRow row={rows[vRow.index]} /&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  &lt;/div&gt;
+);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Additional Optimizations
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Memoize row components:</span> React.memo on TableRow prevents re-renders when other rows change.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Server-side pagination:</span> Fetch only the current page (50-100 rows) instead of all 10k.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Debounce filters/sorting:</span> Don't recompute on every keystroke — debounce by 300ms.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Column pinning / lazy columns:</span> Use TanStack Table for advanced features with built-in virtualization support.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Web Workers:</span> Off-load sorting/filtering of large datasets off the main thread.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you manage forms in complex apps?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Complex forms involve validation, nested fields, dynamic arrays, async submission, and performance concerns. Custom solutions don't scale — use a battle-tested library.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    react-hook-form + Zod (Recommended Stack)
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    react-hook-form uses uncontrolled inputs for performance (no re-render on every keystroke). Zod provides schema-based type-safe validation.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  email: z.string().email('Invalid email'),
+  age: z.number().min(18, 'Must be 18+'),
+});
+
+function MyForm() {
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(schema)
+  });
+
+  return (
+    &lt;form onSubmit={handleSubmit(data => console.log(data))}&gt;
+      &lt;input {...register('email')} /&gt;
+      {errors.email &amp;&amp; &lt;p&gt;{errors.email.message}&lt;/p&gt;}
+    &lt;/form&gt;
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced Features
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">useFieldArray</span> — dynamic lists (add/remove items in forms).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">watch / setValue</span> — inter-field dependencies (show field B when field A has a certain value).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Multi-step forms</span> — keep one RHF instance across steps, validate per-step with trigger().</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Server errors</span> — use setError to display API validation errors on specific fields.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you implement infinite scrolling?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Infinite scroll loads more data as the user approaches the bottom of the list, without pagination buttons.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Approach 1: Intersection Observer (Manual)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const sentinelRef = useRef(null);
+
+useEffect(() => {
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && hasNextPage) {
+      loadMore();
+    }
+  }, { threshold: 0.1 });
+
+  if (sentinelRef.current) observer.observe(sentinelRef.current);
+  return () => observer.disconnect();
+}, [hasNextPage, loadMore]);
+
+// Render sentinel at the end of the list
+&lt;div ref={sentinelRef} /&gt;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Approach 2: React Query useInfiniteQuery (Recommended)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+  queryKey: ['posts'],
+  queryFn: ({ pageParam = 1 }) => fetchPosts(pageParam),
+  getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+});
+
+// Flatten pages
+const posts = data?.pages.flatMap(page => page.items) ?? [];
+
+// Combine with Intersection Observer to trigger fetchNextPage
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Performance Consideration
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    As items accumulate in the DOM (1000+), performance degrades. Combine infinite scroll with virtualization (react-virtual) — keep the DOM window small while data grows.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you handle file uploads with progress bars?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    File upload progress requires access to the upload stream — the native Fetch API doesn't support upload progress. Use XMLHttpRequest or Axios.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Implementation with Axios
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const [progress, setProgress] = useState(0);
+
+const uploadFile = async (file) => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  await axios.post('/api/upload', formData, {
+    onUploadProgress: (progressEvent) => {
+      const percent = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+      setProgress(percent);
+    },
+  });
+};
+
+// Progress bar UI
+&lt;div style={{ width: '100%', background: '#eee' }}&gt;
+  &lt;div style={{ width: \`\${progress}%\`, background: 'blue', height: 8 }} /&gt;
+&lt;/div&gt;
+&lt;p&gt;{progress}%&lt;/p&gt;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Additional Best Practices
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Validate file type/size</span> on the client before uploading (file.type, file.size).</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Chunked uploads</span> — for large files, split into chunks and upload sequentially or in parallel.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Cancel support</span> — use an AbortController (axios.CancelToken) to let users cancel in-progress uploads.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Pre-signed URLs</span> — for large files, upload directly to S3 using a pre-signed URL from the backend, bypassing your server entirely.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you build a drag-and-drop UI?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Drag-and-drop UIs are complex — they require handling drag events, tracking positions, providing visual feedback, and updating state on drop.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Libraries to Use
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@dnd-kit/core:</span> Modern, accessible, highly composable. Supports sortable lists, multi-container drag, keyboard navigation. Best choice for most apps.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">react-beautiful-dnd:</span> Great API, polished animations, but deprecated by Atlassian (no longer maintained).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">react-dnd:</span> Low-level, flexible, but verbose. Good for custom drag behaviors.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Kanban Board with @dnd-kit
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import { SortableContext, useSortable, arrayMove } from '@dnd-kit/sortable';
+
+function SortableItem({ id, title }) {
+  const { attributes, listeners, setNodeRef, transform } = useSortable({ id });
+  return (
+    &lt;div ref={setNodeRef} style={{ transform: CSS.Transform.toString(transform) }}
+      {...attributes} {...listeners}&gt;
+      {title}
+    &lt;/div&gt;
+  );
+}
+
+function Board() {
+  const [items, setItems] = useState(['Task 1', 'Task 2', 'Task 3']);
+
+  return (
+    &lt;DndContext collisionDetection={closestCenter}
+      onDragEnd={({ active, over }) => {
+        if (active.id !== over.id) {
+          setItems(items => arrayMove(items,
+            items.indexOf(active.id), items.indexOf(over.id)));
+        }
+      }}&gt;
+      &lt;SortableContext items={items}&gt;
+        {items.map(id => &lt;SortableItem key={id} id={id} title={id} /&gt;)}
+      &lt;/SortableContext&gt;
+    &lt;/DndContext&gt;
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How would you make a React app SEO-friendly?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Pure CSR React apps are poor for SEO because crawlers receive an empty HTML shell. The solution is to serve pre-rendered HTML.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Core Strategies
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Next.js:</span> SSG/SSR delivers full HTML to crawlers. This is the single biggest SEO improvement for React apps.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic meta tags:</span> Use next/head or Next.js 13+ Metadata API to set unique title, description, og:image per page.
+      <pre><code className="language-javascript">
+export const metadata = {
+  title: 'Product Name — MyStore',
+  description: 'Best product ever.',
+  openGraph: { images: ['/og-image.jpg'] }
+};
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Sitemap:</span> Generate and submit a sitemap.xml. Next.js 13+ has a built-in sitemap.ts convention.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Structured data (JSON-LD):</span> Add schema.org markup for rich snippets (products, articles, breadcrumbs).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Semantic HTML:</span> Use h1-h6 hierarchy, nav, main, article, section correctly — crawlers weight these.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Core Web Vitals:</span> Google uses LCP, CLS, and INP as ranking signals. Optimize these via the performance strategies above.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Canonical URLs:</span> Prevent duplicate content penalties by setting &lt;link rel="canonical"&gt;.
+    </li>
+  </ol>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
+          },
+
+          // ════════════════════════════════════════════════════════════════
+          //  MERN / FRONTEND DEVELOPER QUESTIONS
+          // ════════════════════════════════════════════════════════════════
+
+          {
+            topic: "Question Set 7",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers frontend/backend contracts, REST vs GraphQL, token refresh flow, Docker deployment, environment variables, monorepo structure, and CI/CD pipelines.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you manage frontend/backend contracts?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 0.75rem;">
+    A contract is the agreed-upon shape of data exchanged between frontend and backend. Without explicit contracts, breaking changes cause silent bugs.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Approaches
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">OpenAPI / Swagger:</span> Backend defines a typed API spec. Frontend generates TypeScript types and API client from the spec.
+      <pre><code className="language-javascript">
+// Generate types from OpenAPI spec
+npx openapi-typescript openapi.json -o types/api.ts
+
+// Use generated types in your fetch calls
+import type { User } from '@/types/api';
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">GraphQL schema:</span> Schema is the contract. Frontend generates hooks from the schema using codegen. Any breaking change breaks the schema first — caught at compile time.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Zod / shared types:</span> In a monorepo, share Zod schemas between frontend and backend — one source of truth for validation and types.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Contract testing (Pact):</span> Frontend defines what it expects from each API. Pact verifies the backend actually satisfies those expectations in CI.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Mock-first development:</span> Frontend builds against MSW (Mock Service Worker) mocks while backend is in development, with contracts defined upfront.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    REST vs GraphQL — when would you choose each?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Both are API paradigms with different trade-offs around flexibility, performance, and team overhead.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    REST
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Resource-oriented endpoints (/users/:id, /products).</li>
+    <li style="margin-top: 0.25rem;">Simple, widely understood, easily cacheable at HTTP level.</li>
+    <li style="margin-top: 0.25rem;">Can suffer from over-fetching (getting more fields than needed) or under-fetching (multiple requests for related data).</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Choose REST when:</span> Simple CRUD apps, team unfamiliar with GraphQL, heavy CDN/HTTP caching needed, microservices with independent teams.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    GraphQL
+  </h4>
+  <ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">Single endpoint — client specifies exactly what fields it needs.</li>
+    <li style="margin-top: 0.25rem;">Eliminates over/under-fetching. Excellent for complex, deeply nested data.</li>
+    <li style="margin-top: 0.25rem;">Schema provides self-documentation and enables codegen for typed client hooks.</li>
+    <li style="margin-top: 0.25rem;">Higher setup complexity — caching is harder, N+1 query problems require DataLoader.</li>
+    <li style="margin-top: 0.25rem;"><span style="font-weight: 600;">Choose GraphQL when:</span> Multiple clients (web, mobile) with different data needs, heavily relational data, rapid frontend iteration where schema flexibility matters.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you handle token refresh flow?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Token refresh silently obtains a new access token using the long-lived refresh token when the short-lived access token expires.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Flow
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">API returns 401 (access token expired).</li>
+    <li style="margin-top: 0.5rem;">Axios/fetch interceptor catches the 401.</li>
+    <li style="margin-top: 0.5rem;">Interceptor calls /auth/refresh — the server reads the HttpOnly refresh token cookie and issues a new access token.</li>
+    <li style="margin-top: 0.5rem;">New access token is stored in memory.</li>
+    <li style="margin-top: 0.5rem;">Original failed request is retried with the new token.</li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(prom => error ? prom.reject(error) : prom.resolve(token));
+  failedQueue = [];
+};
+
+axios.interceptors.response.use(null, async error => {
+  const originalRequest = error.config;
+  if (error.response?.status === 401 && !originalRequest._retry) {
+    if (isRefreshing) {
+      // Queue concurrent requests during refresh
+      return new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }).then(token => {
+        originalRequest.headers.Authorization = \`Bearer \${token}\`;
+        return axios(originalRequest);
+      });
+    }
+    originalRequest._retry = true;
+    isRefreshing = true;
+    try {
+      const { data } = await axios.post('/auth/refresh'); // uses cookie
+      const { accessToken } = data;
+      useAuthStore.setState({ accessToken });
+      processQueue(null, accessToken);
+      return axios({ ...originalRequest, headers: { Authorization: \`Bearer \${accessToken}\` } });
+    } catch (err) {
+      processQueue(err);
+      useAuthStore.getState().logout();
+      return Promise.reject(err);
+    } finally {
+      isRefreshing = false;
+    }
+  }
+  return Promise.reject(error);
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you deploy React apps using Docker?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Dockerizing a React app produces a portable, reproducible container that runs identically in all environments.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Multi-Stage Dockerfile (Production)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-docker">
+# Stage 1: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build       # outputs to /app/dist (Vite) or /app/.next (Next.js)
+
+# Stage 2: Serve static files (React/Vite)
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    For Next.js (Node server required)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-docker">
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN npm ci && npm run build
+
+FROM node:20-alpine AS runner
+WORKDIR /app
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+EXPOSE 3000
+CMD ["node", "server.js"]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    docker-compose for Local Dev
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-yaml">
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:4000
+  backend:
+    image: node:20-alpine
+    ports:
+      - "4000:4000"
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you manage environment variables securely?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Environment variables configure the app per environment (dev, staging, prod). Security requires keeping secrets off the client bundle.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Client vs Server Variables
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Public (client-side):</span> Prefixed with NEXT_PUBLIC_ (Next.js) or VITE_ (Vite). Bundled into the JS and visible to all users. NEVER put secrets here.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Private (server-side only):</span> No prefix (DATABASE_URL, JWT_SECRET, API_KEYS). Only accessible in server-side code, never in the browser bundle.
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# .env.local (gitignored)
+DATABASE_URL=postgres://...       # server only
+JWT_SECRET=supersecret            # server only
+NEXT_PUBLIC_API_URL=https://api.example.com  # safe for client
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Best Practices
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Never commit .env files</span> — add to .gitignore. Commit a .env.example with placeholder values.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Secrets manager in production</span> — use AWS Secrets Manager, Vercel env vars, or Doppler to inject at deploy time.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Validate on startup</span> — use Zod to validate required env vars at server start so missing config fails loudly.
+      <pre><code className="language-javascript">
+const envSchema = z.object({
+  DATABASE_URL: z.string().url(),
+  JWT_SECRET: z.string().min(32),
+});
+envSchema.parse(process.env); // throws on invalid/missing vars
+      </code></pre>
+    </li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Rotate secrets regularly</span> — especially API keys and JWT secrets.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you structure monorepos?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A monorepo hosts multiple packages/apps in one repository. It enables code sharing (shared types, utils, UI library) while keeping apps independently deployable.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Tooling Options
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Turborepo</span> — fastest build orchestration, built-in remote caching, excellent for Next.js + Node.js monorepos.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Nx</span> — more opinionated, powerful dependency graph and code generation, better for large teams.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">pnpm workspaces</span> — the package manager layer underneath Turborepo/Nx.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Recommended Structure
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+monorepo/
+  apps/
+    web/          # Next.js frontend
+    mobile/       # React Native
+    api/          # Express / NestJS backend
+  packages/
+    ui/           # Shared component library (Button, Modal, etc.)
+    types/        # Shared TypeScript types + Zod schemas
+    utils/        # Shared utility functions
+    config/       # Shared ESLint, TypeScript, Tailwind configs
+  package.json    # root (workspaces: ["apps/*", "packages/*"])
+  turbo.json      # build pipeline definition
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Benefits
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Single source of truth</span> for shared types — frontend and backend share the same Zod schemas.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Atomic changes</span> — a breaking API change and the frontend fix are in the same commit/PR.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Cached builds</span> — Turborepo only rebuilds packages that changed, dramatically reducing CI time.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How do you implement CI/CD for frontend apps?
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    CI/CD automates testing, building, and deploying frontend apps on every code change.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Typical Pipeline (GitHub Actions)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-yaml">
+name: CI/CD
+
+on: [push]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'npm' }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run type-check
+      - run: npm run test -- --coverage
+      - run: npm run build
+
+  deploy:
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: vercel --prod --token=$ {{ secrets.VERCEL_TOKEN }}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Best Practices
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Preview deployments:</span> Every PR gets a unique preview URL (Vercel, Netlify do this automatically). Stakeholders review before merge.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Branch strategy:</span> main → production, develop → staging, feature branches → preview.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Cache node_modules:</span> actions/cache on node_modules or npm ci with cache reduces CI time by 60-80%.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">E2E tests in CI:</span> Run Playwright/Cypress against the preview URL on PR before merging.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Rollback strategy:</span> Keep previous deployment artifacts. Platforms like Vercel/Netlify support instant rollback.</li>
+    <li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.1rem;">Secret management:</span> Store all secrets in GitHub Secrets / Vault — never in YAML files.</li>
+  </ol>
+</div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [""],
+            tags: [""],
           },
         ],
       },
