@@ -271,10 +271,10 @@ var y = a();
               "https://dev.to/jps27cse/exploring-asynchronous-javascript-callbacks-promises-and-asyncawait-16k6",
             ],
           },
-        {
-          topic: "Promises and Asynchronous JavaScript",
-          tags: [""],
-          explanation: `<div>
+          {
+            topic: "Promises and Asynchronous JavaScript",
+            tags: [""],
+            explanation: `<div>
             <p style="line-height: 1.75; margin-top: 1.5rem;">
             Promises in JavaScript are used to handle asynchronous operations like fetching data from a server, reading files, or waiting for an event to happen without blocking the execution of other code.They provide a cleaner and more structured alternative to traditional callback-based asynchronous code. JavaScript is a single-threaded language, which means it can only perform one task at a time. To manage long-running tasks without freezing the interface or halting other code, JavaScript uses asynchronous patterns, such as Promises.
 A Promise is an object representing the eventual completion (or failure) of an asynchronous operation. It allows you to attach callbacks to handle the result once it's available, even if the task takes time.
@@ -660,12 +660,12 @@ handleData();
   <strong>Advantage:</strong> It provides a cleaner and more readable syntax, making it easier to handle async operations, especially when combined with <code>try...catch</code> for error handling.
 </p>
 </div>`,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "What is the difference between Promise.all and Promise.allSettled?",
-              solution: `
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "What is the difference between Promise.all and Promise.allSettled?",
+                solution: `
                   Promise.all returns a single promise that resolves when all promises in the input array resolve or rejects when any promise rejects. 
                   In contrast, Promise.allSettled returns a promise that resolves after all promises have either resolved or rejected.
             
@@ -694,10 +694,10 @@ Promise.all([promise1, promise2, promise3])
 </code>
                   Summary: Promise.all stops at the first rejection, while Promise.allSettled collects the outcomes of all promises, even if some reject.
                 `,
-            },
-            {
-              question: "How do you handle errors in a chain of Promises?",
-              solution: `
+              },
+              {
+                question: "How do you handle errors in a chain of Promises?",
+                solution: `
                   1. Use catch() blocks: Attach a catch block to the end of your promise chain to catch any errors.
             
                   Example:
@@ -725,11 +725,11 @@ Promise.all([promise1, promise2, promise3])
             
                   4. Use Promise.prototype.finally(): Add a finally block to execute code regardless of the promise outcome.
                 `,
-            },
-            {
-              question:
-                "What is the difference between async/await and using Promises with .then?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the difference between async/await and using Promises with .then?",
+                solution: `
                   Promises with .then:
                   - Use .then() for handling asynchronous operations.
                   - Can become nested and hard to read with multiple .then() calls.
@@ -766,10 +766,10 @@ Promise.all([promise1, promise2, promise3])
                   - Async/await is easier to read and maintain.
                   - Async/await uses try-catch for error handling, while Promises use .catch().
                 `,
-            },
-            {
-              question: "How do you cancel a Promise?",
-              solution: `
+              },
+              {
+                question: "How do you cancel a Promise?",
+                solution: `
                   Promises cannot be canceled directly, but cancellation-like behavior can be implemented.
             
                   1. Use a cancel token: Libraries like axios support cancel tokens that can reject promises.
@@ -796,11 +796,11 @@ Promise.all([promise1, promise2, promise3])
             
                   3. Use async/await with a timeout: Reject the promise after a set time limit.
                 `,
-            },
-            {
-              question:
-                "What is the difference between a resolved Promise and a fulfilled Promise?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the difference between a resolved Promise and a fulfilled Promise?",
+                solution: `
                   Resolved: A promise is resolved when it has either been fulfilled or rejected. It refers to the final state of the promise.
             
                   Fulfilled: A promise is fulfilled when it has successfully resolved and returned a value.
@@ -820,11 +820,11 @@ Promise.all([promise1, promise2, promise3])
                     console.log(\`Promise is resolved but rejected with error: \ {error}\`);
                   });
                 `,
-            },
-            {
-              question:
-                "How do you handle multiple errors in a chain of Promises?",
-              solution: `
+              },
+              {
+                question:
+                  "How do you handle multiple errors in a chain of Promises?",
+                solution: `
                   1. Use catch blocks after each .then() to handle specific errors for each promise.
             
                   Example:
@@ -838,10 +838,10 @@ Promise.all([promise1, promise2, promise3])
             
                   3. Use async/await with try-catch to handle errors in sequential operations.
                 `,
-            },
-            {
-              question: "What is the purpose of Promise.prototype.finally?",
-              solution: `
+              },
+              {
+                question: "What is the purpose of Promise.prototype.finally?",
+                solution: `
                   Promise.prototype.finally allows code execution regardless of whether a promise is resolved or rejected.
             
                   - It is used for cleanup tasks, such as closing connections or releasing resources.
@@ -859,11 +859,11 @@ Promise.all([promise1, promise2, promise3])
                       console.log("Promise settled");
                     });
                 `,
-            },
-            {
-              question:
-                "Can you explain the concept of 'Promise hell' and how to avoid it?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain the concept of 'Promise hell' and how to avoid it?",
+                solution: `
                   Promise hell (also known as callback hell) refers to deeply nested and difficult-to-read Promise chains.
             
                   Characteristics of Promise hell:
@@ -889,11 +889,11 @@ Promise.all([promise1, promise2, promise3])
                         });
                     });
                 `,
-            },
-            {
-              question:
-                "How do you create a Promise that resolves after a certain amount of time?",
-              solution: `
+              },
+              {
+                question:
+                  "How do you create a Promise that resolves after a certain amount of time?",
+                solution: `
                   You can create a Promise that resolves after a set time using setTimeout.
             
                   Example:
@@ -908,17 +908,17 @@ Promise.all([promise1, promise2, promise3])
                     console.log("Resolved after 2 seconds");
                   });
                 `,
-            },
-          ],
-          links: [
-            "https://dev.to/swarnaliroy94/methods-of-promise-all-any-finally-o2e",
-            "https://medium.com/deno-the-complete-reference/some-javascript-promise-interview-questions-2e2e6c668e89",
-          ],
-        },
-        {
-          topic: "Event Loop, Microtasks, and Macrotasks",
-          tags: [""],
-          explanation: `
+              },
+            ],
+            links: [
+              "https://dev.to/swarnaliroy94/methods-of-promise-all-any-finally-o2e",
+              "https://medium.com/deno-the-complete-reference/some-javascript-promise-interview-questions-2e2e6c668e89",
+            ],
+          },
+          {
+            topic: "Event Loop, Microtasks, and Macrotasks",
+            tags: [""],
+            explanation: `
     <p style="line-height: 1.75; margin-top: 1.5rem;">
         In JavaScript, the event loop is the mechanism that handles asynchronous operations and ensures that the JavaScript code is executed in an orderly fashion. JavaScript runs on a single thread, meaning it can only do one thing at a time. However, it manages to handle asynchronous tasks like I/O operations, network requests, and timers using the event loop.For synchronous operations javascript uses only Call Stack.
         Web API's like geolocation API, web storage API or setTimeout() methods are asynchronous in nature and they do not run on call satck. So, they done block the execution in the call stack. Web API's responses are placed in callback queue.
@@ -1054,17 +1054,17 @@ Timeout 2
         <li>Repeat the process by checking for microtasks again, then execute another macrotask, and so on.</li>
     </ol>
     `,
-          examples: [""],
-          questions: [{}],
-          links: [
-            "https://www.hellojavascript.info/docs/browser-related-questions/miscellaneous-browser-questions/event-loop-microtasks-macrotasks",
-            "https://www.youtube.com/watch?v=eiC58R16hb8&t=664s",
-          ],
-        },
-        {
-          topic: "Higher-Order Functions",
-          tags: [""],
-          explanation: `
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://www.hellojavascript.info/docs/browser-related-questions/miscellaneous-browser-questions/event-loop-microtasks-macrotasks",
+              "https://www.youtube.com/watch?v=eiC58R16hb8&t=664s",
+            ],
+          },
+          {
+            topic: "Higher-Order Functions",
+            tags: [""],
+            explanation: `
             <p style="margin-top: 1.0rem;">
 A higher-order function is a function that either accepts one or more functions as arguments, returns a function as its result, or does both. This allows functions to be treated as first-class citizens in programming, enabling a more functional programming style.
 </p>
@@ -1181,40 +1181,40 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
 </pre>
 </ol>
 `,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "Explain the concept of the message queue in the context of the Event Loop.",
-              solution:
-                "The message queue is where asynchronous events and their respective callback functions are held. When an asynchronous event occurs (like a timer completion or an HTTP request response), its callback is placed in the message queue.",
-            },
-            {
-              question:
-                "Can you explain the difference between the microtask queue and the task queue in JavaScript?",
-              solution:
-                "Both queues are used to store callbacks, but the microtask queue (also known as Job Queue) has a higher priority and is processed before the task queue. Microtasks typically include Promises, whereas the task queue includes other asynchronous tasks like setTimeout callbacks.",
-            },
-            {
-              question:
-                "Can you explain the difference between setTimeout and setImmediate?",
-              solution:
-                "`setTimeout` schedules a callback function to be executed after a specified delay (minimum of 4ms in browsers), whereas `setImmediate` schedules a callback to be executed in the next iteration of the Event Loop, but it’s not universally supported (primarily in Node.js).",
-            },
-            {
-              question:
-                "Can you explain the concept of race conditions in JavaScript and how the Event Loop helps in preventing them?",
-              solution:
-                "Race conditions occur when the output of code is dependent on the sequence/timing of asynchronous operations. The Event Loop ensures proper order of execution by queuing callbacks, preventing unpredictable outcomes in concurrent operations.",
-            },
-            {
-              question: "Can you explain what the Message Queue is?",
-              solution:
-                "The Message Queue in JavaScript stores callbacks from asynchronous operations like events or timeouts, which are processed by the Event Loop when the Call Stack is empty.",
-            },
-            {
-              question: "What is process.nextTick() in Node.js?",
-              solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "Explain the concept of the message queue in the context of the Event Loop.",
+                solution:
+                  "The message queue is where asynchronous events and their respective callback functions are held. When an asynchronous event occurs (like a timer completion or an HTTP request response), its callback is placed in the message queue.",
+              },
+              {
+                question:
+                  "Can you explain the difference between the microtask queue and the task queue in JavaScript?",
+                solution:
+                  "Both queues are used to store callbacks, but the microtask queue (also known as Job Queue) has a higher priority and is processed before the task queue. Microtasks typically include Promises, whereas the task queue includes other asynchronous tasks like setTimeout callbacks.",
+              },
+              {
+                question:
+                  "Can you explain the difference between setTimeout and setImmediate?",
+                solution:
+                  "`setTimeout` schedules a callback function to be executed after a specified delay (minimum of 4ms in browsers), whereas `setImmediate` schedules a callback to be executed in the next iteration of the Event Loop, but it’s not universally supported (primarily in Node.js).",
+              },
+              {
+                question:
+                  "Can you explain the concept of race conditions in JavaScript and how the Event Loop helps in preventing them?",
+                solution:
+                  "Race conditions occur when the output of code is dependent on the sequence/timing of asynchronous operations. The Event Loop ensures proper order of execution by queuing callbacks, preventing unpredictable outcomes in concurrent operations.",
+              },
+              {
+                question: "Can you explain what the Message Queue is?",
+                solution:
+                  "The Message Queue in JavaScript stores callbacks from asynchronous operations like events or timeouts, which are processed by the Event Loop when the Call Stack is empty.",
+              },
+              {
+                question: "What is process.nextTick() in Node.js?",
+                solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.
                 <pre><code className="language-javascript">
                 console.log('Start');
                 process.nextTick(() => {   
@@ -1230,10 +1230,10 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
                   <p>
                   In this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.
                   </p>`,
-            },
-            {
-              question: `What will be printed after executing the code?`,
-              solution: `<pre><code className="language-javascript">
+              },
+              {
+                question: `What will be printed after executing the code?`,
+                solution: `<pre><code className="language-javascript">
      async function async1() {
       console.log("async1 start");
         await async2();
@@ -1279,16 +1279,16 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
       "async1 end"
       "promise2"
       "setTimeout </span>"`,
-            },
-          ],
-          links: [
-            "https://medium.com/@a35851150/interview-qustions-on-event-loop-in-js-901c567a1271",
-          ],
-        },
-        {
-          topic: "Prototypal Inheritance",
-          tags: [""],
-          explanation: `<>Prototype inheritance is a feature in javascript which lets you share property and mehtods of other object so that you dont have to copy these properties everywhere.
+              },
+            ],
+            links: [
+              "https://medium.com/@a35851150/interview-qustions-on-event-loop-in-js-901c567a1271",
+            ],
+          },
+          {
+            topic: "Prototypal Inheritance",
+            tags: [""],
+            explanation: `<>Prototype inheritance is a feature in javascript which lets you share property and mehtods of other object so that you dont have to copy these properties everywhere.
             Imagine you have an object like a "blueprint" that has some properties (like a name) and methods (like a function to say hello). Other objects can "inherit" or borrow those properties and methods, meaning they can use them even if they don't directly have them.
 
 For example:
@@ -1301,14 +1301,14 @@ const animal = {
 const dog = Object.create(animal);  // dog borrows properties from animal
 dog.speak(); // Output: "I am an animal"
 Here, dog doesn't have a speak function on its own, but it looks at the animal object to find it and uses it.</>`,
-          examples: [""],
-          questions: [{}],
-          links: [""],
-        },
-        {
-          topic: "Modules (ES6 Modules)",
-          tags: [""],
-          explanation: `
+            examples: [""],
+            questions: [{}],
+            links: [""],
+          },
+          {
+            topic: "Modules (ES6 Modules)",
+            tags: [""],
+            explanation: `
             <p>
             ES6 (ECMAScript 2015) introduced a native module system to JavaScript, which allows developers to organize their code more efficiently and effectively. Modules are basically separate pieces of code that can be moved from one file to another and to another. This helps manage code dependencies, reuse, and maintenance on large code bases. Modules also act as the foundation of many JavaScript design patterns. Most of the JavaScript modules export an object literal, a function, or a constructor
             </p>
@@ -1398,12 +1398,12 @@ export * from './mathUtils.js';</code></pre>
     <pre><code>import { add } from './utils/math.js'; // relative path</code></pre>
   </li>
 </ol>`,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "What are ES6 modules, and how do they differ from traditional JavaScript scripts?",
-              solution: `ES6 modules are a way to structure JavaScript code into reusable pieces. Unlike traditional scripts that can pollute the global namespace, modules encapsulate their code, allowing for better organization and maintainability. ES6 modules use the import and export keywords to share functionality between files.
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "What are ES6 modules, and how do they differ from traditional JavaScript scripts?",
+                solution: `ES6 modules are a way to structure JavaScript code into reusable pieces. Unlike traditional scripts that can pollute the global namespace, modules encapsulate their code, allowing for better organization and maintainability. ES6 modules use the import and export keywords to share functionality between files.
               <pre><code className="language-javascript">
 // math.js
 export const add = (a, b) => a + b;
@@ -1411,11 +1411,11 @@ export const add = (a, b) => a + b;
 import { add } from './math.js';
 console.log(add(2, 3)); // 5
 </code></pre>`,
-            },
-            {
-              question:
-                "What is the difference between named exports and default exports?",
-              solution: `Named exports allow you to export multiple variables or functions from a module, while a default export allows you to export a single entity from a module.
+              },
+              {
+                question:
+                  "What is the difference between named exports and default exports?",
+                solution: `Named exports allow you to export multiple variables or functions from a module, while a default export allows you to export a single entity from a module.
               <pre><code className="language-javascript">
 // Named exports
 export const add = (a, b) => a + b;
@@ -1424,58 +1424,58 @@ export const subtract = (a, b) => a - b;
 const greet = (name) => \`Hello, \ {name}!\`;
 export default greet;
 </code></pre>`,
-            },
-            {
-              question:
-                "How do you import a default export and a named export from a module?",
-              solution: `To import both a default export and named exports, you can do the following:
+              },
+              {
+                question:
+                  "How do you import a default export and a named export from a module?",
+                solution: `To import both a default export and named exports, you can do the following:
               <pre><code className="language-javascript">
 import greet, { add, subtract } from './math.js';
 console.log(greet('Alice')); // "Hello, Alice!"
 console.log(add(5, 3)); // 8
 console.log(subtract(5, 3)); // 2
 </code></pre>`,
-            },
-            {
-              question:
-                "What is module scope, and how does it differ from global scope?",
-              solution: `Module scope means that variables and functions defined within a module are not accessible outside of that module unless they are explicitly exported. In contrast, global scope allows variables and functions to be accessed anywhere in the application.
+              },
+              {
+                question:
+                  "What is module scope, and how does it differ from global scope?",
+                solution: `Module scope means that variables and functions defined within a module are not accessible outside of that module unless they are explicitly exported. In contrast, global scope allows variables and functions to be accessed anywhere in the application.
               <pre><code className="language-javascript">
 // math.js
 const privateVar = 42; // Not accessible outside this module
 export const publicVar = 'I am public'; // Accessible
 </code></pre>`,
-            },
-            {
-              question: "What are re-exports in ES6 modules?",
-              solution: `Re-exports allow you to export items from one module into another. This can be useful for aggregating exports.
+              },
+              {
+                question: "What are re-exports in ES6 modules?",
+                solution: `Re-exports allow you to export items from one module into another. This can be useful for aggregating exports.
               <pre><code className="language-javascript">
 // moreUtils.js
 export * from './mathUtils.js'; // Re-exports all exports from mathUtils.js
 </code></pre>`,
-            },
-            {
-              question:
-                "Can you explain circular dependencies in ES6 modules?",
-              solution: `Circular dependencies occur when two or more modules depend on each other. This can lead to issues where one module may not be fully defined when another module tries to use it. It's generally best to avoid circular dependencies or to refactor the code to eliminate them.
+              },
+              {
+                question:
+                  "Can you explain circular dependencies in ES6 modules?",
+                solution: `Circular dependencies occur when two or more modules depend on each other. This can lead to issues where one module may not be fully defined when another module tries to use it. It's generally best to avoid circular dependencies or to refactor the code to eliminate them.
               <pre><code className="language-javascript">
 // a.js
 import { b } from './b.js';
 // b.js
 import { a } from './a.js';
 </code></pre>`,
-            },
-            {
-              question: "How do you load ES6 modules in a web browser?",
-              solution: `You can load ES6 modules in a web browser by using the script type="module" tag in your HTML file. This allows you to directly include and use modules.type="module" tag`,
-            },
-          ],
-          links: [""],
-        },
-        {
-          topic: "Currying",
-          tags: [""],
-          explanation: `<div>
+              },
+              {
+                question: "How do you load ES6 modules in a web browser?",
+                solution: `You can load ES6 modules in a web browser by using the script type="module" tag in your HTML file. This allows you to directly include and use modules.type="module" tag`,
+              },
+            ],
+            links: [""],
+          },
+          {
+            topic: "Currying",
+            tags: [""],
+            explanation: `<div>
 <p style="margin-top: 1.0rem;">
 Currying is a functional programming technique where a function that takes multiple arguments is transformed into a chain of functions, each taking a single argument. Instead of passing all arguments to the function at once, you pass them separately, returning a new function for each argument until all arguments are provided.
 </p>
@@ -1558,111 +1558,111 @@ infoLog('This is an informational message'); // Outputs: [INFO] This is an infor
 </code></pre>
 </div>
 `,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "What is the difference between curried and non-curried functions?",
-              solution:
-                "<p>Non-curried functions take all arguments at once, whereas curried functions take them one at a time, returning a new function for each argument until all arguments are provided. For example, a non-curried function might look like <code>function add(a, b) { return a + b; }</code>, whereas a curried version would be <code>function add(a) { return function(b) { return a + b; }; }</code>.</p>",
-            },
-            {
-              question:
-                "How would you optimize a curried function when dealing with a large number of arguments?",
-              solution:
-                "<p>Optimizing a curried function with a large number of arguments involves using techniques such as memoization to cache the intermediate results and avoid redundant computations. Another approach could be tail recursion optimization (if supported by the JavaScript engine) to prevent deep recursion stacks. Additionally, you could group some arguments together to reduce the number of functions in the curried chain.</p>",
-            },
-            {
-              question:
-                "How does currying help with functional composition, and can you give an example where currying simplifies real-world business logic?",
-              solution:
-                "<p>Currying simplifies functional composition by making it easier to pass functions as data and chain them together. In real-world business logic, currying is useful for breaking complex processes into smaller steps. For example, in an e-commerce app, currying can be used to first apply user discounts, then add taxes, and finally compute the total amount. Here's an example:</p> <pre><code class='language-javascript'>function applyDiscount(discount) { return function(price) { return price - (price * discount); }; } function applyTax(tax) { return function(price) { return price + (price * tax); }; } const calculateTotal = compose(applyTax(0.15), applyDiscount(0.10)); console.log(calculateTotal(100)); // Calculates total after discount and tax.</code></pre>",
-            },
-            {
-              question:
-                "In what scenarios would currying introduce more complexity rather than simplifying code?",
-              solution:
-                "<p>Currying introduces complexity when the functions don't naturally lend themselves to partial application or when too many arguments are required, leading to deeply nested function calls. For instance, currying can become cumbersome when managing highly dynamic or optional parameters. In these cases, the readability and maintainability of the code might suffer, especially for teams unfamiliar with functional programming concepts.</p>",
-            },
-            {
-              question:
-                "Can you explain how currying can be used to control side effects, particularly in asynchronous operations or API calls?",
-              solution:
-                "<p>Currying can help control side effects by isolating logic in smaller functions. For example, in an asynchronous API call, you can curry functions to handle different stages of the call: preparing the request, sending the request, and handling the response. This makes the code modular and reusable. Here's an example:</p> <pre><code class='language-javascript'>function makeApiCall(baseUrl) { return function(endpoint) { return function(data) { return fetch(baseUrl + endpoint, { method: 'POST', body: JSON.stringify(data) }) .then(response => response.json()); }; }; } const apiCall = makeApiCall('https://api.example.com'); const postUser = apiCall('/users'); postUser({ name: 'John' }).then(console.log);</code></pre> <p>Here, side effects (like API calls) are delayed until all arguments are supplied, giving control over when the effect actually occurs.</p>",
-            },
-            {
-              question:
-                "How can currying be used in an event-driven system like React, and what are the trade-offs?",
-              solution:
-                "<p>In React or any event-driven system, currying can be used to create handlers that pre-fill certain arguments based on context or state. For instance, you might curry a click handler to partially apply a state or ID. However, the trade-off is that currying can lead to more complex debugging, as intermediate functions might clutter the call stack and make tracing more difficult. In addition, currying in React must be used cautiously to avoid unnecessary re-renders and performance bottlenecks due to new function instances being created in every render.</p>",
-            },
-            {
-              question:
-                "Describe a situation where you had to refactor non-curried code into curried functions in a large codebase. What challenges did you face?",
-              solution:
-                "<p>Refactoring non-curried code to use currying can simplify certain logic flows, but it comes with challenges such as maintaining backward compatibility and ensuring the changes don't introduce bugs. One common challenge is ensuring that teams are familiar with the functional programming paradigm, as not everyone may be comfortable with curried functions. Another challenge is maintaining readability, especially when debugging complex chains of curried functions. Thorough unit testing is necessary to ensure that partial applications still behave as expected after refactoring.</p>",
-            },
-            {
-              question:
-                "What are the potential memory or performance impacts of currying in JavaScript, and how can you mitigate them?",
-              solution:
-                "<p>Currying can introduce performance overhead, particularly in memory consumption, since each partially applied function may hold onto references to arguments in closures. This can lead to excessive memory usage if not managed properly. To mitigate this, you can use memoization to cache results or ensure that curried functions are not overused in scenarios where simple argument passing would suffice. Additionally, using tail-call optimization (where supported) can help reduce stack depth for recursive curried functions.</p>",
-            },
-            {
-              question:
-                "How does currying differ from partial application, and in what situations would you prefer one over the other?",
-              solution:
-                "<p>Currying transforms a function with multiple arguments into a chain of functions, each taking a single argument, while partial application fixes a number of arguments and returns a function that expects the rest. Currying is useful when you need to break down a function step-by-step for greater flexibility, while partial application is preferred when you have a known subset of arguments ready upfront. For example, currying allows for more reusable, fine-grained control over functions, whereas partial application simplifies reuse when certain arguments are predetermined.</p>",
-            },
-            {
-              question:
-                "How would you implement a generic currying function in JavaScript that can handle any number of arguments?",
-              solution:
-                "<p>A generic currying function can be implemented by recursively applying arguments until all are provided. Here's a sample implementation:</p><pre><code class='language-javascript'>function curry(fn) { const arity = fn.length; return function curried(...args) { if (args.length >= arity) { return fn(...args); } else { return function(...nextArgs) { return curried(...args, ...nextArgs); }; } }; }</code></pre><p>This function checks if the required number of arguments has been provided, and if not, it returns a function waiting for the remaining arguments. If all arguments are provided, it invokes the original function.</p>",
-            },
-            {
-              question:
-                "What are the advantages and disadvantages of using currying in middleware functions, especially in frameworks like Express.js?",
-              solution:
-                "<p>In middleware functions, currying can make it easier to create reusable components by pre-filling context or configurations before passing control to the next middleware. For example, you can curry a middleware that checks user roles, pre-filling the role to check:</p><pre><code class='language-javascript'>const requireRole = role => (req, res, next) => { if (req.user.role !== role) { res.status(403).send('Forbidden'); } else { next(); } };</code></pre><p>However, the disadvantage is that currying can make error handling more complicated, especially if the flow is interrupted by a missing argument, leading to subtle bugs. It may also introduce cognitive overhead for teams unfamiliar with this pattern in middleware logic.</p>",
-            },
-            {
-              question:
-                "How would you debug issues related to incorrect arguments passed to curried functions, especially in deeply nested applications?",
-              solution:
-                "<p>To debug incorrect arguments in curried functions, you can leverage techniques such as logging each step of the curried function to track how arguments are passed. For deeply nested applications, using a combination of stack traces and intermediate value checks (such as console.log in each curried function) can help pinpoint the step where the arguments go wrong. Another option is to write unit tests for each curried step to ensure that the right arguments are being passed down the chain.</p>",
-            },
-            {
-              question:
-                "How would you apply currying to a function that interacts with a stateful system, such as a database, without causing side effects?",
-              solution:
-                "<p>When interacting with a stateful system like a database, currying should be used carefully to avoid side effects by isolating state mutations. You can create curried functions that build up the query parameters or conditions incrementally before finally executing the query. For example:</p><pre><code class='language-javascript'>const buildQuery = table => column => value => `SELECT * FROM  {table} WHERE  {column} = ' {value}'`; const queryUsers = buildQuery('users')('age')(25); // 'SELECT * FROM users WHERE age = 25'</code></pre><p>By deferring the actual database call until all parameters are supplied, you ensure that the curried function doesn’t inadvertently trigger state changes prematurely.</p>",
-            },
-            {
-              question:
-                "How would you handle asynchronous operations inside curried functions, particularly with promises?",
-              solution:
-                "<p>Currying can handle asynchronous operations by returning promises at each step of the function chain. This allows each step to wait for the previous one to resolve before proceeding:</p><pre><code class='language-javascript'>function asyncCurry(fn) { return function curried(...args) { return args.length >= fn.length ? Promise.resolve(fn(...args)) : (...nextArgs) => curried(...args, ...nextArgs); }; }</code></pre><p>This approach allows you to curry asynchronous functions by ensuring that all arguments are supplied before executing the final promise. Each step can perform an async operation and chain promises in a way that avoids nested callbacks.</p>",
-            },
-            {
-              question:
-                "What are some real-world examples of currying in popular JavaScript libraries or frameworks, and how do they benefit from this pattern?",
-              solution:
-                "<p>Currying is commonly used in libraries like Lodash and Ramda, where utility functions are curried by default to promote reusability. For example, Ramda's <code>R.map</code> function is curried, allowing you to first specify the function to apply and then the data structure:</p><pre><code class='language-javascript'>const increment = R.map(x => x + 1); const result = increment([1, 2, 3]); // [2, 3, 4]</code></pre><p>This pattern allows for flexible, reusable code, as you can partially apply functions and reuse them in different contexts without rewriting the entire logic.</p>",
-            },
-            {
-              question:
-                "What are the potential downsides of overusing currying, particularly in large teams or projects?",
-              solution:
-                "<p>Overusing currying can lead to code that is harder to understand and maintain, especially for developers unfamiliar with functional programming concepts. Currying can obscure the flow of data and make debugging more challenging, as errors may occur deep within a chain of curried functions. Additionally, over-currying can result in excessive function creation, impacting performance. In large teams, clear documentation and consistent patterns are necessary to avoid confusion and ensure that the benefits of currying outweigh the added complexity.</p>",
-            },
-          ],
-          links: [""],
-        },
-        {
-          topic: "Memoization",
-          tags: [""],
-          explanation: `<div>
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "What is the difference between curried and non-curried functions?",
+                solution:
+                  "<p>Non-curried functions take all arguments at once, whereas curried functions take them one at a time, returning a new function for each argument until all arguments are provided. For example, a non-curried function might look like <code>function add(a, b) { return a + b; }</code>, whereas a curried version would be <code>function add(a) { return function(b) { return a + b; }; }</code>.</p>",
+              },
+              {
+                question:
+                  "How would you optimize a curried function when dealing with a large number of arguments?",
+                solution:
+                  "<p>Optimizing a curried function with a large number of arguments involves using techniques such as memoization to cache the intermediate results and avoid redundant computations. Another approach could be tail recursion optimization (if supported by the JavaScript engine) to prevent deep recursion stacks. Additionally, you could group some arguments together to reduce the number of functions in the curried chain.</p>",
+              },
+              {
+                question:
+                  "How does currying help with functional composition, and can you give an example where currying simplifies real-world business logic?",
+                solution:
+                  "<p>Currying simplifies functional composition by making it easier to pass functions as data and chain them together. In real-world business logic, currying is useful for breaking complex processes into smaller steps. For example, in an e-commerce app, currying can be used to first apply user discounts, then add taxes, and finally compute the total amount. Here's an example:</p> <pre><code class='language-javascript'>function applyDiscount(discount) { return function(price) { return price - (price * discount); }; } function applyTax(tax) { return function(price) { return price + (price * tax); }; } const calculateTotal = compose(applyTax(0.15), applyDiscount(0.10)); console.log(calculateTotal(100)); // Calculates total after discount and tax.</code></pre>",
+              },
+              {
+                question:
+                  "In what scenarios would currying introduce more complexity rather than simplifying code?",
+                solution:
+                  "<p>Currying introduces complexity when the functions don't naturally lend themselves to partial application or when too many arguments are required, leading to deeply nested function calls. For instance, currying can become cumbersome when managing highly dynamic or optional parameters. In these cases, the readability and maintainability of the code might suffer, especially for teams unfamiliar with functional programming concepts.</p>",
+              },
+              {
+                question:
+                  "Can you explain how currying can be used to control side effects, particularly in asynchronous operations or API calls?",
+                solution:
+                  "<p>Currying can help control side effects by isolating logic in smaller functions. For example, in an asynchronous API call, you can curry functions to handle different stages of the call: preparing the request, sending the request, and handling the response. This makes the code modular and reusable. Here's an example:</p> <pre><code class='language-javascript'>function makeApiCall(baseUrl) { return function(endpoint) { return function(data) { return fetch(baseUrl + endpoint, { method: 'POST', body: JSON.stringify(data) }) .then(response => response.json()); }; }; } const apiCall = makeApiCall('https://api.example.com'); const postUser = apiCall('/users'); postUser({ name: 'John' }).then(console.log);</code></pre> <p>Here, side effects (like API calls) are delayed until all arguments are supplied, giving control over when the effect actually occurs.</p>",
+              },
+              {
+                question:
+                  "How can currying be used in an event-driven system like React, and what are the trade-offs?",
+                solution:
+                  "<p>In React or any event-driven system, currying can be used to create handlers that pre-fill certain arguments based on context or state. For instance, you might curry a click handler to partially apply a state or ID. However, the trade-off is that currying can lead to more complex debugging, as intermediate functions might clutter the call stack and make tracing more difficult. In addition, currying in React must be used cautiously to avoid unnecessary re-renders and performance bottlenecks due to new function instances being created in every render.</p>",
+              },
+              {
+                question:
+                  "Describe a situation where you had to refactor non-curried code into curried functions in a large codebase. What challenges did you face?",
+                solution:
+                  "<p>Refactoring non-curried code to use currying can simplify certain logic flows, but it comes with challenges such as maintaining backward compatibility and ensuring the changes don't introduce bugs. One common challenge is ensuring that teams are familiar with the functional programming paradigm, as not everyone may be comfortable with curried functions. Another challenge is maintaining readability, especially when debugging complex chains of curried functions. Thorough unit testing is necessary to ensure that partial applications still behave as expected after refactoring.</p>",
+              },
+              {
+                question:
+                  "What are the potential memory or performance impacts of currying in JavaScript, and how can you mitigate them?",
+                solution:
+                  "<p>Currying can introduce performance overhead, particularly in memory consumption, since each partially applied function may hold onto references to arguments in closures. This can lead to excessive memory usage if not managed properly. To mitigate this, you can use memoization to cache results or ensure that curried functions are not overused in scenarios where simple argument passing would suffice. Additionally, using tail-call optimization (where supported) can help reduce stack depth for recursive curried functions.</p>",
+              },
+              {
+                question:
+                  "How does currying differ from partial application, and in what situations would you prefer one over the other?",
+                solution:
+                  "<p>Currying transforms a function with multiple arguments into a chain of functions, each taking a single argument, while partial application fixes a number of arguments and returns a function that expects the rest. Currying is useful when you need to break down a function step-by-step for greater flexibility, while partial application is preferred when you have a known subset of arguments ready upfront. For example, currying allows for more reusable, fine-grained control over functions, whereas partial application simplifies reuse when certain arguments are predetermined.</p>",
+              },
+              {
+                question:
+                  "How would you implement a generic currying function in JavaScript that can handle any number of arguments?",
+                solution:
+                  "<p>A generic currying function can be implemented by recursively applying arguments until all are provided. Here's a sample implementation:</p><pre><code class='language-javascript'>function curry(fn) { const arity = fn.length; return function curried(...args) { if (args.length >= arity) { return fn(...args); } else { return function(...nextArgs) { return curried(...args, ...nextArgs); }; } }; }</code></pre><p>This function checks if the required number of arguments has been provided, and if not, it returns a function waiting for the remaining arguments. If all arguments are provided, it invokes the original function.</p>",
+              },
+              {
+                question:
+                  "What are the advantages and disadvantages of using currying in middleware functions, especially in frameworks like Express.js?",
+                solution:
+                  "<p>In middleware functions, currying can make it easier to create reusable components by pre-filling context or configurations before passing control to the next middleware. For example, you can curry a middleware that checks user roles, pre-filling the role to check:</p><pre><code class='language-javascript'>const requireRole = role => (req, res, next) => { if (req.user.role !== role) { res.status(403).send('Forbidden'); } else { next(); } };</code></pre><p>However, the disadvantage is that currying can make error handling more complicated, especially if the flow is interrupted by a missing argument, leading to subtle bugs. It may also introduce cognitive overhead for teams unfamiliar with this pattern in middleware logic.</p>",
+              },
+              {
+                question:
+                  "How would you debug issues related to incorrect arguments passed to curried functions, especially in deeply nested applications?",
+                solution:
+                  "<p>To debug incorrect arguments in curried functions, you can leverage techniques such as logging each step of the curried function to track how arguments are passed. For deeply nested applications, using a combination of stack traces and intermediate value checks (such as console.log in each curried function) can help pinpoint the step where the arguments go wrong. Another option is to write unit tests for each curried step to ensure that the right arguments are being passed down the chain.</p>",
+              },
+              {
+                question:
+                  "How would you apply currying to a function that interacts with a stateful system, such as a database, without causing side effects?",
+                solution:
+                  "<p>When interacting with a stateful system like a database, currying should be used carefully to avoid side effects by isolating state mutations. You can create curried functions that build up the query parameters or conditions incrementally before finally executing the query. For example:</p><pre><code class='language-javascript'>const buildQuery = table => column => value => `SELECT * FROM  {table} WHERE  {column} = ' {value}'`; const queryUsers = buildQuery('users')('age')(25); // 'SELECT * FROM users WHERE age = 25'</code></pre><p>By deferring the actual database call until all parameters are supplied, you ensure that the curried function doesn’t inadvertently trigger state changes prematurely.</p>",
+              },
+              {
+                question:
+                  "How would you handle asynchronous operations inside curried functions, particularly with promises?",
+                solution:
+                  "<p>Currying can handle asynchronous operations by returning promises at each step of the function chain. This allows each step to wait for the previous one to resolve before proceeding:</p><pre><code class='language-javascript'>function asyncCurry(fn) { return function curried(...args) { return args.length >= fn.length ? Promise.resolve(fn(...args)) : (...nextArgs) => curried(...args, ...nextArgs); }; }</code></pre><p>This approach allows you to curry asynchronous functions by ensuring that all arguments are supplied before executing the final promise. Each step can perform an async operation and chain promises in a way that avoids nested callbacks.</p>",
+              },
+              {
+                question:
+                  "What are some real-world examples of currying in popular JavaScript libraries or frameworks, and how do they benefit from this pattern?",
+                solution:
+                  "<p>Currying is commonly used in libraries like Lodash and Ramda, where utility functions are curried by default to promote reusability. For example, Ramda's <code>R.map</code> function is curried, allowing you to first specify the function to apply and then the data structure:</p><pre><code class='language-javascript'>const increment = R.map(x => x + 1); const result = increment([1, 2, 3]); // [2, 3, 4]</code></pre><p>This pattern allows for flexible, reusable code, as you can partially apply functions and reuse them in different contexts without rewriting the entire logic.</p>",
+              },
+              {
+                question:
+                  "What are the potential downsides of overusing currying, particularly in large teams or projects?",
+                solution:
+                  "<p>Overusing currying can lead to code that is harder to understand and maintain, especially for developers unfamiliar with functional programming concepts. Currying can obscure the flow of data and make debugging more challenging, as errors may occur deep within a chain of curried functions. Additionally, over-currying can result in excessive function creation, impacting performance. In large teams, clear documentation and consistent patterns are necessary to avoid confusion and ensure that the benefits of currying outweigh the added complexity.</p>",
+              },
+            ],
+            links: [""],
+          },
+          {
+            topic: "Memoization",
+            tags: [""],
+            explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">Memoization is an optimization method used to improve the overall performance of capabilities by caching their formerly computed effects. When a memoized function is called with a given set of arguments, it first tests if the end result for the ones arguments is already saved in a cache. If so, it returns the cached end result instead of recalculating it. Otherwise, it computes the end result, stores it in the cache, and returns it.
    </p>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -1701,8 +1701,8 @@ console.log(memoizedSlowFunction(5));  // Fetching from cache
     </code></pre>
    </div>
             </>`,
-          examples: [
-            `let cache = {};
+            examples: [
+              `let cache = {};
 const addTen = function(num){
         if(num in cache){
           console.log("Inside Memoization block")
@@ -1721,12 +1721,12 @@ Inside Regular execution block
 30
 Inside Memoization block
 30`,
-          ],
-          questions: [
-            {
-              question:
-                "Can you write a memoization function for calculating the Fibonacci series?",
-              solution: `<p>Here’s a memoization function for calculating the Fibonacci series:</p>
+            ],
+            questions: [
+              {
+                question:
+                  "Can you write a memoization function for calculating the Fibonacci series?",
+                solution: `<p>Here’s a memoization function for calculating the Fibonacci series:</p>
             <pre><code className="language-javascript">
             function memoizedFibonacci() {
               const cache = {};
@@ -1747,11 +1747,11 @@ Inside Memoization block
             console.log(fibonacci(5));  // Outputs: 5
             </code></pre>
             <p>This function caches previously computed Fibonacci numbers in the <code>cache</code> object, reducing the number of recursive calls and improving performance.</p>`,
-            },
-            {
-              question:
-                "Can you write a memoization function for finding the factorial of a number?",
-              solution: `<p>Here’s a memoization function for calculating the factorial of a number:</p>
+              },
+              {
+                question:
+                  "Can you write a memoization function for finding the factorial of a number?",
+                solution: `<p>Here’s a memoization function for calculating the factorial of a number:</p>
             <pre><code className="language-javascript">
             function memoizedFactorial() {
               const cache = {};
@@ -1772,16 +1772,16 @@ Inside Memoization block
             console.log(factorial(6));  // Outputs: 720
             </code></pre>
             <p>The <code>memoizedFactorial</code> function caches the results of previously computed factorials, speeding up future calls with the same input.</p>`,
-            },
-            {
-              question: "What is memoization in JavaScript?",
-              solution:
-                "<p>Memoization is an optimization technique used to speed up function execution by storing the results of expensive function calls and returning the cached result when the same inputs occur again. It prevents redundant calculations, improving performance.</p>",
-            },
-            {
-              question:
-                "Can you provide an example of memoization in JavaScript?",
-              solution: `<p>Here’s a simple example of a memoization function:</p>
+              },
+              {
+                question: "What is memoization in JavaScript?",
+                solution:
+                  "<p>Memoization is an optimization technique used to speed up function execution by storing the results of expensive function calls and returning the cached result when the same inputs occur again. It prevents redundant calculations, improving performance.</p>",
+              },
+              {
+                question:
+                  "Can you provide an example of memoization in JavaScript?",
+                solution: `<p>Here’s a simple example of a memoization function:</p>
             <pre><code className="language-javascript">
             function memoize(fn) {
               const cache = {};
@@ -1811,21 +1811,21 @@ Inside Memoization block
             console.log(memoizedSlowFunction(5)); // Returns cached result
             </code></pre>
             <p>In this example, the <code>memoize</code> function caches the results of the <code>slowFunction</code>. The second time it’s called with the same argument, it returns the cached result instead of recalculating it.</p>`,
-            },
-            {
-              question: "When should you use memoization?",
-              solution:
-                "<p>Memoization should be used when a function is computationally expensive and is frequently called with the same arguments. This can happen in recursive algorithms (e.g., Fibonacci) or in situations where data fetching is repeated with the same parameters.</p>",
-            },
-            {
-              question: "What are the trade-offs of memoization?",
-              solution:
-                "<p>While memoization can improve performance by reducing redundant calculations, it comes with the cost of increased memory usage to store cached results. For large input spaces, this memory overhead can become significant. You may need to implement cache eviction strategies for long-running applications.</p>",
-            },
-            {
-              question:
-                "How does memoization improve recursive algorithms like Fibonacci?",
-              solution: `<p>Memoization optimizes recursive algorithms like Fibonacci by storing the results of subproblems to avoid redundant calculations. Without memoization, a naive recursive Fibonacci algorithm recalculates the same values multiple times, leading to an exponential time complexity. Memoization reduces this to linear time complexity (O(n)).</p>
+              },
+              {
+                question: "When should you use memoization?",
+                solution:
+                  "<p>Memoization should be used when a function is computationally expensive and is frequently called with the same arguments. This can happen in recursive algorithms (e.g., Fibonacci) or in situations where data fetching is repeated with the same parameters.</p>",
+              },
+              {
+                question: "What are the trade-offs of memoization?",
+                solution:
+                  "<p>While memoization can improve performance by reducing redundant calculations, it comes with the cost of increased memory usage to store cached results. For large input spaces, this memory overhead can become significant. You may need to implement cache eviction strategies for long-running applications.</p>",
+              },
+              {
+                question:
+                  "How does memoization improve recursive algorithms like Fibonacci?",
+                solution: `<p>Memoization optimizes recursive algorithms like Fibonacci by storing the results of subproblems to avoid redundant calculations. Without memoization, a naive recursive Fibonacci algorithm recalculates the same values multiple times, leading to an exponential time complexity. Memoization reduces this to linear time complexity (O(n)).</p>
             <pre><code className="language-javascript">
             function memoizedFibonacci() {
               const cache = {};
@@ -1845,16 +1845,16 @@ Inside Memoization block
             console.log(fibonacci(10)); // Efficiently calculates the 10th Fibonacci number
             </code></pre>
             <p>In this example, the Fibonacci function uses memoization to store the results of previously computed Fibonacci numbers in the <code>cache</code>, improving performance.</p>`,
-            },
-            {
-              question: "Can memoization be applied to all functions?",
-              solution:
-                "<p>No, memoization is best suited for pure functions, i.e., functions that return the same output given the same input without side effects. Functions that rely on external states or have non-deterministic behavior, such as generating random values or making network requests, are not suitable for memoization.</p>",
-            },
-            {
-              question:
-                "How would you handle memoization for functions with complex inputs (objects or arrays)?",
-              solution: `<p>For functions with complex inputs like objects or arrays, memoization can be challenging because object references differ even if their contents are identical. One approach is to use <code>JSON.stringify()</code> to convert inputs into strings, which can be used as cache keys.</p>
+              },
+              {
+                question: "Can memoization be applied to all functions?",
+                solution:
+                  "<p>No, memoization is best suited for pure functions, i.e., functions that return the same output given the same input without side effects. Functions that rely on external states or have non-deterministic behavior, such as generating random values or making network requests, are not suitable for memoization.</p>",
+              },
+              {
+                question:
+                  "How would you handle memoization for functions with complex inputs (objects or arrays)?",
+                solution: `<p>For functions with complex inputs like objects or arrays, memoization can be challenging because object references differ even if their contents are identical. One approach is to use <code>JSON.stringify()</code> to convert inputs into strings, which can be used as cache keys.</p>
             <pre><code className="language-javascript">
             function memoize(fn) {
               const cache = {};
@@ -1871,26 +1871,26 @@ Inside Memoization block
             }
             </code></pre>
             <p>However, this approach can be inefficient for large, deeply nested objects, so specialized libraries like <code>lodash.memoize</code> or custom deep comparison functions might be needed for more complex cases.</p>`,
-            },
-            {
-              question:
-                "What is the difference between memoization and caching?",
-              solution:
-                "<p>Memoization is a specific form of caching where the focus is on storing the results of function calls based on their input arguments. Caching, in a broader sense, refers to storing any kind of data for quick retrieval, such as HTTP responses or database queries. Memoization typically applies to individual function calls, while caching is more general-purpose.</p>",
-            },
-            {
-              question:
-                "How would you implement cache eviction in a memoization system?",
-              solution:
-                "<p>To manage the memory overhead of memoization, you can implement cache eviction strategies such as Least Recently Used (LRU). In an LRU cache, the least recently accessed entries are removed when the cache reaches a certain size. This helps manage memory usage efficiently.</p>",
-            },
-          ],
-          links: [""],
-        },
-        {
-          topic: "Generators and Iterators",
-          tags: [""],
-          explanation: `<p style="margin-top: 1.0rem;">
+              },
+              {
+                question:
+                  "What is the difference between memoization and caching?",
+                solution:
+                  "<p>Memoization is a specific form of caching where the focus is on storing the results of function calls based on their input arguments. Caching, in a broader sense, refers to storing any kind of data for quick retrieval, such as HTTP responses or database queries. Memoization typically applies to individual function calls, while caching is more general-purpose.</p>",
+              },
+              {
+                question:
+                  "How would you implement cache eviction in a memoization system?",
+                solution:
+                  "<p>To manage the memory overhead of memoization, you can implement cache eviction strategies such as Least Recently Used (LRU). In an LRU cache, the least recently accessed entries are removed when the cache reaches a certain size. This helps manage memory usage efficiently.</p>",
+              },
+            ],
+            links: [""],
+          },
+          {
+            topic: "Generators and Iterators",
+            tags: [""],
+            explanation: `<p style="margin-top: 1.0rem;">
   Generators and Iterators in JavaScript are advanced functions that permit efficient coping with iterable data structures, like arrays or custom collections, in a flexible and memory-efficient way. Here’s an explanation of each concept:
 </p>
 
@@ -2104,11 +2104,11 @@ Each time yield is called, the generator pauses, and a promise is returned that 
 </ol>
 
 `,
-          examples: [
-            [
-              {
-                questions: "Example 1: Fibonacci Sequence Generator",
-                explanation: `
+            examples: [
+              [
+                {
+                  questions: "Example 1: Fibonacci Sequence Generator",
+                  explanation: `
                   <p>This generator produces the Fibonacci sequence up to a given number <code>n</code>. It starts with two numbers, 0 and 1, and continuously yields values until the next number exceeds <code>n</code>.</p>
                   <pre><code>
                   function* fibonacciGenerator(n) {
@@ -2134,11 +2134,11 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Uses <code>yield</code> to pause and return each value.</li>
                   </ul>
                 `,
-              },
-              {
-                questions:
-                  "Example 2: Lazy Loading an Array with a Generator",
-                explanation: `
+                },
+                {
+                  questions:
+                    "Example 2: Lazy Loading an Array with a Generator",
+                  explanation: `
                   <p>This generator implements a lazy loading mechanism by yielding chunks of data from an array in specified sizes. Instead of loading the entire array at once, it processes chunks lazily.</p>
                   <pre><code>
                   function* lazyLoadArray(data, chunkSize = 10) {
@@ -2161,10 +2161,10 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Efficient for large datasets.</li>
                   </ul>
                 `,
-              },
-              {
-                questions: "Example 3: Delayed Yielding of Array Elements",
-                explanation: `
+                },
+                {
+                  questions: "Example 3: Delayed Yielding of Array Elements",
+                  explanation: `
                   <p>This generator yields elements of an array with a 1-second delay between each. It uses <code>setTimeout</code> to create the delay and pauses between yields.</p>
                   <pre><code>
                   function* delayedGenerator(arr) {
@@ -2189,131 +2189,131 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Useful for pacing data processing or animations.</li>
                   </ul>
                 `,
+                },
+              ],
+            ],
+            questions: [
+              {
+                question:
+                  "What is a generator in JavaScript, and how is it different from a regular function?",
+                solution:
+                  "A generator in JavaScript is a special type of function that can pause and resume its execution. It is defined using the `function*` syntax. Unlike regular functions, which run to completion once invoked, generators allow you to pause the execution using `yield` and resume later with `next()`. This allows for more control over function execution and is useful for handling asynchronous code in a synchronous-like fashion.",
+              },
+              {
+                question:
+                  "How do you create and use a generator in JavaScript?",
+                solution: `To create a generator, use the function* syntax. Inside the generator, use the 'yield' keyword to pause the execution and produce values. To use a generator, call it to return an iterator, then use the .next() method to resume execution and retrieve the next yielded value. Example: <pre><code class="language-javascript"> function* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); </code></pre>`,
+              },
+              {
+                question:
+                  "What is the purpose of the `yield` keyword in a generator function?",
+                solution:
+                  "The `yield` keyword is used to pause the execution of a generator function and return a value to the calling code. The function can then be resumed from where it left off when `.next()` is called. Each `yield` statement can return different values in successive calls of `.next()`.",
+              },
+              {
+                question:
+                  "What does the `.next()` method do in a generator function?",
+                solution:
+                  "The `.next()` method is used to resume the execution of a paused generator function. It returns an object with two properties: `value`, which is the value yielded by the generator, and `done`, which is a boolean indicating whether the generator has completed its execution.",
+              },
+              {
+                question:
+                  "Explain how to handle asynchronous operations using generators.",
+                solution: `You can handle asynchronous operations using generators by yielding promises from the generator function and resuming execution once the promise resolves. This can be done manually using a loop or automatically with libraries like 'co' or 'async-await' (which is based on the concept of generators). Example: <pre><code class="language-javascript">\nfunction* asyncGenerator() {\n  const result1 = yield fetch('https://api.example.com/data1');\n  console.log(result1);\n  const result2 = yield fetch('https://api.example.com/data2');\n  console.log(result2);\n}\n</code></pre>`,
+              },
+              {
+                question:
+                  "What are the advantages of using generators over promises or async/await?",
+                solution:
+                  "Generators provide fine-grained control over the execution of a function, allowing you to pause and resume execution at multiple points, which can be useful in some cases, such as iterating over large data sets or handling cooperative multitasking. However, for handling asynchronous code specifically, `async/await` is generally simpler and more readable, as it was built on top of the generator concept.",
+              },
+              {
+                question:
+                  "How can you iterate over the values yielded by a generator?",
+                solution: `You can iterate over the values yielded by a generator using a 'for...of' loop, or by manually calling '.next()' on the generator object. Example using 'for...of' loop:<pre><code class="language-javascript">\nfunction* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nfor (const value of gen) {\n  console.log(value); // 1, 2, 3\n}\n </code></pre>`,
+              },
+              {
+                question:
+                  "How does the `return` statement behave in a generator function?",
+                solution:
+                  "When `return` is called in a generator function, it terminates the generator and produces a value, just like `yield`. However, unlike `yield`, `return` also sets the `done` property of the `.next()` result to `true`, indicating that the generator has finished executing. Any further calls to `.next()` will not yield more values.",
+              },
+              {
+                question:
+                  "What happens if you call `.next()` on a generator after it has finished?",
+                solution:
+                  "Once a generator has finished (either by returning or by exhausting all `yield` statements), subsequent calls to `.next()` will return an object with `value: undefined` and `done: true`, indicating that the generator is done and no more values will be yielded.",
+              },
+              {
+                question:
+                  "Can a generator be used to produce an infinite sequence? Provide an example.",
+                solution: `Yes, a generator can be used to produce an infinite sequence by using an infinite loop inside the generator function. For example:<pre><code class="language-javascript">\nfunction* infiniteSequence() {\n  let i = 0;\n  while (true) {\n    yield i++;\n  }\n}\nconst gen = infiniteSequence();\nconsole.log(gen.next().value); // 0\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\n// And so on, infinitely...\n</code></pre>`,
+              },
+              {
+                question:
+                  "How do you pass values back into a generator function?",
+                solution: `You can pass values back into a generator function by using the '.next(value)' method. The value passed will replace the 'yield' expression where the generator was paused. Example:\n<pre><code class="language-javascript">\nfunction* myGenerator() {\n  const first = yield 'First yield';\n  const second = yield first;\n  return second;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // 'First yield'\nconsole.log(gen.next(42).value); // 42\nconsole.log(gen.next(100).value); // 100\n</code></pre>`,
+              },
+              {
+                question:
+                  "How would you implement a generator function that produces Fibonacci numbers indefinitely?",
+                solution: `A generator can be used to produce an infinite sequence of Fibonacci numbers by maintaining two variables for the last two numbers in the sequence and updating them on each iteration. Here's an implementation:<pre><code class="language-javascript">\nfunction* fibonacciGenerator() {\n  let [prev, current] = [0, 1];\n  while (true) {\n    yield current;\n    [prev, current] = [current, prev + current];\n  }\n}\nconst gen = fibonacciGenerator();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\nconsole.log(gen.next().value); // 3</code></pre>`,
+              },
+              {
+                question:
+                  "What are the differences between using a generator and an iterator to traverse a sequence? When would you prefer one over the other?",
+                solution:
+                  "Both generators and iterators allow you to traverse sequences, but they differ in how they're implemented and used:\n1. **Iterators**: <span style='font-weight: 500;'>Iterators are objects</span> that implement the `next()` method, which returns `{ value, done }`. They require manual implementation of the iteration logic.\n2. **Generators**: <span style='font-weight: 500;'>Generators are functions</span> that automatically create an iterator when called. They manage the `next()` method and yield values on demand, making them simpler to implement for complex iteration logic.\n\n**When to prefer one:**\n- Use **iterators** when you need fine control over the iteration logic or when the iteration logic is tightly coupled with an object or class.\n- Use **generators** when you want a cleaner, easier-to-read implementation that handles state internally and produces values lazily.",
+              },
+              {
+                question:
+                  "Can you explain how backpressure in asynchronous processing can be managed with generators?",
+                solution:
+                  "Backpressure occurs when a producer (like a data source) generates values faster than a consumer (like a network or file system) can process them. Generators can help manage backpressure by yielding control at each `yield` point, allowing the consumer to process values at its own pace. In an asynchronous context, a generator can yield Promises, and the consumer can `await` the result, ensuring that it only processes the next value when it's ready, thus preventing overload.",
+              },
+              {
+                question:
+                  "Explain how you can combine a generator with `Promise.all` to handle multiple asynchronous tasks concurrently.",
+                solution: `To combine a generator with 'Promise.all', you can yield promises from the generator and collect them into an array. Once the generator yields all promises, you can use 'Promise.all()' to process them concurrently. Here's an example:<pre><code class="language-javascript">\nfunction* fetchMultiple(urls) {\n  for (const url of urls) {\n    yield fetch(url);\n  }\n}\n\nconst urls = ['https://api1.com', 'https://api2.com', 'https://api3.com'];\nconst gen = fetchMultiple(urls);\nconst promises = [...gen]; // Collect all promises\n\nPromise.all(promises).then((results) => {\n  console.log('All fetched:', results);\n}).catch((error) => {\n  console.error('Error fetching:', error);\n});\n</code></pre>`,
+              },
+              {
+                question:
+                  "How would you implement a generator-based coroutine system in JavaScript?",
+                solution: `Coroutines are functions that can pause and resume execution, typically used in cooperative multitasking. Generators can be used to implement coroutines by 'yield'ing control back and forth between different generators. Here's a basic example of a coroutine system using generators:<pre><code class="language-javascript">\nfunction* coroutineA() {\n  console.log('Start A');\n  yield;\n  console.log('End A');\n}\n\nfunction* coroutineB() {\n  console.log('Start B');\n  yield;\n  console.log('End B');\n}\n\nconst a = coroutineA();\nconst b = coroutineB();\n\n// Coroutine scheduler\nfunction scheduler() {\n  a.next(); // Start A\n  b.next(); // Start B\n  a.next(); // End A\n  b.next(); // End B\n}\nscheduler();\n </code></pre>In this example, 'scheduler()' controls when each coroutine ('coroutineA' and 'coroutine') resumes execution.`,
+              },
+              {
+                question:
+                  "How would you pause and resume an ongoing generator function from outside the generator?",
+                solution: `You can control a generator's execution from outside by calling '.next()', '.return()', or '.throw()' on the generator object. Here’s an example of how you can pause and resume:\n<pre><code class="language-javascript"> function* myGenerator() {\n  console.log('First part');\n  yield 'Paused';\n  console.log('Second part');\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // Logs: 'First part' and returns 'Paused'\nconsole.log(gen.next().value); // Logs: 'Second part' </code></pre>\nYou can resume the generator’s execution at any point by calling '.next()'.`,
+              },
+              {
+                question:
+                  "How can you implement a generator that handles both synchronous and asynchronous operations?",
+                solution: `To handle both synchronous and asynchronous operations in a generator, you can 'yield' both synchronous values and promises. The consumer of the generator needs to handle the yielded values appropriately. For example:<pre><code class="language-javascript">\nfunction* mixedGenerator() {\n  const syncValue = 'Synchronous value';\n  yield syncValue;\n  const asyncValue = yield new Promise((resolve) => setTimeout(() => resolve('Asynchronous value'), 1000));\n  yield asyncValue;\n}\n\nasync function processGenerator() {\n  const gen = mixedGenerator();\n  let result = gen.next();\n  console.log(result.value); // 'Synchronous value'\n\n  result = await gen.next().value; // Waiting for async value\n  console.log(result); // 'Asynchronous value'\n\n  result = gen.next(result).value;\n  console.log(result); // 'Asynchronous value'\n}\nprocessGenerator();\n</code></pre>`,
+              },
+              {
+                question:
+                  "What is the relationship between `async/await` and generators? Could you implement `async/await` using generators?",
+                solution: `The 'async/await' syntax in JavaScript is built on top of the generator pattern. In fact, you can implement 'async/await' using generators by yielding promises and manually resuming the generator when the promises resolve. Here’s a simplified version of how 'async/await' can be implemented using generators:\n<pre><code class="language-javascript">function asyncExecutor(generatorFunction) {\n  const generator = generatorFunction();\n\n  function handle(result) {\n    if (result.done) return result.value;\n    return result.value.then((value) => handle(generator.next(value)));\n  }\n\n  return handle(generator.next());\n}\n\nfunction* asyncTask() {\n  const result = yield new Promise((resolve) => setTimeout(() => resolve('Done!'), 1000));\n  console.log(result);\n}\n\nasyncExecutor(asyncTask);\n</code></pre>`,
+              },
+              {
+                question:
+                  "Can you explain the memory advantages of using generators for large datasets?",
+                solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`,
               },
             ],
-          ],
-          questions: [
-            {
-              question:
-                "What is a generator in JavaScript, and how is it different from a regular function?",
-              solution:
-                "A generator in JavaScript is a special type of function that can pause and resume its execution. It is defined using the `function*` syntax. Unlike regular functions, which run to completion once invoked, generators allow you to pause the execution using `yield` and resume later with `next()`. This allows for more control over function execution and is useful for handling asynchronous code in a synchronous-like fashion.",
-            },
-            {
-              question:
-                "How do you create and use a generator in JavaScript?",
-              solution: `To create a generator, use the function* syntax. Inside the generator, use the 'yield' keyword to pause the execution and produce values. To use a generator, call it to return an iterator, then use the .next() method to resume execution and retrieve the next yielded value. Example: <pre><code class="language-javascript"> function* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); </code></pre>`,
-            },
-            {
-              question:
-                "What is the purpose of the `yield` keyword in a generator function?",
-              solution:
-                "The `yield` keyword is used to pause the execution of a generator function and return a value to the calling code. The function can then be resumed from where it left off when `.next()` is called. Each `yield` statement can return different values in successive calls of `.next()`.",
-            },
-            {
-              question:
-                "What does the `.next()` method do in a generator function?",
-              solution:
-                "The `.next()` method is used to resume the execution of a paused generator function. It returns an object with two properties: `value`, which is the value yielded by the generator, and `done`, which is a boolean indicating whether the generator has completed its execution.",
-            },
-            {
-              question:
-                "Explain how to handle asynchronous operations using generators.",
-              solution: `You can handle asynchronous operations using generators by yielding promises from the generator function and resuming execution once the promise resolves. This can be done manually using a loop or automatically with libraries like 'co' or 'async-await' (which is based on the concept of generators). Example: <pre><code class="language-javascript">\nfunction* asyncGenerator() {\n  const result1 = yield fetch('https://api.example.com/data1');\n  console.log(result1);\n  const result2 = yield fetch('https://api.example.com/data2');\n  console.log(result2);\n}\n</code></pre>`,
-            },
-            {
-              question:
-                "What are the advantages of using generators over promises or async/await?",
-              solution:
-                "Generators provide fine-grained control over the execution of a function, allowing you to pause and resume execution at multiple points, which can be useful in some cases, such as iterating over large data sets or handling cooperative multitasking. However, for handling asynchronous code specifically, `async/await` is generally simpler and more readable, as it was built on top of the generator concept.",
-            },
-            {
-              question:
-                "How can you iterate over the values yielded by a generator?",
-              solution: `You can iterate over the values yielded by a generator using a 'for...of' loop, or by manually calling '.next()' on the generator object. Example using 'for...of' loop:<pre><code class="language-javascript">\nfunction* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nfor (const value of gen) {\n  console.log(value); // 1, 2, 3\n}\n </code></pre>`,
-            },
-            {
-              question:
-                "How does the `return` statement behave in a generator function?",
-              solution:
-                "When `return` is called in a generator function, it terminates the generator and produces a value, just like `yield`. However, unlike `yield`, `return` also sets the `done` property of the `.next()` result to `true`, indicating that the generator has finished executing. Any further calls to `.next()` will not yield more values.",
-            },
-            {
-              question:
-                "What happens if you call `.next()` on a generator after it has finished?",
-              solution:
-                "Once a generator has finished (either by returning or by exhausting all `yield` statements), subsequent calls to `.next()` will return an object with `value: undefined` and `done: true`, indicating that the generator is done and no more values will be yielded.",
-            },
-            {
-              question:
-                "Can a generator be used to produce an infinite sequence? Provide an example.",
-              solution: `Yes, a generator can be used to produce an infinite sequence by using an infinite loop inside the generator function. For example:<pre><code class="language-javascript">\nfunction* infiniteSequence() {\n  let i = 0;\n  while (true) {\n    yield i++;\n  }\n}\nconst gen = infiniteSequence();\nconsole.log(gen.next().value); // 0\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\n// And so on, infinitely...\n</code></pre>`,
-            },
-            {
-              question:
-                "How do you pass values back into a generator function?",
-              solution: `You can pass values back into a generator function by using the '.next(value)' method. The value passed will replace the 'yield' expression where the generator was paused. Example:\n<pre><code class="language-javascript">\nfunction* myGenerator() {\n  const first = yield 'First yield';\n  const second = yield first;\n  return second;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // 'First yield'\nconsole.log(gen.next(42).value); // 42\nconsole.log(gen.next(100).value); // 100\n</code></pre>`,
-            },
-            {
-              question:
-                "How would you implement a generator function that produces Fibonacci numbers indefinitely?",
-              solution: `A generator can be used to produce an infinite sequence of Fibonacci numbers by maintaining two variables for the last two numbers in the sequence and updating them on each iteration. Here's an implementation:<pre><code class="language-javascript">\nfunction* fibonacciGenerator() {\n  let [prev, current] = [0, 1];\n  while (true) {\n    yield current;\n    [prev, current] = [current, prev + current];\n  }\n}\nconst gen = fibonacciGenerator();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\nconsole.log(gen.next().value); // 3</code></pre>`,
-            },
-            {
-              question:
-                "What are the differences between using a generator and an iterator to traverse a sequence? When would you prefer one over the other?",
-              solution:
-                "Both generators and iterators allow you to traverse sequences, but they differ in how they're implemented and used:\n1. **Iterators**: <span style='font-weight: 500;'>Iterators are objects</span> that implement the `next()` method, which returns `{ value, done }`. They require manual implementation of the iteration logic.\n2. **Generators**: <span style='font-weight: 500;'>Generators are functions</span> that automatically create an iterator when called. They manage the `next()` method and yield values on demand, making them simpler to implement for complex iteration logic.\n\n**When to prefer one:**\n- Use **iterators** when you need fine control over the iteration logic or when the iteration logic is tightly coupled with an object or class.\n- Use **generators** when you want a cleaner, easier-to-read implementation that handles state internally and produces values lazily.",
-            },
-            {
-              question:
-                "Can you explain how backpressure in asynchronous processing can be managed with generators?",
-              solution:
-                "Backpressure occurs when a producer (like a data source) generates values faster than a consumer (like a network or file system) can process them. Generators can help manage backpressure by yielding control at each `yield` point, allowing the consumer to process values at its own pace. In an asynchronous context, a generator can yield Promises, and the consumer can `await` the result, ensuring that it only processes the next value when it's ready, thus preventing overload.",
-            },
-            {
-              question:
-                "Explain how you can combine a generator with `Promise.all` to handle multiple asynchronous tasks concurrently.",
-              solution: `To combine a generator with 'Promise.all', you can yield promises from the generator and collect them into an array. Once the generator yields all promises, you can use 'Promise.all()' to process them concurrently. Here's an example:<pre><code class="language-javascript">\nfunction* fetchMultiple(urls) {\n  for (const url of urls) {\n    yield fetch(url);\n  }\n}\n\nconst urls = ['https://api1.com', 'https://api2.com', 'https://api3.com'];\nconst gen = fetchMultiple(urls);\nconst promises = [...gen]; // Collect all promises\n\nPromise.all(promises).then((results) => {\n  console.log('All fetched:', results);\n}).catch((error) => {\n  console.error('Error fetching:', error);\n});\n</code></pre>`,
-            },
-            {
-              question:
-                "How would you implement a generator-based coroutine system in JavaScript?",
-              solution: `Coroutines are functions that can pause and resume execution, typically used in cooperative multitasking. Generators can be used to implement coroutines by 'yield'ing control back and forth between different generators. Here's a basic example of a coroutine system using generators:<pre><code class="language-javascript">\nfunction* coroutineA() {\n  console.log('Start A');\n  yield;\n  console.log('End A');\n}\n\nfunction* coroutineB() {\n  console.log('Start B');\n  yield;\n  console.log('End B');\n}\n\nconst a = coroutineA();\nconst b = coroutineB();\n\n// Coroutine scheduler\nfunction scheduler() {\n  a.next(); // Start A\n  b.next(); // Start B\n  a.next(); // End A\n  b.next(); // End B\n}\nscheduler();\n </code></pre>In this example, 'scheduler()' controls when each coroutine ('coroutineA' and 'coroutine') resumes execution.`,
-            },
-            {
-              question:
-                "How would you pause and resume an ongoing generator function from outside the generator?",
-              solution: `You can control a generator's execution from outside by calling '.next()', '.return()', or '.throw()' on the generator object. Here’s an example of how you can pause and resume:\n<pre><code class="language-javascript"> function* myGenerator() {\n  console.log('First part');\n  yield 'Paused';\n  console.log('Second part');\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // Logs: 'First part' and returns 'Paused'\nconsole.log(gen.next().value); // Logs: 'Second part' </code></pre>\nYou can resume the generator’s execution at any point by calling '.next()'.`,
-            },
-            {
-              question:
-                "How can you implement a generator that handles both synchronous and asynchronous operations?",
-              solution: `To handle both synchronous and asynchronous operations in a generator, you can 'yield' both synchronous values and promises. The consumer of the generator needs to handle the yielded values appropriately. For example:<pre><code class="language-javascript">\nfunction* mixedGenerator() {\n  const syncValue = 'Synchronous value';\n  yield syncValue;\n  const asyncValue = yield new Promise((resolve) => setTimeout(() => resolve('Asynchronous value'), 1000));\n  yield asyncValue;\n}\n\nasync function processGenerator() {\n  const gen = mixedGenerator();\n  let result = gen.next();\n  console.log(result.value); // 'Synchronous value'\n\n  result = await gen.next().value; // Waiting for async value\n  console.log(result); // 'Asynchronous value'\n\n  result = gen.next(result).value;\n  console.log(result); // 'Asynchronous value'\n}\nprocessGenerator();\n</code></pre>`,
-            },
-            {
-              question:
-                "What is the relationship between `async/await` and generators? Could you implement `async/await` using generators?",
-              solution: `The 'async/await' syntax in JavaScript is built on top of the generator pattern. In fact, you can implement 'async/await' using generators by yielding promises and manually resuming the generator when the promises resolve. Here’s a simplified version of how 'async/await' can be implemented using generators:\n<pre><code class="language-javascript">function asyncExecutor(generatorFunction) {\n  const generator = generatorFunction();\n\n  function handle(result) {\n    if (result.done) return result.value;\n    return result.value.then((value) => handle(generator.next(value)));\n  }\n\n  return handle(generator.next());\n}\n\nfunction* asyncTask() {\n  const result = yield new Promise((resolve) => setTimeout(() => resolve('Done!'), 1000));\n  console.log(result);\n}\n\nasyncExecutor(asyncTask);\n</code></pre>`,
-            },
-            {
-              question:
-                "Can you explain the memory advantages of using generators for large datasets?",
-              solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`,
-            },
-          ],
-          links: [
-            "https://www.geeksforgeeks.org/javascript-iterator/",
-            "https://www.hellojavascript.info/docs/general-javascript-questions/generators-advance-interation/generators#can-generators-be-used-with-asyncawait",
-            "https://atomicjuggernaut.hashnode.dev/javascript-interview-question-generator-function",
-            "https://medium.com/deno-the-complete-reference/some-javascript-generators-memoization-interview-questions-c4a7c97fc3bd",
-            "https://medium.com/mighty-ghost-hack/js-interview-11-javascript-generator-88b163b0ea2f",
-          ],
-        },
-        {
-          topic: "Context and This Keyword",
-          tags: [""],
-          explanation: `<p style="margin-top: 1.0rem;">
+            links: [
+              "https://www.geeksforgeeks.org/javascript-iterator/",
+              "https://www.hellojavascript.info/docs/general-javascript-questions/generators-advance-interation/generators#can-generators-be-used-with-asyncawait",
+              "https://atomicjuggernaut.hashnode.dev/javascript-interview-question-generator-function",
+              "https://medium.com/deno-the-complete-reference/some-javascript-generators-memoization-interview-questions-c4a7c97fc3bd",
+              "https://medium.com/mighty-ghost-hack/js-interview-11-javascript-generator-88b163b0ea2f",
+            ],
+          },
+          {
+            topic: "Context and This Keyword",
+            tags: [""],
+            explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, context refers to the environment in which a bit of code is executed. It dictates how variables and functions behave and how they're accessed. Understanding context is important as it influences the value of the <code>this</code> keyword and affects how functions interact with objects and the scope in which they operate.
 </p>
 
@@ -2453,128 +2453,128 @@ obj.greet(); // Hello, Charlie</code></pre>
   </li>
 </ol>
 `,
-          examples: [""],
-          questions: [
-            {
-              question: "What is the global context in JavaScript?",
-              solution:
-                "The global context is the default execution context for JavaScript code, where variables and functions are accessible globally. In a browser, 'this' refers to the 'window' object, while in Node.js, it refers to the global object.",
-            },
-            {
-              question: "How does 'this' behave in a regular function?",
-              solution:
-                "In a non-strict mode function, 'this' refers to the global object when the function is called as a standalone function. In strict mode, 'this' is undefined.",
-            },
-            {
-              question:
-                "What is the difference between 'this' in a method and 'this' in a standalone function?",
-              solution:
-                "When a function is called as a method of an object, 'this' refers to that object. In contrast, if the function is called as a standalone function, 'this' refers to the global object (in non-strict mode) or is undefined (in strict mode).",
-            },
-            {
-              question: "Explain how 'this' works in constructor functions.",
-              solution:
-                "'this' in a constructor function refers to the new object being created when the function is invoked with the 'new' keyword. Properties can be attached to 'this' to create instance properties.",
-            },
-            {
-              question:
-                "What is the significance of the 'use strict' directive in relation to 'this'?",
-              solution:
-                "The 'use strict' directive enables strict mode, which changes the behavior of 'this' in functions. In strict mode, 'this' is undefined when the function is called as a standalone function, preventing accidental global variable creation.",
-            },
-            {
-              question:
-                "How do arrow functions handle 'this' differently from regular functions?",
-              solution:
-                "Arrow functions do not have their own 'this' context. Instead, they inherit 'this' from the surrounding lexical scope. This makes them useful in scenarios where you want to maintain the context of 'this' from the enclosing function.",
-            },
-            {
-              question:
-                "What happens when you use 'this' inside an arrow function?",
-              solution:
-                "'this' inside an arrow function refers to the 'this' value from the enclosing lexical context. This means that arrow functions do not create their own 'this', making them suitable for callbacks and methods where you need to preserve the outer context.",
-            },
-            {
-              question:
-                "Can you explain how to use the 'bind', 'call', and 'apply' methods with respect to 'this'?",
-              solution:
-                "'bind' creates a new function with a specified 'this' value, allowing you to control the context of the function. 'call' and 'apply' immediately invoke a function with a specified 'this' value. The main difference is that 'call' accepts arguments separately, while 'apply' takes an array of arguments.",
-            },
-            {
-              question:
-                "What is the 'yield*' keyword, and how does it relate to context in generators?",
-              solution:
-                "'yield*' is used to delegate execution to another generator function. It allows a generator to yield values from another generator, maintaining the context of the outer generator. This is useful for managing complex generator flows.",
-            },
-            {
-              question:
-                "How does the execution context change when using `setTimeout` or `setInterval`?",
-              solution:
-                "When using `setTimeout` or `setInterval`, the context of 'this' inside the callback function defaults to the global object in non-strict mode or is undefined in strict mode. To maintain the context, you can use an arrow function or bind the function explicitly.",
-            },
-            {
-              question:
-                "Explain how the 'this' keyword behaves in event handlers in JavaScript.",
-              solution:
-                "In event handlers, 'this' refers to the element that fired the event, unless the function is an arrow function. In arrow functions, 'this' retains the value from the surrounding lexical context.",
-            },
-            {
-              question:
-                "What are the implications of using 'this' in nested functions, and how can you manage it?",
-              solution:
-                "In nested functions, 'this' can refer to different contexts, leading to unexpected behavior. To manage this, you can store the value of 'this' in a variable (commonly named 'self' or 'that') or use arrow functions, which preserve the outer context.",
-            },
-            {
-              question:
-                "How does the context of 'this' change when a method is called using the 'apply' method?",
-              solution:
-                "'apply' allows you to invoke a function with a specified 'this' value, enabling you to set the context explicitly. This is particularly useful when calling methods from different objects or when using methods of one object on another.",
-            },
-            {
-              question:
-                "What is the difference between using 'call', 'apply', and 'bind'? When would you use each?",
-              solution:
-                "'call' and 'apply' invoke a function immediately with a specified 'this' value, while 'bind' returns a new function that, when called, has its 'this' value set to the provided value. Use 'call' when you have a fixed number of arguments, 'apply' for variable arguments (array), and 'bind' to create a new function with a bound context.",
-            },
-            {
-              question:
-                "How does the concept of context affect the performance of JavaScript applications?",
-              solution:
-                "Understanding context can affect performance in JavaScript applications, especially in scenarios involving frequent function calls or deep nesting. Using techniques like method binding and avoiding unnecessary context switching can optimize performance.",
-            },
-            {
-              question:
-                "Can you provide an example of how context can lead to memory leaks in JavaScript?",
-              solution:
-                "Memory leaks can occur when functions retain references to variables or objects through closures, especially when using 'this' improperly. For example, if an event listener is added without removing it, it can prevent the enclosing context from being garbage collected, causing a memory leak.",
-            },
-            {
-              question:
-                "What is the difference between the 'new' keyword and the 'class' syntax in JavaScript concerning 'this'?",
-              solution:
-                "Both 'new' and 'class' create instances where 'this' refers to the new object being created. However, 'class' provides a cleaner syntax with additional features like inheritance, whereas 'new' requires a constructor function and explicit handling of 'this'.",
-            },
-            {
-              question:
-                "How do you handle context when working with promises and asynchronous code?",
-              solution:
-                "In asynchronous code, 'this' can change context based on how a function is called. To manage context, you can use arrow functions, which maintain the outer 'this', or bind the function to the desired context before passing it to the promise handler.",
-            },
-          ],
-          links: [""],
-        },
-        {
-          topic: "Function Composition",
-          tags: [""],
-          explanation: "<></>",
-          examples: [""],
-          questions: [{}],
-          links: [""],
-        },
-        {
-          topic: "Destructuring and Spread Operators",
-          tags: [""],
-          explanation: `<p style="margin-top: 1.0rem;">
+            examples: [""],
+            questions: [
+              {
+                question: "What is the global context in JavaScript?",
+                solution:
+                  "The global context is the default execution context for JavaScript code, where variables and functions are accessible globally. In a browser, 'this' refers to the 'window' object, while in Node.js, it refers to the global object.",
+              },
+              {
+                question: "How does 'this' behave in a regular function?",
+                solution:
+                  "In a non-strict mode function, 'this' refers to the global object when the function is called as a standalone function. In strict mode, 'this' is undefined.",
+              },
+              {
+                question:
+                  "What is the difference between 'this' in a method and 'this' in a standalone function?",
+                solution:
+                  "When a function is called as a method of an object, 'this' refers to that object. In contrast, if the function is called as a standalone function, 'this' refers to the global object (in non-strict mode) or is undefined (in strict mode).",
+              },
+              {
+                question: "Explain how 'this' works in constructor functions.",
+                solution:
+                  "'this' in a constructor function refers to the new object being created when the function is invoked with the 'new' keyword. Properties can be attached to 'this' to create instance properties.",
+              },
+              {
+                question:
+                  "What is the significance of the 'use strict' directive in relation to 'this'?",
+                solution:
+                  "The 'use strict' directive enables strict mode, which changes the behavior of 'this' in functions. In strict mode, 'this' is undefined when the function is called as a standalone function, preventing accidental global variable creation.",
+              },
+              {
+                question:
+                  "How do arrow functions handle 'this' differently from regular functions?",
+                solution:
+                  "Arrow functions do not have their own 'this' context. Instead, they inherit 'this' from the surrounding lexical scope. This makes them useful in scenarios where you want to maintain the context of 'this' from the enclosing function.",
+              },
+              {
+                question:
+                  "What happens when you use 'this' inside an arrow function?",
+                solution:
+                  "'this' inside an arrow function refers to the 'this' value from the enclosing lexical context. This means that arrow functions do not create their own 'this', making them suitable for callbacks and methods where you need to preserve the outer context.",
+              },
+              {
+                question:
+                  "Can you explain how to use the 'bind', 'call', and 'apply' methods with respect to 'this'?",
+                solution:
+                  "'bind' creates a new function with a specified 'this' value, allowing you to control the context of the function. 'call' and 'apply' immediately invoke a function with a specified 'this' value. The main difference is that 'call' accepts arguments separately, while 'apply' takes an array of arguments.",
+              },
+              {
+                question:
+                  "What is the 'yield*' keyword, and how does it relate to context in generators?",
+                solution:
+                  "'yield*' is used to delegate execution to another generator function. It allows a generator to yield values from another generator, maintaining the context of the outer generator. This is useful for managing complex generator flows.",
+              },
+              {
+                question:
+                  "How does the execution context change when using `setTimeout` or `setInterval`?",
+                solution:
+                  "When using `setTimeout` or `setInterval`, the context of 'this' inside the callback function defaults to the global object in non-strict mode or is undefined in strict mode. To maintain the context, you can use an arrow function or bind the function explicitly.",
+              },
+              {
+                question:
+                  "Explain how the 'this' keyword behaves in event handlers in JavaScript.",
+                solution:
+                  "In event handlers, 'this' refers to the element that fired the event, unless the function is an arrow function. In arrow functions, 'this' retains the value from the surrounding lexical context.",
+              },
+              {
+                question:
+                  "What are the implications of using 'this' in nested functions, and how can you manage it?",
+                solution:
+                  "In nested functions, 'this' can refer to different contexts, leading to unexpected behavior. To manage this, you can store the value of 'this' in a variable (commonly named 'self' or 'that') or use arrow functions, which preserve the outer context.",
+              },
+              {
+                question:
+                  "How does the context of 'this' change when a method is called using the 'apply' method?",
+                solution:
+                  "'apply' allows you to invoke a function with a specified 'this' value, enabling you to set the context explicitly. This is particularly useful when calling methods from different objects or when using methods of one object on another.",
+              },
+              {
+                question:
+                  "What is the difference between using 'call', 'apply', and 'bind'? When would you use each?",
+                solution:
+                  "'call' and 'apply' invoke a function immediately with a specified 'this' value, while 'bind' returns a new function that, when called, has its 'this' value set to the provided value. Use 'call' when you have a fixed number of arguments, 'apply' for variable arguments (array), and 'bind' to create a new function with a bound context.",
+              },
+              {
+                question:
+                  "How does the concept of context affect the performance of JavaScript applications?",
+                solution:
+                  "Understanding context can affect performance in JavaScript applications, especially in scenarios involving frequent function calls or deep nesting. Using techniques like method binding and avoiding unnecessary context switching can optimize performance.",
+              },
+              {
+                question:
+                  "Can you provide an example of how context can lead to memory leaks in JavaScript?",
+                solution:
+                  "Memory leaks can occur when functions retain references to variables or objects through closures, especially when using 'this' improperly. For example, if an event listener is added without removing it, it can prevent the enclosing context from being garbage collected, causing a memory leak.",
+              },
+              {
+                question:
+                  "What is the difference between the 'new' keyword and the 'class' syntax in JavaScript concerning 'this'?",
+                solution:
+                  "Both 'new' and 'class' create instances where 'this' refers to the new object being created. However, 'class' provides a cleaner syntax with additional features like inheritance, whereas 'new' requires a constructor function and explicit handling of 'this'.",
+              },
+              {
+                question:
+                  "How do you handle context when working with promises and asynchronous code?",
+                solution:
+                  "In asynchronous code, 'this' can change context based on how a function is called. To manage context, you can use arrow functions, which maintain the outer 'this', or bind the function to the desired context before passing it to the promise handler.",
+              },
+            ],
+            links: [""],
+          },
+          {
+            topic: "Function Composition",
+            tags: [""],
+            explanation: "<></>",
+            examples: [""],
+            questions: [{}],
+            links: [""],
+          },
+          {
+            topic: "Destructuring and Spread Operators",
+            tags: [""],
+            explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, destructuring and the rest/spread operators are powerful ES6 features that simplify working with arrays, objects, and parameters. They help make code cleaner, more readable, and concise. Let's break them down:
 </p>
 
@@ -2688,12 +2688,12 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
   <li><strong>Rest Operator (...):</strong> Used to collect multiple elements into an array or object. Example: <code class="language-javascript">function(...Args)</code> or <code class="language-javascript">const [a, ...Rest] = arr</code></li>
 </ul>
 `,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "How can you destructure a dynamic property name from an object?",
-              solution: `
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "How can you destructure a dynamic property name from an object?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   You can destructure a dynamic property by using computed property names within an object destructuring pattern.
                 </p>
@@ -2703,11 +2703,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(dynamicValue); // Alice
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you merge two objects and overwrite properties using the spread operator?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you merge two objects and overwrite properties using the spread operator?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
                 </p>
@@ -2717,11 +2717,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(mergedObj); // { a: 1, b: 3, c: 4 }
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "What are some caveats of copying objects using the spread operator?",
-              solution: `
+              },
+              {
+                question:
+                  "What are some caveats of copying objects using the spread operator?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator creates a shallow copy of the object, meaning nested objects are still referenced by the original object. Changes to the nested object will affect both the original and the copy.
                 </p>
@@ -2732,11 +2732,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                 </code></pre>
                 <p>To create a deep copy, you'd need to use methods like <code class="language-javascript">JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code class="language-javascript">_.cloneDeep()</code>.</p>
                 `,
-            },
-            {
-              question:
-                "Can you explain how destructuring works in function parameters?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain how destructuring works in function parameters?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
                 </p>
@@ -2754,11 +2754,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum([1, 2])); // 3
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you use the spread operator to pass an array as arguments to a function?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you use the spread operator to pass an array as arguments to a function?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator allows you to pass elements of an array as individual arguments to a function.
                 </p>
@@ -2769,11 +2769,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum(...numbers)); // 6
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "What happens when you combine destructuring and default values?",
-              solution: `
+              },
+              {
+                question:
+                  "What happens when you combine destructuring and default values?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code class="language-javascript">undefined</code>.
                 </p>
@@ -2788,11 +2788,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(age); // 25
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can destructuring be used in combination with the rest parameter in function arguments?",
-              solution: `
+              },
+              {
+                question:
+                  "How can destructuring be used in combination with the rest parameter in function arguments?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
                 </p>
@@ -2815,11 +2815,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             // Logs: { age: 25, city: 'NY' }
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "How does the spread operator work when used with iterables like strings?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the spread operator work when used with iterables like strings?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
                 </p>
@@ -2833,10 +2833,10 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             printChars(...str); // ['h', 'e', 'l', 'l', 'o']
                 </code></pre>
                 `,
-            },
-            {
-              question: "How can you swap values using array destructuring?",
-              solution: `
+              },
+              {
+                question: "How can you swap values using array destructuring?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   Array destructuring provides a clean way to swap values without needing a temporary variable.
                 </p>
@@ -2847,11 +2847,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(b); // 1
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you handle nested destructuring with default values?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you handle nested destructuring with default values?",
+                solution: `
                 <p style="margin-top: 0.5rem;">
                   Nested destructuring can also have default values for nested properties.
                 </p>
@@ -2861,11 +2861,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(zip);  // 10001 (default value)
                 </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you destructure a dynamic property name from an object?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you destructure a dynamic property name from an object?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can destructure a dynamic property by using computed property names within an object destructuring pattern.
                   </p>
@@ -2875,11 +2875,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(dynamicValue); // Alice
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you merge two objects and overwrite properties using the spread operator?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you merge two objects and overwrite properties using the spread operator?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
                   </p>
@@ -2889,11 +2889,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(mergedObj); // { a: 1, b: 3, c: 4 }
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "What are some caveats of copying objects using the spread operator?",
-              solution: `
+              },
+              {
+                question:
+                  "What are some caveats of copying objects using the spread operator?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator creates a shallow copy of the object, which means nested objects are still referenced by the original object.
                   </p>
@@ -2906,11 +2906,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                     To create a deep copy, you'd need to use another method such as <code class="language-javascript">JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code class="language-javascript">_.cloneDeep()</code>.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Can you explain how destructuring works in function parameters?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain how destructuring works in function parameters?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
                   </p>
@@ -2928,11 +2928,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum([1, 2])); // 3
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you use the spread operator to pass an array as arguments to a function?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you use the spread operator to pass an array as arguments to a function?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator allows you to pass elements of an array as individual arguments to a function.
                   </p>
@@ -2943,11 +2943,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(sum(...numbers)); // 6
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "What happens when you combine destructuring and default values?",
-              solution: `
+              },
+              {
+                question:
+                  "What happens when you combine destructuring and default values?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code class="language-javascript">undefined</code>.
                   </p>
@@ -2964,11 +2964,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(age); // 25
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can destructuring be used in combination with the rest parameter in function arguments?",
-              solution: `
+              },
+              {
+                question:
+                  "How can destructuring be used in combination with the rest parameter in function arguments?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
                   </p>
@@ -2991,11 +2991,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             // Logs: { age: 25, city: 'NY' }
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How does the spread operator work when used with iterables like strings?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the spread operator work when used with iterables like strings?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
                   </p>
@@ -3009,10 +3009,10 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             printChars(...str); // ['h', 'e', 'l', 'l', 'o']
                   </code></pre>
                 `,
-            },
-            {
-              question: "How can you swap values using array destructuring?",
-              solution: `
+              },
+              {
+                question: "How can you swap values using array destructuring?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Array destructuring provides a clean way to swap values without needing a temporary variable.
                   </p>
@@ -3023,11 +3023,11 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(b); // 1
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you handle nested destructuring with default values?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you handle nested destructuring with default values?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Nested destructuring can also have default values for nested properties.
                   </p>
@@ -3037,14 +3037,14 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             console.log(zip);  // 10001 (default value)
                   </code></pre>
                 `,
-            },
-          ],
-          links: [""],
-        },
-        {
-          topic: "Proxy and Reflect",
-          tags: [""],
-          explanation: `<p style="margin-top: 1.0rem;">
+              },
+            ],
+            links: [""],
+          },
+          {
+            topic: "Proxy and Reflect",
+            tags: [""],
+            explanation: `<p style="margin-top: 1.0rem;">
             Proxy is an object that will be created from another object(target object), Using this proxy object we can intercept/modify all the operations that are happening on the object
   In JavaScript, Proxy and <strong>Reflect</strong> are advanced ES6 features that give developers control over object behavior and manipulation. They allow the interception of fundamental operations on objects and provide a way to perform default object operations. Let's break them down:
 </p>
@@ -3168,21 +3168,21 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
   <li>To sanitize inputs before writing to the object</li>
 </ol>
 `,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "What is a Proxy in JavaScript, and what is its primary purpose?",
-              solution: `
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "What is a Proxy in JavaScript, and what is its primary purpose?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A Proxy in JavaScript is an object that allows you to intercept and redefine fundamental operations performed on a target object, such as property access, assignment, and function invocation. It provides custom behavior for these operations by using a handler object that contains 'traps' for each type of operation.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you intercept property access using a Proxy?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you intercept property access using a Proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can intercept property access by defining a <code>get</code> trap inside the handler object. The <code>get</code> trap takes the target object and the property name as arguments, allowing you to customize the behavior when a property is accessed.
                   </p>
@@ -3192,11 +3192,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             const proxy = new Proxy(target, handler);
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How would you use a Proxy to validate a value before setting it on an object property?",
-              solution: `
+              },
+              {
+                question:
+                  "How would you use a Proxy to validate a value before setting it on an object property?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can use the <code>set</code> trap in the handler object to validate a value before assigning it to a property. This trap takes the target object, property name, and the value being set as arguments.
                   </p>
@@ -3212,20 +3212,20 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             const proxy = new Proxy(target, handler);
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "What are traps in a Proxy, and can you name a few examples?",
-              solution: `
+              },
+              {
+                question:
+                  "What are traps in a Proxy, and can you name a few examples?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Traps are the methods defined in the handler object that intercept operations performed on the target object. Some common traps include <code>get</code> (for property access), <code>set</code> (for property assignment), <code>deleteProperty</code> (for property deletion), and <code>apply</code> (for function invocation).
                   </p>
                 `,
-            },
-            {
-              question:
-                "Can you demonstrate how to log property access and assignment using a Proxy?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you demonstrate how to log property access and assignment using a Proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To log property access and assignment, you can define <code>get</code> and <code>set</code> traps in the handler object.
                   </p>
@@ -3245,11 +3245,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             proxy.name = 'Bob'; // Logs 'Setting property name to Bob'
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "What is the difference between the Proxy and Reflect objects in JavaScript?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the difference between the Proxy and Reflect objects in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Proxy</code> object allows you to intercept and redefine basic operations on an object, while the <code>Reflect</code> object provides methods for performing default operations on objects (such as property access, assignment, and deletion). <code>Reflect</code> is often used inside Proxy traps to access the default behavior of operations.
                   </p>
@@ -3258,11 +3258,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             };
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you use the `deleteProperty` trap to prevent certain properties from being deleted?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you use the `deleteProperty` trap to prevent certain properties from being deleted?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can use the <code>deleteProperty</code> trap to intercept and prevent specific properties from being deleted. If deletion is not allowed, you can throw an error or return false.
                   </p>
@@ -3280,11 +3280,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             // delete proxy.name; // Throws error
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "Why might you want to use the Reflect object in combination with Proxy?",
-              solution: `
+              },
+              {
+                question:
+                  "Why might you want to use the Reflect object in combination with Proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect object allows you to call the default behavior of an operation inside a Proxy trap. This is useful when you want to modify or extend the behavior of an operation, but still want to retain the original behavior.
                   </p>
@@ -3297,11 +3297,11 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             const proxy = new Proxy(target, handler);
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "How can you create virtual or computed properties using a Proxy?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you create virtual or computed properties using a Proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can create virtual or computed properties using the <code>get</code> trap in a Proxy. For example, you can define a virtual 'fullName' property that returns a computed value based on the 'firstName' and 'lastName' properties of the target object.
                   </p>
@@ -3317,115 +3317,115 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             console.log(proxy.fullName); // 'John Doe'
                   </code></pre>
                 `,
-            },
-            {
-              question: "How do you create a Proxy in JavaScript?",
-              solution: `
+              },
+              {
+                question: "How do you create a Proxy in JavaScript?",
+                solution: `
                   <pre><code>const target = {};
             const handler = {};
             const proxy = new Proxy(target, handler);</code></pre>
                   <p style="margin-top: 0.5rem;">Here, <code>target</code> is the object you want to wrap, and <code>handler</code> contains the traps that intercept operations on the target object.</p>
                 `,
-            },
-            {
-              question:
-                "Can you explain the function of the proxy object in JavaScript?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain the function of the proxy object in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The proxy object intercepts and redefines core operations on a target object, such as getting or setting properties, making it easier to control how the object behaves under certain conditions.
                   </p>
                 `,
-            },
-            {
-              question: "What is a trap in the context of a Proxy?",
-              solution: `
+              },
+              {
+                question: "What is a trap in the context of a Proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A trap is a method in the handler object that intercepts and customizes an operation on the target object, like accessing a property (<code>get</code>), setting a property (<code>set</code>), or deleting a property (<code>deleteProperty</code>).
                   </p>
                 `,
-            },
-            {
-              question: "What can we intercept with a JavaScript proxy trap?",
-              solution: `
+              },
+              {
+                question: "What can we intercept with a JavaScript proxy trap?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can intercept operations such as property access (<code>get</code>), property assignment (<code>set</code>), property deletion (<code>deleteProperty</code>), function invocation (<code>apply</code>), and more.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Does the proxy overwrite the variable when you implement a proxy?",
-              solution: `
+              },
+              {
+                question:
+                  "Does the proxy overwrite the variable when you implement a proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     No, the proxy does not overwrite the variable. It wraps around the original object, allowing operations to be intercepted and customized without modifying the target object itself.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Can you explain the function of the proxy set method?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain the function of the proxy set method?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>set</code> method in the proxy's handler intercepts property assignments, allowing you to customize or validate the value before it is assigned to a property.
                   </p>
                 `,
-            },
-            {
-              question: "What is meant by invariants in JavaScript proxies?",
-              solution: `
+              },
+              {
+                question: "What is meant by invariants in JavaScript proxies?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Invariants are rules enforced by the JavaScript engine, ensuring that certain properties of objects cannot be violated by proxies. For example, if a property is non-configurable, it cannot be deleted by a proxy.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Is there a way to iterate over an object’s keys using a method that uses the [[OwnPropertyKeys]] internal method?",
-              solution: `
+              },
+              {
+                question:
+                  "Is there a way to iterate over an object’s keys using a method that uses the [[OwnPropertyKeys]] internal method?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Yes, the <code>ownKeys</code> trap can be used in a Proxy to intercept the iteration of an object's keys and customize the behavior of <code>Object.keys()</code> and similar methods.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Do private (#) properties and methods require proxies in a class?",
-              solution: `
+              },
+              {
+                question:
+                  "Do private (#) properties and methods require proxies in a class?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     No, private properties and methods (denoted by <code>#</code>) cannot be accessed or modified by proxies since they are not part of the object's accessible properties.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What is the benefit of using a Proxy vs. a wrapper function?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the benefit of using a Proxy vs. a wrapper function?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A Proxy offers more flexibility than a wrapper function because it allows you to intercept and customize a wide range of operations on an object, such as property access, property assignment, and method invocation, without changing the object's API or structure.
                   </p>
                 `,
-            },
-            {
-              question: "What is the Reflect API in JavaScript?",
-              solution: `
+              },
+              {
+                question: "What is the Reflect API in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect API is a built-in JavaScript object that provides static methods for performing common object operations like setting, deleting, or defining properties, and it works in conjunction with Proxy objects to access default behaviors.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Can you explain the function of the Reflect built-in JavaScript object?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain the function of the Reflect built-in JavaScript object?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect object provides methods that correspond to the fundamental operations you can perform on objects, such as <code>Reflect.get</code> for getting property values, <code>Reflect.set</code> for setting property values, and <code>Reflect.apply</code> for calling functions.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are some common methods provided by the Reflect API?",
-              solution: `
+              },
+              {
+                question:
+                  "What are some common methods provided by the Reflect API?",
+                solution: `
                   <pre><code>Reflect.get() // Access a property
             Reflect.set() // Set a property
             Reflect.apply() // Call a function
@@ -3433,46 +3433,46 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             Reflect.deleteProperty() // Delete a property
             Reflect.has() // Check if a property exists</code></pre>
                 `,
-            },
-            {
-              question:
-                "How does the Reflect API relate to Proxies in JavaScript?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the Reflect API relate to Proxies in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The Reflect API is often used inside Proxy traps to call the default behavior of an intercepted operation. For example, the <code>get</code> trap in a Proxy might use <code>Reflect.get</code> to retrieve the property’s default value.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Does the JavaScript proxy built-in object have any limitations?",
-              solution: `
+              },
+              {
+                question:
+                  "Does the JavaScript proxy built-in object have any limitations?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Yes, Proxies cannot intercept operations on private properties or methods (denoted by <code>#</code>), and they also cannot intercept operations that rely on object identity, such as <code>===</code> comparisons.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Is it possible to proxy an inherited class with private fields in JavaScript?",
-              solution: `
+              },
+              {
+                question:
+                  "Is it possible to proxy an inherited class with private fields in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     No, private fields and methods (denoted by <code>#</code>) cannot be intercepted by a Proxy since they are hidden from external access and only accessible within the class itself.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Can proxies intercept an object used in a strict equality test?",
-              solution: `
+              },
+              {
+                question:
+                  "Can proxies intercept an object used in a strict equality test?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     No, proxies cannot intercept <code>===</code> or strict equality tests. The proxy will be treated as equal to itself, but it cannot modify the result of comparisons with other objects.
                   </p>
                 `,
-            },
-            {
-              question: "What is a revocable JavaScript proxy?",
-              solution: `
+              },
+              {
+                question: "What is a revocable JavaScript proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A revocable Proxy allows you to disable the proxy after it has been created. This can be useful in scenarios where you want to stop intercepting operations after a certain point.
                   </p>
@@ -3482,26 +3482,26 @@ Reflect.deleteProperty(target, 'age'); // Deletes the age property
             proxy.name; // Throws an error
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "Why would you use a WeakMap when attempting to revoke a proxy?",
-              solution: `
+              },
+              {
+                question:
+                  "Why would you use a WeakMap when attempting to revoke a proxy?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A WeakMap can be used to store the proxy's target object, ensuring that the proxy is garbage-collected when it is no longer needed. This prevents memory leaks when revoking proxies in long-running applications.
                   </p>
                 `,
-            },
-          ],
-          links: [
-            "https://www.hellojavascript.info/docs/general-javascript-questions/miscellaneous-js-questions/proxy-and-reflect#what-are-some-common-use-cases-for-proxies",
-            "https://enlear.academy/javascript-proxy-and-reflect-c74cceb0dcc8",
-          ],
-        },
-        {
-          topic: "Falsy and Truthy",
-          tags: [""],
-          explanation: `<p style="margin-top: 1.0rem;">
+              },
+            ],
+            links: [
+              "https://www.hellojavascript.info/docs/general-javascript-questions/miscellaneous-js-questions/proxy-and-reflect#what-are-some-common-use-cases-for-proxies",
+              "https://enlear.academy/javascript-proxy-and-reflect-c74cceb0dcc8",
+            ],
+          },
+          {
+            topic: "Falsy and Truthy",
+            tags: [""],
+            explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, falsy and truthy values are utilized in conditional statements to decide the flow of logic. A value is considered falsy if it evaluates to false when used in a Boolean context, and truthy if it evaluates to true.
 </p>
 
@@ -3611,11 +3611,11 @@ Boolean({});            // true
 Boolean({ a: 1 });      // true
 </code></pre>
 `,
-          examples: [""],
-          questions: [
-            {
-              question: "What are falsy values in JavaScript?",
-              solution: `
+            examples: [""],
+            questions: [
+              {
+                question: "What are falsy values in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Falsy values in JavaScript are values that, when evaluated in a Boolean context, return false. These values include:
                     <ul style="margin-top: 0.5rem;">
@@ -3628,10 +3628,10 @@ Boolean({ a: 1 });      // true
                     </ul>
                   </p>
                 `,
-            },
-            {
-              question: "What are truthy values in JavaScript?",
-              solution: `
+              },
+              {
+                question: "What are truthy values in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Truthy values are all values in JavaScript that are not falsy. These include:
                     <ul style="margin-top: 0.5rem;">
@@ -3643,11 +3643,11 @@ Boolean({ a: 1 });      // true
                     </ul>
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does JavaScript treat falsy values in conditional statements?",
-              solution: `
+              },
+              {
+                question:
+                  "How does JavaScript treat falsy values in conditional statements?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     When falsy values are used in conditional statements, JavaScript treats them as false. For example:
                   </p>
@@ -3655,11 +3655,11 @@ Boolean({ a: 1 });      // true
               console.log('This will not execute'); // 0 is falsy
             }</code></pre>
                 `,
-            },
-            {
-              question:
-                "How does JavaScript treat truthy values in conditional statements?",
-              solution: `
+              },
+              {
+                question:
+                  "How does JavaScript treat truthy values in conditional statements?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     When truthy values are used in conditional statements, JavaScript treats them as true. For example:
                   </p>
@@ -3667,11 +3667,11 @@ Boolean({ a: 1 });      // true
               console.log('This will execute'); // 1 is truthy
             }</code></pre>
                 `,
-            },
-            {
-              question:
-                "Can you give an example of using falsy and truthy values in JavaScript?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you give an example of using falsy and truthy values in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Here is an example of using falsy and truthy values in JavaScript for assigning default values:
                   </p>
@@ -3679,19 +3679,19 @@ Boolean({ a: 1 });      // true
             let displayName = username || "Guest"; // Fallback to "Guest" if username is falsy
             console.log(displayName); // Outputs: "Guest"</code></pre>
                 `,
-            },
-            {
-              question:
-                "What is the difference between falsy and truthy values in JavaScript?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the difference between falsy and truthy values in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Falsy values evaluate to false in a Boolean context, while truthy values evaluate to true. Falsy values include <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, and <code>NaN</code>. Everything else is truthy.
                   </p>
                 `,
-            },
-            {
-              question: "What are the Truthy and Falsy values?",
-              solution: `
+              },
+              {
+                question: "What are the Truthy and Falsy values?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A truthy value is similar to true, while a falsy value is similar to false. The falsy values in JavaScript include:
                     <ul style="margin-top: 0.5rem;">
@@ -3716,10 +3716,10 @@ Boolean({ a: 1 });      // true
             console.log("0" ? 'Truth' : 'Falsy'); // Outputs: Truth
                   </code></pre>
                 `,
-            },
-            {
-              question: "What is the difference between null and undefined?",
-              solution: `
+              },
+              {
+                question: "What is the difference between null and undefined?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     <strong>null</strong> represents an intentional absence of any value, while <strong>undefined</strong> means a variable has been declared but not assigned a value.
                   </p>
@@ -3727,11 +3727,11 @@ Boolean({ a: 1 });      // true
             let b; // b is undefined because it has not been assigned a value
                   </code></pre>
                 `,
-            },
-            {
-              question:
-                "What is the difference between double equal (==) and triple equal (===)?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the difference between double equal (==) and triple equal (===)?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     <strong>Double equal (==)</strong> checks for equality after performing type coercion, while <strong>Triple equal (===)</strong> checks for both value and type without coercion.
                   </p>
@@ -3739,10 +3739,10 @@ Boolean({ a: 1 });      // true
             console.log(5 === '5'); // false (no type coercion)
                   </code></pre>
                 `,
-            },
-            {
-              question: "What is the 'this' keyword?",
-              solution: `
+              },
+              {
+                question: "What is the 'this' keyword?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <strong>'this'</strong> keyword refers to the object that is currently executing the JavaScript code. Each function execution has a reference to its executing context.
                   </p>
@@ -3755,10 +3755,10 @@ Boolean({ a: 1 });      // true
             console.log(obj.getValue()); // Outputs: 10
                   </code></pre>
                 `,
-            },
-            {
-              question: "How to check for a prime number?",
-              solution: `
+              },
+              {
+                question: "How to check for a prime number?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A prime number is a natural number greater than 1 that is not divisible by any number other than itself and 1. For example, 2, 3, 5, and 7 are prime numbers.
                   </p>
@@ -3771,10 +3771,10 @@ Boolean({ a: 1 });      // true
             console.log(isPrime(5)); // Outputs: true
                   </code></pre>
                 `,
-            },
-            {
-              question: "Find the largest element of an array.",
-              solution: `
+              },
+              {
+                question: "Find the largest element of an array.",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can find the largest element in an array using a loop.
                   </p>
@@ -3788,10 +3788,10 @@ Boolean({ a: 1 });      // true
             console.log(largest); // Outputs: 5
                   </code></pre>
                 `,
-            },
-            {
-              question: "How to use the JavaScript callback function?",
-              solution: `
+              },
+              {
+                question: "How to use the JavaScript callback function?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A callback function is a function passed as an argument to another function. This allows for asynchronous programming and event handling.
                   </p>
@@ -3804,10 +3804,10 @@ Boolean({ a: 1 });      // true
             });
                   </code></pre>
                 `,
-            },
-            {
-              question: "What is the difference between Let and Const?",
-              solution: `
+              },
+              {
+                question: "What is the difference between Let and Const?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     <strong>Let</strong> allows you to declare variables that can be reassigned, while <strong>Const</strong> declares variables that cannot be reassigned after their initial assignment.
                   </p>
@@ -3818,10 +3818,10 @@ Boolean({ a: 1 });      // true
             // b = 2; // Not allowed - TypeError
                   </code></pre>
                 `,
-            },
-            {
-              question: "What are the advantages of the Arrow function?",
-              solution: `
+              },
+              {
+                question: "What are the advantages of the Arrow function?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Arrow functions provide a more concise syntax for writing functions and lexically bind the <strong>'this'</strong> value.
                   </p>
@@ -3829,10 +3829,10 @@ Boolean({ a: 1 });      // true
             console.log(add(2, 3)); // Outputs: 5
                   </code></pre>
                 `,
-            },
-            {
-              question: "What is Closure in JavaScript?",
-              solution: `
+              },
+              {
+                question: "What is Closure in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A closure is a function that retains access to its lexical scope even when the function is executed outside that scope.
                   </p>
@@ -3848,14 +3848,14 @@ Boolean({ a: 1 });      // true
             console.log(counter()); // Outputs: 2
                   </code></pre>
                 `,
-            },
-          ],
-          links: [""],
-        },
-        {
-          topic: "Map",
-          tags: [""],
-          explanation: `<p style="margin-top: 1.0rem;">
+              },
+            ],
+            links: [""],
+          },
+          {
+            topic: "Map",
+            tags: [""],
+            explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, a <strong>Map</strong> is a set of key-value pairs where both the keys and the values may be of any data type. Unlike traditional objects where the keys are strings or symbols, Maps allow any type of key (including objects, functions, or any primitive type). Maps also offer better performance for frequent additions and deletions of key-value pairs when compared to regular objects.
 </p>
 
@@ -3967,276 +3967,276 @@ weakMap.delete(obj2);
 // obj2 is now eligible for garbage collection
 </code></pre>
 `,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "What are the performance implications of using Maps versus Objects for large datasets in JavaScript?",
-              solution: `
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "What are the performance implications of using Maps versus Objects for large datasets in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps provide better performance than Objects for large datasets in specific scenarios, particularly when frequent additions and deletions of key-value pairs are required. This is because Maps are optimized for such operations, whereas Objects need to handle key-string conversion and prototype chain traversal, which can introduce overhead. Additionally, Maps maintain insertion order and allow non-string keys, making them more versatile for complex data structures, but with the trade-off of slightly more memory consumption compared to Objects.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the internal implementation of Map in JavaScript ensure order preservation, and what are the potential trade-offs?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the internal implementation of Map in JavaScript ensure order preservation, and what are the potential trade-offs?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript maintain order by internally using linked lists or similar structures to track the insertion order of key-value pairs. This allows the <code>for...of</code> loop and methods like <code>entries()</code>, <code>keys()</code>, and <code>values()</code> to return items in the order of insertion. The trade-off is that order tracking introduces additional memory overhead and may lead to slower operations compared to unordered data structures. Moreover, maintaining this order could marginally affect performance in very large Maps when iterating or deleting elements.
                   </p>
                 `,
-            },
-            {
-              question:
-                "In what scenarios would a WeakMap's garbage collection behavior become crucial for maintaining application performance?",
-              solution: `
+              },
+              {
+                question:
+                  "In what scenarios would a WeakMap's garbage collection behavior become crucial for maintaining application performance?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A WeakMap’s garbage collection behavior becomes critical in scenarios where you need to associate temporary or auxiliary data with objects without preventing those objects from being garbage collected. For example, in cases like DOM element caching, memoization of function results, or storing metadata for objects that have a limited lifecycle, WeakMap ensures that once an object is no longer needed and no other references exist, the object and its associated data are automatically garbage collected. This helps in preventing memory leaks and reduces the overall memory footprint in long-running applications or memory-sensitive environments.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the weak reference mechanism in a WeakMap affect the ability to enumerate or inspect keys and values?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the weak reference mechanism in a WeakMap affect the ability to enumerate or inspect keys and values?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     WeakMaps use weak references for keys, meaning that the JavaScript engine can garbage collect a key-value pair when there are no other references to the key object. As a result, WeakMaps do not support enumeration or inspection of keys and values through methods like <code>for...of</code>, <code>keys()</code>, or <code>values()</code>. This design ensures that the garbage collection process is transparent and automatic, but it also means that you cannot track or inspect the contents of a WeakMap programmatically, except by directly querying individual keys via the <code>get()</code> method.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Why are WeakMaps considered useful for managing memory in complex JavaScript applications, and how does this relate to the concept of 'memory leaks'?",
-              solution: `
+              },
+              {
+                question:
+                  "Why are WeakMaps considered useful for managing memory in complex JavaScript applications, and how does this relate to the concept of 'memory leaks'?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     WeakMaps are especially useful in complex JavaScript applications where objects might need to be temporarily linked to additional data, such as DOM elements or components. If a regular Map or Object were used in these cases, the referenced objects would not be garbage collected as long as they are held as keys in the Map, leading to potential memory leaks where unused memory is not released. WeakMaps avoid this issue by allowing the garbage collector to clean up key-value pairs when no other references to the key object exist. This automatic memory management helps in maintaining the performance and scalability of large applications, preventing memory from being held unnecessarily.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the limitations of using WeakMaps in terms of key types, and why does JavaScript enforce these restrictions?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the limitations of using WeakMaps in terms of key types, and why does JavaScript enforce these restrictions?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The primary limitation of WeakMaps is that keys must be objects, not primitive values like strings or numbers. This restriction exists because WeakMaps rely on weak references, which only work with objects. Primitive values in JavaScript are immutable and not stored by reference, meaning that weak referencing them would be meaningless since primitives can't be garbage collected or tracked in the same way as objects.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the choice of key types in a Map affect lookup performance, and what best practices should be followed when using complex keys?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the choice of key types in a Map affect lookup performance, and what best practices should be followed when using complex keys?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     In Maps, keys can be of any type, including objects, unlike Objects, where keys must be strings or symbols. When using primitive values as keys, Map lookup performance is very fast since these are compared by value. However, when using complex objects as keys, the lookup performance can be slightly slower because Map checks object reference equality (i.e., if two objects are not the same instance, they are treated as different keys). For optimal performance, it’s recommended to use primitive types for keys when possible. If objects must be used as keys, ensure that key reuse (using the same object instance) is well-controlled to avoid unexpected behavior.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the memory and performance trade-offs of using Map versus Object for storing large numbers of key-value pairs in JavaScript?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the memory and performance trade-offs of using Map versus Object for storing large numbers of key-value pairs in JavaScript?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps generally consume more memory than Objects because they store additional metadata to support features such as preserving key insertion order and allowing non-string keys. However, Maps are optimized for scenarios involving frequent insertions and deletions, making them faster for these operations compared to Objects, which incur overhead due to string key conversion and potential prototype chain lookups. Maps also provide consistent performance for key lookups and deletions, regardless of the size of the dataset, whereas Object performance can degrade with large datasets due to hash collisions. Therefore, for large datasets with frequent operations, Maps offer better overall performance at the cost of higher memory consumption.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the iteration behavior of Map differ from that of Object, and when should iteration order be a deciding factor in choosing between them?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the iteration behavior of Map differ from that of Object, and when should iteration order be a deciding factor in choosing between them?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps guarantee iteration order, meaning that elements are iterated in the order in which they were inserted. In contrast, Objects do not guarantee a reliable iteration order, especially for non-integer keys, and older JavaScript engines may iterate keys in arbitrary order. When order of elements is important for your application, such as when rendering items in a specific sequence or when processing key-value pairs in insertion order, a Map is the preferred choice. The trade-off, however, is that Maps have a slightly higher overhead due to the need to track insertion order, so if order is irrelevant, Object may be more efficient.
                   </p>
                 `,
-            },
-            {
-              question:
-                "In what scenarios would the use of Map's size property provide a performance advantage over calculating an Object's size using Object.keys().length?",
-              solution: `
+              },
+              {
+                question:
+                  "In what scenarios would the use of Map's size property provide a performance advantage over calculating an Object's size using Object.keys().length?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>size</code> property of a Map provides constant-time access to the number of entries, making it highly efficient. In contrast, calculating the number of entries in an Object requires iterating over its keys using <code>Object.keys(obj).length</code>, which has linear-time complexity. This difference is especially significant in performance-critical applications where the size of the dataset is frequently queried. For large data structures or when needing to check the size of a collection multiple times, using Map provides a clear advantage, as accessing the <code>size</code> property is instantaneous regardless of the number of elements stored.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the implications of Map's structural equality requirement for object keys, and how can developers manage the use of object keys effectively?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the implications of Map's structural equality requirement for object keys, and how can developers manage the use of object keys effectively?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript use reference equality for object keys, meaning that two distinct object instances with the same properties will be considered different keys. This can lead to unexpected behavior if object keys are created dynamically and not reused consistently. To manage this effectively, developers should ensure that the same object reference is reused if the same key is intended to be accessed multiple times. Alternatively, using a unique identifier or stringified version of the object as a key can help mitigate issues related to reference equality. This strategy is particularly useful when working with objects that are recreated during execution.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can Maps be leveraged to implement a cache in JavaScript, and what are the advantages and potential pitfalls of this approach?",
-              solution: `
+              },
+              {
+                question:
+                  "How can Maps be leveraged to implement a cache in JavaScript, and what are the advantages and potential pitfalls of this approach?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps can be used to implement a simple cache by storing key-value pairs where the keys represent input data and the values represent cached results. Since Maps maintain insertion order and allow any data type as keys, they are well-suited for caching complex data structures. A key advantage of using Maps is the <code>has()</code> method, which enables fast lookup to check if an item is already cached. However, one pitfall is that Maps do not automatically manage cache size or expiration, so developers must implement strategies like manually clearing the Map or limiting its size to avoid excessive memory usage. For more advanced scenarios, <code>WeakMap</code> could be used for caching data with a limited lifecycle.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the spread operator (...) affect Maps in JavaScript, and what are the performance implications of converting Maps to Arrays and vice versa?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the spread operator (...) affect Maps in JavaScript, and what are the performance implications of converting Maps to Arrays and vice versa?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator can be used to convert a Map into an Array by spreading its entries, such as <code>[...myMap]</code>. Similarly, a Map can be created from an Array of key-value pairs by passing the array to the Map constructor. While these operations are convenient, they involve iterating over the entire Map or Array, which can be expensive for large datasets. The performance of such conversions depends on the size of the data structure. When working with large Maps or Arrays, it's important to minimize the frequency of such conversions to avoid performance bottlenecks.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How do Maps handle NaN as a key, and how does this differ from the behavior of Objects with NaN properties?",
-              solution: `
+              },
+              {
+                question:
+                  "How do Maps handle NaN as a key, and how does this differ from the behavior of Objects with NaN properties?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript treat <code>NaN</code> as equal to itself, meaning that <code>map.set(NaN, 'value1')</code> followed by <code>map.set(NaN, 'value2')</code> will overwrite the original value, as both instances of <code>NaN</code> are considered the same key. In contrast, Objects treat <code>NaN</code> like any other property, but since object keys are strings, <code>NaN</code> is implicitly converted to the string "NaN". As a result, multiple <code>NaN</code> values can be added to an Object without overwriting each other, but this could lead to unexpected behavior, especially if numeric values are expected. Maps, with their strict treatment of <code>NaN</code> as equal, provide a more predictable approach.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does Map's insertion order preservation affect the performance of frequent reordering operations, and what alternatives exist for faster insertion and sorting?",
-              solution: `
+              },
+              {
+                question:
+                  "How does Map's insertion order preservation affect the performance of frequent reordering operations, and what alternatives exist for faster insertion and sorting?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Map preserves the order of entries as they are inserted, which can slow down operations that involve frequent reordering, such as moving entries to the front or the back of the Map. This is because Maps are optimized for maintaining a stable insertion order, not for efficient reordering. In scenarios where reordering is frequent, a combination of an array and a plain object (for fast lookups) may provide better performance. Using an array for order and an object for quick access allows for more efficient manipulation, but at the cost of losing Map-specific features like non-string keys and the <code>size</code> property.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does JavaScript's garbage collection mechanism interact with entries in a Map, and when could this lead to potential memory retention issues?",
-              solution: `
+              },
+              {
+                question:
+                  "How does JavaScript's garbage collection mechanism interact with entries in a Map, and when could this lead to potential memory retention issues?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript strongly reference both their keys and values, meaning that as long as a key-value pair is in the Map, neither the key nor the value will be garbage collected. This can lead to potential memory retention issues, especially if large objects are used as keys or values and are no longer needed. The garbage collector will not reclaim the memory for these objects as long as they remain referenced by the Map. To mitigate this, developers should ensure that unnecessary entries are removed from the Map using <code>map.delete(key)</code>, or consider using a <code>WeakMap</code> if they only need weak references for the keys.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the differences between Map and WeakMap in terms of key management and performance for long-running applications?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the differences between Map and WeakMap in terms of key management and performance for long-running applications?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The key difference between Map and WeakMap lies in key management. In a Map, keys can be of any type and are strongly referenced, meaning that they won't be garbage collected until they are explicitly removed. This can be problematic in long-running applications where memory usage may grow indefinitely if unused keys are not cleaned up. In contrast, WeakMap keys must be objects and are weakly referenced, allowing the garbage collector to automatically remove key-value pairs when the key is no longer referenced elsewhere. For long-running applications, using WeakMaps for short-lived objects can improve performance by reducing memory consumption and preventing memory leaks.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the <code>forEach</code> method in Map differ from iterating with a <code>for...of</code> loop, and what are the performance implications of each?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the <code>forEach</code> method in Map differ from iterating with a <code>for...of</code> loop, and what are the performance implications of each?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>forEach</code> method in Map executes a provided function once for each key-value pair, allowing custom iteration logic. It is generally considered less efficient than a <code>for...of</code> loop because <code>forEach</code> requires invoking a callback for each iteration, which introduces additional function call overhead. In contrast, <code>for...of</code> is more performant for simple iteration as it directly retrieves each entry without the need for function calls. When performance is critical, especially in large Maps, using <code>for...of</code> is preferable due to its lower overhead, while <code>forEach</code> is useful for more complex scenarios where custom logic is needed during iteration.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the considerations for using Map versus Set in terms of performance and functionality, and when should each be preferred?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the considerations for using Map versus Set in terms of performance and functionality, and when should each be preferred?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps and Sets serve different purposes in JavaScript. Maps are designed for key-value pairs, where each key can be of any type, while Sets are designed to store unique values without key-value associations. In terms of performance, both Maps and Sets offer fast lookup times (O(1) complexity) for their respective data types. However, Maps incur additional overhead for managing key-value pairs, while Sets are more lightweight since they only store values. Sets are preferable when you need to store unique values and perform operations like unions or intersections, while Maps should be used when key-value relationships are needed. Choosing the correct structure is crucial for optimizing both performance and memory usage.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can Maps be used to implement a Least Recently Used (LRU) cache, and what considerations should be taken into account for performance optimization?",
-              solution: `
+              },
+              {
+                question:
+                  "How can Maps be used to implement a Least Recently Used (LRU) cache, and what considerations should be taken into account for performance optimization?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps can be used to implement a Least Recently Used (LRU) cache by tracking insertion order and moving accessed entries to the end of the Map to denote recent usage. The cache can be optimized by using the <code>delete</code> and <code>set</code> methods to remove the least recently used entry (the first item in the Map) and then reinsert it at the end when accessed. However, frequent reordering can introduce performance overhead, so developers should limit the cache size and ensure that eviction logic is efficient. A hybrid approach, using both a Map and a doubly-linked list, can further optimize performance by reducing the cost of reordering entries.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the trade-offs of using Maps with custom iterators, and how can custom iteration logic improve performance or flexibility?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the trade-offs of using Maps with custom iterators, and how can custom iteration logic improve performance or flexibility?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Custom iterators in Maps allow for more flexible iteration logic, such as skipping certain entries or performing operations in a specific order. While they provide greater control, custom iterators can introduce additional complexity and potential performance costs, especially if the iteration logic involves frequent lookups or modifications to the Map. The trade-off is between flexibility and performance—custom iterators allow fine-tuned control over the iteration process but may slow down iteration compared to using built-in methods like <code>for...of</code> or <code>entries()</code>. To improve performance, developers should ensure that custom iteration logic is optimized for the specific use case and avoid unnecessary modifications during iteration.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the limitations of using Maps with non-primitive keys and how does this affect equality checks?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the limitations of using Maps with non-primitive keys and how does this affect equality checks?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps allow any object type to be used as a key, unlike Objects, which only allow strings or symbols. However, this comes with a caveat: Map uses the <code>SameValueZero</code> algorithm for key comparison, meaning that two objects are considered distinct even if they have identical properties. For example, <code>map.set({}, 'value1')</code> followed by <code>map.set({}, 'value2')</code> will result in two separate entries, because the two empty objects are different instances. This limitation makes Map unsuitable for cases where you need deep equality comparisons of object keys, as Map only checks references, not the values or structure of the objects.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the size of a Map affect performance when performing lookups, and how can you optimize lookups in very large Maps?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the size of a Map affect performance when performing lookups, and how can you optimize lookups in very large Maps?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps in JavaScript have constant time complexity O(1) for lookups, but this performance can degrade slightly as the size of the Map grows due to internal hash table management. For very large Maps, optimizing lookups involves minimizing hash collisions by ensuring that keys are sufficiently unique. Additionally, splitting large Maps into smaller, more manageable chunks, such as using a Map of Maps or implementing a sharding mechanism, can help distribute the load and improve lookup performance. It's also advisable to avoid storing complex or large objects as keys, as this can slow down hash calculation and reference checks.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the trade-offs of using Maps with large datasets in memory-constrained environments, and how can you mitigate memory issues?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the trade-offs of using Maps with large datasets in memory-constrained environments, and how can you mitigate memory issues?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     While Maps offer efficient key-value storage, their memory consumption can be significant, especially with large datasets. This is due to Maps storing both keys and values in a separate structure from the main execution environment, which can result in higher memory overhead compared to Objects. In memory-constrained environments, this could lead to performance degradation or out-of-memory errors. To mitigate memory issues, developers can use <code>WeakMaps</code> for objects with short lifecycles, manually clear unused entries with <code>map.delete(key)</code>, or implement data eviction strategies, such as LRU caching, to remove less frequently used entries and free up memory.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What considerations should be made when using Maps for concurrent data operations in JavaScript, especially in multithreaded environments like Web Workers?",
-              solution: `
+              },
+              {
+                question:
+                  "What considerations should be made when using Maps for concurrent data operations in JavaScript, especially in multithreaded environments like Web Workers?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     JavaScript is single-threaded by default, meaning that operations on Maps are generally safe from race conditions. However, in multithreaded environments like Web Workers or when using SharedArrayBuffer, concurrent access to Maps must be managed carefully. Since Maps are not inherently thread-safe, simultaneous read and write operations across threads can lead to inconsistent states or data corruption. To handle this, you should either avoid sharing Maps between threads, use message passing to synchronize data between workers, or implement locking mechanisms using external libraries that provide concurrency control, ensuring that only one thread can modify the Map at a time.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the garbage collection behavior of objects in Maps differ from WeakMaps, and when should you prefer one over the other?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the garbage collection behavior of objects in Maps differ from WeakMaps, and when should you prefer one over the other?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Maps strongly reference both their keys and values, meaning that objects stored as keys or values in a Map will not be garbage collected until they are explicitly removed from the Map. This is different from WeakMaps, where keys are weakly referenced and can be garbage collected when no other references to the key exist. WeakMaps are preferable when you need to associate metadata or temporary data with objects and ensure that memory is released when the object is no longer in use. Maps should be used when strong references to keys and values are required for the duration of their lifetime in memory.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the best practices for ensuring optimal performance when frequently adding and deleting key-value pairs in a large Map?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the best practices for ensuring optimal performance when frequently adding and deleting key-value pairs in a large Map?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To optimize performance when frequently adding and deleting key-value pairs in a large Map, it's important to minimize the number of rehashing operations. Rehashing occurs when the Map’s internal capacity is exceeded, leading to costly resizing operations. To avoid frequent resizing, it's recommended to pre-allocate a large initial size for the Map if you expect a large dataset. Additionally, batching operations, such as adding or removing multiple entries at once, can reduce the overhead of multiple rehashes. Regularly cleaning up unused entries using <code>map.delete(key)</code> will also ensure that the Map's memory footprint remains manageable.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you improve the efficiency of Map operations when working with hierarchical or nested data structures?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you improve the efficiency of Map operations when working with hierarchical or nested data structures?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     When working with hierarchical or nested data structures in Maps, performance can degrade if deeply nested lookups are frequent. To improve efficiency, consider flattening the data structure where possible or using a Map of Maps. This allows you to avoid deep lookups by grouping related key-value pairs into separate Maps, effectively reducing the depth of nested operations. Additionally, using a caching mechanism to store frequently accessed nested data can help avoid redundant lookups. It's also beneficial to use well-structured key naming conventions that allow for faster access and retrieval.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the <code>Symbol.iterator</code> property enhance the flexibility of Maps, and what are the potential use cases for customizing iteration behavior?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the <code>Symbol.iterator</code> property enhance the flexibility of Maps, and what are the potential use cases for customizing iteration behavior?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Symbol.iterator</code> property in Maps allows for custom iteration behavior by defining how the Map should be iterated over using constructs like <code>for...of</code> or spread syntax. This can be useful for customizing iteration logic, such as skipping certain entries, filtering results, or iterating in a specific order. Potential use cases include iterating over Maps with conditional logic (e.g., only iterating over entries that match a certain criterion) or modifying how key-value pairs are returned, such as swapping the key and value in each iteration. Custom iterators provide enhanced flexibility in how Maps are processed, especially in scenarios where fine-grained control over iteration is required.
                   </p>
                 `,
-            },
-          ],
-          links: [""],
-        },
-        {
-          topic: "Set",
-          tags: [""],
-          explanation: `<p style="margin-top: 1.0rem;">
+              },
+            ],
+            links: [""],
+          },
+          {
+            topic: "Set",
+            tags: [""],
+            explanation: `<p style="margin-top: 1.0rem;">
   In JavaScript, a <strong>Set</strong> is an integrated object that allows you to store unique values of any type, whether primitive values or object references. Unlike arrays, Sets automatically enforce uniqueness, meaning you can't have duplicate elements in a Set.
 </p>
 
@@ -4438,201 +4438,201 @@ console.log(weakSet.has(obj1)); // Output: true
 weakSet.delete(obj1);
 console.log(weakSet.has(obj1)); // Output: false
 </code></pre>`,
-          examples: [""],
-          questions: [
-            {
-              question:
-                "What are the key differences between Sets and Arrays in JavaScript, and when would you prefer to use a Set?",
-              solution: `
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "What are the key differences between Sets and Arrays in JavaScript, and when would you prefer to use a Set?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets are collections of unique values, meaning they automatically prevent duplicate entries. In contrast, Arrays can contain duplicates and maintain the order of elements. You would prefer to use a Set when you need to ensure uniqueness, such as when storing a list of user IDs or tags. Additionally, Sets offer optimized performance for certain operations, like checking for existence (O(1) complexity), compared to the O(n) complexity for Arrays using <code>Array.includes()</code>.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How do you efficiently convert an Array with potential duplicates into a Set and back into an Array?",
-              solution: `
+              },
+              {
+                question:
+                  "How do you efficiently convert an Array with potential duplicates into a Set and back into an Array?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To convert an Array into a Set, simply pass the Array to the Set constructor: <code>const uniqueSet = new Set(array);</code>. This removes any duplicate values. To convert the Set back into an Array, use the spread operator: <code>const uniqueArray = [...uniqueSet];</code>. This is a common pattern for deduplication in JavaScript.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are some performance considerations when using Sets with large datasets, and how can you mitigate potential issues?",
-              solution: `
+              },
+              {
+                question:
+                  "What are some performance considerations when using Sets with large datasets, and how can you mitigate potential issues?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets have average time complexities of O(1) for add, delete, and has operations, but performance can degrade with very large datasets due to memory overhead and garbage collection. To mitigate potential issues, it's essential to avoid storing large objects or deeply nested structures as Set elements. If necessary, use <code>WeakSet</code> for temporary object storage, as it allows for automatic garbage collection of objects that are no longer in use.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How does the garbage collection behavior of Sets differ from WeakSets, and in what scenarios should you choose one over the other?",
-              solution: `
+              },
+              {
+                question:
+                  "How does the garbage collection behavior of Sets differ from WeakSets, and in what scenarios should you choose one over the other?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets maintain strong references to their values, preventing them from being garbage collected as long as they remain in the Set. In contrast, WeakSets hold weak references to their objects, allowing for garbage collection if no other references to those objects exist. Choose Sets when you need to keep the values alive for the duration of the Set’s lifetime, and use WeakSets when associating metadata or transient data with objects that may be freed by the garbage collector.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the implications of using Sets in terms of memory usage compared to Arrays, especially when storing large amounts of data?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the implications of using Sets in terms of memory usage compared to Arrays, especially when storing large amounts of data?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets generally consume more memory than Arrays because they maintain additional internal structures to ensure uniqueness and optimize performance. When dealing with large datasets, this can lead to increased memory usage and potential performance issues. To manage memory effectively, avoid unnecessary duplication of data by leveraging Sets for deduplication only when needed. Additionally, consider using Typed Arrays for numeric data, which can be more memory-efficient.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you customize iteration over a Set using the <code>Symbol.iterator</code> property, and what use cases might benefit from this customization?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you customize iteration over a Set using the <code>Symbol.iterator</code> property, and what use cases might benefit from this customization?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Symbol.iterator</code> property allows you to define custom iteration behavior for a Set. For example, you might want to skip certain values or return values in a specific order. A use case for this customization could involve creating a Set of user roles and needing to filter out certain roles during iteration. Custom iterators enhance flexibility, allowing for tailored processing of the Set entries.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are the best practices for ensuring optimal performance when frequently adding and removing elements from a large Set?",
-              solution: `
+              },
+              {
+                question:
+                  "What are the best practices for ensuring optimal performance when frequently adding and removing elements from a large Set?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To optimize performance with a large Set, batch operations whenever possible instead of adding or removing elements one at a time. Minimize frequent mutations, as Sets can incur overhead when resizing their internal storage. If a Set becomes too large or experiences high mutation rates, consider transitioning to another data structure or implementing a data eviction strategy to manage the size and ensure performance remains stable.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you determine if two Sets are equal in JavaScript, considering their contents?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you determine if two Sets are equal in JavaScript, considering their contents?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To check if two Sets are equal, you need to compare their sizes first; if they differ, they are not equal. Then, iterate through one Set and check if each element exists in the other Set using the <code>has()</code> method. Keep in mind that Set equality checks require a deep comparison of their elements if they contain objects, as Sets do not consider objects equal based on their contents but rather their references.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What methods are available for manipulating Sets in JavaScript, and how do they differ from Array methods?",
-              solution: `
+              },
+              {
+                question:
+                  "What methods are available for manipulating Sets in JavaScript, and how do they differ from Array methods?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets provide several methods for manipulation, including <code>add(value)</code>, <code>delete(value)</code>, and <code>clear()</code>, which allow you to add, remove, and clear all values, respectively. Unlike Arrays, Sets do not have methods like <code>push()</code> or <code>pop()</code>, as they do not maintain order or allow duplicates. This makes Sets more suitable for scenarios where you need unique values without concern for ordering.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Can you explain the performance implications of using Sets for large datasets versus using an object for unique keys?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain the performance implications of using Sets for large datasets versus using an object for unique keys?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets provide O(1) time complexity for add, delete, and has operations, making them efficient for maintaining unique values. However, they may consume more memory than objects due to their internal data structures. Objects also have O(1) average time complexity for property access, but they can contain duplicate keys. If your data primarily consists of unique keys without associated values, Sets might be the better choice for performance and memory efficiency.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What is the significance of the order of elements in a Set, and how does it differ from that of an Array?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the significance of the order of elements in a Set, and how does it differ from that of an Array?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets maintain the insertion order of elements, allowing you to iterate through them in the order they were added. However, unlike Arrays, Sets do not have indexing, so you cannot access elements by position. This characteristic makes Sets suitable for use cases where the order of unique values is important, but direct indexing is not needed.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you convert a Set back to a Map, and what would be the use case for this transformation?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you convert a Set back to a Map, and what would be the use case for this transformation?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can convert a Set back to a Map by using the <code>Map</code> constructor and providing an iterable. For example: <code>const mapFromSet = new Map([...set].map(value => [value, someDefaultValue]));</code>. This transformation is useful when you want to associate additional data with each unique value from the Set, allowing you to leverage Map's key-value structure while starting from unique elements.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What is a practical scenario where you would use a Set instead of a Map?",
-              solution: `
+              },
+              {
+                question:
+                  "What is a practical scenario where you would use a Set instead of a Map?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A practical scenario for using a Set instead of a Map is when you need to track a list of unique user IDs for authentication. In this case, you only need to store the IDs without any associated data. A Set provides efficient membership checking and ensures that each user ID is unique, making it ideal for this use case. Using a Map would be unnecessary overhead since you don't need key-value pairs.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How do Sets handle primitive types and object references, and what implications does this have for data storage?",
-              solution: `
+              },
+              {
+                question:
+                  "How do Sets handle primitive types and object references, and what implications does this have for data storage?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets treat primitive types as unique values based on their value, while object references are treated as unique based on their reference. For example, two objects with the same properties are considered different if they are distinct instances. This behavior has implications for data storage: if you store objects in a Set, you must be aware that identical objects (with the same content) will not be treated as duplicates unless they are the same reference, which can lead to unexpected results.
                   </p>
                 `,
-            },
-            {
-              question:
-                "Can you explain the difference between <code>Set.prototype.forEach</code> and the traditional <code>for...of</code> loop when iterating over Sets?",
-              solution: `
+              },
+              {
+                question:
+                  "Can you explain the difference between <code>Set.prototype.forEach</code> and the traditional <code>for...of</code> loop when iterating over Sets?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Both <code>Set.prototype.forEach</code> and the <code>for...of</code> loop allow you to iterate over the values in a Set, but they differ in syntax and use cases. <code>forEach</code> accepts a callback function and can pass additional arguments (the value and the Set itself) to the function. In contrast, <code>for...of</code> is simpler and more concise, iterating directly over the values without needing a callback. You might prefer <code>for...of</code> for cleaner code when no additional arguments or complex logic are required.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you create a Set of objects, and what precautions should you take when doing so?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you create a Set of objects, and what precautions should you take when doing so?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     You can create a Set of objects by simply passing an array of objects to the Set constructor: <code>const mySet = new Set([{ id: 1 }, { id: 2 }, { id: 1 }]);</code>. However, because Sets consider object references, two different object instances with the same properties will be treated as distinct entries. To ensure uniqueness based on object properties rather than references, you may need to implement a custom method to compare objects before adding them to the Set.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What happens when you attempt to add the same object to a Set multiple times?",
-              solution: `
+              },
+              {
+                question:
+                  "What happens when you attempt to add the same object to a Set multiple times?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     When you attempt to add the same object instance to a Set multiple times, it will only be stored once, as Sets enforce uniqueness. If you have the same object reference, subsequent calls to <code>add()</code> will not change the Set. However, if you create a new object with the same properties, that new instance will be considered unique and added to the Set as a separate entry.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What is the difference between a Set and a WeakSet, and when should you choose one over the other?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the difference between a Set and a WeakSet, and when should you choose one over the other?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     A Set holds strong references to its values, meaning the values will not be garbage collected as long as they are in the Set. In contrast, a WeakSet holds weak references, allowing for garbage collection of its objects if there are no other references to them. You should choose a WeakSet when you want to associate metadata with objects and want those objects to be automatically cleaned up when they are no longer in use. A Set is preferable when you need to maintain a list of values and require the ability to iterate over them.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you efficiently determine if a large dataset contains duplicates using Sets?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you efficiently determine if a large dataset contains duplicates using Sets?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To determine if a large dataset contains duplicates using Sets, you can create a Set from the dataset. As you iterate through the dataset, attempt to add each element to the Set. If you encounter an element that already exists in the Set (using the <code>has</code> method), it indicates a duplicate. This approach is efficient because it leverages the O(1) time complexity of Sets for insertions and lookups, making it a suitable solution for large datasets.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What happens when you use non-primitive values as keys in a Set, and how does this affect equality checks?",
-              solution: `
+              },
+              {
+                question:
+                  "What happens when you use non-primitive values as keys in a Set, and how does this affect equality checks?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     In a Set, non-primitive values (like objects or arrays) are treated based on reference equality, not structural equality. This means that two objects with the same properties will be considered distinct entries in the Set if they are different instances. For example, <code>const a = {}; const b = {}; mySet.add(a); mySet.add(b);</code> will result in two separate entries, even though <code>a</code> and <code>b</code> have identical structures. This behavior can lead to unexpected results when trying to check for duplicates based on content.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you create a Set from an Array and ensure unique values while ignoring case sensitivity?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you create a Set from an Array and ensure unique values while ignoring case sensitivity?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To create a Set from an Array while ensuring unique values that ignore case sensitivity, you can use the <code>map</code> method to convert all elements to a common case (e.g., lowercase) before passing them to the Set constructor: <code>const uniqueSet = new Set(array.map(item => item.toLowerCase()));</code>. This will ensure that values like "Apple" and "apple" are treated as the same entry in the Set.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What are some common use cases for utilizing Sets in JavaScript applications?",
-              solution: `
+              },
+              {
+                question:
+                  "What are some common use cases for utilizing Sets in JavaScript applications?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Common use cases for utilizing Sets include:
                     <ul>
@@ -4643,29 +4643,29 @@ console.log(weakSet.has(obj1)); // Output: false
                     </ul>
                   </p>
                 `,
-            },
-            {
-              question:
-                "How can you use the <code>Set.prototype.values()</code> method, and how does it compare to <code>Set.prototype.entries()</code>?",
-              solution: `
+              },
+              {
+                question:
+                  "How can you use the <code>Set.prototype.values()</code> method, and how does it compare to <code>Set.prototype.entries()</code>?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     The <code>Set.prototype.values()</code> method returns a new iterator object that contains the values for each element in the Set, in insertion order. This method is similar to the <code>Set.prototype.entries()</code> method, which returns an iterator of [value, value] pairs. Since Sets only store unique values (without keys), both methods effectively yield the same values, but <code>values()</code> is typically used for clarity when you are only interested in the values.
                   </p>
                 `,
-            },
-            {
-              question:
-                "What is the performance impact of using a Set versus an Array when frequently checking for the existence of elements?",
-              solution: `
+              },
+              {
+                question:
+                  "What is the performance impact of using a Set versus an Array when frequently checking for the existence of elements?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     Sets provide O(1) average time complexity for existence checks using the <code>has</code> method, making them much faster than Arrays, which require O(n) time complexity for the same operation using the <code>includes</code> method. Therefore, when working with large datasets where frequent membership checks are necessary, using a Set will significantly improve performance compared to using an Array.
                   </p>
                 `,
-            },
-            {
-              question:
-                "How do you handle complex data structures, like Sets of objects, and ensure they remain unique based on certain properties?",
-              solution: `
+              },
+              {
+                question:
+                  "How do you handle complex data structures, like Sets of objects, and ensure they remain unique based on certain properties?",
+                solution: `
                   <p style="margin-top: 0.5rem;">
                     To ensure uniqueness based on specific properties in a Set of objects, you can use a helper structure, like a Map, to track seen properties while adding objects to the Set. For example, iterate over your objects, and for each object, check if its unique property exists in the Map before adding it to the Set. If not, add the object to both the Set and the Map: 
                   <code>
@@ -4681,10 +4681,10 @@ console.log(weakSet.has(obj1)); // Output: false
                   This approach will ensure that only unique objects based on the specified property are added to the Set.
                   </p>
                 `,
-            },
-          ],
-          links: [""],
-        },
+              },
+            ],
+            links: [""],
+          },
         ],
       },
       {
@@ -194945,6 +194945,430 @@ function singleNumberIII(nums) {
               "https://leetcode.com/problems/implement-trie-prefix-tree/",
               "https://leetcode.com/problems/edit-distance/",
               "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "category": "aws",
+    "themeBgColor": "#232f3e",
+    "textColor": "#ffffff",
+    "topicColor": "#ff9900",
+    "lightColor": "#fafafa",
+    "type": [
+      {
+        "id": 1,
+        "label": "Beginner",
+        "concepts": [
+          {
+            "topic": "VPC Core Concepts",
+            "tags": ["AWS", "VPC", "Networking", "Subnet", "Route Table", "IGW", "NAT"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\">\n    <strong>Amazon Virtual Private Cloud (Amazon VPC)</strong> lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways. In short, VPC gives you your own private, secure data centre inside AWS's public cloud.\n  </p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Components of a VPC</h4>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">A complete VPC consists of the following key parts:</p>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">IP Address Range (CIDR block):</span> When you create a VPC, you must specify a private IPv4 address range, e.g. <code>10.0.0.0/16</code>. This determines the total number of IP addresses available for resources inside the VPC.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Subnets:</span> Subnets are subdivisions of the VPC's IP range. Think of a subnet as a network partition within a single Availability Zone. There are two types: <ul style=\"margin-top: 0.25rem; margin-left: 1.5rem; list-style-type: disc;\"><li><span style=\"font-weight: 600;\">Public Subnet:</span> Resources have public IPs and can communicate directly with the internet via an <strong>Internet Gateway (IGW)</strong>. Typically used for load balancers.</li><li><span style=\"font-weight: 600;\">Private Subnet:</span> Resources have no public IPs and cannot be reached directly from the internet. They access the internet via a <strong>NAT Gateway</strong> for security.</li></ul></li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Route Tables:</span> A route table contains a set of rules (routes) that determine where network traffic from your VPC is directed. Every subnet must be associated with a route table.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Internet Gateway (IGW):</span> A horizontally scaled, redundant, and highly available VPC component that allows communication between your VPC and the internet. It provides NAT for instances in public subnets.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">NAT Gateway:</span> A managed AWS service that allows resources in private subnets to access the internet, but prevents the internet from initiating connections to those resources. It is the key to secure outbound-only access.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. Security Controls: Security Groups vs. Network ACLs</h4>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">VPC provides two layers of security to control traffic:</p>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security Group:</span> An <strong>instance-level</strong> <strong>stateful</strong> virtual firewall. It controls inbound and outbound traffic for associated resources. Stateful means that if you allow an inbound request, the response traffic is automatically allowed regardless of outbound rules. Security groups are primarily \"allow\" rules.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Network ACL (NACL):</span> A <strong>subnet-level</strong> <strong>stateless</strong> firewall. Stateless means you must define rules for both inbound and outbound traffic separately. NACLs support both allow and deny rules and are evaluated in numerical order.</li>\n  </ol>\n  <p style=\"line-height: 1.75; margin-top: 0.75rem;\">In TechJet's architecture, security groups are chained to create a trust model. For example, only traffic from the \"ALB security group\" is allowed to reach the \"ECS task security group\"—this is more secure and flexible than relying on IP addresses, because ECS task IPs change with every deployment.</p>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"VPC is a logically isolated network in AWS where you can launch resources. Its core components include CIDR blocks, subnets, route tables, Internet Gateways, and NAT Gateways. Subnets are divided into public and private—public for internet-facing components like ALBs, private for internal resources like ECS tasks and RDS. VPC security is enforced by Security Groups (stateful, instance-level) and Network ACLs (stateless, subnet-level). Security Groups are the primary tool for fine-grained access control.\"</div>\n</div>",
+            "examples": [
+              "# AWS VPC CLI Examples\n# Create VPC\naws ec2 create-vpc --cidr-block 10.0.0.0/16\n\n# Create subnets\naws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.1.0/24 --availability-zone us-east-1a\naws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.10.0/24 --availability-zone us-east-1a\n\n# Create and attach Internet Gateway\naws ec2 create-internet-gateway\naws ec2 attach-internet-gateway --internet-gateway-id igw-xxx --vpc-id vpc-xxx\n\n# Create public route table and add route to IGW\naws ec2 create-route-table --vpc-id vpc-xxx\naws ec2 create-route --route-table-id rtb-xxx --destination-cidr-block 0.0.0.0/0 --gateway-id igw-xxx\naws ec2 associate-route-table --subnet-id subnet-xxx --route-table-id rtb-xxx\n\n# Create NAT Gateway (requires Elastic IP)\naws ec2 allocate-address --domain vpc\naws ec2 create-nat-gateway --subnet-id subnet-xxx --allocation-id eipalloc-xxx\n\n# Create private route table with NAT gateway route\naws ec2 create-route --route-table-id rtb-private --destination-cidr-block 0.0.0.0/0 --nat-gateway-id nat-xxx"
+            ],
+            "questions": [
+              {
+                "question": "What is AWS VPC and what are its core components?",
+                "solution": "<p>AWS VPC is a logically isolated virtual network. Its core components are: CIDR block (IP range), subnets (public/private), route tables (traffic routing), Internet Gateway (internet access for public subnets), and NAT Gateway (outbound-only internet access for private subnets).</p>"
+              },
+              {
+                "question": "What is the difference between a public and a private subnet?",
+                "solution": "<p><strong>Public subnet</strong> resources have public IPs and route traffic through an Internet Gateway—used for ALB, bastion hosts. <strong>Private subnet</strong> resources have no public IPs and route through a NAT Gateway—used for ECS tasks and RDS to prevent direct internet exposure.</p>"
+              },
+              {
+                "question": "How do Security Groups differ from Network ACLs?",
+                "solution": "<p><strong>Security Groups</strong> are stateful, instance-level firewalls that only support allow rules. <strong>Network ACLs</strong> are stateless, subnet-level firewalls that support both allow and deny rules and are evaluated in priority order.</p>"
+              },
+              {
+                "question": "Why are ECS tasks and RDS placed in private subnets in TechJet?",
+                "solution": "<p>It's a defence-in-depth strategy: (1) routing—no IGW route means internet traffic cannot reach them; (2) no public IPs means they cannot be directly addressed; (3) security groups further filter internal traffic. This ensures that even if the ALB is compromised, the backend and data layer are not directly accessible.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/vpc/",
+              "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html"
+            ]
+          },
+          {
+            "topic": "ECR (Elastic Container Registry)",
+            "tags": ["AWS", "ECR", "Docker", "Container", "Registry", "Image"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Elastic Container Registry (Amazon ECR)</strong> is a fully managed Docker container registry that makes it easy to store, manage, and deploy Docker images, Open Container Initiative (OCI) images, and OCI-compatible artifacts. Think of it as AWS's own private, secure, and IAM-integrated version of Docker Hub.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Features of ECR</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security & Integration:</span> Deeply integrated with IAM for fine-grained permissions. Supports image scanning for vulnerabilities.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">High Availability & Scalability:</span> Fully managed, no need to run your own registry server.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Lifecycle Policies:</span> Automatically clean up old images to save storage costs.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Immutable Tags:</span> Prevents overwriting an existing tag—each tag (e.g., <code>2c76d40</code>) permanently points to a specific image version, enabling reliable rollbacks and traceability.</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ECR is AWS's managed Docker registry. It solves the operational overhead of self-hosted registries and provides IAM-based access control. Key features include vulnerability scanning, lifecycle policies, and immutable tags. Immutable tags are crucial for reproducible builds and safe rollbacks—we tag images with the Git commit SHA and enable immutability so every build is uniquely identified.\"</div>\n</div>",
+            "examples": [
+              "# Authenticate Docker to ECR\naws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 697858908497.dkr.ecr.us-east-1.amazonaws.com\n\n# Create repository with immutable tags\naws ecr create-repository --repository-name techjet-api-dev --image-tag-mutability IMMUTABLE --encryption-configuration encryptionType=KMS\n\n# Build, tag, and push\ndocker build -t techjet-api:2c76d40 .\ndocker tag techjet-api:2c76d40 697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\ndocker push 697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\n\n# List images\naws ecr list-images --repository-name techjet-api-dev\n\n# Set lifecycle policy (keep last 5 images)\naws ecr put-lifecycle-policy --repository-name techjet-api-dev --lifecycle-policy-text '{\"rules\":[{\"rulePriority\":1,\"description\":\"Keep last 5\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":5},\"action\":{\"type\":\"expire\"}}]}'"
+            ],
+            "questions": [
+              {
+                "question": "What is Amazon ECR and what is its primary use?",
+                "solution": "<p>Amazon ECR is a fully managed container image registry. Its primary use is to securely store, manage, and deploy Docker and OCI images, with IAM-based permissions and integration with other AWS services.</p>"
+              },
+              {
+                "question": "What are immutable tags and why are they important?",
+                "solution": "<p>Immutable tags prevent overwriting an existing tag—each tag is permanently bound to a specific image digest. This ensures traceability (a tag always means the same code) and safe rollbacks (you know exactly what you're rolling back to).</p>"
+              },
+              {
+                "question": "How does TechJet push images to ECR securely from GitHub Actions?",
+                "solution": "<p>It uses OIDC federation: GitHub Actions obtains a short-lived JWT token and assumes an IAM role via <code>AssumeRoleWithWebIdentity</code>. No long-term credentials are stored. The role has minimal permissions (ECR push, ECS update).</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/ecr/",
+              "https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html"
+            ]
+          },
+          {
+            "topic": "ECS and Fargate",
+            "tags": ["AWS", "ECS", "Fargate", "Container", "Orchestration", "Serverless"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Elastic Container Service (Amazon ECS)</strong> is a highly scalable, fast container orchestration service that lets you run, stop, and manage Docker containers on AWS. ECS offers two launch types: <strong>EC2</strong> (you manage the cluster of EC2 instances) and <strong>Fargate</strong> (serverless—no EC2 instances to manage, just define your task).</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Concepts</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Cluster:</span> Logical grouping of tasks/services. With Fargate, it's a management boundary.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Task Definition:</span> A JSON blueprint describing container(s), CPU, memory, ports, environment variables, and secrets.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Task:</span> A running instance of a task definition.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Service:</span> Manages a desired number of tasks, supports load balancing, rolling updates, and auto-recovery.</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ECS is AWS's container orchestrator; Fargate is its serverless compute engine. With Fargate, you only define the task (CPU, memory, image) and AWS handles all infrastructure. The key abstractions are Task Definition (blueprint), Task (running instance), and Service (manages tasks, health checks, and deployments). Fargate dramatically simplifies operations and lets teams focus on code.\"</div>\n</div>",
+            "examples": [
+              "# Register a task definition (Fargate)\naws ecs register-task-definition \\\n  --family techjet-api-dev-task \\\n  --network-mode awsvpc \\\n  --requires-compatibilities FARGATE \\\n  --cpu 1024 --memory 2048 \\\n  --execution-role-arn arn:aws:iam::697858908497:role/ecsTaskExecutionRole \\\n  --task-role-arn arn:aws:iam::697858908497:role/techjet-ecs-task-role \\\n  --container-definitions '[{\"name\":\"techjet-api\",\"image\":\"697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\",\"portMappings\":[{\"containerPort\":3000}],\"secrets\":[{\"name\":\"DB_PASSWORD\",\"valueFrom\":\"arn:aws:secretsmanager:us-east-1:697858908497:secret:techjet/dev/app:DB_PASSWORD::\"}],\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-group\":\"/ecs/techjet-api\",\"awslogs-region\":\"us-east-1\"}}}]'\n\n# Create a service (Fargate)\naws ecs create-service \\\n  --cluster techjet-dev-cluster \\\n  --service-name techjet-api-dev-task-service \\\n  --task-definition techjet-api-dev-task \\\n  --launch-type FARGATE \\\n  --desired-count 1 \\\n  --network-configuration '{\"awsvpcConfiguration\":{\"subnets\":[\"subnet-0f47f97edf94019fe\",\"subnet-08bc7fe069afab1bf\"],\"securityGroups\":[\"sg-006d3c7ac37904657\"],\"assignPublicIp\":\"DISABLED\"}}' \\\n  --load-balancers '[{\"targetGroupArn\":\"arn:aws:elasticloadbalancing:us-east-1:697858908497:targetgroup/techjet-api-tg/xxx\",\"containerName\":\"techjet-api\",\"containerPort\":3000}]'\n\n# Update service (deploy new revision)\naws ecs update-service --cluster techjet-dev-cluster --service techjet-api-dev-task-service --task-definition techjet-api-dev-task --force-new-deployment\n\n# ECS Exec into running container\naws ecs execute-command --cluster techjet-dev-cluster --task <task-id> --container techjet-api --interactive --command \"/bin/sh\""
+            ],
+            "questions": [
+              {
+                "question": "What is Amazon ECS and what are its two launch types?",
+                "solution": "<p>Amazon ECS is a container orchestration service. The two launch types are <strong>EC2</strong> (you manage the cluster) and <strong>Fargate</strong> (serverless, AWS manages the infrastructure).</p>"
+              },
+              {
+                "question": "What is the difference between Task Definition, Task, and Service?",
+                "solution": "<p><strong>Task Definition</strong> is the blueprint (image, resources, environment). <strong>Task</strong> is a running instance of that blueprint. <strong>Service</strong> manages a set of tasks, ensures desired count, and handles rolling updates.</p>"
+              },
+              {
+                "question": "How does ECS securely get secrets from Secrets Manager?",
+                "solution": "<p>The task definition references the secret ARN in the <code>secrets</code> field. During task launch, the <strong>ecsTaskExecutionRole</strong> is used to call Secrets Manager and inject the plaintext value as an environment variable.</p>"
+              },
+              {
+                "question": "What is ECS Exec and why is it useful?",
+                "solution": "<p>ECS Exec allows you to run commands or get an interactive shell inside a running container using <code>aws ecs execute-command</code>. It's useful for debugging without SSH access to the host (especially on Fargate).</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/ecs/",
+              "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html",
+              "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html"
+            ]
+          },
+          {
+            "topic": "ALB (Application Load Balancer)",
+            "tags": ["AWS", "ALB", "Load Balancer", "HTTP", "HTTPS", "Target Group"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Application Load Balancer (ALB)</strong> is a Layer 7 (application layer) load balancer that understands HTTP/HTTPS. It can route traffic based on URL path, host header, query string, and other HTTP attributes—making it ideal for microservices.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Features</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Advanced Request Routing:</span> Route based on path, host, headers, or query parameters.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">TLS Termination (SSL Offloading):</span> Decrypts HTTPS traffic at the ALB, offloading CPU-intensive crypto from backend services.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Target Groups:</span> Logical sets of targets (EC2, IP, Lambda, ECS tasks) that receive traffic. Health checks ensure only healthy targets are used.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Sticky Sessions:</span> Route requests from the same client to the same target.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. ALB in TechJet</h4>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">The ALB is the single entry point. It redirects HTTP to HTTPS, terminates TLS using a wildcard certificate, and forwards to the target group that contains healthy ECS tasks.</p>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ALB is AWS's Layer 7 load balancer that routes based on HTTP content. It provides TLS termination, path-based routing, and target group health checks. In TechJet, ALB is the public face—it terminates HTTPS and forwards to ECS tasks only if they pass health checks.\"</div>\n</div>",
+            "examples": [
+              "# Create target group\naws elbv2 create-target-group --name techjet-api-tg --protocol HTTP --port 3000 --vpc-id vpc-xxx --health-check-path /health\n\n# Create ALB (internet-facing)\naws elbv2 create-load-balancer --name techjet-dev-alb --subnets subnet-xxx subnet-yyy --security-groups sg-xxx --scheme internet-facing --type application\n\n# Create HTTPS listener with certificate\naws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:... --protocol HTTPS --port 443 --certificates CertificateArn=arn:aws:acm:... --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:.../techjet-api-tg\n\n# Create HTTP to HTTPS redirect listener\naws elbv2 create-listener --load-balancer-arn ... --protocol HTTP --port 80 --default-actions Type=redirect,RedirectConfig='{Protocol=HTTPS,Port=443,StatusCode=HTTP_301}'"
+            ],
+            "questions": [
+              {
+                "question": "What is an ALB and on which OSI layer does it operate?",
+                "solution": "<p>ALB is an Application Load Balancer operating at Layer 7. It routes based on HTTP/HTTPS content like URL path, headers, and query strings.</p>"
+              },
+              {
+                "question": "What is a Target Group and what role does it play?",
+                "solution": "<p>A Target Group is a logical grouping of targets (e.g., ECS tasks). Listeners forward traffic to target groups, which perform health checks and only route to healthy targets.</p>"
+              },
+              {
+                "question": "What is TLS termination and why do it on the ALB?",
+                "solution": "<p>TLS termination means decrypting HTTPS at the ALB. It offloads CPU-intensive encryption/decryption from backend services and centralises certificate management.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/elasticloadbalancing/",
+              "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html"
+            ]
+          },
+          {
+            "topic": "RDS (Relational Database Service)",
+            "tags": ["AWS", "RDS", "PostgreSQL", "Database", "Managed Service"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Relational Database Service (Amazon RDS)</strong> is a managed relational database service that automates time‑consuming administrative tasks such as hardware provisioning, database setup, patching, and backups.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Benefits</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Managed Service:</span> AWS handles OS patches, automated backups, point‑in‑time recovery, and automatic failover (with Multi‑AZ).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Multiple Engines:</span> Supports PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Easy Scaling:</span> Vertical scaling (change instance type) and horizontal scaling (read replicas).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security:</span> VPC isolation, IAM, encryption at rest (KMS) and in transit (SSL).</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. TechJet RDS Configuration</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>Engine:</strong> PostgreSQL 18.3</li>\n    <li><strong>Instance:</strong> db.t3.micro (dev)</li>\n    <li><strong>Storage:</strong> 50 GiB gp3, autoscaling to 100 GiB</li>\n    <li><strong>Encryption:</strong> KMS‑encrypted at rest</li>\n    <li><strong>Network:</strong> Private subnet, no public IP</li>\n    <li><strong>Password:</strong> Managed by RDS and rotated in Secrets Manager</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"RDS is a managed relational database service that automates backups, patching, and high availability. It supports multiple engines and integrates with VPC, IAM, and KMS. In TechJet, RDS is placed in a private subnet with encrypted storage, and its credentials are securely retrieved via Secrets Manager—a key part of defence in depth.\"</div>\n</div>",
+            "examples": [
+              "# Create PostgreSQL instance (dev)\naws rds create-db-instance \\\n  --db-instance-identifier techjet-dev-rds-postgres \\\n  --db-instance-class db.t3.micro \\\n  --engine postgres --engine-version 18.3 \\\n  --allocated-storage 50 --max-allocated-storage 100 \\\n  --storage-type gp3 --storage-encrypted --kms-key-id arn:aws:kms:... \\\n  --master-username techjet_admin --manage-master-user-password \\\n  --vpc-security-group-ids sg-xxx --db-subnet-group-name techjet-dev-db-subnet-group \\\n  --backup-retention-period 7 --no-multi-az\n\n# Retrieve managed password from Secrets Manager\naws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:...:secret:rds!db-xxx\n\n# Create DB subnet group\naws rds create-db-subnet-group --db-subnet-group-name techjet-dev-db-subnet-group --db-subnet-group-description \"subnet group\" --subnet-ids subnet-xxx subnet-yyy"
+            ],
+            "questions": [
+              {
+                "question": "What is Amazon RDS and what administrative tasks does it automate?",
+                "solution": "<p>RDS is a managed database service that automates hardware provisioning, database setup, patching, automated backups, point‑in‑time recovery, and failover.</p>"
+              },
+              {
+                "question": "How does TechJet secure its RDS instance?",
+                "solution": "<p>It uses multiple layers: (1) placed in a private subnet with no public IP, (2) security group restricts access to ECS tasks only, (3) password managed by Secrets Manager and rotated automatically, (4) storage encrypted with KMS.</p>"
+              },
+              {
+                "question": "Why can't developers connect directly to RDS from their laptops?",
+                "solution": "<p>Because the RDS instance is in a private subnet with no internet gateway route—it has no public IP and is not reachable from the internet. This is a deliberate security measure to prevent direct exposure.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/rds/",
+              "https://aws.amazon.com/rds/postgresql/"
+            ]
+          },
+          {
+            "topic": "IAM (Identity and Access Management)",
+            "tags": ["AWS", "IAM", "Security", "Authentication", "Authorization", "Role"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>AWS Identity and Access Management (IAM)</strong> is the core security service that controls who can access which AWS resources and under what conditions. It manages <em>who</em> (identity) can do <em>what</em> (action) on <em>which</em> resource.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Concepts</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">User:</span> A person or application with long‑term credentials.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Group:</span> A collection of users for easier permission management.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Role:</span> An identity with no long‑term credentials; it provides temporary credentials that can be <strong>assumed</strong> by trusted entities (services, users, or external identities). Roles are the best practice for granting permissions.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Policy:</span> A JSON document that defines permissions (Allow/Deny) for specific actions on specific resources.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. Three Roles in TechJet</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">GitHub Actions deploy role (CI):</span> Trusted by GitHub's OIDC provider. Has minimal permissions: push to ECR, update ECS service. Cannot read secrets or modify networking.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">ecsTaskExecutionRole:</span> Used by the ECS agent <em>before</em> the container starts. Pulls images, writes logs, and retrieves secrets from Secrets Manager.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">techjet-ecs-task-role:</span> Used by the <em>running application code</em>. Grants permissions needed at runtime (KMS, Cognito, SES).</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"IAM is the identity and access management service. Its core are Users, Groups, Roles, and Policies. Roles are key because they provide temporary credentials and enable the principle of least privilege. In TechJet, we use three distinct roles to separate concerns—CI for deployment, execution role for container startup, and task role for the running app—so that compromising one doesn't compromise the whole system.\"</div>\n</div>",
+            "examples": [
+              "# Create role trusted by ECS tasks\naws iam create-role --role-name techjet-ecs-task-role --assume-role-policy-document '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}'\n\n# Attach inline policy (KMS and Cognito permissions)\naws iam put-role-policy --role-name techjet-ecs-task-role --policy-name TechJetAppPermissions --policy-document '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\",\"kms:GenerateDataKey\"],\"Resource\":\"arn:aws:kms:...\"},{\"Effect\":\"Allow\",\"Action\":[\"cognito-idp:AdminCreateUser\",\"cognito-idp:AdminSetUserPassword\"],\"Resource\":\"*\"}]}'\n\n# Create OIDC role for GitHub Actions (trust policy with GitHub OIDC)\naws iam create-role --role-name github-actions-deploy --assume-role-policy-document '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Federated\":\"arn:aws:iam::697858908497:oidc-provider/token.actions.githubusercontent.com\"},\"Action\":\"sts:AssumeRoleWithWebIdentity\",\"Condition\":{\"StringEquals\":{\"token.actions.githubusercontent.com:aud\":\"sts.amazonaws.com\"},\"StringLike\":{\"token.actions.githubusercontent.com:sub\":\"repo:your-org/techjet-api:*\"}}}]}'"
+            ],
+            "questions": [
+              {
+                "question": "What is AWS IAM and what are its main components?",
+                "solution": "<p>IAM is the security service for managing access to AWS resources. Its main components are Users, Groups, Roles (temporary credentials), and Policies (permission documents).</p>"
+              },
+              {
+                "question": "Why are Roles more secure than Users for applications?",
+                "solution": "<p>Roles do not have long‑term credentials—they provide temporary credentials that are rotated automatically. This eliminates the risk of hard‑coding or leaking static access keys.</p>"
+              },
+              {
+                "question": "How does GitHub Actions authenticate to AWS without storing keys?",
+                "solution": "<p>It uses OIDC federation. GitHub issues a JWT, which the workflow exchanges for temporary AWS credentials by assuming an IAM role via <code>AssumeRoleWithWebIdentity</code>.</p>"
+              },
+              {
+                "question": "What is the difference between ecsTaskExecutionRole and techjet-ecs-task-role?",
+                "solution": "<p><strong>ecsTaskExecutionRole</strong> is used by the ECS agent to pull images, write logs, and retrieve secrets before the container starts. <strong>techjet-ecs-task-role</strong> is used by the application code inside the container for runtime AWS calls (KMS, Cognito, SES). They have different permission sets.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/iam/",
+              "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html"
+            ]
+          },
+          {
+            "topic": "KMS (Key Management Service)",
+            "tags": ["AWS", "KMS", "Encryption", "Security", "Key Management"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>AWS Key Management Service (AWS KMS)</strong> is a managed service that makes it easy to create and control the encryption keys used to encrypt your data. It integrates with many AWS services to provide built‑in encryption.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Concepts</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Customer Master Key (CMK):</span> The primary key resource in KMS. It is a logical container for key material, used to generate, encrypt, and decrypt data keys.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Data Key:</span> A symmetric key generated by KMS, used to encrypt large data. The data key itself is encrypted by the CMK (envelope encryption).</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. KMS in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>ECR images:</strong> Encrypted at rest using KMS.</li>\n    <li><strong>Secrets Manager:</strong> All secrets are encrypted with a KMS key.</li>\n    <li><strong>RDS storage:</strong> Database volumes and snapshots are encrypted with KMS.</li>\n    <li><strong>Application‑level envelope encryption:</strong> Per‑tenant data encryption keys (DEKs) are generated and protected by a KMS CMK.</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"KMS is a managed key management service that provides centralised control over encryption keys. It uses the concept of Customer Master Keys (CMKs) and Data Keys for envelope encryption. In TechJet, KMS is the foundation of our data encryption strategy—it encrypts ECR images, RDS storage, Secrets Manager, and application‑level per‑tenant data, ensuring that only authorised services can decrypt sensitive information.\"</div>\n</div>",
+            "examples": [
+              "# Create a symmetric CMK\naws kms create-key --description \"TechJet Dev KMS Key\" --key-usage ENCRYPT_DECRYPT --origin AWS_KMS\n\n# Create alias for easier reference\naws kms create-alias --alias-name alias/techjet-dev-kms-key --target-key-id arn:aws:kms:...\n\n# Generate a data key (envelope encryption)\naws kms generate-data-key --key-id alias/techjet-dev-kms-key --key-spec AES_256\n\n# Encrypt small data directly with CMK\naws kms encrypt --key-id alias/techjet-dev-kms-key --plaintext \"my-secret-data\"\n\n# Decrypt\naws kms decrypt --ciphertext-blob fileb://path/to/encrypted-blob.bin"
+            ],
+            "questions": [
+              {
+                "question": "What is AWS KMS and what is its primary use?",
+                "solution": "<p>AWS KMS is a managed service for creating and controlling encryption keys. It is used to encrypt data at rest in many AWS services and to enable envelope encryption in applications.</p>"
+              },
+              {
+                "question": "What is the difference between a CMK and a Data Key?",
+                "solution": "<p>A <strong>CMK</strong> is the master key stored in KMS. A <strong>Data Key</strong> is a symmetric key generated by KMS, used for actual data encryption. The Data Key itself is encrypted by the CMK (envelope encryption).</p>"
+              },
+              {
+                "question": "What does KMS encrypt in TechJet's architecture?",
+                "solution": "<p>KMS encrypts ECR images, Secrets Manager secrets, RDS storage, and application‑level per‑tenant data keys (DEKs) used for PHI encryption.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/kms/",
+              "https://docs.aws.amazon.com/kms/latest/developerguide/overview.html"
+            ]
+          },
+          {
+            "topic": "Secrets Manager",
+            "tags": ["AWS", "Secrets Manager", "Security", "Credentials", "Rotation"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>AWS Secrets Manager</strong> is a service specifically designed to securely store, retrieve, and rotate secrets like database credentials, API keys, and OAuth tokens. It eliminates the need to hard‑code credentials in code or configuration files.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Features</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Secure Storage:</span> All secrets are encrypted with KMS.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Fine‑grained Access Control:</span> IAM policies control who can access which secrets.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Automatic Rotation:</span> Secrets can be rotated regularly, reducing the risk of stale credentials. RDS integration allows automatic password rotation.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Audit & Monitoring:</span> All access is logged in CloudTrail.</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"Secrets Manager is a managed service for storing and rotating secrets. It uses KMS for encryption and IAM for access control. In TechJet, it's used to manage the RDS master password—the application retrieves it at startup via the ecsTaskExecutionRole, so no credentials are ever stored in code, images, or config files.\"</div>\n</div>",
+            "examples": [
+              "# Create a secret (JSON object)\naws secretsmanager create-secret --name techjet/dev/app --description \"App secrets\" --secret-string '{\"DB_USERNAME\":\"techjet_admin\",\"DB_PASSWORD\":\"S3cureP@ssw0rd!\",\"API_KEY\":\"abc123\"}'\n\n# Retrieve secret value\naws secretsmanager get-secret-value --secret-id techjet/dev/app\n\n# Update secret (new version)\naws secretsmanager put-secret-value --secret-id techjet/dev/app --secret-string '{\"DB_USERNAME\":\"techjet_admin\",\"DB_PASSWORD\":\"N3wS3cureP@ssw0rd!\"}'\n\n# Configure rotation (requires a Lambda rotation function)\naws secretsmanager rotate-secret --secret-id techjet/dev/app --rotation-lambda-arn arn:aws:lambda:... --rotation-rules AutomaticallyAfterDays=30"
+            ],
+            "questions": [
+              {
+                "question": "What is AWS Secrets Manager and what problem does it solve?",
+                "solution": "<p>It is a managed service for storing and rotating secrets. It solves the problem of hard‑coding credentials in code by providing a secure, auditable, and centralised store.</p>"
+              },
+              {
+                "question": "How does Secrets Manager protect stored secrets?",
+                "solution": "<p>It uses KMS for encryption at rest, TLS for transport encryption, IAM for fine‑grained access control, and CloudTrail for audit logging.</p>"
+              },
+              {
+                "question": "How does TechJet retrieve the database password from Secrets Manager?",
+                "solution": "<p>The ECS task definition references the secret ARN in the <code>secrets</code> field. During task launch, the ecsTaskExecutionRole calls <code>GetSecretValue</code>, and the value is injected as an environment variable into the container.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/secretsmanager/",
+              "https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html"
+            ]
+          },
+          {
+            "topic": "CloudWatch Monitoring & Logs",
+            "tags": ["AWS", "CloudWatch", "Monitoring", "Logs", "Metrics", "Alarms"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon CloudWatch</strong> is AWS's native monitoring and observability service. It collects and provides access to <strong>Metrics</strong> and <strong>Logs</strong> from AWS resources, applications, and services.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Functions</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Metrics:</span> Performance data (CPU, memory, request count) collected from AWS services.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Logs:</span> Centralised storage of logs from applications and AWS services (e.g., ECS container logs in Log Groups).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Alarms:</span> Trigger actions (SNS notifications, Auto Scaling) based on metric thresholds.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Dashboards:</span> Customisable visualisations for real‑time monitoring.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. CloudWatch in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>Container logs:</strong> ECS tasks send stdout/stderr to CloudWatch Logs (<code>/ecs/techjet-api</code>).</li>\n    <li><strong>ECS metrics:</strong> CPU and memory utilisation are automatically collected.</li>\n    <li><strong>ALB metrics:</strong> Request counts, latency, and HTTP error rates are monitored.</li>\n    <li><strong>Audit:</strong> CloudTrail logs are often integrated with CloudWatch for alerting.</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"CloudWatch is AWS's monitoring and observability platform. It collects metrics, stores logs, and allows you to set alarms. In TechJet, we use CloudWatch Logs to aggregate application logs from ECS tasks, making it easy to debug and trace issues. We also use metrics and alarms to proactively monitor the health of our services.\"</div>\n</div>",
+            "examples": [
+              "# Create a log group\naws logs create-log-group --log-group-name /ecs/techjet-api\n\n# Put custom metric\naws cloudwatch put-metric-data --namespace \"TechJet/API\" --metric-name \"RequestLatency\" --value 125.5 --unit Milliseconds\n\n# Get CPU utilisation for ECS service\naws cloudwatch get-metric-statistics --namespace AWS/ECS --metric-name CPUUtilization --dimensions Name=ClusterName,Value=techjet-dev-cluster Name=ServiceName,Value=techjet-api-dev-task-service --start-time 2026-07-18T00:00:00Z --end-time 2026-07-18T01:00:00Z --period 300 --statistics Average\n\n# Filter logs for errors\naws logs filter-log-events --log-group-name /ecs/techjet-api --filter-pattern 'ERROR' --start-time 1742227200000 --end-time 1742313600000\n\n# Create CPU alarm (>80%)\naws cloudwatch put-metric-alarm --alarm-name techjet-api-high-cpu --metric-name CPUUtilization --namespace AWS/ECS --statistic Average --period 300 --evaluation-periods 2 --threshold 80 --comparison-operator GreaterThanThreshold --dimensions Name=ClusterName,Value=techjet-dev-cluster Name=ServiceName,Value=techjet-api-dev-task-service --alarm-actions arn:aws:sns:...:techjet-alerts"
+            ],
+            "questions": [
+              {
+                "question": "What is Amazon CloudWatch and what are its main functions?",
+                "solution": "<p>CloudWatch is a monitoring service that collects metrics, stores logs, and triggers alarms. Its main functions are Metrics (performance data), Logs (centralised logging), Alarms (threshold‑based notifications), and Dashboards (visualisation).</p>"
+              },
+              {
+                "question": "How do developers view logs from TechJet's ECS tasks?",
+                "solution": "<p>ECS tasks are configured with the <code>awslogs</code> driver, sending logs to CloudWatch Logs. Developers can view them via the CloudWatch console, AWS CLI (<code>aws logs filter-log-events</code>), or the ECS service's Logs tab.</p>"
+              },
+              {
+                "question": "What actions can CloudWatch Alarms trigger?",
+                "solution": "<p>Alarms can send notifications via SNS (email, SMS, HTTP), trigger Auto Scaling actions, stop/reboot EC2 instances, or invoke Systems Manager Automation runbooks.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/cloudwatch/",
+              "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html"
+            ]
+          },
+          {
+            "topic": "Cognito – User Authentication",
+            "tags": ["AWS", "Cognito", "Authentication", "User Pool", "Identity", "OAuth"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Cognito</strong> is an identity management service for web and mobile apps. It provides user registration, sign‑in, access control, and federation with social and enterprise identity providers.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Two Core Components</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">User Pool:</span> A user directory that handles <strong>authentication</strong> (sign‑up, sign‑in) and issues JWT tokens. It acts as an identity provider (IdP).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Identity Pool:</span> Handles <strong>authorisation</strong>—it exchanges tokens from a User Pool (or external IdP) for temporary AWS credentials, enabling frontend apps to access AWS services directly.</li>\n  </ol>\n  <p style=\"line-height: 1.75; margin-top: 0.75rem;\">In short: <strong>User Pool = who you are; Identity Pool = what you can do.</strong></p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. Cognito in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>User management:</strong> TechJet uses Admin APIs (<code>AdminCreateUser</code>, <code>AdminSetUserPassword</code>) to invite users and manage accounts.</li>\n    <li><strong>Authentication:</strong> Users log in via the User Pool, and the application validates the JWT tokens.</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"Amazon Cognito is AWS's identity management service. It consists of a <strong>User Pool</strong> (authentication, user directory) and an <strong>Identity Pool</strong> (authorisation, temporary AWS credentials). In TechJet, we use the User Pool to manage user identities and the Admin APIs for invite flows and account management.\"</div>\n</div>",
+            "examples": [
+              "# Create a User Pool\naws cognito-idp create-user-pool --pool-name techjet-user-pool --auto-verified-attributes email --policies '{\"PasswordPolicy\":{\"MinimumLength\":8,\"RequireUppercase\":true,\"RequireLowercase\":true,\"RequireNumbers\":true,\"RequireSymbols\":true}}'\n\n# Create an App Client (no client secret for web apps)\naws cognito-idp create-user-pool-client --user-pool-id us-east-1_xxxxxx --client-name techjet-web-app --no-generate-secret --explicit-auth-flows ALLOW_USER_PASSWORD_AUTH ALLOW_REFRESH_TOKEN_AUTH\n\n# Admin create user (invite flow)\naws cognito-idp admin-create-user --user-pool-id us-east-1_xxxxxx --username newuser@example.com --user-attributes Name=email,Value=newuser@example.com Name=email_verified,Value=true --message-action SUPPRESS\n\n# Admin set password\naws cognito-idp admin-set-user-password --user-pool-id us-east-1_xxxxxx --username newuser@example.com --password \"TemporaryP@ssw0rd!\" --permanent\n\n# Verify JWT tokens (typically done in backend code using a JWT verifier library)"
+            ],
+            "questions": [
+              {
+                "question": "What is Amazon Cognito and what are its two main components?",
+                "solution": "<p>Cognito is an identity management service. Its two main components are <strong>User Pool</strong> (authentication, user directory, issues JWT) and <strong>Identity Pool</strong> (authorisation, exchanges tokens for AWS credentials).</p>"
+              },
+              {
+                "question": "How does TechJet use Cognito's Admin APIs?",
+                "solution": "<p>TechJet uses <code>AdminCreateUser</code> and <code>AdminSetUserPassword</code> to implement a user invitation flow: an admin pre‑creates a user in the User Pool, sets a temporary password, and the system sends an invitation email (via SES).</p>"
+              },
+              {
+                "question": "What is the difference between User Pool and Identity Pool?",
+                "solution": "<p><strong>User Pool</strong> is the identity provider that authenticates users and issues tokens. <strong>Identity Pool</strong> takes those tokens (or tokens from other providers) and grants temporary AWS credentials to access services like S3 or DynamoDB directly from the frontend.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/cognito/",
+              "https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"
+            ]
+          },
+          {
+            "topic": "SES – Simple Email Service",
+            "tags": ["AWS", "SES", "Email", "Transactional Email", "SaaS"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Simple Email Service (Amazon SES)</strong> is a cloud‑based email sending and receiving service designed to help applications send transactional emails (e.g., password resets, order confirmations), marketing emails, and notifications at scale.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Advantages</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">High Deliverability & Scalability:</span> Leverages AWS's infrastructure to handle from a few to millions of emails per day.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Cost‑effective:</span> Pay‑as‑you‑go pricing, no upfront costs.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security & Compliance:</span> TLS encryption, DKIM/SPF support, and integration with IAM.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Easy Integration:</span> Via AWS SDK, SMTP, or CLI.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. SES in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>User invitations:</strong> After a user is created via Cognito Admin API, the backend sends an invitation email via SES.</li>\n    <li><strong>Password reset:</strong> SES sends password reset links to users.</li>\n    <li><strong>Notification emails:</strong> Business notifications (e.g., document status changes).</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"Amazon SES is a cloud email service for sending and receiving emails. It is cost‑effective, scalable, and integrates well with IAM. In TechJet, SES is used for all user‑facing email communications—especially transactional emails like user invitations and password resets, forming a key part of the user onboarding flow alongside Cognito.\"</div>\n</div>",
+            "examples": [
+              "# Verify email identity\naws ses verify-email-identity --email-address noreply@gettechjet.com\n\n# Send a simple email\naws ses send-email --from noreply@gettechjet.com --destination \"ToAddresses=newuser@example.com\" --message '{\"Subject\":{\"Data\":\"Welcome to TechJet\"},\"Body\":{\"Text\":{\"Data\":\"Please set your password...\"},\"Html\":{\"Data\":\"<html><body><p>Please <a href=\\\"https://app.gettechjet.com/set-password?token=xxx\\\">click here</a></p></body></html>\"}}}'\n\n# Create a template and send templated email\naws ses create-template --template '{\"TemplateName\":\"UserInvitation\",\"SubjectPart\":\"Welcome to TechJet!\",\"TextPart\":\"Hello {{name}}, please click the link...\",\"HtmlPart\":\"<html><body><p>Hello {{name}}, please <a href='{{link}}'>click here</a></p></body></html>\"}'\n\naws ses send-templated-email --source noreply@gettechjet.com --destination \"ToAddresses=newuser@example.com\" --template UserInvitation --template-data '{\"name\":\"New User\",\"link\":\"https://app.gettechjet.com/set-password?token=xxx\"}'"
+            ],
+            "questions": [
+              {
+                "question": "What is Amazon SES and what use cases does it cover?",
+                "solution": "<p>Amazon SES is a cloud email service. It covers transactional emails (confirmations, password resets), marketing emails, and general notifications.</p>"
+              },
+              {
+                "question": "How does TechJet integrate SES with Cognito for user onboarding?",
+                "solution": "<p>When an admin creates a user via Cognito's Admin API, the backend triggers an SES email containing a welcome link and temporary password. This completes the invitation flow and gives the user access to the platform.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/ses/",
+              "https://aws.amazon.com/ses/"
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "label": "Advance",
+        "concepts": [
+          {
+            "topic": "IAM Policy Evaluation Logic (Deep Dive)",
+            "tags": ["AWS", "IAM", "Policy", "Evaluation", "Advanced"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\">Understanding how AWS evaluates IAM policies is critical for building secure and correctly functioning systems. The evaluation follows a strict and deterministic order:</p>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><strong>Deny Overrides:</strong> If any applicable policy (identity-based or resource-based) contains an explicit <code>Deny</code> for the requested action, the request is immediately denied. This is the most important rule—deny always wins.</li>\n    <li style=\"margin-top: 0.5rem;\"><strong>Allow Evaluation:</strong> If no explicit deny is found, the request is allowed if <em>any</em> applicable policy (including identity-based, resource-based, and service control policies) provides an explicit <code>Allow</code>.</li>\n    <li style=\"margin-top: 0.5rem;\"><strong>Implicit Deny:</strong> If there is no explicit allow and no explicit deny, the request is implicitly denied (default deny).</li>\n  </ol>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">In addition, policies are evaluated in a specific combination: <strong>identity-based policies</strong> (attached to IAM user/group/role) are evaluated alongside <strong>resource-based policies</strong> (e.g., S3 bucket policy, KMS key policy) and <strong>permissions boundaries</strong> (which cap the maximum permissions a role can have). Service Control Policies (SCPs) in AWS Organizations also apply as a top-level restriction.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"IAM evaluation follows a strict order: explicit Deny overrides all, then explicit Allow grants access, otherwise it's implicitly denied. When troubleshooting permission issues, always check for explicit Deny statements first. Also consider the interaction between identity-based, resource-based, and permission boundary policies—the effective permissions are the intersection of all applicable policies.\"</div>\n</div>",
+            "examples": [
+              "# Example: S3 bucket policy with explicit Deny\naws s3api put-bucket-policy --bucket my-bucket --policy '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:PutObject\",\"Resource\":\"arn:aws:s3:::my-bucket/*\",\"Condition\":{\"IpAddress\":{\"aws:SourceIp\":\"192.168.0.1/32\"}}}]}'\n\n# Example: Permission boundary that limits a role to S3 read-only\naws iam put-role-permissions-boundary --role-name my-role --permissions-boundary arn:aws:iam::...:policy/S3ReadOnlyAccess"
+            ],
+            "questions": [
+              {
+                "question": "What is the order of IAM policy evaluation?",
+                "solution": "<p>The order is: 1) Explicit Deny → 2) Explicit Allow → 3) Implicit Deny. Deny always overrides Allow. All policy types (identity, resource, SCP, permissions boundary) are considered.</p>"
+              },
+              {
+                "question": "What is a permissions boundary and how does it affect evaluation?",
+                "solution": "<p>A permissions boundary is a policy that defines the maximum permissions an IAM role can have. Even if an identity-based policy allows an action, the boundary can restrict it. Effective permissions are the intersection of the identity-based policy and the boundary.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html"
+            ]
+          },
+          {
+            "topic": "VPC Flow Logs and Network Monitoring",
+            "tags": ["AWS", "VPC", "Flow Logs", "Monitoring", "Advanced"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>VPC Flow Logs</strong> is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow logs can be published to Amazon CloudWatch Logs or Amazon S3. They provide valuable insights for network troubleshooting, security analysis, and compliance auditing.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">A flow log record is a series of fields, including: version, account ID, interface ID, source IP, destination IP, source port, destination port, protocol, number of packets, number of bytes, start time, end time, action (ACCEPT/REJECT), and log status. You can create flow logs at three levels: VPC, subnet, or network interface.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">Advanced use cases: <br/>- <strong>Security analysis:</strong> Detect unusual traffic patterns (e.g., port scanning, DDoS).<br/>- <strong>Network optimisation:</strong> Identify underutilised or overutilised resources.<br/>- <strong>Compliance:</strong> Retain network traffic logs for audits.<br/>- <strong>Cost attribution:</strong> Analyse data transfer patterns.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"VPC Flow Logs capture IP traffic metadata at the network interface level. They are essential for troubleshooting connectivity issues, detecting security threats, and auditing network access. They can be stored in CloudWatch Logs or S3, and are often combined with Athena for querying large datasets.\"</div>\n</div>",
+            "examples": [
+              "# Create a flow log for a VPC (publish to CloudWatch Logs)\naws ec2 create-flow-logs --resource-ids vpc-xxx --resource-type VPC --traffic-type ALL --log-destination-type cloud-write-logs --log-destination arn:aws:logs:...:log-group:my-flow-logs\n\n# Create a flow log for a subnet (publish to S3)\naws ec2 create-flow-logs --resource-ids subnet-xxx --resource-type Subnet --traffic-type REJECT --log-destination-type s3 --log-destination arn:aws:s3:::my-bucket/flow-logs/\n\n# Query flow logs in CloudWatch Logs Insights\nfields @timestamp, srcAddr, dstAddr, srcPort, dstPort, action\n| filter action = \"REJECT\"\n| stats count() by srcAddr, dstAddr\n| sort count desc"
+            ],
+            "questions": [
+              {
+                "question": "What are VPC Flow Logs and what levels can they be enabled at?",
+                "solution": "<p>VPC Flow Logs capture IP traffic metadata. They can be enabled at the VPC, subnet, or network interface level. They capture source/destination IP, port, protocol, packets, bytes, and action (ACCEPT/REJECT).</p>"
+              },
+              {
+                "question": "How can you use VPC Flow Logs for security monitoring?",
+                "solution": "<p>You can analyse flow logs to detect unusual traffic patterns such as port scanning, DDoS attacks, or communication with known malicious IPs. Also, by filtering on REJECT actions, you can see which traffic is being blocked by security groups or NACLs.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
+            ]
+          },
+          {
+            "topic": "ECS Capacity Providers and Auto Scaling",
+            "tags": ["AWS", "ECS", "Capacity Provider", "Auto Scaling", "Advanced"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>ECS Capacity Providers</strong> are a way to manage the infrastructure that your ECS tasks run on. They allow you to define how capacity should be supplied—either via Fargate (serverless) or via an Auto Scaling Group (ASG) of EC2 instances. By using capacity providers, you can combine different launch types and even use <strong>mixed capacity</strong> strategies.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">For EC2-backed clusters, you can associate a capacity provider with an Auto Scaling Group and configure <strong>managed scaling</strong>. ECS can then automatically scale the ASG based on the resource needs of your tasks, ensuring that you have enough capacity to run your services without over‑provisioning.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">Key features: <br/>- <strong>Managed scaling:</strong> ECS can adjust the ASG size based on task demand.<br/>- <strong>Managed termination protection:</strong> ECS can protect instances that are running tasks from being terminated prematurely.<br/>- <strong>Weighted capacity:</strong> You can assign weights to different instance types to favour spot instances or certain families.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ECS Capacity Providers abstract the underlying infrastructure. They allow you to use Fargate and EC2 in the same cluster, and enable automatic scaling of EC2 instances based on task placement needs. For cost optimisation, you can use a capacity provider with a mixed instance policy to include spot instances.\"</div>\n</div>",
+            "examples": [
+              "# Create an Auto Scaling Group and capacity provider\naws ecs create-capacity-provider --name my-ec2-provider --auto-scaling-group-provider '{\"autoScalingGroupArn\":\"arn:aws:autoscaling:...\",\"managedScaling\":{\"status\":\"ENABLED\",\"targetCapacity\":80,\"minimumScalingStepSize\":1,\"maximumScalingStepSize\":10}}'\n\n# Associate the capacity provider with a cluster\naws ecs put-cluster-capacity-providers --cluster my-cluster --capacity-providers my-ec2-provider FARGATE --default-capacity-provider-strategy '{\"capacityProvider\":\"FARGATE\",\"weight\":1,\"base\":1}'\n\n# Create a service that uses the capacity provider (with weight)\naws ecs create-service --cluster my-cluster --service-name my-service --task-definition my-task --desired-count 5 --capacity-provider-strategy '[{\"capacityProvider\":\"my-ec2-provider\",\"weight\":1,\"base\":2},{\"capacityProvider\":\"FARGATE\",\"weight\":0}]'"
+            ],
+            "questions": [
+              {
+                "question": "What is an ECS Capacity Provider and why is it useful?",
+                "solution": "<p>A Capacity Provider is a resource that defines how compute capacity is supplied to an ECS cluster. It allows you to use Fargate, EC2 Auto Scaling Groups, or a mix. It enables managed scaling, where ECS adjusts the EC2 instance count based on task requirements.</p>"
+              },
+              {
+                "question": "How does managed scaling work with capacity providers?",
+                "solution": "<p>ECS monitors the cluster's capacity and task placement. If there are pending tasks that cannot be placed due to insufficient capacity, ECS will increase the desired count of the ASG. If there is excess capacity, it will decrease it. This is done by adjusting the ASG's desired capacity based on the target utilisation (e.g., 80%).</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html"
+            ]
+          },
+          {
+            "topic": "RDS Read Replicas and Performance Insights",
+            "tags": ["AWS", "RDS", "Read Replica", "Performance", "Advanced"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>RDS Read Replicas</strong> are used to offload read traffic from the primary database instance. They are asynchronous replicas of the primary instance, and you can promote a read replica to a standalone primary if needed. Read replicas are particularly useful for applications with high read‑to‑write ratios (e.g., reporting, analytics, dashboard).</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">However, there are important constraints: <br/>- Replication lag can occur (especially for write‑heavy workloads).<br/>- Read replicas do not handle write traffic; the primary must still handle all writes.<br/>- You can have up to 15 read replicas per primary (for most engines).<br/>- Cross‑region read replicas are possible, aiding disaster recovery and global applications.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\"><strong>RDS Performance Insights</strong> is a monitoring tool that helps you quickly assess the load on your database and determine when and where to take action. It displays a dashboard that shows the average active sessions (AAS) for your database, broken down by wait events, SQL statements, and users. This is invaluable for identifying performance bottlenecks and optimising queries.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"RDS Read Replicas are used to scale read capacity and improve application performance by distributing read queries. They are asynchronous copies. Performance Insights helps you identify the root cause of database performance issues by visualising database load, wait events, and top SQL queries. Both are essential for scaling and optimising relational databases in production.\"</div>\n</div>",
+            "examples": [
+              "# Create a read replica from a primary instance\naws rds create-db-instance-read-replica --db-instance-identifier my-read-replica --source-db-instance-identifier my-primary-db --db-instance-class db.r5.large\n\n# Promote a read replica to primary (in case of failover)\naws rds promote-read-replica --db-instance-identifier my-read-replica\n\n# Enable Performance Insights on an existing instance\naws rds modify-db-instance --db-instance-identifier my-primary-db --enable-performance-insights --performance-insights-retention-period 31 --apply-immediately"
+            ],
+            "questions": [
+              {
+                "question": "What are RDS Read Replicas and when should you use them?",
+                "solution": "<p>RDS Read Replicas are asynchronous copies of the primary database used for read‑only workloads. They are ideal for applications with many read queries (e.g., reporting, analytics) to offload the primary instance.</p>"
+              },
+              {
+                "question": "What is RDS Performance Insights and how does it help?",
+                "solution": "<p>Performance Insights is a monitoring tool that shows database load, wait events, and top SQL. It helps you quickly identify performance bottlenecks and optimise queries without deep database expertise.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html",
+              "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html"
+            ]
+          },
+          {
+            "topic": "KMS Key Rotation and CloudTrail Integration",
+            "tags": ["AWS", "KMS", "Key Rotation", "CloudTrail", "Advanced"],
+            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>KMS Key Rotation</strong> is the practice of periodically changing the cryptographic material used by your Customer Master Keys (CMKs). AWS KMS supports automatic key rotation for <strong>AWS managed keys</strong> (like <code>aws/rds</code>, <code>aws/s3</code>) annually. For <strong>customer managed CMKs</strong>, you can enable automatic rotation (once per year) or perform manual rotation (creating new key material and aliases).</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">When you rotate a CMK, the <strong>key ID</strong> remains the same, but the backing key material changes. AWS KMS retains old key material to decrypt data encrypted under previous versions. This allows seamless rotation without re‑encrypting all data.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\"><strong>CloudTrail integration</strong> with KMS: All KMS API calls (e.g., <code>GenerateDataKey</code>, <code>Decrypt</code>, <code>Encrypt</code>) are logged in CloudTrail. This provides a complete audit trail of who used which key and when, which is crucial for compliance (e.g., HIPAA, PCI). You can monitor for unusual decryption activity or unauthorised key usage.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"KMS key rotation reduces the risk of key compromise. Automatic rotation is available for customer‑managed CMKs with a yearly schedule. CloudTrail logs all KMS activity, enabling security auditing and anomaly detection. When rotating, old key material is kept for decryption, so no data re‑encryption is needed.\"</div>\n</div>",
+            "examples": [
+              "# Enable automatic yearly rotation for a customer-managed CMK\naws kms enable-key-rotation --key-id arn:aws:kms:...\n\n# Check rotation status\naws kms get-key-rotation-status --key-id arn:aws:kms:...\n\n# View CloudTrail events for KMS decryption\naws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,AttributeValue=Decrypt --start-time 2026-07-01T00:00:00Z --end-time 2026-07-18T23:59:59Z\n\n# Create a CloudTrail trail to log KMS events to S3\naws cloudtrail create-trail --name my-kms-trail --s3-bucket-name my-audit-bucket --include-global-service-events\naws cloudtrail start-logging --name my-kms-trail"
+            ],
+            "questions": [
+              {
+                "question": "What is KMS key rotation and how does it work?",
+                "solution": "<p>Key rotation replaces the cryptographic material of a CMK while keeping the same key ID. AWS KMS retains old material for decryption. You can enable automatic yearly rotation or perform manual rotation. This improves security without the need to re‑encrypt all data.</p>"
+              },
+              {
+                "question": "How can you monitor KMS usage for security auditing?",
+                "solution": "<p>All KMS API calls are logged in CloudTrail. You can create trails to send logs to S3 or CloudWatch Logs. You can also set up CloudWatch alarms to detect unusual decryption patterns or unauthorised key usage.</p>"
+              }
+            ],
+            "links": [
+              "https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html",
+              "https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html"
             ]
           }
         ]

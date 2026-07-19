@@ -78,7 +78,8 @@ export async function getStaticPaths() {
     "docker",
     "linux",
     "go",
-    "dsa"
+    "dsa",
+    "aws",
   ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },
@@ -526,31 +527,6 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                   </div>
                 </div>
               </div>
-
-              {/* Footer */}
-              {/* <div className="flex justify-between items-center p-6 border-t bg-gray-50"> */}
-              {/* <button
-                  onClick={handleAnswer}
-                  disabled={isAnswered}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    isAnswered
-                      ? "bg-green-100 text-green-700 cursor-not-allowed"
-                      : "bg-green-600 text-white hover:bg-green-700"
-                  }`}
-                >
-                  {isAnswered ? "✓ Answered" : "I've Answered This"}
-                </button>
-                <button
-                  onClick={onClose}
-                  className="px-6 py-2 rounded-lg font-medium transition-colors bg-gray-600 text-white hover:bg-gray-700"
-                  style={{
-                    backgroundColor: themeColors.bg,
-                    color: themeColors.text,
-                  }}
-                >
-                  Close
-                </button> */}
-              {/* </div> */}
             </div>
           </motion.div>
         </>
