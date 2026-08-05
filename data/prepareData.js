@@ -7437,6 +7437,1420 @@ person.greet(); // Output: Hello, undefined
         id: 1,
         label: "Beginner",
         concepts: [
+  {
+    "topic": "React Philosophy",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    React Philosophy (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React's core philosophy is often summarized as <strong>"UI is a function of state"</strong> — 
+    <code>UI = f(state)</code>. Instead of manually mutating the DOM, you describe what the UI 
+    should look like for any given state, and React figures out how to get the DOM there. 
+    Interviewers use this question to check whether you understand React's mental model, not just its API.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Core Principles
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Principle</th>
+      <th style="border: 1px solid black; padding: 8px;">Meaning</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Declarative</td>
+      <td style="border: 1px solid black; padding: 8px;">You describe the end result, not the steps to get there</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Component-Based</td>
+      <td style="border: 1px solid black; padding: 8px;">UI is composed of isolated, reusable pieces that manage their own state</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Unidirectional Data Flow</td>
+      <td style="border: 1px solid black; padding: 8px;">Data flows parent → child via props; state changes flow back up via callbacks</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Learn Once, Write Anywhere</td>
+      <td style="border: 1px solid black; padding: 8px;">Same component model powers web (ReactDOM), native (React Native), and more</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>The Mental Model:</strong> When you write React, you're essentially writing a declarative rendering function. This pure function approach means: (1) <strong>Predictable</strong> — Given the same state, you get the same UI; (2) <strong>Testable</strong> — Unit tests become trivial state → UI assertions; (3) <strong>Debuggable</strong> — Time-travel debugging becomes possible (Redux DevTools). React popularized the reactive programming model in UI development — the difference is profound: imperative tells the system how to change, reactive describes what it should look like while React figures out how.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. UI as a Function of State
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Mental model
+UI = f(state)
+
+// Every time state changes, React re-invokes the component
+// function and produces a new description of the UI.
+function Cart({ items }) {
+  return &lt;p&gt;Items: {items.length}&lt;/p&gt;;
+}
+
+// Traditional imperative approach
+let count = 0;
+const button = document.getElementById('counter');
+button.addEventListener('click', () => {
+  count++;
+  button.textContent = count; // Manual sync
+});
+
+// Reactive approach
+function Counter() {
+  const [count, setCount] = useState(0);
+  return &lt;button onClick={() => setCount(c => c + 1)}&gt;{count}&lt;/button&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Composition Over Inheritance
+  </h4>
+
+  <p style="line-height: 1.75;">
+    React favors composing small components together (via <code>children</code> or props) over 
+    building deep class inheritance hierarchies. This keeps components predictable and easy to test in isolation.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Card({ children }) {
+  return &lt;div className="card"&gt;{children}&lt;/div&gt;;
+}
+
+function App() {
+  return (
+    &lt;Card&gt;
+      &lt;h2&gt;Title&lt;/h2&gt;
+      &lt;p&gt;Body text&lt;/p&gt;
+    &lt;/Card&gt;
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be ready to explain *why* React re-renders instead of mutating the DOM directly.<br>
+    - Tie "UI = f(state)" back to Virtual DOM, reconciliation, and one-way data flow — interviewers expect these concepts to connect.<br>
+    - Mention that predictability (same state → same UI) is what makes React apps easier to debug and test.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"Why can't React components have side effects during render?"</strong> Because render must be pure. If components had side effects: rendering couldn't be paused/restarted (Fiber), server rendering would have unpredictable results, the "same state → same UI" guarantee would break, and concurrent rendering would be impossible.<br>
+    - <strong>"How does React's philosophy differ from Angular's?"</strong> React uses UI = f(state) with unidirectional flow (functional/reactive paradigm) while Angular uses MVVM with two-way binding (class-based/OOP paradigm).<br>
+    - <strong>"What's the significance of 'Learn Once, Write Anywhere'?"</strong> This reflects React's platform-agnostic core — react-dom renders to browsers, react-native to iOS/Android, react-three-fiber to 3D, react-pdf to PDF documents, and react-canvas to HTML canvas. The same component logic works everywhere — only the renderer changes.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://react.dev/learn/thinking-in-react",
+      "https://react.dev/learn",
+    ]
+  },
+  {
+    "topic": "SPA vs MPA",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    SPA vs MPA (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>Single Page Application (SPA)</strong> loads one HTML shell and swaps content via JavaScript, 
+    while a <strong>Multi Page Application (MPA)</strong> requests a fresh HTML page from the server on every navigation. 
+    React apps are typically SPAs, so interviewers expect you to know the trade-offs.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. SPA vs MPA Comparison
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">SPA</th>
+      <th style="border: 1px solid black; padding: 8px;">MPA</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Page Reloads</td>
+      <td style="border: 1px solid black; padding: 8px;">None (client-side routing)</td>
+      <td style="border: 1px solid black; padding: 8px;">Full reload per navigation</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Initial Load</td>
+      <td style="border: 1px solid black; padding: 8px;">Heavier (bundle download)</td>
+      <td style="border: 1px solid black; padding: 8px;">Lighter, faster first paint</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">SEO</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder without SSR/prerendering</td>
+      <td style="border: 1px solid black; padding: 8px;">Native, crawlers see full HTML</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Server Load</td>
+      <td style="border: 1px solid black; padding: 8px;">Lower (mostly API calls)</td>
+      <td style="border: 1px solid black; padding: 8px;">Higher (renders HTML per request)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">UX After Load</td>
+      <td style="border: 1px solid black; padding: 8px;">Fast, app-like transitions</td>
+      <td style="border: 1px solid black; padding: 8px;">Flicker/reload on each navigation</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Performance Nuance:</strong> Initial Load Comparison — SPA: 3.2 MB bundle → parse/compile → run → hydrate → interactive (~4500ms). MPA: 150 KB per page → parse/compile → render → interactive (~1200ms). Subsequent Navigation Comparison — SPA: 50 KB data fetch → render → interactive (~200ms). MPA: 150 KB full page → parse/compile → render → interactive (~1200ms).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. How an SPA Works
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// SPA Architecture
+// index.html loads once
+&lt;div id="root"&gt;&lt;/div&gt;
+&lt;script src="/bundle.js"&gt;&lt;/script&gt;
+
+// React Router intercepts link clicks and swaps components
+// instead of requesting a new HTML document from the server
+&lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+
+// MPA Architecture
+// Each request: Server returns full HTML for that page
+// Navigation: Browser fetches new HTML document
+// State: Re-initialized on each page load
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>SEO Reality Check:</strong> SPA SEO isn't just "harder" — it requires specific strategies. The problem: SPA initially returns an empty <code>&lt;div id="root"&gt;&lt;/div&gt;</code> which crawlers see as blank. Solutions include SSR (Next.js), prerendering (Preact), dynamic rendering with Puppeteer, and ISR (Incremental Static Regeneration).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. When to Use Which
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Choose <strong>SPA</strong> for dashboards, admin panels, and highly interactive apps where SEO doesn't matter much.<br>
+    - Choose <strong>MPA</strong> (or SPA + SSR via Next.js) for content/marketing sites where SEO and fast first paint matter.<br>
+    - Many production React apps are hybrids: SSR/SSG for the shell, SPA behavior after hydration.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"When would you choose MPA over SPA?"</strong> Choose MPA when: SEO is critical and budget for SSR is limited, content is mostly static with minimal interactivity, team has stronger backend than frontend skills, application is large and complex (code splitting helps but adds complexity), users have slow devices/connections (MPAs offer faster first paints).<br>
+    - <strong>"Can a React app be an MPA?"</strong> Yes — React can be used as a progressive enhancement on MPAs. Each page is an MPA with React islands (e.g., Page A: React render for comments, Page B: React render for search, navigation uses full page reloads).<br>
+    - <strong>"What about hybrid approaches?"</strong> Next.js offers the best of both: SSR for initial page (fast SEO-friendly first paint), hydration (interactive SPA after load), navigation (SPA-style transitions), and static generation (pre-built HTML for known routes).
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
+      "https://react.dev/learn/start-a-new-react-project",
+    ]
+  },
+  {
+    "topic": "React Architecture",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    React Architecture (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React is split into layers so the same core can target different platforms. Understanding these 
+    layers is a strong signal in senior interviews because it shows you know React beyond the public API.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Architectural Layers
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Layer</th>
+      <th style="border: 1px solid black; padding: 8px;">Responsibility</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React (core)</td>
+      <td style="border: 1px solid black; padding: 8px;">Component API, hooks, element creation (platform-agnostic)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Reconciler (Fiber)</td>
+      <td style="border: 1px solid black; padding: 8px;">Diffs old vs new element trees, schedules work by priority</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Renderer</td>
+      <td style="border: 1px solid black; padding: 8px;">Applies the diff to a target: ReactDOM (web), React Native (mobile), react-three-fiber (3D)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Scheduler</td>
+      <td style="border: 1px solid black; padding: 8px;">Decides when work runs (yields to the browser for high-priority tasks like input)</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Detailed Fiber Node Structure:</strong> Fiber nodes are linked lists with specific pointers — each node contains type information (type/tag), tree structure (child/sibling/return pointers), state management (pendingProps/memoizedProps/memoizedState), work tracking (flags/lanes), and double-buffering (alternate/current). This structure allows work interruption, priority handling, memory efficiency, and incremental rendering.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why the Split Matters
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Because the reconciler is decoupled from the renderer, the same component logic can render to the DOM, 
+    native views, or a canvas — only the renderer changes.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Same component, two renderers
+import { createRoot } from "react-dom/client";     // Web renderer
+import { AppRegistry } from "react-native";          // Native renderer
+
+function Greeting() {
+  return &lt;Text&gt;Hello&lt;/Text&gt;; // React Native
+  // or &lt;p&gt;Hello&lt;/p&gt; for web
+}
+
+// The Scheduler's Role - Priority lanes
+const priorities = {
+  Immediate: 1,   // Input, animations
+  UserBlocking: 2, // Click handlers
+  Normal: 3,       // Default updates
+  Low: 4,         // Analytics, non-urgent
+  Idle: 5         // Background work
+};
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Request → Render Flow (High Level)
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Trigger: state/prop change or initial mount.<br>
+    - Render phase: components are called, a new element tree is produced, reconciler diffs it (interruptible).<br>
+    - Commit phase: renderer applies the minimal set of changes to the real target (DOM/native), synchronously.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"How does the render phase differ from the commit phase?"</strong> Render phase builds Fiber tree and does diffing (interruptible, pure, can span multiple frames). Commit phase applies changes to DOM (synchronous, side effects, one pass). Effects run after commit.<br>
+    - <strong>"Why did React replace the Stack Reconciler?"</strong> The Stack Reconciler had critical limitations: blocking (once started, couldn't pause), no priorities (all updates equal), stack overflow (deep recursion would crash), and no streaming (couldn't render incrementally).<br>
+    - <strong>"What makes Fiber's linked-list structure better than recursion?"</strong> The linked-list structure (child/sibling/return) allows work interruption (can stop and resume at any node), priority handling (high-priority work can jump the queue), memory efficiency (no call stack limits), and incremental rendering (can yield to browser between nodes).
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://legacy.reactjs.org/docs/faq-internals.html",
+      "https://github.com/acdlite/react-fiber-architecture",
+    ]
+  },
+  {
+    "topic": "Declarative Programming",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Declarative Programming (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Declarative programming means describing <strong>what</strong> the result should look like, and letting 
+    the underlying system figure out <strong>how</strong> to achieve it. React embraces this: you describe the 
+    UI for a given state, and React handles the DOM updates. The fundamental shift goes far beyond syntax — declarative thinking requires a different cognitive model: instead of "what's the current DOM state, what needs to change, and how do I update it," you think "what state do I have, and what should the UI look like for this state."
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Declarative Example (React)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Toggle({ isOn }) {
+  return &lt;button&gt;{isOn ? "ON" : "OFF"}&lt;/button&gt;;
+}
+// You never touch the DOM node directly — you describe the
+// desired output for the current isOn value.
+
+// Imperative counterpart (for comparison)
+const button = document.createElement("button");
+button.textContent = "OFF";
+let isOn = false;
+button.addEventListener("click", () => {
+  isOn = !isOn;
+  button.textContent = isOn ? "ON" : "OFF"; // manual sync
+});
+document.body.appendChild(button);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Declarative vs Imperative
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Declarative</th>
+      <th style="border: 1px solid black; padding: 8px;">Imperative</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Focus</td>
+      <td style="border: 1px solid black; padding: 8px;">What the UI should be</td>
+      <td style="border: 1px solid black; padding: 8px;">How to update the UI step by step</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">State tracking</td>
+      <td style="border: 1px solid black; padding: 8px;">Framework tracks it (React state)</td>
+      <td style="border: 1px solid black; padding: 8px;">Developer tracks it manually</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Bug surface</td>
+      <td style="border: 1px solid black; padding: 8px;">Smaller — fewer manual DOM ops</td>
+      <td style="border: 1px solid black; padding: 8px;">Larger — easy to desync UI and state</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be ready to show the same feature written imperatively (vanilla DOM) vs declaratively (JSX) — see the "Imperative Programming" topic for the paired example.<br>
+    - Mention that declarative code is generally easier to reason about because output is a pure function of state, not a sequence of mutations.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"Isn't declarative programming just hiding complexity?"</strong> No — it's abstracting complexity. The DOM still updates imperatively under the hood. Declarative approaches reduce bugs (state never desyncs from UI), enable better tooling (hot reloading, time travel), and make code more predictable and testable.<br>
+    - <strong>"Where do React hooks fit into the declarative vs imperative spectrum?"</strong> Hooks are a hybrid — useState and useMemo are declarative (describe what state should be), useRef is imperative (direct DOM access), and useEffect is imperative (side effects, but declarative about dependencies).<br>
+    - <strong>"What's the performance trade-off of declarative vs imperative?"</strong> Declarative (React) has faster development speed, lower bug likelihood, good performance (with React optimizations), larger bundle size, and moderate learning curve. Imperative (Vanilla) has potentially better performance (if hand-optimized), smaller bundle size, but steeper learning curve and higher bug likelihood.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://react.dev/learn/thinking-in-react",
+    ]
+  },
+  {
+    "topic": "Imperative Programming",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Imperative Programming (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Imperative programming describes <strong>how</strong> to reach a result: a sequence of explicit steps 
+    that mutate state along the way. Vanilla DOM manipulation is a classic example — you tell the browser 
+    exactly which node to create, style, and insert. The imperative mental model involves tracking current DOM state, determining what needs to change, and applying changes sequentially.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Imperative Example (Vanilla JS)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const button = document.createElement("button");
+button.textContent = "OFF";
+let isOn = false;
+
+button.addEventListener("click", () => {
+  isOn = !isOn;
+  button.textContent = isOn ? "ON" : "OFF"; // manual sync
+});
+
+document.body.appendChild(button);
+
+// State management implications
+let cart = [];
+let total = 0;
+let isOpen = false;
+
+function addItem(item) {
+  cart.push(item);
+  total += item.price;
+  updateCartDisplay(cart);
+  updateTotalDisplay(total);
+  if (!isOpen) {
+    isOpen = true;
+    openCartDrawer();
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Where Imperative Code Still Shows Up in React
+  </h4>
+
+  <p style="line-height: 1.75;">
+    React is declarative at the component level, but it still exposes imperative escape hatches for cases 
+    the declarative model can't cleanly express: focus management, measuring DOM nodes, or integrating a 
+    non-React library.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { useRef, useEffect } from "react";
+
+function TextInput() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus(); // imperative DOM call
+  }, []);
+
+  return &lt;input ref={inputRef} /&gt;;
+}
+
+// Imperative state management with hooks
+const [cart, setCart] = useState([]);
+const [isOpen, setIsOpen] = useState(false);
+
+function addItem(item) {
+  setCart([...cart, item]); // React handles UI updates
+  setIsOpen(true);
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Pros and Cons
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Pros</th>
+      <th style="border: 1px solid black; padding: 8px;">Cons</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Fine-grained control over exact operations</td>
+      <td style="border: 1px solid black; padding: 8px;">More boilerplate, more places for state/UI to drift apart</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Sometimes necessary (refs, animations, 3rd-party libs)</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder to test/reason about at scale</td>
+    </tr>
+  </table>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://react.dev/learn/manipulating-the-dom-with-refs",
+    ]
+  },
+  {
+    "topic": "JSX",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    JSX (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    JSX is syntactic sugar for <code>React.createElement</code> calls. It lets you write HTML-like markup 
+    inside JavaScript, which Babel compiles into plain function calls the browser can run. The compilation pipeline transforms JSX into React elements — what looks like HTML is actually JavaScript objects.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. JSX Compiles To createElement
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// JSX
+const el = &lt;h1 className="title"&gt;Hello&lt;/h1&gt;;
+
+// Compiled output (classic runtime)
+const el = React.createElement("h1", { className: "title" }, "Hello");
+
+// Modern automatic runtime (React 17+) compiles to:
+import { jsx as _jsx } from "react/jsx-runtime";
+const el = _jsx("h1", { className: "title", children: "Hello" });
+
+// Which becomes a React element object:
+{
+  $$typeof: Symbol.for('react.element'),
+  type: "h1",
+  key: null,
+  ref: null,
+  props: {
+    className: "title",
+    children: "Hello"
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Rules of JSX
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Rule</th>
+      <th style="border: 1px solid black; padding: 8px;">Example</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Single root element</td>
+      <td style="border: 1px solid black; padding: 8px;">Wrap siblings in a Fragment: <code>&lt;&gt;...&lt;/&gt;</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">camelCase attributes</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>className</code>, <code>onClick</code>, <code>tabIndex</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Expressions in braces</td>
+      <td style="border: 1px solid black; padding: 8px;">Only expressions, e.g. <code>{userName}</code> — statements (if/for) not allowed inline</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">All tags must close</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>&lt;img /&gt;</code>, not <code>&lt;img&gt;</code></td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>JSX Gotchas and Edge Cases:</strong> Cannot use statements like <code>{ if(condition) { ... } }</code> — use expressions like <code>{ condition ? &lt;A /&gt; : &lt;B /&gt; }</code>. Cannot use for loops — use <code>.map</code> or <code>.reduce</code>. Attribute names differ from HTML: <code>class</code> → <code>className</code>, <code>onclick</code> → <code>onClick</code>, <code>for</code> → <code>htmlFor</code>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Common Interview Traps
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - JSX is <strong>not</strong> a template language — it's just function calls, so it can't contain 
+    arbitrary statements like <code>if</code> blocks directly (use ternaries or early returns instead).<br>
+    - Every list item needs a stable <code>key</code> — this feeds directly into reconciliation, a frequent follow-up question.<br>
+    - "JSX requires React in scope" is only true with the <em>classic</em> runtime; the automatic runtime (default since React 17) removes that requirement.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"Can you write React without JSX?"</strong> Yes, but it's verbose and error-prone: <code>React.createElement("div", { className: "container" }, "Hello")</code>.<br>
+    - <strong>"How does JSX prevent XSS attacks?"</strong> JSX escapes any values by default before rendering. <code>{script}</code> renders as text, not executable JavaScript.<br>
+    - <strong>"What's the difference between JSX and HTML?"</strong> JSX is XML-like syntax in JavaScript with camelCase attributes, required self-closing tags, JS expressions in braces, and JavaScript comments. HTML is markup with kebab-case attributes, optional self-closing tags, template literals, and HTML comments.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://react.dev/learn/writing-markup-with-jsx",
+      "https://legacy.reactjs.org/docs/introducing-jsx.html",
+    ]
+  },
+  {
+    "topic": "Babel",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Babel (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Babel is a JavaScript transpiler. In a React app, its two main jobs are converting JSX into 
+    <code>createElement</code>/<code>jsx</code> calls and downleveling modern JS syntax so it runs on older browsers. Babel is a compiler — it transforms source code through three stages: parse (source → AST), transform (AST → modified AST), and generate (AST → output JS source).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. What Babel Actually Does
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Step</th>
+      <th style="border: 1px solid black; padding: 8px;">Description</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Parse</td>
+      <td style="border: 1px solid black; padding: 8px;">Source code → Abstract Syntax Tree (AST)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Transform</td>
+      <td style="border: 1px solid black; padding: 8px;">Plugins/presets rewrite the AST (JSX → JS, ES6+ → ES5)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Generate</td>
+      <td style="border: 1px solid black; padding: 8px;">AST → output JS source, sent to the bundler (Webpack/Vite/esbuild)</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Babel's Architecture:</strong> Babel uses a plugin-based architecture. Each plugin transforms specific syntax features. Presets are collections of plugins (e.g., @babel/preset-react for JSX, @babel/preset-env for modern JS to ES5, @babel/preset-typescript for TypeScript). The AST traversal allows plugins to find and transform specific nodes in the code.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Typical Config
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// .babelrc
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": ["@babel/plugin-transform-runtime"]
+}
+
+// The Modern Tooling Shift - Babel is being replaced by faster alternatives:
+// esbuild (Go, fastest) → Vite, Remix
+// SWC (Rust, very fast) → Next.js, Deno
+// Parcel (Rust + JS, fast) → Parcel
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Explain that JSX cannot run in the browser natively — Babel (or a similarly capable compiler like SWC/esbuild) must transpile it first.<br>
+    - Know that modern toolchains (Vite, Next.js) often use faster Rust/Go-based compilers (esbuild, SWC) instead of Babel for speed, but the transform they perform is conceptually the same.<br>
+    - Distinguish Babel (compiles syntax) from a bundler like Webpack (combines/optimizes modules) — a common point of confusion.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"What's the difference between Babel and Webpack?"</strong> Babel transpiles JavaScript (input: JavaScript → output: transformed JS). Webpack bundles modules (input: any file like JS, CSS, Images → output: bundled bundle.js). Babel uses .babelrc config, while Webpack uses webpack.config.js. Babel handles code transformation, Webpack handles asset management and transformation.<br>
+    - <strong>"Why do we need Babel if we're using TypeScript?"</strong> TypeScript compiles to JavaScript, but TypeScript doesn't support all ES features, TypeScript's output might need further transpilation for older browsers, JSX in TypeScript requires a JSX runtime (React or Preact), and Babel can handle additional transforms (styled-components, etc.).<br>
+    - <strong>"How does Babel handle JSX in modern toolchains?"</strong> Three approaches: Babel (using @babel/preset-react), SWC (using jsc.transform.react), and esbuild (using jsx transform). All support the "automatic runtime" introduced in React 17.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://babeljs.io/docs/",
+      "https://babeljs.io/docs/babel-preset-react",
+    ]
+  },
+  {
+    "topic": "Virtual DOM",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Virtual DOM (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The Virtual DOM (VDOM) is a lightweight, in-memory JavaScript representation of the real DOM tree. 
+    React builds a new VDOM tree on every render, diffs it against the previous one, and applies only the 
+    minimal set of real DOM operations needed. The VDOM is not a single tree — it's two trees (current + work-in-progress) that allow double-buffering and smooth transitions.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. What a VDOM Node Looks Like
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Simplified shape of a React element (VDOM node)
+{
+  type: "button",
+  key: null,
+  props: {
+    className: "btn",
+    onClick: handleClick,
+    children: "Submit"
+  }
+}
+
+// Difference in memory footprint:
+// VDOM Node (JS Object): ~10 bytes in memory
+// DOM Node (Browser Object): ~200 bytes with all associated properties
+// (layout data, style calculations, event listeners, etc.)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why It Exists
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Direct DOM mutations are expensive because the browser may need to recalculate layout and repaint. 
+    The VDOM lets React batch and minimize real DOM writes by first computing the smallest diff in memory, 
+    which is cheap, then applying only that diff to the actual DOM.
+  </p>
+
+  <p style="line-height: 1.75;">
+    <strong>Batch Updates and Optimization:</strong> React batches updates to minimize DOM operations. When you call <code>setCount(1)</code>, <code>setName('John')</code>, and <code>setActive(true)</code> in a click handler, React does ONE render pass with all three changes. Without batching (React 16 and earlier, or out of event handler), each state update would trigger a separate render.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Real DOM vs Virtual DOM
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Real DOM</th>
+      <th style="border: 1px solid black; padding: 8px;">Virtual DOM</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Update cost</td>
+      <td style="border: 1px solid black; padding: 8px;">Expensive (layout/reflow/repaint)</td>
+      <td style="border: 1px solid black; padding: 8px;">Cheap (plain JS objects)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Update strategy</td>
+      <td style="border: 1px solid black; padding: 8px;">Direct mutation</td>
+      <td style="border: 1px solid black; padding: 8px;">Diff in memory, then batch-apply minimal changes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Owned by</td>
+      <td style="border: 1px solid black; padding: 8px;">Browser</td>
+      <td style="border: 1px solid black; padding: 8px;">React (or the UI library)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - A common myth: "Virtual DOM is always faster than the real DOM." Correct framing: it's faster than 
+    <em>naive, unbatched</em> direct manipulation — a hand-optimized imperative update can still beat it.<br>
+    - Be ready to connect VDOM → diffing algorithm → reconciliation → Fiber, since interviewers usually chain these questions.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"Is the Virtual DOM always faster than the real DOM?"</strong> No — this is a common misconception. The VDOM is faster than naive, unbatched DOM updates. A hand-optimized imperative solution can be faster than React's VDOM, but it's harder to maintain, more bug-prone, less declarative, and React's VDOM is "fast enough" for most use cases.<br>
+    - <strong>"How does React know what changed in the VDOM?"</strong> React uses a diffing algorithm with two assumptions: different element types produce different trees, and keys provide stable identity for list items. The algorithm compares element type (string/component), props (if same type), and children (using keys). It doesn't compare every property — only what's necessary.<br>
+    - <strong>"What are the downsides of the Virtual DOM?"</strong> Memory overhead (two complete trees in memory), initial render slower (building VDOM tree first), diff cost (computing differences each render), not always optimal (can create too many DOM operations), and bundle size (~30KB minified).
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://legacy.reactjs.org/docs/faq-internals.html",
+    ]
+  },
+  {
+    "topic": "Real DOM",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Real DOM (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The Real DOM (Document Object Model) is the browser's live, tree-structured representation of the page. 
+    It's not just data — every node carries rendering and layout information, which is what makes direct, 
+    frequent updates costly. Understanding the Real DOM is crucial because it's what React ultimately interacts with, and the costs associated with it drove the creation of the Virtual DOM and React's reconciliation algorithm.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Why Direct DOM Updates Are Costly
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Changing a DOM node can trigger a chain reaction: style recalculation → layout (reflow) → paint → composite. 
+    Doing this repeatedly and unbatched (e.g. inside a loop) is a classic performance mistake. The terms <strong>reflow</strong> (layout recalculation) and <strong>repaint</strong> (visual update without layout change) are key concepts interviewers use to test depth beyond React itself.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Costly: triggers layout thrash — read/write interleaved in a loop
+for (let i = 0; i < items.length; i++) {
+  const el = document.getElementById("item-" + i);
+  el.style.width = el.offsetWidth + 10 + "px"; // read then write, repeated
+}
+
+// Better: batch reads, then batch writes
+const widths = items.map((_, i) => document.getElementById("item-" + i).offsetWidth);
+items.forEach((_, i) => {
+  document.getElementById("item-" + i).style.width = widths[i] + 10 + "px";
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Real DOM vs Virtual DOM
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Real DOM</th>
+      <th style="border: 1px solid black; padding: 8px;">Virtual DOM</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Representation</td>
+      <td style="border: 1px solid black; padding: 8px;">Actual rendered tree with layout/paint state</td>
+      <td style="border: 1px solid black; padding: 8px;">Plain JS objects, no rendering cost</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mutation</td>
+      <td style="border: 1px solid black; padding: 8px;">Triggers browser reflow/repaint</td>
+      <td style="border: 1px solid black; padding: 8px;">Free — just object comparison</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Who touches it</td>
+      <td style="border: 1px solid black; padding: 8px;">React only in the commit phase, in a batched way</td>
+      <td style="border: 1px solid black; padding: 8px;">React, on every render</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Know the terms <strong>reflow</strong> (layout recalculation) and <strong>repaint</strong> (visual update without layout change) — interviewers use these to test depth beyond React itself.<br>
+    - React's commit phase writes to the real DOM synchronously and in one batch specifically to avoid multiple reflows per update.<br>
+    - <strong>"What's the difference between reflow and repaint?"</strong> Reflow affects layout — changes to position, size, or geometry of elements require reflow. Repaint affects appearance only — changes to color, background, or visibility require repaint but not reflow. Reflow is more expensive than repaint because it triggers both reflow AND repaint, while repaint only triggers repaint.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
+      "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
+    ]
+  },
+  {
+    "topic": "Fiber Architecture",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Fiber Architecture (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Fiber is React's reconciliation engine, introduced in React 16, rewriting the old "stack reconciler." 
+    It represents each component/element as a <strong>fiber node</strong> — a JS object — so rendering work 
+    can be split into units, paused, resumed, prioritized, or discarded. The name "Fiber" refers to the ability to split work into small units — like yarn fibers being twisted together.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Why Fiber Was Needed
+  </h4>
+
+  <p style="line-height: 1.75;">
+    The old stack reconciler walked the element tree recursively and synchronously — once started, a render 
+    couldn't be interrupted, which could block the main thread on large trees and cause dropped frames/janky input. 
+    Fiber makes rendering work interruptible and resumable. The stack reconciler had critical limitations: blocking (couldn't pause), no priorities (all updates equal), stack overflow (deep recursion would crash), and no streaming (couldn't render incrementally).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Simplified Fiber Node Shape
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Actual Fiber node structure (simplified)
+const fiber = {
+  // Type information
+  type: 'div', // or function component
+  tag: 5, // HostComponent, FunctionComponent, etc.
+  
+  // Tree structure (linked list)
+  child: fiberA,       // First child
+  sibling: fiberB,     // Next sibling
+  return: fiberParent, // Parent (for backtracking)
+  
+  // State management
+  pendingProps: { className: 'red' },  // New props from update
+  memoizedProps: { className: 'blue' }, // Previous props
+  memoizedState: { count: 1 },          // Current state
+  
+  // Work tracking
+  flags: 4, // Update, Placement, etc.
+  lanes: 8, // Priority lanes (concurrent mode)
+  
+  // Double-buffering
+  alternate: fiberWorkInProgress, // Other tree copy
+  current: fiber,                 // Current tree
+};
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Stack Reconciler vs Fiber
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Stack Reconciler (pre-16)</th>
+      <th style="border: 1px solid black; padding: 8px;">Fiber (16+)</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Execution</td>
+      <td style="border: 1px solid black; padding: 8px;">Synchronous, recursive, blocking</td>
+      <td style="border: 1px solid black; padding: 8px;">Incremental, unit-of-work based, interruptible</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Prioritization</td>
+      <td style="border: 1px solid black; padding: 8px;">None — all updates equal</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes — urgent updates (typing) can preempt low-priority ones</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Data structure</td>
+      <td style="border: 1px solid black; padding: 8px;">Native call stack</td>
+      <td style="border: 1px solid black; padding: 8px;">Linked list of fiber nodes (child/sibling/return pointers)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Fiber is what makes Concurrent React (transitions, <code>useDeferredValue</code>, Suspense scheduling) possible.<br>
+    - Two trees exist at once: <strong>current</strong> (what's on screen) and <strong>work-in-progress</strong> (being built), linked via <code>alternate</code> — this double-buffering is a strong senior-level detail to mention.<br>
+    - The render phase (building/diffing the work-in-progress tree) is interruptible; the commit phase is not.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"How does Fiber enable Concurrent Mode?"</strong> Concurrent Mode relies on Fiber's ability to interrupt renders (yield to browser between units of work), prioritize updates (let urgent work like typing preempt non-urgent work), discard work (throw away renders if a higher-priority update arrives), and resume later (pick up where work was paused).<br>
+    - <strong>"What's the 'double-buffering' in Fiber?"</strong> React maintains two trees: Current (what's on screen) and Work-in-Progress (what's being built). After commit, they swap: <code>root.current = finishedWork</code>. The old current becomes the next wip's alternate. This allows rendering without affecting what's on screen, rolling back changes if interrupted, and smooth transitions between states.<br>
+    - <strong>"Why is the commit phase synchronous?"</strong> Because the commit phase actually changes the DOM — DOM operations can't be interrupted, layout calculations need to be consistent, effects and refs need to run in order, and users would see partial updates if commit was interrupted.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://github.com/acdlite/react-fiber-architecture",
+      "https://legacy.reactjs.org/docs/faq-internals.html",
+    ]
+  },
+  {
+    "topic": "Rendering Process",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Rendering Process (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React updates the screen in three conceptual steps: <strong>trigger</strong>, <strong>render</strong>, 
+    and <strong>commit</strong>. Knowing this pipeline cold is one of the most commonly asked senior React questions. 
+    The render process is more nuanced than just "trigger, render, commit" — it's actually a four-phase model: 
+    Trigger (Schedule), Render (Phase 1: Reconciliation), Commit (Phase 2: DOM Updates), and Effects (Phase 3: Side Effects).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. The Three Phases
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Phase</th>
+      <th style="border: 1px solid black; padding: 8px;">What Happens</th>
+      <th style="border: 1px solid black; padding: 8px;">Interruptible?</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">1. Trigger</td>
+      <td style="border: 1px solid black; padding: 8px;">Initial mount, or a state/prop change schedules an update</td>
+      <td style="border: 1px solid black; padding: 8px;">N/A</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">2. Render</td>
+      <td style="border: 1px solid black; padding: 8px;">Components are called, new element tree built, diffed against previous (work-in-progress fiber tree)</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes (Fiber)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">3. Commit</td>
+      <td style="border: 1px solid black; padding: 8px;">Renderer applies the computed diff to the real DOM/native tree, runs refs and effects</td>
+      <td style="border: 1px solid black; padding: 8px;">No — synchronous</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Detailed Render Phase:</strong> The render phase performs work on each fiber node, following the tree structure. It begins work (calls components, builds children) and continues down the tree, then completes work (builds DOM nodes if needed, applies props updates, bubbles up effects) and moves to siblings. This phase can be interrupted and resumed.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Trigger Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Counter() {
+  const [count, setCount] = useState(0);
+  // Calling setCount schedules a "trigger" — React queues a re-render
+  return &lt;button onClick={() => setCount(c => c + 1)}&gt;{count}&lt;/button&gt;;
+}
+
+// Commit Phase Details:
+// 1. Before mutation (get snapshots)
+// 2. Mutation (DOM changes - set innerHTML, textContent, add/remove DOM nodes, update attributes)
+// 3. Layout (after mutation, before paint - call useLayoutEffect, set refs)
+// 4. Schedule effects (useEffect runs after paint)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. UseEffect vs UseLayoutEffect
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// useEffect (async, after paint)
+useEffect(() => {
+  // Called after browser paints
+  // Good for: data fetching, subscriptions, analytics
+}, [deps]);
+
+// useLayoutEffect (sync, before paint)
+useLayoutEffect(() => {
+  // Called before browser paints
+  // Good for: measuring DOM, animations
+  // WARNING: Blocks paint, use sparingly
+}, [deps]);
+
+// Visual timing:
+// Render → Layout → Paint → useEffect
+// Render → useLayoutEffect → Layout → Paint
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - "Render" does <strong>not</strong> mean the screen updates — it means React calls your component functions to compute the next tree. The DOM only changes in commit.<br>
+    - React may throw away an in-progress render (e.g. a higher-priority update interrupts it) — this is only safe because render must be a pure function of props/state, with no side effects.<br>
+    - Effects (<code>useEffect</code>) run <em>after</em> commit, asynchronously; <code>useLayoutEffect</code> runs synchronously right after commit, before the browser paints.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"What does 'render' actually mean in React?"</strong> In React, "render" has two meanings: Component render (the function is called, returning JSX) and React render phase (the entire reconciliation process). Important distinction: the render phase can run multiple times (interrupted) or not at all (bailed out).<br>
+    - <strong>"What's the difference between rendering and painting?"</strong> Render (React) means components are called and VDOM is diffed during render phase. Render (Browser) means CSS is computed and layout is calculated after React commit. Paint means pixels are drawn to screen after browser render.<br>
+    - <strong>"Why does Strict Mode double-invoke effects?"</strong> To detect side effects without cleanup. This helps catch missing cleanup functions, components that don't handle mounting/unmounting properly, and state that persists between renders.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://react.dev/learn/render-and-commit",
+    ]
+  },
+  {
+    "topic": "Reconciliation",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Reconciliation (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Reconciliation is the process React uses to figure out <strong>what changed</strong> between the previous 
+    element tree and the new one, so it can update the real DOM with the minimal number of operations. 
+    The Fiber architecture is the engine that performs reconciliation; the diffing algorithm is the set of heuristics it uses. Reconciliation is the algorithm that determines what changed — it's the core of React's rendering logic.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Reconciliation Rules
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Rule</th>
+      <th style="border: 1px solid black; padding: 8px;">Behavior</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Different element type</td>
+      <td style="border: 1px solid black; padding: 8px;">Old subtree is torn down (unmounted); a fresh subtree is built</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Same element type</td>
+      <td style="border: 1px solid black; padding: 8px;">DOM node is kept; only changed attributes/props are updated</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Same component type</td>
+      <td style="border: 1px solid black; padding: 8px;">Instance is preserved; state carries over, props update</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">List children</td>
+      <td style="border: 1px solid black; padding: 8px;">Matched by <code>key</code> instead of position, to correctly reuse/reorder instances</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Key-Based Diffing:</strong> Different types → New tree (div → span results in div removed, span added, not reused). Same type → Update props (div with className "old" → className "new" keeps div, updates className). Same key → Reuse node (Item with key "a" kept, props updated).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why Keys Matter
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Bad: index as key — reordering causes state to attach to the wrong item
+{todos.map((todo, i) => &lt;TodoItem key={i} todo={todo} /&gt;)}
+
+// Good: stable, unique id — React can correctly match old vs new instances
+{todos.map((todo) => &lt;TodoItem key={todo.id} todo={todo} /&gt;)}
+
+// Scenario: Add item to beginning
+const oldList = ['A', 'B', 'C'];
+const newList = ['X', 'A', 'B', 'C'];
+
+// Without keys (index)
+// Before: A(index0), B(index1), C(index2)
+// After:  X(index0), A(index1), B(index2), C(index3)
+// React thinks: A→X (updated), B→A (updated), C→B (updated), C added
+// Result: All nodes updated (inefficient)
+
+// With keys
+// Before: A(keyA), B(keyB), C(keyC)
+// After:  X(keyX), A(keyA), B(keyB), C(keyC)
+// React thinks: X added, others moved
+// Result: One new node, three moved (efficient)
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - A very common trap question: "Why is using array index as a key bad?" — answer with a concrete scenario 
+    (inserting/removing an item causes remaining items to be misidentified, so component state gets attached to the wrong DOM node).<br>
+    - Reconciliation happens per-subtree — changing type at a given position tears down everything below it, even if children look identical, which is a useful fact for explaining unexpected remounts (e.g. losing input focus/state).<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"What's the worst-case scenario for React's reconciliation?"</strong> Changing root element type — React tears down the entire tree. Example: changing from <code>&lt;div&gt;</code> to <code>&lt;section&gt;</code> destroys all state and re-creates everything, causing performance hit, UI flickering, and lost user input.<br>
+    - <strong>"How does key reconciliation work under the hood?"</strong> React uses a map-based algorithm — it builds a map of existing children by key, then looks up by key to find matches. If found and same type, it reuses the existing node. If not found, it creates a new node.<br>
+    - <strong>"When should you NOT use keys?"</strong> You don't need keys when the list is static and never changes, items have no identity (e.g., a list of prices), the list is small and simple, or you want forced remounts (key can force recreation).
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://legacy.reactjs.org/docs/reconciliation.html",
+    ]
+  },
+  {
+    "topic": "Diffing Algorithm",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Diffing Algorithm (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A generic tree-diff algorithm is O(n³) in the number of nodes — too slow for UI updates. React uses a 
+    heuristic O(n) algorithm based on two assumptions: elements of different types produce different trees, 
+    and developers can hint stable identity via <code>key</code>. The diffing algorithm compares root elements, then recursively compares children, using keys to match nodes across updates.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. The Two Core Heuristics
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Heuristic</th>
+      <th style="border: 1px solid black; padding: 8px;">Effect</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Type comparison</td>
+      <td style="border: 1px solid black; padding: 8px;">Different element type at the same position → discard whole subtree, rebuild</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Key-based list diffing</td>
+      <td style="border: 1px solid black; padding: 8px;">Children with the same key are matched even if their position changed, avoiding unnecessary unmount/remount</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>How the Algorithm Works:</strong> Step 1: Compare root elements (if different → replace, if same → update props). Step 2: Recurse on children (keys identify stable nodes, matched nodes get recursive diff, unmatched get added/removed). The algorithm uses a map-based approach to find matching children by key, reusing existing nodes when possible.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Element Diffing Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Before
+&lt;div className="a" /&gt;
+// After — same type, prop diffed and patched
+&lt;div className="b" /&gt;
+// Result: one DOM write — className updated, node reused
+
+// Before
+&lt;div /&gt;
+// After — different type
+&lt;span /&gt;
+// Result: old div (and its children) torn down, new span built from scratch
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. List Diffing Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Before: [ &lt;li key="a"&gt;A&lt;/li&gt;, &lt;li key="b"&gt;B&lt;/li&gt; ]
+// After:  [ &lt;li key="c"&gt;C&lt;/li&gt;, &lt;li key="a"&gt;A&lt;/li&gt;, &lt;li key="b"&gt;B&lt;/li&gt; ]
+// With stable keys, React knows "a" and "b" only moved — it inserts
+// one new node for "c" instead of re-rendering all three.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be able to state the complexity trade-off explicitly: naive tree diff is O(n³); React's heuristic diff is O(n).<br>
+    - This topic pairs directly with "Reconciliation" and "Virtual DOM" — expect interviewers to ask them together as one chained question.<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"What makes the O(n) algorithm possible?"</strong> Two assumptions: (1) Different element types produce different trees (so we can bail out early), and (2) Keys provide stable identity for list items (so we can match nodes across updates). Without these assumptions, we'd need O(n³) generic tree diffing.<br>
+    - <strong>"How does React decide if two elements are the same type?"</strong> For host components (div, span, etc.), type is the string of the tag name. For custom components, type is the component class/function. Two elements with different component implementations, even if they render the same HTML, will cause a remount.<br>
+    - <strong>"What happens when diffing nested lists?"</strong> React diffing is hierarchical — it compares lists at each level of nesting independently. This means keys only need to be unique within their immediate parent, not globally unique across the entire application.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
+    ]
+  },
+  {
+    "topic": "Component Lifecycle",
+    "tags": [""],
+    "explanation": `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Component Lifecycle (Interview Guide)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Every component goes through three phases — <strong>Mounting</strong>, <strong>Updating</strong>, and 
+    <strong>Unmounting</strong>. Class components exposed these as named methods; function components achieve 
+    the same effects with hooks, primarily <code>useEffect</code>. The component lifecycle is fundamentally about when components are created, updated, and destroyed — and what code runs during each phase.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Class Lifecycle Methods vs Hook Equivalents
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Phase</th>
+      <th style="border: 1px solid black; padding: 8px;">Class Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Hook Equivalent</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mounting</td>
+      <td style="border: 1px solid black; padding: 8px;">constructor → render → componentDidMount</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>useState</code> init → render → <code>useEffect(fn, [])</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Updating</td>
+      <td style="border: 1px solid black; padding: 8px;">shouldComponentUpdate → render → componentDidUpdate</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>React.memo</code> → render → <code>useEffect(fn, [deps])</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Unmounting</td>
+      <td style="border: 1px solid black; padding: 8px;">componentWillUnmount</td>
+      <td style="border: 1px solid black; padding: 8px;">cleanup function returned from <code>useEffect</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Error handling</td>
+      <td style="border: 1px solid black; padding: 8px;">componentDidCatch / getDerivedStateFromError</td>
+      <td style="border: 1px solid black; padding: 8px;">No hook equivalent — still requires a class-based Error Boundary</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Class Component Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+class Timer extends React.Component {
+  state = { seconds: 0 };
+
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState(s => ({ seconds: s.seconds + 1 }));
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  render() {
+    return &lt;p&gt;{this.state.seconds}s&lt;/p&gt;;
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Functional Component Equivalent
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setSeconds(s => s + 1), 1000);
+    return () => clearInterval(id); // componentWillUnmount equivalent
+  }, []); // empty deps = componentDidMount equivalent
+
+  return &lt;p&gt;{seconds}s&lt;/p&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Interview Angle & Deep Cuts
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Explain that <code>useEffect</code> doesn't map 1:1 to lifecycle methods — it's a synchronization mechanism 
+    ("run this after render if these values changed"), which happens to replicate mount/update/unmount behavior.<br>
+    - Error Boundaries still require a class component (as of React 19) — a good detail to mention since it shows you know hooks don't cover 100% of the old class API.<br>
+    - Be ready to explain the double-invocation of effects in Strict Mode (development only) and why it exists (surfacing missing cleanup functions).<br><br>
+    <strong>Senior Interview Deep Cuts:</strong><br>
+    - <strong>"What's the difference between useEffect and useLayoutEffect?"</strong> useEffect runs asynchronously after the browser paints (good for data fetching, subscriptions, analytics). useLayoutEffect runs synchronously before the browser paints (good for measuring DOM, animations, but blocks paint so use sparingly).<br>
+    - <strong>"How does the cleanup function in useEffect work?"</strong> The cleanup function runs before the component unmounts AND before the next effect runs (if dependencies changed). This ensures effects are properly cleaned up between runs, preventing memory leaks and stale state.<br>
+    - <strong>"Can you implement shouldComponentUpdate with hooks?"</strong> React.memo is the functional equivalent — it memoizes the component and only re-renders if props change. You can provide a custom comparator function to React.memo for finer control, similar to shouldComponentUpdate.
+  </p>
+
+</div>
+`,
+    "examples": [""],
+    "questions": [{}],
+    "links": [
+      "https://react.dev/reference/react/Component",
+      "https://react.dev/reference/react/useEffect",
+    ]
+  },
           {
             "topic": "React Philosophy",
             "tags": [""],
