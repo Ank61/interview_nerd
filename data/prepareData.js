@@ -7437,10 +7437,10 @@ person.greet(); // Output: Hello, undefined
         id: 1,
         label: "Beginner",
         concepts: [
-  {
-    "topic": "React Philosophy",
-    "tags": [""],
-    "explanation": `<div>
+          {
+            "topic": "React Philosophy",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Philosophy (Interview Guide)
   </h4>
@@ -7556,17 +7556,17 @@ function App() {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/thinking-in-react",
-      "https://react.dev/learn",
-    ]
-  },
-  {
-    "topic": "SPA vs MPA",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/thinking-in-react",
+              "https://react.dev/learn",
+            ]
+          },
+          {
+            "topic": "SPA vs MPA",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     SPA vs MPA (Interview Guide)
   </h4>
@@ -7660,17 +7660,17 @@ function App() {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
-      "https://react.dev/learn/start-a-new-react-project",
-    ]
-  },
-  {
-    "topic": "React Architecture",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
+              "https://react.dev/learn/start-a-new-react-project",
+            ]
+          },
+          {
+            "topic": "React Architecture",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Architecture (Interview Guide)
   </h4>
@@ -7758,17 +7758,17 @@ const priorities = {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/faq-internals.html",
-      "https://github.com/acdlite/react-fiber-architecture",
-    ]
-  },
-  {
-    "topic": "Declarative Programming",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+              "https://github.com/acdlite/react-fiber-architecture",
+            ]
+          },
+          {
+            "topic": "Declarative Programming",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Declarative Programming (Interview Guide)
   </h4>
@@ -7845,16 +7845,16 @@ document.body.appendChild(button);
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/thinking-in-react",
-    ]
-  },
-  {
-    "topic": "Imperative Programming",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/thinking-in-react",
+            ]
+          },
+          {
+            "topic": "Imperative Programming",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Imperative Programming (Interview Guide)
   </h4>
@@ -7956,16 +7956,16 @@ function addItem(item) {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/manipulating-the-dom-with-refs",
-    ]
-  },
-  {
-    "topic": "JSX",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/manipulating-the-dom-with-refs",
+            ]
+          },
+          {
+            "topic": "JSX",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     JSX (Interview Guide)
   </h4>
@@ -8053,17 +8053,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/writing-markup-with-jsx",
-      "https://legacy.reactjs.org/docs/introducing-jsx.html",
-    ]
-  },
-  {
-    "topic": "Babel",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/writing-markup-with-jsx",
+              "https://legacy.reactjs.org/docs/introducing-jsx.html",
+            ]
+          },
+          {
+            "topic": "Babel",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Babel (Interview Guide)
   </h4>
@@ -8135,17 +8135,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://babeljs.io/docs/",
-      "https://babeljs.io/docs/babel-preset-react",
-    ]
-  },
-  {
-    "topic": "Virtual DOM",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://babeljs.io/docs/",
+              "https://babeljs.io/docs/babel-preset-react",
+            ]
+          },
+          {
+            "topic": "Virtual DOM",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Virtual DOM (Interview Guide)
   </h4>
@@ -8237,16 +8237,16 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/faq-internals.html",
-    ]
-  },
-  {
-    "topic": "Real DOM",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+            ]
+          },
+          {
+            "topic": "Real DOM",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Real DOM (Interview Guide)
   </h4>
@@ -8321,17 +8321,17 @@ items.forEach((_, i) => {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
-      "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
-    ]
-  },
-  {
-    "topic": "Fiber Architecture",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
+              "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
+            ]
+          },
+          {
+            "topic": "Fiber Architecture",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Fiber Architecture (Interview Guide)
   </h4>
@@ -8428,17 +8428,17 @@ const fiber = {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://github.com/acdlite/react-fiber-architecture",
-      "https://legacy.reactjs.org/docs/faq-internals.html",
-    ]
-  },
-  {
-    "topic": "Rendering Process",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://github.com/acdlite/react-fiber-architecture",
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+            ]
+          },
+          {
+            "topic": "Rendering Process",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Rendering Process (Interview Guide)
   </h4>
@@ -8542,16 +8542,16 @@ useLayoutEffect(() => {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/render-and-commit",
-    ]
-  },
-  {
-    "topic": "Reconciliation",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/render-and-commit",
+            ]
+          },
+          {
+            "topic": "Reconciliation",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Reconciliation (Interview Guide)
   </h4>
@@ -8639,16 +8639,16 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/reconciliation.html",
-    ]
-  },
-  {
-    "topic": "Diffing Algorithm",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/reconciliation.html",
+            ]
+          },
+          {
+            "topic": "Diffing Algorithm",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Diffing Algorithm (Interview Guide)
   </h4>
@@ -8730,16 +8730,16 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
-    ]
-  },
-  {
-    "topic": "Component Lifecycle",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
+            ]
+          },
+          {
+            "topic": "Component Lifecycle",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Component Lifecycle (Interview Guide)
   </h4>
@@ -8844,13 +8844,2903 @@ function Timer() {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/reference/react/Component",
-      "https://react.dev/reference/react/useEffect",
-    ]
-  },
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/reference/react/Component",
+              "https://react.dev/reference/react/useEffect",
+            ]
+          },
+          {
+            topic: "React Philosophy",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    React Philosophy (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React's core philosophy is often summarized as <strong>"UI is a function of state"</strong> — 
+    <code>UI = f(state)</code>. Instead of manually mutating the DOM, you describe what the UI should look 
+    like for any given state, and React figures out how to get the DOM there. This wasn't an arbitrary design 
+    choice — it came out of a real problem Facebook had: as apps grew, imperative DOM code with manual event 
+    listeners and callbacks became a tangled mess where it was nearly impossible to reason about "what state 
+    is the UI in right now." React's answer was to make rendering a pure, repeatable computation.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Core Principles
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Principle</th>
+      <th style="border: 1px solid black; padding: 8px;">Meaning</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Declarative</td>
+      <td style="border: 1px solid black; padding: 8px;">You describe the end result, not the steps to get there</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Component-Based</td>
+      <td style="border: 1px solid black; padding: 8px;">UI is composed of isolated, reusable pieces that manage their own state and encapsulate markup + logic + styling</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Unidirectional Data Flow</td>
+      <td style="border: 1px solid black; padding: 8px;">Data flows parent → child via props; state changes flow back up via callbacks, never sideways</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Learn Once, Write Anywhere</td>
+      <td style="border: 1px solid black; padding: 8px;">Same component model powers web (ReactDOM), native (React Native), and more via custom renderers</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Pure Rendering</td>
+      <td style="border: 1px solid black; padding: 8px;">Given the same props/state, a component's render output should be the same every time — no hidden side effects during render</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. UI as a Function of State
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Mental model
+UI = f(state)
+
+// Every time state changes, React re-invokes the component
+// function and produces a new description of the UI.
+function Cart({ items }) {
+  return &lt;p&gt;Items: {items.length}&lt;/p&gt;;
+}
+
+// Compare to a math function: same input -> same output, always.
+// f(2) === f(2) no matter how many times you call it.
+// A React component should behave the same way for a given
+// (props, state) pair.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Composition Over Inheritance
+  </h4>
+
+  <p style="line-height: 1.75;">
+    React favors composing small components together (via <code>children</code> or props) over 
+    building deep class inheritance hierarchies. The React team's own guidance is that they haven't found a 
+    use case where an inheritance hierarchy of components is preferable to composition — every feature that 
+    inheritance would give you (specialization, shared behavior) can be expressed by passing components or 
+    render functions as props.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Card({ children }) {
+  return &lt;div className="card"&gt;{children}&lt;/div&gt;;
+}
+
+function App() {
+  return (
+    &lt;Card&gt;
+      &lt;h2&gt;Title&lt;/h2&gt;
+      &lt;p&gt;Body text&lt;/p&gt;
+    &lt;/Card&gt;
+  );
+}
+
+// "Specialization" via composition instead of subclassing:
+function WelcomeDialog() {
+  return (
+    &lt;Card&gt;
+      &lt;h2&gt;Welcome&lt;/h2&gt;
+      &lt;p&gt;Thanks for visiting!&lt;/p&gt;
+    &lt;/Card&gt;
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. One-Way Data Binding vs Two-Way Binding
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Frameworks like older AngularJS popularized two-way data binding, where a change in the DOM (e.g. an 
+    input) automatically updates a bound model, and vice versa, without explicit code. React deliberately 
+    rejected this for the top-level data flow: data always flows down as props, and children notify parents 
+    of changes via callback props (e.g. <code>onChange</code>) rather than mutating the parent's state directly.
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Two-Way Binding</th>
+      <th style="border: 1px solid black; padding: 8px;">React's One-Way Flow</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Traceability</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder — a value can change from many places implicitly</td>
+      <td style="border: 1px solid black; padding: 8px;">Easier — every change is an explicit function call you can trace/log</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Debugging</td>
+      <td style="border: 1px solid black; padding: 8px;">Can be non-obvious which binding caused a change</td>
+      <td style="border: 1px solid black; padding: 8px;">You can always find the exact <code>setState</code>/setter call</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Boilerplate</td>
+      <td style="border: 1px solid black; padding: 8px;">Less — binding is automatic</td>
+      <td style="border: 1px solid black; padding: 8px;">More — you write explicit handlers, but with clarity as the trade-off</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. How the Philosophy Is Enforced in Practice
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - <strong>Strict Mode</strong> intentionally double-invokes component functions and some hooks in 
+    development to surface impure render logic (side effects that shouldn't be there).<br>
+    - The rule "components must be pure during render" means no mutating external variables, no random 
+    values, no direct DOM writes, and no network calls inside the render body — those belong in event 
+    handlers or <code>useEffect</code>.<br>
+    - Concurrent rendering (React 18+) only works because render is assumed pure — React can start, pause, 
+    throw away, and restart a render without side effects piling up.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be ready to explain *why* React re-renders instead of mutating the DOM directly, tying it back to 
+    predictability and testability, not just performance.<br>
+    - Tie "UI = f(state)" back to Virtual DOM, reconciliation, and one-way data flow — interviewers expect 
+    these concepts to connect into one coherent story.<br>
+    - Be able to give a concrete example of an "impure" render (e.g. calling <code>Math.random()</code> or 
+    mutating a prop object directly inside the component body) and explain why it breaks React's assumptions.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/thinking-in-react",
+              "https://react.dev/learn",
+            ],
+          },
+          {
+            topic: "SPA vs MPA",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    SPA vs MPA (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>Single Page Application (SPA)</strong> loads one HTML shell and swaps content via JavaScript, 
+    while a <strong>Multi Page Application (MPA)</strong> requests a fresh HTML page from the server on every 
+    navigation. React apps are typically SPAs by default, but production React apps very often blend both 
+    models (SSR/SSG + client-side navigation), so interviewers expect nuance, not just a definitions dump.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. SPA vs MPA Comparison
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">SPA</th>
+      <th style="border: 1px solid black; padding: 8px;">MPA</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Page Reloads</td>
+      <td style="border: 1px solid black; padding: 8px;">None (client-side routing via History API)</td>
+      <td style="border: 1px solid black; padding: 8px;">Full reload per navigation</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Initial Load</td>
+      <td style="border: 1px solid black; padding: 8px;">Heavier (JS bundle must download + parse + execute before interactive)</td>
+      <td style="border: 1px solid black; padding: 8px;">Lighter, faster first paint per page</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">SEO</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder without SSR/prerendering — crawlers may see an empty shell</td>
+      <td style="border: 1px solid black; padding: 8px;">Native, crawlers see full HTML immediately</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Server Load</td>
+      <td style="border: 1px solid black; padding: 8px;">Lower (mostly stateless API calls, static assets from CDN)</td>
+      <td style="border: 1px solid black; padding: 8px;">Higher (renders full HTML per request)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">UX After Load</td>
+      <td style="border: 1px solid black; padding: 8px;">Fast, app-like transitions, can preserve scroll/state across views</td>
+      <td style="border: 1px solid black; padding: 8px;">Flicker / white-flash on each navigation</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Offline support</td>
+      <td style="border: 1px solid black; padding: 8px;">Easier via service workers / caching the shell</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder — every navigation is a network round trip</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. How an SPA Works Under the Hood
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// index.html loads once
+&lt;div id="root"&gt;&lt;/div&gt;
+&lt;script src="/bundle.js"&gt;&lt;/script&gt;
+
+// A router intercepts link clicks, calls history.pushState()
+// to change the URL WITHOUT a network request, then swaps the
+// rendered component tree instead of asking the server for new HTML.
+&lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+
+// Under the hood: link click -> preventDefault() -> pushState()
+// -> router matches new path -> React renders matching component
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Key Performance Metrics to Know
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Metric</th>
+      <th style="border: 1px solid black; padding: 8px;">What It Measures</th>
+      <th style="border: 1px solid black; padding: 8px;">SPA Weak Point</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">TTFB (Time to First Byte)</td>
+      <td style="border: 1px solid black; padding: 8px;">Server response speed</td>
+      <td style="border: 1px solid black; padding: 8px;">Fine — usually just serves a static shell</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">FCP (First Contentful Paint)</td>
+      <td style="border: 1px solid black; padding: 8px;">When something first appears on screen</td>
+      <td style="border: 1px solid black; padding: 8px;">Weak — blank until JS bundle executes, unless SSR is used</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">TTI (Time to Interactive)</td>
+      <td style="border: 1px solid black; padding: 8px;">When the page responds to input</td>
+      <td style="border: 1px solid black; padding: 8px;">Weak on large bundles — needs code-splitting to fix</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Hybrid Approaches (What Production Apps Actually Use)
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Most real-world React apps aren't pure SPAs. Frameworks like <strong>Next.js</strong> and 
+    <strong>Remix</strong> render the initial HTML on the server (SSR) or at build time (SSG), then 
+    "hydrate" that HTML into a fully interactive SPA on the client. This gets MPA-like first paint and SEO, 
+    plus SPA-like navigation after the first load. Newer patterns like <strong>React Server Components</strong> 
+    push this further by letting parts of the tree render on the server with zero client-side JS shipped for them.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. When to Use Which
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Choose a pure <strong>SPA</strong> for dashboards, admin panels, and highly interactive internal tools 
+    where SEO doesn't matter and users tolerate a brief initial load.<br>
+    - Choose <strong>MPA</strong> or SPA + SSR for content/marketing sites where SEO and fast first paint matter most.<br>
+    - Choose code-splitting (<code>React.lazy</code> + dynamic <code>import()</code>) inside an SPA to shrink 
+    the initial bundle regardless of which model you pick.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Don't present SPA vs MPA as a binary choice — mention hydration and SSR/SSG explicitly; this signals 
+    production experience rather than textbook knowledge.<br>
+    - Be ready to explain hydration mismatches (server-rendered HTML differing from what the client renders) 
+    as a real pitfall you may be asked about.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
+              "https://react.dev/learn/start-a-new-react-project",
+            ],
+          },
+          {
+            topic: "React Architecture",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    React Architecture (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React is split into layers so the same core can target different platforms, and so rendering work can be 
+    scheduled intelligently instead of running to completion synchronously. Understanding these layers is a 
+    strong signal in senior interviews because it shows you know React beyond the public component API.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Architectural Layers
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Layer</th>
+      <th style="border: 1px solid black; padding: 8px;">Responsibility</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React (core)</td>
+      <td style="border: 1px solid black; padding: 8px;">Component API, hooks, element creation (platform-agnostic — no DOM knowledge here at all)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Reconciler (Fiber)</td>
+      <td style="border: 1px solid black; padding: 8px;">Diffs old vs new element trees, schedules work by priority, builds the fiber tree</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Renderer</td>
+      <td style="border: 1px solid black; padding: 8px;">Applies the diff to a target: ReactDOM (web), React Native (mobile via Fabric), react-three-fiber (3D)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Scheduler</td>
+      <td style="border: 1px solid black; padding: 8px;">Decides when work runs; yields to the browser for high-priority tasks like input, using a lane/priority model</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why the Split Matters
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Because the reconciler is decoupled from the renderer, the same component logic can render to the DOM, 
+    native views, or a canvas — only the renderer's "host config" (a set of platform-specific functions like 
+    <code>createInstance</code>, <code>appendChild</code>, <code>commitUpdate</code>) changes. This is also 
+    why libraries like <code>react-pdf</code> and <code>react-three-fiber</code> can exist: they're custom 
+    renderers plugged into the same reconciler.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Same component, two renderers
+import { createRoot } from "react-dom/client";     // Web renderer
+import { AppRegistry } from "react-native";          // Native renderer
+
+function Greeting() {
+  return &lt;Text&gt;Hello&lt;/Text&gt;; // React Native
+  // or &lt;p&gt;Hello&lt;/p&gt; for web — the component logic is identical,
+  // only the host elements and the renderer underneath differ
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Request → Render → Commit Flow (High Level)
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - <strong>Trigger:</strong> state/prop change or initial mount schedules an update on a specific priority lane.<br>
+    - <strong>Render phase:</strong> components are called, a new element tree is produced, reconciler diffs it 
+    against the current tree (interruptible, can be paused/resumed/abandoned).<br>
+    - <strong>Commit phase:</strong> renderer applies the minimal set of changes to the real target (DOM/native), 
+    synchronously, then runs refs and effects.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Evolution of React's Architecture
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Era</th>
+      <th style="border: 1px solid black; padding: 8px;">Architecture</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React 0.x – 15</td>
+      <td style="border: 1px solid black; padding: 8px;">Stack reconciler — synchronous, recursive, not interruptible</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React 16</td>
+      <td style="border: 1px solid black; padding: 8px;">Fiber reconciler introduced — incremental rendering, error boundaries</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React 18</td>
+      <td style="border: 1px solid black; padding: 8px;">Concurrent rendering, automatic batching, transitions, Suspense for data</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React 19</td>
+      <td style="border: 1px solid black; padding: 8px;">React Server Components maturing, Actions, compiler-assisted memoization</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be able to name all four layers unprompted and explain why splitting reconciler from renderer enables 
+    React Native and custom renderers — this is a very common senior-level follow-up.<br>
+    - Know that the Scheduler is what makes React "concurrent" — it can interrupt low-priority rendering work 
+    to handle a high-priority update like a keystroke, then resume.<br>
+    - Be ready to briefly contrast this with how Vue or Svelte are architected (Vue also has a VDOM + reactive 
+    system; Svelte compiles away the runtime almost entirely) if asked to compare frameworks.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+              "https://github.com/acdlite/react-fiber-architecture",
+            ],
+          },
+          {
+            topic: "Declarative Programming",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Declarative Programming (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Declarative programming means describing <strong>what</strong> the result should look like, and letting 
+    the underlying system figure out <strong>how</strong> to achieve it. React embraces this: you describe the 
+    UI for a given state, and React handles the DOM updates. This isn't unique to React — SQL, CSS, and 
+    regular expressions are all declarative in the same sense: you specify the desired outcome, not the 
+    execution steps.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Declarative Example (React)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Toggle({ isOn }) {
+  return &lt;button&gt;{isOn ? "ON" : "OFF"}&lt;/button&gt;;
+}
+// You never touch the DOM node directly — you describe the
+// desired output for the current isOn value, for every possible
+// value of isOn, once. React re-runs this description whenever
+// isOn changes and reconciles the result against the DOM.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Declarative Examples Outside React
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">System</th>
+      <th style="border: 1px solid black; padding: 8px;">What You Declare</th>
+      <th style="border: 1px solid black; padding: 8px;">Who Figures Out "How"</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">SQL</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>SELECT * FROM users WHERE age &gt; 18</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Query planner/optimizer</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">CSS</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>.box { display: flex; justify-content: center; }</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Browser layout engine</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React JSX</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>&lt;List items={data} /&gt;</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Reconciler + renderer</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Declarative vs Imperative
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Declarative</th>
+      <th style="border: 1px solid black; padding: 8px;">Imperative</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Focus</td>
+      <td style="border: 1px solid black; padding: 8px;">What the UI should be</td>
+      <td style="border: 1px solid black; padding: 8px;">How to update the UI step by step</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">State tracking</td>
+      <td style="border: 1px solid black; padding: 8px;">Framework tracks it (React state)</td>
+      <td style="border: 1px solid black; padding: 8px;">Developer tracks it manually</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Bug surface</td>
+      <td style="border: 1px solid black; padding: 8px;">Smaller — fewer manual DOM ops, less state/UI drift</td>
+      <td style="border: 1px solid black; padding: 8px;">Larger — easy to desync UI and state</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Testability</td>
+      <td style="border: 1px solid black; padding: 8px;">Easier — assert on output for given input</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder — must simulate a sequence of operations</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Common Misconceptions
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Declarative does not mean "no logic" — conditional rendering, mapping over lists, and computing derived 
+    values are still logic, just expressed as data transformations feeding a description, not as step-by-step 
+    DOM commands.<br>
+    - Declarative code can still be inefficient if overused (e.g. recomputing expensive derived state on every 
+    render) — declarative and performant are separate concerns; you may still need <code>useMemo</code> or 
+    similar to keep a declarative approach fast.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be ready to show the same feature written imperatively (vanilla DOM) vs declaratively (JSX) — see the 
+    "Imperative Programming" topic for the paired example.<br>
+    - Mention that declarative code is generally easier to reason about because output is a pure function of 
+    state, not a sequence of mutations — and connect this back to why React can safely interrupt and restart 
+    rendering (concurrent features).<br>
+    - If asked "is React purely declarative," the honest answer is: the component tree description is 
+    declarative, but React still exposes imperative escape hatches (refs) for the minority of cases that need them.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/thinking-in-react",
+            ],
+          },
+          {
+            topic: "Imperative Programming",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Imperative Programming (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Imperative programming describes <strong>how</strong> to reach a result: a sequence of explicit steps 
+    that mutate state along the way. Vanilla DOM manipulation is a classic example — you tell the browser 
+    exactly which node to create, style, and insert, and you're responsible for keeping the DOM in sync with 
+    your data as it changes.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Imperative Example (Vanilla JS)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const button = document.createElement("button");
+button.textContent = "OFF";
+let isOn = false;
+
+button.addEventListener("click", () => {
+  isOn = !isOn;
+  button.textContent = isOn ? "ON" : "OFF"; // manual sync — every
+  // place isOn changes, you must remember to also update the DOM
+});
+
+document.body.appendChild(button);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why This Gets Hard to Scale
+  </h4>
+
+  <p style="line-height: 1.75;">
+    As an app grows, the number of places that can mutate a piece of state grows too, and every one of them 
+    needs to remember to also update every DOM node that depends on that state. Miss one, and the UI silently 
+    drifts out of sync with the actual data — a whole category of bugs that declarative rendering eliminates 
+    by recomputing the UI from state instead of patching it by hand.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Where Imperative Code Still Shows Up in React
+  </h4>
+
+  <p style="line-height: 1.75;">
+    React is declarative at the component level, but it still exposes imperative escape hatches for cases 
+    the declarative model can't cleanly express: focus management, measuring DOM nodes, integrating a 
+    non-React library (charting, maps, canvas), or triggering imperative animations.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { useRef, useEffect } from "react";
+
+function TextInput() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus(); // imperative DOM call
+  }, []);
+
+  return &lt;input ref={inputRef} /&gt;;
+}
+
+// useImperativeHandle exposes a controlled imperative API to a parent,
+// useful when wrapping a non-React widget:
+import { forwardRef, useImperativeHandle, useRef } from "react";
+
+const VideoPlayer = forwardRef((props, ref) => {
+  const videoRef = useRef(null);
+  useImperativeHandle(ref, () => ({
+    play: () => videoRef.current.play(),
+    pause: () => videoRef.current.pause(),
+  }));
+  return &lt;video ref={videoRef} src={props.src} /&gt;;
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Pros and Cons
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Pros</th>
+      <th style="border: 1px solid black; padding: 8px;">Cons</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Fine-grained control over exact operations</td>
+      <td style="border: 1px solid black; padding: 8px;">More boilerplate, more places for state/UI to drift apart</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Sometimes necessary (refs, animations, 3rd-party libs)</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder to test/reason about at scale</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Can be more performant for very targeted, hot-path updates</td>
+      <td style="border: 1px solid black; padding: 8px;">Bypasses React's diffing safety net — you own correctness</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be ready to name at least three legitimate reasons to reach for refs/imperative code in React (focus, 
+    measuring layout, integrating non-React libraries, imperative animations, media playback control).<br>
+    - A strong answer acknowledges that "React is declarative" is a simplification — the honest nuance is 
+    "declarative by default, with imperative escape hatches for the DOM's inherently imperative APIs."
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/manipulating-the-dom-with-refs",
+            ],
+          },
+          {
+            topic: "JSX",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    JSX (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    JSX is syntactic sugar for <code>React.createElement</code> (or the modern <code>jsx</code>/<code>jsxs</code> 
+    runtime) calls. It lets you write HTML-like markup inside JavaScript, which a compiler (Babel, SWC, or 
+    esbuild) turns into plain function calls the browser can run. JSX itself has no runtime — it's purely a 
+    build-time transform.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. JSX Compiles To createElement / jsx Calls
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// JSX
+const el = &lt;h1 className="title"&gt;Hello&lt;/h1&gt;;
+
+// Compiled output (classic runtime, pre React 17)
+const el = React.createElement("h1", { className: "title" }, "Hello");
+
+// Modern automatic runtime (React 17+) compiles to:
+import { jsx as _jsx } from "react/jsx-runtime";
+const el = _jsx("h1", { className: "title", children: "Hello" });
+
+// The result, either way, is a plain JS object (a "React element"):
+{ type: "h1", key: null, props: { className: "title", children: "Hello" } }
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Rules of JSX
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Rule</th>
+      <th style="border: 1px solid black; padding: 8px;">Example</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Single root element</td>
+      <td style="border: 1px solid black; padding: 8px;">Wrap siblings in a Fragment: <code>&lt;&gt;...&lt;/&gt;</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">camelCase attributes</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>className</code>, <code>onClick</code>, <code>tabIndex</code> (because these map to DOM properties, not HTML attribute strings)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Expressions in braces</td>
+      <td style="border: 1px solid black; padding: 8px;">Only expressions, e.g. <code>{userName}</code> — statements (if/for) not allowed inline</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">All tags must close</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>&lt;img /&gt;</code>, not <code>&lt;img&gt;</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Auto-escaping</td>
+      <td style="border: 1px solid black; padding: 8px;">Values interpolated with curly braces (e.g. <code>&#123;userInput&#125;</code>) are escaped by default, preventing XSS unless you explicitly opt out with <code>dangerouslySetInnerHTML</code></td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Conditional Rendering Patterns
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Ternary — good for either/or output
+&lt;p&gt;{isLoggedIn ? "Welcome back" : "Please sign in"}&lt;/p&gt;
+
+// Logical AND — good for render-or-nothing
+&lt;p&gt;{hasError &amp;&amp; &lt;span className="error"&gt;Something went wrong&lt;/span&gt;}&lt;/p&gt;
+// Watch out: {count &amp;&amp; &lt;List /&gt;} renders "0" if count is 0,
+// since 0 is falsy but still a renderable value. Use {count > 0 &amp;&amp; ...}
+
+// Early return — good for whole-component gating
+function Profile({ user }) {
+  if (!user) return null;
+  return &lt;h2&gt;{user.name}&lt;/h2&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Spreading Props and Fragments
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Spread props onto an element
+&lt;Button {...buttonProps} /&gt;
+
+// Keyed fragments (needed inside a list, unlike shorthand &lt;&gt;)
+{items.map(item => (
+  &lt;React.Fragment key={item.id}&gt;
+    &lt;dt&gt;{item.term}&lt;/dt&gt;
+    &lt;dd&gt;{item.def}&lt;/dd&gt;
+  &lt;/React.Fragment&gt;
+))}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Common Interview Traps
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - JSX is <strong>not</strong> a template language — it's just function calls, so it can't contain 
+    arbitrary statements like <code>if</code> blocks directly (use ternaries, <code>&amp;&amp;</code>, or 
+    early returns instead).<br>
+    - Every list item needs a stable <code>key</code> — this feeds directly into reconciliation, a frequent follow-up question.<br>
+    - "JSX requires React in scope" is only true with the <em>classic</em> runtime; the automatic runtime 
+    (default since React 17) removes that requirement, so files using JSX no longer need <code>import React from "react"</code> just to use JSX.<br>
+    - <code>&#123;count &amp;&amp; &lt;Comp /&gt;&#125;</code> rendering a stray "0" is a classic bug to be able to explain and fix on the spot.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/writing-markup-with-jsx",
+              "https://legacy.reactjs.org/docs/introducing-jsx.html",
+            ],
+          },
+          {
+            topic: "Babel",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Babel (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Babel is a JavaScript transpiler. In a React app, its two main jobs are converting JSX into 
+    <code>createElement</code>/<code>jsx</code> calls and downleveling modern JS syntax so it runs on older 
+    browsers. It works as a pipeline: parse source into an AST, transform the AST via plugins, then generate 
+    output code from the transformed AST.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. What Babel Actually Does
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Step</th>
+      <th style="border: 1px solid black; padding: 8px;">Description</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Parse</td>
+      <td style="border: 1px solid black; padding: 8px;">Source code → Abstract Syntax Tree (AST) via @babel/parser</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Transform</td>
+      <td style="border: 1px solid black; padding: 8px;">Plugins/presets walk and rewrite the AST (JSX → JS, ES6+ → ES5, TS types stripped)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Generate</td>
+      <td style="border: 1px solid black; padding: 8px;">AST → output JS source + source map, sent to the bundler (Webpack/Vite/esbuild)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Plugins vs Presets
+  </h4>
+
+  <p style="line-height: 1.75;">
+    A <strong>plugin</strong> is a single, focused transform (e.g. "transform arrow functions to ES5 
+    functions"). A <strong>preset</strong> is just a curated bundle of plugins. <code>@babel/preset-env</code> 
+    is the most important one — it reads a <code>browserslist</code> target and only includes the transforms 
+    actually needed for those browsers, avoiding shipping unnecessary polyfilled code.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// .babelrc
+{
+  "presets": [
+    ["@babel/preset-env", { "targets": "> 0.25%, not dead" }],
+    "@babel/preset-react"
+  ],
+  "plugins": ["@babel/plugin-transform-runtime"]
+}
+
+// package.json browserslist — preset-env reads this to decide
+// exactly which syntax transforms/polyfills are needed
+"browserslist": ["> 0.25%", "not dead"]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Transforms vs Polyfills — a Key Distinction
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Type</th>
+      <th style="border: 1px solid black; padding: 8px;">Fixes</th>
+      <th style="border: 1px solid black; padding: 8px;">Example</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Syntax transform</td>
+      <td style="border: 1px solid black; padding: 8px;">New syntax the parser can't handle</td>
+      <td style="border: 1px solid black; padding: 8px;">Arrow functions, JSX, optional chaining</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Polyfill</td>
+      <td style="border: 1px solid black; padding: 8px;">Missing runtime APIs, not syntax</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>Array.prototype.flat</code>, <code>Promise</code> — provided via core-js, not Babel itself</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Babel vs Faster Alternatives (SWC / esbuild)
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Babel is written in JavaScript, which makes it slower than newer compilers written in Rust (SWC, used by 
+    Next.js) or Go (esbuild, used by Vite for dev and by many production bundlers). They perform conceptually 
+    the same parse → transform → generate pipeline but run 10-20x faster, at the cost of a smaller plugin 
+    ecosystem than Babel's mature, highly extensible one.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Explain that JSX cannot run in the browser natively — some compiler (Babel, SWC, esbuild, or the 
+    TypeScript compiler) must transpile it first, at build time, before the browser ever sees the code.<br>
+    - Clearly distinguish Babel (compiles syntax) from a bundler like Webpack/Vite (resolves, combines, and 
+    optimizes modules) and from a polyfill library like core-js (adds missing runtime APIs) — a very common 
+    point of confusion interviewers probe for.<br>
+    - Know that TypeScript's own compiler (<code>tsc</code>) can also strip types and JSX, but many toolchains 
+    still use Babel/SWC for the actual JS transform and use <code>tsc</code> only for type-checking.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://babeljs.io/docs/",
+              "https://babeljs.io/docs/babel-preset-react",
+            ],
+          },
+          {
+            topic: "Virtual DOM",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Virtual DOM (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The Virtual DOM (VDOM) is a lightweight, in-memory JavaScript representation of the real DOM tree. 
+    React builds a new VDOM tree on every render, diffs it against the previous one, and applies only the 
+    minimal set of real DOM operations needed. It exists purely as data — a tree of plain objects — with 
+    no rendering cost of its own.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. What a VDOM Node Looks Like
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Simplified shape of a React element (VDOM node)
+{
+  type: "button",
+  key: null,
+  props: {
+    className: "btn",
+    onClick: handleClick,
+    children: "Submit"
+  }
+}
+
+// A component tree becomes a tree of these plain objects —
+// cheap to create, compare, and throw away, because none of
+// it touches the browser's rendering engine.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why It Exists
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Direct DOM mutations are expensive because the browser may need to recalculate style, layout (reflow), 
+    and paint. The VDOM lets React batch and minimize real DOM writes by first computing the smallest diff 
+    in memory, which is cheap, then applying only that diff to the actual DOM in a single batch during commit.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. From Element to Screen — The Full Pipeline
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - <code>createElement</code>/JSX produces a tree of plain VDOM objects (cheap).<br>
+    - The reconciler diffs this tree against the previous one and builds/updates the corresponding fiber tree 
+    (still just data, still cheap).<br>
+    - The renderer's commit step translates the diff into actual imperative DOM calls: <code>appendChild</code>, 
+    <code>setAttribute</code>, <code>removeChild</code>, and so on — this is the only step that's expensive, 
+    and React has already minimized it by the time it happens.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Batching and Synthetic Events
+  </h4>
+
+  <p style="line-height: 1.75;">
+    React historically attached a single event listener at the root of the document (event delegation) and 
+    wraps native events in <strong>SyntheticEvent</strong> objects for cross-browser consistency. Combined 
+    with the VDOM, this let React batch multiple state updates triggered within the same event handler into 
+    a single re-render instead of one render per <code>setState</code> call. React 18 extended this automatic 
+    batching to cover promises, timeouts, and native event handlers too, not just React event handlers.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function handleClick() {
+  setCount(c => c + 1);
+  setFlag(f => !f);
+  // Both updates are batched into ONE re-render, not two,
+  // because React defers the actual re-render until the
+  // event handler finishes.
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Real DOM vs Virtual DOM
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Real DOM</th>
+      <th style="border: 1px solid black; padding: 8px;">Virtual DOM</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Update cost</td>
+      <td style="border: 1px solid black; padding: 8px;">Expensive (layout/reflow/repaint)</td>
+      <td style="border: 1px solid black; padding: 8px;">Cheap (plain JS objects)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Update strategy</td>
+      <td style="border: 1px solid black; padding: 8px;">Direct mutation</td>
+      <td style="border: 1px solid black; padding: 8px;">Diff in memory, then batch-apply minimal changes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Owned by</td>
+      <td style="border: 1px solid black; padding: 8px;">Browser</td>
+      <td style="border: 1px solid black; padding: 8px;">React (or the UI library)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Memory</td>
+      <td style="border: 1px solid black; padding: 8px;">One tree, browser-managed</td>
+      <td style="border: 1px solid black; padding: 8px;">Extra trees held in memory (current + work-in-progress)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. The Honest Criticism (Signals Depth in an Interview)
+  </h4>
+
+  <p style="line-height: 1.75;">
+    A common myth is "Virtual DOM is always faster than the real DOM" — it's actually faster than 
+    <em>naive, unbatched</em> direct manipulation, but a hand-optimized imperative update can still beat it, 
+    and the VDOM diffing itself has a real (if small) CPU/memory cost. This is the argument compilers like 
+    Svelte make: by compiling away the VDOM entirely and generating direct, surgical DOM update instructions 
+    at build time, they can skip the diffing step altogether. Mentioning this trade-off explicitly shows you 
+    understand the VDOM as an engineering trade-off, not a silver bullet.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be ready to connect VDOM → diffing algorithm → reconciliation → Fiber, since interviewers usually chain these questions.<br>
+    - Be ready to explain automatic batching as a direct, practical benefit that falls out of the VDOM + 
+    scheduler design, with a concrete before/after example.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+            ],
+          },
+          {
+            topic: "Real DOM",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Real DOM (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The Real DOM (Document Object Model) is the browser's live, tree-structured representation of the page. 
+    It's not just data — every node carries rendering and layout information, which is what makes direct, 
+    frequent updates costly. Understanding the browser's rendering pipeline is what lets you explain 
+    *why* the VDOM helps, instead of just repeating that it does.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. The Browser Rendering Pipeline
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Stage</th>
+      <th style="border: 1px solid black; padding: 8px;">What Happens</th>
+      <th style="border: 1px solid black; padding: 8px;">Triggered By</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Style</td>
+      <td style="border: 1px solid black; padding: 8px;">Compute which CSS rules apply to each node (CSSOM)</td>
+      <td style="border: 1px solid black; padding: 8px;">Class/attribute changes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Layout (reflow)</td>
+      <td style="border: 1px solid black; padding: 8px;">Compute exact position/size of every element</td>
+      <td style="border: 1px solid black; padding: 8px;">Size, position, content, or DOM structure changes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Paint</td>
+      <td style="border: 1px solid black; padding: 8px;">Fill in pixels for each element (color, text, shadows)</td>
+      <td style="border: 1px solid black; padding: 8px;">Visual-only changes (e.g. background-color)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Composite</td>
+      <td style="border: 1px solid black; padding: 8px;">Combine painted layers onto the screen</td>
+      <td style="border: 1px solid black; padding: 8px;">Transform/opacity changes (cheapest — GPU-accelerated)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why Direct DOM Updates Are Costly
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Changing a DOM node can trigger the full chain above: style recalculation → layout (reflow) → paint → 
+    composite. Reflow is the most expensive step because a single element's size/position change can force 
+    the browser to recompute layout for its ancestors, siblings, and descendants. Doing this repeatedly and 
+    unbatched (e.g. reading layout then writing in a loop) is a classic performance mistake known as 
+    <strong>layout thrashing</strong>.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Costly: triggers layout thrash — read/write interleaved in a loop.
+// Each .offsetWidth read forces the browser to flush any pending
+// layout work synchronously before it can answer.
+for (let i = 0; i < items.length; i++) {
+  const el = document.getElementById("item-" + i);
+  el.style.width = el.offsetWidth + 10 + "px"; // read then write, repeated
+}
+
+// Better: batch all reads first, then batch all writes —
+// only one layout pass instead of N
+const widths = items.map((_, i) => document.getElementById("item-" + i).offsetWidth);
+items.forEach((_, i) => {
+  document.getElementById("item-" + i).style.width = widths[i] + 10 + "px";
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. DOM Tree Structure Basics
+  </h4>
+
+  <p style="line-height: 1.75;">
+    The DOM is a tree of <strong>nodes</strong> — element nodes (<code>&lt;div&gt;</code>), text nodes, 
+    comment nodes, and the document node itself. Events propagate through this tree in two phases: 
+    <strong>capturing</strong> (root → target) and <strong>bubbling</strong> (target → root) — this is the 
+    mechanism React's synthetic event system builds on top of via a single delegated listener at the root.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Real DOM vs Virtual DOM
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Real DOM</th>
+      <th style="border: 1px solid black; padding: 8px;">Virtual DOM</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Representation</td>
+      <td style="border: 1px solid black; padding: 8px;">Actual rendered tree with layout/paint state</td>
+      <td style="border: 1px solid black; padding: 8px;">Plain JS objects, no rendering cost</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mutation</td>
+      <td style="border: 1px solid black; padding: 8px;">Can trigger browser reflow/repaint</td>
+      <td style="border: 1px solid black; padding: 8px;">Free — just object comparison</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Who touches it</td>
+      <td style="border: 1px solid black; padding: 8px;">React only in the commit phase, in a batched way</td>
+      <td style="border: 1px solid black; padding: 8px;">React, on every render</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Know the terms <strong>reflow</strong> (layout recalculation) and <strong>repaint</strong> (visual 
+    update without layout change), and be able to say which CSS properties are cheapest to animate 
+    (<code>transform</code>, <code>opacity</code> — composite-only) vs most expensive (<code>width</code>, 
+    <code>top</code>, <code>left</code> — trigger layout).<br>
+    - React's commit phase writes to the real DOM synchronously and in one batch specifically to avoid 
+    multiple reflows per update — connect this back to the Virtual DOM topic.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
+              "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
+            ],
+          },
+          {
+            topic: "Fiber Architecture",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Fiber Architecture (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Fiber is React's reconciliation engine, introduced in React 16, rewriting the old "stack reconciler." 
+    It represents each component/element as a <strong>fiber node</strong> — a JS object — so rendering work 
+    can be split into small units, paused, resumed, prioritized, or discarded entirely.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Why Fiber Was Needed
+  </h4>
+
+  <p style="line-height: 1.75;">
+    The old stack reconciler walked the element tree recursively and synchronously using the native JS call 
+    stack — once started, a render couldn't be interrupted, which could block the main thread on large trees 
+    and cause dropped frames or janky input response. Fiber replaces the native call stack with its own 
+    data structure (a linked list of fiber nodes) so React itself controls when to pause and resume work — 
+    conceptually similar to how a generator function can yield control back to its caller.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Simplified Fiber Node Shape
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+{
+  type: "div",              // component type or host tag
+  key: null,
+  stateNode: domNodeOrInstance,
+  child: fiberOrNull,       // first child
+  sibling: fiberOrNull,     // next sibling
+  return: parentFiber,      // pointer back up the tree
+  pendingProps: {...},
+  memoizedProps: {...},
+  memoizedState: {...},     // hooks linked list lives here
+  alternate: otherFiber,    // the "work in progress" <-> "current" pair
+  effectTag: "UPDATE",
+  lanes: 0b0001              // priority "lane" this update belongs to
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. The Work Loop: beginWork / completeWork
+  </h4>
+
+  <p style="line-height: 1.75;">
+    React processes fibers one at a time in a loop. For each fiber it calls <code>beginWork</code> (render 
+    the component, create/update child fibers) then, once children are done, <code>completeWork</code> 
+    (finalize this fiber's effects, e.g. compute the DOM mutations needed). Traversal order is: go to 
+    <code>child</code> first; if no child, go to <code>sibling</code>; if no sibling, go back up via 
+    <code>return</code> and try that ancestor's sibling. After each unit of work, React checks whether it 
+    still has time left in the current frame (originally modeled on <code>requestIdleCallback</code>) — if 
+    not, it yields back to the browser and resumes later.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Stack Reconciler vs Fiber
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Stack Reconciler (pre-16)</th>
+      <th style="border: 1px solid black; padding: 8px;">Fiber (16+)</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Execution</td>
+      <td style="border: 1px solid black; padding: 8px;">Synchronous, recursive, blocking</td>
+      <td style="border: 1px solid black; padding: 8px;">Incremental, unit-of-work based, interruptible</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Prioritization</td>
+      <td style="border: 1px solid black; padding: 8px;">None — all updates equal</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes — urgent updates (typing) can preempt low-priority ones via lanes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Data structure</td>
+      <td style="border: 1px solid black; padding: 8px;">Native call stack</td>
+      <td style="border: 1px solid black; padding: 8px;">Linked list of fiber nodes (child/sibling/return pointers)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Error handling</td>
+      <td style="border: 1px solid black; padding: 8px;">A thrown error could crash the whole tree</td>
+      <td style="border: 1px solid black; padding: 8px;">Error Boundaries can catch errors at a subtree boundary</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Double Buffering: current vs work-in-progress
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Two fiber trees exist at once: <strong>current</strong> (what's on screen) and 
+    <strong>work-in-progress</strong> (being built for the next update), linked to each other via the 
+    <code>alternate</code> pointer. React builds the new tree without touching the one currently on screen; 
+    once the work-in-progress tree is complete, React commits by swapping which tree is "current" — this is 
+    the same double-buffering technique used in graphics programming to avoid showing a half-finished frame.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Lanes: React's Priority Model
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Modern React (18+) replaced simple priority numbers with <strong>lanes</strong> — a bitmask model where 
+    different update types (discrete user input, continuous input, transitions, idle work) occupy different 
+    lanes and can be batched or interrupted independently. This is what powers <code>startTransition</code> 
+    and <code>useDeferredValue</code>: a transition update is placed in a lower-priority lane so an urgent 
+    update (like a keystroke) can render first.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Fiber is what makes Concurrent React (transitions, <code>useDeferredValue</code>, Suspense scheduling) possible.<br>
+    - The render phase (building/diffing the work-in-progress tree) is interruptible; the commit phase is not — be ready to explain why (partial DOM writes would be visible/inconsistent to the user).<br>
+    - If asked "what is a fiber," the concise senior-level answer is: a unit of work representing one 
+    component instance, holding both its render inputs/outputs and its position in a resumable, 
+    interruptible traversal of the tree.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://github.com/acdlite/react-fiber-architecture",
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+            ],
+          },
+          {
+            topic: "Rendering Process",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Rendering Process (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    React updates the screen in three conceptual steps: <strong>trigger</strong>, <strong>render</strong>, 
+    and <strong>commit</strong>. Knowing this pipeline cold — including what does and doesn't run in each 
+    phase — is one of the most commonly asked senior React questions.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. The Three Phases
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Phase</th>
+      <th style="border: 1px solid black; padding: 8px;">What Happens</th>
+      <th style="border: 1px solid black; padding: 8px;">Interruptible?</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">1. Trigger</td>
+      <td style="border: 1px solid black; padding: 8px;">Initial mount, or a state/prop change schedules an update on a priority lane</td>
+      <td style="border: 1px solid black; padding: 8px;">N/A</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">2. Render</td>
+      <td style="border: 1px solid black; padding: 8px;">Components are called, new element tree built, diffed against previous (work-in-progress fiber tree)</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes (Fiber)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">3. Commit</td>
+      <td style="border: 1px solid black; padding: 8px;">Renderer applies the computed diff to the real DOM/native tree, runs refs and effects</td>
+      <td style="border: 1px solid black; padding: 8px;">No — synchronous</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Trigger Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Counter() {
+  const [count, setCount] = useState(0);
+  // Calling setCount schedules a "trigger" — React queues a re-render
+  // rather than updating the DOM synchronously right here.
+  return &lt;button onClick={() => setCount(c => c + 1)}&gt;{count}&lt;/button&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Commit Sub-Steps
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Commit itself has an internal order that's worth memorizing, since effect-timing bugs usually trace back to it:
+  </p>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Sub-step</th>
+      <th style="border: 1px solid black; padding: 8px;">What Happens</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Before mutation</td>
+      <td style="border: 1px solid black; padding: 8px;">Read DOM state if needed (e.g. <code>getSnapshotBeforeUpdate</code> in class components)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mutation</td>
+      <td style="border: 1px solid black; padding: 8px;">Actual DOM insert/update/remove operations happen here</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Layout</td>
+      <td style="border: 1px solid black; padding: 8px;">Refs are attached; <code>useLayoutEffect</code> callbacks run synchronously here, before paint</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Passive effects</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>useEffect</code> callbacks run asynchronously after the browser paints</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Automatic Batching (React 18+)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Before React 18: only React event handlers were batched.
+// setTimeout/promise callbacks caused two separate renders.
+setTimeout(() => {
+  setCount(c => c + 1); // render #1 (pre-18)
+  setFlag(f => !f);      // render #2 (pre-18)
+}, 1000);
+
+// React 18: automatic batching applies everywhere —
+// this now produces a single render, regardless of where it's called from.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Transitions: Marking Renders as Low Priority
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { startTransition, useState } from "react";
+
+function Search() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  function handleChange(e) {
+    setQuery(e.target.value);        // urgent — updates input immediately
+    startTransition(() => {
+      setResults(search(e.target.value)); // low-priority — can be interrupted
+    });
+  }
+  return &lt;input value={query} onChange={handleChange} /&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - "Render" does <strong>not</strong> mean the screen updates — it means React calls your component 
+    functions to compute the next tree. The DOM only changes in commit. This distinction trips up a lot of 
+    candidates and is worth stating explicitly.<br>
+    - React may throw away an in-progress render (e.g. a higher-priority update interrupts it) — this is only 
+    safe because render must be a pure function of props/state, with no side effects.<br>
+    - Effects (<code>useEffect</code>) run <em>after</em> commit, asynchronously (after paint); 
+    <code>useLayoutEffect</code> runs synchronously right after the mutation phase, before the browser paints 
+    — know when you'd need the latter (measuring layout to avoid visual flicker).
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/render-and-commit",
+            ],
+          },
+          {
+            topic: "Reconciliation",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Reconciliation (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Reconciliation is the process React uses to figure out <strong>what changed</strong> between the previous 
+    element tree and the new one, so it can update the real DOM with the minimal number of operations. 
+    The Fiber architecture is the engine that performs reconciliation; the diffing algorithm is the set of 
+    heuristics it uses at each level of the tree.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Reconciliation Rules
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Rule</th>
+      <th style="border: 1px solid black; padding: 8px;">Behavior</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Different element type</td>
+      <td style="border: 1px solid black; padding: 8px;">Old subtree is torn down (unmounted, state lost); a fresh subtree is built from scratch</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Same element type</td>
+      <td style="border: 1px solid black; padding: 8px;">DOM node is kept; only changed attributes/props are updated</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Same component type</td>
+      <td style="border: 1px solid black; padding: 8px;">Instance is preserved; state carries over, props update, fiber is reused (not recreated)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">List children</td>
+      <td style="border: 1px solid black; padding: 8px;">Matched by <code>key</code> instead of position, to correctly reuse/reorder instances</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Why Keys Matter
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Bad: index as key — reordering causes state to attach to the wrong item
+{todos.map((todo, i) => &lt;TodoItem key={i} todo={todo} /&gt;)}
+
+// Good: stable, unique id — React can correctly match old vs new instances
+{todos.map((todo) => &lt;TodoItem key={todo.id} todo={todo} /&gt;)}
+
+// Concrete failure mode with index keys: an uncontrolled &lt;input&gt;
+// inside TodoItem keeps its DOM identity (and whatever the user typed)
+// tied to a POSITION, not the actual todo — delete item #2 and item #3's
+// input value "jumps" up to where #2 used to be.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Bailing Out of Reconciliation (Skipping Work)
+  </h4>
+
+  <p style="line-height: 1.75;">
+    React can skip re-rendering a subtree entirely if it can prove the output would be identical, which is 
+    the whole point of memoization APIs:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// React.memo: skip re-render if props are shallow-equal to last time
+const Row = React.memo(function Row({ item }) {
+  return &lt;li&gt;{item.label}&lt;/li&gt;;
+});
+
+// useMemo / useCallback: keep referential identity stable across
+// renders so memoized children don't see "new" props every time
+const stableHandler = useCallback(() => onSelect(item.id), [item.id]);
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    Context updates are the one notable exception: consumers of a changed context re-render even if an 
+    ancestor is wrapped in <code>React.memo</code>, since context changes bypass the normal props-equality bailout.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - A very common trap question: "Why is using array index as a key bad?" — answer with the concrete 
+    input-value-jumps-position scenario above, not just "it can cause bugs."<br>
+    - Reconciliation happens per-subtree — changing type at a given position tears down everything below it, 
+    even if children look identical, which is a useful fact for explaining unexpected remounts (e.g. losing 
+    input focus/state when conditionally rendering different element types in the same slot).<br>
+    - Be ready to explain how <code>React.memo</code> interacts with reconciliation: it doesn't change 
+    *what* reconciliation would compute, it lets React skip calling the component function (and therefore 
+    skip diffing its subtree) altogether when props haven't changed.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://legacy.reactjs.org/docs/reconciliation.html",
+            ],
+          },
+          {
+            topic: "Diffing Algorithm",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Diffing Algorithm (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A generic tree-diff algorithm is O(n³) in the number of nodes — far too slow for UI updates on trees 
+    with thousands of nodes. React uses a heuristic O(n) algorithm based on two assumptions: elements of 
+    different types produce substantially different trees (so it doesn't try to match across type 
+    boundaries), and developers can hint stable identity within a list via <code>key</code>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. The Two Core Heuristics
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Heuristic</th>
+      <th style="border: 1px solid black; padding: 8px;">Effect</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Type comparison</td>
+      <td style="border: 1px solid black; padding: 8px;">Different element type at the same position → discard whole subtree, rebuild</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Key-based list diffing</td>
+      <td style="border: 1px solid black; padding: 8px;">Children with the same key are matched even if their position changed, avoiding unnecessary unmount/remount</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Element (Single-Node) Diffing Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Before
+&lt;div className="a" /&gt;
+// After — same type, prop diffed and patched
+&lt;div className="b" /&gt;
+// Result: one DOM write — className updated, node reused, children re-diffed
+
+// Before
+&lt;div&gt;&lt;Counter /&gt;&lt;/div&gt;
+// After — different type at the same position
+&lt;span&gt;&lt;Counter /&gt;&lt;/span&gt;
+// Result: old div AND its entire subtree (including Counter's state)
+// are torn down; a brand new span + Counter instance are built —
+// even though "Counter" itself didn't conceptually change
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. List Diffing: Insert, Move, Delete
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Before: [ &lt;li key="a"&gt;A&lt;/li&gt;, &lt;li key="b"&gt;B&lt;/li&gt; ]
+// After:  [ &lt;li key="c"&gt;C&lt;/li&gt;, &lt;li key="a"&gt;A&lt;/li&gt;, &lt;li key="b"&gt;B&lt;/li&gt; ]
+// With stable keys, React builds a map of key -> old fiber, walks the
+// new list, and for each key either reuses the matching old fiber
+// (patch in place, possibly reorder) or creates a new one if the key
+// wasn't seen before. Here it recognizes "a" and "b" only moved —
+// it inserts ONE new node for "c" instead of re-rendering all three.
+
+// Without keys (or with index keys), React can only compare
+// position-by-position, so it may see this as "everything changed"
+// and do far more work than necessary.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Complexity Comparison
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Approach</th>
+      <th style="border: 1px solid black; padding: 8px;">Complexity</th>
+      <th style="border: 1px solid black; padding: 8px;">Trade-off</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Generic tree edit-distance</td>
+      <td style="border: 1px solid black; padding: 8px;">O(n³)</td>
+      <td style="border: 1px solid black; padding: 8px;">Optimal minimal diff, but far too slow for UI-scale trees</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React's heuristic diff</td>
+      <td style="border: 1px solid black; padding: 8px;">O(n)</td>
+      <td style="border: 1px solid black; padding: 8px;">Not always the theoretically minimal diff, but fast and good enough in practice given the two heuristics above</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Be able to state the complexity trade-off explicitly: naive tree diff is O(n³); React's heuristic diff 
+    is O(n), traded off against not always finding the theoretically minimal set of operations.<br>
+    - This topic pairs directly with "Reconciliation" and "Virtual DOM" — expect interviewers to ask them 
+    together as one chained question, and be ready to walk through a concrete before/after list example live.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
+            ],
+          },
+          {
+            topic: "Component Lifecycle",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Component Lifecycle (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Every component goes through three phases — <strong>Mounting</strong>, <strong>Updating</strong>, and 
+    <strong>Unmounting</strong>. Class components exposed these as named methods; function components achieve 
+    the same effects with hooks, primarily <code>useEffect</code> — but the mapping isn't perfectly 1:1, 
+    which is exactly what interviewers like to probe.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Class Lifecycle Methods vs Hook Equivalents
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Phase</th>
+      <th style="border: 1px solid black; padding: 8px;">Class Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Hook Equivalent</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mounting</td>
+      <td style="border: 1px solid black; padding: 8px;">constructor → render → componentDidMount</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>useState</code> init → render → <code>useEffect(fn, [])</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Updating</td>
+      <td style="border: 1px solid black; padding: 8px;">shouldComponentUpdate → render → getSnapshotBeforeUpdate → componentDidUpdate</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>React.memo</code> → render → <code>useEffect(fn, [deps])</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Unmounting</td>
+      <td style="border: 1px solid black; padding: 8px;">componentWillUnmount</td>
+      <td style="border: 1px solid black; padding: 8px;">cleanup function returned from <code>useEffect</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Derived state</td>
+      <td style="border: 1px solid black; padding: 8px;">getDerivedStateFromProps (rare, easy to misuse)</td>
+      <td style="border: 1px solid black; padding: 8px;">Compute the value directly during render — no hook needed</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Error handling</td>
+      <td style="border: 1px solid black; padding: 8px;">componentDidCatch / getDerivedStateFromError</td>
+      <td style="border: 1px solid black; padding: 8px;">No hook equivalent — still requires a class-based Error Boundary</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Class Component Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+class Timer extends React.Component {
+  state = { seconds: 0 };
+
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState(s => ({ seconds: s.seconds + 1 }));
+    }, 1000);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.label !== this.props.label) {
+      console.log("label changed");
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  render() {
+    return &lt;p&gt;{this.state.seconds}s&lt;/p&gt;;
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Functional Component Equivalent
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Timer({ label }) {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setSeconds(s => s + 1), 1000);
+    return () => clearInterval(id); // componentWillUnmount equivalent
+  }, []); // empty deps = componentDidMount equivalent (runs once)
+
+  useEffect(() => {
+    console.log("label changed"); // runs on mount AND whenever label changes
+  }, [label]); // componentDidUpdate-for-this-value equivalent
+
+  return &lt;p&gt;{seconds}s&lt;/p&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Effect Ordering in a Tree
+  </h4>
+
+  <p style="line-height: 1.75;">
+    On mount, effects run child-first, then parent (children finish mounting before their parent's effect 
+    fires). On unmount, cleanup also runs child-first, then parent. When multiple effects exist on the same 
+    component, they run in the order they're declared, top to bottom. Getting this ordering right matters 
+    when one effect's cleanup depends on another effect's setup having already run.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Strict Mode's Double-Invocation
+  </h4>
+
+  <p style="line-height: 1.75;">
+    In development, React 18's Strict Mode intentionally mounts, unmounts, and re-mounts every component once 
+    extra (running effect setup → cleanup → setup again) specifically to surface effects with missing or 
+    incorrect cleanup — a bug that would otherwise only show up in production under specific conditions 
+    (like fast navigation). This only happens in development; production builds run effects normally.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. PureComponent and shouldComponentUpdate
+  </h4>
+  <p style="line-height: 1.75;">
+    <code>React.PureComponent</code> automatically implements <code>shouldComponentUpdate</code> with a 
+    shallow prop/state comparison — the class-component ancestor of <code>React.memo</code>. 
+    <code>forceUpdate()</code> is the escape hatch that skips <code>shouldComponentUpdate</code> entirely and 
+    forces a re-render, useful (rarely) when a component depends on external mutable state React doesn't know about.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - Explain that <code>useEffect</code> doesn't map 1:1 to lifecycle methods — it's a synchronization 
+    mechanism ("run this after render if these dependency values changed"), which happens to replicate 
+    mount/update/unmount behavior as a special case.<br>
+    - Error Boundaries still require a class component (as of React 19) — a good detail to mention since it 
+    shows you know hooks don't cover 100% of the old class API.<br>
+    - Be ready to explain the double-invocation of effects in Strict Mode (development only) and why it 
+    exists, and to walk through the child-first/parent-last effect ordering on mount and unmount if pressed 
+    on a nested-component scenario.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/reference/react/Component",
+              "https://react.dev/reference/react/useEffect",
+            ],
+          },
+          {
+            topic: "Pure Functions",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Pure Functions (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>pure function</strong> is a function that (1) always returns the same output for the same input, 
+    and (2) produces no observable side effects (no mutating external state, no network calls, no logging, 
+    no randomness, no reading mutable global state). This concept comes from functional programming, but it's 
+    a first-class interview topic in React specifically because React's rendering model, hooks rules, and 
+    concurrent features all depend on components behaving like pure functions.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. The Two Required Properties
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Property</th>
+      <th style="border: 1px solid black; padding: 8px;">Meaning</th>
+      <th style="border: 1px solid black; padding: 8px;">Violated By</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Deterministic</td>
+      <td style="border: 1px solid black; padding: 8px;">Same arguments always produce the same return value</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>Math.random()</code>, <code>Date.now()</code>, reading mutable outer variables</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">No side effects</td>
+      <td style="border: 1px solid black; padding: 8px;">Doesn't change anything outside its own scope</td>
+      <td style="border: 1px solid black; padding: 8px;">Mutating arguments/globals, DOM writes, network/API calls, <code>console.log</code></td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Pure vs Impure Examples
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// PURE — same input, same output, no external state touched
+function add(a, b) {
+  return a + b;
+}
+
+// IMPURE — depends on external mutable state (non-deterministic)
+let taxRate = 0.1;
+function addTax(price) {
+  return price + price * taxRate; // result changes if taxRate changes elsewhere
+}
+
+// IMPURE — mutates its argument (a side effect)
+function addItem(cart, item) {
+  cart.push(item); // mutates the caller's array
+  return cart;
+}
+
+// PURE version — returns a new array instead of mutating
+function addItemPure(cart, item) {
+  return [...cart, item];
+}
+
+// IMPURE — side effect (network call) even though it "returns" something
+function saveUser(user) {
+  fetch("/api/users", { method: "POST", body: JSON.stringify(user) });
+  return user;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Why React Requires Purity During Render
+  </h4>
+
+  <p style="line-height: 1.75;">
+    A React component function is expected to be pure: given the same props and state, it must return the 
+    same JSX. React relies on this to safely call, skip, pause, resume, or throw away a render without 
+    unpredictable consequences — which is the foundation of concurrent rendering, Strict Mode's double-invoke 
+    behavior, and memoization APIs like <code>React.memo</code>/<code>useMemo</code>. If a component mutates 
+    external state or calls an API directly inside its body, React re-running that function (for reasons 
+    unrelated to your code, e.g. a concurrent interruption) can cause duplicated side effects or corrupted state.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// IMPURE component — mutates a module-level variable during render
+let renderCount = 0;
+function Bad() {
+  renderCount++; // side effect during render — breaks React's assumptions
+  return &lt;p&gt;{renderCount}&lt;/p&gt;;
+}
+
+// PURE component — side effect properly moved into an effect,
+// which is the designated place for side effects to live
+function Good() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log("rendered"); // side effect, but outside the render body
+  });
+  return &lt;p&gt;{count}&lt;/p&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Where Purity Shows Up Across the Ecosystem
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Context</th>
+      <th style="border: 1px solid black; padding: 8px;">Purity Requirement</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React component body</td>
+      <td style="border: 1px solid black; padding: 8px;">Must be pure — no side effects, no mutation, deterministic output for given props/state</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Redux reducers</td>
+      <td style="border: 1px solid black; padding: 8px;">Must be pure — <code>(state, action) => newState</code>, no mutation of the old state, no API calls</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Array.prototype.map/filter/reduce</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Callback should be pure for predictable output — impure callbacks (e.g. mutating outer state) are a common bug source</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>useMemo</code>/<code>useCallback</code> factory functions</td>
+      <td style="border: 1px solid black; padding: 8px;">Must be pure, since React may call them, cache the result, and skip calling them again</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Benefits of Purity
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - <strong>Testability:</strong> no mocking required for a pure function — just assert output for given input.<br>
+    - <strong>Memoization:</strong> caching (<code>useMemo</code>, <code>React.memo</code>, general memoization 
+    utilities) is only safe/correct for pure functions, since the whole idea is "skip recomputation, reuse the last result."<br>
+    - <strong>Predictability &amp; debuggability:</strong> no hidden dependencies on execution order or external mutable state.<br>
+    - <strong>Safe parallelization/reordering:</strong> pure functions can be called in any order, any number 
+    of times, without changing the outcome — exactly what React's concurrent scheduler needs.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Common Interview Questions
+  </h4>
+  <p style="line-height: 1.75;">
+    - <strong>"Is this function pure?"</strong> — practice spotting hidden impurities: mutating an argument 
+    object/array, reading <code>Date.now()</code>/<code>Math.random()</code>, referencing an outer 
+    <code>let</code> variable, calling <code>console.log</code> (a side effect, even if harmless).<br>
+    - <strong>"Refactor this impure function to be pure."</strong> — the general fix is: stop mutating, return 
+    a new value instead (spread for objects/arrays), and move any I/O (network, storage, logging) out of the function.<br>
+    - <strong>"Why does React care about purity?"</strong> — tie the answer back to Strict Mode's double-invoke 
+    behavior and concurrent rendering being able to safely discard in-progress work.<br>
+    - <strong>"Is a function that always mutates and returns the same reference idempotent or pure?"</strong> — 
+    idempotency (calling it multiple times has the same effect as calling it once) is a related but distinct 
+    concept from purity; a function can be idempotent without being pure (e.g. <code>obj.x = 5</code> repeatedly).
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/keeping-components-pure",
+              "https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers",
+            ],
+          },
+          {
+            topic: "Context API vs Redux",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Context API vs Redux (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Both solve "prop drilling," but they solve different problems at their core. The <strong>Context API</strong> 
+    is React's built-in mechanism for passing a value down a tree without manually threading it through every 
+    level of props. <strong>Redux</strong> is a full state-management library built around a single, predictable, 
+    centralized store with a strict update pattern — it existed before Context (in its modern form) even existed, 
+    and it solves a broader set of problems than just "avoiding prop drilling."
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Context API Mechanics
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const ThemeContext = React.createContext("light");
+
+function App() {
+  const [theme, setTheme] = useState("light");
+  return (
+    &lt;ThemeContext.Provider value={theme}&gt;
+      &lt;Toolbar /&gt;
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+function Toolbar() {
+  // No props passed through here — Toolbar doesn't even know
+  // ThemeContext exists, it just renders its children
+  return &lt;ThemedButton /&gt;;
+}
+
+function ThemedButton() {
+  const theme = useContext(ThemeContext); // reads the nearest Provider's value
+  return &lt;button className={theme}&gt;Click&lt;/button&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Redux Mechanics (Unidirectional Flow)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// 1. Action — a plain object describing "what happened"
+const increment = () => ({ type: "counter/incremented" });
+
+// 2. Reducer — a PURE function: (state, action) -> newState
+function counterReducer(state = { value: 0 }, action) {
+  switch (action.type) {
+    case "counter/incremented":
+      return { value: state.value + 1 }; // never mutate state directly
+    default:
+      return state;
+  }
+}
+
+// 3. Store — holds the single source of truth, created from reducers
+const store = configureStore({ reducer: { counter: counterReducer } });
+
+// 4. Dispatch — the only way to trigger a state change
+store.dispatch(increment());
+
+// 5. Components subscribe via hooks (react-redux)
+function Counter() {
+  const value = useSelector(state => state.counter.value); // selector
+  const dispatch = useDispatch();
+  return &lt;button onClick={() => dispatch(increment())}&gt;{value}&lt;/button&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Side-by-Side Comparison
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Context API</th>
+      <th style="border: 1px solid black; padding: 8px;">Redux</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">What it is</td>
+      <td style="border: 1px solid black; padding: 8px;">Dependency-injection mechanism (pass a value down the tree)</td>
+      <td style="border: 1px solid black; padding: 8px;">Full state-management architecture with a defined update pattern</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Setup cost</td>
+      <td style="border: 1px solid black; padding: 8px;">Minimal — built into React, no extra dependency</td>
+      <td style="border: 1px solid black; padding: 8px;">Higher — store, reducers, actions, provider (much lower with Redux Toolkit)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Re-render behavior</td>
+      <td style="border: 1px solid black; padding: 8px;">Every consumer of a context re-renders whenever the Provider's value changes — no built-in fine-grained subscription</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>useSelector</code> re-renders a component only if the specific selected slice changed (referential equality check)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">DevTools / time-travel debugging</td>
+      <td style="border: 1px solid black; padding: 8px;">None built-in</td>
+      <td style="border: 1px solid black; padding: 8px;">Redux DevTools — action log, time-travel, state diffing out of the box</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Middleware (async, logging, etc.)</td>
+      <td style="border: 1px solid black; padding: 8px;">None built-in — you roll your own with custom hooks/effects</td>
+      <td style="border: 1px solid black; padding: 8px;">First-class — thunks, sagas, RTK Query, logger middleware, etc.</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Best for</td>
+      <td style="border: 1px solid black; padding: 8px;">Low-frequency, simple global values: theme, locale, auth user, feature flags</td>
+      <td style="border: 1px solid black; padding: 8px;">Large apps with complex, frequently-updated, interrelated state and a need for predictable debugging</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. The Performance Trap With Context
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Context has no concept of "selecting a slice" — any component calling <code>useContext</code> re-renders 
+    whenever the Provider's value changes, even if the component only cares about one field out of a larger 
+    object. This is why Context is a poor fit for frequently-changing, high-fan-out state (e.g. form state 
+    shared across many fields, or real-time data) — it can cause widespread unnecessary re-renders unless you 
+    manually split contexts or memoize aggressively.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Anti-pattern: one big context object updated frequently —
+// EVERY consumer re-renders on ANY field change, even unrelated ones
+const AppContext = createContext({ user, cart, notifications });
+
+// Better: split into separate, independently-updated contexts
+// so a notification update doesn't re-render cart consumers
+const UserContext = createContext(user);
+const CartContext = createContext(cart);
+const NotificationsContext = createContext(notifications);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Redux's Core Principles (Worth Reciting)
+  </h4>
+  <p style="line-height: 1.75;">
+    - <strong>Single source of truth:</strong> the entire app state lives in one store object tree.<br>
+    - <strong>State is read-only:</strong> the only way to change state is to dispatch an action — components never mutate state directly.<br>
+    - <strong>Changes are made with pure functions:</strong> reducers are pure — <code>(prevState, action) =&gt; newState</code>, no mutation, no side effects.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Modern Alternatives Worth Knowing
+  </h4>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Library</th>
+      <th style="border: 1px solid black; padding: 8px;">Positioning</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Redux Toolkit (RTK)</td>
+      <td style="border: 1px solid black; padding: 8px;">Official, modern Redux — less boilerplate, built-in Immer (write "mutating" code that produces immutable updates), RTK Query for data fetching</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Zustand</td>
+      <td style="border: 1px solid black; padding: 8px;">Minimal store outside React, hook-based selectors, far less boilerplate than classic Redux</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Jotai / Recoil</td>
+      <td style="border: 1px solid black; padding: 8px;">Atomic state model — fine-grained subscriptions per atom, avoids Context's "re-render everything" problem</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">React Query / TanStack Query</td>
+      <td style="border: 1px solid black; padding: 8px;">Not a general state manager — specifically for server/cache state (fetching, caching, revalidation)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - The single most common trap: "Context is a replacement for Redux." The accurate framing is that Context 
+    is a <em>dependency injection</em> tool, not a <em>state management</em> tool — it has no selectors, no 
+    middleware, no devtools, and no built-in performance optimization for partial updates. Redux (or a 
+    Redux-like store) adds the missing pieces: predictable updates, selectors, middleware, and debugging tools.<br>
+    - Be ready to explain the Context re-render problem concretely (the split-contexts example above) — this 
+    is a very common "have you actually used this in production" filter question.<br>
+    - A strong closing answer: "Use Context for simple, rarely-changing, app-wide values; reach for Redux 
+    (or Zustand/Jotai) when state is complex, frequently updated, needs middleware, or needs strong debugging 
+    tools like time-travel." Also mention that many apps mix both — Redux/Zustand for core app state, Context 
+    for things like theme or i18n.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/passing-data-deeply-with-context",
+              "https://redux.js.org/tutorials/fundamentals/part-1-overview",
+              "https://redux-toolkit.js.org/",
+            ],
+          },
+          {
+            topic: "All Array Methods",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    All Array Methods (Interview Guide — Deep Dive Reference)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Array method questions show up constantly in React/JS interviews — both as direct "what does this return" 
+    quizzes and as building blocks for coding rounds (flatten an array, remove duplicates, group by key). 
+    The single most important distinction to internalize is <strong>mutating vs non-mutating</strong>: in 
+    React, calling a mutating array method directly on state breaks the "state is immutable" rule and causes 
+    silent re-render bugs, because React compares references, not deep content.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Mutating Methods (Change the Original Array)
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">What It Does</th>
+      <th style="border: 1px solid black; padding: 8px;">Returns</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>push(...items)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Adds item(s) to the end</td>
+      <td style="border: 1px solid black; padding: 8px;">New length</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>pop()</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Removes the last item</td>
+      <td style="border: 1px solid black; padding: 8px;">The removed item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>shift()</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Removes the first item</td>
+      <td style="border: 1px solid black; padding: 8px;">The removed item</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>unshift(...items)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Adds item(s) to the start</td>
+      <td style="border: 1px solid black; padding: 8px;">New length</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>splice(start, deleteCount, ...items)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Removes/inserts/replaces items at an index</td>
+      <td style="border: 1px solid black; padding: 8px;">Array of removed items</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>sort(compareFn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Sorts in place</td>
+      <td style="border: 1px solid black; padding: 8px;">The same (sorted) array</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>reverse()</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Reverses in place</td>
+      <td style="border: 1px solid black; padding: 8px;">The same (reversed) array</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>fill(value, start, end)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Fills a range with a static value</td>
+      <td style="border: 1px solid black; padding: 8px;">The same (filled) array</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>copyWithin(target, start, end)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Copies part of the array to another spot in itself</td>
+      <td style="border: 1px solid black; padding: 8px;">The same (modified) array</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Iteration Methods (Non-Mutating, Take a Callback)
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Purpose</th>
+      <th style="border: 1px solid black; padding: 8px;">Returns</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>forEach(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Run side-effecting code per item</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>undefined</code> (can't break/return early, no chaining)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>map(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Transform every item 1:1</td>
+      <td style="border: 1px solid black; padding: 8px;">New array, same length</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>filter(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Keep items matching a predicate</td>
+      <td style="border: 1px solid black; padding: 8px;">New array, length ≤ original</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>reduce(fn, initial)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Fold the array into a single accumulated value (left to right)</td>
+      <td style="border: 1px solid black; padding: 8px;">Whatever the accumulator ends up being</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>reduceRight(fn, initial)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Same as reduce, but right to left</td>
+      <td style="border: 1px solid black; padding: 8px;">Accumulated value</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>some(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Does at least one item match?</td>
+      <td style="border: 1px solid black; padding: 8px;">Boolean, short-circuits on first true</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>every(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Do all items match?</td>
+      <td style="border: 1px solid black; padding: 8px;">Boolean, short-circuits on first false</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>find(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">First matching item</td>
+      <td style="border: 1px solid black; padding: 8px;">The item, or <code>undefined</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>findIndex(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Index of first match</td>
+      <td style="border: 1px solid black; padding: 8px;">Index, or -1</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>findLast(fn)</code> / <code>findLastIndex(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Same as find/findIndex, searching from the end</td>
+      <td style="border: 1px solid black; padding: 8px;">Item / index, or undefined / -1</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Search &amp; Query Methods
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Purpose</th>
+      <th style="border: 1px solid black; padding: 8px;">Notes</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>includes(value)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Does the array contain this value?</td>
+      <td style="border: 1px solid black; padding: 8px;">Uses SameValueZero — correctly finds <code>NaN</code>, unlike <code>indexOf</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>indexOf(value)</code> / <code>lastIndexOf(value)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">First/last index of a primitive value</td>
+      <td style="border: 1px solid black; padding: 8px;">Uses strict equality — <code>indexOf(NaN)</code> always returns -1</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>at(index)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Get item, supports negative indices</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>arr.at(-1)</code> === last item, cleaner than <code>arr[arr.length - 1]</code></td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Transformation &amp; Combination (Non-Mutating)
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Purpose</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>concat(...arrays)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Merge arrays/values into a new array</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>slice(start, end)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Extract a shallow-copied sub-array (does not mutate — contrast with <code>splice</code>)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>join(separator)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Concatenate items into a string</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>flat(depth)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Flatten nested arrays to given depth (default 1)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>flatMap(fn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">map() then flatten one level — more efficient than <code>map().flat()</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>entries()</code> / <code>keys()</code> / <code>values()</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Return iterators of [index, value] pairs / indices / values</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. ES2023 Non-Mutating Counterparts (Important for React State!)
+  </h4>
+
+  <p style="line-height: 1.75;">
+    These were added specifically to give non-mutating versions of the classic mutating methods — very 
+    relevant to React, where you should never mutate state directly.
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Mutating (avoid on state)</th>
+      <th style="border: 1px solid black; padding: 8px;">Non-mutating equivalent</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>sort()</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>toSorted()</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>reverse()</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>toReversed()</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>splice()</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>toSpliced()</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>arr[i] = x</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>with(i, x)</code> — returns a new array with index i replaced</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Static Array Methods
+  </h4>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Purpose</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Array.isArray(x)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Reliable array check (better than <code>typeof</code>, which returns "object")</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Array.from(iterable, mapFn)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Build an array from an iterable/array-like (Set, Map, NodeList, string), with optional mapping</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Array.of(...items)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Create an array from arguments (fixes <code>new Array(7)</code> creating a length-7 hole array instead of <code>[7]</code>)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Classic Interview Snippets
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Remove duplicates
+const unique = [...new Set([1, 2, 2, 3])]; // [1, 2, 3]
+
+// Flatten deeply nested array
+const flat = [1, [2, [3, [4]]]].flat(Infinity); // [1, 2, 3, 4]
+
+// Group by key (reduce)
+const grouped = users.reduce((acc, user) => {
+  (acc[user.role] ??= []).push(user);
+  return acc;
+}, {});
+
+// Count occurrences
+const counts = words.reduce((acc, w) => {
+  acc[w] = (acc[w] || 0) + 1;
+  return acc;
+}, {});
+
+// Implementing your own map() with reduce — common "explain internals" question
+function myMap(arr, fn) {
+  return arr.reduce((acc, item, i) => {
+    acc.push(fn(item, i, arr));
+    return acc;
+  }, []);
+}
+
+// Sort numbers correctly — default sort() is LEXICOGRAPHIC (string) order!
+[10, 1, 21].sort();                  // [1, 10, 21] -- looks right but is
+[10, 2, 1].sort();                   // [1, 10, 2]  -- WRONG for numbers
+[10, 2, 1].sort((a, b) => a - b);    // [1, 2, 10]  -- correct numeric sort
+
+// splice (mutates, removes/inserts in place) vs slice (pure, extracts a copy)
+const arr = [1, 2, 3, 4, 5];
+arr.slice(1, 3);     // [2, 3] — arr unchanged
+arr.splice(1, 2);    // [2, 3] removed — arr is now [1, 4, 5], MUTATED
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    8. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - The #1 gotcha interviewers probe: <strong>never call a mutating method directly on React state</strong> 
+    (e.g. <code>state.push(x); setState(state)</code>) — since the reference doesn't change, React's 
+    shallow-equality check in <code>Object.is</code> sees "no change" and skips re-rendering. Always create a 
+    new array: <code>setState([...state, x])</code> or use the ES2023 non-mutating variants.<br>
+    - Know that <code>sort()</code> mutates <em>and</em> defaults to string/lexicographic comparison — a 
+    two-for-one gotcha that comes up constantly.<br>
+    - Be ready to implement <code>map</code>, <code>filter</code>, or <code>flat</code> from scratch using a 
+    plain loop or <code>reduce</code> — a very common whiteboard exercise.<br>
+    - Know the complexity: most single-pass methods (<code>map</code>, <code>filter</code>, <code>forEach</code>, 
+    <code>reduce</code>, <code>find</code>) are O(n); <code>indexOf</code>/<code>includes</code> are O(n); 
+    <code>sort</code> is O(n log n).
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
+            ],
+          },
+          {
+            topic: "All Object Methods",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    All Object Methods (Interview Guide — Deep Dive Reference)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Object methods come up constantly in React interviews because "don't mutate state" applies to objects just 
+    as much as arrays — <code>Object.assign</code>, the spread operator, <code>Object.freeze</code>, and 
+    <code>structuredClone</code> are the tools for doing that correctly. This is also fertile ground for 
+    shallow-vs-deep clone and equality questions.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Enumeration Methods (Static)
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Returns</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.keys(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Array of the object's own enumerable property names</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.values(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Array of the object's own enumerable property values</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.entries(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Array of [key, value] pairs — pairs well with <code>for...of</code> and <code>Array.from</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.fromEntries(iterable)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Builds an object back from [key, value] pairs — the inverse of <code>entries()</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.getOwnPropertyNames(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Own property names, including non-enumerable ones (unlike <code>keys()</code>)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Copying &amp; Merging
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Behavior</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.assign(target, ...sources)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Copies own enumerable properties from sources into <em>target</em> (mutates target!), left-to-right, later sources win on conflicts. Shallow copy only.</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Spread <code>&#123; ...obj &#125;</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Syntax for a shallow copy into a brand-new object — functionally similar to <code>Object.assign({}, obj)</code>, but spread doesn't invoke setters the way assign can</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>structuredClone(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Native <strong>deep</strong> clone (handles nested objects, Dates, Maps, Sets, circular refs) — not technically an Object method, but the modern answer to "how do you deep clone"</td>
+    </tr>
+  </table>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const user = { name: "Ankit", address: { city: "Mohali" } };
+
+// Shallow copy — nested objects are SHARED by reference
+const shallow = { ...user };
+shallow.address.city = "Delhi";
+console.log(user.address.city); // "Delhi" -- the original got mutated too!
+
+// Deep copy — fully independent
+const deep = structuredClone(user);
+deep.address.city = "Pune";
+console.log(user.address.city); // still "Delhi" -- unaffected
+
+// Old-school deep clone trick (has real limitations)
+const deepViaJson = JSON.parse(JSON.stringify(user));
+// Fails on: functions, undefined, Date (becomes string), Map/Set,
+// circular references, Symbol keys
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Immutability Controls
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Effect</th>
+      <th style="border: 1px solid black; padding: 8px;">Check with</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.freeze(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Prevents adding, removing, or reassigning properties (SHALLOW — nested objects remain mutable)</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.isFrozen(obj)</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.seal(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Prevents adding/removing properties, but existing ones can still be reassigned</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.isSealed(obj)</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.preventExtensions(obj)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Prevents adding new properties only; existing ones can be modified/deleted</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.isExtensible(obj)</code></td>
+    </tr>
+  </table>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const settings = Object.freeze({ theme: "dark", nested: { level: 1 } });
+settings.theme = "light";       // silently fails (throws in strict mode)
+settings.nested.level = 99;     // WORKS -- freeze is shallow!
+
+// Deep freeze needs manual recursion
+function deepFreeze(obj) {
+  Object.values(obj).forEach(v => {
+    if (v && typeof v === "object" && !Object.isFrozen(v)) deepFreeze(v);
+  });
+  return Object.freeze(obj);
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Property Definition (Fine-Grained Control)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Object.defineProperty lets you control enumerability, writability,
+// configurability, and add getters/setters -- things object literal
+// syntax can't fully express
+Object.defineProperty(obj, "id", {
+  value: 42,
+  writable: false,      // can't reassign
+  enumerable: false,    // won't show up in Object.keys/for...in/JSON.stringify
+  configurable: false,  // can't delete or redefine
+});
+
+// Getter/setter example
+Object.defineProperty(user, "fullName", {
+  get() { return this.first + " " + this.last; },
+});
+
+// getOwnPropertyDescriptor / getOwnPropertyDescriptors inspect these flags
+Object.getOwnPropertyDescriptor(obj, "id");
+// { value: 42, writable: false, enumerable: false, configurable: false }
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Prototype &amp; Identity Methods
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Purpose</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.create(proto)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Creates a new object with the given prototype (<code>Object.create(null)</code> makes a "dictionary" object with no inherited methods, e.g. no <code>toString</code>)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.getPrototypeOf(obj)</code> / <code>setPrototypeOf(obj, proto)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Read/change an object's internal prototype link</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.is(a, b)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Like <code>===</code>, but treats <code>NaN</code> as equal to itself and distinguishes <code>+0</code> from <code>-0</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Object.hasOwn(obj, key)</code> (ES2022)</td>
+      <td style="border: 1px solid black; padding: 8px;">Modern replacement for <code>obj.hasOwnProperty(key)</code> — safe even if <code>obj</code> has no prototype</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Instance Methods (Inherited From Object.prototype)
+  </h4>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Method</th>
+      <th style="border: 1px solid black; padding: 8px;">Purpose</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>obj.hasOwnProperty(key)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Is this key an OWN property (not inherited)?</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>obj.isPrototypeOf(other)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Is obj somewhere in other's prototype chain?</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>obj.propertyIsEnumerable(key)</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Is this own property enumerable (would show up in for...in/keys)?</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>obj.toString()</code> / <code>obj.valueOf()</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Called implicitly during string coercion / numeric coercion, respectively</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Object.keys() vs for...in — A Classic Trap
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function Base() {}
+Base.prototype.inherited = "from prototype";
+
+const obj = Object.create(Base.prototype);
+obj.own = "own value";
+
+Object.keys(obj);      // ["own"] -- own enumerable properties only
+for (const key in obj) console.log(key); // "own", "inherited" -- walks the
+                                          // prototype chain too, unless you
+                                          // guard with hasOwnProperty/hasOwn
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    8. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - <strong>"How do you deep clone an object?"</strong> — lead with <code>structuredClone()</code> (native, 
+    handles Dates/Maps/Sets/circular refs), mention <code>JSON.parse(JSON.stringify())</code> as the older 
+    trick with clearly stated limitations, and mention libraries like Lodash's <code>cloneDeep</code> for 
+    environments without <code>structuredClone</code>.<br>
+    - <strong>"Is Object.freeze deep or shallow?"</strong> — shallow; be ready to write the recursive 
+    <code>deepFreeze</code> helper on the spot.<br>
+    - <strong>"Object.assign vs spread — any real difference?"</strong> — functionally almost identical for 
+    plain merges; the nuance worth mentioning is that <code>Object.assign</code> mutates its first (target) 
+    argument if you don't pass <code>&#123;&#125;</code> as target, while spread always produces a new object; also, 
+    <code>Object.assign</code> triggers setters on the target, spread does not.<br>
+    - <strong>"Object.is vs ===?"</strong> — differs only on two edge cases: <code>Object.is(NaN, NaN)</code> 
+    is <code>true</code> (=== is false), and <code>Object.is(0, -0)</code> is <code>false</code> (=== is true). 
+    This is exactly the comparison React uses internally to bail out re-renders on unchanged state/props.<br>
+    - Connect back to React: mutating a state object directly and calling <code>setState(sameObj)</code> won't 
+    trigger a re-render, for the same reference-equality reason as arrays — always spread/clone before setting.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/structuredClone",
+            ],
+          },
           {
             topic: "React Introduction",
             tags: [""],
@@ -24601,11 +27491,6 @@ flushSync(() => setName('Alice'));
             links: [""],
             tags: [""],
           },
-
-          // ════════════════════════════════════════════════════════════════
-          //  STATE MANAGEMENT
-          // ════════════════════════════════════════════════════════════════
-
           {
             topic: "Question Set 2",
             explanation: `<div>
@@ -24882,11 +27767,6 @@ src/
             links: [""],
             tags: [""],
           },
-
-          // ════════════════════════════════════════════════════════════════
-          //  HOOKS DEEP DIVE
-          // ════════════════════════════════════════════════════════════════
-
           {
             topic: "Question Set 3",
             explanation: `<div>
@@ -25163,11 +28043,6 @@ fiber.memoizedState = {
             links: [""],
             tags: [""],
           },
-
-          // ════════════════════════════════════════════════════════════════
-          //  REACT INTERNALS / ADVANCED
-          // ════════════════════════════════════════════════════════════════
-
           {
             topic: "Question Set 4",
             explanation: `<div>
@@ -25532,11 +28407,6 @@ users.map((user, i) => &lt;UserCard key={i} user={user} /&gt;)
             links: [""],
             tags: [""],
           },
-
-          // ════════════════════════════════════════════════════════════════
-          //  API & DATA FETCHING
-          // ════════════════════════════════════════════════════════════════
-
           {
             topic: "Question Set 5",
             explanation: `<div>
@@ -25788,11 +28658,6 @@ const mutation = useMutation({
             links: [""],
             tags: [""],
           },
-
-          // ════════════════════════════════════════════════════════════════
-          //  SECURITY
-          // ════════════════════════════════════════════════════════════════
-
           {
             topic: "Question Set 5",
             explanation: `<div>
@@ -25969,11 +28834,6 @@ const clean = DOMPurify.sanitize(dirtyHTML);
             links: [""],
             tags: [""],
           },
-
-          // ════════════════════════════════════════════════════════════════
-          //  SCENARIO / ARCHITECTURE
-          // ════════════════════════════════════════════════════════════════
-
           {
             topic: "Question Set 6",
             explanation: `<div>
@@ -26520,11 +29380,6 @@ export const metadata = {
             links: [""],
             tags: [""],
           },
-
-          // ════════════════════════════════════════════════════════════════
-          //  MERN / FRONTEND DEVELOPER QUESTIONS
-          // ════════════════════════════════════════════════════════════════
-
           {
             topic: "Question Set 7",
             explanation: `<div>
@@ -26869,6 +29724,1506 @@ jobs:
             questions: [{}],
             links: [""],
             tags: [""],
+          },
+          {
+            topic: "Question Set 8",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This set covers React's internal rendering engine and how React 18 builds on top of it to keep UIs 
+    responsive under load — what Fiber actually is, what "concurrent rendering" adds on top of Fiber, how 
+    the two relate (a very common point of confusion), and <code>useTransition</code> as the hook you'll 
+    reach for most often to use concurrent rendering in real code.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React Fiber Architecture — Deep Interview Dive
+  </h4>
+  
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Fiber is React's reconciliation engine, rewritten from the ground up in React 16 to replace the older 
+    "stack reconciler." It represents every component instance as a <strong>fiber node</strong> — a plain JS 
+    object holding that component's props, state, and pointers to its parent, first child, and next sibling. 
+    Because a fiber tree is just data (not the native JS call stack), React can pause work on it, resume it 
+    later, throw it away, or reprioritize it — none of which was possible when rendering was just one long, 
+    uninterruptible recursive function call.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Why Interviewers Care:</strong> Senior-level interviewers ask about Fiber not because they expect 
+    you to implement it, but because understanding Fiber explains why React works the way it does — why hooks 
+    have rules, why effects run in a certain order, why concurrent features are possible, and why 
+    <code>useTransition</code> exists at all. Candidates who can connect Fiber → Concurrent Rendering → 
+    <code>useTransition</code> in a coherent story demonstrate deep architectural understanding.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why was Fiber introduced? (The Problem It Solved)
+  </h4>
+  
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <strong>Interruptibility:</strong> The old stack reconciler rendered synchronously and recursively using 
+      the native call stack — once a render started on a large tree, it couldn't be paused, which could block 
+      the main thread long enough to drop frames or make input feel janky. With Fiber, React can pause work 
+      at any fiber node, yield to the browser, and resume later without losing its place.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Prioritization:</strong> There was no way to prioritize work — a low-priority update (like 
+      rendering an off-screen list) was treated exactly the same as an urgent one (like responding to a 
+      keystroke), so expensive renders could make the whole app feel unresponsive. Fiber introduces a lane-based 
+      priority system where different updates can be tagged with different importance levels.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Foundation for Future Features:</strong> React needed a foundation flexible enough to support 
+      features that came later — Error Boundaries, Suspense, and eventually full concurrent rendering — all 
+      of which depend on being able to interrupt, retry, or abandon a render mid-way through.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Double Buffering:</strong> Fiber maintains two trees — "current" (what's on screen) and 
+      "work-in-progress" (being built). This allows React to render in memory without affecting what the 
+      user sees until the entire tree is ready, preventing visual glitches from partial updates.
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Simplified shape of a single fiber node — what a "unit of work" looks like
+const fiberNode = {
+  type: "div",             // host tag or component function
+  key: null,
+  stateNode: null,          // the actual DOM node / component instance
+  child: null,               // pointer to first child fiber
+  sibling: null,              // pointer to next sibling fiber
+  return: null,                // pointer back up to the parent fiber
+  pendingProps: {},            // props waiting to be applied
+  memoizedProps: {},           // props from last render
+  memoizedState: null,          // hooks linked list lives here (state, effects, etc.)
+  alternate: null,               // links "current" <-> "work-in-progress" tree
+  lanes: 0b0001,                 // priority lane this update belongs to
+  flags: 0,                      // side effects to apply during commit
+};
+
+// Simplified work loop: React processes one fiber "unit of work" at a
+// time and checks if it should yield back to the browser before continuing
+function workLoop(deadline) {
+  let shouldYield = false;
+  while (nextUnitOfWork && !shouldYield) {
+    nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
+    shouldYield = deadline.timeRemaining() < 1;
+  }
+  requestIdleCallback(workLoop); // schedule the next chunk whenever the browser is free
+}
+
+// beginWork — starts processing a fiber, calls the component
+function beginWork(fiber) {
+  if (fiber.type instanceof Function) {
+    // Function component — call it with pendingProps
+    const children = fiber.type(fiber.pendingProps);
+    reconcileChildren(fiber, children);
+    return fiber.child;
+  }
+  // Host component (div, span, etc.) — create DOM node if needed
+  // Return child to continue traversal
+}
+
+// completeWork — finishes a fiber, prepares effects for commit
+function completeWork(fiber) {
+  if (fiber.type === "div") {
+    // Create DOM node, set attributes
+    const dom = document.createElement(fiber.type);
+    fiber.stateNode = dom;
+    // Append children, attach to parent
+  }
+  // Bubble up effects to parent
+  return fiber.sibling; // Continue to next sibling
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Fiber's Work Phases — Render Phase vs Commit Phase (Crucial Distinction)
+  </h4>
+  
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Fiber splits rendering into two distinct phases, and understanding this separation is key to understanding 
+    many React behaviors:
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Phase</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">What Happens</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Interruptible?</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Side Effects Allowed?</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Render Phase</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Components are called, fibers are created/updated, diffing occurs, effects are scheduled</td>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Yes</strong> — can pause, resume, or discard work</td>
+      <td style="border: 1px solid black; padding: 8px;"><strong>No</strong> — must be pure (no DOM writes, no data mutations)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Commit Phase</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">DOM mutations are applied, refs are attached, effects run</td>
+      <td style="border: 1px solid black; padding: 8px;"><strong>No</strong> — synchronous, runs to completion</td>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Yes</strong> — DOM writes, side effects execute here</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Why This Matters:</strong> The render phase can be interrupted, which is why React can't allow 
+    side effects there — if a render is paused and later abandoned, any side effects would have already 
+    happened, breaking the application. This is why you can't call APIs or mutate state directly in the 
+    component body — those belong in event handlers or <code>useEffect</code>, which run during or after commit.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Concurrent Rendering (React 18) — What It Adds
+  </h4>
+  
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Concurrent rendering is a set of scheduling capabilities, stabilized in React 18, that let React prepare 
+    multiple versions of the UI at once and interrupt low-priority rendering work to handle something more 
+    urgent first. It doesn't change what you render, only how React schedules the work of computing and 
+    committing it — the goal is to keep the app feeling responsive even while a large, expensive update is 
+    in progress. Fiber is what makes this possible; concurrent rendering is the set of developer-facing 
+    features (<code>startTransition</code>, <code>useTransition</code>, <code>useDeferredValue</code>, 
+    Suspense-based data fetching) built on top of it.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How Concurrent Rendering Works — Step by Step
+  </h4>
+  
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      Every update is tagged with a priority "lane" — urgent updates (typing, clicks) get a high-priority 
+      lane, while updates wrapped in <code>startTransition</code> get a lower-priority lane.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      React renders the low-priority update in the background, building a new "work-in-progress" fiber tree 
+      without touching the DOM or the tree currently on screen — nothing the user sees changes yet. This is 
+      why it's called "concurrent" — the render work happens concurrently with other tasks.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      If a higher-priority update arrives while that background render is still in progress, React pauses 
+      (or throws away) the in-progress low-priority work, handles the urgent update first, and then resumes 
+      or restarts the lower-priority render afterward. The old render is simply discarded and a fresh one 
+      starts from scratch if needed.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      Once the low-priority render completes without interruption, the changes are committed to the DOM — 
+      the user sees the final result, but the UI never froze or lagged during the process.
+    </li>
+  </ol>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { createRoot } from "react-dom/client";
+import { startTransition, useState } from "react";
+
+// Opting into concurrent React starts with createRoot (React 18+)
+const root = createRoot(document.getElementById("app"));
+root.render(<App />);
+
+function Search({ allItems }) {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState(allItems);
+
+  function handleChange(e) {
+    const value = e.target.value;
+    setQuery(value);                       // urgent — input stays responsive
+    startTransition(() => {
+      setResults(filterLargeList(allItems, value)); // low priority, interruptible
+    });
+  }
+  return <input value={query} onChange={handleChange} />;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React Fiber vs Concurrent Rendering — The Relationship (Most Asked Interview Question)
+  </h4>
+  
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong>Fiber is the engine; Concurrent is the feature.</strong> Fiber is the underlying data structure 
+      and reconciliation engine; concurrent rendering is a set of scheduling features built on top of that 
+      engine — Fiber is the "how," concurrent rendering is the "what you get."
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Timeline difference:</strong> Fiber has existed since React 16 and made rendering interruptible 
+      at the engine level; concurrent features only became available to opt into (via <code>createRoot</code>) 
+      starting with React 18. The engine was ready; the developer-facing APIs were stabilized later.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Opt-in required:</strong> Using Fiber requires nothing from you as a developer — it's always on. 
+      Using concurrent rendering does require you to opt in explicitly, by calling APIs like 
+      <code>startTransition</code>, <code>useTransition</code>, or <code>useDeferredValue</code> around the 
+      specific updates you want deprioritized. Without this opt-in, all your updates are still treated as 
+      urgent by default.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Fiber enables, but doesn't guarantee, concurrent rendering:</strong> Even with Fiber, React 
+      could still process updates synchronously — and it does, unless you explicitly tell it to use concurrent 
+      features. The engine provides the capability; the developer chooses when to use it.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useTransition — The Most Common Concurrent API
+  </h4>
+  
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <code>useTransition</code> is the hook form of <code>startTransition</code> — it lets you mark a state 
+    update as a non-urgent "transition" so React can keep the UI responsive while that update renders, and it 
+    additionally gives you an <code>isPending</code> flag so you can show a loading indicator while the 
+    transition is still in progress. It's the most commonly used concurrent API in real apps, typically for 
+    search-as-you-type, filtering large lists, or switching tabs/views that trigger an expensive re-render.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useTransition — Syntax and API
+  </h4>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const [isPending, startTransition] = useTransition();
+
+// isPending: boolean — true when the transition is still in progress
+// startTransition: (callback: () => void) => void — marks updates inside as low priority
+
+// Usage pattern:
+function MyComponent() {
+  const [isPending, startTransition] = useTransition();
+  
+  function handleSlowUpdate() {
+    startTransition(() => {
+      // Any state updates inside here become low priority
+      setExpensiveState(computeExpensiveValue());
+    });
+  }
+  
+  return (
+    <div>
+      {isPending && <Spinner />}
+      <button onClick={handleSlowUpdate}>Update</button>
+    </div>
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How useTransition Works — Under the Hood
+  </h4>
+  
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      You wrap the state update that triggers the expensive re-render in <code>startTransition(() =&gt; { ... })</code> 
+      — everything inside that callback is marked as a low-priority transition and assigned to the 
+      "transition" lane in Fiber's priority system.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      React renders the transition update on a lower-priority lane; if a more urgent update (like the next 
+      keystroke) comes in first, React interrupts or defers the transition's render instead of letting it 
+      block the urgent one. The render phase can be paused, and if an urgent update arrives, the transition 
+      work is abandoned and restarted later.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <code>isPending</code> flips to <code>true</code> for as long as the transition's render is still in 
+      flight (i.e., between when <code>startTransition</code> is called and when the commit phase completes), 
+      so you can render a spinner or dim the stale results without blocking input the whole time.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      If the transition completes without interruption, the changes are committed to the DOM, <code>isPending</code> 
+      becomes <code>false</code>, and the UI updates to reflect the new state.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useTransition — Complete Example
+  </h4>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { useState, useTransition, useMemo } from "react";
+
+function ProductSearch({ products }) {
+  const [query, setQuery] = useState("");
+  const [filtered, setFiltered] = useState(products);
+  const [isPending, startTransition] = useTransition();
+
+  // Without useTransition, every keystroke would block the UI
+  // while filtering a large list, making typing feel laggy
+  function handleChange(e) {
+    const value = e.target.value;
+    setQuery(value); // urgent — the input itself always feels instant
+
+    startTransition(() => {
+      // expensive filter over a large list, marked as a transition
+      // so it never blocks the input from updating immediately
+      const filteredItems = products.filter(p => 
+        p.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setFiltered(filteredItems);
+    });
+  }
+
+  return (
+    <div>
+      <input 
+        value={query} 
+        onChange={handleChange}
+        placeholder="Search products..."
+      />
+      {/* Show subtle indicator while filtering, without blocking the input */}
+      {isPending && (
+        <div style={{ opacity: 0.6, marginTop: "8px" }}>
+          Filtering...
+        </div>
+      )}
+      <ProductList items={filtered} />
+    </div>
+  );
+}
+
+// Key observation: The input stays responsive even when filtering
+// thousands of items, because the expensive filter runs in a transition
+// that can be interrupted by keystrokes.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Use Cases for useTransition
+  </h4>
+  
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong>Search/Filter:</strong> Filtering large datasets while typing — the most common use case.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Tab/View Switching:</strong> Switching between views that render different, expensive component trees.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Dashboard Updates:</strong> Updating large dashboards with multiple charts/tables while keeping 
+      the main interaction responsive.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Data Loading:</strong> When combined with Suspense, marking new data fetches as transitions 
+      so the old UI stays visible while new data loads.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Navigation:</strong> Route transitions that involve loading new data and rendering new components.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useTransition vs startTransition vs useDeferredValue — When to Use Each
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">API</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When to Use</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Key Feature</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>useTransition</code></td>
+      <td style="border: 1px solid black; padding: 8px;">When you control the state update directly and want to mark it as low priority</td>
+      <td style="border: 1px solid black; padding: 8px;">Returns <code>isPending</code> to show loading state</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>startTransition</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Same as <code>useTransition</code>, but outside of components (e.g., in event handlers that aren't in a component)</td>
+      <td style="border: 1px solid black; padding: 8px;">No <code>isPending</code> flag — just marks the update</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>useDeferredValue</code></td>
+      <td style="border: 1px solid black; padding: 8px;">When you can't control the state update (e.g., value comes from props) but need a low-priority version</td>
+      <td style="border: 1px solid black; padding: 8px;">Returns a deferred copy of the value that updates lazily</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Pitfalls and Gotchas with useTransition
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong>Over-wrapping:</strong> Wrapping every update in <code>startTransition</code> can make the UI 
+      feel laggy. Only use it for expensive updates that aren't the most urgent thing on screen.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Blocking the UI with isPending:</strong> Using <code>isPending</code> to disable the input or 
+      show a full-screen spinner defeats the purpose — the goal is to keep the UI responsive, not to show a 
+      loading overlay.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Forgetting to wrap multiple state updates:</strong> Only state updates inside the callback are 
+      marked as transitions — any <code>setState</code> calls outside will still be urgent.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>No effect on non-state updates:</strong> <code>startTransition</code> only affects React state 
+      updates — side effects, network calls, and other synchronous code inside the callback still run immediately.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Not using with Suspense:</strong> The real power of transitions is when combined with Suspense 
+      — pending states can be handled gracefully while new data loads.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Interview Questions — Deep Dive
+  </h4>
+
+  <div style="margin-top: 1rem;">
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What is a fiber, concretely, and why did React need to invent it instead of just optimizing the old recursive renderer?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        A fiber is a plain JavaScript object representing one unit of work — roughly one component instance's 
+        render — holding its props, state, and pointers to its parent, first child, and next sibling. React 
+        needed it because the old approach used the native JS call stack for recursion, and a call stack can't 
+        be paused or resumed once you're inside it. Representing the tree as a linked structure of plain objects 
+        lets React itself control the traversal, so it can stop, save progress, and pick back up later — 
+        something no amount of optimizing the old recursive approach could achieve, since the limitation was 
+        architectural, not a performance issue.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "Is concurrent rendering something React does automatically once you're on React 18, or does it require action from the developer?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        Both, in a layered way. Simply switching to <code>createRoot</code> (instead of the legacy 
+        <code>ReactDOM.render</code>) unlocks the concurrent rendering CAPABILITY and enables some automatic 
+        batching improvements, but React doesn't automatically decide which of your updates are low priority — 
+        you have to explicitly mark them using <code>startTransition</code>, <code>useTransition</code>, or 
+        <code>useDeferredValue</code>. Without that opt-in, all your updates are still treated as urgent by 
+        default. The engine is capable, but the developer chooses which updates to deprioritize.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "In the search example, why is  setQuery(value) called outside startTransition while setResults(...) is called inside it?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>setQuery</code> updates the input's own displayed value and needs to feel instant on every 
+        keystroke, so it's left as a normal, urgent update. <code>setResults</code> triggers the expensive 
+        filtering work over potentially a large list — wrapping just that call in <code>startTransition</code> 
+        tells React it's allowed to deprioritize and interrupt that specific update if something more urgent 
+        (like the next keystroke) comes in, while the input itself never lags. This separation of concerns is 
+        the entire point of the API.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What does the isPending value returned by useTransition actually track, and what's a UI mistake people make with it?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>isPending</code> is true for as long as the transition's render is still being computed in the 
+        background and hasn't been committed yet — it tracks the period between calling <code>startTransition</code> 
+        and the completion of the commit phase for that transition. A common mistake is using <code>isPending</code> 
+        to block the entire UI (e.g. disabling the input) instead of just showing a subtle loading indicator — 
+        doing so defeats the whole point of <code>useTransition</code>, which is specifically to keep the rest 
+        of the UI (like the input) responsive WHILE the expensive update is still pending. The loading indicator 
+        should be subtle and non-blocking.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "How is useTransition different from useDeferredValue, even though both are concurrent-rendering APIs used for similar problems?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>useTransition</code> wraps a STATE UPDATE you control directly — you call 
+        <code>startTransition</code> around the specific <code>setState</code> call you want deprioritized, 
+        and you get an <code>isPending</code> flag back. <code>useDeferredValue</code> instead takes an 
+        existing VALUE (often one you don't control the update of directly, like a prop from a parent) and 
+        gives you back a deferred copy of it that lags behind during urgent updates — useful when you can't 
+        wrap the original update in <code>startTransition</code> yourself, e.g. because the value comes from 
+        a parent component or an external source (like a Redux store that updates outside of your component).
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "A teammate wraps every single state update in the app with startTransition \"to make things faster.\" What would you push back on?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>startTransition</code> doesn't make individual updates faster — it only changes their PRIORITY 
+        relative to other updates, allowing more urgent work to interrupt them. Wrapping something like a text 
+        input's own value update in <code>startTransition</code> can actually make typing feel laggy, since 
+        that update is exactly the kind that should stay urgent. The right mental model is: 
+        <code>startTransition</code> only helps for updates that are expensive AND not the most urgent thing 
+        on screen right now — applying it everywhere indiscriminately can make the UI feel worse, not better. 
+        It's a tool for prioritization, not a performance optimization for individual updates.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What's the relationship between Fiber, the render phase, the commit phase, and concurrent rendering?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        Fiber is the data structure (linked list of fiber nodes) and the reconciler that traverses it. The 
+        <strong>render phase</strong> is when Fiber builds/diffs the work-in-progress tree — it's interruptible, 
+        pure (no side effects), and can be paused. The <strong>commit phase</strong> is when changes are 
+        applied to the DOM — it's synchronous and uninterruptible. <strong>Concurrent rendering</strong> is 
+        the feature set built on top of Fiber that uses the interruptible render phase to pause low-priority 
+        work and resume it later, enabling features like <code>useTransition</code>. The engine (Fiber) 
+        provides the interruptibility; the developer-facing APIs (concurrent rendering) decide when and how 
+        to use that interruptibility.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "Can you use useTransition with server-side rendering?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        Yes, but with caveats. <code>useTransition</code> works on the server, but the <code>isPending</code> 
+        flag is always <code>false</code> during SSR because there's no pending state to track — transitions 
+        are purely a client-side concept for managing responsiveness. During hydration, the transition state 
+        is initialized and then updates normally on the client. The real power of transitions on the server 
+        comes when combined with Suspense and streaming SSR, where low-priority content can be streamed after 
+        the high-priority content.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What happens if a transition is interrupted multiple times by urgent updates?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        If a transition is interrupted multiple times by urgent updates, React can restart the transition's 
+        render from scratch each time. This is the "throwing away work" behavior — the low-priority work in 
+        the render phase is discarded, and a fresh render begins when the browser is idle again. This is safe 
+        because the render phase is pure and side-effect-free. The transition may never complete if there's a 
+        continuous stream of urgent updates, which is actually the intended behavior — the system prioritizes 
+        the urgent user interactions over the background work.
+      </p>
+    </div>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Takeaways for Interviews
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong>Fiber is the architecture that makes everything else possible</strong> — it provides 
+      interruptibility, prioritization, and double-buffering at the engine level.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Concurrent rendering is the developer-facing feature set</strong> built on Fiber's capabilities — 
+      you opt into it via <code>createRoot</code> and specific hooks like <code>useTransition</code>.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>The render phase is interruptible and pure</strong> — side effects are prohibited there, which 
+      is why you can't call APIs or mutate state in the component body.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>The commit phase is synchronous and uninterruptible</strong> — DOM changes happen here, and 
+      they run to completion.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong><code>useTransition</code> is the primary tool</strong> for marking non-urgent updates — use 
+      it for expensive work that shouldn't block user interactions, and use the <code>isPending</code> flag 
+      for subtle loading indicators.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Not every update should be a transition</strong> — only use it for expensive, non-urgent work. 
+      Wrapping urgent updates in transitions can make the UI feel laggy.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Reference: Fiber vs Concurrent vs useTransition
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Concept</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">What It Is</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Who Uses It</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Fiber</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Reconciliation engine + data structure (linked tree of fiber nodes)</td>
+      <td style="border: 1px solid black; padding: 8px;">React internally (always on)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Concurrent Rendering</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Scheduling features built on Fiber: priorities, interruptible renders, transitions</td>
+      <td style="border: 1px solid black; padding: 8px;">Developers via <code>createRoot</code> + specific APIs</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>useTransition</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Hook to mark specific updates as low-priority transitions</td>
+      <td style="border: 1px solid black; padding: 8px;">Developers directly</td>
+    </tr>
+  </table>
+</div>`,
+            examples: [{}],
+            questions: [
+              {
+                question: "What is a fiber, concretely, and why did React need to invent it instead of just optimizing the old recursive renderer?",
+                answer: "A fiber is a plain JavaScript object representing one unit of work — roughly one component instance's render — holding its props, state, and pointers to its parent, first child, and next sibling. React needed it because the old approach used the native JS call stack for recursion, and a call stack can't be paused or resumed once you're inside it. Representing the tree as a linked structure of plain objects lets React itself control the traversal, so it can stop, save progress, and pick back up later — something no amount of optimizing the old recursive approach could achieve, since the limitation was architectural, not a performance issue."
+              },
+              {
+                question: "Is concurrent rendering something React does automatically once you're on React 18, or does it require action from the developer?",
+                answer: "Both, in a layered way. Simply switching to createRoot (instead of the legacy ReactDOM.render) unlocks the concurrent rendering CAPABILITY and enables some automatic batching improvements, but React doesn't automatically decide which of your updates are low priority — you have to explicitly mark them using startTransition, useTransition, or useDeferredValue. Without that opt-in, all your updates are still treated as urgent by default. The engine is capable, but the developer chooses which updates to deprioritize."
+              },
+              {
+                question: "In the search example, why is `setQuery(value)` called outside `startTransition` while `setResults(...)` is called inside it?",
+                answer: "setQuery updates the input's own displayed value and needs to feel instant on every keystroke, so it's left as a normal, urgent update. setResults triggers the expensive filtering work over potentially a large list — wrapping just that call in startTransition tells React it's allowed to deprioritize and interrupt that specific update if something more urgent (like the next keystroke) comes in, while the input itself never lags. This separation of concerns is the entire point of the API."
+              },
+              {
+                question: "What does the `isPending` value returned by `useTransition` actually track, and what's a UI mistake people make with it?",
+                answer: "isPending is true for as long as the transition's render is still being computed in the background and hasn't been committed yet — it tracks the period between calling startTransition and the completion of the commit phase for that transition. A common mistake is using isPending to block the entire UI (e.g. disabling the input) instead of just showing a subtle loading indicator — doing so defeats the whole point of useTransition, which is specifically to keep the rest of the UI (like the input) responsive WHILE the expensive update is still pending. The loading indicator should be subtle and non-blocking."
+              },
+              {
+                question: "How is `useTransition` different from `useDeferredValue`, even though both are concurrent-rendering APIs used for similar problems?",
+                answer: "useTransition wraps a STATE UPDATE you control directly — you call startTransition around the specific setState call you want deprioritized, and you get an isPending flag back. useDeferredValue instead takes an existing VALUE (often one you don't control the update of directly, like a prop from a parent) and gives you back a deferred copy of it that lags behind during urgent updates — useful when you can't wrap the original update in startTransition yourself, e.g. because the value comes from a parent component or an external source (like a Redux store that updates outside of your component)."
+              },
+              {
+                question: "A teammate wraps every single state update in the app with `startTransition` \"to make things faster.\" What would you push back on?",
+                answer: "startTransition doesn't make individual updates faster — it only changes their PRIORITY relative to other updates, allowing more urgent work to interrupt them. Wrapping something like a text input's own value update in startTransition can actually make typing feel laggy, since that update is exactly the kind that should stay urgent. The right mental model is: startTransition only helps for updates that are expensive AND not the most urgent thing on screen right now — applying it everywhere indiscriminately can make the UI feel worse, not better. It's a tool for prioritization, not a performance optimization for individual updates."
+              },
+              {
+                question: "What's the relationship between Fiber, the render phase, the commit phase, and concurrent rendering?",
+                answer: "Fiber is the data structure (linked list of fiber nodes) and the reconciler that traverses it. The render phase is when Fiber builds/diffs the work-in-progress tree — it's interruptible, pure (no side effects), and can be paused. The commit phase is when changes are applied to the DOM — it's synchronous and uninterruptible. Concurrent rendering is the feature set built on top of Fiber that uses the interruptible render phase to pause low-priority work and resume it later, enabling features like useTransition. The engine (Fiber) provides the interruptibility; the developer-facing APIs (concurrent rendering) decide when and how to use that interruptibility."
+              },
+              {
+                question: "Can you use `useTransition` with server-side rendering?",
+                answer: "Yes, but with caveats. useTransition works on the server, but the isPending flag is always false during SSR because there's no pending state to track — transitions are purely a client-side concept for managing responsiveness. During hydration, the transition state is initialized and then updates normally on the client. The real power of transitions on the server comes when combined with Suspense and streaming SSR, where low-priority content can be streamed after the high-priority content."
+              },
+              {
+                question: "What happens if a transition is interrupted multiple times by urgent updates?",
+                answer: "If a transition is interrupted multiple times by urgent updates, React can restart the transition's render from scratch each time. This is the 'throwing away work' behavior — the low-priority work in the render phase is discarded, and a fresh render begins when the browser is idle again. This is safe because the render phase is pure and side-effect-free. The transition may never complete if there's a continuous stream of urgent updates, which is actually the intended behavior — the system prioritizes the urgent user interactions over the background work."
+              },
+              {
+                question: "What is double-buffering in the context of React Fiber, and why is it important?",
+                answer: "Double-buffering in Fiber refers to maintaining two separate fiber trees simultaneously — the 'current' tree representing what's currently rendered on screen, and a 'work-in-progress' tree being built for the next update. They're linked via the 'alternate' pointer. This is important because it allows React to render the next UI state entirely in memory (during the interruptible render phase) without affecting what the user currently sees. Only when the work-in-progress tree is complete and ready does React swap the pointer in the commit phase, making the new tree current atomically. This prevents users from seeing partially-rendered states and enables smooth transitions between UI states."
+              },
+              {
+                question: "Why must the render phase be free of side effects, and how does this relate to concurrent rendering?",
+                answer: "The render phase must be free of side effects because it can be paused, restarted, or discarded entirely during concurrent rendering. If components performed side effects during render (like making network calls or mutating state), those effects could run multiple times unnecessarily or run when the render is later abandoned, causing bugs, performance issues, or inconsistent state. This purity requirement is what makes concurrent rendering safe — React can interrupt and restart renders at will knowing that no irreversible work has been done. This is why side effects are moved to event handlers or useEffect, which run during or after the commit phase."
+              }
+            ],
+            links: [
+              "https://github.com/acdlite/react-fiber-architecture",
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+              "https://react.dev/blog/2022/03/29/react-v18",
+              "https://react.dev/reference/react/useTransition",
+              "https://react.dev/reference/react/startTransition",
+            ],
+            tags: ["React", "Fiber", "Concurrent Rendering", "useTransition"],
+          },
+          {
+            topic: "Question Set 9",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This section covers React concurrent hooks and performance optimization techniques — specifically 
+    <code>useDeferredValue</code>, <code>React.lazy</code>, and <code>Suspense</code>. These are critical 
+    tools for building performant React applications that feel responsive even under heavy load. 
+    Interviewers ask about these to gauge your understanding of React's concurrent rendering capabilities 
+    and your ability to optimize application performance through code splitting and declarative loading states.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useDeferredValue — Deep Dive
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <code>useDeferredValue</code> is a React hook that returns a deferred (delayed) version of a value that 
+    can be updated at a lower priority than the original value. It's part of React's concurrent rendering 
+    feature set and is designed to keep your UI responsive during expensive re-renders by allowing certain 
+    updates to "lag behind" while more urgent updates (like user input) are processed first.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <strong>Why Interviewers Care:</strong> <code>useDeferredValue</code> is often misunderstood as a 
+    "performance optimization" when it's actually a "responsiveness optimization." Interviewers want to 
+    know if you understand the difference, and when to use <code>useDeferredValue</code> vs 
+    <code>useTransition</code> — a very common point of confusion.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useDeferredValue — Syntax
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const deferredValue = useDeferredValue(value, options);
+
+// Parameters:
+// - value: The value you want to defer (string, number, object, array, etc.)
+// - options (optional): { timeoutMs: number } — maximum time to wait before forcing an update
+
+// Returns:
+// - A deferred version of the value that updates at a lower priority
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How useDeferredValue Works — Step by Step
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <strong>Initial render:</strong> <code>useDeferredValue</code> returns the initial value immediately 
+      on the first render.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Value changes:</strong> When the original value changes, <code>useDeferredValue</code> schedules 
+      the update to happen at a lower priority. The hook continues to return the OLD value during the current 
+      render, preventing expensive re-renders from blocking user interactions.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Background update:</strong> React processes the update in the background (during idle time or 
+      after urgent updates are handled). If a more urgent update arrives while the deferred update is pending, 
+      the deferred update is interrupted and restarted later.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Commit:</strong> Once the background render completes without interruption, the deferred value 
+      is committed to the DOM, and the component re-renders with the new value.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useDeferredValue — Complete Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { useState, useDeferredValue, useMemo } from "react";
+
+function ProductSearch({ products }) {
+  const [query, setQuery] = useState("");
+  // Create a deferred version of the query — it updates at lower priority
+  const deferredQuery = useDeferredValue(query);
+  
+  // This is the expensive part — filtering a large list
+  // Using deferredQuery means this filter won't run on every keystroke
+  // and won't block the input from updating immediately
+  const filteredProducts = useMemo(() => {
+    return products.filter(product => 
+      product.name.toLowerCase().includes(deferredQuery.toLowerCase())
+    );
+  }, [products, deferredQuery]);
+
+  // Track whether the deferred value is "stale" (lagging behind the current value)
+  const isStale = query !== deferredQuery;
+
+  function handleChange(e) {
+    // This update is URGENT — the input updates immediately
+    setQuery(e.target.value);
+    // The deferredQuery will update in the background
+  }
+
+  return (
+    <div>
+      <input 
+        value={query} 
+        onChange={handleChange}
+        placeholder="Search products..."
+      />
+      {/* Show subtle indicator when the deferred value is lagging */}
+      {isStale && (
+        <div style={{ opacity: 0.6, marginTop: "8px" }}>
+          Showing results for: "{deferredQuery}" (updating...)
+        </div>
+      )}
+      <ProductList items={filteredProducts} />
+    </div>
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    useDeferredValue vs useTransition — Key Differences
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">useDeferredValue</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">useTransition</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>What it controls</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">A VALUE (data) — you pass a value, get a deferred copy back</td>
+      <td style="border: 1px solid black; padding: 8px;">A STATE UPDATE (action) — you wrap the setState call</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>When to use</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">When you can't control the update (e.g., value comes from props, Redux, context)</td>
+      <td style="border: 1px solid black; padding: 8px;">When you control the state update directly (you call setState)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Pending state</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">No built-in pending flag — you compare the value to the deferred version</td>
+      <td style="border: 1px solid black; padding: 8px;">Returns <code>isPending</code> flag for loading indicators</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Use case</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Search filtering where the input value comes from a parent or external source</td>
+      <td style="border: 1px solid black; padding: 8px;">Search filtering where you control the state update inside the component</td>
+    </tr>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Pitfalls with useDeferredValue
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong>Missing the stale check:</strong> Not tracking when the deferred value is lagging can lead to 
+      confusing UI where the displayed data doesn't match the input value. Always check 
+      <code>value !== deferredValue</code> to show appropriate loading states.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Overusing with simple updates:</strong> <code>useDeferredValue</code> adds complexity — it's 
+      only beneficial for expensive computations that would otherwise block the UI. For simple updates, 
+      avoid the overhead.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Forgetting to memoize:</strong> The deferred value will cause re-renders — always wrap expensive 
+      computations with <code>useMemo</code> or <code>useCallback</code> to avoid running them on every render.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Using with objects/arrays:</strong> <code>useDeferredValue</code> uses referential equality — 
+      if the value changes but the reference stays the same, it won't trigger an update. Use immutable updates 
+      or ensure new references for changes.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React.lazy — Deep Dive
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <code>React.lazy</code> is a function that enables dynamic import of React components, allowing you to 
+    split your application bundle into smaller chunks that are loaded only when needed. It's React's 
+    built-in solution for <strong>code splitting</strong> at the component level, and it works seamlessly 
+    with <code>Suspense</code> for declarative loading states.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <strong>Why Interviewers Care:</strong> <code>React.lazy</code> is a fundamental performance optimization 
+    tool that every senior React developer should know. Interviewers ask about it to check if you understand 
+    how to reduce initial bundle size, how code splitting works, and how to integrate it with Suspense. 
+    They also want to know the limitations (e.g., no server-side rendering support for <code>React.lazy</code> 
+    with Suspense).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React.lazy — Syntax
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const Dashboard = React.lazy(() => import("./Dashboard"));
+
+// The import() function must return a Promise that resolves to:
+// { default: Component } — the component you want to lazy load.
+// React.lazy wraps this in a special component type that Suspense can detect.
+
+// Usage with named exports (using a wrapper):
+const Dashboard = React.lazy(() => 
+  import("./Dashboard").then(module => ({ default: module.Dashboard }))
+);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How React.lazy Works — Under the Hood
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <strong>Component definition:</strong> When you wrap a component with <code>React.lazy</code>, React 
+      doesn't immediately load the component. Instead, it creates a special "lazy" component type that 
+      tracks whether the component has been loaded.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>First render attempt:</strong> When the lazy component is first rendered, React calls the 
+      <code>import()</code> function, which kicks off a dynamic import (a Promise). The component then 
+      throws this Promise, which is caught by the nearest <code>Suspense</code> boundary.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Suspense fallback:</strong> The <code>Suspense</code> boundary catches the Promise and renders 
+      the <code>fallback</code> UI (e.g., a spinner) while the component is being loaded.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Component loaded:</strong> Once the Promise resolves and the component is loaded, React 
+      re-renders the lazy component with the actual component implementation, and the fallback is replaced.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React.lazy — Benefits
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Explanation</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Code Splitting</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Automatically splits the bundle into separate chunks that are loaded on demand</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Smaller Initial Bundle</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Users only download the code they need for the current page/view</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Faster Initial Load</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Reduced initial bundle size leads to faster Time to Interactive (TTI)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Declarative Loading</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Works with Suspense for clean, declarative loading states</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><strong>Parallel Loading</strong></td>
+      <td style="border: 1px solid black; padding: 8px;">Multiple lazy components can load in parallel</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React.lazy — Complete Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import React, { Suspense, lazy, useState } from "react";
+
+// Lazy load components — they're only loaded when rendered
+const Dashboard = lazy(() => import("./Dashboard"));
+const Profile = lazy(() => import("./Profile"));
+const Settings = lazy(() => import("./Settings"));
+
+function App() {
+  const [tab, setTab] = useState("dashboard");
+
+  return (
+    <div>
+      <nav>
+        <button onClick={() => setTab("dashboard")}>Dashboard</button>
+        <button onClick={() => setTab("profile")}>Profile</button>
+        <button onClick={() => setTab("settings")}>Settings</button>
+      </nav>
+
+      {/* Suspense boundary catches the Promise thrown by lazy components */}
+      <Suspense fallback={<div className="spinner">Loading page...</div>}>
+        {tab === "dashboard" && <Dashboard />}
+        {tab === "profile" && <Profile />}
+        {tab === "settings" && <Settings />}
+      </Suspense>
+    </div>
+  );
+}
+
+// Benefits:
+// - The Dashboard, Profile, and Settings components are in separate chunks
+// - Only the current tab's component is loaded
+// - Users see a spinner while loading, then the component appears
+// - Navigation between tabs is fast after initial load
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    React.lazy — Limitations and Caveats
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong>No Server-Side Rendering:</strong> <code>React.lazy</code> and Suspense don't work on the server 
+      — they're designed for client-side rendering only. For SSR, use frameworks like Next.js or Remix that 
+      have their own code-splitting mechanisms.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Must be wrapped in Suspense:</strong> Every <code>React.lazy</code> component must be wrapped 
+      in at least one <code>Suspense</code> boundary (directly or indirectly). Without Suspense, it throws 
+      an error.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>No named exports by default:</strong> <code>React.lazy</code> expects the imported module to 
+      have a <code>default</code> export. For named exports, you need to wrap the import in a function that 
+      returns an object with <code>default</code>.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Loading order:</strong> Lazy components load only when they're about to render — if a component 
+      is conditionally rendered based on state, the import won't happen until that state changes.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Network waterfall:</strong> Nested lazy components can create loading waterfalls where each 
+      level waits for the previous one to load. Use <code>Suspense</code> at appropriate levels to handle this.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Suspense — Deep Dive
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <code>Suspense</code> is a React component that lets you declaratively specify a loading fallback while 
+    components are waiting for something — like a lazy-loaded component, data fetching, or any asynchronous 
+    operation that can be represented as a Promise. It's React's built-in mechanism for handling asynchronous 
+    state transitions in a declarative way.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    <strong>Why Interviewers Care:</strong> <code>Suspense</code> represents a fundamental shift in how React 
+    handles asynchronous operations — it moves loading states from imperative callbacks (like <code>useEffect</code> 
+    with <code>isLoading</code> flags) to a declarative, component-based approach. Interviewers ask about 
+    Suspense to gauge your understanding of modern React patterns and how to build responsive, user-friendly 
+    applications.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Suspense — Syntax
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { Suspense } from "react";
+
+<Suspense fallback={<div>Loading...</div>}>
+  {/* Children that may suspend (throw a Promise) */}
+  <LazyComponent />
+  <DataComponent />
+</Suspense>
+
+// Multiple Suspense boundaries can be nested for granular loading
+<Suspense fallback={<HeaderSkeleton />}>
+  <Header />
+  <Suspense fallback={<ContentSkeleton />}>
+    <Content />
+    <Suspense fallback={<FooterSkeleton />}>
+      <Footer />
+    </Suspense>
+  </Suspense>
+</Suspense>
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How Suspense Works — Loading Flow
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <strong>User opens page:</strong> The application renders, and React encounters a component that 
+      "suspends" — it throws a Promise (e.g., from <code>React.lazy</code> or a Suspense-enabled data library 
+      like Relay or SWR).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Promise thrown:</strong> React catches the Promise and looks for the nearest Suspense boundary 
+      (ancestor <code>Suspense</code> component).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Fallback renders:</strong> The Suspense boundary renders its <code>fallback</code> prop (e.g., 
+      a spinner, skeleton) while the Promise is pending, giving immediate visual feedback to the user.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Background loading:</strong> The Promise resolves in the background. React tracks the progress 
+      of the loading operation.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Component replaces fallback:</strong> When the Promise resolves, React re-renders the children 
+      of the Suspense boundary with the actual component or data, replacing the fallback with the real content.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Suspense + React.lazy — Complete Example
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import React, { Suspense, lazy, useState } from "react";
+
+// Define lazy-loaded components
+const Dashboard = lazy(() => import("./Dashboard"));
+const Analytics = lazy(() => import("./Analytics"));
+const Reports = lazy(() => import("./Reports"));
+
+// Fallback components for each loading state
+const DashboardSkeleton = () => <div className="skeleton">Loading dashboard...</div>;
+const AnalyticsSkeleton = () => <div className="skeleton">Loading analytics...</div>;
+
+function App() {
+  const [view, setView] = useState("dashboard");
+
+  return (
+    <div>
+      <nav>
+        <button onClick={() => setView("dashboard")}>Dashboard</button>
+        <button onClick={() => setView("analytics")}>Analytics</button>
+        <button onClick={() => setView("reports")}>Reports</button>
+      </nav>
+
+      {/* Different Suspense boundaries for different views — granular loading */}
+      {view === "dashboard" && (
+        <Suspense fallback={<DashboardSkeleton />}>
+          <Dashboard />
+        </Suspense>
+      )}
+      
+      {view === "analytics" && (
+        <Suspense fallback={<AnalyticsSkeleton />}>
+          <Analytics />
+        </Suspense>
+      )}
+      
+      {view === "reports" && (
+        <Suspense fallback={<div>Loading reports...</div>}>
+          <Reports />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+
+// Loading Flow:
+// 1. User clicks "Dashboard" -> DashboardSkeleton appears immediately
+// 2. Dashboard component loads in the background
+// 3. When loaded, Dashboard replaces the skeleton
+// 4. User clicks "Analytics" -> AnalyticsSkeleton appears
+// 5. Analytics loads in background, replaces skeleton when ready
+// 6. Each view loads independently — users can switch between tabs
+//    without waiting for all components to load
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Suspense with Data Fetching (Modern Pattern)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { Suspense } from "react";
+import { useSuspenseQuery } from "@apollo/client";
+// Or using React Query with Suspense: useSuspenseQuery
+
+function UserProfile({ userId }) {
+  // This component "suspends" — it throws a Promise if data isn't ready
+  // React Query with suspense: useSuspenseQuery
+  const { data } = useSuspenseQuery(GET_USER, { variables: { id: userId } });
+  
+  return (
+    <div>
+      <h2>{data.user.name}</h2>
+      <p>{data.user.email}</p>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div>
+      <h1>User Profile</h1>
+      {/* Suspense boundary handles the loading state */}
+      <Suspense fallback={<div className="spinner">Loading user data...</div>}>
+        <UserProfile userId={123} />
+      </Suspense>
+    </div>
+  );
+}
+
+// Benefits:
+// - No manual isLoading or useEffect for data fetching
+// - Loading states are declarative and component-based
+// - Multiple components can suspend simultaneously
+// - React handles the loading orchestration
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Suspense — Best Practices
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong>Granular Suspense Boundaries:</strong> Place Suspense boundaries close to the components that 
+      suspend, rather than wrapping the entire app. This allows different parts of the UI to load independently 
+      and avoids blocking the whole page for a single slow component.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Meaningful Fallbacks:</strong> Use skeletons or placeholders that match the content's shape 
+      rather than generic spinners — this reduces layout shift and improves perceived performance.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Avoid Nesting Too Deeply:</strong> While nesting Suspense boundaries is useful for granular 
+      loading, too many levels can create a "waterfall" effect where components load sequentially instead of 
+      in parallel.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Combine with Error Boundaries:</strong> Always pair Suspense with Error Boundaries to handle 
+      loading failures gracefully — Suspense doesn't handle errors, Error Boundaries do.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Interview Questions — Deep Dive
+  </h4>
+
+  <div style="margin-top: 1rem;">
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What is useDeferredValue and when would you use it?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>useDeferredValue</code> is a React hook that returns a deferred (lower-priority) version of a 
+        value that can be updated at a lower priority than the original value. It's used to keep the UI 
+        responsive during expensive re-renders by allowing certain updates to "lag behind" while more urgent 
+        updates (like user input) are processed first. You would use it when you have a value that changes 
+        frequently (like a search query) and triggers an expensive computation (like filtering a large list), 
+        and you want to ensure the input stays responsive even during expensive processing. It's particularly 
+        useful when you can't control the source of the update (e.g., the value comes from props, context, or 
+        Redux) and can't wrap the update in <code>startTransition</code> yourself.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What's the difference between useDeferredValue and useTransition?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        The key difference is what they control. <code>useTransition</code> controls a STATE UPDATE (action) 
+        — you wrap a <code>setState</code> call in <code>startTransition</code> and get an <code>isPending</code> 
+        flag back. It's used when you control the state update directly. <code>useDeferredValue</code> controls 
+        a VALUE (data) — you pass a value to it and get a deferred copy back. It's used when you can't control 
+        the update (e.g., the value comes from props, Redux, or context). <code>useTransition</code> gives 
+        you a <code>isPending</code> flag for loading states; <code>useDeferredValue</code> requires you to 
+        compare the value with <code>deferredValue</code> to determine if it's stale. Use 
+        <code>useTransition</code> when you own the update; use <code>useDeferredValue</code> when you don't.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What is React.lazy and how does it improve performance?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>React.lazy</code> is a function that enables dynamic import of React components, allowing you 
+        to split your application bundle into smaller chunks that are loaded only when needed. It improves 
+        performance by reducing the initial bundle size (users only download the code they need for the current 
+        view), which leads to faster Time to Interactive (TTI) and better Core Web Vitals. It works by wrapping 
+        a dynamic import (<code>import()</code>) that returns a Promise resolving to a component, and it must 
+        be used with <code>Suspense</code> to handle the loading state declaratively. The component loads in 
+        the background while the Suspense fallback is shown, and then replaces the fallback when loaded.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What are the limitations of React.lazy?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        The main limitations are: (1) <strong>No SSR support</strong> — <code>React.lazy</code> works only 
+        on the client side; for SSR, use frameworks like Next.js or Remix. (2) <strong>Must be wrapped in 
+        Suspense</strong> — without a Suspense boundary, it throws an error. (3) <strong>Default exports 
+        only</strong> — it expects the imported module to have a <code>default</code> export; for named exports, 
+        you need to wrap the import. (4) <strong>Network waterfall</strong> — nested lazy components can load 
+        sequentially instead of in parallel. (5) <strong>No preloading</strong> — the component only starts 
+        loading when it's about to render, which can cause delays if not managed properly (though you can use 
+        techniques like webpack's <code>webpackPreload</code> or preloading in event handlers).
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What is Suspense and what problem does it solve?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>Suspense</code> is a React component that lets you declaratively specify a loading fallback 
+        while components are waiting for something — like a lazy-loaded component, data fetching, or any 
+        asynchronous operation that can be represented as a Promise. It solves the problem of managing loading 
+        states across your application in a declarative, component-based way instead of using imperative 
+        callbacks (like <code>useEffect</code> with <code>isLoading</code> flags). It moves loading state 
+        management from the component logic (where it's mixed with business logic) to the UI layer, making 
+        it more maintainable and composable. It also enables React to coordinate loading states across 
+        components, showing the most appropriate fallback at each level of the component tree.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "How does Suspense work with error handling?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        <code>Suspense</code> handles loading states only — it doesn't handle errors. When a component throws 
+        an error (not a Promise), it won't be caught by Suspense. Instead, you need to use Error Boundaries 
+        (<code>componentDidCatch</code> or <code>static getDerivedStateFromError</code> in class components, 
+        or a library like <code>react-error-boundary</code>) to handle errors in Suspense-enabled components. 
+        The typical pattern is to nest Error Boundaries inside or around Suspense boundaries: 
+        <code>&lt;ErrorBoundary&gt;&lt;Suspense fallback={...}&gt;...&lt;/Suspense&gt;&lt;/ErrorBoundary&gt;</code>. 
+        This way, you handle loading with Suspense and errors with Error Boundaries separately.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "Can you use Suspense with data fetching in React 18?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        Yes, React 18 officially supports Suspense for data fetching, but with some important caveats. 
+        Suspense-enabled data fetching requires the data source to be integrated with Suspense (e.g., using 
+        libraries like Relay, SWR with suspense mode, React Query with suspense, or Apollo Client with 
+        <code>useSuspenseQuery</code>). The component that fetches data must "suspend" — throw a Promise that 
+        resolves when the data is ready. The Suspense boundary handles the loading state. However, React doesn't 
+        provide a built-in data fetching library for Suspense — you must use a third-party library or implement 
+        the suspension pattern yourself. Also, Suspense for data fetching is not yet fully integrated with 
+        server-side rendering in React 18 (though it's supported in frameworks like Next.js and Remix).
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What's the difference between using Suspense with React.lazy and using Suspense with data fetching?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        The Suspense mechanism is the same — components throw a Promise, and Suspense catches it — but the 
+        use cases are different. With <code>React.lazy</code>, the Promise is thrown by the lazy component 
+        itself during loading, and the fallback is shown while the component code downloads. With data fetching, 
+        the Promise is thrown by a component that's waiting for data (e.g., from an API), and the fallback is 
+        shown while the data is being fetched. The key difference is what's being loaded: code (React.lazy) 
+        vs data (data fetching). Both use the same Suspense mechanism, and they can be combined — you can 
+        lazy-load a component that also fetches data, creating nested Suspense boundaries for different loading 
+        stages.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "What is the 'waterfall' problem with Suspense and React.lazy, and how can you avoid it?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        The "waterfall" problem occurs when you have nested lazy components and Suspense boundaries. Each level 
+        must wait for the previous level to load before it starts loading, resulting in sequential loading 
+        (a cascade) instead of parallel loading. For example: App loads → LazyComponent1 loads → inside it, 
+        LazyComponent2 loads → inside it, LazyComponent3 loads — each waits for the previous one. To avoid 
+        this, (1) Place Suspense boundaries at appropriate levels so components can load in parallel, (2) Use 
+        preloading techniques — you can preload components before they're rendered (e.g., in event handlers 
+        or when the user hovers over a navigation item), (3) Consider using a bundler's preload features 
+        (like <code>webpackPreload</code>), and (4) Use Suspense at the route or feature level rather than 
+        deeply nested inside components.
+      </p>
+    </div>
+
+    <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+      <p style="font-weight: 600;">Q: "How would you implement preloading with React.lazy?"</p>
+      <p style="line-height: 1.75; margin-top: 0.5rem;">
+        Preloading with <code>React.lazy</code> involves starting the dynamic import before the component is 
+        actually rendered. You can do this by calling the import function directly (since <code>React.lazy</code> 
+        just wraps the import function). For example: <code>const Dashboard = lazy(() => import("./Dashboard"));</code> 
+        — you can preload by calling <code>import("./Dashboard")</code> in a hover or click handler before 
+        navigating: <code>const preloadDashboard = () => import("./Dashboard");</code>. The import returns a 
+        Promise that will be cached by the lazy component. This is useful for navigation items — when the user 
+        hovers over a link, you can preload the component so it's ready by the time they click. Another approach 
+        is using <code>webpackPreload</code> or <code>webpackPrefetch</code> magic comments with dynamic 
+        imports to hint to the browser what to load next.
+      </p>
+    </div>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Takeaways for Interviews
+  </h4>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.25rem;">
+      <strong><code>useDeferredValue</code> is for values, <code>useTransition</code> is for updates:</strong> 
+      Use <code>useDeferredValue</code> when you have a value that changes (and you can't control the update), 
+      and <code>useTransition</code> when you control the state update directly.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Always check for staleness:</strong> When using <code>useDeferredValue</code>, compare 
+      <code>value !== deferredValue</code> to know when the deferred value is lagging and show appropriate 
+      feedback.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Memoize expensive computations:</strong> The deferred value will cause re-renders — always wrap 
+      expensive computations with <code>useMemo</code> or <code>useCallback</code>.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong><code>React.lazy</code> requires Suspense:</strong> Always wrap lazy-loaded components with 
+      <code>Suspense</code>, and handle loading failures with Error Boundaries.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Granular Suspense boundaries:</strong> Place Suspense boundaries close to the components that 
+      suspend for better user experience and parallel loading.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Suspense is for loading, Error Boundaries are for errors:</strong> These are complementary — 
+      use both for a complete loading/error handling strategy.
+    </li>
+    <li style="margin-top: 0.25rem;">
+      <strong>Data fetching with Suspense requires third-party libraries:</strong> React doesn't provide a 
+      built-in data fetching library for Suspense — use Relay, SWR, React Query, or Apollo Client.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Reference: Concurrent Hooks & Performance APIs
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">API</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">What It Does</th>
+      <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When to Use</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>useDeferredValue</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Returns a lower-priority version of a value</td>
+      <td style="border: 1px solid black; padding: 8px;">When you have a value that triggers expensive re-renders and you can't control the update</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>useTransition</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Marks a state update as low priority</td>
+      <td style="border: 1px solid black; padding: 8px;">When you control a state update that triggers expensive re-renders</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>React.lazy</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Enables code splitting at the component level</td>
+      <td style="border: 1px solid black; padding: 8px;">When you want to reduce initial bundle size by loading components on demand</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>Suspense</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Declaratively handles loading states for async operations</td>
+      <td style="border: 1px solid black; padding: 8px;">When you need to show a fallback while components load code or data</td>
+    </tr>
+  </table>
+</div>`,
+            examples: [{}],
+            questions: [
+              {
+                question: "What is useDeferredValue and when would you use it?",
+                answer: "useDeferredValue is a React hook that returns a deferred (lower-priority) version of a value that can be updated at a lower priority than the original value. It's used to keep the UI responsive during expensive re-renders by allowing certain updates to 'lag behind' while more urgent updates (like user input) are processed first. You would use it when you have a value that changes frequently (like a search query) and triggers an expensive computation (like filtering a large list), and you want to ensure the input stays responsive even during expensive processing. It's particularly useful when you can't control the source of the update (e.g., the value comes from props, context, or Redux) and can't wrap the update in startTransition yourself."
+              },
+              {
+                question: "What's the difference between useDeferredValue and useTransition?",
+                answer: "The key difference is what they control. useTransition controls a STATE UPDATE (action) — you wrap a setState call in startTransition and get an isPending flag back. It's used when you control the state update directly. useDeferredValue controls a VALUE (data) — you pass a value to it and get a deferred copy back. It's used when you can't control the update (e.g., the value comes from props, Redux, or context). useTransition gives you a isPending flag for loading states; useDeferredValue requires you to compare the value with deferredValue to determine if it's stale. Use useTransition when you own the update; use useDeferredValue when you don't."
+              },
+              {
+                question: "What is React.lazy and how does it improve performance?",
+                answer: "React.lazy is a function that enables dynamic import of React components, allowing you to split your application bundle into smaller chunks that are loaded only when needed. It improves performance by reducing the initial bundle size (users only download the code they need for the current view), which leads to faster Time to Interactive (TTI) and better Core Web Vitals. It works by wrapping a dynamic import (import()) that returns a Promise resolving to a component, and it must be used with Suspense to handle the loading state declaratively. The component loads in the background while the Suspense fallback is shown, and then replaces the fallback when loaded."
+              },
+              {
+                question: "What are the limitations of React.lazy?",
+                answer: "The main limitations are: (1) No SSR support — React.lazy works only on the client side; for SSR, use frameworks like Next.js or Remix. (2) Must be wrapped in Suspense — without a Suspense boundary, it throws an error. (3) Default exports only — it expects the imported module to have a default export; for named exports, you need to wrap the import. (4) Network waterfall — nested lazy components can load sequentially instead of in parallel. (5) No preloading — the component only starts loading when it's about to render, which can cause delays if not managed properly (though you can use techniques like webpack's webpackPreload or preloading in event handlers)."
+              },
+              {
+                question: "What is Suspense and what problem does it solve?",
+                answer: "Suspense is a React component that lets you declaratively specify a loading fallback while components are waiting for something — like a lazy-loaded component, data fetching, or any asynchronous operation that can be represented as a Promise. It solves the problem of managing loading states across your application in a declarative, component-based way instead of using imperative callbacks (like useEffect with isLoading flags). It moves loading state management from the component logic (where it's mixed with business logic) to the UI layer, making it more maintainable and composable. It also enables React to coordinate loading states across components, showing the most appropriate fallback at each level of the component tree."
+              },
+              {
+                question: "How does Suspense work with error handling?",
+                answer: "Suspense handles loading states only — it doesn't handle errors. When a component throws an error (not a Promise), it won't be caught by Suspense. Instead, you need to use Error Boundaries (componentDidCatch or static getDerivedStateFromError in class components, or a library like react-error-boundary) to handle errors in Suspense-enabled components. The typical pattern is to nest Error Boundaries inside or around Suspense boundaries: <ErrorBoundary><Suspense fallback={...}>...</Suspense></ErrorBoundary>. This way, you handle loading with Suspense and errors with Error Boundaries separately."
+              },
+              {
+                question: "Can you use Suspense with data fetching in React 18?",
+                answer: "Yes, React 18 officially supports Suspense for data fetching, but with some important caveats. Suspense-enabled data fetching requires the data source to be integrated with Suspense (e.g., using libraries like Relay, SWR with suspense mode, React Query with suspense, or Apollo Client with useSuspenseQuery). The component that fetches data must 'suspend' — throw a Promise that resolves when the data is ready. The Suspense boundary handles the loading state. However, React doesn't provide a built-in data fetching library for Suspense — you must use a third-party library or implement the suspension pattern yourself. Also, Suspense for data fetching is not yet fully integrated with server-side rendering in React 18 (though it's supported in frameworks like Next.js and Remix)."
+              },
+              {
+                question: "What's the difference between using Suspense with React.lazy and using Suspense with data fetching?",
+                answer: "The Suspense mechanism is the same — components throw a Promise, and Suspense catches it — but the use cases are different. With React.lazy, the Promise is thrown by the lazy component itself during loading, and the fallback is shown while the component code downloads. With data fetching, the Promise is thrown by a component that's waiting for data (e.g., from an API), and the fallback is shown while the data is being fetched. The key difference is what's being loaded: code (React.lazy) vs data (data fetching). Both use the same Suspense mechanism, and they can be combined — you can lazy-load a component that also fetches data, creating nested Suspense boundaries for different loading stages."
+              },
+              {
+                question: "What is the 'waterfall' problem with Suspense and React.lazy, and how can you avoid it?",
+                answer: "The 'waterfall' problem occurs when you have nested lazy components and Suspense boundaries. Each level must wait for the previous level to load before it starts loading, resulting in sequential loading (a cascade) instead of parallel loading. For example: App loads → LazyComponent1 loads → inside it, LazyComponent2 loads → inside it, LazyComponent3 loads — each waits for the previous one. To avoid this, (1) Place Suspense boundaries at appropriate levels so components can load in parallel, (2) Use preloading techniques — you can preload components before they're rendered (e.g., in event handlers or when the user hovers over a navigation item), (3) Consider using a bundler's preload features (like webpackPreload), and (4) Use Suspense at the route or feature level rather than deeply nested inside components."
+              },
+              {
+                question: "How would you implement preloading with React.lazy?",
+                answer: "Preloading with React.lazy involves starting the dynamic import before the component is actually rendered. You can do this by calling the import function directly (since React.lazy just wraps the import function). For example: const Dashboard = lazy(() => import('./Dashboard')); — you can preload by calling import('./Dashboard') in a hover or click handler before navigating: const preloadDashboard = () => import('./Dashboard');. The import returns a Promise that will be cached by the lazy component. This is useful for navigation items — when the user hovers over a link, you can preload the component so it's ready by the time they click. Another approach is using webpackPreload or webpackPrefetch magic comments with dynamic imports to hint to the browser what to load next."
+              }
+            ],
+            links: [
+              "https://react.dev/reference/react/useDeferredValue",
+              "https://react.dev/reference/react/useTransition",
+              "https://react.dev/reference/react/lazy",
+              "https://react.dev/reference/react/Suspense",
+              "https://react.dev/blog/2022/03/29/react-v18",
+            ],
+            tags: ["React", "Performance", "Suspense", "Lazy", "useDeferredValue"],
           },
         ],
       },
@@ -27744,6 +32099,5821 @@ export default App;`,
               "https://www.npmjs.com/package/react-error-boundary",
               "https://kentcdodds.com/blog/use-react-error-boundary-to-handle-errors-in-react",
               "https://www.smashingmagazine.com/2020/06/react-error-handling-reporting-error-boundaries/",
+            ],
+          },
+          {
+            topic: "Infinite Scrolling",
+            tags: ["React", "Performance", "UI Patterns"],
+            explanation: `<div>
+    <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+      Infinite Scrolling (Interview Guide — Deep Dive)
+    </h4>
+
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      <strong>Infinite scrolling</strong> is a UI pattern where content loads continuously as the user scrolls down a page, 
+      rather than requiring the user to click a "Load More" button or navigate to a new page. It's commonly used in social 
+      media feeds, search results, and content-heavy applications to create a seamless browsing experience.
+    </p>
+
+    <p style="line-height: 1.75; margin-top: 1rem;">
+      <strong>Why Interviewers Care:</strong> Infinite scrolling tests your understanding of intersection observers, 
+      scroll events, performance optimization, memory management, and data fetching patterns. It's a real-world feature 
+      that combines multiple React concepts — hooks, effects, refs, state management, and API integration.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      How Infinite Scrolling Works
+    </h4>
+
+    <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <strong>Initial load:</strong> The first page of data is fetched and displayed.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Scroll detection:</strong> A sentinel element (a marker at the bottom of the list) is monitored using 
+        <code>IntersectionObserver</code> or scroll events.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Trigger:</strong> When the sentinel becomes visible, the next page of data is fetched.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Append:</strong> New data is appended to the existing list, and the sentinel moves to the new bottom.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Loading state:</strong> A loading indicator is shown while the next page is being fetched.
+      </li>
+    </ol>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Implementation Approaches
+    </h4>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Approach</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pros</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Cons</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>IntersectionObserver</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Better performance, native browser API, works without scroll events</td>
+        <td style="border: 1px solid black; padding: 8px;">Requires browser support (polyfill needed for older browsers)</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Scroll Events + debounce/throttle</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Works in all browsers, more control over thresholds</td>
+        <td style="border: 1px solid black; padding: 8px;">Can be expensive if not properly throttled, causes reflows</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>React Libraries</strong> (react-infinite-scroller, react-window, react-virtualized)</td>
+        <td style="border: 1px solid black; padding: 8px;">Pre-built, optimized, handles edge cases</td>
+        <td style="border: 1px solid black; padding: 8px;">Additional bundle size, learning curve</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      TypeScript Implementation — IntersectionObserver Approach
+    </h4>
+
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+import React, { useState, useEffect, useRef, useCallback } from "react";
+
+interface Item {
+  id: number;
+  title: string;
+  description: string;
+}
+
+interface ApiResponse {
+  data: Item[];
+  nextPage: number | null;
+  total: number;
+}
+
+// Custom hook for infinite scrolling
+function useInfiniteScroll(fetchItems: (page: number) => Promise&lt;ApiResponse&gt;) {
+  const [items, setItems] = useState&lt;Item[]&gt;([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState&lt;Error | null&gt;(null);
+
+  const observerRef = useRef&lt;IntersectionObserver | null&gt;(null);
+  const sentinelRef = useRef&lt;HTMLDivElement | null&gt;(null);
+
+  const loadMore = useCallback(async () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetchItems(page);
+      setItems(prev => [...prev, ...response.data]);
+      setHasMore(response.nextPage !== null);
+      setPage(prev => prev + 1);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Failed to load items"));
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchItems, page, loading, hasMore]);
+
+  // Setup IntersectionObserver
+  useEffect(() => {
+    if (!sentinelRef.current) return;
+
+    // Clean up previous observer
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading && hasMore) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1, rootMargin: "0px 0px 200px 0px" } // 200px preload
+    );
+
+    observerRef.current.observe(sentinelRef.current);
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [loadMore, loading, hasMore]);
+
+  return { items, loading, error, hasMore, sentinelRef };
+}
+
+// Component using the hook
+function InfiniteScrollList() {
+  // Mock API call
+  const fetchItems = async (page: number): Promise&lt;ApiResponse&gt; => {
+    const response = await fetch(\`/api/items?page=\${page}&limit=20\`);
+    if (!response.ok) throw new Error("Failed to fetch");
+    return response.json();
+  };
+
+  const { items, loading, error, hasMore, sentinelRef } = useInfiniteScroll(fetchItems);
+
+  if (error) {
+    return (
+      <div className="error">
+        <p>Error loading items: {error.message}</p>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="list-container">
+      {items.map((item) => (
+        <div key={item.id} className="item">
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </div>
+      ))}
+
+      {/* Sentinel element — triggers loading when visible */}
+      <div ref={sentinelRef} className="sentinel">
+        {loading && <div className="spinner">Loading more items...</div>}
+        {!hasMore && items.length > 0 && (
+          <div className="end-message">No more items to load</div>
+        )}
+        {!hasMore && items.length === 0 && (
+          <div className="empty-message">No items found</div>
+        )}
+      </div>
+    </div>
+  );
+}
+      </code></pre>
+    </div>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Key Implementation Considerations
+    </h4>
+
+    <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+      <li style="margin-top: 0.25rem;">
+        <strong>Preloading threshold:</strong> Use <code>rootMargin</code> to trigger loading before the user reaches the bottom — this provides a smoother experience.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Error handling:</strong> Show error states and allow retry attempts without resetting the entire list.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Memory management:</strong> For very large lists, combine with virtualization (react-window, react-virtualized) to limit DOM nodes.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Race conditions:</strong> Ensure the <code>loadMore</code> function is only called once at a time by checking the loading state.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Scroll restoration:</strong> Preserve scroll position when navigating back to the page (use <code>useScrollRestoration</code> or session storage).
+      </li>
+    </ol>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Interview Questions
+    </h4>
+
+    <div style="margin-top: 1rem;">
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What is infinite scrolling and what are its advantages and disadvantages?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Infinite scrolling is a UI pattern where new content loads automatically as the user scrolls to the bottom of a page, 
+          creating a seamless, continuous browsing experience. Advantages include: (1) Better user engagement as users don't 
+          have to click to load more content, (2) Works well for mobile devices where pagination controls are harder to tap, 
+          (3) Creates a more natural, immersive browsing flow. Disadvantages include: (1) Can be overwhelming for users who 
+          want to find specific content (they can't jump to a specific page), (2) Can cause performance issues with large 
+          datasets, (3) Makes it harder to reach the footer, (4) Can lead to "scroll exhaustion" where users feel trapped 
+          in the feed, (5) Complicates analytics and tracking (harder to measure how many items a user has seen).
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How would you implement infinite scrolling in React with TypeScript?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          The implementation involves: (1) Create a custom hook <code>useInfiniteScroll</code> that manages state (items, page, loading, hasMore), 
+          (2) Use <code>IntersectionObserver</code> to detect when the sentinel element becomes visible, (3) Fetch the next page of 
+          data when triggered, (4) Append new data to the existing list, (5) Update the page number and hasMore flag. The hook 
+          should handle loading states, error states, and cleanup of the observer. The component uses the hook and renders the 
+          list with a sentinel element at the bottom that triggers the next fetch.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What's the difference between IntersectionObserver and scroll events for infinite scrolling?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          <strong>IntersectionObserver:</strong> Native browser API that triggers when an element enters the viewport. It's more 
+          efficient because it works asynchronously in the browser's rendering pipeline without causing reflows. You can set 
+          <code>rootMargin</code> to preload content before it becomes visible. 
+          <strong>Scroll events:</strong> Uses <code>window.addEventListener('scroll', handler)</code> and checks if the 
+          scroll position is near the bottom. This approach can cause performance issues (layout thrashing, many reflows) 
+          unless properly debounced/throttled. It's more widely supported on older browsers but requires manual calculations 
+          of scroll position and container height. IntersectionObserver is the recommended approach for new applications.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How do you prevent memory issues in infinite scrolling?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          To prevent memory issues: (1) Use virtualization libraries like <code>react-window</code> or <code>react-virtualized</code> 
+          that only render visible items, (2) Implement a cleanup strategy that removes items far from the viewport from the DOM, 
+          (3) Use <code>useMemo</code> and <code>useCallback</code> to prevent unnecessary re-renders, (4) Set a maximum limit 
+          on items and remove older items when the list grows too large, (5) Clean up IntersectionObserver on unmount to prevent 
+          memory leaks, (6) Consider using a data store with pagination controls (like Redux with normalized state) to prevent 
+          duplicate data. For very large lists (thousands of items), combine virtualization with infinite scrolling for the best 
+          performance.
+        </p>
+      </div>
+    </div>
+  </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API",
+              "https://react.dev/reference/react/useRef",
+              "https://react.dev/reference/react/useEffect",
+            ],
+          },
+          {
+            topic: "Pagination",
+            tags: ["React", "Performance", "API Design", "UI Patterns"],
+            explanation: `<div>
+    <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+      Pagination (Interview Guide — Deep Dive)
+    </h4>
+
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      <strong>Pagination</strong> is a UI pattern that divides large sets of content into discrete, navigable pages. 
+      Users can jump between pages using controls like "Previous," "Next," page numbers, or "First"/"Last" buttons. 
+      Unlike infinite scrolling, pagination gives users control over navigation and context.
+    </p>
+
+    <p style="line-height: 1.75; margin-top: 1rem;">
+      <strong>Why Interviewers Care:</strong> Pagination tests your understanding of state management, API integration, 
+      rendering performance, and user experience considerations. It's a fundamental UI pattern that every React 
+      developer should be able to implement correctly with proper TypeScript types.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Pagination Approaches
+    </h4>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Approach</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Offset-based</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Uses <code>page</code> and <code>limit</code> parameters to skip records (page 1 = skip 0, page 2 = skip limit, etc.)</td>
+        <td style="border: 1px solid black; padding: 8px;">Most common approach, works with any database</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Cursor-based</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Uses a cursor (e.g., last item's ID or timestamp) to fetch the next set of records</td>
+        <td style="border: 1px solid black; padding: 8px;">Better for real-time data, prevents duplication</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Page number based</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Uses page numbers directly in the API</td>
+        <td style="border: 1px solid black; padding: 8px;">Simple and intuitive for users</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      TypeScript Implementation — Complete Pagination Component
+    </h4>
+
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+
+// ====== Types ======
+interface PaginatedResponse&lt;T&gt; {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
+interface UsePaginationOptions {
+  initialPage?: number;
+  limit?: number;
+  fetchData: (page: number, limit: number) => Promise&lt;PaginatedResponse&lt;any&gt;&gt;;
+}
+
+// ====== Custom Hook ======
+function usePagination&lt;T&gt;(options: UsePaginationOptions) {
+  const { initialPage = 1, limit = 10, fetchData } = options;
+
+  const [data, setData] = useState&lt;T[]&gt;([]);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState&lt;Error | null&gt;(null);
+
+  const loadPage = useCallback(async (page: number) => {
+    if (page < 1) return;
+    
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetchData(page, limit);
+      setData(response.data);
+      setTotal(response.total);
+      setTotalPages(response.totalPages);
+      setCurrentPage(page);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error("Failed to load data"));
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchData, limit]);
+
+  const nextPage = useCallback(() => {
+    if (currentPage < totalPages) {
+      loadPage(currentPage + 1);
+    }
+  }, [currentPage, totalPages, loadPage]);
+
+  const previousPage = useCallback(() => {
+    if (currentPage > 1) {
+      loadPage(currentPage - 1);
+    }
+  }, [currentPage, loadPage]);
+
+  const goToPage = useCallback((page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      loadPage(page);
+    }
+  }, [totalPages, loadPage]);
+
+  // Initial load
+  useEffect(() => {
+    loadPage(initialPage);
+  }, [initialPage, loadPage]);
+
+  return {
+    data,
+    currentPage,
+    total,
+    totalPages,
+    loading,
+    error,
+    hasNext: currentPage < totalPages,
+    hasPrevious: currentPage > 1,
+    nextPage,
+    previousPage,
+    goToPage,
+    loadPage,
+  };
+}
+
+// ====== Pagination Controls Component ======
+interface PaginationControlsProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  siblingCount?: number;
+}
+
+function PaginationControls({
+  currentPage,
+  totalPages,
+  onPageChange,
+  siblingCount = 1,
+}: PaginationControlsProps) {
+  const pageRange = useMemo(() => {
+    const range: (number | string)[] = [];
+    const totalPageNumbers = siblingCount * 2 + 3; // siblings + current + first + last
+    const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+    const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
+
+    const showLeftDots = leftSiblingIndex > 2;
+    const showRightDots = rightSiblingIndex < totalPages - 1;
+
+    // First page
+    range.push(1);
+
+    // Left dots
+    if (showLeftDots) {
+      range.push("...");
+    }
+
+    // Middle pages
+    for (let i = leftSiblingIndex; i <= rightSiblingIndex; i++) {
+      if (i === 1 || i === totalPages) continue; // Skip if already added
+      range.push(i);
+    }
+
+    // Right dots
+    if (showRightDots) {
+      range.push("...");
+    }
+
+    // Last page
+    if (totalPages > 1) {
+      range.push(totalPages);
+    }
+
+    return range;
+  }, [currentPage, totalPages, siblingCount]);
+
+  if (totalPages <= 1) return null;
+
+  return (
+    <nav className="pagination-container">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        aria-label="Previous page"
+      >
+        Previous
+      </button>
+
+      {pageRange.map((page, index) => {
+        if (page === "...") {
+          return <span key={\`dots-\${index}\`} className="pagination-dots">...</span>;
+        }
+        return (
+          <button
+            key={page}
+            onClick={() => onPageChange(page as number)}
+            className={currentPage === page ? "active" : ""}
+            aria-current={currentPage === page ? "page" : undefined}
+          >
+            {page}
+          </button>
+        );
+      })}
+
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        aria-label="Next page"
+      >
+        Next
+      </button>
+    </nav>
+  );
+}
+
+// ====== Usage Example ======
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: string;
+}
+
+function UsersList() {
+  const fetchUsers = async (page: number, limit: number): Promise&lt;PaginatedResponse&lt;User&gt;&gt; => {
+    const response = await fetch(\`/api/users?page=\${page}&limit=\${limit}\`);
+    if (!response.ok) throw new Error("Failed to fetch users");
+    return response.json();
+  };
+
+  const {
+    data: users,
+    currentPage,
+    totalPages,
+    loading,
+    error,
+    hasNext,
+    hasPrevious,
+    goToPage,
+    nextPage,
+    previousPage,
+  } = usePagination({ fetchData: fetchUsers, limit: 10 });
+
+  if (loading && users.length === 0) {
+    return <div>Loading initial data...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="error">
+        <p>Error: {error.message}</p>
+        <button onClick={() => window.location.reload()}>Retry</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h2>Users</h2>
+      <div className="user-list">
+        {users.map((user) => (
+          <div key={user.id} className="user-item">
+            <h3>{user.name}</h3>
+            <p>{user.email}</p>
+            <small>Joined: {new Date(user.createdAt).toLocaleDateString()}</small>
+          </div>
+        ))}
+      </div>
+
+      <PaginationControls
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={goToPage}
+      />
+
+      <div className="pagination-info">
+        Page {currentPage} of {totalPages}
+        {loading && <span className="loading-text"> (Loading...)</span>}
+      </div>
+    </div>
+  );
+}
+      </code></pre>
+    </div>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Advanced Features
+    </h4>
+
+    <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+      <li style="margin-top: 0.25rem;">
+        <strong>Page size selection:</strong> Allow users to choose how many items per page (10, 25, 50, 100).
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Keyboard navigation:</strong> Support arrow keys, Enter, and Tab for accessibility.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>URL sync:</strong> Store the current page in the URL (e.g., <code>/users?page=3</code>) for bookmarkable links.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Smart page range:</strong> Show a limited range of page numbers with dots for large page counts.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Loading states:</strong> Show skeleton loaders or spinners while the next page loads.
+      </li>
+    </ol>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Interview Questions
+    </h4>
+
+    <div style="margin-top: 1rem;">
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What is pagination and when would you use it instead of infinite scrolling?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Pagination divides content into discrete, navigable pages. Use pagination when: (1) Users need to find specific 
+          content quickly (e.g., e-commerce product search), (2) You want users to reach the footer of your page, (3) You 
+          need to track analytics per page, (4) You're dealing with large datasets where infinite scrolling would cause 
+          performance issues, (5) You need to support deep-linking to specific sections, (6) The content is in chronological 
+          order and users need to jump to specific dates. Pagination is better for task-oriented browsing, while infinite 
+          scrolling is better for discovery-oriented browsing.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How do you implement URL-based pagination in React?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          URL-based pagination uses the browser's URL to store the current page. Implementation: (1) Use React Router or 
+          a similar library to read the page parameter from the URL (e.g., <code>useParams</code> or <code>useSearchParams</code>), 
+          (2) When the page changes, use <code>useNavigate</code> or <code>useHistory</code> to update the URL, (3) Load 
+          data based on the URL parameter, (4) Handle the case where the URL parameter is missing or invalid. Benefits 
+          include: bookmarkable links, shareable URLs, browser back/forward navigation support, and SEO benefits.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What's the difference between offset-based and cursor-based pagination?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          <strong>Offset-based pagination</strong> uses <code>page</code> and <code>limit</code> parameters. It skips records 
+          by counting from the start. Pros: Simple to implement, works with any database. Cons: Performance degrades with 
+          large offsets (skipping 10,000 records is expensive), duplicates can occur if items are added/removed between requests, 
+          not suitable for real-time data. <strong>Cursor-based pagination</strong> uses a unique identifier from the last 
+          item (e.g., ID or timestamp) to fetch the next set. Pros: Consistent results (no duplication), better performance 
+          with large datasets, good for real-time data. Cons: More complex to implement, users can't jump to arbitrary pages 
+          (only next/prev), requires a unique and sortable field.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How do you handle loading states and errors in pagination?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Handle loading states by: (1) Showing skeleton loaders or spinners while data is loading, (2) Disabling pagination 
+          controls during loading to prevent multiple requests, (3) Showing a loading indicator on the current page. Handle 
+          errors by: (1) Showing an error message with a retry button, (2) Keeping existing data visible so users don't lose 
+          their current view, (3) Logging errors to your monitoring service, (4) Providing fallback states like "No data found" 
+          for empty responses. Important: Never clear existing data when fetching a new page — keep it visible until the 
+          new data arrives.
+        </p>
+      </div>
+    </div>
+  </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/reference/react/useEffect",
+              "https://reactrouter.com/en/main/hooks/use-search-params",
+            ],
+          },
+          {
+            topic: "Debounce",
+            tags: ["React", "Performance", "JavaScript", "Optimization"],
+            explanation: `<div>
+    <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+      Debounce (Interview Guide — Deep Dive)
+    </h4>
+
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      <strong>Debouncing</strong> is a programming pattern that limits the rate at which a function is executed. It ensures 
+      that a function is only called after a specified delay has passed since the last time it was invoked. This is particularly 
+      useful for handling rapid, repeated events like keystrokes, window resizing, or scroll events.
+    </p>
+
+    <p style="line-height: 1.75; margin-top: 1rem;">
+      <strong>Why Interviewers Care:</strong> Debouncing is a fundamental optimization technique that every developer should 
+      understand. In React, it's commonly used for search inputs, form validation, API calls, and any scenario where you want 
+      to reduce unnecessary function calls. Interviewers ask about debouncing to test your understanding of JavaScript closures, 
+      event handling, and performance optimization.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      How Debounce Works
+    </h4>
+
+    <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <strong>First call:</strong> The function starts a timer with the specified delay (e.g., 300ms).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Subsequent calls:</strong> Each new call within the delay period resets the timer.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Execution:</strong> The function only executes if the delay passes without any new calls.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Result:</strong> The function runs once, after the last call in a sequence.
+      </li>
+    </ol>
+
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-typescript">
+// Visual example: "T", "Ty", "Typ", "Type", "Type ", "Type s", "Type se", "Type sear", "Type search"
+// After the user stops typing for 300ms, the search function executes once.
+
+// Without debounce: 9 API calls
+// With debounce (300ms): 1 API call
+      </code></pre>
+    </div>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      TypeScript Implementation — Debounce Utility
+    </h4>
+
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// ====== Debounce Utility ======
+function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  delay: number
+): (...args: Parameters&lt;T&gt;) => void {
+  let timeoutId: NodeJS.Timeout | null = null;
+
+  return function debounced(...args: Parameters&lt;T&gt;) {
+    // Clear the previous timeout if it exists
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set a new timeout
+    timeoutId = setTimeout(() => {
+      func(...args);
+      timeoutId = null;
+    }, delay);
+  };
+}
+
+// ====== Advanced Debounce with Leading/Trailing Options ======
+interface DebounceOptions {
+  leading?: boolean;  // Call the function on the leading edge (immediately)
+  trailing?: boolean; // Call the function on the trailing edge (after delay)
+}
+
+function debounceWithOptions<T extends (...args: any[]) => any>(
+  func: T,
+  delay: number,
+  options: DebounceOptions = {}
+): (...args: Parameters&lt;T&gt;) => void {
+  const { leading = false, trailing = true } = options;
+  let timeoutId: NodeJS.Timeout | null = null;
+  let shouldCallLeading = false;
+
+  return function debounced(...args: Parameters&lt;T&gt;) {
+    const isFirstCall = timeoutId === null;
+    const shouldCallNow = leading && isFirstCall;
+
+    if (shouldCallNow) {
+      func(...args);
+    }
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      if (trailing && !shouldCallNow) {
+        func(...args);
+      }
+      timeoutId = null;
+    }, delay);
+  };
+}
+
+// ====== React Hook: useDebounce ======
+function useDebounce&lt;T&gt;(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState&lt;T&gt;(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+// ====== React Hook: useDebouncedCallback ======
+function useDebouncedCallback&lt;T extends (...args: any[]) => any&gt;(
+  callback: T,
+  delay: number
+): (...args: Parameters&lt;T&gt;) => void {
+  const callbackRef = useRef(callback);
+  const timeoutRef = useRef&lt;NodeJS.Timeout | null&gt;(null);
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
+
+  return useCallback(
+    (...args: Parameters&lt;T&gt;) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => {
+        callbackRef.current(...args);
+        timeoutRef.current = null;
+      }, delay);
+    },
+    [delay]
+  );
+}
+
+// ====== Usage Example: Search Input ======
+function SearchComponent() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState&lt;string[]&gt;([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Method 1: Using useDebounce hook
+  const debouncedQuery = useDebounce(query, 300);
+
+  useEffect(() => {
+    if (debouncedQuery.trim()) {
+      performSearch(debouncedQuery);
+    } else {
+      setResults([]);
+    }
+  }, [debouncedQuery]);
+
+  // Method 2: Using useDebouncedCallback hook
+  const debouncedSearch = useDebouncedCallback(
+    async (searchTerm: string) => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(\`/api/search?q=\${searchTerm}\`);
+        const data = await response.json();
+        setResults(data);
+      } catch (error) {
+        console.error("Search failed:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    300
+  );
+
+  const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    const value = e.target.value;
+    setQuery(value);
+    debouncedSearch(value);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={handleChange}
+        placeholder="Search..."
+        aria-label="Search input"
+      />
+      {isLoading && <div className="spinner">Searching...</div>}
+      <ul>
+        {results.map((result, index) => (
+          <li key={index}>{result}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+      </code></pre>
+    </div>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Common Use Cases
+    </h4>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Typical Delay</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why Debounce?</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Search input</td>
+        <td style="border: 1px solid black; padding: 8px;">300-500ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Prevents API calls on every keystroke</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Form validation</td>
+        <td style="border: 1px solid black; padding: 8px;">500-800ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Validates only after user stops typing</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Window resize</td>
+        <td style="border: 1px solid black; padding: 8px;">200-300ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Prevents excessive re-renders during resize</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Save/autosave</td>
+        <td style="border: 1px solid black; padding: 8px;">1000-2000ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Saves only after user pauses editing</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Scroll events</td>
+        <td style="border: 1px solid black; padding: 8px;">100-200ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Prevents layout thrashing during scrolling</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Interview Questions
+    </h4>
+
+    <div style="margin-top: 1rem;">
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What is debouncing and how does it work?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Debouncing is a technique that limits the rate at which a function is executed by ensuring that a function is only 
+          called after a specified delay has passed since the last time it was invoked. It works by: (1) Setting a timer when 
+          the function is first called, (2) Resetting the timer on each subsequent call within the delay period, (3) Only 
+          executing the function if the timer completes without interruption. This ensures that the function executes once 
+          after the last call in a sequence, making it perfect for handling rapid events like typing, resizing, or scrolling.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How would you implement debouncing in a React component?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          In React, implement debouncing using (1) Custom hooks like <code>useDebounce</code> for debouncing values, or 
+          (2) <code>useDebouncedCallback</code> for debouncing functions. The key is to use <code>useRef</code> to store 
+          the timeout ID and <code>useCallback</code> to memoize the debounced function. Always clean up timeouts using 
+          <code>clearTimeout</code> in the <code>useEffect</code> cleanup function to prevent memory leaks. For value 
+          debouncing, use <code>useState</code> for the debounced value and <code>useEffect</code> with the delay. For 
+          function debouncing, use <code>setTimeout</code> and <code>clearTimeout</code> inside a memoized callback.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What's the difference between debounce and throttle?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          <strong>Debounce</strong> waits for a pause in the event stream before executing the function. If events happen 
+          continuously, the function never executes until the events stop. Example: Search input — execute search only when 
+          the user stops typing. <strong>Throttle</strong> executes the function at most once per specified time period, 
+          regardless of how many events occur. If events happen continuously, the function executes at regular intervals. 
+          Example: Scroll events — execute at most every 100ms, even if scrolling continues. Debounce is for "only when the 
+          user is done," throttle is for "at regular intervals."
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What's the leading vs trailing debounce, and when would you use each?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          <strong>Leading debounce</strong> executes the function immediately on the first call, then ignores subsequent calls 
+          until the delay has passed. Use case: "Immediate feedback" — search that shows results on the first keystroke while 
+          preventing additional calls. <strong>Trailing debounce</strong> waits for the delay after the last call before 
+          executing. Use case: "Wait for completion" — search that waits for the user to stop typing. <strong>Both</strong> 
+          can be used together to execute immediately on the first call and also after the final call. Choose based on 
+          user experience needs: leading for responsiveness, trailing for efficiency, both for a balance.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How do you handle debouncing with async functions and cleanup?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          With async functions in debouncing, you need to handle: (1) <strong>Race conditions:</strong> Use an abort controller 
+          or a cancellation token to cancel pending requests when a new one is triggered, (2) <strong>Cleanup:</strong> Clear 
+          timeouts in the <code>useEffect</code> cleanup function, (3) <strong>Loading states:</strong> Track which request 
+          is current to avoid stale UI updates, (4) <strong>Error handling:</strong> Handle errors per request without 
+          affecting the debounced function's ability to continue. Use <code>AbortController</code> to cancel fetch requests, 
+          and use a cancellation flag or state to prevent updating state for cancelled requests.
+        </p>
+      </div>
+    </div>
+  </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Glossary/Debounce",
+              "https://css-tricks.com/debouncing-throttling-explained-examples/",
+              "https://react.dev/reference/react/useCallback",
+            ],
+          },
+          {
+            topic: "Throttle",
+            tags: ["React", "Performance", "JavaScript", "Optimization"],
+            explanation: `<div>
+    <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+      Throttle (Interview Guide — Deep Dive)
+    </h4>
+
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      <strong>Throttling</strong> is a programming pattern that limits the rate at which a function can execute. It ensures 
+      that a function is called at most once per specified time period, regardless of how many times it's invoked. This is 
+      useful for handling frequent events like scrolling, resizing, mouse movements, and animations where you want to limit 
+      the number of executions.
+    </p>
+
+    <p style="line-height: 1.75; margin-top: 1rem;">
+      <strong>Why Interviewers Care:</strong> Throttling is a crucial performance optimization technique that's often 
+      confused with debouncing. Interviewers use it to test your understanding of rate limiting, event handling, and 
+      when to apply different optimization strategies. It's particularly relevant for scroll-based infinite scrolling, 
+      resize handlers, and animation frame management.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      How Throttle Works
+    </h4>
+
+    <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <strong>First call:</strong> The function executes immediately and sets a cooldown timer.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Subsequent calls:</strong> During the cooldown period, calls are ignored or queued.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Execution:</strong> The function only executes when the cooldown period has elapsed.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Result:</strong> The function executes at regular intervals, e.g., every 100ms.
+      </li>
+    </ol>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      TypeScript Implementation — Throttle Utility
+    </h4>
+
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// ====== Basic Throttle ======
+function throttle&lt;T extends (...args: any[]) => any&gt;(
+  func: T,
+  limit: number
+): (...args: Parameters&lt;T&gt;) => void {
+  let inCooldown = false;
+
+  return function throttled(...args: Parameters&lt;T&gt;) {
+    if (inCooldown) {
+      return; // Skip the call if we're in cooldown
+    }
+
+    func(...args);
+    inCooldown = true;
+
+    setTimeout(() => {
+      inCooldown = false;
+    }, limit);
+  };
+}
+
+// ====== Advanced Throttle with Leading/Trailing Options ======
+interface ThrottleOptions {
+  leading?: boolean;   // Execute on the first call (default: true)
+  trailing?: boolean;  // Execute on the last call after the limit (default: true)
+}
+
+function throttleWithOptions&lt;T extends (...args: any[]) => any&gt;(
+  func: T,
+  limit: number,
+  options: ThrottleOptions = {}
+): (...args: Parameters&lt;T&gt;) => void {
+  const { leading = true, trailing = true } = options;
+  
+  let inCooldown = false;
+  let timerId: NodeJS.Timeout | null = null;
+  let lastArgs: Parameters&lt;T&gt; | null = null;
+
+  return function throttled(...args: Parameters&lt;T&gt;) {
+    // If we're in cooldown, save the arguments for trailing execution
+    if (inCooldown) {
+      lastArgs = args;
+      return;
+    }
+
+    // Leading execution
+    if (leading) {
+      func(...args);
+    }
+
+    inCooldown = true;
+
+    const timerFn = () => {
+      // Trailing execution
+      if (trailing && lastArgs) {
+        func(...lastArgs);
+        lastArgs = null;
+      }
+      
+      inCooldown = false;
+      timerId = null;
+    };
+
+    timerId = setTimeout(timerFn, limit);
+  };
+}
+
+// ====== React Hook: useThrottle ======
+function useThrottle&lt;T&gt;(value: T, limit: number): T {
+  const [throttledValue, setThrottledValue] = useState&lt;T&gt;(value);
+  const lastRunRef = useRef&lt;number&gt;(Date.now());
+
+  useEffect(() => {
+    const now = Date.now();
+    const timeSinceLastRun = now - lastRunRef.current;
+
+    if (timeSinceLastRun >= limit) {
+      // Update immediately
+      setThrottledValue(value);
+      lastRunRef.current = now;
+    } else {
+      // Schedule the update for the remaining time
+      const timerId = setTimeout(() => {
+        setThrottledValue(value);
+        lastRunRef.current = Date.now();
+      }, limit - timeSinceLastRun);
+
+      return () => clearTimeout(timerId);
+    }
+  }, [value, limit]);
+
+  return throttledValue;
+}
+
+// ====== React Hook: useThrottledCallback ======
+function useThrottledCallback&lt;T extends (...args: any[]) => any&gt;(
+  callback: T,
+  limit: number
+): (...args: Parameters&lt;T&gt;) => void {
+  const callbackRef = useRef(callback);
+  const lastRunRef = useRef&lt;number&gt;(0);
+  const timeoutRef = useRef&lt;NodeJS.Timeout | null&gt;(null);
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
+
+  return useCallback(
+    (...args: Parameters&lt;T&gt;) => {
+      const now = Date.now();
+      const timeSinceLastRun = now - lastRunRef.current;
+
+      if (timeSinceLastRun >= limit) {
+        // Execute immediately
+        callbackRef.current(...args);
+        lastRunRef.current = now;
+      } else if (!timeoutRef.current) {
+        // Schedule for later
+        const remaining = limit - timeSinceLastRun;
+        timeoutRef.current = setTimeout(() => {
+          callbackRef.current(...args);
+          lastRunRef.current = Date.now();
+          timeoutRef.current = null;
+        }, remaining);
+      }
+    },
+    [limit]
+  );
+}
+
+// ====== Usage Example: Scroll Listener ======
+function InfiniteScrollComponent() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [items, setItems] = useState&lt;string[]&gt;([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+
+  // Throttle the scroll handler to run at most every 200ms
+  const handleScroll = useThrottledCallback(() => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+
+    // Check if user is near the bottom
+    const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 200;
+    if (nearBottom && !isLoading) {
+      loadMoreItems();
+    }
+  }, 200);
+
+  const loadMoreItems = useCallback(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const newItems = Array.from({ length: 20 }, (_, i) => 
+        \`Item \${(page - 1) * 20 + i + 1}\`
+      );
+      setItems(prev => [...prev, ...newItems]);
+      setPage(prev => prev + 1);
+      setIsLoading(false);
+    }, 1000);
+  }, [page]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  return (
+    <div>
+      <p>Scroll position: {scrollPosition}px</p>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index} style={{ padding: '20px', borderBottom: '1px solid #ccc' }}>
+            {item}
+          </li>
+        ))}
+      </ul>
+      {isLoading && <div className="spinner">Loading more items...</div>}
+    </div>
+  );
+}
+      </code></pre>
+    </div>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Common Use Cases
+    </h4>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Typical Limit</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why Throttle?</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Scroll events</td>
+        <td style="border: 1px solid black; padding: 8px;">100-200ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Prevents excessive function calls during scrolling</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Window resize</td>
+        <td style="border: 1px solid black; padding: 8px;">200-300ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Limits re-renders during resize operations</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Mouse movement</td>
+        <td style="border: 1px solid black; padding: 8px;">16-50ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Limits tracking updates for smooth performance</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Animation frames</td>
+        <td style="border: 1px solid black; padding: 8px;">16ms (60fps)</td>
+        <td style="border: 1px solid black; padding: 8px;">Matches browser refresh rate</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;">Progress tracking</td>
+        <td style="border: 1px solid black; padding: 8px;">500-1000ms</td>
+        <td style="border: 1px solid black; padding: 8px;">Reduces state updates during continuous progress</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Interview Questions
+    </h4>
+
+    <div style="margin-top: 1rem;">
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What is throttling and how does it work?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Throttling is a technique that limits the rate at which a function can execute by ensuring it's called at most once 
+          per specified time period. It works by: (1) Executing the function immediately on the first call, (2) Setting a 
+          cooldown timer, (3) Ignoring any subsequent calls during the cooldown period, (4) Executing the function again only 
+          after the cooldown timer expires. This ensures that the function executes at regular intervals, making it perfect 
+          for handling events that fire continuously like scrolling, resizing, or mouse movements.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What's the difference between throttle and debounce?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          <strong>Throttle</strong> guarantees execution at a regular interval, at most once per time period. Example: 
+          Scroll handler that updates at most every 100ms, even if scrolling continues. <strong>Debounce</strong> waits 
+          for a pause in the event stream before executing. Example: Search input that waits for the user to stop typing 
+          for 300ms before searching. Use throttle when you need regular updates; use debounce when you need to wait for 
+          completion. Throttle is for "every X milliseconds at most," debounce is for "after the last event."
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "When would you use throttle vs debounce?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Use <strong>throttle</strong> when: (1) You want regular updates during continuous events (e.g., scroll position 
+          tracking), (2) You need to maintain a minimum update frequency, (3) The event is continuous and you don't want 
+          to wait for it to stop. Use <strong>debounce</strong> when: (1) You want to wait for the event to stop (e.g., 
+          search input), (2) You want to reduce the number of executions to once after a pause, (3) The event is bursty 
+          and you only care about the final state. Throttle is for "rate limiting," debounce is for "pause detection."
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How do you implement throttling in React for scroll events?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Implement throttling for scroll events in React by: (1) Creating a custom hook <code>useThrottledCallback</code> 
+          that wraps the scroll handler, (2) Using <code>useEffect</code> to add and remove the event listener, (3) Using 
+          <code>useRef</code> to track the last execution time and timeout ID, (4) Checking if enough time has passed before 
+          executing the callback, (5) Cleanly removing the event listener on unmount. The throttle hook should execute the 
+          callback immediately if enough time has passed, or schedule it for later if not. This ensures the scroll handler 
+          runs at a controlled rate without blocking the UI thread.
+        </p>
+      </div>
+    </div>
+  </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Glossary/Throttle",
+              "https://css-tricks.com/debouncing-throttling-explained-examples/",
+              "https://react.dev/reference/react/useEffect",
+            ],
+          },
+          {
+            topic: "Image Optimization",
+            tags: ["React", "Performance", "Images", "Web Vitals"],
+            explanation: `<div>
+    <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+      Image Optimization (Interview Guide — Deep Dive)
+    </h4>
+
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      <strong>Image optimization</strong> encompasses techniques to reduce image file sizes, improve loading performance, 
+      and enhance user experience without sacrificing visual quality. Images are often the largest contributors to page 
+      weight, making optimization critical for Core Web Vitals (LCP, FID, CLS) and overall performance.
+    </p>
+
+    <p style="line-height: 1.75; margin-top: 1rem;">
+      <strong>Why Interviewers Care:</strong> Image optimization is a critical real-world skill that directly impacts 
+      user experience, SEO, and performance metrics. Interviewers ask about it to gauge your understanding of performance 
+      optimization, modern image formats, responsive design, and the trade-offs between quality and performance.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Key Image Optimization Techniques
+    </h4>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Technique</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Impact</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Format Selection</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Use modern formats (WebP, AVIF, JPEG XL) over legacy (JPEG, PNG)</td>
+        <td style="border: 1px solid black; padding: 8px;">20-70% size reduction</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Responsive Images</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Serve different sizes based on viewport using <code>srcset</code> and <code>sizes</code></td>
+        <td style="border: 1px solid black; padding: 8px;">Reduces download size on mobile</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Lazy Loading</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Load images only when they enter the viewport</td>
+        <td style="border: 1px solid black; padding: 8px;">Faster initial load, saves bandwidth</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>CDN Optimization</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Use image CDNs for automatic optimization and delivery</td>
+        <td style="border: 1px solid black; padding: 8px;">Faster global delivery, automatic optimization</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Compression</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Apply compression algorithms to reduce file size</td>
+        <td style="border: 1px solid black; padding: 8px;">Reduces bytes transferred</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Image Format Comparison
+    </h4>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Format</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Transparency</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Animation</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Browser Support</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Best For</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>JPEG</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">No</td>
+        <td style="border: 1px solid black; padding: 8px;">No</td>
+        <td style="border: 1px solid black; padding: 8px;">Universal</td>
+        <td style="border: 1px solid black; padding: 8px;">Photographs, complex images</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>PNG</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        <td style="border: 1px solid black; padding: 8px;">No</td>
+        <td style="border: 1px solid black; padding: 8px;">Universal</td>
+        <td style="border: 1px solid black; padding: 8px;">Graphics, transparent images</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>WebP</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        <td style="border: 1px solid black; padding: 8px;">96%+</td>
+        <td style="border: 1px solid black; padding: 8px;">Modern replacement for JPEG/PNG</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>AVIF</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        <td style="border: 1px solid black; padding: 8px;">~70%</td>
+        <td style="border: 1px solid black; padding: 8px;">Best compression, modern browsers</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>SVG</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        <td style="border: 1px solid black; padding: 8px;">Universal</td>
+        <td style="border: 1px solid black; padding: 8px;">Icons, logos, vector graphics</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      TypeScript Implementation — Optimized Image Component
+    </h4>
+
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
+
+// ====== Types ======
+interface ImageOptimizationOptions {
+  formats: string[];      // ['avif', 'webp', 'jpeg']
+  widths: number[];       // [320, 480, 768, 1024, 1536, 2048]
+  defaultWidth?: number;
+  quality?: number;       // 1-100
+  lazyLoad?: boolean;
+  placeholder?: "blur" | "color" | "none";
+}
+
+interface OptimizedImageProps extends React.ImgHTMLAttributes&lt;HTMLImageElement&gt; {
+  src: string;
+  alt: string;
+  options?: Partial&lt;ImageOptimizationOptions&gt;;
+  fallbackSrc?: string;
+}
+
+// ====== Image Optimization Utilities ======
+function getBestFormat(supportedFormats: string[]): string {
+  const formatPriority = ["avif", "webp", "jpeg", "png"];
+  for (const format of formatPriority) {
+    if (supportedFormats.includes(format)) {
+      return format;
+    }
+  }
+  return "jpeg";
+}
+
+function buildSrcSet(src: string, widths: number[], format: string): string {
+  const baseUrl = src.replace(/\.(jpg|jpeg|png|webp|avif)$/, "");
+  return widths
+    .map((width) => \`\${baseUrl}-\${width}.\${format} \${width}w\`)
+    .join(", ");
+}
+
+function buildSizes(breakpoints: Record&lt;string, number&gt;): string {
+  return Object.entries(breakpoints)
+    .map(([breakpoint, size]) => \`(max-width: \${breakpoint}) \${size}px\`)
+    .join(", ") + ", 100vw";
+}
+
+// ====== Custom Hook: Image Preloader ======
+function useImagePreloader(src: string) {
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState&lt;Error | null&gt;(null);
+  const timeoutRef = useRef&lt;NodeJS.Timeout&gt;();
+
+  useEffect(() => {
+    if (!src) return;
+
+    const img = new Image();
+    let isMounted = true;
+
+    img.onload = () => {
+      if (isMounted) {
+        setLoaded(true);
+        setError(null);
+      }
+    };
+
+    img.onerror = () => {
+      if (isMounted) {
+        setError(new Error(\`Failed to load image: \${src}\`));
+        setLoaded(false);
+      }
+    };
+
+    // Timeout fallback
+    timeoutRef.current = setTimeout(() => {
+      if (isMounted && !loaded) {
+        setError(new Error(\`Image load timeout: \${src}\`));
+      }
+    }, 10000);
+
+    img.src = src;
+
+    return () => {
+      isMounted = false;
+      img.onload = null;
+      img.onerror = null;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [src]);
+
+  return { loaded, error };
+}
+
+// ====== Optimized Image Component ======
+function OptimizedImage({
+  src,
+  alt,
+  options = {},
+  fallbackSrc,
+  className = "",
+  style = {},
+  ...props
+}: OptimizedImageProps) {
+  const {
+    formats = ["avif", "webp", "jpeg"],
+    widths = [320, 480, 768, 1024, 1536, 2048],
+    defaultWidth = 768,
+    quality = 80,
+    lazyLoad = true,
+    placeholder = "none",
+  } = options;
+
+  const imgRef = useRef&lt;HTMLImageElement | null&gt;(null);
+  const [isVisible, setIsVisible] = useState(!lazyLoad);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [useFallback, setUseFallback] = useState(false);
+
+  // Detect supported formats using picture element
+  const format = useMemo(() => {
+    // In a real app, you'd detect supported formats using:
+    // - <picture> element with fallback
+    // - CanIUse or user agent detection
+    // - Feature detection in JavaScript
+    return getBestFormat(formats);
+  }, [formats]);
+
+  // Build srcset for responsive images
+  const srcSet = useMemo(() => {
+    if (!src) return "";
+    return buildSrcSet(src, widths, format);
+  }, [src, widths, format]);
+
+  // Build sizes attribute
+  const sizes = useMemo(() => {
+    return buildSizes({
+      "480px": 480,
+      "768px": 768,
+      "1024px": 1024,
+      "1280px": 1280,
+    });
+  }, []);
+
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    if (!lazyLoad || !imgRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "100px" }
+    );
+
+    observer.observe(imgRef.current);
+
+    return () => observer.disconnect();
+  }, [lazyLoad]);
+
+  // Handle image load errors
+  const handleError = useCallback(() => {
+    if (!useFallback && fallbackSrc) {
+      setUseFallback(true);
+    } else {
+      // Log error to monitoring service
+      console.error(\`Failed to load image: \${src}\`);
+    }
+  }, [src, fallbackSrc, useFallback]);
+
+  const finalSrc = useFallback && fallbackSrc ? fallbackSrc : src;
+  const { loaded: preloaded, error: preloadError } = useImagePreloader(
+    isVisible ? finalSrc : ""
+  );
+
+  // Determine if we should show the image
+  const shouldShow = isVisible && !preloadError;
+
+  return (
+    <div className="image-container" style={style}>
+      {placeholder === "blur" && !isLoaded && shouldShow && (
+        <div className="image-placeholder blur">Loading...</div>
+      )}
+      
+      {shouldShow && (
+        <picture>
+          {format !== "jpeg" && (
+            <source
+              srcSet={srcSet}
+              sizes={sizes}
+              type={\`image/\${format}\`}
+            />
+          )}
+          <img
+            ref={imgRef}
+            src={finalSrc}
+            alt={alt}
+            className={\`optimized-image \${isLoaded ? "loaded" : "loading"} \${className}\`}
+            srcSet={srcSet}
+            sizes={sizes}
+            loading={lazyLoad ? "lazy" : "eager"}
+            decoding="async"
+            onLoad={() => setIsLoaded(true)}
+            onError={handleError}
+            {...props}
+          />
+        </picture>
+      )}
+
+      {!shouldShow && lazyLoad && (
+        <div className="image-placeholder">
+          <span className="sr-only">Loading image: {alt}</span>
+        </div>
+      )}
+
+      {preloadError && fallbackSrc && (
+        <img src={fallbackSrc} alt={alt} className={className} {...props} />
+      )}
+    </div>
+  );
+}
+
+// ====== React.memo for optimization ======
+export default React.memo(OptimizedImage);
+
+// ====== Usage Example ======
+function ImageGallery() {
+  const images = [
+    { id: 1, src: "/images/photo1.jpg", alt: "Mountain landscape" },
+    { id: 2, src: "/images/photo2.jpg", alt: "Ocean sunset" },
+    { id: 3, src: "/images/photo3.jpg", alt: "City skyline" },
+  ];
+
+  return (
+    <div className="gallery">
+      {images.map((image) => (
+        <OptimizedImage
+          key={image.id}
+          src={image.src}
+          alt={image.alt}
+          options={{
+            formats: ["avif", "webp", "jpeg"],
+            widths: [320, 480, 768, 1024, 1536],
+            quality: 85,
+            lazyLoad: true,
+            placeholder: "blur",
+          }}
+          fallbackSrc="/images/fallback.jpg"
+        />
+      ))}
+    </div>
+  );
+}
+      </code></pre>
+    </div>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Interview Questions
+    </h4>
+
+    <div style="margin-top: 1rem;">
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What are the key techniques for optimizing images in web applications?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Key techniques include: (1) <strong>Format selection:</strong> Use modern formats like WebP and AVIF for better compression, 
+          (2) <strong>Responsive images:</strong> Use <code>srcset</code> and <code>sizes</code> to serve different sizes based 
+          on viewport, (3) <strong>Lazy loading:</strong> Load images only when they enter the viewport, (4) <strong>Compression:</strong> 
+          Apply lossy or lossless compression to reduce file size, (5) <strong>CDN delivery:</strong> Use image CDNs for automatic 
+          optimization, (6) <strong>Image CDN:</strong> Use services like Cloudinary, ImageKit, or Imgix for automatic optimization, 
+          (7) <strong>Preloading:</strong> Preload critical images for faster LCP, (8) <strong>Caching:</strong> Set appropriate 
+          cache headers for static images, (9) <strong>Responsive design:</strong> Serve appropriately sized images for mobile devices.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How do responsive images work in HTML?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Responsive images use <code>srcset</code> and <code>sizes</code> attributes: (1) <code>srcset</code> defines multiple 
+          versions of an image with different widths (e.g., <code>image-320.jpg 320w, image-768.jpg 768w</code>), (2) <code>sizes</code> 
+          tells the browser how much space the image will occupy in the layout (e.g., <code>(max-width: 480px) 100vw, 50vw</code>), 
+          (3) The browser automatically selects the best image based on viewport size, screen density, and network conditions. 
+          Additionally, the <code>&lt;picture&gt;</code> element allows format selection (e.g., WebP for modern browsers, JPEG for 
+          fallback) and art direction (different crops for different screens).
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What's the difference between lazy loading and responsive images?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          <strong>Lazy loading</strong> delays the loading of images until they're needed (when they enter the viewport), improving 
+          initial page load time. <strong>Responsive images</strong> serve different image sizes based on the user's viewport, 
+          reducing data transfer on mobile devices. They're complementary: lazy loading reduces the number of images loaded initially, 
+          while responsive images ensures each loaded image is the right size for the device. Both are essential for optimal performance.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How would you optimize images for Core Web Vitals (especially LCP)?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          To optimize for LCP (Largest Contentful Paint): (1) <strong>Preload critical images:</strong> Use <code>&lt;link rel="preload"&gt;</code> 
+          for LCP images to start loading early, (2) <strong>Use modern formats:</strong> Serve WebP/AVIF with <code>&lt;picture&gt;</code> 
+          for smaller file sizes, (3) <strong>Responsive images:</strong> Use <code>srcset</code> to serve appropriately sized images, 
+          (4) <strong>CDN delivery:</strong> Use a CDN for faster global delivery, (5) <strong>Optimize server response:</strong> 
+          Use lazy loading for non-critical images, (6) <strong>Compression:</strong> Use appropriate compression levels, 
+          (7) <strong>Minimize render-blocking resources:</strong> Defer loading of non-critical scripts, (8) <strong>Use server-side 
+          rendering:</strong> For images that are critical to the initial render.
+        </p>
+      </div>
+    </div>
+  </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://web.dev/fast/#optimize-your-images",
+              "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture",
+              "https://web.dev/lcp/",
+            ],
+          },
+          {
+            topic: "Lazy Images",
+            tags: ["React", "Performance", "Images", "UX"],
+            explanation: `<div>
+    <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+      Lazy Images (Interview Guide — Deep Dive)
+    </h4>
+
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      <strong>Lazy loading images</strong> is a technique where images are loaded only when they are about to enter the viewport, 
+      rather than loading all images upfront. This significantly improves initial page load time, reduces data usage, and 
+      improves perceived performance, especially on pages with many images.
+    </p>
+
+    <p style="line-height: 1.75; margin-top: 1rem;">
+      <strong>Why Interviewers Care:</strong> Lazy loading is a fundamental performance optimization that directly impacts user 
+      experience and Core Web Vitals. Interviewers ask about it to test your understanding of performance optimization, 
+      Intersection Observer API, progressive rendering, and handling edge cases like network conditions and accessibility.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      How Lazy Loading Works
+    </h4>
+
+    <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <strong>Initial render:</strong> A placeholder (skeleton, blur, or simple div) is rendered instead of the actual image.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Detection:</strong> The image element is monitored using IntersectionObserver or scroll events.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Trigger:</strong> When the image enters the viewport (or comes within a margin), the actual image starts loading.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Loading:</strong> The image loads in the background (with progress tracking).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Replacement:</strong> Once loaded, the image replaces the placeholder seamlessly.
+      </li>
+    </ol>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Loading Strategies
+    </h4>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Strategy</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pros</th>
+        <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Cons</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Standard Lazy</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Load image when it enters viewport</td>
+        <td style="border: 1px solid black; padding: 8px;">Simple, widely supported</td>
+        <td style="border: 1px solid black; padding: 8px;">Blank space until image loads</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Progressive Lazy</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Load a low-res version first, then high-res</td>
+        <td style="border: 1px solid black; padding: 8px;">Smooth transition, better UX</td>
+        <td style="border: 1px solid black; padding: 8px;">Double loading (low-res + high-res)</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>Blur-up</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Show a small, blurred version while loading</td>
+        <td style="border: 1px solid black; padding: 8px;">Visual feedback, looks polished</td>
+        <td style="border: 1px solid black; padding: 8px;">Requires generating blurred placeholders</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; padding: 8px;"><strong>DOM-based</strong></td>
+        <td style="border: 1px solid black; padding: 8px;">Use HTML <code>loading="lazy"</code> attribute</td>
+        <td style="border: 1px solid black; padding: 8px;">Native, no JavaScript needed</td>
+        <td style="border: 1px solid black; padding: 8px;">Limited control, no placeholders</td>
+      </tr>
+    </table>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      TypeScript Implementation — Complete Lazy Image Component
+    </h4>
+
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+
+// ====== Types ======
+interface LazyImageProps extends React.ImgHTMLAttributes&lt;HTMLImageElement&gt; {
+  src: string;
+  alt: string;
+  placeholder?: React.ReactNode;
+  fallbackSrc?: string;
+  blurDataUrl?: string;
+  preloadMargin?: string | number;
+  onLoad?: () => void;
+  onError?: (error: Error) => void;
+  threshold?: number;
+  rootMargin?: string;
+}
+
+interface ImageState {
+  status: "idle" | "loading" | "loaded" | "error";
+  error: Error | null;
+}
+
+// ====== Utility: Generate blur hash (simplified) ======
+function generateBlurHash(src: string, size: number = 10): Promise&lt;string&gt; {
+  return new Promise((resolve) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, size, size);
+        resolve(canvas.toDataURL("image/jpeg", 0.5));
+      } else {
+        resolve("");
+      }
+    };
+    img.onerror = () => resolve("");
+    img.src = src;
+  });
+}
+
+// ====== Custom Hook: useLazyImage ======
+function useLazyImage(
+  src: string,
+  options: {
+    preloadMargin?: string | number;
+    threshold?: number;
+    rootMargin?: string;
+  } = {}
+) {
+  const [state, setState] = useState&lt;ImageState&gt;({
+    status: "idle",
+    error: null,
+  });
+  const imgRef = useRef&lt;HTMLImageElement | null&gt;(null);
+  const observerRef = useRef&lt;IntersectionObserver | null&gt;(null);
+  const loadTimeoutRef = useRef&lt;NodeJS.Timeout | null&gt;(null);
+
+  const { preloadMargin = "0px 0px 200px 0px", threshold = 0.1, rootMargin = "0px" } = options;
+
+  const loadImage = useCallback(() => {
+    if (state.status === "loading" || state.status === "loaded") return;
+
+    setState({ status: "loading", error: null });
+
+    // Start loading the image
+    const img = new Image();
+    img.src = src;
+
+    const timeoutId = setTimeout(() => {
+      setState({
+        status: "error",
+        error: new Error(\`Image load timeout: \${src}\`),
+      });
+    }, 10000);
+
+    img.onload = () => {
+      clearTimeout(timeoutId);
+      setState({ status: "loaded", error: null });
+    };
+
+    img.onerror = () => {
+      clearTimeout(timeoutId);
+      setState({
+        status: "error",
+        error: new Error(\`Failed to load image: \${src}\`),
+      });
+    };
+
+    loadTimeoutRef.current = timeoutId;
+  }, [src, state.status]);
+
+  // Set up IntersectionObserver
+  useEffect(() => {
+    if (!imgRef.current || state.status !== "idle") return;
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadImage();
+          observerRef.current?.disconnect();
+        }
+      },
+      { threshold, rootMargin: rootMargin || (preloadMargin as string) }
+    );
+
+    observerRef.current.observe(imgRef.current);
+
+    return () => {
+      observerRef.current?.disconnect();
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current);
+      }
+    };
+  }, [imgRef.current, state.status, loadImage, threshold, rootMargin, preloadMargin]);
+
+  return { ref: imgRef, state, loadImage };
+}
+
+// ====== Lazy Image Component ======
+function LazyImage({
+  src,
+  alt,
+  className = "",
+  style = {},
+  placeholder,
+  fallbackSrc,
+  blurDataUrl,
+  preloadMargin = "200px",
+  onLoad,
+  onError,
+  threshold = 0.1,
+  rootMargin = "0px",
+  ...props
+}: LazyImageProps) {
+  const [showFallback, setShowFallback] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef&lt;HTMLDivElement | null&gt;(null);
+  
+  const { ref, state, loadImage } = useLazyImage(src, {
+    preloadMargin,
+    threshold,
+    rootMargin,
+  });
+
+  // Early load for above-the-fold images
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Check if image is above the fold
+    const rect = containerRef.current.getBoundingClientRect();
+    const isAboveFold = rect.top < window.innerHeight;
+
+    if (isAboveFold && state.status === "idle") {
+      loadImage();
+    }
+
+    // Mark as visible for layout calculations
+    setIsVisible(true);
+  }, [loadImage, state.status]);
+
+  // Handle load completion
+  useEffect(() => {
+    if (state.status === "loaded") {
+      onLoad?.();
+    }
+  }, [state.status, onLoad]);
+
+  // Handle errors
+  useEffect(() => {
+    if (state.status === "error") {
+      if (fallbackSrc && !showFallback) {
+        setShowFallback(true);
+        // Try loading fallback
+        const fallbackImg = new Image();
+        fallbackImg.onload = () => {
+          setShowFallback(true);
+          onLoad?.();
+        };
+        fallbackImg.onerror = () => {
+          onError?.(state.error || new Error("All image sources failed"));
+        };
+        fallbackImg.src = fallbackSrc;
+      } else {
+        onError?.(state.error || new Error("Image load failed"));
+      }
+    }
+  }, [state.status, state.error, fallbackSrc, showFallback, onError, onLoad]);
+
+  const finalSrc = showFallback && fallbackSrc ? fallbackSrc : src;
+  const isLoading = state.status === "loading" || state.status === "idle";
+  const isLoaded = state.status === "loaded";
+  const hasError = state.status === "error";
+
+  // Render placeholder
+  const renderPlaceholder = () => {
+    if (placeholder) return placeholder;
+
+    if (blurDataUrl) {
+      return (
+        <img
+          src={blurDataUrl}
+          alt=""
+          className="lazy-image-placeholder blur"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            filter: "blur(20px)",
+            transform: "scale(1.1)",
+          }}
+        />
+      );
+    }
+
+    return (
+      <div
+        className="lazy-image-skeleton"
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#e0e0e0",
+          background: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+          backgroundSize: "200% 100%",
+          animation: "shimmer 1.5s infinite",
+        }}
+      >
+        {isLoading && <span className="sr-only">Loading image: {alt}</span>}
+      </div>
+    );
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={\`lazy-image-container \${className}\`}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        ...style,
+      }}
+      role="img"
+      aria-label={alt}
+    >
+      {/* Placeholder */}
+      {isLoading && renderPlaceholder()}
+
+      {/* Actual image */}
+      {isVisible && (
+        <img
+          ref={ref}
+          src={finalSrc}
+          alt={alt}
+          className={\`lazy-image \${isLoaded ? "loaded" : ""} \${hasError ? "error" : ""}\`}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: isLoaded ? 1 : 0,
+            transition: "opacity 0.3s ease-in-out",
+          }}
+          onLoad={() => {}}
+          onError={() => {}}
+          {...props}
+        />
+      )}
+
+      {/* Error state */}
+      {hasError && !fallbackSrc && (
+        <div
+          className="lazy-image-error"
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#f5f5f5",
+            color: "#666",
+            fontSize: "0.875rem",
+          }}
+        >
+          ⚠️ Failed to load image
+        </div>
+      )}
+
+      <style>{
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        .lazy-image-container {
+          aspect-ratio: auto;
+          background: #f5f5f5;
+        }
+        .lazy-image-placeholder {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+        }
+        .lazy-image {
+          position: relative;
+          z-index: 2;
+        }
+        .lazy-image.loaded {
+          opacity: 1;
+        }
+      }</style>
+    </div>
+  );
+}
+
+// ====== Usage Example: Image Gallery with Lazy Loading ======
+function ImageGallery() {
+  const images = useMemo(() => 
+    Array.from({ length: 50 }, (_, i) => ({
+      id: i + 1,
+      src: \`https://picsum.photos/id/\${i + 1}/800/600\`,
+      alt: \`Random image \${i + 1}\`,
+    })),
+    []
+  );
+
+  const [preloaded, setPreloaded] = useState<Set<number>>(new Set());
+
+  // Preload next set of images for smoother scrolling
+  const preloadNext = useCallback((id: number) => {
+    const nextIds = [id + 1, id + 2, id + 3];
+    nextIds.forEach((nextId) => {
+      if (nextId <= images.length && !preloaded.has(nextId)) {
+        const img = new Image();
+        img.src = images[nextId - 1].src;
+        setPreloaded((prev) => new Set(prev).add(nextId));
+      }
+    });
+  }, [images, preloaded]);
+
+  return (
+    <div className="gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1rem" }}>
+      {images.map((image) => (
+        <div key={image.id} style={{ aspectRatio: "4/3" }}>
+          <LazyImage
+            src={image.src}
+            alt={image.alt}
+            preloadMargin="200px 0px"
+            threshold={0.2}
+            className="gallery-image"
+            onLoad={() => preloadNext(image.id)}
+            style={{ width: "100%", height: "100%", borderRadius: "8px" }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default LazyImage;
+      </code></pre>
+    </div>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Performance Considerations
+    </h4>
+
+    <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+      <li style="margin-top: 0.25rem;">
+        <strong>Preload margin:</strong> Start loading images 100-200px before they enter the viewport for a seamless experience.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Memory management:</strong> Clean up IntersectionObservers when components unmount to prevent memory leaks.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Image dimensions:</strong> Always specify image dimensions (or use aspect-ratio) to prevent layout shift.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Batch loading:</strong> Use intersection observer's batch loading to optimize network usage.
+      </li>
+      <li style="margin-top: 0.25rem;">
+        <strong>Progressive enhancement:</strong> Use <code>loading="lazy"</code> as a fallback for older browsers.
+      </li>
+    </ol>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Interview Questions
+    </h4>
+
+    <div style="margin-top: 1rem;">
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "What is lazy loading and why is it important for performance?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Lazy loading is a technique where images (or other resources) are loaded only when they're needed — typically when 
+          they enter the viewport. It's important because: (1) <strong>Faster initial load:</strong> Only above-the-fold content 
+          loads first, (2) <strong>Reduced data usage:</strong> Users only download images they actually see, (3) <strong>Better 
+          perceived performance:</strong> Pages become interactive faster, (4) <strong>Improved Core Web Vitals:</strong> LCP 
+          and FID improve significantly, (5) <strong>Bandwidth efficiency:</strong> Saves bandwidth, especially on mobile networks, 
+          (6) <strong>Server load reduction:</strong> Fewer images requested upfront, (7) <strong>User experience:</strong> Faster 
+          time to interactive and smoother scrolling.
+        </p>
+      </div>
+
+      <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+        <p style="font-weight: 600;">Q: "How does the IntersectionObserver API work for lazy loading?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          IntersectionObserver is a native browser API that asynchronously observes changes in the intersection of a target 
+          element with an ancestor element or the viewport. For lazy loading: (1) Create an observer with a callback that 
+          fires when elements intersect, (2) Set options like <code>threshold</code> (percentage of element visible) and 
+          <code>rootMargin</code> (preload margin), (3) Observe each image element that needs lazy loading, (4) When the 
+          callback fires, check if the element is intersecting, (5) If intersecting, set the image's <code>src</code> to load it, 
+          (6) Unobserve the element after loading to free resources. This is more efficient than scroll events because it 
+          runs in the browser's rendering pipeline and doesn't cause layout thrashing.
+        </p>
+      </div>
+
+      <div style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">
+        <p style="font-weight: 600;">Q: "What are the different lazy loading strategies and when would you use each?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Different strategies include: (1) <strong>Native lazy loading:</strong> Use <code>loading="lazy"</code> attribute — 
+          simplest, no JavaScript, but limited control and no placeholders, (2) <strong>IntersectionObserver-based:</strong> 
+          Most flexible, supports placeholders and preloading, (3) <strong>Scroll event-based:</strong> Older approach with 
+          <code>window.addEventListener('scroll')</code> — works everywhere but needs throttling, (4) <strong>Framework-specific:</strong> 
+          Next.js Image, Gatsby Image, etc. — comprehensive solutions with built-in optimizations. Use native lazy for simple 
+          pages, IntersectionObserver for complex UIs with placeholders, and framework-specific for production apps with SSR.
+        </p>
+      </div>
+
+      <div style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">
+        <p style="font-weight: 600;">Q: "How do you handle accessibility with lazy images?"</p>
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Accessibility considerations: (1) <strong>Alt text:</strong> Always provide descriptive alt text, (2) <strong>Loading 
+          announcements:</strong> Use <code>aria-live</code> to announce loading status for screen readers, (3) <strong>Placeholder 
+          labels:</strong> Add <code>aria-label</code> or hidden text to placeholders, (4) <strong>Focus management:</strong> 
+          Don't remove focus from the image container during loading, (5) <strong>Reduced motion:</strong> Respect 
+          <code>prefers-reduced-motion</code> for animations, (6) <strong>Progressive enhancement:</strong> Ensure images load 
+          even if JavaScript fails, (7) <strong>Keyboard navigation:</strong> Ensure lazy images are accessible via keyboard 
+          navigation if they're interactive. Use <code>&lt;img alt="..." /&gt;</code> for all images.
+        </p>
+      </div>
+    </div>
+  </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API",
+              "https://web.dev/lazy-loading-images/",
+              "https://developer.mozilla.org/en-US/docs/Web/HTML/Attribute/loading",
+            ],
+          },
+          {
+            topic: "Web Workers",
+            tags: ["React", "Performance", "JavaScript", "Multithreading"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Web Workers (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Web Workers</strong> are a browser API that allows you to run JavaScript in background threads, 
+        separate from the main thread (UI thread). They enable true parallel execution of CPU-intensive tasks 
+        without blocking the user interface, making them essential for performance-critical applications like 
+        data processing, image manipulation, and complex calculations.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Web Workers demonstrate your understanding of browser threading, 
+        performance optimization, and handling complex computations without freezing the UI. Interviewers ask 
+        about them to gauge your ability to architect performant applications and handle real-world performance 
+        challenges.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        How Web Workers Work
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Main Thread</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Web Worker</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Purpose</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">UI rendering, event handling, DOM manipulation</td>
+          <td style="border: 1px solid black; padding: 8px;">CPU-intensive computation, background tasks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>DOM Access</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Yes</td>
+          <td style="border: 1px solid black; padding: 8px;">No</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Communication</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>postMessage()</code> / <code>onmessage</code></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>postMessage()</code> / <code>onmessage</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Shared State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Global scope</td>
+          <td style="border: 1px solid black; padding: 8px;">No direct sharing — only via message passing</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>UI Blocking</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Can block UI</td>
+          <td style="border: 1px solid black; padding: 8px;">Never blocks UI</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Types of Web Workers
+      </h4>
+
+      <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+        <li style="margin-top: 0.25rem;">
+          <strong>Dedicated Workers:</strong> Single-threaded, attached to the main thread that created them.
+          Used for most CPU-intensive tasks.
+        </li>
+        <li style="margin-top: 0.25rem;">
+          <strong>Shared Workers:</strong> Shareable across multiple tabs/windows with the same origin.
+          Useful for shared state and communication.
+        </li>
+        <li style="margin-top: 0.25rem;">
+          <strong>Service Workers:</strong> Act as proxy between network and browser, enabling offline support,
+          push notifications, and caching. Not typically used for computation.
+        </li>
+      </ol>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Web Worker with React
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== worker.ts — The Worker Script ======
+/// &lt;reference lib="webworker" /&gt;
+
+// Define message types for type safety
+interface WorkerMessage {
+  type: "process-data" | "calculate" | "filter";
+  payload: any;
+  id: string;
+}
+
+interface WorkerResponse {
+  type: "result" | "error" | "progress";
+  id: string;
+  data?: any;
+  error?: string;
+  progress?: number;
+}
+
+// Self is the worker's global scope
+const ctx: Worker = self as any;
+
+// CPU-intensive function — heavy computation
+function processData(data: number[]): number[] {
+  // Simulate heavy computation
+  let result: number[] = [];
+  for (let i = 0; i < data.length; i++) {
+    // Heavy math operation
+    let value = data[i];
+    for (let j = 0; j < 1000; j++) {
+      value = Math.sqrt(value * j + Math.PI) / (j + 1);
+    }
+    result.push(value);
+    // Send progress every 10%
+    if (i % Math.floor(data.length / 10) === 0) {
+      ctx.postMessage({
+        type: "progress",
+        id: "progress",
+        progress: Math.round((i / data.length) * 100),
+      } as WorkerResponse);
+    }
+  }
+  return result;
+}
+
+// Filter large dataset
+function filterData(data: any[], filterFn: string): any[] {
+  // Convert string filter to function
+  const fn = new Function('item', \`return \${filterFn}\`);
+  return data.filter(fn);
+}
+
+// Calculate statistics
+function calculateStats(data: number[]): {
+  sum: number;
+  average: number;
+  min: number;
+  max: number;
+  count: number;
+} {
+  if (data.length === 0) {
+    return { sum: 0, average: 0, min: 0, max: 0, count: 0 };
+  }
+  const sum = data.reduce((a, b) => a + b, 0);
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  return {
+    sum,
+    average: sum / data.length,
+    min,
+    max,
+    count: data.length,
+  };
+}
+
+// Message handler
+ctx.addEventListener("message", (event: MessageEvent&lt;WorkerMessage&gt;) => {
+  const { type, payload, id } = event.data;
+
+  try {
+    let result: any;
+
+    switch (type) {
+      case "process-data":
+        result = processData(payload);
+        break;
+      case "calculate":
+        result = calculateStats(payload);
+        break;
+      case "filter":
+        result = filterData(payload.data, payload.filterFn);
+        break;
+      default:
+        throw new Error(\`Unknown message type: \${type}\`);
+    }
+
+    ctx.postMessage({
+      type: "result",
+      id,
+      data: result,
+    } as WorkerResponse);
+  } catch (error) {
+    ctx.postMessage({
+      type: "error",
+      id,
+      error: error instanceof Error ? error.message : "Unknown error",
+    } as WorkerResponse);
+  }
+});
+
+export {}; // Required for module support
+
+// ====== useWorker Hook ======
+import { useState, useCallback, useRef, useEffect } from "react";
+
+interface WorkerOptions {
+  onMessage?: (data: any) => void;
+  onError?: (error: Error) => void;
+  onProgress?: (progress: number) => void;
+}
+
+interface WorkerRequest {
+  type: string;
+  payload: any;
+}
+
+function useWorker(workerUrl: string, options: WorkerOptions = {}) {
+  const [isReady, setIsReady] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState&lt;Error | null&gt;(null);
+  const workerRef = useRef&lt;Worker | null&gt;(null);
+  const pendingRequests = useRef&lt;Map&lt;string, {
+    resolve: (value: any) => void;
+    reject: (error: Error) => void;
+  }&gt;&gt;(new Map());
+
+  // Initialize worker
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    try {
+      const worker = new Worker(workerUrl);
+      workerRef.current = worker;
+
+      worker.onmessage = (event: MessageEvent) => {
+        const { type, id, data, error: errorMsg, progress } = event.data;
+
+        if (type === "progress" && options.onProgress) {
+          options.onProgress(progress);
+          return;
+        }
+
+        const pending = pendingRequests.current.get(id);
+        if (pending) {
+          if (type === "result") {
+            pending.resolve(data);
+            if (options.onMessage) {
+              options.onMessage(data);
+            }
+          } else if (type === "error") {
+            const err = new Error(errorMsg || "Worker error");
+            pending.reject(err);
+            if (options.onError) {
+              options.onError(err);
+            }
+          }
+          pendingRequests.current.delete(id);
+        }
+      };
+
+      worker.onerror = (event) => {
+        const error = new Error(\`Worker error: \${event.message}\`);
+        setError(error);
+        if (options.onError) {
+          options.onError(error);
+        }
+        // Reject all pending requests
+        pendingRequests.current.forEach((pending) => {
+          pending.reject(error);
+        });
+        pendingRequests.current.clear();
+      };
+
+      setIsReady(true);
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error("Failed to create worker");
+      setError(error);
+      if (options.onError) {
+        options.onError(error);
+      }
+    }
+
+    return () => {
+      if (workerRef.current) {
+        workerRef.current.terminate();
+        workerRef.current = null;
+      }
+      pendingRequests.current.clear();
+    };
+  }, [workerUrl, options.onMessage, options.onError, options.onProgress]);
+
+  // Post message to worker
+  const postMessage = useCallback((request: WorkerRequest): Promise&lt;any&gt; => {
+    return new Promise((resolve, reject) => {
+      if (!workerRef.current || !isReady) {
+        reject(new Error("Worker is not ready"));
+        return;
+      }
+
+      const id = Math.random().toString(36).substring(7);
+      pendingRequests.current.set(id, { resolve, reject });
+
+      setIsProcessing(true);
+      setError(null);
+
+      try {
+        workerRef.current.postMessage({ ...request, id });
+      } catch (err) {
+        pendingRequests.current.delete(id);
+        setIsProcessing(false);
+        const error = err instanceof Error ? err : new Error("Failed to post message");
+        setError(error);
+        reject(error);
+      }
+    });
+  }, [isReady]);
+
+  // Abort all pending requests
+  const abort = useCallback(() => {
+    pendingRequests.current.forEach((pending) => {
+      pending.reject(new Error("Request aborted"));
+    });
+    pendingRequests.current.clear();
+    setIsProcessing(false);
+  }, []);
+
+  return {
+    postMessage,
+    abort,
+    isReady,
+    isProcessing,
+    error,
+  };
+}
+
+// ====== React Component Using Web Worker ======
+function DataProcessor() {
+  const [data, setData] = useState&lt;number[]&gt;([]);
+  const [result, setResult] = useState&lt;number[]&gt;([]);
+  const [stats, setStats] = useState&lt;any&gt;(null);
+  const [progress, setProgress] = useState(0);
+  const [filterText, setFilterText] = useState("");
+
+  const worker = useWorker("/worker.js", {
+    onProgress: (progress) => setProgress(progress),
+    onMessage: (data) => console.log("Worker returned:", data),
+    onError: (error) => console.error("Worker error:", error),
+  });
+
+  // Generate sample data
+  const generateData = useCallback(() => {
+    const newData = Array.from({ length: 100000 }, () => Math.random() * 1000);
+    setData(newData);
+  }, []);
+
+  // Process data in worker
+  const processData = useCallback(async () => {
+    if (!data.length) return;
+
+    try {
+      setProgress(0);
+      const result = await worker.postMessage({
+        type: "process-data",
+        payload: data,
+      });
+      setResult(result);
+    } catch (error) {
+      console.error("Processing failed:", error);
+    }
+  }, [data, worker]);
+
+  // Calculate stats in worker
+  const calculateStats = useCallback(async () => {
+    if (!data.length) return;
+
+    try {
+      const result = await worker.postMessage({
+        type: "calculate",
+        payload: data,
+      });
+      setStats(result);
+    } catch (error) {
+      console.error("Stats calculation failed:", error);
+    }
+  }, [data, worker]);
+
+  // Filter in worker
+  const filterData = useCallback(async () => {
+    if (!data.length) return;
+
+    try {
+      const result = await worker.postMessage({
+        type: "filter",
+        payload: {
+          data,
+          filterFn: \`item > \${parseFloat(filterText) || 0}\`,
+        },
+      });
+      setResult(result);
+    } catch (error) {
+      console.error("Filtering failed:", error);
+    }
+  }, [data, filterText, worker]);
+
+  return (
+    <div>
+      <h2>Data Processor with Web Worker</h2>
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={generateData} disabled={worker.isProcessing}>
+          Generate 100,000 Random Numbers
+        </button>
+        <span style={{ marginLeft: "1rem" }}>
+          {data.length > 0 && \`\${data.length} numbers loaded\`}
+        </span>
+      </div>
+
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={processData} disabled={worker.isProcessing || !data.length}>
+          Process Data
+        </button>
+        <button onClick={calculateStats} disabled={worker.isProcessing || !data.length}>
+          Calculate Stats
+        </button>
+        <input
+          type="number"
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+          placeholder="Filter value"
+          style={{ marginLeft: "0.5rem" }}
+        />
+        <button onClick={filterData} disabled={worker.isProcessing || !data.length}>
+          Filter Data
+        </button>
+      </div>
+
+      {worker.isProcessing && (
+        <div>
+          <progress value={progress} max={100} style={{ width: "100%" }} />
+          <span>Processing... {progress}%</span>
+        </div>
+      )}
+
+      {worker.error && (
+        <div style={{ color: "red", marginTop: "1rem" }}>
+          Error: {worker.error.message}
+        </div>
+      )}
+
+      <div style={{ marginTop: "1rem" }}>
+        <h3>Results</h3>
+        {stats && (
+          <div>
+            <p>Sum: {stats.sum.toFixed(2)}</p>
+            <p>Average: {stats.average.toFixed(2)}</p>
+            <p>Min: {stats.min.toFixed(2)}</p>
+            <p>Max: {stats.max.toFixed(2)}</p>
+            <p>Count: {stats.count}</p>
+          </div>
+        )}
+        {result.length > 0 && (
+          <div>
+            <p>Result Count: {result.length}</p>
+            <div style={{ maxHeight: "200px", overflow: "auto", fontSize: "0.75rem" }}>
+              {result.slice(0, 50).map((value, i) => (
+                <span key={i}>{value.toFixed(2)} </span>
+              ))}
+              {result.length > 50 && "..."}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default DataProcessor;
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        When to Use Web Workers
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why Use Worker</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Alternative</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Data Processing</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Large arrays, heavy math operations</td>
+          <td style="border: 1px solid black; padding: 8px;">Reduce data size, optimize algorithms</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Image/Video Processing</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Pixel manipulation, filters, compression</td>
+          <td style="border: 1px solid black; padding: 8px;">Canvas, OffscreenCanvas, WebGL</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Data Parsing</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">CSV/JSON parsing, XML parsing</td>
+          <td style="border: 1px solid black; padding: 8px;">Streaming parsers, chunking</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Machine Learning</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Inference, training (limited)</td>
+          <td style="border: 1px solid black; padding: 8px;">TensorFlow.js, WebGL</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Crypto</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Hashing, encryption/decryption</td>
+          <td style="border: 1px solid black; padding: 8px;">Web Crypto API</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are Web Workers and when would you use them in a React application?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Web Workers are browser APIs that run JavaScript in background threads, separate from the main UI thread. 
+            They're ideal for CPU-intensive tasks that would otherwise block the UI, such as: (1) Processing large datasets 
+            (e.g., filtering, sorting, transforming arrays), (2) Image manipulation (resizing, filtering, compression), 
+            (3) Data parsing (CSV, JSON, XML), (4) Complex calculations (statistics, simulations), (5) Machine learning 
+            inference. In React, use them when you need to perform heavy computations without freezing the UI, especially 
+            for features like data dashboards, image editors, or data analysis tools.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the limitations of Web Workers?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Key limitations include: (1) <strong>No DOM access:</strong> Workers can't manipulate the DOM directly, 
+            (2) <strong>Limited APIs:</strong> Only a subset of browser APIs are available (no window, document, or 
+            localStorage), (3) <strong>Message passing overhead:</strong> Data is copied via structured cloning, which 
+            can be expensive for large objects, (4) <strong>No shared memory:</strong> SharedArrayBuffer is available 
+            but requires cross-origin isolation, (5) <strong>Browser support:</strong> Modern browsers support them, 
+            but older browsers may not, (6) <strong>Debugging complexity:</strong> Debugging workers is more complex 
+            than main-thread code, (7) <strong>Response latency:</strong> Message passing adds a small delay between 
+            request and response.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle data transfer between main thread and worker efficiently?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Efficient data transfer strategies: (1) <strong>Structured cloning:</strong> Default approach, copies data 
+            (good for small datasets), (2) <strong>Transferable objects:</strong> Use <code>postMessage(data, [transferList])</code> 
+            to transfer ownership of ArrayBuffers (zero-copy transfer), (3) <strong>SharedArrayBuffer:</strong> Shared 
+            memory with atomic operations, requires cross-origin isolation, (4) <strong>Streaming:</strong> Process 
+            data in chunks to avoid transferring large objects, (5) <strong>Progress updates:</strong> Send incremental 
+            results to keep UI updated, (6) <strong>Buffering:</strong> Use typed arrays for numeric data, which are 
+            more efficient than plain arrays. For large datasets, prefer transferable objects or streaming to minimize 
+            memory overhead.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What's the difference between Web Workers, Service Workers, and Shared Workers?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Web Workers (Dedicated):</strong> Single-threaded, attached to the main thread that created them. 
+            Used for CPU-intensive tasks. Each worker is isolated and has its own memory. <strong>Service Workers:</strong> 
+            Act as a network proxy, intercepting requests and enabling offline support, push notifications, and caching. 
+            They don't compute — they manage network and storage. They can intercept and cache network requests, work 
+            offline, and handle push notifications. <strong>Shared Workers:</strong> Shareable across multiple tabs/windows 
+            with the same origin. Useful for shared state and communication between tabs. They survive as long as any 
+            tab is connected to them.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you test code that uses Web Workers?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Testing strategies: (1) <strong>Mock Workers:</strong> Use <code>jest-mock</code> or create fake workers 
+            that simulate behavior, (2) <strong>Separate business logic:</strong> Keep computation logic separate from 
+            worker-specific code so it's testable without the worker, (3) <strong>Integration tests:</strong> Test the 
+            full worker flow in a headless browser (using Jest with jsdom or Puppeteer), (4) <strong>Message validation:</strong> 
+            Test that messages are properly formatted and handled, (5) <strong>Error handling:</strong> Test error paths 
+            and rejection flows, (6) <strong>Progress updates:</strong> Test that progress messages are sent correctly, 
+            (7) <strong>Worker lifecycle:</strong> Test initialization, termination, and cleanup. Use a combination of 
+            unit tests (pure functions) and integration tests (worker communication).
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API",
+              "https://web.dev/workers/",
+              "https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API",
+            ],
+          },
+          {
+            topic: "Performance Profiling",
+            tags: ["React", "Performance", "Debugging", "Optimization"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Performance Profiling (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Performance profiling</strong> is the process of measuring and analyzing your application's 
+        runtime performance to identify bottlenecks, optimize rendering, and improve user experience. It 
+        involves using browser DevTools, React's built-in profiling capabilities, and various performance 
+        metrics to understand where time is being spent and what can be optimized.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Performance profiling demonstrates your ability to diagnose 
+        and fix real-world performance issues. It shows you can measure before optimizing, identify actual 
+        bottlenecks, and make data-driven decisions. This is a critical skill for senior developers.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Key Performance Metrics
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Metric</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">What It Measures</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Target</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>LCP</strong> (Largest Contentful Paint)</td>
+          <td style="border: 1px solid black; padding: 8px;">Time to render largest visible content</td>
+          <td style="border: 1px solid black; padding: 8px;">≤ 2.5s</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>FID</strong> (First Input Delay)</td>
+          <td style="border: 1px solid black; padding: 8px;">Time to respond to first user interaction</td>
+          <td style="border: 1px solid black; padding: 8px;">≤ 100ms</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>CLS</strong> (Cumulative Layout Shift)</td>
+          <td style="border: 1px solid black; padding: 8px;">Visual stability during loading</td>
+          <td style="border: 1px solid black; padding: 8px;">≤ 0.1</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>FCP</strong> (First Contentful Paint)</td>
+          <td style="border: 1px solid black; padding: 8px;">Time to render first content</td>
+          <td style="border: 1px solid black; padding: 8px;">≤ 1.8s</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>TTI</strong> (Time to Interactive)</td>
+          <td style="border: 1px solid black; padding: 8px;">Time until page is fully interactive</td>
+          <td style="border: 1px solid black; padding: 8px;">≤ 3.8s</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>React Render Time</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Time spent in React render/commit phases</td>
+          <td style="border: 1px solid black; padding: 8px;">Minimize</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Performance Profiling Tools
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Tool</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Purpose</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Key Features</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Chrome DevTools</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">General profiling, network, rendering</td>
+          <td style="border: 1px solid black; padding: 8px;">Performance panel, Memory panel, Network panel</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>React DevTools Profiler</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">React-specific rendering analysis</td>
+          <td style="border: 1px solid black; padding: 8px;">Component render times, flame graph, commit details</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Lighthouse</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Comprehensive performance audits</td>
+          <td style="border: 1px solid black; padding: 8px;">Performance, accessibility, SEO, best practices</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Web Vitals</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Core Web Vitals measurement</td>
+          <td style="border: 1px solid black; padding: 8px;">LCP, FID, CLS tracking</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Performance API</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Programmatic performance measurement</td>
+          <td style="border: 1px solid black; padding: 8px;">Custom metrics, marks, measures</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Performance Monitoring Utilities
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== Performance Monitoring Utilities ======
+
+// ====== 1. Custom Performance Markers ======
+interface PerformanceMarker {
+  name: string;
+  startTime: number;
+  endTime?: number;
+  duration?: number;
+  metadata?: Record&lt;string, any&gt;;
+}
+
+class PerformanceMonitor {
+  private static instance: PerformanceMonitor;
+  private markers: Map&lt;string, PerformanceMarker&gt; = new Map();
+  private enabled = process.env.NODE_ENV === "development";
+
+  static getInstance(): PerformanceMonitor {
+    if (!PerformanceMonitor.instance) {
+      PerformanceMonitor.instance = new PerformanceMonitor();
+    }
+    return PerformanceMonitor.instance;
+  }
+
+  startMarker(name: string, metadata?: Record&lt;string, any&gt;) {
+    if (!this.enabled) return;
+
+    this.markers.set(name, {
+      name,
+      startTime: performance.now(),
+      metadata,
+    });
+
+    // Use native performance API for DevTools integration
+    performance.mark(\`start:\${name}\`);
+  }
+
+  endMarker(name: string, metadata?: Record&lt;string, any&gt;) {
+    if (!this.enabled) return;
+
+    const marker = this.markers.get(name);
+    if (!marker) {
+      console.warn(\`Marker "\${name}" not found\`);
+      return;
+    }
+
+    const endTime = performance.now();
+    const duration = endTime - marker.startTime;
+
+    marker.endTime = endTime;
+    marker.duration = duration;
+    marker.metadata = { ...marker.metadata, ...metadata };
+
+    performance.mark(\`end:\${name}\`);
+    performance.measure(name, \`start:\${name}\`, \`end:\${name}\`);
+
+    // Log if duration exceeds threshold
+    if (duration > 100) {
+      console.warn(\`Performance: "\${name}" took \${duration.toFixed(2)}ms\`);
+    }
+
+    this.markers.delete(name);
+    return { ...marker, duration };
+  }
+
+  // Get all completed measurements
+  getMeasurements() {
+    return performance.getEntriesByType("measure");
+  }
+
+  // Clear all measurements
+  clearMeasurements() {
+    performance.clearMarks();
+    performance.clearMeasures();
+    this.markers.clear();
+  }
+}
+
+// ====== 2. React Performance Hooks ======
+import { useEffect, useRef, useCallback } from "react";
+
+function useRenderTracking(componentName: string) {
+  const renderCount = useRef(0);
+  const mountTime = useRef(performance.now());
+
+  useEffect(() => {
+    renderCount.current += 1;
+    
+    // Track render time
+    if (process.env.NODE_ENV === "development") {
+      const monitor = PerformanceMonitor.getInstance();
+      monitor.startMarker(\`\${componentName}.render\`, {
+        renderCount: renderCount.current,
+      });
+      
+      return () => {
+        monitor.endMarker(\`\${componentName}.render\`, {
+          totalRenders: renderCount.current,
+        });
+      };
+    }
+  });
+
+  useEffect(() => {
+    // Track mount duration
+    const duration = performance.now() - mountTime.current;
+    if (process.env.NODE_ENV === "development" && duration > 50) {
+      console.warn(\`\${componentName} mounted in \${duration.toFixed(2)}ms\`);
+    }
+  }, []);
+}
+
+// ====== 3. Performance Monitoring Hook ======
+interface PerformanceHookOptions {
+  logThreshold?: number;
+  enabled?: boolean;
+}
+
+function usePerformanceMonitor(
+  componentName: string,
+  options: PerformanceHookOptions = {}
+) {
+  const { logThreshold = 100, enabled = process.env.NODE_ENV === "development" } = options;
+  const renderCount = useRef(0);
+  const totalRenderTime = useRef(0);
+
+  const startRender = useCallback(() => {
+    if (!enabled) return () => {};
+    renderCount.current += 1;
+    const startTime = performance.now();
+
+    return () => {
+      const duration = performance.now() - startTime;
+      totalRenderTime.current += duration;
+
+      // Log slow renders
+      if (duration > logThreshold) {
+        console.warn(
+          \`\${componentName} render #\${renderCount.current} took \${duration.toFixed(2)}ms\`
+        );
+      }
+
+      // Track average render time
+      const avg = totalRenderTime.current / renderCount.current;
+      console.debug(
+        \`\${componentName}: avg render time \${avg.toFixed(2)}ms (\${renderCount.current} renders)\`
+      );
+    };
+  }, [componentName, logThreshold, enabled]);
+
+  const getStats = useCallback(() => {
+    return {
+      renderCount: renderCount.current,
+      totalRenderTime: totalRenderTime.current,
+      averageRenderTime: renderCount.current > 0
+        ? totalRenderTime.current / renderCount.current
+        : 0,
+    };
+  }, []);
+
+  return { startRender, getStats };
+}
+
+// ====== 4. Component Tracking HOC ======
+function withPerformanceTracking&lt;P extends object&gt;(
+  Component: React.ComponentType&lt;P&gt;,
+  componentName: string
+) {
+  return function TrackedComponent(props: P) {
+    const monitor = PerformanceMonitor.getInstance();
+    const renderId = useRef(\`\${componentName}-\${Math.random().toString(36).substring(7)}\`);
+
+    useEffect(() => {
+      monitor.startMarker(\`render:\${renderId.current}\`);
+      return () => {
+        monitor.endMarker(\`render:\${renderId.current}\`);
+      };
+    });
+
+    return &lt;Component {...props} /&gt;;
+  };
+}
+
+// ====== 5. Custom Performance Hooks ======
+function useDebouncePerformance<T>(value: T, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  const monitor = PerformanceMonitor.getInstance();
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      monitor.startMarker(\`debounce:\${delay}ms\`);
+      setDebouncedValue(value);
+      monitor.endMarker(\`debounce:\${delay}ms\`);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+// ====== 6. Performance Reporting ======
+interface PerformanceReport {
+  component: string;
+  renderCount: number;
+  totalTime: number;
+  averageTime: number;
+  slowRenders: Array<{
+    renderNumber: number;
+    duration: number;
+  }>;
+}
+
+class PerformanceReporter {
+  private reports: Map&lt;string, PerformanceReport&gt; = new Map();
+
+  report(component: string, duration: number) {
+    const report = this.reports.get(component) || {
+      component,
+      renderCount: 0,
+      totalTime: 0,
+      averageTime: 0,
+      slowRenders: [],
+    };
+
+    report.renderCount += 1;
+    report.totalTime += duration;
+    report.averageTime = report.totalTime / report.renderCount;
+
+    if (duration > 100) {
+      report.slowRenders.push({
+        renderNumber: report.renderCount,
+        duration,
+      });
+    }
+
+    this.reports.set(component, report);
+  }
+
+  getReport(): PerformanceReport[] {
+    return Array.from(this.reports.values());
+  }
+
+  generateSummary(): string {
+    const report = this.getReport();
+    const slowComponents = report.filter(r => r.averageTime > 50);
+
+    let summary = "=== Performance Summary ===\\n";
+    summary += \`Total components tracked: \${report.length}\\n\`;
+    summary += \`Slow components (>50ms avg): \${slowComponents.length}\\n\\n\`;
+
+    if (slowComponents.length > 0) {
+      summary += "=== Slow Components ===\\n";
+      slowComponents
+        .sort((a, b) => b.averageTime - a.averageTime)
+        .forEach(r => {
+          summary += \`\${r.component}: avg \${r.averageTime.toFixed(2)}ms (\${r.renderCount} renders)\\n\`;
+          r.slowRenders.forEach(sr => {
+            summary += \`  - Render #\${sr.renderNumber}: \${sr.duration.toFixed(2)}ms\\n\`;
+          });
+        });
+    }
+
+    return summary;
+  }
+
+  clear() {
+    this.reports.clear();
+  }
+}
+
+export {
+  PerformanceMonitor,
+  useRenderTracking,
+  usePerformanceMonitor,
+  withPerformanceTracking,
+  useDebouncePerformance,
+  PerformanceReporter,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Using Chrome DevTools Performance Panel
+      </h4>
+
+      <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+        <li style="margin-top: 0.5rem;">
+          <strong>Open DevTools:</strong> Right-click → Inspect → Performance tab.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Record:</strong> Click the record button and interact with your app.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Stop Recording:</strong> Analyze the flame graph, summary, and event timings.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Look for:</strong> Long tasks (>50ms), layout thrashing, large function calls.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>CPU throttling:</strong> Simulate slow devices for realistic testing.
+        </li>
+      </ol>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What tools do you use for performance profiling in React applications?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            I use a combination of tools: (1) <strong>Chrome DevTools Performance Panel:</strong> For analyzing 
+            main thread activity, long tasks, layout thrashing, and overall CPU usage, (2) <strong>React DevTools Profiler:</strong> 
+            For examining React-specific rendering, component render times, commit phases, and identifying components 
+            that re-render unnecessarily, (3) <strong>Lighthouse:</strong> For comprehensive performance audits and 
+            Core Web Vitals measurement, (4) <strong>Web Vitals library:</strong> For tracking LCP, FID, and CLS in 
+            production, (5) <strong>Custom performance monitoring:</strong> Using Performance API to track custom 
+            metrics and identify bottlenecks. I also use CPU throttling to test on slower devices.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you identify unnecessary re-renders in React?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Methods to identify unnecessary re-renders: (1) <strong>React DevTools Profiler:</strong> Record a 
+            session and check which components re-rendered and why, (2) <strong>Highlight updates:</strong> Use 
+            React DevTools "Highlight updates when components render" option to see visual feedback, (3) <strong>Why Did You Render:</strong> 
+            Install the <code>why-did-you-render</code> library to log unnecessary re-renders, (4) <strong>Console logs:</strong> 
+            Add logs in components to track renders, (5) <strong>Performance monitor:</strong> Use custom hooks to 
+            track render counts and durations, (6) <strong>Memoization analysis:</strong> Check if <code>React.memo</code>, 
+            <code>useMemo</code>, and <code>useCallback</code> are working effectively, (7) <strong>Profiler API:</strong> 
+            Use the <code>&lt;Profiler /&gt;</code> component to programmatically track render performance.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the signs of performance issues in a React app?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Signs include: (1) <strong>Slow initial load:</strong> Long Time to Interactive (TTI), (2) <strong>Janky scrolling:</strong> 
+            Frames drop during scroll, (3) <strong>Slow input responsiveness:</strong> Typing feels laggy, (4) <strong>High CPU usage:</strong> 
+            Browser tab shows high CPU, (5) <strong>Layout shifts:</strong> Elements jump during loading (high CLS), 
+            (6) <strong>Long tasks:</strong> Tasks > 50ms on main thread, (7) <strong>Excessive re-renders:</strong> 
+            Components re-rendering unnecessarily, (8) <strong>Large bundle sizes:</strong> Heavy JavaScript bundles 
+            causing slow parse/compile, (9) <strong>Memory leaks:</strong> Memory usage increases over time, (10) <strong>Slow network:</strong> 
+            Large assets or too many requests.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you approach fixing performance issues once identified?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            My approach: (1) <strong>Measure first:</strong> Always profile before making changes, (2) <strong>Prioritize:</strong> 
+            Focus on the biggest bottlenecks first (usually LCP and TTI issues), (3) <strong>Code splitting:</strong> 
+            Use <code>React.lazy</code> and Suspense to split bundles, (4) <strong>Memoization:</strong> Use 
+            <code>React.memo</code>, <code>useMemo</code>, and <code>useCallback</code> to prevent unnecessary renders, 
+            (5) <strong>Virtualization:</strong> Use <code>react-window</code> for large lists, (6) <strong>Image optimization:</strong> 
+            Use modern formats, responsive images, lazy loading, (7) <strong>Reduce bundle size:</strong> Tree shake, 
+            remove unused dependencies, use smaller libraries, (8) <strong>Optimize re-renders:</strong> State colocation, 
+            moving state down, (9) <strong>Web Workers:</strong> Move CPU-intensive work off the main thread, (10) <strong>CDN & caching:</strong> 
+            Use CDN for assets, set appropriate cache headers. Always re-measure after each change to verify improvement.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the performance API and how can you use it in React?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            The Performance API is a browser API for measuring and monitoring performance. In React, you can use it to: 
+            (1) <strong>Custom metrics:</strong> Use <code>performance.mark()</code> and <code>performance.measure()</code> 
+            to time specific operations, (2) <strong>Component tracking:</strong> Time component mount, render, and 
+            update durations, (3) <strong>User interactions:</strong> Measure time between user action and UI update, 
+            (4) <strong>Network requests:</strong> Time API calls and data loading, (5) <strong>Custom hooks:</strong> 
+            Create hooks like <code>usePerformanceMonitor</code> to track component performance, (6) <strong>Integration:</strong> 
+            Send performance data to analytics for production monitoring, (7) <strong>Debugging:</strong> Log slow 
+            operations in development. The API is supported in all modern browsers and provides high-resolution timings.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://web.dev/performance-scoring/",
+              "https://developer.mozilla.org/en-US/docs/Web/API/Performance_API",
+              "https://react.dev/reference/react/Profiler",
+            ],
+          },
+          {
+            topic: "React DevTools Profiler",
+            tags: ["React", "Performance", "Debugging", "DevTools"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        React DevTools Profiler (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        The <strong>React DevTools Profiler</strong> is a built-in tool within React DevTools that allows you 
+        to measure and analyze the performance of React components. It provides a visual representation of 
+        rendering behavior, showing exactly which components rendered, how long they took, and why they 
+        rendered — making it invaluable for identifying performance bottlenecks and optimizing React applications.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> The React DevTools Profiler is the primary tool for diagnosing 
+        React-specific performance issues. Interviewers ask about it to gauge your ability to identify and fix 
+        common performance problems like unnecessary re-renders, slow components, and inefficient rendering patterns.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Profiler Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Flame Graph</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Visual timeline showing component render hierarchy</td>
+          <td style="border: 1px solid black; padding: 8px;">Identify which components rendered and their render time</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Ranked Chart</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Components sorted by render duration</td>
+          <td style="border: 1px solid black; padding: 8px;">Find the slowest components to optimize</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Component Timeline</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Detailed view of a single component's renders</td>
+          <td style="border: 1px solid black; padding: 8px;">Analyze specific component performance</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Why Did This Render?</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Shows the reason for each render</td>
+          <td style="border: 1px solid black; padding: 8px;">Identify unnecessary re-renders</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Render Duration</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Time spent in render and commit phases</td>
+          <td style="border: 1px solid black; padding: 8px;">Measure optimization impact</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Using the React DevTools Profiler
+      </h4>
+
+      <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+        <li style="margin-top: 0.5rem;">
+          <strong>Install React DevTools:</strong> Chrome/Firefox extension or standalone app.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Open DevTools:</strong> Navigate to the Components tab and click the Profiler tab.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Start profiling:</strong> Click the record button and interact with your app.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Stop profiling:</strong> Click stop to analyze the recorded session.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Analyze the flame graph:</strong> View component render hierarchy and durations.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Check render reasons:</strong> Click any component to see why it rendered.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Filter and search:</strong> Focus on specific components or areas of interest.
+        </li>
+      </ol>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Programmatic Profiling
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import React, { Profiler, useCallback } from "react";
+
+// ====== 1. Profiler Component ======
+interface ProfilerData {
+  id: string;
+  phase: "mount" | "update" | "nested-update";
+  actualDuration: number;
+  baseDuration: number;
+  startTime: number;
+  commitTime: number;
+  interactions: Set&lt;any&gt;;
+}
+
+interface ProfilerTreeProps {
+  children: React.ReactNode;
+  onRender?: (data: ProfilerData) => void;
+}
+
+function PerformanceProfiler({ children, onRender }: ProfilerTreeProps) {
+  const handleRender = useCallback(
+    (
+      id: string,
+      phase: "mount" | "update" | "nested-update",
+      actualDuration: number,
+      baseDuration: number,
+      startTime: number,
+      commitTime: number,
+      interactions: Set&lt;any&gt;
+    ) => {
+      const data: ProfilerData = {
+        id,
+        phase,
+        actualDuration,
+        baseDuration,
+        startTime,
+        commitTime,
+        interactions,
+      };
+
+      // Log slow renders (over 16ms)
+      if (actualDuration > 16) {
+        console.warn(
+          \`[Profiler] \${id} (\${phase}) took \${actualDuration.toFixed(2)}ms\`,
+          { id, phase, actualDuration, baseDuration }
+        );
+      }
+
+      // Send to analytics in production
+      if (process.env.NODE_ENV === "production") {
+        // Send to analytics service
+        // analytics.track('react_profile', data);
+      }
+
+      onRender?.(data);
+    },
+    [onRender]
+  );
+
+  return &lt;Profiler id="App" onRender={handleRender}&gt;{children}&lt;/Profiler&gt;;
+}
+
+// ====== 2. Wrapper for Component-Level Profiling ======
+function withProfiler&lt;P extends object&gt;(
+  Component: React.ComponentType&lt;P&gt;,
+  componentName: string
+) {
+  return function ProfiledComponent(props: P) {
+    const onRender = useCallback((
+      id: string,
+      phase: "mount" | "update" | "nested-update",
+      actualDuration: number,
+      baseDuration: number,
+      startTime: number,
+      commitTime: number,
+      interactions: Set&lt;any&gt;
+    ) => {
+      // Only log if render takes significant time
+      if (actualDuration > 10) {
+        console.debug(
+          \`[\${componentName}] \${phase}: \${actualDuration.toFixed(2)}ms\`
+        );
+      }
+    }, [componentName]);
+
+    return (
+      &lt;Profiler id={componentName} onRender={onRender}&gt;
+        &lt;Component {...props} /&gt;
+      &lt;/Profiler&gt;
+    );
+  };
+}
+
+// ====== 3. Performance Dashboard Component ======
+interface PerformanceMetric {
+  component: string;
+  averageRenderTime: number;
+  renderCount: number;
+  totalRenderTime: number;
+  lastRenderTime: number;
+}
+
+function PerformanceDashboard() {
+  const [metrics, setMetrics] = useState&lt;Map&lt;string, PerformanceMetric&gt;&gt;(new Map());
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleRender = useCallback((data: ProfilerData) => {
+    setMetrics(prev => {
+      const newMetrics = new Map(prev);
+      const existing = newMetrics.get(data.id) || {
+        component: data.id,
+        averageRenderTime: 0,
+        renderCount: 0,
+        totalRenderTime: 0,
+        lastRenderTime: 0,
+      };
+
+      existing.renderCount += 1;
+      existing.totalRenderTime += data.actualDuration;
+      existing.averageRenderTime = existing.totalRenderTime / existing.renderCount;
+      existing.lastRenderTime = data.actualDuration;
+
+      newMetrics.set(data.id, existing);
+      return newMetrics;
+    });
+  }, []);
+
+  if (!isVisible) {
+    return (
+      &lt;button onClick={() => setIsVisible(true)}&gt;
+        Show Performance Dashboard
+      &lt;/button&gt;
+    );
+  }
+
+  const sortedMetrics = Array.from(metrics.values())
+    .sort((a, b) => b.averageRenderTime - a.averageRenderTime);
+
+  return (
+    &lt;div style={{
+      position: "fixed",
+      bottom: 20,
+      right: 20,
+      backgroundColor: "white",
+      border: "1px solid #ccc",
+      borderRadius: 8,
+      padding: 16,
+      maxWidth: 400,
+      maxHeight: 400,
+      overflow: "auto",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+      zIndex: 9999,
+    }}&gt;
+      &lt;h3 style={{ margin: 0, marginBottom: 12 }}&gt;Performance Dashboard&lt;/h3&gt;
+      &lt;button onClick={() => setIsVisible(false)} style={{ float: "right" }}&gt;Close&lt;/button&gt;
+      &lt;div style={{ marginTop: 8 }}&gt;
+        {sortedMetrics.map(metric => (
+          &lt;div
+            key={metric.component}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "4px 0",
+              borderBottom: "1px solid #eee",
+            }}
+          &gt;
+            &lt;span style={{ fontSize: 12 }}&gt;{metric.component}&lt;/span&gt;
+            &lt;span style={{
+              fontSize: 12,
+              fontWeight: metric.averageRenderTime > 16 ? "bold" : "normal",
+              color: metric.averageRenderTime > 16 ? "red" : "green",
+            }}&gt;
+              {metric.averageRenderTime.toFixed(2)}ms ({metric.renderCount} renders)
+            &lt;/span&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+      {sortedMetrics.length === 0 && (
+        &lt;p style={{ color: "#666", fontSize: 12 }}&gt;No metrics yet. Interact with the app.&lt;/p&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 4. Custom Hook: useProfiler ======
+function useProfiler(componentName: string, options: { threshold?: number } = {}) {
+  const { threshold = 16 } = options;
+  const renderCount = useRef(0);
+  const totalTime = useRef(0);
+
+  const onRender = useCallback((
+    id: string,
+    phase: "mount" | "update" | "nested-update",
+    actualDuration: number,
+    baseDuration: number,
+    startTime: number,
+    commitTime: number
+  ) => {
+    renderCount.current += 1;
+    totalTime.current += actualDuration;
+
+    if (actualDuration > threshold) {
+      console.warn(
+        \`[useProfiler] \${componentName} render #\${renderCount.current} took \${actualDuration.toFixed(2)}ms\`
+      );
+    }
+
+    // Return metrics for reporting
+    return {
+      renderCount: renderCount.current,
+      averageTime: totalTime.current / renderCount.current,
+    };
+  }, [componentName, threshold]);
+
+  return { onRender };
+}
+
+// ====== 5. Usage Example ======
+function App() {
+  return (
+    &lt;PerformanceProfiler&gt;
+      &lt;div&gt;
+        &lt;h1&gt;My App&lt;/h1&gt;
+        &lt;ProfiledComponent /&gt;
+        &lt;PerformanceDashboard /&gt;
+      &lt;/div&gt;
+    &lt;/PerformanceProfiler&gt;
+  );
+}
+
+// Example component with profiling
+const ProfiledComponent = withProfiler(function ProfiledComponent() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Profiled Component&lt;/h2&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() => setCount(c => c + 1)}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}, "ProfiledComponent");
+
+export { PerformanceProfiler, withProfiler, PerformanceDashboard, useProfiler };
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Common Performance Patterns to Detect
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pattern</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">How to Detect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Fix</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Unnecessary re-renders</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Components render when props/state unchanged</td>
+          <td style="border: 1px solid black; padding: 8px;">Use <code>React.memo</code>, <code>useMemo</code>, <code>useCallback</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Large render trees</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Many components render on every update</td>
+          <td style="border: 1px solid black; padding: 8px;">State colocation, component splitting</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Slow components</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Individual render time > 16ms</td>
+          <td style="border: 1px solid black; padding: 8px;">Optimize calculations, use <code>useMemo</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Prop drilling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Many components re-render from prop changes</td>
+          <td style="border: 1px solid black; padding: 8px;">Use Context, state management, component composition</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Expensive calculations</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Heavy operations on every render</td>
+          <td style="border: 1px solid black; padding: 8px;">Memoize with <code>useMemo</code>, move to worker</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you use the React DevTools Profiler to identify performance issues?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            I use the Profiler in several ways: (1) <strong>Record a session:</strong> Start profiling, interact 
+            with the app, then stop to analyze, (2) <strong>Flame graph:</strong> View the visual timeline to see 
+            which components rendered and the order, (3) <strong>Ranked chart:</strong> Sort by render duration to 
+            find the slowest components, (4) <strong>Render reasons:</strong> Click on any component to see why it 
+            rendered (props change, state change, context change, hook change), (5) <strong>Commit details:</strong> 
+            Examine what changes were made in each commit, (6) <strong>Filter:</strong> Focus on specific components 
+            or components that rendered unnecessarily, (7) <strong>Compare sessions:</strong> Profile before and 
+            after optimizations to measure impact.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What does the flame graph in React DevTools Profiler show?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            The flame graph shows the rendering hierarchy and timing of React components over time. Each bar 
+            represents a component render, with the width representing the render duration (or commit duration). 
+            The depth shows the component tree structure — parent components are at the top, children below. 
+            You can see: (1) Which components rendered, (2) How long each render took, (3) The order of rendering, 
+            (4) The relationship between components, (5) Which components rendered unnecessarily (bars with 
+            no visible UI change). The flame graph is color-coded to show mount vs update phases, and you can 
+            hover for detailed timing information.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you identify unnecessary re-renders using the Profiler?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            To identify unnecessary re-renders: (1) <strong>Look for frequent renders:</strong> Components that 
+            render on every state update when they don't need to, (2) <strong>Check render reasons:</strong> 
+            Click a component and check "Why did this render?" — it will show if props, state, or context changed, 
+            (3) <strong>Look for unchanged props:</strong> If a component's props haven't changed but it still 
+            re-rendered, that's unnecessary, (4) <strong>Highlight updates:</strong> Enable "Highlight updates 
+            when components render" in React DevTools to see visual feedback, (5) <strong>Check parent components:</strong> 
+            Often unnecessary re-renders come from parent components re-rendering, (6) <strong>Use the "Profiler" 
+            settings:</strong> Filter to show only components that re-rendered unnecessarily.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What's the difference between actualDuration and baseDuration in the Profiler?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>actualDuration:</strong> The actual time spent rendering the component and its children 
+            (including effects). This is what impacts user experience. <strong>baseDuration:</strong> The estimated 
+            time it would take to render the component and its children without memoization (<code>React.memo</code>). 
+            The difference between them shows the benefit of memoization. A large difference indicates that 
+            memoization is effective. A small difference or actualDuration > baseDuration indicates that 
+            memoization isn't helping much. The baseDuration is useful for estimating the cost of rendering 
+            in the worst case.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How can you programmatically use the React Profiler in production?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            You can programmatically use the Profiler by: (1) <strong>Using the &lt;Profiler /&gt; component:</strong> 
+            Wrap components with <code>&lt;Profiler id="..." onRender={...}&gt;</code> to capture performance data, 
+            (2) <strong>Custom hooks:</strong> Create hooks like <code>useProfiler</code> to track component 
+            performance, (3) <strong>Analytics integration:</strong> Send performance data to your analytics 
+            platform, (4) <strong>Performance dashboard:</strong> Build a UI to display real-time performance 
+            metrics, (5) <strong>Alerting:</strong> Set up alerts for slow renders, (6) <strong>A/B testing:</strong> 
+            Compare performance of different implementations. The Profiler API works in both development and 
+            production, but in production you typically want to sample data rather than collect everything to 
+            avoid performance overhead.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the most common React performance issues you've found with the Profiler?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Common issues I've found: (1) <strong>Unnecessary re-renders:</strong> Components re-rendering because 
+            parent state changed, (2) <strong>Expensive inline functions:</strong> New function references causing 
+            child components to re-render, (3) <strong>Large component trees:</strong> Too many components rendering 
+            on every update, (4) <strong>Expensive computations:</strong> Heavy calculations running on every render, 
+            (5) <strong>Context updates:</strong> Context changes causing too many consumers to re-render, (6) <strong>Prop drilling:</strong> 
+            Passing props through many levels causing cascading re-renders, (7) <strong>Slow initial mount:</strong> 
+            Large component trees taking too long to mount, (8) <strong>Memory leaks:</strong> Components holding 
+            onto references causing memory growth. Each issue has a specific fix, and the Profiler helps identify 
+            which issue you're dealing with.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/reference/react/Profiler",
+              "https://react.dev/learn/understanding-your-ui-as-a-tree",
+              "https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi",
+            ],
+          },
+          {
+            topic: "Avoiding Unnecessary Renders",
+            tags: ["React", "Performance", "Optimization"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Avoiding Unnecessary Renders (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Unnecessary re-renders</strong> occur when React components update their output (re-render) 
+        even though their props or state haven't meaningfully changed. This is a common performance issue 
+        in React applications, as each re-render triggers virtual DOM diffing and potentially DOM updates, 
+        wasting CPU cycles and hurting user experience.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> The ability to identify and fix unnecessary re-renders is a 
+        critical skill for building performant React applications. Interviewers ask about this to gauge your 
+        understanding of React's rendering behavior, memoization strategies, and component design patterns.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Why Components Re-render
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Trigger</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Explanation</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Prevention</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>State Change</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Any <code>setState</code> call triggers re-render</td>
+          <td style="border: 1px solid black; padding: 8px;">Only update state when necessary</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Props Change</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Parent re-renders, passing new props</td>
+          <td style="border: 1px solid black; padding: 8px;">Memoization, <code>React.memo</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Context Change</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Context value changes, all consumers re-render</td>
+          <td style="border: 1px solid black; padding: 8px;">Split context, memoize consumers</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Parent Re-render</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Parent component re-renders, children follow</td>
+          <td style="border: 1px solid black; padding: 8px;">React.memo, state colocation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Hook Changes</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>useCallback</code>, <code>useMemo</code> dependencies change</td>
+          <td style="border: 1px solid black; padding: 8px;">Stable dependencies, memoization</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Common Patterns That Cause Unnecessary Renders
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Inline Functions ======
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;Child 
+      onClick={() => console.log('clicked')} // New function on every render
+    /&gt;
+  );
+}
+
+// Fix: useCallback
+function Parent() {
+  const [count, setCount] = useState(0);
+  const handleClick = useCallback(() => console.log('clicked'), []);
+
+  return &lt;Child onClick={handleClick} /&gt;;
+}
+
+// ====== 2. Inline Objects ======
+function Parent() {
+  return &lt;Child style={{ margin: 10 }} /&gt;; // New object on every render
+}
+
+// Fix: extract constant
+const STYLE = { margin: 10 };
+function Parent() {
+  return &lt;Child style={STYLE} /&gt;;
+}
+
+// Fix: useMemo for computed styles
+function Parent() {
+  const style = useMemo(() => ({ margin: props.margin }), [props.margin]);
+  return &lt;Child style={style} /&gt;;
+}
+
+// ====== 3. Inline Arrays ======
+function Parent() {
+  return &lt;Child items={[1, 2, 3]} /&gt;; // New array on every render
+}
+
+// Fix: extract constant
+const ITEMS = [1, 2, 3];
+function Parent() {
+  return &lt;Child items={ITEMS} /&gt;;
+}
+
+// ====== 4. Inline Component Definitions ======
+function Parent() {
+  // ❌ Bad: New component on every render
+  function Child() {
+    return &lt;div&gt;Child&lt;/div&gt;;
+  }
+  return &lt;Child /&gt;;
+}
+
+// ✅ Good: Define outside
+function Child() {
+  return &lt;div&gt;Child&lt;/div&gt;;
+}
+function Parent() {
+  return &lt;Child /&gt;;
+}
+
+// ====== 5. Unstable Context Values ======
+const MyContext = createContext();
+
+function Provider({ children }) {
+  // ❌ Bad: New object on every render
+  const value = { user: user, theme: theme };
+  return &lt;MyContext.Provider value={value}&gt;{children}&lt;/MyContext.Provider&gt;;
+}
+
+// ✅ Good: Memoize context value
+function Provider({ children }) {
+  const value = useMemo(() => ({ user, theme }), [user, theme]);
+  return &lt;MyContext.Provider value={value}&gt;{children}&lt;/MyContext.Provider&gt;;
+}
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Prevention Strategies
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Strategy</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When to Use</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>React.memo</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Memoize component to skip re-render when props unchanged</td>
+          <td style="border: 1px solid black; padding: 8px;">Pure components that receive stable props</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>useMemo</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Cache expensive calculations</td>
+          <td style="border: 1px solid black; padding: 8px;">Derived data, expensive computations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>useCallback</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Memoize function references</td>
+          <td style="border: 1px solid black; padding: 8px;">Functions passed as props to memoized children</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>State Colocation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Keep state close to where it's used</td>
+          <td style="border: 1px solid black; padding: 8px;">State that only affects part of the UI</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Component Splitting</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Break large components into smaller ones</td>
+          <td style="border: 1px solid black; padding: 8px;">Large components with independent UI sections</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Context Splitting</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Split large contexts into smaller ones</td>
+          <td style="border: 1px solid black; padding: 8px;">Context with unrelated values</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What causes unnecessary re-renders in React and how do you prevent them?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Causes include: (1) <strong>Parent re-renders:</strong> When parent re-renders, all children re-render 
+            unless memoized, (2) <strong>Inline functions/objects:</strong> New references on every render cause 
+            child re-renders, (3) <strong>State changes:</strong> Any state change triggers re-render, (4) <strong>Context updates:</strong> 
+            All context consumers re-render when context changes. Prevention strategies: (1) Use <code>React.memo</code> 
+            for pure components, (2) Use <code>useMemo</code> for expensive computations, (3) Use <code>useCallback</code> 
+            for function props, (4) Colocate state to avoid unnecessary parent re-renders, (5) Split contexts 
+            to isolate updates, (6) Use keys correctly to help React identify changes, (7) Use state management 
+            libraries with selectors to prevent unnecessary updates.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What's the difference between useMemo, useCallback, and React.memo?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>React.memo:</strong> A higher-order component that memoizes a component's render output. 
+            It prevents re-renders if props haven't changed (shallow comparison). Use for components that 
+            receive the same props often. <strong>useMemo:</strong> Caches the result of a calculation. It prevents 
+            expensive computations from running on every render. Use for derived data or expensive calculations. 
+            <strong>useCallback:</strong> Caches a function reference. It prevents child components from receiving 
+            a new function reference on every render. Use for functions passed as props to memoized children. 
+            Think of them as: React.memo for components, useMemo for values, useCallback for functions.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you debug unnecessary re-renders in a React application?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Debugging approach: (1) <strong>React DevTools Profiler:</strong> Record a session and check which 
+            components rendered, (2) <strong>Highlight updates:</strong> Use "Highlight updates when components 
+            render" in DevTools, (3) <strong>Why Did You Render:</strong> Install and configure the library to 
+            log unnecessary re-renders, (4) <strong>Console logs:</strong> Add logs in components to track renders, 
+            (5) <strong>Performance monitoring:</strong> Use custom hooks to track render counts, (6) <strong>Check prop changes:</strong> 
+            Use <code>React.memo</code> with custom comparator to see what's changing, (7) <strong>Use Profiler API:</strong> 
+            Programmatically track render performance, (8) <strong>Check context:</strong> Ensure context values 
+            are memoized to prevent consumer re-renders.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the 'render child' pattern and how does it affect performance?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            The "render child" pattern (also called render props) passes a function as a child that returns 
+            what to render. This can cause performance issues because: (1) The child function is recreated 
+            on every render, (2) The component receiving the render prop will re-render even if the render 
+            function returns the same output, (3) It can create deep component trees that are expensive to diff. 
+            To optimize: (1) Memoize the render function with <code>useCallback</code>, (2) Use 
+            <code>React.memo</code> on the component receiving the render prop, (3) Consider using component 
+            composition instead of render props when possible, (4) Extract the render prop to a separate 
+            component that can be memoized independently.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "When should you NOT use memoization to prevent re-renders?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Don't use memoization when: (1) <strong>Components are simple:</strong> The memoization cost outweighs 
+            the render cost, (2) <strong>Props change frequently:</strong> Memoization is ineffective if props 
+            change often, (3) <strong>Components are already fast:</strong> No need to optimize what isn't slow, 
+            (4) <strong>You need side effects:</strong> Memoized components can't contain side effects that 
+            should run on every render, (5) <strong>Premature optimization:</strong> Don't memoize everything 
+            without measuring first, (6) <strong>Memory constraints:</strong> Memoization uses memory to cache 
+            results. Always profile first to identify actual bottlenecks, then optimize those specific areas.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does context affect re-renders and how can you optimize it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Context affects re-renders because when a context value changes, ALL consumers of that context 
+            re-render, even if they only use a small part of the context. This can cause cascading re-renders. 
+            To optimize: (1) <strong>Split context:</strong> Create separate contexts for unrelated values, 
+            (2) <strong>Memoize context value:</strong> Use <code>useMemo</code> to ensure the context value 
+            only changes when needed, (3) <strong>Use selectors:</strong> In state management libraries, use 
+            selectors to subscribe to specific parts of state, (4) <strong>Memoize consumers:</strong> Use 
+            <code>React.memo</code> on components that consume context, (5) <strong>Colocate context:</strong> 
+            Keep context providers close to where they're used, (6) <strong>Consider alternatives:</strong> 
+            For frequently changing state, consider state management libraries with more granular updates.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/reference/react/memo",
+              "https://react.dev/reference/react/useMemo",
+              "https://react.dev/reference/react/useCallback",
+            ],
+          },
+          {
+            topic: "State Colocation",
+            tags: ["React", "State Management", "Architecture", "Performance"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        State Colocation (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>State colocation</strong> is a React architectural principle where state is placed (colocated) 
+        as close as possible to the components that actually use it. Instead of lifting state up to the nearest 
+        common ancestor, you keep state in the component that needs it, and only lift it up when other components 
+        genuinely need access to it.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> State colocation is a fundamental React design pattern that 
+        prevents unnecessary re-renders, reduces prop drilling, and makes code more maintainable. Interviewers 
+        ask about it to gauge your understanding of React's component architecture and your ability to design 
+        efficient component hierarchies.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        State Colocation Principles
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Principle</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Local State First</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Put state in the component that needs it</td>
+          <td style="border: 1px solid black; padding: 8px;">Form input state in the form component</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Lift Only When Needed</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Only lift state when multiple components need it</td>
+          <td style="border: 1px solid black; padding: 8px;">Shared filter state in a parent component</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Minimize Prop Drilling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Avoid passing state through components that don't use it</td>
+          <td style="border: 1px solid black; padding: 8px;">Use context or composition instead</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Single Responsibility</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Components should only manage state they directly use</td>
+          <td style="border: 1px solid black; padding: 8px;">A button component managing its own hover state</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — State Colocation Patterns
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import React, { useState, useCallback, useMemo, createContext, useContext } from "react";
+
+// ====== 1. Good State Colocation ======
+// State is kept in the components that use it
+
+function GoodForm() {
+  // Form state stays in the form component
+  const [formData, setFormData] = useState({ name: "", email: "" });
+
+  const handleChange = useCallback((e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    console.log("Submit:", formData);
+  }, [formData]);
+
+  return (
+    &lt;div&gt;
+      &lt;input name="name" value={formData.name} onChange={handleChange} /&gt;
+      &lt;input name="email" value={formData.email} onChange={handleChange} /&gt;
+      &lt;button onClick={handleSubmit}&gt;Submit&lt;/button&gt;
+      &lt;FormPreview data={formData} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Child component that receives only what it needs
+function FormPreview({ data }: { data: { name: string; email: string } }) {
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Preview&lt;/h3&gt;
+      &lt;p&gt;Name: {data.name}&lt;/p&gt;
+      &lt;p&gt;Email: {data.email}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2. Bad State Colocation (Anti-pattern) ======
+// State is lifted too high, causing unnecessary re-renders
+
+function BadParent() {
+  const [formData, setFormData] = useState({ name: "", email: "" });
+  const [otherState, setOtherState] = useState(false);
+  // This entire component re-renders when formData changes,
+  // even though formData is only used by the form
+
+  return (
+    &lt;div&gt;
+      &lt;BadForm 
+        formData={formData} 
+        setFormData={setFormData} 
+        otherState={otherState}
+      /&gt;
+      &lt;UnrelatedComponent otherState={otherState} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 3. State Colocation with Composition ======
+// Using component composition to keep state local
+
+interface UseLocalStateProps {
+  children: (props: { value: string; setValue: (val: string) => void }) => React.ReactNode;
+}
+
+function LocalStateProvider({ children }: UseLocalStateProps) {
+  const [value, setValue] = useState("");
+  return &lt;Fragment&gt;{children({ value, setValue })}&lt;/Fragment&gt;;
+}
+
+function ComposedForm() {
+  return (
+    &lt;LocalStateProvider&gt;
+      {({ value, setValue }) => (
+        &lt;div&gt;
+          &lt;input value={value} onChange={(e) => setValue(e.target.value)} /&gt;
+          &lt;span&gt;Value: {value}&lt;/span&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/LocalStateProvider&gt;
+  );
+}
+
+// ====== 4. State Colocation with Context ======
+// Context for deeply nested components that need the same state
+
+interface ThemeContextType {
+  theme: "light" | "dark";
+  toggleTheme: () => void;
+}
+
+const ThemeContext = createContext&lt;ThemeContextType | null&gt;(null);
+
+function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState&lt;"light" | "dark"&gt;("light");
+  const toggleTheme = useCallback(() => {
+    setTheme(prev => prev === "light" ? "dark" : "light");
+  }, []);
+
+  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
+
+  return (
+    &lt;ThemeContext.Provider value={value}&gt;
+      {children}
+    &lt;/ThemeContext.Provider&gt;
+  );
+}
+
+// Nested component consuming context
+function DeepNestedComponent() {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error("Must be used within ThemeProvider");
+  
+  return &lt;div style={{ background: context.theme === "dark" ? "#333" : "#fff" }}&gt;
+    Theme is {context.theme}
+    &lt;button onClick={context.toggleTheme}&gt;Toggle&lt;/button&gt;
+  &lt;/div&gt;;
+}
+
+// ====== 5. State Colocation in Lists ======
+// Each item manages its own state
+
+interface ItemState {
+  id: string;
+  text: string;
+  isEditing: boolean;
+}
+
+function ListItem({ item, onDelete }: { item: ItemState; onDelete: (id: string) => void }) {
+  // Each item manages its own editing state
+  const [isEditing, setIsEditing] = useState(false);
+  const [text, setText] = useState(item.text);
+
+  const handleSave = useCallback(() => {
+    // Save logic here
+    setIsEditing(false);
+  }, [text]);
+
+  if (isEditing) {
+    return (
+      &lt;div&gt;
+        &lt;input value={text} onChange={(e) => setText(e.target.value)} /&gt;
+        &lt;button onClick={handleSave}&gt;Save&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;span&gt;{item.text}&lt;/span&gt;
+      &lt;button onClick={() => setIsEditing(true)}&gt;Edit&lt;/button&gt;
+      &lt;button onClick={() => onDelete(item.id)}&gt;Delete&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+function ItemList() {
+  const [items, setItems] = useState&lt;ItemState[]&gt;([
+    { id: "1", text: "Item 1", isEditing: false },
+    { id: "2", text: "Item 2", isEditing: false },
+  ]);
+
+  const handleDelete = useCallback((id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  }, []);
+
+  return (
+    &lt;div&gt;
+      {items.map(item => (
+        &lt;ListItem key={item.id} item={item} onDelete={handleDelete} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 6. State Colocation with Custom Hooks ======
+// Extract state logic into custom hooks
+
+function useLocalStorage&lt;T&gt;(key: string, initialValue: T) {
+  const [storedValue, setStoredValue] = useState&lt;T&gt;(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+
+  const setValue = useCallback((value: T | ((val: T) => T)) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch {
+      // Handle error
+    }
+  }, [key, storedValue]);
+
+  return [storedValue, setValue] as const;
+}
+
+function SettingsComponent() {
+  // State is colocated with the component that uses it
+  const [theme, setTheme] = useLocalStorage("theme", "light");
+  
+  return (
+    &lt;div&gt;
+      &lt;select value={theme} onChange={(e) => setTheme(e.target.value)}&gt;
+        &lt;option value="light"&gt;Light&lt;/option&gt;
+        &lt;option value="dark"&gt;Dark&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+  );
+}
+
+export {
+  GoodForm,
+  FormPreview,
+  LocalStateProvider,
+  ComposedForm,
+  ThemeProvider,
+  DeepNestedComponent,
+  ItemList,
+  SettingsComponent,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        When to Lift State vs Keep It Local
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Scenario</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Keep Local</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Lift Up</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Form Input</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Uncontrolled inputs, local form state</td>
+          <td style="border: 1px solid black; padding: 8px;">Form state needed by parent or sibling</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>UI State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Hover, focus, toggle, dropdown</td>
+          <td style="border: 1px solid black; padding: 8px;">Shared across multiple components</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>List Item State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Editing state per item, selection</td>
+          <td style="border: 1px solid black; padding: 8px;">Selected items list, filter/sort state</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>App State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Component-specific settings</td>
+          <td style="border: 1px solid black; padding: 8px;">User authentication, global preferences</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is state colocation in React and why is it important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            State colocation is the practice of placing state as close as possible to the components that use it, 
+            rather than lifting it to the nearest common ancestor. It's important because: (1) <strong>Performance:</strong> 
+            Prevents unnecessary re-renders of parent components, (2) <strong>Maintainability:</strong> Makes code 
+            easier to understand and refactor, (3) <strong>Encapsulation:</strong> Components manage their own 
+            concerns, (4) <strong>Reduced prop drilling:</strong> State doesn't need to pass through multiple 
+            levels, (5) <strong>Easier testing:</strong> Components can be tested in isolation, (6) <strong>Reusability:</strong> 
+            Components are more portable when they manage their own state.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you decide where to place state in a React application?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            My decision process: (1) <strong>Start local:</strong> Put state in the component that needs it, 
+            (2) <strong>Identify usage:</strong> Check which components need the state, (3) <strong>Lift only when needed:</strong> 
+            If multiple components need it, lift to their nearest common parent, (4) <strong>Use composition:</strong> 
+            For complex UI, consider composition over lifting state, (5) <strong>Consider context:</strong> For 
+            deeply nested components that need state, use Context, (6) <strong>Evaluate state management:</strong> 
+            For global state, consider Redux, Zustand, or similar, (7) <strong>Keep state minimal:</strong> 
+            Don't store derived data in state, calculate it instead. The rule of thumb: keep state as low as 
+            possible, only lift when necessary.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between state colocation and lifting state up?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>State colocation:</strong> Keeping state in the component that uses it, at the lowest possible 
+            level. This is the default approach. <strong>Lifting state up:</strong> Moving state to a parent 
+            component when multiple components need it. This is a specific action you take when colocation is 
+            no longer sufficient. Think of it as: colocation is the default, lifting up is the exception you 
+            make when needed. You should always start with colocation and lift only when necessary, not the 
+            other way around (putting everything in the top component and passing it down).
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does state colocation help with performance?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            State colocation improves performance by: (1) <strong>Reducing re-render scope:</strong> When state 
+            changes, only the component owning that state and its children re-render, not the entire parent tree, 
+            (2) <strong>Minimizing unnecessary renders:</strong> Components that don't use the state don't 
+            re-render, (3) <strong>Preventing cascading updates:</strong> Changes in one part of the UI don't 
+            trigger re-renders in unrelated parts, (4) <strong>Enabling better memoization:</strong> Smaller 
+            component trees with less state are easier to memoize effectively, (5) <strong>Reducing reconciliation 
+            work:</strong> Smaller render trees mean less diffing work for React. This is especially important 
+            for large applications with many components.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "When would you use Context vs lifting state up?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Choose <strong>Context</strong> when: (1) State is needed by many components at different depths, 
+            (2) You want to avoid prop drilling through multiple levels, (3) The state doesn't change frequently, 
+            (4) The state is truly global (theme, user, locale). Choose <strong>lifting state up</strong> when: 
+            (1) Only a few components at the same depth need the state, (2) The state changes frequently and 
+            you need to optimize performance, (3) The state is localized to a specific part of the UI, 
+            (4) You want to keep the component tree simple and avoid unnecessary context providers. A good 
+            practice is to lift state up for local shared state and use context for app-wide state.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you refactor an application to improve state colocation?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Refactoring approach: (1) <strong>Audit current state:</strong> Identify where state is defined and 
+            where it's used, (2) <strong>Identify misuse:</strong> Find state that's too high (used by few 
+            components) or too low (needed by more components), (3) <strong>Move state down:</strong> For state 
+            that's only used by one component, move it down to that component, (4) <strong>Split components:</strong> 
+            Break large components into smaller ones, each managing its own state, (5) <strong>Use composition:</strong> 
+            Instead of lifting state, use composition to pass components as props, (6) <strong>Introduce context:</strong> 
+            For deeply nested state, introduce context to simplify prop passing, (7) <strong>Test:</strong> Ensure 
+            components still work correctly after refactoring, (8) <strong>Measure:</strong> Verify performance 
+            improvement using the Profiler.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/thinking-in-react#step-5-lift-state-up",
+              "https://react.dev/learn/passing-data-deeply-with-context",
+              "https://kentcdodds.com/blog/state-colocation-will-make-your-react-app-faster",
+            ],
+          },
+          {
+            topic: "Component Splitting",
+            tags: ["React", "Architecture", "Performance", "Code Organization"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Component Splitting (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Component splitting</strong> is the practice of breaking large, monolithic React components 
+        into smaller, focused, and reusable components. This is a fundamental React design pattern that improves 
+        code maintainability, reusability, testability, and performance by limiting the scope of re-renders 
+        and making component logic easier to understand.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Component splitting demonstrates your ability to design clean, 
+        maintainable, and performant React applications. Interviewers ask about it to gauge your understanding 
+        of component design patterns, separation of concerns, and your approach to organizing code at scale.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Signs You Need to Split a Component
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Sign</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Solution</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Large JSX</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">JSX is hundreds of lines long</td>
+          <td style="border: 1px solid black; padding: 8px;">Split into smaller components</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Many Hooks</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Component uses 10+ hooks</td>
+          <td style="border: 1px solid black; padding: 8px;">Extract custom hooks, split components</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Multiple Responsibilities</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Component does many different things</td>
+          <td style="border: 1px solid black; padding: 8px;">Apply single responsibility principle</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Difficult to Test</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Component requires complex setup</td>
+          <td style="border: 1px solid black; padding: 8px;">Split to isolate testable units</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Slow Rendering</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Component re-renders slowly</td>
+          <td style="border: 1px solid black; padding: 8px;">Split to limit re-render scope</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Reusable Logic</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">UI patterns repeated</td>
+          <td style="border: 1px solid black; padding: 8px;">Extract reusable components</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Component Splitting Patterns
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import React, { useState, useCallback, useMemo, useEffect } from "react";
+
+// ====== 1. Before Splitting: Monolithic Component ======
+function MonolithicDashboard() {
+  const [user, setUser] = useState(null);
+  const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Fetch data
+  useEffect(() => {
+    fetchUser();
+    fetchPosts();
+    fetchComments();
+  }, []);
+
+  // 20+ other functions and effects
+
+  // 200+ lines of JSX with nested logic
+  return (
+    &lt;div className={isDarkMode ? "dark" : "light"}&gt;
+      &lt;header&gt;
+        &lt;button onClick={() => setIsSidebarOpen(!isSidebarOpen)}&gt;Toggle Sidebar&lt;/button&gt;
+        &lt;button onClick={() => setIsDarkMode(!isDarkMode)}&gt;Toggle Theme&lt;/button&gt;
+        &lt;div&gt;Welcome, {user?.name}&lt;/div&gt;
+      &lt;/header&gt;
+      &lt;div className="dashboard"&gt;
+        &lt;aside className={isSidebarOpen ? "open" : "closed"}&gt;
+          &lt;div&gt;Sidebar Content&lt;/div&gt;
+        &lt;/aside&gt;
+        &lt;main&gt;
+          &lt;input 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            placeholder="Search posts..."
+          /&gt;
+          &lt;div className="posts"&gt;
+            {filteredPosts.map(post => (
+              &lt;div key={post.id} onClick={() => setSelectedPost(post)}&gt;
+                &lt;h3&gt;{post.title}&lt;/h3&gt;
+                &lt;p&gt;{post.content}&lt;/p&gt;
+                &lt;div className="comments"&gt;
+                  {comments.filter(c => c.postId === post.id).map(comment => (
+                    &lt;div key={comment.id}&gt;{comment.text}&lt;/div&gt;
+                  ))}
+                &lt;/div&gt;
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/main&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2. After Splitting: Modular Components ======
+
+// ====== 2a. Header Component ======
+interface HeaderProps {
+  userName: string;
+  isDarkMode: boolean;
+  onToggleTheme: () => void;
+  onToggleSidebar: () => void;
+}
+
+function DashboardHeader({ userName, isDarkMode, onToggleTheme, onToggleSidebar }: HeaderProps) {
+  return (
+    &lt;header className={\`header \${isDarkMode ? "dark" : "light"}\`}&gt;
+      &lt;button onClick={onToggleSidebar} aria-label="Toggle sidebar"&gt;
+        ☰
+      &lt;/button&gt;
+      &lt;button onClick={onToggleTheme} aria-label="Toggle theme"&gt;
+        {isDarkMode ? "🌙" : "☀️"}
+      &lt;/button&gt;
+      &lt;div className="user-info"&gt;Welcome, {userName}&lt;/div&gt;
+    &lt;/header&gt;
+  );
+}
+
+// ====== 2b. Sidebar Component ======
+interface SidebarProps {
+  isOpen: boolean;
+  items: Array&lt;{ id: string; label: string; icon: string }&gt;;
+  onSelectItem: (id: string) => void;
+}
+
+function DashboardSidebar({ isOpen, items, onSelectItem }: SidebarProps) {
+  if (!isOpen) return null;
+
+  return (
+    &lt;aside className="sidebar open"&gt;
+      &lt;nav&gt;
+        {items.map(item => (
+          &lt;button key={item.id} onClick={() => onSelectItem(item.id)}&gt;
+            {item.icon} {item.label}
+          &lt;/button&gt;
+        ))}
+      &lt;/nav&gt;
+    &lt;/aside&gt;
+  );
+}
+
+// ====== 2c. Post List Component ======
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+}
+
+interface PostListProps {
+  posts: Post[];
+  onSelectPost: (post: Post) => void;
+}
+
+function PostList({ posts, onSelectPost }: PostListProps) {
+  if (posts.length === 0) {
+    return &lt;div className="empty-state"&gt;No posts found&lt;/div&gt;;
+  }
+
+  return (
+    &lt;div className="post-list"&gt;
+      {posts.map(post => (
+        &lt;div key={post.id} className="post-item" onClick={() => onSelectPost(post)}&gt;
+          &lt;h3&gt;{post.title}&lt;/h3&gt;
+          &lt;p&gt;{post.content.substring(0, 100)}...&lt;/p&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2d. Search Bar Component ======
+interface SearchBarProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  disabled?: boolean;
+}
+
+function SearchBar({ value, onChange, placeholder = "Search...", disabled = false }: SearchBarProps) {
+  const handleChange = useCallback((e: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    onChange(e.target.value);
+  }, [onChange]);
+
+  return (
+    &lt;div className="search-bar"&gt;
+      &lt;input
+        type="text"
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+        disabled={disabled}
+      /&gt;
+      {value && (
+        &lt;button onClick={() => onChange("")} aria-label="Clear search"&gt;
+          ✕
+        &lt;/button&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2e. Comment Section Component ======
+interface Comment {
+  id: string;
+  postId: string;
+  text: string;
+  author: string;
+  createdAt: string;
+}
+
+interface CommentSectionProps {
+  comments: Comment[];
+  postId: string;
+  onAddComment: (postId: string, text: string) => void;
+  isLoading?: boolean;
+}
+
+function CommentSection({ comments, postId, onAddComment, isLoading = false }: CommentSectionProps) {
+  const [newComment, setNewComment] = useState("");
+
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    if (newComment.trim()) {
+      onAddComment(postId, newComment.trim());
+      setNewComment("");
+    }
+  }, [newComment, postId, onAddComment]);
+
+  return (
+    &lt;div className="comment-section"&gt;
+      &lt;h4&gt;Comments ({comments.length})&lt;/h4&gt;
+      {isLoading && &lt;div className="loading"&gt;Loading comments...&lt;/div&gt;}
+      {comments.map(comment => (
+        &lt;div key={comment.id} className="comment"&gt;
+          &lt;strong&gt;{comment.author}&lt;/strong&gt;
+          &lt;p&gt;{comment.text}&lt;/p&gt;
+          &lt;small&gt;{new Date(comment.createdAt).toLocaleDateString()}&lt;/small&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;input
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Write a comment..."
+        /&gt;
+        &lt;button type="submit" disabled={!newComment.trim()}&gt;Post&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2f. Custom Hook for Dashboard Logic ======
+interface DashboardState {
+  user: any;
+  posts: Post[];
+  comments: Comment[];
+  isLoading: boolean;
+  error: Error | null;
+  selectedPost: Post | null;
+  searchTerm: string;
+}
+
+function useDashboard() {
+  const [state, setState] = useState&lt;DashboardState&gt;({
+    user: null,
+    posts: [],
+    comments: [],
+    isLoading: false,
+    error: null,
+    selectedPost: null,
+    searchTerm: "",
+  });
+
+  // Fetch data
+  useEffect(() => {
+    const fetchData = async () => {
+      setState(prev => ({ ...prev, isLoading: true }));
+      try {
+        // Parallel fetch
+        const [user, posts, comments] = await Promise.all([
+          fetchUser(),
+          fetchPosts(),
+          fetchComments(),
+        ]);
+        setState(prev => ({
+          ...prev,
+          user,
+          posts,
+          comments,
+          isLoading: false,
+        }));
+      } catch (error) {
+        setState(prev => ({ ...prev, error: error as Error, isLoading: false }));
+      }
+    };
+    fetchData();
+  }, []);
+
+  const filteredPosts = useMemo(() => {
+    if (!state.searchTerm) return state.posts;
+    return state.posts.filter(post =>
+      post.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+    );
+  }, [state.posts, state.searchTerm]);
+
+  const selectPost = useCallback((post: Post) => {
+    setState(prev => ({ ...prev, selectedPost: post }));
+  }, []);
+
+  const setSearchTerm = useCallback((term: string) => {
+    setState(prev => ({ ...prev, searchTerm: term }));
+  }, []);
+
+  const addComment = useCallback((postId: string, text: string) => {
+    const newComment: Comment = {
+      id: Date.now().toString(),
+      postId,
+      text,
+      author: "Current User",
+      createdAt: new Date().toISOString(),
+    };
+    setState(prev => ({
+      ...prev,
+      comments: [...prev.comments, newComment],
+    }));
+  }, []);
+
+  return {
+    ...state,
+    filteredPosts,
+    selectPost,
+    setSearchTerm,
+    addComment,
+  };
+}
+
+// ====== 2g. Refactored Dashboard ======
+function Dashboard() {
+  const {
+    user,
+    posts,
+    comments,
+    isLoading,
+    error,
+    selectedPost,
+    searchTerm,
+    filteredPosts,
+    selectPost,
+    setSearchTerm,
+    addComment,
+  } = useDashboard();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const sidebarItems = useMemo(() => [
+    { id: "dashboard", label: "Dashboard", icon: "📊" },
+    { id: "posts", label: "Posts", icon: "📝" },
+    { id: "users", label: "Users", icon: "👤" },
+    { id: "settings", label: "Settings", icon: "⚙️" },
+  ], []);
+
+  if (error) {
+    return &lt;div className="error"&gt;Error: {error.message}&lt;/div&gt;;
+  }
+
+  return (
+    &lt;div className={\`dashboard \${isDarkMode ? "dark" : "light"}\`}&gt;
+      &lt;DashboardHeader
+        userName={user?.name || "Guest"}
+        isDarkMode={isDarkMode}
+        onToggleTheme={() => setIsDarkMode(prev => !prev)}
+        onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
+      /&gt;
+
+      &lt;div className="dashboard-layout"&gt;
+        &lt;DashboardSidebar
+          isOpen={isSidebarOpen}
+          items={sidebarItems}
+          onSelectItem={() => {}}
+        /&gt;
+
+        &lt;main className="dashboard-content"&gt;
+          &lt;SearchBar
+            value={searchTerm}
+            onChange={setSearchTerm}
+            placeholder="Search posts..."
+            disabled={isLoading}
+          /&gt;
+
+          &lt;div className="post-grid"&gt;
+            &lt;PostList posts={filteredPosts} onSelectPost={selectPost} /&gt;
+
+            {selectedPost && (
+              &lt;div className="post-details"&gt;
+                &lt;h2&gt;{selectedPost.title}&lt;/h2&gt;
+                &lt;p&gt;{selectedPost.content}&lt;/p&gt;
+                &lt;CommentSection
+                  comments={comments.filter(c => c.postId === selectedPost.id)}
+                  postId={selectedPost.id}
+                  onAddComment={addComment}
+                  isLoading={isLoading}
+                /&gt;
+              &lt;/div&gt;
+            )}
+          &lt;/div&gt;
+        &lt;/main&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2h. Reusable Container Component ======
+interface ContainerProps {
+  children: React.ReactNode;
+  className?: string;
+  maxWidth?: "sm" | "md" | "lg" | "xl" | "full";
+  padding?: boolean;
+}
+
+function Container({ children, className = "", maxWidth = "lg", padding = true }: ContainerProps) {
+  const maxWidthClasses = {
+    sm: "max-w-screen-sm",
+    md: "max-w-screen-md",
+    lg: "max-w-screen-lg",
+    xl: "max-w-screen-xl",
+    full: "max-w-full",
+  };
+
+  return (
+    &lt;div className={\`container \${maxWidthClasses[maxWidth]} \${padding ? "px-4" : ""} \${className}\`}&gt;
+      {children}
+    &lt;/div&gt;
+  );
+}
+
+export {
+  Dashboard,
+  DashboardHeader,
+  DashboardSidebar,
+  PostList,
+  SearchBar,
+  CommentSection,
+  Container,
+  useDashboard,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Component Splitting Strategies
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Strategy</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When to Use</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>By Responsibility</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Split based on what the component does</td>
+          <td style="border: 1px solid black; padding: 8px;">Single Responsibility Principle</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>By UI Section</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Split based on visual areas of the page</td>
+          <td style="border: 1px solid black; padding: 8px;">Layouts, pages, sections</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>By State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Split based on which state belongs where</td>
+          <td style="border: 1px solid black; padding: 8px;">State colocation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>By Reusability</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Extract reusable UI patterns</td>
+          <td style="border: 1px solid black; padding: 8px;">Buttons, inputs, cards</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>By Feature</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Split based on product features</td>
+          <td style="border: 1px solid black; padding: 8px;">Feature-based architecture</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is component splitting and why is it important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Component splitting is the practice of breaking large, complex React components into smaller, 
+            more focused, and reusable ones. It's important because: (1) <strong>Maintainability:</strong> 
+            Smaller components are easier to understand and modify, (2) <strong>Reusability:</strong> 
+            Extracted components can be reused across the application, (3) <strong>Testability:</strong> 
+            Smaller components are easier to test in isolation, (4) <strong>Performance:</strong> Splitting 
+            limits the scope of re-renders, improving performance, (5) <strong>Collaboration:</strong> 
+            Multiple developers can work on different components simultaneously, (6) <strong>Code organization:</strong> 
+            Cleaner project structure with clear separation of concerns.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the signs that a component needs to be split?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Signs include: (1) <strong>Large file size:</strong> Component file exceeds 200-300 lines, 
+            (2) <strong>Multiple responsibilities:</strong> Component handles data fetching, UI rendering, 
+            state management, and event handling, (3) <strong>Many hooks:</strong> Component uses 10+ hooks 
+            (useState, useEffect, etc.), (4) <strong>Prop drilling:</strong> Passing props through many levels, 
+            (5) <strong>Difficult to test:</strong> Requires complex setup and many mocks, (6) <strong>Performance issues:</strong> 
+            Component re-renders slowly, (7) <strong>Repeated patterns:</strong> Similar UI elements are 
+            duplicated, (8) <strong>Difficult to understand:</strong> The code is hard to follow and maintain.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does component splitting affect performance?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Component splitting improves performance by: (1) <strong>Reducing re-render scope:</strong> When 
+            a component updates, only that component and its direct children re-render, not the entire page, 
+            (2) <strong>Better memoization:</strong> Smaller components are easier to memoize with 
+            <code>React.memo</code>, (3) <strong>Faster reconciliation:</strong> Smaller virtual DOM trees are 
+            faster to diff, (4) <strong>Code splitting:</strong> Components can be lazy-loaded with 
+            <code>React.lazy</code>, reducing initial bundle size, (5) <strong>Parallel loading:</strong> 
+            Multiple components can load in parallel, (6) <strong>Faster mount:</strong> Smaller components 
+            mount faster and use less memory. However, over-splitting can have overhead from many small 
+            components, so balance is key.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What's the difference between component splitting and code splitting?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Component splitting:</strong> Architectural practice of breaking a large component into 
+            smaller components for maintainability and reusability. It's about code organization and separation 
+            of concerns. <strong>Code splitting:</strong> Build-time optimization where the bundle is split 
+            into multiple chunks that are loaded on demand. It's about reducing initial load time. They complement 
+            each other: component splitting makes code more maintainable, and code splitting makes it faster 
+            to load. You can use both together — split components for organization, then lazy-load them with 
+            code splitting for performance.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you decide how granular to split components?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Decision factors: (1) <strong>Single responsibility:</strong> Each component should do one thing 
+            well, (2) <strong>Reusability potential:</strong> Will this component be used in multiple places? 
+            (3) <strong>Complexity:</strong> Is the component complex enough to justify splitting? (4) <strong>Team conventions:</strong> 
+            Follow team standards for component size, (5) <strong>Performance needs:</strong> Split to optimize 
+            re-renders, (6) <strong>Future requirements:</strong> Anticipate future changes, (7) <strong>Testing:</strong> 
+            Can the component be easily tested? (8) <strong>Over-splitting risk:</strong> Too many tiny components 
+            can be hard to navigate. Rule of thumb: If a component is hard to understand, test, or modify, 
+            it's time to split. Always prefer clarity and maintainability over premature optimization.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle props when splitting components?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Strategies for handling props: (1) <strong>Prop drilling:</strong> Pass props down, but avoid 
+            deeply nested prop drilling, (2) <strong>Context API:</strong> Use Context for deeply nested 
+            components that need the same data, (3) <strong>Component composition:</strong> Use children or 
+            render props to avoid passing many props, (4) <strong>State management:</strong> Use Redux, Zustand, 
+            or other libraries for global state, (5) <strong>Custom hooks:</strong> Encapsulate state logic 
+            in hooks, (6) <strong>Prop destructuring:</strong> Only pass what's needed, (7) <strong>Prop types:</strong> 
+            Use TypeScript or PropTypes for type safety. The goal is to keep props minimal and focused, making 
+            components easier to understand and maintain.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/thinking-in-react#step-4-identify-where-state-should-live",
+              "https://react.dev/learn/passing-props-to-a-component",
+              "https://kentcdodds.com/blog/component-composition",
+            ],
+          },
+          {
+            topic: "Local State",
+            tags: ["React", "State Management", "Performance"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Local State (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Local state</strong> refers to data that is managed within a single React component using 
+        the <code>useState</code> hook. It's the most basic and fundamental form of state management in React, 
+        and it should be your default choice for any state that doesn't need to be shared across components 
+        or persisted outside the component's lifecycle.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Understanding when and how to use local state is fundamental 
+        to React development. Interviewers ask about it to gauge your understanding of React's state management 
+        hierarchy, component design patterns, and your ability to choose the right tool for the right job.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        When to Use Local State
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why Local</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Form Input</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Text input, checkbox, select</td>
+          <td style="border: 1px solid black; padding: 8px;">Only the form needs the input value</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>UI State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Modal open, dropdown toggle, tooltip</td>
+          <td style="border: 1px solid black; padding: 8px;">Only the component needs this state</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Hover State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Button hover, list item hover</td>
+          <td style="border: 1px solid black; padding: 8px;">Only the element needs hover state</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Focus State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Input focus, form validation</td>
+          <td style="border: 1px solid black; padding: 8px;">Only the input needs focus state</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Animation State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Collapse/expand, fade in/out</td>
+          <td style="border: 1px solid black; padding: 8px;">Only the animated element needs it</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Loading State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Per-component loading indicator</td>
+          <td style="border: 1px solid black; padding: 8px;">Only the component needs to show loading</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Local State Patterns
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import React, { useState, useCallback, useMemo, useEffect, useRef } from "react";
+
+// ====== 1. Basic Local State ======
+function BasicLocalState() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
+  const [isActive, setIsActive] = useState(false);
+
+  const increment = useCallback(() => setCount(c => c + 1), []);
+  const toggleActive = useCallback(() => setIsActive(a => !a), []);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={increment}&gt;Increment&lt;/button&gt;
+      &lt;input value={name} onChange={(e) => setName(e.target.value)} /&gt;
+      &lt;button onClick={toggleActive}&gt;{isActive ? "Active" : "Inactive"}&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2. Local State with Type Safety ======
+interface UserFormData {
+  name: string;
+  email: string;
+  age: number;
+  preferences: {
+    notifications: boolean;
+    darkMode: boolean;
+  };
+}
+
+function TypedLocalState() {
+  const [formData, setFormData] = useState&lt;UserFormData&gt;({
+    name: "",
+    email: "",
+    age: 0,
+    preferences: {
+      notifications: true,
+      darkMode: false,
+    },
+  });
+
+  const updateForm = useCallback(&lt;K extends keyof UserFormData&gt;(
+    field: K,
+    value: UserFormData[K]
+  ) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  }, []);
+
+  const updateNested = useCallback(&lt;K extends keyof UserFormData["preferences"]&gt;(
+    field: K,
+    value: UserFormData["preferences"][K]
+  ) => {
+    setFormData(prev => ({
+      ...prev,
+      preferences: { ...prev.preferences, [field]: value },
+    }));
+  }, []);
+
+  return (
+    &lt;div&gt;
+      &lt;input
+        value={formData.name}
+        onChange={(e) => updateForm("name", e.target.value)}
+        placeholder="Name"
+      /&gt;
+      &lt;input
+        value={formData.email}
+        onChange={(e) => updateForm("email", e.target.value)}
+        placeholder="Email"
+      /&gt;
+      &lt;input
+        type="number"
+        value={formData.age}
+        onChange={(e) => updateForm("age", Number(e.target.value))}
+        placeholder="Age"
+      /&gt;
+      &lt;label&gt;
+        &lt;input
+          type="checkbox"
+          checked={formData.preferences.notifications}
+          onChange={(e) => updateNested("notifications", e.target.checked)}
+        /&gt;
+        Notifications
+      &lt;/label&gt;
+      &lt;label&gt;
+        &lt;input
+          type="checkbox"
+          checked={formData.preferences.darkMode}
+          onChange={(e) => updateNested("darkMode", e.target.checked)}
+        /&gt;
+        Dark Mode
+      &lt;/label&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 3. Local State with Validation ======
+interface ValidationRule {
+  validate: (value: any) => boolean;
+  message: string;
+}
+
+function useValidation&lt;T&gt;(
+  initialValue: T,
+  rules: ValidationRule[]
+) {
+  const [value, setValue] = useState&lt;T&gt;(initialValue);
+  const [errors, setErrors] = useState&lt;string[]&gt;([]);
+  const [isTouched, setIsTouched] = useState(false);
+
+  const validate = useCallback((val: T) => {
+    const newErrors = rules
+      .filter(rule => !rule.validate(val))
+      .map(rule => rule.message);
+    setErrors(newErrors);
+    return newErrors.length === 0;
+  }, [rules]);
+
+  const handleChange = useCallback((val: T) => {
+    setValue(val);
+    if (isTouched) {
+      validate(val);
+    }
+  }, [isTouched, validate]);
+
+  const handleBlur = useCallback(() => {
+    setIsTouched(true);
+    validate(value);
+  }, [value, validate]);
+
+  const reset = useCallback(() => {
+    setValue(initialValue);
+    setErrors([]);
+    setIsTouched(false);
+  }, [initialValue]);
+
+  return {
+    value,
+    errors,
+    isTouched,
+    isValid: errors.length === 0,
+    handleChange,
+    handleBlur,
+    reset,
+    setValue,
+  };
+}
+
+function ValidatedForm() {
+  const nameValidation = useValidation("", [
+    { validate: (v: string) => v.length > 0, message: "Name is required" },
+    { validate: (v: string) => v.length >= 3, message: "Name must be at least 3 characters" },
+  ]);
+
+  const emailValidation = useValidation("", [
+    { validate: (v: string) => v.length > 0, message: "Email is required" },
+    { validate: (v: string) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v), message: "Invalid email" },
+  ]);
+
+  const handleSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    const isNameValid = nameValidation.validate(nameValidation.value);
+    const isEmailValid = emailValidation.validate(emailValidation.value);
+    if (isNameValid && isEmailValid) {
+      console.log("Form submitted:", {
+        name: nameValidation.value,
+        email: emailValidation.value,
+      });
+    }
+  }, [nameValidation, emailValidation]);
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;div&gt;
+        &lt;input
+          value={nameValidation.value}
+          onChange={(e) => nameValidation.handleChange(e.target.value)}
+          onBlur={nameValidation.handleBlur}
+          placeholder="Name"
+        /&gt;
+        {nameValidation.isTouched && nameValidation.errors.map(error => (
+          &lt;div key={error} style={{ color: "red" }}&gt;{error}&lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;input
+          value={emailValidation.value}
+          onChange={(e) => emailValidation.handleChange(e.target.value)}
+          onBlur={emailValidation.handleBlur}
+          placeholder="Email"
+        /&gt;
+        {emailValidation.isTouched && emailValidation.errors.map(error => (
+          &lt;div key={error} style={{ color: "red" }}&gt;{error}&lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+      &lt;button type="submit" disabled={!nameValidation.isValid || !emailValidation.isValid}&gt;
+        Submit
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 4. Local State with Derived Data ======
+function DerivedDataExample() {
+  const [items, setItems] = useState&lt;{ id: number; value: number }[]&gt;([]);
+  const [filter, setFilter] = useState&lt;"all" | "positive" | "negative"&gt;("all");
+
+  // Add item
+  const addItem = useCallback(() => {
+    const newItem = { id: Date.now(), value: Math.floor(Math.random() * 20) - 10 };
+    setItems(prev => [...prev, newItem]);
+  }, []);
+
+  // Remove item
+  const removeItem = useCallback((id: number) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  }, []);
+
+  // Derived data using useMemo
+  const filteredItems = useMemo(() => {
+    switch (filter) {
+      case "positive":
+        return items.filter(item => item.value > 0);
+      case "negative":
+        return items.filter(item => item.value < 0);
+      default:
+        return items;
+    }
+  }, [items, filter]);
+
+  const stats = useMemo(() => {
+    const total = items.reduce((sum, item) => sum + item.value, 0);
+    const average = items.length > 0 ? total / items.length : 0;
+    const max = items.length > 0 ? Math.max(...items.map(i => i.value)) : 0;
+    const min = items.length > 0 ? Math.min(...items.map(i => i.value)) : 0;
+    return { total, average, max, min, count: items.length };
+  }, [items]);
+
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Stats: {stats.count} items, Total: {stats.total}, Avg: {stats.average.toFixed(2)}&lt;/h3&gt;
+      &lt;div&gt;
+        &lt;button onClick={addItem}&gt;Add Random Item&lt;/button&gt;
+        &lt;div&gt;
+          &lt;button onClick={() => setFilter("all")}&gt;All ({items.length})&lt;/button&gt;
+          &lt;button onClick={() => setFilter("positive")}&gt;Positive&lt;/button&gt;
+          &lt;button onClick={() => setFilter("negative")}&gt;Negative&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;ul&gt;
+        {filteredItems.map(item => (
+          &lt;li key={item.id}&gt;
+            {item.value}
+            &lt;button onClick={() => removeItem(item.id)}&gt;Remove&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 5. Local State with Async Operations ======
+function AsyncLocalState() {
+  const [data, setData] = useState&lt;any[]&gt;([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState&lt;Error | null&gt;(null);
+  const [page, setPage] = useState(1);
+  const abortControllerRef = useRef&lt;AbortController | null&gt;(null);
+
+  const fetchData = useCallback(async (pageNum: number) => {
+    // Cancel previous request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(\`/api/data?page=\${pageNum}\`, {
+        signal: controller.signal,
+      });
+      
+      if (!response.ok) {
+        throw new Error(\`HTTP error! status: \${response.status}\`);
+      }
+      
+      const result = await response.json();
+      setData(prev => [...prev, ...result]);
+      setPage(pageNum + 1);
+    } catch (err) {
+      if (err instanceof Error && err.name !== "AbortError") {
+        setError(err);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Clean up on unmount
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  const loadMore = useCallback(() => {
+    if (!loading && !error) {
+      fetchData(page);
+    }
+  }, [fetchData, page, loading, error]);
+
+  const reset = useCallback(() => {
+    setData([]);
+    setPage(1);
+    setError(null);
+    fetchData(1);
+  }, [fetchData]);
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={reset}&gt;Reset&lt;/button&gt;
+      {error && &lt;div style={{ color: "red" }}&gt;Error: {error.message}&lt;/div&gt;}
+      &lt;ul&gt;
+        {data.map((item, index) => (
+          &lt;li key={index}&gt;{JSON.stringify(item)}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+      &lt;button onClick={loadMore} disabled={loading}&gt;
+        {loading ? "Loading..." : "Load More"}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 6. Local State with Complex Objects ======
+interface TodoItem {
+  id: string;
+  text: string;
+  completed: boolean;
+  createdAt: Date;
+}
+
+function TodoList() {
+  const [todos, setTodos] = useState&lt;TodoItem[]&gt;([]);
+  const [filter, setFilter] = useState&lt;"all" | "active" | "completed"&gt;("all");
+  const [newTodo, setNewTodo] = useState("");
+
+  const addTodo = useCallback(() => {
+    if (newTodo.trim()) {
+      const todo: TodoItem = {
+        id: Date.now().toString(),
+        text: newTodo.trim(),
+        completed: false,
+        createdAt: new Date(),
+      };
+      setTodos(prev => [...prev, todo]);
+      setNewTodo("");
+    }
+  }, [newTodo]);
+
+  const toggleTodo = useCallback((id: string) => {
+    setTodos(prev =>
+      prev.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  }, []);
+
+  const deleteTodo = useCallback((id: string) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));
+  }, []);
+
+  const clearCompleted = useCallback(() => {
+    setTodos(prev => prev.filter(todo => !todo.completed));
+  }, []);
+
+  const filteredTodos = useMemo(() => {
+    switch (filter) {
+      case "active":
+        return todos.filter(todo => !todo.completed);
+      case "completed":
+        return todos.filter(todo => todo.completed);
+      default:
+        return todos;
+    }
+  }, [todos, filter]);
+
+  const stats = useMemo(() => ({
+    total: todos.length,
+    completed: todos.filter(t => t.completed).length,
+    active: todos.filter(t => !t.completed).length,
+  }), [todos]);
+
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Todo List ({stats.total} total, {stats.active} active, {stats.completed} completed)&lt;/h3&gt;
+      &lt;div&gt;
+        &lt;input
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && addTodo()}
+          placeholder="Add a todo..."
+        /&gt;
+        &lt;button onClick={addTodo}&gt;Add&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;button onClick={() => setFilter("all")}&gt;All&lt;/button&gt;
+        &lt;button onClick={() => setFilter("active")}&gt;Active&lt;/button&gt;
+        &lt;button onClick={() => setFilter("completed")}&gt;Completed&lt;/button&gt;
+        &lt;button onClick={clearCompleted}&gt;Clear Completed&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;ul&gt;
+        {filteredTodos.map(todo => (
+          &lt;li key={todo.id} style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+            &lt;input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+            /&gt;
+            {todo.text}
+            &lt;button onClick={() => deleteTodo(todo.id)}&gt;Delete&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+      {filteredTodos.length === 0 && (
+        &lt;p&gt;No todos {filter !== "all" ? filter : ""}&lt;/p&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export {
+  BasicLocalState,
+  TypedLocalState,
+  ValidatedForm,
+  DerivedDataExample,
+  AsyncLocalState,
+  TodoList,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Local State vs Other State Types
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">State Type</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Scope</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When to Use</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Local State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Single component</td>
+          <td style="border: 1px solid black; padding: 8px;">UI state, form input, component-specific data</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>useState</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Lifted State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Parent component, shared by children</td>
+          <td style="border: 1px solid black; padding: 8px;">State needed by multiple related components</td>
+          <td style="border: 1px solid black; padding: 8px;">Form state in parent</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Context State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Entire component tree subtree</td>
+          <td style="border: 1px solid black; padding: 8px;">State needed by many components at different depths</td>
+          <td style="border: 1px solid black; padding: 8px;">Theme, user, locale</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Global State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Entire application</td>
+          <td style="border: 1px solid black; padding: 8px;">State needed everywhere, complex state logic</td>
+          <td style="border: 1px solid black; padding: 8px;">Redux, Zustand, MobX</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>URL State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Browser URL</td>
+          <td style="border: 1px solid black; padding: 8px;">Bookmarkable, shareable state</td>
+          <td style="border: 1px solid black; padding: 8px;">Search params, route params</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is local state and when should you use it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Local state is state that's managed within a single component using React's <code>useState</code> 
+            hook. Use local state when: (1) <strong>Only the component needs it:</strong> The state doesn't 
+            need to be shared with other components, (2) <strong>UI state:</strong> Toggle states, form inputs, 
+            hover/focus states, (3) <strong>Component-specific data:</strong> Data that's only relevant to 
+            this component, (4) <strong>Loading states:</strong> Per-component loading indicators, (5) <strong>Transient state:</strong> 
+            State that doesn't need to persist or be shared. Local state should be your default choice for 
+            state management, and you should only lift state up or use more complex state management when 
+            the state genuinely needs to be shared.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between local state and derived state?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Local state:</strong> Data that's explicitly stored and managed in the component using 
+            <code>useState</code>. It's the source of truth for that data. <strong>Derived state:</strong> 
+            Data that's computed from existing state or props, not stored directly. It's derived from other 
+            data and recalculated when dependencies change. Rule of thumb: don't store derived data in state — 
+            use <code>useMemo</code> or compute it directly in the render. This prevents state duplication 
+            and keeps the data consistent. For example, don't store <code>filteredItems</code> in state if 
+            you have <code>items</code> and <code>filter</code> — compute <code>filteredItems</code> from them.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle complex local state with nested objects?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Strategies for nested state: (1) <strong>Immutable updates:</strong> Always create new objects 
+            when updating nested state (<code>setState(prev => ({ ...prev, field: newValue }))</code>), 
+            (2) <strong>Update helpers:</strong> Use <code>useCallback</code> to create type-safe update 
+            functions, (3) <strong>Immer library:</strong> Use Immer to write mutable-looking code that 
+            produces immutable updates, (4) <strong>Normalize state:</strong> Flatten nested state when possible 
+            to avoid deep nesting, (5) <strong>Split state:</strong> Split into multiple <code>useState</code> 
+            calls for unrelated parts, (6) <strong>Custom hooks:</strong> Extract complex state logic into 
+            custom hooks, (7) <strong>useReducer:</strong> For complex state transitions, use <code>useReducer</code> 
+            instead of <code>useState</code>.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you reset local state to its initial value?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Methods to reset local state: (1) <strong>Store initial value:</strong> Keep the initial value 
+            in a constant and use it to reset, (2) <strong>Reset function:</strong> Create a callback that 
+            sets state back to the initial value, (3) <strong>useEffect with key:</strong> Use a <code>key</code> 
+            prop to force a component to remount (this resets all state), (4) <strong>Custom hook:</strong> 
+            Create a custom hook that returns a reset function, (5) <strong>useReducer:</strong> Define a 
+            "reset" action type. The recommended approach for most cases is to keep the initial value and 
+            create a reset callback using <code>useCallback</code>. For a complete reset, a <code>key</code> 
+            prop is the simplest approach.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the performance implications of local state?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Local state performance considerations: (1) <strong>Re-render scope:</strong> Local state changes 
+            only re-render the component and its direct children, not the entire app, (2) <strong>Frequent updates:</strong> 
+            Local state is ideal for frequently changing data (like form inputs) because it limits re-renders, 
+            (3) <strong>State organization:</strong> Splitting state into multiple <code>useState</code> calls 
+            can help isolate updates and reduce re-renders, (4) <strong>Memoization:</strong> Combine local 
+            state with <code>useMemo</code> and <code>useCallback</code> for optimal performance, (5) <strong>State size:</strong> 
+            Large state objects can cause performance issues — split into smaller pieces, (6) <strong>Derived data:</strong> 
+            Don't store derived data in state — compute it with <code>useMemo</code> to avoid unnecessary 
+            re-renders and state synchronization issues.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "When would you use useReducer instead of useState?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Use <code>useReducer</code> instead of <code>useState</code> when: (1) <strong>Complex state logic:</strong> 
+            State transitions involve multiple sub-values or complex logic, (2) <strong>Related state updates:</strong> 
+            Multiple state values need to be updated together, (3) <strong>Predictable updates:</strong> You 
+            want to make state transitions explicit and predictable, (4) <strong>Testing:</strong> Reducer 
+            functions are pure and easy to test in isolation, (5) <strong>Next state depends on previous:</strong> 
+            Complex computations required to determine the next state, (6) <strong>State is an object:</strong> 
+            Nested objects with many fields. <code>useState</code> is simpler and usually sufficient, but 
+            <code>useReducer</code> becomes beneficial when state logic grows beyond simple updates.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/reference/react/useState",
+              "https://react.dev/reference/react/useReducer",
+              "https://react.dev/learn/state-a-components-memory",
             ],
           },
           {
@@ -108263,2272 +118433,1675 @@ pnpm dev          # spins up web & storybook concurrently
         label: "Beginner",
         concepts: [
           {
-            topic: "Type Annotations",
+            topic: "Basic Types",
             tags: [""],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Type annotations in TypeScript allow you to specify the types of variables, function parameters, and return values. This provides compile-time type checking and improves code reliability by catching type-related errors before runtime.
-     Type annotations help with better IDE support, documentation, and code maintainability.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Variable type annotations
-let name: string = "John";
-let age: number = 30;
-let isActive: boolean = true;
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Basic Types (TypeScript Interview Guide — Deep Dive)
+  </h4>
 
-// Function type annotations
-function greet(name: string): string {
-  return \`Hello, \ {name}!\`;
-}
-
-// Array type annotations
-let numbers: number[] = [1, 2, 3, 4, 5];
-let fruits: Array<string> = ["apple", "banana", "orange"];
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In this example, we define variables with explicit type annotations. The \`name\` variable is typed as string, \`age\` as number, and \`isActive\` as boolean. The \`greet\` function specifies that it takes a string parameter and returns a string. Arrays can be typed using either bracket notation or the Array generic type.
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    TypeScript's type system is a superset layered on top of JavaScript's runtime types — it adds compile-time 
+    checking with zero runtime cost (types are erased when compiled to JS). Interviewers use "basic types" 
+    questions to check whether you understand the difference between JS's runtime primitives and TS's extra 
+    compile-time-only types like <code>unknown</code>, <code>never</code>, and <code>void</code>.
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Type Annotations
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Compile-time Error Detection :</span> Type annotations help catch errors during development rather than at runtime. This prevents many common bugs and makes your code more reliable.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-function divide(a: number, b: number): number {
-  if (b === 0) {
-    throw new Error("Division by zero");
-  }
-  return a / b;
-}
 
-// This will cause a compile-time error
-// divide("10", "2"); // Error: Argument of type 'string' is not assignable to parameter of type 'number'
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Primitive Types
+  </h4>
 
-// Correct usage
-console.log(divide(10, 2)); // 5
- </code>
-  </pre>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Type</th>
+      <th style="border: 1px solid black; padding: 8px;">Example</th>
+      <th style="border: 1px solid black; padding: 8px;">Key Note</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>string</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>let name: string = "Ankit";</code></td>
+      <td style="border: 1px solid black; padding: 8px;">UTF-16 strings, immutable</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>number</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>let age: number = 30;</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Covers int/float — no separate int type; all are IEEE 754 floating point</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>boolean</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>let active: boolean = true;</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>true</code>/<code>false</code> only — no truthy/falsy coercion at the type level</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>bigint</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>let big: bigint = 100n;</code></td>
+      <td style="border: 1px solid black; padding: 8px;">ES2020+, for arbitrarily large integers</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>symbol</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>let s: symbol = Symbol("id");</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Unique and immutable — often used as object keys</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>null</code> / <code>undefined</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>let n: null = null;</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Distinct types; assignable to any type only if <code>strictNullChecks</code> is off (not recommended)</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Arrays, Tuples, and Objects
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+let nums: number[] = [1, 2, 3];
+let names: Array&lt;string&gt; = ["a", "b"]; // equivalent generic syntax
+
+// Tuple — fixed length, fixed types per position (arrays don't enforce this)
+let point: [number, number] = [10, 20];
+let entry: [string, number] = ["age", 30];
+
+// Labeled tuples (better editor hints / self-documenting)
+let range: [start: number, end: number] = [0, 100];
+
+// Plain object shape
+let user: { name: string; age: number } = { name: "Ankit", age: 30 };
+
+// Readonly array — prevents mutations
+let readonlyNums: readonly number[] = [1, 2, 3];
+// readonlyNums.push(4); // Error: push does not exist on readonly
+    </code></pre>
   </div>
 
-The TypeScript compiler will catch the error when you try to pass strings to a function expecting numbers, preventing runtime errors and making your code more robust.
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Better IDE Support :</span> Type annotations enable enhanced IntelliSense, autocompletion, and refactoring capabilities in modern IDEs and editors.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-interface User {
-  id: number;
-  name: string;
-  email: string;
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. The "Escape Hatch" and "Impossible" Types
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Type</th>
+      <th style="border: 1px solid black; padding: 8px;">Meaning</th>
+      <th style="border: 1px solid black; padding: 8px;">Key Behavior</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>any</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Opt out of type checking entirely</td>
+      <td style="border: 1px solid black; padding: 8px;">Assignable to/from anything; no compile-time safety at all — avoid in production code</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>unknown</code></td>
+      <td style="border: 1px solid black; padding: 8px;">"Could be anything, but you must narrow it before use"</td>
+      <td style="border: 1px solid black; padding: 8px;">Assignable FROM anything, but NOT assignable TO other types without a type guard/assertion first — the type-safe version of <code>any</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>void</code></td>
+      <td style="border: 1px solid black; padding: 8px;">A function that returns nothing meaningful</td>
+      <td style="border: 1px solid black; padding: 8px;">Used as a return type; the value is effectively <code>undefined</code>, but <code>void</code> conveys intent</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>never</code></td>
+      <td style="border: 1px solid black; padding: 8px;">A value that can never occur</td>
+      <td style="border: 1px solid black; padding: 8px;">Return type of a function that always throws or loops forever; also the result of narrowing a union down to nothing left</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>object</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Any non-primitive value</td>
+      <td style="border: 1px solid black; padding: 8px;">Rarely useful directly — usually you want a specific shape, interface, or <code>Record&lt;string, unknown&gt;</code></td>
+    </tr>
+  </table>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+function parseInput(input: unknown): number {
+  if (typeof input !== "number") {
+    throw new Error("Expected a number");
+  }
+  return input; // narrowed to number here — safe
 }
 
-function processUser(user: User): void {
-  // IDE will provide autocompletion for user properties
-  console.log(user.name); // Autocomplete will show 'name', 'email', 'id'
-  console.log(user.email);
-}
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Self-Documenting Code :</span> 
-Type annotations serve as inline documentation, making it clear what types of data functions expect and return.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Without types (JavaScript)
-function calculateArea(length, width) {
-  return length * width;
+function fail(message: string): never {
+  throw new Error(message); // never returns normally
 }
 
-// With types (TypeScript) - self-documenting
-function calculateArea(length: number, width: number): number {
-  return length * width;
+// never is also used for exhaustiveness checking
+function exhaustiveCheck(value: never): never {
+  throw new Error(\`Unhandled case: \${value}\`);
 }
-</code></pre>
-    </div>
-    The TypeScript version immediately tells you what types of parameters are expected and what type of value will be returned, making the code more readable and maintainable.
-     </li>
-   </ol>
- </div>`,
-            examples: [
-              `// Basic type annotations
-let message: string = "Hello TypeScript";
-let count: number = 42;
-let isComplete: boolean = false;
+    </code></pre>
+  </div>
 
-// Function with type annotations
-function add(x: number, y: number): number {
-  return x + y;
-}
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Type Assertions and Type Annotations
+  </h4>
 
-// Object type annotation
-let person: { name: string; age: number } = {
-  name: "Alice",
-  age: 25
-};
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+// Type annotation — tells TypeScript the type (compile-time check)
+const num: number = 42;
 
-// Array type annotations
-let scores: number[] = [85, 92, 78, 96];
-let names: string[] = ["John", "Jane", "Bob"];`,
-            ],
-            questions: [
-              {
-                question: "What are type annotations in TypeScript?",
-                solution:
-                  "<p>Type annotations in TypeScript are a way to explicitly specify the types of variables, function parameters, and return values. They use a colon (:) followed by the type name. Type annotations help catch errors at compile time, provide better IDE support, and make code more self-documenting and maintainable.</p>",
-              },
-              {
-                question: "How do you annotate primitive types in TypeScript?",
-                solution: `<p>Primitive types in TypeScript are annotated using the colon syntax:</p>
-             <pre><code className="language-typescript">
-let name: string = "John";
-let age: number = 30;
-let isActive: boolean = true;
-let value: null = null;
-let data: undefined = undefined;
-            </code></pre>
-           <p>TypeScript supports all JavaScript primitive types: string, number, boolean, null, undefined, symbol, and bigint.</p>`,
-              },
-              {
-                question:
-                  "What's the difference between explicit and implicit typing?",
-                solution:
-                  "<p>Explicit typing uses type annotations to specify types directly (let name: string = 'John'), while implicit typing relies on TypeScript's type inference to determine types automatically (let name = 'John'). TypeScript can often infer types correctly, but explicit annotations provide clarity and prevent unexpected type changes.</p>",
-              },
-              {
-                question:
-                  "How do you type function parameters and return values?",
-                solution:
-                  "<p>Function parameters are typed by adding a colon and type after the parameter name. Return types are specified after the parameter list with a colon and type. For example: function greet(name: string): string { return `Hello,  {name}!`; }. If a function doesn't return a value, use the 'void' type.</p>",
-              },
-              {
-                question: "Can you provide examples of array type annotations?",
-                solution:
-                  "<p>Arrays can be typed in two ways: using bracket notation (number[]) or the Array generic type (Array<number>). For example: let numbers: number[] = [1, 2, 3]; or let numbers: Array<number> = [1, 2, 3]; Both approaches are equivalent and provide the same type safety.</p>",
-              },
-              {
-                question: "What happens if you don't provide type annotations?",
-                solution:
-                  "<p>If you don't provide type annotations, TypeScript will use type inference to determine the type based on the assigned value. If TypeScript can't infer the type, it will default to 'any' type, which disables type checking for that variable. It's generally better to provide explicit annotations for clarity and type safety.</p>",
-              },
-              {
-                question: "How do you handle optional parameters in functions?",
-                solution:
-                  "<p>Optional parameters are marked with a question mark (?) after the parameter name. For example: function greet(name: string, title?: string): string. Optional parameters must come after required parameters, and they have a type that includes 'undefined' as a possibility.</p>",
-              },
-              {
-                question: "What are union types and how do you use them?",
-                solution:
-                  "<p>Union types allow a variable to hold values of multiple types, specified using the pipe (|) operator. For example: let id: string | number = 'abc123'; This means 'id' can be either a string or a number. Union types are useful when a value can legitimately be one of several types.</p>",
-              },
-              {
-                question: "How do you type objects in TypeScript?",
-                solution:
-                  "<p>Objects can be typed using object type annotations with curly braces. For example: let person: { name: string; age: number } = { name: 'John', age: 30 }; You can also use interfaces or type aliases for more complex object structures and better reusability.</p>",
-              },
-              {
-                question: "What is the 'any' type and when should you use it?",
-                solution:
-                  "<p>The 'any' type disables TypeScript's type checking and allows any value to be assigned to a variable. It should be used sparingly, mainly when migrating JavaScript code to TypeScript or when working with dynamic content where the type is truly unknown. Overusing 'any' defeats the purpose of using TypeScript.</p>",
-              },
-              {
-                question:
-                  "How do type annotations help with code maintainability?",
-                solution:
-                  "<p>Type annotations improve code maintainability by providing clear contracts for functions and variables, making refactoring safer, enabling better IDE support with autocompletion and error detection, and serving as inline documentation that helps other developers understand the code's intentions and requirements.</p>",
-              },
-              {
-                question:
-                  "What are some best practices for using type annotations?",
-                solution:
-                  "<p>Best practices include: always annotate function parameters and return types, use explicit annotations for complex types even if inference works, prefer specific types over 'any', use union types for values that can be multiple types, leverage interfaces for object types, and be consistent with your typing style across the codebase.</p>",
-              },
-            ],
+// Type assertion — tells TypeScript "trust me, I know better"
+const maybeString: unknown = "hello";
+const strLen = (maybeString as string).length; // OK, I'm asserting it's a string
+
+// The "as const" assertion — narrows to the most specific literal type
+const config = { port: 3000 } as const; // { readonly port: 3000 }
+
+// Non-null assertion — tells TypeScript a value isn't null/undefined
+const element = document.getElementById("app")!; // "!" asserts non-null
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - <strong>"any vs unknown?"</strong> — the single most-asked basic-types question. <code>any</code> 
+    disables type checking entirely (dangerous); <code>unknown</code> keeps safety by forcing you to narrow 
+    before you can do anything with the value. Always prefer <code>unknown</code> for values of uncertain 
+    type (like API responses) and reserve <code>any</code> for genuine escape hatches.<br>
+    - <strong>"void vs undefined?"</strong> — <code>void</code> is specifically for function return positions 
+    signaling "don't use the return value"; a variable typed <code>undefined</code> can only ever hold 
+    <code>undefined</code> itself.<br>
+    - <strong>"When would a function return never?"</strong> — functions that always throw, infinite loops, 
+    or exhaustiveness-check branches (see Union Types topic).<br>
+    - <strong>"What's the difference between type annotation and type assertion?"</strong> — An annotation 
+    tells TypeScript "this is the type" and the compiler checks it; an assertion tells TypeScript "trust me, 
+    this is the type" and overrides the compiler's inference — assertions should be used sparingly as they 
+    bypass type safety.<br>
+    - <strong>"Why does <code>Object.keys(obj)</code> return <code>string[]</code> and not <code>(keyof typeof obj)[]</code>?"</strong> 
+    — Because objects can have more keys at runtime than TypeScript knows about (e.g., added via prototype or 
+    dynamic keys), so the return type is intentionally widened for safety. This is a common gotcha when trying 
+    to iterate over object keys in a type-safe way.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
             links: [
+              "https://www.typescriptlang.org/docs/handbook/2/basic-types.html",
               "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html",
-              "https://www.typescriptlang.org/docs/handbook/basic-types.html",
-              "https://typescript-tutorial.net/typescript-tutorial/typescript-types/",
+            ],
+          },
+          {
+            topic: "Type Inference",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Type Inference (TypeScript Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    TypeScript can figure out a value's type without an explicit annotation, based on the value assigned, the 
+    context it's used in, or how it flows through your code. Knowing exactly when to trust inference vs when 
+    to write an explicit annotation is a strong signal of real TypeScript experience, not just syntax knowledge.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Basic Inference From Initialization
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+let age = 30;          // inferred as number
+let name = "Ankit";    // inferred as string
+let list = [1, 2, 3];  // inferred as number[]
+
+// const gets a NARROWER inferred type than let, since it can't be reassigned
+const status = "active";   // inferred as the literal type "active"
+let status2 = "active";    // inferred as the wider type string
+
+// Empty arrays are inferred as any[] if no context — dangerous!
+let emptyArr = [];         // any[] — should annotate explicitly
+let safeArr: number[] = []; // explicit annotation
+
+// Best common type — TypeScript infers the most general type that fits all elements
+const mixed = [1, "two", 3]; // (string | number)[]
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Contextual Typing
+  </h4>
+
+  <p style="line-height: 1.75;">
+    TypeScript can infer a parameter's type from the surrounding context, even without an annotation on the 
+    parameter itself — this is contextual typing.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+// "e" is inferred as MouseEvent because addEventListener's type
+// signature tells TypeScript what shape the callback should have
+window.addEventListener("click", (e) => {
+  console.log(e.clientX); // e is contextually typed, no annotation needed
+});
+
+const numbers = [1, 2, 3];
+numbers.map((n) => n * 2); // n inferred as number, from the array's element type
+
+// Promise callbacks are also contextually typed
+Promise.resolve(42).then((value) => value.toFixed(2)); // value is number
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Return Type Inference
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+function add(a: number, b: number) {
+  return a + b; // return type inferred as number — no annotation needed
+}
+
+// Best-common-type inference across multiple return points
+function getValue(flag: boolean) {
+  if (flag) return "yes";
+  return "no";
+} // inferred return type: string
+
+function getMixed(flag: boolean) {
+  if (flag) return 42;
+  return "no";
+} // inferred return type: number | string
+
+// Generic inference
+function identity&lt;T&gt;(value: T): T {
+  return value;
+}
+const a = identity(42);        // T inferred as number
+const b = identity("hello");   // T inferred as string
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Literal Widening and <code>as const</code>
+  </h4>
+
+  <p style="line-height: 1.75;">
+    By default, a mutable variable's inferred type is "widened" from a specific literal to its general 
+    primitive type, because the variable could be reassigned. <code>as const</code> tells TypeScript to keep 
+    the narrowest possible (literal, readonly) type instead.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+let direction = "left";        // widened to type string
+const direction2 = "left";     // narrowed to literal type "left" (const can't change)
+
+let config = { role: "admin" };        // { role: string }
+let config2 = { role: "admin" } as const; // { readonly role: "admin" }
+
+const colors = ["red", "green", "blue"] as const;
+// type: readonly ["red", "green", "blue"] instead of string[]
+
+// This matters when passing to functions expecting literal unions
+function move(dir: "left" | "right") {}
+let dir = "left";
+move(dir); // Error: dir is string, not "left" | "right"
+move(dir as const); // OK: narrows to "left"
+move("left"); // OK: literal passed directly
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Generic Inference — Type Parameter Defaults
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+// TypeScript infers generic types from arguments
+function wrap&lt;T&gt;(value: T): { value: T } {
+  return { value };
+}
+const wrapped = wrap(42); // inferred as { value: number }
+
+// Multiple type parameters — each inferred independently
+function combine&lt;T, U&gt;(a: T, b: U): [T, U] {
+  return [a, b];
+}
+const combined = combine(42, "hello"); // [number, string]
+
+// Generic defaults (TypeScript 2.3+)
+function fetchData&lt;T = unknown&gt;(url: string): Promise&lt;T&gt; {
+  return fetch(url).then(res => res.json());
+}
+// If T isn't explicitly provided, it defaults to unknown
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. When to Annotate Explicitly Anyway
+  </h4>
+  <p style="line-height: 1.75;">
+    - Function parameters (TypeScript can't infer these from nothing — always annotate).<br>
+    - Function return types on public/exported APIs, so the contract is explicit and doesn't silently change 
+    if the implementation changes.<br>
+    - Empty array/object literals with no other context (<code>let arr = []</code> infers <code>any[]</code>, 
+    which is unsafe) — annotate as <code>let arr: number[] = []</code>.<br>
+    - Anywhere the inferred type would be wider than you actually want (use explicit annotation or 
+    <code>as const</code> instead of fighting widening after the fact).<br>
+    - In React components, explicitly annotate <code>React.FC&lt;Props&gt;</code> or just the props parameter 
+    to ensure proper typing of <code>children</code>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Type Inference Limitations (What It Can't Do)
+  </h4>
+  <p style="line-height: 1.75;">
+    - <strong>Circular dependencies:</strong> TypeScript can't infer recursive types automatically.<br>
+    - <strong>Object property types:</strong> <code>let obj = { name: "Ankit" }</code> infers <code>{ name: string }</code>, 
+    not <code>{ name: "Ankit" }</code> — use <code>as const</code> to keep literal types.<br>
+    - <strong>Generic constraints:</strong> Sometimes you need to explicitly state that a type parameter extends 
+    a certain type for inference to work correctly.<br>
+    - <strong>Conditional types:</strong> These often require explicit annotations because inference can't 
+    always resolve the condition branches.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    8. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - Be ready to explain why <code>let x = "left"</code> and <code>const x = "left"</code> get different 
+    inferred types (widening) — this is a very common trick question.<br>
+    - Know that TypeScript's general philosophy is "infer where possible, annotate where it adds a contract 
+    or where inference would be unsafe/too wide" — a good rule of thumb to state out loud.<br>
+    - Be ready to explain <code>as const</code> concretely: it turns mutable, widened types into readonly, 
+    literal types — commonly used for Redux action types and discriminated union tags.<br>
+    - <strong>"What's the difference between <code>type</code> inference and <code>contextual</code> 
+    typing?"</strong> — Type inference is when TypeScript looks at the value to determine its type (e.g., 
+    <code>let x = 42</code>). Contextual typing is when TypeScript looks at the usage context to determine 
+    the type (e.g., callback parameters in <code>array.map(cb)</code>).<br>
+    - <strong>"Why does TypeScript infer <code>any[]</code> for <code>let arr = []</code>?"</strong> — 
+    Because the array has no elements, TypeScript can't know what type the elements should be, so it uses the 
+    most permissive type <code>any</code> as a fallback. This is why explicit annotation is recommended.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/type-inference.html",
+              "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html#const-assertions",
             ],
           },
           {
             topic: "Interfaces",
             tags: [""],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Interfaces in TypeScript define the structure of objects by specifying what properties and methods an object should have. They serve as contracts that ensure objects conform to a specific shape, providing type safety and better code organization.
-     Interfaces are purely a compile-time construct and don't generate any JavaScript code.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-interface Person {
-  name: string;
-  age: number;
-  email: string;
-  isActive: boolean;
-}
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Interfaces (TypeScript Interview Guide — Deep Dive)
+  </h4>
 
-// Using the interface
-const user: Person = {
-  name: "John Doe",
-  age: 30,
-  email: "john@example.com",
-  isActive: true
-};
-
-// Function using interface
-function greetPerson(person: Person): string {
-  return \`Hello, \ {person.name}! You are \ {person.age} years old.\`;
-}
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In this example, we define a Person interface that specifies the required properties and their types. Any object that implements this interface must have all these properties with the correct types. This ensures type safety and helps catch errors at compile time.
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    An <code>interface</code> declares the shape of an object: what properties and methods it must have. 
+    Interfaces are TypeScript's primary tool for describing object contracts — props shapes, API response 
+    shapes, class contracts — and are a near-constant topic in senior interviews, usually paired with "how is 
+    this different from a type alias?"
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Advanced Interface Features
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Optional Properties :</span> You can make properties optional using the question mark (?) operator. This allows objects to implement the interface without having all properties.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Basic Syntax
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
 interface User {
   id: number;
   name: string;
-  email?: string; // Optional property
-  phone?: string; // Optional property
+  email?: string;        // optional property
+  readonly createdAt: Date; // can't be reassigned after creation
 }
 
-const user1: User = { id: 1, name: "Alice" }; // Valid
-const user2: User = { id: 2, name: "Bob", email: "bob@example.com" }; // Also valid
- </code>
-  </pre>
+const u: User = { id: 1, name: "Ankit", createdAt: new Date() };
+u.createdAt = new Date(); // Error: cannot assign to readonly property
+
+// Interfaces can also describe function types
+interface SearchFn {
+  (query: string): string[];
+}
+const search: SearchFn = (q) => [q + " result"];
+    </code></pre>
   </div>
 
-Optional properties provide flexibility while maintaining type safety, allowing objects to have varying structures while still conforming to the interface.
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Readonly Properties :</span> You can make properties readonly using the readonly modifier, preventing them from being modified after initialization.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-interface Config {
-  readonly apiUrl: string;
-  readonly timeout: number;
-  retries?: number;
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Method Signatures and Index Signatures
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+interface Repository&lt;T&gt; {
+  find(id: number): T | undefined;
+  save(item: T): void;
+  delete(id: number): Promise&lt;boolean&gt;;
 }
 
-const config: Config = {
-  apiUrl: "https://api.example.com",
-  timeout: 5000,
-  retries: 3
-};
-
-// config.apiUrl = "https://new-api.com"; // Error: Cannot assign to 'apiUrl' because it is a read-only property
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Method Signatures :</span> 
-Interfaces can define method signatures, specifying the parameters and return types of functions that objects should implement.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-interface Calculator {
-  add(a: number, b: number): number;
-  subtract(a: number, b: number): number;
-  multiply(a: number, b: number): number;
+// Index signature — arbitrary string keys with a shared value type
+interface StringMap {
+  [key: string]: string;
 }
+const map: StringMap = { en: "Hello", fr: "Bonjour" };
 
-const calc: Calculator = {
-  add: (a, b) => a + b,
-  subtract: (a, b) => a - b,
-  multiply: (a, b) => a * b
-};
-</code></pre>
-    </div>
-    Method signatures in interfaces ensure that implementing objects have the required functions with the correct parameter types and return types.
-     </li>
-   </ol>
- </div>`,
-            examples: [
-              `// Basic interface
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
+// Index signature with a union of literal keys
+interface RouteMap {
+  [key: "/home" | "/about"]: React.ReactNode;
 }
+    </code></pre>
+  </div>
 
-// Interface with optional properties
-interface OrderItem {
-  productId: number;
-  quantity: number;
-  discount?: number;
-}
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Extending Interfaces
+  </h4>
 
-// Interface with methods
-interface AuthService {
-  login(username: string, password: string): boolean;
-  logout(): void;
-  isLoggedIn(): boolean;
-}
-
-// Using interfaces
-const product: Product = {
-  id: 1,
-  name: "Laptop",
-  price: 999.99,
-  category: "Electronics"
-};`,
-            ],
-            questions: [
-              {
-                question: "What are interfaces in TypeScript?",
-                solution:
-                  "<p>Interfaces in TypeScript are contracts that define the structure of objects. They specify what properties and methods an object should have, including their types. Interfaces provide compile-time type checking and help ensure objects conform to a specific shape, improving code reliability and maintainability.</p>",
-              },
-              {
-                question: "How do you define an interface in TypeScript?",
-                solution: `<p>An interface is defined using the 'interface' keyword followed by the interface name and a block containing property definitions:</p>
-             <pre><code className="language-typescript">
-interface Person {
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+interface Animal {
   name: string;
   age: number;
-  email: string;
 }
-            </code></pre>
-           <p>Each property is defined with its name, followed by a colon and its type. The interface serves as a blueprint for objects.</p>`,
-              },
-              {
-                question: "What are optional properties in interfaces?",
-                solution:
-                  "<p>Optional properties are defined using the question mark (?) after the property name. They allow objects to implement the interface without having all properties defined. For example: 'email?: string' means the email property is optional and can be undefined.</p>",
-              },
-              {
-                question: "How do readonly properties work in interfaces?",
-                solution:
-                  "<p>Readonly properties are defined using the 'readonly' modifier before the property name. Once initialized, these properties cannot be modified. For example: 'readonly id: number' creates a property that can only be set during object creation and cannot be changed afterward.</p>",
-              },
-              {
-                question: "Can interfaces define method signatures?",
-                solution:
-                  "<p>Yes, interfaces can define method signatures by specifying the method name, parameters, and return type. For example: 'calculateTotal(items: Item[]): number' defines a method that takes an array of items and returns a number. Objects implementing this interface must provide this method.</p>",
-              },
-              {
-                question:
-                  "What's the difference between interfaces and type aliases?",
-                solution:
-                  "<p>Interfaces are primarily used for object shapes and can be extended or implemented by classes. Type aliases are more flexible and can represent any type, including unions, primitives, and complex types. Interfaces support declaration merging, while type aliases do not. Both serve similar purposes for object typing.</p>",
-              },
-              {
-                question: "How do you extend interfaces?",
-                solution:
-                  "<p>Interfaces can be extended using the 'extends' keyword, allowing one interface to inherit properties from another. For example: 'interface Employee extends Person { employeeId: number; }' creates an Employee interface that includes all Person properties plus additional ones.</p>",
-              },
-              {
-                question: "Can you implement multiple interfaces?",
-                solution:
-                  "<p>Yes, classes can implement multiple interfaces by listing them after the 'implements' keyword, separated by commas. For example: 'class User implements Person, Serializable'. The class must then provide implementations for all methods and properties defined in both interfaces.</p>",
-              },
-              {
-                question: "What is interface declaration merging?",
-                solution:
-                  "<p>Interface declaration merging allows you to declare the same interface multiple times, and TypeScript will merge them into a single interface. This is useful for extending existing interfaces or adding properties to library interfaces. All declarations with the same name are automatically merged.</p>",
-              },
-              {
-                question: "How do you handle function types in interfaces?",
-                solution:
-                  "<p>Function types in interfaces can be defined in several ways: as method signatures 'methodName(params): returnType', as function properties 'property: (params) => returnType', or as call signatures '(params): returnType' for interfaces that represent functions themselves.</p>",
-              },
-              {
-                question: "Can interfaces have index signatures?",
-                solution:
-                  "<p>Yes, interfaces can have index signatures to allow objects with dynamic property names. For example: '[key: string]: any' allows any string key with any value type. Index signatures are useful for objects with unknown property names but known value types.</p>",
-              },
-              {
-                question: "What are the best practices for using interfaces?",
-                solution:
-                  "<p>Best practices include: using PascalCase for interface names, preferring interfaces over type aliases for object shapes, keeping interfaces focused and cohesive, using optional properties judiciously, leveraging readonly for immutable data, and organizing related interfaces in the same module or namespace.</p>",
-              },
-            ],
+
+interface Dog extends Animal {
+  breed: string;
+  bark(): void;
+}
+
+// Multiple inheritance — interfaces can extend several others at once
+interface Employee { employeeId: number; }
+interface Manager { teamSize: number; }
+interface TeamLead extends Employee, Manager {
+  reviewCycle: string;
+}
+
+// Interface extends can override properties (must be compatible type)
+interface Base { id: string; }
+interface Extended extends Base { id: $ {string}-$ {string}; } // OK — more specific
+// interface Bad extends Base { id: number; } // Error: number not assignable to string
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Implementing an Interface in a Class
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+interface Shape {
+  area(): number;
+  readonly name: string;
+}
+
+class Circle implements Shape {
+  name = "circle";
+  constructor(private radius: number) {}
+  area() {
+    return Math.PI * this.radius ** 2;
+  }
+}
+
+class Rectangle implements Shape {
+  name = "rectangle";
+  constructor(private width: number, private height: number) {}
+  area() {
+    return this.width * this.height;
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Declaration Merging — A Unique Interface Superpower
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Unlike <code>type</code>, declaring the same interface name twice in the same scope merges their members 
+    into one — this is used heavily to extend third-party library types (e.g. augmenting Express's 
+    <code>Request</code> object or a global <code>Window</code> interface).
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+interface Window {
+  myCustomGlobal: string;
+}
+// Later, in another file, this ADDS to the same Window interface
+// rather than conflicting — both declarations merge into one.
+interface Window {
+  anotherGlobal: number;
+}
+
+// The merged Window now has BOTH properties
+declare const window: Window;
+window.myCustomGlobal; // OK
+window.anotherGlobal; // OK
+
+// Declaration merging also works with namespaces and modules
+// This is how you augment third-party library types
+declare module "react" {
+  interface HTMLAttributes&lt;T&gt; {
+    "data-testid"?: string; // add data-testid to all HTML elements
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Interfaces vs Type Aliases (Quick Reference)
+  </h4>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Capability</th>
+      <th style="border: 1px solid black; padding: 8px;">interface</th>
+      <th style="border: 1px solid black; padding: 8px;">type</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Object shapes</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Unions / primitives / tuples</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Declaration merging</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+      <td style="border: 1px solid black; padding: 8px;">No (duplicate name errors)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Extending another shape</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>extends</code> (cleaner error messages)</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>&amp;</code> (intersection)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Implements in a class</td>
+      <td style="border: 1px solid black; padding: 8px;">Idiomatic</td>
+      <td style="border: 1px solid black; padding: 8px;">Also works, less common</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mapped types</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes (<code>type PartialUser = { [K in keyof User]?: User[K] }</code>)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Error messages</td>
+      <td style="border: 1px solid black; padding: 8px;">Generally cleaner for object shapes</td>
+      <td style="border: 1px solid black; padding: 8px;">Can be noisier, especially with intersections</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - Be ready to state the common team convention: use <code>interface</code> for public object/class 
+    contracts (especially library-facing ones, where declaration merging is valuable), use <code>type</code> 
+    for unions, tuples, mapped/conditional types, and anything not a plain object shape.<br>
+    - Know that declaration merging is exactly why libraries let you augment their types (e.g. adding a 
+    custom property to Express's <code>Request</code>) — a strong example to have ready.<br>
+    - Be ready to write a small class + interface pair (<code>implements</code>) live — a common quick warmup question.<br>
+    - <strong>"Can an interface extend a type alias?"</strong> — Yes, if the type alias is an object shape: 
+    <code>interface B extends A { ... }</code> where <code>type A = { ... }</code> works fine.<br>
+    - <strong>"When would you choose type over interface?"</strong> — When you need union types, mapped types, 
+    conditional types, tuple types, or when you're defining a type that isn't an object shape (e.g., 
+    <code>type ID = string | number</code>).<br>
+    - A strong closing answer: "Use interfaces for defining public APIs and object contracts that might need 
+    augmentation; use types for everything else, especially when you need unions or complex type operations."
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
             links: [
               "https://www.typescriptlang.org/docs/handbook/2/objects.html",
-              "https://www.typescriptlang.org/docs/handbook/interfaces.html",
-              "https://typescript-tutorial.net/typescript-tutorial/typescript-interface/",
+              "https://www.typescriptlang.org/docs/handbook/declaration-merging.html",
+            ],
+          },
+          {
+            topic: "Type Aliases",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Type Aliases (TypeScript Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>type alias</strong> (<code>type</code>) gives a name to any type — not just object shapes, but 
+    unions, intersections, tuples, primitives, and function signatures. It's more flexible than 
+    <code>interface</code> in what it can express, though it lacks declaration merging. Type aliases are 
+    erased at compile time — they exist purely for the type checker and editor experience.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. What Type Aliases Can Express
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type ID = string | number;               // union
+type Point = { x: number; y: number };   // object shape
+type Coordinates = [number, number];     // tuple
+type Handler = (event: Event) => void;   // function signature
+type Status = "idle" | "loading" | "error"; // literal union
+
+// Generic type alias
+type Result&lt;T&gt; = { data: T; error: null } | { data: null; error: string };
+
+// Conditional type alias
+type IsString&lt;T&gt; = T extends string ? true : false;
+type A = IsString&lt;"hello">; // true
+type B = IsString&lt;42>;       // false
+
+// Mapped type alias
+type Readonly&lt;T&gt; = {
+  readonly [K in keyof T]: T[K];
+};
+type User = { name: string; age: number };
+type ReadonlyUser = Readonly&lt;User>; // { readonly name: string; readonly age: number }
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Extending With Intersections
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type Animal = { name: string; age: number };
+type Dog = Animal &amp; { breed: string; bark(): void }; // "extends" via intersection
+
+const rex: Dog = { 
+  name: "Rex", 
+  age: 3, 
+  breed: "Labrador", 
+  bark: () => console.log("Woof!") 
+};
+
+// Intersection of two object types with overlapping properties
+type A = { id: string; value: string };
+type B = { id: string; count: number };
+type C = A &amp; B; // { id: string; value: string; count: number }
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Full Interface vs Type Comparison
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">interface</th>
+      <th style="border: 1px solid black; padding: 8px;">type</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Can represent unions</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Can represent primitives/tuples</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Declaration merging</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes (auto-merges same-name declarations)</td>
+      <td style="border: 1px solid black; padding: 8px;">No — duplicate name is a compile error</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Extending</td>
+      <td style="border: 1px solid black; padding: 8px;"><code>interface B extends A</code></td>
+      <td style="border: 1px solid black; padding: 8px;"><code>type B = A &amp; {...}</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Implements in a class</td>
+      <td style="border: 1px solid black; padding: 8px;">Idiomatic, most common choice</td>
+      <td style="border: 1px solid black; padding: 8px;">Also works, less conventional</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Error messages</td>
+      <td style="border: 1px solid black; padding: 8px;">Generally cleaner for object-shape mismatches</td>
+      <td style="border: 1px solid black; padding: 8px;">Can be noisier, especially for deeply nested unions</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mapped/conditional types</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. A Subtle Gotcha: Conflicting Intersections
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type A = { value: string };
+type B = { value: number };
+type C = A &amp; B; // value: string &amp; number -- an impossible type, resolves to "never"
+
+// This can happen unintentionally when composing types
+type HasId = { id: string };
+type HasNumericId = { id: number };
+type BadCombo = HasId &amp; HasNumericId; // id: string &amp; number → never
+
+// interface extends would instead throw an immediate, clearer compile
+// error at the extends clause itself rather than producing "never" silently
+// interface D extends A, B { } // Error: types of property "value" are incompatible
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Practical Convention (What Most Teams Do)
+  </h4>
+  <p style="line-height: 1.75;">
+    - Use <code>interface</code> for public object contracts: component props, API response shapes, class contracts.<br>
+    - Use <code>type</code> for unions, tuples, mapped types, conditional types, function types, and anything 
+    not a straightforward object shape.<br>
+    - The TypeScript team's official stance: prefer <code>interface</code> until you need a feature only 
+    <code>type</code> provides — but in practice this varies a lot by team/style guide, and interviewers 
+    generally want to hear that you know the trade-offs, not a single "correct" answer.<br>
+    - In React projects: Props and State often use <code>interface</code> (for extension/declaration merging 
+    with third-party types), while complex type operations use <code>type</code>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Self-Referencing Type Aliases
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+// Self-referencing type for recursive structures
+type TreeNode&lt;T&gt; = {
+  value: T;
+  children: TreeNode&lt;T&gt;[];
+};
+
+// Type alias referencing itself through an object
+type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
+// This represents any valid JSON value
+
+// Self-referencing with generics — careful with infinite recursion
+type Recursive&lt;T&gt; = T | Recursive&lt;T&gt;[]; // potentially infinite
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - The near-universal question: <strong>"interface vs type — when do you use which?"</strong> Answer with 
+    the concrete capability differences above (unions, declaration merging), not just "they're basically the same."<br>
+    - Be ready to explain the intersection-of-conflicting-types-resolves-to-never gotcha — it's a good way to 
+    show depth beyond surface syntax.<br>
+    - Know that for simple object shapes, the two are functionally interchangeable in most real code — the 
+    choice is largely convention, and being honest about that nuance is itself a good answer.<br>
+    - <strong>"Can you use a type alias with <code>extends</code>?"</strong> — No, type aliases don't have 
+    <code>extends</code>; use intersection (<code>&amp;</code>) instead.<br>
+    - <strong>"What's the difference between <code>type</code> and <code>interface</code> for function types?"</strong> 
+    — Both work, but <code>type</code> is more concise: <code>type Fn = (x: number) => string;</code> vs 
+    <code>interface Fn { (x: number): string; }</code>. Most teams use <code>type</code> for function signatures.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-aliases",
+              "https://www.typescriptlang.org/play/",
+            ],
+          },
+          {
+            topic: "Union Types",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Union Types (TypeScript Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A union type (<code>A | B</code>) means "a value that could be A OR B." Unions are one of TypeScript's 
+    most powerful tools for modeling real-world data that can take more than one shape — API responses, form 
+    states, Redux actions — and they pair with <strong>narrowing</strong> to let you safely use a value once 
+    you've proven which branch of the union you're in. Unions are the type-level equivalent of "or" — the set 
+    of possible values is the union of the sets from each member type.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Basic Union Syntax
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type ID = string | number;
+
+function printId(id: ID) {
+  console.log(id);
+}
+printId(101);      // OK
+printId("abc123"); // OK
+printId(true);     // Error — boolean is not part of the union
+
+// Unions of literal types — common for state/status
+type Status = "idle" | "loading" | "success" | "error";
+
+// Unions of different object shapes
+type Shape = 
+  | { kind: "circle"; radius: number }
+  | { kind: "square"; side: number }
+  | { kind: "rectangle"; width: number; height: number };
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Narrowing — Using a Union Safely
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Before you can use a union value as one specific member type, TypeScript requires you to narrow it — 
+    prove, via a runtime check, which branch you're dealing with. TypeScript tracks the narrowing 
+    flow-control analysis to know what type a variable has at any given point.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+function formatId(id: string | number) {
+  if (typeof id === "string") {
+    return id.toUpperCase();   // narrowed to string here
+  }
+  return id.toFixed(2);        // narrowed to number here
+}
+
+// instanceof narrows for classes
+function handle(err: Error | string) {
+  if (err instanceof Error) {
+    console.log(err.message); // narrowed to Error
+  } else {
+    console.log(err.toUpperCase()); // narrowed to string
+  }
+}
+
+// "in" narrows by checking for a property's presence
+type Cat = { meow(): void; name: string };
+type Dog = { bark(): void; name: string };
+function speak(animal: Cat | Dog) {
+  if ("meow" in animal) {
+    animal.meow(); // narrowed to Cat
+  } else {
+    animal.bark(); // narrowed to Dog
+  }
+}
+
+// Array.isArray narrows
+function process(value: string | string[]) {
+  if (Array.isArray(value)) {
+    return value.join(", "); // narrowed to string[]
+  }
+  return value.toUpperCase(); // narrowed to string
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Discriminated Unions (Tagged Unions) — The Most Important Pattern
+  </h4>
+
+  <p style="line-height: 1.75;">
+    A discriminated union gives every member a shared literal "tag" property, letting TypeScript narrow the 
+    whole object with a single check on that one field — this is the standard, most robust way to model 
+    state machines, Redux actions, and API results in TypeScript. The tag must be a literal type (string, 
+    number, or boolean literal) for TypeScript to use it for narrowing.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type LoadingState =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "success"; data: string[] }
+  | { status: "error"; error: string };
+
+function render(state: LoadingState) {
+  switch (state.status) {
+    case "idle": return "Waiting...";
+    case "loading": return "Loading...";
+    case "success": return state.data.join(", "); // "data" only exists here
+    case "error": return state.error;              // "error" only exists here
+  }
+}
+
+// Redux action example — the classic use case
+type Action =
+  | { type: "ADD_TODO"; payload: { text: string } }
+  | { type: "TOGGLE_TODO"; payload: { id: number } }
+  | { type: "REMOVE_TODO"; payload: { id: number } };
+
+function reducer(state: Todo[], action: Action) {
+  switch (action.type) {
+    case "ADD_TODO":
+      return [...state, { id: Date.now(), text: action.payload.text, done: false }];
+    case "TOGGLE_TODO":
+      return state.map(t => t.id === action.payload.id ? { ...t, done: !t.done } : t);
+    case "REMOVE_TODO":
+      return state.filter(t => t.id !== action.payload.id);
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Exhaustiveness Checking With <code>never</code>
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+function render(state: LoadingState) {
+  switch (state.status) {
+    case "idle": return "Waiting...";
+    case "loading": return "Loading...";
+    case "success": return state.data.join(", ");
+    case "error": return state.error;
+    default:
+      // If a new state is added to the union and this branch isn't
+      // updated, "state" here won't be assignable to "never" —
+      // compile error catches the missing case immediately.
+      const _exhaustive: never = state;
+      return _exhaustive;
+  }
+}
+
+// Helper function for exhaustiveness checking
+function assertNever(value: never): never {
+  throw new Error(\`Unexpected value: \${value}\`);
+}
+
+function render2(state: LoadingState) {
+  switch (state.status) {
+    case "idle": return "Waiting...";
+    case "loading": return "Loading...";
+    case "success": return state.data.join(", ");
+    case "error": return state.error;
+    default:
+      return assertNever(state); // Compile error if any case is missing
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Union Types vs Intersection Types
+  </h4>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">Union (<code>A | B</code>)</th>
+      <th style="border: 1px solid black; padding: 8px;">Intersection (<code>A &amp; B</code>)</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Meaning</td>
+      <td style="border: 1px solid black; padding: 8px;">Value is A OR B</td>
+      <td style="border: 1px solid black; padding: 8px;">Value is A AND B</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Set size</td>
+      <td style="border: 1px solid black; padding: 8px;">Union of sets (larger set)</td>
+      <td style="border: 1px solid black; padding: 8px;">Intersection of sets (smaller set)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Accessible properties</td>
+      <td style="border: 1px solid black; padding: 8px;">Only properties common to ALL members (without narrowing)</td>
+      <td style="border: 1px solid black; padding: 8px;">All properties from ALL members</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Narrowing needed</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes — must narrow to access branch-specific properties</td>
+      <td style="border: 1px solid black; padding: 8px;">No — all properties are always available</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - Be ready to write a discriminated union from scratch for a common scenario (API loading state, form 
+    validation result, Redux actions) — this is one of the most frequently asked hands-on TS questions.<br>
+    - Know all three narrowing mechanisms (<code>typeof</code>, <code>instanceof</code>, <code>in</code>) and 
+    when each applies — <code>typeof</code> for primitives, <code>instanceof</code> for class instances, 
+    <code>in</code> for distinguishing object shapes by property presence.<br>
+    - Be ready to explain the exhaustiveness-check-with-never pattern — it's a strong signal that you use 
+    TypeScript to prevent bugs at compile time, not just to add type annotations after the fact.<br>
+    - <strong>"What's the difference between <code>A | B</code> and <code>A &amp; B</code>?"</strong> — 
+    Union means the value is one type or the other (you must narrow to know which); intersection means the 
+    value is both types at once (it has all properties from both).<br>
+    - <strong>"Why can't I access <code>data</code> on <code>LoadingState | { data: string[] }</code> 
+    directly?"</strong> — Because <code>data</code> might not exist for all members of the union (e.g., the 
+    <code>"idle"</code> and <code>"loading"</code> states have no <code>data</code> property), so TypeScript 
+    forces you to narrow first.<br>
+    - <strong>"What's the 'union to intersection' type transform?"</strong> — A common advanced interview 
+    question: <code>type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never;</code> 
+    — this converts <code>A | B | C</code> to <code>A &amp; B &amp; C</code>.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types",
+              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html",
+            ],
+          },
+          {
+            topic: "Intersection Types",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Intersection Types (TypeScript Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    An intersection type (<code>A &amp; B</code>) means "a value that satisfies A AND B at the same time" — 
+    it combines multiple types into one that has all their members. It's the type-alias equivalent of 
+    <code>interface extends</code>, and is also used to compose smaller, reusable type "mixins." 
+    Intersections are the type-level equivalent of "and" — the set of possible values is the intersection 
+    of the sets from each member type, meaning the value must satisfy all constraints simultaneously.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Basic Intersection Syntax
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type Named = { name: string };
+type Aged = { age: number };
+type HasEmail = { email: string };
+
+type Person = Named &amp; Aged; // has BOTH name and age
+const p: Person = { name: "Ankit", age: 30 }; // both required
+
+type FullUser = Named &amp; Aged &amp; HasEmail;
+const u: FullUser = { name: "Ankit", age: 30, email: "ankit@example.com" };
+
+// Intersections can also combine non-object types
+type StringAndNumber = string &amp; number; // never — no value can be both
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Composing Reusable "Mixin" Types
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type Timestamped = { createdAt: Date; updatedAt: Date };
+type Identifiable = { id: string };
+type SoftDeletable = { deletedAt: Date | null };
+
+// Compose a full entity type from small, reusable pieces
+type UserRecord = Identifiable &amp; Timestamped &amp; SoftDeletable &amp; {
+  name: string;
+  email: string;
+};
+
+type ProductRecord = Identifiable &amp; Timestamped &amp; {
+  name: string;
+  price: number;
+  inStock: boolean;
+};
+
+// This pattern is similar to mixins in other languages
+// Each piece is independently testable and reusable
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Union vs Intersection — Don't Mix These Up
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Operator</th>
+      <th style="border: 1px solid black; padding: 8px;">Meaning</th>
+      <th style="border: 1px solid black; padding: 8px;">Result Has</th>
+      <th style="border: 1px solid black; padding: 8px;">Set Size</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>A | B</code> (Union)</td>
+      <td style="border: 1px solid black; padding: 8px;">Value is A OR B</td>
+      <td style="border: 1px solid black; padding: 8px;">Only members common to BOTH, until narrowed</td>
+      <td style="border: 1px solid black; padding: 8px;">Larger set (more possible values)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;"><code>A &amp; B</code> (Intersection)</td>
+      <td style="border: 1px solid black; padding: 8px;">Value is A AND B</td>
+      <td style="border: 1px solid black; padding: 8px;">ALL members of both A and B combined</td>
+      <td style="border: 1px solid black; padding: 8px;">Smaller set (fewer possible values)</td>
+    </tr>
+  </table>
+
+  <p style="line-height: 1.75;">
+    A common way to remember it: union types are like a Venn diagram <em>overlap</em> for what you can safely 
+    access without narrowing (the intersection of allowed operations), while intersection types are like a 
+    Venn diagram <em>union</em> of required properties (you must satisfy everything).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Conflicting Primitive Intersections Resolve to <code>never</code>
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type StringAndNumber = string &amp; number; // never — no value can be both
+
+type A = { kind: "circle" };
+type B = { kind: "square" };
+type Impossible = A &amp; B;
+// kind: "circle" &amp; "square" -- resolves to never for the "kind" field,
+// making the whole intersection effectively uninstantiable
+
+type HasId = { id: string };
+type HasNumericId = { id: number };
+type Bad = HasId &amp; HasNumericId; // id: string &amp; number → never
+// The entire intersection is never because the id field can't be both
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Intersection vs interface extends
+  </h4>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;"><code>interface extends</code></th>
+      <th style="border: 1px solid black; padding: 8px;"><code>type</code> intersection</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Conflicting property types</td>
+      <td style="border: 1px solid black; padding: 8px;">Immediate, clear compile error at the extends clause</td>
+      <td style="border: 1px solid black; padding: 8px;">Silently resolves the conflicting field to <code>never</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Works with unions as members</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Error messages</td>
+      <td style="border: 1px solid black; padding: 8px;">Cleaner, more specific</td>
+      <td style="border: 1px solid black; padding: 8px;">Can be confusing — may show <code>never</code> without clear explanation</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Use with generics</td>
+      <td style="border: 1px solid black; padding: 8px;">Limited</td>
+      <td style="border: 1px solid black; padding: 8px;">More flexible</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Advanced Intersection Patterns
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+// Function overload via intersection of function types
+type LogFn = {
+  (message: string): void;
+  (message: string, details: object): void;
+};
+const log: LogFn = (msg: string, details?: object) => {
+  console.log(msg, details);
+};
+
+// Combining constraints with generics
+type WithId&lt;T&gt; = T &amp; { id: string };
+function addId&lt;T&gt;(obj: T): WithId&lt;T&gt; {
+  return { ...obj, id: crypto.randomUUID() };
+}
+const userWithId = addId({ name: "Ankit", age: 30 });
+// { name: "Ankit", age: 30, id: "..." }
+
+// Partial + Required intersection pattern
+type Config = { host: string; port?: number; secure?: boolean };
+type RequiredConfig = Required&lt;Config&gt; &amp; { host: string };
+// Now host is required (already was), and port/secure are required too
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - The classic trap question: <strong>"What's the result of intersecting two incompatible primitive 
+    types?"</strong> — answer: <code>never</code>, since no value can simultaneously be, say, both a 
+    <code>string</code> and a <code>number</code>.<br>
+    - Be ready to give a concrete real-world use case for intersections (composing shared fields like 
+    <code>Timestamped</code>/<code>Identifiable</code> across many entity types) rather than only a toy example.<br>
+    - Be crisp about the direction of "more/fewer values": unions widen the set of possible shapes; 
+    intersections narrow it (usually to a more specific, more constrained type).<br>
+    - <strong>"When would you use intersection instead of interface extends?"</strong> — When you need to 
+    combine types that include unions, when you're working with generic types, or when the types are from 
+    different sources (like combining a library type with your own).<br>
+    - <strong>"What's the difference between <code>type C = A &amp; B</code> and <code>interface C extends A, B</code>?"</strong> 
+    — The intersection will silently resolve conflicts to <code>never</code>, while <code>extends</code> will 
+    give a clear compile-time error. This makes <code>extends</code> safer for most object composition scenarios.<br>
+    - <strong>"Can you intersect a union type?"</strong> — Yes, and the result is the intersection of the 
+    union members: <code>(A | B) &amp; C</code> = <code>(A &amp; C) | (B &amp; C)</code> (distributive property).
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/objects.html#intersection-types",
+            ],
+          },
+          {
+            topic: "Literal Types",
+            tags: [""],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Literal Types (TypeScript Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A literal type is a type that represents one exact, specific value rather than a whole category of 
+    values — <code>"success"</code> is a type with exactly one valid value, versus <code>string</code> which 
+    accepts any string. Literal types are the foundation of discriminated unions, strict function overloads, 
+    and precise autocomplete in editors. They exist for strings, numbers, and booleans (and can be combined 
+    via unions to create "enums" of allowed values).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. String, Number, and Boolean Literal Types
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+let direction: "left" | "right" | "up" | "down";
+direction = "left";  // OK
+direction = "diagonal"; // Error — not one of the allowed literals
+
+type DiceRoll = 1 | 2 | 3 | 4 | 5 | 6;
+let roll: DiceRoll = 4; // OK
+// roll = 7; // Error
+
+type Toggle = true | false; // equivalent to boolean, but spelled out for clarity
+
+// Literal types can be used anywhere a type is expected
+const STATUS: "active" | "inactive" | "pending" = "active";
+
+// Parameter default values are inferred as literals
+function setStatus(status: "on" | "off" = "on") {
+  // status is "on" | "off"
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Literal Widening (and How to Prevent It)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+let a = "left";        // widened to type string (mutable, could become anything)
+const b = "left";      // stays literal type "left" (can't be reassigned)
+
+function move(dir: "left" | "right") {}
+let dir = "left";
+move(dir); // Error! dir's inferred type is string, not the literal "left"
+move("left"); // OK — literal passed directly, no widening involved
+move(dir as const); // OK — as const narrows dir to the literal type
+
+// Object literal widening
+let config = { direction: "left" };
+// config.direction: string, not "left" — widened
+
+// const assertion prevents widening
+const config2 = { direction: "left" } as const;
+// config2.direction: "left" — stays literal
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Literal Types Power Discriminated Unions
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+// Each "type" field below is a literal type, not a plain string —
+// this is what lets TypeScript narrow the whole object on a switch/if
+type Action =
+  | { type: "increment"; amount: number }
+  | { type: "decrement"; amount: number }
+  | { type: "reset" };
+
+function reducer(state: number, action: Action) {
+  switch (action.type) {
+    case "increment": return state + action.amount; // "amount" only exists here
+    case "decrement": return state - action.amount; // "amount" exists here too
+    case "reset": return 0;
+  }
+}
+
+// Without literals, this wouldn't work because TypeScript wouldn't know
+// which branch of the union you're in based on the string comparison
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Template Literal Types
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Introduced in TypeScript 4.1, template literal types let you build new string literal types by combining 
+    existing ones with template-string syntax at the type level — extremely useful for typed event names, CSS 
+    properties, or route strings. They're like string interpolation for types.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+type Size = "small" | "medium" | "large";
+type ButtonClass = \`btn-\${Size}\`;
+// "btn-small" | "btn-medium" | "btn-large"
+
+type EventName&lt;T extends string&gt; = \`on\${Capitalize&lt;T&gt;}\`;
+type ClickEvent = EventName&lt;"click">; // "onClick"
+type HoverEvent = EventName&lt;"hover">; // "onHover"
+
+type Route = \`/users/\${number}\`; // matches "/users/42", "/users/7", etc.
+// Route = "/users/42" | "/users/7" | ... (any number)
+
+// Template literals can also use unions in the template
+type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
+type APIEndpoint = \`/\${Uppercase&lt;HTTPMethod>}\`;
+// "/GET" | "/POST" | "/PUT" | "/DELETE"
+
+// Intrinsic string manipulation types
+type Greeting = "hello world";
+type UppercaseGreeting = Uppercase&lt;Greeting>; // "HELLO WORLD"
+type LowercaseGreeting = Lowercase&lt;Greeting>; // "hello world"
+type CapitalizedGreeting = Capitalize&lt;Greeting>; // "Hello world"
+type UncapitalizedGreeting = Uncapitalize&lt;Greeting>; // "hello world"
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Literal Types in Type Inference
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+// Functions can infer literal types from arguments
+function createRoute&lt;T extends string&gt;(path: T): \`/api\${T}\` {
+  return \`/api\${path}\`;
+}
+const route = createRoute("/users");
+// route: "/api/users" — literal type preserved
+
+// Literal types can be used with generics to enforce exact strings
+function setKey&lt;K extends string&gt;(key: K, value: any) {
+  // key is exactly the literal passed in
+}
+setKey("name", "Ankit"); // OK
+setKey("invalid", 42); // OK, but if you want to restrict, you'd use a union
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - Be ready to explain literal widening with the <code>let</code> vs <code>const</code> example — it's a 
+    frequent "why doesn't this compile" gotcha involving passing a <code>let</code>-declared string into a 
+    function expecting a literal union.<br>
+    - Connect literal types directly to discriminated unions — interviewers often ask these back to back 
+    since one enables the other.<br>
+    - If discussing React/Redux specifically, mention that action <code>type</code> fields and prop variants 
+    (e.g. a Button's <code>size</code> prop) are the most common real-world use of literal types.<br>
+    - <strong>"What's the difference between <code>string</code> and <code>"hello"</code> as a type?"</strong> 
+    — <code>string</code> accepts any string value, while <code>"hello"</code> accepts exactly the string 
+    "hello" and nothing else. Literal types are subtypes of their primitive types.<br>
+    - <strong>"How do template literal types help with type safety?"</strong> — They enforce exact string 
+    patterns at compile time, preventing bugs from malformed strings (e.g., event names, CSS class names, 
+    API endpoints). They also enable autocomplete in your editor.<br>
+    - <strong>"What are the intrinsic string manipulation types?"</strong> — <code>Uppercase&lt;T></code>, 
+    <code>Lowercase&lt;T></code>, <code>Capitalize&lt;T></code>, and <code>Uncapitalize&lt;T></code> — they 
+    transform literal types at the type level, useful for generating related string patterns.
+  </p>
+
+</div>
+`,
+            examples: [""],
+            questions: [{}],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#literal-types",
+              "https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html",
             ],
           },
           {
             topic: "Enums",
-            tags: ["typescript", "enums", "constants", "type-safety"],
-            explanation: `<div>
-    <p style="line-height: 1.75; margin-top: 1.5rem;">
-      Enums in TypeScript allow you to define a set of named constants, making your code more readable and maintainable. They provide a way to give friendly names to sets of numeric or string values, reducing the likelihood of errors from using magic numbers or strings.
-      Enums are useful for representing a fixed set of values like days of the week, colors, user roles, or status codes.
-    </p>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Numeric enum (default)
-enum Direction {
-  Up,    // 0
-  Down,  // 1
-  Left,  // 2
-  Right  // 3
-}
-
-// String enum
-enum Status {
-  Pending = "PENDING",
-  Approved = "APPROVED",
-  Rejected = "REJECTED"
-}
-
-// Using enums
-let playerDirection: Direction = Direction.Up;
-let orderStatus: Status = Status.Pending;
-
-console.log(playerDirection); // 0
-console.log(orderStatus); // "PENDING"
-      </code></pre>
-    </div>
-    
-    <p style="line-height: 1.75;">
-      In this example, we define two types of enums: a numeric enum for directions and a string enum for status values. Numeric enums automatically assign values starting from 0, while string enums require explicit values. Both provide type safety and make code more expressive.
-    </p>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Types of Enums
-    </h4>
-    
-    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-      <li style="margin-top: 0.5rem;">
-        <span style="font-weight: 600; font-size: 1.1rem;">Numeric Enums:</span> These are the default enum type where values are automatically assigned starting from 0, or you can specify custom numeric values.
-        
-        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-          <pre><code className="language-typescript">
-enum LogLevel {
-  Error = 1,
-  Warning = 2,
-  Info = 3,
-  Debug = 4
-}
-
-// Auto-incrementing from specified value
-enum HttpStatus {
-  OK = 200,
-  NotFound = 404,
-  InternalServerError = 500
-}
-
-function log(level: LogLevel, message: string) {
-  console.log(\`[\ {LogLevel[level]}] \ {message}\`);
-}
-
-log(LogLevel.Error, "Something went wrong!"); // [Error] Something went wrong!
-          </code></pre>
-        </div>
-        
-        <p style="line-height: 1.75; margin-top: 0.5rem;">
-          Numeric enums support reverse mapping, allowing you to get the enum name from its value using bracket notation.
-        </p>
-      </li>
-      
-      <li style="margin-top: 0.5rem;">
-        <span style="font-weight: 600; font-size: 1.1rem;">String Enums:</span> String enums require explicit values and provide better readability and debugging experience since the values are meaningful strings.
-        
-        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-          <pre><code className="language-typescript">
-enum Color {
-  Red = "red",
-  Green = "green",
-  Blue = "blue"
-}
-
-enum ApiEndpoint {
-  Users = "/api/users",
-  Posts = "/api/posts",
-  Comments = "/api/comments"
-}
-
-function setThemeColor(color: Color) {
-  document.body.style.backgroundColor = color;
-}
-
-setThemeColor(Color.Blue); // Sets background to "blue"
-          </code></pre>
-        </div>
-      </li>
-      
-      <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-        <span style="font-weight: 600; font-size: 1.1rem;">Const Enums:</span> 
-        Const enums are inlined at compile time, resulting in more efficient code by removing the enum object from the generated JavaScript.
-        
-        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-          <pre><code className="language-typescript">
-const enum FileType {
-  PDF = "pdf",
-  Image = "image",
-  Video = "video"
-}
-
-// This gets inlined to: if (type === "pdf")
-if (type === FileType.PDF) {
-  // Handle PDF
-}
-
-// Regular enum would generate an object, const enum inlines the values
-          </code></pre>
-        </div>
-        
-        <p style="line-height: 1.75; margin-top: 0.5rem;">
-          Const enums provide better performance but lose some runtime features like reverse mapping and iteration.
-        </p>
-      </li>
-    </ol>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Advanced Enum Features
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
-      <pre><code className="language-typescript">
-// Computed enum members
-enum ComputedEnum {
-  A = 1,
-  B = A * 2,
-  C = Math.floor(Math.random() * 100)
-}
-
-// Heterogeneous enums (mixed types - not recommended)
-enum Mixed {
-  No = 0,
-  Yes = "YES"
-}
-
-// Ambient enums (declare only)
-declare enum AmbientEnum {
-  A = 1,
-  B,
-  C = 2
-}
-      </code></pre>
-    </div>
-  </div>`,
-            examples: [
-              `// Days of the week enum
-enum DayOfWeek {
-  Monday,
-  Tuesday,
-  Wednesday,
-  Thursday,
-  Friday,
-  Saturday,
-  Sunday
-}
-
-// User roles with string values
-enum UserRole {
-  Admin = "admin",
-  Moderator = "moderator",
-  User = "user",
-  Guest = "guest"
-}
-
-// HTTP methods
-enum HttpMethod {
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT",
-  DELETE = "DELETE"
-}
-
-// Using enums in functions
-function checkPermission(role: UserRole): boolean {
-  return role === UserRole.Admin || role === UserRole.Moderator;
-}
-
-const hasPermission = checkPermission(UserRole.Admin); // true`,
-
-              `// Enum with custom numeric values
-enum Priority {
-  Low = 1,
-  Medium = 5,
-  High = 10,
-  Critical = 100
-}
-
-// Theme configuration enum
-enum Theme {
-  Light = "light",
-  Dark = "dark",
-  Auto = "auto"
-}
-
-// Using enums in switch statements
-function handleTheme(theme: Theme): string {
-  switch (theme) {
-    case Theme.Light:
-      return "Setting light theme";
-    case Theme.Dark:
-      return "Setting dark theme";
-    case Theme.Auto:
-      return "Setting auto theme";
-    default:
-      return "Unknown theme";
-  }
-}`,
-
-              `// Enum for API response status
-enum ResponseStatus {
-  Success = "success",
-  Error = "error",
-  Loading = "loading",
-  Idle = "idle"
-}
-
-// File extension enum
-enum FileExtension {
-  JavaScript = ".js",
-  TypeScript = ".ts",
-  JSON = ".json",
-  CSS = ".css",
-  HTML = ".html"
-}
-
-// Event types for a simple state machine
-enum EventType {
-  Start = "START",
-  Stop = "STOP",
-  Pause = "PAUSE",
-  Resume = "RESUME",
-  Reset = "RESET"
-}
-
-// Using enum in type definitions
-interface ApiResponse<T> {
-  data: T;
-  status: ResponseStatus;
-  message: string;
-}
-
-const response: ApiResponse<string> = {
-  data: "Hello World",
-  status: ResponseStatus.Success,
-  message: "Request completed successfully"
-};`,
-            ],
-            questions: [
-              {
-                question: "What are enums in TypeScript?",
-                solution:
-                  "<p>Enums in TypeScript are a way to define a set of named constants, providing friendly names to sets of numeric or string values. They improve code readability and maintainability by replacing magic numbers or strings with meaningful names, and provide compile-time type checking.</p>",
-              },
-              {
-                question:
-                  "What's the difference between numeric and string enums?",
-                solution: `<p>Numeric enums automatically assign values starting from 0 (or a specified number), while string enums require explicit string values:</p>
-        <pre><code className="language-typescript">
-enum NumericEnum { A, B, C } // A=0, B=1, C=2
-enum StringEnum { A = "a", B = "b", C = "c" }
-        </code></pre>
-        <p>Numeric enums support reverse mapping, while string enums provide better debugging and serialization.</p>`,
-              },
-              {
-                question: "How do you access enum values?",
-                solution:
-                  "<p>Enum values are accessed using dot notation: EnumName.ValueName. For example, if you have 'enum Color { Red, Green, Blue }', you access values as Color.Red, Color.Green, etc. The actual value depends on whether it's a numeric or string enum.</p>",
-              },
-              {
-                question: "What is reverse mapping in enums?",
-                solution:
-                  "<p>Reverse mapping allows you to get the enum key from its numeric value using bracket notation. For example, if 'enum Direction { Up, Down }', then Direction[0] returns 'Up' and Direction[1] returns 'Down'. This only works with numeric enums, not string enums.</p>",
-              },
-              {
-                question: "What are const enums and when should you use them?",
-                solution:
-                  "<p>Const enums are inlined at compile time, replacing enum references with their literal values in the generated JavaScript. They're more efficient but lose runtime features like reverse mapping and iteration. Use them when you need better performance and don't require runtime enum operations.</p>",
-              },
-              {
-                question: "Can you mix numeric and string values in an enum?",
-                solution:
-                  "<p>Yes, you can create heterogeneous enums with mixed numeric and string values, but it's generally not recommended as it can be confusing. For example: 'enum Mixed { A = 1, B = 'hello', C = 2 }'. It's better to use either all numeric or all string values for consistency.</p>",
-              },
-              {
-                question: "How do enums help with type safety?",
-                solution:
-                  "<p>Enums provide compile-time type checking by restricting variables to only accept valid enum values. This prevents typos and invalid values. For example, a function parameter typed as 'Color' can only accept Color.Red, Color.Green, or Color.Blue, not arbitrary strings or numbers.</p>",
-              },
-              {
-                question: "Can you iterate over enum values?",
-                solution:
-                  "<p>You can iterate over numeric enums using Object.keys(), Object.values(), or Object.entries(). For string enums, you typically need to manually create an array of values. However, const enums cannot be iterated over since they're inlined at compile time.</p>",
-              },
-              {
-                question: "What's the generated JavaScript for enums?",
-                solution:
-                  "<p>Numeric enums generate an object with both forward and reverse mappings. String enums generate a simpler object with only forward mappings. Const enums generate no object - they're inlined. Understanding the generated code helps with debugging and performance considerations.</p>",
-              },
-              {
-                question: "How do you use enums with switch statements?",
-                solution:
-                  "<p>Enums work well with switch statements for exhaustive checking. TypeScript can warn if you haven't handled all enum cases. Use enum values as case labels: 'case Color.Red:'. This provides better type safety than using raw strings or numbers.</p>",
-              },
-              {
-                question: "Are there any drawbacks to using enums?",
-                solution:
-                  "<p>Enums add runtime overhead (except const enums), can make code more verbose, and numeric enums can be error-prone due to auto-incrementing values. They also create objects in the generated JavaScript, which might not be ideal for all use cases. Consider alternatives like union types for simpler scenarios.</p>",
-              },
-              {
-                question: "What are some best practices for using enums?",
-                solution:
-                  "<p>Best practices include: using PascalCase for enum names and values, preferring string enums for better debugging, using const enums for performance-critical code, keeping enum values meaningful and consistent, and avoiding heterogeneous enums. Document enum purposes and consider using union types for simple cases.</p>",
-              },
-            ],
-            links: [
-              "https://www.typescriptlang.org/docs/handbook/enums.html",
-              "https://typescript-tutorial.net/typescript-tutorial/typescript-enum/",
-              "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#enums",
-              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions",
-              "https://basarat.gitbook.io/typescript/type-system/enums",
-            ],
-          },
-          {
-            topic: "Union and Intersection Types",
             tags: [""],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Union and intersection types are powerful TypeScript features that allow you to work with types in flexible ways. Union types (|) allow a value to be one of several types, while intersection types (&) combine multiple types into one. These features enable more expressive and precise type definitions.
-     Union types are useful when a value can be multiple types, while intersection types are useful when you need to combine features from multiple types.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Union types - value can be one of several types
-type StringOrNumber = string | number;
-type Status = "loading" | "success" | "error";
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Enums (TypeScript Interview Guide — Deep Dive)
+  </h4>
 
-let id: StringOrNumber = "abc123"; // Valid
-id = 456; // Also valid
-
-let currentStatus: Status = "loading"; // Valid
-// currentStatus = "pending"; // Error: not in union
-
-// Intersection types - combine multiple types
-type Name = { firstName: string; lastName: string };
-type Age = { age: number };
-type Person = Name & Age; // Has all properties
-
-const person: Person = {
-  firstName: "John",
-  lastName: "Doe",
-  age: 30
-};
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In this example, StringOrNumber can be either a string or number, and Status can be one of three specific string values. The Person type combines Name and Age types, requiring all properties from both types. This provides flexibility while maintaining type safety.
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    An <code>enum</code> defines a named set of related constant values. TypeScript supports numeric, string, 
+    and const enums — but enums are also one of the more debated TypeScript features, and being able to 
+    discuss the trade-offs (and the increasingly popular alternative) is a strong senior-level signal. 
+    Enums are one of the few TypeScript features that generate real runtime JavaScript — most other type 
+    constructs (interfaces, type aliases, generics) are fully erased at compile time.
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Working with Union and Intersection Types
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Type Guards :</span> When working with union types, you often need to narrow down the type to safely access type-specific properties or methods. Type guards help determine the actual type at runtime.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-function processId(id: string | number): string {
-  if (typeof id === "string") {
-    return id.toUpperCase(); // Safe to use string methods
-  } else {
-    return id.toString(); // Safe to use number methods
-  }
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Numeric Enums (Default)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+enum Direction {
+  Up,     // 0
+  Down,   // 1
+  Left,   // 2
+  Right,  // 3
 }
+let d: Direction = Direction.Up; // 0
 
-// Discriminated unions
-interface LoadingState { status: "loading" }
-interface SuccessState { status: "success"; data: string }
-interface ErrorState { status: "error"; message: string }
-
-type AppState = LoadingState | SuccessState | ErrorState;
-
-function handleState(state: AppState) {
-  switch (state.status) {
-    case "loading":
-      return "Loading...";
-    case "success":
-      return state.data; // TypeScript knows this has data
-    case "error":
-      return \`Error: \ {state.message}\`; // TypeScript knows this has message
-  }
+// You can set a starting value — later members auto-increment from it
+enum StatusCode {
+  OK = 200,
+  NotFound = 404,
+  ServerError = 500,
 }
- </code>
-  </pre>
+// StatusCode.OK = 200, StatusCode.NotFound = 404, StatusCode.ServerError = 500
+
+// Heterogeneous enums (mix of strings and numbers — generally avoid)
+enum Mixed {
+  Yes = "YES",
+  No = 0,
+}
+    </code></pre>
   </div>
 
-Type guards and discriminated unions help you safely work with union types by narrowing down the possibilities.
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Combining Types :</span> Intersection types are useful for combining multiple type definitions, creating new types that have all properties from the intersected types.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-interface Timestamped {
-  createdAt: Date;
-  updatedAt: Date;
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. String Enums
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+enum Role {
+  Admin = "ADMIN",
+  Editor = "EDITOR",
+  Viewer = "VIEWER",
 }
+// String enums don't auto-increment — every member needs an explicit value,
+// but they're more debuggable (console.log shows "ADMIN", not an opaque 0/1/2)
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
+// String enums can be used in templates
+function getRoleMessage(role: Role): string {
+  return \`User role is: \${role}\`;
 }
+getRoleMessage(Role.Admin); // "User role is: ADMIN"
+    </code></pre>
+  </div>
 
-type UserWithTimestamps = User & Timestamped;
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Reverse Mapping (Numeric Enums Only)
+  </h4>
 
-const user: UserWithTimestamps = {
-  id: 1,
-  name: "Alice",
-  email: "alice@example.com",
-  createdAt: new Date(),
-  updatedAt: new Date()
-};
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+enum Direction { Up, Down }
+console.log(Direction.Up);   // 0
+console.log(Direction[0]);   // "Up" -- numeric enums generate a reverse map
+// String enums do NOT get this reverse mapping — Role["ADMIN"] doesn't exist
 
-// Mixing types and interfaces
-type DatabaseEntity = { id: number } & Timestamped;
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Advanced Patterns :</span> 
-Union and intersection types can be combined with other TypeScript features to create sophisticated type systems and patterns.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Optional properties with unions
-type PartialUser = {
-  id: number;
-  name?: string;
-  email?: string;
-} | {
-  id: number;
-  name: string;
-  email: string;
-};
+// The compiled JavaScript for numeric enum:
+// var Direction;
+// (function (Direction) {
+//     Direction[Direction["Up"] = 0] = "Up";
+//     Direction[Direction["Down"] = 1] = "Down";
+// })(Direction || (Direction = {}));
+// This creates both Direction.Up = 0 and Direction[0] = "Up"
+    </code></pre>
+  </div>
 
-// Function overloads with unions
-function format(value: string): string;
-function format(value: number): string;
-function format(value: string | number): string {
-  return typeof value === "string" ? value : value.toString();
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Const Enums — Compiled Away Entirely
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+const enum Direction { Up, Down }
+let d = Direction.Up;
+// Compiles to: let d = 0; -- the enum itself doesn't exist at runtime,
+// its usages are inlined at compile time (smaller output, faster access,
+// but can't be used with isolatedModules/some bundler setups)
+
+// Const enum with string values
+const enum Status {
+  Active = "ACTIVE",
+  Inactive = "INACTIVE",
 }
+let s = Status.Active;
+// Compiles to: let s = "ACTIVE";
 
-// Conditional types with unions
-type NonNullable<T> = T extends null | undefined ? never : T;
-type StringOrNumber = NonNullable<string | number | null>; // string | number
-</code></pre>
-    </div>
-    These advanced patterns show how union and intersection types can be used to create complex, yet type-safe APIs.
-     </li>
-   </ol>
- </div>`,
-            examples: [
-              `// Basic union types
-type Theme = "light" | "dark";
-type Size = "small" | "medium" | "large";
+// Const enums are inlined, so they don't produce reverse mapping
+// Direction[0] would be a runtime error if you tried it
+    </code></pre>
+  </div>
 
-// Union with different types
-type Input = string | number | boolean;
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Enum Types Compared
+  </h4>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Type</th>
+      <th style="border: 1px solid black; padding: 8px;">Runtime Footprint</th>
+      <th style="border: 1px solid black; padding: 8px;">Reverse Mapping</th>
+      <th style="border: 1px solid black; padding: 8px;">Debuggability</th>
+      <th style="border: 1px solid black; padding: 8px;">Tree-shaking</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Numeric enum</td>
+      <td style="border: 1px solid black; padding: 8px;">Generates a real JS object</td>
+      <td style="border: 1px solid black; padding: 8px;">Yes</td>
+      <td style="border: 1px solid black; padding: 8px;">Poor — logs show opaque numbers</td>
+      <td style="border: 1px solid black; padding: 8px;">Limited</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">String enum</td>
+      <td style="border: 1px solid black; padding: 8px;">Generates a real JS object</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Good — logs show the actual string</td>
+      <td style="border: 1px solid black; padding: 8px;">Limited</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Const enum</td>
+      <td style="border: 1px solid black; padding: 8px;">None — fully inlined at compile time</td>
+      <td style="border: 1px solid black; padding: 8px;">No</td>
+      <td style="border: 1px solid black; padding: 8px;">Depends on inlined value type</td>
+      <td style="border: 1px solid black; padding: 8px;">Excellent — no runtime code</td>
+    </tr>
+  </table>
 
-// Function with union parameter
-function setValue(value: Input): void {
-  console.log(\`Setting value: \ {value}\`);
-}
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Why Many Teams Avoid Enums Now
+  </h4>
 
-// Intersection types
-type Coordinates = { x: number; y: number };
-type Color = { color: string };
-type ColoredPoint = Coordinates & Color;
+  <p style="line-height: 1.75;">
+    Numeric enums have real footguns: any number is assignable to a numeric enum type by default (weak type 
+    safety), they generate extra runtime JS (unlike most TS constructs, which are fully erased), and they 
+    don't tree-shake as cleanly. The increasingly common modern alternative is a literal union backed by an 
+    <code>as const</code> object:
+  </p>
 
-const point: ColoredPoint = {
-  x: 10,
-  y: 20,
-  color: "red"
-};
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-typescript">
+const Role = {
+  Admin: "ADMIN",
+  Editor: "EDITOR",
+  Viewer: "VIEWER",
+} as const;
 
-// Array of union types
-const mixedArray: (string | number)[] = ["hello", 42, "world", 123];`,
-            ],
-            questions: [
-              {
-                question: "What are union types in TypeScript?",
-                solution:
-                  "<p>Union types allow a variable to hold values of multiple types, specified using the pipe (|) operator. For example, 'string | number' means a value can be either a string or a number. Union types provide flexibility while maintaining type safety by allowing only the specified types.</p>",
-              },
-              {
-                question: "What are intersection types in TypeScript?",
-                solution: `<p>Intersection types combine multiple types into one using the ampersand (&) operator. The resulting type has all properties from all intersected types:</p>
-             <pre><code className="language-typescript">
-type A = { x: number };
-type B = { y: string };
-type C = A & B; // { x: number; y: string }
-            </code></pre>
-           <p>Intersection types are useful for combining features from different types or interfaces.</p>`,
-              },
-              {
-                question: "How do you work with union types safely?",
-                solution:
-                  "<p>To work with union types safely, use type guards to narrow down the type before accessing type-specific properties. Common type guards include 'typeof', 'instanceof', 'in' operator, and custom type predicates. This ensures you only access properties that exist on the current type.</p>",
-              },
-              {
-                question: "What are discriminated unions?",
-                solution:
-                  "<p>Discriminated unions are union types where each variant has a common property (discriminant) with a unique literal type. This allows TypeScript to distinguish between variants in switch statements or conditionals. For example, objects with a 'type' property that has different string literal values.</p>",
-              },
-              {
-                question: "Can you combine union and intersection types?",
-                solution:
-                  "<p>Yes, you can combine union and intersection types to create complex type expressions. For example, '(A & B) | (C & D)' creates a union where each variant is an intersection. However, be careful about readability and consider using type aliases for complex combinations.</p>",
-              },
-              {
-                question: "What happens when you intersect conflicting types?",
-                solution:
-                  "<p>When you intersect types with conflicting properties (same name, different types), the result is 'never' for that property. For example, '{ x: string } & { x: number }' results in '{ x: never }', which is essentially unusable. Avoid conflicting properties in intersection types.</p>",
-              },
-              {
-                question: "How do union types work with arrays?",
-                solution:
-                  "<p>Union types work with arrays by allowing array elements to be any of the union types. For example, '(string | number)[]' creates an array that can contain strings and numbers. You'll need type guards when processing individual elements to access type-specific methods.</p>",
-              },
-              {
-                question: "What's the difference between union types and enum?",
-                solution:
-                  "<p>Union types with string literals ('type Status = 'loading' | 'success' | 'error'') are similar to string enums but exist only at compile time. Enums generate runtime objects, while union types are purely compile-time constructs. Union types are often preferred for simple cases due to their simplicity.</p>",
-              },
-              {
-                question:
-                  "How do you create optional properties with union types?",
-                solution:
-                  "<p>Optional properties can be created by including 'undefined' in a union type or using the optional operator (?). For example, 'name: string | undefined' or 'name?: string'. Both approaches make the property optional, but they behave slightly differently in terms of presence checking.</p>",
-              },
-              {
-                question:
-                  "Can functions have union types for parameters and return values?",
-                solution:
-                  "<p>Yes, functions can have union types for both parameters and return values. For example, 'function process(input: string | number): string",
-              },
-            ],
-          },
-          {
-            topic: "Type Guards and Narrowing",
-            tags: [
-              "typescript",
-              "type-guards",
-              "narrowing",
-              "type-safety",
-              "runtime-checks",
-            ],
-            explanation: `<div>
-    <p style="line-height: 1.75; margin-top: 1.5rem;">
-      Type Guards in TypeScript are runtime checks that help narrow down the type of a variable within a specific code block. They allow you to safely access properties and methods that are only available on certain types, providing both compile-time type safety and runtime validation.
-      Type narrowing is the process of refining union types to more specific types based on runtime checks, making your code more type-safe and predictable.
-    </p>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Basic type guard example
-function isString(value: unknown): value is string {
-  return typeof value === 'string';
-}
+type Role = (typeof Role)[keyof typeof Role]; // "ADMIN" | "EDITOR" | "VIEWER"
 
-function processValue(value: string | number) {
-  if (isString(value)) {
-    // TypeScript knows value is string here
-    console.log(value.toUpperCase());
-  } else {
-    // TypeScript knows value is number here
-    console.log(value.toFixed(2));
-  }
-}
+function checkAccess(role: Role) { /* ... */ }
+checkAccess(Role.Admin); // OK, autocomplete works, and it's a plain object at runtime
+checkAccess("ADMIN");    // Also OK — it's just a literal union, no special enum object needed
 
-// Using built-in type guards
-function handleInput(input: string | number | null) {
-  if (typeof input === 'string') {
-    return input.length; // string methods available
-  } else if (typeof input === 'number') {
-    return input * 2; // number methods available
-  } else {
-    return 0; // input is null
-  }
-}
-      </code></pre>
-    </div>
-    
-    <p style="line-height: 1.75;">
-      In this example, we demonstrate both custom type guards (isString) and built-in type guards (typeof). The TypeScript compiler automatically narrows the type within each conditional block, allowing safe access to type-specific properties and methods.
-    </p>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Types of Type Guards
-    </h4>
-    
-    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-      <li style="margin-top: 0.5rem;">
-        <span style="font-weight: 600; font-size: 1.1rem;">typeof Guards:</span> The most common type guard for primitive types, checking the runtime type of a value.
-        
-        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-          <pre><code className="language-typescript">
-function processInput(input: string | number | boolean) {
-  if (typeof input === 'string') {
-    return input.charAt(0); // string methods
-  } else if (typeof input === 'number') {
-    return input.toFixed(2); // number methods
-  } else {
-    return input ? 'true' : 'false'; // boolean methods
-  }
-}
+// Benefits of the as const pattern:
+// 1. No runtime overhead beyond a plain object
+// 2. Works with any literal type (string, number, symbol)
+// 3. Type-safe without reverse mapping footguns
+// 4. Better tree-shaking
+// 5. No special syntax — just JavaScript + TypeScript types
+    </code></pre>
+  </div>
 
-// Array check
-function processArray(value: unknown) {
-  if (Array.isArray(value)) {
-    return value.length; // array methods available
-  }
-  return 0;
-}
-          </code></pre>
-        </div>
-        
-        <p style="line-height: 1.75; margin-top: 0.5rem;">
-          typeof guards work with primitive types: 'string', 'number', 'boolean', 'undefined', 'object', 'function', and 'symbol'.
-        </p>
-      </li>
-      
-      <li style="margin-top: 0.5rem;">
-        <span style="font-weight: 600; font-size: 1.1rem;">instanceof Guards:</span> Used to check if an object is an instance of a specific class or constructor function.
-        
-        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-          <pre><code className="language-typescript">
-class Dog {
-  bark() { return 'Woof!'; }
-}
+  <p style="line-height: 1.75;">
+    This pattern gets you enum-like ergonomics (grouped constants, autocomplete) with none of the numeric-enum 
+    type-safety issues, and it's just a plain JS object — no special compiler behavior, no extra runtime cost 
+    beyond a normal object literal.
+  </p>
 
-class Cat {
-  meow() { return 'Meow!'; }
-}
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Interview Angle
+  </h4>
+  <p style="line-height: 1.75;">
+    - Be ready to state the numeric-enum weak-typing gotcha (<code>function f(d: Direction) {}</code> — 
+    calling <code>f(99)</code> compiles fine, since any number is assignable) as a concrete reason string 
+    enums or the <code>as const</code> pattern are often preferred.<br>
+    - Know that enums are one of the few TypeScript features that generate real runtime JavaScript — most 
+    other type constructs (interfaces, type aliases, generics) are fully erased at compile time, which is 
+    worth stating explicitly since it surprises people.<br>
+    - Be ready to write the <code>as const</code> + <code>keyof typeof</code> pattern from memory — it's 
+    increasingly the expected "modern TypeScript" answer over a plain enum.<br>
+    - <strong>"What's the difference between enum and const enum?"</strong> — A regular enum generates a 
+    runtime object and allows reverse mapping; a const enum is fully inlined at compile time and doesn't 
+    exist at runtime (smaller output, but can't be used with <code>isolatedModules</code> or certain bundlers).<br>
+    - <strong>"When would you choose an enum over a union of literals?"</strong> — Very rarely in modern TS. 
+    The main case is when you need the runtime object (e.g., for iteration or reverse mapping), but even then 
+    the <code>as const</code> pattern can provide the same benefits with better type safety.<br>
+    - <strong>"How do you iterate over an enum?"</strong> — For numeric enums: <code>Object.keys(Direction).filter(k => isNaN(Number(k)))</code> 
+    gets the keys. For string enums: <code>Object.values(Role)</code> works. This is another reason the 
+    <code>as const</code> pattern is preferred — it's just a plain object.
+  </p>
 
-function makeSound(animal: Dog | Cat) {
-  if (animal instanceof Dog) {
-    return animal.bark(); // Dog methods available
-  } else {
-    return animal.meow(); // Cat methods available
-  }
-}
-
-// Built-in types
-function processError(error: unknown) {
-  if (error instanceof Error) {
-    console.log(error.message); // Error properties available
-  }
-}
-          </code></pre>
-        </div>
-      </li>
-      
-      <li style="margin-top: 0.5rem;">
-        <span style="font-weight: 600; font-size: 1.1rem;">in Operator:</span> Checks if a property exists on an object, useful for discriminating between object types.
-        
-        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-          <pre><code className="language-typescript">
-interface Bird {
-  fly(): void;
-  layEggs(): void;
-}
-
-interface Fish {
-  swim(): void;
-  layEggs(): void;
-}
-
-function move(animal: Bird | Fish) {
-  if ('fly' in animal) {
-    animal.fly(); // Bird methods available
-  } else {
-    animal.swim(); // Fish methods available
-  }
-}
-
-// Property existence check
-function processObject(obj: { name?: string; age?: number }) {
-  if ('name' in obj && obj.name) {
-    console.log(obj.name.toUpperCase()); // name is defined
-  }
-}
-          </code></pre>
-        </div>
-      </li>
-      
-      <li style="margin-top: 0.5rem;">
-        <span style="font-weight: 600; font-size: 1.1rem;">Custom Type Guards:</span> User-defined functions that return a type predicate (value is Type).
-        
-        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-          <pre><code className="language-typescript">
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface Admin {
-  id: number;
-  name: string;
-  permissions: string[];
-}
-
-function isAdmin(user: User | Admin): user is Admin {
-  return 'permissions' in user;
-}
-
-function isUser(user: User | Admin): user is User {
-  return 'email' in user;
-}
-
-function processAccount(account: User | Admin) {
-  if (isAdmin(account)) {
-    console.log(account.permissions); // Admin properties
-  } else {
-    console.log(account.email); // User properties
-  }
-}
-
-// Null/undefined checks
-function isNotNull<T>(value: T | null | undefined): value is T {
-  return value !== null && value !== undefined;
-}
-          </code></pre>
-        </div>
-      </li>
-    </ol>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Discriminated Unions
-    </h4>
-    
-    <p style="line-height: 1.75; margin-top: 1rem;">
-      Discriminated unions use a common property to distinguish between different types, making type narrowing more reliable and expressive.
-    </p>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
-      <pre><code className="language-typescript">
-interface Circle {
-  kind: 'circle';
-  radius: number;
-}
-
-interface Rectangle {
-  kind: 'rectangle';
-  width: number;
-  height: number;
-}
-
-interface Triangle {
-  kind: 'triangle';
-  base: number;
-  height: number;
-}
-
-type Shape = Circle | Rectangle | Triangle;
-
-function getArea(shape: Shape): number {
-  switch (shape.kind) {
-    case 'circle':
-      return Math.PI * shape.radius ** 2;
-    case 'rectangle':
-      return shape.width * shape.height;
-    case 'triangle':
-      return (shape.base * shape.height) / 2;
-    default:
-      // Exhaustiveness check
-      const exhaustiveCheck: never = shape;
-      throw new Error(\`Unhandled shape: \ {exhaustiveCheck}\`);
-  }
-}
-      </code></pre>
-    </div>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Advanced Type Narrowing Techniques
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
-      <pre><code className="language-typescript">
-// Truthiness narrowing
-function processValue(value: string | null | undefined) {
-  if (value) {
-    // value is string (truthy)
-    console.log(value.toUpperCase());
-  }
-}
-
-// Equality narrowing
-function processStatus(status: 'loading' | 'success' | 'error' | null) {
-  if (status === 'loading') {
-    // status is exactly 'loading'
-    console.log('Loading...');
-  } else if (status !== null) {
-    // status is 'success' | 'error'
-    console.log(\`Status: \ {status}\`);
-  }
-}
-
-// Control flow analysis
-function processUser(user: { name: string } | null) {
-  if (!user) {
-    return; // Early return
-  }
-  
-  // TypeScript knows user is not null here
-  console.log(user.name.toUpperCase());
-}
-      </code></pre>
-    </div>
-  </div>`,
-
-            examples: [
-              `// API Response handling with type guards
-interface ApiSuccess<T> {
-  success: true;
-  data: T;
-}
-
-interface ApiError {
-  success: false;
-  error: string;
-  code: number;
-}
-
-type ApiResponse<T> = ApiSuccess<T> | ApiError;
-
-function isApiSuccess<T>(response: ApiResponse<T>): response is ApiSuccess<T> {
-  return response.success === true;
-}
-
-function handleApiResponse<T>(response: ApiResponse<T>) {
-  if (isApiSuccess(response)) {
-    // response.data is available and type-safe
-    console.log('Success:', response.data);
-  } else {
-    // response.error and response.code are available
-    console.log(\`Error \ {response.code}: \ {response.error}\`);
-  }
-}
-
-// Usage
-const userResponse: ApiResponse<{ name: string; id: number }> = {
-  success: true,
-  data: { name: 'John', id: 1 }
-};
-
-handleApiResponse(userResponse);`,
-
-              `// Event handling with discriminated unions
-interface ClickEvent {
-  type: 'click';
-  button: 'left' | 'right';
-  position: { x: number; y: number };
-}
-
-interface KeyboardEvent {
-  type: 'keydown' | 'keyup';
-  key: string;
-  ctrlKey: boolean;
-  altKey: boolean;
-}
-
-interface MouseMoveEvent {
-  type: 'mousemove';
-  position: { x: number; y: number };
-  buttons: number;
-}
-
-type UIEvent = ClickEvent | KeyboardEvent | MouseMoveEvent;
-
-function handleEvent(event: UIEvent) {
-  switch (event.type) {
-    case 'click':
-      console.log(\`Click at (\ {event.position.x}, \ {event.position.y})\`);
-      break;
-    case 'keydown':
-    case 'keyup':
-      console.log(\`Key \ {event.key} \ {event.type}\`);
-      break;
-    case 'mousemove':
-      console.log(\`Mouse moved to (\ {event.position.x}, \ {event.position.y})\`);
-      break;
-  }
-}
-
-// Type guard for specific event types
-function isKeyboardEvent(event: UIEvent): event is KeyboardEvent {
-  return event.type === 'keydown' || event.type === 'keyup';
-}`,
-
-              `// Complex object validation with type guards
-interface DatabaseUser {
-  id: number;
-  username: string;
-  email: string;
-  profile?: {
-    firstName: string;
-    lastName: string;
-    avatar?: string;
-  };
-}
-
-function isValidUser(obj: any): obj is DatabaseUser {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    typeof obj.id === 'number' &&
-    typeof obj.username === 'string' &&
-    typeof obj.email === 'string' &&
-    (obj.profile === undefined || isValidProfile(obj.profile))
-  );
-}
-
-function isValidProfile(obj: any): obj is NonNullable<DatabaseUser['profile']> {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    typeof obj.firstName === 'string' &&
-    typeof obj.lastName === 'string' &&
-    (obj.avatar === undefined || typeof obj.avatar === 'string')
-  );
-}
-
-// Safe API data processing
-function processUserData(rawData: unknown) {
-  if (isValidUser(rawData)) {
-    // rawData is now typed as DatabaseUser
-    console.log(\`User: \ {rawData.username}\`);
-    
-    if (rawData.profile) {
-      console.log(\`Name: \ {rawData.profile.firstName} \ {rawData.profile.lastName}\`);
-    }
-  } else {
-    throw new Error('Invalid user data received');
-  }
-}
-
-// Array type guards
-function isStringArray(arr: unknown[]): arr is string[] {
-  return arr.every(item => typeof item === 'string');
-}
-
-function isNumberArray(arr: unknown[]): arr is number[] {
-  return arr.every(item => typeof item === 'number');
-}`,
-            ],
-
-            questions: [
-              {
-                question: "What are type guards in TypeScript?",
-                solution:
-                  "<p>Type guards are runtime checks that help TypeScript narrow down the type of a variable within a specific code block. They allow you to safely access properties and methods that are only available on certain types, providing both compile-time type safety and runtime validation.</p>",
-              },
-              {
-                question:
-                  "What's the difference between typeof and instanceof type guards?",
-                solution: `<p>typeof is used for primitive types (string, number, boolean, etc.) while instanceof is used for objects and classes:</p>
-        <pre><code className="language-typescript">
-// typeof for primitives
-if (typeof value === 'string') { }
-
-// instanceof for objects/classes
-if (value instanceof Date) { }
-        </code></pre>
-        <p>typeof checks the primitive type, while instanceof checks the constructor chain.</p>`,
-              },
-              {
-                question: "How do custom type guards work?",
-                solution: `<p>Custom type guards are functions that return a type predicate (value is Type). They perform runtime checks and tell TypeScript what type a value is:</p>
-        <pre><code className="language-typescript">
-function isString(value: unknown): value is string {
-  return typeof value === 'string';
-}
-        </code></pre>
-        <p>The 'value is string' return type is a type predicate that narrows the type when the function returns true.</p>`,
-              },
-              {
-                question:
-                  "What are discriminated unions and how do they help with type narrowing?",
-                solution:
-                  "<p>Discriminated unions use a common property (discriminant) to distinguish between different types in a union. This makes type narrowing more reliable and enables exhaustive checking in switch statements. The discriminant property helps TypeScript understand which specific type you're working with.</p>",
-              },
-              {
-                question: "How does the 'in' operator work for type narrowing?",
-                solution: `<p>The 'in' operator checks if a property exists on an object and narrows the type accordingly:</p>
-        <pre><code className="language-typescript">
-if ('fly' in animal) {
-  animal.fly(); // animal is Bird
-} else {
-  animal.swim(); // animal is Fish
-}
-        </code></pre>
-        <p>This is useful for discriminating between object types based on their properties.</p>`,
-              },
-              {
-                question: "What is control flow analysis in TypeScript?",
-                solution:
-                  "<p>Control flow analysis is TypeScript's ability to track the type of variables through different code paths. It considers if statements, early returns, and other control flow constructs to narrow types automatically. For example, after a null check, TypeScript knows the variable is not null in subsequent code.</p>",
-              },
-              {
-                question: "How can you create type guards for complex objects?",
-                solution: `<p>For complex objects, create type guards that check each required property:</p>
-        <pre><code className="language-typescript">
-function isUser(obj: any): obj is User {
-  return obj && 
-    typeof obj.id === 'number' && 
-    typeof obj.name === 'string';
-}
-        </code></pre>
-        <p>You can combine multiple checks and even call other type guards for nested objects.</p>`,
-              },
-              {
-                question: "What is truthiness narrowing?",
-                solution:
-                  "<p>Truthiness narrowing occurs when TypeScript eliminates falsy values (null, undefined, false, 0, '') from a union type based on truthiness checks. For example, if you check 'if (value)', TypeScript narrows out null and undefined from the type within that block.</p>",
-              },
-              {
-                question:
-                  "How do you handle exhaustiveness checking with discriminated unions?",
-                solution: `<p>Use the 'never' type to ensure all cases are handled:</p>
-        <pre><code className="language-typescript">
-default:
-  const exhaustiveCheck: never = shape;
-  throw new Error(\`Unhandled case: \ {exhaustiveCheck}\`);
-        </code></pre>
-        <p>This will cause a compile error if you add a new type to the union without handling it.</p>`,
-              },
-              {
-                question: "Can type guards be used with generic types?",
-                solution: `<p>Yes, type guards can work with generics by using type parameters:</p>
-        <pre><code className="language-typescript">
-function isNotNull<T>(value: T | null): value is T {
-  return value !== null;
-}
-        </code></pre>
-        <p>This creates a reusable type guard that works with any type T.</p>`,
-              },
-              {
-                question: "What are some common patterns for type narrowing?",
-                solution:
-                  "<p>Common patterns include: early returns for null checks, switch statements with discriminated unions, typeof checks for primitives, instanceof for classes, 'in' operator for object properties, and custom type guards for complex validation. Each pattern helps TypeScript understand the specific type in different contexts.</p>",
-              },
-              {
-                question: "How do type guards help with error handling?",
-                solution:
-                  "<p>Type guards enable safe error handling by validating data structure before accessing properties. They're especially useful for API responses, user input validation, and working with external data where you can't guarantee the type. This prevents runtime errors and makes your code more robust.</p>",
-              },
-            ],
-
+</div>
+`,
+            examples: [""],
+            questions: [{}],
             links: [
-              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html",
-              "https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types",
-              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions",
-              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates",
-              "https://basarat.gitbook.io/typescript/type-system/typeguard",
+              "https://www.typescriptlang.org/docs/handbook/enums.html",
+              "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html",
             ],
-          },
-          {
-            topic: "Generics",
-            tags: [
-              "typescript",
-              "generics",
-              "type-parameters",
-              "reusability",
-              "constraints",
-            ],
-            explanation: `<div>
-    <p style="line-height: 1.75; margin-top: 1.5rem;">
-      Generics in TypeScript allow you to create reusable components that work with multiple types while maintaining type safety. They enable you to write flexible, type-safe code by parameterizing types, making functions, classes, and interfaces work with a variety of types without sacrificing compile-time type checking.
-      Generics provide a way to make components work over a variety of types rather than a single one, allowing users to consume these components and use their own types.
-    </p>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Basic generic function
-function identity<T>(arg: T): T {
-  return arg;
-}
-
-// Usage with different types
-const stringResult = identity<string>("hello");
-const numberResult = identity<number>(42);
-const booleanResult = identity(true); // Type inference
-
-// Generic array function
-function getFirstElement<T>(arr: T[]): T | undefined {
-  return arr[0];
-}
-
-const firstNumber = getFirstElement([1, 2, 3]); // number | undefined
-const firstString = getFirstElement(["a", "b", "c"]); // string | undefined
-      </code></pre>
-    </div>
-    
-    <p style="line-height: 1.75;">
-      In this example, the generic type parameter T allows the function to work with any type while preserving the relationship between input and output types. TypeScript can often infer the generic type from usage context.
-    </p>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Generic Constraints
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Basic constraint
-interface Lengthwise {
-  length: number;
-}
-
-function logLength<T extends Lengthwise>(arg: T): T {
-  console.log(arg.length);
-  return arg;
-}
-
-// Works with arrays, strings, etc.
-logLength("hello"); // string has length
-logLength([1, 2, 3]); // array has length
-// logLength(42); // Error: number doesn't have length
-
-// Keyof constraint
-function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
-  return obj[key];
-}
-
-const person = { name: "John", age: 30 };
-const name = getProperty(person, "name"); // string
-const age = getProperty(person, "age"); // number
-      </code></pre>
-    </div>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Generic Classes and Interfaces
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Generic interface
-interface Repository<T> {
-  create(item: T): T;
-  findById(id: string): T | undefined;
-  update(id: string, item: Partial<T>): T;
-  delete(id: string): boolean;
-}
-
-// Generic class
-class Stack<T> {
-  private items: T[] = [];
-  
-  push(item: T): void {
-    this.items.push(item);
-  }
-  
-  pop(): T | undefined {
-    return this.items.pop();
-  }
-  
-  peek(): T | undefined {
-    return this.items[this.items.length - 1];
-  }
-  
-  isEmpty(): boolean {
-    return this.items.length === 0;
-  }
-}
-
-const numberStack = new Stack<number>();
-const stringStack = new Stack<string>();
-      </code></pre>
-    </div>
-  </div>`,
-            examples: [
-              `// Generic utility types
-type ApiResponse<T> = {
-  data: T;
-  status: number;
-  message: string;
-};
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
-
-const userResponse: ApiResponse<User> = {
-  data: { id: 1, name: "John", email: "john@example.com" },
-  status: 200,
-  message: "Success"
-};
-
-// Generic function with multiple type parameters
-function merge<T, U>(first: T, second: U): T & U {
-  return { ...first, ...second };
-}
-
-const merged = merge({ name: "John" }, { age: 30 });
-// merged type is { name: string } & { age: number }`,
-
-              `// Advanced generic patterns
-class EventEmitter<T extends Record<string, any[]>> {
-  private listeners: {
-    [K in keyof T]?: Array<(...args: T[K]) => void>;
-  } = {};
-  
-  on<K extends keyof T>(event: K, listener: (...args: T[K]) => void): void {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
-    }
-    this.listeners[event]!.push(listener);
-  }
-  
-  emit<K extends keyof T>(event: K, ...args: T[K]): void {
-    const eventListeners = this.listeners[event];
-    if (eventListeners) {
-      eventListeners.forEach(listener => listener(...args));
-    }
-  }
-}
-
-// Usage
-type Events = {
-  userLogin: [string, number]; // username, timestamp
-  userLogout: [string];
-  error: [Error];
-};
-
-const emitter = new EventEmitter<Events>();
-emitter.on('userLogin', (username, timestamp) => {
-  console.log(\`User \ {username} logged in at \ {timestamp}\`);
-});`,
-
-              `// Generic conditional types
-type NonNullable<T> = T extends null | undefined ? never : T;
-
-type ApiResult<T> = T extends string 
-  ? { text: T }
-  : T extends number 
-  ? { value: T }
-  : T extends boolean 
-  ? { flag: T }
-  : { data: T };
-
-// Mapped types with generics
-type Optional<T> = {
-  [K in keyof T]?: T[K];
-};
-
-type Required<T> = {
-  [K in keyof T]-?: T[K];
-};
-
-type ReadOnly<T> = {
-  readonly [K in keyof T]: T[K];
-};
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-type PartialUser = Optional<User>; // All properties optional
-type RequiredUser = Required<User>; // All properties required
-type ReadOnlyUser = ReadOnly<User>; // All properties readonly`,
-            ],
-
-            questions: [
-              {
-                question: "What are generics in TypeScript?",
-                solution:
-                  "<p>Generics are a way to create reusable components that work with multiple types while maintaining type safety. They allow you to parameterize types using type variables (like T), enabling functions, classes, and interfaces to work with various types without sacrificing compile-time type checking.</p>",
-              },
-              {
-                question: "How do you constrain generic types?",
-                solution: `<p>You can constrain generic types using the 'extends' keyword:</p>
-        <pre><code className="language-typescript">
-function process<T extends string | number>(value: T): T {
-  return value;
-}
-        </code></pre>
-        <p>This ensures T can only be string or number types.</p>`,
-              },
-              {
-                question: "What is the keyof constraint in generics?",
-                solution: `<p>The keyof constraint ensures a generic type parameter is a key of another type:</p>
-        <pre><code className="language-typescript">
-function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
-  return obj[key];
-}
-        </code></pre>
-        <p>This guarantees that K is a valid property key of T.</p>`,
-              },
-              {
-                question: "How do generic classes work?",
-                solution:
-                  "<p>Generic classes use type parameters to create reusable class definitions that work with multiple types. The type parameter is specified when creating an instance of the class, and all methods and properties can use this type parameter to maintain type safety throughout the class.</p>",
-              },
-              {
-                question: "What are generic interfaces?",
-                solution:
-                  "<p>Generic interfaces define contracts that can work with multiple types. They use type parameters to specify the shape of objects while allowing the specific types to be determined when the interface is used. This enables creating flexible, reusable interface definitions.</p>",
-              },
-              {
-                question: "How does type inference work with generics?",
-                solution:
-                  "<p>TypeScript can often infer generic types from usage context, eliminating the need to explicitly specify type parameters. For example, when calling a generic function with specific arguments, TypeScript can deduce the generic type from the argument types.</p>",
-              },
-              {
-                question: "What are conditional types in generics?",
-                solution: `<p>Conditional types allow you to create types that depend on a condition:</p>
-        <pre><code className="language-typescript">
-type ApiResult<T> = T extends string ? { text: T } : { data: T };
-        </code></pre>
-        <p>The resulting type depends on whether T extends string.</p>`,
-              },
-              {
-                question: "How do you use multiple generic type parameters?",
-                solution: `<p>You can use multiple type parameters separated by commas:</p>
-        <pre><code className="language-typescript">
-function merge<T, U>(first: T, second: U): T & U {
-  return { ...first, ...second };
-}
-        </code></pre>
-        <p>This allows functions to work with multiple different types simultaneously.</p>`,
-              },
-              {
-                question: "What are mapped types with generics?",
-                solution:
-                  "<p>Mapped types use generics to transform existing types by iterating over their properties. Common examples include making all properties optional, required, or readonly. They use the 'in keyof' syntax to iterate over type properties and apply transformations.</p>",
-              },
-              {
-                question: "How do you create generic utility types?",
-                solution:
-                  "<p>Generic utility types are reusable type transformations that accept type parameters. Examples include Partial<T>, Required<T>, and custom utilities. They help create consistent type transformations across your codebase while maintaining type safety.</p>",
-              },
-              {
-                question: "What are the benefits of using generics?",
-                solution:
-                  "<p>Generics provide type safety, code reusability, better IntelliSense support, and compile-time error checking. They eliminate the need for any types or function overloads, making code more maintainable and less prone to runtime errors while preserving type information.</p>",
-              },
-              {
-                question:
-                  "How do you handle generic constraints with complex types?",
-                solution:
-                  "<p>Complex generic constraints can combine multiple conditions using intersection types, union types, and conditional types. You can create sophisticated type relationships that ensure generic parameters meet specific structural requirements while maintaining flexibility.</p>",
-              },
-            ],
-            links: [
-              "https://www.typescriptlang.org/docs/handbook/2/generics.html",
-              "https://www.typescriptlang.org/docs/handbook/2/generic-constraints.html",
-              "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
-              "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html",
-              "https://basarat.gitbook.io/typescript/type-system/generics",
-            ],
-          },
-          {
-            topic: "Utility Types",
-            tags: [
-              "typescript",
-              "utility-types",
-              "mapped-types",
-              "conditional-types",
-              "type-manipulation",
-            ],
-            explanation: `<div>
-    <p style="line-height: 1.75; margin-top: 1.5rem;">
-      Utility types in TypeScript are pre-built generic types that help transform and manipulate existing types. They provide common type transformations like making properties optional, required, or readonly, and enable powerful type-level programming. These utilities help reduce boilerplate code and create more maintainable type definitions.
-      TypeScript provides many built-in utility types, and you can also create custom utility types to solve specific problems in your codebase.
-    </p>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Basic utility types
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  age: number;
-}
-
-// Make all properties optional
-type PartialUser = Partial<User>;
-// { id?: number; name?: string; email?: string; age?: number; }
-
-// Make all properties required
-type RequiredUser = Required<PartialUser>;
-// { id: number; name: string; email: string; age: number; }
-
-// Make all properties readonly
-type ReadonlyUser = Readonly<User>;
-// { readonly id: number; readonly name: string; ... }
-
-// Pick specific properties
-type UserSummary = Pick<User, 'id' | 'name'>;
-// { id: number; name: string; }
-
-// Omit specific properties
-type UserWithoutId = Omit<User, 'id'>;
-// { name: string; email: string; age: number; }
-      </code></pre>
-    </div>
-    
-    <p style="line-height: 1.75;">
-      These utility types are particularly useful when working with APIs, forms, and data transformations where you need different variations of the same base type structure.
-    </p>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Advanced Utility Types
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Record type
-type UserRoles = 'admin' | 'user' | 'guest';
-type RolePermissions = Record<UserRoles, string[]>;
-// { admin: string[]; user: string[]; guest: string[]; }
-
-// Exclude and Extract
-type Status = 'pending' | 'approved' | 'rejected';
-type ActiveStatus = Exclude<Status, 'rejected'>; // 'pending' | 'approved'
-type FinalStatus = Extract<Status, 'approved' | 'rejected'>; // 'approved' | 'rejected'
-
-// NonNullable
-type MaybeString = string | null | undefined;
-type DefiniteString = NonNullable<MaybeString>; // string
-
-// ReturnType and Parameters
-function createUser(name: string, age: number): User {
-  return { id: 1, name, email: '', age };
-}
-
-type CreateUserReturn = ReturnType<typeof createUser>; // User
-type CreateUserParams = Parameters<typeof createUser>; // [string, number]
-
-// ConstructorParameters
-class Database {
-  constructor(host: string, port: number) {}
-}
-
-type DbConstructorParams = ConstructorParameters<typeof Database>; // [string, number]
-      </code></pre>
-    </div>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Custom Utility Types
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Make specific properties optional
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-
-type UserWithOptionalEmail = PartialBy<User, 'email'>;
-// { id: number; name: string; email?: string; age: number; }
-
-// Make specific properties required
-type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
-
-// Deep readonly
-type DeepReadonly<T> = {
-  readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
-};
-
-// Flatten nested objects
-type Flatten<T> = T extends object
-  ? T extends infer O
-    ? { [K in keyof O]: O[K] }
-    : never
-  : T;
-
-// Get function names from an object
-type FunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never;
-}[keyof T];
-
-type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
-      </code></pre>
-    </div>
-  </div>`,
-
-            examples: [
-              `// Form handling with utility types
-interface UserForm {
-  name: string;
-  email: string;
-  age: number;
-  password: string;
-}
-
-// Form state with all optional fields
-type FormState = Partial<UserForm>;
-
-// Form errors
-type FormErrors = Partial<Record<keyof UserForm, string>>;
-
-// API payload (without password)
-type UserApiPayload = Omit<UserForm, 'password'>;
-
-// Form validation
-function validateForm(form: FormState): FormErrors {
-  const errors: FormErrors = {};
-  
-  if (!form.name) errors.name = 'Name is required';
-  if (!form.email) errors.email = 'Email is required';
-  if (!form.age || form.age < 0) errors.age = 'Valid age is required';
-  
-  return errors;
-}`,
-
-              `// API response handling
-interface ApiResponse<T> {
-  data: T;
-  status: number;
-  message: string;
-}
-
-type UserResponse = ApiResponse<User>;
-type UsersResponse = ApiResponse<User[]>;
-
-// Create update types
-type UserUpdate = Partial<Omit<User, 'id'>>;
-type UserCreate = Omit<User, 'id'>;
-
-// Database operations
-interface Repository<T> {
-  create(item: Omit<T, 'id'>): Promise<T>;
-  update(id: number, item: Partial<Omit<T, 'id'>>): Promise<T>;
-  findById(id: number): Promise<T | null>;
-  delete(id: number): Promise<boolean>;
-}
-
-const userRepository: Repository<User> = {
-  create: async (userData: UserCreate) => ({ id: 1, ...userData }),
-  update: async (id: number, updates: UserUpdate) => ({ id, name: '', email: '', age: 0, ...updates }),
-  findById: async (id: number) => null,
-  delete: async (id: number) => true,
-};`,
-
-              `// Event system with utility types
-interface EventMap {
-  'user:created': { user: User };
-  'user:updated': { user: User; changes: Partial<User> };
-  'user:deleted': { userId: number };
-  'system:error': { error: Error };
-}
-
-type EventName = keyof EventMap;
-type EventData<T extends EventName> = EventMap[T];
-
-class EventEmitter {
-  private listeners: {
-    [K in EventName]?: Array<(data: EventData<K>) => void>;
-  } = {};
-  
-  on<T extends EventName>(event: T, listener: (data: EventData<T>) => void): void {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
-    }
-    (this.listeners[event] as any[]).push(listener);
-  }
-  
-  emit<T extends EventName>(event: T, data: EventData<T>): void {
-    const eventListeners = this.listeners[event];
-    if (eventListeners) {
-      eventListeners.forEach(listener => listener(data));
-    }
-  }
-}
-
-// Usage
-const emitter = new EventEmitter();
-emitter.on('user:created', ({ user }) => {
-  console.log(\`User created: \ {user.name}\`);
-});`,
-            ],
-            questions: [
-              {
-                question: "What are utility types in TypeScript?",
-                solution:
-                  "<p>Utility types are pre-built generic types that help transform and manipulate existing types. They provide common type transformations like making properties optional (Partial), required (Required), or readonly (Readonly), enabling powerful type-level programming and reducing boilerplate code.</p>",
-              },
-              {
-                question: "What does the Partial<T> utility type do?",
-                solution: `<p>Partial<T> makes all properties of type T optional:</p>
-        <pre><code className="language-typescript">
-interface User { name: string; age: number; }
-type PartialUser = Partial<User>; // { name?: string; age?: number; }
-        </code></pre>
-        <p>This is useful for update operations where you might only change some properties.</p>`,
-              },
-              {
-                question: "How does Pick<T, K> work?",
-                solution: `<p>Pick<T, K> creates a new type by selecting specific properties from T:</p>
-        <pre><code className="language-typescript">
-type UserSummary = Pick<User, 'id' | 'name'>; // { id: number; name: string; }
-        </code></pre>
-        <p>It's useful for creating smaller types from larger interfaces.</p>`,
-              },
-              {
-                question: "What's the difference between Omit and Exclude?",
-                solution:
-                  "<p>Omit removes properties from object types, while Exclude removes types from union types. Omit<User, 'id'> removes the id property from User. Exclude<'a' | 'b' | 'c', 'a'> removes 'a' from the union, leaving 'b' | 'c'.</p>",
-              },
-              {
-                question: "How does the Record<K, T> utility type work?",
-                solution: `<p>Record<K, T> creates a type with keys K and values T:</p>
-        <pre><code className="language-typescript">
-type UserRoles = 'admin' | 'user' | 'guest';
-type RolePermissions = Record<UserRoles, string[]>;
-// { admin: string[]; user: string[]; guest: string[]; }
-        </code></pre>
-        <p>It's useful for creating object types with known keys.</p>`,
-              },
-              {
-                question: "What are ReturnType and Parameters utility types?",
-                solution:
-                  "<p>ReturnType<T> extracts the return type of a function, while Parameters<T> extracts the parameter types as a tuple. These are useful for type inference from existing functions without duplicating type information.</p>",
-              },
-              {
-                question: "How do you create custom utility types?",
-                solution: `<p>Custom utility types use mapped types and conditional types:</p>
-        <pre><code className="language-typescript">
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-        </code></pre>
-        <p>This makes only specific properties optional while keeping others required.</p>`,
-              },
-              {
-                question: "What is the NonNullable<T> utility type?",
-                solution: `<p>NonNullable<T> removes null and undefined from type T:</p>
-        <pre><code className="language-typescript">
-type MaybeString = string | null | undefined;
-type DefiniteString = NonNullable<MaybeString>; // string
-        </code></pre>
-        <p>It's useful for ensuring values are defined.</p>`,
-              },
-              {
-                question: "How do utility types help with API design?",
-                solution:
-                  "<p>Utility types help create consistent API types by deriving related types from base interfaces. For example, using Omit<User, 'id'> for creation payloads and Partial<User> for update payloads ensures consistency and reduces duplication.</p>",
-              },
-              {
-                question: "What are mapped types in utility types?",
-                solution:
-                  "<p>Mapped types iterate over properties of a type and transform them. They use the syntax [K in keyof T] to iterate over keys and apply transformations. Most utility types are implemented using mapped types under the hood.</p>",
-              },
-              {
-                question: "How do conditional types work in utility types?",
-                solution: `<p>Conditional types use the extends keyword to create types based on conditions:</p>
-        <pre><code className="language-typescript">
-type IsArray<T> = T extends any[] ? true : false;
-        </code></pre>
-        <p>They enable complex type transformations based on type structure.</p>`,
-              },
-              {
-                question: "What are the benefits of using utility types?",
-                solution:
-                  "<p>Utility types provide type safety, reduce code duplication, ensure consistency across related types, enable powerful type transformations, and make code more maintainable. They help create robust type systems without manual type definitions.</p>",
-              },
-            ],
-            links: [
-              "https://www.typescriptlang.org/docs/handbook/utility-types.html",
-              "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html",
-              "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
-              "https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html",
-              "https://basarat.gitbook.io/typescript/type-system/mapped-types",
-            ],
-          },
-          {
-            topic: "Classes and Inheritance",
-            tags: [
-              "typescript",
-              "classes",
-              "inheritance",
-              "polymorphism",
-              "access-modifiers",
-              "abstract-classes",
-            ],
-            explanation: `<div>
-    <p style="line-height: 1.75; margin-top: 1.5rem;">
-      Classes in TypeScript provide a way to define blueprints for objects with properties and methods. They support modern object-oriented programming concepts including inheritance, encapsulation, and polymorphism. TypeScript enhances JavaScript classes with type annotations, access modifiers, and additional features like abstract classes and interfaces.
-      Inheritance allows classes to extend other classes, promoting code reuse and creating hierarchical relationships between related types.
-    </p>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Basic class definition
-class Person {
-  // Properties with type annotations
-  name: string;
-  age: number;
-  
-  // Constructor
-  constructor(name: string, age: number) {
-    this.name = name;
-    this.age = age;
-  }
-  
-  // Method
-  greet(): string {
-    return \`Hello, I'm \ {this.name} and I'm \ {this.age} years old.\`;
-  }
-  
-  // Getter
-  get description(): string {
-    return \`\ {this.name} (\ {this.age})\`;
-  }
-  
-  // Setter
-  set newAge(age: number) {
-    if (age > 0) {
-      this.age = age;
-    }
-  }
-}
-
-// Creating instances
-const person = new Person("Alice", 30);
-console.log(person.greet());
-console.log(person.description);
-person.newAge = 31;
-      </code></pre>
-    </div>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Access Modifiers
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-class BankAccount {
-  public accountNumber: string;      // Accessible everywhere
-  private balance: number;           // Only accessible within class
-  protected ownerId: string;         // Accessible in class and subclasses
-  readonly createdAt: Date;          // Cannot be modified after initialization
-  
-  constructor(accountNumber: string, initialBalance: number, ownerId: string) {
-    this.accountNumber = accountNumber;
-    this.balance = initialBalance;
-    this.ownerId = ownerId;
-    this.createdAt = new Date();
-  }
-  
-  // Public method
-  public deposit(amount: number): void {
-    if (amount > 0) {
-      this.balance += amount;
-    }
-  }
-  
-  // Private method
-  private validateTransaction(amount: number): boolean {
-    return amount > 0 && amount <= this.balance;
-  }
-  
-  // Protected method
-  protected updateBalance(amount: number): void {
-    this.balance += amount;
-  }
-  
-  // Public getter for private property
-  public getBalance(): number {
-    return this.balance;
-  }
-}
-
-// Usage
-const account = new BankAccount("12345", 1000, "user123");
-account.deposit(500);
-console.log(account.getBalance()); // 1500
-// account.balance = 2000; // Error: balance is private
-      </code></pre>
-    </div>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Inheritance and Polymorphism
-    </h4>
-    
-    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
-// Base class
-class Animal {
-  protected name: string;
-  
-  constructor(name: string) {
-    this.name = name;
-  }
-  
-  move(distance: number): void {
-    console.log(\`\ {this.name} moved \ {distance} meters\`);
-  }
-  
-  makeSound(): void {
-    console.log("Some generic animal sound");
-  }
-}
-
-// Derived class
-class Dog extends Animal {
-  breed: string;
-  
-  constructor(name: string, breed: string) {
-    super(name); // Call parent constructor
-    this.breed = breed;
-  }
-  
-  // Override parent method
-  makeSound(): void {
-    console.log(\`\ {this.name} barks: Woof! Woof!\`);
-  }
-  
-  // Add new method
-  wagTail(): void {
-    console.log(\`\ {this.name} wags tail happily\`);
-  }
-}
-
-class Cat extends Animal {
-  constructor(name: string) {
-    super(name);
-  }
-  
-  makeSound(): void {
-    console.log(\`\ {this.name} meows: Meow!\`);
-  }
-}
-
-// Polymorphism in action
-const animals: Animal[] = [
-  new Dog("Buddy", "Golden Retriever"),
-  new Cat("Whiskers")
-];
-
-animals.forEach(animal => {
-  animal.makeSound(); // Calls appropriate override
-});
-      </code></pre>
-    </div>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-      Abstract Classes
-    </h4>`,
-          },
+          }
         ],
       },
       {
