@@ -7437,10 +7437,10 @@ person.greet(); // Output: Hello, undefined
         id: 1,
         label: "Beginner",
         concepts: [
-  {
-    "topic": "React Philosophy",
-    "tags": [""],
-    "explanation": `<div>
+          {
+            "topic": "React Philosophy",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Philosophy (Interview Guide)
   </h4>
@@ -7556,17 +7556,17 @@ function App() {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/thinking-in-react",
-      "https://react.dev/learn",
-    ]
-  },
-  {
-    "topic": "SPA vs MPA",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/thinking-in-react",
+              "https://react.dev/learn",
+            ]
+          },
+          {
+            "topic": "SPA vs MPA",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     SPA vs MPA (Interview Guide)
   </h4>
@@ -7660,17 +7660,17 @@ function App() {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
-      "https://react.dev/learn/start-a-new-react-project",
-    ]
-  },
-  {
-    "topic": "React Architecture",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
+              "https://react.dev/learn/start-a-new-react-project",
+            ]
+          },
+          {
+            "topic": "React Architecture",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Architecture (Interview Guide)
   </h4>
@@ -7758,17 +7758,17 @@ const priorities = {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/faq-internals.html",
-      "https://github.com/acdlite/react-fiber-architecture",
-    ]
-  },
-  {
-    "topic": "Declarative Programming",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+              "https://github.com/acdlite/react-fiber-architecture",
+            ]
+          },
+          {
+            "topic": "Declarative Programming",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Declarative Programming (Interview Guide)
   </h4>
@@ -7845,16 +7845,16 @@ document.body.appendChild(button);
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/thinking-in-react",
-    ]
-  },
-  {
-    "topic": "Imperative Programming",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/thinking-in-react",
+            ]
+          },
+          {
+            "topic": "Imperative Programming",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Imperative Programming (Interview Guide)
   </h4>
@@ -7956,16 +7956,16 @@ function addItem(item) {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/manipulating-the-dom-with-refs",
-    ]
-  },
-  {
-    "topic": "JSX",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/manipulating-the-dom-with-refs",
+            ]
+          },
+          {
+            "topic": "JSX",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     JSX (Interview Guide)
   </h4>
@@ -8053,17 +8053,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/writing-markup-with-jsx",
-      "https://legacy.reactjs.org/docs/introducing-jsx.html",
-    ]
-  },
-  {
-    "topic": "Babel",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/writing-markup-with-jsx",
+              "https://legacy.reactjs.org/docs/introducing-jsx.html",
+            ]
+          },
+          {
+            "topic": "Babel",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Babel (Interview Guide)
   </h4>
@@ -8135,17 +8135,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://babeljs.io/docs/",
-      "https://babeljs.io/docs/babel-preset-react",
-    ]
-  },
-  {
-    "topic": "Virtual DOM",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://babeljs.io/docs/",
+              "https://babeljs.io/docs/babel-preset-react",
+            ]
+          },
+          {
+            "topic": "Virtual DOM",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Virtual DOM (Interview Guide)
   </h4>
@@ -8237,16 +8237,16 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/faq-internals.html",
-    ]
-  },
-  {
-    "topic": "Real DOM",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+            ]
+          },
+          {
+            "topic": "Real DOM",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Real DOM (Interview Guide)
   </h4>
@@ -8321,17 +8321,17 @@ items.forEach((_, i) => {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
-      "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
-    ]
-  },
-  {
-    "topic": "Fiber Architecture",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
+              "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
+            ]
+          },
+          {
+            "topic": "Fiber Architecture",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Fiber Architecture (Interview Guide)
   </h4>
@@ -8428,17 +8428,17 @@ const fiber = {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://github.com/acdlite/react-fiber-architecture",
-      "https://legacy.reactjs.org/docs/faq-internals.html",
-    ]
-  },
-  {
-    "topic": "Rendering Process",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://github.com/acdlite/react-fiber-architecture",
+              "https://legacy.reactjs.org/docs/faq-internals.html",
+            ]
+          },
+          {
+            "topic": "Rendering Process",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Rendering Process (Interview Guide)
   </h4>
@@ -8542,16 +8542,16 @@ useLayoutEffect(() => {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/learn/render-and-commit",
-    ]
-  },
-  {
-    "topic": "Reconciliation",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/learn/render-and-commit",
+            ]
+          },
+          {
+            "topic": "Reconciliation",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Reconciliation (Interview Guide)
   </h4>
@@ -8639,16 +8639,16 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/reconciliation.html",
-    ]
-  },
-  {
-    "topic": "Diffing Algorithm",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/reconciliation.html",
+            ]
+          },
+          {
+            "topic": "Diffing Algorithm",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Diffing Algorithm (Interview Guide)
   </h4>
@@ -8730,16 +8730,16 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
-    ]
-  },
-  {
-    "topic": "Component Lifecycle",
-    "tags": [""],
-    "explanation": `<div>
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
+            ]
+          },
+          {
+            "topic": "Component Lifecycle",
+            "tags": [""],
+            "explanation": `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Component Lifecycle (Interview Guide)
   </h4>
@@ -8844,13 +8844,13 @@ function Timer() {
 
 </div>
 `,
-    "examples": [""],
-    "questions": [{}],
-    "links": [
-      "https://react.dev/reference/react/Component",
-      "https://react.dev/reference/react/useEffect",
-    ]
-  },
+            "examples": [""],
+            "questions": [{}],
+            "links": [
+              "https://react.dev/reference/react/Component",
+              "https://react.dev/reference/react/useEffect",
+            ]
+          },
           {
             "topic": "React Philosophy",
             "tags": [""],
@@ -40109,6 +40109,11588 @@ function DebuggableComponent({ data, filter, sortBy }) {
               "https://reactjs.org/docs/hooks-reference.html#usememo",
             ],
           },
+          {
+            topic: "Redux Toolkit",
+            tags: ["Redux", "State Management", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Redux Toolkit (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Redux Toolkit (RTK)</strong> is the official, opinionated, batteries-included toolset for 
+        efficient Redux development. It was created to solve the three most common complaints about Redux: 
+        (1) Too much boilerplate code, (2) Too many dependencies, (3) Complexity in setting up the store and 
+        writing reducers. RTK wraps the core Redux functionality with utilities that simplify store setup, 
+        reducer creation, and async logic, while maintaining the same predictable state management pattern.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Redux Toolkit is now the standard way to write Redux in 
+        modern applications. Interviewers ask about it to gauge your understanding of modern Redux patterns, 
+        your ability to write clean, maintainable state management code, and your familiarity with the 
+        ecosystem's best practices.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Redux Toolkit vs Classic Redux
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Classic Redux</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Redux Toolkit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Store Setup</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>createStore</code> with multiple middleware</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>configureStore</code> with defaults</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Reducers</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Switch statements, manual immutability</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>createSlice</code> with Immer</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Async Logic</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manual thunks or sagas</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>createAsyncThunk</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>DevTools</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manual setup</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-configured</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Immutability</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manual (spread, Object.assign)</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto via Immer</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Redux Toolkit Setup
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Store Setup with configureStore ======
+// store.ts
+import { configureStore } from "@reduxjs/toolkit";
+import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
+import { userSlice } from "./userSlice";
+import { postsSlice } from "./postsSlice";
+import { commentsSlice } from "./commentsSlice";
+
+// Configure the store with all reducers
+export const store = configureStore({
+  reducer: {
+    user: userSlice.reducer,
+    posts: postsSlice.reducer,
+    comments: commentsSlice.reducer,
+  },
+  // Middleware can be customized
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore non-serializable values in specific paths
+        ignoredActions: ["user/login"],
+        ignoredPaths: ["user.loginTimestamp"],
+      },
+    }),
+  devTools: process.env.NODE_ENV !== "production",
+});
+
+// Infer the RootState and AppDispatch types from the store
+export type RootState = ReturnType&lt;typeof store.getState&gt;;
+export type AppDispatch = typeof store.dispatch;
+
+// Create typed hooks for use throughout the app
+export const useAppDispatch = () => useDispatch&lt;AppDispatch&gt;();
+export const useAppSelector: TypedUseSelectorHook&lt;RootState&gt; = useSelector;
+
+// ====== 2. Basic Slice with createSlice ======
+// userSlice.ts
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+}
+
+interface UserState {
+  currentUser: User | null;
+  isLoading: boolean;
+  error: string | null;
+  isAuthenticated: boolean;
+}
+
+const initialState: UserState = {
+  currentUser: null,
+  isLoading: false,
+  error: null,
+  isAuthenticated: false,
+};
+
+export const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    // Set user data
+    setUser: (state, action: PayloadAction&lt;User&gt;) => {
+      state.currentUser = action.payload;
+      state.isAuthenticated = true;
+      state.error = null;
+    },
+    // Clear user data (logout)
+    clearUser: (state) => {
+      state.currentUser = null;
+      state.isAuthenticated = false;
+      state.error = null;
+    },
+    // Update user data
+    updateUser: (state, action: PayloadAction&lt;Partial&lt;User&gt;&gt;) => {
+      if (state.currentUser) {
+        state.currentUser = { ...state.currentUser, ...action.payload };
+      }
+    },
+    // Set loading state
+    setLoading: (state, action: PayloadAction&lt;boolean&gt;) => {
+      state.isLoading = action.payload;
+    },
+    // Set error state
+    setError: (state, action: PayloadAction&lt;string | null&gt;) => {
+      state.error = action.payload;
+    },
+  },
+});
+
+// Export action creators
+export const { setUser, clearUser, updateUser, setLoading, setError } = userSlice.actions;
+
+// Export selectors
+export const selectCurrentUser = (state: RootState) => state.user.currentUser;
+export const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+export const selectUserLoading = (state: RootState) => state.user.isLoading;
+export const selectUserError = (state: RootState) => state.user.error;
+
+// ====== 3. Slice with Complex Reducers ======
+// postsSlice.ts
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface PostsState {
+  items: Post[];
+  selectedPost: Post | null;
+  isLoading: boolean;
+  error: string | null;
+  page: number;
+  hasMore: boolean;
+}
+
+const initialState: PostsState = {
+  items: [],
+  selectedPost: null,
+  isLoading: false,
+  error: null,
+  page: 1,
+  hasMore: true,
+};
+
+// Async thunk for fetching posts
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async ({ page, limit }: { page: number; limit: number }) => {
+    const response = await fetch(\`/api/posts?page=\${page}&limit=\${limit}\`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch posts");
+    }
+    const data = await response.json();
+    return { posts: data, page, hasMore: data.length === limit };
+  }
+);
+
+export const postsSlice = createSlice({
+  name: "posts",
+  initialState,
+  reducers: {
+    // Select a post
+    selectPost: (state, action: PayloadAction&lt;string&gt;) => {
+      state.selectedPost = state.items.find(post => post.id === action.payload) || null;
+    },
+    // Clear selected post
+    clearSelectedPost: (state) => {
+      state.selectedPost = null;
+    },
+    // Add a new post locally
+    addPost: (state, action: PayloadAction&lt;Post&gt;) => {
+      state.items.unshift(action.payload);
+    },
+    // Update a post locally
+    updatePost: (state, action: PayloadAction&lt;Post&gt;) => {
+      const index = state.items.findIndex(post => post.id === action.payload.id);
+      if (index !== -1) {
+        state.items[index] = action.payload;
+      }
+      if (state.selectedPost?.id === action.payload.id) {
+        state.selectedPost = action.payload;
+      }
+    },
+    // Delete a post locally
+    deletePost: (state, action: PayloadAction&lt;string&gt;) => {
+      state.items = state.items.filter(post => post.id !== action.payload);
+      if (state.selectedPost?.id === action.payload) {
+        state.selectedPost = null;
+      }
+    },
+  },
+  // Handle async thunk actions
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPosts.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.items = [...state.items, ...action.payload.posts];
+        state.page = action.payload.page + 1;
+        state.hasMore = action.payload.hasMore;
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Failed to fetch posts";
+      });
+  },
+});
+
+export const { selectPost, clearSelectedPost, addPost, updatePost, deletePost } = postsSlice.actions;
+
+export const selectAllPosts = (state: RootState) => state.posts.items;
+export const selectSelectedPost = (state: RootState) => state.posts.selectedPost;
+export const selectPostsLoading = (state: RootState) => state.posts.isLoading;
+export const selectPostsError = (state: RootState) => state.posts.error;
+export const selectPostsPage = (state: RootState) => state.posts.page;
+export const selectPostsHasMore = (state: RootState) => state.posts.hasMore;
+
+// ====== 4. Using Redux Toolkit with React ======
+// App.tsx
+import React, { useEffect, useState } from "react";
+import { Provider } from "react-redux";
+import { store, useAppDispatch, useAppSelector } from "./store";
+import { fetchPosts, selectAllPosts, selectPostsLoading, selectPostsError, selectPostsHasMore } from "./postsSlice";
+import { setUser, clearUser, selectCurrentUser, selectIsAuthenticated } from "./userSlice";
+
+// Post Component
+function PostItem({ post, onSelect }: { post: Post; onSelect: (id: string) => void }) {
+  return (
+    &lt;div className="post" onClick={() => onSelect(post.id)}&gt;
+      &lt;h3&gt;{post.title}&lt;/h3&gt;
+      &lt;p&gt;{post.content.substring(0, 100)}...&lt;/p&gt;
+      &lt;small&gt;By User ID: {post.authorId}&lt;/small&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Posts List Component
+function PostsList() {
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector(selectAllPosts);
+  const isLoading = useAppSelector(selectPostsLoading);
+  const error = useAppSelector(selectPostsError);
+  const hasMore = useAppSelector(selectPostsHasMore);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(fetchPosts({ page, limit: 10 }));
+  }, [page, dispatch]);
+
+  const loadMore = () => {
+    if (hasMore && !isLoading) {
+      setPage(prev => prev + 1);
+    }
+  };
+
+  const handleSelectPost = (id: string) => {
+    dispatch(selectPost(id));
+  };
+
+  if (error) {
+    return &lt;div className="error"&gt;Error: {error}&lt;/div&gt;;
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;div className="posts-list"&gt;
+        {posts.map(post => (
+          &lt;PostItem key={post.id} post={post} onSelect={handleSelectPost} /&gt;
+        ))}
+      &lt;/div&gt;
+      {isLoading && &lt;div className="loading"&gt;Loading...&lt;/div&gt;}
+      {hasMore && !isLoading && (
+        &lt;button onClick={loadMore}&gt;Load More&lt;/button&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// User Profile Component
+function UserProfile() {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+
+  const handleLogin = () => {
+    dispatch(setUser({
+      id: "1",
+      name: "John Doe",
+      email: "john@example.com",
+      role: "user",
+    }));
+  };
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+  };
+
+  if (!isAuthenticated) {
+    return &lt;button onClick={handleLogin}&gt;Login&lt;/button&gt;;
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Welcome, {user?.name}&lt;/h3&gt;
+      &lt;p&gt;Email: {user?.email}&lt;/p&gt;
+      &lt;p&gt;Role: {user?.role}&lt;/p&gt;
+      &lt;button onClick={handleLogout}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Root App Component
+function App() {
+  return (
+    &lt;Provider store={store}&gt;
+      &lt;div&gt;
+        &lt;h1&gt;Redux Toolkit Example&lt;/h1&gt;
+        &lt;UserProfile /&gt;
+        &lt;PostsList /&gt;
+      &lt;/div&gt;
+    &lt;/Provider&gt;
+  );
+}
+
+export default App;
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Key Redux Toolkit Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefits</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>configureStore</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Enhanced store setup with defaults</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto middleware, DevTools, simplified config</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>createSlice</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Define reducers and actions together</td>
+          <td style="border: 1px solid black; padding: 8px;">No switch statements, auto actions</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>createAsyncThunk</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Simplify async action creation</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto pending/fulfilled/rejected states</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Immer Integration</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Mutable code with immutable updates</td>
+          <td style="border: 1px solid black; padding: 8px;">Simpler reducer logic, less boilerplate</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>RTK Query</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Data fetching and caching</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto caching, lifecycle management</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is Redux Toolkit and why should you use it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Redux Toolkit is the official, recommended way to write Redux logic. It addresses the main 
+            pain points of classic Redux: excessive boilerplate, complex store configuration, and the need 
+            to manage immutability manually. You should use it because: (1) <strong>Reduces boilerplate:</strong> 
+            <code>createSlice</code> eliminates action constants and switch statements, (2) <strong>Simplifies 
+            setup:</strong> <code>configureStore</code> provides sensible defaults, (3) <strong>Auto 
+            immutability:</strong> Immer allows writing mutable code that produces immutable updates, 
+            (4) <strong>Built-in best practices:</strong> Includes recommended middleware and DevTools setup, 
+            (5) <strong>Async handling:</strong> <code>createAsyncThunk</code> simplifies async logic, 
+            (6) <strong>TypeScript support:</strong> Great TypeScript integration out of the box.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does configureStore differ from createStore?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>configureStore</code> is an enhanced version of <code>createStore</code> that: (1) 
+            <strong>Auto middleware:</strong> Adds recommended middleware (thunk, DevTools) by default, 
+            (2) <strong>Simplified reducers:</strong> Accepts an object of slices and combines them automatically, 
+            (3) <strong>DevTools:</strong> Enables Redux DevTools by default, (4) <strong>Immutability 
+            checking:</strong> Checks for accidental mutations in development, (5) <strong>Serializability 
+            checking:</strong> Warns about non-serializable values, (6) <strong>Customizable:</strong> You 
+            can still add custom middleware and enhancers. It's a wrapper around <code>createStore</code> 
+            that provides a better developer experience with sensible defaults.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What problem does createSlice solve?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>createSlice</code> solves the problem of boilerplate in classic Redux. In classic Redux, 
+            you had to: (1) Define action types as constants, (2) Create action creators, (3) Write reducer 
+            functions with switch statements, (4) Ensure immutability manually. <code>createSlice</code> 
+            automatically generates action creators and action types from the reducer functions you provide. 
+            It also integrates Immer for immutable updates, so you can write mutable code. This reduces code 
+            by 60-80% and makes Redux much more approachable. The generated actions and reducers are fully 
+            typed when using TypeScript.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the purpose of extraReducers in createSlice?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>extraReducers</code> is used to handle actions that aren't defined in the slice's reducers, 
+            typically actions generated by <code>createAsyncThunk</code> or actions from other slices. It's 
+            where you handle the pending, fulfilled, and rejected states of async actions. Unlike the regular 
+            reducers, <code>extraReducers</code> can listen to actions that are defined outside the slice. 
+            This allows a slice to respond to actions from other slices, keeping the code modular while 
+            still allowing cross-slice communication. In modern Redux, you should use the builder callback 
+            pattern (<code>builder.addCase</code>) for better TypeScript support.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does Redux Toolkit handle immutability?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Redux Toolkit uses <strong>Immer</strong> under the hood to handle immutability. With Immer, you 
+            can write code that appears to mutate state directly (e.g., <code>state.items.push(newItem)</code>), 
+            but Immer tracks the changes and produces an immutable update. This means you don't need to use 
+            spread operators or <code>Object.assign</code> manually. The benefits are: (1) <strong>Simpler 
+            code:</strong> Write intuitive, mutable-looking code, (2) <strong>Less boilerplate:</strong> 
+            No need to create new objects manually, (3) <strong>Type safety:</strong> Works well with 
+            TypeScript, (4) <strong>Performance:</strong> Immer uses structural sharing for efficient updates. 
+            The immutability is enforced at compile time in development via middleware and at runtime by 
+            Immer's proxy implementation.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the benefits of using Redux Toolkit's typed hooks?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Creating typed hooks (<code>useAppSelector</code> and <code>useAppDispatch</code>) provides: 
+            (1) <strong>Type safety:</strong> The hooks are correctly typed for your store's state and dispatch, 
+            (2) <strong>Better autocomplete:</strong> Your IDE can suggest the correct state and action types, 
+            (3) <strong>Reduced boilerplate:</strong> You don't need to type <code>useSelector&lt;RootState&gt;</code> 
+            every time, (4) <strong>Consistency:</strong> All components use the same typed hooks, (5) 
+            <strong>Error prevention:</strong> Prevents accidentally using the wrong state or dispatch type. 
+            This is especially important in large applications where TypeScript type inference can get complex.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://redux-toolkit.js.org/introduction/getting-started",
+              "https://redux-toolkit.js.org/api/configureStore",
+              "https://redux-toolkit.js.org/api/createSlice",
+            ],
+          },
+          {
+            topic: "createSlice",
+            tags: ["Redux", "State Management", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        createSlice (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <code>createSlice</code> is a Redux Toolkit function that automatically generates action creators 
+        and action types based on the reducer functions you define. It's the core building block of Redux 
+        Toolkit applications, eliminating the boilerplate of classic Redux while maintaining the same 
+        predictable state management pattern.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> <code>createSlice</code> is the most commonly used Redux 
+        Toolkit API. Interviewers ask about it to test your understanding of how modern Redux works, how to 
+        structure state management, and how to write clean, maintainable reducer logic.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        createSlice Structure
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Field</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Required</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>name</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Slice name, used as prefix for action types</td>
+          <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>initialState</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Initial state value for the slice</td>
+          <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>reducers</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Object of reducer functions</td>
+          <td style="border: 1px solid black; padding: 8px;">Yes</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>extraReducers</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Handles actions from other slices</td>
+          <td style="border: 1px solid black; padding: 8px;">No</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Advanced createSlice Patterns
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+
+// ====== 1. Basic Slice with Primitive State ======
+const counterSlice = createSlice({
+  name: "counter",
+  initialState: 0,
+  reducers: {
+    increment: (state) => state + 1,
+    decrement: (state) => state - 1,
+    reset: () => 0,
+    setValue: (state, action: PayloadAction&lt;number&gt;) => action.payload,
+  },
+});
+
+export const { increment, decrement, reset, setValue } = counterSlice.actions;
+
+// ====== 2. Slice with Object State ======
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  preferences: {
+    theme: "light" | "dark";
+    notifications: boolean;
+  };
+}
+
+interface UserState {
+  current: User | null;
+  isLoading: boolean;
+  error: string | null;
+  lastUpdated: string | null;
+}
+
+const initialUserState: UserState = {
+  current: null,
+  isLoading: false,
+  error: null,
+  lastUpdated: null,
+};
+
+const userSlice = createSlice({
+  name: "user",
+  initialState: initialUserState,
+  reducers: {
+    // Set user with prepared payload
+    setUser: {
+      reducer: (state, action: PayloadAction&lt;User&gt;) => {
+        state.current = action.payload;
+        state.lastUpdated = new Date().toISOString();
+        state.error = null;
+      },
+      prepare: (user: Omit&lt;User, "id"&gt;) => {
+        return {
+          payload: {
+            ...user,
+            id: crypto.randomUUID(),
+          },
+        };
+      },
+    },
+    // Update user partially
+    updateUser: (state, action: PayloadAction&lt;Partial&lt;User&gt;&gt;) => {
+      if (state.current) {
+        state.current = { ...state.current, ...action.payload };
+        state.lastUpdated = new Date().toISOString();
+      }
+    },
+    // Update nested preferences
+    updatePreferences: (state, action: PayloadAction&lt;Partial&lt;User["preferences"]&gt;&gt;) => {
+      if (state.current) {
+        state.current.preferences = { ...state.current.preferences, ...action.payload };
+      }
+    },
+    // Set loading state
+    setLoading: (state, action: PayloadAction&lt;boolean&gt;) => {
+      state.isLoading = action.payload;
+    },
+    // Set error state
+    setError: (state, action: PayloadAction&lt;string | null&gt;) => {
+      state.error = action.payload;
+    },
+    // Clear user
+    clearUser: (state) => {
+      state.current = null;
+      state.lastUpdated = null;
+      state.error = null;
+    },
+  },
+});
+
+export const {
+  setUser,
+  updateUser,
+  updatePreferences,
+  setLoading,
+  setError,
+  clearUser,
+} = userSlice.actions;
+
+// ====== 3. Slice with Array State ======
+interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
+  createdAt: string;
+  tags: string[];
+}
+
+interface TodoState {
+  items: Todo[];
+  filter: "all" | "active" | "completed";
+  searchTerm: string;
+  selectedTags: string[];
+}
+
+const initialTodoState: TodoState = {
+  items: [],
+  filter: "all",
+  searchTerm: "",
+  selectedTags: [],
+};
+
+const todoSlice = createSlice({
+  name: "todos",
+  initialState: initialTodoState,
+  reducers: {
+    // Add todo with prepared payload
+    addTodo: {
+      reducer: (state, action: PayloadAction&lt;Todo&gt;) => {
+        state.items.unshift(action.payload);
+      },
+      prepare: (text: string, tags: string[] = []) => {
+        return {
+          payload: {
+            id: crypto.randomUUID(),
+            text,
+            completed: false,
+            createdAt: new Date().toISOString(),
+            tags,
+          },
+        };
+      },
+    },
+    // Toggle todo completion
+    toggleTodo: (state, action: PayloadAction&lt;string&gt;) => {
+      const todo = state.items.find(item => item.id === action.payload);
+      if (todo) {
+        todo.completed = !todo.completed;
+      }
+    },
+    // Delete todo
+    deleteTodo: (state, action: PayloadAction&lt;string&gt;) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
+    },
+    // Update todo text
+    updateTodo: (state, action: PayloadAction&lt;{ id: string; text: string }&gt;) => {
+      const todo = state.items.find(item => item.id === action.payload.id);
+      if (todo) {
+        todo.text = action.payload.text;
+      }
+    },
+    // Bulk actions
+    completeAll: (state) => {
+      state.items.forEach(todo => {
+        todo.completed = true;
+      });
+    },
+    clearCompleted: (state) => {
+      state.items = state.items.filter(todo => !todo.completed);
+    },
+    // Filter and search
+    setFilter: (state, action: PayloadAction&lt;"all" | "active" | "completed"&gt;) => {
+      state.filter = action.payload;
+    },
+    setSearchTerm: (state, action: PayloadAction&lt;string&gt;) => {
+      state.searchTerm = action.payload;
+    },
+    toggleTag: (state, action: PayloadAction&lt;string&gt;) => {
+      const index = state.selectedTags.indexOf(action.payload);
+      if (index > -1) {
+        state.selectedTags.splice(index, 1);
+      } else {
+        state.selectedTags.push(action.payload);
+      }
+    },
+  },
+});
+
+export const {
+  addTodo,
+  toggleTodo,
+  deleteTodo,
+  updateTodo,
+  completeAll,
+  clearCompleted,
+  setFilter,
+  setSearchTerm,
+  toggleTag,
+} = todoSlice.actions;
+
+// ====== 4. Selectors with createSelector ======
+// Memoized selectors for derived data
+export const selectAllTodos = (state: RootState) => state.todos.items;
+export const selectTodoFilter = (state: RootState) => state.todos.filter;
+export const selectSearchTerm = (state: RootState) => state.todos.searchTerm;
+export const selectSelectedTags = (state: RootState) => state.todos.selectedTags;
+
+export const selectFilteredTodos = createSelector(
+  [selectAllTodos, selectTodoFilter, selectSearchTerm, selectSelectedTags],
+  (todos, filter, searchTerm, selectedTags) => {
+    let filtered = todos;
+
+    // Apply filter
+    if (filter === "active") {
+      filtered = filtered.filter(todo => !todo.completed);
+    } else if (filter === "completed") {
+      filtered = filtered.filter(todo => todo.completed);
+    }
+
+    // Apply search
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase();
+      filtered = filtered.filter(todo =>
+        todo.text.toLowerCase().includes(lowerSearch)
+      );
+    }
+
+    // Apply tag filter
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter(todo =>
+        selectedTags.some(tag => todo.tags.includes(tag))
+      );
+    }
+
+    return filtered;
+  }
+);
+
+export const selectTodoStats = createSelector(
+  [selectAllTodos],
+  (todos) => ({
+    total: todos.length,
+    completed: todos.filter(t => t.completed).length,
+    active: todos.filter(t => !t.completed).length,
+    completionRate: todos.length > 0
+      ? (todos.filter(t => t.completed).length / todos.length) * 100
+      : 0,
+  })
+);
+
+export const selectAllTags = createSelector(
+  [selectAllTodos],
+  (todos) => {
+    const tagSet = new Set&lt;string&gt;();
+    todos.forEach(todo => {
+      todo.tags.forEach(tag => tagSet.add(tag));
+    });
+    return Array.from(tagSet);
+  }
+);
+
+// ====== 5. Slice with Relationship Management ======
+interface Comment {
+  id: string;
+  postId: string;
+  author: string;
+  text: string;
+  createdAt: string;
+}
+
+interface CommentsState {
+  byId: Record&lt;string, Comment&gt;;
+  byPostId: Record&lt;string, string[]&gt;;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const initialCommentsState: CommentsState = {
+  byId: {},
+  byPostId: {},
+  isLoading: false,
+  error: null,
+};
+
+const commentsSlice = createSlice({
+  name: "comments",
+  initialState: initialCommentsState,
+  reducers: {
+    addComment: (state, action: PayloadAction&lt;Comment&gt;) => {
+      const comment = action.payload;
+      state.byId[comment.id] = comment;
+      if (!state.byPostId[comment.postId]) {
+        state.byPostId[comment.postId] = [];
+      }
+      state.byPostId[comment.postId].push(comment.id);
+    },
+    updateComment: (state, action: PayloadAction&lt;{ id: string; text: string }&gt;) => {
+      if (state.byId[action.payload.id]) {
+        state.byId[action.payload.id].text = action.payload.text;
+      }
+    },
+    deleteComment: (state, action: PayloadAction&lt;string&gt;) => {
+      const comment = state.byId[action.payload];
+      if (comment) {
+        const postComments = state.byPostId[comment.postId];
+        if (postComments) {
+          state.byPostId[comment.postId] = postComments.filter(id => id !== action.payload);
+        }
+        delete state.byId[action.payload];
+      }
+    },
+    setComments: (state, action: PayloadAction&lt;Comment[]&gt;) => {
+      state.byId = {};
+      state.byPostId = {};
+      action.payload.forEach(comment => {
+        state.byId[comment.id] = comment;
+        if (!state.byPostId[comment.postId]) {
+          state.byPostId[comment.postId] = [];
+        }
+        state.byPostId[comment.postId].push(comment.id);
+      });
+    },
+    setLoading: (state, action: PayloadAction&lt;boolean&gt;) => {
+      state.isLoading = action.payload;
+    },
+    setError: (state, action: PayloadAction&lt;string | null&gt;) => {
+      state.error = action.payload;
+    },
+  },
+});
+
+export const {
+  addComment,
+  updateComment,
+  deleteComment,
+  setComments,
+  setLoading: setCommentsLoading,
+  setError: setCommentsError,
+} = commentsSlice.actions;
+
+// Selectors for normalized data
+export const selectCommentsByPostId = (state: RootState, postId: string) => {
+  const commentIds = state.comments.byPostId[postId] || [];
+  return commentIds.map(id => state.comments.byId[id]).filter(Boolean);
+};
+
+export const selectCommentCount = (state: RootState, postId: string) => {
+  return (state.comments.byPostId[postId] || []).length;
+};
+
+// ====== 6. Slice with Async Actions (extraReducers) ======
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+// Async thunk for fetching todos
+export const fetchTodos = createAsyncThunk(
+  "todos/fetchTodos",
+  async (userId?: string) => {
+    const url = userId ? \`/api/todos?userId=\${userId}\` : "/api/todos";
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch todos");
+    }
+    return response.json();
+  }
+);
+
+// Async thunk for saving todos
+export const saveTodos = createAsyncThunk(
+  "todos/saveTodos",
+  async (todos: Todo[]) => {
+    const response = await fetch("/api/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todos),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to save todos");
+    }
+    return response.json();
+  }
+);
+
+// Add extraReducers to todoSlice
+todoSlice.extraReducers = (builder) => {
+  builder
+    .addCase(fetchTodos.pending, (state) => {
+      state.isLoading = true;
+      state.error = null;
+    })
+    .addCase(fetchTodos.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.items = action.payload;
+    })
+    .addCase(fetchTodos.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || "Failed to fetch todos";
+    })
+    .addCase(saveTodos.fulfilled, (state) => {
+      // Update state after successful save
+      state.error = null;
+    });
+};
+
+// Export the complete slice
+export default todoSlice;
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        createSlice Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Define State Interface</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Always define TypeScript interface for state</td>
+          <td style="border: 1px solid black; padding: 8px;">Type safety, autocomplete</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use PayloadAction</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Type action payloads with <code>PayloadAction&lt;T&gt;</code></td>
+          <td style="border: 1px solid black; padding: 8px;">Type safety for reducer parameters</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Keep Reducers Pure</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Don't include side effects in reducers</td>
+          <td style="border: 1px solid black; padding: 8px;">Predictable state updates</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use Selectors</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Extract state access to selectors</td>
+          <td style="border: 1px solid black; padding: 8px;">Encapsulation, memoization</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Normalize State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Flatten nested state structures</td>
+          <td style="border: 1px solid black; padding: 8px;">Performance, easier updates</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is createSlice and what does it return?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>createSlice</code> is a Redux Toolkit function that generates reducers, action creators, 
+            and action types based on the configuration you provide. It returns an object containing: (1) 
+            <strong>name:</strong> The slice name, (2) <strong>reducer:</strong> A reducer function that 
+            handles all the actions defined in the slice, (3) <strong>actions:</strong> An object of action 
+            creators for each reducer function, (4) <strong>caseReducers:</strong> The original reducer 
+            functions, (5) <strong>getInitialState:</strong> A function that returns the initial state. 
+            You typically export the reducer to add to the store and the action creators to dispatch in 
+            components. The slice also automatically generates action types like "name/reducerName".
+          </p>
+        </div>
+
+        <div style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">
+          <p style="font-weight: 600;">Q: "What is the difference between reducers and extraReducers in createSlice?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>reducers:</strong> Defines actions that are specific to this slice. The action creators 
+            are automatically generated and have the same name as the reducer functions. These actions can 
+            only be handled by this slice. <strong>extraReducers:</strong> Defines actions that are generated 
+            elsewhere (typically by <code>createAsyncThunk</code>) but should be handled by this slice. It 
+            allows a slice to respond to actions from other slices or async thunks. In modern Redux, you 
+            should use the builder callback pattern for <code>extraReducers</code> for better TypeScript 
+            support and to avoid adding actions to the slice's action creators.
+          </p>
+        </div>
+
+        <div style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">
+          <p style="font-weight: 600;">Q: "What is the payload preparation in createSlice?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Payload preparation is a pattern where you define a <code>prepare</code> function alongside the 
+            reducer function. Instead of the action creator accepting the payload directly, it accepts 
+            arguments that the <code>prepare</code> function processes to create the final payload. This is 
+            useful for: (1) <strong>Data transformation:</strong> Format data before it reaches the reducer, 
+            (2) <strong>ID generation:</strong> Generate unique IDs (like using <code>crypto.randomUUID()</code>), 
+            (3) <strong>Validation:</strong> Validate and normalize input data, (4) <strong>Metadata:</strong> 
+            Add timestamps or other metadata. The <code>prepare</code> function should return an object with 
+            <code>payload</code> and optionally <code>meta</code> and <code>error</code> fields.
+          </p>
+        </div>
+
+        <div style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">
+          <p style="font-weight: 600;">Q: "How does createSelector work and when would you use it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>createSelector</code> is a memoized selector function from Reselect (re-exported by Redux 
+            Toolkit). It takes an array of input selectors and a combiner function. It only recomputes the 
+            result when the input selectors' values change. Use it for: (1) <strong>Derived data:</strong> 
+            Computed values from state (like filtered lists, statistics), (2) <strong>Performance:</strong> 
+            Avoid recalculating expensive operations on every render, (3) <strong>State encapsulation:</strong> 
+            Hide the state structure from components, (4) <strong>Composition:</strong> Combine multiple 
+            state pieces into a single derived value. The memoization is based on referential equality of 
+            the input values, so it works best with immutable data structures.
+          </p>
+        </div>
+
+        <div style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">
+          <p style="font-weight: 600;">Q: "How do you handle nested state updates in createSlice?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            With Immer (integrated into <code>createSlice</code>), you can write mutable-looking code that 
+            produces immutable updates. For nested state: (1) <strong>Direct mutation:</strong> 
+            <code>state.user.preferences.theme = "dark"</code> — Immer tracks the change, (2) <strong>Nested 
+            objects:</strong> You can mutate deeply nested objects directly, (3) <strong>Arrays:</strong> 
+            Use methods like <code>push</code>, <code>pop</code>, <code>splice</code>, or assign by index, 
+            (4) <strong>Partial updates:</strong> Use spread with Immer: <code>state.user = { ...state.user, 
+            ...action.payload }</code>, (5) <strong>Delete:</strong> Use <code>delete</code> operator or 
+            <code>filter</code> for arrays. The key is that you write code as if you're mutating state, but 
+            Immer ensures the actual updates are immutable.
+          </p>
+        </div>
+
+        <div style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">
+          <p style="font-weight: 600;">Q: "What are the benefits of normalizing state in Redux?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Normalizing state means storing data in a flat, dictionary-like structure (e.g., 
+            <code>{ byId: { id: item }, allIds: [id] }</code>). Benefits: (1) <strong>Avoid duplication:</strong> 
+            Each piece of data is stored once, (2) <strong>Easier updates:</strong> Update a single record 
+            without searching through arrays, (3) <strong>Performance:</strong> Faster lookups by ID, 
+            (4) <strong>Consistency:</strong> All references to the same data point to the same source, 
+            (5) <strong>Relationships:</strong> Easier to manage relationships between entities, (6) 
+            <strong>Entity adapter:</strong> Redux Toolkit's <code>createEntityAdapter</code> provides 
+            utilities for normalized state. Normalization is especially important for data that's frequently 
+            updated or referenced in multiple places.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://redux-toolkit.js.org/api/createSlice",
+              "https://redux-toolkit.js.org/api/createSelector",
+              "https://redux-toolkit.js.org/usage/usage-with-typescript",
+            ],
+          },
+          {
+            topic: "createAsyncThunk",
+            tags: ["Redux", "Async", "State Management", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        createAsyncThunk (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <code>createAsyncThunk</code> is a Redux Toolkit function that simplifies handling asynchronous 
+        operations in Redux. It automatically generates action creators and action types for the three phases 
+        of an async operation: pending, fulfilled, and rejected. This eliminates the manual boilerplate of 
+        dispatching actions at each phase and provides a consistent pattern for handling async logic.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> <code>createAsyncThunk</code> is the primary way to handle 
+        async operations in modern Redux. Interviewers ask about it to test your understanding of async state 
+        management, error handling, and the lifecycle of Redux actions.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        createAsyncThunk Lifecycle
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Phase</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Action Type</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Pending</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>prefix/pending</code></td>
+          <td style="border: 1px solid black; padding: 8px;">When the async operation starts</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Fulfilled</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>prefix/fulfilled</code></td>
+          <td style="border: 1px solid black; padding: 8px;">When the async operation succeeds</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Rejected</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>prefix/rejected</code></td>
+          <td style="border: 1px solid black; padding: 8px;">When the async operation fails</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — createAsyncThunk Patterns
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+
+// ====== 1. Basic Async Thunk ======
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export const fetchUsers = createAsyncThunk(
+  "users/fetchUsers",
+  async (limit: number = 10) => {
+    const response = await fetch(\`/api/users?limit=\${limit}\`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch users");
+    }
+    const data = await response.json();
+    return data as User[];
+  }
+);
+
+// ====== 2. Async Thunk with Custom Error Handling ======
+interface ErrorResponse {
+  message: string;
+  code: number;
+}
+
+export const fetchUserById = createAsyncThunk(
+  "users/fetchUserById",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await fetch(\`/api/users/\${id}\`);
+      if (!response.ok) {
+        const error: ErrorResponse = await response.json();
+        return rejectWithValue(error);
+      }
+      return await response.json() as User;
+    } catch (error) {
+      return rejectWithValue({
+        message: "Network error occurred",
+        code: 500,
+      } as ErrorResponse);
+    }
+  }
+);
+
+// ====== 3. Async Thunk with Request Configuration ======
+interface FetchOptions {
+  id: string;
+  includeComments?: boolean;
+  signal?: AbortSignal;
+}
+
+export const fetchUserWithConfig = createAsyncThunk(
+  "users/fetchUserWithConfig",
+  async ({ id, includeComments = false, signal }: FetchOptions, { rejectWithValue }) => {
+    const url = \`/api/users/\${id}?\${includeComments ? "include=comments" : ""}\`;
+    const response = await fetch(url, { signal });
+    
+    if (!response.ok) {
+      return rejectWithValue(await response.text());
+    }
+    
+    return await response.json() as User;
+  }
+);
+
+// ====== 4. Async Thunk with Dependency Injection ======
+interface ApiService {
+  get: (url: string) => Promise&lt;any&gt;;
+  post: (url: string, data: any) => Promise&lt;any&gt;;
+  put: (url: string, data: any) => Promise&lt;any&gt;;
+  delete: (url: string) => Promise&lt;any&gt;;
+}
+
+export const createUserThunk = (api: ApiService) => {
+  return createAsyncThunk(
+    "users/createUser",
+    async (userData: Partial&lt;User&gt;) => {
+      return await api.post("/api/users", userData);
+    }
+  );
+};
+
+// ====== 5. Complex Slice with Multiple Async Thunks ======
+interface UsersState {
+  items: User[];
+  selectedUser: User | null;
+  isLoading: boolean;
+  error: string | null;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    hasMore: boolean;
+  };
+}
+
+const initialUsersState: UsersState = {
+  items: [],
+  selectedUser: null,
+  isLoading: false,
+  error: null,
+  pagination: {
+    page: 1,
+    limit: 10,
+    total: 0,
+    hasMore: true,
+  },
+};
+
+// Multiple async thunks
+export const fetchUsersPaginated = createAsyncThunk(
+  "users/fetchUsersPaginated",
+  async ({ page, limit }: { page: number; limit: number }) => {
+    const response = await fetch(\`/api/users?page=\${page}&limit=\${limit}\`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch users");
+    }
+    const data = await response.json();
+    return {
+      users: data.items as User[],
+      total: data.total,
+      hasMore: data.hasMore,
+    };
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "users/updateUser",
+  async ({ id, data }: { id: string; data: Partial&lt;User&gt; }) => {
+    const response = await fetch(\`/api/users/\${id}\`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update user");
+    }
+    return await response.json() as User;
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "users/deleteUser",
+  async (id: string) => {
+    const response = await fetch(\`/api/users/\${id}\`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete user");
+    }
+    return id;
+  }
+);
+
+// Users slice with all async thunks
+const usersSlice = createSlice({
+  name: "users",
+  initialState: initialUsersState,
+  reducers: {
+    clearError: (state) => {
+      state.error = null;
+    },
+    resetUsers: (state) => {
+      state.items = [];
+      state.pagination.page = 1;
+      state.pagination.hasMore = true;
+    },
+    selectUser: (state, action) => {
+      state.selectedUser = state.items.find(user => user.id === action.payload) || null;
+    },
+  },
+  extraReducers: (builder) => {
+    // ====== Fetch Users ======
+    builder
+      .addCase(fetchUsersPaginated.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUsersPaginated.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.items = [...state.items, ...action.payload.users];
+        state.pagination.total = action.payload.total;
+        state.pagination.hasMore = action.payload.hasMore;
+        state.pagination.page += 1;
+      })
+      .addCase(fetchUsersPaginated.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Failed to fetch users";
+      })
+
+      // ====== Update User ======
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const index = state.items.findIndex(user => user.id === action.payload.id);
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+        if (state.selectedUser?.id === action.payload.id) {
+          state.selectedUser = action.payload;
+        }
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Failed to update user";
+      })
+
+      // ====== Delete User ======
+      .addCase(deleteUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.items = state.items.filter(user => user.id !== action.payload);
+        if (state.selectedUser?.id === action.payload) {
+          state.selectedUser = null;
+        }
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Failed to delete user";
+      });
+  },
+});
+
+export const { clearError, resetUsers, selectUser } = usersSlice.actions;
+
+// ====== 6. Async Thunk with Progress Tracking ======
+interface UploadProgress {
+  loaded: number;
+  total: number;
+  percentage: number;
+}
+
+export const uploadFile = createAsyncThunk(
+  "upload/file",
+  async (
+    file: File,
+    { dispatch, rejectWithValue }
+  ) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    // Custom fetch with progress tracking
+    const xhr = new XMLHttpRequest();
+    
+    return new Promise&lt;string&gt;((resolve, reject) => {
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const progress: UploadProgress = {
+            loaded: event.loaded,
+            total: event.total,
+            percentage: (event.loaded / event.total) * 100,
+          };
+          // Dispatch progress updates
+          dispatch(uploadProgress(progress));
+        }
+      });
+
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          resolve(xhr.responseText);
+        } else {
+          reject(new Error(\`Upload failed: \${xhr.status}\`));
+        }
+      };
+
+      xhr.onerror = () => {
+        reject(new Error("Upload failed"));
+      };
+
+      xhr.open("POST", "/api/upload");
+      xhr.send(formData);
+    });
+  }
+);
+
+// Progress action
+const uploadSlice = createSlice({
+  name: "upload",
+  initialState: {
+    progress: 0,
+    isUploading: false,
+    error: null,
+  },
+  reducers: {
+    uploadProgress: (state, action: PayloadAction&lt;UploadProgress&gt;) => {
+      state.progress = action.payload.percentage;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(uploadFile.pending, (state) => {
+        state.isUploading = true;
+        state.progress = 0;
+        state.error = null;
+      })
+      .addCase(uploadFile.fulfilled, (state) => {
+        state.isUploading = false;
+        state.progress = 100;
+      })
+      .addCase(uploadFile.rejected, (state, action) => {
+        state.isUploading = false;
+        state.error = action.error.message;
+      });
+  },
+});
+
+export const { uploadProgress } = uploadSlice.actions;
+
+// ====== 7. Using Async Thunks in React Components ======
+function UserList() {
+  const dispatch = useAppDispatch();
+  const users = useAppSelector(state => state.users.items);
+  const isLoading = useAppSelector(state => state.users.isLoading);
+  const error = useAppSelector(state => state.users.error);
+  const hasMore = useAppSelector(state => state.users.pagination.hasMore);
+  const page = useAppSelector(state => state.users.pagination.page);
+
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchUsersPaginated({ page: 1, limit: 10 }));
+  }, [dispatch]);
+
+  const loadMore = useCallback(async () => {
+    if (isLoading || !hasMore) return;
+    setLoadingMore(true);
+    await dispatch(fetchUsersPaginated({ page, limit: 10 }));
+    setLoadingMore(false);
+  }, [dispatch, isLoading, hasMore, page]);
+
+  const handleUpdateUser = useCallback(async (id: string, data: Partial&lt;User&gt;) => {
+    try {
+      await dispatch(updateUser({ id, data })).unwrap();
+      // Success - show notification
+    } catch (error) {
+      // Error - show error message
+      console.error("Failed to update user:", error);
+    }
+  }, [dispatch]);
+
+  const handleDeleteUser = useCallback(async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await dispatch(deleteUser(id)).unwrap();
+        // Success - show notification
+      } catch (error) {
+        // Error - show error message
+        console.error("Failed to delete user:", error);
+      }
+    }
+  }, [dispatch]);
+
+  if (error) {
+    return (
+      &lt;div&gt;
+        Error: {error}
+        &lt;button onClick={() => dispatch(clearError())}&gt;Clear Error&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div&gt;
+      {users.map(user => (
+        &lt;div key={user.id}&gt;
+          &lt;h3&gt;{user.name}&lt;/h3&gt;
+          &lt;p&gt;{user.email}&lt;/p&gt;
+          &lt;button onClick={() => handleUpdateUser(user.id, { name: "Updated Name" })}&gt;
+            Update
+          &lt;/button&gt;
+          &lt;button onClick={() => handleDeleteUser(user.id)}&gt;Delete&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      {isLoading && &lt;div&gt;Loading...&lt;/div&gt;}
+      {hasMore && !isLoading && (
+        &lt;button onClick={loadMore} disabled={loadingMore}&gt;
+          {loadingMore ? "Loading..." : "Load More"}
+        &lt;/button&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export { usersSlice, uploadSlice };
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        createAsyncThunk Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Auto Actions</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Generates pending, fulfilled, rejected actions</td>
+          <td style="border: 1px solid black; padding: 8px;">All async operations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error Handling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>rejectWithValue</code> for custom errors</td>
+          <td style="border: 1px solid black; padding: 8px;">API error responses</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Abort Support</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Built-in AbortController support</td>
+          <td style="border: 1px solid black; padding: 8px;">Cancelable requests</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Conditional Logic</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>condition</code> callback to skip thunks</td>
+          <td style="border: 1px solid black; padding: 8px;">Avoid duplicate requests</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>TypeScript Support</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Fully typed with generics</td>
+          <td style="border: 1px solid black; padding: 8px;">Type-safe async actions</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is createAsyncThunk and what problem does it solve?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>createAsyncThunk</code> is a Redux Toolkit function that simplifies handling asynchronous 
+            operations by automatically generating action creators and action types for the three phases of 
+            async work: pending, fulfilled, and rejected. It solves: (1) <strong>Boilerplate reduction:</strong> 
+            No need to manually dispatch actions for each phase, (2) <strong>Consistency:</strong> All async 
+            operations follow the same pattern, (3) <strong>Error handling:</strong> Built-in support for 
+            handling both runtime errors and API errors, (4) <strong>Type safety:</strong> Works with 
+            TypeScript for type-safe async actions, (5) <strong>Lifecycle management:</strong> Automatically 
+            handles loading states, error states, and success states, (6) <strong>Cancelation:</strong> 
+            Built-in support for AbortController.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is rejectWithValue and when would you use it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>rejectWithValue</code> is a utility function provided to the async thunk's payload creator 
+            that allows you to return a custom value when the async operation fails. Use it when: (1) 
+            <strong>API error responses:</strong> When the API returns a structured error object (like 
+            <code>{ message: string, code: number }</code>), (2) <strong>Custom error messages:</strong> 
+            When you want to provide user-friendly error messages, (3) <strong>Error types:</strong> When you 
+            want to distinguish between different types of errors (validation, authentication, network), 
+            (4) <strong>Action meta:</strong> When you want to include additional data with the error 
+            (like status codes). Without <code>rejectWithValue</code>, the thunk will use the error from 
+            the thrown exception, which might not be structured well for UI display.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle cancellation in createAsyncThunk?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>createAsyncThunk</code> supports cancellation through AbortController. The thunk's 
+            payload creator receives a <code>signal</code> property in the first argument. To support 
+            cancellation: (1) <strong>Use fetch with signal:</strong> Pass the signal to fetch: 
+            <code>fetch(url, { signal })</code>, (2) <strong>Listen for abort:</strong> Use 
+            <code>signal.addEventListener("abort", callback)</code> for custom handling, (3) <strong>Throw 
+            abort error:</strong> When the signal aborts, throw <code>new Error("Aborted")</code> or 
+            <code>signal.reason</code>, (4) <strong>React Hook:</strong> Use <code>AbortController</code> 
+            in the component to abort pending requests on unmount or on new requests. The thunk will 
+            automatically dispatch the rejected action when aborted.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between using async/await and callback patterns with createAsyncThunk?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>createAsyncThunk</code> works with both patterns: (1) <strong>Async/await:</strong> 
+            The payload creator returns a Promise, and you use <code>try/catch</code> for error handling. 
+            This is the recommended approach as it's cleaner and more readable, (2) <strong>Callback pattern:</strong> 
+            You can also use the <code>unwrap</code> method when dispatching the thunk, which returns a 
+            Promise that resolves to the action payload or rejects with the error. The <code>unwrap</code> 
+            method is useful when you need to handle success and failure in the component: 
+            <code>dispatch(thunk()).unwrap().then().catch()</code>. Async/await is generally preferred 
+            for the thunk implementation, while <code>unwrap</code> is useful for component-level handling.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you use createAsyncThunk with TypeScript?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Using <code>createAsyncThunk</code> with TypeScript: (1) <strong>Type the thunk:</strong> 
+            <code>createAsyncThunk&lt;ReturnType, ArgsType, ConfigType&gt;</code>, (2) <strong>Payload creator:</strong> 
+            Type the arguments and return type: <code>async (arg: ArgsType, thunkAPI) => Promise&lt;ReturnType&gt;</code>, 
+            (3) <strong>Reject with value:</strong> Type the reject value: <code>rejectWithValue&lt;ErrorType&gt;</code>, 
+            (4) <strong>ThunkAPI:</strong> Type the thunk API: <code>createAsyncThunk.withTypes&lt;{ state: RootState, dispatch: AppDispatch }&gt;()</code>, 
+            (5) <strong>Selectors:</strong> Create typed selectors for the state managed by the thunk, 
+            (6) <strong>Extra argument:</strong> Type any extra arguments passed to the thunk. The key is 
+            to create a typed version of <code>createAsyncThunk</code> for your app's specific types.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you chain async thunks or handle dependencies between them?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Ways to handle dependencies between async thunks: (1) <strong>Dispatch inside thunk:</strong> 
+            Use <code>thunkAPI.dispatch</code> to dispatch other thunks within the payload creator, 
+            (2) <strong>Async/await with unwrap:</strong> Use <code>await dispatch(thunk()).unwrap()</code> 
+            in a component or in another thunk, (3) <strong>Thunk with getState:</strong> Use 
+            <code>thunkAPI.getState()</code> to check if data already exists before fetching, (4) <strong>Conditional 
+            logic:</strong> Use the <code>condition</code> option to skip the thunk based on state, 
+            (5) <strong>Promise.all:</strong> Use <code>Promise.all</code> to run multiple thunks in parallel, 
+            (6) <strong>useEffect with dependencies:</strong> In components, use <code>useEffect</code> to 
+            dispatch dependent thunks when data changes. The key pattern is to dispatch thunks from within 
+            other thunks when you need sequential execution.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://redux-toolkit.js.org/api/createAsyncThunk",
+              "https://redux-toolkit.js.org/usage/usage-with-typescript",
+              "https://redux-toolkit.js.org/usage/rtk-query/overview",
+            ],
+          },
+          {
+            topic: "RTK Query",
+            tags: ["Redux", "Data Fetching", "Caching", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        RTK Query (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>RTK Query</strong> is a powerful data fetching and caching solution built into Redux Toolkit. 
+        It eliminates the need to write any data fetching logic or caching logic manually, providing a 
+        declarative approach to managing server state in React applications. It's designed to handle the 
+        common challenges of data fetching: caching, deduplication, synchronization, and lifecycle management.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> RTK Query represents the modern approach to data fetching 
+        in Redux applications. Interviewers ask about it to gauge your understanding of data fetching patterns, 
+        caching strategies, and how to build efficient, maintainable applications with Redux.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        RTK Query Core Concepts
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Concept</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>API</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Centralized definition of all endpoints</td>
+          <td style="border: 1px solid black; padding: 8px;">Single source of truth for API</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Query</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">GET endpoints that fetch data</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-caching, deduplication</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Mutation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">POST/PUT/DELETE endpoints that modify data</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-invalidation, optimistic updates</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cache</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-managed cache invalidation</td>
+          <td style="border: 1px solid black; padding: 8px;">Fresh data, reduced network calls</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Tags</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Cache invalidation markers</td>
+          <td style="border: 1px solid black; padding: 8px;">Fine-grained cache control</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — RTK Query Setup
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. API Definition ======
+// api.ts
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { RootState } from "./store";
+
+// Types
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+  createdAt: string;
+}
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface CreatePostRequest {
+  title: string;
+  content: string;
+  authorId: string;
+}
+
+interface UpdatePostRequest {
+  id: string;
+  title?: string;
+  content?: string;
+}
+
+interface PaginatedResponse&lt;T&gt; {
+  items: T[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+}
+
+// ====== 2. Base API Configuration ======
+export const api = createApi({
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_API_URL || "/api",
+    credentials: "include",
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth?.token;
+      if (token) {
+        headers.set("Authorization", \`Bearer \${token}\`);
+      }
+      return headers;
+    },
+  }),
+  tagTypes: ["User", "Post", "Comment"],
+  endpoints: (builder) => ({
+    // ====== 3. Query Endpoints ======
+    getUsers: builder.query&lt;User[], void&gt;({
+      query: () => "/users",
+      providesTags: ["User"],
+    }),
+
+    getUserById: builder.query&lt;User, string&gt;({
+      query: (id) => \`/users/\${id}\`,
+      providesTags: (result, error, id) => [{ type: "User", id }],
+    }),
+
+    getUsersPaginated: builder.query&lt;PaginatedResponse&lt;User&gt;, { page: number; limit: number }&gt;({
+      query: ({ page, limit }) => \`/users?page=\${page}&limit=\${limit}\`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.items.map((user) => ({ type: "User" as const, id: user.id })),
+              { type: "User", id: "PARTIAL-LIST" },
+            ]
+          : [{ type: "User", id: "PARTIAL-LIST" }],
+    }),
+
+    getPosts: builder.query&lt;Post[], void&gt;({
+      query: () => "/posts",
+      providesTags: ["Post"],
+    }),
+
+    getPostById: builder.query&lt;Post, string&gt;({
+      query: (id) => \`/posts/\${id}\`,
+      providesTags: (result, error, id) => [{ type: "Post", id }],
+    }),
+
+    getPostsByAuthor: builder.query&lt;Post[], string&gt;({
+      query: (authorId) => \`/posts?authorId=\${authorId}\`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map((post) => ({ type: "Post" as const, id: post.id })),
+              { type: "Post", id: "PARTIAL-LIST" },
+            ]
+          : [{ type: "Post", id: "PARTIAL-LIST" }],
+    }),
+
+    searchPosts: builder.query&lt;Post[], string&gt;({
+      query: (query) => \`/posts/search?q=\${encodeURIComponent(query)}\`,
+      providesTags: ["Post"],
+    }),
+
+    // ====== 4. Mutation Endpoints ======
+    createUser: builder.mutation&lt;User, Omit&lt;User, "id" | "createdAt"&gt;&gt;({
+      query: (user) => ({
+        url: "/users",
+        method: "POST",
+        body: user,
+      }),
+      invalidatesTags: [{ type: "User", id: "PARTIAL-LIST" }],
+    }),
+
+    updateUser: builder.mutation&lt;User, { id: string; data: Partial&lt;User&gt; }&gt;({
+      query: ({ id, data }) => ({
+        url: \`/users/\${id}\`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "User", id },
+        { type: "User", id: "PARTIAL-LIST" },
+      ],
+    }),
+
+    deleteUser: builder.mutation&lt;{ success: boolean; id: string }, string&gt;({
+      query: (id) => ({
+        url: \`/users/\${id}\`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "User", id },
+        { type: "User", id: "PARTIAL-LIST" },
+      ],
+    }),
+
+    createPost: builder.mutation&lt;Post, CreatePostRequest&gt;({
+      query: (post) => ({
+        url: "/posts",
+        method: "POST",
+        body: post,
+      }),
+      invalidatesTags: ["Post"],
+      // Optimistic update
+      onQueryStarted: async (post, { dispatch, queryFulfilled }) => {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getPosts", undefined, (draft) => {
+            // Optimistic update
+            draft.unshift({
+              ...post,
+              id: "temp-" + Date.now(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            } as Post);
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          // Revert optimistic update on error
+          patchResult.undo();
+        }
+      },
+    }),
+
+    updatePost: builder.mutation&lt;Post, UpdatePostRequest&gt;({
+      query: ({ id, ...data }) => ({
+        url: \`/posts/\${id}\`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Post", id }],
+      // Optimistic update
+      onQueryStarted: async ({ id, ...data }, { dispatch, queryFulfilled }) => {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getPostById", id, (draft) => {
+            Object.assign(draft, data);
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    deletePost: builder.mutation&lt;{ success: boolean; id: string }, string&gt;({
+      query: (id) => ({
+        url: \`/posts/\${id}\`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [{ type: "Post", id }],
+      // Optimistic update
+      onQueryStarted: async (id, { dispatch, queryFulfilled }) => {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getPosts", undefined, (draft) => {
+            const index = draft.findIndex((post) => post.id === id);
+            if (index !== -1) {
+              draft.splice(index, 1);
+            }
+          })
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+
+    // ====== 5. Custom Query with Transform Response ======
+    getStats: builder.query&lt;{ totalUsers: number; totalPosts: number; totalComments: number }, void&gt;({
+      query: () => "/stats",
+      transformResponse: (response: any) => ({
+        totalUsers: response.users || 0,
+        totalPosts: response.posts || 0,
+        totalComments: response.comments || 0,
+      }),
+      providesTags: ["User", "Post"],
+    }),
+  }),
+});
+
+// ====== 6. Export Hooks and API ======
+export const {
+  useGetUsersQuery,
+  useGetUserByIdQuery,
+  useGetUsersPaginatedQuery,
+  useGetPostsQuery,
+  useGetPostByIdQuery,
+  useGetPostsByAuthorQuery,
+  useSearchPostsQuery,
+  useCreateUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+  useCreatePostMutation,
+  useUpdatePostMutation,
+  useDeletePostMutation,
+  useGetStatsQuery,
+} = api;
+
+// ====== 7. Custom Hook with Manual Cache Update ======
+export const useRefreshUsers = () => {
+  const dispatch = useAppDispatch();
+  
+  return useCallback(() => {
+    dispatch(api.util.invalidateTags(["User"]));
+  }, [dispatch]);
+};
+
+// ====== 8. Store Configuration ======
+// store.ts
+import { configureStore } from "@reduxjs/toolkit";
+import { api } from "./api";
+import authReducer from "./authSlice";
+
+export const store = configureStore({
+  reducer: {
+    auth: authReducer,
+    [api.reducerPath]: api.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
+});
+
+export type RootState = ReturnType&lt;typeof store.getState&gt;;
+export type AppDispatch = typeof store.dispatch;
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Using RTK Query in React Components
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Using Query Hooks ======
+function UserList() {
+  const { data: users, isLoading, error, refetch } = useGetUsersQuery();
+
+  if (isLoading) return &lt;div&gt;Loading users...&lt;/div&gt;;
+  if (error) return &lt;div&gt;Error: {JSON.stringify(error)}&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={refetch}&gt;Refresh&lt;/button&gt;
+      {users?.map(user => (
+        &lt;div key={user.id}&gt;
+          &lt;h3&gt;{user.name}&lt;/h3&gt;
+          &lt;p&gt;{user.email}&lt;/p&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 2. Using Query with Pagination ======
+function PaginatedUserList() {
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  
+  const { data, isLoading, isFetching, error } = useGetUsersPaginatedQuery({ page, limit });
+
+  if (isLoading) return &lt;div&gt;Loading...&lt;/div&gt;;
+  if (error) return &lt;div&gt;Error loading users&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;div&gt;Total: {data?.total || 0} users&lt;/div&gt;
+      {data?.items.map(user => (
+        &lt;div key={user.id}&gt;{user.name}&lt;/div&gt;
+      ))}
+      &lt;div&gt;
+        &lt;button 
+          onClick={() => setPage(p => p - 1)} 
+          disabled={page === 1}
+        &gt;
+          Previous
+        &lt;/button&gt;
+        &lt;span&gt;Page {page}&lt;/span&gt;
+        &lt;button 
+          onClick={() => setPage(p => p + 1)}
+          disabled={!data?.hasMore}
+        &gt;
+          Next
+        &lt;/button&gt;
+        {isFetching && &lt;span&gt;Loading...&lt;/span&gt;}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 3. Using Mutation Hooks ======
+function CreateUserForm() {
+  const [createUser, { isLoading, error }] = useCreateUserMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    
+    try {
+      await createUser({
+        name: formData.get("name") as string,
+        email: formData.get("email") as string,
+        role: "user",
+      }).unwrap();
+      
+      // Success - show notification
+      console.log("User created successfully");
+    } catch (err) {
+      // Error - show error message
+      console.error("Failed to create user:", err);
+    }
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input name="name" placeholder="Name" required /&gt;
+      &lt;input name="email" type="email" placeholder="Email" required /&gt;
+      &lt;button type="submit" disabled={isLoading}&gt;
+        {isLoading ? "Creating..." : "Create User"}
+      &lt;/button&gt;
+      {error && &lt;div&gt;Error: {JSON.stringify(error)}&lt;/div&gt;}
+    &lt;/form&gt;
+  );
+}
+
+// ====== 4. Using Query with Conditional Fetching ======
+function UserProfile({ userId }: { userId: string | null }) {
+  // Skip if no userId
+  const { data: user, isLoading } = useGetUserByIdQuery(userId!, {
+    skip: !userId,
+  });
+
+  if (!userId) return &lt;div&gt;Select a user to view profile&lt;/div&gt;;
+  if (isLoading) return &lt;div&gt;Loading profile...&lt;/div&gt;;
+  if (!user) return &lt;div&gt;User not found&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;{user.name}&lt;/h2&gt;
+      &lt;p&gt;Email: {user.email}&lt;/p&gt;
+      &lt;p&gt;Role: {user.role}&lt;/p&gt;
+      &lt;p&gt;Joined: {new Date(user.createdAt).toLocaleDateString()}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 5. Using Query with Polling ======
+function LiveStats() {
+  const { data: stats, isLoading } = useGetStatsQuery(undefined, {
+    pollingInterval: 5000, // Refresh every 5 seconds
+  });
+
+  if (isLoading) return &lt;div&gt;Loading stats...&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;h3&gt;Live Stats&lt;/h3&gt;
+      &lt;p&gt;Users: {stats?.totalUsers}&lt;/p&gt;
+      &lt;p&gt;Posts: {stats?.totalPosts}&lt;/p&gt;
+      &lt;p&gt;Comments: {stats?.totalComments}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 6. Complex Component with Multiple Queries ======
+function Dashboard() {
+  const { data: users, isLoading: usersLoading } = useGetUsersQuery();
+  const { data: posts, isLoading: postsLoading } = useGetPostsQuery();
+  const { data: stats } = useGetStatsQuery();
+
+  const [createPost, { isLoading: creatingPost }] = useCreatePostMutation();
+
+  const handleCreatePost = async () => {
+    if (!users?.[0]) return;
+    
+    await createPost({
+      title: "New Post",
+      content: "This is a new post from RTK Query",
+      authorId: users[0].id,
+    });
+  };
+
+  const loading = usersLoading || postsLoading;
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Dashboard&lt;/h1&gt;
+      {stats && (
+        &lt;div&gt;
+          &lt;p&gt;Total Users: {stats.totalUsers}&lt;/p&gt;
+          &lt;p&gt;Total Posts: {stats.totalPosts}&lt;/p&gt;
+        &lt;/div&gt;
+      )}
+      
+      {loading ? (
+        &lt;div&gt;Loading...&lt;/div&gt;
+      ) : (
+        &lt;div&gt;
+          &lt;div&gt;
+            &lt;h2&gt;Recent Users ({users?.length})&lt;/h2&gt;
+            {users?.slice(0, 5).map(user => (
+              &lt;div key={user.id}&gt;{user.name}&lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+          &lt;div&gt;
+            &lt;h2&gt;Recent Posts ({posts?.length})&lt;/h2&gt;
+            {posts?.slice(0, 5).map(post => (
+              &lt;div key={post.id}&gt;{post.title}&lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+          &lt;button 
+            onClick={handleCreatePost} 
+            disabled={creatingPost || !users?.length}
+          &gt;
+            {creatingPost ? "Creating..." : "Create Sample Post"}
+          &lt;/button&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export default Dashboard;
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        RTK Query Cache Invalidation Strategies
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Strategy</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Implementation</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Tag-Based</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Invalidate queries by tag</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>providesTags</code>, <code>invalidatesTags</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Manual Invalidation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Invalidate queries programmatically</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>api.util.invalidateTags</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Optimistic Updates</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Update cache before server response</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>updateQueryData</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cache Time</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-cleanup unused data</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>keepUnusedDataFor</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Refetch</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manual refetch</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>refetch()</code></td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is RTK Query and how does it differ from createAsyncThunk?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            RTK Query is a data fetching and caching solution built into Redux Toolkit. It differs from 
+            <code>createAsyncThunk</code> in several ways: (1) <strong>Abstraction level:</strong> RTK Query 
+            provides a higher-level abstraction for API integration, while createAsyncThunk is a lower-level 
+            tool for handling async logic, (2) <strong>Caching:</strong> RTK Query automatically caches data 
+            and manages cache invalidation, createAsyncThunk requires manual caching, (3) <strong>Deduplication:</strong> 
+            RTK Query prevents duplicate requests for the same data, (4) <strong>Lifecycle hooks:</strong> 
+            RTK Query provides built-in hooks for loading, error, and success states, (5) <strong>Optimistic 
+            updates:</strong> RTK Query supports optimistic updates out of the box, (6) <strong>Integration:</strong> 
+            RTK Query works seamlessly with Redux DevTools. Use RTK Query for most API interactions, and 
+            createAsyncThunk for custom async logic that doesn't fit the CRUD pattern.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does cache invalidation work in RTK Query?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            RTK Query uses a tag-based cache invalidation system: (1) <strong>Tags:</strong> You define tags 
+            for your queries using <code>providesTags</code>, (2) <strong>Invalidation:</strong> Mutations 
+            specify which tags to invalidate using <code>invalidatesTags</code>, (3) <strong>Auto-refetch:</strong> 
+            When a tag is invalidated, all queries that provide that tag are automatically refetched, 
+            (4) <strong>Fine-grained:</strong> You can use ID-specific tags for precise invalidation 
+            (<code>{ type: 'User', id: user.id }</code>), (5) <strong>Manual:</strong> You can also manually 
+            invalidate tags using <code>api.util.invalidateTags</code>. This provides a predictable and 
+            maintainable approach to keeping cache fresh.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are optimistic updates in RTK Query and how do you implement them?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Optimistic updates immediately update the UI before the server responds, making the app feel faster. 
+            In RTK Query, implement them using: (1) <code>onQueryStarted</code> mutation hook, (2) Use 
+            <code>updateQueryData</code> to update the cache optimistically, (3) Store the patch result, 
+            (4) On success, the optimistic update remains, (5) On error, use <code>patchResult.undo()</code> 
+            to revert the optimistic change. Example: When creating a post, immediately add it to the list 
+            before the server responds, then revert if the request fails. This provides instant feedback 
+            while maintaining data consistency.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle authentication with RTK Query?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Authentication with RTK Query: (1) <strong>Base query with headers:</strong> Use 
+            <code>fetchBaseQuery</code> with <code>prepareHeaders</code> to add Authorization tokens, 
+            (2) <strong>Query hooks:</strong> All queries automatically include the token, (3) <strong>Token 
+            refresh:</strong> Use <code>baseQuery</code> with custom logic to handle token refresh, 
+            (4) <strong>Logout:</strong> Clear token and invalidate all tags using 
+            <code>api.util.resetApiState()</code>, (5) <strong>Conditional queries:</strong> Use the 
+            <code>skip</code> option for queries that require authentication, (6) <strong>Middleware:</strong> 
+            You can add custom middleware to handle auth errors globally. The key is to centralize auth 
+            logic in the base query configuration.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the performance benefits of RTK Query?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            RTK Query provides several performance benefits: (1) <strong>Request deduplication:</strong> 
+            Duplicate requests for the same data are deduplicated, (2) <strong>Auto-caching:</strong> 
+            Data is cached and reused across components, (3) <strong>Lazy loading:</strong> Queries can be 
+            lazy-loaded to reduce initial bundle size, (4) <strong>Pagination:</strong> Built-in support 
+            for pagination with automatic cache management, (5) <strong>Prefetching:</strong> Prefetch data 
+            before it's needed, (6) <strong>Smaller bundle:</strong> RTK Query reduces the amount of code 
+            you need to write for data fetching, (7) <strong>Tree-shaking:</strong> Only the endpoints you 
+            use are included, (8) <strong>Polling:</strong> Efficient polling with automatic cleanup when 
+            components unmount. These features result in faster apps and better user experience.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle error handling in RTK Query?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Error handling in RTK Query: (1) <strong>Query hooks:</strong> Each query hook returns an 
+            <code>error</code> object, (2) <strong>Mutation hooks:</strong> Each mutation hook returns an 
+            <code>error</code> object, (3) <strong>Error types:</strong> Errors are typed, making it easy 
+            to handle different error cases, (4) <strong>Global error handling:</strong> Use middleware or 
+            the <code>baseQuery</code> to handle errors globally, (5) <strong>Retry logic:</strong> You can 
+            implement retry logic in the <code>baseQuery</code>, (6) <strong>Error boundaries:</strong> 
+            Wrap components in error boundaries for fallback UI, (7) <strong>Toast notifications:</strong> 
+            Show user-friendly error messages. The recommended approach is to handle errors at the component 
+            level for specific cases and globally for common cases like authentication errors.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://redux-toolkit.js.org/rtk-query/overview",
+              "https://redux-toolkit.js.org/rtk-query/usage/queries",
+              "https://redux-toolkit.js.org/rtk-query/usage/mutations",
+            ],
+          },
+          {
+            topic: "Middleware",
+            tags: ["Redux", "Middleware", "State Management", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Middleware (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Middleware</strong> in Redux provides a way to intercept and modify actions before they reach 
+        the reducer. It sits between the action dispatch and the reducer, allowing you to handle side effects, 
+        logging, error handling, and other cross-cutting concerns in a clean, composable way. Middleware is 
+        one of the most powerful features of Redux, enabling features like async actions, logging, and analytics.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Understanding middleware is crucial for building robust 
+        Redux applications. Interviewers ask about it to test your understanding of Redux's architecture, 
+        how side effects are handled, and how to extend Redux's functionality.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Middleware Architecture
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Layer</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Dispatch</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Action is dispatched</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>dispatch({ type: 'INCREMENT' })</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Middleware Chain</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Actions pass through middleware</td>
+          <td style="border: 1px solid black; padding: 8px;">Logger, Thunk, Custom</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Reducer</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Action reaches reducer</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>state = reducer(state, action)</code></td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Custom Middleware
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { Middleware, Dispatch, Action, AnyAction, MiddlewareAPI } from "@reduxjs/toolkit";
+
+// ====== 1. Basic Middleware Structure ======
+// A middleware is a function that returns a function that returns a function
+const basicMiddleware: Middleware = (api) => (next) => (action) => {
+  // Before the action reaches the reducer
+  console.log("Action dispatched:", action);
+  
+  // Pass the action to the next middleware or reducer
+  const result = next(action);
+  
+  // After the reducer has processed the action
+  console.log("State after action:", api.getState());
+  
+  return result;
+};
+
+// ====== 2. Logger Middleware ======
+interface LoggerOptions {
+  collapsed?: boolean;
+  colors?: {
+    action: string;
+    state: string;
+  };
+}
+
+export const loggerMiddleware = (options: LoggerOptions = {}): Middleware => {
+  const { collapsed = true, colors = { action: "#03A9F4", state: "#4CAF50" } } = options;
+
+  return (api) => (next) => (action: AnyAction) => {
+    const start = performance.now();
+    const prevState = api.getState();
+    
+    // Log the action
+    console.groupCollapsed(\`Action: \${action.type}\`);
+    console.log("%c Action", \`color: \${colors.action}; font-weight: bold;\`, action);
+    console.log("%c Previous State", \`color: \${colors.state}; font-weight: bold;\`, prevState);
+    
+    // Execute the action
+    const result = next(action);
+    
+    const duration = performance.now() - start;
+    const nextState = api.getState();
+    
+    // Log the result
+    console.log("%c Duration", "color: #FF9800; font-weight: bold;", \`\${duration.toFixed(2)}ms\`);
+    console.log("%c Next State", \`color: \${colors.state}; font-weight: bold;\`, nextState);
+    console.groupEnd();
+    
+    return result;
+  };
+};
+
+// ====== 3. Error Handling Middleware ======
+export const errorHandlingMiddleware: Middleware = (api) => (next) => (action) => {
+  try {
+    return next(action);
+  } catch (error) {
+    // Log error to monitoring service
+    console.error("Redux Error:", error);
+    
+    // Dispatch error action
+    api.dispatch({
+      type: "ERROR_OCCURRED",
+      payload: {
+        error: error instanceof Error ? error.message : "Unknown error",
+        action: action.type,
+        timestamp: new Date().toISOString(),
+      },
+    });
+    
+    // Rethrow or handle gracefully
+    throw error;
+  }
+};
+
+// ====== 4. Analytics Middleware ======
+interface AnalyticsEvent {
+  name: string;
+  properties?: Record&lt;string, any&gt;;
+}
+
+export const analyticsMiddleware = (
+  trackEvent: (event: AnalyticsEvent) => void
+): Middleware => {
+  return (api) => (next) => (action: AnyAction) => {
+    // Track specific actions
+    const actionTypesToTrack = ["USER_LOGIN", "USER_LOGOUT", "PURCHASE_COMPLETE", "ITEM_ADDED"];
+    
+    if (actionTypesToTrack.includes(action.type)) {
+      trackEvent({
+        name: action.type,
+        properties: {
+          ...action.payload,
+          timestamp: new Date().toISOString(),
+        },
+      });
+    }
+    
+    return next(action);
+  };
+};
+
+// ====== 5. Performance Monitoring Middleware ======
+export const performanceMiddleware: Middleware = (api) => (next) => (action) => {
+  // Skip monitoring in production
+  if (process.env.NODE_ENV === "production") {
+    return next(action);
+  }
+
+  const start = performance.now();
+  const result = next(action);
+  const duration = performance.now() - start;
+  
+  // Warn about slow actions
+  if (duration > 100) {
+    console.warn(\`Action \${action.type} took \${duration.toFixed(2)}ms to process\`);
+  }
+  
+  return result;
+};
+
+// ====== 6. Authentication Middleware ======
+export const authMiddleware: Middleware = (api) => (next) => (action: AnyAction) => {
+  // Check if action requires authentication
+  const requiresAuth = action.meta?.requiresAuth;
+  
+  if (requiresAuth) {
+    const state = api.getState();
+    const isAuthenticated = state.auth?.isAuthenticated;
+    
+    if (!isAuthenticated) {
+      // Redirect to login or dispatch auth error
+      console.warn("Action requires authentication but user is not logged in");
+      
+      // Dispatch auth error
+      api.dispatch({
+        type: "AUTH_REQUIRED",
+        payload: {
+          action: action.type,
+          message: "Authentication required",
+        },
+      });
+      
+      return;
+    }
+  }
+  
+  return next(action);
+};
+
+// ====== 7. Request Deduplication Middleware ======
+interface PendingRequest {
+  action: AnyAction;
+  promise: Promise&lt;any&gt;;
+}
+
+const pendingRequests = new Map&lt;string, PendingRequest&gt;();
+
+export const deduplicationMiddleware: Middleware = (api) => (next) => (action: AnyAction) => {
+  // Only deduplicate specific actions
+  if (!action.meta?.deduplicate) {
+    return next(action);
+  }
+  
+  const key = \`\${action.type}:\${JSON.stringify(action.payload)}\`;
+  
+  // Check if this request is already in progress
+  if (pendingRequests.has(key)) {
+    // Return the existing promise
+    return pendingRequests.get(key)!.promise;
+  }
+  
+  // Execute the action
+  const result = next(action);
+  
+  // Store the promise for duplicate requests
+  if (result && typeof result.then === "function") {
+    const pending: PendingRequest = {
+      action,
+      promise: result,
+    };
+    pendingRequests.set(key, pending);
+    
+    // Remove from pending when complete
+    result.finally(() => {
+      pendingRequests.delete(key);
+    });
+  }
+  
+  return result;
+};
+
+// ====== 8. Custom Thunk Middleware ======
+// Redux Toolkit's thunk middleware is built-in, but here's a custom version
+export const customThunkMiddleware: Middleware = (api) => (next) => (action: any) => {
+  // If the action is a function, it's a thunk
+  if (typeof action === "function") {
+    // Execute the thunk with dispatch and getState
+    return action(api.dispatch, api.getState);
+  }
+  
+  // Otherwise, pass it to the next middleware
+  return next(action);
+};
+
+// ====== 9. Conditional Middleware ======
+export const conditionalMiddleware = (): Middleware => {
+  return (api) => (next) => (action: AnyAction) => {
+    // Skip middleware for certain actions
+    const skipActions = ["KEEP_ALIVE", "POLLING"];
+    if (skipActions.includes(action.type)) {
+      return next(action);
+    }
+    
+    // Apply logic only for specific actions
+    if (action.type === "API_CALL") {
+      console.log("API call intercepted:", action);
+    }
+    
+    return next(action);
+  };
+};
+
+// ====== 10. Middleware Composition ======
+// Combine multiple middlewares into a single middleware
+export const composeMiddleware = (...middlewares: Middleware[]): Middleware => {
+  return (api) => (next) => {
+    // Compose the chain from right to left
+    let composed = next;
+    for (let i = middlewares.length - 1; i >= 0; i--) {
+      composed = middlewares[i](api)(composed);
+    }
+    return composed;
+  };
+};
+
+// ====== 11. Store Configuration with Custom Middleware ======
+// store.ts
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./reducers";
+
+// Create middleware instances
+const logger = loggerMiddleware({ collapsed: false });
+const errorHandler = errorHandlingMiddleware;
+const performance = performanceMiddleware;
+const auth = authMiddleware;
+const deduplicator = deduplicationMiddleware;
+
+// Configure store with middleware
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore non-serializable values in specific actions
+        ignoredActions: ["ERROR_OCCURRED", "ANALYTICS_EVENT"],
+      },
+    })
+      .concat(logger)
+      .concat(errorHandler)
+      .concat(performance)
+      .concat(auth)
+      .concat(deduplicator),
+  devTools: process.env.NODE_ENV !== "production",
+});
+
+// ====== 12. Middleware Testing Utilities ======
+export const createTestMiddleware = () => {
+  const actions: AnyAction[] = [];
+  const middleware: Middleware = () => (next) => (action) => {
+    actions.push(action);
+    return next(action);
+  };
+  return { middleware, actions };
+};
+
+// Example usage in tests:
+// const { middleware, actions } = createTestMiddleware();
+// const store = configureStore({
+//   reducer: rootReducer,
+//   middleware: (getDefault) => getDefault().concat(middleware),
+// });
+// store.dispatch({ type: "TEST" });
+// expect(actions).toContainEqual({ type: "TEST" });
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Common Middleware Use Cases
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Implementation</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Async Actions</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Handle async operations</td>
+          <td style="border: 1px solid black; padding: 8px;">Thunk middleware, Redux Saga</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Logging</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Log actions and state</td>
+          <td style="border: 1px solid black; padding: 8px;">Custom logger middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error Handling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Handle and report errors</td>
+          <td style="border: 1px solid black; padding: 8px;">Error boundary middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Analytics</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Track user actions</td>
+          <td style="border: 1px solid black; padding: 8px;">Analytics middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Auth</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Check authentication</td>
+          <td style="border: 1px solid black; padding: 8px;">Auth middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Deduplication</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent duplicate requests</td>
+          <td style="border: 1px solid black; padding: 8px;">Deduplication middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Performance</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Monitor action performance</td>
+          <td style="border: 1px solid black; padding: 8px;">Performance middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Offline</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Queue actions offline</td>
+          <td style="border: 1px solid black; padding: 8px;">Offline middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validate actions before dispatch</td>
+          <td style="border: 1px solid black; padding: 8px;">Validation middleware</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Time Travel</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Enable time travel debugging</td>
+          <td style="border: 1px solid black; padding: 8px;">Redux DevTools</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is middleware in Redux and what is its purpose?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Middleware in Redux is a function that sits between the dispatch of an action and the reducer, 
+            allowing you to intercept and modify actions. Its purpose is to: (1) <strong>Handle side effects:</strong> 
+            Async operations, API calls, logging, (2) <strong>Extend functionality:</strong> Add features 
+            without modifying core Redux, (3) <strong>Cross-cutting concerns:</strong> Handle logging, 
+            analytics, error reporting, (4) <strong>Action transformation:</strong> Modify or stop actions 
+            before they reach the reducer, (5) <strong>Conditional logic:</strong> Skip actions based on 
+            certain conditions, (6) <strong>Performance monitoring:</strong> Track action performance. 
+            Middleware is the primary way to extend Redux's capabilities.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the structure of a Redux middleware?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            A Redux middleware has a specific curried function structure: (1) <strong>Outer function:</strong> 
+            <code>(api) => { ... }</code> — receives the middleware API with <code>dispatch</code> and 
+            <code>getState</code>, (2) <strong>Middle function:</strong> <code>(next) => { ... }</code> — 
+            receives the next middleware in the chain, (3) <strong>Inner function:</strong> 
+            <code>(action) => { ... }</code> — receives the action being dispatched. The pattern is: 
+            <code>const middleware = api => next => action => { ... }</code>. Each function returns the 
+            next function in the chain, allowing for composition. The inner function can call 
+            <code>next(action)</code> to pass the action along.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between middleware and reducers?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Middleware:</strong> (1) <strong>Purpose:</strong> Handle side effects and cross-cutting 
+            concerns, (2) <strong>Position:</strong> Between action dispatch and reducer, (3) <strong>State 
+            modification:</strong> Cannot modify state directly, but can dispatch other actions, (4) <strong>Async:</strong> 
+            Can handle async operations, (5) <strong>Examples:</strong> Logging, API calls, analytics. 
+            <strong>Reducers:</strong> (1) <strong>Purpose:</strong> Update state based on actions, (2) 
+            <strong>Position:</strong> Receive actions after middleware, (3) <strong>State modification:</strong> 
+            Directly update state (immutably), (4) <strong>Async:</strong> Must be pure, no side effects, 
+            (5) <strong>Examples:</strong> Updating state based on actions. Think of middleware as the 
+            "plumbing" that handles side effects, and reducers as the "business logic" that updates state.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are some common Redux middleware libraries?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Common middleware libraries: (1) <strong>Redux Thunk:</strong> Most common, allows action creators 
+            to return functions (thunks) for async logic, (2) <strong>Redux Saga:</strong> Uses ES6 generators 
+            for complex async flows, side effects, and advanced patterns, (3) <strong>Redux Observable:</strong> 
+            Uses RxJS observables for handling async actions, (4) <strong>Redux Logger:</strong> Logs actions 
+            and state changes for debugging, (5) <strong>Redux Promise:</strong> Handles promise-based actions, 
+            (6) <strong>Redux DevTools:</strong> Enables time-travel debugging, (7) <strong>Redux Persist:</strong> 
+            Persists state across page reloads, (8) <strong>Redux Offline:</strong> Handles offline scenarios. 
+            Redux Toolkit includes thunk middleware by default.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you test Redux middleware?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Testing middleware: (1) <strong>Unit test:</strong> Test the middleware in isolation with mock 
+            <code>api</code> and <code>next</code>, (2) <strong>Integration test:</strong> Test with a real 
+            store to verify behavior, (3) <strong>Action testing:</strong> Test that the middleware dispatches 
+            the correct actions, (4) <strong>State testing:</strong> Test that the middleware correctly reads 
+            and uses the state, (5) <strong>Error testing:</strong> Test error handling paths, (6) <strong>Mock 
+            dependencies:</strong> Mock external services (API calls, analytics) to isolate the middleware, 
+            (7) <strong>Snapshot testing:</strong> Test the middleware's effect on state over time. A common 
+            pattern is to create a test store with middleware and dispatch actions to verify the middleware's 
+            behavior.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between thunk and saga middleware?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Redux Thunk:</strong> (1) <strong>Simplicity:</strong> Simple, easy to learn and use, 
+            (2) <strong>Approach:</strong> Action creators return functions (thunks), (3) <strong>Async:</strong> 
+            Uses async/await or Promises, (4) <strong>Use case:</strong> Simple async operations, API calls, 
+            (5) <strong>Testing:</strong> Easy to test with mock functions. <strong>Redux Saga:</strong> 
+            (1) <strong>Complexity:</strong> More complex, requires learning generators, (2) <strong>Approach:</strong> 
+            Uses sagas (generator functions) to handle side effects, (3) <strong>Async:</strong> Uses effects 
+            like <code>call</code>, <code>put</code>, <code>take</code>, (4) <strong>Use case:</strong> 
+            Complex async flows, race conditions, debouncing, (5) <strong>Testing:</strong> More powerful 
+            but more complex testing. Thunk is recommended for most use cases; saga is useful for complex 
+            orchestrations.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://redux-toolkit.js.org/usage/usage-with-typescript",
+              "https://redux.js.org/understanding/history-and-design/middleware",
+              "https://redux-toolkit.js.org/api/configureStore",
+            ],
+          },
+          {
+            topic: "Redux Persist",
+            tags: ["Redux", "Persistence", "State Management", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Redux Persist (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Redux Persist</strong> is a library that enables automatic persistence of Redux state to 
+        storage (like localStorage, AsyncStorage, etc.) and rehydration when the application loads. It's 
+        essential for maintaining user session state, preferences, and other data across page reloads or 
+        app restarts. The library handles serialization, storage, and rehydration automatically.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Redux Persist is a common requirement in production apps 
+        for maintaining user sessions and preferences. Interviewers ask about it to test your understanding 
+        of state persistence, storage mechanisms, and how to handle complex serialization scenarios.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Redux Persist Concepts
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Concept</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Persistence</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Save state to storage on changes</td>
+          <td style="border: 1px solid black; padding: 8px;">State survives page reloads</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Rehydration</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Load saved state on app start</td>
+          <td style="border: 1px solid black; padding: 8px;">Restore user session</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Whitelist</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Only persist specific reducers</td>
+          <td style="border: 1px solid black; padding: 8px;">Control what gets persisted</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Blacklist</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Exclude specific reducers from persistence</td>
+          <td style="border: 1px solid black; padding: 8px;">Control what gets persisted</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Transform</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Transform state before save/after restore</td>
+          <td style="border: 1px solid black; padding: 8px;">Handle non-serializable data</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Redux Persist Setup
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Installation and Setup ======
+// npm install @reduxjs/toolkit react-redux redux-persist
+// npm install -D @types/redux-persist
+
+// ====== 2. Store Configuration with Persistence ======
+// store.ts
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  PersistConfig,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage"; // localStorage for web
+// import AsyncStorage from '@react-native-async-storage/async-storage'; // React Native
+import { encryptTransform } from "redux-persist-transform-encrypt";
+import { createTransform } from "redux-persist";
+
+import authReducer from "./slices/authSlice";
+import userReducer from "./slices/userSlice";
+import settingsReducer from "./slices/settingsSlice";
+import { api } from "./api";
+
+// ====== 3. Persist Configuration ======
+const persistConfig: PersistConfig&lt;any&gt; = {
+  key: "root",
+  storage,
+  // Whitelist specific reducers to persist
+  whitelist: ["auth", "user", "settings"],
+  // Blacklist reducers (exclude from persistence)
+  blacklist: ["api", "ui"],
+  // Timeout for rehydration
+  timeout: 10000,
+  // Version for migrations
+  version: 1,
+  // Transforms for data transformation
+  transforms: [],
+};
+
+// ====== 4. Root Reducer ======
+const rootReducer = combineReducers({
+  auth: authReducer,
+  user: userReducer,
+  settings: settingsReducer,
+  [api.reducerPath]: api.reducer,
+});
+
+// ====== 5. Persisted Reducer ======
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// ====== 6. Store Creation ======
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore redux-persist actions
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(api.middleware),
+  devTools: process.env.NODE_ENV !== "production",
+});
+
+// ====== 7. Persistor ======
+export const persistor = persistStore(store);
+
+// ====== 8. Types ======
+export type RootState = ReturnType&lt;typeof rootReducer&gt;;
+export type AppDispatch = typeof store.dispatch;
+export type AppStore = typeof store;
+
+// ====== 9. Advanced Configuration ======
+
+// ====== 9a. Whitelist vs Blacklist ======
+// Only persist auth and user, but not settings
+const advancedPersistConfig = {
+  ...persistConfig,
+  whitelist: ["auth", "user"],
+};
+
+// Persist everything except ui and api
+const blacklistConfig = {
+  ...persistConfig,
+  blacklist: ["ui", "api"],
+};
+
+// ====== 9b. Nested Persistence ======
+// Persist only specific parts of a reducer
+const userPersistConfig = {
+  key: "user",
+  storage,
+  whitelist: ["profile", "preferences"],
+  // Blacklist: ["temporaryState", "cache"],
+};
+
+const userReducerWithPersist = persistReducer(userPersistConfig, userReducer);
+
+const rootReducerWithNested = combineReducers({
+  auth: authReducer,
+  user: userReducerWithPersist,
+  settings: settingsReducer,
+  [api.reducerPath]: api.reducer,
+});
+
+// ====== 9c. Custom Transforms ======
+// Transform to handle Date objects
+const dateTransform = createTransform(
+  // Transform state before saving (inbound)
+  (inboundState, key) => {
+    // Convert Dates to ISO strings for serialization
+    return JSON.stringify(inboundState, (key, value) => {
+      if (value instanceof Date) {
+        return { __type: "Date", value: value.toISOString() };
+      }
+      return value;
+    });
+  },
+  // Transform state after loading (outbound)
+  (outboundState, key) => {
+    // Convert ISO strings back to Dates
+    return JSON.parse(outboundState, (key, value) => {
+      if (value && value.__type === "Date") {
+        return new Date(value.value);
+      }
+      return value;
+    });
+  },
+  // Transform only specific reducers
+  { whitelist: ["user", "settings"] }
+);
+
+// Encryption transform
+const encryptConfig = {
+  secretKey: process.env.REACT_APP_REDUX_PERSIST_SECRET || "my-secret-key",
+};
+
+const encryptTransform = encryptTransform(encryptConfig);
+
+// ====== 9d. Migration Configuration ======
+const migrationConfig = {
+  ...persistConfig,
+  version: 2,
+  migrate: (state: any, currentVersion: number) => {
+    if (currentVersion === 1) {
+      // Migrate from v1 to v2
+      // Example: rename a field
+      if (state.user) {
+        state.user.displayName = state.user.name;
+        delete state.user.name;
+      }
+    }
+    return state;
+  },
+};
+
+// ====== 10. React Integration ======
+// App.tsx
+import React, { useEffect } from "react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store";
+
+function App() {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    // Example: Handle rehydration completion
+    if (persistor.getState().bootstrapped) {
+      setIsReady(true);
+    }
+  }, []);
+
+  return (
+    &lt;Provider store={store}&gt;
+      &lt;PersistGate
+        loading={&lt;div&gt;Loading persisted state...&lt;/div&gt;}
+        persistor={persistor}
+        onBeforeLift={() => {
+          console.log("Before lifting rehydration");
+        }}
+      &gt;
+        {isReady && &lt;AppContent /&gt;}
+      &lt;/PersistGate&gt;
+    &lt;/Provider&gt;
+  );
+}
+
+function AppContent() {
+  // Use redux-persist hooks
+  const dispatch = useAppDispatch();
+  
+  // Check if rehydration is complete
+  const isRehydrated = useSelector((state: RootState) => state._persist?.rehydrated);
+
+  useEffect(() => {
+    if (isRehydrated) {
+      console.log("State has been rehydrated!");
+    }
+  }, [isRehydrated]);
+
+  return &lt;div&gt;App Content&lt;/div&gt;;
+}
+
+// ====== 11. Custom Storage ======
+// For React Native, use AsyncStorage
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// const storage = AsyncStorage;
+
+// For sessionStorage
+// import storage from 'redux-persist/lib/storage/session';
+
+// For custom storage (e.g., IndexedDB)
+const customStorage = {
+  getItem: async (key: string) => {
+    try {
+      const value = await localStorage.getItem(key);
+      return value ? JSON.parse(value) : null;
+    } catch (error) {
+      console.error("Storage get error:", error);
+      return null;
+    }
+  },
+  setItem: async (key: string, value: any) => {
+    try {
+      await localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error("Storage set error:", error);
+    }
+  },
+  removeItem: async (key: string) => {
+    try {
+      await localStorage.removeItem(key);
+    } catch (error) {
+      console.error("Storage remove error:", error);
+    }
+  },
+};
+
+// ====== 12. Persist Complete Example ======
+// slices/authSlice.ts
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface AuthState {
+  user: { id: string; name: string; email: string } | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  lastLogin: Date | null;
+}
+
+const initialState: AuthState = {
+  user: null,
+  token: null,
+  isAuthenticated: false,
+  lastLogin: null,
+};
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    login: (state, action: PayloadAction&lt;{ user: any; token: string }&gt;) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isAuthenticated = true;
+      state.lastLogin = new Date();
+    },
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+      state.isAuthenticated = false;
+    },
+    updateUser: (state, action: PayloadAction&lt;Partial&lt;any&gt;&gt;) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
+    },
+  },
+});
+
+export const { login, logout, updateUser } = authSlice.actions;
+export default authSlice.reducer;
+
+// ====== 13. Using Persist in Components ======
+function UserProfile() {
+  const dispatch = useAppDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
+  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+    // Optionally purge persisted state
+    // persistor.purge();
+  }, [dispatch]);
+
+  // Persist state is automatically saved and restored
+  // No additional code needed
+
+  return (
+    &lt;div&gt;
+      {isAuthenticated ? (
+        &lt;div&gt;
+          &lt;h3&gt;Welcome, {user?.name}&lt;/h3&gt;
+          &lt;button onClick={handleLogout}&gt;Logout&lt;/button&gt;
+        &lt;/div&gt;
+      ) : (
+        &lt;div&gt;Please login&lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 14. Clearing Persisted State ======
+function ClearStateButton() {
+  const dispatch = useAppDispatch();
+
+  const clearAllState = useCallback(async () => {
+    // Clear Redux state
+    dispatch({ type: "RESET_APP" });
+    
+    // Clear persisted state
+    await persistor.purge();
+    
+    // Or clear only specific keys
+    // await persistor.flush();
+    // await storage.removeItem('persist:root');
+  }, [dispatch]);
+
+  return &lt;button onClick={clearAllState}&gt;Clear All Data&lt;/button&gt;;
+}
+
+// ====== 15. Debugging Persisted State ======
+function DebugPersistedState() {
+  const state = useSelector((state: RootState) => state);
+  const persistState = useSelector((state: RootState) => state._persist);
+
+  useEffect(() => {
+    // Log persisted state
+    console.log("Current Redux state:", state);
+    console.log("Persist status:", persistState);
+    
+    // Check localStorage
+    const persistedData = localStorage.getItem("persist:root");
+    if (persistedData) {
+      console.log("Persisted data:", JSON.parse(persistedData));
+    }
+  }, [state]);
+
+  return null;
+}
+
+export { store, persistor, persistConfig };
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Redux Persist Configuration Options
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Option</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Default</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>key</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Storage key for persisted state</td>
+          <td style="border: 1px solid black; padding: 8px;">"root"</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>storage</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Storage engine (localStorage, AsyncStorage)</td>
+          <td style="border: 1px solid black; padding: 8px;">localStorage</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>whitelist</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Reducers to persist</td>
+          <td style="border: 1px solid black; padding: 8px;">[]</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>blacklist</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Reducers to exclude from persistence</td>
+          <td style="border: 1px solid black; padding: 8px;">[]</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>timeout</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Timeout for rehydration (ms)</td>
+          <td style="border: 1px solid black; padding: 8px;">10000</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>version</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">State version for migrations</td>
+          <td style="border: 1px solid black; padding: 8px;">0</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>transforms</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Transform functions for state serialization</td>
+          <td style="border: 1px solid black; padding: 8px;">[]</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is Redux Persist and why would you use it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Redux Persist is a library that automatically saves Redux state to persistent storage (like 
+            localStorage) and rehydrates it when the application loads. Use it to: (1) <strong>Maintain 
+            user sessions:</strong> Keep users logged in across page reloads, (2) <strong>Save preferences:</strong> 
+            Store user settings, theme preferences, language selection, (3) <strong>Restore state:</strong> 
+            Recover app state after browser refresh, (4) <strong>Offline support:</strong> Keep data available 
+            when offline, (5) <strong>Form state:</strong> Save form progress for users, (6) <strong>Caching:</strong> 
+            Cache frequently used data. It's essential for any app that needs to maintain state across browser 
+            sessions or page reloads.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between whitelist and blacklist in Redux Persist?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Whitelist:</strong> Specifies which reducers should be persisted. Only the reducers listed 
+            in the whitelist will be saved to storage and rehydrated. Use this when you want to persist only 
+            specific parts of your state. <strong>Blacklist:</strong> Specifies which reducers should NOT be 
+            persisted. All reducers except those listed in the blacklist will be persisted. Use this when you 
+            want to persist most of your state except for a few specific parts. The whitelist is more explicit 
+            and recommended for most cases, while the blacklist is useful when you want to persist everything 
+            except a few things.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle non-serializable data in Redux Persist?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            To handle non-serializable data like Dates, Map, Set, or class instances: (1) <strong>Transforms:</strong> 
+            Use <code>createTransform</code> to transform state before saving and after loading, (2) <strong>Custom 
+            serialization:</strong> Implement your own serialization/deserialization logic in transforms, 
+            (3) <strong>Store serializable data:</strong> Save timestamps (ISO strings) instead of Date objects, 
+            (4) <strong>Convert on rehydrate:</strong> Reconstruct complex objects after rehydration, 
+            (5) <strong>Use JSON.stringify:</strong> With a replacer function to handle custom types, 
+            (6) <strong>Ignore non-serializable state:</strong> Blacklist reducers that contain non-serializable 
+            data. The recommended approach is to use transforms to convert non-serializable data to a 
+            serializable format before saving, and back to the original format after loading.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle versioning and migrations in Redux Persist?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Versioning and migrations: (1) <strong>Version field:</strong> Set a <code>version</code> number 
+            in the persist configuration, (2) <strong>Migration function:</strong> Provide a <code>migrate</code> 
+            function that transforms state from one version to the next, (3) <strong>State structure changes:</strong> 
+            When you change your state structure, increment the version and handle the migration, (4) <strong>New 
+            fields:</strong> Add default values for new fields in the migration, (5) <strong>Removed fields:</strong> 
+            Remove old fields that no longer exist, (6) <strong>Data transformation:</strong> Transform data 
+            format (e.g., rename fields, change data types). This ensures that users with existing persisted 
+            state can seamlessly upgrade to the new version without losing data.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the performance considerations when using Redux Persist?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Performance considerations: (1) <strong>Storage size:</strong> Large persisted state can slow 
+            down initialization, (2) <strong>Serialization overhead:</strong> JSON.stringify/parse is CPU 
+            intensive for large objects, (3) <strong>Storage limits:</strong> localStorage has a ~5-10MB limit, 
+            (4) <strong>Write frequency:</strong> Frequent state changes cause frequent writes to storage, 
+            (5) <strong>Rehydration delay:</strong> Large state can delay app boot time, (6) <strong>Network 
+            latency:</strong> AsyncStorage in React Native has network latency, (7) <strong>Memory usage:</strong> 
+            Storing large state uses more memory. To optimize: (1) <strong>Selective persistence:</strong> 
+            Use whitelist/blacklist to persist only essential data, (2) <strong>Debounce writes:</strong> 
+            Don't write on every state change, (3) <strong>Compression:</strong> Compress large state objects, 
+            (4) <strong>Lazy load:</strong> Load persisted state lazily, (5) <strong>Data cleaning:</strong> 
+            Remove unnecessary data before saving.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle persistence in server-side rendering?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling persistence in SSR: (1) <strong>No localStorage in SSR:</strong> localStorage doesn't 
+            exist on the server, so you need to conditionally enable persistence, (2) <strong>Check environment:</strong> 
+            Use a check like <code>typeof window !== 'undefined'</code> to enable persistence only on the 
+            client, (3) <strong>Provide default state:</strong> Use a default state on the server and 
+            let Redux Persist handle rehydration on the client, (4) <strong>Use state from server:</strong> 
+            Pass server state to the store on the client, (5) <strong>Create custom storage:</strong> Use 
+            in-memory storage on the server, (6) <strong>Await rehydration:</strong> Wait for rehydration 
+            before rendering on the client. For Next.js, you can use the <code>next-redux-wrapper</code> to 
+            handle this automatically.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://github.com/rt2zz/redux-persist",
+              "https://redux-toolkit.js.org/usage/usage-with-typescript",
+              "https://github.com/rt2zz/redux-persist-transform-encrypt",
+            ],
+          },
+          {
+            topic: "Normalization",
+            tags: ["Redux", "State Management", "Data Structures", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Normalization (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Normalization</strong> is the process of structuring your Redux state to avoid duplication 
+        and make data easier to update. It involves storing entities in a dictionary-like structure 
+        (<code>byId</code>) and maintaining lists of IDs (<code>allIds</code>) for ordering. This pattern 
+        is inspired by database normalization and is essential for managing complex, relational data in 
+        Redux applications.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Normalization is a critical pattern for scaling Redux 
+        applications. Interviewers ask about it to test your understanding of state structure design, 
+        performance optimization, and handling complex data relationships.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Normalization Concepts
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Concept</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>byId</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Dictionary of entities keyed by ID</td>
+          <td style="border: 1px solid black; padding: 8px;">O(1) lookup, no duplicates</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>allIds</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Array of entity IDs in order</td>
+          <td style="border: 1px solid black; padding: 8px;">Maintains order, pagination</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Relationships</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Store references as IDs</td>
+          <td style="border: 1px solid black; padding: 8px;">Avoid circular references</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Single Source of Truth</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Each entity stored once</td>
+          <td style="border: 1px solid black; padding: 8px;">Consistent updates</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Denormalization</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Reconstruct nested data for UI</td>
+          <td style="border: 1px solid black; padding: 8px;">Efficient rendering</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Normalization Patterns
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+
+// ====== 1. Basic Normalization ======
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user";
+  createdAt: string;
+}
+
+interface NormalizedUsers {
+  byId: Record&lt;string, User&gt;;
+  allIds: string[];
+}
+
+const initialUsers: NormalizedUsers = {
+  byId: {},
+  allIds: [],
+};
+
+// ====== 2. Users Slice with Normalization ======
+const usersSlice = createSlice({
+  name: "users",
+  initialState: initialUsers,
+  reducers: {
+    // Add multiple users
+    addUsers: (state, action: PayloadAction&lt;User[]&gt;) => {
+      action.payload.forEach(user => {
+        if (!state.byId[user.id]) {
+          state.byId[user.id] = user;
+          state.allIds.push(user.id);
+        }
+      });
+    },
+    // Add or update a user
+    upsertUser: (state, action: PayloadAction&lt;User&gt;) => {
+      const user = action.payload;
+      if (!state.byId[user.id]) {
+        state.allIds.push(user.id);
+      }
+      state.byId[user.id] = user;
+    },
+    // Update a user
+    updateUser: (state, action: PayloadAction&lt;{ id: string; changes: Partial&lt;User&gt; }&gt;) => {
+      const { id, changes } = action.payload;
+      if (state.byId[id]) {
+        state.byId[id] = { ...state.byId[id], ...changes };
+      }
+    },
+    // Remove a user
+    removeUser: (state, action: PayloadAction&lt;string&gt;) => {
+      const id = action.payload;
+      delete state.byId[id];
+      state.allIds = state.allIds.filter(userId => userId !== id);
+    },
+    // Clear all users
+    clearUsers: (state) => {
+      state.byId = {};
+      state.allIds = [];
+    },
+  },
+});
+
+export const { addUsers, upsertUser, updateUser, removeUser, clearUsers } = usersSlice.actions;
+
+// ====== 3. Advanced Normalization with Relationships ======
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
+  comments: string[]; // IDs of comments
+  createdAt: string;
+}
+
+interface Comment {
+  id: string;
+  text: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+}
+
+interface NormalizedPosts {
+  byId: Record&lt;string, Post&gt;;
+  allIds: string[];
+  byAuthorId: Record&lt;string, string[]&gt;; // Author ID -> Post IDs
+}
+
+interface NormalizedComments {
+  byId: Record&lt;string, Comment&gt;;
+  allIds: string[];
+  byPostId: Record&lt;string, string[]&gt;; // Post ID -> Comment IDs
+}
+
+interface AppState {
+  users: NormalizedUsers;
+  posts: NormalizedPosts;
+  comments: NormalizedComments;
+}
+
+// ====== 4. Posts Slice with Relationships ======
+const initialPosts: NormalizedPosts = {
+  byId: {},
+  allIds: [],
+  byAuthorId: {},
+};
+
+const postsSlice = createSlice({
+  name: "posts",
+  initialState: initialPosts,
+  reducers: {
+    addPosts: (state, action: PayloadAction&lt;Post[]&gt;) => {
+      action.payload.forEach(post => {
+        if (!state.byId[post.id]) {
+          state.byId[post.id] = post;
+          state.allIds.push(post.id);
+          if (!state.byAuthorId[post.authorId]) {
+            state.byAuthorId[post.authorId] = [];
+          }
+          state.byAuthorId[post.authorId].push(post.id);
+        }
+      });
+    },
+    addPost: (state, action: PayloadAction&lt;Post&gt;) => {
+      const post = action.payload;
+      state.byId[post.id] = post;
+      state.allIds.push(post.id);
+      if (!state.byAuthorId[post.authorId]) {
+        state.byAuthorId[post.authorId] = [];
+      }
+      state.byAuthorId[post.authorId].push(post.id);
+    },
+    updatePost: (state, action: PayloadAction&lt;{ id: string; changes: Partial&lt;Post&gt; }&gt;) => {
+      const { id, changes } = action.payload;
+      if (state.byId[id]) {
+        state.byId[id] = { ...state.byId[id], ...changes };
+      }
+    },
+    removePost: (state, action: PayloadAction&lt;string&gt;) => {
+      const id = action.payload;
+      const post = state.byId[id];
+      if (post) {
+        // Remove from author index
+        if (state.byAuthorId[post.authorId]) {
+          state.byAuthorId[post.authorId] = state.byAuthorId[post.authorId].filter(
+            postId => postId !== id
+          );
+        }
+        delete state.byId[id];
+        state.allIds = state.allIds.filter(postId => postId !== id);
+      }
+    },
+  },
+});
+
+export const { addPosts, addPost, updatePost, removePost } = postsSlice.actions;
+
+// ====== 5. Comments Slice with Relationships ======
+const initialComments: NormalizedComments = {
+  byId: {},
+  allIds: [],
+  byPostId: {},
+};
+
+const commentsSlice = createSlice({
+  name: "comments",
+  initialState: initialComments,
+  reducers: {
+    addComments: (state, action: PayloadAction&lt;Comment[]&gt;) => {
+      action.payload.forEach(comment => {
+        if (!state.byId[comment.id]) {
+          state.byId[comment.id] = comment;
+          state.allIds.push(comment.id);
+          if (!state.byPostId[comment.postId]) {
+            state.byPostId[comment.postId] = [];
+          }
+          state.byPostId[comment.postId].push(comment.id);
+        }
+      });
+    },
+    addComment: (state, action: PayloadAction&lt;Comment&gt;) => {
+      const comment = action.payload;
+      state.byId[comment.id] = comment;
+      state.allIds.push(comment.id);
+      if (!state.byPostId[comment.postId]) {
+        state.byPostId[comment.postId] = [];
+      }
+      state.byPostId[comment.postId].push(comment.id);
+    },
+    updateComment: (state, action: PayloadAction&lt;{ id: string; changes: Partial&lt;Comment&gt; }&gt;) => {
+      const { id, changes } = action.payload;
+      if (state.byId[id]) {
+        state.byId[id] = { ...state.byId[id], ...changes };
+      }
+    },
+    removeComment: (state, action: PayloadAction&lt;string&gt;) => {
+      const id = action.payload;
+      const comment = state.byId[id];
+      if (comment) {
+        if (state.byPostId[comment.postId]) {
+          state.byPostId[comment.postId] = state.byPostId[comment.postId].filter(
+            commentId => commentId !== id
+          );
+        }
+        delete state.byId[id];
+        state.allIds = state.allIds.filter(commentId => commentId !== id);
+      }
+    },
+  },
+});
+
+export const { addComments, addComment, updateComment, removeComment } = commentsSlice.actions;
+
+// ====== 6. Selectors with Denormalization ======
+// Basic selectors
+export const selectUsers = (state: RootState) => state.users;
+export const selectPosts = (state: RootState) => state.posts;
+export const selectComments = (state: RootState) => state.comments;
+
+// Memoized selectors for users
+export const selectAllUsers = createSelector(
+  [selectUsers],
+  (users) => users.allIds.map(id => users.byId[id])
+);
+
+export const selectUserById = (state: RootState, userId: string) => {
+  return state.users.byId[userId];
+};
+
+// Memoized selectors for posts
+export const selectAllPosts = createSelector(
+  [selectPosts],
+  (posts) => posts.allIds.map(id => posts.byId[id])
+);
+
+export const selectPostById = (state: RootState, postId: string) => {
+  return state.posts.byId[postId];
+};
+
+export const selectPostsByAuthor = createSelector(
+  [selectPosts, (state: RootState, authorId: string) => authorId],
+  (posts, authorId) => {
+    const postIds = posts.byAuthorId[authorId] || [];
+    return postIds.map(id => posts.byId[id]);
+  }
+);
+
+// Denormalized selectors that combine data
+export const selectPostWithAuthorAndComments = createSelector(
+  [(state: RootState, postId: string) => selectPostById(state, postId)],
+  [(state: RootState) => state.users],
+  [(state: RootState) => state.comments],
+  (post, users, comments) => {
+    if (!post) return null;
+
+    // Get author
+    const author = users.byId[post.authorId];
+    
+    // Get comments
+    const commentIds = comments.byPostId[post.id] || [];
+    const postComments = commentIds.map(id => comments.byId[id]).filter(Boolean);
+
+    return {
+      ...post,
+      author,
+      comments: postComments,
+    };
+  }
+);
+
+// Denormalized posts list with authors
+export const selectAllPostsWithAuthors = createSelector(
+  [selectAllPosts, selectUsers],
+  (posts, users) => {
+    return posts.map(post => ({
+      ...post,
+      author: users.byId[post.authorId] || null,
+    }));
+  }
+);
+
+// ====== 7. Utility Functions for Normalization ======
+// Normalize an array of entities
+function normalizeEntities&lt;T extends { id: string }&gt;(entities: T[]) {
+  const byId: Record&lt;string, T&gt; = {};
+  const allIds: string[] = [];
+
+  entities.forEach(entity => {
+    byId[entity.id] = entity;
+    allIds.push(entity.id);
+  });
+
+  return { byId, allIds };
+}
+
+// Denormalize a collection
+function denormalizeCollection&lt;T extends { id: string }&gt;(
+  normalized: { byId: Record&lt;string, T>; allIds: string[] }
+): T[] {
+  return normalized.allIds.map(id => normalized.byId[id]);
+}
+
+// Update a normalized collection
+function updateNormalizedEntity&lt;T extends { id: string }&gt;(
+  normalized: { byId: Record&lt;string, T>; allIds: string[] },
+  entity: T
+): { byId: Record&lt;string, T>; allIds: string[] } {
+  const { byId, allIds } = normalized;
+  const newById = { ...byId, [entity.id]: entity };
+  const newAllIds = allIds.includes(entity.id) ? allIds : [...allIds, entity.id];
+  return { byId: newById, allIds: newAllIds };
+}
+
+// Remove from normalized collection
+function removeNormalizedEntity(
+  normalized: { byId: Record&lt;string, any>; allIds: string[] },
+  id: string
+): { byId: Record&lt;string, any>; allIds: string[] } {
+  const { byId, allIds } = normalized;
+  const newById = { ...byId };
+  delete newById[id];
+  const newAllIds = allIds.filter(itemId => itemId !== id);
+  return { byId: newById, allIds: newAllIds };
+}
+
+// ====== 8. Component Using Normalized Data ======
+function PostList() {
+  const posts = useAppSelector(selectAllPostsWithAuthors);
+  const users = useAppSelector(selectAllUsers);
+  const dispatch = useAppDispatch();
+
+  // Fetch posts and users
+  useEffect(() => {
+    fetchPosts().then(posts => {
+      dispatch(addPosts(posts));
+      // Extract unique author IDs and fetch users
+      const authorIds = [...new Set(posts.map(p => p.authorId))];
+      fetchUsersByIds(authorIds).then(users => {
+        dispatch(addUsers(users));
+      });
+    });
+  }, [dispatch]);
+
+  return (
+    &lt;div&gt;
+      {posts.map(post => (
+        &lt;div key={post.id} className="post"&gt;
+          &lt;h3&gt;{post.title}&lt;/h3&gt;
+          &lt;p&gt;By: {post.author?.name || "Unknown"}&lt;/p&gt;
+          &lt;p&gt;{post.content}&lt;/p&gt;
+          &lt;div className="comments"&gt;
+            {post.comments?.map(comment => (
+              &lt;div key={comment.id} className="comment"&gt;
+                &lt;p&gt;{comment.text}&lt;/p&gt;
+                &lt;small&gt;By: {users.find(u => u.id === comment.authorId)?.name || "Unknown"}&lt;/small&gt;
+              &lt;/div&gt;
+            ))}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 9. With Entity Adapter (Redux Toolkit) ======
+import { createEntityAdapter } from "@reduxjs/toolkit";
+
+// Entity adapter for users
+const usersAdapter = createEntityAdapter&lt;User&gt;({
+  selectId: (user) => user.id,
+  sortComparer: (a, b) => a.name.localeCompare(b.name),
+});
+
+// Entity adapter for posts
+const postsAdapter = createEntityAdapter&lt;Post&gt;({
+  selectId: (post) => post.id,
+  sortComparer: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+});
+
+// Entity adapter for comments
+const commentsAdapter = createEntityAdapter&lt;Comment&gt;({
+  selectId: (comment) => comment.id,
+});
+
+// Slice with entity adapter
+const postsWithAdapterSlice = createSlice({
+  name: "postsWithAdapter",
+  initialState: postsAdapter.getInitialState({ 
+    loading: false, 
+    error: null 
+  }),
+  reducers: {
+    addPosts: postsAdapter.addMany,
+    addPost: postsAdapter.addOne,
+    updatePost: postsAdapter.updateOne,
+    removePost: postsAdapter.removeOne,
+    setPosts: postsAdapter.setAll,
+  },
+});
+
+export const { addPosts: addPostsAdapter } = postsWithAdapterSlice.actions;
+
+// Selectors with entity adapter
+export const {
+  selectAll: selectAllPostsAdapter,
+  selectById: selectPostByIdAdapter,
+  selectIds: selectPostIds,
+  selectEntities: selectPostEntities,
+} = postsAdapter.getSelectors((state: RootState) => state.postsWithAdapter);
+
+export { normalizeEntities, denormalizeCollection, updateNormalizedEntity, removeNormalizedEntity };
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Normalization Benefits
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Impact</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>No Duplication</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Each entity stored once</td>
+          <td style="border: 1px solid black; padding: 8px;">Consistent updates, less memory</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Fast Lookups</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">O(1) access by ID</td>
+          <td style="border: 1px solid black; padding: 8px;">Faster than searching arrays</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Easier Updates</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Update once, used everywhere</td>
+          <td style="border: 1px solid black; padding: 8px;">No stale references</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Relationships</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Clear relationships between entities</td>
+          <td style="border: 1px solid black; padding: 8px;">Simpler navigation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Pagination</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Easier to manage paginated data</td>
+          <td style="border: 1px solid black; padding: 8px;">Append new data efficiently</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is normalization in Redux and why is it important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Normalization is the practice of structuring Redux state to avoid duplication by storing entities 
+            in a dictionary-like structure (<code>byId</code>) with separate arrays for IDs (<code>allIds</code>). 
+            It's important because: (1) <strong>Prevents duplication:</strong> Each entity is stored once, 
+            (2) <strong>Consistent updates:</strong> Updating an entity updates all references, (3) <strong>Performance:</strong> 
+            O(1) lookups by ID, (4) <strong>Memory efficiency:</strong> Less redundant data, (5) <strong>Relationships:</strong> 
+            Easier to manage relationships between entities, (6) <strong>Pagination:</strong> Easier to 
+            append new data without duplication, (7) <strong>Denormalization:</strong> Can reconstruct 
+            nested data for UI when needed.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between normalized and denormalized state?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Normalized state:</strong> (1) <strong>Structure:</strong> Flat, dictionary-like with 
+            <code>byId</code> and <code>allIds</code>, (2) <strong>Duplication:</strong> No duplication, 
+            each entity stored once, (3) <strong>Updates:</strong> Update one place, all references update, 
+            (4) <strong>Lookup:</strong> Fast O(1) lookup by ID, (5) <strong>Storage:</strong> More compact. 
+            <strong>Denormalized state:</strong> (1) <strong>Structure:</strong> Nested, tree-like with 
+            deep relationships, (2) <strong>Duplication:</strong> Data may be duplicated (e.g., same user 
+            appears in multiple posts), (3) <strong>Updates:</strong> Multiple places to update, risk of 
+            inconsistency, (4) <strong>Lookup:</strong> Must traverse nested structures, (5) <strong>Storage:</strong> 
+            More memory usage. Use normalized state for storage and updates, denormalize for rendering.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle relationships in normalized state?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling relationships in normalized state: (1) <strong>Store references as IDs:</strong> Instead 
+            of nesting entire entities, store their IDs, (2) <strong>Create indexes:</strong> Maintain 
+            <code>byAuthorId</code>, <code>byPostId</code> maps for quick lookups, (3) <strong>Use selectors:</strong> 
+            Create memoized selectors that join data from multiple tables, (4) <strong>Denormalize for UI:</strong> 
+            Use selectors to reconstruct nested data for components, (5) <strong>Update relationships:</strong> 
+            When a relationship changes, update the ID reference, (6) <strong>Cascade operations:</strong> 
+            When deleting a parent, decide what to do with children (delete or orphan). This approach keeps 
+            the state flat and manageable while supporting complex relationships.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the Entity Adapter in Redux Toolkit and how does it help with normalization?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            The Entity Adapter is a Redux Toolkit utility that provides common CRUD operations for normalized 
+            state. It: (1) <strong>Auto-generates reducers:</strong> Provides pre-built reducers for common 
+            operations (<code>addOne</code>, <code>addMany</code>, <code>updateOne</code>, <code>removeOne</code>), 
+            (2) <strong>Manahes state structure:</strong> Automatically manages <code>byId</code> and 
+            <code>allIds</code>, (3) <strong>Provides selectors:</strong> Generates memoized selectors 
+            (<code>selectAll</code>, <code>selectById</code>), (4) <strong>Performance:</strong> Optimized 
+            for common operations, (5) <strong>Customization:</strong> Allows custom sorting and ID selection. 
+            It significantly reduces boilerplate code for managing normalized state.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the performance implications of normalization?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Performance implications: (1) <strong>Memory usage:</strong> Normalized state uses less memory 
+            due to no duplication, (2) <strong>Lookup speed:</strong> O(1) for ID lookups vs O(n) for array 
+            searches, (3) <strong>Update speed:</strong> Faster because you only update one location, 
+            (4) <strong>Selector performance:</strong> Memoized selectors prevent unnecessary recomputation, 
+            (5) <strong>Re-render optimization:</strong> Components only re-render when their specific data 
+            changes, (6) <strong>Data transfer:</strong> Less data to transfer when fetching, (7) <strong>Redux 
+            DevTools:</strong> Better debugging with normalized state. However, denormalization for UI can 
+            add CPU overhead, but this is typically minimal compared to the benefits.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle pagination with normalized state?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling pagination with normalized state: (1) <strong>Store page data:</strong> Maintain a 
+            <code>pages</code> object mapping page numbers to ID arrays, (2) <strong>Append new data:</strong> 
+            When fetching a new page, add new entities to <code>byId</code> and append IDs to the page's 
+            array, (3) <strong>Maintain allIds:</strong> Optionally maintain <code>allIds</code> for the 
+            complete list, (4) <strong>Load more:</strong> Keep track of current page and append to the list, 
+            (5) <strong>Infinite scrolling:</strong> Use the same pattern to load more data, (6) <strong>Cache:</strong> 
+            Keep fetched pages in memory to avoid refetching. This pattern supports both traditional pagination 
+            and infinite scrolling efficiently.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape",
+              "https://redux-toolkit.js.org/api/createEntityAdapter",
+              "https://redux-toolkit.js.org/usage/usage-with-typescript",
+            ],
+          },
+          {
+            topic: "Entity Adapter",
+            tags: ["Redux", "State Management", "Performance", "React"],
+            explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Entity Adapter (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Entity Adapter</strong> is a utility from Redux Toolkit that provides a standardized way to 
+        manage normalized data in Redux. It automatically generates reducers and selectors for common CRUD 
+        operations on entities, significantly reducing boilerplate and ensuring consistent state management 
+        across your application. It's designed to handle the complexities of normalized state management 
+        with minimal code.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Entity Adapter is a core Redux Toolkit utility that most 
+        production Redux applications use. Interviewers ask about it to test your understanding of state 
+        normalization, performance optimization, and your ability to write efficient, maintainable Redux code.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Entity Adapter Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>CRUD Reducers</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Pre-built reducers for common operations</td>
+          <td style="border: 1px solid black; padding: 8px;">Reduces boilerplate significantly</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Selectors</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-generated memoized selectors</td>
+          <td style="border: 1px solid black; padding: 8px;">Performance, type safety</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Sorting</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Custom sorting comparators</td>
+          <td style="border: 1px solid black; padding: 8px;">Consistent ordering</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>TypeScript Support</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Full TypeScript inference</td>
+          <td style="border: 1px solid black; padding: 8px;">Type-safe operations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Immutability</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Built-in Immer integration</td>
+          <td style="border: 1px solid black; padding: 8px;">Mutable syntax, immutable updates</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Entity Adapter Patterns
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { createEntityAdapter, createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+
+// ====== 1. Basic Entity Adapter Setup ======
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+  createdAt: string;
+}
+
+// Create adapter with configuration
+const usersAdapter = createEntityAdapter&lt;User&gt;({
+  // Optional: custom ID selector (defaults to entity.id)
+  selectId: (user) => user.id,
+  // Optional: sorting comparator
+  sortComparer: (a, b) => a.name.localeCompare(b.name),
+});
+
+// Initial state with additional fields
+const initialState = usersAdapter.getInitialState({
+  loading: false,
+  error: null as string | null,
+  selectedUserId: null as string | null,
+});
+
+// ====== 2. Slice with Entity Adapter ======
+const usersSlice = createSlice({
+  name: "users",
+  initialState,
+  reducers: {
+    // Using adapter methods
+    addUser: usersAdapter.addOne,
+    addUsers: usersAdapter.addMany,
+    updateUser: usersAdapter.updateOne,
+    updateUsers: usersAdapter.updateMany,
+    removeUser: usersAdapter.removeOne,
+    removeUsers: usersAdapter.removeMany,
+    setAllUsers: usersAdapter.setAll,
+    setUsers: usersAdapter.setMany,
+    
+    // Custom reducers
+    setLoading: (state, action: PayloadAction&lt;boolean&gt;) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action: PayloadAction&lt;string | null&gt;) => {
+      state.error = action.payload;
+    },
+    selectUser: (state, action: PayloadAction&lt;string&gt;) => {
+      state.selectedUserId = action.payload;
+    },
+    clearSelectedUser: (state) => {
+      state.selectedUserId = null;
+    },
+  },
+});
+
+export const {
+  addUser,
+  addUsers,
+  updateUser,
+  updateUsers,
+  removeUser,
+  removeUsers,
+  setAllUsers,
+  setUsers,
+  setLoading,
+  setError,
+  selectUser,
+  clearSelectedUser,
+} = usersSlice.actions;
+
+// ====== 3. Auto-Generated Selectors ======
+// Export the adapter's selectors
+export const {
+  selectAll: selectAllUsers,
+  selectById: selectUserById,
+  selectIds: selectUserIds,
+  selectEntities: selectUserEntities,
+  selectTotal: selectTotalUsers,
+} = usersAdapter.getSelectors((state: RootState) => state.users);
+
+// ====== 4. Custom Selectors ======
+export const selectUserLoading = (state: RootState) => state.users.loading;
+export const selectUserError = (state: RootState) => state.users.error;
+export const selectSelectedUserId = (state: RootState) => state.users.selectedUserId;
+
+// Memoized selector for selected user
+export const selectSelectedUser = createSelector(
+  [selectSelectedUserId, selectUserEntities],
+  (selectedId, entities) => (selectedId ? entities[selectedId] : null)
+);
+
+// Select users with filtering
+export const selectUsersByRole = (state: RootState, role: User["role"]) => {
+  return selectAllUsers(state).filter(user => user.role === role);
+};
+
+// Select users with search
+export const selectUsersBySearch = (state: RootState, searchTerm: string) => {
+  if (!searchTerm) return selectAllUsers(state);
+  const lowerSearch = searchTerm.toLowerCase();
+  return selectAllUsers(state).filter(user =>
+    user.name.toLowerCase().includes(lowerSearch) ||
+    user.email.toLowerCase().includes(lowerSearch)
+  );
+};
+
+// ====== 5. Advanced Entity Adapter Usage ======
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
+  createdAt: string;
+  updatedAt: string;
+  tags: string[];
+}
+
+// Adapter with custom sorting (newest first)
+const postsAdapter = createEntityAdapter&lt;Post&gt;({
+  sortComparer: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+});
+
+const postsInitialState = postsAdapter.getInitialState({
+  loading: false,
+  error: null as string | null,
+  selectedPostId: null as string | null,
+  filter: {
+    authorId: null as string | null,
+    tag: null as string | null,
+  },
+});
+
+const postsSlice = createSlice({
+  name: "posts",
+  initialState: postsInitialState,
+  reducers: {
+    // Bulk operations
+    addPosts: postsAdapter.addMany,
+    updatePost: postsAdapter.updateOne,
+    removePost: postsAdapter.removeOne,
+    clearPosts: postsAdapter.removeAll,
+    
+    // State management
+    setLoading: (state, action: PayloadAction&lt;boolean&gt;) => {
+      state.loading = action.payload;
+    },
+    setError: (state, action: PayloadAction&lt;string | null&gt;) => {
+      state.error = action.payload;
+    },
+    selectPost: (state, action: PayloadAction&lt;string&gt;) => {
+      state.selectedPostId = action.payload;
+    },
+    clearSelectedPost: (state) => {
+      state.selectedPostId = null;
+    },
+    setFilter: (state, action: PayloadAction&lt;Partial&lt;typeof postsInitialState.filter&gt;&gt;) => {
+      state.filter = { ...state.filter, ...action.payload };
+    },
+    clearFilter: (state) => {
+      state.filter = { authorId: null, tag: null };
+    },
+  },
+});
+
+export const {
+  addPosts,
+  updatePost,
+  removePost,
+  clearPosts,
+  setLoading: setPostsLoading,
+  setError: setPostsError,
+  selectPost,
+  clearSelectedPost,
+  setFilter,
+  clearFilter,
+} = postsSlice.actions;
+
+// ====== 6. Posts Selectors ======
+export const {
+  selectAll: selectAllPosts,
+  selectById: selectPostById,
+  selectIds: selectPostIds,
+  selectEntities: selectPostEntities,
+  selectTotal: selectTotalPosts,
+} = postsAdapter.getSelectors((state: RootState) => state.posts);
+
+export const selectPostsLoading = (state: RootState) => state.posts.loading;
+export const selectPostsError = (state: RootState) => state.posts.error;
+export const selectSelectedPostId = (state: RootState) => state.posts.selectedPostId;
+export const selectPostFilter = (state: RootState) => state.posts.filter;
+
+// Select filtered posts
+export const selectFilteredPosts = createSelector(
+  [selectAllPosts, selectPostFilter],
+  (posts, filter) => {
+    let filtered = posts;
+    
+    if (filter.authorId) {
+      filtered = filtered.filter(post => post.authorId === filter.authorId);
+    }
+    
+    if (filter.tag) {
+      filtered = filtered.filter(post => post.tags.includes(filter.tag!));
+    }
+    
+    return filtered;
+  }
+);
+
+// Select posts with author data (denormalized)
+export const selectPostsWithAuthors = createSelector(
+  [selectFilteredPosts, (state: RootState) => state.users.entities],
+  (posts, userEntities) => {
+    return posts.map(post => ({
+      ...post,
+      author: userEntities[post.authorId] || null,
+    }));
+  }
+);
+
+// ====== 7. Entity Adapter with Async Thunks ======
+import { createAsyncThunk } from "@reduxjs/toolkit";
+
+export const fetchUsers = createAsyncThunk(
+  "users/fetchUsers",
+  async () => {
+    const response = await fetch("/api/users");
+    if (!response.ok) throw new Error("Failed to fetch users");
+    return await response.json() as User[];
+  }
+);
+
+export const createUser = createAsyncThunk(
+  "users/createUser",
+  async (userData: Omit&lt;User, "id" | "createdAt"&gt;) => {
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+    if (!response.ok) throw new Error("Failed to create user");
+    return await response.json() as User;
+  }
+);
+
+export const updateUserAsync = createAsyncThunk(
+  "users/updateUser",
+  async ({ id, data }: { id: string; data: Partial&lt;User&gt; }) => {
+    const response = await fetch(\`/api/users/\${id}\`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error("Failed to update user");
+    return await response.json() as User;
+  }
+);
+
+export const deleteUserAsync = createAsyncThunk(
+  "users/deleteUser",
+  async (id: string) => {
+    const response = await fetch(\`/api/users/\${id}\`, {
+      method: "DELETE",
+    });
+    if (!response.ok) throw new Error("Failed to delete user");
+    return id;
+  }
+);
+
+// ====== 8. Slice with Async Reducers ======
+const usersAsyncSlice = createSlice({
+  name: "usersAsync",
+  initialState: usersAdapter.getInitialState({
+    loading: false,
+    error: null as string | null,
+  }),
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // Fetch Users
+      .addCase(fetchUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        usersAdapter.setAll(state, action.payload);
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch users";
+      })
+      
+      // Create User
+      .addCase(createUser.fulfilled, (state, action) => {
+        usersAdapter.addOne(state, action.payload);
+      })
+      
+      // Update User
+      .addCase(updateUserAsync.fulfilled, (state, action) => {
+        usersAdapter.updateOne(state, {
+          id: action.payload.id,
+          changes: action.payload,
+        });
+      })
+      
+      // Delete User
+      .addCase(deleteUserAsync.fulfilled, (state, action) => {
+        usersAdapter.removeOne(state, action.payload);
+      });
+  },
+});
+
+// ====== 9. Component Using Entity Adapter ======
+function UserManagement() {
+  const dispatch = useAppDispatch();
+  
+  // Using adapter selectors
+  const users = useAppSelector(selectAllUsers);
+  const loading = useAppSelector(selectUserLoading);
+  const error = useAppSelector(selectUserError);
+  const total = useAppSelector(selectTotalUsers);
+  const selectedUser = useAppSelector(selectSelectedUser);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  const handleCreateUser = async () => {
+    try {
+      await dispatch(createUser({
+        name: "New User",
+        email: "new@example.com",
+        role: "user",
+      })).unwrap();
+      // Success notification
+    } catch (err) {
+      // Error handling
+    }
+  };
+
+  const handleDeleteUser = async (id: string) => {
+    if (window.confirm("Are you sure?")) {
+      try {
+        await dispatch(deleteUserAsync(id)).unwrap();
+        // Success notification
+      } catch (err) {
+        // Error handling
+      }
+    }
+  };
+
+  if (loading) return &lt;div&gt;Loading users...&lt;/div&gt;;
+  if (error) return &lt;div&gt;Error: {error}&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;User Management ({total} users)&lt;/h2&gt;
+      &lt;button onClick={handleCreateUser}&gt;Create User&lt;/button&gt;
+      
+      {selectedUser && (
+        &lt;div className="selected-user"&gt;
+          &lt;h3&gt;Selected: {selectedUser.name}&lt;/h3&gt;
+          &lt;p&gt;Email: {selectedUser.email}&lt;/p&gt;
+          &lt;p&gt;Role: {selectedUser.role}&lt;/p&gt;
+        &lt;/div&gt;
+      )}
+      
+      &lt;ul&gt;
+        {users.map(user => (
+          &lt;li key={user.id}&gt;
+            &lt;span onClick={() => dispatch(selectUser(user.id))}&gt;
+              {user.name} ({user.email})
+            &lt;/span&gt;
+            &lt;button onClick={() => handleDeleteUser(user.id)}&gt;Delete&lt;/button&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 10. Advanced: Custom Adapter Methods ======
+// Extending the adapter with custom functionality
+const customUsersAdapter = {
+  ...usersAdapter,
+  // Custom method: add users with duplicate checking
+  addUnique: (state: any, users: User[]) => {
+    const existingIds = new Set(state.ids);
+    const newUsers = users.filter(user => !existingIds.has(user.id));
+    return usersAdapter.addMany(state, newUsers);
+  },
+  // Custom method: update users with validation
+  updateValidated: (state: any, updates: { id: string; changes: Partial&lt;User&gt; }[]) => {
+    const validUpdates = updates.filter(({ id, changes }) => {
+      // Validate that the user exists
+      if (!state.entities[id]) return false;
+      // Validate that changes are valid
+      if (changes.email && !changes.email.includes("@")) return false;
+      return true;
+    });
+    return usersAdapter.updateMany(state, validUpdates);
+  },
+};
+
+// Usage in slice:
+// const customSlice = createSlice({
+//   name: "customUsers",
+//   initialState: customUsersAdapter.getInitialState(),
+//   reducers: {
+//     addUniqueUsers: customUsersAdapter.addUnique,
+//     updateValidatedUsers: customUsersAdapter.updateValidated,
+//   },
+// });
+
+export { 
+  usersSlice, 
+  postsSlice, 
+  usersAsyncSlice,
+  customUsersAdapter,
+  UserManagement 
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Entity Adapter Methods
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Method</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>addOne</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Add a single entity</td>
+          <td style="border: 1px solid black; padding: 8px;">Create/insert operations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>addMany</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Add multiple entities</td>
+          <td style="border: 1px solid black; padding: 8px;">Bulk inserts, API responses</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>updateOne</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Update a single entity</td>
+          <td style="border: 1px solid black; padding: 8px;">Update operations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>updateMany</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Update multiple entities</td>
+          <td style="border: 1px solid black; padding: 8px;">Bulk updates</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>removeOne</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Remove a single entity</td>
+          <td style="border: 1px solid black; padding: 8px;">Delete operations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>removeMany</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Remove multiple entities</td>
+          <td style="border: 1px solid black; padding: 8px;">Bulk deletes</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>setAll</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Replace all entities</td>
+          <td style="border: 1px solid black; padding: 8px;">Reset/refetch operations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>setMany</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Add/update multiple entities</td>
+          <td style="border: 1px solid black; padding: 8px;">Upsert operations</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>removeAll</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Remove all entities</td>
+          <td style="border: 1px solid black; padding: 8px;">Clear state</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the Entity Adapter in Redux Toolkit and what problem does it solve?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            The Entity Adapter is a Redux Toolkit utility that provides a standardized way to manage normalized 
+            data. It solves the problem of boilerplate code for CRUD operations on normalized state. Instead 
+            of manually writing reducers for adding, updating, and removing entities, you get pre-built 
+            reducers and selectors. It handles the repetitive work of maintaining <code>byId</code> and 
+            <code>allIds</code> structures, and provides memoized selectors. This significantly reduces 
+            the amount of code you need to write, ensures consistency across your application, and improves 
+            performance through optimized updates and selectors.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What methods does the Entity Adapter provide for managing state?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            The Entity Adapter provides: (1) <strong>addOne/addMany:</strong> Add single or multiple entities, 
+            (2) <strong>updateOne/updateMany:</strong> Update single or multiple entities with partial changes, 
+            (3) <strong>removeOne/removeMany:</strong> Remove single or multiple entities by ID, (4) <strong>setAll:</strong> 
+            Replace all entities with a new set, (5) <strong>setMany:</strong> Add or update multiple entities 
+            (upsert), (6) <strong>removeAll:</strong> Remove all entities, (7) <strong>getInitialState:</strong> 
+            Get initial state with optional additional fields. Each method is designed to work with Immer 
+            for immutable updates, and they handle all the normalization complexity internally.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you use Entity Adapter with TypeScript?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Using Entity Adapter with TypeScript: (1) <strong>Define entity type:</strong> Create an interface 
+            for your entity with at least an <code>id</code> field, (2) <strong>Create adapter:</strong> 
+            <code>const adapter = createEntityAdapter&lt;EntityType&gt;()</code>, (3) <strong>Initial state:</strong> 
+            Use <code>adapter.getInitialState()</code> and add any additional fields, (4) <strong>Slice reducers:</strong> 
+            Use adapter methods directly in reducers, (5) <strong>Selectors:</strong> Use 
+            <code>adapter.getSelectors()</code> to get typed selectors, (6) <strong>State type:</strong> 
+            Type the state using the adapter's types: <code>EntityState&lt;EntityType&gt;</code>. The adapter 
+            provides full TypeScript inference, making it type-safe and IDE-friendly.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle relationships between entities with Entity Adapter?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling relationships: (1) <strong>Separate adapters:</strong> Create separate entity adapters 
+            for each entity type (users, posts, comments), (2) <strong>Store references:</strong> Store IDs 
+            of related entities as fields (e.g., <code>post.authorId</code>), (3) <strong>Indexes:</strong> 
+            Maintain indexes in the adapter's extra state (e.g., <code>postsByAuthorId</code>), (4) <strong>Cross-entity 
+            selectors:</strong> Create selectors that combine data from multiple adapters, (5) <strong>Denormalization:</strong> 
+            Use selectors to join data for UI rendering, (6) <strong>Update handling:</strong> When updating 
+            an entity, update its adapter; related adapters might need updates if they store references. 
+            The key is to keep each adapter focused on one entity type and join data through selectors.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the performance benefits of using Entity Adapter?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Performance benefits: (1) <strong>Efficient updates:</strong> O(1) lookup and update by ID, 
+            (2) <strong>Memoized selectors:</strong> Auto-generated selectors that prevent unnecessary 
+            recomputations, (3) <strong>Minimal re-renders:</strong> Components only re-render when their 
+            specific data changes, (4) <strong>Memory efficiency:</strong> No data duplication, (5) <strong>Batch 
+            operations:</strong> <code>addMany</code> and <code>updateMany</code> process multiple entities 
+            efficiently, (6) <strong>Structural sharing:</strong> Immer ensures efficient immutable updates, 
+            (7) <strong>Cache-friendly:</strong> IDs and entities are stored separately for optimal access. 
+            These optimizations make Entity Adapter much faster than manual normalization for large datasets.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you extend the Entity Adapter with custom methods?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Extending Entity Adapter: (1) <strong>Create wrapper:</strong> Create a new object that spreads 
+            the adapter and adds custom methods, (2) <strong>Custom reducers:</strong> Add custom methods 
+            that use the adapter's internal state, (3) <strong>Validation:</strong> Add validation logic 
+            before calling adapter methods, (4) <strong>Complex logic:</strong> Implement complex operations 
+            that combine multiple adapter methods, (5) <strong>Type safety:</strong> Ensure custom methods 
+            maintain type safety with generics, (6) <strong>Reuse:</strong> Create reusable adapters with 
+            common custom logic. The pattern is: <code>const customAdapter = { ...baseAdapter, customMethod: 
+            (state, payload) => { ... } }</code>. This keeps the code organized and maintainable.
+          </p>
+        </div>
+      </div>
+    </div>`,
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://redux-toolkit.js.org/api/createEntityAdapter",
+              "https://redux-toolkit.js.org/usage/usage-with-typescript",
+              "https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape",
+            ],
+          },
+  {
+    topic: "React Query",
+    tags: ["React", "Data Fetching", "TanStack Query", "Caching", "State Management"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        React Query (TanStack Query) — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>React Query</strong> (now officially <strong>TanStack Query</strong>) is a powerful data-fetching 
+        and state management library for React (and other frameworks). It simplifies fetching, caching, 
+        synchronizing, and updating server state in your applications. Unlike traditional state management 
+        libraries (like Redux), React Query is specifically designed for handling asynchronous data 
+        operations — it's not a general-purpose state manager, but rather a dedicated tool for managing 
+        server state.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> React Query has become the industry standard for data fetching 
+        in React applications. Interviewers ask about it to gauge your understanding of modern data fetching 
+        patterns, caching strategies, optimistic updates, and your ability to write efficient, maintainable 
+        data-fetching logic. It represents a shift away from managing server state in global stores (like 
+        Redux) toward dedicated server-state management.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Core Concepts of React Query
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Concept</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Queries</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Declarative data fetching (GET operations)</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-caching, deduplication, stale-while-revalidate</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Mutations</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Data modification operations (POST, PUT, DELETE)</td>
+          <td style="border: 1px solid black; padding: 8px;">Optimistic updates, automatic cache invalidation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Query Keys</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Unique identifiers for cached data</td>
+          <td style="border: 1px solid black; padding: 8px;">Fine-grained cache management, refetching</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Query Cache</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Automatic caching and garbage collection</td>
+          <td style="border: 1px solid black; padding: 8px;">Minimal network requests, fast UI</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Infinite Queries</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Paginated data with infinite scrolling</td>
+          <td style="border: 1px solid black; padding: 8px;">Seamless loading more data</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Background Refetching</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-refetch in background</td>
+          <td style="border: 1px solid black; padding: 8px;">Fresh data always available</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        React Query vs Redux for Data Fetching
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">React Query</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Redux + Thunk/RTK Query</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Focus</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Server state management</td>
+          <td style="border: 1px solid black; padding: 8px;">Client state management</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Caching</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Automatic, built-in</td>
+          <td style="border: 1px solid black; padding: 8px;">Manual, needs configuration</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>DevTools</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Dedicated React Query DevTools</td>
+          <td style="border: 1px solid black; padding: 8px;">Redux DevTools</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>API</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Hooks-based, declarative</td>
+          <td style="border: 1px solid black; padding: 8px;">Action/reducer pattern or RTK Query hooks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Learning Curve</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Low to moderate</td>
+          <td style="border: 1px solid black; padding: 8px;">Higher, especially classic Redux</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Boilerplate</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Minimal</td>
+          <td style="border: 1px solid black; padding: 8px;">More (even with RTK)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Best For</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Data fetching, caching, server state</td>
+          <td style="border: 1px solid black; padding: 8px;">Complex client state, global app state</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — React Query Setup
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Installation ======
+// npm install @tanstack/react-query
+// npm install @tanstack/react-query-devtools
+
+// ====== 2. Query Client Setup ======
+// queryClient.ts
+import { QueryClient } from "@tanstack/react-query";
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes — data considered fresh
+      gcTime: 1000 * 60 * 30, // 30 minutes — cache kept in memory (formerly cacheTime)
+      retry: 3,
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+      refetchOnWindowFocus: true, // Refetch when user returns to tab
+      refetchOnReconnect: true, // Refetch on network reconnect
+      refetchOnMount: true,
+      suspense: false,
+    },
+    mutations: {
+      retry: 1,
+      onError: (error) => {
+        console.error("Mutation error:", error);
+      },
+    },
+  },
+});
+
+// ====== 3. Query Client Provider ======
+// App.tsx
+import React from "react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { queryClient } from "./queryClient";
+
+function App() {
+  return (
+    &lt;QueryClientProvider client={queryClient}&gt;
+      &lt;div className="app"&gt;
+        &lt;AppContent /&gt;
+      &lt;/div&gt;
+      &lt;ReactQueryDevtools initialIsOpen={false} /&gt;
+    &lt;/QueryClientProvider&gt;
+  );
+}
+
+export default App;
+
+// ====== 4. Basic Query Hook ======
+// hooks/useUsers.ts
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { api } from "../services/api";
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+}
+
+// Fetch function
+const fetchUsers = async (): Promise&lt;User[]&gt; => {
+  const response = await fetch("/api/users");
+  if (!response.ok) {
+    throw new Error(\`Failed to fetch users: \${response.status}\`);
+  }
+  return response.json();
+};
+
+// Query key factory
+export const userKeys = {
+  all: ["users"] as const,
+  lists: () => [...userKeys.all, "list"] as const,
+  list: (filters: Record&lt;string, any&gt;) => [...userKeys.lists(), filters] as const,
+  details: () => [...userKeys.all, "detail"] as const,
+  detail: (id: string) => [...userKeys.details(), id] as const,
+};
+
+// Query hook
+export function useUsers(options?: UseQueryOptions&lt;User[], Error&gt;) {
+  return useQuery&lt;User[], Error&gt;({
+    queryKey: userKeys.lists(),
+    queryFn: fetchUsers,
+    staleTime: 1000 * 60 * 5,
+    ...options,
+  });
+}
+
+// Query hook with ID
+export function useUser(id: string, options?: UseQueryOptions&lt;User, Error&gt;) {
+  const fetchUser = async (): Promise&lt;User&gt; => {
+    const response = await fetch(\`/api/users/\${id}\`);
+    if (!response.ok) {
+      throw new Error(\`Failed to fetch user: \${response.status}\`);
+    }
+    return response.json();
+  };
+
+  return useQuery&lt;User, Error&gt;({
+    queryKey: userKeys.detail(id),
+    queryFn: fetchUser,
+    enabled: !!id,
+    staleTime: 1000 * 60 * 5,
+    ...options,
+  });
+}
+
+// ====== 5. Components Using Queries ======
+// UserList.tsx
+function UserList() {
+  const { data: users, isLoading, error, refetch, isFetching, status } = useUsers();
+
+  if (isLoading) return &lt;div&gt;Loading users...&lt;/div&gt;;
+  if (error) return &lt;div&gt;Error: {error.message}&lt;/div&gt;;
+  if (!users || users.length === 0) return &lt;div&gt;No users found&lt;/div&gt;;
+
+  return (
+    &lt;div&gt;
+      &lt;div className="header"&gt;
+        &lt;h2&gt;Users ({users.length})&lt;/h2&gt;
+        &lt;button onClick={() => refetch()} disabled={isFetching}&gt;
+          {isFetching ? "Refreshing..." : "Refresh"}
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div className="status"&gt;Status: {status}&lt;/div&gt;
+      &lt;ul&gt;
+        {users.map((user) => (
+          &lt;li key={user.id}&gt;
+            {user.name} ({user.email}) — {user.role}
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+// UserDetail.tsx
+function UserDetail({ userId }: { userId: string }) {
+  const { data: user, isLoading, error } = useUser(userId);
+
+  if (isLoading) return &lt;div&gt;Loading user details...&lt;/div&gt;;
+  if (error) return &lt;div&gt;Error loading user: {error.message}&lt;/div&gt;;
+  if (!user) return &lt;div&gt;User not found&lt;/div&gt;;
+
+  return (
+    &lt;div className="user-detail"&gt;
+      &lt;h2&gt;{user.name}&lt;/h2&gt;
+      &lt;p&gt;Email: {user.email}&lt;/p&gt;
+      &lt;p&gt;Role: {user.role}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 6. Query with Dependencies ======
+// hooks/useUserPosts.ts
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  userId: string;
+}
+
+function fetchUserPosts(userId: string): Promise&lt;Post[]&gt; {
+  return fetch(\`/api/users/\${userId}/posts\`).then((res) => {
+    if (!res.ok) throw new Error("Failed to fetch user posts");
+    return res.json();
+  });
+}
+
+export function useUserPosts(userId: string | null) {
+  return useQuery({
+    queryKey: ["posts", "user", userId],
+    queryFn: () => fetchUserPosts(userId!),
+    enabled: !!userId, // Only run if userId is truthy
+    staleTime: 1000 * 60 * 2,
+  });
+}
+
+// Component using dependent query
+function UserProfile({ userId }: { userId: string }) {
+  const { data: user } = useUser(userId);
+  const { data: posts, isLoading: postsLoading } = useUserPosts(userId);
+
+  // If we have user data, we could also prefetch posts
+  // This would be done in a useEffect or event handler
+
+  return (
+    &lt;div&gt;
+      &lt;UserDetail userId={userId} /&gt;
+      {postsLoading ? (
+        &lt;div&gt;Loading posts...&lt;/div&gt;
+      ) : (
+        &lt;div&gt;
+          &lt;h3&gt;Posts ({posts?.length || 0})&lt;/h3&gt;
+          {posts?.map((post) => (
+            &lt;div key={post.id}&gt;{post.title}&lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 7. Query with Selectors ======
+// hooks/useUserStats.ts
+export function useUserStats() {
+  return useQuery({
+    queryKey: userKeys.lists(),
+    queryFn: fetchUsers,
+    select: (data: User[]) => ({
+      total: data.length,
+      admins: data.filter((u) => u.role === "admin").length,
+      users: data.filter((u) => u.role === "user").length,
+      guests: data.filter((u) => u.role === "guest").length,
+    }),
+  });
+}
+
+// Component using selector
+function UserStats() {
+  const { data: stats, isLoading } = useUserStats();
+
+  if (isLoading) return &lt;div&gt;Loading stats...&lt;/div&gt;;
+
+  return (
+    &lt;div className="stats"&gt;
+      &lt;div&gt;Total: {stats?.total}&lt;/div&gt;
+      &lt;div&gt;Admins: {stats?.admins}&lt;/div&gt;
+      &lt;div&gt;Users: {stats?.users}&lt;/div&gt;
+      &lt;div&gt;Guests: {stats?.guests}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 8. Query with Initial Data ======
+function UserListWithInitialData() {
+  // Pre-populate with initial data from server-side rendering or parent
+  const initialUsers: User[] = []; // Would come from SSR or props
+
+  const { data: users, isLoading } = useUsers({
+    initialData: initialUsers,
+    initialDataUpdatedAt: Date.now(), // Mark when this data was generated
+  });
+
+  return &lt;div&gt;{/* ... */}&lt;/div&gt;;
+}
+
+// ====== 9. Prefetching Queries ======
+// hooks/usePrefetchUser.ts
+import { useQueryClient } from "@tanstack/react-query";
+
+export function usePrefetchUser() {
+  const queryClient = useQueryClient();
+
+  const prefetchUser = (userId: string) => {
+    return queryClient.prefetchQuery({
+      queryKey: userKeys.detail(userId),
+      queryFn: () => fetch(\`/api/users/\${userId}\`).then((res) => res.json()),
+      staleTime: 1000 * 60 * 5,
+    });
+  };
+
+  return prefetchUser;
+}
+
+// Component with prefetching
+function UserListWithPrefetch() {
+  const prefetchUser = usePrefetchUser();
+
+  const { data: users } = useUsers();
+
+  return (
+    &lt;div&gt;
+      {users?.map((user) => (
+        &lt;div
+          key={user.id}
+          onMouseEnter={() => prefetchUser(user.id)}
+          onClick={() => navigate(\`/users/\${user.id}\`)}
+        &gt;
+          {user.name}
+        &lt;/div&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 10. Custom Query Hook with Error Boundary ======
+function useUsersWithErrorHandling() {
+  const result = useUsers();
+
+  // Handle errors in a custom way
+  if (result.error) {
+    // Could log to error tracking service
+    console.error("User fetch error:", result.error);
+  }
+
+  return result;
+}
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        React Query — Additional Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Implementation</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Background Refetching</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-refetch on window focus, network reconnect</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>refetchOnWindowFocus: true</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Pagination</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Handle paginated data with page params</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>useQuery({ queryKey: ['posts', page] })</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Deduplication</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent duplicate requests</td>
+          <td style="border: 1px solid black; padding: 8px;">Auto deduplication with same query key</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Parallel Queries</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Run multiple queries in parallel</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>useQueries</code> hook</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Dependent Queries</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Run query only when dependency is available</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>enabled: !!dependency</code></td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is React Query and what problem does it solve?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            React Query (TanStack Query) is a data-fetching library that manages server state in React 
+            applications. It solves several problems: (1) <strong>Complex data fetching:</strong> 
+            Simplifies fetching, caching, and updating asynchronous data, (2) <strong>Cache management:</strong> 
+            Automatically caches data and invalidates it when needed, (3) <strong>Loading states:</strong> 
+            Provides built-in loading and error states, (4) <strong>Deduplication:</strong> Prevents 
+            duplicate requests, (5) <strong>Background updates:</strong> Automatically refetches data 
+            in the background, (6) <strong>Server state management:</strong> Separates server state from 
+            client state (unlike Redux which mixes both). It's essentially a server-state synchronization 
+            tool that handles the complexities of fetching, caching, and updating data from asynchronous sources.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between React Query and Redux?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>React Query</strong>: (1) <strong>Focus:</strong> Server state management (data from APIs), 
+            (2) <strong>Caching:</strong> Built-in, automatic, (3) <strong>Loading states:</strong> 
+            Built-in, (4) <strong>API:</strong> Hooks-based, declarative, (5) <strong>DevTools:</strong> 
+            Dedicated React Query DevTools, (6) <strong>Best for:</strong> Data fetching and caching. 
+            <strong>Redux</strong>: (1) <strong>Focus:</strong> Client state management (UI state, app state), 
+            (2) <strong>Caching:</strong> Manual, (3) <strong>Loading states:</strong> Manual via actions, 
+            (4) <strong>API:</strong> Action/reducer pattern (or RTK), (5) <strong>DevTools:</strong> 
+            Redux DevTools, (6) <strong>Best for:</strong> Complex client state, global app state. 
+            Many apps use both: Redux for client state, React Query for server state.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does React Query handle caching?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            React Query handles caching through: (1) <strong>Query Keys:</strong> Each query has a unique 
+            key that identifies its cache entry, (2) <strong>Cache Time (gcTime):</strong> How long inactive 
+            data stays in memory (default 30 minutes), (3) <strong>Stale Time:</strong> How long data is 
+            considered fresh before refetching (default 0 seconds), (4) <strong>Background Refetching:</strong> 
+            Automatically refetches when data becomes stale, (5) <strong>Cache Invalidation:</strong> 
+            Manually or automatically invalidate cache via query keys, (6) <strong>Garbage Collection:</strong> 
+            Removes inactive queries to free memory. The cache is managed entirely in memory and can be 
+            persisted to storage if needed. Data is automatically deduplicated based on query keys.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are query keys and why are they important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Query keys are unique identifiers that tell React Query how to cache and identify queries. 
+            They're important because: (1) <strong>Cache identification:</strong> Each query's cache entry 
+            is tied to its key, (2) <strong>Deduplication:</strong> Same keys prevent duplicate requests, 
+            (3) <strong>Refetching:</strong> You can refetch all queries with a specific key pattern, 
+            (4) <strong>Invalidation:</strong> Invalidate cached data by query key, (5) <strong>Organizing:</strong> 
+            Keys can be hierarchical (e.g., <code>['posts', 'user', userId]</code>), (6) <strong>Dependencies:</strong> 
+            Keys can include variables that change the query result. Query keys should be serializable and 
+            unique per query. Using a key factory pattern (like <code>userKeys.all</code>) is a best practice.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between staleTime and gcTime?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>staleTime:</strong> (1) <strong>Purpose:</strong> Determines how long data is considered 
+            "fresh" before needing to be refetched, (2) <strong>Default:</strong> 0 seconds (data is immediately 
+            stale), (3) <strong>Effect:</strong> When data is stale, background refetching will happen when 
+            conditions are met, (4) <strong>Use case:</strong> Set higher for data that doesn't change often. 
+            <strong>gcTime (formerly cacheTime):</strong> (1) <strong>Purpose:</strong> Determines how long 
+            inactive data stays in memory before being garbage collected, (2) <strong>Default:</strong> 5 
+            minutes, (3) <strong>Effect:</strong> After this time, inactive queries are removed from the cache, 
+            (4) <strong>Use case:</strong> Set higher for data that should persist longer even when not active. 
+            staleTime is about "when to refetch," while gcTime is about "how long to keep the data."
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the benefits of using React Query DevTools?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            React Query DevTools provide: (1) <strong>Cache inspection:</strong> View all cached queries and 
+            their data, (2) <strong>Query status:</strong> See which queries are loading, stale, or in error, 
+            (3) <strong>Manual refetching:</strong> Trigger refetches manually, (4) <strong>Cache invalidation:</strong> 
+            Invalidate specific queries, (5) <strong>Performance monitoring:</strong> See how long queries take, 
+            (6) <strong>Debugging:</strong> Identify issues with data fetching and caching, (7) <strong>Query 
+            tree:</strong> Visualize query dependencies and relationships. They're invaluable for debugging 
+            data fetching issues, understanding cache behavior, and optimizing query performance. The DevTools 
+            are included in the package and can be conditionally rendered in development.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://tanstack.com/query/latest",
+      "https://tanstack.com/query/latest/docs/react/overview",
+      "https://tanstack.com/query/latest/docs/react/guides/queries",
+    ],
+  },
+  {
+    topic: "Query Keys",
+    tags: ["React", "TanStack Query", "Caching", "Data Fetching"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Query Keys — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Query Keys</strong> are the foundation of React Query's caching system. They are unique 
+        identifiers that tell React Query how to cache, deduplicate, and manage queries. When you use 
+        <code>useQuery</code>, you provide a query key that uniquely identifies the data being fetched. 
+        React Query uses these keys internally to determine if data can be reused, when to refetch, and how 
+        to invalidate cached data.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Understanding query keys is essential for using React Query 
+        effectively. Interviewers ask about them to test your understanding of caching strategies, data 
+        invalidation, and how to structure your queries for optimal performance and maintainability. 
+        Poor query key management is a common source of bugs in React Query applications.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Query Key Structure
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Key Type</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Usage</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Simple Key</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>['users']</code></td>
+          <td style="border: 1px solid black; padding: 8px;">Single, static data (all users)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Key with Variables</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>['user', userId]</code></td>
+          <td style="border: 1px solid black; padding: 8px;">Parameterized data (specific user)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Nested Keys</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>['users', 'list', { filters }]</code></td>
+          <td style="border: 1px solid black; padding: 8px;">Hierarchical data organization</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Object Keys</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>['users', { page, limit }]</code></td>
+          <td style="border: 1px solid black; padding: 8px;">Multiple parameters as object</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Mixed Keys</strong></td>
+          <td style="border: 1px solid black; padding: 8px;"><code>['posts', 'user', userId, 'page', page]</code></td>
+          <td style="border: 1px solid black; padding: 8px;">Complex hierarchical data</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Query Keys Best Practices
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { useQuery, useQueryClient, useMutation, QueryKey } from "@tanstack/react-query";
+
+// ====== 1. Basic Query Keys ======
+// Simple key for a list of users
+const USERS_QUERY_KEY = ["users"] as const;
+
+// Key with a parameter (userId)
+const userKey = (userId: string) => ["user", userId] as const;
+
+// ====== 2. Query Key Factory Pattern (Recommended) ======
+// This is the recommended pattern for managing query keys
+export const userKeys = {
+  // Base key
+  all: ["users"] as const,
+  
+  // List keys with different filters
+  lists: () => [...userKeys.all, "list"] as const,
+  list: (filters: { role?: "admin" | "user"; search?: string }) => 
+    [...userKeys.lists(), filters] as const,
+  
+  // Detail keys
+  details: () => [...userKeys.all, "detail"] as const,
+  detail: (id: string) => [...userKeys.details(), id] as const,
+};
+
+export const postKeys = {
+  all: ["posts"] as const,
+  lists: () => [...postKeys.all, "list"] as const,
+  list: (page: number, limit: number) => 
+    [...postKeys.lists(), { page, limit }] as const,
+  details: () => [...postKeys.all, "detail"] as const,
+  detail: (id: string) => [...postKeys.details(), id] as const,
+  byUser: (userId: string) => [...postKeys.all, "user", userId] as const,
+};
+
+// ====== 3. Using Query Keys with Hooks ======
+function useUsers(filters?: { role?: "admin" | "user"; search?: string }) {
+  return useQuery({
+    // Keys automatically update when filters change
+    queryKey: userKeys.list(filters || {}),
+    queryFn: () => fetchUsers(filters),
+  });
+}
+
+function useUser(id: string) {
+  return useQuery({
+    queryKey: userKeys.detail(id),
+    queryFn: () => fetchUser(id),
+    // Only run if id exists
+    enabled: !!id,
+  });
+}
+
+function useUserPosts(userId: string) {
+  return useQuery({
+    queryKey: postKeys.byUser(userId),
+    queryFn: () => fetchPostsByUser(userId),
+    enabled: !!userId,
+  });
+}
+
+// ====== 4. Query Invalidation with Keys ======
+function useInvalidateUsers() {
+  const queryClient = useQueryClient();
+
+  const invalidateAllUsers = () => {
+    // Invalidate all user queries (any key starting with ['users'])
+    queryClient.invalidateQueries({ queryKey: userKeys.all });
+  };
+
+  const invalidateUser = (userId: string) => {
+    // Invalidate specific user
+    queryClient.invalidateQueries({ queryKey: userKeys.detail(userId) });
+  };
+
+  const invalidateUserLists = () => {
+    // Invalidate only list queries
+    queryClient.invalidateQueries({ queryKey: userKeys.lists() });
+  };
+
+  return { invalidateAllUsers, invalidateUser, invalidateUserLists };
+}
+
+// ====== 5. Filtering Queries by Keys ======
+function useFilterQueriesByKeys() {
+  const queryClient = useQueryClient();
+
+  const getUsersFromCache = () => {
+    // Get all queries that start with ['users']
+    const usersQueries = queryClient.getQueriesData({
+      queryKey: userKeys.all,
+    });
+    return usersQueries;
+  };
+
+  const getCachedUser = (userId: string) => {
+    // Get specific cached query data
+    return queryClient.getQueryData(userKeys.detail(userId));
+  };
+
+  const getCachedUsersList = (filters: { role?: string }) => {
+    // Get cached list data with specific filters
+    return queryClient.getQueryData(userKeys.list(filters));
+  };
+
+  return { getUsersFromCache, getCachedUser, getCachedUsersList };
+}
+
+// ====== 6. Complex Query Keys with Partial Matching ======
+function useComplexQueryKeys() {
+  const queryClient = useQueryClient();
+
+  const invalidateAllPostsByUser = (userId: string) => {
+    // Invalidate all post queries that match the user pattern
+    queryClient.invalidateQueries({
+      // This will match ['posts', 'user', userId, ...] and ['posts', 'user', userId]
+      queryKey: ["posts", "user", userId],
+      exact: false, // Match any key that starts with this pattern
+    });
+  };
+
+  const getPostsByUser = (userId: string) => {
+    // Get all cached posts for a user
+    const allQueries = queryClient.getQueriesData({
+      queryKey: ["posts", "user", userId],
+      exact: false,
+    });
+    return allQueries;
+  };
+
+  return { invalidateAllPostsByUser, getPostsByUser };
+}
+
+// ====== 7. Key Dependencies ======
+// When query keys depend on other query results
+function useUserWithPosts(userId: string) {
+  // First query: get user
+  const userQuery = useUser(userId);
+
+  // Second query: get posts for that user
+  // Enabled only when user data is available and has an id
+  const postsQuery = useQuery({
+    queryKey: ["posts", "user", userId],
+    queryFn: () => fetchPostsByUser(userId),
+    enabled: !!userQuery.data?.id,
+  });
+
+  return { user: userQuery, posts: postsQuery };
+}
+
+// ====== 8. Key with Date/Time (Pagination) ======
+function usePaginatedPosts(page: number, limit: number = 10) {
+  return useQuery({
+    queryKey: ["posts", "page", page, "limit", limit],
+    queryFn: () => fetchPosts({ page, limit }),
+    keepPreviousData: true, // Keep old data while fetching new page
+  });
+}
+
+// ====== 9. Query Key with Sort and Filter ======
+interface PostFilters {
+  authorId?: string;
+  tag?: string;
+  sortBy?: "createdAt" | "updatedAt" | "title";
+  sortOrder?: "asc" | "desc";
+}
+
+function useFilteredPosts(filters: PostFilters) {
+  return useQuery({
+    // Keys include all filters so caching works per filter combination
+    queryKey: ["posts", "filtered", filters],
+    queryFn: () => fetchFilteredPosts(filters),
+  });
+}
+
+// ====== 10. Advanced: Dynamic Key Generation ======
+// Helper function to generate stable keys
+function generateKey<T extends Record&lt;string, any&gt;>(
+  base: string[],
+  params: T
+): [...string[], T] {
+  // Sort params to ensure stable key order
+  const sortedParams = Object.keys(params)
+    .sort()
+    .reduce((acc, key) => ({ ...acc, [key]: params[key] }), {} as T);
+  return [...base, sortedParams];
+}
+
+// Usage
+const STABLE_USER_KEY = generateKey(["users"], { role: "admin", status: "active" });
+
+// ====== 11. Debugging Query Keys ======
+function DebugQueryKeys() {
+  const queryClient = useQueryClient();
+
+  const logAllQueryKeys = () => {
+    const allQueries = queryClient.getQueryCache().getAll();
+    console.log("All query keys:", allQueries.map(q => q.queryKey));
+  };
+
+  const logMatchingKeys = (key: QueryKey) => {
+    const queries = queryClient.getQueriesData({ queryKey: key });
+    console.log(\`Queries matching \${JSON.stringify(key)}:\`, queries);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={logAllQueryKeys}&gt;Log All Keys&lt;/button&gt;
+      &lt;button onClick={() => logMatchingKeys(userKeys.all)}&gt;Log User Keys&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 12. Query Key with Serialization ======
+// When using complex objects in query keys, ensure they're serializable
+function useSearchPosts(searchParams: URLSearchParams) {
+  // Convert to plain object for stable serialization
+  const params = Object.fromEntries(searchParams.entries());
+  
+  return useQuery({
+    queryKey: ["posts", "search", params],
+    queryFn: () => fetchSearchPosts(params),
+  });
+}
+
+// ====== 13. Preventing Key Collisions ======
+// Using unique prefixes to prevent collisions
+const appKeys = {
+  users: ["app", "users"] as const,
+  posts: ["app", "posts"] as const,
+  comments: ["app", "comments"] as const,
+};
+
+// In a monorepo, you might use the package name
+const packageKeys = {
+  auth: ["@myapp/auth"] as const,
+  dashboard: ["@myapp/dashboard"] as const,
+};
+
+export { userKeys, postKeys, appKeys, packageKeys };
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Query Key Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use Key Factories</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Create factory functions for generating keys</td>
+          <td style="border: 1px solid black; padding: 8px;">Consistency, maintainability, type safety</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Be Hierarchical</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Organize keys from general to specific</td>
+          <td style="border: 1px solid black; padding: 8px;">Easy invalidation of related queries</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Include Variables</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Include all variables that affect the data</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent cache collisions</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use as const</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use <code>as const</code> for type safety</td>
+          <td style="border: 1px solid black; padding: 8px;">Better TypeScript inference</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Avoid Functions</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Don't use functions in query keys</td>
+          <td style="border: 1px solid black; padding: 8px;">Keys must be serializable</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Sort Objects</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Sort object keys for stable serialization</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent unnecessary refetches</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are query keys in React Query and why are they important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Query keys are unique identifiers that tell React Query how to cache and manage queries. They're 
+            important because: (1) <strong>Cache identification:</strong> Each query's data is stored and 
+            retrieved by its key, (2) <strong>Deduplication:</strong> The same key prevents duplicate 
+            requests, (3) <strong>Refetching:</strong> You can refetch all queries with matching key patterns, 
+            (4) <strong>Invalidation:</strong> Manually invalidate cached data by key, (5) <strong>Organizing:</strong> 
+            Keys can be hierarchical for easy management, (6) <strong>Type safety:</strong> With TypeScript, 
+            keys can be typed for safety. Query keys are the foundation of React Query's caching strategy.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the query key factory pattern and why is it recommended?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            The query key factory pattern involves creating factory functions that generate query keys 
+            consistently across your application. It's recommended because: (1) <strong>Consistency:</strong> 
+            All queries use the same key structure, (2) <strong>Maintainability:</strong> Changes to key 
+            structure are made in one place, (3) <strong>Type safety:</strong> With TypeScript, you get 
+            type inference for keys, (4) <strong>Autocomplete:</strong> IDE autocomplete for available keys, 
+            (5) <strong>Invalidation:</strong> Easy to invalidate related queries (e.g., invalidate all user 
+            lists), (6) <strong>Hierarchy:</strong> Keys are organized hierarchically (all, lists, details). 
+            The pattern is: <code>entityKeys.all, entityKeys.lists(), entityKeys.list(filters), entityKeys.detail(id)</code>.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do query keys affect cache invalidation?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Query keys are central to cache invalidation: (1) <strong>Exact invalidation:</strong> 
+            <code>invalidateQueries({ queryKey: ['user', id] })</code> invalidates a specific user, 
+            (2) <strong>Partial invalidation:</strong> <code>invalidateQueries({ queryKey: ['users'] })</code> 
+            invalidates all queries starting with ['users'], (3) <strong>Predicate invalidation:</strong> 
+            Use a function to decide which queries to invalidate, (4) <strong>Key matching:</strong> 
+            <code>exact: false</code> matches any key that starts with the pattern, (5) <strong>Query 
+            updates:</strong> When a mutation invalidates a key, all queries with that key pattern are 
+            automatically refetched. This makes cache management declarative and automatic.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What makes a good query key?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            A good query key should: (1) <strong>Be unique:</strong> Uniquely identify the query's data, 
+            (2) <strong>Be serializable:</strong> Can be serialized to JSON (no functions, classes, etc.), 
+            (3) <strong>Be hierarchical:</strong> Organized from general to specific, (4) <strong>Include 
+            dependencies:</strong> Include all variables that affect the data, (5) <strong>Be typed:</strong> 
+            Type-safe with TypeScript, (6) <strong>Be consistent:</strong> Generated using a factory pattern, 
+            (7) <strong>Be stable:</strong> Same inputs produce the same key, (8) <strong>Be descriptive:</strong> 
+            Clear about what data it represents. A good example: <code>['posts', 'list', { page: 1, limit: 10 }]</code>.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle dynamic variables in query keys?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling dynamic variables: (1) <strong>Array syntax:</strong> Include variables as array items 
+            (<code>['user', userId]</code>), (2) <strong>Object syntax:</strong> Use objects for multiple 
+            parameters (<code>['users', { page, limit, sort }]</code>), (3) <strong>Nested objects:</strong> 
+            Use nested keys for complex hierarchies (<code>['posts', 'user', userId, 'page', page]</code>), 
+            (4) <strong>Enabling queries:</strong> Use <code>enabled: !!userId</code> to prevent queries 
+            with undefined variables, (5) <strong>Sorting:</strong> Sort object keys for stable keys, 
+            (6) <strong>Dependencies:</strong> Ensure query keys update when dependencies change. The key 
+            should change whenever the data would change.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://tanstack.com/query/latest/docs/react/guides/query-keys",
+      "https://tanstack.com/query/latest/docs/react/guides/invalidations-from-mutations",
+      "https://tanstack.com/query/latest/docs/react/guides/query-factories",
+    ],
+  },
+  {
+    topic: "Query Cache",
+    tags: ["React", "TanStack Query", "Caching", "Performance"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Query Cache — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Query Cache</strong> is the built-in caching system of React Query that automatically stores 
+        query results, manages data freshness, and handles garbage collection. It's the heart of React Query's 
+        data management — all queries write to and read from this cache. Understanding how the cache works 
+        is essential for building performant applications with React Query.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> The query cache is what makes React Query powerful and 
+        efficient. Interviewers ask about it to test your understanding of caching strategies, memory 
+        management, and how to optimize data fetching for performance. They want to know if you understand 
+        when data is cached, how long it stays, and how to manually interact with the cache.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Cache Lifecycle
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Stage</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Fresh</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Data is considered fresh and valid</td>
+          <td style="border: 1px solid black; padding: 8px;">Within <code>staleTime</code> window</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Stale</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Data is outdated, background refetch scheduled</td>
+          <td style="border: 1px solid black; padding: 8px;">After <code>staleTime</code> expires</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Inactive</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">No active observers (components) using data</td>
+          <td style="border: 1px solid black; padding: 8px;">When component unmounts</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Garbage Collected</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Data removed from memory</td>
+          <td style="border: 1px solid black; padding: 8px;">After <code>gcTime</code> with no observers</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Cache Management
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { useQueryClient, useQuery, useMutation, QueryClient } from "@tanstack/react-query";
+
+// ====== 1. Query Client Configuration ======
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      gcTime: 1000 * 60 * 30, // 30 minutes
+      refetchOnWindowFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMount: true,
+    },
+  },
+});
+
+// ====== 2. Reading from Cache ======
+function useCacheReader() {
+  const queryClient = useQueryClient();
+
+  // Read a specific query
+  const getUserFromCache = (userId: string) => {
+    return queryClient.getQueryData(["user", userId]);
+  };
+
+  // Get all cached user data
+  const getAllUsersCache = () => {
+    return queryClient.getQueriesData({ queryKey: ["users"] });
+  };
+
+  // Check if data exists in cache
+  const isUserCached = (userId: string) => {
+    return queryClient.getQueryState(["user", userId]) !== undefined;
+  };
+
+  return { getUserFromCache, getAllUsersCache, isUserCached };
+}
+
+// ====== 3. Writing to Cache ======
+function useCacheWriter() {
+  const queryClient = useQueryClient();
+
+  // Set data in cache
+  const setUserCache = (userId: string, data: any) => {
+    queryClient.setQueryData(["user", userId], data);
+  };
+
+  // Update existing cache data
+  const updateUserCache = (userId: string, updater: (old: any) => any) => {
+    queryClient.setQueryData(["user", userId], updater);
+  };
+
+  // Add to list cache
+  const addUserToList = (user: any) => {
+    queryClient.setQueryData(["users"], (old: any[] = []) => {
+      return [...old, user];
+    });
+  };
+
+  // Remove from list cache
+  const removeUserFromList = (userId: string) => {
+    queryClient.setQueryData(["users"], (old: any[] = []) => {
+      return old.filter((user) => user.id !== userId);
+    });
+  };
+
+  return { setUserCache, updateUserCache, addUserToList, removeUserFromList };
+}
+
+// ====== 4. Cache Invalidation ======
+function useCacheInvalidator() {
+  const queryClient = useQueryClient();
+
+  // Invalidate all users cache
+  const invalidateAllUsers = () => {
+    queryClient.invalidateQueries({ queryKey: ["users"] });
+  };
+
+  // Invalidate specific user
+  const invalidateUser = (userId: string) => {
+    queryClient.invalidateQueries({ queryKey: ["user", userId] });
+  };
+
+  // Invalidate with predicate
+  const invalidateByPredicate = (predicate: (query: any) => boolean) => {
+    queryClient.invalidateQueries({
+      predicate,
+    });
+  };
+
+  // Invalidate with exact match
+  const invalidateExact = (queryKey: any[]) => {
+    queryClient.invalidateQueries({
+      queryKey,
+      exact: true,
+    });
+  };
+
+  return { invalidateAllUsers, invalidateUser, invalidateByPredicate, invalidateExact };
+}
+
+// ====== 5. Cache Reset and Clearing ======
+function useCacheResetter() {
+  const queryClient = useQueryClient();
+
+  // Reset all queries
+  const resetCache = async () => {
+    await queryClient.resetQueries();
+  };
+
+  // Clear all cache
+  const clearCache = () => {
+    queryClient.clear();
+  };
+
+  // Remove specific query
+  const removeQuery = (queryKey: any[]) => {
+    queryClient.removeQueries({ queryKey });
+  };
+
+  // Remove all user queries
+  const removeAllUsers = () => {
+    queryClient.removeQueries({ queryKey: ["users"] });
+  };
+
+  return { resetCache, clearCache, removeQuery, removeAllUsers };
+}
+
+// ====== 6. Cache Optimization with Prefetching ======
+function useCachePrefetcher() {
+  const queryClient = useQueryClient();
+
+  // Prefetch a user
+  const prefetchUser = (userId: string) => {
+    return queryClient.prefetchQuery({
+      queryKey: ["user", userId],
+      queryFn: () => fetchUser(userId),
+      staleTime: 1000 * 60 * 5,
+    });
+  };
+
+  // Prefetch multiple users
+  const prefetchUsers = async (userIds: string[]) => {
+    const promises = userIds.map((id) => prefetchUser(id));
+    await Promise.all(promises);
+  };
+
+  // Prefetch with background refetch
+  const prefetchAndEnsureFresh = (userId: string) => {
+    // Check if data exists and is fresh
+    const cached = queryClient.getQueryData(["user", userId]);
+    const state = queryClient.getQueryState(["user", userId]);
+    
+    if (!cached || (state && state.isInvalidated)) {
+      return prefetchUser(userId);
+    }
+    return Promise.resolve();
+  };
+
+  return { prefetchUser, prefetchUsers, prefetchAndEnsureFresh };
+}
+
+// ====== 7. Cache with Pagination ======
+function useCachePagination() {
+  const queryClient = useQueryClient();
+
+  // Cache paginated results
+  const cachePage = (page: number, data: any) => {
+    queryClient.setQueryData(["posts", "page", page], data);
+  };
+
+  // Get paginated data from cache
+  const getPageFromCache = (page: number) => {
+    return queryClient.getQueryData(["posts", "page", page]);
+  };
+
+  // Prefetch next page
+  const prefetchNextPage = (currentPage: number, limit: number) => {
+    const nextPage = currentPage + 1;
+    return queryClient.prefetchQuery({
+      queryKey: ["posts", "page", nextPage, "limit", limit],
+      queryFn: () => fetchPosts({ page: nextPage, limit }),
+    });
+  };
+
+  // Cache infinite scroll
+  const addToInfiniteCache = (newData: any[]) => {
+    queryClient.setQueryData(["posts", "infinite"], (old: any = { pages: [], pageParams: [] }) => {
+      return {
+        ...old,
+        pages: [...old.pages, newData],
+        pageParams: [...old.pageParams, old.pageParams.length + 1],
+      };
+    });
+  };
+
+  return { cachePage, getPageFromCache, prefetchNextPage, addToInfiniteCache };
+}
+
+// ====== 8. Cache Monitoring ======
+function useCacheMonitor() {
+  const queryClient = useQueryClient();
+
+  // Log all cache entries
+  const logCache = () => {
+    const allQueries = queryClient.getQueryCache().getAll();
+    console.log("Cache entries:", allQueries.map((q) => ({
+      key: q.queryKey,
+      state: q.state,
+      observers: q.observers.length,
+    })));
+  };
+
+  // Log specific query
+  const logQuery = (queryKey: any[]) => {
+    const data = queryClient.getQueryData(queryKey);
+    const state = queryClient.getQueryState(queryKey);
+    console.log(\`Query \${JSON.stringify(queryKey)}:\`, { data, state });
+  };
+
+  // Get cache stats
+  const getCacheStats = () => {
+    const allQueries = queryClient.getQueryCache().getAll();
+    return {
+      total: allQueries.length,
+      active: allQueries.filter((q) => q.observers.length > 0).length,
+      inactive: allQueries.filter((q) => q.observers.length === 0).length,
+      keys: allQueries.map((q) => q.queryKey),
+    };
+  };
+
+  return { logCache, logQuery, getCacheStats };
+}
+
+// ====== 9. Query with Cache ======
+function useCachedUser(userId: string) {
+  const queryClient = useQueryClient();
+
+  return useQuery({
+    queryKey: ["user", userId],
+    queryFn: () => fetchUser(userId),
+    // Use cached data if available and fresh
+    initialData: () => queryClient.getQueryData(["user", userId]),
+    // Always update cache with fresh data
+    staleTime: 1000 * 60 * 5,
+  });
+}
+
+// ====== 10. Mutation with Cache Update ======
+function useUpdateUserWithCache() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (params: { id: string; data: Partial&lt;User&gt; }) =>
+      updateUser(params.id, params.data),
+    
+    // Optimistic update
+    onMutate: async ({ id, data }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["user", id] });
+      
+      // Snapshot previous value
+      const previousUser = queryClient.getQueryData(["user", id]);
+      
+      // Optimistically update cache
+      queryClient.setQueryData(["user", id], (old: User) => ({
+        ...old,
+        ...data,
+      }));
+      
+      // Return context for rollback
+      return { previousUser };
+    },
+    
+    // Handle success
+    onSuccess: (data, { id }) => {
+      // Update cache with server response
+      queryClient.setQueryData(["user", id], data);
+      
+      // Invalidate list queries
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    
+    // Handle error
+    onError: (error, { id }, context) => {
+      // Rollback optimistic update
+      if (context?.previousUser) {
+        queryClient.setQueryData(["user", id], context.previousUser);
+      }
+    },
+    
+    // Always refetch after error or success
+    onSettled: (data, error, { id }) => {
+      queryClient.invalidateQueries({ queryKey: ["user", id] });
+    },
+  });
+}
+
+// ====== 11. Cache Persistence ======
+// Store cache in localStorage
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+
+const localStoragePersister = createSyncStoragePersister({
+  storage: window.localStorage,
+  key: "react-query-cache",
+});
+
+persistQueryClient({
+  queryClient,
+  persister: localStoragePersister,
+  maxAge: 1000 * 60 * 60 * 24, // 24 hours
+  dehydrateOptions: {
+    shouldDehydrateQuery: (query) => {
+      // Only persist queries that are active or have recent updates
+      return query.state.status === "success" && query.state.data !== undefined;
+    },
+  },
+});
+
+// ====== 12. Cache Debugging ======
+function CacheDebugPanel() {
+  const { getCacheStats, logCache } = useCacheMonitor();
+  const queryClient = useQueryClient();
+
+  return (
+    &lt;div className="cache-debug"&gt;
+      &lt;h3&gt;Cache Debug&lt;/h3&gt;
+      &lt;button onClick={() => console.log(getCacheStats())}&gt;Log Stats&lt;/button&gt;
+      &lt;button onClick={logCache}&gt;Log All Cache&lt;/button&gt;
+      &lt;button onClick={() => queryClient.invalidateQueries()}&gt;Invalidate All&lt;/button&gt;
+      &lt;button onClick={() => queryClient.clear()}&gt;Clear Cache&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export {
+  useCacheReader,
+  useCacheWriter,
+  useCacheInvalidator,
+  useCacheResetter,
+  useCachePrefetcher,
+  useCachePagination,
+  useCacheMonitor,
+  useCachedUser,
+  useUpdateUserWithCache,
+  CacheDebugPanel,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Cache Strategies
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Strategy</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Stale-While-Revalidate</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Show stale data while fetching fresh</td>
+          <td style="border: 1px solid black; padding: 8px;">Default behavior, most use cases</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cache First</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Always use cached data if available</td>
+          <td style="border: 1px solid black; padding: 8px;">Static data, infrequent changes</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Network First</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Always fetch from network</td>
+          <td style="border: 1px solid black; padding: 8px;">Real-time data, frequent changes</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Optimistic Updates</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Update cache before server response</td>
+          <td style="border: 1px solid black; padding: 8px;">Better UX, instant feedback</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cache Invalidation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manually invalidate stale data</td>
+          <td style="border: 1px solid black; padding: 8px;">After mutations, data changes</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does React Query's cache work?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            React Query's cache is an in-memory cache that stores query results keyed by their query keys. 
+            It works through: (1) <strong>Automatic caching:</strong> Every query result is automatically 
+            cached, (2) <strong>Stale time:</strong> Data is considered fresh for <code>staleTime</code> 
+            (default 0), (3) <strong>Garbage collection:</strong> Inactive queries are removed after 
+            <code>gcTime</code> (default 5 minutes), (4) <strong>Background refetching:</strong> Stale data 
+            is automatically refetched in the background, (5) <strong>Deduplication:</strong> Same query 
+            keys prevent duplicate requests, (6) <strong>Cache updates:</strong> Mutations can update the 
+            cache directly or invalidate queries. The cache is fully managed by React Query and doesn't 
+            require manual intervention for most use cases.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between staleTime and gcTime in React Query?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>staleTime:</strong> (1) <strong>Purpose:</strong> How long data is considered "fresh" 
+            before needing to be refetched, (2) <strong>Default:</strong> 0 seconds, (3) <strong>Effect:</strong> 
+            When data is stale, background refetching is triggered, (4) <strong>Use case:</strong> Set higher 
+            for data that doesn't change often (e.g., 5 minutes for user profile). <strong>gcTime (formerly 
+            cacheTime):</strong> (1) <strong>Purpose:</strong> How long inactive data stays in memory before 
+            garbage collection, (2) <strong>Default:</strong> 5 minutes, (3) <strong>Effect:</strong> After 
+            this time, inactive queries are removed from cache, (4) <strong>Use case:</strong> Set higher 
+            for data that should persist longer (e.g., 30 minutes for a large dataset). staleTime is about 
+            "when to refetch," gcTime is about "how long to keep the data."
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you manually interact with the query cache?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Manual cache interactions: (1) <strong>Reading:</strong> <code>queryClient.getQueryData(key)</code> 
+            — read cached data, (2) <strong>Writing:</strong> <code>queryClient.setQueryData(key, data)</code> 
+            — set or update cached data, (3) <strong>Invalidating:</strong> <code>queryClient.invalidateQueries({ 
+            queryKey: key })</code> — mark data as stale and refetch, (4) <strong>Removing:</strong> 
+            <code>queryClient.removeQueries({ queryKey: key })</code> — remove data from cache, (5) <strong>Clearing:</strong> 
+            <code>queryClient.clear()</code> — clear entire cache, (6) <strong>Prefetching:</strong> 
+            <code>queryClient.prefetchQuery({ queryKey, queryFn })</code> — fetch and cache data proactively. 
+            These methods are available through the <code>useQueryClient</code> hook.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is optimistic update and how do you implement it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Optimistic updates update the UI immediately before the server responds, making the app feel faster. 
+            Implementation: (1) <strong>onMutate:</strong> Cancel outgoing refetches, snapshot current data, 
+            update cache optimistically, (2) <strong>Return context:</strong> Return the snapshot for rollback, 
+            (3) <strong>onSuccess:</strong> Update cache with server response, (4) <strong>onError:</strong> 
+            Rollback optimistic update using context, (5) <strong>onSettled:</strong> Invalidate queries to 
+            ensure fresh data. This pattern provides instant feedback while maintaining data consistency.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How can you persist the React Query cache?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            You can persist the cache using: (1) <strong>persistQueryClient:</strong> Built-in persistence 
+            utility, (2) <strong>Storage persister:</strong> Use localStorage, AsyncStorage, or IndexedDB, 
+            (3) <strong>Configuration:</strong> Set max age for persistence, (4) <strong>Selective persistence:</strong> 
+            Use <code>shouldDehydrateQuery</code> to choose which queries to persist, (5) <strong>Hydration:</strong> 
+            On app load, the cache is restored from storage. This is useful for offline support and faster 
+            initial load. The <code>@tanstack/react-query-persist-client</code> package provides the necessary 
+            utilities.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://tanstack.com/query/latest/docs/react/guides/caching",
+      "https://tanstack.com/query/latest/docs/react/guides/optimistic-updates",
+      "https://tanstack.com/query/latest/docs/react/guides/persisting-query-data",
+    ],
+  },
+  {
+    topic: "Mutations",
+    tags: ["React", "TanStack Query", "Data Mutation", "Optimistic Updates"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Mutations — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Mutations</strong> in React Query are used for creating, updating, or deleting data (POST, 
+        PUT, DELETE operations). While queries handle data fetching, mutations handle data modification. 
+        Unlike queries that run automatically, mutations are triggered imperatively (e.g., when a form is 
+        submitted). They provide built-in state management for loading, error, and success states, and 
+        integrate seamlessly with the query cache for automatic invalidation and optimistic updates.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Mutations are essential for building interactive applications. 
+        Interviewers ask about them to test your understanding of data modification patterns, optimistic 
+        updates, cache invalidation, and error handling. They want to know if you can implement complex 
+        mutation flows with proper loading states and error handling.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Mutation Lifecycle
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Stage</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Available</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Idle</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Mutation hasn't been called yet</td>
+          <td style="border: 1px solid black; padding: 8px;">status: 'idle'</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Pending</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Mutation is in progress</td>
+          <td style="border: 1px solid black; padding: 8px;">status: 'pending', isPending: true</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Success</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Mutation completed successfully</td>
+          <td style="border: 1px solid black; padding: 8px;">status: 'success', isSuccess: true</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Mutation failed</td>
+          <td style="border: 1px solid black; padding: 8px;">status: 'error', isError: true</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Mutations
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { useMutation, useQueryClient, UseMutationOptions, MutationFunction } from "@tanstack/react-query";
+import { useState } from "react";
+
+// ====== 1. Basic Mutation ======
+interface CreateUserData {
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+  createdAt: string;
+}
+
+// API function
+const createUser = async (data: CreateUserData): Promise&lt;User&gt; => {
+  const response = await fetch("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to create user");
+  }
+  
+  return response.json();
+};
+
+// Mutation hook
+function useCreateUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createUser,
+    onSuccess: (newUser) => {
+      // Update the users list cache
+      queryClient.setQueryData(["users"], (old: User[] = []) => {
+        return [...old, newUser];
+      });
+      
+      // Or invalidate to refetch
+      // queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: (error) => {
+      console.error("Failed to create user:", error);
+    },
+  });
+}
+
+// ====== 2. Mutation with Full Lifecycle ======
+function useUpdateUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial&lt;User&gt; }) =>
+      fetch(\`/api/users/\${id}\`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then((res) => {
+        if (!res.ok) throw new Error("Failed to update user");
+        return res.json();
+      }),
+    
+    onMutate: async ({ id, data }) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["user", id] });
+      
+      // Snapshot previous value
+      const previousUser = queryClient.getQueryData(["user", id]);
+      
+      // Optimistically update
+      queryClient.setQueryData(["user", id], (old: User) => ({
+        ...old,
+        ...data,
+      }));
+      
+      return { previousUser };
+    },
+    
+    onSuccess: (data, { id }) => {
+      // Update cache with server response
+      queryClient.setQueryData(["user", id], data);
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    
+    onError: (error, { id }, context) => {
+      // Rollback optimistic update
+      if (context?.previousUser) {
+        queryClient.setQueryData(["user", id], context.previousUser);
+      }
+      console.error("Update failed:", error);
+    },
+    
+    onSettled: (data, error, { id }) => {
+      // Always refetch after error or success
+      queryClient.invalidateQueries({ queryKey: ["user", id] });
+    },
+  });
+}
+
+// ====== 3. Mutation with Custom Hook ======
+function useDeleteUser() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) =>
+      fetch(\`/api/users/\${id}\`, { method: "DELETE" }).then((res) => {
+        if (!res.ok) throw new Error("Failed to delete user");
+        return id;
+      }),
+    
+    onSuccess: (deletedId) => {
+      // Remove from cache
+      queryClient.removeQueries({ queryKey: ["user", deletedId] });
+      
+      // Update users list
+      queryClient.setQueryData(["users"], (old: User[] = []) => {
+        return old.filter((user) => user.id !== deletedId);
+      });
+      
+      // Or invalidate to refetch
+      // queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+  });
+}
+
+// ====== 4. Component with Mutation ======
+function CreateUserForm() {
+  const [formData, setFormData] = useState({ name: "", email: "", role: "user" as const });
+  const createUser = useCreateUser();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    createUser.mutate(formData);
+  };
+
+  // Reset form on success
+  React.useEffect(() => {
+    if (createUser.isSuccess) {
+      setFormData({ name: "", email: "", role: "user" });
+      // Show success message
+    }
+  }, [createUser.isSuccess]);
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        type="text"
+        value={formData.name}
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        placeholder="Name"
+        required
+      /&gt;
+      &lt;input
+        type="email"
+        value={formData.email}
+        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        placeholder="Email"
+        required
+      /&gt;
+      &lt;select
+        value={formData.role}
+        onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
+      &gt;
+        &lt;option value="user"&gt;User&lt;/option&gt;
+        &lt;option value="admin"&gt;Admin&lt;/option&gt;
+        &lt;option value="guest"&gt;Guest&lt;/option&gt;
+      &lt;/select&gt;
+      
+      &lt;button type="submit" disabled={createUser.isPending}&gt;
+        {createUser.isPending ? "Creating..." : "Create User"}
+      &lt;/button&gt;
+      
+      {createUser.isError && (
+        &lt;div className="error"&gt;
+          Error: {createUser.error?.message || "Something went wrong"}
+        &lt;/div&gt;
+      )}
+      
+      {createUser.isSuccess && (
+        &lt;div className="success"&gt;User created successfully!&lt;/div&gt;
+      )}
+    &lt;/form&gt;
+  );
+}
+
+// ====== 5. Mutation with Dependent Queries ======
+function useCreatePost() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (post: { title: string; content: string; authorId: string }) =>
+      fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(post),
+      }).then((res) => {
+        if (!res.ok) throw new Error("Failed to create post");
+        return res.json();
+      }),
+    
+    onSuccess: (newPost, variables) => {
+      // Update posts list
+      queryClient.setQueryData(["posts"], (old: any[] = []) => {
+        return [newPost, ...old];
+      });
+      
+      // Update user's posts list
+      queryClient.setQueryData(["posts", "user", variables.authorId], (old: any[] = []) => {
+        return [newPost, ...old];
+      });
+      
+      // Invalidate related queries
+      queryClient.invalidateQueries({ queryKey: ["posts", "list"] });
+    },
+  });
+}
+
+// ====== 6. Mutation with Reset ======
+function useMutateWithReset() {
+  const mutation = useMutation({
+    mutationFn: createUser,
+  });
+
+  const reset = () => {
+    mutation.reset();
+  };
+
+  return { ...mutation, reset };
+}
+
+// ====== 7. Mutation with Variables ======
+function useUpdateUserWithVariables() {
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial&lt;User&gt; }) =>
+      updateUser(id, data),
+  });
+}
+
+function UserEditForm({ userId, initialData }: { userId: string; initialData: User }) {
+  const [formData, setFormData] = useState(initialData);
+  const updateUser = useUpdateUserWithVariables();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateUser.mutate({
+      id: userId,
+      data: formData,
+    });
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;input
+        value={formData.name}
+        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+      /&gt;
+      &lt;input
+        value={formData.email}
+        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+      /&gt;
+      &lt;button type="submit" disabled={updateUser.isPending}&gt;
+        {updateUser.isPending ? "Saving..." : "Save"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 8. Mutation with Side Effects ======
+function useUserActionWithSideEffects() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (action: { type: "activate" | "deactivate"; userId: string }) =>
+      fetch(\`/api/users/\${action.userId}/\${action.type}\`, {
+        method: "POST",
+      }).then((res) => {
+        if (!res.ok) throw new Error(\`Failed to \${action.type} user\`);
+        return res.json();
+      }),
+    
+    onSuccess: (data, variables) => {
+      // Update cache
+      queryClient.setQueryData(["user", variables.userId], data);
+      
+      // Show toast notification
+      // toast.success(\`User \${variables.type === 'activate' ? 'activated' : 'deactivated'}\`);
+    },
+    
+    onError: (error, variables) => {
+      // Show error toast
+      // toast.error(\`Failed to \${variables.type} user: \${error.message}\`);
+    },
+  });
+}
+
+// ====== 9. Mutation with Retry ======
+function useMutationWithRetry() {
+  return useMutation({
+    mutationFn: createUser,
+    retry: 3,
+    retryDelay: 1000,
+    onError: (error) => {
+      console.error("All retries failed:", error);
+    },
+  });
+}
+
+// ====== 10. Mutation with Context ======
+function useUserMutationWithContext() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (userData: CreateUserData) => createUser(userData),
+    
+    onMutate: async (newUser) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["users"] });
+      
+      // Snapshot the previous value
+      const previousUsers = queryClient.getQueryData(["users"]);
+      
+      // Optimistically update to the new value
+      queryClient.setQueryData(["users"], (old: User[] = []) => {
+        return [...old, { ...newUser, id: "temp-" + Date.now(), createdAt: new Date().toISOString() } as User];
+      });
+      
+      // Return a context object with the snapshotted value
+      return { previousUsers };
+    },
+    
+    onError: (err, newUser, context) => {
+      // Rollback the optimistic update
+      queryClient.setQueryData(["users"], context?.previousUsers);
+    },
+    
+    onSettled: () => {
+      // Always refetch after error or success
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+  });
+}
+
+// ====== 11. Mutation with Custom Error Types ======
+interface ApiError {
+  message: string;
+  code: number;
+  errors?: Record&lt;string, string[]&gt;;
+}
+
+function useMutationWithCustomError() {
+  return useMutation&lt;User, ApiError, CreateUserData&gt;({
+    mutationFn: async (data) => {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const error: ApiError = await response.json();
+        throw error;
+      }
+      
+      return response.json();
+    },
+    
+    onError: (error) => {
+      // Handle specific error codes
+      if (error.code === 409) {
+        console.error("User already exists:", error.message);
+      } else if (error.code === 422) {
+        console.error("Validation errors:", error.errors);
+      } else {
+        console.error("Unknown error:", error.message);
+      }
+    },
+  });
+}
+
+// ====== 12. Mutation in a List Context ======
+function UserListWithMutations() {
+  const [selectedUser, setSelectedUser] = useState&lt;string | null&gt;(null);
+  const deleteUser = useDeleteUser();
+  const updateUser = useUpdateUser();
+
+  const handleDelete = (userId: string) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      deleteUser.mutate(userId);
+    }
+  };
+
+  const handleToggleRole = (userId: string, currentRole: string) => {
+    const newRole = currentRole === "admin" ? "user" : "admin";
+    updateUser.mutate({
+      id: userId,
+      data: { role: newRole as "admin" | "user" },
+    });
+  };
+
+  return (
+    &lt;div&gt;
+      {deleteUser.isPending && &lt;div&gt;Deleting user...&lt;/div&gt;}
+      {deleteUser.isError && &lt;div className="error"&gt;Failed to delete user&lt;/div&gt;}
+      
+      &lt;ul&gt;
+        {/* List items with actions */}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+export {
+  useCreateUser,
+  useUpdateUser,
+  useDeleteUser,
+  CreateUserForm,
+  useCreatePost,
+  useMutateWithReset,
+  useUpdateUserWithVariables,
+  UserEditForm,
+  useUserActionWithSideEffects,
+  useMutationWithRetry,
+  useUserMutationWithContext,
+  useMutationWithCustomError,
+  UserListWithMutations,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Mutation Patterns
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pattern</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When to Use</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Optimistic Update</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Update UI before server response</td>
+          <td style="border: 1px solid black; padding: 8px;">When you want instant feedback</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cache Invalidation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Invalidate queries after mutation</td>
+          <td style="border: 1px solid black; padding: 8px;">When data consistency is critical</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cache Update</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Directly update cache with mutation result</td>
+          <td style="border: 1px solid black; padding: 8px;">When you know exactly how to update cache</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Retry</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Retry failed mutations</td>
+          <td style="border: 1px solid black; padding: 8px;">For transient failures</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Reset</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Reset mutation state</td>
+          <td style="border: 1px solid black; padding: 8px;">After error or success handling</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is a mutation in React Query and how does it differ from a query?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            A mutation is used for data modification operations (POST, PUT, DELETE). Key differences: 
+            <strong>Queries:</strong> (1) Used for GET operations, (2) Run automatically when component mounts, 
+            (3) Are declarative, (4) Data is automatically cached, (5) Can be shared across components. 
+            <strong>Mutations:</strong> (1) Used for modifying data, (2) Are triggered imperatively 
+            (e.g., on form submit), (3) Can have side effects, (4) Provide loading states, (5) Can be 
+            optimistic or invalidate queries. Mutations return an object with <code>mutate</code> function, 
+            status, and data/error states.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you implement optimistic updates with mutations?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Optimistic updates update the UI before the server responds. Implementation: (1) <strong>onMutate:</strong> 
+            Cancel outgoing refetches with <code>cancelQueries</code>, snapshot current data, update cache 
+            optimistically with <code>setQueryData</code>, return context for rollback, (2) <strong>onError:</strong> 
+            Rollback using the context snapshot, (3) <strong>onSettled:</strong> Invalidate queries to ensure 
+            fresh data. This provides instant feedback while maintaining consistency. Example: When updating 
+            a user, immediately update the UI with the new name, then revert if the API call fails.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle error states in mutations?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Error handling in mutations: (1) <strong>onError callback:</strong> Handle errors in the mutation 
+            hook, (2) <strong>try/catch with mutateAsync:</strong> Use <code>await mutation.mutateAsync()</code> 
+            to catch errors in the component, (3) <strong>Error state:</strong> Access <code>mutation.error</code> 
+            and <code>mutation.isError</code> in the component, (4) <strong>Custom error types:</strong> 
+            Throw custom error objects from the mutation function, (5) <strong>Toast notifications:</strong> 
+            Show user-friendly error messages, (6) <strong>Retry logic:</strong> Use <code>retry</code> and 
+            <code>retryDelay</code> options, (7) <strong>Rollback:</strong> Rollback optimistic updates 
+            on error using the context from <code>onMutate</code>. Always provide clear error feedback to users.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between mutate and mutateAsync?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>mutate:</strong> (1) Imperative function that triggers the mutation, (2) Does not return 
+            a Promise, (3) Use callbacks for success/error handling (<code>onSuccess</code>, <code>onError</code> 
+            in the mutation options), (4) Good for when you don't need to wait for the result. 
+            <strong>mutateAsync:</strong> (1) Returns a Promise, (2) Can be used with async/await, (3) Allows 
+            try/catch in the component, (4) Good for when you need to wait for the result (e.g., in a form 
+            submit handler). Use <code>mutate</code> for most cases, <code>mutateAsync</code> when you need 
+            to handle the result in the component or chain operations.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you invalidate queries after a mutation?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Invalidate queries after mutations using: (1) <strong>onSuccess:</strong> In the mutation's 
+            <code>onSuccess</code> callback, (2) <strong>Invalidation:</strong> 
+            <code>queryClient.invalidateQueries({ queryKey: ['users'] })</code>, (3) <strong>Partial 
+            invalidation:</strong> Invalidate specific key patterns, (4) <strong>Exact invalidation:</strong> 
+            <code>exact: true</code> for exact matches, (5) <strong>Predicate:</strong> Use a function to 
+            decide which queries to invalidate, (6) <strong>Settled:</strong> Invalidate in 
+            <code>onSettled</code> to handle both success and error. This ensures the UI reflects the latest 
+            data after mutations. For example, after creating a new user, invalidate the users list to 
+            refetch the updated list.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle loading states in mutations?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Mutation loading states: (1) <strong>isPending:</strong> Boolean for pending state (true while 
+            mutation is in progress), (2) <strong>status:</strong> 'idle' | 'pending' | 'success' | 'error', 
+            (3) <strong>Component state:</strong> Use <code>isPending</code> to disable buttons, show 
+            spinners, etc., (4) <strong>Progress tracking:</strong> Track upload/download progress if 
+            available from the API, (5) <strong>Multiple mutations:</strong> Track individual mutation 
+            statuses, (6) <strong>Global loading:</strong> Use a loading overlay for global mutations. 
+            Example: <code>&lt;button disabled={mutation.isPending}&gt;{mutation.isPending ? 'Saving...' : 'Save'}&lt;/button&gt;</code>.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://tanstack.com/query/latest/docs/react/guides/mutations",
+      "https://tanstack.com/query/latest/docs/react/guides/optimistic-updates",
+      "https://tanstack.com/query/latest/docs/react/guides/invalidations-from-mutations",
+    ],
+  },
+  {
+    topic: "Infinite Queries",
+    tags: ["React", "TanStack Query", "Pagination", "Infinite Scrolling"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Infinite Queries — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Infinite Queries</strong> in React Query are designed for loading data in pages or chunks, 
+        typically used for infinite scrolling and pagination. They automatically manage multiple pages of 
+        data, track pagination state, and provide a seamless experience for loading more data. The pattern 
+        is based on the concept of "load more" functionality where each fetch appends data to the existing list.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Infinite queries are a common requirement in modern 
+        applications (social feeds, search results, product listings). Interviewers ask about them to test 
+        your understanding of pagination strategies, data appending, and handling complex data fetching 
+        patterns. They want to know if you can implement efficient infinite scrolling with proper caching.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Infinite Query Concepts
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Concept</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Pages</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Array of page data from each fetch</td>
+          <td style="border: 1px solid black; padding: 8px;">Allows appending new data</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Page Params</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Parameters used to fetch each page</td>
+          <td style="border: 1px solid black; padding: 8px;">Tracks pagination state</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Next Page</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Function to fetch the next page</td>
+          <td style="border: 1px solid black; padding: 8px;">Infinite scrolling trigger</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Has Next</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Boolean indicating more data available</td>
+          <td style="border: 1px solid black; padding: 8px;">Controls load more button</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Is Fetching Next</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Loading state for the next page</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents duplicate requests</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Infinite Queries
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { useInfiniteQuery, useQueryClient, InfiniteQueryOptions } from "@tanstack/react-query";
+import { useCallback, useEffect, useRef } from "react";
+
+// ====== 1. Basic Infinite Query ======
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: "admin" | "user" | "guest";
+}
+
+interface PageData {
+  items: User[];
+  nextPage: number | null;
+  total: number;
+}
+
+// API function for paginated users
+const fetchUsersPage = async ({ pageParam = 1 }: { pageParam?: number }): Promise&lt;PageData&gt; => {
+  const response = await fetch(\`/api/users?page=\${pageParam}&limit=10\`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch users");
+  }
+  const data = await response.json();
+  return {
+    items: data.items,
+    nextPage: data.nextPage,
+    total: data.total,
+  };
+};
+
+// Infinite query hook
+function useInfiniteUsers() {
+  return useInfiniteQuery({
+    queryKey: ["users", "infinite"],
+    queryFn: fetchUsersPage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+}
+
+// ====== 2. Component with Infinite Scrolling ======
+function InfiniteUserList() {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    error,
+    isPending,
+    isError,
+  } = useInfiniteUsers();
+
+  const observerRef = useRef&lt;HTMLDivElement | null&gt;(null);
+
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    if (!observerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+
+    observer.observe(observerRef.current);
+
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  if (isPending) return &lt;div&gt;Loading users...&lt;/div&gt;;
+  if (isError) return &lt;div&gt;Error: {error?.message}&lt;/div&gt;;
+
+  const allUsers = data?.pages.flatMap((page) => page.items) || [];
+
+  return (
+    &lt;div className="user-list"&gt;
+      {allUsers.map((user) => (
+        &lt;div key={user.id} className="user-item"&gt;
+          &lt;h3&gt;{user.name}&lt;/h3&gt;
+          &lt;p&gt;{user.email}&lt;/p&gt;
+          &lt;span className={\`role \${user.role}\`}&gt;{user.role}&lt;/span&gt;
+        &lt;/div&gt;
+      ))}
+      
+      {/* Sentinel for infinite scroll */}
+      &lt;div ref={observerRef} className="sentinel"&gt;
+        {isFetchingNextPage ? (
+          &lt;div&gt;Loading more users...&lt;/div&gt;
+        ) : hasNextPage ? (
+          &lt;button onClick={() => fetchNextPage()}&gt;Load More&lt;/button&gt;
+        ) : (
+          &lt;div&gt;No more users to load&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 3. Infinite Query with Search ======
+interface SearchParams {
+  search: string;
+  role?: "admin" | "user";
+}
+
+function useInfiniteSearchUsers(searchParams: SearchParams) {
+  const fetchUsersWithSearch = async ({ pageParam = 1 }: { pageParam?: number }) => {
+    const params = new URLSearchParams({
+      page: String(pageParam),
+      limit: "10",
+      ...(searchParams.search && { search: searchParams.search }),
+      ...(searchParams.role && { role: searchParams.role }),
+    });
+    
+    const response = await fetch(\`/api/users/search?\${params}\`);
+    if (!response.ok) {
+      throw new Error("Failed to search users");
+    }
+    return response.json();
+  };
+
+  return useInfiniteQuery({
+    queryKey: ["users", "search", searchParams],
+    queryFn: fetchUsersWithSearch,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+}
+
+// ====== 4. Infinite Query with Cache ======
+function useInfiniteCachedUsers() {
+  const queryClient = useQueryClient();
+
+  return useInfiniteQuery({
+    queryKey: ["users", "cached", "infinite"],
+    queryFn: fetchUsersPage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    // Keep previous data while fetching new page
+    keepPreviousData: true,
+    // Prefetch next page
+    staleTime: 1000 * 60 * 2,
+    gcTime: 1000 * 60 * 10,
+  });
+}
+
+// ====== 5. Infinite Query with Refetch ======
+function useInfiniteRefetchableUsers() {
+  const query = useInfiniteQuery({
+    queryKey: ["users", "infinite"],
+    queryFn: fetchUsersPage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+  });
+
+  const refetchAll = useCallback(async () => {
+    await query.refetch();
+  }, [query]);
+
+  return { ...query, refetchAll };
+}
+
+// ====== 6. Infinite Query with Filters ======
+interface FilterOptions {
+  role?: "admin" | "user" | "guest";
+  active?: boolean;
+  sortBy?: "name" | "createdAt" | "email";
+  sortOrder?: "asc" | "desc";
+}
+
+function useInfiniteFilteredUsers(filters: FilterOptions) {
+  const fetchFilteredPage = async ({ pageParam = 1 }: { pageParam?: number }) => {
+    const params = new URLSearchParams({
+      page: String(pageParam),
+      limit: "10",
+      ...(filters.role && { role: filters.role }),
+      ...(filters.active !== undefined && { active: String(filters.active) }),
+      ...(filters.sortBy && { sortBy: filters.sortBy }),
+      ...(filters.sortOrder && { sortOrder: filters.sortOrder }),
+    });
+    
+    const response = await fetch(\`/api/users?\${params}\`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch filtered users");
+    }
+    return response.json();
+  };
+
+  return useInfiniteQuery({
+    queryKey: ["users", "filtered", filters],
+    queryFn: fetchFilteredPage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    keepPreviousData: true,
+  });
+}
+
+// ====== 7. Optimistic Update for Infinite Queries ======
+function useAddToInfiniteList() {
+  const queryClient = useQueryClient();
+
+  const addItem = (newItem: any) => {
+    // Update the infinite query cache
+    queryClient.setQueryData(["users", "infinite"], (oldData: any) => {
+      if (!oldData) return oldData;
+      
+      return {
+        ...oldData,
+        pages: [
+          {
+            ...oldData.pages[0],
+            items: [newItem, ...oldData.pages[0].items],
+          },
+          ...oldData.pages.slice(1),
+        ],
+      };
+    });
+  };
+
+  const removeItem = (itemId: string) => {
+    queryClient.setQueryData(["users", "infinite"], (oldData: any) => {
+      if (!oldData) return oldData;
+      
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page: any) => ({
+          ...page,
+          items: page.items.filter((item: any) => item.id !== itemId),
+        })),
+      };
+    });
+  };
+
+  return { addItem, removeItem };
+}
+
+// ====== 8. Infinite Query with Prefetching ======
+function usePrefetchInfinite() {
+  const queryClient = useQueryClient();
+
+  const prefetchNextPage = (currentPage: number) => {
+    const nextPage = currentPage + 1;
+    return queryClient.prefetchInfiniteQuery({
+      queryKey: ["users", "prefetched"],
+      queryFn: ({ pageParam }) => fetchUsersPage({ pageParam }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => lastPage.nextPage,
+      pages: [nextPage],
+    });
+  };
+
+  return { prefetchNextPage };
+}
+
+// ====== 9. Infinite Query with Pagination Control ======
+function usePaginationControl() {
+  const query = useInfiniteQuery({
+    queryKey: ["users", "paginated"],
+    queryFn: fetchUsersPage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+
+  const goToPage = useCallback(async (page: number) => {
+    // Reset to first page and fetch to target
+    await query.refetch({ refetchPage: (_, index) => index === 0 });
+    // Then load pages up to target
+    for (let i = 1; i < page; i++) {
+      if (query.hasNextPage && !query.isFetchingNextPage) {
+        await query.fetchNextPage();
+      }
+    }
+  }, [query]);
+
+  return { ...query, goToPage };
+}
+
+// ====== 10. Component with Load More Button ======
+function LoadMoreUserList() {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+    isError,
+    error,
+  } = useInfiniteUsers();
+
+  if (isPending) return &lt;div&gt;Loading...&lt;/div&gt;;
+  if (isError) return &lt;div&gt;Error: {error?.message}&lt;/div&gt;;
+
+  const allUsers = data?.pages.flatMap((page) => page.items) || [];
+  const totalUsers = data?.pages[0]?.total || 0;
+
+  return (
+    &lt;div&gt;
+      &lt;div className="header"&gt;
+        &lt;h2&gt;Users ({allUsers.length} of {totalUsers})&lt;/h2&gt;
+      &lt;/div&gt;
+      
+      &lt;div className="user-grid"&gt;
+        {allUsers.map((user) => (
+          &lt;div key={user.id} className="user-card"&gt;
+            &lt;h3&gt;{user.name}&lt;/h3&gt;
+            &lt;p&gt;{user.email}&lt;/p&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+      
+      {hasNextPage && (
+        &lt;div className="load-more"&gt;
+          &lt;button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          &gt;
+            {isFetchingNextPage ? "Loading more..." : "Load More"}
+          &lt;/button&gt;
+        &lt;/div&gt;
+      )}
+      
+      {!hasNextPage && allUsers.length > 0 && (
+        &lt;div className="end-message"&gt;You've reached the end!&lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 11. Infinite Query with Auto-Refetch ======
+function useAutoRefetchInfinite(interval: number = 30000) {
+  const query = useInfiniteQuery({
+    queryKey: ["users", "auto-refetch"],
+    queryFn: fetchUsersPage,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    refetchInterval: interval,
+    refetchIntervalInBackground: false,
+  });
+
+  return query;
+}
+
+// ====== 12. Infinite Query with Skeleton Loading ======
+function SkeletonUserList() {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+    isError,
+    error,
+  } = useInfiniteUsers();
+
+  if (isPending) {
+    return (
+      &lt;div className="skeleton-list"&gt;
+        {Array.from({ length: 5 }).map((_, i) => (
+          &lt;div key={i} className="skeleton-item"&gt;
+            &lt;div className="skeleton-line"&gt;&lt;/div&gt;
+            &lt;div className="skeleton-line shorter"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    );
+  }
+
+  if (isError) return &lt;div&gt;Error: {error?.message}&lt;/div&gt;;
+
+  const allUsers = data?.pages.flatMap((page) => page.items) || [];
+
+  return (
+    &lt;div className="user-list"&gt;
+      {allUsers.map((user) => (
+        &lt;div key={user.id} className="user-item"&gt;
+          &lt;h3&gt;{user.name}&lt;/h3&gt;
+          &lt;p&gt;{user.email}&lt;/p&gt;
+        &lt;/div&gt;
+      ))}
+      
+      {isFetchingNextPage && (
+        &lt;div className="skeleton-loader"&gt;
+          {Array.from({ length: 3 }).map((_, i) => (
+            &lt;div key={i} className="skeleton-item" /&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+      
+      {hasNextPage && !isFetchingNextPage && (
+        &lt;button onClick={() => fetchNextPage()}&gt;Load More&lt;/button&gt;
+      )}
+      
+      {!hasNextPage && allUsers.length > 0 && (
+        &lt;div className="end-message"&gt;No more items&lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export {
+  useInfiniteUsers,
+  InfiniteUserList,
+  useInfiniteSearchUsers,
+  useInfiniteCachedUsers,
+  useInfiniteRefetchableUsers,
+  useInfiniteFilteredUsers,
+  useAddToInfiniteList,
+  usePrefetchInfinite,
+  usePaginationControl,
+  LoadMoreUserList,
+  useAutoRefetchInfinite,
+  SkeletonUserList,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Infinite Query Patterns
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pattern</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Implementation</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Infinite Scroll</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Auto-load when user scrolls to bottom</td>
+          <td style="border: 1px solid black; padding: 8px;">Intersection Observer + <code>fetchNextPage</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Load More Button</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manual load with button click</td>
+          <td style="border: 1px solid black; padding: 8px;">Button with <code>onClick={fetchNextPage}</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Prefetching</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Load next page in background</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>prefetchInfiniteQuery</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cursor-based</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use cursor instead of page number</td>
+          <td style="border: 1px solid black; padding: 8px;">Return cursor from API as next param</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Filter/Sort</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Filter and sort with pagination</td>
+          <td style="border: 1px solid black; padding: 8px;">Include filters in query key</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is useInfiniteQuery and when would you use it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>useInfiniteQuery</code> is a React Query hook for loading paginated data that can be 
+            loaded incrementally (page by page). Use it when: (1) <strong>Infinite scrolling:</strong> 
+            Social feeds, search results, (2) <strong>Load more:</strong> Product listings, article lists, 
+            (3) <strong>Pagination:</strong> Any data that's paginated with next/previous pages, 
+            (4) <strong>Appending data:</strong> Where new data should be appended to existing data, 
+            (5) <strong>Large datasets:</strong> When loading all data at once is too slow. It provides 
+            <code>data.pages</code> (array of page data), <code>fetchNextPage</code> (function to load next), 
+            <code>hasNextPage</code> (boolean), and <code>isFetchingNextPage</code> (loading state).
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does useInfiniteQuery differ from useQuery?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>useQuery:</strong> (1) Fetches a single set of data, (2) Replaces data on each fetch, 
+            (3) Good for single-page data, (4) Returns <code>data</code> directly. <strong>useInfiniteQuery:</strong> 
+            (1) Fetches multiple pages of data, (2) Appends new pages to existing data, (3) Good for 
+            paginated/infinite scrolling data, (4) Returns <code>data.pages</code> (array of pages), 
+            (5) Provides <code>fetchNextPage</code>, <code>hasNextPage</code>, and <code>isFetchingNextPage</code>, 
+            (6) Supports <code>getNextPageParam</code> for determining when to stop. useInfiniteQuery 
+            is built on top of useQuery but adds pagination-specific features.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you implement infinite scrolling with useInfiniteQuery?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Infinite scrolling implementation: (1) <strong>Query setup:</strong> Use <code>useInfiniteQuery</code> 
+            with <code>getNextPageParam</code>, (2) <strong>Intersection Observer:</strong> Create a sentinel 
+            element at the bottom of the list, (3) <strong>Observer:</strong> Use <code>IntersectionObserver</code> 
+            to detect when the sentinel is visible, (4) <strong>Load more:</strong> When the sentinel becomes 
+            visible and <code>hasNextPage</code> is true, call <code>fetchNextPage()</code>, (5) <strong>Loading 
+            state:</strong> Show a loading indicator while <code>isFetchingNextPage</code> is true, 
+            (6) <strong>Cleanup:</strong> Disconnect the observer on unmount. This provides a seamless 
+            user experience where new content loads automatically as the user scrolls.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is getNextPageParam and how does it work?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>getNextPageParam</code> is a function that determines the parameters for fetching the next 
+            page. It receives the last page data and returns: (1) <strong>Next page parameter:</strong> 
+            The value to use for the next page fetch (e.g., page number, cursor), (2) <strong>undefined:</strong> 
+            Return undefined when there are no more pages, (3) <strong>Used by:</strong> <code>fetchNextPage</code> 
+            automatically uses this to determine the next page parameter, (4) <strong>Examples:</strong> 
+            Return <code>lastPage.nextPage</code> for page-number pagination, or <code>lastPage.cursor</code> 
+            for cursor-based pagination. This function is called after each successful fetch to determine 
+            if there are more pages to load.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle page parameters in infinite queries?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Page parameters in infinite queries: (1) <strong>Initial page param:</strong> Set with 
+            <code>initialPageParam</code> option, (2) <strong>Page param in queryFn:</strong> The 
+            <code>pageParam</code> is passed to the query function, (3) <strong>Next page param:</strong> 
+            Determined by <code>getNextPageParam</code> function, (4) <strong>Types:</strong> Define the 
+            type of page parameter (usually number or string), (5) <strong>Examples:</strong> Page number 
+            (<code>1, 2, 3</code>), cursor (<code>lastId</code>), timestamp (<code>lastCreatedAt</code>), 
+            (6) <strong>Dependency:</strong> Page parameters should be included in the query key if they 
+            affect the data. The page parameter flows from <code>initialPageParam</code> → queryFn → 
+            <code>getNextPageParam</code> → next page request.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you prefetch next pages in infinite queries?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Prefetching next pages: (1) <strong>prefetchInfiniteQuery:</strong> Use the 
+            <code>prefetchInfiniteQuery</code> method on the query client, (2) <strong>When to prefetch:</strong> 
+            After loading a page, prefetch the next page in the background, (3) <strong>Predictive:</strong> 
+            Prefetch when user is about to scroll (e.g., when hover over a "Load More" button), 
+            (4) <strong>Implementation:</strong> In the <code>onSuccess</code> callback, call 
+            <code>prefetchInfiniteQuery</code> with the next page parameter, (5) <strong>Cache:</strong> 
+            Prefetched data is cached and available immediately when needed, (6) <strong>Performance:</strong> 
+            Reduces perceived loading time by loading data before it's needed. The prefetch function requires 
+            the same parameters as the original infinite query.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://tanstack.com/query/latest/docs/react/guides/infinite-queries",
+      "https://tanstack.com/query/latest/docs/react/guides/paginated-queries",
+      "https://tanstack.com/query/latest/docs/react/guides/scroll-restoration",
+    ],
+  },
+  {
+    topic: "Authentication",
+    tags: ["React", "Security", "Authentication", "Authorization"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Authentication — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Authentication</strong> is the process of verifying the identity of a user or system. It answers 
+        the question: "Who are you?" In web applications, authentication typically involves validating 
+        credentials (username/password, biometrics, or tokens) and establishing a session or issuing a token 
+        that the client can use for subsequent requests. It is the foundation of application security and 
+        user management.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Authentication is a critical security concern in every web 
+        application. Interviewers ask about it to gauge your understanding of security best practices, 
+        token management, session handling, and your ability to implement secure, production-ready 
+        authentication flows. They want to know if you understand the nuances of different authentication 
+        methods and their security implications.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Authentication Methods
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Method</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pros</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Cons</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Session-based</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Server stores session data, client gets session ID via cookie</td>
+          <td style="border: 1px solid black; padding: 8px;">Simple, secure, automatic</td>
+          <td style="border: 1px solid black; padding: 8px;">Server memory, scaling issues</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>JWT (Token-based)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Self-contained token with claims, stateless</td>
+          <td style="border: 1px solid black; padding: 8px;">Scalable, no server state</td>
+          <td style="border: 1px solid black; padding: 8px;">Cannot invalidate easily</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>OAuth 2.0 / OpenID Connect</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Authorization framework, third-party identity providers</td>
+          <td style="border: 1px solid black; padding: 8px;">Social login, external providers</td>
+          <td style="border: 1px solid black; padding: 8px;">Complex setup, external dependency</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Biometric</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Fingerprint, face recognition, etc.</td>
+          <td style="border: 1px solid black; padding: 8px;">Convenient, strong security</td>
+          <td style="border: 1px solid black; padding: 8px;">Device-dependent, privacy concerns</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Magic Link</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Email with one-time link</td>
+          <td style="border: 1px solid black; padding: 8px;">No password needed</td>
+          <td style="border: 1px solid black; padding: 8px;">Requires email, delayed</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Authentication Flow — Step by Step
+      </h4>
+
+      <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+        <li style="margin-top: 0.5rem;">
+          <strong>User Registration:</strong> User creates account with credentials (email/password).
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Login Request:</strong> Client sends credentials to server.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Credential Validation:</strong> Server validates credentials against database.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Token Generation:</strong> Server generates authentication token (JWT or session ID).
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Token Storage:</strong> Client stores token (cookie, localStorage, or memory).
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Subsequent Requests:</strong> Client includes token in Authorization header or cookies.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Token Validation:</strong> Server validates token for each request.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Token Refresh:</strong> Refresh token is used to obtain new access token.
+        </li>
+        <li style="margin-top: 0.5rem;">
+          <strong>Logout:</strong> Client discards token, server may revoke session.
+        </li>
+      </ol>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — React Authentication
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Authentication Types ======
+// types/auth.ts
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: "admin" | "user" | "guest";
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+  tokenType: string;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface RegisterCredentials {
+  email: string;
+  password: string;
+  name: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  tokens: AuthTokens | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+}
+
+// ====== 2. Auth Context ======
+// context/AuthContext.tsx
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { api } from "../services/api";
+import { AuthState, User, AuthTokens, LoginCredentials, RegisterCredentials } from "../types/auth";
+
+interface AuthContextValue extends AuthState {
+  login: (credentials: LoginCredentials) => Promise&lt;void&gt;;
+  register: (credentials: RegisterCredentials) => Promise&lt;void&gt;;
+  logout: () => Promise&lt;void&gt;;
+  refreshToken: () => Promise&lt;void&gt;;
+  updateUser: (user: User) => void;
+}
+
+const AuthContext = createContext&lt;AuthContextValue | null&gt;(null);
+
+const initialState: AuthState = {
+  user: null,
+  tokens: null,
+  isAuthenticated: false,
+  isLoading: true,
+  error: null,
+};
+
+// ====== 3. Auth Provider ======
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [state, setState] = useState&lt;AuthState&gt;(initialState);
+
+  // Load token from storage on mount
+  useEffect(() => {
+    const loadStoredAuth = async () => {
+      try {
+        const storedTokens = localStorage.getItem("auth_tokens");
+        if (storedTokens) {
+          const tokens = JSON.parse(storedTokens) as AuthTokens;
+          setState(prev => ({ ...prev, tokens, isAuthenticated: true }));
+          
+          // Validate token with server
+          try {
+            const user = await api.getCurrentUser(tokens.accessToken);
+            setState(prev => ({ ...prev, user, isLoading: false }));
+          } catch (error) {
+            // Token is invalid, try refresh
+            await refreshToken();
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load auth state:", error);
+      } finally {
+        setState(prev => ({ ...prev, isLoading: false }));
+      }
+    };
+
+    loadStoredAuth();
+  }, []);
+
+  // ====== 4. Login ======
+  const login = useCallback(async (credentials: LoginCredentials) => {
+    setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      const response = await api.login(credentials);
+      const { user, tokens } = response;
+
+      // Store tokens
+      localStorage.setItem("auth_tokens", JSON.stringify(tokens));
+      
+      setState({
+        user,
+        tokens,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: error instanceof Error ? error.message : "Login failed",
+      }));
+      throw error;
+    }
+  }, []);
+
+  // ====== 5. Register ======
+  const register = useCallback(async (credentials: RegisterCredentials) => {
+    setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+    try {
+      const user = await api.register(credentials);
+      // Optionally auto-login after registration
+      await login({ email: credentials.email, password: credentials.password });
+    } catch (error) {
+      setState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: error instanceof Error ? error.message : "Registration failed",
+      }));
+      throw error;
+    }
+  }, [login]);
+
+  // ====== 6. Logout ======
+  const logout = useCallback(async () => {
+    try {
+      // Notify server about logout
+      await api.logout(state.tokens?.refreshToken);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+
+    // Clear local storage
+    localStorage.removeItem("auth_tokens");
+    
+    setState({
+      user: null,
+      tokens: null,
+      isAuthenticated: false,
+      isLoading: false,
+      error: null,
+    });
+  }, [state.tokens]);
+
+  // ====== 7. Refresh Token ======
+  const refreshToken = useCallback(async () => {
+    try {
+      const refreshToken = state.tokens?.refreshToken;
+      if (!refreshToken) {
+        throw new Error("No refresh token available");
+      }
+
+      const newTokens = await api.refreshToken(refreshToken);
+      
+      // Update stored tokens
+      localStorage.setItem("auth_tokens", JSON.stringify(newTokens));
+      
+      setState(prev => ({
+        ...prev,
+        tokens: newTokens,
+        isAuthenticated: true,
+      }));
+    } catch (error) {
+      // Refresh failed, logout user
+      console.error("Refresh token failed:", error);
+      await logout();
+    }
+  }, [state.tokens, logout]);
+
+  // ====== 8. Update User ======
+  const updateUser = useCallback((user: User) => {
+    setState(prev => ({ ...prev, user }));
+  }, []);
+
+  const value: AuthContextValue = {
+    ...state,
+    login,
+    register,
+    logout,
+    refreshToken,
+    updateUser,
+  };
+
+  return &lt;AuthContext.Provider value={value}&gt;{children}&lt;/AuthContext.Provider&gt;;
+}
+
+// ====== 9. Use Auth Hook ======
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
+
+// ====== 10. API Service with Authentication ======
+// services/api.ts
+import axios, { AxiosInstance, AxiosError } from "axios";
+
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  message: string;
+  status: number;
+}
+
+export class ApiService {
+  private client: AxiosInstance;
+
+  constructor() {
+    this.client = axios.create({
+      baseURL: import.meta.env.VITE_API_URL || "/api",
+      timeout: 30000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Request interceptor
+    this.client.interceptors.request.use(
+      (config) => {
+        // Add token to request
+        const tokens = localStorage.getItem("auth_tokens");
+        if (tokens) {
+          const { accessToken } = JSON.parse(tokens);
+          if (accessToken) {
+            config.headers.Authorization = \`Bearer \${accessToken}\`;
+          }
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    // Response interceptor for token refresh
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error: AxiosError) => {
+        const originalRequest = error.config;
+        
+        // If error is 401 and not a refresh request
+        if (error.response?.status === 401 && originalRequest?.url !== "/refresh-token") {
+          try {
+            // Attempt token refresh
+            const refreshToken = localStorage.getItem("refresh_token");
+            if (refreshToken) {
+              const response = await this.client.post("/refresh-token", { refreshToken });
+              const newTokens = response.data;
+              
+              // Update tokens
+              localStorage.setItem("auth_tokens", JSON.stringify(newTokens));
+              
+              // Retry original request
+              if (originalRequest) {
+                originalRequest.headers.Authorization = \`Bearer \${newTokens.accessToken}\`;
+                return this.client(originalRequest);
+              }
+            }
+          } catch (refreshError) {
+            // Refresh failed, logout user
+            localStorage.removeItem("auth_tokens");
+            localStorage.removeItem("refresh_token");
+            // Redirect to login
+            window.location.href = "/login";
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  // ====== 11. Auth API Methods ======
+  async login(credentials: LoginCredentials): Promise&lt;{ user: User; tokens: AuthTokens }&gt; {
+    const response = await this.client.post&lt;ApiResponse&lt;{ user: User; tokens: AuthTokens }&gt;&gt;(
+      "/auth/login",
+      credentials
+    );
+    return response.data.data;
+  }
+
+  async register(credentials: RegisterCredentials): Promise&lt;User&gt; {
+    const response = await this.client.post&lt;ApiResponse&lt;User&gt;&gt;(
+      "/auth/register",
+      credentials
+    );
+    return response.data.data;
+  }
+
+  async logout(refreshToken?: string): Promise&lt;void&gt; {
+    if (refreshToken) {
+      await this.client.post("/auth/logout", { refreshToken });
+    }
+  }
+
+  async refreshToken(refreshToken: string): Promise&lt;AuthTokens&gt; {
+    const response = await this.client.post&lt;ApiResponse&lt;AuthTokens&gt;&gt;(
+      "/auth/refresh",
+      { refreshToken }
+    );
+    return response.data.data;
+  }
+
+  async getCurrentUser(accessToken: string): Promise&lt;User&gt; {
+    const response = await this.client.get&lt;ApiResponse&lt;User&gt;&gt;("/auth/me", {
+      headers: { Authorization: \`Bearer \${accessToken}\` },
+    });
+    return response.data.data;
+  }
+
+  async changePassword(oldPassword: string, newPassword: string): Promise&lt;void&gt; {
+    await this.client.post("/auth/change-password", { oldPassword, newPassword });
+  }
+
+  async forgotPassword(email: string): Promise&lt;void&gt; {
+    await this.client.post("/auth/forgot-password", { email });
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise&lt;void&gt; {
+    await this.client.post("/auth/reset-password", { token, newPassword });
+  }
+
+  getClient(): AxiosInstance {
+    return this.client;
+  }
+}
+
+export const api = new ApiService();
+
+// ====== 12. Protected Route Component ======
+// components/ProtectedRoute.tsx
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  requiredRoles?: Array&lt;"admin" | "user" | "guest"&gt;;
+  redirectTo?: string;
+}
+
+function ProtectedRoute({
+  children,
+  requiredRoles = [],
+  redirectTo = "/login",
+}: ProtectedRouteProps) {
+  const { isAuthenticated, user, isLoading } = useAuth();
+  const location = useLocation();
+
+  if (isLoading) {
+    return &lt;div className="loading"&gt;Loading...&lt;/div&gt;;
+  }
+
+  if (!isAuthenticated) {
+    return &lt;Navigate to={redirectTo} state={{ from: location }} /&gt;;
+  }
+
+  // Check roles
+  if (requiredRoles.length > 0 && user) {
+    const hasRequiredRole = requiredRoles.includes(user.role);
+    if (!hasRequiredRole) {
+      return &lt;Navigate to="/unauthorized" /&gt;;
+    }
+  }
+
+  return &lt;{children}&gt;;
+}
+
+// ====== 13. Login Component ======
+// components/Login.tsx
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+function Login() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const from = location.state?.from?.pathname || "/dashboard";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      await login({ email, password });
+      navigate(from, { replace: true });
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    &lt;div className="login-container"&gt;
+      &lt;form onSubmit={handleSubmit}&gt;
+        &lt;h2&gt;Login&lt;/h2&gt;
+        
+        &lt;div className="form-group"&gt;
+          &lt;label htmlFor="email"&gt;Email&lt;/label&gt;
+          &lt;input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder="Enter your email"
+          /&gt;
+        &lt;/div&gt;
+
+        &lt;div className="form-group"&gt;
+          &lt;label htmlFor="password"&gt;Password&lt;/label&gt;
+          &lt;input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            placeholder="Enter your password"
+          /&gt;
+        &lt;/div&gt;
+
+        {error && &lt;div className="error"&gt;{error}&lt;/div&gt;}
+
+        &lt;button type="submit" disabled={isLoading}&gt;
+          {isLoading ? "Logging in..." : "Login"}
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 14. Auth Component Example ======
+function Dashboard() {
+  const { user, logout } = useAuth();
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Dashboard&lt;/h1&gt;
+      &lt;p&gt;Welcome, {user?.name}!&lt;/p&gt;
+      &lt;button onClick={logout}&gt;Logout&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 15. App Component ======
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;AuthProvider&gt;
+        &lt;Routes&gt;
+          &lt;Route path="/login" element={&lt;Login /&gt;} /&gt;
+          &lt;Route path="/dashboard" element={
+            &lt;ProtectedRoute requiredRoles={["admin", "user"]}&gt;
+              &lt;Dashboard /&gt;
+            &lt;/ProtectedRoute&gt;
+          } /&gt;
+        &lt;/Routes&gt;
+      &lt;/AuthProvider&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+
+export default App;
+
+// ====== 16. Secure API Client Example ======
+// Using the API client with authentication
+async function fetchUserData() {
+  try {
+    const user = await api.getCurrentUser();
+    console.log("Current user:", user);
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+  }
+}
+
+// Handle API errors with authentication
+async function secureRequest() {
+  const client = api.getClient();
+  try {
+    const response = await client.get("/protected/data");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        // Unauthorized - redirect to login
+        window.location.href = "/login";
+      } else if (error.response?.status === 403) {
+        // Forbidden - show access denied
+        console.error("Access denied");
+      }
+    }
+    throw error;
+  }
+}
+
+export { useAuth, ProtectedRoute, Login, Dashboard };
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Security Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>HTTPS</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Always use HTTPS in production</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents man-in-the-middle attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Password Hashing</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Hash passwords with bcrypt/Argon2</td>
+          <td style="border: 1px solid black; padding: 8px;">Protects passwords from database leaks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Token Storage</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Store tokens securely (httpOnly cookies)</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents XSS token theft</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Rate Limiting</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Limit login attempts and requests</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents brute force attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>CSRF Protection</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use CSRF tokens or SameSite cookies</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents cross-site request forgery</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Input Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validate all user input</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents injection attacks</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between authentication and authorization?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Authentication</strong> is the process of verifying a user's identity — confirming that 
+            someone is who they claim to be. It answers "Who are you?" Examples: logging in with username/password, 
+            using a fingerprint. <strong>Authorization</strong> is the process of determining what resources 
+            and actions a verified user can access. It answers "What can you do?" Examples: role-based access 
+            (admin vs user), permission checks for specific resources. Authentication always comes before 
+            authorization — you must identify who the user is before you can decide what they're allowed to do.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between session-based and token-based authentication?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Session-based:</strong> (1) Server stores session data in memory/database, (2) Client gets 
+            a session ID stored in a cookie, (3) Server validates session on each request, (4) Stateful — 
+            server maintains state, (5) Good for server-side rendering, (6) Can be invalidated server-side. 
+            <strong>Token-based (JWT):</strong> (1) Server issues a self-contained token with claims, (2) Client 
+            stores token (localStorage or cookie), (3) Client sends token in Authorization header, (4) Stateless — 
+            server doesn't store token, (5) Good for scaling and microservices, (6) Cannot be easily invalidated 
+            before expiry. Both have their use cases; token-based is more common in modern APIs.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you securely store authentication tokens on the client?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Token storage options and security: (1) <strong>HttpOnly cookies:</strong> Most secure, not 
+            accessible to JavaScript, protects against XSS, but vulnerable to CSRF, (2) <strong>localStorage:</strong> 
+            Accessible to JavaScript, vulnerable to XSS, but easier to use, (3) <strong>sessionStorage:</strong> 
+            Similar to localStorage but cleared on tab close, (4) <strong>Memory:</strong> Stored in 
+            application state, cleared on refresh. Best practice: Use httpOnly cookies for sensitive tokens 
+            (refresh tokens) with SameSite=Strict, and memory for access tokens. Never store sensitive 
+            tokens in localStorage without encryption, as it's accessible to any script running on your domain.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle authentication state management in React?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Authentication state management in React: (1) <strong>Context API:</strong> Create an AuthContext 
+            with user, token, and authentication methods, (2) <strong>Custom hooks:</strong> useAuth hook to 
+            access auth state, (3) <strong>Persistent storage:</strong> Store tokens in localStorage/cookies, 
+            (4) <strong>Token refresh:</strong> Implement refresh token rotation, (5) <strong>Protected 
+            routes:</strong> Use route guards for authorized access, (6) <strong>Loading states:</strong> 
+            Show loading UI while checking authentication, (7) <strong>Error handling:</strong> Handle 
+            authentication errors globally. The pattern typically involves an AuthProvider wrapping the app, 
+            with authentication methods exposed via a custom hook.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is token refresh and how do you implement it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Token refresh is the process of obtaining a new access token using a refresh token. Implementation: 
+            (1) <strong>Short-lived access token:</strong> 15-30 minutes expiry, (2) <strong>Long-lived refresh 
+            token:</strong> 7-30 days expiry, (3) <strong>Refresh endpoint:</strong> Server validates refresh 
+            token and issues new access token, (4) <strong>Client handling:</strong> When API returns 401, 
+            attempt refresh, (5) <strong>Interceptors:</strong> Use axios interceptors to handle token refresh 
+            automatically, (6) <strong>Rotation:</strong> Issue new refresh token on each refresh, (7) <strong>Logout:</strong> 
+            On refresh failure, clear tokens and redirect to login. This provides a balance between security 
+            (short-lived tokens) and user experience (seamless refresh).
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://react.dev/learn/authentication",
+      "https://auth0.com/docs/secure/tokens/access-tokens",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
+    ],
+  },
+  {
+    topic: "JWT",
+    tags: ["React", "Security", "Authentication", "Tokens"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        JWT — JSON Web Tokens (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>JWT (JSON Web Token)</strong> is an open standard (RFC 7519) for securely transmitting 
+        information between parties as a JSON object. It's digitally signed using a secret or a public/private 
+        key pair, making it tamper-proof and verifiable. JWTs are commonly used for authentication and 
+        authorization in modern web applications, enabling stateless, scalable authentication systems.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> JWTs are the most common authentication mechanism in modern 
+        web applications. Interviewers ask about them to test your understanding of token-based authentication, 
+        security considerations, and the trade-offs involved in stateless authentication.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        JWT Structure
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-text">
+// A JWT consists of three parts, separated by dots
+Header.Payload.Signature
+
+// Example:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+// Parts:
+// 1. Header: Algorithm and token type
+// 2. Payload: Claims (user data, expiration, etc.)
+// 3. Signature: Verified using secret key
+        </code></pre>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Part</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Header</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Contains signing algorithm and token type</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>{"alg": "HS256", "typ": "JWT"}</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Payload</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Contains claims (user data, permissions, expiry)</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>{"sub": "123", "name": "John", "iat": 1516239022}</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Signature</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Cryptographic signature to verify token</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)</code></td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        JWT Claims
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Claim</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Required</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>iss (Issuer)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Who issued the token</td>
+          <td style="border: 1px solid black; padding: 8px;">Optional</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>sub (Subject)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">The user the token is for</td>
+          <td style="border: 1px solid black; padding: 8px;">Recommended</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>aud (Audience)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Who the token is intended for</td>
+          <td style="border: 1px solid black; padding: 8px;">Optional</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>exp (Expiration)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">When the token expires (Unix timestamp)</td>
+          <td style="border: 1px solid black; padding: 8px;">Recommended</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>iat (Issued At)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">When the token was issued</td>
+          <td style="border: 1px solid black; padding: 8px;">Recommended</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>nbf (Not Before)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">When the token becomes valid</td>
+          <td style="border: 1px solid black; padding: 8px;">Optional</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>jti (JWT ID)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Unique identifier for the token</td>
+          <td style="border: 1px solid black; padding: 8px;">Optional</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — JWT Helper
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import jwtDecode from "jwt-decode";
+
+// ====== 1. JWT Types ======
+interface JwtPayload {
+  sub: string; // User ID
+  email: string;
+  name: string;
+  role: "admin" | "user" | "guest";
+  iat: number; // Issued at (Unix timestamp)
+  exp: number; // Expiration (Unix timestamp)
+  jti?: string; // JWT ID (unique)
+}
+
+interface JwtTokens {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+}
+
+// ====== 2. JWT Utilities ======
+class JwtHelper {
+  private static instance: JwtHelper;
+
+  static getInstance(): JwtHelper {
+    if (!JwtHelper.instance) {
+      JwtHelper.instance = new JwtHelper();
+    }
+    return JwtHelper.instance;
+  }
+
+  // Decode token without verifying signature
+  decodeToken(token: string): JwtPayload | null {
+    try {
+      return jwtDecode&lt;JwtPayload&gt;(token);
+    } catch (error) {
+      console.error("Failed to decode token:", error);
+      return null;
+    }
+  }
+
+  // Check if token is expired
+  isTokenExpired(token: string): boolean {
+    const payload = this.decodeToken(token);
+    if (!payload) return true;
+    
+    const currentTime = Math.floor(Date.now() / 1000);
+    return payload.exp < currentTime;
+  }
+
+  // Check if token is about to expire (within 5 minutes)
+  isTokenExpiringSoon(token: string, buffer: number = 300): boolean {
+    const payload = this.decodeToken(token);
+    if (!payload) return true;
+    
+    const currentTime = Math.floor(Date.now() / 1000);
+    return payload.exp - currentTime < buffer;
+  }
+
+  // Get remaining time in seconds
+  getTokenRemainingTime(token: string): number {
+    const payload = this.decodeToken(token);
+    if (!payload) return 0;
+    
+    const currentTime = Math.floor(Date.now() / 1000);
+    return Math.max(0, payload.exp - currentTime);
+  }
+
+  // Extract user info from token
+  getUserFromToken(token: string): JwtPayload | null {
+    return this.decodeToken(token);
+  }
+
+  // Validate token structure
+  isValidToken(token: string): boolean {
+    try {
+      const parts = token.split(".");
+      if (parts.length !== 3) return false;
+      
+      const payload = this.decodeToken(token);
+      return payload !== null && !!payload.sub && !!payload.exp;
+    } catch {
+      return false;
+    }
+  }
+
+  // Get token type (access or refresh) from payload
+  getTokenType(token: string): "access" | "refresh" | null {
+    const payload = this.decodeToken(token);
+    if (!payload) return null;
+    
+    // Check if token has a type claim
+    // This requires adding a custom claim when creating the token
+    return (payload as any).type || "access";
+  }
+
+  // Check if token has a specific permission
+  hasPermission(token: string, permission: string): boolean {
+    const payload = this.decodeToken(token);
+    if (!payload) return false;
+    
+    const permissions = (payload as any).permissions || [];
+    return permissions.includes(permission);
+  }
+
+  // Check if token has required role
+  hasRole(token: string, roles: string | string[]): boolean {
+    const payload = this.decodeToken(token);
+    if (!payload) return false;
+    
+    const userRole = payload.role || (payload as any).role;
+    if (!userRole) return false;
+    
+    if (typeof roles === "string") {
+      return userRole === roles;
+    }
+    
+    return roles.includes(userRole);
+  }
+}
+
+// ====== 3. Token Storage Service ======
+class TokenStorage {
+  private static instance: TokenStorage;
+  private accessTokenKey = "access_token";
+  private refreshTokenKey = "refresh_token";
+  private tokenExpiryKey = "token_expiry";
+
+  static getInstance(): TokenStorage {
+    if (!TokenStorage.instance) {
+      TokenStorage.instance = new TokenStorage();
+    }
+    return TokenStorage.instance;
+  }
+
+  setTokens(tokens: JwtTokens): void {
+    localStorage.setItem(this.accessTokenKey, tokens.accessToken);
+    localStorage.setItem(this.refreshTokenKey, tokens.refreshToken);
+    localStorage.setItem(this.tokenExpiryKey, String(Date.now() + tokens.expiresIn * 1000));
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem(this.accessTokenKey);
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem(this.refreshTokenKey);
+  }
+
+  getTokenExpiry(): number | null {
+    const expiry = localStorage.getItem(this.tokenExpiryKey);
+    return expiry ? parseInt(expiry, 10) : null;
+  }
+
+  isTokenExpired(): boolean {
+    const expiry = this.getTokenExpiry();
+    if (!expiry) return true;
+    return Date.now() >= expiry;
+  }
+
+  clearTokens(): void {
+    localStorage.removeItem(this.accessTokenKey);
+    localStorage.removeItem(this.refreshTokenKey);
+    localStorage.removeItem(this.tokenExpiryKey);
+  }
+
+  getTokens(): JwtTokens | null {
+    const accessToken = this.getAccessToken();
+    const refreshToken = this.getRefreshToken();
+    
+    if (!accessToken || !refreshToken) {
+      return null;
+    }
+    
+    const expiry = this.getTokenExpiry();
+    if (!expiry) return null;
+    
+    return {
+      accessToken,
+      refreshToken,
+      expiresIn: Math.floor((expiry - Date.now()) / 1000),
+    };
+  }
+}
+
+// ====== 4. API Interceptor with JWT ======
+import axios, { AxiosInstance, AxiosError } from "axios";
+
+class JwtApiClient {
+  private client: AxiosInstance;
+  private refreshPromise: Promise&lt;string&gt; | null = null;
+  private tokenStorage = TokenStorage.getInstance();
+  private jwtHelper = JwtHelper.getInstance();
+
+  constructor(baseURL: string) {
+    this.client = axios.create({
+      baseURL,
+      timeout: 30000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    this.setupInterceptors();
+  }
+
+  private setupInterceptors(): void {
+    // Request interceptor - add token
+    this.client.interceptors.request.use(
+      (config) => {
+        const token = this.tokenStorage.getAccessToken();
+        if (token) {
+          config.headers.Authorization = \`Bearer \${token}\`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    // Response interceptor - handle token refresh
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error: AxiosError) => {
+        const originalRequest = error.config;
+        
+        // If error is 401 and not a refresh request
+        if (error.response?.status === 401 && originalRequest && !(originalRequest as any)._retry) {
+          (originalRequest as any)._retry = true;
+          
+          try {
+            const newAccessToken = await this.refreshToken();
+            originalRequest.headers.Authorization = \`Bearer \${newAccessToken}\`;
+            return this.client(originalRequest);
+          } catch (refreshError) {
+            // Refresh failed, clear tokens and redirect to login
+            this.tokenStorage.clearTokens();
+            window.location.href = "/login";
+            return Promise.reject(refreshError);
+          }
+        }
+        
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  private async refreshToken(): Promise&lt;string&gt; {
+    // Prevent multiple refresh requests
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    this.refreshPromise = new Promise(async (resolve, reject) => {
+      try {
+        const refreshToken = this.tokenStorage.getRefreshToken();
+        if (!refreshToken) {
+          throw new Error("No refresh token available");
+        }
+
+        const response = await this.client.post&lt;{ accessToken: string; refreshToken: string; expiresIn: number }&gt;(
+          "/auth/refresh",
+          { refreshToken }
+        );
+
+        const { accessToken, refreshToken: newRefreshToken, expiresIn } = response.data;
+        
+        // Update tokens
+        this.tokenStorage.setTokens({
+          accessToken,
+          refreshToken: newRefreshToken,
+          expiresIn,
+        });
+
+        resolve(accessToken);
+      } catch (error) {
+        reject(error);
+      } finally {
+        this.refreshPromise = null;
+      }
+    });
+
+    return this.refreshPromise;
+  }
+
+  getClient(): AxiosInstance {
+    return this.client;
+  }
+}
+
+// ====== 5. JWT Authentication Service ======
+class JwtAuthService {
+  private tokenStorage = TokenStorage.getInstance();
+  private jwtHelper = JwtHelper.getInstance();
+
+  // Check if user is authenticated
+  isAuthenticated(): boolean {
+    const token = this.tokenStorage.getAccessToken();
+    if (!token) return false;
+    
+    return !this.tokenStorage.isTokenExpired();
+  }
+
+  // Get current user from token
+  getCurrentUser(): JwtPayload | null {
+    const token = this.tokenStorage.getAccessToken();
+    if (!token) return null;
+    
+    return this.jwtHelper.getUserFromToken(token);
+  }
+
+  // Check if token needs refresh
+  needsRefresh(): boolean {
+    const token = this.tokenStorage.getAccessToken();
+    if (!token) return true;
+    
+    return this.jwtHelper.isTokenExpiringSoon(token);
+  }
+
+  // Get user permissions
+  getPermissions(): string[] {
+    const token = this.tokenStorage.getAccessToken();
+    if (!token) return [];
+    
+    const payload = this.jwtHelper.decodeToken(token);
+    return (payload as any)?.permissions || [];
+  }
+
+  // Check permission
+  hasPermission(permission: string): boolean {
+    const token = this.tokenStorage.getAccessToken();
+    if (!token) return false;
+    
+    return this.jwtHelper.hasPermission(token, permission);
+  }
+
+  // Check role
+  hasRole(role: string | string[]): boolean {
+    const token = this.tokenStorage.getAccessToken();
+    if (!token) return false;
+    
+    return this.jwtHelper.hasRole(token, role);
+  }
+
+  // Logout
+  logout(): void {
+    this.tokenStorage.clearTokens();
+  }
+}
+
+// ====== 6. Component: JWT Status Display ======
+function JwtStatus() {
+  const authService = new JwtAuthService();
+  const tokenStorage = TokenStorage.getInstance();
+  
+  const [status, setStatus] = useState({
+    authenticated: false,
+    user: null as JwtPayload | null,
+    tokenExpiry: null as number | null,
+    permissions: [] as string[],
+  });
+
+  useEffect(() => {
+    const token = tokenStorage.getAccessToken();
+    if (token) {
+      const jwtHelper = JwtHelper.getInstance();
+      const payload = jwtHelper.decodeToken(token);
+      const expiry = tokenStorage.getTokenExpiry();
+      
+      setStatus({
+        authenticated: authService.isAuthenticated(),
+        user: payload,
+        tokenExpiry: expiry,
+        permissions: authService.getPermissions(),
+      });
+    }
+  }, [authService, tokenStorage]);
+
+  return (
+    &lt;div className="jwt-status"&gt;
+      &lt;h3&gt;JWT Status&lt;/h3&gt;
+      &lt;div&gt;Authenticated: {status.authenticated ? "✅" : "❌"}&lt;/div&gt;
+      {status.user && (
+        &lt;div&gt;
+          &lt;div&gt;User: {status.user.name} ({status.user.email})&lt;/div&gt;
+          &lt;div&gt;Role: {status.user.role}&lt;/div&gt;
+          &lt;div&gt;Token Expiry: {status.tokenExpiry ? new Date(status.tokenExpiry).toLocaleString() : "Unknown"}&lt;/div&gt;
+          &lt;div&gt;Permissions: {status.permissions.join(", ") || "None"}&lt;/div&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 7. Token Validation ======
+function validateToken(token: string): { valid: boolean; message?: string } {
+  try {
+    // Check token structure
+    const parts = token.split(".");
+    if (parts.length !== 3) {
+      return { valid: false, message: "Invalid token structure" };
+    }
+
+    // Decode to verify format
+    const payload = JSON.parse(atob(parts[1]));
+    
+    // Check expiration
+    if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
+      return { valid: false, message: "Token has expired" };
+    }
+
+    // Check required claims
+    if (!payload.sub) {
+      return { valid: false, message: "Missing subject claim" };
+    }
+
+    return { valid: true };
+  } catch (error) {
+    return { valid: false, message: "Invalid token format" };
+  }
+}
+
+export {
+  JwtHelper,
+  TokenStorage,
+  JwtApiClient,
+  JwtAuthService,
+  JwtStatus,
+  validateToken,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        JWT Security Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Short Expiry</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use short-lived access tokens (15-30 minutes)</td>
+          <td style="border: 1px solid black; padding: 8px;">Limit damage from token theft</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Strong Secrets</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use strong, complex signing keys</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent brute force attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>HTTPS Only</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Always transmit tokens over HTTPS</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent man-in-the-middle attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Minimal Payload</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Avoid storing sensitive data in payload</td>
+          <td style="border: 1px solid black; padding: 8px;">JWT is base64 encoded, not encrypted</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Validate Everything</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validate all claims (iss, aud, exp, etc.)</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent token misuse</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Rotate Keys</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Regularly rotate signing keys</td>
+          <td style="border: 1px solid black; padding: 8px;">Limit impact of key compromise</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is a JWT and what are its components?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            A JWT (JSON Web Token) is a compact, URL-safe token that securely transmits information between 
+            parties. It consists of three parts: (1) <strong>Header:</strong> Contains metadata about the 
+            token, like the signing algorithm (HS256, RS256), (2) <strong>Payload:</strong> Contains the 
+            claims — statements about the user and additional metadata (sub, exp, iat, custom claims), 
+            (3) <strong>Signature:</strong> Cryptographic signature that verifies the token hasn't been 
+            tampered with. The signature is created by hashing the header and payload with a secret key. 
+            The token is encoded in base64url, making it safe for transmission in URLs and HTTP headers.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the advantages and disadvantages of using JWT?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Advantages:</strong> (1) <strong>Stateless:</strong> No server-side storage needed, 
+            (2) <strong>Scalable:</strong> Works well in distributed systems, (3) <strong>Self-contained:</strong> 
+            Contains user information, reducing database lookups, (4) <strong>Cross-domain:</strong> Works 
+            across different domains, (5) <strong>Mobile-friendly:</strong> Easy to use in native apps. 
+            <strong>Disadvantages:</strong> (1) <strong>Cannot invalidate:</strong> Can't revoke individual 
+            tokens before expiry, (2) <strong>Payload size:</strong> Can become large with many claims, 
+            (3) <strong>Security:</strong> If stolen, can be used until expiry, (4) <strong>State management:</strong> 
+            Need to handle token refresh and logout properly, (5) <strong>Complexity:</strong> Requires 
+            proper key management and validation.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you securely handle JWT token storage on the client?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            JWT storage options: (1) <strong>HttpOnly cookies:</strong> Most secure, prevents XSS attacks, 
+            but vulnerable to CSRF, (2) <strong>localStorage:</strong> Persistent but vulnerable to XSS, 
+            (3) <strong>sessionStorage:</strong> Cleared on tab close, still vulnerable to XSS, (4) <strong>Memory:</strong> 
+            Most secure from XSS but lost on page refresh. Best practice: Store access tokens in memory 
+            (React state) and refresh tokens in httpOnly cookies with SameSite=Strict. If localStorage is 
+            used, ensure proper XSS protection (Content Security Policy, input sanitization) and implement 
+            automatic token refresh with short expiry times.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between HS256 and RS256 signing?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>HS256 (HMAC-SHA256):</strong> (1) <strong>Symmetric:</strong> Same secret key for 
+            signing and verifying, (2) <strong>Simple:</strong> Easier to implement, (3) <strong>Single key:</strong> 
+            All services need the same secret, (4) <strong>Use case:</strong> Single server or closed system. 
+            <strong>RS256 (RSA-SHA256):</strong> (1) <strong>Asymmetric:</strong> Private key for signing, 
+            public key for verification, (2) <strong>Secure:</strong> Private key never leaves the server, 
+            (3) <strong>Distributed:</strong> Any service with the public key can verify, (4) <strong>Use case:</strong> 
+            Microservices, third-party verification. RS256 is generally preferred for production systems 
+            due to better security and separation of concerns.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle JWT expiration and refresh?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Token refresh implementation: (1) <strong>Short access token:</strong> 15-30 minutes expiry, 
+            (2) <strong>Long refresh token:</strong> 7-30 days expiry, (3) <strong>Refresh endpoint:</strong> 
+            Server validates refresh token and returns new access token, (4) <strong>Client handling:</strong> 
+            When API returns 401, attempt refresh, (5) <strong>Automatic refresh:</strong> Use axios 
+            interceptors to automatically refresh tokens, (6) <strong>Refresh buffer:</strong> Refresh token 
+            before it expires (e.g., 5 minutes before), (7) <strong>Refresh token rotation:</strong> Issue 
+            new refresh token on each refresh, (8) <strong>Logout on failure:</strong> Clear tokens and 
+            redirect to login if refresh fails. This provides seamless user experience with strong security.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://jwt.io/",
+      "https://www.rfc-editor.org/rfc/rfc7519",
+      "https://auth0.com/docs/secure/tokens/json-web-tokens",
+    ],
+  },
+  {
+    topic: "Refresh Tokens",
+    tags: ["React", "Security", "Authentication", "JWT"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Refresh Tokens — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Refresh tokens</strong> are long-lived tokens used to obtain new access tokens without 
+        requiring the user to re-authenticate. They form a critical part of modern authentication systems, 
+        providing a balance between security (short-lived access tokens) and user experience (seamless 
+        session continuation). Refresh tokens are typically stored securely on the server and are issued 
+        alongside access tokens.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Refresh tokens are essential for building secure, 
+        user-friendly authentication systems. Interviewers ask about them to test your understanding of 
+        token lifecycle, security trade-offs, and how to implement secure token management in real-world 
+        applications.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Refresh Token Flow
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-text">
+User Login Flow:
+┌─────────┐                    ┌─────────┐                    ┌─────────┐
+│  Client │                    │  Server │                    │Database │
+└────┬────┘                    └────┬────┘                    └────┬────┘
+     │                              │                              │
+     │ 1. Login Request            │                              │
+     │────────────────────────────►│                              │
+     │                              │ 2. Validate Credentials     │
+     │                              │─────────────────────────────►│
+     │                              │                              │
+     │                              │ 3. Generate Tokens          │
+     │                              │  - Access Token (15 min)    │
+     │                              │  - Refresh Token (7 days)   │
+     │                              │                              │
+     │ 4. Return Tokens            │                              │
+     │◄────────────────────────────│                              │
+     │                              │                              │
+     │ 5. Store Tokens             │                              │
+     │  - Access: Memory/Storage   │                              │
+     │  - Refresh: Secure Storage  │                              │
+     │                              │                              │
+
+Token Refresh Flow:
+┌─────────┐                    ┌─────────┐                    ┌─────────┐
+│  Client │                    │  Server │                    │Database │
+└────┬────┘                    └────┬────┘                    └────┬────┘
+     │                              │                              │
+     │ 1. Request with Expired AT   │                              │
+     │────────────────────────────►│                              │
+     │                              │                              │
+     │ 2. 401 Unauthorized         │                              │
+     │◄────────────────────────────│                              │
+     │                              │                              │
+     │ 3. Refresh Token Request    │                              │
+     │────────────────────────────►│ 4. Validate Refresh Token   │
+     │                              │─────────────────────────────►│
+     │                              │                              │
+     │                              │ 5. Generate New Tokens      │
+     │ 6. New Access Token         │                              │
+     │◄────────────────────────────│                              │
+     │                              │                              │
+     │ 7. Retry Original Request   │                              │
+     │────────────────────────────►│                              │
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Refresh Token Lifecycle
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Stage</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Security Implication</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Issuance</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Created during login/token refresh</td>
+          <td style="border: 1px solid black; padding: 8px;">Must be secure, use strong entropy</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Storage</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Stored securely on client (httpOnly cookie) and server</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevent XSS and CSRF attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Verified on each refresh request</td>
+          <td style="border: 1px solid black; padding: 8px;">Check expiry, signature, and revocation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Rotation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">New refresh token issued on each refresh</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits impact of token theft</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Revocation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Invalidated on logout or security incident</td>
+          <td style="border: 1px solid black; padding: 8px;">Immediate session termination</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Expiry</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Automatically expires after set time</td>
+          <td style="border: 1px solid black; padding: 8px;">Forces re-authentication periodically</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Refresh Token System
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Refresh Token Types ======
+interface RefreshTokenPayload {
+  id: string;
+  userId: string;
+  clientId?: string;
+  scopes?: string[];
+  iat: number;
+  exp: number;
+}
+
+interface TokenResponse {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+  tokenType: "Bearer";
+}
+
+interface RefreshTokenRequest {
+  refreshToken: string;
+  clientId?: string;
+  clientSecret?: string;
+}
+
+// ====== 2. Refresh Token Service ======
+class RefreshTokenService {
+  private static instance: RefreshTokenService;
+  private tokenStorage = TokenStorage.getInstance();
+  private jwtHelper = JwtHelper.getInstance();
+
+  static getInstance(): RefreshTokenService {
+    if (!RefreshTokenService.instance) {
+      RefreshTokenService.instance = new RefreshTokenService();
+    }
+    return RefreshTokenService.instance;
+  }
+
+  // Generate refresh token
+  generateRefreshToken(userId: string, clientId?: string): string {
+    const payload: RefreshTokenPayload = {
+      id: crypto.randomUUID(),
+      userId,
+      clientId,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60, // 30 days
+    };
+
+    // Sign the token (implementation depends on JWT library)
+    return this.signRefreshToken(payload);
+  }
+
+  private signRefreshToken(payload: RefreshTokenPayload): string {
+    // In production, use a proper JWT library
+    // This is a simplified example
+    const header = { alg: "HS256", typ: "JWT" };
+    const encodedHeader = btoa(JSON.stringify(header));
+    const encodedPayload = btoa(JSON.stringify(payload));
+    const signature = this.signPayload(\`\${encodedHeader}.\${encodedPayload}\`);
+    return \`\${encodedHeader}.\${encodedPayload}.\${signature}\`;
+  }
+
+  private signPayload(data: string): string {
+    // Simplified signing - use proper crypto in production
+    const secret = process.env.REFRESH_TOKEN_SECRET || "your-secret-key";
+    return btoa(\`\${data}.\${secret}\`);
+  }
+
+  // Validate refresh token
+  validateRefreshToken(token: string): { valid: boolean; payload?: RefreshTokenPayload; error?: string } {
+    try {
+      const parts = token.split(".");
+      if (parts.length !== 3) {
+        return { valid: false, error: "Invalid token format" };
+      }
+
+      // Verify signature
+      const [header, payload, signature] = parts;
+      const expectedSignature = this.signPayload(\`\${header}.\${payload}\`);
+      
+      if (signature !== expectedSignature) {
+        return { valid: false, error: "Invalid token signature" };
+      }
+
+      const decodedPayload = JSON.parse(atob(payload)) as RefreshTokenPayload;
+      
+      // Check expiration
+      if (decodedPayload.exp < Math.floor(Date.now() / 1000)) {
+        return { valid: false, error: "Token expired" };
+      }
+
+      return { valid: true, payload: decodedPayload };
+    } catch (error) {
+      return { valid: false, error: "Invalid token" };
+    }
+  }
+
+  // Rotate refresh token
+  rotateRefreshToken(oldToken: string): TokenResponse {
+    const validation = this.validateRefreshToken(oldToken);
+    
+    if (!validation.valid) {
+      throw new Error(validation.error || "Invalid refresh token");
+    }
+
+    const payload = validation.payload!;
+    
+    // Generate new tokens
+    const accessToken = this.generateAccessToken(payload.userId);
+    const refreshToken = this.generateRefreshToken(payload.userId, payload.clientId);
+
+    return {
+      accessToken,
+      refreshToken,
+      expiresIn: 15 * 60, // 15 minutes
+      tokenType: "Bearer",
+    };
+  }
+
+  private generateAccessToken(userId: string): string {
+    // Generate short-lived access token
+    const payload = {
+      sub: userId,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 15 * 60, // 15 minutes
+    };
+    
+    // Sign and return access token
+    return this.signAccessToken(payload);
+  }
+
+  private signAccessToken(payload: any): string {
+    const header = { alg: "HS256", typ: "JWT" };
+    const encodedHeader = btoa(JSON.stringify(header));
+    const encodedPayload = btoa(JSON.stringify(payload));
+    const secret = process.env.ACCESS_TOKEN_SECRET || "your-access-secret";
+    const signature = btoa(\`\${encodedHeader}.\${encodedPayload}.\${secret}\`);
+    return \`\${encodedHeader}.\${encodedPayload}.\${signature}\`;
+  }
+}
+
+// ====== 3. Refresh Token Client ======
+class RefreshTokenClient {
+  private refreshTokenService = RefreshTokenService.getInstance();
+  private tokenStorage = TokenStorage.getInstance();
+  private refreshPromise: Promise&lt;TokenResponse&gt; | null = null;
+  private refreshInProgress = false;
+
+  // Get new tokens using refresh token
+  async refreshTokens(): Promise&lt;TokenResponse&gt; {
+    // Prevent multiple concurrent refresh requests
+    if (this.refreshPromise) {
+      return this.refreshPromise;
+    }
+
+    this.refreshPromise = new Promise(async (resolve, reject) => {
+      try {
+        const refreshToken = this.tokenStorage.getRefreshToken();
+        if (!refreshToken) {
+          throw new Error("No refresh token available");
+        }
+
+        // Make refresh request to server
+        const response = await this.requestRefresh(refreshToken);
+        
+        // Store new tokens
+        this.tokenStorage.setTokens({
+          accessToken: response.accessToken,
+          refreshToken: response.refreshToken,
+          expiresIn: response.expiresIn,
+        });
+
+        this.refreshInProgress = false;
+        resolve(response);
+      } catch (error) {
+        this.refreshInProgress = false;
+        // Clear tokens on refresh failure
+        this.tokenStorage.clearTokens();
+        reject(error);
+      } finally {
+        this.refreshPromise = null;
+      }
+    });
+
+    return this.refreshPromise;
+  }
+
+  private async requestRefresh(refreshToken: string): Promise&lt;TokenResponse&gt; {
+    const response = await fetch("/api/auth/refresh", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Refresh failed");
+    }
+
+    return response.json();
+  }
+
+  // Check if token needs refresh (within 5 minutes of expiry)
+  shouldRefresh(): boolean {
+    const expiry = this.tokenStorage.getTokenExpiry();
+    if (!expiry) return true;
+    
+    const now = Date.now();
+    const fiveMinutes = 5 * 60 * 1000;
+    return expiry - now < fiveMinutes;
+  }
+
+  // Force logout (clear tokens and redirect)
+  forceLogout(redirectUrl: string = "/login"): void {
+    this.tokenStorage.clearTokens();
+    window.location.href = redirectUrl;
+  }
+
+  // Check if refresh is in progress
+  isRefreshInProgress(): boolean {
+    return this.refreshInProgress || this.refreshPromise !== null;
+  }
+}
+
+// ====== 4. API Client with Refresh Token ======
+class SecureApiClient {
+  private client: AxiosInstance;
+  private refreshClient = new RefreshTokenClient();
+
+  constructor(baseURL: string) {
+    this.client = axios.create({
+      baseURL,
+      timeout: 30000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    this.setupInterceptors();
+  }
+
+  private setupInterceptors(): void {
+    // Request interceptor
+    this.client.interceptors.request.use(
+      async (config) => {
+        // Check if token needs refresh
+        if (this.refreshClient.shouldRefresh()) {
+          try {
+            await this.refreshClient.refreshTokens();
+          } catch (error) {
+            // Redirect to login on refresh failure
+            this.refreshClient.forceLogout();
+            return Promise.reject(error);
+          }
+        }
+
+        // Add token to request
+        const token = this.tokenStorage.getAccessToken();
+        if (token) {
+          config.headers.Authorization = \`Bearer \${token}\`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+
+    // Response interceptor
+    this.client.interceptors.response.use(
+      (response) => response,
+      async (error: AxiosError) => {
+        const originalRequest = error.config;
+        
+        // If error is 401 and not a refresh request
+        if (error.response?.status === 401 && originalRequest && !(originalRequest as any)._retry) {
+          (originalRequest as any)._retry = true;
+          
+          try {
+            // Attempt token refresh
+            const tokens = await this.refreshClient.refreshTokens();
+            
+            // Update request with new token
+            originalRequest.headers.Authorization = \`Bearer \${tokens.accessToken}\`;
+            return this.client(originalRequest);
+          } catch (refreshError) {
+            // Refresh failed, logout user
+            this.refreshClient.forceLogout();
+            return Promise.reject(refreshError);
+          }
+        }
+        
+        return Promise.reject(error);
+      }
+    );
+  }
+
+  private get tokenStorage(): TokenStorage {
+    return TokenStorage.getInstance();
+  }
+
+  getClient(): AxiosInstance {
+    return this.client;
+  }
+}
+
+// ====== 5. Refresh Token Component ======
+function RefreshTokenHandler() {
+  const [status, setStatus] = useState&lt;{ refreshing: boolean; lastRefresh: Date | null; error: string | null }&gt;({
+    refreshing: false,
+    lastRefresh: null,
+    error: null,
+  });
+
+  const refreshClient = useMemo(() => new RefreshTokenClient(), []);
+
+  useEffect(() => {
+    // Refresh token every 10 minutes (or when token is about to expire)
+    const interval = setInterval(async () => {
+      if (refreshClient.shouldRefresh() && !refreshClient.isRefreshInProgress()) {
+        setStatus(prev => ({ ...prev, refreshing: true }));
+        
+        try {
+          await refreshClient.refreshTokens();
+          setStatus({
+            refreshing: false,
+            lastRefresh: new Date(),
+            error: null,
+          });
+        } catch (error) {
+          setStatus({
+            refreshing: false,
+            lastRefresh: null,
+            error: "Failed to refresh token",
+          });
+        }
+      }
+    }, 60 * 1000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, [refreshClient]);
+
+  return (
+    &lt;div className="refresh-status"&gt;
+      {status.refreshing && &lt;div&gt;Refreshing token...&lt;/div&gt;}
+      {status.lastRefresh && (
+        &lt;div&gt;Last refresh: {status.lastRefresh.toLocaleTimeString()}&lt;/div&gt;
+      )}
+      {status.error && &lt;div className="error"&gt;{status.error}&lt;/div&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 6. Refresh Token Middleware ======
+import { Middleware } from "@reduxjs/toolkit";
+import { refreshToken, logout } from "../features/auth/authSlice";
+
+const refreshTokenMiddleware: Middleware = (store) => (next) => async (action) => {
+  // Check if action resulted in 401
+  if (action.type === "api/executeRejected" && action.payload?.status === 401) {
+    const state = store.getState();
+    const refreshToken = state.auth.refreshToken;
+    
+    if (refreshToken) {
+      try {
+        // Attempt refresh
+        const newTokens = await fetch("/api/auth/refresh", {
+          method: "POST",
+          body: JSON.stringify({ refreshToken }),
+        }).then(res => res.json());
+        
+        // Update tokens in store
+        store.dispatch(refreshToken(newTokens));
+        
+        // Retry the failed request
+        // Re-dispatch the original action with new token
+        // Implementation depends on your API client
+      } catch (error) {
+        // Refresh failed, logout
+        store.dispatch(logout());
+      }
+    }
+  }
+  
+  return next(action);
+};
+
+export {
+  RefreshTokenService,
+  RefreshTokenClient,
+  SecureApiClient,
+  RefreshTokenHandler,
+  refreshTokenMiddleware,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Refresh Token Security Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Refresh Token Rotation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Issue new refresh token on each refresh</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits damage from token theft</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Short-lived Access</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Access tokens expire in 15-30 minutes</td>
+          <td style="border: 1px solid black; padding: 8px;">Minimizes impact of stolen tokens</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Secure Storage</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Store refresh tokens in httpOnly cookies</td>
+          <td style="border: 1px solid black; padding: 8px;">Protects against XSS attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Device Tracking</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Track device/user agent per refresh token</td>
+          <td style="border: 1px solid black; padding: 8px;">Detect suspicious activity</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Revocation List</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Maintain list of revoked tokens</td>
+          <td style="border: 1px solid black; padding: 8px;">Immediate token invalidation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Rate Limiting</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Limit refresh requests per user</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents brute force attacks</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is a refresh token and why is it needed?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            A refresh token is a long-lived token used to obtain new access tokens without requiring the 
+            user to re-authenticate. It's needed because: (1) <strong>Security:</strong> Access tokens are 
+            short-lived (15-30 minutes) to limit damage if stolen, (2) <strong>User experience:</strong> 
+            Users shouldn't have to log in every 15 minutes, (3) <strong>Seamless sessions:</strong> 
+            Refresh tokens enable continuous sessions without interruption, (4) <strong>Reduced attack 
+            surface:</strong> Refresh tokens can be stored more securely than access tokens, (5) <strong>Server 
+            control:</strong> Servers can revoke refresh tokens to terminate sessions immediately.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is refresh token rotation and why is it important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Refresh token rotation is the practice of issuing a new refresh token whenever a refresh request 
+            is made. It's important because: (1) <strong>Limits theft impact:</strong> If a refresh token 
+            is stolen, it becomes invalid after the first use, (2) <strong>Detection:</strong> Multiple 
+            refresh attempts with the same token indicate token theft, (3) <strong>Revocation:</strong> 
+            The server can detect token reuse and revoke all tokens for that user, (4) <strong>Security:</strong> 
+            Even if a refresh token is compromised, the damage is limited to a single refresh cycle, 
+            (5) <strong>Audit:</strong> Rotation provides audit trails for token usage. Implementing 
+            rotation significantly improves security.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle refresh token expiration?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling refresh token expiration: (1) <strong>Set long expiry:</strong> 7-30 days, depending 
+            on security requirements, (2) <strong>Refresh on expiry:</strong> When refresh token expires, 
+            user must re-authenticate, (3) <strong>Silent refresh:</strong> Refresh access token before it 
+            expires, (4) <strong>Refresh window:</strong> Allow refresh within a grace period after expiry, 
+            (5) <strong>Sliding sessions:</strong> Refresh token expiry extends with each refresh, 
+            (6) <strong>Automatic logout:</strong> Logout user when refresh token expires, (7) <strong>User 
+            notification:</strong> Notify user before refresh token expires. Most applications use a 7-30 
+            day refresh token with automatic extension on active use.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between access tokens and refresh tokens?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Access Token:</strong> (1) <strong>Purpose:</strong> Authorize API requests, (2) <strong>Lifespan:</strong> 
+            Short (15-30 minutes), (3) <strong>Storage:</strong> Can be stored in memory or localStorage, 
+            (4) <strong>Frequency:</strong> Sent with every API request, (5) <strong>Rotation:</strong> 
+            Replaced when expired. <strong>Refresh Token:</strong> (1) <strong>Purpose:</strong> Obtain 
+            new access tokens, (2) <strong>Lifespan:</strong> Long (7-30 days), (3) <strong>Storage:</strong> 
+            Stored securely (httpOnly cookie), (4) <strong>Frequency:</strong> Used only when access token 
+            expires, (5) <strong>Rotation:</strong> Can be rotated on each use. The separation provides 
+            security: even if an access token is stolen, it expires quickly, while the refresh token is 
+            rarely used and can be stored more securely.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you detect and handle refresh token theft?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Detecting refresh token theft: (1) <strong>Token reuse detection:</strong> If the same refresh 
+            token is used more than once, it's likely stolen, (2) <strong>IP/User-Agent mismatch:</strong> 
+            Verify IP address and user agent on refresh, (3) <strong>Implement revocation:</strong> 
+            Immediately revoke all tokens for the user on suspected theft, (4) <strong>Alert user:</strong> 
+            Notify user of suspicious activity, (5) <strong>Force re-authentication:</strong> Require 
+            password or 2FA verification, (6) <strong>Log suspicious activity:</strong> Log all refresh 
+            attempts for auditing, (7) <strong>Implement monitoring:</strong> Monitor for unusual patterns 
+            (e.g., simultaneous requests from different locations). The key is to detect and react quickly 
+            to minimize damage.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://auth0.com/docs/secure/tokens/refresh-tokens",
+      "https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/",
+      "https://tools.ietf.org/html/rfc6749#section-6",
+    ],
+  },
+  {
+    topic: "Cookies",
+    tags: ["React", "Security", "HTTP", "Authentication"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Cookies — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Cookies</strong> are small pieces of data stored in the user's browser by websites. They're 
+        sent with every HTTP request to the same domain, making them useful for maintaining state, session 
+        management, and tracking user preferences. Cookies are a fundamental technology of the web that 
+        enables stateful interactions in the stateless HTTP protocol.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Cookies are essential for authentication, session management, 
+        and user tracking in web applications. Interviewers ask about them to test your understanding of 
+        HTTP fundamentals, security implications, and how to properly implement secure cookie handling in 
+        modern web applications.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Cookie Attributes
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Attribute</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Security Impact</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Secure</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Only sent over HTTPS connections</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents transmission over unencrypted HTTP</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>HttpOnly</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Not accessible via JavaScript</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents XSS attacks from stealing cookies</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>SameSite</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Controls cross-origin request behavior</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents CSRF attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Domain</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies which domains can access the cookie</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits cookie scope to specific domains</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Path</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies which URL paths can access the cookie</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits cookie scope to specific paths</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Expires / Max-Age</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Sets cookie expiration time</td>
+          <td style="border: 1px solid black; padding: 8px;">Controls session duration</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Cookie Types
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Type</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Session Cookie</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">No expiry, deleted when browser closes</td>
+          <td style="border: 1px solid black; padding: 8px;">User session management</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Persistent Cookie</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Has expiry, stored until expiration</td>
+          <td style="border: 1px solid black; padding: 8px;">Remember me, user preferences</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Secure Cookie</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Only sent over HTTPS</td>
+          <td style="border: 1px solid black; padding: 8px;">Authentication tokens</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>HttpOnly Cookie</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Inaccessible via JavaScript</td>
+          <td style="border: 1px solid black; padding: 8px;">Protection against XSS</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Third-Party Cookie</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Set by domains other than the one visited</td>
+          <td style="border: 1px solid black; padding: 8px;">Tracking, cross-domain authentication</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Cookie Management
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Cookie Types ======
+interface CookieOptions {
+  domain?: string;
+  path?: string;
+  expires?: Date;
+  maxAge?: number;
+  secure?: boolean;
+  httpOnly?: boolean;
+  sameSite?: "Strict" | "Lax" | "None";
+  priority?: "Low" | "Medium" | "High";
+}
+
+interface CookieData {
+  name: string;
+  value: string;
+  options?: CookieOptions;
+}
+
+// ====== 2. Cookie Service ======
+class CookieService {
+  private static instance: CookieService;
+
+  static getInstance(): CookieService {
+    if (!CookieService.instance) {
+      CookieService.instance = new CookieService();
+    }
+    return CookieService.instance;
+  }
+
+  // Set a cookie
+  setCookie(name: string, value: string, options?: CookieOptions): void {
+    if (typeof document === "undefined") return;
+    
+    let cookieString = \`\${encodeURIComponent(name)}=\${encodeURIComponent(value)}\`;
+    
+    if (options) {
+      if (options.path) cookieString += \`; path=\${options.path}\`;
+      if (options.domain) cookieString += \`; domain=\${options.domain}\`;
+      if (options.expires) {
+        cookieString += \`; expires=\${options.expires.toUTCString()}\`;
+      }
+      if (options.maxAge) cookieString += \`; max-age=\${options.maxAge}\`;
+      if (options.secure) cookieString += "; Secure";
+      if (options.httpOnly) cookieString += "; HttpOnly"; // Only effective when set server-side
+      if (options.sameSite) cookieString += \`; SameSite=\${options.sameSite}\`;
+      if (options.priority) cookieString += \`; Priority=\${options.priority}\`;
+    }
+
+    document.cookie = cookieString;
+  }
+
+  // Get a cookie
+  getCookie(name: string): string | null {
+    if (typeof document === "undefined") return null;
+    
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.trim().split("=");
+      if (cookieName === encodeURIComponent(name)) {
+        return decodeURIComponent(cookieValue);
+      }
+    }
+    return null;
+  }
+
+  // Delete a cookie
+  deleteCookie(name: string, options?: Pick&lt;CookieOptions, "path" | "domain"&gt;): void {
+    const deleteOptions: CookieOptions = {
+      ...options,
+      expires: new Date(0),
+      maxAge: 0,
+    };
+    this.setCookie(name, "", deleteOptions);
+  }
+
+  // Check if cookie exists
+  hasCookie(name: string): boolean {
+    return this.getCookie(name) !== null;
+  }
+
+  // Get all cookies as an object
+  getAllCookies(): Record&lt;string, string&gt; {
+    if (typeof document === "undefined") return {};
+    
+    const cookies: Record&lt;string, string&gt; = {};
+    const cookiePairs = document.cookie.split(";");
+    
+    for (const pair of cookiePairs) {
+      const [name, value] = pair.trim().split("=");
+      if (name) {
+        cookies[decodeURIComponent(name)] = decodeURIComponent(value || "");
+      }
+    }
+    
+    return cookies;
+  }
+}
+
+// ====== 3. Cookie Storage Adapter ======
+class CookieStorageAdapter {
+  private cookieService = CookieService.getInstance();
+  private prefix: string;
+
+  constructor(prefix: string = "app_") {
+    this.prefix = prefix;
+  }
+
+  private getKey(key: string): string {
+    return \`\${this.prefix}\${key}\`;
+  }
+
+  setItem(key: string, value: any): void {
+    const serialized = JSON.stringify(value);
+    this.cookieService.setCookie(this.getKey(key), serialized, {
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+  }
+
+  getItem&lt;T&gt;(key: string): T | null {
+    const value = this.cookieService.getCookie(this.getKey(key));
+    if (!value) return null;
+    
+    try {
+      return JSON.parse(value) as T;
+    } catch {
+      return null;
+    }
+  }
+
+  removeItem(key: string): void {
+    this.cookieService.deleteCookie(this.getKey(key), { path: "/" });
+  }
+
+  clear(): void {
+    // Clear all cookies with the prefix
+    const allCookies = this.cookieService.getAllCookies();
+    for (const key of Object.keys(allCookies)) {
+      if (key.startsWith(this.prefix)) {
+        this.cookieService.deleteCookie(key, { path: "/" });
+      }
+    }
+  }
+}
+
+// ====== 4. Secure Token Storage using Cookies ======
+class SecureTokenStorage {
+  private cookieService = CookieService.getInstance();
+  private accessTokenKey = "auth_access_token";
+  private refreshTokenKey = "auth_refresh_token";
+  private userIdKey = "auth_user_id";
+
+  // Store tokens securely
+  setTokens(accessToken: string, refreshToken: string, userId: string): void {
+    // Access token - short-lived, secure, httpOnly (set server-side)
+    this.cookieService.setCookie(this.accessTokenKey, accessToken, {
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 15 * 60, // 15 minutes
+    });
+
+    // Refresh token - longer-lived, secure, httpOnly (set server-side)
+    this.cookieService.setCookie(this.refreshTokenKey, refreshToken, {
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+    });
+
+    // User ID - minimal data, can be accessible to JS
+    this.cookieService.setCookie(this.userIdKey, userId, {
+      path: "/",
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+    });
+  }
+
+  getAccessToken(): string | null {
+    return this.cookieService.getCookie(this.accessTokenKey);
+  }
+
+  getRefreshToken(): string | null {
+    return this.cookieService.getCookie(this.refreshTokenKey);
+  }
+
+  getUserId(): string | null {
+    return this.cookieService.getCookie(this.userIdKey);
+  }
+
+  clearTokens(): void {
+    this.cookieService.deleteCookie(this.accessTokenKey, { path: "/" });
+    this.cookieService.deleteCookie(this.refreshTokenKey, { path: "/" });
+    this.cookieService.deleteCookie(this.userIdKey, { path: "/" });
+  }
+
+  isAuthenticated(): boolean {
+    return this.getAccessToken() !== null && this.getRefreshToken() !== null;
+  }
+}
+
+// ====== 5. Cookie with React ======
+import { useEffect, useState } from "react";
+
+function useCookie(key: string, defaultValue: string = ""): [string, (value: string, options?: CookieOptions) => void, () => void] {
+  const [cookie, setCookieState] = useState&lt;string&gt;(() => {
+    const cookieService = CookieService.getInstance();
+    return cookieService.getCookie(key) || defaultValue;
+  });
+
+  const setCookie = (value: string, options?: CookieOptions) => {
+    const cookieService = CookieService.getInstance();
+    cookieService.setCookie(key, value, options);
+    setCookieState(value);
+  };
+
+  const deleteCookie = () => {
+    const cookieService = CookieService.getInstance();
+    cookieService.deleteCookie(key);
+    setCookieState(defaultValue);
+  };
+
+  // Listen for cookie changes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cookieService = CookieService.getInstance();
+      const newValue = cookieService.getCookie(key) || defaultValue;
+      if (newValue !== cookie) {
+        setCookieState(newValue);
+      }
+    }, 1000); // Check every second
+
+    return () => clearInterval(interval);
+  }, [key, cookie, defaultValue]);
+
+  return [cookie, setCookie, deleteCookie];
+}
+
+// ====== 6. Cookie Consent Management ======
+interface CookieConsent {
+  necessary: boolean;
+  analytics: boolean;
+  marketing: boolean;
+  preferences: boolean;
+  timestamp: string;
+}
+
+class CookieConsentManager {
+  private cookieService = CookieService.getInstance();
+  private consentKey = "cookie_consent";
+
+  getConsent(): CookieConsent | null {
+    const consent = this.cookieService.getCookie(this.consentKey);
+    if (!consent) return null;
+    
+    try {
+      return JSON.parse(consent) as CookieConsent;
+    } catch {
+      return null;
+    }
+  }
+
+  setConsent(consent: Partial&lt;CookieConsent&gt;): void {
+    const current = this.getConsent() || {
+      necessary: true,
+      analytics: false,
+      marketing: false,
+      preferences: false,
+      timestamp: new Date().toISOString(),
+    };
+
+    const updated = { ...current, ...consent, timestamp: new Date().toISOString() };
+    
+    this.cookieService.setCookie(this.consentKey, JSON.stringify(updated), {
+      path: "/",
+      secure: true,
+      sameSite: "Lax",
+      maxAge: 60 * 60 * 24 * 365, // 1 year
+    });
+  }
+
+  hasConsentFor(category: keyof CookieConsent): boolean {
+    const consent = this.getConsent();
+    if (!consent) return false;
+    return consent[category] || false;
+  }
+}
+
+// ====== 7. Cookie Banner Component ======
+function CookieBanner() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [preferences, setPreferences] = useState({
+    analytics: false,
+    marketing: false,
+    preferences: false,
+  });
+
+  const consentManager = useMemo(() => new CookieConsentManager(), []);
+
+  useEffect(() => {
+    const consent = consentManager.getConsent();
+    if (!consent) {
+      setIsVisible(true);
+    } else {
+      setPreferences({
+        analytics: consent.analytics || false,
+        marketing: consent.marketing || false,
+        preferences: consent.preferences || false,
+      });
+    }
+  }, [consentManager]);
+
+  const acceptAll = () => {
+    consentManager.setConsent({
+      analytics: true,
+      marketing: true,
+      preferences: true,
+    });
+    setIsVisible(false);
+  };
+
+  const acceptNecessary = () => {
+    consentManager.setConsent({
+      analytics: false,
+      marketing: false,
+      preferences: false,
+    });
+    setIsVisible(false);
+  };
+
+  const savePreferences = () => {
+    consentManager.setConsent({
+      analytics: preferences.analytics,
+      marketing: preferences.marketing,
+      preferences: preferences.preferences,
+    });
+    setIsVisible(false);
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    &lt;div className="cookie-banner"&gt;
+      &lt;div className="cookie-content"&gt;
+        &lt;h3&gt;Cookie Preferences&lt;/h3&gt;
+        &lt;p&gt;We use cookies to enhance your experience.&lt;/p&gt;
+        
+        &lt;div className="cookie-options"&gt;
+          &lt;label&gt;
+            &lt;input type="checkbox" checked disabled /&gt;
+            Necessary (Always Enabled)
+          &lt;/label&gt;
+          &lt;label&gt;
+            &lt;input
+              type="checkbox"
+              checked={preferences.analytics}
+              onChange={(e) => setPreferences({ ...preferences, analytics: e.target.checked })}
+            /&gt;
+            Analytics
+          &lt;/label&gt;
+          &lt;label&gt;
+            &lt;input
+              type="checkbox"
+              checked={preferences.marketing}
+              onChange={(e) => setPreferences({ ...preferences, marketing: e.target.checked })}
+            /&gt;
+            Marketing
+          &lt;/label&gt;
+          &lt;label&gt;
+            &lt;input
+              type="checkbox"
+              checked={preferences.preferences}
+              onChange={(e) => setPreferences({ ...preferences, preferences: e.target.checked })}
+            /&gt;
+            Preferences
+          &lt;/label&gt;
+        &lt;/div&gt;
+
+        &lt;div className="cookie-actions"&gt;
+          &lt;button onClick={acceptNecessary}&gt;Only Necessary&lt;/button&gt;
+          &lt;button onClick={savePreferences}&gt;Save Preferences&lt;/button&gt;
+          &lt;button onClick={acceptAll} className="primary"&gt;Accept All&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 8. Cookie Debugging ======
+function CookieDebug() {
+  const cookieService = CookieService.getInstance();
+  const [cookies, setCookies] = useState&lt;Record&lt;string, string&gt;&gt;({});
+
+  useEffect(() => {
+    const updateCookies = () => {
+      setCookies(cookieService.getAllCookies());
+    };
+
+    updateCookies();
+    const interval = setInterval(updateCookies, 1000);
+    return () => clearInterval(interval);
+  }, [cookieService]);
+
+  return (
+    &lt;div className="cookie-debug"&gt;
+      &lt;h3&gt;Cookies Debug&lt;/h3&gt;
+      &lt;ul&gt;
+        {Object.entries(cookies).map(([name, value]) => (
+          &lt;li key={name}&gt;
+            &lt;strong&gt;{name}:&lt;/strong&gt; {value}
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+      &lt;button onClick={() => cookieService.deleteCookie("all", { path: "/" })}&gt;
+        Delete All Cookies (in development)
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+export {
+  CookieService,
+  CookieStorageAdapter,
+  SecureTokenStorage,
+  useCookie,
+  CookieConsentManager,
+  CookieBanner,
+  CookieDebug,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Cookie Security Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use Secure Flag</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Always set Secure flag on production cookies</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents cookie transmission over HTTP</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use HttpOnly Flag</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Set HttpOnly on sensitive cookies</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents XSS cookie theft</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use SameSite</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Set SameSite=Strict or Lax</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents CSRF attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Short Expiry</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use short expiry for session cookies</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits attack window</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use Domain Restriction</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Set domain attribute to specific domain</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents subdomain attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Path Restriction</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Set path attribute to specific paths</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits cookie scope</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are cookies and how are they used in authentication?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Cookies are small data pieces stored in the browser and sent with every HTTP request to the same 
+            domain. In authentication, they're used to: (1) <strong>Session management:</strong> Store session 
+            IDs to maintain user sessions, (2) <strong>Token storage:</strong> Store authentication tokens 
+            (JWT, refresh tokens), (3) <strong>Remember me:</strong> Persistent cookies to keep users logged 
+            in, (4) <strong>CSRF protection:</strong> CSRF tokens stored in cookies, (5) <strong>User 
+            preferences:</strong> Store user-specific settings. Cookies are automatically included in requests, 
+            making them convenient for authentication, but they must be secured with proper attributes 
+            (Secure, HttpOnly, SameSite).
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between cookies and localStorage?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Cookies:</strong> (1) <strong>Storage:</strong> ~4KB limit, (2) <strong>Scope:</strong> 
+            Domain/path specific, (3) <strong>Expiry:</strong> Automatic based on expiry, (4) <strong>Sent:</strong> 
+            Automatically sent with HTTP requests, (5) <strong>Security:</strong> HttpOnly and Secure flags 
+            available, (6) <strong>Use:</strong> Server-side authentication, sessions. <strong>localStorage:</strong> 
+            (1) <strong>Storage:</strong> ~5-10MB limit, (2) <strong>Scope:</strong> Same origin, 
+            (3) <strong>Expiry:</strong> No automatic expiry, (4) <strong>Sent:</strong> Not sent with 
+            requests, (5) <strong>Security:</strong> Vulnerable to XSS, (6) <strong>Use:</strong> Client-side 
+            data, preferences. Cookies are better for authentication (especially with HttpOnly), while 
+            localStorage is better for client-side data storage.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the security implications of the HttpOnly and Secure flags?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>HttpOnly:</strong> (1) <strong>Protection:</strong> Prevents JavaScript access to cookies, 
+            (2) <strong>Attack mitigated:</strong> XSS (cross-site scripting), (3) <strong>Use case:</strong> 
+            Authentication tokens, (4) <strong>Limitation:</strong> Can't be accessed or modified from 
+            client-side code. <strong>Secure:</strong> (1) <strong>Protection:</strong> Only sent over 
+            HTTPS connections, (2) <strong>Attack mitigated:</strong> Man-in-the-middle attacks, 
+            (3) <strong>Use case:</strong> All production cookies, (4) <strong>Limitation:</strong> Not 
+            sent over HTTP, so can't be used in development without HTTPS. Both flags are essential for 
+            secure cookie handling in production, with HttpOnly protecting against XSS and Secure protecting 
+            against network interception.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the SameSite attribute and how does it prevent CSRF?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            SameSite is a cookie attribute that controls whether cookies are sent with cross-origin requests. 
+            <strong>SameSite=Strict:</strong> (1) Cookies only sent for same-site requests, (2) Best protection 
+            but may break some legitimate cross-site flows, (3) Use for most sensitive cookies. 
+            <strong>SameSite=Lax:</strong> (1) Cookies sent for same-site and top-level cross-site navigation, 
+            (2) Good balance between security and usability, (3) Use for most cookies. <strong>SameSite=None:</strong> 
+            (1) Cookies sent for all cross-site requests, (2) Must use Secure flag, (3) Use for third-party 
+            authentication. CSRF prevention works because attackers can't trigger cross-site requests with 
+            cookies that have SameSite protection, as the browser won't include them in cross-site requests.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle cookie consent in a React application?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Cookie consent handling: (1) <strong>GDPR compliance:</strong> Show cookie banner for consent, 
+            (2) <strong>Categories:</strong> Necessary, Analytics, Marketing, Preferences, (3) <strong>Storage:</strong> 
+            Store consent in a cookie, (4) <strong>Conditional loading:</strong> Only load tracking/analytics 
+            scripts when consented, (5) <strong>User control:</strong> Allow users to change preferences, 
+            (6) <strong>Implementation:</strong> Use a cookie consent manager, (7) <strong>Documentation:</strong> 
+            Clearly explain cookie usage in privacy policy. Implement a banner that shows on first visit, 
+            allows granular consent, and persists preferences. The consent should be stored as a cookie 
+            with a long expiry, and all non-essential cookies should only be set after explicit consent.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie",
+      "https://web.dev/samesite-cookies-explained/",
+    ],
+  },
+  {
+    topic: "CORS",
+    tags: ["React", "Security", "HTTP", "Cross-Origin"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        CORS — Cross-Origin Resource Sharing (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>CORS (Cross-Origin Resource Sharing)</strong> is a security mechanism implemented by web 
+        browsers that allows or restricts web applications from making requests to a different domain than 
+        the one that served the web page. It's a fundamental web security feature that prevents malicious 
+        websites from making unauthorized requests to other domains on behalf of the user.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> CORS is one of the most common issues developers face when 
+        building modern web applications with separate frontend and backend services. Interviewers ask about 
+        it to test your understanding of web security, HTTP, and how to properly configure and handle 
+        cross-origin requests in production applications.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        CORS Headers
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Header</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Access-Control-Allow-Origin</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies which origins can access the resource</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>Access-Control-Allow-Origin: https://example.com</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Access-Control-Allow-Methods</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies which HTTP methods are allowed</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>Access-Control-Allow-Methods: GET, POST, PUT, DELETE</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Access-Control-Allow-Headers</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies which headers can be used</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>Access-Control-Allow-Headers: Content-Type, Authorization</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Access-Control-Allow-Credentials</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies if credentials (cookies) are allowed</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>Access-Control-Allow-Credentials: true</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Access-Control-Max-Age</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies how long preflight results can be cached</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>Access-Control-Max-Age: 3600</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Access-Control-Expose-Headers</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Specifies which headers can be exposed to the client</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>Access-Control-Expose-Headers: X-Request-ID</code></td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Types of CORS Requests
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Type</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">When Used</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Simple Request</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Request that doesn't trigger preflight</td>
+          <td style="border: 1px solid black; padding: 8px;">GET, HEAD, POST with simple headers</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Preflighted Request</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Request preceded by OPTIONS preflight</td>
+          <td style="border: 1px solid black; padding: 8px;">PUT, DELETE, custom headers, etc.</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Request with Credentials</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Request that includes cookies/auth headers</td>
+          <td style="border: 1px solid black; padding: 8px;">Authentication requests</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — CORS Configuration
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. CORS Configuration Types ======
+interface CorsOptions {
+  origin: string | string[] | RegExp | ((origin: string) => boolean);
+  methods?: string[];
+  allowedHeaders?: string[];
+  exposedHeaders?: string[];
+  credentials?: boolean;
+  maxAge?: number;
+  preflightContinue?: boolean;
+  optionsSuccessStatus?: number;
+}
+
+// ====== 2. Server-Side CORS Configuration (Express/Node) ======
+import express, { Request, Response, NextFunction } from "express";
+import cors from "cors";
+
+const app = express();
+
+// Basic CORS configuration
+const corsOptions: CorsOptions = {
+  origin: "https://example.com",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Request-ID"],
+  exposedHeaders: ["X-Request-ID", "X-Pagination-Total"],
+  credentials: true,
+  maxAge: 3600, // 1 hour
+  optionsSuccessStatus: 204,
+};
+
+// ====== 3. Dynamic Origin Configuration ======
+const dynamicCorsOptions: CorsOptions = {
+  origin: (origin: string) => {
+    // Allow origins from whitelist
+    const whitelist = [
+      "https://example.com",
+      "https://app.example.com",
+      "https://staging.example.com",
+    ];
+    
+    // Allow localhost for development
+    if (origin && origin.startsWith("http://localhost")) {
+      return true;
+    }
+    
+    return whitelist.includes(origin) || false;
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+
+// ====== 4. Multiple Origins ======
+const multiOriginOptions: CorsOptions = {
+  origin: ["https://example.com", "https://app.example.com", "https://api.example.com"],
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+// ====== 5. CORS Middleware Implementation ======
+// Custom CORS middleware
+function corsMiddleware(options: CorsOptions = {}) {
+  const defaultOptions: CorsOptions = {
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false,
+    maxAge: 86400,
+  };
+
+  const config = { ...defaultOptions, ...options };
+
+  return function (req: Request, res: Response, next: NextFunction) {
+    // Set CORS headers
+    const origin = req.headers.origin;
+
+    // Determine allowed origin
+    let allowedOrigin: string | null = null;
+    
+    if (typeof config.origin === "string") {
+      allowedOrigin = config.origin === "*" ? "*" : config.origin;
+    } else if (Array.isArray(config.origin)) {
+      if (origin && config.origin.includes(origin)) {
+        allowedOrigin = origin;
+      }
+    } else if (config.origin instanceof RegExp) {
+      if (origin && config.origin.test(origin)) {
+        allowedOrigin = origin;
+      }
+    } else if (typeof config.origin === "function") {
+      if (origin && config.origin(origin)) {
+        allowedOrigin = origin;
+      }
+    }
+
+    if (allowedOrigin) {
+      res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+    }
+
+    // Set other CORS headers
+    if (config.methods) {
+      res.setHeader("Access-Control-Allow-Methods", config.methods.join(", "));
+    }
+
+    if (config.allowedHeaders) {
+      const requestHeaders = req.headers["access-control-request-headers"];
+      const allowedHeaders = config.allowedHeaders;
+      
+      if (requestHeaders) {
+        const requestedHeaders = requestHeaders.split(", ");
+        const validHeaders = requestedHeaders.filter(header => 
+          allowedHeaders.includes(header)
+        );
+        res.setHeader("Access-Control-Allow-Headers", validHeaders.join(", "));
+      } else {
+        res.setHeader("Access-Control-Allow-Headers", allowedHeaders.join(", "));
+      }
+    }
+
+    if (config.exposedHeaders) {
+      res.setHeader("Access-Control-Expose-Headers", config.exposedHeaders.join(", "));
+    }
+
+    if (config.credentials) {
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+    }
+
+    if (config.maxAge) {
+      res.setHeader("Access-Control-Max-Age", String(config.maxAge));
+    }
+
+    // Handle preflight requests
+    if (req.method === "OPTIONS") {
+      return res.status(config.optionsSuccessStatus || 204).end();
+    }
+
+    next();
+  };
+}
+
+// ====== 6. Client-Side CORS Handling ======
+// API client with CORS support
+class CorsApiClient {
+  private baseURL: string;
+  private defaultHeaders: Record&lt;string, string&gt;;
+
+  constructor(baseURL: string, headers: Record&lt;string, string&gt; = {}) {
+    this.baseURL = baseURL;
+    this.defaultHeaders = {
+      "Content-Type": "application/json",
+      ...headers,
+    };
+  }
+
+  private async request&lt;T&gt;(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise&lt;T&gt; {
+    const url = \`\${this.baseURL}\${endpoint}\`;
+    const headers = {
+      ...this.defaultHeaders,
+      ...(options.headers as Record&lt;string, string&gt; || {}),
+    };
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers,
+        credentials: "include", // Include cookies in cross-origin requests
+        mode: "cors", // Explicitly set CORS mode
+      });
+
+      // Handle CORS errors
+      if (!response.ok) {
+        let errorMessage = \`HTTP error: \${response.status}\`;
+        
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch {
+          // If response isn't JSON, use status text
+          errorMessage = response.statusText || errorMessage;
+        }
+
+        throw new Error(errorMessage);
+      }
+
+      // Check for CORS headers in response
+      const corsHeaders = {
+        allowOrigin: response.headers.get("Access-Control-Allow-Origin"),
+        allowCredentials: response.headers.get("Access-Control-Allow-Credentials"),
+        exposeHeaders: response.headers.get("Access-Control-Expose-Headers"),
+      };
+
+      // Handle CORS preflight issues
+      if (!corsHeaders.allowOrigin) {
+        console.warn("CORS warning: Missing Access-Control-Allow-Origin header");
+      }
+
+      return await response.json();
+    } catch (error) {
+      // Handle network errors that might be CORS-related
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        throw new Error("CORS error: The server did not respond with proper CORS headers");
+      }
+      throw error;
+    }
+  }
+
+  async get&lt;T&gt;(endpoint: string): Promise&lt;T&gt; {
+    return this.request&lt;T&gt;(endpoint, { method: "GET" });
+  }
+
+  async post&lt;T&gt;(endpoint: string, data: any): Promise&lt;T&gt; {
+    return this.request&lt;T&gt;(endpoint, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async put&lt;T&gt;(endpoint: string, data: any): Promise&lt;T&gt; {
+    return this.request&lt;T&gt;(endpoint, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  }
+
+  async delete&lt;T&gt;(endpoint: string): Promise&lt;T&gt; {
+    return this.request&lt;T&gt;(endpoint, { method: "DELETE" });
+  }
+}
+
+// ====== 7. CORS Error Handling Component ======
+interface CorsErrorState {
+  hasError: boolean;
+  errorType: "origin" | "method" | "headers" | "credentials" | "network" | "unknown";
+  message: string;
+  timestamp: Date;
+}
+
+function CorsErrorHandler() {
+  const [errorState, setErrorState] = useState&lt;CorsErrorState | null&gt;(null);
+
+  const handleCorsError = (error: Error) => {
+    let errorType: CorsErrorState["errorType"] = "unknown";
+    let message = error.message;
+
+    // CORS error detection
+    if (error.message.includes("Access-Control-Allow-Origin")) {
+      errorType = "origin";
+      message = "The server does not allow requests from this origin.";
+    } else if (error.message.includes("Access-Control-Allow-Methods")) {
+      errorType = "method";
+      message = "The requested HTTP method is not allowed by the server.";
+    } else if (error.message.includes("Access-Control-Allow-Headers")) {
+      errorType = "headers";
+      message = "The request contains headers that are not allowed by the server.";
+    } else if (error.message.includes("credentials")) {
+      errorType = "credentials";
+      message = "The server does not allow credentials in cross-origin requests.";
+    } else if (error.message.includes("fetch")) {
+      errorType = "network";
+      message = "Network error: Could not reach the server. Check if the server is running and CORS is configured.";
+    }
+
+    setErrorState({
+      hasError: true,
+      errorType,
+      message,
+      timestamp: new Date(),
+    });
+  };
+
+  const clearError = () => {
+    setErrorState(null);
+  };
+
+  return (
+    &lt;div&gt;
+      {errorState && (
+        &lt;div className="cors-error"&gt;
+          &lt;h3&gt;Cross-Origin Request Error&lt;/h3&gt;
+          &lt;p&gt;{errorState.message}&lt;/p&gt;
+          &lt;div className="error-details"&gt;
+            &lt;strong&gt;Error Type:&lt;/strong&gt; {errorState.errorType}
+          &lt;/div&gt;
+          &lt;div className="error-actions"&gt;
+            &lt;button onClick={clearError}&gt;Dismiss&lt;/button&gt;
+            &lt;button onClick={() => window.location.reload()}&gt;Retry&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 8. Proxy Configuration (Development) ======
+// vite.config.ts or webpack.config.js
+// For Vite:
+// export default {
+//   server: {
+//     proxy: {
+//       '/api': {
+//         target: 'http://localhost:3000',
+//         changeOrigin: true,
+//         secure: false,
+//         rewrite: (path) => path.replace(/^\\/api/, ''),
+//       },
+//     },
+//   },
+// };
+
+// For Webpack (Create React App):
+// package.json:
+// {
+//   "proxy": "http://localhost:3000"
+// }
+
+// ====== 9. CORS Debugging Utility ======
+class CorsDebugger {
+  static checkCorsConfiguration(): Record&lt;string, any&gt; {
+    const diagnostics: Record&lt;string, any&gt; = {};
+
+    try {
+      // Check if we're in a browser environment
+      diagnostics.browser = typeof window !== "undefined";
+      
+      if (diagnostics.browser) {
+        // Check current origin
+        diagnostics.currentOrigin = window.location.origin;
+        
+        // Check if CORS headers are present
+        diagnostics.corsSupported = "cors" in window;
+        
+        // Check for credentials support
+        diagnostics.credentialsSupported = "credentials" in navigator;
+        
+        // Check if we're running on localhost (development)
+        diagnostics.isDevelopment = window.location.hostname === "localhost" || 
+                                  window.location.hostname === "127.0.0.1";
+        
+        // Log CORS environment
+        console.log("CORS Diagnostics:", diagnostics);
+      }
+    } catch (error) {
+      diagnostics.error = error instanceof Error ? error.message : "Unknown error";
+    }
+
+    return diagnostics;
+  }
+
+  static testCORS(url: string): Promise&lt;{ success: boolean; message: string; headers?: any }&gt; {
+    return fetch(url, {
+      method: "OPTIONS",
+      headers: {
+        "Origin": window.location.origin,
+        "Access-Control-Request-Method": "GET",
+      },
+    })
+      .then((response) => {
+        const headers: Record&lt;string, string&gt; = {};
+        response.headers.forEach((value, key) => {
+          headers[key] = value;
+        });
+
+        return {
+          success: true,
+          message: "CORS test successful",
+          headers,
+        };
+      })
+      .catch((error) => {
+        return {
+          success: false,
+          message: \`CORS test failed: \${error.message}\`,
+        };
+      });
+  }
+}
+
+// ====== 10. CORS Configuration Helper ======
+function getCorsConfig(environment: "development" | "staging" | "production"): CorsOptions {
+  const configs: Record&lt;string, CorsOptions&gt; = {
+    development: {
+      origin: ["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-Request-ID"],
+      credentials: true,
+      maxAge: 600,
+    },
+    staging: {
+      origin: ["https://staging.example.com", "https://staging-app.example.com"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization", "X-Request-ID", "X-API-Key"],
+      credentials: true,
+      maxAge: 3600,
+    },
+    production: {
+      origin: ["https://example.com", "https://app.example.com"],
+      methods: ["GET", "POST", "PUT", "DELETE"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+      credentials: true,
+      maxAge: 86400,
+    },
+  };
+
+  return configs[environment] || configs.development;
+}
+
+export {
+  CorsOptions,
+  corsMiddleware,
+  CorsApiClient,
+  CorsErrorHandler,
+  CorsDebugger,
+  getCorsConfig,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        CORS Security Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Avoid Wildcard (*)</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Don't use * in production</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents any site from accessing your API</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Whitelist Origins</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Explicitly list allowed origins</td>
+          <td style="border: 1px solid black; padding: 8px;">Controls which domains can access</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Credentials Policy</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use credentials: true only when needed</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents unauthorized credential usage</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Method Restrictions</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Only allow required HTTP methods</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits attack surface</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Header Whitelist</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Only allow necessary headers</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents header-based attacks</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Preflight Caching</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use appropriate max-age</td>
+          <td style="border: 1px solid black; padding: 8px;">Reduces preflight requests overhead</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is CORS and why is it important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            CORS (Cross-Origin Resource Sharing) is a security mechanism that controls how web applications 
+            from different origins can interact with each other. It's important because: (1) <strong>Security:</strong> 
+            Prevents malicious websites from accessing sensitive data from other sites, (2) <strong>Same-Origin 
+            Policy:</strong> CORS extends the same-origin policy to allow controlled cross-origin requests, 
+            (3) <strong>Modern web:</strong> Enables frontend and backend separation (different domains), 
+            (4) <strong>API access:</strong> Allows controlled access to APIs from different domains, 
+            (5) <strong>User protection:</strong> Protects users from CSRF and data theft attacks. Without 
+            CORS, browsers would block all cross-origin requests, making modern web applications impossible.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is a preflight request and when does it occur?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            A preflight request is an OPTIONS request sent by the browser before the actual request to check 
+            if the server allows cross-origin requests. It occurs when: (1) <strong>Non-simple methods:</strong> 
+            PUT, DELETE, PATCH (not GET, HEAD, POST), (2) <strong>Custom headers:</strong> Headers like 
+            Authorization, X-Request-ID, (3) <strong>Non-simple Content-Type:</strong> application/json, 
+            (4) <strong>Credentials:</strong> When credentials are sent with the request. The preflight 
+            request checks which methods and headers are allowed, and if the server responds positively, 
+            the actual request is sent. This prevents unauthorized cross-origin requests and protects servers 
+            from malicious clients.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle CORS in a React application?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling CORS in React: (1) <strong>Backend configuration:</strong> Properly configure CORS on 
+            the server (Express, Node, etc.), (2) <strong>Proxy setup:</strong> Use a proxy in development 
+            (Vite, Webpack devServer), (3) <strong>Credentials:</strong> Set <code>credentials: 'include'</code> 
+            in fetch requests, (4) <strong>Error handling:</strong> Handle CORS errors gracefully with 
+            user-friendly messages, (5) <strong>Environment variables:</strong> Use different CORS configs 
+            for development/staging/production, (6) <strong>API client:</strong> Create a client that handles 
+            CORS headers properly. In development, use a proxy to avoid CORS issues; in production, ensure 
+            proper CORS headers are sent from the server.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the security implications of using credentials: true in CORS?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Using <code>credentials: true</code> in CORS: (1) <strong>Allows cookies:</strong> Cookies are 
+            sent with cross-origin requests, (2) <strong>Requires origin:</strong> Cannot use wildcard (*) 
+            with credentials, (3) <strong>CSRF risk:</strong> Increases CSRF risk if not properly protected, 
+            (4) <strong>XSS risk:</strong> If the origin is compromised, credentials can be stolen, 
+            (5) <strong>Session hijacking:</strong> Cookies can be intercepted if not using HTTPS. 
+            <strong>Best practices:</strong> (1) Only enable with trusted origins, (2) Use HTTPS, 
+            (3) Implement CSRF protection, (4) Use HttpOnly and Secure cookies, (5) Set SameSite attribute. 
+            Only use when necessary, and always secure the communication channel.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you debug CORS issues?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Debugging CORS issues: (1) <strong>Browser DevTools:</strong> Check Network tab for CORS headers 
+            and preflight requests, (2) <strong>Console errors:</strong> Look for CORS error messages, 
+            (3) <strong>Check headers:</strong> Verify Access-Control-Allow-Origin is set correctly, 
+            (4) <strong>Preflight check:</strong> Check if OPTIONS request is successful, (5) <strong>Server 
+            logs:</strong> Check server logs for CORS-related errors, (6) <strong>curl command:</strong> 
+            Use curl to test CORS headers: <code>curl -v -X OPTIONS https://api.example.com</code>, 
+            (7) <strong>CORS extension:</strong> Use browser extensions like "CORS Unblock" for testing 
+            (development only), (8) <strong>Proxy temporarily:</strong> Use a proxy to test if CORS is the 
+            issue. Always ensure the server is configured correctly for production.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin",
+      "https://web.dev/cross-origin-resource-sharing/",
+    ],
+  },
+  {
+    topic: "CSRF",
+    tags: ["React", "Security", "CSRF", "Protection"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        CSRF — Cross-Site Request Forgery (Interview Guide — Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>CSRF (Cross-Site Request Forgery)</strong> is a security vulnerability where an attacker 
+        tricks a user into performing unintended actions on a web application where they're authenticated. 
+        The attacker exploits the browser's automatic inclusion of cookies, making the request appear 
+        legitimate to the server. CSRF is one of the most common and dangerous web security vulnerabilities, 
+        affecting any application that relies on cookies for authentication.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> CSRF is a critical security concern that every web developer 
+        must understand. Interviewers ask about it to test your knowledge of web security, your ability to 
+        implement proper protection measures, and your understanding of common attack vectors in web 
+        applications.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        CSRF Attack Flow
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-text">
+1. User logs into bank.com (gets session cookie)
+2. User visits malicious-site.com while still logged in
+3. Malicious site makes request to bank.com/transfer
+4. Browser automatically includes session cookie
+5. Server processes request as legitimate
+6. Money is transferred without user's knowledge
+
+Attack Example:
+&lt;img src="https://bank.com/transfer?amount=1000&to=attacker" /&gt;
+&lt;form action="https://bank.com/transfer" method="POST"&gt;
+  &lt;input type="hidden" name="amount" value="1000" /&gt;
+  &lt;input type="hidden" name="to" value="attacker" /&gt;
+&lt;/form&gt;
+&lt;script&gt;document.forms[0].submit();&lt;/script&gt;
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        CSRF Protection Methods
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Method</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Effectiveness</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>CSRF Tokens</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Unique token included in requests</td>
+          <td style="border: 1px solid black; padding: 8px;">Very effective</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>SameSite Cookies</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Restrict cookie sending to same-site</td>
+          <td style="border: 1px solid black; padding: 8px;">Very effective (modern)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Double Submit Cookie</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Token in both cookie and request</td>
+          <td style="border: 1px solid black; padding: 8px;">Good alternative</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Custom Headers</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Custom header required in requests</td>
+          <td style="border: 1px solid black; padding: 8px;">Effective for API calls</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Referer/Origin Check</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validate request origin</td>
+          <td style="border: 1px solid black; padding: 8px;">Limited effectiveness</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — CSRF Protection
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. CSRF Token Management ======
+import crypto from "crypto";
+
+interface CsrfToken {
+  value: string;
+  expires: number;
+  userId?: string;
+}
+
+class CsrfTokenManager {
+  private static instance: CsrfTokenManager;
+  private tokens: Map&lt;string, CsrfToken&gt; = new Map();
+  private readonly TOKEN_LENGTH = 32;
+  private readonly TOKEN_EXPIRY = 60 * 60 * 1000; // 1 hour
+
+  static getInstance(): CsrfTokenManager {
+    if (!CsrfTokenManager.instance) {
+      CsrfTokenManager.instance = new CsrfTokenManager();
+    }
+    return CsrfTokenManager.instance;
+  }
+
+  generateToken(sessionId: string, userId?: string): CsrfToken {
+    // Generate secure random token
+    const token = crypto.randomBytes(this.TOKEN_LENGTH).toString("hex");
+    
+    const csrfToken: CsrfToken = {
+      value: token,
+      expires: Date.now() + this.TOKEN_EXPIRY,
+      userId,
+    };
+
+    this.tokens.set(sessionId, csrfToken);
+    return csrfToken;
+  }
+
+  validateToken(sessionId: string, token: string): boolean {
+    const storedToken = this.tokens.get(sessionId);
+    
+    if (!storedToken) {
+      return false;
+    }
+
+    // Check if token has expired
+    if (storedToken.expires < Date.now()) {
+      this.tokens.delete(sessionId);
+      return false;
+    }
+
+    // Validate token value
+    const isValid = storedToken.value === token;
+    
+    // One-time use token (optional)
+    if (isValid) {
+      this.tokens.delete(sessionId);
+    }
+
+    return isValid;
+  }
+
+  invalidateToken(sessionId: string): void {
+    this.tokens.delete(sessionId);
+  }
+
+  getToken(sessionId: string): CsrfToken | undefined {
+    return this.tokens.get(sessionId);
+  }
+}
+
+// ====== 2. CSRF Middleware ======
+import { Request, Response, NextFunction } from "express";
+
+class CsrfMiddleware {
+  private tokenManager = CsrfTokenManager.getInstance();
+
+  // Generate CSRF token for the session
+  generateCsrfToken(req: Request, res: Response, next: NextFunction) {
+    const sessionId = req.session?.id || req.cookies?.sessionId;
+    
+    if (!sessionId) {
+      return res.status(400).json({ error: "Session ID required" });
+    }
+
+    const token = this.tokenManager.generateToken(sessionId, req.user?.id);
+    
+    // Set token in cookie (for double-submit pattern)
+    res.cookie("XSRF-TOKEN", token.value, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 60 * 60 * 1000, // 1 hour
+    });
+
+    // Return token in response
+    res.json({ csrfToken: token.value });
+  }
+
+  // Validate CSRF token on requests
+  validateCsrfToken(req: Request, res: Response, next: NextFunction) {
+    // Skip validation for non-mutating requests
+    if (["GET", "HEAD", "OPTIONS"].includes(req.method)) {
+      return next();
+    }
+
+    const sessionId = req.session?.id || req.cookies?.sessionId;
+    
+    if (!sessionId) {
+      return res.status(401).json({ error: "Session ID required" });
+    }
+
+    // Get token from header or request body
+    const token = req.headers["x-csrf-token"] || 
+                  req.headers["xsrf-token"] ||
+                  req.body._csrf ||
+                  req.query._csrf;
+
+    if (!token) {
+      return res.status(403).json({ error: "CSRF token missing" });
+    }
+
+    // Validate token
+    const isValid = this.tokenManager.validateToken(sessionId, token as string);
+    
+    if (!isValid) {
+      return res.status(403).json({ error: "Invalid CSRF token" });
+    }
+
+    next();
+  }
+}
+
+// ====== 3. CSRF Protection in React ======
+import axios from "axios";
+
+// CSRF client for React
+class CsrfClient {
+  private static instance: CsrfClient;
+  private csrfToken: string | null = null;
+  private tokenExpiry: number | null = null;
+
+  static getInstance(): CsrfClient {
+    if (!CsrfClient.instance) {
+      CsrfClient.instance = new CsrfClient();
+    }
+    return CsrfClient.instance;
+  }
+
+  async fetchCsrfToken(): Promise&lt;string&gt; {
+    try {
+      const response = await axios.get("/api/csrf-token", {
+        withCredentials: true,
+      });
+      
+      this.csrfToken = response.data.csrfToken;
+      this.tokenExpiry = Date.now() + 60 * 60 * 1000; // 1 hour
+      
+      return this.csrfToken;
+    } catch (error) {
+      console.error("Failed to fetch CSRF token:", error);
+      throw error;
+    }
+  }
+
+  async ensureToken(): Promise&lt;string&gt; {
+    if (!this.csrfToken || !this.tokenExpiry || this.tokenExpiry < Date.now() + 5 * 60 * 1000) {
+      return await this.fetchCsrfToken();
+    }
+    return this.csrfToken;
+  }
+
+  // Get token for requests
+  async getToken(): Promise&lt;string | null&gt; {
+    try {
+      return await this.ensureToken();
+    } catch {
+      return null;
+    }
+  }
+
+  // Interceptor for axios requests
+  setupInterceptor() {
+    axios.interceptors.request.use(async (config) => {
+      // Skip for non-mutating requests
+      if (["GET", "HEAD", "OPTIONS"].includes(config.method?.toUpperCase() || "")) {
+        return config;
+      }
+
+      // Get CSRF token
+      const token = await this.getToken();
+      
+      if (token) {
+        config.headers["X-CSRF-Token"] = token;
+      }
+
+      return config;
+    });
+
+    // Handle CSRF token expiration
+    axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response?.status === 403 && error.response?.data?.code === "CSRF_TOKEN_EXPIRED") {
+          // Token expired, fetch new one and retry
+          try {
+            await this.fetchCsrfToken();
+            const config = error.config;
+            const token = await this.getToken();
+            if (token && config) {
+              config.headers["X-CSRF-Token"] = token;
+              return axios(config);
+            }
+          } catch (refreshError) {
+            console.error("Failed to refresh CSRF token:", refreshError);
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+  }
+}
+
+// ====== 4. React CSRF Component ======
+import { createContext, useContext, useState, useEffect } from "react";
+
+interface CsrfContextValue {
+  token: string | null;
+  loading: boolean;
+  error: string | null;
+  refreshToken: () => Promise&lt;void&gt;;
+}
+
+const CsrfContext = createContext&lt;CsrfContextValue | null&gt;(null);
+
+function CsrfProvider({ children }: { children: React.ReactNode }) {
+  const [token, setToken] = useState&lt;string | null&gt;(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState&lt;string | null&gt;(null);
+
+  const fetchToken = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const client = CsrfClient.getInstance();
+      const newToken = await client.fetchCsrfToken();
+      setToken(newToken);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to fetch CSRF token");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchToken();
+  }, []);
+
+  return (
+    &lt;CsrfContext.Provider value={{ token, loading, error, refreshToken: fetchToken }}&gt;
+      {children}
+    &lt;/CsrfContext.Provider&gt;
+  );
+}
+
+function useCsrf() {
+  const context = useContext(CsrfContext);
+  if (!context) {
+    throw new Error("useCsrf must be used within a CsrfProvider");
+  }
+  return context;
+}
+
+// ====== 5. CSRF Form Component ======
+function CsrfForm({
+  children,
+  action,
+  method = "POST",
+  onSubmit,
+}: {
+  children: React.ReactNode;
+  action?: string;
+  method?: string;
+  onSubmit?: (event: React.FormEvent&lt;HTMLFormElement&gt;) => void;
+}) {
+  const { token } = useCsrf();
+
+  const handleSubmit = (e: React.FormEvent&lt;HTMLFormElement&gt;) => {
+    if (onSubmit) {
+      onSubmit(e);
+    }
+  };
+
+  return (
+    &lt;form action={action} method={method} onSubmit={handleSubmit}&gt;
+      &lt;input type="hidden" name="_csrf" value={token || ""} /&gt;
+      {children}
+    &lt;/form&gt;
+  );
+}
+
+// ====== 6. CSRF Form with Fetch ======
+function useCsrfFetch() {
+  const { token } = useCsrf();
+
+  const csrfFetch = async (url: string, options: RequestInit = {}) => {
+    const headers = {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    };
+
+    // Add CSRF token for non-GET requests
+    if (options.method && options.method.toUpperCase() !== "GET") {
+      (headers as Record&lt;string, string&gt;)["X-CSRF-Token"] = token || "";
+    }
+
+    return fetch(url, {
+      ...options,
+      headers,
+      credentials: "include",
+    });
+  };
+
+  return csrfFetch;
+}
+
+// ====== 7. CSRF Testing Utility ======
+class CsrfTester {
+  static async testCsrfProtection(apiUrl: string) {
+    const results = {
+      success: false,
+      message: "",
+      details: {} as Record&lt;string, any&gt;,
+    };
+
+    try {
+      // Test 1: Request without CSRF token
+      const response1 = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ test: true }),
+        credentials: "include",
+      });
+
+      if (response1.status !== 403) {
+        results.message = "CSRF protection not enabled (missing token allowed)";
+        results.details.test1 = "Failed - Token not required";
+        return results;
+      }
+
+      results.details.test1 = "Passed - Token required";
+
+      // Test 2: Request with invalid CSRF token
+      const response2 = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": "invalid-token",
+        },
+        body: JSON.stringify({ test: true }),
+        credentials: "include",
+      });
+
+      if (response2.status !== 403) {
+        results.message = "Invalid CSRF token allowed";
+        results.details.test2 = "Failed - Invalid token allowed";
+        return results;
+      }
+
+      results.details.test2 = "Passed - Invalid token rejected";
+
+      results.success = true;
+      results.message = "CSRF protection is properly configured";
+    } catch (error) {
+      results.message = \`Test failed: \${error instanceof Error ? error.message : "Unknown error"}\`;
+    }
+
+    return results;
+  }
+}
+
+// ====== 8. CSRF Error Handler ======
+function CsrfErrorHandler() {
+  const [error, setError] = useState&lt;{ message: string; timestamp: Date } | null&gt;(null);
+  const { refreshToken } = useCsrf();
+
+  useEffect(() => {
+    // Listen for CSRF errors
+    const handleCsrfError = (event: Event) => {
+      const errorEvent = event as CustomEvent;
+      setError({
+        message: errorEvent.detail?.message || "CSRF validation failed",
+        timestamp: new Date(),
+      });
+    };
+
+    window.addEventListener("csrf-error", handleCsrfError);
+    return () => window.removeEventListener("csrf-error", handleCsrfError);
+  }, []);
+
+  const handleRetry = async () => {
+    try {
+      await refreshToken();
+      setError(null);
+      // Retry the failed request
+      window.dispatchEvent(new CustomEvent("csrf-retry"));
+    } catch (err) {
+      console.error("Failed to refresh CSRF token:", err);
+    }
+  };
+
+  if (!error) return null;
+
+  return (
+    &lt;div className="csrf-error"&gt;
+      &lt;h3&gt;Security Error&lt;/h3&gt;
+      &lt;p&gt;{error.message}&lt;/p&gt;
+      &lt;div className="error-actions"&gt;
+        &lt;button onClick={handleRetry}&gt;Refresh &amp; Retry&lt;/button&gt;
+        &lt;button onClick={() => window.location.reload()}&gt;Reload Page&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 9. CSRF Configuration ======
+function getCsrfConfig() {
+  return {
+    // CSRF token configuration
+    tokenName: "_csrf",
+    cookieName: "XSRF-TOKEN",
+    headerName: "X-CSRF-Token",
+    
+    // Token settings
+    tokenLength: 32,
+    tokenExpiryHours: 1,
+    
+    // Protection settings
+    protectMethods: ["POST", "PUT", "DELETE", "PATCH"],
+    skipProtection: ["GET", "HEAD", "OPTIONS"],
+    
+    // Cookie settings
+    cookieSameSite: "Strict" as "Strict" | "Lax" | "None",
+    cookieSecure: true,
+    cookieHttpOnly: false,
+    
+    // Response handling
+    errorStatus: 403,
+    errorMessage: "CSRF validation failed",
+    
+    // Client-side settings
+    autoRefresh: true,
+    refreshThresholdMinutes: 5,
+  };
+}
+
+export {
+  CsrfTokenManager,
+  CsrfMiddleware,
+  CsrfClient,
+  CsrfProvider,
+  useCsrf,
+  CsrfForm,
+  useCsrfFetch,
+  CsrfTester,
+  CsrfErrorHandler,
+  getCsrfConfig,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        CSRF Protection Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use CSRF Tokens</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Include unique tokens in forms</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents unauthorized requests</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>SameSite Cookies</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Set SameSite=Strict/Lax</td>
+          <td style="border: 1px solid black; padding: 8px;">Modern CSRF protection</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Short Token Expiry</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Tokens expire quickly</td>
+          <td style="border: 1px solid black; padding: 8px;">Limits window of attack</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Secure Transmission</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use HTTPS for all requests</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents token interception</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Validate Origin</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Check Origin/Referer headers</td>
+          <td style="border: 1px solid black; padding: 8px;">Additional verification layer</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>One-Time Tokens</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Tokens valid for single use</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents replay attacks</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is CSRF and how does it work?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            CSRF (Cross-Site Request Forgery) is an attack where an attacker tricks an authenticated user 
+            into making unintended requests to a web application. It works because: (1) <strong>Authentication:</strong> 
+            User is logged into the target site, (2) <strong>Cookies:</strong> Browser automatically includes 
+            session cookies with requests, (3) <strong>Malicious site:</strong> User visits attacker's site 
+            while still logged in, (4) <strong>Forged request:</strong> Malicious site makes requests to 
+            target site, (5) <strong>Server processes:</strong> Server sees valid session cookie and processes 
+            request, (6) <strong>Unintended action:</strong> User unknowingly performs actions (transfer money, 
+            change password). The attack exploits the browser's behavior of automatically including cookies 
+            with requests.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the main methods to prevent CSRF attacks?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Main CSRF prevention methods: (1) <strong>CSRF tokens:</strong> Unique, unpredictable token 
+            included in forms and validated server-side, (2) <strong>SameSite cookies:</strong> Cookie 
+            attribute that prevents cross-site request sending (Strict/Lax), (3) <strong>Double Submit Cookie:</strong> 
+            Token sent in both cookie and request, validated server-side, (4) <strong>Custom headers:</strong> 
+            Required custom header for API requests (e.g., X-Requested-With), (5) <strong>Origin/Referer 
+            validation:</strong> Check request origin matches expected, (6) <strong>Re-authentication:</strong> 
+            Require password for sensitive actions, (7) <strong>CAPTCHA:</strong> Human verification for 
+            critical operations. The best practice is using CSRF tokens combined with SameSite cookies.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between CSRF and XSS?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>CSRF (Cross-Site Request Forgery):</strong> (1) <strong>Attack vector:</strong> Exploits 
+            user's authenticated session, (2) <strong>Goal:</strong> Perform unauthorized actions, (3) <strong>Method:</strong> 
+            Trick user into making requests, (4) <strong>Mitigation:</strong> CSRF tokens, SameSite cookies, 
+            (5) <strong>Attack:</strong> Makes requests on behalf of user. <strong>XSS (Cross-Site Scripting):</strong> 
+            (1) <strong>Attack vector:</strong> Injects malicious scripts into websites, (2) <strong>Goal:</strong> 
+            Steal data, cookies, session tokens, (3) <strong>Method:</strong> Exploits input sanitization 
+            issues, (4) <strong>Mitigation:</strong> Input validation, output encoding, CSP, (5) <strong>Attack:</strong> 
+            Executes code in user's browser. CSRF exploits the user's session; XSS exploits the website's 
+            trust in the user.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does SameSite cookie attribute prevent CSRF?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            SameSite attribute prevents CSRF by controlling when cookies are sent with cross-origin requests: 
+            (1) <strong>SameSite=Strict:</strong> Cookies only sent for same-site requests (same domain). 
+            Cross-site requests don't include cookies, effectively blocking CSRF, (2) <strong>SameSite=Lax:</strong> 
+            Cookies sent for same-site requests and top-level cross-site navigation (e.g., clicking a link). 
+            This blocks most CSRF attacks while preserving user experience, (3) <strong>SameSite=None:</strong> 
+            Cookies sent for all requests, must use Secure flag. For CSRF protection, use SameSite=Strict 
+            for sensitive cookies and SameSite=Lax for most cookies. This is a modern, effective CSRF 
+            protection without requiring token management.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you implement CSRF protection in a React/SPA application?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            CSRF protection in React/SPA: (1) <strong>Token endpoint:</strong> Provide endpoint to fetch 
+            CSRF token, (2) <strong>Store token:</strong> Store token in React state (not localStorage), 
+            (3) <strong>Include token:</strong> Add token to request headers (X-CSRF-Token) for all POST/PUT/DELETE 
+            requests, (4) <strong>Axios interceptor:</strong> Automatically add token to requests, 
+            (5) <strong>Token refresh:</strong> Fetch new token when it expires, (6) <strong>SameSite cookies:</strong> 
+            Use SameSite cookies for authentication, (7) <strong>Error handling:</strong> Handle CSRF errors 
+            gracefully. Example: When app loads, fetch CSRF token from server, store in context/state, and 
+            include in all non-GET requests using interceptors.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://owasp.org/www-community/attacks/csrf",
+      "https://developer.mozilla.org/en-US/docs/Web/Security/Cross-Site_Request_Forgery",
+      "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+    ],
+  },
           {
             topic: "useCallback Hook",
             tags: [
