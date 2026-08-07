@@ -44845,6 +44845,5886 @@ export {
             ],
           },
   {
+    topic: "Form Validation",
+    tags: ["React", "Forms", "Validation", "UX"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Form Validation — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Form validation</strong> is the process of ensuring that user input meets specific criteria 
+        before it's submitted to a server. It's a critical aspect of web applications that improves data 
+        quality, enhances user experience, and provides security by preventing invalid or malicious data 
+        from being processed. Validation can be implemented on both the client-side (immediate feedback) 
+        and server-side (security enforcement).
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Form validation is a fundamental skill in web development 
+        that every developer must master. Interviewers ask about it to test your understanding of user 
+        experience, data integrity, security, and your ability to implement robust validation logic in 
+        real-world applications.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Types of Form Validation
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Type</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pros</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Cons</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Client-Side</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validation performed in the browser</td>
+          <td style="border: 1px solid black; padding: 8px;">Instant feedback, better UX</td>
+          <td style="border: 1px solid black; padding: 8px;">Can be bypassed, not secure alone</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Server-Side</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validation performed on the server</td>
+          <td style="border: 1px solid black; padding: 8px;">Secure, cannot be bypassed</td>
+          <td style="border: 1px solid black; padding: 8px;">Slower, requires network request</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Real-Time</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validation as user types</td>
+          <td style="border: 1px solid black; padding: 8px;">Immediate feedback</td>
+          <td style="border: 1px solid black; padding: 8px;">Can be overwhelming for users</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>On-Blur</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validation when field loses focus</td>
+          <td style="border: 1px solid black; padding: 8px;">Less intrusive, good UX</td>
+          <td style="border: 1px solid black; padding: 8px;">Delayed feedback</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>On-Submit</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validation when form is submitted</td>
+          <td style="border: 1px solid black; padding: 8px;">Traditional, simple</td>
+          <td style="border: 1px solid black; padding: 8px;">Batch errors, can be frustrating</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Validation Rules
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Rule</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Required</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Field must have a value</td>
+          <td style="border: 1px solid black; padding: 8px;">Email, password fields</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Min/Max Length</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">String length constraints</td>
+          <td style="border: 1px solid black; padding: 8px;">Password min 8 chars</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Email</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Valid email format</td>
+          <td style="border: 1px solid black; padding: 8px;">user@example.com</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Pattern</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Regex-based validation</td>
+          <td style="border: 1px solid black; padding: 8px;">Phone number, ZIP code</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Confirm</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Field matches another field</td>
+          <td style="border: 1px solid black; padding: 8px;">Password confirmation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Custom</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Custom validation logic</td>
+          <td style="border: 1px solid black; padding: 8px;">Username availability check</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Vanilla Form Validation
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Validation Types ======
+type ValidationRule&lt;T&gt; = {
+  key: keyof T;
+  validate: (value: any, form: T) => boolean;
+  message: string;
+};
+
+type ValidationResult&lt;T&gt; = {
+  valid: boolean;
+  errors: Partial&lt;Record&lt;keyof T, string&gt;&gt;;
+};
+
+// ====== 2. Validation Engine ======
+class FormValidator&lt;T extends Record&lt;string, any&gt;&gt; {
+  private rules: ValidationRule&lt;T&gt;[];
+
+  constructor(rules: ValidationRule&lt;T&gt;[]) {
+    this.rules = rules;
+  }
+
+  validate(formData: T): ValidationResult&lt;T&gt; {
+    const errors: Partial&lt;Record&lt;keyof T, string&gt;&gt; = {};
+    let valid = true;
+
+    for (const rule of this.rules) {
+      const isValid = rule.validate(formData[rule.key], formData);
+      if (!isValid) {
+        errors[rule.key] = rule.message;
+        valid = false;
+      }
+    }
+
+    return { valid, errors };
+  }
+
+  validateField(formData: T, fieldName: keyof T): string | null {
+    const rulesForField = this.rules.filter(rule => rule.key === fieldName);
+    
+    for (const rule of rulesForField) {
+      const isValid = rule.validate(formData[fieldName], formData);
+      if (!isValid) {
+        return rule.message;
+      }
+    }
+    
+    return null;
+  }
+}
+
+// ====== 3. Common Validation Rules ======
+const validationRules = {
+  required: (field: string) => ({
+    validate: (value: any) => value !== undefined && value !== null && value !== "",
+    message: \`\${field} is required\`,
+  }),
+  
+  minLength: (field: string, length: number) => ({
+    validate: (value: string) => value?.length >= length,
+    message: \`\${field} must be at least \${length} characters\`,
+  }),
+  
+  maxLength: (field: string, length: number) => ({
+    validate: (value: string) => value?.length <= length,
+    message: \`\${field} must not exceed \${length} characters\`,
+  }),
+  
+  email: () => ({
+    validate: (value: string) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value),
+    message: "Invalid email format",
+  }),
+  
+  pattern: (field: string, pattern: RegExp, message?: string) => ({
+    validate: (value: string) => pattern.test(value),
+    message: message || \`\${field} format is invalid\`,
+  }),
+  
+  min: (field: string, min: number) => ({
+    validate: (value: number) => value >= min,
+    message: \`\${field} must be at least \${min}\`,
+  }),
+  
+  max: (field: string, max: number) => ({
+    validate: (value: number) => value <= max,
+    message: \`\${field} must not exceed \${max}\`,
+  }),
+  
+  confirm: (field: string, confirmField: string) => ({
+    validate: (value: any, form: any) => value === form[confirmField],
+    message: \`\${field} does not match \${confirmField}\`,
+  }),
+};
+
+// ====== 4. Form Validation Hook ======
+import { useState, useCallback, useMemo } from "react";
+
+interface UseFormValidationOptions&lt;T&gt; {
+  initialValues: T;
+  rules?: ValidationRule&lt;T&gt;[];
+  validateOnChange?: boolean;
+  validateOnBlur?: boolean;
+  onSubmit?: (values: T) => void | Promise&lt;void&gt;;
+}
+
+function useFormValidation&lt;T extends Record&lt;string, any&gt;&gt;(
+  options: UseFormValidationOptions&lt;T&gt;
+) {
+  const [values, setValues] = useState&lt;T&gt;(options.initialValues);
+  const [errors, setErrors] = useState&lt;Partial&lt;Record&lt;keyof T, string&gt;&gt;&gt;({});
+  const [touched, setTouched] = useState&lt;Partial&lt;Record&lt;keyof T, boolean&gt;&gt;&gt;({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
+
+  const validator = useMemo(() => {
+    return options.rules ? new FormValidator(options.rules) : null;
+  }, [options.rules]);
+
+  const validateField = useCallback((fieldName: keyof T, value: any) => {
+    if (!validator) return null;
+    const error = validator.validateField(values, fieldName);
+    setErrors(prev => ({ ...prev, [fieldName]: error || undefined }));
+    return error;
+  }, [validator, values]);
+
+  const validateForm = useCallback(() => {
+    if (!validator) {
+      setErrors({});
+      return true;
+    }
+    
+    const result = validator.validate(values);
+    setErrors(result.errors);
+    return result.valid;
+  }, [validator, values]);
+
+  const handleChange = useCallback((fieldName: keyof T, value: any) => {
+    const newValues = { ...values, [fieldName]: value };
+    setValues(newValues);
+    
+    if (options.validateOnChange && touched[fieldName]) {
+      if (validator) {
+        const error = validator.validateField(newValues, fieldName);
+        setErrors(prev => ({ ...prev, [fieldName]: error || undefined }));
+      }
+    }
+  }, [values, touched, validator, options.validateOnChange]);
+
+  const handleBlur = useCallback((fieldName: keyof T) => {
+    setTouched(prev => ({ ...prev, [fieldName]: true }));
+    
+    if (options.validateOnBlur) {
+      const error = validateField(fieldName, values[fieldName]);
+      setErrors(prev => ({ ...prev, [fieldName]: error || undefined }));
+    }
+  }, [values, validateField, options.validateOnBlur]);
+
+  const handleSubmit = useCallback(async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    // Mark all fields as touched
+    const allTouched = Object.keys(values).reduce((acc, key) => {
+      acc[key as keyof T] = true;
+      return acc;
+    }, {} as Partial&lt;Record&lt;keyof T, boolean&gt;&gt;);
+    setTouched(allTouched);
+
+    setIsValidating(true);
+    const isValid = validateForm();
+    setIsValidating(false);
+
+    if (!isValid) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      if (options.onSubmit) {
+        await options.onSubmit(values);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [values, validateForm, options.onSubmit]);
+
+  const reset = useCallback(() => {
+    setValues(options.initialValues);
+    setErrors({});
+    setTouched({});
+    setIsSubmitting(false);
+    setIsValidating(false);
+  }, [options.initialValues]);
+
+  const setFieldValue = useCallback((fieldName: keyof T, value: any) => {
+    handleChange(fieldName, value);
+  }, [handleChange]);
+
+  const setFieldError = useCallback((fieldName: keyof T, error: string | undefined) => {
+    setErrors(prev => ({ ...prev, [fieldName]: error }));
+  }, []);
+
+  return {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    isValidating,
+    isValid: Object.keys(errors).length === 0,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    reset,
+    setFieldValue,
+    setFieldError,
+    validateForm,
+    validateField,
+  };
+}
+
+// ====== 5. Component with Validation ======
+interface UserFormValues {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  age: number;
+}
+
+function UserForm() {
+  const rules: ValidationRule&lt;UserFormValues&gt;[] = [
+    {
+      key: "name",
+      validate: (value) => value && value.length >= 2,
+      message: "Name must be at least 2 characters",
+    },
+    {
+      key: "email",
+      validate: (value) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value),
+      message: "Invalid email format",
+    },
+    {
+      key: "password",
+      validate: (value) => value && value.length >= 8,
+      message: "Password must be at least 8 characters",
+    },
+    {
+      key: "confirmPassword",
+      validate: (value, form) => value === form.password,
+      message: "Passwords do not match",
+    },
+    {
+      key: "age",
+      validate: (value) => value && value >= 18 && value <= 100,
+      message: "Age must be between 18 and 100",
+    },
+  ];
+
+  const {
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    isValidating,
+    isValid,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    reset,
+  } = useFormValidation&lt;UserFormValues&gt;({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      age: 0,
+    },
+    rules,
+    validateOnChange: true,
+    validateOnBlur: true,
+    onSubmit: async (values) => {
+      console.log("Form submitted:", values);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    },
+  });
+
+  return (
+    &lt;form onSubmit={handleSubmit} className="user-form"&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input
+          type="text"
+          value={values.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+          onBlur={() => handleBlur("name")}
+          className={errors.name && touched.name ? "error" : ""}
+        /&gt;
+        {touched.name && errors.name && (
+          &lt;span className="error-message"&gt;{errors.name}&lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Email&lt;/label&gt;
+        &lt;input
+          type="email"
+          value={values.email}
+          onChange={(e) => handleChange("email", e.target.value)}
+          onBlur={() => handleBlur("email")}
+          className={errors.email && touched.email ? "error" : ""}
+        /&gt;
+        {touched.email && errors.email && (
+          &lt;span className="error-message"&gt;{errors.email}&lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input
+          type="password"
+          value={values.password}
+          onChange={(e) => handleChange("password", e.target.value)}
+          onBlur={() => handleBlur("password")}
+          className={errors.password && touched.password ? "error" : ""}
+        /&gt;
+        {touched.password && errors.password && (
+          &lt;span className="error-message"&gt;{errors.password}&lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Confirm Password&lt;/label&gt;
+        &lt;input
+          type="password"
+          value={values.confirmPassword}
+          onChange={(e) => handleChange("confirmPassword", e.target.value)}
+          onBlur={() => handleBlur("confirmPassword")}
+          className={errors.confirmPassword && touched.confirmPassword ? "error" : ""}
+        /&gt;
+        {touched.confirmPassword && errors.confirmPassword && (
+          &lt;span className="error-message"&gt;{errors.confirmPassword}&lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Age&lt;/label&gt;
+        &lt;input
+          type="number"
+          value={values.age}
+          onChange={(e) => handleChange("age", Number(e.target.value))}
+          onBlur={() => handleBlur("age")}
+          className={errors.age && touched.age ? "error" : ""}
+        /&gt;
+        {touched.age && errors.age && (
+          &lt;span className="error-message"&gt;{errors.age}&lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-actions"&gt;
+        &lt;button
+          type="submit"
+          disabled={isSubmitting || isValidating || !isValid}
+        &gt;
+          {isSubmitting ? "Submitting..." : "Submit"}
+        &lt;/button&gt;
+        &lt;button type="button" onClick={reset} disabled={isSubmitting}&gt;
+          Reset
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      {isValidating && &lt;div className="validating"&gt;Validating...&lt;/div&gt;}
+    &lt;/form&gt;
+  );
+}
+
+export {
+  FormValidator,
+  validationRules,
+  useFormValidation,
+  UserForm,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is form validation and why is it important?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Form validation is the process of ensuring user input meets specific criteria before it's 
+            submitted or processed. It's important because: (1) <strong>Data integrity:</strong> Ensures 
+            only valid data enters the system, (2) <strong>User experience:</strong> Provides immediate 
+            feedback to users, reducing frustration, (3) <strong>Security:</strong> Prevents injection 
+            attacks and malicious data, (4) <strong>Business rules:</strong> Enforces business requirements 
+            (e.g., minimum age), (5) <strong>Cost reduction:</strong> Catches errors early, reducing 
+            support costs, (6) <strong>Compliance:</strong> Meets regulatory requirements for data collection. 
+            Validation should be implemented on both client-side (UX) and server-side (security).
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between client-side and server-side validation?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Client-side validation:</strong> (1) Performed in the browser using JavaScript, 
+            (2) Provides immediate feedback to users, (3) Improves user experience, (4) Can be bypassed by 
+            disabling JavaScript or modifying requests, (5) Not secure for sensitive validation. 
+            <strong>Server-side validation:</strong> (1) Performed on the server, (2) Cannot be bypassed by 
+            users, (3) Essential for security, (4) Requires network request, (5) Slower than client-side. 
+            Best practice: Implement both — client-side for UX and server-side for security. Never trust 
+            client-side validation alone for security-critical operations.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the common validation strategies and their trade-offs?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Common strategies: (1) <strong>Real-time (onChange):</strong> Validates as user types, provides 
+            immediate feedback but can be overwhelming, (2) <strong>On-blur:</strong> Validates when field 
+            loses focus, less intrusive but delayed, (3) <strong>On-submit:</strong> Validates when form 
+            is submitted, simple but batch errors can frustrate users, (4) <strong>Debounced:</strong> 
+            Validates after user stops typing for a period, good balance of feedback and performance, 
+            (5) <strong>Progressive:</strong> Shows errors gradually as user interacts, best UX. Choose 
+            based on: field type (email/phone works well with real-time), form length (short forms can use 
+            on-submit), and user expectations. A combination of strategies often works best.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle complex validation dependencies between fields?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling field dependencies: (1) <strong>Validation functions:</strong> Pass the entire form 
+            values to validation functions, allowing cross-field validation, (2) <strong>Context:</strong> 
+            Use React Context to share form state with validation functions, (3) <strong>Custom hooks:</strong> 
+            Create hooks that encapsulate dependent validation logic, (4) <strong>Schema validation:</strong> 
+            Use schema libraries (Yup, Zod) with cross-field validation, (5) <strong>Watch pattern:</strong> 
+            Use watch functions to observe field changes and re-validate dependent fields. Example: Password 
+            confirmation field needs to validate against password field, or conditional fields that are 
+            required based on other field values.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://react.dev/learn/forms",
+      "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation",
+    ],
+  },
+  {
+    topic: "React Hook Form",
+    tags: ["React", "Forms", "Validation", "Performance"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        React Hook Form — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>React Hook Form</strong> is a performant, flexible, and extensible library for building 
+        forms in React applications. It uses uncontrolled components and refs instead of re-rendering on 
+        every input change, making it one of the fastest form libraries available. It reduces the amount 
+        of code you need to write while providing excellent performance and developer experience.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> React Hook Form has become the industry standard for form 
+        handling in React applications. Interviewers ask about it to test your understanding of modern form 
+        management, performance optimization, and your ability to build complex, maintainable forms.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        React Hook Form vs Controlled Forms
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">React Hook Form</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Controlled Forms</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Performance</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Excellent (uncontrolled + refs)</td>
+          <td style="border: 1px solid black; padding: 8px;">Can be slow (re-renders on each change)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Boilerplate</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Minimal</td>
+          <td style="border: 1px solid black; padding: 8px;">More (value + onChange for each field)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Built-in with schema support</td>
+          <td style="border: 1px solid black; padding: 8px;">Manual</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Re-renders</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Minimal (only when needed)</td>
+          <td style="border: 1px solid black; padding: 8px;">On every change</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Dependencies</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Lightweight</td>
+          <td style="border: 1px solid black; padding: 8px;">React only</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Learning Curve</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Moderate</td>
+          <td style="border: 1px solid black; padding: 8px;">Low</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — React Hook Form
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Installation ======
+// npm install react-hook-form @hookform/resolvers yup @types/yup
+// npm install react-hook-form @hookform/resolvers zod
+
+// ====== 2. Basic React Hook Form ======
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+interface UserFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  age: number;
+  role: "admin" | "user" | "guest";
+  terms: boolean;
+}
+
+// ====== 3. Basic Usage ======
+function BasicForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid, isDirty },
+    watch,
+    reset,
+  } = useForm&lt;UserFormData&gt;({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      age: 18,
+      role: "user",
+      terms: false,
+    },
+  });
+
+  const onSubmit: SubmitHandler&lt;UserFormData&gt; = async (data) => {
+    console.log("Form data:", data);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  };
+
+  // Watch specific fields
+  const watchedPassword = watch("password");
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)} className="form"&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="name"&gt;Name&lt;/label&gt;
+        &lt;input
+          id="name"
+          {...register("name", {
+            required: "Name is required",
+            minLength: { value: 2, message: "Name must be at least 2 characters" },
+          })}
+          className={errors.name ? "error" : ""}
+        /&gt;
+        {errors.name && &lt;span className="error-message"&gt;{errors.name.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="email"&gt;Email&lt;/label&gt;
+        &lt;input
+          id="email"
+          type="email"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/,
+              message: "Invalid email format",
+            },
+          })}
+          className={errors.email ? "error" : ""}
+        /&gt;
+        {errors.email && &lt;span className="error-message"&gt;{errors.email.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="password"&gt;Password&lt;/label&gt;
+        &lt;input
+          id="password"
+          type="password"
+          {...register("password", {
+            required: "Password is required",
+            minLength: { value: 8, message: "Password must be at least 8 characters" },
+          })}
+          className={errors.password ? "error" : ""}
+        /&gt;
+        {errors.password && &lt;span className="error-message"&gt;{errors.password.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="confirmPassword"&gt;Confirm Password&lt;/label&gt;
+        &lt;input
+          id="confirmPassword"
+          type="password"
+          {...register("confirmPassword", {
+            required: "Please confirm your password",
+            validate: (value) => value === watchedPassword || "Passwords do not match",
+          })}
+          className={errors.confirmPassword ? "error" : ""}
+        /&gt;
+        {errors.confirmPassword && &lt;span className="error-message"&gt;{errors.confirmPassword.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="age"&gt;Age&lt;/label&gt;
+        &lt;input
+          id="age"
+          type="number"
+          {...register("age", {
+            required: "Age is required",
+            min: { value: 18, message: "Must be at least 18" },
+            max: { value: 100, message: "Must be at most 100" },
+          })}
+          className={errors.age ? "error" : ""}
+        /&gt;
+        {errors.age && &lt;span className="error-message"&gt;{errors.age.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="role"&gt;Role&lt;/label&gt;
+        &lt;select id="role" {...register("role")}&gt;
+          &lt;option value="user"&gt;User&lt;/option&gt;
+          &lt;option value="admin"&gt;Admin&lt;/option&gt;
+          &lt;option value="guest"&gt;Guest&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-group checkbox"&gt;
+        &lt;label&gt;
+          &lt;input
+            type="checkbox"
+            {...register("terms", {
+              required: "You must accept the terms",
+            })}
+          /&gt;
+          Accept terms and conditions
+        &lt;/label&gt;
+        {errors.terms && &lt;span className="error-message"&gt;{errors.terms.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-actions"&gt;
+        &lt;button
+          type="submit"
+          disabled={isSubmitting}
+        &gt;
+          {isSubmitting ? "Submitting..." : "Submit"}
+        &lt;/button&gt;
+        &lt;button type="button" onClick={() => reset()} disabled={isSubmitting}&gt;
+          Reset
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-status"&gt;
+        {isDirty && &lt;span&gt;Form has unsaved changes&lt;/span&gt;}
+        {!isValid && &lt;span&gt;Form has errors&lt;/span&gt;}
+      &lt;/div&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 4. Schema Validation with Yup ======
+const userSchema = yup.object({
+  name: yup.string()
+    .required("Name is required")
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must not exceed 50 characters"),
+  email: yup.string()
+    .required("Email is required")
+    .email("Invalid email format"),
+  password: yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(/[^A-Za-z0-9]/, "Password must contain at least one special character"),
+  confirmPassword: yup.string()
+    .required("Please confirm your password")
+    .oneOf([yup.ref("password")], "Passwords do not match"),
+  age: yup.number()
+    .required("Age is required")
+    .min(18, "Must be at least 18")
+    .max(100, "Must be at most 100"),
+  role: yup.string()
+    .required("Role is required")
+    .oneOf(["admin", "user", "guest"], "Invalid role"),
+  terms: yup.boolean()
+    .required("You must accept the terms")
+    .oneOf([true], "You must accept the terms"),
+});
+
+function FormWithYup() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm&lt;UserFormData&gt;({
+    resolver: yupResolver(userSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      age: 18,
+      role: "user",
+      terms: false,
+    },
+  });
+
+  const onSubmit: SubmitHandler&lt;UserFormData&gt; = async (data) => {
+    console.log("Form data:", data);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input {...register("name")} className={errors.name ? "error" : ""} /&gt;
+        {errors.name && &lt;span className="error-message"&gt;{errors.name.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Email&lt;/label&gt;
+        &lt;input {...register("email")} className={errors.email ? "error" : ""} /&gt;
+        {errors.email && &lt;span className="error-message"&gt;{errors.email.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input type="password" {...register("password")} className={errors.password ? "error" : ""} /&gt;
+        {errors.password && &lt;span className="error-message"&gt;{errors.password.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Confirm Password&lt;/label&gt;
+        &lt;input type="password" {...register("confirmPassword")} className={errors.confirmPassword ? "error" : ""} /&gt;
+        {errors.confirmPassword && &lt;span className="error-message"&gt;{errors.confirmPassword.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Age&lt;/label&gt;
+        &lt;input type="number" {...register("age")} className={errors.age ? "error" : ""} /&gt;
+        {errors.age && &lt;span className="error-message"&gt;{errors.age.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Role&lt;/label&gt;
+        &lt;select {...register("role")}&gt;
+          &lt;option value="user"&gt;User&lt;/option&gt;
+          &lt;option value="admin"&gt;Admin&lt;/option&gt;
+          &lt;option value="guest"&gt;Guest&lt;/option&gt;
+        &lt;/select&gt;
+        {errors.role && &lt;span className="error-message"&gt;{errors.role.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group checkbox"&gt;
+        &lt;label&gt;
+          &lt;input type="checkbox" {...register("terms")} /&gt;
+          Accept terms
+        &lt;/label&gt;
+        {errors.terms && &lt;span className="error-message"&gt;{errors.terms.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;button type="submit" disabled={isSubmitting}&gt;
+        {isSubmitting ? "Submitting..." : "Submit"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 5. Schema Validation with Zod ======
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const userSchemaZod = z.object({
+  name: z.string()
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must not exceed 50 characters"),
+  email: z.string().email("Invalid email format"),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Must contain an uppercase letter")
+    .regex(/[a-z]/, "Must contain a lowercase letter")
+    .regex(/[0-9]/, "Must contain a number")
+    .regex(/[^A-Za-z0-9]/, "Must contain a special character"),
+  confirmPassword: z.string()
+    .min(8, "Please confirm your password"),
+  age: z.number()
+    .min(18, "Must be at least 18")
+    .max(100, "Must be at most 100"),
+  role: z.enum(["admin", "user", "guest"]),
+  terms: z.boolean()
+    .refine((val) => val === true, "You must accept the terms"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
+
+type UserFormDataZod = z.infer&lt;typeof userSchemaZod&gt;;
+
+function FormWithZod() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm&lt;UserFormDataZod&gt;({
+    resolver: zodResolver(userSchemaZod),
+  });
+
+  const onSubmit: SubmitHandler&lt;UserFormDataZod&gt; = async (data) => {
+    console.log("Form data:", data);
+  };
+
+  return &lt;form onSubmit={handleSubmit(onSubmit)}&gt;{/* ... */}&lt;/form&gt;;
+}
+
+// ====== 6. Controller for Custom Components ======
+import { Controller } from "react-hook-form";
+
+function CustomInput({ value, onChange, onBlur, error }: any) {
+  return (
+    &lt;div&gt;
+      &lt;input
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        className={error ? "error" : ""}
+      /&gt;
+      {error && &lt;span className="error-message"&gt;{error}&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+}
+
+function FormWithController() {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm&lt;UserFormData&gt;();
+
+  return (
+    &lt;form onSubmit={handleSubmit((data) => console.log(data))}&gt;
+      &lt;Controller
+        name="name"
+        control={control}
+        rules={{ required: "Name is required" }}
+        render={({ field }) => (
+          &lt;CustomInput
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            error={errors.name?.message}
+          /&gt;
+        )}
+      /&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 7. UseFieldArray for Dynamic Fields ======
+import { useFieldArray } from "react-hook-form";
+
+interface DynamicFormData {
+  users: {
+    name: string;
+    email: string;
+  }[];
+}
+
+function DynamicForm() {
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm&lt;DynamicFormData&gt;({
+    defaultValues: {
+      users: [{ name: "", email: "" }],
+    },
+  });
+
+  const { fields, append, remove, prepend, swap, move, insert } = useFieldArray({
+    control,
+    name: "users",
+  });
+
+  return (
+    &lt;form onSubmit={handleSubmit((data) => console.log(data))}&gt;
+      {fields.map((field, index) => (
+        &lt;div key={field.id} className="field-row"&gt;
+          &lt;input
+            {...register(\`users.\${index}.name\` as const, {
+              required: "Name is required",
+            })}
+            placeholder="Name"
+          /&gt;
+          &lt;input
+            {...register(\`users.\${index}.email\` as const, {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/,
+                message: "Invalid email",
+              },
+            })}
+            placeholder="Email"
+          /&gt;
+          &lt;button type="button" onClick={() => remove(index)}&gt;Remove&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;button type="button" onClick={() => append({ name: "", email: "" })}&gt;
+        Add User
+      &lt;/button&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 8. Form with Watch and Trigger ======
+function FormWithWatch() {
+  const {
+    register,
+    watch,
+    trigger,
+    setValue,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm&lt;UserFormData&gt;();
+
+  const watchedFields = watch(["name", "email"]);
+
+  const validateField = async (field: keyof UserFormData) => {
+    await trigger(field);
+  };
+
+  return (
+    &lt;form&gt;
+      &lt;input
+        {...register("name")}
+        onChange={async (e) => {
+          register("name").onChange(e);
+          await trigger("name");
+        }}
+      /&gt;
+      &lt;div&gt;Watched name: {watchedFields[0]}&lt;/div&gt;
+      &lt;div&gt;Watched email: {watchedFields[1]}&lt;/div&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 9. Form with Reset and Default Values ======
+function FormWithReset() {
+  const methods = useForm&lt;UserFormData&gt;({
+    defaultValues: {
+      name: "John Doe",
+      email: "john@example.com",
+      role: "user",
+    },
+  });
+
+  const resetToDefaults = () => {
+    methods.reset();
+  };
+
+  const setCustomValues = () => {
+    methods.setValue("name", "Jane Doe");
+    methods.setValue("email", "jane@example.com");
+  };
+
+  return (
+    &lt;form onSubmit={methods.handleSubmit((data) => console.log(data))}&gt;
+      &lt;input {...methods.register("name")} /&gt;
+      &lt;input {...methods.register("email")} /&gt;
+      &lt;select {...methods.register("role")}&gt;
+        &lt;option value="admin"&gt;Admin&lt;/option&gt;
+        &lt;option value="user"&gt;User&lt;/option&gt;
+        &lt;option value="guest"&gt;Guest&lt;/option&gt;
+      &lt;/select&gt;
+      &lt;button type="button" onClick={resetToDefaults}&gt;Reset to Defaults&lt;/button&gt;
+      &lt;button type="button" onClick={setCustomValues}&gt;Set Custom Values&lt;/button&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 10. Form with Error Handling ======
+function FormWithErrorHandling() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm&lt;UserFormData&gt;();
+
+  const onSubmit: SubmitHandler&lt;UserFormData&gt; = async (data) => {
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        // Set field-specific errors from server
+        if (error.fieldErrors) {
+          Object.entries(error.fieldErrors).forEach(([field, message]) => {
+            setError(field as keyof UserFormData, {
+              type: "server",
+              message: message as string,
+            });
+          });
+        }
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      setError("root", {
+        type: "server",
+        message: error instanceof Error ? error.message : "Something went wrong",
+      });
+    }
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+      {errors.root && &lt;div className="error"&gt;{errors.root.message}&lt;/div&gt;}
+      
+      &lt;div className="form-group"&gt;
+        &lt;input {...register("email")} /&gt;
+        {errors.email && &lt;span className="error"&gt;{errors.email.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;button type="submit" disabled={isSubmitting}&gt;Submit&lt;/button&gt;
+      &lt;button type="button" onClick={() => clearErrors()}&gt;Clear Errors&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+export {
+  BasicForm,
+  FormWithYup,
+  FormWithZod,
+  FormWithController,
+  DynamicForm,
+  FormWithWatch,
+  FormWithReset,
+  FormWithErrorHandling,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        React Hook Form Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Uncontrolled</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Uses refs instead of state</td>
+          <td style="border: 1px solid black; padding: 8px;">Better performance, fewer re-renders</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Schema Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Yup, Zod, Joi support</td>
+          <td style="border: 1px solid black; padding: 8px;">Type-safe, declarative validation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Field Arrays</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Dynamic form fields</td>
+          <td style="border: 1px solid black; padding: 8px;">Easy dynamic forms</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Custom Components</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Controller for custom inputs</td>
+          <td style="border: 1px solid black; padding: 8px;">Works with any component</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Watch</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Observe field changes</td>
+          <td style="border: 1px solid black; padding: 8px;">Real-time dependent fields</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Trigger</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manual validation trigger</td>
+          <td style="border: 1px solid black; padding: 8px;">On-demand validation</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is React Hook Form and why is it popular?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            React Hook Form is a library for building forms in React that uses uncontrolled components and 
+            refs instead of controlled state. It's popular because: (1) <strong>Performance:</strong> 
+            Minimizes re-renders by not updating state on every keystroke, (2) <strong>Less boilerplate:</strong> 
+            Reduces code for form handling, (3) <strong>Schema integration:</strong> Works with Yup, Zod, 
+            and other validation libraries, (4) <strong>TypeScript support:</strong> Excellent TypeScript 
+            integration, (5) <strong>Features:</strong> Field arrays, nested forms, dynamic fields, 
+            (6) <strong>Lightweight:</strong> Small bundle size with no dependencies. It addresses the 
+            performance issues of controlled forms while providing a rich API for complex form scenarios.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between register and Controller in React Hook Form?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>register:</strong> (1) Used for native HTML elements (input, select, textarea), 
+            (2) Returns props to spread onto the element, (3) Uses refs internally, (4) More performant, 
+            (5) Less boilerplate. <strong>Controller:</strong> (1) Used for custom components and 
+            third-party components, (2) Wraps the component and handles value/onChange, (3) Used when you 
+            need to control the component, (4) More flexible, (5) Slightly more boilerplate. Use register 
+            for standard HTML inputs and Controller for custom components (React Select, DatePicker, etc.) 
+            or when you need to control the component's rendering.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle dynamic form fields with React Hook Form?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Dynamic form fields are handled using <code>useFieldArray</code> hook: (1) <strong>Initialization:</strong> 
+            Set up field array with <code>useFieldArray({ control, name })</code>, (2) <strong>Methods:</strong> 
+            Use <code>append</code>, <code>prepend</code>, <code>insert</code>, <code>remove</code>, 
+            <code>swap</code>, <code>move</code> to manipulate fields, (3) <strong>Rendering:</strong> 
+            Map over <code>fields</code> array to render each field, (4) <strong>Registration:</strong> 
+            Register each field with index (<code>{\`items.\${index}.name\`}</code>), (5) <strong>Validation:</strong> 
+            Each field can have its own validation rules. This is useful for forms like todo lists, 
+            multi-step forms, and any form with dynamic content.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you integrate Yup or Zod with React Hook Form?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Integration using resolvers: (1) <strong>Install resolver:</strong> 
+            <code>@hookform/resolvers/yup</code> or <code>@hookform/resolvers/zod</code>, (2) <strong>Define schema:</strong> 
+            Create a Yup or Zod schema with validation rules, (3) <strong>Use resolver:</strong> Pass 
+            <code>resolver: yupResolver(schema)</code> or <code>zodResolver(schema)</code> to <code>useForm</code>, 
+            (4) <strong>Type safety:</strong> With TypeScript, the form types are inferred from the schema, 
+            (5) <strong>Cross-field validation:</strong> Schema supports complex validation like password 
+            confirmation, (6) <strong>Error handling:</strong> Errors are automatically mapped to form fields. 
+            This provides declarative, type-safe validation with minimal code.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://react-hook-form.com/",
+      "https://react-hook-form.com/get-started",
+      "https://github.com/react-hook-form/react-hook-form",
+    ],
+  },
+  {
+    topic: "Formik",
+    tags: ["React", "Forms", "Validation", "State Management"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Formik — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Formik</strong> is a popular form management library for React that helps with building 
+        forms by managing form state, validation, and submission. It's designed to handle the repetitive 
+        and tedious parts of form creation, making forms easier to build and maintain. Formik uses controlled 
+        components and re-renders on each change, which is different from React Hook Form's uncontrolled 
+        approach.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Formik was the industry standard before React Hook Form gained 
+        popularity. Interviewers ask about it to test your understanding of form management evolution, your 
+        ability to work with different libraries, and your knowledge of when to choose one over the other.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Formik vs React Hook Form
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Formik</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">React Hook Form</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Approach</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Controlled components</td>
+          <td style="border: 1px solid black; padding: 8px;">Uncontrolled + refs</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Performance</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">More re-renders</td>
+          <td style="border: 1px solid black; padding: 8px;">Minimal re-renders</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Bundle Size</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Larger (~9KB)</td>
+          <td style="border: 1px solid black; padding: 8px;">Smaller (~4KB)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Learning Curve</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Gentle</td>
+          <td style="border: 1px solid black; padding: 8px;">Moderate</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Schema Support</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Yup (official)</td>
+          <td style="border: 1px solid black; padding: 8px;">Yup, Zod, Joi</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Field Arrays</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Less performant</td>
+          <td style="border: 1px solid black; padding: 8px;">More performant</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Formik
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Installation ======
+// npm install formik yup @types/yup
+// npm install @hookform/resolvers (for comparison)
+
+// ====== 2. Basic Formik Usage ======
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+interface UserFormValues {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  age: number;
+  role: "admin" | "user" | "guest";
+  terms: boolean;
+}
+
+// ====== 3. Formik with useFormik Hook ======
+function BasicFormikForm() {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      age: 18,
+      role: "user" as const,
+      terms: false,
+    },
+    validate: (values) => {
+      const errors: Partial&lt;UserFormValues&gt; = {};
+      
+      if (!values.name) {
+        errors.name = "Name is required";
+      } else if (values.name.length < 2) {
+        errors.name = "Name must be at least 2 characters";
+      }
+      
+      if (!values.email) {
+        errors.email = "Email is required";
+      } else if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(values.email)) {
+        errors.email = "Invalid email format";
+      }
+      
+      if (!values.password) {
+        errors.password = "Password is required";
+      } else if (values.password.length < 8) {
+        errors.password = "Password must be at least 8 characters";
+      }
+      
+      if (!values.confirmPassword) {
+        errors.confirmPassword = "Please confirm your password";
+      } else if (values.confirmPassword !== values.password) {
+        errors.confirmPassword = "Passwords do not match";
+      }
+      
+      if (!values.terms) {
+        errors.terms = "You must accept the terms";
+      }
+      
+      return errors;
+    },
+    onSubmit: async (values) => {
+      console.log("Form data:", values);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    },
+  });
+
+  return (
+    &lt;form onSubmit={formik.handleSubmit}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="name"&gt;Name&lt;/label&gt;
+        &lt;input
+          id="name"
+          name="name"
+          type="text"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          className={formik.touched.name && formik.errors.name ? "error" : ""}
+        /&gt;
+        {formik.touched.name && formik.errors.name && (
+          &lt;div className="error-message"&gt;{formik.errors.name}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="email"&gt;Email&lt;/label&gt;
+        &lt;input
+          id="email"
+          name="email"
+          type="email"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          className={formik.touched.email && formik.errors.email ? "error" : ""}
+        /&gt;
+        {formik.touched.email && formik.errors.email && (
+          &lt;div className="error-message"&gt;{formik.errors.email}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="password"&gt;Password&lt;/label&gt;
+        &lt;input
+          id="password"
+          name="password"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          className={formik.touched.password && formik.errors.password ? "error" : ""}
+        /&gt;
+        {formik.touched.password && formik.errors.password && (
+          &lt;div className="error-message"&gt;{formik.errors.password}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="confirmPassword"&gt;Confirm Password&lt;/label&gt;
+        &lt;input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.confirmPassword}
+          className={formik.touched.confirmPassword && formik.errors.confirmPassword ? "error" : ""}
+        /&gt;
+        {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+          &lt;div className="error-message"&gt;{formik.errors.confirmPassword}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="age"&gt;Age&lt;/label&gt;
+        &lt;input
+          id="age"
+          name="age"
+          type="number"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.age}
+          className={formik.touched.age && formik.errors.age ? "error" : ""}
+        /&gt;
+        {formik.touched.age && formik.errors.age && (
+          &lt;div className="error-message"&gt;{formik.errors.age}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="role"&gt;Role&lt;/label&gt;
+        &lt;select
+          id="role"
+          name="role"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.role}
+        &gt;
+          &lt;option value="user"&gt;User&lt;/option&gt;
+          &lt;option value="admin"&gt;Admin&lt;/option&gt;
+          &lt;option value="guest"&gt;Guest&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-group checkbox"&gt;
+        &lt;label&gt;
+          &lt;input
+            id="terms"
+            name="terms"
+            type="checkbox"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            checked={formik.values.terms}
+          /&gt;
+          Accept terms and conditions
+        &lt;/label&gt;
+        {formik.touched.terms && formik.errors.terms && (
+          &lt;div className="error-message"&gt;{formik.errors.terms}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div className="form-actions"&gt;
+        &lt;button
+          type="submit"
+          disabled={!formik.isValid || formik.isSubmitting}
+        &gt;
+          {formik.isSubmitting ? "Submitting..." : "Submit"}
+        &lt;/button&gt;
+        &lt;button type="button" onClick={formik.resetForm}&gt;Reset&lt;/button&gt;
+      &lt;/div&gt;
+
+      {formik.isSubmitting && &lt;div&gt;Submitting...&lt;/div&gt;}
+      {!formik.isValid && &lt;div&gt;Form has errors&lt;/div&gt;}
+    &lt;/form&gt;
+  );
+}
+
+// ====== 4. Formik with Yup Validation ======
+const validationSchema = yup.object({
+  name: yup.string()
+    .required("Name is required")
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must not exceed 50 characters"),
+  email: yup.string()
+    .required("Email is required")
+    .email("Invalid email format"),
+  password: yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Must contain an uppercase letter")
+    .matches(/[a-z]/, "Must contain a lowercase letter")
+    .matches(/[0-9]/, "Must contain a number")
+    .matches(/[^A-Za-z0-9]/, "Must contain a special character"),
+  confirmPassword: yup.string()
+    .required("Please confirm your password")
+    .oneOf([yup.ref("password")], "Passwords do not match"),
+  age: yup.number()
+    .required("Age is required")
+    .min(18, "Must be at least 18")
+    .max(100, "Must be at most 100"),
+  role: yup.string()
+    .required("Role is required")
+    .oneOf(["admin", "user", "guest"]),
+  terms: yup.boolean()
+    .required("You must accept the terms")
+    .oneOf([true], "You must accept the terms"),
+});
+
+function FormikWithYup() {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      age: 18,
+      role: "user" as const,
+      terms: false,
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      console.log("Form data:", values);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    },
+  });
+
+  return (
+    &lt;form onSubmit={formik.handleSubmit}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input
+          name="name"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          className={formik.touched.name && formik.errors.name ? "error" : ""}
+        /&gt;
+        {formik.touched.name && formik.errors.name && (
+          &lt;div className="error-message"&gt;{formik.errors.name}&lt;/div&gt;
+        )}
+      &lt;/div&gt;
+      {/* ... other fields ... */}
+      &lt;button type="submit" disabled={formik.isSubmitting}&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 5. Formik with Field Component ======
+import { Field, Form, Formik, ErrorMessage } from "formik";
+
+function FormikWithField() {
+  return (
+    &lt;Formik
+      initialValues={{
+        username: "",
+        email: "",
+        password: "",
+      }}
+      validationSchema={yup.object({
+        username: yup.string().required("Username is required"),
+        email: yup.string().email("Invalid email").required("Email is required"),
+        password: yup.string().min(8, "Password must be at least 8 characters"),
+      })}
+      onSubmit={(values) => console.log(values)}
+    &gt;
+      {({ isSubmitting, isValid }) => (
+        &lt;Form&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label htmlFor="username"&gt;Username&lt;/label&gt;
+            &lt;Field
+              id="username"
+              name="username"
+              type="text"
+              placeholder="Enter username"
+              className="form-control"
+            /&gt;
+            &lt;ErrorMessage name="username" component="div" className="error" /&gt;
+          &lt;/div&gt;
+
+          &lt;div className="form-group"&gt;
+            &lt;label htmlFor="email"&gt;Email&lt;/label&gt;
+            &lt;Field
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter email"
+              className="form-control"
+            /&gt;
+            &lt;ErrorMessage name="email" component="div" className="error" /&gt;
+          &lt;/div&gt;
+
+          &lt;div className="form-group"&gt;
+            &lt;label htmlFor="password"&gt;Password&lt;/label&gt;
+            &lt;Field
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              className="form-control"
+            /&gt;
+            &lt;ErrorMessage name="password" component="div" className="error" /&gt;
+          &lt;/div&gt;
+
+          &lt;button type="submit" disabled={isSubmitting || !isValid}&gt;
+            {isSubmitting ? "Submitting..." : "Submit"}
+          &lt;/button&gt;
+        &lt;/Form&gt;
+      )}
+    &lt;/Formik&gt;
+  );
+}
+
+// ====== 6. Formik with Custom Components ======
+interface CustomInputProps {
+  field: any;
+  form: any;
+  label: string;
+  type?: string;
+  placeholder?: string;
+}
+
+const CustomInput: React.FC&lt;CustomInputProps&gt; = ({
+  field,
+  form,
+  label,
+  type = "text",
+  placeholder,
+}) => {
+  const error = form.errors[field.name] as string;
+  const touched = form.touched[field.name] as boolean;
+
+  return (
+    &lt;div className="form-group"&gt;
+      &lt;label htmlFor={field.name}&gt;{label}&lt;/label&gt;
+      &lt;input
+        id={field.name}
+        type={type}
+        placeholder={placeholder}
+        {...field}
+        className={touched && error ? "error" : ""}
+      /&gt;
+      {touched && error && &lt;div className="error-message"&gt;{error}&lt;/div&gt;}
+    &lt;/div&gt;
+  );
+};
+
+function FormikWithCustomComponents() {
+  return (
+    &lt;Formik
+      initialValues={{ name: "", email: "", password: "" }}
+      validationSchema={yup.object({
+        name: yup.string().required("Name is required"),
+        email: yup.string().email("Invalid email").required("Email is required"),
+        password: yup.string().min(8, "Password must be at least 8 characters"),
+      })}
+      onSubmit={(values) => console.log(values)}
+    &gt;
+      {({ handleSubmit }) => (
+        &lt;form onSubmit={handleSubmit}&gt;
+          &lt;Field name="name" component={CustomInput} label="Name" placeholder="Enter name" /&gt;
+          &lt;Field name="email" component={CustomInput} label="Email" type="email" placeholder="Enter email" /&gt;
+          &lt;Field name="password" component={CustomInput} label="Password" type="password" placeholder="Enter password" /&gt;
+          &lt;button type="submit"&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+      )}
+    &lt;/Formik&gt;
+  );
+}
+
+// ====== 7. Formik with FieldArray ======
+import { FieldArray, getIn } from "formik";
+
+interface DynamicUserFormValues {
+  users: {
+    name: string;
+    email: string;
+  }[];
+}
+
+function FormikWithFieldArray() {
+  return (
+    &lt;Formik&lt;DynamicUserFormValues&gt;
+      initialValues={{
+        users: [{ name: "", email: "" }],
+      }}
+      validationSchema={yup.object({
+        users: yup.array().of(
+          yup.object({
+            name: yup.string().required("Name is required"),
+            email: yup.string().email("Invalid email").required("Email is required"),
+          })
+        ),
+      })}
+      onSubmit={(values) => console.log(values)}
+    &gt;
+      {({ values, handleSubmit, isSubmitting, errors, touched }) => (
+        &lt;form onSubmit={handleSubmit}&gt;
+          &lt;FieldArray name="users"&gt;
+            {({ push, remove, insert, swap, move }) => (
+              &lt;div&gt;
+                {values.users.map((user, index) => {
+                  const nameError = getIn(errors, \`users.\${index}.name\`);
+                  const nameTouched = getIn(touched, \`users.\${index}.name\`);
+                  const emailError = getIn(errors, \`users.\${index}.email\`);
+                  const emailTouched = getIn(touched, \`users.\${index}.email\`);
+
+                  return (
+                    &lt;div key={index} className="field-row"&gt;
+                      &lt;div className="form-group"&gt;
+                        &lt;label&gt;Name&lt;/label&gt;
+                        &lt;Field name={\`users.\${index}.name\`} className={nameError && nameTouched ? "error" : ""} /&gt;
+                        {nameError && nameTouched && &lt;div className="error"&gt;{nameError}&lt;/div&gt;}
+                      &lt;/div&gt;
+
+                      &lt;div className="form-group"&gt;
+                        &lt;label&gt;Email&lt;/label&gt;
+                        &lt;Field name={\`users.\${index}.email\`} className={emailError && emailTouched ? "error" : ""} /&gt;
+                        {emailError && emailTouched && &lt;div className="error"&gt;{emailError}&lt;/div&gt;}
+                      &lt;/div&gt;
+
+                      &lt;button type="button" onClick={() => remove(index)}&gt;Remove&lt;/button&gt;
+                    &lt;/div&gt;
+                  );
+                })}
+                &lt;button type="button" onClick={() => push({ name: "", email: "" })}&gt;
+                  Add User
+                &lt;/button&gt;
+              &lt;/div&gt;
+            )}
+          &lt;/FieldArray&gt;
+
+          &lt;button type="submit" disabled={isSubmitting}&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+      )}
+    &lt;/Formik&gt;
+  );
+}
+
+// ====== 8. Formik with useFormikContext ======
+import { useFormikContext } from "formik";
+
+function FormikNestedComponent() {
+  const { values, setFieldValue, errors, touched } = useFormikContext&lt;UserFormValues&gt;();
+
+  return (
+    &lt;div&gt;
+      &lt;input
+        value={values.name}
+        onChange={(e) => setFieldValue("name", e.target.value)}
+        className={touched.name && errors.name ? "error" : ""}
+      /&gt;
+      {touched.name && errors.name && &lt;span&gt;{errors.name}&lt;/span&gt;}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 9. Formik with Async Validation ======
+function FormikAsyncValidation() {
+  return (
+    &lt;Formik
+      initialValues={{ username: "" }}
+      validate={async (values) => {
+        const errors: any = {};
+        if (values.username) {
+          // Simulate API check
+          await new Promise(resolve => setTimeout(resolve, 500));
+          if (values.username === "admin") {
+            errors.username = "Username is already taken";
+          }
+        }
+        return errors;
+      }}
+      onSubmit={(values) => console.log(values)}
+    &gt;
+      {({ handleSubmit, handleChange, values, errors, isSubmitting, isValidating }) => (
+        &lt;form onSubmit={handleSubmit}&gt;
+          &lt;input
+            name="username"
+            onChange={handleChange}
+            value={values.username}
+            placeholder="Enter username"
+          /&gt;
+          {isValidating && &lt;span&gt;Checking availability...&lt;/span&gt;}
+          {errors.username && &lt;span className="error"&gt;{errors.username}&lt;/span&gt;}
+          &lt;button type="submit" disabled={isSubmitting || isValidating}&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+      )}
+    &lt;/Formik&gt;
+  );
+}
+
+// ====== 10. Formik with Debugger ======
+function FormikDebugger() {
+  const { values, errors, touched, isSubmitting, isValid } = useFormikContext();
+
+  return (
+    &lt;div className="debugger"&gt;
+      &lt;h4&gt;Form State&lt;/h4&gt;
+      &lt;pre&gt;Values: {JSON.stringify(values, null, 2)}&lt;/pre&gt;
+      &lt;pre&gt;Errors: {JSON.stringify(errors, null, 2)}&lt;/pre&gt;
+      &lt;pre&gt;Touched: {JSON.stringify(touched, null, 2)}&lt;/pre&gt;
+      &lt;div&gt;Submitting: {String(isSubmitting)}&lt;/div&gt;
+      &lt;div&gt;Valid: {String(isValid)}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export {
+  BasicFormikForm,
+  FormikWithYup,
+  FormikWithField,
+  FormikWithCustomComponents,
+  FormikWithFieldArray,
+  FormikNestedComponent,
+  FormikAsyncValidation,
+  FormikDebugger,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Formik Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Controlled State</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Manages form state in React state</td>
+          <td style="border: 1px solid black; padding: 8px;">Predictable, easy to debug</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Yup Integration</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Official Yup validation support</td>
+          <td style="border: 1px solid black; padding: 8px;">Declarative validation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Field Component</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Simplified field rendering</td>
+          <td style="border: 1px solid black; padding: 8px;">Less boilerplate</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>FieldArray</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Dynamic form fields</td>
+          <td style="border: 1px solid black; padding: 8px;">Easy dynamic forms</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>useFormikContext</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Access form state in nested components</td>
+          <td style="border: 1px solid black; padding: 8px;">Avoids prop drilling</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Async Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Support for async validation</td>
+          <td style="border: 1px solid black; padding: 8px;">Server-side checks</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is Formik and how does it differ from React Hook Form?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Formik is a form management library that uses controlled components and manages form state in 
+            React state. Key differences: (1) <strong>Performance:</strong> Formik re-renders on every 
+            keystroke (controlled), React Hook Form re-renders minimally (uncontrolled), (2) <strong>Bundle 
+            size:</strong> Formik is larger (~9KB) than React Hook Form (~4KB), (3) <strong>Learning curve:</strong> 
+            Formik has a gentler learning curve, (4) <strong>Schema support:</strong> Formik has official 
+            Yup support; React Hook Form supports Yup, Zod, and Joi, (5) <strong>Field arrays:</strong> 
+            React Hook Form has better performance for dynamic fields. Choose Formik for simpler forms 
+            with less performance constraints; React Hook Form for large, complex forms.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the trade-offs of using controlled vs uncontrolled forms?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Controlled (Formik):</strong> (1) <strong>Pros:</strong> Predictable state, easy to debug, 
+            works with any React component, immediate access to values, (2) <strong>Cons:</strong> Re-renders 
+            on every change, more code, slower for large forms. <strong>Uncontrolled (React Hook Form):</strong> 
+            (1) <strong>Pros:</strong> Better performance, fewer re-renders, smaller bundle size, 
+            (2) <strong>Cons:</strong> Less predictable, harder to debug, may not work with all components. 
+            Controlled forms are simpler for most use cases; uncontrolled forms are better for performance-critical 
+            applications with large forms.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle dynamic form fields with Formik?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Dynamic form fields in Formik are handled using <code>FieldArray</code>: (1) <strong>Setup:</strong> 
+            Use <code>&lt;FieldArray name="fieldArrayName"&gt;</code>, (2) <strong>Methods:</strong> Provides 
+            <code>push</code>, <code>pop</code>, <code>remove</code>, <code>insert</code>, <code>swap</code>, 
+            <code>move</code> functions, (3) <strong>Rendering:</strong> Map over <code>values.users</code> 
+            to render each field, (4) <strong>Registration:</strong> Register fields with index 
+            (<code>name="users.\${index}.name"</code>), (5) <strong>Validation:</strong> Use Yup's 
+            <code>array().of()</code> for nested validation. FieldArray handles the complexity of adding 
+            and removing fields while maintaining form state.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is useFormikContext and when would you use it?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>useFormikContext</code> is a hook that provides access to the Formik context from any nested 
+            component within a Formik provider. Use it when: (1) <strong>Deep components:</strong> Access 
+            form state in deeply nested components without prop drilling, (2) <strong>Custom components:</strong> 
+            Create custom form components that need access to form state, (3) <strong>Side effects:</strong> 
+            React to form state changes in nested components, (4) <strong>Field arrays:</strong> Access 
+            array helpers in nested components, (5) <strong>Dynamic rendering:</strong> Conditionally 
+            render based on form state. It's a powerful pattern for building reusable, composable form components.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://formik.org/",
+      "https://formik.org/docs/overview",
+      "https://formik.org/docs/guides/validation",
+    ],
+  },
+  {
+    topic: "Yup",
+    tags: ["React", "Validation", "Forms", "Schema"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Yup — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Yup</strong> is a JavaScript schema builder for value parsing and validation. It provides 
+        a declarative way to define validation rules, shape objects, and transform data. Yup is commonly 
+        used with Formik and React Hook Form for form validation, but can be used anywhere you need to 
+        validate data structures. It supports both synchronous and asynchronous validation.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Yup is one of the most popular validation libraries in the 
+        React ecosystem. Interviewers ask about it to test your understanding of declarative validation, 
+        schema design, and your ability to implement complex validation logic in forms and data processing.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Yup Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Example</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>String Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">String-specific validations</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>yup.string().email().min(8)</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Number Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Number-specific validations</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>yup.number().min(18).max(100)</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Object Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Nested object validation</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>yup.object({ name: yup.string() })</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Array Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Array-specific validations</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>yup.array().of(yup.string()).min(1)</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Custom Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Custom validation functions</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>yup.string().test()</code></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Async Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Asynchronous validation</td>
+          <td style="border: 1px solid black; padding: 8px;"><code>yup.string().test('async', ...)</code></td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Yup
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import * as yup from "yup";
+
+// ====== 1. Basic Yup Schemas ======
+// String validation
+const nameSchema = yup.string()
+  .required("Name is required")
+  .min(2, "Name must be at least 2 characters")
+  .max(50, "Name must not exceed 50 characters")
+  .matches(/^[a-zA-Z ]+$/, "Name must contain only letters");
+
+const emailSchema = yup.string()
+  .required("Email is required")
+  .email("Invalid email format")
+  .matches(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, "Invalid email format");
+
+const passwordSchema = yup.string()
+  .required("Password is required")
+  .min(8, "Password must be at least 8 characters")
+  .matches(/[A-Z]/, "Must contain at least one uppercase letter")
+  .matches(/[a-z]/, "Must contain at least one lowercase letter")
+  .matches(/[0-9]/, "Must contain at least one number")
+  .matches(/[^A-Za-z0-9]/, "Must contain at least one special character");
+
+const urlSchema = yup.string()
+  .url("Invalid URL format")
+  .required("URL is required");
+
+const phoneSchema = yup.string()
+  .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
+  .required("Phone number is required");
+
+// Number validation
+const ageSchema = yup.number()
+  .required("Age is required")
+  .min(18, "Must be at least 18")
+  .max(100, "Must be at most 100")
+  .integer("Must be a whole number")
+  .positive("Must be positive");
+
+const priceSchema = yup.number()
+  .required("Price is required")
+  .min(0, "Price must be at least 0")
+  .max(9999.99, "Price is too high")
+  .typeError("Must be a valid number");
+
+const quantitySchema = yup.number()
+  .required("Quantity is required")
+  .min(1, "Quantity must be at least 1")
+  .integer("Must be a whole number");
+
+// Boolean validation
+const termsSchema = yup.boolean()
+  .required("You must accept the terms")
+  .oneOf([true], "You must accept the terms");
+
+// Date validation
+const dateSchema = yup.date()
+  .required("Date is required")
+  .min(new Date(1900, 0, 1), "Date must be after 1900")
+  .max(new Date(), "Date cannot be in the future")
+  .typeError("Must be a valid date");
+
+// ====== 2. Complex Object Schema ======
+const userSchema = yup.object({
+  id: yup.string().uuid("Invalid user ID"),
+  name: nameSchema,
+  email: emailSchema,
+  age: ageSchema,
+  password: passwordSchema,
+  confirmPassword: yup.string()
+    .required("Please confirm your password")
+    .oneOf([yup.ref("password")], "Passwords do not match"),
+  address: yup.object({
+    street: yup.string().required("Street is required"),
+    city: yup.string().required("City is required"),
+    state: yup.string().required("State is required"),
+    zipCode: yup.string()
+      .matches(/^[0-9]{5}$/, "Invalid ZIP code")
+      .required("ZIP code is required"),
+    country: yup.string().required("Country is required"),
+  }),
+  phone: phoneSchema,
+  role: yup.string()
+    .required("Role is required")
+    .oneOf(["admin", "user", "guest"], "Invalid role"),
+  terms: termsSchema,
+  preferences: yup.object({
+    newsletter: yup.boolean(),
+    notifications: yup.boolean(),
+    language: yup.string().oneOf(["en", "es", "fr"], "Invalid language"),
+  }),
+});
+
+// ====== 3. Array Schema ======
+const skillsSchema = yup.array()
+  .of(yup.string().required("Skill is required"))
+  .min(1, "At least one skill is required")
+  .max(10, "Maximum 10 skills allowed")
+  .test("unique", "Skills must be unique", (value) => {
+    if (!value) return true;
+    return value.length === new Set(value).size;
+  });
+
+const usersArraySchema = yup.array()
+  .of(userSchema)
+  .min(1, "At least one user is required")
+  .max(50, "Maximum 50 users allowed");
+
+// ====== 4. Custom Validation ======
+const customValidationSchema = yup.object({
+  // Custom validation for username availability
+  username: yup.string()
+    .required("Username is required")
+    .test("unique-username", "Username is already taken", async (value) => {
+      if (!value) return true;
+      // Simulate API call
+      const response = await fetch(\`/api/check-username?username=\${value}\`);
+      const data = await response.json();
+      return data.available;
+    }),
+  
+  // Custom validation for complex business logic
+  ageRange: yup.number()
+    .required("Age range is required")
+    .test("valid-age", "Invalid age range", (value) => {
+      if (!value) return true;
+      return value >= 18 && value <= 65 && value % 5 === 0;
+    }),
+  
+  // Custom validation with multiple fields
+  passwordStrength: yup.string()
+    .required("Password is required")
+    .test("password-strength", "Password is too weak", (value) => {
+      if (!value) return true;
+      let score = 0;
+      if (value.length >= 8) score++;
+      if (/[A-Z]/.test(value)) score++;
+      if (/[a-z]/.test(value)) score++;
+      if (/[0-9]/.test(value)) score++;
+      if (/[^A-Za-z0-9]/.test(value)) score++;
+      return score >= 3;
+    }),
+});
+
+// ====== 5. Conditional Validation ======
+const conditionalSchema = yup.object({
+  userType: yup.string()
+    .required("User type is required")
+    .oneOf(["student", "teacher", "admin"], "Invalid user type"),
+  
+  // Conditional validation based on userType
+  schoolName: yup.string()
+    .when("userType", {
+      is: "student",
+      then: (schema) => schema.required("School name is required for students"),
+      otherwise: (schema) => schema,
+    }),
+  
+  department: yup.string()
+    .when("userType", {
+      is: (value: string) => value === "teacher" || value === "admin",
+      then: (schema) => schema.required("Department is required"),
+      otherwise: (schema) => schema,
+    }),
+  
+  studentId: yup.string()
+    .when("userType", {
+      is: "student",
+      then: (schema) => schema.required("Student ID is required"),
+      otherwise: (schema) => schema,
+    }),
+  
+  teacherId: yup.string()
+    .when("userType", {
+      is: "teacher",
+      then: (schema) => schema.required("Teacher ID is required"),
+      otherwise: (schema) => schema,
+    }),
+});
+
+// ====== 6. Chaining Validation ======
+const chainedSchema = yup.object({
+  // Multiple validations chained together
+  creditCard: yup.string()
+    .required("Credit card is required")
+    .test("card-number", "Invalid card number", (value) => {
+      if (!value) return true;
+      // Luhn algorithm check
+      let sum = 0;
+      let alternate = false;
+      for (let i = value.length - 1; i >= 0; i--) {
+        let n = parseInt(value[i], 10);
+        if (alternate) {
+          n *= 2;
+          if (n > 9) n = n - 9;
+        }
+        sum += n;
+        alternate = !alternate;
+      }
+      return sum % 10 === 0;
+    })
+    .matches(/^[0-9]{16}$/, "Card must be 16 digits"),
+  
+  // Nested transformations
+  amount: yup.number()
+    .required("Amount is required")
+    .transform((value) => {
+      if (typeof value === "string") {
+        return parseFloat(value.replace(/[^0-9.]/g, ""));
+      }
+      return value;
+    })
+    .min(1, "Amount must be at least 1")
+    .max(999999, "Amount is too high")
+    .typeError("Amount must be a number"),
+});
+
+// ====== 7. Validation with Context ======
+const contextSchema = yup.object({
+  role: yup.string().required("Role is required"),
+  
+  // Use context for dynamic validation
+  permissions: yup.array()
+    .of(yup.string())
+    .test("valid-permissions", "Invalid permissions for role", function(value) {
+      const { role } = this.parent;
+      if (role === "admin") {
+        return true;
+      } else if (role === "user") {
+        const allowed = ["read", "write"];
+        return value ? value.every(p => allowed.includes(p)) : true;
+      }
+      return true;
+    }),
+});
+
+// ====== 8. Async Validation ======
+const asyncValidationSchema = yup.object({
+  email: yup.string()
+    .email("Invalid email")
+    .required("Email is required")
+    .test("email-available", "Email is already registered", async (value) => {
+      if (!value) return true;
+      // Simulate checking if email is already registered
+      const response = await fetch(\`/api/check-email?email=\${value}\`);
+      const data = await response.json();
+      return data.available;
+    }),
+  
+  postalCode: yup.string()
+    .required("Postal code is required")
+    .test("valid-postal", "Invalid postal code", async (value) => {
+      if (!value) return true;
+      // Validate against postal service API
+      const response = await fetch(\`/api/validate-postal?code=\${value}\`);
+      return response.ok;
+    }),
+});
+
+// ====== 9. Schema Validation Utilities ======
+class YupValidator {
+  static async validate&lt;T&gt;(schema: yup.AnySchema, data: T): Promise&lt;{ valid: boolean; errors: any[]; data: T }&gt; {
+    try {
+      const validatedData = await schema.validate(data, {
+        abortEarly: false,
+        stripUnknown: true,
+      });
+      return { valid: true, errors: [], data: validatedData };
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        return {
+          valid: false,
+          errors: error.errors,
+          data: data,
+        };
+      }
+      throw error;
+    }
+  }
+
+  static async validateField&lt;T&gt;(schema: yup.AnySchema, field: keyof T, value: any): Promise&lt;{ valid: boolean; error: string | null }&gt; {
+    try {
+      await schema.validateAt(field as string, { [field]: value });
+      return { valid: true, error: null };
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        return { valid: false, error: error.message };
+      }
+      throw error;
+    }
+  }
+
+  static getErrors(errors: any): string[] {
+    if (Array.isArray(errors)) {
+      return errors;
+    }
+    if (errors && typeof errors === "object") {
+      return Object.values(errors).flat();
+    }
+    return [String(errors)];
+  }
+
+  static async cast&lt;T&gt;(schema: yup.AnySchema, data: any): Promise&lt;T&gt; {
+    return schema.cast(data) as T;
+  }
+}
+
+// ====== 10. Component with Yup Validation ======
+import { useState } from "react";
+
+interface UserFormData {
+  name: string;
+  email: string;
+  age: number;
+  password: string;
+  confirmPassword: string;
+}
+
+function YupFormComponent() {
+  const [formData, setFormData] = useState&lt;UserFormData&gt;({
+    name: "",
+    email: "",
+    age: 0,
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState&lt;any&gt;({});
+  const [isValidating, setIsValidating] = useState(false);
+
+  const userFormSchema = yup.object({
+    name: yup.string().required("Name is required").min(2, "Name must be at least 2 characters"),
+    email: yup.string().required("Email is required").email("Invalid email format"),
+    age: yup.number().required("Age is required").min(18, "Must be at least 18").max(100, "Must be at most 100"),
+    password: yup.string().required("Password is required").min(8, "Password must be at least 8 characters"),
+    confirmPassword: yup.string()
+      .required("Please confirm your password")
+      .oneOf([yup.ref("password")], "Passwords do not match"),
+  });
+
+  const validateField = async (field: keyof UserFormData, value: any) => {
+    try {
+      await userFormSchema.validateAt(field, { ...formData, [field]: value });
+      setErrors((prev: any) => ({ ...prev, [field]: undefined }));
+      return true;
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        setErrors((prev: any) => ({ ...prev, [field]: error.message }));
+      }
+      return false;
+    }
+  };
+
+  const validateForm = async () => {
+    setIsValidating(true);
+    try {
+      await userFormSchema.validate(formData, { abortEarly: false });
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        const newErrors: any = {};
+        error.inner.forEach((err) => {
+          if (err.path) {
+            newErrors[err.path] = err.message;
+          }
+        });
+        setErrors(newErrors);
+      }
+      return false;
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const isValid = await validateForm();
+    if (isValid) {
+      console.log("Form is valid:", formData);
+    }
+  };
+
+  const handleChange = async (field: keyof UserFormData, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    await validateField(field, value);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input
+          value={formData.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+          className={errors.name ? "error" : ""}
+        /&gt;
+        {errors.name && &lt;span className="error-message"&gt;{errors.name}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Email&lt;/label&gt;
+        &lt;input
+          type="email"
+          value={formData.email}
+          onChange={(e) => handleChange("email", e.target.value)}
+          className={errors.email ? "error" : ""}
+        /&gt;
+        {errors.email && &lt;span className="error-message"&gt;{errors.email}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Age&lt;/label&gt;
+        &lt;input
+          type="number"
+          value={formData.age || ""}
+          onChange={(e) => handleChange("age", Number(e.target.value))}
+          className={errors.age ? "error" : ""}
+        /&gt;
+        {errors.age && &lt;span className="error-message"&gt;{errors.age}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input
+          type="password"
+          value={formData.password}
+          onChange={(e) => handleChange("password", e.target.value)}
+          className={errors.password ? "error" : ""}
+        /&gt;
+        {errors.password && &lt;span className="error-message"&gt;{errors.password}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Confirm Password&lt;/label&gt;
+        &lt;input
+          type="password"
+          value={formData.confirmPassword}
+          onChange={(e) => handleChange("confirmPassword", e.target.value)}
+          className={errors.confirmPassword ? "error" : ""}
+        /&gt;
+        {errors.confirmPassword && &lt;span className="error-message"&gt;{errors.confirmPassword}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;button type="submit" disabled={isValidating}&gt;
+        {isValidating ? "Validating..." : "Submit"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+export {
+  userSchema,
+  usersArraySchema,
+  conditionalSchema,
+  customValidationSchema,
+  asyncValidationSchema,
+  YupValidator,
+  YupFormComponent,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Yup vs Zod
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Yup</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Zod</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>TypeScript Integration</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Good, but manual</td>
+          <td style="border: 1px solid black; padding: 8px;">Excellent, inferred types</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Bundle Size</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Larger (~5KB)</td>
+          <td style="border: 1px solid black; padding: 8px;">Smaller (~3KB)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Performance</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Good</td>
+          <td style="border: 1px solid black; padding: 8px;">Better</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Learning Curve</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Lower</td>
+          <td style="border: 1px solid black; padding: 8px;">Slightly higher</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Transformations</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Good</td>
+          <td style="border: 1px solid black; padding: 8px;">Excellent</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Community</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Larger (older)</td>
+          <td style="border: 1px solid black; padding: 8px;">Growing (newer)</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is Yup and how is it used in form validation?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Yup is a JavaScript schema builder for value parsing and validation. In form validation, it 
+            provides a declarative way to define validation rules: (1) <strong>Schema definition:</strong> 
+            Define validation rules using a fluent API, (2) <strong>Validation:</strong> Validate data 
+            against the schema, (3) <strong>Error handling:</strong> Returns detailed error messages, 
+            (4) <strong>Integration:</strong> Works with Formik, React Hook Form, and other form libraries, 
+            (5) <strong>TypeScript:</strong> Can be used with TypeScript for type-safe validation, 
+            (6) <strong>Async support:</strong> Supports async validation for server-side checks. Yup 
+            simplifies complex validation logic by providing a clean, declarative syntax.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the pros and cons of using Yup?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Pros:</strong> (1) Declarative and readable syntax, (2) Comprehensive validation rules, 
+            (3) TypeScript support, (4) Asynchronous validation, (5) Schema composition and reuse, 
+            (6) Good integration with Formik, (7) Cross-field validation support, (8) Error message 
+            customization. <strong>Cons:</strong> (1) Larger bundle size compared to Zod, (2) Performance 
+            can be slower for large schemas, (3) TypeScript inference requires manual type definitions, 
+            (4) Learning curve for complex schemas, (5) Not as fast as Zod for simple validations, 
+            (6) Less comprehensive transformation features.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle conditional validation with Yup?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Conditional validation in Yup is handled using the <code>when</code> method: (1) <strong>Basic:</strong> 
+            <code>field.when('otherField', { is: true, then: ... })</code>, (2) <strong>Multiple conditions:</strong> 
+            Use <code>is</code> with arrays or functions, (3) <strong>Complex logic:</strong> Use function 
+            syntax for <code>is</code>, (4) <strong>Nested conditions:</strong> Chain <code>when</code> 
+            calls, (5) <strong>Context:</strong> Use <code>this.parent</code> to access other field values. 
+            Example: <code>schoolName: yup.string().when('userType', { is: 'student', then: (schema) => schema.required() })</code>. 
+            This is useful for dynamic forms where fields depend on each other.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle async validation with Yup?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Async validation in Yup is handled using <code>test()</code> with an async function: (1) <strong>Basic:</strong> 
+            <code>field.test('name', 'message', async (value) => { ... })</code>, (2) <strong>API calls:</strong> 
+            Make API calls to check availability, (3) <strong>Debouncing:</strong> Combine with debouncing 
+            to avoid excessive API calls, (4) <strong>Error handling:</strong> Handle API errors gracefully, 
+            (5) <strong>Performance:</strong> Use caching to reduce API calls, (6) <strong>Loading states:</strong> 
+            Show loading indicators during validation. Example: <code>yup.string().test('unique-username', 
+            'Username taken', async (value) => { const data = await checkUsername(value); return data.available; })</code>.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://github.com/jquense/yup",
+      "https://www.npmjs.com/package/yup",
+      "https://formik.org/docs/guides/validation",
+    ],
+  },
+  {
+    topic: "Zod",
+    tags: ["React", "Validation", "Schema", "TypeScript"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Zod — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Zod</strong> is a TypeScript-first schema declaration and validation library. It's designed 
+        to be developer-friendly with a focus on TypeScript integration, providing automatic type inference 
+        from schemas. Zod is increasingly popular in the React ecosystem, particularly with React Hook Form, 
+        because it eliminates the need for manual type definitions by inferring TypeScript types from the 
+        validation schema.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Zod represents the modern approach to validation in TypeScript 
+        applications. Interviewers ask about it to test your understanding of type-safe validation, schema 
+        design, and your ability to leverage TypeScript's type system for safer code.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Zod Features
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Feature</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Benefit</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Type Inference</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Automatic TypeScript type generation</td>
+          <td style="border: 1px solid black; padding: 8px;">Single source of truth for types</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Immutable</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Schemas are immutable</td>
+          <td style="border: 1px solid black; padding: 8px;">Safe to extend and reuse</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Parse vs Validate</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Parse and transform in one step</td>
+          <td style="border: 1px solid black; padding: 8px;">Cleaner API</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error Handling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Rich error details</td>
+          <td style="border: 1px solid black; padding: 8px;">Better debugging</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Transformations</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Transform data during validation</td>
+          <td style="border: 1px solid black; padding: 8px;">Data normalization</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Async Support</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Built-in async validation</td>
+          <td style="border: 1px solid black; padding: 8px;">API checks, database lookups</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Zod
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+import { z } from "zod";
+
+// ====== 1. Basic Zod Schemas ======
+// String schemas
+const nameSchema = z.string()
+  .min(2, "Name must be at least 2 characters")
+  .max(50, "Name must not exceed 50 characters")
+  .regex(/^[a-zA-Z ]+$/, "Name must contain only letters");
+
+const emailSchema = z.string()
+  .email("Invalid email format")
+  .min(1, "Email is required");
+
+const passwordSchema = z.string()
+  .min(8, "Password must be at least 8 characters")
+  .regex(/[A-Z]/, "Must contain an uppercase letter")
+  .regex(/[a-z]/, "Must contain a lowercase letter")
+  .regex(/[0-9]/, "Must contain a number")
+  .regex(/[^A-Za-z0-9]/, "Must contain a special character");
+
+const urlSchema = z.string().url("Invalid URL format");
+const uuidSchema = z.string().uuid("Invalid UUID format");
+
+// Number schemas
+const ageSchema = z.number()
+  .min(18, "Must be at least 18")
+  .max(100, "Must be at most 100")
+  .int("Must be a whole number")
+  .positive("Must be positive");
+
+const priceSchema = z.number()
+  .min(0, "Price must be at least 0")
+  .max(9999.99, "Price is too high")
+  .multipleOf(0.01, "Price must have at most 2 decimal places");
+
+// Boolean schema
+const booleanSchema = z.boolean();
+
+// Date schema
+const dateSchema = z.date()
+  .min(new Date(1900, 0, 1), "Date must be after 1900")
+  .max(new Date(), "Date cannot be in the future");
+
+// ====== 2. Type Inference ======
+// Zod infers TypeScript types automatically
+type NameType = z.infer&lt;typeof nameSchema>; // string
+type UserType = z.infer&lt;typeof userSchema>; // { name: string; email: string; ... }
+
+// ====== 3. Object Schema ======
+const userSchema = z.object({
+  id: z.string().uuid("Invalid user ID").optional(),
+  name: nameSchema,
+  email: emailSchema,
+  age: ageSchema,
+  password: passwordSchema,
+  confirmPassword: z.string()
+    .min(1, "Please confirm your password")
+    .refine((val) => val === passwordSchema, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    }),
+  address: z.object({
+    street: z.string().min(1, "Street is required"),
+    city: z.string().min(1, "City is required"),
+    state: z.string().min(1, "State is required"),
+    zipCode: z.string()
+      .regex(/^[0-9]{5}$/, "Invalid ZIP code")
+      .min(1, "ZIP code is required"),
+    country: z.string().min(1, "Country is required"),
+  }),
+  phone: z.string()
+    .regex(/^[0-9]{10}$/, "Phone number must be 10 digits")
+    .optional(),
+  role: z.enum(["admin", "user", "guest"]),
+  terms: z.boolean()
+    .refine((val) => val === true, "You must accept the terms"),
+  preferences: z.object({
+    newsletter: z.boolean().default(false),
+    notifications: z.boolean().default(true),
+    language: z.enum(["en", "es", "fr"]).default("en"),
+  }).optional(),
+});
+
+type User = z.infer&lt;typeof userSchema>;
+
+// ====== 4. Array Schema ======
+const skillsSchema = z.array(z.string().min(1, "Skill is required"))
+  .min(1, "At least one skill is required")
+  .max(10, "Maximum 10 skills allowed")
+  .refine((skills) => new Set(skills).size === skills.length, {
+    message: "Skills must be unique",
+  });
+
+const usersArraySchema = z.array(userSchema)
+  .min(1, "At least one user is required")
+  .max(50, "Maximum 50 users allowed");
+
+// ====== 5. Union and Intersection Types ======
+const unionSchema = z.union([
+  z.string(),
+  z.number(),
+  z.boolean(),
+]);
+
+const discriminatedUnion = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("circle"), radius: z.number().positive() }),
+  z.object({ type: z.literal("square"), side: z.number().positive() }),
+  z.object({ type: z.literal("rectangle"), width: z.number().positive(), height: z.number().positive() }),
+]);
+
+const intersectionSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+}).intersection(z.object({
+  email: z.string().email(),
+  age: z.number().min(18),
+}));
+
+// ====== 6. Optional and Nullable ======
+const optionalSchema = z.object({
+  required: z.string(),
+  optional: z.string().optional(),
+  nullable: z.string().nullable(),
+  nullish: z.string().nullish(), // null or undefined
+  default: z.string().default("default value"),
+});
+
+// ====== 7. Transformations ======
+const transformSchema = z.object({
+  // String to number transformation
+  age: z.string()
+    .transform((val) => parseInt(val, 10))
+    .pipe(z.number().min(18).max(100)),
+
+  // Trim strings
+  name: z.string().transform((val) => val.trim()),
+
+  // Transform to uppercase
+  email: z.string().transform((val) => val.toLowerCase().trim()),
+
+  // Date transformation
+  dateString: z.string()
+    .transform((val) => new Date(val))
+    .pipe(z.date().min(new Date(1900, 0, 1))),
+
+  // Handle empty strings as undefined
+  description: z.string()
+    .optional()
+    .transform((val) => val === "" ? undefined : val),
+});
+
+// ====== 8. Custom Validations ======
+const customValidationSchema = z.object({
+  // Custom validation with refine
+  username: z.string()
+    .min(3, "Username must be at least 3 characters")
+    .refine(async (val) => {
+      // Simulate API check
+      const response = await fetch(\`/api/check-username?username=\${val}\`);
+      const data = await response.json();
+      return data.available;
+    }, {
+      message: "Username is already taken",
+      path: ["username"],
+    }),
+
+  // Custom validation with superRefine for complex logic
+  ageRange: z.number()
+    .superRefine((val, ctx) => {
+      if (val < 18 || val > 65) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Age must be between 18 and 65",
+          path: ["ageRange"],
+        });
+      }
+      if (val % 5 !== 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Age must be a multiple of 5",
+          path: ["ageRange"],
+        });
+      }
+    }),
+
+  // Password strength with multiple validations
+  password: z.string()
+    .refine((val) => val.length >= 8, "Password must be at least 8 characters")
+    .refine((val) => /[A-Z]/.test(val), "Must contain an uppercase letter")
+    .refine((val) => /[a-z]/.test(val), "Must contain a lowercase letter")
+    .refine((val) => /[0-9]/.test(val), "Must contain a number")
+    .refine((val) => /[^A-Za-z0-9]/.test(val), "Must contain a special character"),
+});
+
+// ====== 9. Conditional Validation ======
+const conditionalSchema = z.discriminatedUnion("userType", [
+  z.object({
+    userType: z.literal("student"),
+    schoolName: z.string().min(1, "School name is required"),
+    studentId: z.string().min(1, "Student ID is required"),
+  }),
+  z.object({
+    userType: z.literal("teacher"),
+    department: z.string().min(1, "Department is required"),
+    teacherId: z.string().min(1, "Teacher ID is required"),
+  }),
+  z.object({
+    userType: z.literal("admin"),
+    department: z.string().min(1, "Department is required"),
+    accessLevel: z.enum(["read", "write", "full"]),
+  }),
+]);
+
+// ====== 10. Recursive Schema ======
+type TreeNode = {
+  value: string;
+  children: TreeNode[];
+};
+
+const treeNodeSchema: z.ZodType&lt;TreeNode&gt; = z.lazy(() =>
+  z.object({
+    value: z.string().min(1),
+    children: z.array(treeNodeSchema).default([]),
+  })
+);
+
+// ====== 11. Zod Validation Utilities ======
+class ZodValidator {
+  static validate&lt;T&gt;(schema: z.ZodSchema&lt;T&gt;, data: unknown): { success: boolean; data?: T; error?: string[] } {
+    try {
+      const validated = schema.parse(data);
+      return { success: true, data: validated };
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return {
+          success: false,
+          error: error.errors.map((e) => \`\${e.path.join(".")}: \${e.message}\`),
+        };
+      }
+      return { success: false, error: ["Unknown validation error"] };
+    }
+  }
+
+  static async validateAsync&lt;T&gt;(
+    schema: z.ZodSchema&lt;T&gt;,
+    data: unknown
+  ): Promise&lt;{ success: boolean; data?: T; error?: string[] }&gt; {
+    try {
+      const validated = await schema.parseAsync(data);
+      return { success: true, data: validated };
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return {
+          success: false,
+          error: error.errors.map((e) => \`\${e.path.join(".")}: \${e.message}\`),
+        };
+      }
+      return { success: false, error: ["Unknown validation error"] };
+    }
+  }
+
+  static validateField&lt;T&gt;(schema: z.ZodSchema&lt;T>, field: string, value: unknown): { valid: boolean; error?: string } {
+    try {
+      const fieldSchema = schema.shape[field] as z.ZodSchema;
+      fieldSchema.parse(value);
+      return { valid: true };
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return { valid: false, error: error.errors[0]?.message || "Invalid value" };
+      }
+      return { valid: false, error: "Unknown validation error" };
+    }
+  }
+
+  static safeParse&lt;T&gt;(schema: z.ZodSchema&lt;T>, data: unknown): z.SafeParseReturnType&lt;unknown, T> {
+    return schema.safeParse(data);
+  }
+
+  static getErrors(error: any): string[] {
+    if (error instanceof z.ZodError) {
+      return error.errors.map((e) => \`\${e.path.join(".")}: \${e.message}\`);
+    }
+    return [String(error)];
+  }
+
+  static infer&lt;T&gt;(schema: z.ZodSchema&lt;T>): T {
+    // Returns the TypeScript type from the schema
+    // This is used for type inference in TypeScript
+    return schema as T;
+  }
+}
+
+// ====== 12. React Component with Zod ======
+import { useState } from "react";
+
+interface ZodFormData {
+  name: string;
+  email: string;
+  age: number;
+  password: string;
+  confirmPassword: string;
+}
+
+const zodFormSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email format"),
+  age: z.number().min(18, "Must be at least 18").max(100, "Must be at most 100"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  confirmPassword: z.string()
+    .min(1, "Please confirm your password")
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"],
+});
+
+type ZodFormData = z.infer&lt;typeof zodFormSchema>;
+
+function ZodFormComponent() {
+  const [formData, setFormData] = useState&lt;Partial&lt;ZodFormData&gt;&gt;({});
+  const [errors, setErrors] = useState&lt;Record&lt;string, string&gt;&gt;({});
+  const [isValidating, setIsValidating] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const validateField = (field: keyof ZodFormData, value: any) => {
+    try {
+      const fieldSchema = zodFormSchema.shape[field];
+      fieldSchema.parse(value);
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors((prev) => ({ ...prev, [field]: error.errors[0]?.message || "Invalid value" }));
+      }
+      return false;
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const result = zodFormSchema.safeParse(formData);
+    if (result.success) {
+      setErrors({});
+      return true;
+    } else {
+      const newErrors: Record&lt;string, string&gt; = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          newErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(newErrors);
+      return false;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsValidating(true);
+    
+    const isValid = validateForm();
+    setIsSubmitted(true);
+    
+    if (isValid) {
+      console.log("Form is valid:", formData);
+      // Submit form data
+    }
+    
+    setIsValidating(false);
+  };
+
+  const handleChange = (field: keyof ZodFormData, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (isSubmitted) {
+      validateField(field, value);
+    }
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input
+          value={formData.name || ""}
+          onChange={(e) => handleChange("name", e.target.value)}
+          className={errors.name ? "error" : ""}
+        /&gt;
+        {errors.name && &lt;span className="error-message"&gt;{errors.name}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Email&lt;/label&gt;
+        &lt;input
+          type="email"
+          value={formData.email || ""}
+          onChange={(e) => handleChange("email", e.target.value)}
+          className={errors.email ? "error" : ""}
+        /&gt;
+        {errors.email && &lt;span className="error-message"&gt;{errors.email}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Age&lt;/label&gt;
+        &lt;input
+          type="number"
+          value={formData.age || ""}
+          onChange={(e) => handleChange("age", Number(e.target.value))}
+          className={errors.age ? "error" : ""}
+        /&gt;
+        {errors.age && &lt;span className="error-message"&gt;{errors.age}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Password&lt;/label&gt;
+        &lt;input
+          type="password"
+          value={formData.password || ""}
+          onChange={(e) => handleChange("password", e.target.value)}
+          className={errors.password ? "error" : ""}
+        /&gt;
+        {errors.password && &lt;span className="error-message"&gt;{errors.password}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Confirm Password&lt;/label&gt;
+        &lt;input
+          type="password"
+          value={formData.confirmPassword || ""}
+          onChange={(e) => handleChange("confirmPassword", e.target.value)}
+          className={errors.confirmPassword ? "error" : ""}
+        /&gt;
+        {errors.confirmPassword && &lt;span className="error-message"&gt;{errors.confirmPassword}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;button type="submit" disabled={isValidating}&gt;
+        {isValidating ? "Validating..." : "Submit"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 13. Zod with React Hook Form ======
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const rhfSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  email: z.string().email("Invalid email"),
+  age: z.number().min(18, "Must be 18 or older"),
+});
+
+type RHFData = z.infer&lt;typeof rhfSchema>;
+
+function ReactHookFormWithZod() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm&lt;RHFData&gt;({
+    resolver: zodResolver(rhfSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      age: 0,
+    },
+  });
+
+  const onSubmit = async (data: RHFData) => {
+    console.log("Form data:", data);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input {...register("name")} className={errors.name ? "error" : ""} /&gt;
+        {errors.name && &lt;span className="error-message"&gt;{errors.name.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Email&lt;/label&gt;
+        &lt;input {...register("email")} className={errors.email ? "error" : ""} /&gt;
+        {errors.email && &lt;span className="error-message"&gt;{errors.email.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Age&lt;/label&gt;
+        &lt;input
+          type="number"
+          {...register("age", { valueAsNumber: true })}
+          className={errors.age ? "error" : ""}
+        /&gt;
+        {errors.age && &lt;span className="error-message"&gt;{errors.age.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;button type="submit" disabled={isSubmitting}&gt;
+        {isSubmitting ? "Submitting..." : "Submit"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+export {
+  userSchema,
+  unionSchema,
+  discriminatedUnion,
+  customValidationSchema,
+  conditionalSchema,
+  treeNodeSchema,
+  ZodValidator,
+  ZodFormComponent,
+  ReactHookFormWithZod,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Zod vs Yup Comparison
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Aspect</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Zod</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Yup</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>TypeScript Integration</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Excellent (native)</td>
+          <td style="border: 1px solid black; padding: 8px;">⚠️ Good (requires manual types)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Bundle Size</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Smaller (~3KB)</td>
+          <td style="border: 1px solid black; padding: 8px;">⚠️ Larger (~5KB)</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Performance</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Better</td>
+          <td style="border: 1px solid black; padding: 8px;">⚠️ Good</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Learning Curve</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">⚠️ Higher</td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Lower</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Transformations</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Excellent</td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Good</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error Messages</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Customizable</td>
+          <td style="border: 1px solid black; padding: 8px;">✅ Customizable</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Ecosystem</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Growing</td>
+          <td style="border: 1px solid black; padding: 8px;">Mature</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is Zod and why is it preferred over Yup in TypeScript projects?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Zod is a TypeScript-first schema validation library that provides automatic type inference from 
+            schemas. It's preferred because: (1) <strong>Type Safety:</strong> Zod infers TypeScript types 
+            directly from schemas, eliminating manual type definitions, (2) <strong>Single Source of Truth:</strong> 
+            The schema defines both validation and types, (3) <strong>Better TypeScript Integration:</strong> 
+            Built with TypeScript in mind from the ground up, (4) <strong>Performance:</strong> Zod is faster 
+            than Yup in most benchmarks, (5) <strong>Smaller Bundle:</strong> Zod is more lightweight, 
+            (6) <strong>Modern API:</strong> Cleaner, more intuitive API with better TypeScript support. 
+            If you're using TypeScript, Zod is generally the better choice.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How does Zod's type inference work?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Zod's type inference uses TypeScript's type system to automatically generate types from schemas: 
+            (1) <strong>Schema definition:</strong> Define a schema using Zod's API, (2) <strong>Type 
+            extraction:</strong> Use <code>z.infer&lt;typeof schema&gt;</code> to extract the TypeScript type, 
+            (3) <strong>Single source:</strong> The schema becomes the single source of truth for both 
+            runtime validation and TypeScript types, (4) <strong>Type safety:</strong> The inferred types 
+            are fully type-safe and match the validation rules, (5) <strong>Automatic updates:</strong> 
+            When you change the schema, the TypeScript type automatically updates, (6) <strong>No duplication:</strong> 
+            You don't need to maintain separate type definitions and validation rules.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle custom validation in Zod?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Custom validation in Zod can be handled using: (1) <strong>refine:</strong> Single validation 
+            with custom logic, (2) <strong>superRefine:</strong> Complex validations with multiple issues, 
+            (3) <strong>Custom function:</strong> Use <code>z.custom()</code> for full control, 
+            (4) <strong>Async refine:</strong> Use <code>refine</code> with async functions for API checks, 
+            (5) <strong>Path-specific errors:</strong> Add error messages to specific paths. Example: 
+            <code>z.string().refine((val) => val.length > 8, "Must be longer")</code>. For complex 
+            cross-field validation, use <code>superRefine</code> with the context to add multiple issues.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the trade-offs of using Zod vs Yup?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>Zod Pros:</strong> Better TypeScript integration, smaller bundle, faster, more modern 
+            API, better performance, native type inference. <strong>Zod Cons:</strong> Steeper learning 
+            curve, less mature ecosystem, fewer examples online. <strong>Yup Pros:</strong> More mature, 
+            larger community, simpler API for beginners, more examples and documentation. <strong>Yup Cons:</strong> 
+            Manual TypeScript types needed, larger bundle, slower, older API design. Choose Zod for new 
+            TypeScript projects; Yup is still viable for JavaScript projects or when you need simpler 
+            validation. The trend is moving toward Zod as the preferred choice.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://zod.dev/",
+      "https://github.com/colinhacks/zod",
+      "https://react-hook-form.com/get-started#SchemaValidation",
+    ],
+  },
+  {
+    topic: "Dynamic Forms",
+    tags: ["React", "Forms", "Dynamic Fields", "UX"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Dynamic Forms — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Dynamic forms</strong> are forms that can change their structure at runtime based on user 
+        input, external data, or application state. Unlike static forms with fixed fields, dynamic forms 
+        can add, remove, or modify fields dynamically. This pattern is common in applications that handle 
+        complex data structures, conditional logic, or user-customizable content.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Dynamic forms are a common requirement in real-world 
+        applications. Interviewers ask about them to test your understanding of form management, state 
+        management, performance optimization, and your ability to handle complex UI scenarios.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Dynamic Form Types
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Type</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Field Arrays</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Add/remove repeated field groups</td>
+          <td style="border: 1px solid black; padding: 8px;">Todo lists, product variants</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Conditional Fields</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Show/hide fields based on conditions</td>
+          <td style="border: 1px solid black; padding: 8px;">Form with conditional questions</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Dynamic Schema</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Fields generated from data/configuration</td>
+          <td style="border: 1px solid black; padding: 8px;">Survey builder, form generator</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Form Builder</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">User-created forms from UI</td>
+          <td style="border: 1px solid black; padding: 8px;">Form builder applications</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Nested Forms</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Forms within forms with complex structure</td>
+          <td style="border: 1px solid black; padding: 8px;">Multi-step forms, complex objects</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Dynamic Forms
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Dynamic Forms with React Hook Form ======
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// ====== 2. Field Array Example ======
+interface ProductFormData {
+  name: string;
+  description: string;
+  variants: {
+    id: string;
+    name: string;
+    sku: string;
+    price: number;
+    stock: number;
+    attributes: {
+      key: string;
+      value: string;
+    }[];
+  }[];
+}
+
+const variantSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(1, "Variant name is required"),
+  sku: z.string().min(1, "SKU is required"),
+  price: z.number().min(0, "Price must be at least 0"),
+  stock: z.number().int().min(0, "Stock must be at least 0"),
+  attributes: z.array(
+    z.object({
+      key: z.string().min(1, "Attribute key is required"),
+      value: z.string().min(1, "Attribute value is required"),
+    })
+  ),
+});
+
+const productSchema = z.object({
+  name: z.string().min(1, "Product name is required"),
+  description: z.string().optional(),
+  variants: z.array(variantSchema).min(1, "At least one variant is required"),
+});
+
+type ProductFormData = z.infer&lt;typeof productSchema>;
+
+function DynamicProductForm() {
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm&lt;ProductFormData&gt;({
+    resolver: zodResolver(productSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      variants: [
+        {
+          id: crypto.randomUUID(),
+          name: "",
+          sku: "",
+          price: 0,
+          stock: 0,
+          attributes: [{ key: "", value: "" }],
+        },
+      ],
+    },
+  });
+
+  const {
+    fields: variantFields,
+    append: appendVariant,
+    remove: removeVariant,
+    insert: insertVariant,
+    swap: swapVariant,
+    move: moveVariant,
+  } = useFieldArray({
+    control,
+    name: "variants",
+  });
+
+  const onSubmit = async (data: ProductFormData) => {
+    console.log("Product data:", data);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)} className="dynamic-form"&gt;
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Product Information&lt;/h3&gt;
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Product Name&lt;/label&gt;
+          &lt;input {...register("name")} className={errors.name ? "error" : ""} /&gt;
+          {errors.name && &lt;span className="error"&gt;{errors.name.message}&lt;/span&gt;}
+        &lt;/div&gt;
+
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Description&lt;/label&gt;
+          &lt;textarea {...register("description")} /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Variants ({variantFields.length})&lt;/h3&gt;
+        {errors.variants && &lt;div className="error"&gt;{errors.variants.message}&lt;/div&gt;}
+
+        {variantFields.map((field, index) => (
+          &lt;div key={field.id} className="variant-card"&gt;
+            &lt;div className="variant-header"&gt;
+              &lt;h4&gt;Variant {index + 1}&lt;/h4&gt;
+              &lt;button
+                type="button"
+                onClick={() => removeVariant(index)}
+                className="remove-button"
+              &gt;
+                Remove
+              &lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;div className="variant-fields"&gt;
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;Variant Name&lt;/label&gt;
+                &lt;input
+                  {...register(\`variants.\${index}.name\` as const)}
+                  className={errors.variants?.[index]?.name ? "error" : ""}
+                /&gt;
+                {errors.variants?.[index]?.name && (
+                  &lt;span className="error"&gt;{errors.variants[index].name?.message}&lt;/span&gt;
+                )}
+              &lt;/div&gt;
+
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;SKU&lt;/label&gt;
+                &lt;input
+                  {...register(\`variants.\${index}.sku\` as const)}
+                  className={errors.variants?.[index]?.sku ? "error" : ""}
+                /&gt;
+                {errors.variants?.[index]?.sku && (
+                  &lt;span className="error"&gt;{errors.variants[index].sku?.message}&lt;/span&gt;
+                )}
+              &lt;/div&gt;
+
+              &lt;div className="form-row"&gt;
+                &lt;div className="form-group"&gt;
+                  &lt;label&gt;Price&lt;/label&gt;
+                  &lt;input
+                    type="number"
+                    step="0.01"
+                    {...register(\`variants.\${index}.price\` as const, {
+                      valueAsNumber: true,
+                    })}
+                    className={errors.variants?.[index]?.price ? "error" : ""}
+                  /&gt;
+                  {errors.variants?.[index]?.price && (
+                    &lt;span className="error"&gt;{errors.variants[index].price?.message}&lt;/span&gt;
+                  )}
+                &lt;/div&gt;
+
+                &lt;div className="form-group"&gt;
+                  &lt;label&gt;Stock&lt;/label&gt;
+                  &lt;input
+                    type="number"
+                    {...register(\`variants.\${index}.stock\` as const, {
+                      valueAsNumber: true,
+                    })}
+                    className={errors.variants?.[index]?.stock ? "error" : ""}
+                  /&gt;
+                  {errors.variants?.[index]?.stock && (
+                    &lt;span className="error"&gt;{errors.variants[index].stock?.message}&lt;/span&gt;
+                  )}
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;div className="attributes-section"&gt;
+                &lt;h5&gt;Attributes&lt;/h5&gt;
+                &lt;DynamicAttributes
+                  control={control}
+                  variantIndex={index}
+                /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        ))}
+
+        &lt;div className="variant-actions"&gt;
+          &lt;button
+            type="button"
+            onClick={() =>
+              appendVariant({
+                id: crypto.randomUUID(),
+                name: "",
+                sku: "",
+                price: 0,
+                stock: 0,
+                attributes: [{ key: "", value: "" }],
+              })
+            }
+          &gt;
+            Add Variant
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-actions"&gt;
+        &lt;button type="submit" disabled={isSubmitting}&gt;
+          {isSubmitting ? "Saving..." : "Save Product"}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 3. Nested Dynamic Attributes ======
+interface DynamicAttributesProps {
+  control: any;
+  variantIndex: number;
+}
+
+function DynamicAttributes({ control, variantIndex }: DynamicAttributesProps) {
+  const {
+    fields: attributeFields,
+    append: appendAttribute,
+    remove: removeAttribute,
+  } = useFieldArray({
+    control,
+    name: \`variants.\${variantIndex}.attributes\`,
+  });
+
+  return (
+    &lt;div className="attributes-container"&gt;
+      {attributeFields.map((field, attrIndex) => (
+        &lt;div key={field.id} className="attribute-row"&gt;
+          &lt;div className="form-group"&gt;
+            &lt;input
+              {...control.register(\`variants.\${variantIndex}.attributes.\${attrIndex}.key\` as const)}
+              placeholder="Attribute key"
+              className="attribute-key"
+            /&gt;
+          &lt;/div&gt;
+          &lt;div className="form-group"&gt;
+            &lt;input
+              {...control.register(\`variants.\${variantIndex}.attributes.\${attrIndex}.value\` as const)}
+              placeholder="Attribute value"
+              className="attribute-value"
+            /&gt;
+          &lt;/div&gt;
+          &lt;button
+            type="button"
+            onClick={() => removeAttribute(attrIndex)}
+            className="remove-attribute"
+          &gt;
+            ×
+          &lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;button
+        type="button"
+        onClick={() => appendAttribute({ key: "", value: "" })}
+        className="add-attribute"
+      &gt;
+        + Add Attribute
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 4. Conditional Dynamic Fields ======
+interface ConditionalFormData {
+  type: "individual" | "business";
+  firstName?: string;
+  lastName?: string;
+  companyName?: string;
+  taxId?: string;
+  businessType?: string;
+}
+
+const conditionalSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("individual"),
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+  }),
+  z.object({
+    type: z.literal("business"),
+    companyName: z.string().min(1, "Company name is required"),
+    taxId: z.string().optional(),
+    businessType: z.string().min(1, "Business type is required"),
+  }),
+]);
+
+function ConditionalDynamicForm() {
+  const { register, watch, handleSubmit, formState: { errors } } =
+    useForm&lt;ConditionalFormData&gt;({
+      resolver: zodResolver(conditionalSchema),
+      defaultValues: { type: "individual" },
+    });
+
+  const userType = watch("type");
+
+  return (
+    &lt;form onSubmit={handleSubmit((data) => console.log(data))}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;User Type&lt;/label&gt;
+        &lt;select {...register("type")}&gt;
+          &lt;option value="individual"&gt;Individual&lt;/option&gt;
+          &lt;option value="business"&gt;Business&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+
+      {userType === "individual" && (
+        &lt;div className="conditional-fields"&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;First Name&lt;/label&gt;
+            &lt;input {...register("firstName")} /&gt;
+            {errors.firstName && &lt;span className="error"&gt;{errors.firstName.message}&lt;/span&gt;}
+          &lt;/div&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Last Name&lt;/label&gt;
+            &lt;input {...register("lastName")} /&gt;
+            {errors.lastName && &lt;span className="error"&gt;{errors.lastName.message}&lt;/span&gt;}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+
+      {userType === "business" && (
+        &lt;div className="conditional-fields"&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Company Name&lt;/label&gt;
+            &lt;input {...register("companyName")} /&gt;
+            {errors.companyName && &lt;span className="error"&gt;{errors.companyName.message}&lt;/span&gt;}
+          &lt;/div&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Business Type&lt;/label&gt;
+            &lt;select {...register("businessType")}&gt;
+              &lt;option value=""&gt;Select type&lt;/option&gt;
+              &lt;option value="llc"&gt;LLC&lt;/option&gt;
+              &lt;option value="corporation"&gt;Corporation&lt;/option&gt;
+              &lt;option value="sole"&gt;Sole Proprietorship&lt;/option&gt;
+            &lt;/select&gt;
+            {errors.businessType && &lt;span className="error"&gt;{errors.businessType.message}&lt;/span&gt;}
+          &lt;/div&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Tax ID&lt;/label&gt;
+            &lt;input {...register("taxId")} /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      )}
+
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 5. Schema-Driven Dynamic Form ======
+interface FieldConfig {
+  name: string;
+  label: string;
+  type: "text" | "number" | "email" | "select" | "textarea" | "checkbox" | "date";
+  required?: boolean;
+  options?: { label: string; value: string }[];
+  validation?: Record&lt;string, any&gt;;
+  defaultValue?: any;
+  placeholder?: string;
+}
+
+interface DynamicSchemaFormProps {
+  fields: FieldConfig[];
+  onSubmit: (data: Record&lt;string, any&gt;) => void;
+}
+
+function SchemaDrivenDynamicForm({ fields, onSubmit }: DynamicSchemaFormProps) {
+  // Build validation schema from field config
+  const schema = z.object(
+    fields.reduce((acc, field) => {
+      let validator: any = z.any();
+      if (field.type === "text") {
+        validator = z.string();
+        if (field.required) validator = validator.min(1, \`\${field.label} is required\`);
+      } else if (field.type === "email") {
+        validator = z.string().email("Invalid email format");
+        if (field.required) validator = validator.min(1, \`\${field.label} is required\`);
+      } else if (field.type === "number") {
+        validator = z.number();
+        if (field.required) validator = validator.min(0, \`\${field.label} is required\`);
+      } else if (field.type === "select") {
+        validator = z.string();
+        if (field.required) validator = validator.min(1, \`\${field.label} is required\`);
+      } else if (field.type === "checkbox") {
+        validator = z.boolean();
+        if (field.required) validator = validator.refine((val) => val === true, \`\${field.label} is required\`);
+      } else if (field.type === "date") {
+        validator = z.date();
+        if (field.required) validator = validator.min(new Date(1900, 0, 1), \`\${field.label} is required\`);
+      }
+      return { ...acc, [field.name]: validator };
+    }, {})
+  );
+
+  const defaultValues = fields.reduce((acc, field) => ({
+    ...acc,
+    [field.name]: field.defaultValue || "",
+  }), {});
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues,
+  });
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)} className="schema-form"&gt;
+      {fields.map((field) => (
+        &lt;div key={field.name} className="form-group"&gt;
+          &lt;label htmlFor={field.name}&gt;
+            {field.label}
+            {field.required && &lt;span className="required"&gt;*&lt;/span&gt;}
+          &lt;/label&gt;
+
+          {field.type === "text" || field.type === "email" || field.type === "number" ? (
+            &lt;input
+              id={field.name}
+              type={field.type}
+              {...register(field.name)}
+              placeholder={field.placeholder}
+              className={errors[field.name] ? "error" : ""}
+            /&gt;
+          ) : field.type === "textarea" ? (
+            &lt;textarea
+              id={field.name}
+              {...register(field.name)}
+              placeholder={field.placeholder}
+              className={errors[field.name] ? "error" : ""}
+            /&gt;
+          ) : field.type === "select" ? (
+            &lt;select
+              id={field.name}
+              {...register(field.name)}
+              className={errors[field.name] ? "error" : ""}
+            &gt;
+              &lt;option value=""&gt;Select {field.label}&lt;/option&gt;
+              {field.options?.map((option) => (
+                &lt;option key={option.value} value={option.value}&gt;
+                  {option.label}
+                &lt;/option&gt;
+              ))}
+            &lt;/select&gt;
+          ) : field.type === "checkbox" ? (
+            &lt;div className="checkbox"&gt;
+              &lt;input id={field.name} type="checkbox" {...register(field.name)} /&gt;
+              &lt;label htmlFor={field.name}&gt;{field.label}&lt;/label&gt;
+            &lt;/div&gt;
+          ) : field.type === "date" ? (
+            &lt;input
+              id={field.name}
+              type="date"
+              {...register(field.name)}
+              className={errors[field.name] ? "error" : ""}
+            /&gt;
+          ) : null}
+
+          {errors[field.name] && (
+            &lt;span className="error-message"&gt;{errors[field.name]?.message as string}&lt;/span&gt;
+          )}
+        &lt;/div&gt;
+      ))}
+
+      &lt;button type="submit" disabled={isSubmitting}&gt;
+        {isSubmitting ? "Submitting..." : "Submit"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 6. Form Builder Interface ======
+function FormBuilder() {
+  const [fields, setFields] = useState&lt;FieldConfig[]&gt;([
+    { name: "name", label: "Name", type: "text", required: true },
+  ]);
+
+  const addField = () => {
+    setFields([
+      ...fields,
+      {
+        name: \`field_\${fields.length + 1}\`,
+        label: \`Field \${fields.length + 1}\`,
+        type: "text",
+        required: false,
+      },
+    ]);
+  };
+
+  const updateField = (index: number, updates: Partial&lt;FieldConfig&gt;) => {
+    const newFields = [...fields];
+    newFields[index] = { ...newFields[index], ...updates };
+    setFields(newFields);
+  };
+
+  const removeField = (index: number) => {
+    setFields(fields.filter((_, i) => i !== index));
+  };
+
+  const handleFormSubmit = (data: Record&lt;string, any&gt;) => {
+    console.log("Form data:", data);
+  };
+
+  return (
+    &lt;div className="form-builder"&gt;
+      &lt;div className="builder-toolbar"&gt;
+        &lt;h3&gt;Form Builder&lt;/h3&gt;
+        &lt;button onClick={addField}&gt;Add Field&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;div className="builder-fields"&gt;
+        {fields.map((field, index) => (
+          &lt;div key={index} className="field-config"&gt;
+            &lt;div className="field-config-row"&gt;
+              &lt;input
+                value={field.label}
+                onChange={(e) => updateField(index, { label: e.target.value })}
+                placeholder="Label"
+              /&gt;
+              &lt;input
+                value={field.name}
+                onChange={(e) => updateField(index, { name: e.target.value })}
+                placeholder="Field name"
+              /&gt;
+              &lt;select
+                value={field.type}
+                onChange={(e) => updateField(index, { type: e.target.value as any })}
+              &gt;
+                &lt;option value="text"&gt;Text&lt;/option&gt;
+                &lt;option value="email"&gt;Email&lt;/option&gt;
+                &lt;option value="number"&gt;Number&lt;/option&gt;
+                &lt;option value="textarea"&gt;Textarea&lt;/option&gt;
+                &lt;option value="select"&gt;Select&lt;/option&gt;
+                &lt;option value="checkbox"&gt;Checkbox&lt;/option&gt;
+                &lt;option value="date"&gt;Date&lt;/option&gt;
+              &lt;/select&gt;
+              &lt;label&gt;
+                &lt;input
+                  type="checkbox"
+                  checked={field.required}
+                  onChange={(e) => updateField(index, { required: e.target.checked })}
+                /&gt;
+                Required
+              &lt;/label&gt;
+              &lt;button onClick={() => removeField(index)}&gt;×&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+
+      &lt;div className="form-preview"&gt;
+        &lt;h3&gt;Form Preview&lt;/h3&gt;
+        &lt;SchemaDrivenDynamicForm
+          fields={fields}
+          onSubmit={handleFormSubmit}
+        /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export {
+  DynamicProductForm,
+  ConditionalDynamicForm,
+  SchemaDrivenDynamicForm,
+  FormBuilder,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Dynamic Forms Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use Unique Keys</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use stable unique IDs for dynamic fields</td>
+          <td style="border: 1px solid black; padding: 8px;">Prevents re-render issues</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Validate Dynamically</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Generate validation schemas dynamically</td>
+          <td style="border: 1px solid black; padding: 8px;">Consistent validation</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Memoize Components</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use React.memo for field components</td>
+          <td style="border: 1px solid black; padding: 8px;">Better performance with many fields</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Lazy Load</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Load heavy form parts lazily</td>
+          <td style="border: 1px solid black; padding: 8px;">Better initial load time</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Debounce Updates</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Debounce form state updates</td>
+          <td style="border: 1px solid black; padding: 8px;">Better performance</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error Handling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Handle dynamic validation errors</td>
+          <td style="border: 1px solid black; padding: 8px;">Better UX</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are dynamic forms and when would you use them?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Dynamic forms are forms that can change their structure at runtime based on user input, external 
+            data, or application state. Use them when: (1) <strong>Variable data:</strong> The number of 
+            fields is unknown or variable (e.g., product variants, todo lists), (2) <strong>Conditional 
+            logic:</strong> Fields depend on other field values (e.g., shipping address vs billing address), 
+            (3) <strong>User customization:</strong> Users need to create custom forms or add custom fields, 
+            (4) <strong>Complex data structures:</strong> Working with nested or complex data structures, 
+            (5) <strong>Form builders:</strong> Applications where users build forms dynamically, 
+            (6) <strong>Survey/quiz apps:</strong> Questions and fields vary based on previous answers.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is useFieldArray and how does it work?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <code>useFieldArray</code> is a React Hook Form hook that manages dynamic arrays of fields. 
+            It works by: (1) <strong>Registration:</strong> Register the field array with a name, 
+            (2) <strong>State management:</strong> Tracks field values and changes, (3) <strong>Methods:</strong> 
+            Provides <code>append</code>, <code>prepend</code>, <code>insert</code>, <code>remove</code>, 
+            <code>swap</code>, <code>move</code> functions, (4) <strong>Rendering:</strong> Maps over 
+            <code>fields</code> to render each field, (5) <strong>Performance:</strong> Optimized to 
+            minimize re-renders, (6) <strong>Validation:</strong> Works with schema validation for arrays. 
+            It's the preferred way to handle dynamic arrays in React Hook Form.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle validation for dynamic fields?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling validation for dynamic fields: (1) <strong>Schema validation:</strong> Use Zod or Yup 
+            with <code>array().of()</code> for array validation, (2) <strong>Dynamic schema:</strong> 
+            Generate validation schemas based on field configuration, (3) <strong>Per-field validation:</strong> 
+            Each field can have its own validation rules, (4) <strong>Cross-field validation:</strong> 
+            Validate dependencies between dynamic fields, (5) <strong>Async validation:</strong> Validate 
+            dynamic fields asynchronously, (6) <strong>Error handling:</strong> Map errors to specific 
+            dynamic fields. Example: <code>z.array(z.object({ name: z.string(), value: z.string() }))</code>.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the performance considerations for dynamic forms?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Performance considerations: (1) <strong>Re-renders:</strong> Dynamic forms can cause many 
+            re-renders, especially with many fields, (2) <strong>Memoization:</strong> Use React.memo and 
+            useMemo for field components, (3) <strong>Virtualization:</strong> Use react-window for very 
+            large forms, (4) <strong>Debouncing:</strong> Debounce validation and state updates, 
+            (5) <strong>Lazy loading:</strong> Load dynamic field configurations lazily, (6) <strong>Batch 
+            updates:</strong> Batch multiple updates together, (7) <strong>Key stability:</strong> Use 
+            stable keys to avoid re-mounting, (8) <strong>Component splitting:</strong> Split large forms 
+            into smaller components. React Hook Form's performance is generally good for dynamic forms, 
+            but large forms (100+ fields) may need optimization.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://react-hook-form.com/api/usefieldarray",
+      "https://react-hook-form.com/advanced-usage#DynamicFields",
+      "https://www.npmjs.com/package/react-hook-form",
+    ],
+  },
+  {
+    topic: "Nested Forms",
+    tags: ["React", "Forms", "Complex Data", "Nested Objects"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        Nested Forms — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>Nested forms</strong> refer to forms that handle complex, nested data structures where form 
+        fields are organized hierarchically. This pattern is common when dealing with relational data, 
+        complex objects, or multi-step form processes. Nested forms can include nested objects, arrays of 
+        objects, and deeply nested field structures.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> Nested forms are a real-world requirement in many applications. 
+        Interviewers ask about them to test your understanding of complex data structures, form management, 
+        and your ability to handle hierarchical data in user interfaces.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Nested Form Patterns
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pattern</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Use Case</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Nested Objects</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Form fields for nested object properties</td>
+          <td style="border: 1px solid black; padding: 8px;">User profile with address, contact info</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Arrays of Objects</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Dynamic list of objects with nested fields</td>
+          <td style="border: 1px solid black; padding: 8px;">Order items, product variants</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Deep Nesting</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Multiple levels of nested structures</td>
+          <td style="border: 1px solid black; padding: 8px;">Complex documents, CMS</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Dynamic Nesting</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Nested structures that change at runtime</td>
+          <td style="border: 1px solid black; padding: 8px;">Form builders, survey creators</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Multi-Step Nested</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Nested forms distributed across steps</td>
+          <td style="border: 1px solid black; padding: 8px;">Wizard-style forms, onboarding</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — Nested Forms
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. Nested Form Types ======
+interface Address {
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+
+interface Contact {
+  email: string;
+  phone: string;
+  workPhone?: string;
+}
+
+interface UserProfile {
+  id: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  address: Address;
+  contact: Contact;
+  preferences: {
+    theme: "light" | "dark" | "auto";
+    notifications: boolean;
+    language: string;
+  };
+}
+
+interface Order {
+  id: string;
+  userId: string;
+  items: {
+    productId: string;
+    name: string;
+    quantity: number;
+    price: number;
+    options: {
+      size: string;
+      color: string;
+      notes?: string;
+    }[];
+  }[];
+  shipping: {
+    address: Address;
+    method: "standard" | "express" | "overnight";
+  };
+  billing: {
+    method: "credit" | "debit" | "paypal";
+    cardInfo?: {
+      last4: string;
+      expiry: string;
+      brand: string;
+    };
+  };
+}
+
+// ====== 2. Nested Form with React Hook Form ======
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const addressSchema = z.object({
+  street: z.string().min(1, "Street is required"),
+  city: z.string().min(1, "City is required"),
+  state: z.string().min(1, "State is required"),
+  zipCode: z.string().regex(/^[0-9]{5}$/, "Invalid ZIP code"),
+  country: z.string().min(1, "Country is required"),
+});
+
+const contactSchema = z.object({
+  email: z.string().email("Invalid email"),
+  phone: z.string().regex(/^[0-9]{10}$/, "Invalid phone number"),
+  workPhone: z.string().optional(),
+});
+
+const userSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  age: z.number().min(18, "Must be at least 18").max(100, "Must be at most 100"),
+  address: addressSchema,
+  contact: contactSchema,
+  preferences: z.object({
+    theme: z.enum(["light", "dark", "auto"]),
+    notifications: z.boolean(),
+    language: z.string().min(1, "Language is required"),
+  }),
+});
+
+type UserProfileFormData = z.infer&lt;typeof userSchema>;
+
+function NestedUserProfileForm() {
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm&lt;UserProfileFormData&gt;({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      age: 18,
+      address: {
+        street: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        country: "",
+      },
+      contact: {
+        email: "",
+        phone: "",
+        workPhone: "",
+      },
+      preferences: {
+        theme: "auto",
+        notifications: true,
+        language: "en",
+      },
+    },
+  });
+
+  const watchedTheme = watch("preferences.theme");
+
+  const onSubmit = async (data: UserProfileFormData) => {
+    console.log("User profile data:", data);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit(onSubmit)} className="nested-form"&gt;
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Personal Information&lt;/h3&gt;
+        
+        &lt;div className="form-row"&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;First Name&lt;/label&gt;
+            &lt;input {...register("firstName")} className={errors.firstName ? "error" : ""} /&gt;
+            {errors.firstName && &lt;span className="error"&gt;{errors.firstName.message}&lt;/span&gt;}
+          &lt;/div&gt;
+
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Last Name&lt;/label&gt;
+            &lt;input {...register("lastName")} className={errors.lastName ? "error" : ""} /&gt;
+            {errors.lastName && &lt;span className="error"&gt;{errors.lastName.message}&lt;/span&gt;}
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Age&lt;/label&gt;
+          &lt;input
+            type="number"
+            {...register("age", { valueAsNumber: true })}
+            className={errors.age ? "error" : ""}
+          /&gt;
+          {errors.age && &lt;span className="error"&gt;{errors.age.message}&lt;/span&gt;}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Address Information&lt;/h3&gt;
+        
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Street&lt;/label&gt;
+          &lt;input {...register("address.street")} className={errors.address?.street ? "error" : ""} /&gt;
+          {errors.address?.street && &lt;span className="error"&gt;{errors.address.street.message}&lt;/span&gt;}
+        &lt;/div&gt;
+
+        &lt;div className="form-row"&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;City&lt;/label&gt;
+            &lt;input {...register("address.city")} className={errors.address?.city ? "error" : ""} /&gt;
+            {errors.address?.city && &lt;span className="error"&gt;{errors.address.city.message}&lt;/span&gt;}
+          &lt;/div&gt;
+
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;State&lt;/label&gt;
+            &lt;input {...register("address.state")} className={errors.address?.state ? "error" : ""} /&gt;
+            {errors.address?.state && &lt;span className="error"&gt;{errors.address.state.message}&lt;/span&gt;}
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div className="form-row"&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;ZIP Code&lt;/label&gt;
+            &lt;input {...register("address.zipCode")} className={errors.address?.zipCode ? "error" : ""} /&gt;
+            {errors.address?.zipCode && &lt;span className="error"&gt;{errors.address.zipCode.message}&lt;/span&gt;}
+          &lt;/div&gt;
+
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Country&lt;/label&gt;
+            &lt;input {...register("address.country")} className={errors.address?.country ? "error" : ""} /&gt;
+            {errors.address?.country && &lt;span className="error"&gt;{errors.address.country.message}&lt;/span&gt;}
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Contact Information&lt;/h3&gt;
+        
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Email&lt;/label&gt;
+          &lt;input type="email" {...register("contact.email")} className={errors.contact?.email ? "error" : ""} /&gt;
+          {errors.contact?.email && &lt;span className="error"&gt;{errors.contact.email.message}&lt;/span&gt;}
+        &lt;/div&gt;
+
+        &lt;div className="form-row"&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Phone&lt;/label&gt;
+            &lt;input {...register("contact.phone")} className={errors.contact?.phone ? "error" : ""} /&gt;
+            {errors.contact?.phone && &lt;span className="error"&gt;{errors.contact.phone.message}&lt;/span&gt;}
+          &lt;/div&gt;
+
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Work Phone (Optional)&lt;/label&gt;
+            &lt;input {...register("contact.workPhone")} /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Preferences&lt;/h3&gt;
+        
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Theme&lt;/label&gt;
+          &lt;select {...register("preferences.theme")} className={errors.preferences?.theme ? "error" : ""}&gt;
+            &lt;option value="light"&gt;Light&lt;/option&gt;
+            &lt;option value="dark"&gt;Dark&lt;/option&gt;
+            &lt;option value="auto"&gt;Auto&lt;/option&gt;
+          &lt;/select&gt;
+          {errors.preferences?.theme && &lt;span className="error"&gt;{errors.preferences.theme.message}&lt;/span&gt;}
+        &lt;/div&gt;
+
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Language&lt;/label&gt;
+          &lt;select {...register("preferences.language")} className={errors.preferences?.language ? "error" : ""}&gt;
+            &lt;option value="en"&gt;English&lt;/option&gt;
+            &lt;option value="es"&gt;Spanish&lt;/option&gt;
+            &lt;option value="fr"&gt;French&lt;/option&gt;
+          &lt;/select&gt;
+          {errors.preferences?.language && &lt;span className="error"&gt;{errors.preferences.language.message}&lt;/span&gt;}
+        &lt;/div&gt;
+
+        &lt;div className="form-group checkbox"&gt;
+          &lt;label&gt;
+            &lt;input type="checkbox" {...register("preferences.notifications")} /&gt;
+            Enable notifications
+          &lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-actions"&gt;
+        &lt;button type="submit" disabled={isSubmitting}&gt;
+          {isSubmitting ? "Saving..." : "Save Profile"}
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 3. Deeply Nested Form with Arrays ======
+// Nested order form with items and options
+const orderItemOptionSchema = z.object({
+  size: z.string().min(1, "Size is required"),
+  color: z.string().min(1, "Color is required"),
+  notes: z.string().optional(),
+});
+
+const orderItemSchema = z.object({
+  productId: z.string().min(1, "Product is required"),
+  name: z.string().min(1, "Name is required"),
+  quantity: z.number().min(1, "Quantity must be at least 1"),
+  price: z.number().min(0, "Price must be at least 0"),
+  options: z.array(orderItemOptionSchema),
+});
+
+const orderSchema = z.object({
+  userId: z.string().min(1, "User is required"),
+  items: z.array(orderItemSchema).min(1, "At least one item is required"),
+  shipping: z.object({
+    address: addressSchema,
+    method: z.enum(["standard", "express", "overnight"]),
+  }),
+  billing: z.object({
+    method: z.enum(["credit", "debit", "paypal"]),
+    cardInfo: z.object({
+      last4: z.string().regex(/^[0-9]{4}$/, "Invalid card number"),
+      expiry: z.string().regex(/^(0[1-9]|1[0-2])\/([0-9]{2})$/, "Invalid expiry"),
+      brand: z.string().min(1, "Card brand is required"),
+    }).optional(),
+  }),
+});
+
+type OrderFormData = z.infer&lt;typeof orderSchema>;
+
+function NestedOrderForm() {
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm&lt;OrderFormData&gt;({
+    resolver: zodResolver(orderSchema),
+    defaultValues: {
+      userId: "",
+      items: [
+        {
+          productId: "",
+          name: "",
+          quantity: 1,
+          price: 0,
+          options: [{ size: "", color: "", notes: "" }],
+        },
+      ],
+      shipping: {
+        address: {
+          street: "",
+          city: "",
+          state: "",
+          zipCode: "",
+          country: "",
+        },
+        method: "standard",
+      },
+      billing: {
+        method: "credit",
+      },
+    },
+  });
+
+  const {
+    fields: items,
+    append: addItem,
+    remove: removeItem,
+  } = useFieldArray({
+    control,
+    name: "items",
+  });
+
+  const billingMethod = watch("billing.method");
+
+  const addItemWithOptions = () => {
+    addItem({
+      productId: "",
+      name: "",
+      quantity: 1,
+      price: 0,
+      options: [{ size: "", color: "", notes: "" }],
+    });
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit((data) => console.log(data))} className="nested-order-form"&gt;
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Order Information&lt;/h3&gt;
+        
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;User ID&lt;/label&gt;
+          &lt;input {...register("userId")} className={errors.userId ? "error" : ""} /&gt;
+          {errors.userId && &lt;span className="error"&gt;{errors.userId.message}&lt;/span&gt;}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Order Items ({items.length})&lt;/h3&gt;
+        
+        {items.map((item, itemIndex) => (
+          &lt;div key={item.id} className="order-item"&gt;
+            &lt;div className="item-header"&gt;
+              &lt;h4&gt;Item {itemIndex + 1}&lt;/h4&gt;
+              &lt;button type="button" onClick={() => removeItem(itemIndex)}&gt;Remove&lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;div className="form-row"&gt;
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;Product ID&lt;/label&gt;
+                &lt;input {...register(\`items.\${itemIndex}.productId\`)} /&gt;
+              &lt;/div&gt;
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;Name&lt;/label&gt;
+                &lt;input {...register(\`items.\${itemIndex}.name\`)} /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div className="form-row"&gt;
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;Quantity&lt;/label&gt;
+                &lt;input
+                  type="number"
+                  {...register(\`items.\${itemIndex}.quantity\`, { valueAsNumber: true })}
+                /&gt;
+              &lt;/div&gt;
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;Price&lt;/label&gt;
+                &lt;input
+                  type="number"
+                  step="0.01"
+                  {...register(\`items.\${itemIndex}.price\`, { valueAsNumber: true })}
+                /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div className="nested-options"&gt;
+              &lt;h5&gt;Options&lt;/h5&gt;
+              &lt;NestedItemOptions
+                control={control}
+                itemIndex={itemIndex}
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        ))}
+
+        &lt;button type="button" onClick={addItemWithOptions}&gt;Add Item&lt;/button&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Shipping Information&lt;/h3&gt;
+        
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Shipping Method&lt;/label&gt;
+          &lt;select {...register("shipping.method")}&gt;
+            &lt;option value="standard"&gt;Standard&lt;/option&gt;
+            &lt;option value="express"&gt;Express&lt;/option&gt;
+            &lt;option value="overnight"&gt;Overnight&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+
+        &lt;div className="nested-address"&gt;
+          &lt;h5&gt;Shipping Address&lt;/h5&gt;
+          &lt;NestedAddress
+            register={register}
+            errors={errors}
+            prefix="shipping.address"
+          /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-section"&gt;
+        &lt;h3&gt;Billing Information&lt;/h3&gt;
+        
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Billing Method&lt;/label&gt;
+          &lt;select {...register("billing.method")}&gt;
+            &lt;option value="credit"&gt;Credit Card&lt;/option&gt;
+            &lt;option value="debit"&gt;Debit Card&lt;/option&gt;
+            &lt;option value="paypal"&gt;PayPal&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+
+        {(billingMethod === "credit" || billingMethod === "debit") && (
+          &lt;div className="card-info"&gt;
+            &lt;div className="form-row"&gt;
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;Card Last 4 Digits&lt;/label&gt;
+                &lt;input {...register("billing.cardInfo.last4")} /&gt;
+              &lt;/div&gt;
+              &lt;div className="form-group"&gt;
+                &lt;label&gt;Expiry (MM/YY)&lt;/label&gt;
+                &lt;input {...register("billing.cardInfo.expiry")} placeholder="MM/YY" /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div className="form-group"&gt;
+              &lt;label&gt;Card Brand&lt;/label&gt;
+              &lt;select {...register("billing.cardInfo.brand")}&gt;
+                &lt;option value=""&gt;Select brand&lt;/option&gt;
+                &lt;option value="visa"&gt;Visa&lt;/option&gt;
+                &lt;option value="mastercard"&gt;Mastercard&lt;/option&gt;
+                &lt;option value="amex"&gt;Amex&lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;button type="submit" disabled={isSubmitting}&gt;
+        {isSubmitting ? "Processing..." : "Place Order"}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+// ====== 4. Nested Item Options Component ======
+interface NestedItemOptionsProps {
+  control: any;
+  itemIndex: number;
+}
+
+function NestedItemOptions({ control, itemIndex }: NestedItemOptionsProps) {
+  const {
+    fields: options,
+    append: addOption,
+    remove: removeOption,
+  } = useFieldArray({
+    control,
+    name: \`items.\${itemIndex}.options\`,
+  });
+
+  return (
+    &lt;div className="options-container"&gt;
+      {options.map((option, optionIndex) => (
+        &lt;div key={option.id} className="option-row"&gt;
+          &lt;div className="form-row"&gt;
+            &lt;div className="form-group"&gt;
+              &lt;label&gt;Size&lt;/label&gt;
+              &lt;select {...control.register(\`items.\${itemIndex}.options.\${optionIndex}.size\`)}&gt;
+                &lt;option value=""&gt;Select size&lt;/option&gt;
+                &lt;option value="S"&gt;Small&lt;/option&gt;
+                &lt;option value="M"&gt;Medium&lt;/option&gt;
+                &lt;option value="L"&gt;Large&lt;/option&gt;
+                &lt;option value="XL"&gt;Extra Large&lt;/option&gt;
+              &lt;/select&gt;
+            &lt;/div&gt;
+            &lt;div className="form-group"&gt;
+              &lt;label&gt;Color&lt;/label&gt;
+              &lt;input {...control.register(\`items.\${itemIndex}.options.\${optionIndex}.color\`)} placeholder="Color" /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div className="form-group"&gt;
+            &lt;label&gt;Notes&lt;/label&gt;
+            &lt;input {...control.register(\`items.\${itemIndex}.options.\${optionIndex}.notes\`)} placeholder="Special notes" /&gt;
+          &lt;/div&gt;
+          &lt;button type="button" onClick={() => removeOption(optionIndex)}&gt;Remove Option&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;button type="button" onClick={() => addOption({ size: "", color: "", notes: "" })}&gt;
+        + Add Option
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 5. Reusable Nested Address Component ======
+interface NestedAddressProps {
+  register: any;
+  errors: any;
+  prefix: string;
+}
+
+function NestedAddress({ register, errors, prefix }: NestedAddressProps) {
+  const getError = (field: string) => {
+    const path = \`\${prefix}.\${field}\`;
+    const keys = path.split(".");
+    let current = errors;
+    for (const key of keys) {
+      if (current?.[key]) {
+        current = current[key];
+      } else {
+        return undefined;
+      }
+    }
+    return current;
+  };
+
+  return (
+    &lt;div className="address-fields"&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Street&lt;/label&gt;
+        &lt;input {...register(\`\${prefix}.street\`)} className={getError("street") ? "error" : ""} /&gt;
+        {getError("street") && &lt;span className="error"&gt;{getError("street")?.message}&lt;/span&gt;}
+      &lt;/div&gt;
+
+      &lt;div className="form-row"&gt;
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;City&lt;/label&gt;
+          &lt;input {...register(\`\${prefix}.city\`)} className={getError("city") ? "error" : ""} /&gt;
+          {getError("city") && &lt;span className="error"&gt;{getError("city")?.message}&lt;/span&gt;}
+        &lt;/div&gt;
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;State&lt;/label&gt;
+          &lt;input {...register(\`\${prefix}.state\`)} className={getError("state") ? "error" : ""} /&gt;
+          {getError("state") && &lt;span className="error"&gt;{getError("state")?.message}&lt;/span&gt;}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className="form-row"&gt;
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;ZIP Code&lt;/label&gt;
+          &lt;input {...register(\`\${prefix}.zipCode\`)} className={getError("zipCode") ? "error" : ""} /&gt;
+          {getError("zipCode") && &lt;span className="error"&gt;{getError("zipCode")?.message}&lt;/span&gt;}
+        &lt;/div&gt;
+        &lt;div className="form-group"&gt;
+          &lt;label&gt;Country&lt;/label&gt;
+          &lt;input {...register(\`\${prefix}.country\`)} className={getError("country") ? "error" : ""} /&gt;
+          {getError("country") && &lt;span className="error"&gt;{getError("country")?.message}&lt;/span&gt;}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 6. Nested Form with Formik ======
+// Alternative implementation using Formik
+import { Formik, Field, Form, FieldArray, ErrorMessage } from "formik";
+import * as yup from "yup";
+
+const formikAddressSchema = yup.object({
+  street: yup.string().required("Street is required"),
+  city: yup.string().required("City is required"),
+  state: yup.string().required("State is required"),
+  zipCode: yup.string().matches(/^[0-9]{5}$/, "Invalid ZIP code").required("ZIP code is required"),
+  country: yup.string().required("Country is required"),
+});
+
+const formikUserSchema = yup.object({
+  firstName: yup.string().required("First name is required"),
+  lastName: yup.string().required("Last name is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  address: formikAddressSchema,
+  shippingAddress: formikAddressSchema,
+  items: yup.array().of(
+    yup.object({
+      name: yup.string().required("Item name is required"),
+      quantity: yup.number().min(1, "Quantity must be at least 1"),
+      price: yup.number().min(0, "Price must be at least 0"),
+    })
+  ),
+});
+
+function FormikNestedForm() {
+  return (
+    &lt;Formik
+      initialValues={{
+        firstName: "",
+        lastName: "",
+        email: "",
+        address: { street: "", city: "", state: "", zipCode: "", country: "" },
+        shippingAddress: { street: "", city: "", state: "", zipCode: "", country: "" },
+        items: [{ name: "", quantity: 1, price: 0 }],
+      }}
+      validationSchema={formikUserSchema}
+      onSubmit={(values) => console.log(values)}
+    &gt;
+      {({ values, isSubmitting }) => (
+        &lt;Form&gt;
+          &lt;div className="form-section"&gt;
+            &lt;h3&gt;Personal Information&lt;/h3&gt;
+            &lt;Field name="firstName" placeholder="First Name" /&gt;
+            &lt;ErrorMessage name="firstName" component="div" className="error" /&gt;
+            &lt;Field name="lastName" placeholder="Last Name" /&gt;
+            &lt;ErrorMessage name="lastName" component="div" className="error" /&gt;
+            &lt;Field name="email" type="email" placeholder="Email" /&gt;
+            &lt;ErrorMessage name="email" component="div" className="error" /&gt;
+          &lt;/div&gt;
+
+          &lt;div className="form-section"&gt;
+            &lt;h3&gt;Shipping Address&lt;/h3&gt;
+            &lt;Field name="address.street" placeholder="Street" /&gt;
+            &lt;ErrorMessage name="address.street" component="div" className="error" /&gt;
+            &lt;Field name="address.city" placeholder="City" /&gt;
+            &lt;ErrorMessage name="address.city" component="div" className="error" /&gt;
+            &lt;Field name="address.state" placeholder="State" /&gt;
+            &lt;ErrorMessage name="address.state" component="div" className="error" /&gt;
+            &lt;Field name="address.zipCode" placeholder="ZIP Code" /&gt;
+            &lt;ErrorMessage name="address.zipCode" component="div" className="error" /&gt;
+            &lt;Field name="address.country" placeholder="Country" /&gt;
+            &lt;ErrorMessage name="address.country" component="div" className="error" /&gt;
+          &lt;/div&gt;
+
+          &lt;div className="form-section"&gt;
+            &lt;h3&gt;Items&lt;/h3&gt;
+            &lt;FieldArray name="items"&gt;
+              {({ push, remove }) =&gt; (
+                &lt;div&gt;
+                  {values.items.map((_, index) => (
+                    &lt;div key={index} className="item-row"&gt;
+                      &lt;Field name={\`items.\${index}.name\`} placeholder="Item name" /&gt;
+                      &lt;ErrorMessage name={\`items.\${index}.name\`} component="div" className="error" /&gt;
+                      &lt;Field name={\`items.\${index}.quantity\`} type="number" placeholder="Quantity" /&gt;
+                      &lt;ErrorMessage name={\`items.\${index}.quantity\`} component="div" className="error" /&gt;
+                      &lt;Field name={\`items.\${index}.price\`} type="number" step="0.01" placeholder="Price" /&gt;
+                      &lt;ErrorMessage name={\`items.\${index}.price\`} component="div" className="error" /&gt;
+                      &lt;button type="button" onClick={() => remove(index)}&gt;Remove&lt;/button&gt;
+                    &lt;/div&gt;
+                  ))}
+                  &lt;button type="button" onClick={() => push({ name: "", quantity: 1, price: 0 })}&gt;
+                    Add Item
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              )}
+            &lt;/FieldArray&gt;
+          &lt;/div&gt;
+
+          &lt;button type="submit" disabled={isSubmitting}&gt;Submit&lt;/button&gt;
+        &lt;/Form&gt;
+      )}
+    &lt;/Formik&gt;
+  );
+}
+
+export {
+  NestedUserProfileForm,
+  NestedOrderForm,
+  NestedItemOptions,
+  NestedAddress,
+  FormikNestedForm,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Nested Forms Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Use Dot Notation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use dot notation for nested fields</td>
+          <td style="border: 1px solid black; padding: 8px;">Clear structure, works with all libraries</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Schema Composition</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Compose validation schemas</td>
+          <td style="border: 1px solid black; padding: 8px;">Reusability, maintainability</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Memoize Components</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Memoize nested form components</td>
+          <td style="border: 1px solid black; padding: 8px;">Performance with deep nesting</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error Handling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Handle errors at each nesting level</td>
+          <td style="border: 1px solid black; padding: 8px;">Better UX, specific error messages</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Default Values</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Set default values for nested structures</td>
+          <td style="border: 1px solid black; padding: 8px;">Avoid undefined errors</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Form Context</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Use form context for deep components</td>
+          <td style="border: 1px solid black; padding: 8px;">Avoid prop drilling</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are nested forms and how do you handle them?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Nested forms handle complex, hierarchical data structures where form fields are organized 
+            in nested objects or arrays. Handling approaches: (1) <strong>Dot notation:</strong> Use 
+            dot notation for field names (<code>address.street</code>), (2) <strong>Schema composition:</strong> 
+            Compose validation schemas for nested structures, (3) <strong>Component splitting:</strong> 
+            Split nested forms into reusable components, (4) <strong>Field arrays:</strong> Use 
+            <code>useFieldArray</code> for arrays of objects, (5) <strong>Form context:</strong> Use 
+            form context for deeply nested components, (6) <strong>Default values:</strong> Set default 
+            values for nested structures to avoid undefined errors. The key is to keep nested structures 
+            organized and maintainable.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle validation for nested fields?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Validation for nested fields: (1) <strong>Schema nesting:</strong> Use nested schemas with 
+            Yup or Zod (<code>address: yup.object({ street: yup.string() })</code>), (2) <strong>Path-based:</strong> 
+            Use dot notation for error paths (<code>address.street</code>), (3) <strong>Composition:</strong> 
+            Compose reusable validation schemas, (4) <strong>Array validation:</strong> Use 
+            <code>array().of()</code> for array items, (5) <strong>Cross-field validation:</strong> 
+            Validate dependencies between nested fields, (6) <strong>Error display:</strong> Display 
+            errors at the appropriate nesting level. Most form libraries support nested validation 
+            out of the box with proper path handling.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What are the challenges of deeply nested forms?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Challenges: (1) <strong>Performance:</strong> Deep nesting can cause performance issues with 
+            many re-renders, (2) <strong>Prop drilling:</strong> Passing form state through many levels, 
+            (3) <strong>Error handling:</strong> Errors can be difficult to track at deep nesting levels, 
+            (4) <strong>Validation:</strong> Complex validation with dependencies between nested fields, 
+            (5) <strong>State management:</strong> Managing state for deeply nested structures, 
+            (6) <strong>UX complexity:</strong> Users may struggle with very nested forms, (7) <strong>Code 
+            maintainability:</strong> Deep nesting can make code hard to maintain. Solutions include 
+            using form context, splitting into smaller components, and using schema validation libraries.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle arrays of nested objects in forms?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Handling arrays of nested objects: (1) <strong>useFieldArray:</strong> React Hook Form's 
+            <code>useFieldArray</code> handles dynamic arrays, (2) <strong>FieldArray:</strong> Formik's 
+            <code>FieldArray</code> for dynamic arrays, (3) <strong>Dot notation with index:</strong> 
+            Use <code>items.\${index}.name</code> for field registration, (4) <strong>Array validation:</strong> 
+            Use <code>yup.array().of(schema)</code> or <code>z.array(z.object())</code>, (5) <strong>Key 
+            management:</strong> Use stable keys for array items, (6) <strong>Performance:</strong> 
+            Memoize array item components, (7) <strong>Reordering:</strong> Support drag-and-drop or 
+            reordering of array items. The key is to use the array management features provided by 
+            your form library.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://react-hook-form.com/api/useform",
+      "https://react-hook-form.com/api/usefieldarray",
+      "https://formik.org/docs/api/fieldarray",
+    ],
+  },
+  {
+    topic: "File Uploads",
+    tags: ["React", "Forms", "File Upload", "Multipart"],
+    explanation: `<div>
+      <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+        File Uploads — Interview Guide (Deep Dive)
+      </h4>
+
+      <p style="line-height: 1.75; margin-top: 1.5rem;">
+        <strong>File uploads</strong> are a common requirement in web applications, allowing users to upload 
+        files (images, documents, videos, etc.) to the server. Implementing file uploads involves handling 
+        file selection, validation, progress tracking, and sending files to the server using FormData or 
+        direct upload to cloud storage. It requires careful attention to user experience, security, and 
+        performance.
+      </p>
+
+      <p style="line-height: 1.75; margin-top: 1rem;">
+        <strong>Why Interviewers Care:</strong> File uploads are a fundamental feature in many applications. 
+        Interviewers ask about them to test your understanding of multipart/form-data, file handling, 
+        progress tracking, and your ability to implement secure and user-friendly file upload solutions.
+      </p>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        File Upload Approaches
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Approach</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Pros</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Cons</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>FormData</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Multipart form submission</td>
+          <td style="border: 1px solid black; padding: 8px;">Standard, widely supported</td>
+          <td style="border: 1px solid black; padding: 8px;">Large files can be slow</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Direct Upload</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Upload directly to cloud storage</td>
+          <td style="border: 1px solid black; padding: 8px;">Scalable, no server load</td>
+          <td style="border: 1px solid black; padding: 8px;">Security concerns</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Chunked Upload</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Break file into chunks</td>
+          <td style="border: 1px solid black; padding: 8px;">Resumable, large files</td>
+          <td style="border: 1px solid black; padding: 8px;">More complex</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Streaming</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Stream file to server</td>
+          <td style="border: 1px solid black; padding: 8px;">Memory efficient</td>
+          <td style="border: 1px solid black; padding: 8px;">Requires modern browsers</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Presigned URL</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Get signed URL from server</td>
+          <td style="border: 1px solid black; padding: 8px;">Secure, scalable</td>
+          <td style="border: 1px solid black; padding: 8px;">Requires cloud setup</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        TypeScript Implementation — File Uploads
+      </h4>
+
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+// ====== 1. File Upload Types ======
+interface FileUploadState {
+  file: File | null;
+  progress: number;
+  status: "idle" | "uploading" | "success" | "error";
+  error: string | null;
+  uploadId: string | null;
+}
+
+interface UploadOptions {
+  onProgress?: (progress: number) => void;
+  onSuccess?: (response: any) => void;
+  onError?: (error: Error) => void;
+  chunkSize?: number;
+  maxFileSize?: number;
+  allowedTypes?: string[];
+}
+
+// ====== 2. File Upload Service ======
+class FileUploadService {
+  private static instance: FileUploadService;
+
+  static getInstance(): FileUploadService {
+    if (!FileUploadService.instance) {
+      FileUploadService.instance = new FileUploadService();
+    }
+    return FileUploadService.instance;
+  }
+
+  // Upload file using FormData
+  async uploadFile(
+    file: File,
+    endpoint: string,
+    options: UploadOptions = {},
+    additionalData?: Record&lt;string, any&gt;
+  ): Promise&lt;any&gt; {
+    const { onProgress, onSuccess, onError } = options;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    if (additionalData) {
+      Object.entries(additionalData).forEach(([key, value]) => {
+        formData.append(key, String(value));
+      });
+    }
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      
+      xhr.open("POST", endpoint, true);
+      
+      // Progress tracking
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const progress = Math.round((event.loaded / event.total) * 100);
+          onProgress?.(progress);
+        }
+      });
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const response = JSON.parse(xhr.responseText);
+            onSuccess?.(response);
+            resolve(response);
+          } catch {
+            onSuccess?.(xhr.responseText);
+            resolve(xhr.responseText);
+          }
+        } else {
+          const error = new Error(\`Upload failed: \${xhr.status}\`);
+          onError?.(error);
+          reject(error);
+        }
+      };
+
+      xhr.onerror = () => {
+        const error = new Error("Network error during upload");
+        onError?.(error);
+        reject(error);
+      };
+
+      xhr.send(formData);
+    });
+  }
+
+  // Upload with Axios
+  async uploadWithAxios(
+    file: File,
+    endpoint: string,
+    options: UploadOptions = {},
+    additionalData?: Record&lt;string, any&gt;
+  ): Promise&lt;any&gt; {
+    const { onProgress } = options;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    
+    if (additionalData) {
+      Object.entries(additionalData).forEach(([key, value]) => {
+        formData.append(key, String(value));
+      });
+    }
+
+    const response = await axios.post(endpoint, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress: (progressEvent) => {
+        if (progressEvent.total) {
+          const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+          onProgress?.(progress);
+        }
+      },
+    });
+
+    return response.data;
+  }
+
+  // Chunked upload for large files
+  async uploadChunked(
+    file: File,
+    endpoint: string,
+    options: UploadOptions = {}
+  ): Promise&lt;any&gt; {
+    const { chunkSize = 1024 * 1024 * 5, onProgress } = options; // 5MB chunks
+    const totalChunks = Math.ceil(file.size / chunkSize);
+    let uploadId: string | null = null;
+
+    // Initialize upload
+    const initResponse = await fetch(\`\${endpoint}/init\`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fileName: file.name,
+        fileSize: file.size,
+        totalChunks,
+      }),
+    });
+    const { uploadId: initUploadId } = await initResponse.json();
+    uploadId = initUploadId;
+
+    // Upload each chunk
+    for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+      const start = chunkIndex * chunkSize;
+      const end = Math.min(start + chunkSize, file.size);
+      const chunk = file.slice(start, end);
+
+      const chunkFormData = new FormData();
+      chunkFormData.append("chunk", chunk);
+      chunkFormData.append("uploadId", uploadId);
+      chunkFormData.append("chunkIndex", String(chunkIndex));
+      chunkFormData.append("totalChunks", String(totalChunks));
+
+      const response = await fetch(\`\${endpoint}/chunk\`, {
+        method: "POST",
+        body: chunkFormData,
+      });
+
+      if (!response.ok) {
+        throw new Error(\`Chunk \${chunkIndex} upload failed\`);
+      }
+
+      const progress = Math.round(((chunkIndex + 1) / totalChunks) * 100);
+      onProgress?.(progress);
+    }
+
+    // Complete upload
+    const completeResponse = await fetch(\`\${endpoint}/complete\`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uploadId }),
+    });
+
+    return completeResponse.json();
+  }
+
+  // Upload with presigned URL
+  async uploadWithPresignedUrl(
+    file: File,
+    presignedUrl: string,
+    options: UploadOptions = {}
+  ): Promise&lt;any&gt; {
+    const { onProgress } = options;
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      
+      xhr.open("PUT", presignedUrl, true);
+      
+      xhr.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) {
+          const progress = Math.round((event.loaded / event.total) * 100);
+          onProgress?.(progress);
+        }
+      });
+
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve({ success: true, status: xhr.status });
+        } else {
+          reject(new Error(\`Upload failed: \${xhr.status}\`));
+        }
+      };
+
+      xhr.onerror = () => {
+        reject(new Error("Network error during upload"));
+      };
+
+      xhr.send(file);
+    });
+  }
+
+  // Validate file
+  validateFile(
+    file: File,
+    options: {
+      maxSize?: number;
+      allowedTypes?: string[];
+    } = {}
+  ): { valid: boolean; error?: string } {
+    const { maxSize = 10 * 1024 * 1024, allowedTypes = [] } = options; // 10MB default
+
+    // Check size
+    if (file.size > maxSize) {
+      return {
+        valid: false,
+        error: \`File size exceeds \${maxSize / (1024 * 1024)}MB limit\`,
+      };
+    }
+
+    // Check type
+    if (allowedTypes.length > 0) {
+      const isAllowed = allowedTypes.some((type) => {
+        if (type.includes("*")) {
+          const [category] = type.split("/");
+          return file.type.startsWith(category);
+        }
+        return file.type === type;
+      });
+
+      if (!isAllowed) {
+        return {
+          valid: false,
+          error: \`File type \${file.type} is not allowed\`,
+        };
+      }
+    }
+
+    return { valid: true };
+  }
+}
+
+// ====== 3. File Upload Hook ======
+import { useState, useCallback, useRef } from "react";
+
+function useFileUpload(endpoint: string, options: UploadOptions = {}) {
+  const [state, setState] = useState&lt;FileUploadState&gt;({
+    file: null,
+    progress: 0,
+    status: "idle",
+    error: null,
+    uploadId: null,
+  });
+
+  const uploadService = FileUploadService.getInstance();
+  const abortControllerRef = useRef&lt;AbortController | null&gt;(null);
+
+  const upload = useCallback(
+    async (file: File, additionalData?: Record&lt;string, any&gt;) => {
+      // Validate file
+      const validation = uploadService.validateFile(file, {
+        maxSize: options.maxFileSize,
+        allowedTypes: options.allowedTypes,
+      });
+
+      if (!validation.valid) {
+        setState((prev) => ({
+          ...prev,
+          status: "error",
+          error: validation.error || "Invalid file",
+        }));
+        return;
+      }
+
+      setState({
+        file,
+        progress: 0,
+        status: "uploading",
+        error: null,
+        uploadId: null,
+      });
+
+      try {
+        const result = await uploadService.uploadFile(
+          file,
+          endpoint,
+          {
+            onProgress: (progress) => {
+              setState((prev) => ({ ...prev, progress }));
+            },
+            onSuccess: (data) => {
+              setState((prev) => ({
+                ...prev,
+                status: "success",
+                progress: 100,
+              }));
+              options.onSuccess?.(data);
+            },
+            onError: (error) => {
+              setState((prev) => ({
+                ...prev,
+                status: "error",
+                error: error.message,
+              }));
+              options.onError?.(error);
+            },
+          },
+          additionalData
+        );
+
+        return result;
+      } catch (error) {
+        const err = error instanceof Error ? error : new Error("Upload failed");
+        setState((prev) => ({
+          ...prev,
+          status: "error",
+          error: err.message,
+        }));
+        throw err;
+      }
+    },
+    [endpoint, options, uploadService]
+  );
+
+  const reset = useCallback(() => {
+    setState({
+      file: null,
+      progress: 0,
+      status: "idle",
+      error: null,
+      uploadId: null,
+    });
+  }, []);
+
+  const abort = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      setState((prev) => ({
+        ...prev,
+        status: "idle",
+        error: "Upload cancelled",
+      }));
+    }
+  }, []);
+
+  return {
+    ...state,
+    upload,
+    reset,
+    abort,
+    isUploading: state.status === "uploading",
+    isSuccess: state.status === "success",
+    isError: state.status === "error",
+  };
+}
+
+// ====== 4. File Upload Component ======
+function FileUploadComponent({
+  endpoint,
+  onUploadComplete,
+  allowedTypes = ["image/*", "application/pdf"],
+  maxSize = 10 * 1024 * 1024,
+  multiple = false,
+}: {
+  endpoint: string;
+  onUploadComplete?: (data: any) => void;
+  allowedTypes?: string[];
+  maxSize?: number;
+  multiple?: boolean;
+}) {
+  const { upload, progress, status, error, isUploading, isSuccess, reset } = useFileUpload(
+    endpoint,
+    {
+      maxFileSize: maxSize,
+      allowedTypes,
+      onSuccess: onUploadComplete,
+    }
+  );
+
+  const [dragOver, setDragOver] = useState(false);
+  const inputRef = useRef&lt;HTMLInputElement | null&gt;(null);
+
+  const handleFileChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      upload(file, { fileName: file.name });
+    }
+    // Reset input
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  };
+
+  const handleDrop = (event: React.DragEvent&lt;HTMLDivElement&gt;) => {
+    event.preventDefault();
+    setDragOver(false);
+    
+    const files = event.dataTransfer.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      upload(file, { fileName: file.name });
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent&lt;HTMLDivElement&gt;) => {
+    event.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = (event: React.DragEvent&lt;HTMLDivElement&gt;) => {
+    event.preventDefault();
+    setDragOver(false);
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  return (
+    &lt;div className="file-upload-container"&gt;
+      &lt;div
+        className={\`drop-zone \${dragOver ? "drag-over" : ""} \${status === "uploading" ? "uploading" : ""} \${status === "success" ? "success" : ""} \${status === "error" ? "error" : ""}\`}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onClick={() => inputRef.current?.click()}
+      &gt;
+        &lt;input
+          ref={inputRef}
+          type="file"
+          onChange={handleFileChange}
+          accept={allowedTypes.join(",")}
+          multiple={multiple}
+          className="file-input"
+        /&gt;
+
+        {!isUploading && status !== "success" && (
+          &lt;div className="drop-content"&gt;
+            &lt;div className="upload-icon"&gt;📤&lt;/div&gt;
+            &lt;div className="upload-text"&gt;
+              Drag & drop files here or click to browse
+            &lt;/div&gt;
+            &lt;div className="upload-hint"&gt;
+              Allowed: {allowedTypes.join(", ")} | Max: {formatFileSize(maxSize)}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        )}
+
+        {isUploading && (
+          &lt;div className="upload-progress"&gt;
+            &lt;div className="progress-info"&gt;
+              &lt;span&gt;Uploading... {progress}%&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div className="progress-bar"&gt;
+              &lt;div
+                className="progress-fill"
+                style={{ width: \`\${progress}%\` }}
+              /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        )}
+
+        {isSuccess && (
+          &lt;div className="upload-success"&gt;
+            &lt;div className="success-icon"&gt;✅&lt;/div&gt;
+            &lt;div className="success-text"&gt;File uploaded successfully!&lt;/div&gt;
+            &lt;button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                reset();
+              }}
+              className="upload-reset"
+            &gt;
+              Upload another file
+            &lt;/button&gt;
+          &lt;/div>
+        )}
+
+        {error && (
+          &lt;div className="upload-error"&gt;
+            &lt;div className="error-icon"&gt;❌&lt;/div&gt;
+            &lt;div className="error-text"&gt;{error}&lt;/div&gt;
+            &lt;button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                reset();
+              }}
+              className="upload-reset"
+            &gt;
+              Try again
+            &lt;/button&gt;
+          &lt;/div&gt;
+        )}
+      &lt;/div&gt;
+
+      {status === "uploading" && (
+        &lt;button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            // Cancel upload
+          }}
+          className="cancel-upload"
+        &gt;
+          Cancel
+        &lt;/button&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 5. Multiple File Upload ======
+function MultipleFileUploadComponent({ endpoint }: { endpoint: string }) {
+  const [files, setFiles] = useState&lt;{ file: File; status: string; progress: number }[]&gt;([]);
+  const uploadService = FileUploadService.getInstance();
+
+  const handleFilesSelected = async (selectedFiles: FileList) => {
+    const fileArray = Array.from(selectedFiles);
+    
+    setFiles(fileArray.map(f => ({ file: f, status: "pending", progress: 0 })));
+
+    for (const file of fileArray) {
+      try {
+        await uploadService.uploadFile(file, endpoint, {
+          onProgress: (progress) => {
+            setFiles(prev =>
+              prev.map(f =>
+                f.file === file ? { ...f, progress, status: "uploading" } : f
+              )
+            );
+          },
+        });
+        setFiles(prev =>
+          prev.map(f =>
+            f.file === file ? { ...f, status: "success", progress: 100 } : f
+          )
+        );
+      } catch (error) {
+        setFiles(prev =>
+          prev.map(f =>
+            f.file === file ? { ...f, status: "error" } : f
+          )
+        );
+      }
+    }
+  };
+
+  return (
+    &lt;div className="multiple-upload"&gt;
+      &lt;input
+        type="file"
+        multiple
+        onChange={(e) => {
+          if (e.target.files) {
+            handleFilesSelected(e.target.files);
+          }
+        }}
+      /&gt;
+      &lt;div className="file-list"&gt;
+        {files.map((file, index) => (
+          &lt;div key={index} className="file-item"&gt;
+            &lt;span className="file-name"&gt;{file.file.name}&lt;/span&gt;
+            &lt;span className={\`file-status \${file.status}\`}&gt;
+              {file.status === "pending" && "Pending"}
+              {file.status === "uploading" && \Uploading $ {file.progress}%\}
+              {file.status === "success" && "✅ Complete"}
+              {file.status === "error" && "❌ Failed"}
+            &lt;/span&gt;
+            {file.status === "uploading" && (
+              &lt;div className="progress-bar"&gt;
+                &lt;div className="progress-fill" style={{ width: \${file.progress}%\ }} /&gt;
+              &lt;/div&gt;
+            )}
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ====== 6. Image Upload with Preview ======
+function ImageUploadWithPreview({ endpoint }: { endpoint: string }) {
+  const [preview, setPreview] = useState&lt;string | null&gt;(null);
+  const { upload, isUploading, progress, error, reset } = useFileUpload(endpoint);
+
+  const handleFileChange = (event: React.ChangeEvent&lt;HTMLInputElement&gt;) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      
+      upload(file);
+    }
+  };
+
+  return (
+    &lt;div className="image-upload"&gt;
+      {preview ? (
+        &lt;div className="image-preview"&gt;
+          &lt;img src={preview} alt="Preview" className="preview-image" /&gt;
+          {isUploading && (
+            &lt;div className="upload-overlay"&gt;
+              &lt;div className="progress"&gt;Uploading... {progress}%&lt;/div&gt;
+            &lt;/div&gt;
+          )}
+          {error && &lt;div className="error"&gt;{error}&lt;/div&gt;}
+          &lt;button onClick={reset} className="remove-image"&gt;
+            Remove
+          &lt;/button&gt;
+        &lt;/div&gt;
+      ) : (
+        &lt;label className="upload-label"&gt;
+          &lt;input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden-input"
+          /&gt;
+          &lt;div className="upload-placeholder"&gt;
+            <span className="upload-icon">📸</span>
+            &lt;span&gt;Click to upload image&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/label&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ====== 7. File Upload with Form ======
+function FormWithFileUpload() {
+  const [formData, setFormData] = useState({ name: "", description: "" });
+  const { upload, isUploading, progress } = useFileUpload("/api/upload");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const fileInput = document.getElementById("file") as HTMLInputElement;
+    const file = fileInput.files?.[0];
+    
+    if (file) {
+      await upload(file, formData);
+    }
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Name&lt;/label&gt;
+        &lt;input
+          type="text"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        /&gt;
+      &lt;/div&gt;
+      
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;Description&lt;/label&gt;
+        &lt;textarea
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+        /&gt;
+      &lt;/div&gt;
+      
+      &lt;div className="form-group"&gt;
+        &lt;label&gt;File&lt;/label&gt;
+        &lt;input id="file" type="file" /&gt;
+      &lt;/div&gt;
+      
+      {isUploading && &lt;div&gt;Uploading: {progress}%&lt;/div&gt;}
+      
+      &lt;button type="submit" disabled={isUploading}&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+
+export {
+  FileUploadService,
+  useFileUpload,
+  FileUploadComponent,
+  MultipleFileUploadComponent,
+  ImageUploadWithPreview,
+  FormWithFileUpload,
+};
+        </code></pre>
+      </div>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        File Upload Best Practices
+      </h4>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+        <tr>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Practice</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Description</th>
+          <th style="border: 1px solid black; padding: 8px; background-color: #f0f0f0;">Why</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>File Validation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Validate size, type, and content</td>
+          <td style="border: 1px solid black; padding: 8px;">Security, UX, server protection</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Progress Tracking</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Show upload progress to users</td>
+          <td style="border: 1px solid black; padding: 8px;">Better UX, user feedback</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Chunked Uploads</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Upload large files in chunks</td>
+          <td style="border: 1px solid black; padding: 8px;">Resumable, memory efficient</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Preview</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Show preview for images</td>
+          <td style="border: 1px solid black; padding: 8px;">Confirmation, better UX</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Error Handling</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Handle and display upload errors</td>
+          <td style="border: 1px solid black; padding: 8px;">User communication</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; padding: 8px;"><strong>Cancelation</strong></td>
+          <td style="border: 1px solid black; padding: 8px;">Allow users to cancel uploads</td>
+          <td style="border: 1px solid black; padding: 8px;">User control</td>
+        </tr>
+      </table>
+
+      <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+        Interview Questions
+      </h4>
+
+      <div style="margin-top: 1rem;">
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle file uploads in React applications?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            File upload handling in React: (1) <strong>File input:</strong> Use &lt;input type="file" /&gt; 
+            for file selection, (2) <strong>FormData:</strong> Use FormData to send files with multipart 
+            requests, (3) <strong>Progress tracking:</strong> Use XMLHttpRequest or fetch with progress 
+            events, (4) <strong>Validation:</strong> Validate file size, type, and content before upload, 
+            (5) <strong>Preview:</strong> Generate previews for images using FileReader, (6) <strong>Error 
+            handling:</strong> Handle upload errors with user-friendly messages, (7) <strong>Chunked 
+            uploads:</strong> Implement chunked uploads for large files, (8) <strong>Cancelation:</strong> 
+            Allow users to cancel uploads. The key is to provide a smooth user experience with proper 
+            feedback and error handling.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle large file uploads in React?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            Large file upload strategies: (1) <strong>Chunked uploads:</strong> Split files into chunks 
+            (e.g., 5MB each) and upload sequentially, (2) <strong>Resumable uploads:</strong> Support 
+            resuming failed uploads from the last successful chunk, (3) <strong>Progress tracking:</strong> 
+            Show overall progress across all chunks, (4) <strong>Streaming:</strong> Use streaming APIs 
+            for memory-efficient uploads, (5) <strong>Background uploads:</strong> Allow users to continue 
+            using the app while uploading, (6) <strong>Cloud storage:</strong> Upload directly to cloud 
+            storage (S3, GCS) using presigned URLs, (7) <strong>Server-side processing:</strong> Use 
+            worker threads or separate services for processing. The key is to not block the UI and provide 
+            clear feedback to the user.
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "How do you handle file validation before upload?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            File validation: (1) <strong>Size validation:</strong> Check file size against maximum allowed, 
+            (2) <strong>Type validation:</strong> Validate MIME type against allowed types, 
+            (3) <strong>Extension validation:</strong> Check file extension for additional security, 
+            (4) <strong>Content validation:</strong> Validate file content (e.g., images dimensions, 
+            virus scanning), (5) <strong>Client-side validation:</strong> Perform validation on the client 
+            for immediate feedback, (6) <strong>Server-side validation:</strong> Always validate on the 
+            server for security, (7) <strong>Error messages:</strong> Show clear, user-friendly error 
+            messages for failed validation. Always validate on both client (UX) and server (security).
+          </p>
+        </div>
+
+        <div style="border: 1px solid #ddd; padding: 1rem; margin-top: 0.5rem; border-radius: 4px;">
+          <p style="font-weight: 600;">Q: "What is the difference between FormData and JSON for file uploads?"</p>
+          <p style="line-height: 1.75; margin-top: 0.5rem;">
+            <strong>FormData:</strong> (1) Used for multipart/form-data, (2) Supports file uploads natively, 
+            (3) Can send both files and text fields, (4) Automatically sets appropriate Content-Type header, 
+            (5) Works with HTML forms, (6) Larger request size, (7) Better for file uploads. <strong>JSON:</strong> 
+            (1) Used for application/json, (2) Cannot send files directly, (3) Requires base64 encoding for 
+            files (large overhead), (4) Manual Content-Type header, (5) Not designed for files, (6) Smaller 
+            overhead, (7) Better for API responses. Use FormData for file uploads, JSON for data APIs.
+          </p>
+        </div>
+      </div>
+    </div>`,
+    examples: [{}],
+    questions: [{}],
+    links: [
+      "https://developer.mozilla.org/en-US/docs/Web/API/FormData",
+      "https://react-hook-form.com/advanced-usage#FileUpload",
+      "https://www.npmjs.com/package/react-dropzone",
+    ],
+  },
+  {
     topic: "React Query",
     tags: ["React", "Data Fetching", "TanStack Query", "Caching", "State Management"],
     explanation: `<div>
@@ -88784,14 +94664,476 @@ module.exports = (env, argv) => {
               "https://webpack.js.org/guides/production/ - Production optimization guide",
             ],
           },
-          {
-            topic: "GraphQL with React",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
+        {
+    topic: "GraphQL with React",
+    tags: [""],
+    explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    GraphQL with React &amp; Node (Interview Guide — Deep Dive)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    GraphQL is a query language for APIs and a runtime for executing those queries against a strongly typed 
+    schema, created at Facebook in 2012 and open-sourced in 2015. Instead of a server exposing many fixed-shape 
+    endpoints (REST), a GraphQL server exposes a single endpoint backed by a schema describing every available 
+    type and field — the client sends a query describing exactly the data it wants, in exactly the shape it 
+    wants, and the server returns exactly that, no more and no less.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. Core Building Blocks
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Concept</th>
+      <th style="border: 1px solid black; padding: 8px;">What It Is</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Schema</td>
+      <td style="border: 1px solid black; padding: 8px;">A typed contract (written in SDL — Schema Definition Language) describing every type, field, and operation the API supports</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Query</td>
+      <td style="border: 1px solid black; padding: 8px;">A read operation — the client asks for specific fields on specific types</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Mutation</td>
+      <td style="border: 1px solid black; padding: 8px;">A write operation — create/update/delete, executed sequentially (unlike queries, which can run in parallel)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Subscription</td>
+      <td style="border: 1px solid black; padding: 8px;">A real-time operation — the client subscribes to an event and receives pushed updates, typically over WebSockets</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Resolver</td>
+      <td style="border: 1px solid black; padding: 8px;">A server-side function that knows how to fetch the data for one specific field in the schema</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Schema Definition Language (SDL)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-graphql">
+type Book {
+  id: ID!
+  title: String!
+  author: Author!
+}
+
+type Author {
+  id: ID!
+  name: String!
+  books: [Book!]!
+}
+
+type Query {
+  books: [Book!]!
+  book(id: ID!): Book
+}
+
+type Mutation {
+  addBook(title: String!, authorId: ID!): Book!
+}
+
+type Subscription {
+  bookAdded: Book!
+}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    <code>!</code> means non-nullable (the field always returns a value); <code>[Book!]!</code> means 
+    "a non-null list of non-null Books." Scalars are <code>Int</code>, <code>Float</code>, <code>String</code>, 
+    <code>Boolean</code>, <code>ID</code>, plus custom scalars you can define (e.g. <code>DateTime</code>). 
+    Beyond object types, the schema can also define <code>enum</code>, <code>interface</code>, <code>union</code>, 
+    and <code>input</code> types (used specifically for mutation arguments).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Queries, Mutations, and Fragments
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-graphql">
+# A query only returns the fields you ask for — nothing else
+query GetBooks {
+  books {
+    id
+    title
+    author {
+      name
+    }
+  }
+}
+
+# Mutations accept arguments and typically return the changed object
+mutation AddBook {
+  addBook(title: "Dune", authorId: "1") {
+    id
+    title
+  }
+}
+
+# Fragments let you reuse the same field selection across queries,
+# avoiding duplication as the same shape gets requested in multiple places
+fragment BookFields on Book {
+  id
+  title
+  author {
+    name
+  }
+}
+
+query GetBooksWithFragment {
+  books {
+    ...BookFields
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. Resolvers — How the Server Fills In the Schema
+  </h4>
+
+  <p style="line-height: 1.75;">
+    Every field in the schema can have a resolver function; if you don't provide one, GraphQL falls back to 
+    reading a same-named property off the parent object. Each resolver receives four arguments: 
+    <code>(parent, args, context, info)</code>.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const resolvers = {
+  Query: {
+    books: (parent, args, context) => context.db.books.findAll(),
+    book: (parent, args, context) => context.db.books.findById(args.id),
+  },
+  Mutation: {
+    addBook: (parent, args, context) =>
+      context.db.books.create({ title: args.title, authorId: args.authorId }),
+  },
+  // A resolver on a TYPE (not Query/Mutation) resolves that field
+  // whenever it's requested as part of a Book — this is where nested,
+  // related data gets fetched, and where the N+1 problem shows up (see below)
+  Book: {
+    author: (book, args, context) => context.db.authors.findById(book.authorId),
+  },
+};
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. GraphQL vs REST — Full Comparison
+  </h4>
+
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Aspect</th>
+      <th style="border: 1px solid black; padding: 8px;">REST</th>
+      <th style="border: 1px solid black; padding: 8px;">GraphQL</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Endpoints</td>
+      <td style="border: 1px solid black; padding: 8px;">Many, one per resource (<code>/users</code>, <code>/users/1/posts</code>)</td>
+      <td style="border: 1px solid black; padding: 8px;">A single endpoint (usually <code>/graphql</code>) for everything</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Data shape</td>
+      <td style="border: 1px solid black; padding: 8px;">Fixed per endpoint — prone to over-fetching (extra unused fields) and under-fetching (needing extra requests)</td>
+      <td style="border: 1px solid black; padding: 8px;">Client specifies exactly the fields it needs, in one request, however nested</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Versioning</td>
+      <td style="border: 1px solid black; padding: 8px;">Usually explicit (<code>/v1</code>, <code>/v2</code>)</td>
+      <td style="border: 1px solid black; padding: 8px;">Schema evolves in place — add new fields freely, deprecate old ones with <code>@deprecated</code> instead of versioning</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Caching</td>
+      <td style="border: 1px solid black; padding: 8px;">Simple — standard HTTP caching via URLs, CDNs, browser cache</td>
+      <td style="border: 1px solid black; padding: 8px;">Harder — usually POST to one URL, so HTTP caching doesn't apply; needs a normalized client cache (e.g. Apollo's <code>InMemoryCache</code>)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Type safety / docs</td>
+      <td style="border: 1px solid black; padding: 8px;">Not built-in — needs a separate spec (OpenAPI/Swagger)</td>
+      <td style="border: 1px solid black; padding: 8px;">Built-in — the schema itself is the type system and the documentation, with introspection</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Real-time updates</td>
+      <td style="border: 1px solid black; padding: 8px;">Separate mechanism (WebSockets, SSE) bolted on</td>
+      <td style="border: 1px solid black; padding: 8px;">Subscriptions are part of the spec itself</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Errors</td>
+      <td style="border: 1px solid black; padding: 8px;">HTTP status codes (404, 500, etc.)</td>
+      <td style="border: 1px solid black; padding: 8px;">Almost always HTTP 200, with an <code>errors</code> array alongside possibly-partial <code>data</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">File uploads</td>
+      <td style="border: 1px solid black; padding: 8px;">Native (multipart/form-data)</td>
+      <td style="border: 1px solid black; padding: 8px;">Not in the core spec — needs an extension (e.g. graphql-multipart-request-spec) or a separate REST/signed-URL upload endpoint</td>
+    </tr>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Pros of GraphQL
+  </h4>
+  <p style="line-height: 1.75;">
+    - Eliminates over-fetching and under-fetching — the client gets exactly the fields it asked for, nested 
+    data included, in a single round trip.<br>
+    - Strongly typed schema doubles as always-accurate documentation, with introspection powering tools like 
+    GraphiQL/Apollo Studio and generated TypeScript types.<br>
+    - No endpoint versioning — add fields freely, mark old ones <code>@deprecated</code>, and clients migrate on their own schedule.<br>
+    - Great fit for aggregating multiple backend services/microservices behind one graph (see Federation below), and for bandwidth-constrained clients like mobile apps.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    7. Cons / Trade-offs of GraphQL
+  </h4>
+  <p style="line-height: 1.75;">
+    - The N+1 problem is easy to introduce by accident and requires deliberate solving (DataLoader/batching — see below).<br>
+    - HTTP caching is largely lost since most GraphQL traffic is POST to one URL — you need a smarter client-side cache instead.<br>
+    - A malicious or careless client can request an arbitrarily deep or wide query, risking server overload — needs explicit depth/complexity limits.<br>
+    - More upfront server design work (schema, resolvers, N+1 mitigation) than a simple CRUD REST endpoint.<br>
+    - File uploads and simple binary responses are more awkward than in REST.<br>
+    - For a small, simple, resource-oriented API, GraphQL's tooling and schema overhead can be more cost than benefit.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    8. Node.js Server Setup (Apollo Server)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+
+const typeDefs = \`#graphql
+  type Book {
+    id: ID!
+    title: String!
+  }
+  type Query {
+    books: [Book!]!
+  }
+  type Mutation {
+    addBook(title: String!): Book!
+  }
+\`;
+
+const books = [{ id: "1", title: "Dune" }];
+
+const resolvers = {
+  Query: {
+    books: () => books,
+  },
+  Mutation: {
+    addBook: (parent, args) => {
+      const book = { id: String(books.length + 1), title: args.title };
+      books.push(book);
+      return book;
+    },
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 },
+  // "context" runs per-request — this is where you'd attach a
+  // DB connection, an authenticated user, or DataLoader instances
+  context: async ({ req }) => ({ db, user: await getUserFromToken(req.headers.authorization) }),
+});
+console.log("Server ready at " + url);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    9. React Client Setup (Apollo Client)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { ApolloClient, InMemoryCache, ApolloProvider, useQuery, useMutation, gql } from "@apollo/client";
+
+const client = new ApolloClient({
+  uri: "http://localhost:4000/graphql",
+  cache: new InMemoryCache(), // normalized client-side cache — see caching section below
+});
+
+function App() {
+  return (
+    &lt;ApolloProvider client={client}&gt;
+      &lt;BookList /&gt;
+    &lt;/ApolloProvider&gt;
+  );
+}
+
+const GET_BOOKS = gql\`
+  query GetBooks {
+    books {
+      id
+      title
+    }
+  }
+\`;
+
+function BookList() {
+  const { loading, error, data } = useQuery(GET_BOOKS);
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+  if (error) return &lt;p&gt;Error: {error.message}&lt;/p&gt;;
+  return (
+    &lt;ul&gt;
+      {data.books.map((book) =&gt; (
+        &lt;li key={book.id}&gt;{book.title}&lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+
+const ADD_BOOK = gql\`
+  mutation AddBook($title: String!) {
+    addBook(title: $title) {
+      id
+      title
+    }
+  }
+\`;
+
+function AddBookForm() {
+  const [addBook, { loading }] = useMutation(ADD_BOOK, {
+    // tells Apollo to re-run GET_BOOKS after the mutation so the
+    // list reflects the new book, without a manual page refresh
+    refetchQueries: [{ query: GET_BOOKS }],
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    addBook({ variables: { title: "New Book" } });
+  }
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;button type="submit" disabled={loading}&gt;Add Book&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    10. The N+1 Problem and DataLoader
+  </h4>
+
+  <p style="line-height: 1.75;">
+    If <code>Book.author</code> is resolved with a naive per-book database call, fetching 50 books triggers 
+    1 query for the books plus 50 separate queries for their authors — the classic "N+1" problem. 
+    <strong>DataLoader</strong> fixes this by batching and de-duplicating all the individual 
+    <code>.load(id)</code> calls made during a single tick into one combined request.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import DataLoader from "dataloader";
+
+// Create ONE loader per request (in the context function), not globally —
+// otherwise batched results could leak across different users' requests
+function createAuthorLoader(db) {
+  return new DataLoader(async (authorIds) => {
+    const authors = await db.authors.findByIds(authorIds); // ONE query for all ids
+    const byId = new Map(authors.map((a) =&gt; [a.id, a]));
+    // DataLoader requires the results array to match the input id order exactly
+    return authorIds.map((id) =&gt; byId.get(id));
+  });
+}
+
+const resolvers = {
+  Book: {
+    author: (book, args, context) => context.authorLoader.load(book.authorId),
+  },
+};
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    11. Caching Strategy
+  </h4>
+  <p style="line-height: 1.75;">
+    Since most GraphQL requests are POSTs to a single URL, standard HTTP/CDN caching mostly doesn't apply. 
+    Instead, clients like Apollo Client use a <strong>normalized cache</strong>: every object returned from 
+    the server is stored by its <code>__typename</code> + <code>id</code>, so if two different queries both 
+    return the same book, they share one cached entry — updating it in one place updates it everywhere it's 
+    displayed. Persisted queries (sending a query hash instead of the full query text) can also restore some 
+    CDN/HTTP caching benefits for GET-based GraphQL requests.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    12. Error Handling
+  </h4>
+  <p style="line-height: 1.75;">
+    A GraphQL response is almost always HTTP 200, even when something failed — errors are returned in a 
+    separate <code>errors</code> array alongside <code>data</code>, and <code>data</code> can be 
+    <em>partially</em> populated (some fields succeeded, one failed and is <code>null</code>). This means 
+    client code must check the <code>errors</code> array explicitly rather than relying on HTTP status codes 
+    the way REST clients typically do.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    13. Security: Depth Limiting, Complexity, and Introspection
+  </h4>
+  <p style="line-height: 1.75;">
+    - <strong>Query depth limiting</strong> rejects queries nested beyond a set depth (protects against 
+    deeply recursive queries, e.g. <code>book { author { books { author { books ... } } } }</code>).<br>
+    - <strong>Query complexity analysis</strong> assigns a "cost" to each field and rejects queries whose 
+    total cost exceeds a budget, protecting against wide queries requesting huge lists.<br>
+    - <strong>Disabling introspection</strong> in production (or gating it behind auth) prevents attackers 
+    from easily discovering your entire schema.<br>
+    - <strong>Field-level authorization</strong> is typically enforced inside resolvers (checking 
+    <code>context.user</code>) or via custom schema directives like <code>@auth</code>, rather than at the 
+    transport layer the way REST route middleware works.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    14. Pagination, Federation, and When Not to Use GraphQL
+  </h4>
+  <p style="line-height: 1.75;">
+    - <strong>Cursor-based pagination</strong> (the Relay Connection spec — <code>edges</code>, 
+    <code>node</code>, <code>cursor</code>, <code>pageInfo</code>) is the standard GraphQL pattern, preferred 
+    over offset-based pagination because it stays stable when items are added/removed mid-list.<br>
+    - <strong>Apollo Federation</strong> lets multiple teams each own a piece of the overall schema as an 
+    independent subgraph, composed into one unified graph at a gateway layer — the modern answer to "how do 
+    microservices share one GraphQL API" (the older, largely superseded approach was schema stitching).<br>
+    - GraphQL is often the wrong choice for a very small, simple, mostly-CRUD API, for public APIs that need 
+    strong HTTP-level caching by default, or for a team without time to invest in resolver design, N+1 
+    mitigation, and query security — plain REST is frequently simpler and "good enough" in those cases.
+  </p>
+
+</div>
+`,
+    examples: [""],
+    questions: [
+      { question: "What is GraphQL, in one sentence a senior engineer would actually use in an interview?", answer: "GraphQL is a query language and server-side runtime that lets clients request exactly the fields they need, from a single strongly-typed endpoint, instead of consuming multiple fixed-shape REST endpoints." },
+      { question: "Explain over-fetching and under-fetching with concrete REST examples, and how GraphQL solves both.", answer: "Over-fetching: GET /users/1 returns the full user object (email, address, preferences, ...) when the screen only needed the name and avatar — wasted bandwidth. Under-fetching: that same endpoint doesn't include the user's recent posts, so the client has to make a second request to GET /users/1/posts just to render one screen. GraphQL solves both by letting the client specify a query that asks for exactly { name avatarUrl posts { title } } in one request — nothing extra, nothing missing, no second round trip." },
+      { question: "What is the N+1 problem in GraphQL, and how does DataLoader fix it?", answer: "If a list field (e.g. books) resolves 50 items, and each book's nested author field independently queries the database per book, you get 1 query for the books plus 50 more for authors — N+1 total queries instead of 2. DataLoader fixes this by collecting every .load(id) call made during the same event loop tick, then issuing ONE batched database query for all of them at once, and caching/de-duplicating repeated ids within that request." },
+      { question: "Why is caching harder in GraphQL than REST, and what's the standard client-side solution?", answer: "REST resources map naturally to URLs, so browsers/CDNs can cache GET https://api/users/1 directly. GraphQL typically sends all requests as POST to one URL (queries can be arbitrarily different each time), so URL-based HTTP caching doesn't apply. The standard fix is a normalized client-side cache (e.g. Apollo Client's InMemoryCache), which stores every returned object by its type + id, so the same entity fetched via different queries is stored once and updates propagate everywhere it's displayed." },
+      { question: "How does GraphQL handle API evolution without versioning the way REST does with /v1, /v2?", answer: "Instead of versioning the whole API, you add new fields/types to the schema freely (existing clients simply don't request them, so they're unaffected), and mark fields you want to retire with @deprecated so tooling warns consumers, removing them only once usage has dropped to zero. The schema evolves continuously in place rather than through breaking, versioned snapshots." },
+      { question: "Why does a GraphQL response almost always return HTTP 200, even on error, and what does the client need to check instead?", answer: "GraphQL treats the HTTP layer only as a transport — the actual success/failure semantics live inside the response body's errors array, alongside data (which can be partially populated: some requested fields succeeded and are present, one field failed and is null). Client code has to explicitly check for a non-empty errors array rather than relying on HTTP status codes the way a typical REST client would." },
+      { question: "How would you protect a public GraphQL endpoint from a malicious deeply-nested or extremely wide query?", answer: "Add query depth limiting (reject queries nested beyond a configured depth) and query complexity analysis (assign each field a cost and reject queries whose total cost exceeds a budget). Also disable introspection in production (or require auth for it) so attackers can't easily enumerate the full schema, and consider persisted queries so only pre-approved query shapes are accepted at all." },
+      { question: "What's the difference between a Query and a Mutation beyond 'read vs write'?", answer: "Beyond the read/write distinction, the GraphQL spec guarantees mutations execute sequentially, one after another, in the order they appear in the request — while top-level query fields can be resolved in parallel. This matters if a client sends multiple mutations in one request expecting them to apply in order (e.g. create-then-update)." },
+      { question: "When would you choose plain REST over GraphQL for a new project?", answer: "For a small, mostly-CRUD API with simple, stable resource shapes; when you need strong out-of-the-box HTTP/CDN caching; when the team has no bandwidth to design a schema, write resolvers, and handle N+1/security concerns properly; or when the API is public-facing and you want the simplicity and ubiquity of plain HTTP verbs and status codes for consumers unfamiliar with GraphQL." },
+      { question: "How do you implement pagination in GraphQL, and why is cursor-based pagination generally preferred over offset-based?", answer: "The standard is the Relay Connection pattern: a field returns { edges: [{ node, cursor }], pageInfo: { hasNextPage, endCursor } }, and the client requests the next page using after: endCursor. This is preferred over offset/limit pagination because cursors stay stable and correct even if items are inserted or removed from the list between requests, whereas offset-based pagination can skip or duplicate items when the underlying data shifts." },
+      { question: "What is Apollo Federation and what problem does it solve?", answer: "Federation lets multiple teams/services each define and own a piece ('subgraph') of one overall GraphQL schema — e.g. a Users service owns the User type, an Orders service owns Order and extends User with an orders field — composed together at a gateway into a single unified graph that clients query as if it were one API. It solves the problem of scaling GraphQL across microservices without one team owning a giant monolithic schema or clients needing to know which service to call for what." },
+    ],
+    links: [
+      "https://graphql.org/learn/",
+      "https://www.apollographql.com/docs/react/",
+      "https://www.apollographql.com/docs/apollo-server/",
+      "https://github.com/graphql/dataloader",
+      "https://relay.dev/graphql/connections.htm",
+      "https://www.apollographql.com/docs/federation/",
+    ],
+  },
           {
             topic: "Optimistic UI Updates",
             tags: [
