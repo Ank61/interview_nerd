@@ -7438,9 +7438,9 @@ person.greet(); // Output: Hello, undefined
         label: "Beginner",
         concepts: [
           {
-            "topic": "React Philosophy",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "React Philosophy",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Philosophy (Interview Guide)
   </h4>
@@ -7556,17 +7556,17 @@ function App() {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://react.dev/learn/thinking-in-react",
               "https://react.dev/learn",
-            ]
+            ],
           },
           {
-            "topic": "SPA vs MPA",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "SPA vs MPA",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     SPA vs MPA (Interview Guide)
   </h4>
@@ -7660,17 +7660,17 @@ function App() {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
               "https://react.dev/learn/start-a-new-react-project",
-            ]
+            ],
           },
           {
-            "topic": "React Architecture",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "React Architecture",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Architecture (Interview Guide)
   </h4>
@@ -7758,17 +7758,17 @@ const priorities = {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://legacy.reactjs.org/docs/faq-internals.html",
               "https://github.com/acdlite/react-fiber-architecture",
-            ]
+            ],
           },
           {
-            "topic": "Declarative Programming",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Declarative Programming",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Declarative Programming (Interview Guide)
   </h4>
@@ -7845,16 +7845,14 @@ document.body.appendChild(button);
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://react.dev/learn/thinking-in-react",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://react.dev/learn/thinking-in-react"],
           },
           {
-            "topic": "Imperative Programming",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Imperative Programming",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Imperative Programming (Interview Guide)
   </h4>
@@ -7956,16 +7954,14 @@ function addItem(item) {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://react.dev/learn/manipulating-the-dom-with-refs",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://react.dev/learn/manipulating-the-dom-with-refs"],
           },
           {
-            "topic": "JSX",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "JSX",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     JSX (Interview Guide)
   </h4>
@@ -8053,17 +8049,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://react.dev/learn/writing-markup-with-jsx",
               "https://legacy.reactjs.org/docs/introducing-jsx.html",
-            ]
+            ],
           },
           {
-            "topic": "Babel",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Babel",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Babel (Interview Guide)
   </h4>
@@ -8135,17 +8131,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://babeljs.io/docs/",
               "https://babeljs.io/docs/babel-preset-react",
-            ]
+            ],
           },
           {
-            "topic": "Virtual DOM",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Virtual DOM",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Virtual DOM (Interview Guide)
   </h4>
@@ -8237,16 +8233,14 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://legacy.reactjs.org/docs/faq-internals.html",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://legacy.reactjs.org/docs/faq-internals.html"],
           },
           {
-            "topic": "Real DOM",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Real DOM",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Real DOM (Interview Guide)
   </h4>
@@ -8321,17 +8315,17 @@ items.forEach((_, i) => {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
               "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
-            ]
+            ],
           },
           {
-            "topic": "Fiber Architecture",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Fiber Architecture",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Fiber Architecture (Interview Guide)
   </h4>
@@ -8428,17 +8422,17 @@ const fiber = {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://github.com/acdlite/react-fiber-architecture",
               "https://legacy.reactjs.org/docs/faq-internals.html",
-            ]
+            ],
           },
           {
-            "topic": "Rendering Process",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Rendering Process",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Rendering Process (Interview Guide)
   </h4>
@@ -8542,16 +8536,14 @@ useLayoutEffect(() => {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://react.dev/learn/render-and-commit",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://react.dev/learn/render-and-commit"],
           },
           {
-            "topic": "Reconciliation",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Reconciliation",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Reconciliation (Interview Guide)
   </h4>
@@ -8639,16 +8631,14 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://legacy.reactjs.org/docs/reconciliation.html",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://legacy.reactjs.org/docs/reconciliation.html"],
           },
           {
-            "topic": "Diffing Algorithm",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Diffing Algorithm",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Diffing Algorithm (Interview Guide)
   </h4>
@@ -8730,16 +8720,16 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
-            ]
+            ],
           },
           {
-            "topic": "Component Lifecycle",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Component Lifecycle",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Component Lifecycle (Interview Guide)
   </h4>
@@ -8844,17 +8834,17 @@ function Timer() {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://react.dev/reference/react/Component",
               "https://react.dev/reference/react/useEffect",
-            ]
+            ],
           },
           {
-            "topic": "React Philosophy",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "React Philosophy",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Philosophy (Interview Guide)
   </h4>
@@ -8970,17 +8960,17 @@ function App() {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://react.dev/learn/thinking-in-react",
               "https://react.dev/learn",
-            ]
+            ],
           },
           {
-            "topic": "SPA vs MPA",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "SPA vs MPA",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     SPA vs MPA (Interview Guide)
   </h4>
@@ -9074,17 +9064,17 @@ function App() {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://developer.mozilla.org/en-US/docs/Glossary/SPA",
               "https://react.dev/learn/start-a-new-react-project",
-            ]
+            ],
           },
           {
-            "topic": "React Architecture",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "React Architecture",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     React Architecture (Interview Guide)
   </h4>
@@ -9172,17 +9162,17 @@ const priorities = {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://legacy.reactjs.org/docs/faq-internals.html",
               "https://github.com/acdlite/react-fiber-architecture",
-            ]
+            ],
           },
           {
-            "topic": "Declarative Programming",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Declarative Programming",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Declarative Programming (Interview Guide)
   </h4>
@@ -9259,16 +9249,14 @@ document.body.appendChild(button);
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://react.dev/learn/thinking-in-react",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://react.dev/learn/thinking-in-react"],
           },
           {
-            "topic": "Imperative Programming",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Imperative Programming",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Imperative Programming (Interview Guide)
   </h4>
@@ -9370,16 +9358,14 @@ function addItem(item) {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://react.dev/learn/manipulating-the-dom-with-refs",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://react.dev/learn/manipulating-the-dom-with-refs"],
           },
           {
-            "topic": "JSX",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "JSX",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     JSX (Interview Guide)
   </h4>
@@ -9467,17 +9453,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://react.dev/learn/writing-markup-with-jsx",
               "https://legacy.reactjs.org/docs/introducing-jsx.html",
-            ]
+            ],
           },
           {
-            "topic": "Babel",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Babel",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Babel (Interview Guide)
   </h4>
@@ -9549,17 +9535,17 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://babeljs.io/docs/",
               "https://babeljs.io/docs/babel-preset-react",
-            ]
+            ],
           },
           {
-            "topic": "Virtual DOM",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Virtual DOM",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Virtual DOM (Interview Guide)
   </h4>
@@ -9651,16 +9637,14 @@ const el = _jsx("h1", { className: "title", children: "Hello" });
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://legacy.reactjs.org/docs/faq-internals.html",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://legacy.reactjs.org/docs/faq-internals.html"],
           },
           {
-            "topic": "Real DOM",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Real DOM",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Real DOM (Interview Guide)
   </h4>
@@ -9735,17 +9719,17 @@ items.forEach((_, i) => {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
               "https://developer.mozilla.org/en-US/docs/Glossary/Reflow",
-            ]
+            ],
           },
           {
-            "topic": "Fiber Architecture",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Fiber Architecture",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Fiber Architecture (Interview Guide)
   </h4>
@@ -9842,17 +9826,17 @@ const fiber = {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://github.com/acdlite/react-fiber-architecture",
               "https://legacy.reactjs.org/docs/faq-internals.html",
-            ]
+            ],
           },
           {
-            "topic": "Rendering Process",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Rendering Process",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Rendering Process (Interview Guide)
   </h4>
@@ -9956,16 +9940,14 @@ useLayoutEffect(() => {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://react.dev/learn/render-and-commit",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://react.dev/learn/render-and-commit"],
           },
           {
-            "topic": "Reconciliation",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Reconciliation",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Reconciliation (Interview Guide)
   </h4>
@@ -10053,16 +10035,14 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
-              "https://legacy.reactjs.org/docs/reconciliation.html",
-            ]
+            examples: [""],
+            questions: [{}],
+            links: ["https://legacy.reactjs.org/docs/reconciliation.html"],
           },
           {
-            "topic": "Diffing Algorithm",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Diffing Algorithm",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Diffing Algorithm (Interview Guide)
   </h4>
@@ -10144,16 +10124,16 @@ const newList = ['X', 'A', 'B', 'C'];
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://legacy.reactjs.org/docs/reconciliation.html#the-diffing-algorithm",
-            ]
+            ],
           },
           {
-            "topic": "Component Lifecycle",
-            "tags": [""],
-            "explanation": `<div>
+            topic: "Component Lifecycle",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     Component Lifecycle (Interview Guide)
   </h4>
@@ -10258,12 +10238,12 @@ function Timer() {
 
 </div>
 `,
-            "examples": [""],
-            "questions": [{}],
-            "links": [
+            examples: [""],
+            questions: [{}],
+            links: [
               "https://react.dev/reference/react/Component",
               "https://react.dev/reference/react/useEffect",
-            ]
+            ],
           },
           {
             topic: "React Philosophy",
@@ -10842,9 +10822,7 @@ function Toggle({ isOn }) {
 `,
             examples: [""],
             questions: [{}],
-            links: [
-              "https://react.dev/learn/thinking-in-react",
-            ],
+            links: ["https://react.dev/learn/thinking-in-react"],
           },
           {
             topic: "Imperative Programming",
@@ -10969,9 +10947,7 @@ const VideoPlayer = forwardRef((props, ref) => {
 `,
             examples: [""],
             questions: [{}],
-            links: [
-              "https://react.dev/learn/manipulating-the-dom-with-refs",
-            ],
+            links: ["https://react.dev/learn/manipulating-the-dom-with-refs"],
           },
           {
             topic: "JSX",
@@ -11370,9 +11346,7 @@ function handleClick() {
 `,
             examples: [""],
             questions: [{}],
-            links: [
-              "https://legacy.reactjs.org/docs/faq-internals.html",
-            ],
+            links: ["https://legacy.reactjs.org/docs/faq-internals.html"],
           },
           {
             topic: "Real DOM",
@@ -11798,9 +11772,7 @@ function Search() {
 `,
             examples: [""],
             questions: [{}],
-            links: [
-              "https://react.dev/learn/render-and-commit",
-            ],
+            links: ["https://react.dev/learn/render-and-commit"],
           },
           {
             topic: "Reconciliation",
@@ -11907,9 +11879,7 @@ const stableHandler = useCallback(() => onSelect(item.id), [item.id]);
 `,
             examples: [""],
             questions: [{}],
-            links: [
-              "https://legacy.reactjs.org/docs/reconciliation.html",
-            ],
+            links: ["https://legacy.reactjs.org/docs/reconciliation.html"],
           },
           {
             topic: "Diffing Algorithm",
@@ -31770,49 +31740,71 @@ function ProductSearch({ products }) {
             examples: [{}],
             questions: [
               {
-                question: "What is a fiber, concretely, and why did React need to invent it instead of just optimizing the old recursive renderer?",
-                answer: "A fiber is a plain JavaScript object representing one unit of work — roughly one component instance's render — holding its props, state, and pointers to its parent, first child, and next sibling. React needed it because the old approach used the native JS call stack for recursion, and a call stack can't be paused or resumed once you're inside it. Representing the tree as a linked structure of plain objects lets React itself control the traversal, so it can stop, save progress, and pick back up later — something no amount of optimizing the old recursive approach could achieve, since the limitation was architectural, not a performance issue."
+                question:
+                  "What is a fiber, concretely, and why did React need to invent it instead of just optimizing the old recursive renderer?",
+                answer:
+                  "A fiber is a plain JavaScript object representing one unit of work — roughly one component instance's render — holding its props, state, and pointers to its parent, first child, and next sibling. React needed it because the old approach used the native JS call stack for recursion, and a call stack can't be paused or resumed once you're inside it. Representing the tree as a linked structure of plain objects lets React itself control the traversal, so it can stop, save progress, and pick back up later — something no amount of optimizing the old recursive approach could achieve, since the limitation was architectural, not a performance issue.",
               },
               {
-                question: "Is concurrent rendering something React does automatically once you're on React 18, or does it require action from the developer?",
-                answer: "Both, in a layered way. Simply switching to createRoot (instead of the legacy ReactDOM.render) unlocks the concurrent rendering CAPABILITY and enables some automatic batching improvements, but React doesn't automatically decide which of your updates are low priority — you have to explicitly mark them using startTransition, useTransition, or useDeferredValue. Without that opt-in, all your updates are still treated as urgent by default. The engine is capable, but the developer chooses which updates to deprioritize."
+                question:
+                  "Is concurrent rendering something React does automatically once you're on React 18, or does it require action from the developer?",
+                answer:
+                  "Both, in a layered way. Simply switching to createRoot (instead of the legacy ReactDOM.render) unlocks the concurrent rendering CAPABILITY and enables some automatic batching improvements, but React doesn't automatically decide which of your updates are low priority — you have to explicitly mark them using startTransition, useTransition, or useDeferredValue. Without that opt-in, all your updates are still treated as urgent by default. The engine is capable, but the developer chooses which updates to deprioritize.",
               },
               {
-                question: "In the search example, why is `setQuery(value)` called outside `startTransition` while `setResults(...)` is called inside it?",
-                answer: "setQuery updates the input's own displayed value and needs to feel instant on every keystroke, so it's left as a normal, urgent update. setResults triggers the expensive filtering work over potentially a large list — wrapping just that call in startTransition tells React it's allowed to deprioritize and interrupt that specific update if something more urgent (like the next keystroke) comes in, while the input itself never lags. This separation of concerns is the entire point of the API."
+                question:
+                  "In the search example, why is `setQuery(value)` called outside `startTransition` while `setResults(...)` is called inside it?",
+                answer:
+                  "setQuery updates the input's own displayed value and needs to feel instant on every keystroke, so it's left as a normal, urgent update. setResults triggers the expensive filtering work over potentially a large list — wrapping just that call in startTransition tells React it's allowed to deprioritize and interrupt that specific update if something more urgent (like the next keystroke) comes in, while the input itself never lags. This separation of concerns is the entire point of the API.",
               },
               {
-                question: "What does the `isPending` value returned by `useTransition` actually track, and what's a UI mistake people make with it?",
-                answer: "isPending is true for as long as the transition's render is still being computed in the background and hasn't been committed yet — it tracks the period between calling startTransition and the completion of the commit phase for that transition. A common mistake is using isPending to block the entire UI (e.g. disabling the input) instead of just showing a subtle loading indicator — doing so defeats the whole point of useTransition, which is specifically to keep the rest of the UI (like the input) responsive WHILE the expensive update is still pending. The loading indicator should be subtle and non-blocking."
+                question:
+                  "What does the `isPending` value returned by `useTransition` actually track, and what's a UI mistake people make with it?",
+                answer:
+                  "isPending is true for as long as the transition's render is still being computed in the background and hasn't been committed yet — it tracks the period between calling startTransition and the completion of the commit phase for that transition. A common mistake is using isPending to block the entire UI (e.g. disabling the input) instead of just showing a subtle loading indicator — doing so defeats the whole point of useTransition, which is specifically to keep the rest of the UI (like the input) responsive WHILE the expensive update is still pending. The loading indicator should be subtle and non-blocking.",
               },
               {
-                question: "How is `useTransition` different from `useDeferredValue`, even though both are concurrent-rendering APIs used for similar problems?",
-                answer: "useTransition wraps a STATE UPDATE you control directly — you call startTransition around the specific setState call you want deprioritized, and you get an isPending flag back. useDeferredValue instead takes an existing VALUE (often one you don't control the update of directly, like a prop from a parent) and gives you back a deferred copy of it that lags behind during urgent updates — useful when you can't wrap the original update in startTransition yourself, e.g. because the value comes from a parent component or an external source (like a Redux store that updates outside of your component)."
+                question:
+                  "How is `useTransition` different from `useDeferredValue`, even though both are concurrent-rendering APIs used for similar problems?",
+                answer:
+                  "useTransition wraps a STATE UPDATE you control directly — you call startTransition around the specific setState call you want deprioritized, and you get an isPending flag back. useDeferredValue instead takes an existing VALUE (often one you don't control the update of directly, like a prop from a parent) and gives you back a deferred copy of it that lags behind during urgent updates — useful when you can't wrap the original update in startTransition yourself, e.g. because the value comes from a parent component or an external source (like a Redux store that updates outside of your component).",
               },
               {
-                question: "A teammate wraps every single state update in the app with `startTransition` \"to make things faster.\" What would you push back on?",
-                answer: "startTransition doesn't make individual updates faster — it only changes their PRIORITY relative to other updates, allowing more urgent work to interrupt them. Wrapping something like a text input's own value update in startTransition can actually make typing feel laggy, since that update is exactly the kind that should stay urgent. The right mental model is: startTransition only helps for updates that are expensive AND not the most urgent thing on screen right now — applying it everywhere indiscriminately can make the UI feel worse, not better. It's a tool for prioritization, not a performance optimization for individual updates."
+                question:
+                  'A teammate wraps every single state update in the app with `startTransition` "to make things faster." What would you push back on?',
+                answer:
+                  "startTransition doesn't make individual updates faster — it only changes their PRIORITY relative to other updates, allowing more urgent work to interrupt them. Wrapping something like a text input's own value update in startTransition can actually make typing feel laggy, since that update is exactly the kind that should stay urgent. The right mental model is: startTransition only helps for updates that are expensive AND not the most urgent thing on screen right now — applying it everywhere indiscriminately can make the UI feel worse, not better. It's a tool for prioritization, not a performance optimization for individual updates.",
               },
               {
-                question: "What's the relationship between Fiber, the render phase, the commit phase, and concurrent rendering?",
-                answer: "Fiber is the data structure (linked list of fiber nodes) and the reconciler that traverses it. The render phase is when Fiber builds/diffs the work-in-progress tree — it's interruptible, pure (no side effects), and can be paused. The commit phase is when changes are applied to the DOM — it's synchronous and uninterruptible. Concurrent rendering is the feature set built on top of Fiber that uses the interruptible render phase to pause low-priority work and resume it later, enabling features like useTransition. The engine (Fiber) provides the interruptibility; the developer-facing APIs (concurrent rendering) decide when and how to use that interruptibility."
+                question:
+                  "What's the relationship between Fiber, the render phase, the commit phase, and concurrent rendering?",
+                answer:
+                  "Fiber is the data structure (linked list of fiber nodes) and the reconciler that traverses it. The render phase is when Fiber builds/diffs the work-in-progress tree — it's interruptible, pure (no side effects), and can be paused. The commit phase is when changes are applied to the DOM — it's synchronous and uninterruptible. Concurrent rendering is the feature set built on top of Fiber that uses the interruptible render phase to pause low-priority work and resume it later, enabling features like useTransition. The engine (Fiber) provides the interruptibility; the developer-facing APIs (concurrent rendering) decide when and how to use that interruptibility.",
               },
               {
-                question: "Can you use `useTransition` with server-side rendering?",
-                answer: "Yes, but with caveats. useTransition works on the server, but the isPending flag is always false during SSR because there's no pending state to track — transitions are purely a client-side concept for managing responsiveness. During hydration, the transition state is initialized and then updates normally on the client. The real power of transitions on the server comes when combined with Suspense and streaming SSR, where low-priority content can be streamed after the high-priority content."
+                question:
+                  "Can you use `useTransition` with server-side rendering?",
+                answer:
+                  "Yes, but with caveats. useTransition works on the server, but the isPending flag is always false during SSR because there's no pending state to track — transitions are purely a client-side concept for managing responsiveness. During hydration, the transition state is initialized and then updates normally on the client. The real power of transitions on the server comes when combined with Suspense and streaming SSR, where low-priority content can be streamed after the high-priority content.",
               },
               {
-                question: "What happens if a transition is interrupted multiple times by urgent updates?",
-                answer: "If a transition is interrupted multiple times by urgent updates, React can restart the transition's render from scratch each time. This is the 'throwing away work' behavior — the low-priority work in the render phase is discarded, and a fresh render begins when the browser is idle again. This is safe because the render phase is pure and side-effect-free. The transition may never complete if there's a continuous stream of urgent updates, which is actually the intended behavior — the system prioritizes the urgent user interactions over the background work."
+                question:
+                  "What happens if a transition is interrupted multiple times by urgent updates?",
+                answer:
+                  "If a transition is interrupted multiple times by urgent updates, React can restart the transition's render from scratch each time. This is the 'throwing away work' behavior — the low-priority work in the render phase is discarded, and a fresh render begins when the browser is idle again. This is safe because the render phase is pure and side-effect-free. The transition may never complete if there's a continuous stream of urgent updates, which is actually the intended behavior — the system prioritizes the urgent user interactions over the background work.",
               },
               {
-                question: "What is double-buffering in the context of React Fiber, and why is it important?",
-                answer: "Double-buffering in Fiber refers to maintaining two separate fiber trees simultaneously — the 'current' tree representing what's currently rendered on screen, and a 'work-in-progress' tree being built for the next update. They're linked via the 'alternate' pointer. This is important because it allows React to render the next UI state entirely in memory (during the interruptible render phase) without affecting what the user currently sees. Only when the work-in-progress tree is complete and ready does React swap the pointer in the commit phase, making the new tree current atomically. This prevents users from seeing partially-rendered states and enables smooth transitions between UI states."
+                question:
+                  "What is double-buffering in the context of React Fiber, and why is it important?",
+                answer:
+                  "Double-buffering in Fiber refers to maintaining two separate fiber trees simultaneously — the 'current' tree representing what's currently rendered on screen, and a 'work-in-progress' tree being built for the next update. They're linked via the 'alternate' pointer. This is important because it allows React to render the next UI state entirely in memory (during the interruptible render phase) without affecting what the user currently sees. Only when the work-in-progress tree is complete and ready does React swap the pointer in the commit phase, making the new tree current atomically. This prevents users from seeing partially-rendered states and enables smooth transitions between UI states.",
               },
               {
-                question: "Why must the render phase be free of side effects, and how does this relate to concurrent rendering?",
-                answer: "The render phase must be free of side effects because it can be paused, restarted, or discarded entirely during concurrent rendering. If components performed side effects during render (like making network calls or mutating state), those effects could run multiple times unnecessarily or run when the render is later abandoned, causing bugs, performance issues, or inconsistent state. This purity requirement is what makes concurrent rendering safe — React can interrupt and restart renders at will knowing that no irreversible work has been done. This is why side effects are moved to event handlers or useEffect, which run during or after the commit phase."
-              }
+                question:
+                  "Why must the render phase be free of side effects, and how does this relate to concurrent rendering?",
+                answer:
+                  "The render phase must be free of side effects because it can be paused, restarted, or discarded entirely during concurrent rendering. If components performed side effects during render (like making network calls or mutating state), those effects could run multiple times unnecessarily or run when the render is later abandoned, causing bugs, performance issues, or inconsistent state. This purity requirement is what makes concurrent rendering safe — React can interrupt and restart renders at will knowing that no irreversible work has been done. This is why side effects are moved to event handlers or useEffect, which run during or after the commit phase.",
+              },
             ],
             links: [
               "https://github.com/acdlite/react-fiber-architecture",
@@ -32591,44 +32583,59 @@ function App() {
             questions: [
               {
                 question: "What is useDeferredValue and when would you use it?",
-                answer: "useDeferredValue is a React hook that returns a deferred (lower-priority) version of a value that can be updated at a lower priority than the original value. It's used to keep the UI responsive during expensive re-renders by allowing certain updates to 'lag behind' while more urgent updates (like user input) are processed first. You would use it when you have a value that changes frequently (like a search query) and triggers an expensive computation (like filtering a large list), and you want to ensure the input stays responsive even during expensive processing. It's particularly useful when you can't control the source of the update (e.g., the value comes from props, context, or Redux) and can't wrap the update in startTransition yourself."
+                answer:
+                  "useDeferredValue is a React hook that returns a deferred (lower-priority) version of a value that can be updated at a lower priority than the original value. It's used to keep the UI responsive during expensive re-renders by allowing certain updates to 'lag behind' while more urgent updates (like user input) are processed first. You would use it when you have a value that changes frequently (like a search query) and triggers an expensive computation (like filtering a large list), and you want to ensure the input stays responsive even during expensive processing. It's particularly useful when you can't control the source of the update (e.g., the value comes from props, context, or Redux) and can't wrap the update in startTransition yourself.",
               },
               {
-                question: "What's the difference between useDeferredValue and useTransition?",
-                answer: "The key difference is what they control. useTransition controls a STATE UPDATE (action) — you wrap a setState call in startTransition and get an isPending flag back. It's used when you control the state update directly. useDeferredValue controls a VALUE (data) — you pass a value to it and get a deferred copy back. It's used when you can't control the update (e.g., the value comes from props, Redux, or context). useTransition gives you a isPending flag for loading states; useDeferredValue requires you to compare the value with deferredValue to determine if it's stale. Use useTransition when you own the update; use useDeferredValue when you don't."
+                question:
+                  "What's the difference between useDeferredValue and useTransition?",
+                answer:
+                  "The key difference is what they control. useTransition controls a STATE UPDATE (action) — you wrap a setState call in startTransition and get an isPending flag back. It's used when you control the state update directly. useDeferredValue controls a VALUE (data) — you pass a value to it and get a deferred copy back. It's used when you can't control the update (e.g., the value comes from props, Redux, or context). useTransition gives you a isPending flag for loading states; useDeferredValue requires you to compare the value with deferredValue to determine if it's stale. Use useTransition when you own the update; use useDeferredValue when you don't.",
               },
               {
-                question: "What is React.lazy and how does it improve performance?",
-                answer: "React.lazy is a function that enables dynamic import of React components, allowing you to split your application bundle into smaller chunks that are loaded only when needed. It improves performance by reducing the initial bundle size (users only download the code they need for the current view), which leads to faster Time to Interactive (TTI) and better Core Web Vitals. It works by wrapping a dynamic import (import()) that returns a Promise resolving to a component, and it must be used with Suspense to handle the loading state declaratively. The component loads in the background while the Suspense fallback is shown, and then replaces the fallback when loaded."
+                question:
+                  "What is React.lazy and how does it improve performance?",
+                answer:
+                  "React.lazy is a function that enables dynamic import of React components, allowing you to split your application bundle into smaller chunks that are loaded only when needed. It improves performance by reducing the initial bundle size (users only download the code they need for the current view), which leads to faster Time to Interactive (TTI) and better Core Web Vitals. It works by wrapping a dynamic import (import()) that returns a Promise resolving to a component, and it must be used with Suspense to handle the loading state declaratively. The component loads in the background while the Suspense fallback is shown, and then replaces the fallback when loaded.",
               },
               {
                 question: "What are the limitations of React.lazy?",
-                answer: "The main limitations are: (1) No SSR support — React.lazy works only on the client side; for SSR, use frameworks like Next.js or Remix. (2) Must be wrapped in Suspense — without a Suspense boundary, it throws an error. (3) Default exports only — it expects the imported module to have a default export; for named exports, you need to wrap the import. (4) Network waterfall — nested lazy components can load sequentially instead of in parallel. (5) No preloading — the component only starts loading when it's about to render, which can cause delays if not managed properly (though you can use techniques like webpack's webpackPreload or preloading in event handlers)."
+                answer:
+                  "The main limitations are: (1) No SSR support — React.lazy works only on the client side; for SSR, use frameworks like Next.js or Remix. (2) Must be wrapped in Suspense — without a Suspense boundary, it throws an error. (3) Default exports only — it expects the imported module to have a default export; for named exports, you need to wrap the import. (4) Network waterfall — nested lazy components can load sequentially instead of in parallel. (5) No preloading — the component only starts loading when it's about to render, which can cause delays if not managed properly (though you can use techniques like webpack's webpackPreload or preloading in event handlers).",
               },
               {
                 question: "What is Suspense and what problem does it solve?",
-                answer: "Suspense is a React component that lets you declaratively specify a loading fallback while components are waiting for something — like a lazy-loaded component, data fetching, or any asynchronous operation that can be represented as a Promise. It solves the problem of managing loading states across your application in a declarative, component-based way instead of using imperative callbacks (like useEffect with isLoading flags). It moves loading state management from the component logic (where it's mixed with business logic) to the UI layer, making it more maintainable and composable. It also enables React to coordinate loading states across components, showing the most appropriate fallback at each level of the component tree."
+                answer:
+                  "Suspense is a React component that lets you declaratively specify a loading fallback while components are waiting for something — like a lazy-loaded component, data fetching, or any asynchronous operation that can be represented as a Promise. It solves the problem of managing loading states across your application in a declarative, component-based way instead of using imperative callbacks (like useEffect with isLoading flags). It moves loading state management from the component logic (where it's mixed with business logic) to the UI layer, making it more maintainable and composable. It also enables React to coordinate loading states across components, showing the most appropriate fallback at each level of the component tree.",
               },
               {
                 question: "How does Suspense work with error handling?",
-                answer: "Suspense handles loading states only — it doesn't handle errors. When a component throws an error (not a Promise), it won't be caught by Suspense. Instead, you need to use Error Boundaries (componentDidCatch or static getDerivedStateFromError in class components, or a library like react-error-boundary) to handle errors in Suspense-enabled components. The typical pattern is to nest Error Boundaries inside or around Suspense boundaries: <ErrorBoundary><Suspense fallback={...}>...</Suspense></ErrorBoundary>. This way, you handle loading with Suspense and errors with Error Boundaries separately."
+                answer:
+                  "Suspense handles loading states only — it doesn't handle errors. When a component throws an error (not a Promise), it won't be caught by Suspense. Instead, you need to use Error Boundaries (componentDidCatch or static getDerivedStateFromError in class components, or a library like react-error-boundary) to handle errors in Suspense-enabled components. The typical pattern is to nest Error Boundaries inside or around Suspense boundaries: <ErrorBoundary><Suspense fallback={...}>...</Suspense></ErrorBoundary>. This way, you handle loading with Suspense and errors with Error Boundaries separately.",
               },
               {
-                question: "Can you use Suspense with data fetching in React 18?",
-                answer: "Yes, React 18 officially supports Suspense for data fetching, but with some important caveats. Suspense-enabled data fetching requires the data source to be integrated with Suspense (e.g., using libraries like Relay, SWR with suspense mode, React Query with suspense, or Apollo Client with useSuspenseQuery). The component that fetches data must 'suspend' — throw a Promise that resolves when the data is ready. The Suspense boundary handles the loading state. However, React doesn't provide a built-in data fetching library for Suspense — you must use a third-party library or implement the suspension pattern yourself. Also, Suspense for data fetching is not yet fully integrated with server-side rendering in React 18 (though it's supported in frameworks like Next.js and Remix)."
+                question:
+                  "Can you use Suspense with data fetching in React 18?",
+                answer:
+                  "Yes, React 18 officially supports Suspense for data fetching, but with some important caveats. Suspense-enabled data fetching requires the data source to be integrated with Suspense (e.g., using libraries like Relay, SWR with suspense mode, React Query with suspense, or Apollo Client with useSuspenseQuery). The component that fetches data must 'suspend' — throw a Promise that resolves when the data is ready. The Suspense boundary handles the loading state. However, React doesn't provide a built-in data fetching library for Suspense — you must use a third-party library or implement the suspension pattern yourself. Also, Suspense for data fetching is not yet fully integrated with server-side rendering in React 18 (though it's supported in frameworks like Next.js and Remix).",
               },
               {
-                question: "What's the difference between using Suspense with React.lazy and using Suspense with data fetching?",
-                answer: "The Suspense mechanism is the same — components throw a Promise, and Suspense catches it — but the use cases are different. With React.lazy, the Promise is thrown by the lazy component itself during loading, and the fallback is shown while the component code downloads. With data fetching, the Promise is thrown by a component that's waiting for data (e.g., from an API), and the fallback is shown while the data is being fetched. The key difference is what's being loaded: code (React.lazy) vs data (data fetching). Both use the same Suspense mechanism, and they can be combined — you can lazy-load a component that also fetches data, creating nested Suspense boundaries for different loading stages."
+                question:
+                  "What's the difference between using Suspense with React.lazy and using Suspense with data fetching?",
+                answer:
+                  "The Suspense mechanism is the same — components throw a Promise, and Suspense catches it — but the use cases are different. With React.lazy, the Promise is thrown by the lazy component itself during loading, and the fallback is shown while the component code downloads. With data fetching, the Promise is thrown by a component that's waiting for data (e.g., from an API), and the fallback is shown while the data is being fetched. The key difference is what's being loaded: code (React.lazy) vs data (data fetching). Both use the same Suspense mechanism, and they can be combined — you can lazy-load a component that also fetches data, creating nested Suspense boundaries for different loading stages.",
               },
               {
-                question: "What is the 'waterfall' problem with Suspense and React.lazy, and how can you avoid it?",
-                answer: "The 'waterfall' problem occurs when you have nested lazy components and Suspense boundaries. Each level must wait for the previous level to load before it starts loading, resulting in sequential loading (a cascade) instead of parallel loading. For example: App loads → LazyComponent1 loads → inside it, LazyComponent2 loads → inside it, LazyComponent3 loads — each waits for the previous one. To avoid this, (1) Place Suspense boundaries at appropriate levels so components can load in parallel, (2) Use preloading techniques — you can preload components before they're rendered (e.g., in event handlers or when the user hovers over a navigation item), (3) Consider using a bundler's preload features (like webpackPreload), and (4) Use Suspense at the route or feature level rather than deeply nested inside components."
+                question:
+                  "What is the 'waterfall' problem with Suspense and React.lazy, and how can you avoid it?",
+                answer:
+                  "The 'waterfall' problem occurs when you have nested lazy components and Suspense boundaries. Each level must wait for the previous level to load before it starts loading, resulting in sequential loading (a cascade) instead of parallel loading. For example: App loads → LazyComponent1 loads → inside it, LazyComponent2 loads → inside it, LazyComponent3 loads — each waits for the previous one. To avoid this, (1) Place Suspense boundaries at appropriate levels so components can load in parallel, (2) Use preloading techniques — you can preload components before they're rendered (e.g., in event handlers or when the user hovers over a navigation item), (3) Consider using a bundler's preload features (like webpackPreload), and (4) Use Suspense at the route or feature level rather than deeply nested inside components.",
               },
               {
                 question: "How would you implement preloading with React.lazy?",
-                answer: "Preloading with React.lazy involves starting the dynamic import before the component is actually rendered. You can do this by calling the import function directly (since React.lazy just wraps the import function). For example: const Dashboard = lazy(() => import('./Dashboard')); — you can preload by calling import('./Dashboard') in a hover or click handler before navigating: const preloadDashboard = () => import('./Dashboard');. The import returns a Promise that will be cached by the lazy component. This is useful for navigation items — when the user hovers over a link, you can preload the component so it's ready by the time they click. Another approach is using webpackPreload or webpackPrefetch magic comments with dynamic imports to hint to the browser what to load next."
-              }
+                answer:
+                  "Preloading with React.lazy involves starting the dynamic import before the component is actually rendered. You can do this by calling the import function directly (since React.lazy just wraps the import function). For example: const Dashboard = lazy(() => import('./Dashboard')); — you can preload by calling import('./Dashboard') in a hover or click handler before navigating: const preloadDashboard = () => import('./Dashboard');. The import returns a Promise that will be cached by the lazy component. This is useful for navigation items — when the user hovers over a link, you can preload the component so it's ready by the time they click. Another approach is using webpackPreload or webpackPrefetch magic comments with dynamic imports to hint to the browser what to load next.",
+              },
             ],
             links: [
               "https://react.dev/reference/react/useDeferredValue",
@@ -32637,7 +32644,13 @@ function App() {
               "https://react.dev/reference/react/Suspense",
               "https://react.dev/blog/2022/03/29/react-v18",
             ],
-            tags: ["React", "Performance", "Suspense", "Lazy", "useDeferredValue"],
+            tags: [
+              "React",
+              "Performance",
+              "Suspense",
+              "Lazy",
+              "useDeferredValue",
+            ],
           },
         ],
       },
@@ -44844,10 +44857,10 @@ export {
               "https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape",
             ],
           },
-  {
-    topic: "Form Validation",
-    tags: ["React", "Forms", "Validation", "UX"],
-    explanation: `<div>
+          {
+            topic: "Form Validation",
+            tags: ["React", "Forms", "Validation", "UX"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Form Validation — Interview Guide (Deep Dive)
       </h4>
@@ -45403,17 +45416,17 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://react.dev/learn/forms",
-      "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation",
-    ],
-  },
-  {
-    topic: "React Hook Form",
-    tags: ["React", "Forms", "Validation", "Performance"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/forms",
+              "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation",
+            ],
+          },
+          {
+            topic: "React Hook Form",
+            tags: ["React", "Forms", "Validation", "Performance"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         React Hook Form — Interview Guide (Deep Dive)
       </h4>
@@ -46136,18 +46149,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://react-hook-form.com/",
-      "https://react-hook-form.com/get-started",
-      "https://github.com/react-hook-form/react-hook-form",
-    ],
-  },
-  {
-    topic: "Formik",
-    tags: ["React", "Forms", "Validation", "State Management"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react-hook-form.com/",
+              "https://react-hook-form.com/get-started",
+              "https://github.com/react-hook-form/react-hook-form",
+            ],
+          },
+          {
+            topic: "Formik",
+            tags: ["React", "Forms", "Validation", "State Management"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Formik — Interview Guide (Deep Dive)
       </h4>
@@ -46858,18 +46871,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://formik.org/",
-      "https://formik.org/docs/overview",
-      "https://formik.org/docs/guides/validation",
-    ],
-  },
-  {
-    topic: "Yup",
-    tags: ["React", "Validation", "Forms", "Schema"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://formik.org/",
+              "https://formik.org/docs/overview",
+              "https://formik.org/docs/guides/validation",
+            ],
+          },
+          {
+            topic: "Yup",
+            tags: ["React", "Validation", "Forms", "Schema"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Yup — Interview Guide (Deep Dive)
       </h4>
@@ -47498,18 +47511,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://github.com/jquense/yup",
-      "https://www.npmjs.com/package/yup",
-      "https://formik.org/docs/guides/validation",
-    ],
-  },
-  {
-    topic: "Zod",
-    tags: ["React", "Validation", "Schema", "TypeScript"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://github.com/jquense/yup",
+              "https://www.npmjs.com/package/yup",
+              "https://formik.org/docs/guides/validation",
+            ],
+          },
+          {
+            topic: "Zod",
+            tags: ["React", "Validation", "Schema", "TypeScript"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Zod — Interview Guide (Deep Dive)
       </h4>
@@ -48197,18 +48210,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://zod.dev/",
-      "https://github.com/colinhacks/zod",
-      "https://react-hook-form.com/get-started#SchemaValidation",
-    ],
-  },
-  {
-    topic: "Dynamic Forms",
-    tags: ["React", "Forms", "Dynamic Fields", "UX"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://zod.dev/",
+              "https://github.com/colinhacks/zod",
+              "https://react-hook-form.com/get-started#SchemaValidation",
+            ],
+          },
+          {
+            topic: "Dynamic Forms",
+            tags: ["React", "Forms", "Dynamic Fields", "UX"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Dynamic Forms — Interview Guide (Deep Dive)
       </h4>
@@ -48946,18 +48959,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://react-hook-form.com/api/usefieldarray",
-      "https://react-hook-form.com/advanced-usage#DynamicFields",
-      "https://www.npmjs.com/package/react-hook-form",
-    ],
-  },
-  {
-    topic: "Nested Forms",
-    tags: ["React", "Forms", "Complex Data", "Nested Objects"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react-hook-form.com/api/usefieldarray",
+              "https://react-hook-form.com/advanced-usage#DynamicFields",
+              "https://www.npmjs.com/package/react-hook-form",
+            ],
+          },
+          {
+            topic: "Nested Forms",
+            tags: ["React", "Forms", "Complex Data", "Nested Objects"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Nested Forms — Interview Guide (Deep Dive)
       </h4>
@@ -49825,18 +49838,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://react-hook-form.com/api/useform",
-      "https://react-hook-form.com/api/usefieldarray",
-      "https://formik.org/docs/api/fieldarray",
-    ],
-  },
-  {
-    topic: "File Uploads",
-    tags: ["React", "Forms", "File Upload", "Multipart"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react-hook-form.com/api/useform",
+              "https://react-hook-form.com/api/usefieldarray",
+              "https://formik.org/docs/api/fieldarray",
+            ],
+          },
+          {
+            topic: "File Uploads",
+            tags: ["React", "Forms", "File Upload", "Multipart"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         File Uploads — Interview Guide (Deep Dive)
       </h4>
@@ -50716,18 +50729,24 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://developer.mozilla.org/en-US/docs/Web/API/FormData",
-      "https://react-hook-form.com/advanced-usage#FileUpload",
-      "https://www.npmjs.com/package/react-dropzone",
-    ],
-  },
-  {
-    topic: "React Query",
-    tags: ["React", "Data Fetching", "TanStack Query", "Caching", "State Management"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/API/FormData",
+              "https://react-hook-form.com/advanced-usage#FileUpload",
+              "https://www.npmjs.com/package/react-dropzone",
+            ],
+          },
+          {
+            topic: "React Query",
+            tags: [
+              "React",
+              "Data Fetching",
+              "TanStack Query",
+              "Caching",
+              "State Management",
+            ],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         React Query (TanStack Query) — Interview Guide (Deep Dive)
       </h4>
@@ -51276,18 +51295,18 @@ function useUsersWithErrorHandling() {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://tanstack.com/query/latest",
-      "https://tanstack.com/query/latest/docs/react/overview",
-      "https://tanstack.com/query/latest/docs/react/guides/queries",
-    ],
-  },
-  {
-    topic: "Query Keys",
-    tags: ["React", "TanStack Query", "Caching", "Data Fetching"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://tanstack.com/query/latest",
+              "https://tanstack.com/query/latest/docs/react/overview",
+              "https://tanstack.com/query/latest/docs/react/guides/queries",
+            ],
+          },
+          {
+            topic: "Query Keys",
+            tags: ["React", "TanStack Query", "Caching", "Data Fetching"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Query Keys — Interview Guide (Deep Dive)
       </h4>
@@ -51709,18 +51728,18 @@ export { userKeys, postKeys, appKeys, packageKeys };
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://tanstack.com/query/latest/docs/react/guides/query-keys",
-      "https://tanstack.com/query/latest/docs/react/guides/invalidations-from-mutations",
-      "https://tanstack.com/query/latest/docs/react/guides/query-factories",
-    ],
-  },
-  {
-    topic: "Query Cache",
-    tags: ["React", "TanStack Query", "Caching", "Performance"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://tanstack.com/query/latest/docs/react/guides/query-keys",
+              "https://tanstack.com/query/latest/docs/react/guides/invalidations-from-mutations",
+              "https://tanstack.com/query/latest/docs/react/guides/query-factories",
+            ],
+          },
+          {
+            topic: "Query Cache",
+            tags: ["React", "TanStack Query", "Caching", "Performance"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Query Cache — Interview Guide (Deep Dive)
       </h4>
@@ -52239,18 +52258,23 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://tanstack.com/query/latest/docs/react/guides/caching",
-      "https://tanstack.com/query/latest/docs/react/guides/optimistic-updates",
-      "https://tanstack.com/query/latest/docs/react/guides/persisting-query-data",
-    ],
-  },
-  {
-    topic: "Mutations",
-    tags: ["React", "TanStack Query", "Data Mutation", "Optimistic Updates"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://tanstack.com/query/latest/docs/react/guides/caching",
+              "https://tanstack.com/query/latest/docs/react/guides/optimistic-updates",
+              "https://tanstack.com/query/latest/docs/react/guides/persisting-query-data",
+            ],
+          },
+          {
+            topic: "Mutations",
+            tags: [
+              "React",
+              "TanStack Query",
+              "Data Mutation",
+              "Optimistic Updates",
+            ],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Mutations — Interview Guide (Deep Dive)
       </h4>
@@ -52868,18 +52892,23 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://tanstack.com/query/latest/docs/react/guides/mutations",
-      "https://tanstack.com/query/latest/docs/react/guides/optimistic-updates",
-      "https://tanstack.com/query/latest/docs/react/guides/invalidations-from-mutations",
-    ],
-  },
-  {
-    topic: "Infinite Queries",
-    tags: ["React", "TanStack Query", "Pagination", "Infinite Scrolling"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://tanstack.com/query/latest/docs/react/guides/mutations",
+              "https://tanstack.com/query/latest/docs/react/guides/optimistic-updates",
+              "https://tanstack.com/query/latest/docs/react/guides/invalidations-from-mutations",
+            ],
+          },
+          {
+            topic: "Infinite Queries",
+            tags: [
+              "React",
+              "TanStack Query",
+              "Pagination",
+              "Infinite Scrolling",
+            ],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Infinite Queries — Interview Guide (Deep Dive)
       </h4>
@@ -53491,18 +53520,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://tanstack.com/query/latest/docs/react/guides/infinite-queries",
-      "https://tanstack.com/query/latest/docs/react/guides/paginated-queries",
-      "https://tanstack.com/query/latest/docs/react/guides/scroll-restoration",
-    ],
-  },
-  {
-    topic: "Authentication",
-    tags: ["React", "Security", "Authentication", "Authorization"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://tanstack.com/query/latest/docs/react/guides/infinite-queries",
+              "https://tanstack.com/query/latest/docs/react/guides/paginated-queries",
+              "https://tanstack.com/query/latest/docs/react/guides/scroll-restoration",
+            ],
+          },
+          {
+            topic: "Authentication",
+            tags: ["React", "Security", "Authentication", "Authorization"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Authentication — Interview Guide (Deep Dive)
       </h4>
@@ -54247,18 +54276,18 @@ export { useAuth, ProtectedRoute, Login, Dashboard };
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://react.dev/learn/authentication",
-      "https://auth0.com/docs/secure/tokens/access-tokens",
-      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
-    ],
-  },
-  {
-    topic: "JWT",
-    tags: ["React", "Security", "Authentication", "Tokens"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://react.dev/learn/authentication",
+              "https://auth0.com/docs/secure/tokens/access-tokens",
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
+            ],
+          },
+          {
+            topic: "JWT",
+            tags: ["React", "Security", "Authentication", "Tokens"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         JWT — JSON Web Tokens (Interview Guide — Deep Dive)
       </h4>
@@ -54919,18 +54948,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://jwt.io/",
-      "https://www.rfc-editor.org/rfc/rfc7519",
-      "https://auth0.com/docs/secure/tokens/json-web-tokens",
-    ],
-  },
-  {
-    topic: "Refresh Tokens",
-    tags: ["React", "Security", "Authentication", "JWT"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://jwt.io/",
+              "https://www.rfc-editor.org/rfc/rfc7519",
+              "https://auth0.com/docs/secure/tokens/json-web-tokens",
+            ],
+          },
+          {
+            topic: "Refresh Tokens",
+            tags: ["React", "Security", "Authentication", "JWT"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Refresh Tokens — Interview Guide (Deep Dive)
       </h4>
@@ -55564,18 +55593,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://auth0.com/docs/secure/tokens/refresh-tokens",
-      "https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/",
-      "https://tools.ietf.org/html/rfc6749#section-6",
-    ],
-  },
-  {
-    topic: "Cookies",
-    tags: ["React", "Security", "HTTP", "Authentication"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://auth0.com/docs/secure/tokens/refresh-tokens",
+              "https://www.oauth.com/oauth2-servers/making-authenticated-requests/refreshing-an-access-token/",
+              "https://tools.ietf.org/html/rfc6749#section-6",
+            ],
+          },
+          {
+            topic: "Cookies",
+            tags: ["React", "Security", "HTTP", "Authentication"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         Cookies — Interview Guide (Deep Dive)
       </h4>
@@ -56234,18 +56263,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
-      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie",
-      "https://web.dev/samesite-cookies-explained/",
-    ],
-  },
-  {
-    topic: "CORS",
-    tags: ["React", "Security", "HTTP", "Cross-Origin"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie",
+              "https://web.dev/samesite-cookies-explained/",
+            ],
+          },
+          {
+            topic: "CORS",
+            tags: ["React", "Security", "HTTP", "Cross-Origin"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         CORS — Cross-Origin Resource Sharing (Interview Guide — Deep Dive)
       </h4>
@@ -56877,18 +56906,18 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS",
-      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin",
-      "https://web.dev/cross-origin-resource-sharing/",
-    ],
-  },
-  {
-    topic: "CSRF",
-    tags: ["React", "Security", "CSRF", "Protection"],
-    explanation: `<div>
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS",
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin",
+              "https://web.dev/cross-origin-resource-sharing/",
+            ],
+          },
+          {
+            topic: "CSRF",
+            tags: ["React", "Security", "CSRF", "Protection"],
+            explanation: `<div>
       <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
         CSRF — Cross-Site Request Forgery (Interview Guide — Deep Dive)
       </h4>
@@ -57563,14 +57592,14 @@ export {
         </div>
       </div>
     </div>`,
-    examples: [{}],
-    questions: [{}],
-    links: [
-      "https://owasp.org/www-community/attacks/csrf",
-      "https://developer.mozilla.org/en-US/docs/Web/Security/Cross-Site_Request_Forgery",
-      "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
-    ],
-  },
+            examples: [{}],
+            questions: [{}],
+            links: [
+              "https://owasp.org/www-community/attacks/csrf",
+              "https://developer.mozilla.org/en-US/docs/Web/Security/Cross-Site_Request_Forgery",
+              "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+            ],
+          },
           {
             topic: "useCallback Hook",
             tags: [
@@ -94664,10 +94693,10 @@ module.exports = (env, argv) => {
               "https://webpack.js.org/guides/production/ - Production optimization guide",
             ],
           },
-        {
-    topic: "GraphQL with React",
-    tags: [""],
-    explanation: `<div>
+          {
+            topic: "GraphQL with React",
+            tags: [""],
+            explanation: `<div>
   <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
     GraphQL with React &amp; Node (Interview Guide — Deep Dive)
   </h4>
@@ -95111,29 +95140,84 @@ const resolvers = {
 
 </div>
 `,
-    examples: [""],
-    questions: [
-      { question: "What is GraphQL, in one sentence a senior engineer would actually use in an interview?", answer: "GraphQL is a query language and server-side runtime that lets clients request exactly the fields they need, from a single strongly-typed endpoint, instead of consuming multiple fixed-shape REST endpoints." },
-      { question: "Explain over-fetching and under-fetching with concrete REST examples, and how GraphQL solves both.", answer: "Over-fetching: GET /users/1 returns the full user object (email, address, preferences, ...) when the screen only needed the name and avatar — wasted bandwidth. Under-fetching: that same endpoint doesn't include the user's recent posts, so the client has to make a second request to GET /users/1/posts just to render one screen. GraphQL solves both by letting the client specify a query that asks for exactly { name avatarUrl posts { title } } in one request — nothing extra, nothing missing, no second round trip." },
-      { question: "What is the N+1 problem in GraphQL, and how does DataLoader fix it?", answer: "If a list field (e.g. books) resolves 50 items, and each book's nested author field independently queries the database per book, you get 1 query for the books plus 50 more for authors — N+1 total queries instead of 2. DataLoader fixes this by collecting every .load(id) call made during the same event loop tick, then issuing ONE batched database query for all of them at once, and caching/de-duplicating repeated ids within that request." },
-      { question: "Why is caching harder in GraphQL than REST, and what's the standard client-side solution?", answer: "REST resources map naturally to URLs, so browsers/CDNs can cache GET https://api/users/1 directly. GraphQL typically sends all requests as POST to one URL (queries can be arbitrarily different each time), so URL-based HTTP caching doesn't apply. The standard fix is a normalized client-side cache (e.g. Apollo Client's InMemoryCache), which stores every returned object by its type + id, so the same entity fetched via different queries is stored once and updates propagate everywhere it's displayed." },
-      { question: "How does GraphQL handle API evolution without versioning the way REST does with /v1, /v2?", answer: "Instead of versioning the whole API, you add new fields/types to the schema freely (existing clients simply don't request them, so they're unaffected), and mark fields you want to retire with @deprecated so tooling warns consumers, removing them only once usage has dropped to zero. The schema evolves continuously in place rather than through breaking, versioned snapshots." },
-      { question: "Why does a GraphQL response almost always return HTTP 200, even on error, and what does the client need to check instead?", answer: "GraphQL treats the HTTP layer only as a transport — the actual success/failure semantics live inside the response body's errors array, alongside data (which can be partially populated: some requested fields succeeded and are present, one field failed and is null). Client code has to explicitly check for a non-empty errors array rather than relying on HTTP status codes the way a typical REST client would." },
-      { question: "How would you protect a public GraphQL endpoint from a malicious deeply-nested or extremely wide query?", answer: "Add query depth limiting (reject queries nested beyond a configured depth) and query complexity analysis (assign each field a cost and reject queries whose total cost exceeds a budget). Also disable introspection in production (or require auth for it) so attackers can't easily enumerate the full schema, and consider persisted queries so only pre-approved query shapes are accepted at all." },
-      { question: "What's the difference between a Query and a Mutation beyond 'read vs write'?", answer: "Beyond the read/write distinction, the GraphQL spec guarantees mutations execute sequentially, one after another, in the order they appear in the request — while top-level query fields can be resolved in parallel. This matters if a client sends multiple mutations in one request expecting them to apply in order (e.g. create-then-update)." },
-      { question: "When would you choose plain REST over GraphQL for a new project?", answer: "For a small, mostly-CRUD API with simple, stable resource shapes; when you need strong out-of-the-box HTTP/CDN caching; when the team has no bandwidth to design a schema, write resolvers, and handle N+1/security concerns properly; or when the API is public-facing and you want the simplicity and ubiquity of plain HTTP verbs and status codes for consumers unfamiliar with GraphQL." },
-      { question: "How do you implement pagination in GraphQL, and why is cursor-based pagination generally preferred over offset-based?", answer: "The standard is the Relay Connection pattern: a field returns { edges: [{ node, cursor }], pageInfo: { hasNextPage, endCursor } }, and the client requests the next page using after: endCursor. This is preferred over offset/limit pagination because cursors stay stable and correct even if items are inserted or removed from the list between requests, whereas offset-based pagination can skip or duplicate items when the underlying data shifts." },
-      { question: "What is Apollo Federation and what problem does it solve?", answer: "Federation lets multiple teams/services each define and own a piece ('subgraph') of one overall GraphQL schema — e.g. a Users service owns the User type, an Orders service owns Order and extends User with an orders field — composed together at a gateway into a single unified graph that clients query as if it were one API. It solves the problem of scaling GraphQL across microservices without one team owning a giant monolithic schema or clients needing to know which service to call for what." },
-    ],
-    links: [
-      "https://graphql.org/learn/",
-      "https://www.apollographql.com/docs/react/",
-      "https://www.apollographql.com/docs/apollo-server/",
-      "https://github.com/graphql/dataloader",
-      "https://relay.dev/graphql/connections.htm",
-      "https://www.apollographql.com/docs/federation/",
-    ],
-  },
+            examples: [""],
+            questions: [
+              {
+                question:
+                  "What is GraphQL, in one sentence a senior engineer would actually use in an interview?",
+                answer:
+                  "GraphQL is a query language and server-side runtime that lets clients request exactly the fields they need, from a single strongly-typed endpoint, instead of consuming multiple fixed-shape REST endpoints.",
+              },
+              {
+                question:
+                  "Explain over-fetching and under-fetching with concrete REST examples, and how GraphQL solves both.",
+                answer:
+                  "Over-fetching: GET /users/1 returns the full user object (email, address, preferences, ...) when the screen only needed the name and avatar — wasted bandwidth. Under-fetching: that same endpoint doesn't include the user's recent posts, so the client has to make a second request to GET /users/1/posts just to render one screen. GraphQL solves both by letting the client specify a query that asks for exactly { name avatarUrl posts { title } } in one request — nothing extra, nothing missing, no second round trip.",
+              },
+              {
+                question:
+                  "What is the N+1 problem in GraphQL, and how does DataLoader fix it?",
+                answer:
+                  "If a list field (e.g. books) resolves 50 items, and each book's nested author field independently queries the database per book, you get 1 query for the books plus 50 more for authors — N+1 total queries instead of 2. DataLoader fixes this by collecting every .load(id) call made during the same event loop tick, then issuing ONE batched database query for all of them at once, and caching/de-duplicating repeated ids within that request.",
+              },
+              {
+                question:
+                  "Why is caching harder in GraphQL than REST, and what's the standard client-side solution?",
+                answer:
+                  "REST resources map naturally to URLs, so browsers/CDNs can cache GET https://api/users/1 directly. GraphQL typically sends all requests as POST to one URL (queries can be arbitrarily different each time), so URL-based HTTP caching doesn't apply. The standard fix is a normalized client-side cache (e.g. Apollo Client's InMemoryCache), which stores every returned object by its type + id, so the same entity fetched via different queries is stored once and updates propagate everywhere it's displayed.",
+              },
+              {
+                question:
+                  "How does GraphQL handle API evolution without versioning the way REST does with /v1, /v2?",
+                answer:
+                  "Instead of versioning the whole API, you add new fields/types to the schema freely (existing clients simply don't request them, so they're unaffected), and mark fields you want to retire with @deprecated so tooling warns consumers, removing them only once usage has dropped to zero. The schema evolves continuously in place rather than through breaking, versioned snapshots.",
+              },
+              {
+                question:
+                  "Why does a GraphQL response almost always return HTTP 200, even on error, and what does the client need to check instead?",
+                answer:
+                  "GraphQL treats the HTTP layer only as a transport — the actual success/failure semantics live inside the response body's errors array, alongside data (which can be partially populated: some requested fields succeeded and are present, one field failed and is null). Client code has to explicitly check for a non-empty errors array rather than relying on HTTP status codes the way a typical REST client would.",
+              },
+              {
+                question:
+                  "How would you protect a public GraphQL endpoint from a malicious deeply-nested or extremely wide query?",
+                answer:
+                  "Add query depth limiting (reject queries nested beyond a configured depth) and query complexity analysis (assign each field a cost and reject queries whose total cost exceeds a budget). Also disable introspection in production (or require auth for it) so attackers can't easily enumerate the full schema, and consider persisted queries so only pre-approved query shapes are accepted at all.",
+              },
+              {
+                question:
+                  "What's the difference between a Query and a Mutation beyond 'read vs write'?",
+                answer:
+                  "Beyond the read/write distinction, the GraphQL spec guarantees mutations execute sequentially, one after another, in the order they appear in the request — while top-level query fields can be resolved in parallel. This matters if a client sends multiple mutations in one request expecting them to apply in order (e.g. create-then-update).",
+              },
+              {
+                question:
+                  "When would you choose plain REST over GraphQL for a new project?",
+                answer:
+                  "For a small, mostly-CRUD API with simple, stable resource shapes; when you need strong out-of-the-box HTTP/CDN caching; when the team has no bandwidth to design a schema, write resolvers, and handle N+1/security concerns properly; or when the API is public-facing and you want the simplicity and ubiquity of plain HTTP verbs and status codes for consumers unfamiliar with GraphQL.",
+              },
+              {
+                question:
+                  "How do you implement pagination in GraphQL, and why is cursor-based pagination generally preferred over offset-based?",
+                answer:
+                  "The standard is the Relay Connection pattern: a field returns { edges: [{ node, cursor }], pageInfo: { hasNextPage, endCursor } }, and the client requests the next page using after: endCursor. This is preferred over offset/limit pagination because cursors stay stable and correct even if items are inserted or removed from the list between requests, whereas offset-based pagination can skip or duplicate items when the underlying data shifts.",
+              },
+              {
+                question:
+                  "What is Apollo Federation and what problem does it solve?",
+                answer:
+                  "Federation lets multiple teams/services each define and own a piece ('subgraph') of one overall GraphQL schema — e.g. a Users service owns the User type, an Orders service owns Order and extends User with an orders field — composed together at a gateway into a single unified graph that clients query as if it were one API. It solves the problem of scaling GraphQL across microservices without one team owning a giant monolithic schema or clients needing to know which service to call for what.",
+              },
+            ],
+            links: [
+              "https://graphql.org/learn/",
+              "https://www.apollographql.com/docs/react/",
+              "https://www.apollographql.com/docs/apollo-server/",
+              "https://github.com/graphql/dataloader",
+              "https://relay.dev/graphql/connections.htm",
+              "https://www.apollographql.com/docs/federation/",
+            ],
+          },
           {
             topic: "Optimistic UI Updates",
             tags: [
@@ -139439,7 +139523,7 @@ checkAccess("ADMIN");    // Also OK — it's just a literal union, no special en
               "https://www.typescriptlang.org/docs/handbook/enums.html",
               "https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html",
             ],
-          }
+          },
         ],
       },
       {
@@ -140068,6 +140152,4442 @@ class Container {
     
     const paramTypes = Reflect.getMetadata("design:paramtypes", ServiceClass) || [];
     const dependencies = paramTypes.map(paramType =>`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 18,
+    category: "AI",
+    themeBgColor: "#D8C7F7",
+    textColor: "#4a2b7a",
+    topicColor: "#8b5cf6",
+    lightColor: "#f5f0fe",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "How LLMs Actually Work (Prerequisite)",
+            tags: ["prerequisite", "foundation"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Before tokens, context windows or embeddings make any sense, you need one mental model: <strong>a Large Language Model is a next-token predictor</strong>. That is all it does. You give it a sequence of text, and it produces a probability distribution over every possible next token in its vocabulary. It picks one, appends it to the sequence, and repeats. Everything else — chat, reasoning, coding, summarising — is that single loop dressed up.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This single fact explains almost every behaviour interviewers ask about: why models hallucinate, why they cannot count letters, why they have no memory between requests, why output is slower than input, and why prompt wording changes results so much.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Two Phases: Training vs Inference
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Training (done once, by the model provider) :</span>
+      The model reads an enormous amount of text and adjusts billions of numbers called <strong>weights</strong> (or parameters) so that its next-token predictions match reality more often. This costs millions of dollars and months of compute. As an application developer, you almost never do this.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-text">
+Training has three common stages:
+
+1. Pre-training      - Learn language from raw internet-scale text.
+                       Output: a "base model" that just completes text.
+
+2. Supervised Fine-  - Show it thousands of (instruction, good answer) pairs.
+   Tuning (SFT)        Output: a model that follows instructions.
+
+3. Preference tuning - Humans (or an AI) rank answers; the model is nudged
+   (RLHF / RLAIF)      toward the preferred ones.
+                       Output: a helpful, safer "chat model".
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Inference (what happens on every API call you make) :</span>
+      The weights are frozen. Your prompt goes in, tokens come out one at a time. <strong>The model does not learn from your request.</strong> Nothing you send is remembered for the next call.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Inference Loop, Step by Step
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Prompt: "The capital of France is"
+
+Step 1 - Tokenize      -> [464, 3139, 286, 4881, 318]
+Step 2 - Embed         -> each token becomes a vector of numbers
+Step 3 - Transformer   -> layers of attention + feed-forward math
+Step 4 - Output logits -> a raw score for EVERY token in the vocabulary
+Step 5 - Softmax       -> convert scores to probabilities:
+                            " Paris"  0.89
+                            " a"      0.03
+                            " the"    0.02
+                            " located"0.01
+                            ... (100,000+ more, all tiny)
+Step 6 - Sample        -> pick one token (temperature/top-p decide how)
+Step 7 - Append & repeat until a stop token or the limit is reached
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Two important consequences of this loop:
+  </p>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Prefill vs decode.</strong> Reading your whole prompt (prefill) can be done in parallel and is fast. Generating output must be sequential — token N+1 needs token N. This is why <em>output tokens cost more and are slower than input tokens</em>, and why streaming exists.</li>
+    <li style="margin-top: 0.5rem;"><strong>The model is stateless.</strong> A "conversation" is an illusion. Your app re-sends the entire chat history on every single turn. The model has no idea a previous message ever happened unless you put it in the prompt.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why This Explains Hallucination
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The model is optimised to produce <em>plausible</em> text, not <em>true</em> text. It has no internal database and no notion of "I don't know". If asked for a citation, the statistically likely continuation of "according to the paper" is a realistic-looking author, year and title — so it produces one, whether or not it exists. Hallucination is not a bug in the loop; it <em>is</em> the loop working exactly as designed. That is why the architectural fixes are grounding (RAG), constrained output, and verification — not better scolding in the prompt.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Vocabulary You Must Not Confuse
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Parameters / weights</strong> — the learned numbers inside the model. "7B" means 7 billion of them. More parameters usually means more capability and more cost/VRAM, but a well-trained small model can beat a badly-trained large one.</li>
+    <li style="margin-top: 0.5rem;"><strong>Base model vs instruct/chat model</strong> — a base model completes text; an instruct model follows instructions. Almost always you want the instruct version.</li>
+    <li style="margin-top: 0.5rem;"><strong>Logits</strong> — the raw unnormalised scores before softmax.</li>
+    <li style="margin-top: 0.5rem;"><strong>Temperature / top-p</strong> — knobs that decide how adventurously you sample from the probability distribution. Temperature 0 means always take the highest-probability token (near-deterministic).</li>
+    <li style="margin-top: 0.5rem;"><strong>Knowledge cutoff</strong> — the date after which the model saw no training data. Anything later must come from tools or retrieval.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// A "conversation" is just a growing array you re-send every turn.
+// The model itself remembers NOTHING.
+
+// Turn 1 - you send:
+const turn1 = [
+  { role: "system",  content: "You are a helpful assistant." },
+  { role: "user",    content: "My name is Ankit." }
+];
+// Model replies: "Nice to meet you, Ankit!"
+
+// Turn 2 - you must re-send EVERYTHING, including the reply:
+const turn2 = [
+  { role: "system",    content: "You are a helpful assistant." },
+  { role: "user",      content: "My name is Ankit." },
+  { role: "assistant", content: "Nice to meet you, Ankit!" },
+  { role: "user",      content: "What is my name?" }
+];
+// If you forget to include the history, the model has NO idea.
+// This is exactly why long chats get expensive: you pay for the
+// whole history again on every single turn.`,
+              `// Why temperature 0 is "near"-deterministic, not perfectly deterministic.
+
+// temperature = 0  -> always pick the highest-probability token
+// Same prompt + same model version SHOULD give the same output.
+
+// In practice you can still see tiny variation because of:
+//   - floating point non-determinism on GPUs (order of operations)
+//   - batching: your request is grouped with others differently each time
+//   - the provider silently updating the model behind an alias
+
+// Interview takeaway: for reproducibility, pin an exact model version
+// (e.g. "claude-sonnet-4-20250514", not "claude-sonnet-latest"),
+// set temperature 0, and set a seed if the provider supports one.`,
+            ],
+            questions: [
+              {
+                question: "In one sentence, what does an LLM actually do?",
+                solution:
+                  "<p>It predicts the next token in a sequence by producing a probability distribution over its entire vocabulary, then samples one token and repeats. Everything an LLM appears to do — reasoning, coding, summarising — emerges from that single repeated operation.</p>",
+              },
+              {
+                question:
+                  "If I send a chat message, does the model remember our previous conversation?",
+                solution:
+                  "<p>No. LLM APIs are stateless. Your application re-sends the entire conversation history in the prompt on every request. The model itself learns nothing and stores nothing between calls. This has three practical consequences: (1) long conversations get progressively more expensive because you pay for the whole history each turn, (2) conversations eventually hit the context window limit and need trimming or summarising, and (3) any 'memory' feature you see in a product is application-level engineering — a database, a summary, or a retrieval step — not a model capability.</p>",
+              },
+              {
+                question:
+                  "Why are output tokens usually more expensive and slower than input tokens?",
+                solution:
+                  "<p>Input processing (prefill) can be parallelised — the whole prompt is pushed through the model in essentially one pass. Output generation (decode) is inherently sequential: token N+1 cannot be computed until token N exists, so each output token requires its own forward pass through the model. That serial dependency makes output several times more computationally expensive per token, which is reflected in both pricing and latency. It is also why time-to-first-token (TTFT) and tokens-per-second are tracked as separate metrics.</p>",
+              },
+              {
+                question:
+                  "What is the difference between a base model and an instruct/chat model?",
+                solution:
+                  "<p>A base model is the raw output of pre-training — it only continues text. If you ask it 'What is the capital of France?' it might reply with more questions, because that is a plausible continuation of a list of questions. An instruct or chat model has been additionally fine-tuned on instruction/response pairs and preference data (RLHF), so it interprets input as a request to be fulfilled. For virtually all application work you want the instruct version. Base models are mainly useful for further fine-tuning or research.</p>",
+              },
+              {
+                question:
+                  "Explain hallucination in terms of how the model works, not just 'it makes things up'.",
+                solution:
+                  "<p>The model is trained to maximise the likelihood of plausible next tokens, not to assert only verified facts. It has no lookup table and no confidence signal for truth. When you ask for something it does not know, the most statistically probable continuation is still a fluent, well-formed answer — so it produces one. There is no internal mechanism that says 'no data available'. This is why prompt-level fixes like 'do not hallucinate' are weak, and why the real solutions are architectural: ground the model in retrieved source text (RAG), constrain output to a schema, force citations that you then verify programmatically, and evaluate faithfulness against the provided context.</p>",
+              },
+              {
+                question:
+                  "What are parameters, and does a bigger parameter count always mean a better model?",
+                solution:
+                  "<p>Parameters (or weights) are the learned numeric values inside the model — a '7B' model has roughly 7 billion of them. They determine capability, memory footprint and inference cost. But bigger is not automatically better: a smaller model trained on more and higher-quality data, with better post-training, routinely outperforms an older larger model. Parameter count also drives practical constraints — VRAM requirements for self-hosting, latency, and cost per token. In an interview, the correct framing is that parameter count is one input into model selection, alongside benchmark performance on <em>your</em> task, latency, context window, and price.</p>",
+              },
+              {
+                question:
+                  "What are the three main stages of training a modern chat model?",
+                solution:
+                  "<p>(1) <strong>Pre-training</strong> — learn language and world knowledge from massive unlabelled text, producing a base model. (2) <strong>Supervised fine-tuning (SFT)</strong> — train on curated (instruction, ideal response) pairs so the model follows instructions. (3) <strong>Preference tuning</strong> — RLHF or similar, where humans or an AI rank candidate responses and the model is optimised toward the preferred ones, improving helpfulness, tone and safety. Knowing this sequence matters because it explains why models have a knowledge cutoff (pre-training data date) and why they refuse certain requests (preference tuning).</p>",
+              },
+              {
+                question: "What is a knowledge cutoff, and how do you work around it?",
+                solution:
+                  "<p>The knowledge cutoff is the date beyond which the model saw no training data — it simply does not know about later events. You work around it not by fine-tuning (expensive, slow, and still goes stale) but by feeding current information into the context at request time: retrieval from your own documents (RAG), web search tools, or direct API calls to live systems. This is the standard architectural answer: for any information that changes, put it in the context, do not try to bake it into the weights.</p>",
+              },
+              {
+                question:
+                  "What are logits, and how do temperature and top-p relate to them?",
+                solution:
+                  "<p>Logits are the raw, unnormalised scores the model assigns to every token in its vocabulary before any probability conversion. A softmax function turns logits into a probability distribution summing to 1. Temperature scales the logits before softmax: low temperature sharpens the distribution (the top token dominates, output is more deterministic), high temperature flattens it (more variety and more risk of nonsense). Top-p (nucleus sampling) then restricts sampling to the smallest set of tokens whose cumulative probability exceeds p, cutting off the long tail of unlikely tokens. In practice: temperature near 0 for extraction, classification and structured output; higher for creative writing.</p>",
+              },
+              {
+                question:
+                  "Is temperature 0 fully deterministic? Why might the same prompt give different output?",
+                solution:
+                  "<p>It is near-deterministic, not guaranteed deterministic. Sources of variation include floating-point non-determinism on GPUs (the order of parallel operations can change), request batching (your input may be grouped differently across runs), and — most commonly in practice — the provider silently updating the model behind a floating alias. For reproducibility, pin an exact dated model version rather than a 'latest' alias, set temperature to 0, and use a seed parameter if the provider offers one. This is a favourite follow-up question because it separates people who have run these systems from people who have only read about them.</p>",
+              },
+              {
+                question:
+                  "Why can an LLM write a working sorting algorithm but fail to count the letters in a word?",
+                solution:
+                  "<p>Because the model never sees letters — it sees tokens. A word like 'strawberry' may be split into two or three tokens, and the model has no reliable representation of the individual characters inside them. Code generation, by contrast, is a pattern it has seen millions of times at the token level, so it reproduces it well. The general lesson: LLMs are strong at tasks that resemble patterns in their training data and weak at tasks requiring character-level or precise numeric manipulation. The architectural fix is to use a tool — call actual code for counting, arithmetic and exact string operations rather than asking the model to do them.</p>",
+              },
+              {
+                question:
+                  "A stakeholder asks 'can we just train our own model on our company data?' How do you respond?",
+                solution:
+                  "<p>Reframe rather than refuse. Pre-training a competitive model from scratch costs millions and months, so that is off the table. Fine-tuning an open model is feasible but usually the wrong first step: it teaches style, format and tone well, but it is a poor way to inject facts, it goes stale as soon as the data changes, it cannot enforce per-user permissions, and it makes attribution impossible. For company knowledge, retrieval (RAG) is almost always the right answer — it is cheaper, updates instantly, supports access control, and can cite sources. The honest framing is: start with prompting, add retrieval, and only consider fine-tuning once you have evaluation data proving the remaining gap is about behaviour rather than knowledge.</p>",
+              },
+            ],
+            links: [
+              "https://jalammar.github.io/illustrated-transformer/",
+              "https://ig.ft.com/generative-ai/",
+              "https://docs.anthropic.com/en/docs/about-claude/models/overview",
+              "https://platform.openai.com/docs/guides/text-generation",
+            ],
+          },
+          {
+            topic: "Tokens & Tokenization",
+            tags: ["high-frequency", "must-know"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>token</strong> is the atomic unit of text an LLM reads and writes. It is not a character and not a word — it is a chunk somewhere in between, usually a word, a word-piece, or a punctuation mark. <strong>Tokenization</strong> is the process of converting raw text into a list of integer token IDs that index into the model's fixed vocabulary.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This is the first topic in almost every AI interview, because tokens are the unit of three things you will be asked to reason about constantly: <strong>cost</strong> (you are billed per token), <strong>context limits</strong> (measured in tokens), and <strong>latency</strong> (measured in tokens per second).
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Text:    "Tokenization is unbelievable!"
+
+Tokens:  ["Token", "ization", " is", " unbeliev", "able", "!"]
+IDs:     [ 3404,    2065,      374,   96739,      481,    0  ]
+
+6 tokens, 3 words, 29 characters.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why Not Just Use Words or Characters?
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Tokenization is a deliberate compromise between two bad extremes:
+  </p>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Character-level :</span>
+      Tiny vocabulary (about 128 for ASCII), so it can represent anything and never hits an unknown word. But sequences become enormously long — "internationalization" is 20 units instead of 2 or 3 — and since attention cost scales with the square of sequence length, this is computationally brutal. The model also has to learn spelling from scratch.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Word-level :</span>
+      Short sequences, but the vocabulary would need to be millions of entries to cover every word, name, typo and inflection in every language. Anything unseen becomes an "unknown" token and all its meaning is lost. Storing an embedding for each word also blows up model size.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Subword (what everyone actually uses) :</span>
+      Frequent words stay whole ("the", "and", "computer"); rare words split into meaningful pieces ("tokenization" becomes "token" + "ization"). A vocabulary of 50k-200k covers essentially all text with no unknown tokens, while keeping sequences reasonably short. The model also gets morphological hints for free — it can infer something about a word it has never seen from its pieces.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Byte Pair Encoding (BPE) — The Algorithm You Should Be Able to Explain
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    BPE is the dominant tokenization algorithm (GPT, Llama and many others use it or a variant). It is trained once on a large corpus before the model is trained:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+BPE TRAINING (building the vocabulary)
+
+1. Start with a vocabulary of individual bytes/characters.
+2. Count every adjacent pair in the corpus.
+3. Find the MOST FREQUENT pair and merge it into a new single token.
+4. Record that merge rule.
+5. Repeat until the vocabulary reaches the target size (e.g. 100,000).
+
+Worked example on the words: low, lower, lowest, newer, newest
+
+Start:  l o w    l o w e r    l o w e s t    n e w e r    n e w e s t
+
+"e"+"s" is the most frequent pair -> merge to "es"
+        l o w    l o w e r    l o w es t     n e w e r    n e w es t
+
+"es"+"t" most frequent -> merge to "est"
+        l o w    l o w e r    l o w est      n e w e r    n e w est
+
+"l"+"o" -> "lo",  then "lo"+"w" -> "low"
+        low      low e r      low est        n e w e r    n e w est
+
+...and so on. Common chunks become single tokens.
+
+TOKENIZING NEW TEXT: apply the learned merge rules, in the order
+they were learned, to whatever string you are given.
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Modern GPT models use <strong>byte-level BPE</strong>: they operate on raw UTF-8 bytes rather than Unicode characters. The practical benefit is that <em>no input is ever unrepresentable</em> — emoji, Chinese, mathematical symbols, corrupted bytes, all encode without an unknown token. The cost is that non-Latin scripts consume many more tokens per character.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Other Tokenizers You Should Recognise
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>WordPiece</strong> (BERT) — like BPE, but instead of merging the most <em>frequent</em> pair it merges the pair that most increases the likelihood of the training data. Subword continuations are marked with a "##" prefix, e.g. "playing" becomes "play" + "##ing".</li>
+    <li style="margin-top: 0.5rem;"><strong>SentencePiece</strong> (T5, Llama, many multilingual models) — treats the input as a raw stream and encodes whitespace explicitly as a special character. Because it never assumes spaces separate words, it works for languages like Japanese and Thai that do not use spaces, and tokenization is perfectly reversible.</li>
+    <li style="margin-top: 0.5rem;"><strong>Unigram LM</strong> — starts with a large candidate vocabulary and prunes it, keeping tokens that best explain the corpus probabilistically. Often used inside SentencePiece.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Practical Rules of Thumb (memorise these)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+English prose:      ~4 characters per token
+                    ~0.75 words per token
+                    ~750 words per 1,000 tokens
+                    1 page of text  ~= 400-500 tokens
+                    1 typical email ~= 100-300 tokens
+
+Code / JSON:        Much denser. Indentation, braces, quotes and
+                    snake_case identifiers all cost tokens.
+                    Budget significantly more than 4 chars/token.
+
+Non-English:        Far worse. The same sentence in Hindi, Thai,
+                    Japanese or Arabic can cost 2-5x more tokens
+                    than English - a real cost and fairness issue.
+
+ALWAYS: estimate for planning, COUNT for anything that matters.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Tokenization Quirks That Cause Real Bugs
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Leading spaces matter :</span>
+      "hello" and " hello" are <em>different token IDs</em>. Most tokenizers attach the leading space to the word. This silently breaks few-shot examples and stop sequences if you are careless with whitespace.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Numbers split unpredictably :</span>
+      "1234" might be one token, or "12" + "34", or "1" + "234", depending on the tokenizer and what appeared in training. The model therefore has no stable place-value representation, which is a major reason arithmetic is unreliable. <strong>Use a calculator tool, not the model.</strong>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">The "how many r's in strawberry" problem :</span>
+      The model sees something like ["str", "aw", "berry"], not s-t-r-a-w-b-e-r-r-y. It cannot reliably count characters it never sees. This is the single best example to give when asked "what are LLMs bad at and why".
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Case and formatting cost tokens :</span>
+      "HELLO WORLD" often tokenizes into more tokens than "Hello world" because uppercase sequences are rarer. Pretty-printed JSON costs noticeably more than minified JSON — a free cost saving in RAG pipelines.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Tokenizers are model-specific :</span>
+      A token count from OpenAI's tokenizer is <em>not</em> valid for Claude, Llama or Gemini. Never reuse a count across providers; use the provider's own counting endpoint or library.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Where Tokens Show Up in an Architecture
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Billing</strong> — priced per million input and output tokens, at different rates.</li>
+    <li style="margin-top: 0.5rem;"><strong>Context limits</strong> — the window is a token budget you must fit inside.</li>
+    <li style="margin-top: 0.5rem;"><strong>Chunking for RAG</strong> — chunk sizes are specified in tokens, and embedding models have their own token limits.</li>
+    <li style="margin-top: 0.5rem;"><strong>Rate limits</strong> — providers enforce tokens-per-minute (TPM) as well as requests-per-minute (RPM). TPM is usually what you hit first.</li>
+    <li style="margin-top: 0.5rem;"><strong>Streaming and latency</strong> — throughput is quoted in tokens per second.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Counting tokens properly, per provider. Never guess for anything
+// that affects cost, chunking, or a hard context limit.
+
+// --- OpenAI (JS) ---
+import { encoding_for_model } from "tiktoken";
+
+const enc = encoding_for_model("gpt-4o");
+const tokens = enc.encode("Tokenization is unbelievable!");
+console.log(tokens.length);   // -> 6
+console.log(tokens);          // -> array of integer token IDs
+enc.free();                   // release WASM memory
+
+// --- Anthropic: use the count_tokens endpoint ---
+const res = await client.messages.countTokens({
+  model: "claude-sonnet-4-20250514",
+  messages: [{ role: "user", content: "Tokenization is unbelievable!" }]
+});
+console.log(res.input_tokens);
+
+// Key point for interviews: these two numbers will NOT match.
+// Each model family has its own vocabulary and merge rules.`,
+              `// A safe estimator for planning + a hard check before you send.
+// Estimate cheaply, verify exactly.
+
+function estimateTokens(text) {
+  // ~4 chars per token for English prose. Deliberately conservative.
+  return Math.ceil(text.length / 4);
+}
+
+function estimateCostUSD(inputTokens, outputTokens, pricing) {
+  // pricing is { inputPerM, outputPerM } in dollars per 1M tokens
+  const inCost  = (inputTokens  / 1_000_000) * pricing.inputPerM;
+  const outCost = (outputTokens / 1_000_000) * pricing.outputPerM;
+  return inCost + outCost;
+}
+
+// Example: 1,000 daily users, 5 messages each,
+// 2,000 input tokens and 400 output tokens per message.
+const perDay = 1000 * 5;
+const monthlyIn  = perDay * 2000 * 30;   //  300,000,000 tokens
+const monthlyOut = perDay * 400  * 30;   //   60,000,000 tokens
+
+const cost = estimateCostUSD(monthlyIn, monthlyOut, {
+  inputPerM: 3.00,
+  outputPerM: 15.00
+});
+console.log(cost);  // -> 1800  ( $900 input + $900 output )
+
+// Interviewers love this: notice output is only 1/5 the volume
+// but costs the SAME, because output is ~5x the price.
+// Cutting verbose output is often the fastest cost win.`,
+              `// Token-aware chunking for RAG. Chunk by TOKENS, not characters,
+// because your embedding model has a token limit, not a char limit.
+
+import { encoding_for_model } from "tiktoken";
+
+function chunkByTokens(text, chunkTokens = 500, overlapTokens = 50) {
+  const enc = encoding_for_model("gpt-4o");
+  const ids = enc.encode(text);
+  const chunks = [];
+
+  const step = chunkTokens - overlapTokens;   // must be > 0
+  for (let i = 0; i < ids.length; i += step) {
+    const slice = ids.slice(i, i + chunkTokens);
+    chunks.push(new TextDecoder().decode(enc.decode(slice)));
+    if (i + chunkTokens >= ids.length) break;
+  }
+
+  enc.free();
+  return chunks;
+}
+
+// Overlap exists so a sentence split across a boundary still appears
+// whole in at least one chunk. Typical overlap: 10-20% of chunk size.
+// Too little  -> answers get cut in half.
+// Too much    -> duplicate results, wasted storage, wasted context.`,
+              `// The whitespace trap - a real bug that costs people hours.
+
+// These are DIFFERENT tokens:
+//   "hello"   -> [15339]
+//   " hello"  -> [24748]
+
+// Why it bites you:
+
+// 1. Few-shot examples: inconsistent spacing after the colon means
+//    your examples do not match the pattern the model then continues.
+const badPrompt  = "Q: What is 2+2?\\nA:4";      // no space
+const goodPrompt = "Q: What is 2+2?\\nA: 4";     // space - be consistent
+
+// 2. Stop sequences: a stop sequence of "\\nHuman:" will NOT match
+//    output containing "\\nHuman :" or "\\n Human:".
+
+// 3. Trailing whitespace in a prompt can actively hurt quality,
+//    because the model expects to generate the space itself.
+//    Rule: never end a prompt with a trailing space.`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is a token, and why do LLMs operate on tokens instead of raw characters or whole words?",
+                solution:
+                  "<p>A token is a chunk of text — usually a word, a word-piece, or a punctuation mark — mapped to an integer ID in the model's fixed vocabulary. Tokens are a compromise between two bad extremes. Character-level tokenization gives a tiny vocabulary but produces very long sequences, and since attention cost scales roughly with the square of sequence length, that is prohibitively expensive. Word-level tokenization gives short sequences but needs a vocabulary of millions to cover every name, typo and inflection, and anything unseen becomes an unknown token with all meaning lost. Subword tokenization keeps frequent words whole and splits rare ones into meaningful pieces, so a 50k–200k vocabulary covers essentially all text with no unknown tokens and reasonable sequence lengths.</p>",
+              },
+              {
+                question:
+                  "Walk me through how BPE tokenization is trained, step by step.",
+                solution: `<p>BPE is trained once on a corpus, before the model itself is trained:</p>
+             <ol>
+               <li>Initialise the vocabulary with individual bytes or characters.</li>
+               <li>Count the frequency of every adjacent pair of symbols across the corpus.</li>
+               <li>Merge the single most frequent pair into one new token and record the merge rule.</li>
+               <li>Repeat steps 2–3 until the vocabulary reaches the target size.</li>
+             </ol>
+             <pre><code className="language-text">
+Corpus words: low, lower, lowest, newer, newest
+
+l o w | l o w e r | l o w e s t | n e w e r | n e w e s t
+  "e"+"s"  -> "es"
+  "es"+"t" -> "est"
+  "l"+"o"  -> "lo"
+  "lo"+"w" -> "low"
+
+low | low e r | low est | n e w e r | n e w est
+             </code></pre>
+             <p>To tokenize new text at inference time, you apply the learned merge rules in the order they were learned. The result is that common sequences become single tokens and rare ones decompose into familiar pieces.</p>`,
+              },
+              {
+                question:
+                  "What is byte-level BPE and why do modern GPT models use it?",
+                solution:
+                  "<p>Byte-level BPE runs the algorithm over raw UTF-8 bytes rather than Unicode characters. The key advantage is that <em>nothing is unrepresentable</em>: emoji, Chinese characters, mathematical symbols, and even malformed byte sequences all encode without ever producing an unknown token, because every possible byte is already in the base vocabulary. This makes the model robust to arbitrary input. The trade-off is that non-Latin scripts, whose characters take multiple bytes in UTF-8, consume substantially more tokens per character — which translates directly into higher cost and less usable context for non-English users.</p>",
+              },
+              {
+                question:
+                  "How does WordPiece differ from BPE, and where would you see it?",
+                solution:
+                  "<p>Both are greedy subword algorithms, but the merge criterion differs. BPE merges the most <em>frequent</em> adjacent pair. WordPiece merges the pair that most increases the likelihood of the training corpus under a language model — effectively favouring merges that are frequent <em>relative to how often the pieces occur separately</em>. WordPiece also marks subword continuations explicitly with a '##' prefix, so 'playing' becomes 'play' + '##ing'. It is the tokenizer used by BERT and its descendants, which is why you meet it most often in encoder models and embedding models rather than in generative chat models.</p>",
+              },
+              {
+                question:
+                  "What problem does SentencePiece solve that BPE and WordPiece do not?",
+                solution:
+                  "<p>BPE and WordPiece implementations traditionally assume text has already been split on whitespace, which breaks for languages that do not use spaces between words — Japanese, Chinese, Thai. SentencePiece treats the input as a raw character stream and encodes whitespace explicitly as a normal symbol (typically a '▁' marker), so no language-specific pre-tokenization is required and detokenization is perfectly lossless. This makes it the natural choice for multilingual models; T5 and the Llama family both use it.</p>",
+              },
+              {
+                question:
+                  "Roughly how many tokens are in 1,000 words of English? How would you estimate the tokens in a 20-page PDF?",
+                solution:
+                  "<p>The standard rule of thumb is about 0.75 words per token, so 1,000 words is roughly 1,300–1,400 tokens. Equivalently, about 4 characters per token. For a 20-page PDF at roughly 400–500 tokens per page, expect around 8,000–10,000 tokens — though that is prose; if the PDF contains tables, code, or dense formatting, budget considerably more. The professional answer adds the caveat that these are planning estimates only: for anything that touches cost, chunk boundaries or a hard context limit, you count exactly with the provider's tokenizer, because ratios vary by content type and by model.</p>",
+              },
+              {
+                question:
+                  "Why does the same text cost more tokens in Hindi or Japanese than in English, and why does that matter?",
+                solution:
+                  "<p>Tokenizer vocabularies are built from training corpora that are overwhelmingly English, so English words are well represented as single tokens while other scripts fall back to fragments or individual bytes. Non-Latin scripts also take multiple UTF-8 bytes per character, compounding the effect. The same sentence can cost two to five times more tokens in Hindi, Thai or Japanese than in English. This matters on three axes: <strong>cost</strong> (non-English users are literally charged more for the same content), <strong>context</strong> (less real information fits in the same window), and <strong>fairness</strong> (a documented equity concern in multilingual products). If you are building for a non-English market, measure tokens on real user data rather than assuming English ratios.</p>",
+              },
+              {
+                question:
+                  "Why can't an LLM reliably count the letters in 'strawberry'?",
+                solution:
+                  "<p>Because it never sees the letters. The tokenizer splits 'strawberry' into something like ['str', 'aw', 'berry'], and those are the only units the model receives. It has no stable internal representation of the individual characters inside a token, so character-level operations — counting letters, reversing strings, checking spelling precisely — are unreliable by construction. The architectural response is not better prompting but tool use: call actual code for exact string and numeric operations. This is the single cleanest example to give when asked what LLMs are bad at and why.</p>",
+              },
+              {
+                question:
+                  "Why is LLM arithmetic unreliable, and what is the correct fix?",
+                solution:
+                  "<p>Numbers tokenize inconsistently — '1234' might be one token, or '12'+'34', or '1'+'234', depending on the tokenizer and what appeared in training. The model therefore has no stable place-value representation and is pattern-matching arithmetic it has seen rather than computing it. Larger models get better at this but never become reliable. The correct fix is architectural: give the model a calculator or code-execution tool and have it call that for any real computation. Trying to fix arithmetic with prompting alone is a red flag in an interview answer.</p>",
+              },
+              {
+                question:
+                  "Are 'hello' and ' hello' the same token? What bugs does the answer cause?",
+                solution: `<p>No — they are different token IDs, because most tokenizers attach a leading space to the word that follows it. Three real bugs follow from this:</p>
+             <ul>
+               <li><strong>Few-shot examples:</strong> inconsistent spacing after a label ('A:4' vs 'A: 4') means your examples do not establish a clean pattern for the model to continue.</li>
+               <li><strong>Stop sequences:</strong> a stop sequence of '\\nHuman:' will not match output containing '\\nHuman :' — the tokens differ, so generation does not stop.</li>
+               <li><strong>Trailing whitespace:</strong> ending a prompt with a trailing space can degrade output quality, because the model normally expects to generate that space itself. The rule is: never end a prompt with a trailing space.</li>
+             </ul>`,
+              },
+              {
+                question:
+                  "Can you use a token count from OpenAI's tokenizer for a Claude or Llama request?",
+                solution:
+                  "<p>No. Every model family has its own vocabulary and merge rules, so the same text produces different counts on each. Reusing a count across providers will silently corrupt your cost estimates, your chunk sizing and — most dangerously — your context-limit safety margin, causing requests to fail in production. The correct approach is to use each provider's own tokenizer or token-counting endpoint, and to abstract token counting behind an interface in your code so that swapping models does not require rewriting everything downstream.</p>",
+              },
+              {
+                question:
+                  "You need to cut the cost of a RAG feature. Name three token-level optimisations before touching the model.",
+                solution: `<p>Three concrete, purely token-level wins:</p>
+             <ol>
+               <li><strong>Minify structured content.</strong> Strip pretty-printing from JSON, collapse redundant whitespace, remove boilerplate headers and footers from retrieved chunks. Formatting is pure token cost with no informational value.</li>
+               <li><strong>Cut output length.</strong> Output tokens typically cost several times more than input. Instructing the model to answer concisely, or returning structured fields instead of prose, is often the single largest saving available.</li>
+               <li><strong>Retrieve fewer, better chunks.</strong> Adding a reranker so you can pass 3 highly relevant chunks instead of 10 mediocre ones cuts input tokens dramatically <em>and</em> usually improves answer quality.</li>
+             </ol>
+             <p>A strong answer adds a fourth: enable prompt caching for the large stable prefix (system prompt, tool definitions, few-shot examples), which can cut the cost of that portion substantially on repeat calls.</p>`,
+              },
+              {
+                question:
+                  "What is the difference between the context window limit and the max_tokens parameter?",
+                solution:
+                  "<p>The context window is the total token budget for a single request — for most models, input and output must fit inside it together. <code>max_tokens</code> is a separate cap you set on how many tokens the model is allowed to <em>generate</em>. The relationship that matters in production is: input tokens + max_tokens must not exceed the context window, or the request is rejected. A common production bug is a long conversation growing until there is no room left for a meaningful reply — the request either fails or the answer gets truncated mid-sentence. The fix is to compute the input size, subtract it from the window, and reserve a guaranteed output budget before sending.</p>",
+              },
+              {
+                question:
+                  "What are tokens-per-minute rate limits and why do they matter more than request limits?",
+                solution:
+                  "<p>Providers enforce two limits: requests per minute (RPM) and tokens per minute (TPM). In RAG and long-context applications, TPM is almost always the one you hit first, because each request carries many thousands of input tokens. A system doing only a handful of requests per second can exhaust its TPM budget and start receiving 429 errors. The architectural responses are: queue and throttle at the application layer rather than relying on retries, batch where possible, reduce per-request token usage (fewer chunks, tighter prompts), spread load across multiple deployments or providers, and implement exponential backoff with jitter so retries do not synchronise into a thundering herd.</p>",
+              },
+              {
+                question:
+                  "How does tokenization affect chunking decisions in a RAG pipeline?",
+                solution:
+                  "<p>Chunk size must be expressed in tokens rather than characters, because the limits that actually bind are token limits: the embedding model has a maximum input length in tokens (commonly 512 for smaller open models, 8,191 for OpenAI's embedding models), and the LLM's context window is a token budget. If you chunk by characters, a chunk of dense code or non-English text can silently exceed the embedding model's limit and be truncated — meaning the tail of the chunk is embedded as if it did not exist, and will never be retrieved. Chunk overlap should also be specified in tokens, typically 10–20% of chunk size, so that content split across a boundary still appears whole in at least one chunk.</p>",
+              },
+              {
+                question:
+                  "What does 'a token is not a word' mean for a product manager asking 'how long can the user's question be?'",
+                solution:
+                  "<p>You translate the token budget into terms they can act on, and you never quote a single number without a caveat. For English prose, 1,000 tokens is roughly 750 words or about two pages. But the same character count in code, JSON, or a non-English language may consume two to five times more tokens, so the safe answer is a conservative limit derived from measuring real user inputs rather than a theoretical maximum. In practice you enforce this in the product with a client-side character counter mapped to a conservative token estimate, plus a server-side exact count that returns a clear error before the request reaches the model.</p>",
+              },
+              {
+                question:
+                  "The same prompt suddenly costs more after you switched from GPT-4o to a different model. Nothing else changed. Why?",
+                solution:
+                  "<p>Two independent causes, and a good answer names both. First, <strong>different tokenizers</strong>: the same text produces a different token count on a different model family, so identical input can be measurably more tokens. Second, <strong>different pricing</strong>: per-million rates differ by model, and the input/output ratio differs too — a model with cheap input but expensive output will cost more for a chatty workload even at the same token count. A third contributor worth mentioning is that switching models can invalidate prompt caching, so a prefix that was being served at a discount is now billed at full rate. The diagnostic step is to log token counts per request per model rather than inferring from the bill.</p>",
+              },
+              {
+                question:
+                  "How would you design token usage tracking for a multi-tenant AI product?",
+                solution: `<p>Log a structured record for every model call containing at minimum: tenant/organisation ID, user ID, feature name, model and exact version, input tokens, output tokens, cached tokens (if the provider reports them separately), latency, and computed cost. Then:</p>
+             <ul>
+               <li><strong>Aggregate</strong> by tenant, feature and model so you can answer 'which customer and which feature is driving spend'.</li>
+               <li><strong>Alert</strong> on anomalies — a tenant whose usage jumps 10x in an hour is either a growth event or a runaway loop, and you want to know within minutes, not at month end.</li>
+               <li><strong>Enforce quotas</strong> per tenant so one customer cannot exhaust a shared TPM limit and degrade everyone else.</li>
+               <li><strong>Never log raw prompt content</strong> alongside these metrics without an explicit redaction and retention policy — prompts routinely contain PII.</li>
+             </ul>
+             <p>The point to make in an interview: cost tracking is an observability requirement, not a finance afterthought, and it must be per-tenant from day one because retrofitting it is painful.</p>`,
+              },
+            ],
+            links: [
+              "https://platform.openai.com/tokenizer",
+              "https://tiktokenizer.vercel.app/",
+              "https://huggingface.co/learn/nlp-course/chapter6/5",
+              "https://github.com/openai/tiktoken",
+              "https://docs.anthropic.com/en/docs/build-with-claude/token-counting",
+            ],
+          },
+          {
+            topic: "Inference: Prompt to Output",
+            tags: ["high-frequency", "must-know", "latency"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Inference</strong> is what happens on every API call: your prompt goes in, tokens come out. Interviewers ask you to "walk through what happens from prompt to first output token" because the answer reveals whether you understand <em>why</em> LLM systems behave the way they do — why output costs more than input, why long prompts feel slow, why streaming exists, and where every latency optimisation actually applies.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Full Pipeline
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  1. TOKENIZE
+     Text -> integer token IDs using the model's vocabulary.
+     "The capital of France is" -> [464, 3139, 286, 4881, 318]
+
+  2. EMBED
+     Each token ID looks up a learned vector in the embedding matrix.
+     (This is an INTERNAL embedding - not the same thing as the
+      retrieval embeddings you use for RAG. Common confusion.)
+
+  3. ADD POSITION INFORMATION
+     Attention has no inherent sense of order, so position must be
+     injected - via positional encodings or, in modern models, RoPE.
+
+  4. TRANSFORMER LAYERS  (this is the actual "thinking")
+     N stacked blocks, each: attention -> feed-forward, with
+     residual connections and normalisation.
+
+  5. FINAL PROJECTION (the "LM head")
+     The last layer's output vector is projected back to vocabulary
+     size, producing one raw score - a LOGIT - per possible token.
+
+  6. SOFTMAX
+     Logits -> a probability distribution summing to 1.
+        " Paris"   0.89
+        " a"       0.03
+        " the"     0.02
+        ... 100,000+ more, all tiny
+
+  7. SAMPLE
+     Pick one token. Temperature / top-p / top-k control how.
+
+  8. APPEND AND REPEAT
+     The chosen token is appended to the sequence and the whole
+     thing runs again for the next token.
+
+  9. STOP
+     Until an end-of-sequence token, a stop sequence, or max_tokens.
+
+ 10. DETOKENIZE
+     Token IDs -> text for the user.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Two Phases: Prefill and Decode
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    This is the single most important distinction in the topic, and almost every performance question reduces to it.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+PREFILL  (processing your prompt)
+  - The ENTIRE prompt is pushed through the model in parallel.
+  - Compute-bound: the GPU is doing large matrix multiplications.
+  - Cost grows with prompt length; attention cost grows ~n^2.
+  - Produces: the first output token + a populated KV cache.
+  - This IS your time-to-first-token (TTFT).
+
+DECODE   (generating the answer)
+  - One token at a time. STRICTLY SEQUENTIAL - token N+1 needs N.
+  - Memory-bandwidth-bound: for each token the GPU must read the
+    entire model's weights from memory to do very little maths.
+  - Cost per token is roughly constant, so total decode time is
+    roughly linear in output length.
+  - This IS your tokens-per-second.
+
+CONSEQUENCE:
+  A 50,000-token prompt with a 50-token answer  -> slow TTFT, fast finish
+  A 200-token prompt with a 3,000-token answer  -> fast TTFT, slow finish
+
+  These need COMPLETELY DIFFERENT optimisations. Diagnosing "the
+  app is slow" starts with asking which phase is slow.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The KV Cache — Why Generation Is Tractable At All
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Naively, generating token 1,000 would require re-running attention over all 999 previous tokens from scratch. Instead the model caches the key and value tensors it already computed for every processed token, so each new token only computes attention against the cache. This turns quadratic re-computation into linear work per token.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+The trade is COMPUTE for MEMORY, and the memory bill is real:
+
+KV cache size  ~=  2 (K and V)
+                 x num_layers
+                 x num_kv_heads x head_dim
+                 x sequence_length
+                 x bytes_per_value
+                 x batch_size
+
+For a large model at long context this reaches tens of gigabytes
+PER CONCURRENT REQUEST. That is why:
+
+  - long-context serving is expensive
+  - GQA / MQA exist (fewer KV heads -> much smaller cache)
+  - vLLM's PagedAttention exists (manage the cache like OS paging)
+  - prompt caching exists (reuse a prefill you already paid for)
+  - KV cache, not raw FLOPs, is usually what limits concurrency
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Latency Metrics You Must Name Correctly
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+TTFT   Time To First Token
+       Queue + prefill. Dominated by PROMPT length.
+       This is what the user perceives as "did it hear me?"
+
+TPOT   Time Per Output Token  (a.k.a. inter-token latency)
+       Decode speed. Usually quoted as tokens/second.
+
+E2E    Total latency  =  TTFT + (TPOT x number_of_output_tokens)
+
+THROUGHPUT
+       Total tokens/second across ALL concurrent requests.
+       Trades off AGAINST per-user latency: bigger batches raise
+       throughput and raise individual latency. Serving is tuned
+       for one or the other, and you must decide which you need.
+
+ALWAYS MEASURE p95/p99, NOT AVERAGES. LLM latency distributions
+have long tails - queueing, variable output length, retries.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Streaming — Why Every Serious Chat UI Uses It
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Streaming sends each token as it is generated (typically over Server-Sent Events) instead of waiting for the whole response. It does not make generation faster — total time is unchanged — but it collapses <em>perceived</em> latency from end-to-end down to TTFT. A response taking 12 seconds feels responsive if the first word appears in 400ms.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    What streaming complicates, and what interviewers probe:
+  </p>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Error handling</strong> — you have already sent a 200 and half a response when the stream fails mid-way. You need in-band error events and client-side recovery.</li>
+    <li style="margin-top: 0.5rem;"><strong>Output guardrails</strong> — you cannot moderate a complete answer you have not finished sending. Either buffer (losing the benefit), scan incrementally, or accept the risk.</li>
+    <li style="margin-top: 0.5rem;"><strong>Structured output</strong> — partial JSON is invalid JSON. You need an incremental parser or you wait for completion.</li>
+    <li style="margin-top: 0.5rem;"><strong>Infrastructure</strong> — proxies, load balancers and serverless platforms may buffer or time out streaming responses. This breaks in staging surprisingly often.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Stop Conditions and finish_reason
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Generation ends when ONE of these happens:
+
+  1. EOS token          The model decides it is done.     -> "stop"
+  2. Stop sequence      Your configured string appears.   -> "stop"
+  3. max_tokens hit     You ran out of budget.            -> "length"
+  4. Tool call emitted  Model wants a tool.        -> "tool_use"/"tool_calls"
+  5. Filtered           Safety system intervened.    -> "content_filter"
+
+ALWAYS CHECK finish_reason. A "length" finish means the answer was
+CUT OFF MID-SENTENCE. Treating it as a complete answer is one of
+the most common production bugs in LLM applications - the response
+looks fine, parses fine, and is silently truncated.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Optimisations Worth Knowing By Name
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Prompt caching :</span>
+      Reuse the prefill work for a stable prompt prefix. Cuts both cost and TTFT. Requires exact prefix stability — anything variable must come after the cached block.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Continuous batching :</span>
+      Instead of waiting for a whole batch to finish, the server swaps completed sequences out and new requests in every step. This is the single biggest throughput win in modern serving (vLLM, TGI) and is why self-hosted throughput numbers vary so wildly by server.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Speculative decoding :</span>
+      A small fast "draft" model proposes several tokens ahead; the large model verifies them in a single parallel pass, accepting the ones it agrees with. Because verification is parallel and decode is memory-bound, this can give a real speedup <em>with identical output distribution</em> — it is not an approximation.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Quantisation :</span>
+      Lower-precision weights mean less memory to read per token, which directly speeds up the memory-bound decode phase.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Batch APIs :</span>
+      For non-interactive work, providers offer a large discount in exchange for a relaxed deadline. Free money for nightly jobs, classification backfills and evaluation runs.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Reasoning Models Change the Shape of Inference
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Reasoning models generate a block of internal "thinking" tokens before their visible answer. Architecturally this is the same decode loop — but it means TTFT to <em>visible</em> output can be many seconds, output token counts (and therefore cost) are far higher than the visible answer suggests, and you are usually billed for thinking tokens you never display. Budget and monitor accordingly, and set a thinking budget where the provider allows one.
+  </p>
+</div>`,
+            examples: [
+              `// Streaming, and measuring the two latency metrics that matter.
+
+async function streamAndMeasure(client, messages) {
+  const t0 = Date.now();
+  let ttft = null;
+  let tokenCount = 0;
+  let text = "";
+
+  const stream = await client.messages.stream({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1024,
+    messages
+  });
+
+  for await (const event of stream) {
+    if (event.type === "content_block_delta") {
+      if (ttft === null) ttft = Date.now() - t0;   // FIRST token only
+      tokenCount++;
+      text += event.delta.text;
+      process.stdout.write(event.delta.text);       // show it immediately
+    }
+  }
+
+  const total = Date.now() - t0;
+  const decodeMs = total - ttft;
+
+  console.log({
+    ttftMs: ttft,                                   // prompt/prefill bound
+    totalMs: total,
+    tokensPerSecond: (tokenCount / (decodeMs / 1000)).toFixed(1)
+  });
+
+  return text;
+}
+
+// Diagnosing "the app feels slow":
+//   High TTFT, fast tokens/sec  -> your PROMPT is too long.
+//        Fix: better retrieval, reranking, trim history, prompt caching.
+//   Low TTFT, slow tokens/sec   -> your OUTPUT is too long, or the
+//        model/serving tier is slow.
+//        Fix: ask for shorter answers, smaller model, better serving.
+// These are different problems. One number ("latency") hides both.`,
+              `// The finish_reason bug. This is worth catching in code review.
+
+const res = await client.chat.completions.create({
+  model: "gpt-4o",
+  max_tokens: 500,
+  messages
+});
+
+const choice = res.choices[0];
+
+// WRONG - assumes the answer is complete
+// return choice.message.content;
+
+// RIGHT - a "length" finish means it was CUT OFF mid-sentence
+switch (choice.finish_reason) {
+  case "stop":
+    return choice.message.content;
+
+  case "length":
+    // The answer is truncated. Options, in order of preference:
+    //  1. Raise max_tokens and retry (if you have context budget)
+    //  2. Ask for a more concise answer
+    //  3. Continue generation from where it stopped
+    //  4. At minimum, TELL THE USER it was truncated
+    logger.warn("Response truncated by max_tokens", {
+      requestId, promptTokens: res.usage.prompt_tokens
+    });
+    throw new TruncatedResponseError(choice.message.content);
+
+  case "tool_calls":
+    return handleToolCalls(choice.message.tool_calls);
+
+  case "content_filter":
+    return safeFallbackMessage();
+
+  default:
+    throw new Error("Unknown finish_reason: " + choice.finish_reason);
+}
+
+// Why this matters: a truncated JSON response FAILS TO PARSE and you
+// get a confusing error far from the real cause. A truncated prose
+// answer looks completely normal and is silently wrong.`,
+              `// KV cache memory - the number that decides your concurrency.
+
+function kvCacheBytes({
+  layers, kvHeads, headDim, seqLen, batchSize, bytesPerValue = 2  // fp16
+}) {
+  // 2 = one tensor for K, one for V
+  return 2 * layers * kvHeads * headDim * seqLen * batchSize * bytesPerValue;
+}
+
+// A 70B-class model, one user, 100k tokens of context:
+const oneUser = kvCacheBytes({
+  layers: 80, kvHeads: 8, headDim: 128,     // GQA: only 8 KV heads
+  seqLen: 100_000, batchSize: 1
+});
+console.log((oneUser / 1e9).toFixed(1) + " GB");   // ~16.4 GB
+
+// WITHOUT GQA (64 KV heads instead of 8) the same request would need
+// roughly 8x that - about 131 GB, which simply does not fit.
+// THAT is why grouped-query attention exists: it is a KV cache
+// optimisation, and it is what makes long context economically viable.
+
+// Practical consequence: on a fixed GPU budget,
+//     concurrent users  ~=  (VRAM - model weights) / kv_cache_per_user
+// Long context does not just cost more per request - it directly
+// reduces how many users you can serve at once.`,
+              `// Batch API: the easiest cost win people forget.
+// For anything that does not need an immediate answer.
+
+async function classifyBacklog(items) {
+  // Interactive path: 10,000 separate real-time calls.
+  //   -> full price, rate-limit pressure, hours of orchestration.
+
+  // Batch path: one submission, relaxed deadline, large discount.
+  const batch = await client.batches.create({
+    requests: items.map((item, i) => ({
+      custom_id: "item-" + i,
+      params: {
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 100,
+        messages: [{ role: "user", content: buildPrompt(item) }]
+      }
+    }))
+  });
+
+  return pollUntilComplete(batch.id);   // typically within 24h
+}
+
+// Use batch for: nightly classification, embedding backfills,
+// evaluation runs, bulk summarisation, dataset generation.
+// Do NOT use it for: anything a user is waiting on.`,
+            ],
+            questions: [
+              {
+                question:
+                  "Walk me through what happens from the moment a prompt is sent to the first output token.",
+                solution: `<p>Ten steps, and the phase boundary matters more than the list:</p>
+             <ol>
+               <li><strong>Tokenize</strong> — text becomes integer token IDs from the model's vocabulary.</li>
+               <li><strong>Embed</strong> — each ID looks up a learned vector in the model's internal embedding matrix.</li>
+               <li><strong>Add positional information</strong> — attention is order-blind, so position is injected via positional encodings or RoPE.</li>
+               <li><strong>Transformer layers</strong> — N stacked blocks of attention plus feed-forward, with residuals and normalisation. This is where the actual computation happens.</li>
+               <li><strong>Project to vocabulary</strong> — the final hidden state is mapped back to vocabulary size, producing one logit per possible token.</li>
+               <li><strong>Softmax</strong> — logits become a probability distribution.</li>
+               <li><strong>Sample</strong> — one token is chosen, governed by temperature, top-p and top-k.</li>
+               <li><strong>Append and repeat</strong> for each subsequent token.</li>
+               <li><strong>Stop</strong> on an EOS token, a stop sequence, or max_tokens.</li>
+               <li><strong>Detokenize</strong> back to text.</li>
+             </ol>
+             <p>Steps 1–7 constitute <strong>prefill</strong> and produce the first token; that is your time-to-first-token. Everything after is <strong>decode</strong>, one sequential token at a time.</p>`,
+              },
+              {
+                question:
+                  "What is the difference between the prefill and decode phases, and why does it matter?",
+                solution:
+                  "<p>Prefill processes your entire prompt in parallel — it is compute-bound, doing large matrix multiplications, and its cost grows with prompt length (attention roughly quadratically). Decode generates output one token at a time and is strictly sequential, because token N+1 depends on token N; it is memory-bandwidth-bound, since for each token the GPU must read the entire model's weights to perform relatively little arithmetic. This matters because the two phases have completely different optimisations. A slow prefill means your prompt is too long — fix it with better retrieval, reranking, trimming history or prompt caching. A slow decode means your output is too long or your serving is underpowered — fix it with shorter answers, a smaller model, quantisation or speculative decoding. Diagnosing 'the app is slow' starts with determining which phase is slow.</p>",
+              },
+              {
+                question:
+                  "Why do output tokens cost more than input tokens?",
+                solution:
+                  "<p>Because of that same asymmetry. Input tokens are processed in a single parallel pass during prefill, so the per-token cost is amortised across the whole prompt. Output tokens each require their own forward pass through the model, and that pass is memory-bandwidth-bound — the GPU reads the full weight matrices to produce a single token, which is a very poor compute-to-memory ratio. So an output token consumes far more serving capacity than an input token, and pricing reflects it, typically at a three-to-five-times multiple. The practical consequence for cost engineering is that reducing verbose output is usually a bigger lever than reducing prompt size, even though prompts are larger in raw token count.</p>",
+              },
+              {
+                question:
+                  "What is the KV cache, and what problem does it solve?",
+                solution:
+                  "<p>During generation, attention for a new token needs the key and value tensors of every preceding token. Recomputing those from scratch each step would make generating token N cost O(N) work again, so producing a full response would be quadratic overall. The KV cache stores the keys and values already computed, so each new token only computes its own K and V and attends against the cache — turning quadratic re-computation into linear work. The trade is compute for memory, and the memory is substantial: cache size scales with layers, KV heads, head dimension, sequence length and batch size, reaching tens of gigabytes per concurrent long-context request on large models. That is why the KV cache, not raw compute, is usually what caps concurrency in self-hosted serving.</p>",
+              },
+              {
+                question:
+                  "Define TTFT, TPOT and end-to-end latency, and explain which one you optimise for.",
+                solution: `<p><strong>TTFT</strong> (time to first token) is queueing plus prefill — dominated by prompt length, and what the user perceives as responsiveness. <strong>TPOT</strong> (time per output token, or inter-token latency) is decode speed, usually quoted as tokens per second. <strong>End-to-end</strong> is TTFT plus TPOT multiplied by output length.</p>
+             <p>Which you optimise depends on the product. For a streaming chat interface, TTFT dominates perceived quality — the user needs to see something within a few hundred milliseconds, and total time matters far less. For a non-streaming API that returns a JSON object to another service, only end-to-end matters. For a batch pipeline, neither matters and you optimise throughput instead. The crucial discipline in all cases is measuring p95 and p99 rather than averages, because LLM latency distributions have long tails driven by queueing, variable output length and retries.</p>`,
+              },
+              {
+                question:
+                  "Does streaming make generation faster? What does it actually improve?",
+                solution:
+                  "<p>No — total generation time is unchanged. Streaming improves <em>perceived</em> latency by collapsing the wait from end-to-end down to time-to-first-token. A twelve-second response feels responsive if the first word appears in 400 milliseconds, and users will tolerate a much longer total wait when they can see progress. The trade-offs are real, though: error handling becomes harder because you have already sent a 200 and half a response when a stream fails; output guardrails cannot moderate an answer you have not finished sending; structured output is invalid until complete, so you need an incremental parser; and proxies, load balancers and serverless platforms frequently buffer or time out streaming responses, which is a classic staging-versus-production surprise.</p>",
+              },
+              {
+                question:
+                  "What is finish_reason and why must you always check it?",
+                solution: `<p><code>finish_reason</code> tells you why generation stopped. The values that matter:</p>
+             <ul>
+               <li><strong>stop</strong> — the model emitted an EOS token or hit your stop sequence. The answer is complete.</li>
+               <li><strong>length</strong> — it hit <code>max_tokens</code>. <em>The answer is truncated mid-sentence.</em></li>
+               <li><strong>tool_calls / tool_use</strong> — the model wants a tool invoked.</li>
+               <li><strong>content_filter</strong> — a safety system intervened.</li>
+             </ul>
+             <p>You must check it because a <code>length</code> finish is a silent correctness failure. Truncated prose looks completely normal and is quietly incomplete; truncated JSON fails to parse and surfaces as a confusing error far from its real cause. Ignoring <code>finish_reason</code> is one of the most common bugs in production LLM code, and catching it in review is a genuinely valuable habit.</p>`,
+              },
+              {
+                question:
+                  "What is continuous batching and why does it matter for self-hosted serving?",
+                solution:
+                  "<p>In naive static batching, the server collects requests into a batch, runs them together, and waits for every sequence in the batch to finish before starting the next — so one long generation blocks all the short ones sharing its batch, wasting enormous GPU capacity. Continuous batching (also called iteration-level scheduling) instead evaluates the batch composition at every decode step, swapping completed sequences out and admitting queued requests immediately. This keeps the GPU saturated and is the single largest throughput improvement in modern inference servers such as vLLM and TGI — often several times better than static batching. It is the main reason self-hosted throughput figures vary so dramatically depending on which server you use, and it is why 'we self-host' says almost nothing about performance without naming the serving stack.</p>",
+              },
+              {
+                question:
+                  "Explain speculative decoding. Does it change the output?",
+                solution:
+                  "<p>A small, fast draft model proposes several tokens ahead. The large target model then verifies all of them in a single parallel forward pass, accepting the longest prefix it agrees with and rejecting the rest. Because decode is memory-bandwidth-bound rather than compute-bound, verifying several tokens at once costs barely more than generating one, so the effective speedup can be substantial when the draft model agrees often. Crucially, with the standard rejection-sampling formulation the output distribution is <em>mathematically identical</em> to what the target model would have produced alone — it is a pure latency optimisation, not an approximation or a quality trade. The practical costs are the extra memory for the draft model and the fact that the speedup collapses if the draft model agrees rarely, which happens on out-of-distribution or highly technical content.</p>",
+              },
+              {
+                question:
+                  "Your chatbot has a 6-second TTFT. How do you diagnose and fix it?",
+                solution: `<p>TTFT is queueing plus prefill, so work through both:</p>
+             <ol>
+               <li><strong>Measure the prompt size.</strong> Log input token counts. If prompts are tens of thousands of tokens, prefill is the cause and everything else is a distraction.</li>
+               <li><strong>Check for queueing</strong> — are you rate-limited, or is the provider under load? A 429-and-retry cycle hides inside TTFT and looks like slow inference.</li>
+               <li><strong>Reduce prompt size</strong>: rerank so you pass 3 chunks instead of 15, trim or compact conversation history, minify structured content, and cut oversized tool definitions.</li>
+               <li><strong>Enable prompt caching</strong> for the stable prefix — this is often the single largest TTFT win, because it skips prefill work you have already paid for.</li>
+               <li><strong>Check retrieval latency</strong> — the vector search and reranker run <em>before</em> the model call and are frequently the real culprit, wrongly attributed to the LLM.</li>
+               <li><strong>Stream</strong>, so the user sees the first token as soon as it exists rather than waiting for the whole response.</li>
+             </ol>
+             <p>The framing that matters: set an explicit latency budget across retrieval, rerank, prefill and decode, and measure each segment separately. 'The LLM is slow' is almost never the actual finding.</p>`,
+              },
+              {
+                question:
+                  "How does inference differ for a reasoning model?",
+                solution:
+                  "<p>Architecturally it is the same decode loop, but the model first generates a block of internal reasoning tokens before its visible answer. Three practical consequences follow. First, time to <em>visible</em> output can be many seconds even though the underlying token rate is normal, so your streaming UX needs to communicate that thinking is happening rather than appearing frozen. Second, total output tokens — and therefore cost — can be several times the visible answer length, so cost estimates based on visible output will be badly wrong. Third, you are typically billed for reasoning tokens you never display. The engineering responses are to set a thinking budget where the provider exposes one, to monitor reasoning token counts as a separate metric, and to reserve reasoning models for tasks where the accuracy gain justifies the latency and cost rather than using them by default.</p>",
+              },
+              {
+                question:
+                  "What is the difference between throughput and latency in LLM serving, and why can't you maximise both?",
+                solution:
+                  "<p>Latency is how fast one request completes; throughput is total tokens per second across all concurrent requests. They trade against each other because the main throughput lever is batching — processing many sequences together amortises the cost of reading model weights from memory. But a larger batch means each individual request waits longer per step, so per-user latency rises. A serving configuration tuned for maximum throughput will feel sluggish to an individual user; one tuned for minimum latency will waste GPU capacity. The correct engineering answer is that this is a deliberate choice driven by the product: interactive chat optimises latency and accepts lower throughput, while batch classification does the reverse. Some deployments run separate pools for each rather than trying to serve both from one configuration.</p>",
+              },
+              {
+                question:
+                  "Why is decode memory-bandwidth-bound rather than compute-bound, and what follows from that?",
+                solution:
+                  "<p>Generating a single token requires reading essentially all of the model's weights from GPU memory but performing only a small amount of arithmetic with them — the arithmetic intensity is very low. The GPU therefore spends most of its time waiting on memory rather than computing, so raw FLOPs are not the constraint. Several important consequences follow. Quantisation speeds up decode almost linearly, because halving the bytes read halves the bottleneck. Batching improves throughput dramatically, because the same weight read serves many sequences at once. Speculative decoding works, because verifying several tokens costs barely more than one. And a bigger GPU with more compute but the same memory bandwidth will not help much. This is a genuinely differentiating answer — most candidates assume inference is compute-bound.</p>",
+              },
+              {
+                question:
+                  "What are batch APIs and when should you use them?",
+                solution:
+                  "<p>Batch APIs accept a large set of requests, process them asynchronously against a relaxed deadline (commonly up to 24 hours), and charge a substantial discount — typically around half price. They exist because relaxed deadlines let providers fill spare capacity. Use them for anything a user is not waiting on: nightly classification jobs, embedding backfills, evaluation runs over a golden set, bulk summarisation, synthetic dataset generation. Do not use them for interactive paths. In an interview this is a strong answer to 'how would you cut costs' because it is a large saving with essentially no quality trade-off, and it is frequently overlooked — teams route batch workloads through the interactive API simply because that is the code they already had.</p>",
+              },
+              {
+                question:
+                  "What are logprobs and what can you legitimately do with them?",
+                solution:
+                  "<p>Logprobs are the log-probabilities the model assigned to the tokens it chose, and optionally to the top alternatives at each position. Legitimate uses include: flagging low-confidence spans for human review; building a rough classification confidence score when you constrain the model to a small set of answer tokens; detecting when the model was nearly indifferent between two very different completions; and debugging why a particular token was produced. The important caveat — and the reason this makes a good interview question — is that these are <strong>not calibrated confidence in truth</strong>. A model can assign very high probability to a completely fabricated fact, because the probability reflects how plausible the continuation is, not whether it is correct. Logprobs are a weak signal worth combining with other checks, never a hallucination detector on their own.</p>",
+              },
+              {
+                question:
+                  "How does prompt caching interact with the prefill phase?",
+                solution:
+                  "<p>Prompt caching stores the computed KV cache for a stable prompt prefix so that subsequent requests sharing that prefix skip the prefill work for it entirely. Because prefill is exactly what TTFT is made of, the effect is a direct reduction in both latency and cost for the cached portion. The engineering requirement is <strong>exact prefix stability</strong>: caching keys on a byte-identical prefix, so anything that varies per request — a timestamp, user ID, session token, or even a reordered tool definition — must appear <em>after</em> the cacheable block. Placing a variable value at the top of the prompt silently reduces the hit rate to zero while everything continues to work, so the failure surfaces only on the invoice. It is worth noting caches also expire, so a low-traffic endpoint may see few hits regardless of correct structuring.</p>",
+              },
+              {
+                question:
+                  "A user reports the response 'just stops halfway'. Walk me through the causes.",
+                solution: `<p>Several distinct causes, checked in order:</p>
+             <ol>
+               <li><strong>max_tokens too low</strong> — check <code>finish_reason</code> for 'length'. This is by far the most common cause and is trivially confirmed.</li>
+               <li><strong>Output starvation</strong> — the prompt grew until almost no context budget remained for the answer. Common in long conversations and RAG-heavy requests.</li>
+               <li><strong>An unintended stop sequence</strong> — a configured stop string appearing naturally in the output, for example stopping on a newline when the model legitimately writes multi-line answers.</li>
+               <li><strong>Stream interruption</strong> — a proxy, load balancer or serverless timeout cutting the connection mid-stream. The client shows partial text and no error.</li>
+               <li><strong>Content filtering</strong> mid-generation — check for a <code>content_filter</code> finish reason.</li>
+               <li><strong>Client-side rendering</strong> dropping events or failing to handle the final chunk.</li>
+             </ol>
+             <p>The diagnostic that separates them quickly is logging <code>finish_reason</code>, input token count and output token count on every request — without those three fields you are guessing.</p>`,
+              },
+              {
+                question:
+                  "How would you design latency monitoring for an LLM feature?",
+                solution: `<p>Instrument each stage separately rather than recording one number:</p>
+             <ul>
+               <li><strong>Per-stage timings</strong> — retrieval, reranking, model TTFT, model total, post-processing. A single 'latency' metric cannot tell you which stage regressed.</li>
+               <li><strong>Token counts</strong> — input, output and cached, on every request. Latency regressions are usually really token-count regressions.</li>
+               <li><strong>finish_reason distribution</strong> — a rise in 'length' finishes signals truncation problems.</li>
+               <li><strong>p50 / p95 / p99</strong>, never averages. Also track the rate of requests exceeding your SLA rather than only the percentile value.</li>
+               <li><strong>Dimensions</strong> — by model version, feature, and tenant, so you can attribute a regression rather than just observe it.</li>
+               <li><strong>Retry and rate-limit counts</strong>, since queueing from 429s masquerades as slow inference.</li>
+             </ul>
+             <p>Tie it together with distributed tracing so a single slow user request can be opened and read end to end. The point to make is that AI observability needs LLM-specific dimensions — tokens, cache hits, finish reasons — that generic APM does not capture.</p>`,
+              },
+            ],
+            links: [
+              "https://platform.openai.com/docs/api-reference/chat/streaming",
+              "https://docs.anthropic.com/en/docs/build-with-claude/streaming",
+              "https://arxiv.org/abs/2211.17192",
+              "https://blog.vllm.ai/2023/06/20/vllm.html",
+              "https://huggingface.co/docs/transformers/llm_tutorial_optimization",
+            ],
+          },
+          {
+            topic: "Temperature, Top-P, Top-K (Sampling Parameters)",
+            tags: ["high-frequency", "must-know"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    At every generation step the model produces a probability distribution over its entire vocabulary. <strong>Sampling parameters decide how you pick one token from that distribution.</strong> They do not change what the model knows, what it believes, or how capable it is — they only change how adventurously you choose from what it already predicted. Understanding that distinction is the whole topic, and it is where most candidates go wrong.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Prompt: "The weather today is"
+
+Model's raw distribution:
+    " sunny"      0.40
+    " cold"       0.25
+    " nice"       0.15
+    " beautiful"  0.10
+    " terrible"   0.05
+    " purple"     0.002
+    ... 100,000 more tokens with tiny probabilities
+
+Sampling parameters decide which of these you are allowed to pick,
+and how much the low-probability tail can influence the choice.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Temperature — Reshaping the Distribution
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Temperature divides the logits <em>before</em> softmax. That single operation changes the shape of the whole distribution:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+probability_i  =  softmax( logit_i / T )
+
+T -> 0     Distribution collapses onto the single highest logit.
+           Effectively greedy / argmax. Near-deterministic.
+
+T = 1      The model's raw, unmodified distribution.
+
+T > 1      Distribution flattens. Unlikely tokens get a real chance.
+           T = 2 and above usually produces incoherent text.
+
+EFFECT ON OUR EXAMPLE:
+
+  T = 0.2      " sunny" 0.92   " cold" 0.07   " nice" 0.01
+  T = 1.0      " sunny" 0.40   " cold" 0.25   " nice" 0.15
+  T = 1.8      " sunny" 0.26   " cold" 0.21   " nice" 0.18  (+ long tail)
+
+Note what temperature does NOT do: it never changes the ORDER.
+" sunny" is the most likely token at every temperature. Temperature
+only changes how dominant it is.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Top-K — Keep the K Best, Discard the Rest
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Keep only the K highest-probability tokens, renormalise, then sample.
+
+top_k = 3  on our example:
+    " sunny"  0.40  ->  0.50
+    " cold"   0.25  ->  0.31
+    " nice"   0.15  ->  0.19
+    everything else: probability 0, cannot be selected.
+
+PROBLEM WITH TOP-K: K is FIXED but distributions are not.
+
+  Confident position:  " Paris" 0.98, then a long tail of noise.
+     top_k = 40 lets 39 pieces of noise remain eligible.
+
+  Uncertain position:  50 reasonable continuations, each ~0.02.
+     top_k = 40 arbitrarily cuts off 10 perfectly good options.
+
+One fixed number cannot suit both cases. That is exactly the
+problem top-p was invented to solve.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Top-P (Nucleus Sampling) — Keep the Smallest Set Worth Keeping
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Sort by probability, then keep adding tokens until their cumulative
+probability first reaches P. Discard everything after. Renormalise.
+
+top_p = 0.9  on our example:
+    " sunny"      0.40   cumulative 0.40
+    " cold"       0.25   cumulative 0.65
+    " nice"       0.15   cumulative 0.80
+    " beautiful"  0.10   cumulative 0.90   <- reached P, STOP
+    " terrible" and everything below: excluded.
+
+WHY IT IS BETTER: the size of the kept set ADAPTS to the model's
+confidence at that specific position.
+
+  " The capital of France is ___ "
+     " Paris" 0.98  ->  top_p 0.9 keeps just ONE token.
+     Correct: there is only one right answer.
+
+  " Write a poem about ___ "
+     50 plausible tokens  ->  top_p 0.9 keeps ~40 of them.
+     Correct: many valid continuations.
+
+Same parameter, different behaviour, appropriate in both cases.
+This is why top-p is the modern default and top-k is largely legacy.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Order of Application
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Typical pipeline (implementations vary in detail):
+
+  raw logits
+    -> apply repetition / frequency / presence penalties
+    -> divide by temperature
+    -> softmax
+    -> top-k filter        (if set)
+    -> top-p filter        (if set)
+    -> renormalise
+    -> sample one token
+
+PRACTICAL RULE: use temperature + top-p. Adjusting all three at
+once makes the effect of any single change impossible to reason
+about. Most providers default top-k to "off" for this reason.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Related Knobs You Should Know
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>frequency_penalty</strong> — reduces a token's logit in proportion to how many times it has already appeared. Scales with repetition count.</li>
+    <li style="margin-top: 0.5rem;"><strong>presence_penalty</strong> — a flat reduction once a token has appeared at all, regardless of count. Pushes toward new topics rather than merely new words.</li>
+    <li style="margin-top: 0.5rem;"><strong>repetition_penalty</strong> — a multiplicative variant common in open-source serving stacks.</li>
+    <li style="margin-top: 0.5rem;"><strong>min_p</strong> — a newer alternative that keeps tokens above a fraction of the <em>top</em> token's probability, adapting more gracefully than top-p at high temperature.</li>
+    <li style="margin-top: 0.5rem;"><strong>seed</strong> — where supported, makes sampling reproducible for a fixed model version. Essential for regression testing.</li>
+    <li style="margin-top: 0.5rem;"><strong>logit_bias</strong> — manually push specific tokens up or down. Useful for forcing or forbidding particular outputs in classification.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Greedy vs Sampling vs Beam Search
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+GREEDY DECODING
+  Always take the single highest-probability token.
+  Fast, deterministic, but gets stuck in repetitive loops
+  ("I think that I think that I think that...").
+
+SAMPLING (temperature / top-p / top-k)
+  Draw from the distribution. Varied and natural.
+  This is what all chat models use.
+
+BEAM SEARCH
+  Keep B candidate sequences alive and expand them in parallel,
+  finally choosing the sequence with the best total probability.
+  Good for machine translation and summarisation, where there IS
+  roughly one correct output.
+  BAD for open-ended generation: it produces bland, repetitive,
+  "high-probability" text because the most probable sequence is
+  not the most human-like one. Holtzman et al. (2019) demonstrated
+  this and introduced nucleus sampling as the fix.
+
+INTERVIEW POINT: knowing WHY beam search is not used for chat is a
+much stronger answer than merely knowing that it exists.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Recommended Settings By Use Case
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+USE CASE                      TEMPERATURE   TOP_P    NOTE
+----------------------------  -----------  -------  -----------------
+Classification / extraction       0.0        1.0    Want repeatability
+Structured JSON output            0.0        1.0    Randomness breaks
+                                                    schema adherence
+RAG question answering          0.0 - 0.3    1.0    Stay grounded
+Code generation                 0.0 - 0.2    1.0    Correctness > flair
+Customer support bot            0.2 - 0.4    0.9    Consistent + natural
+General chat assistant          0.6 - 0.8    0.9    Provider defaults
+Brainstorming / ideation        0.8 - 1.0    0.95   Want variety
+Creative writing                0.9 - 1.1    0.95   Want surprise
+Anything above                     1.3        -     Usually incoherent
+
+Start at the low end and raise only if output feels too rigid.
+Almost every production bug attributed to "the model is flaky"
+turns out to be a default temperature nobody deliberately chose.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Misconceptions Interviewers Test For
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">"Temperature is a creativity dial." :</span>
+      No. It is a randomness dial. Higher temperature does not give the model better ideas — it makes it more willing to pick less likely tokens, which sometimes reads as creative and sometimes reads as nonsense. Genuine creativity comes from the prompt and the model, not from this parameter.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">"Temperature 0 prevents hallucination." :</span>
+      Emphatically no, and this is the most important misconception to correct. Temperature 0 makes the model <em>consistently</em> produce its most likely output. If the most likely output is a fabricated citation, you now get the same fabricated citation every single time. Low temperature reduces variance, not falsehood.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">"Temperature 0 is fully deterministic." :</span>
+      Near-deterministic. Floating-point non-determinism on GPUs, request batching, and silent model updates behind a floating alias all introduce variation. Pin an exact dated model version and use a seed if you need reproducibility.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">"Set both top-p and top-k for finer control." :</span>
+      In practice this makes behaviour harder to reason about and to tune, because the two filters interact. Pick one — top-p — and adjust temperature alongside it.
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `// Softmax with temperature - see exactly what the parameter does.
+
+function softmaxWithTemperature(logits, T) {
+  if (T <= 0) {
+    // T -> 0 is the limit case: pure argmax
+    const max = Math.max(...logits);
+    return logits.map(l => (l === max ? 1 : 0));
+  }
+  const scaled = logits.map(l => l / T);
+  const max    = Math.max(...scaled);              // numerical stability
+  const exps   = scaled.map(l => Math.exp(l - max));
+  const sum    = exps.reduce((a, b) => a + b, 0);
+  return exps.map(e => e / sum);
+}
+
+const tokens = [" sunny", " cold", " nice", " beautiful", " purple"];
+const logits = [3.2, 2.7, 2.2, 1.8, -1.5];
+
+for (const T of [0.2, 0.7, 1.0, 1.5]) {
+  const p = softmaxWithTemperature(logits, T);
+  console.log("T=" + T, p.map(x => x.toFixed(3)).join("  "));
+}
+
+// T=0.2   0.917  0.075  0.006  0.001  0.000   <- one clear winner
+// T=0.7   0.516  0.256  0.127  0.072  0.000
+// T=1.0   0.401  0.243  0.147  0.099  0.004
+// T=1.5   0.310  0.222  0.159  0.122  0.019   <- " purple" now possible
+
+// KEY OBSERVATION: the ORDER never changes. " sunny" is always most
+// likely. Temperature only changes HOW DOMINANT it is - and therefore
+// how often the alternatives actually get picked.`,
+              `// Top-K and Top-P implemented side by side, so the difference
+// between "fixed size" and "adaptive size" is unmistakable.
+
+function topK(probs, k) {
+  const idx = probs.map((p, i) => [p, i]).sort((a, b) => b[0] - a[0]);
+  const keep = new Set(idx.slice(0, k).map(([, i]) => i));
+  const filtered = probs.map((p, i) => (keep.has(i) ? p : 0));
+  const sum = filtered.reduce((a, b) => a + b, 0);
+  return filtered.map(p => p / sum);          // renormalise
+}
+
+function topP(probs, p) {
+  const idx = probs.map((prob, i) => [prob, i]).sort((a, b) => b[0] - a[0]);
+  const keep = new Set();
+  let cum = 0;
+  for (const [prob, i] of idx) {
+    keep.add(i);
+    cum += prob;
+    if (cum >= p) break;                      // stop as soon as we reach p
+  }
+  const filtered = probs.map((prob, i) => (keep.has(i) ? prob : 0));
+  const sum = filtered.reduce((a, b) => a + b, 0);
+  return filtered.map(x => x / sum);
+}
+
+// CASE 1 - the model is very confident
+const confident = [0.97, 0.01, 0.008, 0.007, 0.005];
+console.log(topK(confident, 3).filter(x => x > 0).length);  // 3 kept
+console.log(topP(confident, 0.9).filter(x => x > 0).length); // 1 kept
+
+// CASE 2 - the model is genuinely uncertain
+const uncertain = [0.22, 0.21, 0.20, 0.19, 0.18];
+console.log(topK(uncertain, 3).filter(x => x > 0).length);   // 3 kept
+console.log(topP(uncertain, 0.9).filter(x => x > 0).length); // 5 kept
+
+// THE POINT: top-k keeps 3 in BOTH cases, which is wrong in both.
+// top-p keeps 1 when there is one right answer and 5 when there are
+// many. The set size ADAPTS to the model's confidence.`,
+              `// Configuration by use case - make this explicit, never implicit.
+
+const SAMPLING = {
+  extraction:   { temperature: 0,   top_p: 1    },
+  jsonOutput:   { temperature: 0,   top_p: 1    },
+  ragAnswer:    { temperature: 0.2, top_p: 1    },
+  codeGen:      { temperature: 0.1, top_p: 1    },
+  supportBot:   { temperature: 0.3, top_p: 0.9  },
+  generalChat:  { temperature: 0.7, top_p: 0.9  },
+  brainstorm:   { temperature: 0.9, top_p: 0.95 },
+  creative:     { temperature: 1.0, top_p: 0.95 }
+};
+
+async function call(useCase, messages) {
+  const cfg = SAMPLING[useCase];
+  if (!cfg) throw new Error("Unknown use case: " + useCase);
+
+  return client.messages.create({
+    model: "claude-sonnet-4-20250514",
+    ...cfg,
+    max_tokens: 1024,
+    messages
+  });
+}
+
+// WHY THIS MATTERS: the number one cause of "the model is flaky in
+// production" is a DEFAULT temperature nobody chose deliberately.
+// Providers default to roughly 0.7-1.0, which is fine for chat and
+// completely wrong for extraction, classification and JSON output.
+// Make the value explicit at every call site, and keep it in ONE
+// place so it can be reviewed and changed as a unit.`,
+              `// Self-consistency: turn sampling variance from a bug into a signal.
+
+async function selfConsistentAnswer(question, n = 5) {
+  // Deliberately sample WITH temperature so the runs differ.
+  const runs = await Promise.all(
+    Array.from({ length: n }, () =>
+      llm.complete(question, { temperature: 0.7, top_p: 0.9 })
+    )
+  );
+
+  // Majority vote on the normalised final answer.
+  const counts = new Map();
+  for (const r of runs) {
+    const key = normalise(extractFinalAnswer(r));
+    counts.set(key, (counts.get(key) || 0) + 1);
+  }
+
+  const [answer, votes] = [...counts.entries()]
+    .sort((a, b) => b[1] - a[1])[0];
+
+  return {
+    answer,
+    agreement: votes / n,                 // a REAL confidence signal
+    disagreed: counts.size > 1
+  };
+}
+
+// Interpretation:
+//   agreement 5/5 -> the model is stable here; likely reliable.
+//   agreement 2/5 -> the model is guessing. ESCALATE or refuse.
+//
+// This is one of the few genuine confidence signals available,
+// and it is far more meaningful than logprobs. The cost is N times
+// the tokens, so reserve it for high-stakes paths - and note it is
+// the reason temperature 0 is NOT always the safest choice.`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does temperature affect output, and what value would you pick for a support chatbot versus a creative writing tool?",
+                solution: `<p>Temperature divides the logits before softmax, reshaping the probability distribution. Near 0 the distribution collapses onto the single highest-scoring token, making output near-deterministic; at 1 you get the model's raw distribution; above 1 the distribution flattens and unlikely tokens become genuinely reachable, which above roughly 1.3 usually produces incoherent text.</p>
+             <p>For a <strong>support chatbot</strong> I would use roughly 0.2–0.4: answers must be consistent, accurate and repeatable, since two users asking the same question should get materially the same answer, and low temperature also keeps the model closer to the retrieved source material. For a <strong>creative writing tool</strong> roughly 0.9–1.1, where varied and surprising word choice is the product. The critical detail is that temperature never changes the <em>ranking</em> of tokens — only how dominant the top one is — so it is a randomness dial, not an intelligence or creativity dial.</p>`,
+              },
+              {
+                question:
+                  "Explain top-k sampling and its main weakness.",
+                solution:
+                  "<p>Top-k keeps only the k highest-probability tokens, sets everything else to zero, renormalises, and samples from what remains. Its weakness is that k is fixed while the shape of the distribution is not. At a highly constrained position — 'the capital of France is' where 'Paris' has probability 0.98 — a k of 40 leaves 39 pieces of noise eligible for selection. At a genuinely open position where fifty continuations are each roughly equally plausible, the same k of 40 arbitrarily discards ten perfectly reasonable options. One fixed number cannot be correct for both situations, and that mismatch is precisely the problem nucleus sampling was designed to fix.</p>",
+              },
+              {
+                question:
+                  "Explain top-p (nucleus) sampling and why it is preferred over top-k.",
+                solution: `<p>Top-p sorts tokens by probability and keeps adding them until their cumulative probability first reaches p, discarding the rest and renormalising. The set it keeps therefore <em>adapts to the model's confidence at that specific position</em>:</p>
+             <ul>
+               <li>Where the model is confident — 'Paris' at 0.98 — top-p of 0.9 keeps a single token, which is correct because there is one right answer.</li>
+               <li>Where the model is uncertain — fifty plausible continuations in a poem — the same parameter keeps roughly forty, which is also correct because many continuations are valid.</li>
+             </ul>
+             <p>That adaptivity is why it is the modern default and top-k is largely legacy. It was introduced by Holtzman et al. in 'The Curious Case of Neural Text Degeneration', which showed that both greedy decoding and beam search produce degenerate, repetitive text on open-ended generation, and that nucleus sampling produces markedly more human-like output.</p>`,
+              },
+              {
+                question:
+                  "Should you set both top-p and top-k? What is the practical guidance?",
+                solution:
+                  "<p>Generally no. Both are filters over the same distribution, so setting both means they interact and it becomes very difficult to reason about which one is actually binding at any given position — tuning becomes guesswork. The practical guidance is to use temperature plus top-p and leave top-k off, which is why most providers default top-k to disabled. If you are debugging output quality, change one parameter at a time and evaluate against a fixed test set; changing two simultaneously and judging by feel is how teams end up with configurations nobody can explain or safely modify.</p>",
+              },
+              {
+                question:
+                  "Does setting temperature to 0 prevent hallucination?",
+                solution:
+                  "<p>No, and this is the most important misconception to correct in this topic. Temperature 0 makes the model consistently produce its single most likely output. If that most likely output is a fabricated citation, you now get the <em>same</em> fabricated citation on every single call — reliably wrong rather than randomly wrong. Low temperature reduces variance, not falsehood. Hallucination originates in the training objective and the absence of any knowledge-boundary signal, so the real mitigations are architectural: grounding the model in retrieved source text, requiring citations that you verify programmatically, giving the model an explicit way to say the information is not available, and evaluating faithfulness against the provided context. Sampling parameters are not a hallucination control.</p>",
+              },
+              {
+                question:
+                  "Why is beam search not used for chat models?",
+                solution:
+                  "<p>Beam search keeps several candidate sequences alive and ultimately returns the sequence with the highest total probability. That is the right objective for tasks with roughly one correct output — machine translation, or constrained summarisation. It is the wrong objective for open-ended generation, because <em>the most probable sequence is not the most human-like one</em>. Maximising sequence likelihood drives the model toward bland, generic, highly repetitive text, a phenomenon documented by Holtzman et al. (2019). Human language is characteristically varied and includes lower-probability choices; sampling reproduces that, beam search flattens it. Knowing <em>why</em> beam search fails here rather than merely that it is unused is what makes this a differentiating answer.</p>",
+              },
+              {
+                question:
+                  "What is the difference between frequency_penalty and presence_penalty?",
+                solution:
+                  "<p>Both discourage repetition but with different mechanics. <strong>frequency_penalty</strong> reduces a token's logit in proportion to how many times it has already appeared, so the penalty accumulates — good for suppressing a word being hammered repeatedly. <strong>presence_penalty</strong> applies a flat reduction once a token has appeared at all, regardless of count, which pushes the model toward introducing new material rather than merely varying wording. In practice, use presence_penalty when you want topical diversity (brainstorming a list of distinct ideas) and frequency_penalty when you want to break a repetition loop. Both should be used sparingly: aggressive values degrade coherence because legitimately necessary repeated words — names, technical terms, the subject of the sentence — get suppressed too.</p>",
+              },
+              {
+                question:
+                  "What settings would you use for a function-calling or structured JSON output feature, and why?",
+                solution:
+                  "<p>Temperature 0 and top-p 1, meaning effectively greedy decoding. The reasoning is that structured output requires exact adherence to a schema — correct field names, valid types, balanced braces — and every one of those is a token-level decision where the model has one correct choice. Sampling randomness introduces opportunities to pick a nearly-correct-but-invalid token, and a single wrong character makes the whole payload unparseable. There is also no upside: nobody wants creative variation in a field name. The stronger answer adds that sampling parameters are a weak guarantee anyway, and you should use the provider's structured-output or constrained-decoding mode where available, which restricts sampling to tokens permitted by the schema at each step — making invalid JSON structurally impossible rather than merely unlikely.</p>",
+              },
+              {
+                question:
+                  "Two users ask the same question and get different answers. Is this a bug?",
+                solution: `<p>Not necessarily — it depends on the configured temperature and on what the product promises. Work through it:</p>
+             <ol>
+               <li>Check the temperature actually in use. If it is a provider default of around 0.7–1.0, variation is expected behaviour, not a defect.</li>
+               <li>Ask whether variation is acceptable for this feature. For creative writing, yes. For a policy question, a price quote, or a compliance answer, absolutely not — two customers receiving different answers to the same policy question is a real business problem.</li>
+               <li>If consistency is required, set temperature to 0, pin an exact dated model version, and add regression tests over a fixed question set.</li>
+               <li>If answers differ <em>substantively</em> rather than just in wording even at temperature 0, that is a genuine problem and usually points upstream — non-deterministic retrieval returning different chunks, not sampling.</li>
+             </ol>
+             <p>The distinction worth drawing explicitly: <em>phrasing</em> variation is a sampling matter; <em>substantive</em> variation at low temperature is almost always a retrieval or context-assembly bug.</p>`,
+              },
+              {
+                question:
+                  "What is self-consistency, and why does it argue against always using temperature 0?",
+                solution:
+                  "<p>Self-consistency samples the same prompt several times at a non-zero temperature and takes the majority answer. It improves accuracy on reasoning tasks because a correct chain of reasoning tends to be reachable by several different paths, while errors tend to be idiosyncratic and disagree with each other. The interesting secondary benefit is that the <em>agreement rate</em> is a genuine confidence signal: five out of five identical answers indicates a stable, likely-reliable response, whereas two out of five indicates the model is essentially guessing and the request should be escalated or refused. This is why temperature 0 is not automatically the safest choice — it gives you one answer with no way to tell whether the model was confident or guessing. The cost is N times the tokens, so it belongs on high-stakes paths rather than everywhere.</p>",
+              },
+              {
+                question:
+                  "What is min_p and what problem does it address?",
+                solution:
+                  "<p>min_p keeps tokens whose probability is at least some fraction of the <em>top</em> token's probability — for example, with min_p of 0.05 and a top token at 0.6, only tokens above 0.03 survive. It addresses a weakness of top-p at high temperature: because temperature flattens the distribution, a fixed cumulative-probability threshold starts admitting a very long tail of genuinely bad tokens, so quality degrades faster than users expect when they raise temperature for creativity. By anchoring the cutoff to the top token rather than to a cumulative sum, min_p stays more selective as the distribution flattens, allowing higher temperatures without the same collapse in coherence. It is common in open-source serving stacks; support in hosted APIs varies, so check before designing around it.</p>",
+              },
+              {
+                question:
+                  "What is logit_bias and when would you use it?",
+                solution:
+                  "<p>logit_bias lets you manually add or subtract from the logits of specific token IDs before sampling, effectively making certain tokens more or less likely — or, at extreme values, mandatory or impossible. The clearest legitimate use is constrained classification: if you need the model to answer only 'yes' or 'no', you can bias those two tokens strongly upward and everything else downward, guaranteeing a parseable answer and letting you read the relative logprobs as a confidence score. It is also used to suppress specific unwanted tokens. The caveats worth stating: you must supply token IDs, not strings, which means dealing with the tokenizer directly and with the leading-space problem; and it is a blunt instrument compared to proper structured-output modes, which should be your first choice where available.</p>",
+              },
+              {
+                question:
+                  "Your RAG answers sometimes drift from the retrieved sources. Would lowering temperature fix it?",
+                solution:
+                  "<p>It would help at the margin but is not the fix, and saying so is the point of the question. Lowering temperature to around 0–0.2 makes the model less likely to wander into low-probability territory, so it does modestly increase adherence to the provided context. But drift from sources is fundamentally a grounding problem, not a sampling problem. The real fixes are: verify that retrieval is actually returning the right chunks — measure retrieval metrics separately, because 'the model drifted' very often turns out to be 'the model was given the wrong context'; instruct the model explicitly to answer only from the provided context and to say when it cannot; require inline citations and verify programmatically that quoted spans exist in the sources; and measure faithfulness with an automated evaluator so drift is caught systematically rather than by user reports. Temperature is the last and smallest lever here.</p>",
+              },
+              {
+                question:
+                  "How do sampling parameters interact with prompt caching and reproducibility in testing?",
+                solution:
+                  "<p>Sampling parameters do not affect prompt caching, because caching operates on the prompt prefix during prefill while sampling happens after the logits are produced — you can change temperature freely without invalidating a cache. Reproducibility is the more interesting half. For regression testing you want deterministic output, which requires temperature 0, an exact dated model version rather than a floating alias, and a seed where the provider supports one. Even then, expect near-determinism rather than guarantees, because of GPU floating-point ordering and batching effects. The robust practice is therefore to write evaluation assertions on <em>semantic</em> correctness — did it extract the right field, did it reach the right classification — rather than on exact string equality, because a test that breaks on a reworded but equally correct answer will be disabled by the team within a month.</p>",
+              },
+              {
+                question:
+                  "A teammate sets temperature to 1.5 to make the assistant 'more creative'. What do you tell them?",
+                solution:
+                  "<p>That temperature is a randomness dial, not a creativity dial, and 1.5 is well into the range where output degrades. Raising it does not give the model better ideas — it makes it more willing to select tokens it assigned low probability to, which occasionally reads as inventive and frequently reads as incoherent, off-topic, or grammatically broken. Genuine creative quality comes from the prompt (asking for an unusual angle, supplying constraints, providing strong examples) and from model choice, not from flattening the distribution. If more variety is genuinely wanted, the better approach is temperature around 0.9 with top-p around 0.95, combined with a prompt that explicitly asks for multiple distinct directions — and then measuring whether output quality actually improved on a fixed set of prompts rather than judging from a handful of impressions.</p>",
+              },
+              {
+                question:
+                  "Walk me through the full order of operations from logits to a selected token.",
+                solution: `<p>The typical pipeline, noting that implementations differ in detail:</p>
+             <ol>
+               <li><strong>Raw logits</strong> — one unnormalised score per vocabulary token, produced by the model's final projection.</li>
+               <li><strong>Penalties applied</strong> — repetition, frequency and presence penalties adjust logits for tokens already seen.</li>
+               <li><strong>Temperature scaling</strong> — every logit is divided by T, sharpening or flattening the eventual distribution.</li>
+               <li><strong>Softmax</strong> — logits become probabilities summing to 1.</li>
+               <li><strong>Top-k filter</strong> — if set, all but the k highest are zeroed.</li>
+               <li><strong>Top-p filter</strong> — if set, the tail beyond cumulative probability p is zeroed.</li>
+               <li><strong>Renormalise</strong> so the surviving probabilities sum to 1 again.</li>
+               <li><strong>Sample</strong> one token from that final distribution.</li>
+             </ol>
+             <p>The detail worth highlighting is that temperature is applied to <em>logits</em>, before softmax — not to the probabilities afterwards. Applying it after softmax would be a different and less useful operation, and getting that ordering right is what the question is really checking.</p>`,
+              },
+            ],
+            links: [
+              "https://arxiv.org/abs/1904.09751",
+              "https://huggingface.co/docs/transformers/generation_strategies",
+              "https://platform.openai.com/docs/api-reference/chat/create",
+              "https://arxiv.org/abs/2203.11171",
+            ],
+          },
+          {
+            topic: "Context Window",
+            tags: ["high-frequency", "must-know", "system-design"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The <strong>context window</strong> is the maximum number of tokens a model can process in a single request. For most models this is a shared budget: <em>everything you send plus everything the model generates must fit inside it together</em>. It is the hard physical constraint that shapes almost every AI architecture decision you will ever make.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Think of it as the model's working memory for one request — and remember from the previous topic that this memory is wiped completely between requests. There is nothing else. If information is not in the context window, the model cannot use it.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Actually Fills the Window
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Beginners think "the context window is for the user's question". In a real application the user's question is often the smallest part of it:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+A 200,000-token window on a real production request:
+
+  System prompt / instructions          1,500 tokens
+  Tool & function definitions           2,000 tokens
+  Few-shot examples                     1,000 tokens
+  Conversation history (12 turns)      18,000 tokens
+  Retrieved RAG chunks (8 chunks)       6,000 tokens
+  Tool call results                     3,000 tokens
+  The user's actual question              120 tokens
+  ------------------------------------------------
+  INPUT TOTAL                          31,620 tokens
+  Reserved for output (max_tokens)      4,000 tokens
+  ------------------------------------------------
+  USED                                 35,620 / 200,000
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Notice the user's question is 0.3% of the budget. <strong>Managing everything else is the actual engineering job</strong> — that discipline now has a name, "context engineering", and it is increasingly what interviews probe.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Typical Window Sizes (know the orders of magnitude, not exact figures)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  8K       Older / small open models          ~6,000 words
+  32K      Mid-size open models              ~24,000 words
+  128K     GPT-4o class                      ~96,000 words   (a novel)
+  200K     Claude class                     ~150,000 words
+  1M+      Gemini long-context class        ~750,000 words
+
+Always check current provider documentation - these move constantly.
+What matters in an interview is knowing the ORDERS OF MAGNITUDE and,
+much more importantly, the trade-offs of using them.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why Bigger Windows Are Not a Free Win
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cost scales linearly with input :</span>
+      You pay per input token on every single request. Stuffing 500K tokens into a window because you can is a straight multiplication of your bill. A 200K-token prompt at typical pricing costs real money <em>per call</em>.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Latency scales worse than linearly :</span>
+      The attention mechanism compares every token with every other token, so its compute cost grows roughly with the <em>square</em> of sequence length. Time-to-first-token degrades noticeably on very long prompts, which users feel immediately.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory: the KV cache :</span>
+      During generation the model caches key/value tensors for every token processed so far. That cache grows linearly with context length and dominates GPU memory in long-context serving — it is the practical ceiling on how many concurrent long-context users you can serve.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Quality degrades - "lost in the middle" :</span>
+      Research (Liu et al., 2023) showed models attend most reliably to information at the <em>beginning</em> and <em>end</em> of a long context, and are markedly worse at retrieving facts buried in the middle. Filling the window with marginally relevant text can therefore make answers <em>worse</em>, not better. This is the single most counter-intuitive point in the topic and interviewers love it.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Advertised vs effective context :</span>
+      A model advertising 1M tokens does not perform equally well across all of it. "Needle in a haystack" tests measure whether a planted fact can be recalled at various depths; real reasoning across a long context is harder still. Treat the advertised number as a ceiling, not a promise.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Strategies When Content Does Not Fit
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Retrieval (RAG) - the default answer :</span>
+      Do not send the whole corpus. Index it, retrieve only the handful of relevant chunks per query, and send those. This is the standard architecture precisely because it keeps context small, cheap and relevant regardless of corpus size.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Conversation trimming :</span>
+      Keep the system prompt, the most recent N turns, and drop the middle. Simple and cheap, but loses information the user may reference later.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Rolling summarisation / compaction :</span>
+      When history exceeds a threshold, summarise the older portion into a compact block and keep recent turns verbatim. Preserves the gist at a fraction of the tokens. Risk: summarisation is lossy and compounds — details silently disappear over a long session.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Map-reduce over chunks :</span>
+      For "summarise this 500-page document", process chunks independently (map), then combine the partial results (reduce). Parallelisable and unbounded in input size, but each chunk is processed without global context, so cross-document reasoning suffers.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Externalise state :</span>
+      Store long-lived facts in a database or file and retrieve them on demand rather than carrying them in every prompt. This is how agents survive long-running tasks.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Prompt Caching - The Cost Lever You Must Know
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    If a large prefix of your prompt is identical across requests — system prompt, tool definitions, few-shot examples, a fixed document — providers can cache the processed form of it and charge substantially less for cache hits, while also cutting time-to-first-token. The engineering requirement is <strong>prefix stability</strong>: caching keys on an exact prefix match, so anything variable (a timestamp, a user ID, a session token) must go <em>after</em> the cacheable block, never before it. Putting a changing value at the top of the prompt silently destroys your cache hit rate — a classic production mistake.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Failure Modes to Design Against
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Hard failure</strong> — the API rejects the request with a context length error. Loud and obvious.</li>
+    <li style="margin-top: 0.5rem;"><strong>Silent truncation</strong> — a framework quietly drops the middle of your prompt to make it fit. Far more dangerous: the model answers confidently using incomplete information and nothing in your logs flags it. Always check whether your framework truncates silently.</li>
+    <li style="margin-top: 0.5rem;"><strong>Output starvation</strong> — input grows until almost nothing is left for generation, so answers get cut off mid-sentence. Always reserve an explicit output budget before assembling the prompt.</li>
+    <li style="margin-top: 0.5rem;"><strong>Context poisoning</strong> — a hallucinated or malicious statement enters the history and is treated as fact for the rest of the session, compounding with every turn.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Budget the context window explicitly. Never assemble a prompt and
+// hope it fits - compute the budget, then fill it in priority order.
+
+const MODEL_WINDOW   = 200_000;
+const RESERVE_OUTPUT = 4_000;    // guaranteed room for the answer
+const SAFETY_MARGIN  = 1_000;    // tokenizer estimate error buffer
+
+function buildPrompt({ systemPrompt, tools, history, chunks, question }) {
+  const budget = MODEL_WINDOW - RESERVE_OUTPUT - SAFETY_MARGIN;
+
+  // Priority order: things you cannot drop go first.
+  const fixed = countTokens(systemPrompt) +
+                countTokens(tools) +
+                countTokens(question);
+
+  let remaining = budget - fixed;
+  if (remaining < 0) throw new Error("Fixed content alone exceeds window");
+
+  // Retrieved chunks get priority over old conversation history,
+  // because they are what actually answers THIS question.
+  const usedChunks = [];
+  for (const c of chunks) {
+    const n = countTokens(c.text);
+    if (n > remaining) break;
+    usedChunks.push(c);
+    remaining -= n;
+  }
+
+  // Fill whatever is left with the MOST RECENT history, newest first.
+  const usedHistory = [];
+  for (let i = history.length - 1; i >= 0; i--) {
+    const n = countTokens(history[i].content);
+    if (n > remaining) break;
+    usedHistory.unshift(history[i]);
+    remaining -= n;
+  }
+
+  return { systemPrompt, tools, usedHistory, usedChunks, question };
+}
+
+// The important idea: DROPPING IS A DESIGN DECISION.
+// Decide what gets dropped, do not let a framework decide silently.`,
+              `// Rolling summarisation - keep a long conversation inside the window
+// without losing the thread.
+
+const COMPACT_THRESHOLD = 60_000;  // tokens
+const KEEP_RECENT_TURNS = 6;
+
+async function compactIfNeeded(state) {
+  const total = countTokens(state.summary) + countTokens(state.messages);
+  if (total < COMPACT_THRESHOLD) return state;
+
+  const recent = state.messages.slice(-KEEP_RECENT_TURNS);
+  const older  = state.messages.slice(0, -KEEP_RECENT_TURNS);
+
+  const newSummary = await llm.summarise({
+    instruction:
+      "Update the running summary. Preserve: decisions made, facts the " +
+      "user stated about themselves, open questions, and any constraints. " +
+      "Drop: pleasantries and restated information.",
+    existingSummary: state.summary,
+    newMessages: older
+  });
+
+  return { summary: newSummary, messages: recent };
+}
+
+// Trade-off to state out loud in an interview:
+// summarisation is LOSSY and COMPOUNDS. Each pass can drop a detail,
+// and later passes summarise the summary. Mitigations: persist the full
+// transcript separately so nothing is truly lost, and make the summary
+// prompt explicit about what must never be dropped.`,
+              `// Prompt caching: order your prompt so the STABLE part comes first.
+
+// WRONG - a timestamp at the top invalidates the cache on every request
+const badPrompt = [
+  { role: "system", content: "Current time: " + new Date().toISOString() },
+  { role: "system", content: HUGE_STABLE_INSTRUCTIONS },   // never cached
+  { role: "user",   content: userQuestion }
+];
+
+// RIGHT - stable prefix first, volatile content last
+const goodPrompt = [
+  {
+    role: "system",
+    content: HUGE_STABLE_INSTRUCTIONS,
+    cache_control: { type: "ephemeral" }    // mark the cacheable boundary
+  },
+  { role: "user", content: "Current time: " + new Date().toISOString() +
+                           "\\n\\n" + userQuestion }
+];
+
+// Rule: cache keys on an EXACT PREFIX MATCH.
+// Anything that changes per request must go AFTER the cached block.
+// Getting this backwards is one of the most common - and most
+// expensive - production mistakes in LLM applications.`,
+              `// Map-reduce for input that will never fit, at any window size.
+
+async function summariseHugeDocument(text) {
+  const chunks = chunkByTokens(text, 8000, 200);
+
+  // MAP: independent, parallel, bounded per call
+  const partials = await Promise.all(
+    chunks.map(c => llm.complete(
+      "Summarise the key points of this section:\\n\\n" + c
+    ))
+  );
+
+  // REDUCE: combine. If the combined partials are still too big,
+  // recurse - this is a tree reduction, not a single pass.
+  let combined = partials.join("\\n\\n");
+  while (countTokens(combined) > 8000) {
+    const groups = chunkByTokens(combined, 8000, 0);
+    const merged = await Promise.all(
+      groups.map(g => llm.complete("Merge these summaries:\\n\\n" + g))
+    );
+    combined = merged.join("\\n\\n");
+  }
+
+  return llm.complete("Write a final summary:\\n\\n" + combined);
+}
+
+// Trade-off: each chunk is processed WITHOUT global context, so
+// cross-document reasoning ("which section contradicts section 3?")
+// is weak. Map-reduce is great for summarisation, poor for synthesis.`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is a context window, and what happens when you exceed it?",
+                solution:
+                  "<p>The context window is the maximum number of tokens a model can process in a single request; for most models, input and generated output share that same budget. Exceeding it produces one of two outcomes. The clean case is a hard API error — a context length exceeded response — which is loud and easy to catch. The dangerous case is silent truncation, where a framework or wrapper quietly drops part of your prompt to make it fit; the model then answers confidently from incomplete information and nothing in your logs indicates anything went wrong. The first thing to establish in any codebase is which of these two your stack does.</p>",
+              },
+              {
+                question:
+                  "In a real production request, what actually fills the context window?",
+                solution: `<p>The user's question is usually the smallest component. A typical breakdown:</p>
+             <ul>
+               <li>System prompt and instructions</li>
+               <li>Tool / function definitions (often surprisingly large)</li>
+               <li>Few-shot examples</li>
+               <li>Conversation history — which grows every turn</li>
+               <li>Retrieved RAG chunks</li>
+               <li>Tool call results returned into the conversation</li>
+               <li>The user's actual question</li>
+               <li>Reserved space for the model's output</li>
+             </ul>
+             <p>The point worth making is that managing everything <em>except</em> the user's question is the actual engineering work — deciding what to include, what to compress and what to drop on every request. That discipline is now called context engineering.</p>`,
+              },
+              {
+                question:
+                  "If a model offers a 1M token context window, should you just put everything in it?",
+                solution: `<p>No, for four reasons, and a strong answer names all four:</p>
+             <ol>
+               <li><strong>Cost</strong> — you pay per input token on every request; a huge prompt multiplies your bill linearly.</li>
+               <li><strong>Latency</strong> — attention cost grows roughly with the square of sequence length, so time-to-first-token degrades noticeably and users feel it.</li>
+               <li><strong>Memory</strong> — the KV cache grows linearly with context length and is the practical limit on concurrent long-context users in self-hosted serving.</li>
+               <li><strong>Quality</strong> — 'lost in the middle': models retrieve reliably from the start and end of a long context and much less reliably from the middle. Padding the window with marginally relevant text can make answers <em>worse</em>.</li>
+             </ol>
+             <p>The correct framing is that a large window is an escape hatch for cases where retrieval is genuinely hard, not a replacement for retrieving the right information.</p>`,
+              },
+              {
+                question:
+                  "Explain 'lost in the middle' and how you would design around it.",
+                solution:
+                  "<p>Research by Liu et al. (2023) demonstrated that model performance on retrieving a fact from a long context depends strongly on <em>where</em> in the context that fact sits: accuracy is highest when it appears near the beginning or the end and drops significantly in the middle, producing a U-shaped curve. The design responses are: retrieve fewer and better chunks rather than many mediocre ones (a reranker is the standard tool for this); place the most important retrieved content at the start or end of the context rather than buried in a long list; keep the user's actual question near the end so it is in a high-attention position; and validate empirically with your own evaluation set rather than assuming any particular ordering works for your data.</p>",
+              },
+              {
+                question:
+                  "What is the KV cache and why does it matter for long-context serving?",
+                solution:
+                  "<p>During generation, the model computes key and value tensors for every token it has processed and caches them so that each new token does not require recomputing attention over the entire history from scratch. This cache is what makes autoregressive generation tractable, but its size grows linearly with the number of tokens in context and with batch size. In self-hosted serving it typically dominates GPU memory consumption, so it — not raw compute — is usually what limits how many concurrent long-context requests a GPU can handle. This is why inference servers like vLLM invest heavily in KV cache management (paged attention, cache sharing across requests with common prefixes), and it is the technical reason long-context requests are expensive to serve.</p>",
+              },
+              {
+                question:
+                  "What is the difference between advertised context and effective context?",
+                solution:
+                  "<p>The advertised number is the maximum the model will accept without erroring. Effective context is how much of that window the model can actually use <em>well</em>. 'Needle in a haystack' tests measure whether a planted fact can be recalled at various depths in a long context, and models often show degradation well before their stated limit; genuine reasoning across a long context — comparing, synthesising, noticing contradictions — degrades earlier still than simple recall. The practical stance is to treat the advertised figure as a ceiling rather than a guarantee, and to validate the depth you actually rely on with your own test set on your own data.</p>",
+              },
+              {
+                question:
+                  "A conversation has grown beyond the window. Give me three strategies and their trade-offs.",
+                solution: `<p>Three standard approaches:</p>
+             <ol>
+               <li><strong>Trimming</strong> — keep the system prompt and the most recent N turns, drop the rest. Cheap, simple and predictable, but the model abruptly forgets earlier context the user may still reference.</li>
+               <li><strong>Rolling summarisation (compaction)</strong> — summarise older turns into a compact block and keep recent turns verbatim. Preserves the thread at a fraction of the tokens, but summarisation is lossy and <em>compounds</em>: each pass can drop a detail, and later passes summarise summaries. Mitigate by persisting the full transcript separately and being explicit in the summarisation prompt about what must never be dropped.</li>
+               <li><strong>Retrieval over history</strong> — index past turns and retrieve only those relevant to the current question. Scales indefinitely and preserves detail, but adds retrieval latency and can miss context that is relevant but not lexically similar.</li>
+             </ol>
+             <p>In production these are usually combined: keep recent turns verbatim, a running summary of the middle, and retrieval over the full archive.</p>`,
+              },
+              {
+                question:
+                  "You need to summarise a 500-page document that will not fit in any window. How?",
+                solution:
+                  "<p>Map-reduce. In the map phase, split the document into chunks that comfortably fit, and summarise each chunk independently — these calls are embarrassingly parallel, so wall-clock time is bounded by the slowest chunk rather than the sum. In the reduce phase, combine the partial summaries; if the combined result is still too large, recurse, producing a tree reduction rather than a single pass. The trade-off worth naming is that each chunk is processed without global context, so map-reduce is strong for summarisation but weak for synthesis — questions like 'which section contradicts section 3?' need a different approach, typically retrieval plus a targeted comparison step. Also mention that chunk boundaries matter: split on semantic boundaries such as sections, not arbitrary token counts, or you fragment arguments across chunks.</p>",
+              },
+              {
+                question:
+                  "What is prompt caching, and what is the one engineering rule you must follow to benefit from it?",
+                solution:
+                  "<p>Prompt caching lets a provider store the processed form of a stable prompt prefix — system instructions, tool definitions, few-shot examples, a fixed document — and reuse it on subsequent requests, charging substantially less for the cached portion and reducing time-to-first-token. The rule is <strong>prefix stability</strong>: caching keys on an exact prefix match, so anything that changes per request (timestamp, user ID, session token, request ID) must be placed <em>after</em> the cacheable block, never before it. Putting a changing value at the top of the prompt silently drops your cache hit rate to zero while everything still appears to work — you only discover it on the invoice. It is one of the most common and most expensive mistakes in production LLM applications.</p>",
+              },
+              {
+                question:
+                  "Why is silent truncation more dangerous than a hard context error?",
+                solution:
+                  "<p>A hard error is a loud failure: the request fails, your monitoring catches it, and you fix it. Silent truncation is a correctness failure disguised as a success — the model receives an incomplete prompt, answers fluently and confidently from partial information, and returns a 200. Nothing in your metrics distinguishes it from a good answer. This is exactly how systems produce quietly wrong output at scale. The defences are: count tokens before sending and fail loudly yourself rather than letting a framework decide; log input token counts on every request so truncation shows up as an anomaly; and audit any framework or wrapper in your stack for whether it truncates by default.</p>",
+              },
+              {
+                question:
+                  "How do you guarantee there is always room for the model's answer?",
+                solution:
+                  "<p>Reserve the output budget <em>first</em>, then fill what remains. Compute available = context_window − max_tokens − a safety margin for tokenizer estimation error, and assemble the prompt to fit inside that. Never assemble the prompt first and hope. The failure this prevents — output starvation — is subtle: the request succeeds, but there is only room for a handful of output tokens, so the answer is truncated mid-sentence and looks like a model quality problem rather than a budgeting bug. A related detail is to set <code>max_tokens</code> deliberately rather than leaving it at a provider default, since defaults may be far larger or smaller than your feature actually needs.</p>",
+              },
+              {
+                question:
+                  "Given a large context window, when would you still choose RAG over just sending everything?",
+                solution: `<p>Almost always, for reasons beyond fitting:</p>
+             <ul>
+               <li><strong>Cost</strong> — retrieval sends a few thousand tokens instead of hundreds of thousands, on every request.</li>
+               <li><strong>Latency</strong> — a short prompt returns dramatically faster.</li>
+               <li><strong>Quality</strong> — fewer, more relevant chunks beat a haystack, because of lost-in-the-middle.</li>
+               <li><strong>Scale</strong> — a corpus of ten million documents will never fit in any window, so you need the retrieval architecture regardless.</li>
+               <li><strong>Access control</strong> — retrieval is where you filter by user permissions. Stuffing an entire corpus into context makes per-user authorisation impossible.</li>
+               <li><strong>Freshness</strong> — you re-index changed documents rather than re-sending everything.</li>
+             </ul>
+             <p>The honest counterpoint: for a genuinely small, static, non-sensitive corpus — say a single 50-page product manual — putting it directly in a cached prompt prefix can be simpler, cheaper and more accurate than building a retrieval pipeline. Recognising that case is a sign of judgement rather than dogma.</p>`,
+              },
+              {
+                question:
+                  "What is context poisoning and how do you defend against it?",
+                solution:
+                  "<p>Context poisoning is when incorrect or malicious content enters the conversation history and is then treated as established fact for the remainder of the session, compounding with every subsequent turn. It arises two ways: the model hallucinates something, that hallucination is appended to history, and it reinforces it later; or an attacker plants instructions in a retrieved document or tool result (indirect prompt injection) which then persist in context. Defences include: keeping retrieved content clearly delimited and labelled as untrusted data rather than instructions, validating tool outputs before appending them, not persisting model assertions as facts without verification, giving users the ability to reset or edit the session, and — for agents — bounding how far a corrupted state can propagate before a human checkpoint.</p>",
+              },
+              {
+                question:
+                  "Your chatbot works in testing but fails for power users after long sessions. What do you check?",
+                solution: `<p>Almost certainly context growth. Diagnostic order:</p>
+             <ol>
+               <li>Log input token counts per request and plot them against session length — you will usually see a clean upward line hitting a wall.</li>
+               <li>Check whether failures are hard errors (context length exceeded) or silent truncation producing degraded answers.</li>
+               <li>Check whether output is being starved — input has grown to consume the budget that should have been reserved for the answer.</li>
+               <li>Check for unbounded accumulation of tool results, which are often much larger than chat turns and are easy to forget about.</li>
+             </ol>
+             <p>The fix is a context management strategy: trim or compact history above a threshold, cap tool result size before appending, reserve an explicit output budget, and add an alert on requests approaching the window limit so this surfaces before users report it.</p>`,
+              },
+              {
+                question:
+                  "How does the context window influence your chunking strategy in RAG?",
+                solution:
+                  "<p>It sets the ceiling on how much retrieved content you can pass, which in turn constrains chunk size times the number of chunks (top-k). If your window budget allows 6,000 tokens of retrieved content, that is roughly twelve 500-token chunks or six 1,000-token chunks — and you must decide which trade-off serves your data. Smaller chunks give more precise retrieval and let you fit more distinct sources, but risk cutting answers across boundaries. Larger chunks preserve context but dilute the embedding and waste budget on irrelevant surrounding text. The window also interacts with reranking: retrieve broadly (say top-50), rerank, and pass only the best few — this gives you high recall at retrieval time and high precision at generation time without blowing the budget.</p>",
+              },
+              {
+                question:
+                  "Why does time-to-first-token get worse with long prompts, and what can you do about it?",
+                solution:
+                  "<p>Before the model can emit its first output token it must process the entire prompt (the prefill phase), and attention cost during prefill scales roughly with the square of sequence length. A 100K-token prompt therefore has a materially longer TTFT than a 5K-token one, which users perceive directly as the app 'hanging'. Mitigations: reduce prompt size (better retrieval, reranking, trimming history, minifying structured content); enable prompt caching so a stable prefix does not need reprocessing; stream the response so the user sees progress as soon as the first token arrives; and, at the product level, show an immediate acknowledgement rather than a blank screen. Setting an explicit latency budget across the pipeline — retrieval, rerank, prefill, generation — and measuring p95 rather than average is the professional framing.</p>",
+              },
+            ],
+            links: [
+              "https://arxiv.org/abs/2307.03172",
+              "https://docs.anthropic.com/en/docs/build-with-claude/context-windows",
+              "https://www.anthropic.com/news/prompt-caching",
+              "https://platform.openai.com/docs/guides/prompt-caching",
+            ],
+          },
+          {
+            topic: "Vectors & Dimensions (Prerequisite for Embeddings)",
+            tags: ["prerequisite", "foundation"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Before embeddings and similarity metrics make sense, you need a working intuition for vectors. You do <strong>not</strong> need linear algebra. You need about fifteen minutes of concepts, and then everything downstream — embeddings, vector databases, cosine similarity, HNSW indexes — becomes obvious.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    A Vector Is Just a List of Numbers
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const v = [0.21, -0.87, 0.44];      // a 3-dimensional vector
+
+// An embedding is exactly this, just longer:
+const embedding = [0.013, -0.221, 0.087, ... ];   // 1,536 numbers
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The number of entries is the <strong>dimension</strong>. A 3-dimensional vector is a point in 3D space you can picture. A 1,536-dimensional vector is a point in 1,536-dimensional space, which you cannot picture — but every rule you learn in 2D or 3D still applies mathematically. That is the whole trick: <em>reason in 2D, apply in 1,536D</em>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Core Idea: Position Encodes Meaning
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Imagine describing food with two numbers: sweetness and spiciness.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+                sweetness   spiciness
+  ice cream        0.95        0.02
+  gulab jamun      0.98        0.01
+  chilli paneer    0.10        0.90
+  vindaloo         0.05        0.95
+  plain rice       0.15        0.05
+
+Notice: ice cream and gulab jamun are CLOSE TOGETHER,
+        chilli paneer and vindaloo are CLOSE TOGETHER,
+        the two groups are FAR APART.
+
+Nobody told the space "these are desserts". It fell out of
+the numbers. Similar things ended up near each other.
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    That is the entire concept behind embeddings. An embedding model does this with 1,536 learned dimensions instead of 2 hand-picked ones, and the dimensions do not have clean human names — they are abstract features the model discovered during training. But the property that matters is identical: <strong>things with similar meaning end up close together in the space</strong>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Three Properties of a Vector You Need
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Direction :</span>
+      Which way the arrow points from the origin. In an embedding space, <em>direction is meaning</em>. Two vectors pointing the same way represent similar things, regardless of how long they are.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Magnitude (length) :</span>
+      How long the arrow is, computed as the square root of the sum of the squared components. In text embeddings magnitude often correlates with things you do <em>not</em> care about, like document length — which is exactly why cosine similarity, which ignores magnitude, is the usual choice.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function magnitude(v) {
+  return Math.sqrt(v.reduce((sum, x) => sum + x * x, 0));
+}
+magnitude([3, 4]);   // -> 5   (the classic 3-4-5 triangle)
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Normalization :</span>
+      Dividing every component by the magnitude, producing a vector of length exactly 1 that points in the same direction. This throws away magnitude and keeps only direction. It matters enormously in practice: <em>when vectors are normalized, dot product and cosine similarity are the same operation</em> — and dot product is much cheaper to compute.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function normalize(v) {
+  const m = magnitude(v);
+  return v.map(x => x / m);
+}
+normalize([3, 4]);   // -> [0.6, 0.8]   magnitude is now 1
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why More Dimensions?
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Two dimensions can only capture two aspects of meaning. Language needs far more: formality, sentiment, topic, tense, specificity, domain, and thousands of subtler distinctions. More dimensions give the model more room to place concepts so that unrelated things do not accidentally collide.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    But dimensions are not free:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Storage cost (float32 = 4 bytes per dimension):
+
+  384 dims  x 4 bytes =  1.5 KB per vector
+ 1536 dims  x 4 bytes =  6.0 KB per vector
+ 3072 dims  x 4 bytes = 12.0 KB per vector
+
+For 10 million chunks:
+  384 dims  ->  ~15 GB
+ 1536 dims  ->  ~60 GB
+ 3072 dims  -> ~120 GB
+
+Plus index overhead (HNSW roughly doubles it).
+Search latency and RAM cost scale with dimension too.
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This is a genuine architectural trade-off, and interviewers ask about it: higher dimensions can mean better retrieval quality, but cost more to store, more RAM to serve, and more time per query. Some modern embedding models support <strong>Matryoshka</strong> training, where the vector is structured so you can truncate it to fewer dimensions and retain most of the quality — giving you a dial rather than a fixed choice.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Curse of Dimensionality (be aware of it)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    In very high-dimensional spaces, distances between random points become surprisingly uniform — everything is roughly equally far from everything else. This is why brute-force exact nearest-neighbour search becomes impractical at scale and why approximate nearest neighbour (ANN) indexes like HNSW exist. It is also part of why raw similarity scores are hard to interpret as absolute measures of relevance: a cosine score of 0.75 means nothing on its own, only relative to the other scores in the same result set.
+  </p>
+</div>`,
+            examples: [
+              `// Everything you need, in about 20 lines. Read this once and
+// cosine similarity will never be mysterious again.
+
+function dot(a, b) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
+  return s;
+}
+
+function magnitude(v) {
+  return Math.sqrt(dot(v, v));      // sqrt of the sum of squares
+}
+
+function normalize(v) {
+  const m = magnitude(v);
+  if (m === 0) return v;            // guard against the zero vector
+  return v.map(x => x / m);
+}
+
+function cosineSimilarity(a, b) {
+  return dot(a, b) / (magnitude(a) * magnitude(b));
+}
+
+function euclideanDistance(a, b) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += (a[i] - b[i]) ** 2;
+  return Math.sqrt(s);
+}
+
+// The key identity to remember:
+// if a and b are already normalized, then
+//     cosineSimilarity(a, b) === dot(a, b)
+// because both magnitudes are 1 and dividing by 1 changes nothing.
+// That is why vector databases prefer normalized vectors -
+// dot product is far cheaper than cosine.`,
+              `// The food example, made concrete. Run this mentally and the
+// whole idea of an embedding space clicks.
+
+const foods = {
+  iceCream:     [0.95, 0.02],   // [sweetness, spiciness]
+  gulabJamun:   [0.98, 0.01],
+  chilliPaneer: [0.10, 0.90],
+  vindaloo:     [0.05, 0.95],
+  plainRice:    [0.15, 0.05]
+};
+
+console.log(cosineSimilarity(foods.iceCream, foods.gulabJamun));
+// -> ~0.9999   (almost identical direction: both are desserts)
+
+console.log(cosineSimilarity(foods.iceCream, foods.vindaloo));
+// -> ~0.075    (nearly perpendicular: completely different things)
+
+console.log(cosineSimilarity(foods.chilliPaneer, foods.vindaloo));
+// -> ~0.9997   (both spicy)
+
+// Nobody labelled these as "dessert" or "spicy".
+// The GEOMETRY encodes the meaning. Scale this from 2 dimensions
+// to 1,536 learned dimensions and you have a real embedding model.`,
+              `// Why magnitude is usually noise in text embeddings.
+
+// Imagine two documents about the same topic:
+const shortDoc = [0.2, 0.4, 0.1];        // one sentence
+const longDoc  = [2.0, 4.0, 1.0];        // ten paragraphs, same topic
+
+// Same DIRECTION, very different MAGNITUDE.
+
+console.log(cosineSimilarity(shortDoc, longDoc));  // -> 1.0  (identical)
+console.log(dot(shortDoc, longDoc));               // -> 1.3  (inflated)
+console.log(euclideanDistance(shortDoc, longDoc)); // -> 4.0  (looks far!)
+
+// Interpretation:
+//   cosine     says "same topic"        <- what you usually want
+//   dot        rewards the longer doc   <- length bias
+//   euclidean  says they are far apart  <- misleading here
+//
+// This is exactly why cosine similarity is the default for
+// text retrieval: it measures topical direction and ignores
+// length, which in text is usually an artefact, not a signal.`,
+            ],
+            questions: [
+              {
+                question:
+                  "In plain English, what is a vector and what is a dimension?",
+                solution:
+                  "<p>A vector is simply an ordered list of numbers. The dimension is how many numbers are in that list. A 3-dimensional vector like [0.2, -0.8, 0.4] can be pictured as a point in 3D space; a 1,536-dimensional vector is a point in a space you cannot visualise, but every mathematical rule that holds in 3D still holds there. The useful mental model is: reason about it in two dimensions, then trust that the same maths applies in fifteen hundred.</p>",
+              },
+              {
+                question:
+                  "How does a list of numbers manage to represent meaning?",
+                solution:
+                  "<p>By position. If you describe foods with two numbers — sweetness and spiciness — then ice cream and gulab jamun land close to each other, chilli paneer and vindaloo land close to each other, and the two groups are far apart. Nobody labelled them 'dessert' or 'spicy'; the grouping emerged from the numbers. An embedding model does exactly this with roughly 1,536 learned dimensions instead of two hand-picked ones. The dimensions have no clean human names — they are abstract features discovered during training — but the property that matters is the same: semantically similar things end up geometrically close.</p>",
+              },
+              {
+                question:
+                  "What is the magnitude of a vector, and why do we often want to ignore it in text retrieval?",
+                solution:
+                  "<p>Magnitude is the length of the vector, computed as the square root of the sum of its squared components. In text embeddings, magnitude often correlates with things you do not care about — most commonly document length or how emphatically something is phrased — rather than with topic. Two documents on the same subject, one a sentence and one ten paragraphs, may point in nearly the same direction but have very different magnitudes. Since you want to match on topic, not length, you use a metric that ignores magnitude. That metric is cosine similarity.</p>",
+              },
+              {
+                question:
+                  "What does it mean to normalize a vector, and why does it matter in practice?",
+                solution: `<p>Normalizing means dividing every component by the vector's magnitude, producing a vector of length exactly 1 that points in the same direction. You are discarding magnitude and keeping only direction.</p>
+             <pre><code className="language-javascript">
+normalize([3, 4]);   // -> [0.6, 0.8], magnitude now 1
+             </code></pre>
+             <p>It matters for a very practical reason: <strong>when both vectors are normalized, cosine similarity and dot product produce identical results</strong>, because dividing by 1 changes nothing. Dot product is significantly cheaper to compute than cosine, so vector databases normalise vectors at index time and then use dot product internally. This is why some embedding providers, including OpenAI, return pre-normalized vectors — it lets downstream systems use the fast path safely.</p>`,
+              },
+              {
+                question:
+                  "Why do embedding models use hundreds or thousands of dimensions instead of just a few?",
+                solution:
+                  "<p>Because language has far more than a few meaningful axes. Two dimensions can capture two aspects of meaning; real text varies along formality, sentiment, topic, tense, specificity, domain, entity type, and thousands of subtler distinctions simultaneously. More dimensions give the model room to place concepts so that unrelated things do not accidentally collide in the same region. The counterweight is that dimensions cost storage, RAM and query time — so the right number is a trade-off between retrieval quality and infrastructure cost, not simply 'more is better'.</p>",
+              },
+              {
+                question:
+                  "Estimate the storage needed for 10 million chunks embedded at 1,536 dimensions.",
+                solution: `<p>Each dimension is typically a 32-bit float, so 4 bytes.</p>
+             <pre><code className="language-text">
+1,536 dims x 4 bytes            =  6,144 bytes  ~= 6 KB per vector
+6 KB x 10,000,000 vectors       ~= 60 GB of raw vectors
+             </code></pre>
+             <p>Then add index overhead — an HNSW index roughly doubles the footprint because it stores graph connections alongside the vectors — plus the original text and metadata you need for the chunks themselves. So a realistic planning figure is well over 120 GB. This calculation is worth being able to do out loud, because it is the number that drives the decision between pgvector, a managed vector database, and quantisation. Reducing to 384 dimensions would cut raw vectors to roughly 15 GB, and int8 quantisation cuts it by a further factor of four.</p>`,
+              },
+              {
+                question:
+                  "What is the curse of dimensionality and why should you care?",
+                solution:
+                  "<p>In very high-dimensional spaces, the distances between random points become surprisingly uniform — everything ends up roughly equally far from everything else, so the contrast between 'near' and 'far' compresses. Two consequences matter in practice. First, exact brute-force nearest-neighbour search becomes impractical at scale, which is why approximate nearest neighbour indexes like HNSW and IVF exist and why 'approximate' is an acceptable trade-off. Second, raw similarity scores become hard to interpret as absolute measures of relevance: a cosine score of 0.75 tells you almost nothing in isolation and only means something relative to the other scores in the same result set. That is why fixed similarity thresholds are fragile and why reranking exists.</p>",
+              },
+              {
+                question:
+                  "What are Matryoshka embeddings and what problem do they solve?",
+                solution:
+                  "<p>Matryoshka Representation Learning trains an embedding model so that the most important information is concentrated in the earliest dimensions. That means you can truncate a 3,072-dimensional vector to, say, 512 dimensions and retain most of the retrieval quality — rather than being forced to choose a fixed dimension up front and re-embed everything if you change your mind. It solves a real architectural problem: dimension is normally a one-way decision baked into your entire index, and Matryoshka turns it into a tunable dial. In practice this lets you run a cheap low-dimension first-pass retrieval over a large corpus and then rescore the top candidates at full dimension.</p>",
+              },
+              {
+                question:
+                  "If two vectors point in the same direction but one is ten times longer, are they similar?",
+                solution:
+                  "<p>It depends entirely on which metric you use, and this is the cleanest way to understand why the choice of metric matters. Cosine similarity would report them as essentially identical, because it measures only the angle between them. Dot product would report a much larger value for the longer vector, because magnitude inflates the score. Euclidean distance would report them as far apart, because they occupy very different positions in space. For text retrieval, where magnitude usually reflects document length rather than topic, cosine gives the answer you actually want — the documents are about the same thing.</p>",
+              },
+              {
+                question:
+                  "Do you need to understand linear algebra to work with embeddings professionally?",
+                solution:
+                  "<p>No, and it is worth saying so plainly in an interview rather than pretending otherwise. What you need is a working intuition for four things: a vector is a list of numbers; direction encodes meaning; magnitude usually encodes noise in text; and normalizing removes magnitude so that dot product and cosine become the same operation. From those four facts, every practical decision follows — which metric to configure in your vector database, why chunk length affects results, why you cannot mix embedding models, and why a similarity score of 0.8 is not a probability. The deeper mathematics matters if you are training embedding models, which is a different job.</p>",
+              },
+            ],
+            links: [
+              "https://www.3blue1brown.com/topics/linear-algebra",
+              "https://developers.google.com/machine-learning/crash-course/embeddings/embedding-space",
+              "https://arxiv.org/abs/2205.13147",
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advance",
+        concepts: [
+          {
+            topic: "Attention & Transformers",
+            tags: ["high-frequency", "must-know", "architecture"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The <strong>transformer</strong> is the architecture behind every modern LLM, and <strong>attention</strong> is its central mechanism. You will not be asked to derive gradients — but you will be asked to explain attention in simple terms, say why transformers replaced what came before, and connect the architecture to the practical constraints you deal with daily: why long context is expensive, why the KV cache exists, and why models have a maximum sequence length at all.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Problem Transformers Solved
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Before 2017, sequence models were recurrent (RNNs and LSTMs). They processed text one token at a time, carrying a hidden state forward. Two fatal limitations:
+  </p>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No parallelism during training :</span>
+      Token 500 could not be processed until tokens 1-499 had been. Training time scaled with sequence length, which capped how much data you could train on — and scale turned out to be the thing that mattered most.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Long-range dependencies degraded :</span>
+      Information had to survive being squeezed through a fixed-size hidden state at every step. By token 500, the influence of token 1 had largely washed out. In "The <em>cat</em> that the dog chased across the yard <em>was</em> hungry", linking "cat" to "was" is hard for an RNN.
+    </li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Vaswani et al.'s 2017 paper <em>"Attention Is All You Need"</em> removed recurrence entirely. Every token can look directly at every other token, in one step, in parallel. That unlocked training at a scale that made modern LLMs possible.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Self-Attention — The Intuition
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Attention answers one question for every token: <strong>"which other tokens should I pay attention to in order to understand myself in this context?"</strong>
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+    "The animal didn't cross the street because it was too tired"
+
+When the model processes "it", attention lets it look back and
+weight every other token:
+
+    The       0.01
+    animal    0.61   <- strong: "it" refers to the animal
+    didn't    0.02
+    cross     0.03
+    the       0.01
+    street    0.08
+    because   0.02
+    it        0.10
+    was       0.04
+    too       0.03
+    tired     0.05
+
+Change the sentence to "...because it was too WIDE" and attention
+shifts to "street" instead. The mechanism resolves the reference
+from context. Nobody programmed that rule - it was learned.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Query, Key, Value — The Soft Dictionary Lookup
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Each token's vector is projected into three different vectors using learned weight matrices. The database analogy is the clearest way to hold this:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+QUERY (Q)   "What am I looking for?"
+            The current token's search request.
+
+KEY (K)     "What do I advertise about myself?"
+            A label each token offers, to be matched against queries.
+
+VALUE (V)   "What information do I actually contribute?"
+            The content passed along if this token is attended to.
+
+Think of a dictionary lookup - except instead of matching ONE key
+exactly, you match ALL keys partially and return a WEIGHTED BLEND
+of all the values. That is why it is called SOFT attention.
+
+THE FORMULA (be able to write this):
+
+                        Q K^T
+    Attention(Q,K,V) = softmax( ------- ) V
+                        sqrt(d_k)
+
+  1. Q K^T        every query dot every key -> raw similarity scores
+  2. / sqrt(d_k)  scale down (see below - this is asked about)
+  3. softmax      scores -> weights that sum to 1
+  4. x V          weighted sum of the value vectors
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Why divide by the square root of d_k?</strong> Dot products of high-dimensional vectors grow large in magnitude as dimension increases. Feed large values into softmax and it saturates — one weight goes to nearly 1 and the rest to nearly 0, which kills the gradient and makes training unstable. Dividing by the square root of the key dimension keeps the values in a range where softmax stays well-behaved. This is a favourite follow-up question because it separates people who have read the paper from people who have read a blog summary.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Multi-Head Attention — Several Relationships At Once
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    A single attention operation produces one weighting pattern. But a token relates to others in many different ways simultaneously — grammatical subject, coreference, topical association, positional proximity. Multi-head attention runs several attention operations in parallel, each with its own learned Q/K/V projections into a lower-dimensional subspace, then concatenates and projects the results.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Interpretability work has found heads that specialise, for example:
+
+  Head 1  -> syntactic dependencies (verb to its subject)
+  Head 2  -> coreference ("it" to the noun it refers to)
+  Head 3  -> the immediately preceding token
+  Head 4  -> matching brackets and quotes
+
+Total dimension is SPLIT across heads, not multiplied:
+  d_model 512 with 8 heads  ->  each head works in 64 dimensions.
+So multi-head costs roughly the same as single-head, but learns
+several relationship types instead of averaging them into one.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Positional Encoding — Attention Has No Sense of Order
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Attention is a weighted sum, and sums are order-independent. Without extra information, "dog bites man" and "man bites dog" would be identical to the model. Position must therefore be injected explicitly.
+  </p>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Sinusoidal</strong> (original paper) — fixed sine and cosine waves of different frequencies added to the input embeddings. Requires no training and extrapolates somewhat beyond seen lengths.</li>
+    <li style="margin-top: 0.5rem;"><strong>Learned absolute</strong> (early GPT, BERT) — a trainable vector per position. Simple, but strictly capped at the maximum length seen in training.</li>
+    <li style="margin-top: 0.5rem;"><strong>RoPE — Rotary Position Embedding</strong> (Llama, most modern models) — rotates the Q and K vectors by an angle proportional to position, so the attention score naturally depends on <em>relative</em> distance. This is the dominant approach today, and it is what makes context-length extension techniques possible: you can rescale the rotation frequencies to stretch a model trained at 8K toward much longer contexts.</li>
+    <li style="margin-top: 0.5rem;"><strong>ALiBi</strong> — adds a distance-proportional penalty directly to attention scores. Extrapolates well to longer sequences than trained on.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Transformer Block
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+    input
+      |
+      +--------------------+
+      |                    |
+   LayerNorm               |     (pre-norm: modern standard,
+      |                    |      more stable to train than the
+  Multi-Head Attention     |      original post-norm design)
+      |                    |
+      +--------> (+) <-----+      RESIDUAL CONNECTION
+                  |
+      +-----------+--------+
+      |                    |
+   LayerNorm               |
+      |                    |
+  Feed-Forward Network     |     (expand ~4x, non-linearity,
+      |                    |      project back down)
+      +--------> (+) <-----+      RESIDUAL CONNECTION
+                  |
+               output
+
+Stack this block N times. GPT-3 used 96. Roughly:
+  ATTENTION  = tokens exchange information ("routing")
+  FFN        = each token processes what it received ("thinking").
+               Most of the model's PARAMETERS live here, and it is
+               where much factual knowledge is believed to reside.
+
+RESIDUAL CONNECTIONS are essential: they give gradients a direct
+path back through the network, which is what makes stacking
+dozens of layers trainable at all.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Three Architectures From One Building Block
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+ENCODER-ONLY  (BERT, and most EMBEDDING models)
+  Bidirectional attention - every token sees every other token,
+  both before and after it.
+  Good at: understanding, classification, embeddings, retrieval.
+  Cannot generate text autoregressively.
+
+DECODER-ONLY  (GPT, Claude, Llama - i.e. every chat LLM)
+  CAUSAL / MASKED attention - a token may only attend to itself
+  and to tokens BEFORE it. Future positions are masked to -infinity
+  before the softmax, so their weights become zero.
+  WHY: during training the model predicts the next token, so seeing
+  the future would be cheating - it could trivially copy the answer.
+  Good at: generation. This is the dominant architecture today.
+
+ENCODER-DECODER  (T5, BART, original translation transformer)
+  Encoder reads the input bidirectionally; decoder generates while
+  attending both to its own output (self-attention) and to the
+  encoder output (CROSS-ATTENTION).
+  Good at: translation, structured sequence-to-sequence tasks.
+
+INTERVIEW CONNECTION: this is exactly why RAG uses an ENCODER model
+for embeddings and a DECODER model for generation - and why a
+cross-encoder RERANKER (which reads query and document TOGETHER)
+is more accurate but cannot be pre-indexed.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The O(n squared) Problem — Where Your Costs Come From
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Every token attends to every token, so the attention matrix is
+n x n for a sequence of length n:
+
+     1,000 tokens  ->       1,000,000 attention scores
+    10,000 tokens  ->     100,000,000        (100x for 10x length)
+   100,000 tokens  ->  10,000,000,000        (again 100x)
+
+THIS IS THE SINGLE ARCHITECTURAL FACT BEHIND:
+  - why a context window has a limit at all
+  - why long prompts have slow time-to-first-token
+  - why long-context pricing is what it is
+  - why an enormous amount of research targets this one term
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Efficiency Variants Worth Naming
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>FlashAttention</strong> — reorders the computation to avoid writing the full n x n matrix to slow GPU memory, processing it in tiles inside fast on-chip memory instead. Crucially it is <em>exact, not approximate</em> — identical output, dramatically less memory traffic. Getting this distinction right is a strong signal in an interview.</li>
+    <li style="margin-top: 0.5rem;"><strong>MQA / GQA (Multi-Query / Grouped-Query Attention)</strong> — share key and value projections across attention heads instead of giving each head its own. This shrinks the KV cache by a large factor with minimal quality loss, and it is the main reason long-context serving is economically viable at all.</li>
+    <li style="margin-top: 0.5rem;"><strong>Sliding-window / local attention</strong> — each token attends only to a fixed window of recent tokens, making cost linear rather than quadratic. Often interleaved with occasional full-attention layers so global information can still propagate.</li>
+    <li style="margin-top: 0.5rem;"><strong>Mixture of Experts (MoE)</strong> — the feed-forward network is split into many "expert" sub-networks and a router activates only a couple per token. Total parameter count grows enormously while compute per token stays modest. This is how several frontier models get large capacity at manageable inference cost — and it is why "parameter count" is increasingly ambiguous, since total and <em>active</em> parameters differ.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Self-attention, written out. Reading this once makes the formula
+// permanently concrete - it is about 30 lines of ordinary code.
+
+function softmax(arr) {
+  const max = Math.max(...arr);
+  const exps = arr.map(x => Math.exp(x - max));
+  const sum = exps.reduce((a, b) => a + b, 0);
+  return exps.map(e => e / sum);
+}
+
+function dot(a, b) {
+  return a.reduce((s, x, i) => s + x * b[i], 0);
+}
+
+// Q, K, V are arrays of vectors - one per token.
+function selfAttention(Q, K, V, { causal = false } = {}) {
+  const dk = K[0].length;
+  const scale = Math.sqrt(dk);
+  const output = [];
+
+  for (let i = 0; i < Q.length; i++) {
+    // 1. Score this query against EVERY key.
+    let scores = K.map(k => dot(Q[i], k) / scale);   // <- the sqrt(d_k)
+
+    // 2. Causal mask: a token may not see the future.
+    if (causal) {
+      scores = scores.map((s, j) => (j > i ? -Infinity : s));
+      // -Infinity becomes exactly 0 after softmax.
+    }
+
+    // 3. Scores -> weights summing to 1.
+    const weights = softmax(scores);
+
+    // 4. Weighted sum of the VALUE vectors.
+    const out = new Array(V[0].length).fill(0);
+    weights.forEach((w, j) => {
+      V[j].forEach((v, d) => { out[d] += w * v; });
+    });
+    output.push(out);
+  }
+  return output;
+}
+
+// That is the entire mechanism. Everything else in a transformer -
+// multi-head, residuals, layer norm, the FFN - is scaffolding
+// around these four steps.`,
+              `// Why the causal mask exists, made visible.
+
+function attentionPattern(n, causal) {
+  const rows = [];
+  for (let i = 0; i < n; i++) {
+    let row = "";
+    for (let j = 0; j < n; j++) {
+      row += (causal && j > i) ? " . " : " X ";
+    }
+    rows.push(row);
+  }
+  return rows.join("\\n");
+}
+
+console.log("BIDIRECTIONAL (BERT / embedding models):");
+console.log(attentionPattern(5, false));
+//  X  X  X  X  X
+//  X  X  X  X  X      every token sees every token
+//  X  X  X  X  X
+//  X  X  X  X  X
+//  X  X  X  X  X
+
+console.log("CAUSAL (GPT / Claude / every chat LLM):");
+console.log(attentionPattern(5, true));
+//  X  .  .  .  .
+//  X  X  .  .  .      token i sees only tokens <= i
+//  X  X  X  .  .
+//  X  X  X  X  .
+//  X  X  X  X  X
+
+// WHY: training predicts the next token. If token 3 could see
+// token 4, predicting token 4 would be trivial copying and the
+// model would learn nothing.
+//
+// CONSEQUENCE FOR YOU: this is precisely why decoder models make
+// weaker embeddings than encoder models - the first token of a
+// document never gets to see the rest of it, so a decoder's
+// representation of early tokens is context-blind.`,
+              `// The n^2 cost, with the numbers that explain your bill.
+
+function attentionCost(seqLen, layers = 80, heads = 64) {
+  const scoresPerLayer = seqLen * seqLen * heads;
+  return {
+    seqLen,
+    scoresPerForwardPass: scoresPerLayer * layers,
+    relativeTo1k: (seqLen / 1000) ** 2
+  };
+}
+
+[1000, 10000, 100000, 200000].forEach(n =>
+  console.log(attentionCost(n))
+);
+
+// seqLen   1,000  ->  relative cost      1x
+// seqLen  10,000  ->  relative cost    100x
+// seqLen 100,000  ->  relative cost 10,000x
+// seqLen 200,000  ->  relative cost 40,000x
+
+// READ THAT AGAIN: 200x the tokens is 40,000x the attention work.
+//
+// In practice it is not quite this brutal - FlashAttention removes
+// the memory bottleneck, and at long lengths other costs start to
+// matter more - but the SHAPE of the curve is why:
+//   - prompts should be short (retrieve, rerank, trim)
+//   - prompt caching is such a large win
+//   - "just use the 1M window" is an expensive instinct`,
+              `// Why GQA matters: it is a KV cache optimisation, not a quality one.
+
+function kvCacheGB({ layers, kvHeads, headDim, seqLen, bytes = 2 }) {
+  return (2 * layers * kvHeads * headDim * seqLen * bytes) / 1e9;
+}
+
+const cfg = { layers: 80, headDim: 128, seqLen: 128_000 };
+
+// Classic Multi-Head Attention: every head has its own K and V.
+console.log(kvCacheGB({ ...cfg, kvHeads: 64 }).toFixed(1) + " GB");
+// -> ~167.8 GB per request. Does not fit on a single GPU.
+
+// Grouped-Query Attention: 64 query heads SHARE 8 key/value heads.
+console.log(kvCacheGB({ ...cfg, kvHeads: 8 }).toFixed(1) + " GB");
+// -> ~21.0 GB per request. Workable.
+
+// Multi-Query Attention: all query heads share ONE key/value head.
+console.log(kvCacheGB({ ...cfg, kvHeads: 1 }).toFixed(1) + " GB");
+// -> ~2.6 GB per request. Cheapest, slight quality cost.
+
+// THE ARCHITECTURAL POINT: GQA changes almost nothing about model
+// quality but changes everything about SERVING ECONOMICS. Long
+// context at reasonable cost is a KV cache story, not an
+// attention-compute story - and that is a genuinely differentiating
+// thing to say in an interview.`,
+            ],
+            questions: [
+              {
+                question:
+                  "Explain attention in simple terms and why transformers replaced RNNs.",
+                solution:
+                  "<p>Attention lets every token look directly at every other token and decide how much each one matters for understanding itself. Processing 'it' in 'the animal didn't cross the street because it was too tired', attention puts most of its weight on 'animal'; change 'tired' to 'wide' and the weight shifts to 'street'. Transformers replaced RNNs for two reasons. First, <strong>parallelism</strong>: RNNs process one token at a time, so token 500 waits for tokens 1–499, which caps training throughput — and scale turned out to be what mattered most. Attention computes all positions simultaneously. Second, <strong>long-range dependencies</strong>: an RNN squeezes all history through a fixed-size hidden state, so early information degrades by the time you reach token 500. Attention gives every token a direct path to every other token regardless of distance.</p>",
+              },
+              {
+                question:
+                  "What are Query, Key and Value, and how do they work together?",
+                solution: `<p>Each token's vector is projected through three learned weight matrices to produce three different vectors:</p>
+             <ul>
+               <li><strong>Query</strong> — 'what am I looking for?' The current token's search request.</li>
+               <li><strong>Key</strong> — 'what do I advertise about myself?' A label each token offers to be matched against queries.</li>
+               <li><strong>Value</strong> — 'what information do I actually contribute?' The content passed along when this token is attended to.</li>
+             </ul>
+             <p>The analogy is a dictionary lookup, except instead of matching one key exactly you match <em>all</em> keys partially and return a weighted blend of all the values — which is why it is called soft attention. Mechanically: dot every query with every key to get similarity scores, scale them, softmax to get weights summing to 1, then take the weighted sum of the value vectors.</p>`,
+              },
+              {
+                question:
+                  "Write the scaled dot-product attention formula and explain why we divide by the square root of d_k.",
+                solution: `<pre><code className="language-text">
+Attention(Q, K, V) = softmax( (Q K^T) / sqrt(d_k) ) V
+             </code></pre>
+             <p>The scaling exists because dot products of high-dimensional vectors grow large in magnitude as dimension increases — roughly proportionally to the square root of the dimension for randomly-initialised vectors. Feeding large values into softmax pushes it into saturation: one weight approaches 1 and the rest approach 0, which makes the gradient vanish and training unstable. Dividing by the square root of the key dimension counteracts that growth and keeps the scores in a range where softmax produces useful, well-spread weights with healthy gradients. It is a small detail but a favourite follow-up, because it distinguishes people who understood the paper from people who read a summary.</p>`,
+              },
+              {
+                question:
+                  "Why multi-head attention rather than one large attention operation?",
+                solution:
+                  "<p>Because a single attention operation produces one weighting pattern, forcing the model to average together relationships that are genuinely different. A token relates to others in several ways at once — grammatical subject, coreference, topical association, positional adjacency — and one pattern cannot represent all of them simultaneously. Multi-head attention runs several attention operations in parallel, each with its own learned projections into a lower-dimensional subspace, then concatenates and projects the results. Interpretability research has found heads that specialise in exactly this way: syntactic dependencies, coreference resolution, matching brackets. The important detail is that the model dimension is <em>split</em> across heads rather than multiplied, so the cost is roughly the same as single-head attention while the representational richness is much greater.</p>",
+              },
+              {
+                question:
+                  "Why does a transformer need positional encoding at all?",
+                solution: `<p>Because attention is a weighted sum, and sums are order-independent. Without positional information, 'dog bites man' and 'man bites dog' would produce identical representations — the model would be a bag of words. Position must therefore be injected explicitly. The main approaches:</p>
+             <ul>
+               <li><strong>Sinusoidal</strong> (original paper) — fixed sine/cosine waves added to input embeddings; no training required.</li>
+               <li><strong>Learned absolute</strong> — a trainable vector per position; simple but hard-capped at the training length.</li>
+               <li><strong>RoPE</strong> — rotates Q and K vectors by an angle proportional to position, so attention scores depend on <em>relative</em> distance. Dominant today, and it is what makes context-extension techniques work: rescaling the rotation frequencies stretches a model trained at 8K toward much longer contexts.</li>
+               <li><strong>ALiBi</strong> — adds a distance-proportional penalty to attention scores; extrapolates well beyond trained lengths.</li>
+             </ul>`,
+              },
+              {
+                question:
+                  "Walk me through a single transformer block.",
+                solution: `<p>Two sub-layers, each wrapped in a residual connection and a normalisation step:</p>
+             <ol>
+               <li><strong>Layer normalisation</strong>, then <strong>multi-head attention</strong>, then add the input back via a residual connection. This is where tokens exchange information — think of it as routing.</li>
+               <li><strong>Layer normalisation</strong>, then a <strong>feed-forward network</strong> (expand roughly fourfold, apply a non-linearity, project back down), then another residual connection. Each token independently processes what it received — think of it as thinking.</li>
+             </ol>
+             <p>Stack this block N times; GPT-3 used 96. Two details worth adding: most of the model's <em>parameters</em> live in the feed-forward networks rather than in attention, and that is where much factual knowledge is believed to reside. And modern models place the layer norm <em>before</em> each sub-layer (pre-norm) rather than after, as the original paper did, because pre-norm is substantially more stable to train at depth. The residual connections are what make stacking dozens of layers trainable at all, by giving gradients a direct path backwards.</p>`,
+              },
+              {
+                question:
+                  "What is the difference between encoder-only, decoder-only and encoder-decoder models?",
+                solution: `<p>Three arrangements of the same building block:</p>
+             <ul>
+               <li><strong>Encoder-only</strong> (BERT, most embedding models) — bidirectional attention, so every token sees every other token in both directions. Excellent for understanding, classification and embeddings; cannot generate autoregressively.</li>
+               <li><strong>Decoder-only</strong> (GPT, Claude, Llama — every chat LLM) — causal attention, where a token may attend only to itself and to earlier tokens. Built for generation, and the dominant architecture today.</li>
+               <li><strong>Encoder-decoder</strong> (T5, BART, the original translation transformer) — an encoder reads the input bidirectionally, and a decoder generates while attending both to its own output and, via cross-attention, to the encoder's output. Suited to translation and structured sequence-to-sequence tasks.</li>
+             </ul>
+             <p>The connection worth drawing is that this explains your RAG stack: an encoder model produces the embeddings, a decoder model generates the answer, and a cross-encoder reranker — which reads query and document together — is more accurate precisely because it is not restricted to encoding them independently.</p>`,
+              },
+              {
+                question:
+                  "What is causal masking and why is it necessary?",
+                solution:
+                  "<p>Causal masking prevents a token from attending to positions after it. Implementation is simple: before the softmax, set the scores for all future positions to negative infinity, so after softmax their weights are exactly zero. It is necessary because decoder models are trained to predict the next token — if token 3 could see token 4, predicting token 4 would be trivial copying and the model would learn nothing about language. The practical consequence worth knowing is that causal masking is why decoder models make weaker embeddings than encoder models: the first token of a document never gets to see the rest of it, so early-position representations are context-blind. That is why retrieval pipelines use encoder-based embedding models rather than simply reusing the chat model.</p>",
+              },
+              {
+                question:
+                  "Why is attention O(n²), and what does that mean for your architecture?",
+                solution: `<p>Because every token computes a score against every other token, producing an n × n attention matrix per head per layer. The consequence is that cost grows with the square of sequence length:</p>
+             <pre><code className="language-text">
+  1,000 tokens ->        1,000,000 scores      1x
+ 10,000 tokens ->      100,000,000 scores    100x
+100,000 tokens ->   10,000,000,000 scores 10,000x
+             </code></pre>
+             <p>This single fact underlies most of the practical constraints you deal with: why context windows have limits at all, why long prompts have slow time-to-first-token, why long-context pricing looks the way it does, and why an enormous amount of research targets this one term. Architecturally, it is the reason retrieval beats stuffing, why reranking to pass three chunks instead of fifteen is a genuine performance decision rather than tidiness, and why prompt caching is such a large win — it lets you skip prefill work you already paid for.</p>`,
+              },
+              {
+                question:
+                  "What is FlashAttention, and is it an approximation?",
+                solution:
+                  "<p>FlashAttention is an IO-aware reformulation of attention. Standard implementations materialise the full n × n attention matrix in GPU high-bandwidth memory, and moving that matrix in and out of memory — not the arithmetic — is the actual bottleneck. FlashAttention tiles the computation so it happens inside fast on-chip SRAM, using an online softmax so results can be accumulated without ever writing the full matrix out. Crucially, <strong>it is exact, not approximate</strong> — the output is mathematically identical to standard attention, just computed with far less memory traffic. Candidates frequently misclassify it as an approximation alongside sparse or linear attention, so getting the distinction right is a strong signal. Its practical effect is faster training and inference and the ability to handle much longer sequences within the same memory.</p>",
+              },
+              {
+                question:
+                  "What are MQA and GQA, and why do they matter for production?",
+                solution: `<p>In standard multi-head attention every head has its own key and value projections, so the KV cache stores K and V for every head. <strong>Multi-Query Attention</strong> shares a single key/value head across all query heads; <strong>Grouped-Query Attention</strong> is the middle ground, sharing each key/value head across a group of query heads. They matter because the KV cache — not attention compute — is what typically limits concurrency in production serving. Concretely, for a large model at 128K context:</p>
+             <pre><code className="language-text">
+64 KV heads (standard MHA)  ->  ~168 GB per request
+ 8 KV heads (GQA)           ->   ~21 GB per request
+ 1 KV head  (MQA)           ->    ~3 GB per request
+             </code></pre>
+             <p>The point to land: GQA changes very little about model quality and everything about serving economics. Long context at a reasonable price is a KV cache story, not an attention-compute story.</p>`,
+              },
+              {
+                question:
+                  "What is a Mixture of Experts model, and how does it change how you think about parameter count?",
+                solution:
+                  "<p>In an MoE model the feed-forward network of each block is replaced by many parallel 'expert' sub-networks plus a small router that selects a couple of them per token. Only the selected experts run, so total parameter count can be very large while compute per token stays modest — you get the capacity benefits of a huge model at roughly the inference cost of a much smaller one. It changes how you read parameter counts: 'total' and 'active' parameters now differ substantially, so a headline figure no longer maps cleanly to inference cost or VRAM. The practical trade-offs are that all experts must be resident in memory even though only a few run, which keeps memory requirements high, and that routing introduces load-balancing complexity during both training and serving.</p>",
+              },
+              {
+                question:
+                  "Where in a transformer is factual knowledge stored?",
+                solution:
+                  "<p>The honest answer is that it is distributed and not fully understood, but the evidence points primarily at the <strong>feed-forward networks</strong> rather than attention. The FFNs hold the large majority of a model's parameters, and interpretability research — notably work on model editing such as ROME and MEMIT — has been able to locate and modify specific factual associations by targeting particular FFN layers, which suggests they function something like key-value memories. Attention, by contrast, appears to handle routing and composition: deciding which context is relevant and moving information between positions. The practical relevance is that this is part of why fine-tuning is a poor mechanism for injecting facts — knowledge is diffusely encoded and entangled with everything else, so adding facts risks disturbing unrelated behaviour, which is exactly what catastrophic forgetting looks like.</p>",
+              },
+              {
+                question:
+                  "How do sliding-window and sparse attention reduce cost, and what do they give up?",
+                solution:
+                  "<p>Both restrict which token pairs are allowed to attend. Sliding-window attention limits each token to a fixed window of nearby tokens, making cost linear in sequence length rather than quadratic; sparse attention uses a fixed or learned pattern of allowed connections, often combining local windows with a few global tokens. What they give up is direct long-range interaction: a token can no longer look arbitrarily far back in a single layer. In practice this is mitigated by depth — information propagates further with each layer — and by interleaving occasional full-attention layers so global context can still circulate. The trade-off worth naming is that these methods genuinely change model behaviour, unlike FlashAttention which is exact, so retrieval-style tasks that depend on precise long-range lookup are the ones most likely to suffer.</p>",
+              },
+              {
+                question:
+                  "Why can't you simply extend a model's context window after training?",
+                solution:
+                  "<p>Because the model has only ever seen positional information within its trained range, and its behaviour degrades — often sharply — outside it. With learned absolute positional embeddings there is literally no vector for position 20,000 if training stopped at 8,192. With RoPE the model will produce output, but the rotation angles at unseen distances are out of distribution and quality collapses. This is why context extension is an active technique rather than a configuration change: approaches such as position interpolation and frequency rescaling adjust RoPE so trained positions stretch over a longer range, and are typically followed by continued fine-tuning on long sequences. It is also why 'advertised context' and 'effective context' diverge — a model extended to a large window may accept the input while performing well below its short-context quality, which is exactly what needle-in-a-haystack testing is designed to expose.</p>",
+              },
+              {
+                question:
+                  "As a solutions architect, why should you care about attention internals at all?",
+                solution: `<p>Because several decisions you make daily are downstream of them, and being able to trace the connection is what separates an architect from someone repeating best practices:</p>
+             <ul>
+               <li><strong>O(n²) attention</strong> is why prompt size is a first-class performance concern, and why reranking to pass three chunks instead of fifteen is a latency decision rather than a tidiness one.</li>
+               <li><strong>The KV cache</strong> is why long context limits concurrency and why prompt caching produces such a large win.</li>
+               <li><strong>GQA</strong> is why long-context models are affordable at all, and a useful thing to check on a model card when self-hosting.</li>
+               <li><strong>Causal masking</strong> is why you use an encoder model for embeddings and a cross-encoder for reranking rather than reusing your chat model for everything.</li>
+               <li><strong>RoPE and context extension</strong> are why advertised context should be validated rather than trusted.</li>
+             </ul>
+             <p>You do not need to implement attention. You need to be able to explain why a design costs what it costs — and that explanation always terminates in one of these facts.</p>`,
+              },
+            ],
+            links: [
+              "https://arxiv.org/abs/1706.03762",
+              "https://jalammar.github.io/illustrated-transformer/",
+              "https://arxiv.org/abs/2205.14135",
+              "https://arxiv.org/abs/2305.13245",
+              "https://arxiv.org/abs/2104.09864",
+            ],
+          },
+          {
+            topic: "Embeddings",
+            tags: ["high-frequency", "must-know", "rag"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    An <strong>embedding</strong> is a fixed-length list of numbers that represents the <em>meaning</em> of a piece of content — a word, a sentence, a document, an image — in a way a computer can compare mathematically. Text with similar meaning produces vectors that sit close together in the space; unrelated text produces vectors that sit far apart.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This is what makes <strong>semantic search</strong> possible. Keyword search finds documents containing the word "car". Embedding search finds documents about "automobile", "vehicle", "sedan" and "my Honda" — because they all land in the same neighbourhood of the vector space, even though they share no keywords. Embeddings are the engine of every RAG system, and this topic appears in essentially every AI interview.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+"How do I reset my password?"
+  -> [0.021, -0.114,  0.087, ... ]     // 1,536 numbers
+
+"I forgot my login credentials"
+  -> [0.019, -0.108,  0.091, ... ]     // very close - high similarity
+
+"What is the refund policy?"
+  -> [-0.203, 0.442, -0.017, ... ]     // far away - low similarity
+
+No shared keywords between the first two. The GEOMETRY captures
+that they mean the same thing.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How Embedding Models Are Trained (enough to explain it)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Embedding models are trained with <strong>contrastive learning</strong>. The model is shown pairs of text and taught to pull related pairs together in the vector space while pushing unrelated pairs apart:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+POSITIVE pair (pull together):
+    "How do I reset my password?"
+    "Steps to recover a forgotten password"
+
+NEGATIVE pair (push apart):
+    "How do I reset my password?"
+    "Our office is open 9am to 5pm"
+
+Repeat over hundreds of millions of pairs. The model learns a
+geometry where semantic relatedness equals geometric closeness.
+
+HARD NEGATIVES matter most: examples that LOOK similar but are not.
+    "How do I reset my password?"  vs
+    "How do I reset my device?"
+Training on hard negatives is what produces a model that can make
+fine distinctions rather than just topic-level ones.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Three Generations of Embeddings (know the difference)
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Static word embeddings (Word2Vec, GloVe) :</span>
+      One fixed vector per word, regardless of context. The famous demonstration was vector arithmetic — king minus man plus woman lands near queen. The fatal limitation: "bank" has a single vector whether you mean a river bank or a financial institution.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Contextual embeddings (BERT and successors) :</span>
+      The vector for a word depends on the sentence around it, so "bank" in "river bank" and "bank" in "bank account" get different vectors. This solved word-sense ambiguity.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Sentence / document embeddings (what you actually use) :</span>
+      One vector for an entire passage, specifically trained so that whole-passage similarity is meaningful. Sentence-BERT showed that naively averaging BERT token vectors gives poor retrieval quality and that you need training designed for the task. These are the models behind every RAG pipeline: OpenAI's text-embedding-3 family, Cohere Embed, Voyage, and open models like all-MiniLM, BGE and E5.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Choosing an Embedding Model — What Actually Matters
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+1. RETRIEVAL QUALITY on YOUR data
+   MTEB leaderboard is a starting point, not an answer. Benchmarks
+   are generic; your domain (legal, medical, internal jargon, code)
+   may rank models completely differently. Build a small golden set
+   of ~50 real query/document pairs and measure recall@k yourself.
+
+2. DIMENSION
+   384 / 768 / 1024 / 1536 / 3072. Higher is often better quality
+   but costs more storage, RAM and query time. Matryoshka models
+   let you truncate, turning this into a dial.
+
+3. MAX INPUT LENGTH
+   ~512 tokens for many open models, ~8,191 for OpenAI's.
+   THIS CONSTRAINS YOUR CHUNK SIZE. Exceed it and the tail of your
+   chunk is silently truncated - embedded as if it did not exist.
+
+4. MULTILINGUAL SUPPORT
+   An English-only model will retrieve badly on Hindi or Japanese.
+   Check explicitly if you have non-English content.
+
+5. SELF-HOSTED vs API
+   API: no infrastructure, per-token cost, data leaves your network.
+   Self-hosted: fixed GPU cost, full data control, you operate it.
+   For regulated data this is often the deciding factor, not quality.
+
+6. COST AND LATENCY AT INDEXING SCALE
+   Embedding 10 million chunks is a batch job with a real bill and
+   a real wall-clock time. Estimate both before committing.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Rules You Must Not Break
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Never mix embedding models :</span>
+      Vectors from two different models live in <em>completely unrelated coordinate systems</em>. Comparing them produces numbers that look valid and mean nothing. Query and index must use the same model and the same version.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Changing the model means re-indexing everything :</span>
+      There is no migration path, no conversion function. Switching models is a full re-embed of your entire corpus. Plan for it: version your index, and use blue-green indexing so you can build the new index alongside the old and cut over atomically.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Respect the model's max input length :</span>
+      Your chunk size must fit. A 1,000-token chunk sent to a 512-token model loses its second half silently.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Check whether the model needs prefixes :</span>
+      Some models (the E5 family, for example) are trained to expect "query: " before questions and "passage: " before documents. Omitting these measurably degrades retrieval. Read the model card — this is a silent quality killer.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Symmetric vs Asymmetric Search
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Symmetric</strong> search compares two things of the same kind and length — finding duplicate support tickets, or similar products. <strong>Asymmetric</strong> search compares a short query against a long document — which is what RAG does, and it is harder, because a five-word question and a five-hundred-word passage look structurally very different. Models intended for retrieval are explicitly trained for the asymmetric case. Using a symmetric-only model for RAG is a common and quiet source of poor results.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Embeddings Are Bad At
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Exact matches.</strong> Product SKUs, error codes, case numbers, rare proper nouns. Semantic similarity does not help you find "ERR-4471B" — you need keyword search. This is the single strongest argument for <strong>hybrid search</strong> (BM25 + vector), and it is the answer interviewers are listening for.</li>
+    <li style="margin-top: 0.5rem;"><strong>Negation.</strong> "Contracts that do not include an indemnity clause" often embeds close to "contracts with an indemnity clause", because most of the words match. Negation is a known weakness.</li>
+    <li style="margin-top: 0.5rem;"><strong>Numeric and temporal filters.</strong> "Invoices over 50,000 rupees from last quarter" is a structured query. Use metadata filters, not vector similarity.</li>
+    <li style="margin-top: 0.5rem;"><strong>Freshness and authority.</strong> The embedding has no idea which document is newer or more trustworthy. That must come from metadata and ranking logic.</li>
+    <li style="margin-top: 0.5rem;"><strong>Fine-grained ranking.</strong> Embeddings are good at pulling a rough candidate set. A cross-encoder reranker is what turns "roughly relevant" into "correctly ordered".</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Generating embeddings and storing them with the metadata you
+// will absolutely need later.
+
+import OpenAI from "openai";
+const openai = new OpenAI();
+
+async function embed(texts) {
+  const res = await openai.embeddings.create({
+    model: "text-embedding-3-small",
+    input: texts,          // batch! one call per text is slow and costly
+    dimensions: 1536       // 3-small supports truncation (Matryoshka)
+  });
+  return res.data.map(d => d.embedding);
+}
+
+async function indexChunks(chunks) {
+  const BATCH = 100;
+  for (let i = 0; i < chunks.length; i += BATCH) {
+    const batch   = chunks.slice(i, i + BATCH);
+    const vectors = await embed(batch.map(c => c.text));
+
+    await vectorDB.upsert(batch.map((c, j) => ({
+      id: c.id,
+      vector: vectors[j],
+      metadata: {
+        text: c.text,                    // you need this to build the prompt
+        source: c.sourceUri,             // for citations
+        title: c.title,
+        updatedAt: c.updatedAt,          // for freshness ranking
+        allowedGroups: c.acl,            // for permission filtering
+        embeddingModel: "text-embedding-3-small",  // CRITICAL for migration
+        embeddingVersion: 1
+      }
+    })));
+  }
+}
+
+// Storing embeddingModel on every record is what lets you detect a
+// mixed index later, and lets you migrate incrementally.
+// Skipping it is a mistake you only discover when it hurts.`,
+              `// Migrating to a new embedding model WITHOUT downtime.
+// You cannot convert vectors - you must re-embed. Plan for it.
+
+// BLUE-GREEN INDEXING
+// 1. Create a NEW index (or namespace) for the new model.
+async function migrate() {
+  const NEW_MODEL = "text-embedding-3-large";
+  const newIndex  = await vectorDB.createIndex({
+    name: "docs_v2",
+    dimension: 3072            // note: different dimension!
+  });
+
+  // 2. Re-embed the entire corpus into the new index.
+  //    Reads from your SOURCE OF TRUTH (the documents), not the old
+  //    index - this is why you keep original text in a real database.
+  for await (const batch of streamAllDocuments()) {
+    const vectors = await embedWith(NEW_MODEL, batch.map(d => d.text));
+    await newIndex.upsert(/* ... */);
+  }
+
+  // 3. Evaluate BOTH indexes on the same golden query set.
+  const oldScore = await evaluateRecall("docs_v1", goldenQueries);
+  const newScore = await evaluateRecall("docs_v2", goldenQueries);
+  if (newScore.recallAt5 < oldScore.recallAt5) {
+    throw new Error("New model is worse. Do not cut over.");
+  }
+
+  // 4. Flip a config flag to point reads at docs_v2. Instant rollback
+  //    is just flipping it back. Keep docs_v1 for a week, then delete.
+}
+
+// The interview point: NEVER migrate in place. You lose the ability
+// to roll back, and you have no evidence the new model is better.`,
+              `// The single most common embedding bug: mixing models.
+
+// Index built months ago with ada-002 (1536 dims)
+const stored = await vectorDB.query({ /* ... */ });
+
+// New code embeds the query with a different model
+const queryVec = await embed(userQuery, "text-embedding-3-large"); // 3072
+
+// If the dimensions differ, you get a loud error. Good.
+// THE DANGEROUS CASE is when dimensions MATCH but models differ:
+//   ada-002              -> 1536 dims
+//   text-embedding-3-small -> 1536 dims
+//
+// No error. The query runs. Results come back. They are GARBAGE,
+// because the two models place meaning in completely different
+// coordinate systems - the numbers are not comparable at all.
+
+// DEFENCES:
+// 1. Store embeddingModel + version in metadata on every record.
+// 2. Assert at query time that the query model matches the index model.
+function assertModelMatch(indexMeta, queryModel) {
+  if (indexMeta.embeddingModel !== queryModel) {
+    throw new Error(
+      "Embedding model mismatch: index=" + indexMeta.embeddingModel +
+      " query=" + queryModel + ". Results would be meaningless."
+    );
+  }
+}
+// 3. Include this check in your automated tests.`,
+              `// Why you need hybrid search: embeddings cannot find exact strings.
+
+const query = "error ERR-4471B on invoice INV-2024-88213";
+
+// PURE VECTOR SEARCH
+// Embeds the semantic gist: "an error occurred on an invoice".
+// Returns lots of documents about invoice errors in general.
+// Very likely MISSES the one document containing ERR-4471B,
+// because that exact token contributes almost nothing to the
+// semantic direction of the vector.
+
+// KEYWORD SEARCH (BM25)
+// Matches ERR-4471B and INV-2024-88213 exactly. Finds it instantly.
+// But fails on "why did my payment bounce" -> no keyword overlap.
+
+// HYBRID: run both, fuse the results.
+function reciprocalRankFusion(resultLists, k = 60) {
+  const scores = new Map();
+  for (const list of resultLists) {
+    list.forEach((doc, rank) => {
+      const prev = scores.get(doc.id) || { doc, score: 0 };
+      prev.score += 1 / (k + rank + 1);      // RRF formula
+      scores.set(doc.id, prev);
+    });
+  }
+  return [...scores.values()]
+    .sort((a, b) => b.score - a.score)
+    .map(x => x.doc);
+}
+
+const fused = reciprocalRankFusion([vectorResults, bm25Results]);
+
+// RRF is popular because it needs NO score normalisation - it uses
+// only RANK, so you can fuse metrics that are on totally different
+// scales. That property is exactly why it is the default choice.`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is an embedding, and why does it enable semantic search?",
+                solution:
+                  "<p>An embedding is a fixed-length vector of numbers that represents the meaning of a piece of content, produced by a model trained so that semantically similar content lands geometrically close together. That property is what enables semantic search: instead of matching characters, you convert the query to a vector and find the nearest document vectors. A search for 'how do I reset my password' will surface a document titled 'recovering forgotten login credentials' despite zero shared keywords, because both occupy the same region of the space. Keyword search cannot do this; embedding search does it by construction.</p>",
+              },
+              {
+                question:
+                  "How are embedding models trained? Explain contrastive learning.",
+                solution:
+                  "<p>Embedding models are trained with contrastive learning on pairs of text. The model is shown positive pairs — a question and a passage that answers it, or two paraphrases — and adjusted to pull their vectors closer together. It is simultaneously shown negative pairs and adjusted to push those apart. Repeated over hundreds of millions of pairs, this produces a geometry where semantic relatedness equals geometric proximity. The detail worth mentioning is that <strong>hard negatives</strong> — examples that look superficially similar but are not actually relevant, like 'how do I reset my password' versus 'how do I reset my device' — matter most. Training on hard negatives is what produces a model capable of fine distinctions rather than only topic-level ones.</p>",
+              },
+              {
+                question:
+                  "What is the difference between word embeddings, contextual embeddings, and sentence embeddings?",
+                solution: `<p>Three generations, each fixing the previous one's limitation:</p>
+             <ul>
+               <li><strong>Static word embeddings</strong> (Word2Vec, GloVe) — one fixed vector per word regardless of context. Famous for vector arithmetic like king − man + woman ≈ queen. Fatal flaw: 'bank' has a single vector whether you mean a river bank or a financial institution.</li>
+               <li><strong>Contextual embeddings</strong> (BERT and successors) — the vector for a word depends on the surrounding sentence, resolving word-sense ambiguity.</li>
+               <li><strong>Sentence/document embeddings</strong> — one vector for an entire passage, explicitly trained so that whole-passage similarity is meaningful. Sentence-BERT demonstrated that naively averaging BERT's token vectors gives poor retrieval quality; you need training designed for the task.</li>
+             </ul>
+             <p>For RAG you always want the third kind. Mentioning the progression signals you understand <em>why</em> modern retrieval models look the way they do.</p>`,
+              },
+              {
+                question:
+                  "How do you choose an embedding model for a new project?",
+                solution: `<p>Six criteria, in roughly this priority order:</p>
+             <ol>
+               <li><strong>Retrieval quality on your data.</strong> The MTEB leaderboard is a starting point, not an answer — benchmarks are generic and your domain may rank models completely differently. Build a golden set of around 50 real query/document pairs from your own corpus and measure recall@k yourself.</li>
+               <li><strong>Max input length</strong>, because it constrains your chunk size. Many open models cap at 512 tokens; OpenAI's go to 8,191.</li>
+               <li><strong>Dimension</strong>, which drives storage, RAM and query latency.</li>
+               <li><strong>Multilingual support</strong>, if you have non-English content.</li>
+               <li><strong>API versus self-hosted</strong> — for regulated data, whether the text leaves your network is often the deciding factor rather than quality.</li>
+               <li><strong>Cost and wall-clock time to index at your scale.</strong> Embedding ten million chunks is a batch job with a real bill.</li>
+             </ol>`,
+              },
+              {
+                question:
+                  "Can you use one embedding model for indexing and a different one for queries?",
+                solution:
+                  "<p>No — never. Two models produce vectors in entirely unrelated coordinate systems, so comparing them yields numbers that are mathematically valid and semantically meaningless. If the dimensions differ, you get a loud error, which is the fortunate case. The genuinely dangerous case is when dimensions happen to match — ada-002 and text-embedding-3-small are both 1,536 — because then everything runs without error and silently returns garbage. The defences are: store the embedding model name and version in metadata on every indexed record, assert at query time that the query model matches the index model, and cover that assertion in automated tests.</p>",
+              },
+              {
+                question:
+                  "You need to switch embedding models on a production system with 20 million chunks. Walk me through it.",
+                solution: `<p>The key constraint is that vectors cannot be converted — you must re-embed everything. So the plan is blue-green:</p>
+             <ol>
+               <li><strong>Build a new index</strong> (or namespace) alongside the existing one, sized for the new model's dimension. Do not migrate in place — that destroys your ability to roll back.</li>
+               <li><strong>Re-embed from the source of truth</strong>, meaning your document store, not the old vector index. This is precisely why you keep original chunk text in a real database rather than only in the vector store.</li>
+               <li><strong>Run the job as a resumable batch</strong> with checkpointing, respecting the embedding provider's rate limits. Estimate cost and wall-clock time before starting.</li>
+               <li><strong>Evaluate both indexes on the same golden query set</strong> and compare recall@k and end-to-end answer quality. If the new model is not measurably better, do not cut over — 'newer' is not evidence.</li>
+               <li><strong>Cut over via a config flag</strong>, so rollback is instant. Keep the old index live for a week before deleting it.</li>
+             </ol>
+             <p>Mention that the same machinery serves double duty for disaster recovery: if you can rebuild your index reproducibly, you have a real backup story.</p>`,
+              },
+              {
+                question:
+                  "What does the embedding model's max input length have to do with chunking?",
+                solution:
+                  "<p>It hard-caps your chunk size. If your embedding model accepts 512 tokens and you send a 1,000-token chunk, most implementations silently truncate — the second half of the chunk is embedded as if it did not exist, so any content in it can never be retrieved. This failure is completely invisible: no error, no warning, just documents that mysteriously never surface. The defences are to chunk in tokens using the embedding model's own tokenizer, validate at index time that no chunk exceeds the limit, and log or reject any that do. It is also worth noting that just because a model <em>accepts</em> 8,191 tokens does not mean an 8,000-token chunk retrieves well — a very long chunk dilutes the embedding, averaging many topics into one vector.</p>",
+              },
+              {
+                question:
+                  "What is the difference between symmetric and asymmetric semantic search?",
+                solution:
+                  "<p>Symmetric search compares two items of similar kind and length — finding duplicate support tickets, matching similar products, detecting near-identical documents. Asymmetric search compares a short query against a long passage, which is what RAG does. Asymmetric is harder because a five-word question and a five-hundred-word passage are structurally very different objects, and a model must be trained to bridge that gap. Models intended for retrieval are explicitly trained for the asymmetric case, and some — the E5 family, for instance — require you to prefix inputs with 'query: ' and 'passage: ' so the model knows which side it is embedding. Using a symmetric-only model for RAG, or omitting required prefixes, quietly degrades retrieval quality with no visible error.</p>",
+              },
+              {
+                question:
+                  "Why does pure vector search fail on queries like 'error ERR-4471B', and what is the fix?",
+                solution:
+                  "<p>Because an exact identifier contributes almost nothing to the semantic direction of the embedding. The model captures the gist — 'an error on an invoice' — and retrieves documents about invoice errors generally, very likely missing the one document that actually contains that code. Embeddings match meaning, and a rare alphanumeric token has little meaning to match. The fix is <strong>hybrid search</strong>: run a keyword search (BM25) alongside the vector search and fuse the results. BM25 finds the exact token instantly; the vector side handles paraphrased natural-language queries with no keyword overlap. Reciprocal Rank Fusion is the usual fusion method because it operates on rank rather than score, so you do not need to normalise two metrics that live on completely different scales.</p>",
+              },
+              {
+                question:
+                  "What is Reciprocal Rank Fusion and why is it preferred for combining search results?",
+                solution: `<p>RRF combines multiple ranked result lists by scoring each document according to its <em>rank</em> in each list rather than its raw score:</p>
+             <pre><code className="language-text">
+score(doc) = sum over lists of  1 / (k + rank_in_that_list)
+
+k is a constant, commonly 60, that dampens the influence of top ranks.
+             </code></pre>
+             <p>It is preferred because it needs no score normalisation. BM25 scores are unbounded and corpus-dependent; cosine similarity sits between −1 and 1. Trying to blend them with a weighted average requires calibrating two incomparable scales, and that calibration breaks whenever your corpus or model changes. RRF sidesteps the problem entirely by discarding the scores and using only ordering. The trade-off worth naming: because it ignores magnitude, RRF cannot express 'this result was overwhelmingly better than the rest' — for that you need a reranker.</p>`,
+              },
+              {
+                question:
+                  "Name four things embeddings are genuinely bad at.",
+                solution: `<ol>
+               <li><strong>Exact matching</strong> — SKUs, error codes, case numbers, rare proper nouns. Requires keyword search.</li>
+               <li><strong>Negation</strong> — 'contracts without an indemnity clause' embeds very close to 'contracts with an indemnity clause', because nearly all the words match. This is a well-known and still largely unsolved weakness; handle it with metadata, structured filters, or a post-retrieval verification step.</li>
+               <li><strong>Numeric and temporal constraints</strong> — 'invoices over ₹50,000 from last quarter' is a structured query. Use metadata filters, not similarity.</li>
+               <li><strong>Freshness and authority</strong> — the vector has no notion of which document is newer or more trustworthy. That must come from metadata and explicit ranking logic.</li>
+             </ol>
+             <p>A fifth worth adding: <strong>fine-grained ranking</strong>. Embeddings are good at producing a rough candidate set but weak at ordering it precisely, which is why a cross-encoder reranker sits after retrieval in most serious pipelines.</p>`,
+              },
+              {
+                question:
+                  "How do you evaluate whether one embedding model is better than another for your use case?",
+                solution: `<p>Build a golden set and measure, rather than trusting a leaderboard:</p>
+             <ol>
+               <li>Collect 50–200 real queries from actual users or realistic scenarios.</li>
+               <li>For each, label which chunks in your corpus genuinely answer it. This is the expensive part and there is no shortcut — though you can bootstrap by having an LLM generate candidate questions from your documents and then having a human verify them.</li>
+               <li>Measure <strong>recall@k</strong> (is the right chunk in the top k?) and <strong>MRR</strong> (how high up is it?) for each model on the identical query set.</li>
+               <li>Measure secondary factors: embedding latency, index size, cost to embed the full corpus.</li>
+               <li>Then measure <strong>end-to-end answer quality</strong>, because better retrieval metrics do not automatically mean better final answers.</li>
+             </ol>
+             <p>The framing that lands well in an interview: retrieval quality must be measured separately from generation quality, otherwise you cannot tell which half of the pipeline is failing.</p>`,
+              },
+              {
+                question:
+                  "What is MTEB and how much should you trust it?",
+                solution:
+                  "<p>MTEB is the Massive Text Embedding Benchmark, a public leaderboard evaluating embedding models across many tasks — retrieval, classification, clustering, reranking — and many datasets. It is genuinely useful for shortlisting: it tells you which models are broadly competent and rules out weak ones quickly. But it should not decide your choice, for three reasons. Benchmarks are generic while your domain may be legal, medical, or full of internal jargon where rankings differ substantially. Some models are, deliberately or accidentally, tuned toward benchmark datasets. And MTEB says nothing about your operational constraints — latency, max input length, data residency, cost at your scale. The professional answer is: use MTEB to pick three candidates, then evaluate those three on your own golden set.</p>",
+              },
+              {
+                question:
+                  "Estimate the cost and time to embed 10 million chunks, and what would you do to reduce it?",
+                solution: `<p>Work it through out loud. At roughly 400 tokens per chunk, ten million chunks is about 4 billion tokens. At a representative embedding price of around $0.02 per million tokens, that is roughly $80 — embedding is cheap relative to generation, which surprises people. Wall-clock time is usually the real constraint: it is dominated by API rate limits, so you batch aggressively (100–500 texts per request), parallelise across workers, and checkpoint so the job is resumable.</p>
+             <p>Reductions worth naming: deduplicate chunks before embedding (near-duplicate content across documents is extremely common and pure waste); skip boilerplate such as headers, footers and navigation; use a smaller or truncated-dimension model if evaluation shows quality holds; and embed incrementally going forward so you only ever process changed documents rather than re-running the whole corpus.</p>
+             <p>The important point to close on: the ongoing cost is not the embedding, it is the <em>storage and RAM</em> for the index — 10M × 1,536 dims × 4 bytes is roughly 60GB before index overhead.</p>`,
+              },
+              {
+                question:
+                  "Should you embed the raw chunk text, or enrich it first?",
+                solution: `<p>Almost always enrich, and this is an underrated quality lever. Common enrichments:</p>
+             <ul>
+               <li><strong>Prepend the document title and section heading</strong> to each chunk, so a chunk that says 'this is not permitted' carries the context of which policy it belongs to.</li>
+               <li><strong>Contextual retrieval</strong> — use an LLM to generate a one- or two-sentence description of how the chunk fits into the wider document, and prepend it. This measurably improves retrieval for chunks that are ambiguous in isolation.</li>
+               <li><strong>Strip noise</strong> — navigation, repeated headers and footers, cookie banners. They dilute the embedding with content that carries no signal.</li>
+             </ul>
+             <p>The trade-off to state: enrichment costs tokens at index time (and LLM calls, for contextual retrieval) and makes re-indexing more expensive. It is worth it when chunks are frequently ambiguous standalone, which is most enterprise document corpora.</p>`,
+              },
+              {
+                question:
+                  "How do embeddings fit into a permission-aware RAG system?",
+                solution:
+                  "<p>They do not solve it — metadata does, and this distinction matters. The embedding encodes meaning, not authorisation, so you must store access-control information as metadata alongside each vector (document owner, allowed groups, classification level) and apply it as a <strong>pre-filter</strong> at query time so the vector search only ever considers documents the user may see. Filtering after retrieval is wrong for two reasons: you may return zero results after filtering away everything, and in some architectures the unauthorised content has already been surfaced. The hard engineering problem is that filtering plus vector search interacts badly with ANN indexes — a very selective filter can force the index to scan far more candidates than expected, so latency degrades. Vector databases handle this with varying quality, and it is worth testing explicitly at your data volume and selectivity.</p>",
+              },
+              {
+                question:
+                  "What is quantisation in the context of embeddings, and when would you use it?",
+                solution:
+                  "<p>Quantisation reduces the numeric precision of stored vectors — from 32-bit floats to 8-bit integers, or in the extreme to single bits. Int8 quantisation cuts storage and memory by roughly four times with typically small quality loss; binary quantisation cuts it by thirty-two times with a larger loss, usually paired with a rescoring step where the top candidates are re-ranked using full-precision vectors. You reach for it when index size or RAM becomes the binding constraint — which happens sooner than people expect, since RAM is the expensive resource in vector search. The correct process is to quantise, then measure recall@k against your golden set to quantify exactly what you gave up, rather than assuming the loss is negligible.</p>",
+              },
+              {
+                question:
+                  "A user complains that searching for a phrase that appears verbatim in a document returns nothing. Diagnose it.",
+                solution: `<p>Work through the pipeline in order, because this symptom has several possible causes:</p>
+             <ol>
+               <li><strong>Is the document indexed at all?</strong> Check the ingestion pipeline — parsing failures on PDFs are extremely common and often silent.</li>
+               <li><strong>Was the chunk truncated?</strong> If the chunk exceeded the embedding model's max input length, the tail was dropped and that content was never embedded.</li>
+               <li><strong>Is it an exact-match query?</strong> If the phrase contains an identifier or rare term, this is the classic vector-search blind spot and the fix is hybrid search, not tuning.</li>
+               <li><strong>Is a metadata filter excluding it?</strong> Permissions, date ranges or document-type filters silently remove results.</li>
+               <li><strong>Model mismatch</strong> between index and query — check the stored embedding model metadata.</li>
+               <li><strong>Chunk boundary</strong> — the phrase may straddle two chunks, so neither chunk contains it whole. This is exactly what chunk overlap exists to prevent.</li>
+             </ol>
+             <p>The structured framing itself is the answer being assessed: a good candidate isolates retrieval from generation and checks ingestion before blaming the model.</p>`,
+              },
+              {
+                question:
+                  "Can embeddings be reversed to recover the original text? Why does that matter?",
+                solution:
+                  "<p>Not exactly, but far more than people assume — research on embedding inversion has shown that a meaningful amount of the original text can be reconstructed from its vector, particularly for short texts. The security implication is that <strong>embeddings should be treated as sensitive data, not as anonymised data</strong>. If your source documents contain PII or confidential content, the vector index inherits that classification: it needs the same encryption, access controls, retention policy and deletion guarantees as the underlying documents. This also bears on GDPR — a deletion request must remove the vector as well as the source record, which is a genuine engineering requirement people frequently overlook because they think of the index as derived, disposable data.</p>",
+              },
+              {
+                question:
+                  "Your RAG system works well in English but poorly in Hindi. What are the likely causes?",
+                solution: `<p>Several candidates, and a good answer checks them in order:</p>
+             <ol>
+               <li><strong>The embedding model is English-centric.</strong> Many popular models are trained overwhelmingly on English and produce poor-quality vectors for other languages. Switching to an explicitly multilingual model is usually the largest single fix.</li>
+               <li><strong>Tokenization inflation.</strong> Hindi consumes far more tokens per character, so chunks sized in tokens contain much less actual content, and chunks may be silently truncating against the embedding model's limit.</li>
+               <li><strong>Cross-lingual mismatch.</strong> If documents are in English and queries in Hindi, you need a model trained for cross-lingual retrieval, or you translate the query before embedding.</li>
+               <li><strong>Chunking heuristics</strong> tuned for English punctuation and sentence boundaries may split Hindi text badly.</li>
+               <li><strong>Your evaluation set is English-only</strong>, so the regression was invisible — which is often the real root cause of why nobody noticed sooner.</li>
+             </ol>`,
+              },
+            ],
+            links: [
+              "https://platform.openai.com/docs/guides/embeddings",
+              "https://huggingface.co/spaces/mteb/leaderboard",
+              "https://www.sbert.net/examples/applications/semantic-search/README.html",
+              "https://www.anthropic.com/news/contextual-retrieval",
+              "https://arxiv.org/abs/1908.10084",
+            ],
+          },
+          {
+            topic: "Similarity Metrics (Cosine, Dot Product, Euclidean)",
+            tags: ["high-frequency", "must-know", "vector-db"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Once your content is embedded, you need a way to measure how close two vectors are. That measurement is a <strong>similarity metric</strong> (or a distance metric — the inverse). Every vector database asks you to choose one at index creation time, and choosing wrong quietly degrades your retrieval quality with no error message. This is why the topic comes up so often in interviews: it is a small decision with a large blast radius.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Cosine Similarity — The Default for Text
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Cosine similarity measures the <strong>angle</strong> between two vectors and completely ignores their length.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+                    A . B
+cosine(A, B) = ---------------
+                 ||A|| * ||B||
+
+Range: -1 to +1
+
+  +1   -> identical direction    (same meaning)
+   0   -> perpendicular          (unrelated)
+  -1   -> opposite direction     (rare in practice for text embeddings,
+                                  which usually cluster in a narrow cone)
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Why it is the default for text:</strong> magnitude in a text embedding usually reflects document length or emphasis, not topic. A one-sentence note and a ten-paragraph article about the same subject point in nearly the same direction but have very different magnitudes. Cosine says "same topic"; a magnitude-sensitive metric would say "quite different". For retrieval you almost always want the former.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Dot Product (Inner Product) — Fast, but Magnitude-Sensitive
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+dot(A, B) = a1*b1 + a2*b2 + ... + an*bn
+
+Range: unbounded (can be any real number)
+
+Longer vectors produce larger scores REGARDLESS of direction.
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The crucial identity, and the thing most interview questions are really testing:
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+IF both vectors are NORMALIZED (magnitude = 1), THEN:
+
+      cosine(A, B) == dot(A, B)
+
+because the denominator ||A|| * ||B|| = 1 * 1 = 1.
+
+CONSEQUENCE: vector databases normalize at index time and then
+use dot product internally, because it avoids two square roots
+and a division per comparison. Same answer, meaningfully faster.
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Dot product is the <em>correct</em> choice — not just an optimisation — when magnitude carries real signal. In recommendation systems trained with an inner-product objective, vector magnitude often encodes popularity or confidence, and you genuinely want popular items to score higher. Some embedding models are explicitly trained for inner-product retrieval; use what the model card specifies.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Euclidean Distance (L2) — Straight-Line Distance
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+L2(A, B) = sqrt( (a1-b1)^2 + (a2-b2)^2 + ... + (an-bn)^2 )
+
+Range: 0 to infinity
+  0        -> identical
+  larger   -> more different
+
+NOTE THE INVERSION: this is a DISTANCE, so LOWER IS BETTER.
+Cosine and dot product are SIMILARITIES, where HIGHER IS BETTER.
+Mixing these up is one of the most common real-world bugs.
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The elegant fact worth knowing: for <strong>normalized</strong> vectors, Euclidean distance and cosine similarity are monotonically related —
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+For unit vectors:   ||A - B||^2  =  2 - 2 * cosine(A, B)
+
+So ranking by SMALLEST Euclidean distance gives EXACTLY the same
+ordering as ranking by LARGEST cosine similarity.
+
+If your vectors are normalized, all three metrics rank identically.
+The choice then is purely about speed and score interpretation.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Decision Table
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+SITUATION                                    USE
+-------------------------------------------  ---------------------------
+Text retrieval / RAG, general case           Cosine
+Vectors already normalized                   Dot product (same result,
+                                             faster - this is what most
+                                             vector DBs do internally)
+Model card says "trained for inner product"  Dot product
+Recommendations where popularity matters     Dot product
+Clustering, or genuine spatial data          Euclidean
+Image embeddings                             Check the model - varies
+
+DEFAULT ANSWER IN AN INTERVIEW:
+"Cosine, because for text embeddings magnitude usually reflects
+ document length rather than topic. But if the vectors are
+ normalized - which most providers do - cosine and dot product
+ give identical rankings, so I'd configure dot product for speed."
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Threshold Trap — a Favourite Interview Follow-Up
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    A cosine score of 0.82 does <strong>not</strong> mean "82% relevant". These scores are not calibrated probabilities. Worse:
+  </p>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;">Score distributions differ dramatically between embedding models. A threshold of 0.75 that works for one model may reject everything or accept everything on another.</li>
+    <li style="margin-top: 0.5rem;">Text embeddings tend to cluster in a narrow cone, so <em>everything</em> looks moderately similar — scores of 0.6–0.9 across completely unrelated documents are common.</li>
+    <li style="margin-top: 0.5rem;">Score distributions shift with document length, language and domain.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    So hardcoding <code>if (score > 0.8) useIt()</code> is fragile and breaks silently the moment you change models. The robust approaches are: take top-k and let a <strong>reranker</strong> — a cross-encoder that scores query and document together and produces far better-calibrated relevance — make the relevance judgement; use a <em>relative</em> threshold such as "within 15% of the top score"; or calibrate an absolute threshold empirically against your own labelled set and re-calibrate whenever you change the embedding model.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Exact vs Approximate Search (ANN)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Comparing a query against every vector in the index (brute force, or "flat" search) gives perfect results but takes time proportional to corpus size — fine for ten thousand vectors, hopeless for ten million. <strong>Approximate Nearest Neighbour</strong> indexes trade a small amount of accuracy for enormous speed.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+HNSW (Hierarchical Navigable Small World) - the common default
+  A multi-layer graph. Upper layers are sparse and used for long
+  "jumps" across the space; lower layers are dense and used for
+  fine local search. You enter at the top and greedily descend.
+
+  Key parameters:
+    M               connections per node. Higher = better recall,
+                    more memory, slower build.
+    efConstruction  breadth of search while BUILDING the index.
+                    Higher = better index, slower build.
+    efSearch        breadth of search at QUERY time. Higher = better
+                    recall, slower queries. THIS IS THE RUNTIME DIAL
+                    you tune when recall is too low.
+
+  Strengths: excellent recall/latency trade-off, supports updates.
+  Weakness:  memory hungry - the graph itself is large.
+
+IVF (Inverted File Index)
+  Cluster vectors, then search only the nearest few clusters.
+  Parameters: nlist (number of clusters), nprobe (clusters searched).
+  More memory-efficient than HNSW; usually needs a training step
+  and handles frequent updates less gracefully.
+
+THE RECALL/LATENCY DIAL:
+  "Search is fast but misses results" -> raise efSearch (or nprobe).
+  "Search is too slow"                -> lower it.
+  There is no free lunch; measure recall@k against a brute-force
+  baseline on a sample so you know exactly what you are giving up.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Bugs That Bite in Production
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Sorting a distance as if it were a similarity :</span>
+      Some vector databases return <em>distance</em> (lower is better) and some return <em>similarity</em> (higher is better). Sorting descending on a distance returns your worst results first — and the system still works, just badly. Always read the documentation for the specific metric you configured, and sanity-check by querying with a document that is already in the index: it must come back first.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Metric mismatch between index and model :</span>
+      Configuring L2 on an index whose model was trained for inner product produces degraded but plausible-looking results. There is no error.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Assuming ANN is exact :</span>
+      Recall is not 100%. If a document exists and is not returned, the index parameters may simply be too aggressive. Verify against brute force before concluding the embedding is at fault.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Filtering interacting badly with ANN :</span>
+      A highly selective metadata filter can force the index to traverse far more candidates to find k matches, so latency spikes — or the engine falls back to brute force. Test filtered queries at production scale and selectivity, not just unfiltered ones.
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `// All three metrics, implemented so you can see exactly how they differ.
+
+function dot(a, b) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
+  return s;
+}
+
+function magnitude(v) { return Math.sqrt(dot(v, v)); }
+
+function cosineSimilarity(a, b) {
+  const denom = magnitude(a) * magnitude(b);
+  if (denom === 0) return 0;              // guard the zero vector
+  return dot(a, b) / denom;
+}
+
+function euclideanDistance(a, b) {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += (a[i] - b[i]) ** 2;
+  return Math.sqrt(s);
+}
+
+// --- The demonstration that makes the difference concrete ---
+const query    = [1, 1];        // some topic
+const shortDoc = [1, 1];        // same topic, short
+const longDoc  = [5, 5];        // SAME TOPIC, just longer text
+const offTopic = [1, -1];       // perpendicular = unrelated
+
+console.log(cosineSimilarity(query, shortDoc));   // 1.00  same topic
+console.log(cosineSimilarity(query, longDoc));    // 1.00  same topic
+console.log(cosineSimilarity(query, offTopic));   // 0.00  unrelated
+
+console.log(dot(query, shortDoc));                // 2
+console.log(dot(query, longDoc));                 // 10   <- length bias!
+console.log(dot(query, offTopic));                // 0
+
+console.log(euclideanDistance(query, shortDoc));  // 0.00  identical
+console.log(euclideanDistance(query, longDoc));   // 5.66  <- looks far!
+console.log(euclideanDistance(query, offTopic));  // 2.00
+
+// Read the middle column: dot product and euclidean both PENALISE or
+// REWARD the longer document purely for being longer. Cosine does not.
+// For text retrieval that length-invariance is exactly what you want.`,
+              `// Proving the identity: normalized vectors make cosine === dot.
+// This is the single most-asked follow-up on this topic.
+
+function normalize(v) {
+  const m = magnitude(v);
+  return m === 0 ? v : v.map(x => x / m);
+}
+
+const a = [3, 4];        // magnitude 5
+const b = [1, 2];        // magnitude ~2.236
+
+console.log(cosineSimilarity(a, b));          // 0.9838...
+console.log(dot(a, b));                       // 11        <- different
+
+const an = normalize(a);                      // [0.6, 0.8]
+const bn = normalize(b);                      // [0.447, 0.894]
+
+console.log(cosineSimilarity(an, bn));        // 0.9838...
+console.log(dot(an, bn));                     // 0.9838...  <- IDENTICAL
+
+// And the Euclidean relationship for unit vectors:
+//     ||A - B||^2 = 2 - 2 * cos(A, B)
+const lhs = euclideanDistance(an, bn) ** 2;
+const rhs = 2 - 2 * cosineSimilarity(an, bn);
+console.log(lhs.toFixed(6), rhs.toFixed(6));  // same number
+
+// CONCLUSION: with normalized vectors, all three metrics produce the
+// SAME RANKING. The choice is then about compute cost and how you
+// interpret the score, not about result quality.`,
+              `// The threshold trap - why "if (score > 0.8)" is fragile.
+
+// BAD: an absolute threshold hardcoded in application logic
+function badFilter(results) {
+  return results.filter(r => r.score > 0.8);
+}
+// Breaks the moment you change embedding models, because different
+// models produce completely different score distributions.
+// It also fails silently: you just start returning nothing, or
+// returning everything, and nobody notices for weeks.
+
+// BETTER 1: relative threshold - keep results close to the best one
+function relativeFilter(results, ratio = 0.85) {
+  if (results.length === 0) return [];
+  const best = results[0].score;
+  return results.filter(r => r.score >= best * ratio);
+}
+
+// BETTER 2: take top-k, then let a RERANKER decide relevance.
+// A cross-encoder scores (query, document) TOGETHER and produces
+// far better calibrated relevance than bi-encoder cosine scores.
+async function retrieveAndRerank(query, k = 25, finalK = 5) {
+  const candidates = await vectorDB.search(query, { topK: k });
+  const reranked   = await reranker.rank(query, candidates);
+  return reranked
+    .filter(r => r.relevanceScore > 0.5)   // reranker scores ARE calibrated
+    .slice(0, finalK);
+}
+
+// BEST IN PRACTICE: retrieve broadly, rerank, then apply a threshold
+// that you calibrated against YOUR OWN labelled set - and recalibrate
+// whenever the embedding model or reranker changes.`,
+              `// Tuning the recall/latency dial on an HNSW index.
+
+// Symptom: "search is fast but users say results are missing"
+// Cause:   efSearch is too low - the graph traversal gives up early.
+
+const results = await index.search(queryVector, {
+  topK: 10,
+  efSearch: 40          // default is often ~40; raise it to improve recall
+});
+
+// STEP 1: quantify what you are actually losing.
+async function measureRecall(sampleQueries, k = 10) {
+  let hits = 0, total = 0;
+  for (const q of sampleQueries) {
+    const exact = await index.bruteForceSearch(q, { topK: k });   // ground truth
+    const ann   = await index.search(q, { topK: k, efSearch: 40 });
+
+    const exactIds = new Set(exact.map(r => r.id));
+    hits  += ann.filter(r => exactIds.has(r.id)).length;
+    total += k;
+  }
+  return hits / total;      // recall@k
+}
+
+// STEP 2: sweep efSearch and plot recall vs p95 latency.
+// Typical shape: recall climbs steeply then plateaus, while latency
+// climbs linearly. You pick the knee of the curve.
+//
+//   efSearch  40  -> recall 0.86,  p95  12ms
+//   efSearch 100  -> recall 0.96,  p95  24ms   <- usually the sweet spot
+//   efSearch 400  -> recall 0.99,  p95  85ms   <- rarely worth it
+
+// Interview point: NEVER tune this by feel. ANN quality is a
+// measurable trade-off, and "we raised it until it felt better"
+// is the wrong answer. Measure recall against brute force.`,
+              `// The distance-vs-similarity bug, and how to never hit it.
+
+// Some vector DBs return DISTANCE (lower = better):
+//    { id: "a", distance: 0.12 }   <- this is the BEST match
+// Others return SIMILARITY (higher = better):
+//    { id: "a", score: 0.94 }      <- this is the BEST match
+
+// The bug: sorting descending on a distance field.
+const buggy = results.sort((a, b) => b.distance - a.distance);
+// Returns the WORST matches first. No error. Answers get subtly
+// worse and it can take weeks to notice.
+
+// DEFENCE 1: normalise at the boundary of your code, once.
+function toSimilarity(result, metric) {
+  switch (metric) {
+    case "cosine":
+    case "dotproduct":
+      return { ...result, similarity: result.score };
+    case "euclidean":
+      // convert distance to a similarity so downstream code is uniform
+      return { ...result, similarity: 1 / (1 + result.distance) };
+    default:
+      throw new Error("Unknown metric: " + metric);
+  }
+}
+
+// DEFENCE 2: a sanity test in CI that must always pass.
+test("a document already in the index is its own best match", async () => {
+  const doc  = await getAnyIndexedDocument();
+  const hits = await search(doc.vector, { topK: 1 });
+  expect(hits[0].id).toBe(doc.id);      // fails loudly if sorting is inverted
+});`,
+            ],
+            questions: [
+              {
+                question:
+                  "Explain cosine similarity, dot product and Euclidean distance, and when you would use each.",
+                solution: `<p><strong>Cosine similarity</strong> measures the angle between two vectors, ignoring their length, and ranges from −1 to +1. It is the default for text retrieval because magnitude in a text embedding usually reflects document length rather than topic.</p>
+             <p><strong>Dot product</strong> is the sum of element-wise products. It is unbounded and magnitude-sensitive, so longer vectors score higher regardless of direction. It is the right choice when magnitude carries genuine signal — recommendation systems where it encodes popularity, or models explicitly trained with an inner-product objective — and it is also what vector databases use internally on normalized vectors because it is cheaper to compute.</p>
+             <p><strong>Euclidean distance</strong> is straight-line distance, ranging from 0 upward, where <em>lower is better</em>. It suits clustering and genuinely spatial data.</p>
+             <p>The unifying point: if vectors are normalized, all three produce the same ranking, so the choice becomes about compute cost and score interpretation rather than quality.</p>`,
+              },
+              {
+                question:
+                  "Why is cosine similarity the default choice for text embeddings?",
+                solution:
+                  "<p>Because in text embeddings, vector magnitude tends to encode things you do not want to rank on — most commonly document length, and sometimes how emphatically something is phrased — while direction encodes topic. Consider a one-sentence note and a ten-paragraph article about the same subject: they point in nearly the same direction but have very different magnitudes. Cosine reports them as highly similar, which is the correct retrieval behaviour; a magnitude-sensitive metric would either favour or penalise the longer document purely for its length. Since retrieval is a question about topical relevance, the length-invariant metric is the right tool.</p>",
+              },
+              {
+                question:
+                  "When are cosine similarity and dot product mathematically identical?",
+                solution: `<p>When both vectors are normalized to unit length. Cosine is defined as the dot product divided by the product of the two magnitudes; if both magnitudes are 1, the denominator is 1 and the expression reduces to the plain dot product.</p>
+             <pre><code className="language-text">
+cosine(A,B) = dot(A,B) / (||A|| * ||B||)
+            = dot(A,B) / (1 * 1)
+            = dot(A,B)
+             </code></pre>
+             <p>This matters practically: vector databases normalise at index time and then use dot product internally, because it avoids two square roots and a division per comparison for identical results. It also explains why some providers, OpenAI among them, return pre-normalized embeddings — it lets downstream systems take the fast path safely.</p>`,
+              },
+              {
+                question:
+                  "What is the relationship between Euclidean distance and cosine similarity for normalized vectors?",
+                solution: `<p>They are monotonically related, so they produce identical rankings. For unit vectors:</p>
+             <pre><code className="language-text">
+||A - B||^2  =  2 - 2 * cosine(A, B)
+             </code></pre>
+             <p>As cosine similarity increases, squared Euclidean distance decreases in lockstep. Ranking by smallest Euclidean distance therefore returns exactly the same order as ranking by largest cosine similarity. The practical consequence is that if your vectors are normalized, arguing about which of these two metrics to configure is arguing about nothing — the results are the same. What still differs is the score scale, which matters if any downstream logic applies thresholds, and the direction of sorting, which is a common source of bugs.</p>`,
+              },
+              {
+                question:
+                  "A vector database returns 'distance' rather than 'score'. What is the trap?",
+                solution:
+                  "<p>Distance is inverted relative to similarity: lower is better. If code written for a similarity metric sorts descending, it returns the <em>worst</em> matches first — and the system keeps working, just badly, with no error and no exception. This can go unnoticed for weeks because the answers are plausible, merely poor. Two defences: normalise at the boundary of your code so that everything downstream deals in a single convention (converting distance to similarity once, in one place), and add a sanity test to CI that queries with a document already in the index and asserts it comes back as the top result. If sorting is inverted, that test fails immediately.</p>",
+              },
+              {
+                question:
+                  "Does a cosine similarity of 0.85 mean the document is 85% relevant?",
+                solution: `<p>No. Cosine scores are not calibrated probabilities and carry no absolute meaning. Three specific problems:</p>
+             <ul>
+               <li>Score distributions differ substantially between embedding models — a threshold that works for one model may reject everything or accept everything on another.</li>
+               <li>Text embeddings tend to occupy a narrow cone of the vector space, so scores of 0.6–0.9 between completely unrelated documents are common. High scores are the norm, not evidence of relevance.</li>
+               <li>Distributions shift with document length, language and domain.</li>
+             </ul>
+             <p>The consequence is that hardcoding an absolute threshold is fragile and breaks silently on any model change. The robust patterns are: retrieve top-k and let a reranker make the relevance judgement; use a relative threshold such as 'within 15% of the top score'; or calibrate an absolute threshold against your own labelled data and recalibrate on every model change.</p>`,
+              },
+              {
+                question:
+                  "Why is a reranker better than a similarity threshold for deciding relevance?",
+                solution:
+                  "<p>Because a reranker is a fundamentally different kind of model. Embedding search uses a <em>bi-encoder</em>: query and document are embedded independently and never see each other, which is what makes the index searchable but also means the similarity score is a coarse proxy. A reranker is a <em>cross-encoder</em>: it processes the query and a candidate document together in one forward pass, so it can attend to the interaction between them. That produces much better-calibrated relevance scores and much better ordering. The cost is that it cannot be pre-indexed — you must run it per candidate at query time — which is why the standard architecture retrieves broadly (say top-50) with the cheap bi-encoder and then reranks a small candidate set with the expensive cross-encoder.</p>",
+              },
+              {
+                question:
+                  "What is approximate nearest neighbour search and why do we accept 'approximate'?",
+                solution:
+                  "<p>Exact search compares the query against every vector in the index, which is perfectly accurate but takes time proportional to corpus size — acceptable at ten thousand vectors, hopeless at ten million with a latency budget. ANN indexes build a data structure that lets you find <em>almost always</em> the nearest neighbours while examining only a small fraction of the corpus, turning a linear scan into something closer to logarithmic. We accept approximation because the accuracy cost is small and controllable — typically 95–99% recall — while the speed gain is orders of magnitude. It is also worth noting that the embedding itself is already an approximation of meaning, so insisting on exact nearest neighbours over approximate vectors is false precision.</p>",
+              },
+              {
+                question:
+                  "Explain how HNSW works and what its key parameters do.",
+                solution: `<p>HNSW builds a multi-layer proximity graph. Upper layers are sparse and contain long-range links used for coarse navigation across the space; lower layers are dense and used for fine-grained local search. A query enters at the top layer, greedily moves toward closer neighbours, then descends a layer and repeats, converging on the nearest region.</p>
+             <ul>
+               <li><strong>M</strong> — connections per node. Higher improves recall and increases memory and build time.</li>
+               <li><strong>efConstruction</strong> — how broadly the algorithm searches while building the index. Higher builds a better graph, more slowly. Build-time only.</li>
+               <li><strong>efSearch</strong> — how broadly it searches at query time. This is the runtime dial: raising it improves recall and increases latency.</li>
+             </ul>
+             <p>Its strengths are an excellent recall/latency trade-off and support for incremental inserts. Its main weakness is memory consumption — the graph structure itself is large, often roughly doubling the footprint beyond the raw vectors.</p>`,
+              },
+              {
+                question:
+                  "Your vector search is fast but users report that relevant documents are missing. What do you do?",
+                solution: `<p>Diagnose before tuning. The structured approach:</p>
+             <ol>
+               <li><strong>Establish ground truth.</strong> Run brute-force exact search on a sample of queries and compare against your ANN results to compute recall@k. This tells you whether the index is losing results or the embedding is.</li>
+               <li><strong>If recall is low</strong>, raise <code>efSearch</code> (HNSW) or <code>nprobe</code> (IVF) and re-measure. Sweep the parameter and plot recall against p95 latency; recall typically climbs steeply then plateaus while latency climbs linearly, so you pick the knee of the curve.</li>
+               <li><strong>If recall against brute force is already high</strong>, the index is fine and the problem is upstream: the embedding model may be a poor fit, chunking may have split the answer across boundaries, the query may need exact matching (hybrid search), or a metadata filter may be excluding results.</li>
+             </ol>
+             <p>The point being assessed is that you measure rather than tune by feel — 'we raised it until it felt better' is the wrong answer.</p>`,
+              },
+              {
+                question:
+                  "How does IVF differ from HNSW, and when would you prefer it?",
+                solution:
+                  "<p>IVF partitions the vector space into clusters (using k-means during a training step) and stores an inverted list per cluster. At query time it identifies the nearest few cluster centroids and searches only within those lists. Its parameters are <code>nlist</code> (number of clusters) and <code>nprobe</code> (how many are searched per query, the runtime recall dial). Compared to HNSW it is considerably more memory-efficient, which matters at very large scale, and it combines well with product quantisation for further compression. Its downsides are that it requires a training pass over representative data before indexing, it handles frequent updates less gracefully than HNSW, and its recall/latency curve is generally somewhat worse. Prefer IVF when memory is the binding constraint and the corpus is large and relatively static; prefer HNSW when you need the best recall/latency trade-off and support for continuous inserts.</p>",
+              },
+              {
+                question:
+                  "Why can adding a metadata filter make vector search slower rather than faster?",
+                solution:
+                  "<p>Intuitively a filter should reduce work, but ANN indexes are built over the whole vector space without knowledge of your filter. If the filter is highly selective — say it matches 0.1% of documents — the graph traversal must explore far more nodes before accumulating k results that satisfy it, so latency rises sharply. Some engines respond by falling back to brute-force scanning of the filtered subset, which may or may not be faster depending on how large that subset is. Different vector databases handle this with very different quality, using techniques such as pre-filtering, filtered graph traversal, or maintaining separate indexes per partition. The practical advice is to test filtered queries at production scale and realistic selectivity, and if a filter value is both common and important — like a tenant ID — consider partitioning into separate indexes or namespaces rather than filtering.</p>",
+              },
+              {
+                question:
+                  "You configured L2 distance but your embedding model's card recommends inner product. Does it matter?",
+                solution:
+                  "<p>It depends on whether the vectors are normalized, and this nuance is exactly what a good answer should surface. If the model returns normalized vectors, L2, cosine and inner product all produce the same ranking, so the mismatch is harmless in terms of result ordering — though your scores are on a different scale and inverted in direction, which matters for any thresholding logic. If the vectors are <em>not</em> normalized and the model was trained with an inner-product objective, then magnitude carries meaning the model intended to use, and L2 will produce measurably degraded results — with no error, just quietly worse retrieval. The safe practice is to follow the model card, verify empirically on a golden set rather than assuming, and record the configured metric alongside the embedding model in your index metadata.</p>",
+              },
+              {
+                question:
+                  "How would you verify that your similarity search is configured correctly before shipping?",
+                solution: `<p>Four checks, in increasing depth:</p>
+             <ol>
+               <li><strong>Self-retrieval test.</strong> Query with a document already in the index; it must come back as the top result with a near-perfect score. If it does not, your metric, sort direction or normalization is wrong. Put this in CI.</li>
+               <li><strong>Known-pair test.</strong> Assert that a handful of obviously related pairs score higher than obviously unrelated pairs. Catches gross misconfiguration.</li>
+               <li><strong>Recall against brute force.</strong> On a sample of real queries, compare ANN results to exact search and compute recall@k, so you know precisely what the index approximation is costing you.</li>
+               <li><strong>End-to-end golden set.</strong> Measure recall@k and MRR on labelled query/document pairs from your own domain, which is the only measurement that reflects real quality.</li>
+             </ol>
+             <p>Making these automated tests rather than one-off manual checks is the difference between a demo and a production system.</p>`,
+              },
+              {
+                question:
+                  "What is quantisation in vector search and how does it interact with similarity metrics?",
+                solution:
+                  "<p>Quantisation reduces the numeric precision of stored vectors to save memory: scalar quantisation to int8 gives roughly a four-times reduction with modest quality loss, and binary quantisation gives roughly thirty-two times with a larger loss. It interacts with metrics because the reduced precision introduces error into every distance computation, so recall drops — and the drop is larger for aggressive quantisation. The standard mitigation is <strong>rescoring</strong>: use quantised vectors for a fast first-pass search over a wide candidate set, then recompute exact similarity on the top candidates using full-precision vectors held on disk. Binary quantisation with Hamming distance plus float rescoring is a common high-scale pattern. As always, the discipline is to measure recall@k before and after so you know exactly what the memory saving cost you.</p>",
+              },
+              {
+                question:
+                  "Why do text embeddings rarely produce negative cosine similarity, even for unrelated documents?",
+                solution:
+                  "<p>Because text embeddings from a given model tend to occupy a relatively narrow cone of the high-dimensional space rather than spreading uniformly over the sphere — a phenomenon usually called anisotropy. Vectors therefore share a substantial common direction, and the angle between any two of them is rarely large enough to produce a negative cosine. Practically this means the observed score range is compressed: you might see 0.6 to 0.95 rather than −1 to 1, and 0.6 may represent 'completely unrelated' rather than 'somewhat related'. This is the underlying reason absolute thresholds are so unreliable, and why relative comparison within a result set, or a properly calibrated reranker, is the correct way to judge relevance.</p>",
+              },
+              {
+                question:
+                  "For a recommendation system, would you still use cosine similarity? Why or why not?",
+                solution:
+                  "<p>Often not — and this is the clearest case where the text-retrieval default is the wrong instinct. In recommendation systems built on matrix factorisation or two-tower models trained with an inner-product objective, vector magnitude is not noise: it typically encodes item popularity or the model's confidence, and you genuinely want popular, high-confidence items ranked higher. Normalising that away with cosine discards signal the model was trained to provide. The rule is to match the metric to the training objective — if the model was trained with inner product, serve with inner product. It is also worth noting that pure similarity is rarely the whole ranking function in recommendations; business logic around freshness, diversity, inventory and margin usually sits on top.</p>",
+              },
+              {
+                question:
+                  "Walk me through the full retrieval path for a query in a production RAG system, naming where similarity metrics appear.",
+                solution: `<ol>
+               <li><strong>Query preprocessing</strong> — optionally rewrite or expand the query using conversation context.</li>
+               <li><strong>Embed the query</strong> with the same model used at index time, applying any required prefix such as 'query: '.</li>
+               <li><strong>Apply metadata pre-filters</strong> — permissions, date range, document type — so the search only considers permitted documents.</li>
+               <li><strong>ANN search</strong> — here the configured similarity metric is used to traverse the HNSW or IVF index and return a broad candidate set, say top-50. The <code>efSearch</code> parameter controls the recall/latency trade-off at this step.</li>
+               <li><strong>Keyword search in parallel</strong> (BM25) for exact-match terms, then fuse both result lists with Reciprocal Rank Fusion, which uses rank rather than raw scores precisely because the two metrics are not comparable.</li>
+               <li><strong>Rerank</strong> the fused candidates with a cross-encoder, producing calibrated relevance scores.</li>
+               <li><strong>Select the final few</strong> chunks within the context budget, order them deliberately given lost-in-the-middle, and assemble the prompt.</li>
+             </ol>
+             <p>The point worth landing: the similarity metric governs step 4 only. Everything that determines final answer quality — filtering, fusion, reranking, ordering — sits around it. Candidates who think 'better retrieval' means 'better similarity metric' are missing where the leverage actually is.</p>`,
+              },
+            ],
+            links: [
+              "https://www.pinecone.io/learn/vector-similarity/",
+              "https://github.com/nmslib/hnswlib",
+              "https://arxiv.org/abs/1603.09320",
+              "https://weaviate.io/blog/distance-metrics-in-vector-search",
+              "https://qdrant.tech/documentation/concepts/search/",
+            ],
+          },
+          {
+            topic: "Why LLMs Hallucinate",
+            tags: ["high-frequency", "must-know", "capstone", "evaluation"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>hallucination</strong> is output that is fluent, confident and wrong. This is the capstone topic of LLM fundamentals: answering it well requires everything else — tokenization, the inference loop, sampling, training, retrieval and evaluation. It is also the question a business stakeholder will actually ask you, in the form "can we trust it?"
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The framing that separates a strong answer from a weak one: <strong>hallucination is not a bug in the system, it is the system working exactly as designed.</strong> The model was trained to produce plausible text, and it is doing that. Once you accept this, the conversation moves from "how do we stop it" (you cannot) to "how do we contain, detect and measure it" (you can) — and that is an architecture conversation.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Two Kinds of Hallucination — Use the Right Word
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+FAITHFULNESS FAILURE (intrinsic)
+  The answer contradicts the source material you gave it.
+  "The contract says the term is 5 years"  when the contract
+  in the context clearly says 3 years.
+  -> DETECTABLE. You have the source. You can check it.
+  -> This is the one RAG systems must measure.
+
+FACTUALITY FAILURE (extrinsic)
+  The answer asserts something not supported by any source
+  and not verifiable from what was provided.
+  A fabricated case citation. An invented API parameter.
+  A plausible-sounding statistic with no origin.
+  -> HARDER to detect. Requires external ground truth.
+
+WHY THE DISTINCTION MATTERS: in a RAG system you can automate
+faithfulness checking almost completely, because the source is
+right there. You cannot automate factuality checking without a
+trusted knowledge base. Conflating the two leads teams to claim
+"we solved hallucination" when they only measured the easy half.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Root Causes — Be Able to Name Several
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">The training objective rewards plausibility, not truth :</span>
+      The model is optimised to predict likely next tokens. "According to the 2019 study by" has a most-likely continuation, and it is a realistic-sounding author name — whether or not that study exists. Nothing in the objective distinguishes true from merely likely.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">There is no knowledge boundary :</span>
+      The model has no internal index of what it does and does not know. There is no lookup that returns "not found", so there is no natural moment at which it could decide to abstain. It always has a distribution over next tokens, and it always samples from it.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Knowledge is lossily compressed :</span>
+      Terabytes of training text are compressed into billions of parameters. Frequently-repeated facts survive that compression well; long-tail facts — a small company's founding date, a rarely-cited paper, an obscure API — survive as a blurry approximation that gets reconstructed into something confident and wrong.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Post-training rewards guessing over abstaining :</span>
+      Human raters reliably prefer a confident answer to "I don't know". Optimising for that preference teaches the model that guessing scores better than admitting uncertainty — the same incentive as a multiple-choice exam with no penalty for wrong answers. This has been argued explicitly in recent research as a primary driver, and it is a strong point to raise because most candidates stop at "it predicts tokens".
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Tokenization blindness :</span>
+      The model sees tokens, not characters or digits. Counting letters, precise arithmetic and exact string manipulation are unreliable by construction — and it will produce a confident wrong number rather than decline.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Knowledge cutoff :</span>
+      Anything after training simply does not exist for the model, and it has no way to know that a question falls after its cutoff.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context-induced hallucination (the one YOU cause) :</span>
+      Bad retrieval hands the model irrelevant or contradictory chunks and it dutifully synthesises an answer from them. Lost-in-the-middle buries the relevant passage. A previous hallucination sits in the conversation history and is now treated as established fact. <strong>In a RAG system, most hallucinations you actually see are retrieval failures wearing a generation costume.</strong>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Prompt-induced hallucination :</span>
+      A leading question or a false premise invites fabrication. Ask "why does our product's quantum encryption module fail under load?" and a helpful model will explain a module that does not exist, because contradicting the user is not what it was rewarded for.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why It Is Dangerous: Fluency Is Decoupled From Accuracy
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    In humans, uncertainty leaks into how we speak — we hedge, we slow down, we say "I think". None of those signals exist in an LLM. A fabricated citation is generated with exactly the same confident prose as a correct one. Users have a lifetime of calibration telling them fluent equals informed, and that heuristic fails completely here. This is precisely why hallucination is a <em>product and trust</em> problem, not only a technical one: the failure is invisible at the point of use.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Does NOT Work (say this before you list what does)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+"Do not hallucinate. Only state facts."
+    A prompt cannot create a knowledge boundary that does not
+    exist. Mildly helpful at the margin, no real guarantee.
+
+Temperature 0
+    Makes it CONSISTENTLY wrong instead of randomly wrong.
+    Reduces variance, not falsehood. The most common
+    misconception in the whole topic.
+
+A bigger / newer model
+    Reduces frequency. Does not eliminate. And larger models
+    can be MORE dangerous because they are wrong more
+    convincingly and less often, so users stop checking.
+
+"We added RAG, so we're fine"
+    RAG reduces hallucination substantially - and INTRODUCES a
+    new failure mode. Bad retrieval means the model now
+    confidently cites a real document that does not answer
+    the question. Grounded and wrong is still wrong.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Mitigation Ladder — The Architect's Answer
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Ground it (RAG) :</span>
+      Put the real source text in the context. This converts an unanswerable factuality question into a checkable faithfulness question, which is the single highest-leverage move available.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Give it a way out :</span>
+      Explicitly instruct that "the provided documents do not contain this information" is a correct and valued answer. You are counteracting the post-training incentive to always produce something. This is cheap and measurably effective.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Require citations - and VERIFY them in code :</span>
+      Asking for citations is not enough; models cite plausibly and wrongly. Have the model emit the exact quoted span, then <em>programmatically</em> confirm that string exists in the cited source. An unverifiable claim gets stripped or flagged. This turns a soft instruction into a hard check.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use tools for anything exact :</span>
+      Arithmetic, dates, counts, lookups, current data. Do not ask the model to compute — ask it to call something that computes. This removes an entire category of hallucination rather than reducing it.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Constrain the output :</span>
+      Structured output with a schema massively narrows the space in which fabrication can occur. A field constrained to an enum cannot contain an invented value.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Self-consistency :</span>
+      Sample N times and compare. Agreement is one of the few genuine confidence signals available — consistent answers are usually reliable, divergent answers usually mean guessing. Costs N times the tokens, so reserve it for high-stakes paths.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Verify with a second pass :</span>
+      A separate call checks whether each claim is entailed by the source — via an LLM judge or an NLI entailment model. Chain-of-Verification is the formalised version: draft, generate verification questions, answer them independently, then revise.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route by stakes :</span>
+      Low-stakes answers ship. High-stakes answers get verification, escalation, or a human. Not everything needs the same rigour, and pretending otherwise makes the system unusable.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Design the UI for uncertainty :</span>
+      Show sources inline. Make citations clickable. Distinguish grounded claims from general knowledge. The goal is to keep the user calibrated rather than to make them trust the output unconditionally.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Measure it continuously :</span>
+      Everything above is unverified opinion until you have a faithfulness score on a golden set, tracked over time and gating releases.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Measuring Hallucination
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+FAITHFULNESS / GROUNDEDNESS
+  Decompose the answer into atomic claims, then check each one
+  against the retrieved context. Score = supported / total.
+  Automatable with an LLM judge or an NLI entailment model.
+  THIS IS THE PRIMARY RAG HALLUCINATION METRIC.
+
+ANSWER CORRECTNESS
+  Compare against a human-written reference answer.
+  Needs a labelled golden set. Catches what faithfulness misses:
+  an answer can be perfectly faithful to a retrieved chunk that
+  was simply the wrong chunk.
+
+CONTEXT RELEVANCE / PRECISION
+  Was the retrieved context even relevant? Measure this SEPARATELY,
+  because a low faithfulness score caused by bad retrieval needs a
+  completely different fix from one caused by the generator.
+
+ABSTENTION RATE
+  How often does it correctly say "I don't know" on questions it
+  should not answer? Deliberately seed your golden set with
+  unanswerable questions - most teams forget this, and it is the
+  metric that catches over-eager guessing.
+
+CITATION VALIDITY
+  Percentage of citations that resolve to a real source AND whose
+  quoted span actually appears in that source. Fully automatable
+  and surprisingly revealing.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Stakes Change the Answer
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    A 3% hallucination rate is fine for brainstorming marketing copy and unacceptable for dosage guidance, legal advice or financial figures. The professional position is not "we eliminated hallucination" — nobody has — but "we measured it at X%, we reduced it to Y% with these controls, we detect and flag the residual, and here is the human checkpoint for cases where being wrong is unacceptable." Saying that clearly, with numbers, is what a senior candidate sounds like.
+  </p>
+</div>`,
+            examples: [
+              `// Citation verification: turn a soft instruction into a hard check.
+// Asking for citations is not enough - models cite plausibly AND wrongly.
+
+const SYSTEM = [
+  "Answer ONLY from the provided documents.",
+  "For every factual claim, cite the document id AND include the",
+  "exact verbatim sentence from that document that supports it.",
+  "If the documents do not contain the answer, reply exactly:",
+  "  INSUFFICIENT_CONTEXT",
+  "Do not use outside knowledge. Do not guess."
+].join("\\n");
+
+const SCHEMA = {
+  type: "object",
+  properties: {
+    answer: { type: "string" },
+    claims: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          claim:     { type: "string" },
+          sourceId:  { type: "string" },
+          quote:     { type: "string" }   // must appear VERBATIM in source
+        },
+        required: ["claim", "sourceId", "quote"]
+      }
+    }
+  },
+  required: ["answer", "claims"]
+};
+
+function verifyCitations(result, sourcesById) {
+  const failures = [];
+  for (const c of result.claims) {
+    const src = sourcesById[c.sourceId];
+    if (!src) {
+      failures.push({ ...c, reason: "cited source does not exist" });
+      continue;
+    }
+    // Normalise whitespace before comparing - models reflow text.
+    const hay = src.text.replace(/\\s+/g, " ").toLowerCase();
+    const needle = c.quote.replace(/\\s+/g, " ").toLowerCase();
+    if (!hay.includes(needle)) {
+      failures.push({ ...c, reason: "quote not found in cited source" });
+    }
+  }
+  return { valid: failures.length === 0, failures };
+}
+
+// This catches the exact failure users complain about: a REAL document
+// id attached to a sentence that document never contained. It is cheap,
+// deterministic, needs no second LLM call, and it is the single highest
+// value-per-line-of-code hallucination control you can ship.`,
+              `// Faithfulness scoring - decompose into claims, check each one.
+// This is the primary RAG hallucination metric. Automate it.
+
+async function faithfulnessScore(answer, context) {
+  // 1. Break the answer into atomic, independently checkable claims.
+  const { claims } = await llm.json({
+    system: "Split the answer into atomic factual claims. One fact " +
+            "per claim. Ignore pleasantries and hedging language.",
+    user: answer,
+    schema: { type: "object", properties: {
+      claims: { type: "array", items: { type: "string" } } } }
+  });
+
+  // 2. Check each claim against the context INDEPENDENTLY.
+  //    Independent checks avoid one claim's plausibility bleeding
+  //    into the judgement of another.
+  const verdicts = await Promise.all(claims.map(claim =>
+    llm.json({
+      system: "Is the CLAIM directly supported by the CONTEXT? " +
+              "Answer supported=false if it requires outside knowledge, " +
+              "even if you believe the claim is true in reality.",
+      user: "CONTEXT:\\n" + context + "\\n\\nCLAIM:\\n" + claim,
+      schema: { type: "object", properties: {
+        supported: { type: "boolean" },
+        reason:    { type: "string" } } }
+    })
+  ));
+
+  const supported = verdicts.filter(v => v.supported).length;
+  return {
+    score: claims.length === 0 ? 1 : supported / claims.length,
+    unsupported: claims.filter((c, i) => !verdicts[i].supported)
+  };
+}
+
+// CRITICAL NUANCE in that judge prompt: "supported=false even if you
+// believe the claim is true". Without it, the judge marks true-but-
+// ungrounded statements as supported, and you are no longer measuring
+// faithfulness at all - you are measuring the judge's own knowledge.`,
+              `// Give the model a way out, and MEASURE whether it takes it.
+// Post-training taught it that guessing beats abstaining. Counteract that.
+
+const GROUNDED_PROMPT = [
+  "You answer questions using ONLY the documents provided below.",
+  "",
+  "If the documents do not contain enough information to answer,",
+  "respond with exactly: INSUFFICIENT_CONTEXT",
+  "",
+  "Answering 'INSUFFICIENT_CONTEXT' is a CORRECT and VALUED response.",
+  "It is far better than a plausible guess. Do not speculate,",
+  "do not fill gaps with general knowledge, and do not infer",
+  "beyond what the documents state."
+].join("\\n");
+
+// Now build a golden set that DELIBERATELY includes unanswerable
+// questions - this is the part almost every team forgets.
+const GOLDEN = [
+  { q: "What is the refund window?",        answerable: true  },
+  { q: "Who is the CEO's spouse?",          answerable: false },
+  { q: "What will pricing be in 2030?",     answerable: false },
+  { q: "How do I reset my password?",       answerable: true  }
+];
+
+async function measureAbstention() {
+  let correctAbstain = 0, wrongAbstain = 0, hallucinated = 0;
+
+  for (const item of GOLDEN) {
+    const out = await ragAnswer(item.q);
+    const abstained = out.includes("INSUFFICIENT_CONTEXT");
+
+    if (!item.answerable && abstained) correctAbstain++;
+    if ( item.answerable && abstained) wrongAbstain++;   // over-refusing
+    if (!item.answerable && !abstained) hallucinated++;  // the bad case
+  }
+  return { correctAbstain, wrongAbstain, hallucinated };
+}
+
+// TRACK BOTH DIRECTIONS. A system that refuses everything scores
+// perfectly on hallucination and is completely useless. Over-refusal
+// is a real failure mode and users hate it more than occasional errors.`,
+              `// Route by stakes. Not every answer deserves the same rigour -
+// and pretending otherwise makes the product too slow and too costly.
+
+const RISK = {
+  LOW:    "chitchat, summarisation, brainstorming",
+  MEDIUM: "internal policy lookup, documentation Q&A",
+  HIGH:   "financial figures, medical, legal, anything customer-facing"
+};
+
+async function answerWithGuardrails(question, riskLevel) {
+  const draft = await ragAnswer(question);
+
+  if (riskLevel === "LOW") {
+    return { answer: draft, verified: false };
+  }
+
+  // MEDIUM: cheap deterministic checks only.
+  const citations = verifyCitations(draft, draft.sourcesById);
+  if (!citations.valid) {
+    return { answer: stripUnverifiedClaims(draft, citations.failures),
+             verified: true, note: "Some claims were removed." };
+  }
+
+  if (riskLevel === "MEDIUM") return { answer: draft, verified: true };
+
+  // HIGH: full treatment.
+  const faith = await faithfulnessScore(draft.answer, draft.context);
+  const consistency = await selfConsistentAnswer(question, 3);
+
+  if (faith.score < 0.9 || consistency.agreement < 0.67) {
+    return {
+      answer: null,
+      escalate: true,
+      reason: "Low confidence: faithfulness " + faith.score.toFixed(2) +
+              ", agreement " + consistency.agreement.toFixed(2)
+    };
+  }
+
+  return { answer: draft, verified: true, faithfulness: faith.score };
+}
+
+// The architectural point to make out loud: you are not eliminating
+// hallucination, you are BOUNDING THE BLAST RADIUS. Cheap checks
+// everywhere, expensive checks where being wrong actually costs
+// something, and a human where being wrong is unacceptable.`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why do LLMs hallucinate? Give me the root cause, not the symptom.",
+                solution: `<p>The root cause is the training objective: the model is optimised to produce <em>plausible</em> next tokens, not <em>true</em> ones. It has no internal knowledge index and therefore no lookup that can return 'not found', so there is never a moment at which it could naturally decide to abstain — it always has a probability distribution and always samples from it. Several factors compound this:</p>
+             <ul>
+               <li><strong>Lossy compression</strong> — terabytes of text into billions of parameters. Frequent facts survive; long-tail facts are reconstructed into confident approximations.</li>
+               <li><strong>Post-training incentives</strong> — human raters prefer confident answers to 'I don't know', so preference tuning actively teaches the model that guessing scores better than abstaining. This is the same incentive as an exam with no penalty for wrong answers.</li>
+               <li><strong>Tokenization</strong> — it sees tokens, not characters or digits, so counting and arithmetic fail by construction.</li>
+               <li><strong>Knowledge cutoff</strong> — and no way to know a question falls after it.</li>
+             </ul>
+             <p>The framing that matters: hallucination is not a defect in the mechanism, it <em>is</em> the mechanism. That shifts the conversation from prevention to containment, detection and measurement.</p>`,
+              },
+              {
+                question:
+                  "What is the difference between a faithfulness failure and a factuality failure?",
+                solution:
+                  "<p>A <strong>faithfulness</strong> (or intrinsic) failure is when the answer contradicts the source material you supplied — the contract in context says three years and the answer says five. A <strong>factuality</strong> (or extrinsic) failure is when the answer asserts something unsupported by any source and unverifiable from what was provided — a fabricated case citation, an invented API parameter. The distinction is operationally critical: in a RAG system you can automate faithfulness checking almost completely, because the source is sitting right there in the context, whereas factuality checking requires trusted external ground truth. Teams that conflate them routinely claim they have 'solved hallucination' when they have only measured the easy half.</p>",
+              },
+              {
+                question:
+                  "Does setting temperature to 0 stop hallucination?",
+                solution:
+                  "<p>No, and this is the most common misconception in the topic. Temperature 0 makes the model consistently produce its single most likely output. If the most likely output is a fabricated citation, you now receive the <em>same</em> fabricated citation on every call — reliably wrong instead of randomly wrong. It reduces variance, not falsehood. There is even an argument that non-zero temperature is safer for high-stakes use, because it lets you run self-consistency and use disagreement across samples as a genuine confidence signal, which temperature 0 denies you entirely. The real mitigations are architectural: grounding, verified citations, tool use for exact operations, an explicit abstention path, and measurement.</p>",
+              },
+              {
+                question:
+                  "Your RAG system still hallucinates. Where do you look first?",
+                solution: `<p>At retrieval, not generation — in a RAG system most apparent hallucinations are retrieval failures wearing a generation costume. Diagnostic order:</p>
+             <ol>
+               <li><strong>Inspect the retrieved context for failing queries.</strong> Very often the answer simply was not in what you passed, and the model synthesised something from adjacent material.</li>
+               <li><strong>Measure retrieval separately</strong> — recall@k and context relevance on a golden set. If the right chunk is not being retrieved, no amount of prompt engineering on the generator will help.</li>
+               <li><strong>Check for contradictory chunks</strong> — retrieving both an old and a current policy leaves the model to arbitrate, and it will pick one confidently without flagging the conflict.</li>
+               <li><strong>Check chunk boundaries</strong> — an answer split across two chunks means neither contains it whole.</li>
+               <li><strong>Check position</strong> — lost-in-the-middle means a relevant chunk buried in a long context may effectively be invisible.</li>
+               <li><strong>Only then examine generation</strong> — is there an abstention path, are citations required and verified, is temperature sane?</li>
+             </ol>
+             <p>The point being assessed is whether you instrument the two halves of the pipeline independently. 'The model hallucinates' is a conclusion you can only reach after ruling out that you fed it the wrong context.</p>`,
+              },
+              {
+                question:
+                  "Why is 'do not hallucinate' in the system prompt not a real mitigation?",
+                solution:
+                  "<p>Because a prompt cannot create a capability the model does not have. The model has no knowledge boundary to consult, so instructing it not to state things it does not know asks it to perform a check it has no mechanism for. It has a modest effect at the margin — it nudges toward hedging and slightly raises abstention — but it provides no guarantee and fails precisely on the confident, plausible fabrications that matter most. What <em>does</em> work in the prompt is narrower and more mechanical: explicitly authorising 'the documents do not contain this' as a correct answer (counteracting the post-training incentive to always produce something), and demanding verbatim quoted spans that you then verify in code. The general lesson is that soft instructions become real controls only when paired with a hard check.</p>",
+              },
+              {
+                question:
+                  "How would you verify citations programmatically?",
+                solution: `<p>Require the model to emit structured output containing, for each claim, the source ID and the <em>exact verbatim sentence</em> from that source supporting it. Then, in code:</p>
+             <ol>
+               <li>Confirm the cited source ID actually exists in what you retrieved — models invent plausible IDs.</li>
+               <li>Normalise whitespace on both the quote and the source text, since models reflow text when quoting.</li>
+               <li>Assert the quoted span appears in the cited source. If it does not, the claim is unverified.</li>
+               <li>Strip or flag unverified claims before display, and log them as a hallucination signal.</li>
+             </ol>
+             <p>This is deterministic, requires no second model call, and catches the exact failure users complain about — a real document ID attached to a sentence that document never contained. It is probably the highest value-per-line-of-code hallucination control available, and it is worth noting that <em>asking</em> for citations without verifying them is close to useless, because models cite plausibly and wrongly.</p>`,
+              },
+              {
+                question:
+                  "How do you measure hallucination in production?",
+                solution: `<p>Five complementary metrics, and you need more than one:</p>
+             <ul>
+               <li><strong>Faithfulness / groundedness</strong> — decompose the answer into atomic claims and check each against the retrieved context. Score is supported over total. This is the primary RAG metric and is automatable with an LLM judge or an NLI entailment model.</li>
+               <li><strong>Answer correctness</strong> — compare against human-written references on a golden set. Catches what faithfulness misses: an answer can be perfectly faithful to a chunk that was simply the wrong chunk.</li>
+               <li><strong>Context relevance</strong> — measured separately, because low faithfulness caused by bad retrieval requires a completely different fix from low faithfulness caused by the generator.</li>
+               <li><strong>Abstention rate</strong> — how often it correctly declines on deliberately unanswerable questions. Most teams forget to seed their golden set with these.</li>
+               <li><strong>Citation validity</strong> — percentage of citations resolving to a real source with a genuinely present quote. Fully automatable.</li>
+             </ul>
+             <p>In production, run the automated checks on a sample of live traffic, track the trend, and gate releases on the golden set. Add a user feedback signal, but treat it as a weak indicator — users report the hallucinations they happen to notice, which are not a representative sample.</p>`,
+              },
+              {
+                question:
+                  "Explain self-consistency and why agreement is a meaningful confidence signal.",
+                solution:
+                  "<p>Self-consistency samples the same question several times at non-zero temperature and compares the answers. It works because correct reasoning tends to be reachable by multiple distinct paths and converges, while errors tend to be idiosyncratic — different sampling runs produce <em>different</em> wrong answers. So an agreement rate of five out of five suggests the model is on stable ground, while two out of five means it is essentially guessing and the request should be escalated or refused. This is one of the few genuine confidence signals available, and it is considerably more meaningful than logprobs, which measure token plausibility rather than truth. The cost is N times the tokens and N times the latency, so it belongs on high-stakes paths rather than everywhere — which is itself the correct architectural instinct: match rigour to stakes.</p>",
+              },
+              {
+                question:
+                  "What is Chain-of-Verification?",
+                solution:
+                  "<p>Chain-of-Verification is a structured self-checking pattern: the model produces a draft answer; then generates a set of verification questions targeting the factual claims in that draft; then answers those questions <em>independently</em>, without seeing the original draft; and finally revises the answer in light of any inconsistencies. The independence step is the important part — answering the verification questions in isolation prevents the model from simply confirming what it already wrote, which is what happens if you naively ask 'is this answer correct?' The trade-off is cost and latency, since it multiplies the number of calls per answer. It is worth reaching for on high-stakes factual output, and it composes well with retrieval: verification questions can trigger fresh retrieval rather than relying on parametric knowledge.</p>",
+              },
+              {
+                question:
+                  "Can RAG introduce hallucinations rather than only reducing them?",
+                solution:
+                  "<p>Yes, and saying so is a sign of real experience. RAG substantially reduces hallucination by grounding answers in real text, but it adds new failure modes. Bad retrieval hands the model irrelevant chunks and it dutifully synthesises an answer from them — now with a citation, which makes the wrong answer <em>more</em> convincing. Contradictory chunks, such as an old and a current policy, leave the model to arbitrate silently rather than flagging the conflict. Chunks stripped of context can be misread — 'this is not permitted' means nothing without knowing which policy it belongs to. And lost-in-the-middle can make a retrieved answer effectively invisible. The correct framing is that RAG converts an unbounded factuality problem into a bounded and checkable faithfulness problem, which is a large win — but 'grounded' and 'correct' are not the same thing.</p>",
+              },
+              {
+                question:
+                  "A stakeholder asks 'can we guarantee it never gives a wrong answer?' How do you respond?",
+                solution:
+                  "<p>Directly: no, and neither can a human expert — so the useful question is what error rate is acceptable and what happens when an error occurs. Then move to specifics rather than leaving it at a refusal. Explain that you measure the current rate on a representative golden set, that you have reduced it with named controls — grounding, verified citations, tool use for exact operations, an abstention path — and that you detect and flag the residual rather than letting it through silently. Then propose the control that actually addresses their concern: a human checkpoint on the specific decisions where being wrong is unacceptable, with the model doing the retrieval and drafting rather than the deciding. Ending with a number and a checkpoint is what distinguishes a credible answer from a defensive one, and it reframes the conversation from a guarantee nobody can give to a risk posture the business can actually sign off on.</p>",
+              },
+              {
+                question:
+                  "Why might a larger, newer model be more dangerous despite hallucinating less?",
+                solution:
+                  "<p>Because it hallucinates less <em>often</em> but no less <em>convincingly</em> — and the reduced frequency changes user behaviour. When a system is wrong one time in twenty, users check it; when it is wrong one time in five hundred, they stop checking, and the rare error passes straight through into a decision. Automation bias is a well-documented human factor, and it is precisely the failure mode of high-reliability-but-not-perfect systems. Larger models can also be more articulate in their fabrications, producing better-formatted citations and more authoritative phrasing. The practical implication is that improving model quality does not remove the need for verification and human checkpoints — it arguably increases it, because the residual errors are harder to catch by eye and the users are less alert.</p>",
+              },
+              {
+                question:
+                  "How do you stop a hallucination from poisoning the rest of a conversation?",
+                solution: `<p>Hallucinated content that enters conversation history is treated as established fact for the remainder of the session and compounds with each turn. Defences:</p>
+             <ul>
+               <li><strong>Do not persist model assertions as facts.</strong> Keep the transcript, but do not promote statements from it into a memory or profile store without verification.</li>
+               <li><strong>Verify before appending</strong> — run citation checks on the answer before it enters history, and strip or mark unverified claims.</li>
+               <li><strong>Re-ground each turn</strong> — retrieve fresh context per question rather than relying on what the model said earlier.</li>
+               <li><strong>Delimit untrusted content</strong> — keep retrieved documents and tool results clearly labelled as data rather than merging them into the assistant's own voice.</li>
+               <li><strong>Give users control</strong> — an easy way to correct or reset the session.</li>
+               <li><strong>Bound agent propagation</strong> — for multi-step agents, checkpoint before actions so a corrupted intermediate state cannot cascade into side effects.</li>
+             </ul>
+             <p>Related and worth mentioning: the same channel is the attack path for indirect prompt injection, so these controls serve both a correctness and a security purpose.</p>`,
+              },
+              {
+                question:
+                  "What role does tool use play in reducing hallucination?",
+                solution:
+                  "<p>It removes entire categories rather than reducing their frequency. Arithmetic, date calculations, counting, exact string operations, current data lookups and record retrieval are all things the model does unreliably by construction — tokenization blindness for the character-level ones, knowledge cutoff and compression for the factual ones. Handing them to a calculator, a database query or an API call means the answer comes from a system that is actually correct, with the model reduced to deciding <em>which</em> tool to call and how to present the result. That is a much narrower and more reliable job. The caveats worth naming: the model can still call the wrong tool or pass wrong arguments, so tool schemas and argument validation matter; and it can misreport a correct tool result, so for high-stakes values you display the raw result rather than the model's paraphrase of it.</p>",
+              },
+              {
+                question:
+                  "How do you design a golden set that actually catches hallucination?",
+                solution: `<p>Deliberately, and with the cases teams usually omit:</p>
+             <ul>
+               <li><strong>Answerable questions with known correct answers</strong> — the baseline.</li>
+               <li><strong>Unanswerable questions</strong> that look answerable — this is the omission that matters most, because it is the only way to measure whether the system guesses when it should abstain.</li>
+               <li><strong>False-premise questions</strong> — 'why does our quantum encryption module fail under load?' when no such module exists. A helpful model will explain it.</li>
+               <li><strong>Questions whose answer changed</strong>, to catch stale retrieval and contradictory chunks.</li>
+               <li><strong>Questions requiring synthesis across documents</strong>, where the model is most tempted to fill gaps.</li>
+               <li><strong>Long-tail questions</strong> about obscure entities, where parametric knowledge is weakest.</li>
+             </ul>
+             <p>Track both over-answering and over-refusing, because a system that abstains on everything scores perfectly on hallucination and is useless. And regenerate the set periodically — a golden set frozen at launch stops reflecting real usage within months.</p>`,
+              },
+              {
+                question:
+                  "Design a hallucination strategy for a customer-facing financial assistant.",
+                solution: `<p>Stakes are high and the answer must be layered, not a single control:</p>
+             <ol>
+               <li><strong>Scope hard.</strong> Define what it will and will not answer, and refuse out-of-scope questions outright rather than attempting them. Most risk reduction comes from narrowing the surface.</li>
+               <li><strong>Ground everything.</strong> No parametric answers on figures or policy — every claim traces to a retrieved source or a system-of-record API call.</li>
+               <li><strong>Never let the model compute.</strong> Balances, interest, dates and totals come from tools; the model formats and explains, and the raw value is displayed rather than paraphrased.</li>
+               <li><strong>Verify citations in code</strong> and strip unverified claims before display.</li>
+               <li><strong>Measure faithfulness and abstention</strong> on a golden set that includes unanswerable and false-premise questions, and gate releases on it.</li>
+               <li><strong>Escalate on low confidence</strong> — low faithfulness score or low self-consistency agreement routes to a human rather than answering.</li>
+               <li><strong>Design the UI for verification</strong> — inline clickable sources, clear separation of retrieved facts from general guidance, and an explicit statement that this is not financial advice.</li>
+               <li><strong>Log everything</strong> for audit — question, retrieved context, answer, citations, verdicts — because a regulator will eventually ask why a specific answer was given.</li>
+             </ol>
+             <p>Close on the governance point: for regulated advice, the model drafts and retrieves, a human decides. That is not a limitation to apologise for — it is the design.</p>`,
+              },
+            ],
+            links: [
+              "https://arxiv.org/abs/2311.05232",
+              "https://arxiv.org/abs/2309.11495",
+              "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/",
+              "https://arxiv.org/abs/2203.11171",
+              "https://www.anthropic.com/news/contextual-retrieval",
+            ],
           },
         ],
       },
@@ -212464,8 +216984,7 @@ echo "✅ Demo complete"`,
                   "<p>When you run <code>docker compose up</code>, Compose automatically creates a user-defined bridge network named <code>PROJECTNAME_default</code> and connects all services to it. Because it's a user-defined bridge (not the default docker0 bridge), Docker's embedded DNS server at 127.0.0.11 is active — all services can reach each other by their <strong>service name</strong> as the hostname. A service named <code>postgres</code> is reachable as <code>postgres:5432</code> from any other service in the project — no IP addresses, no links, no configuration needed. For more complex topologies, define custom networks in the top-level <code>networks:</code> key and assign services to specific networks using the service-level <code>networks:</code> key. A service assigned to multiple networks (like an API tier that needs to reach both the frontend reverse proxy and the backend database) bridges those network segments. The <code>internal: true</code> flag on a network removes the default route out — containers on that network have no internet access. Compose namespaces everything: networks become <code>PROJECT_NETWORKNAME</code>, visible in <code>docker network ls</code>. Running <code>docker compose down</code> removes the networks; <code>docker compose down -v</code> also removes volumes.</p>",
               },
               {
-                question:
-                  "What are Compose profiles and when do you use them?",
+                question: "What are Compose profiles and when do you use them?",
                 solution:
                   "<p>Profiles let you define optional services in a single Compose file that are <em>only</em> started when that profile is explicitly activated. Services without a <code>profiles:</code> key are always started — these are your core application services. Services with <code>profiles: [dev]</code> only start when you pass <code>--profile dev</code> or set <code>COMPOSE_PROFILES=dev</code>. A service can belong to multiple profiles: <code>profiles: [dev, debug]</code>. The primary use cases: (1) Dev tooling — MailHog (fake SMTP server), Adminer (database GUI), documentation servers. These are useful in development but must not run in production. (2) Debug tools — pgAdmin, Redis Commander, application profilers. (3) Optional infrastructure — monitoring stack (Prometheus + Grafana), feature-flag services, extra workers. Before profiles existed, the pattern was maintaining separate override files for dev tooling. Profiles are cleaner because everything lives in one file, and developers just activate the profiles they need. Profile services also participate in dependency resolution: if a profiled service depends_on a core service, that dependency is respected when the profile is activated. You can also target a profiled service directly: <code>docker compose --profile dev up -d adminer</code>.</p>",
               },
@@ -214842,52 +219361,75 @@ echo "✅ Docker security demo complete"
 
             questions: [
               {
-                question: "Why should containers run as non-root users? How do you enforce this?",
-                solution: "<p>Containers run as root by default. If an attacker compromises a root-running container, they have root privileges within that container's namespace — they can install packages, modify system files, and if there's a kernel exploit or misconfiguration, they have a much easier path to host breakout. Running as non-root implements the principle of least privilege. Enforce it in the Dockerfile: <code>RUN adduser --system --uid 1001 appuser && USER appuser</code>. Also enforce at runtime with <code>--user 1001:1001</code> and validate with <code>docker run --rm myapp id</code>. In Kubernetes, set <code>securityContext.runAsNonRoot: true</code> and <code>securityContext.runAsUser: 1001</code>. Even better: combine with <code>securityContext.allowPrivilegeEscalation: false</code> and <code>readOnlyRootFilesystem: true</code>.</p>",
+                question:
+                  "Why should containers run as non-root users? How do you enforce this?",
+                solution:
+                  "<p>Containers run as root by default. If an attacker compromises a root-running container, they have root privileges within that container's namespace — they can install packages, modify system files, and if there's a kernel exploit or misconfiguration, they have a much easier path to host breakout. Running as non-root implements the principle of least privilege. Enforce it in the Dockerfile: <code>RUN adduser --system --uid 1001 appuser && USER appuser</code>. Also enforce at runtime with <code>--user 1001:1001</code> and validate with <code>docker run --rm myapp id</code>. In Kubernetes, set <code>securityContext.runAsNonRoot: true</code> and <code>securityContext.runAsUser: 1001</code>. Even better: combine with <code>securityContext.allowPrivilegeEscalation: false</code> and <code>readOnlyRootFilesystem: true</code>.</p>",
               },
               {
-                question: "What is the difference between scratch, distroless, and alpine base images? When should you use each?",
-                solution: "<p><strong>scratch</strong> is the empty base image — zero bytes. No OS, no shell, no SSL certs. Only works for statically-linked binaries (Go with CGO_ENABLED=0, Rust). Attack surface: zero. Use for security-critical Go/Rust services where you absolutely minimize the attack surface. <strong>distroless</strong> (Google) contains only the application runtime (Java, Python, Node) and minimal dependencies (libc, SSL certs) — no shell, no package manager. ~2-20MB. Use for production workloads where you need runtime libraries but don't want a shell (makes debugging harder but much more secure). <strong>alpine</strong> ~7MB includes musl libc, a shell (sh), and the apk package manager. Best balance of size and debuggability. Use for most production services — you can docker exec in for debugging. Caveat: musl vs glibc compatibility can break C extensions.</p>",
+                question:
+                  "What is the difference between scratch, distroless, and alpine base images? When should you use each?",
+                solution:
+                  "<p><strong>scratch</strong> is the empty base image — zero bytes. No OS, no shell, no SSL certs. Only works for statically-linked binaries (Go with CGO_ENABLED=0, Rust). Attack surface: zero. Use for security-critical Go/Rust services where you absolutely minimize the attack surface. <strong>distroless</strong> (Google) contains only the application runtime (Java, Python, Node) and minimal dependencies (libc, SSL certs) — no shell, no package manager. ~2-20MB. Use for production workloads where you need runtime libraries but don't want a shell (makes debugging harder but much more secure). <strong>alpine</strong> ~7MB includes musl libc, a shell (sh), and the apk package manager. Best balance of size and debuggability. Use for most production services — you can docker exec in for debugging. Caveat: musl vs glibc compatibility can break C extensions.</p>",
               },
               {
-                question: "How do you prevent secrets from being baked into Docker images?",
-                solution: "<p>Never use <code>ARG</code> for secrets — ARG values are stored in image metadata and visible via <code>docker history</code>. For build-time secrets (npm tokens, SSH keys for go mod download), use BuildKit's <code>--mount=type=secret</code>. The secret is mounted as a file during a specific RUN instruction and leaves no trace in any layer. For runtime secrets, use orchestrator secrets: Docker Swarm secrets (mounted at /run/secrets/) or Kubernetes secrets (mounted as files). Never pass secrets via environment variables — they're visible in <code>docker inspect</code>, container logs, and can be read from /proc of a compromised container. The correct pattern: mount secrets as files, have your application read from those files.</p>",
+                question:
+                  "How do you prevent secrets from being baked into Docker images?",
+                solution:
+                  "<p>Never use <code>ARG</code> for secrets — ARG values are stored in image metadata and visible via <code>docker history</code>. For build-time secrets (npm tokens, SSH keys for go mod download), use BuildKit's <code>--mount=type=secret</code>. The secret is mounted as a file during a specific RUN instruction and leaves no trace in any layer. For runtime secrets, use orchestrator secrets: Docker Swarm secrets (mounted at /run/secrets/) or Kubernetes secrets (mounted as files). Never pass secrets via environment variables — they're visible in <code>docker inspect</code>, container logs, and can be read from /proc of a compromised container. The correct pattern: mount secrets as files, have your application read from those files.</p>",
               },
               {
-                question: "What are Linux capabilities and why should you drop them?",
-                solution: "<p>Linux capabilities break root privileges into small, granular units. A process can be root but have only specific capabilities. Docker containers inherit a default set of ~14 capabilities (including CHOWN, DAC_OVERRIDE, NET_BIND_SERVICE, etc.). This default set is too permissive for most applications. The principle: <code>--cap-drop ALL</code>, then add back only what's needed. For a typical web app, only <code>--cap-add NET_BIND_SERVICE</code> (to bind to ports <1024) is needed. For apps that need to change file ownership, add <code>--cap-add CHOWN</code>. Dropping capabilities reduces the attack surface — if a container is compromised, the attacker has fewer privileged operations available.</p>",
+                question:
+                  "What are Linux capabilities and why should you drop them?",
+                solution:
+                  "<p>Linux capabilities break root privileges into small, granular units. A process can be root but have only specific capabilities. Docker containers inherit a default set of ~14 capabilities (including CHOWN, DAC_OVERRIDE, NET_BIND_SERVICE, etc.). This default set is too permissive for most applications. The principle: <code>--cap-drop ALL</code>, then add back only what's needed. For a typical web app, only <code>--cap-add NET_BIND_SERVICE</code> (to bind to ports <1024) is needed. For apps that need to change file ownership, add <code>--cap-add CHOWN</code>. Dropping capabilities reduces the attack surface — if a container is compromised, the attacker has fewer privileged operations available.</p>",
               },
               {
-                question: "How do you set resource limits on containers and why are they a security control?",
-                solution: "<p>Resource limits are a security control because they prevent denial-of-service attacks — a single compromised container can't exhaust host memory or CPU. Set memory limits with <code>--memory=\"512m\"</code> and <code>--memory-swap=\"512m\"</code> (disable swap). Set CPU limits with <code>--cpus=\"0.5\"</code> (half a core). Set process limits with <code>--pids-limit=100</code> to prevent fork bombs. In Kubernetes, set <code>resources.limits</code> and <code>resources.requests</code>. Without limits, a container with a memory leak will eventually trigger the host OOM killer, which may kill other containers. CPU limits ensure fair scheduling and prevent noisy neighbors.</p>",
+                question:
+                  "How do you set resource limits on containers and why are they a security control?",
+                solution:
+                  '<p>Resource limits are a security control because they prevent denial-of-service attacks — a single compromised container can\'t exhaust host memory or CPU. Set memory limits with <code>--memory="512m"</code> and <code>--memory-swap="512m"</code> (disable swap). Set CPU limits with <code>--cpus="0.5"</code> (half a core). Set process limits with <code>--pids-limit=100</code> to prevent fork bombs. In Kubernetes, set <code>resources.limits</code> and <code>resources.requests</code>. Without limits, a container with a memory leak will eventually trigger the host OOM killer, which may kill other containers. CPU limits ensure fair scheduling and prevent noisy neighbors.</p>',
               },
               {
-                question: "What is Docker Content Trust and how does it improve security?",
-                solution: "<p>Docker Content Trust (DCT) enables image signing and verification using Notary (based on The Update Framework, TUF). When <code>DOCKER_CONTENT_TRUST=1</code> is set, Docker only pulls images that have been signed by a trusted publisher. It prevents man-in-the-middle attacks (tampered images) and ensures images come from the expected source. To use DCT: the publisher signs images when pushing (<code>docker trust sign myimage:latest</code>), and consumers set <code>DOCKER_CONTENT_TRUST=1</code> before pulling. For stronger security, use Cosign (Sigstore) which integrates with OCI registries and provides better key management and transparency logs.</p>",
+                question:
+                  "What is Docker Content Trust and how does it improve security?",
+                solution:
+                  "<p>Docker Content Trust (DCT) enables image signing and verification using Notary (based on The Update Framework, TUF). When <code>DOCKER_CONTENT_TRUST=1</code> is set, Docker only pulls images that have been signed by a trusted publisher. It prevents man-in-the-middle attacks (tampered images) and ensures images come from the expected source. To use DCT: the publisher signs images when pushing (<code>docker trust sign myimage:latest</code>), and consumers set <code>DOCKER_CONTENT_TRUST=1</code> before pulling. For stronger security, use Cosign (Sigstore) which integrates with OCI registries and provides better key management and transparency logs.</p>",
               },
               {
-                question: "What is the difference between seccomp and AppArmor?",
-                solution: "<p><strong>Seccomp</strong> (secure computing mode) filters system calls. It operates at the syscall level — a seccomp profile specifies which syscalls a container can make (e.g., allow read/write, deny bpf). Docker provides a default seccomp profile that blocks ~50 dangerous syscalls. <strong>AppArmor</strong> (on Ubuntu/Debian) is a mandatory access control (MAC) system that restricts file access, network access, and capabilities. It operates at the file/network level — an AppArmor profile specifies which files a process can read/write. Both are used together: seccomp for syscall filtering, AppArmor for file system and network restrictions. In production, you should use both, plus <code>--security-opt no-new-privileges</code> to block setuid binaries.</p>",
+                question:
+                  "What is the difference between seccomp and AppArmor?",
+                solution:
+                  "<p><strong>Seccomp</strong> (secure computing mode) filters system calls. It operates at the syscall level — a seccomp profile specifies which syscalls a container can make (e.g., allow read/write, deny bpf). Docker provides a default seccomp profile that blocks ~50 dangerous syscalls. <strong>AppArmor</strong> (on Ubuntu/Debian) is a mandatory access control (MAC) system that restricts file access, network access, and capabilities. It operates at the file/network level — an AppArmor profile specifies which files a process can read/write. Both are used together: seccomp for syscall filtering, AppArmor for file system and network restrictions. In production, you should use both, plus <code>--security-opt no-new-privileges</code> to block setuid binaries.</p>",
               },
               {
                 question: "How do you scan Docker images for vulnerabilities?",
-                solution: "<p><strong>Docker Scout</strong> (built into Docker Desktop) scans images against vulnerability databases and provides fix recommendations. <strong>Trivy</strong> (open-source, Aqua Security) is the most popular CI scanner — it scans OS packages, language-specific dependencies, and even misconfigurations. <strong>Snyk</strong> (commercial) provides developer-first scanning with IDE integration. Best practice: integrate scanning into CI — build image, scan, fail on CRITICAL or HIGH vulnerabilities, then push only if passing. Use <code>--severity CRITICAL,HIGH --exit-code 1</code> with Trivy. Also scan base images before using them — a vulnerable base image infects all derived images. For Kubernetes, use admission controllers that reject images with critical vulnerabilities.</p>",
+                solution:
+                  "<p><strong>Docker Scout</strong> (built into Docker Desktop) scans images against vulnerability databases and provides fix recommendations. <strong>Trivy</strong> (open-source, Aqua Security) is the most popular CI scanner — it scans OS packages, language-specific dependencies, and even misconfigurations. <strong>Snyk</strong> (commercial) provides developer-first scanning with IDE integration. Best practice: integrate scanning into CI — build image, scan, fail on CRITICAL or HIGH vulnerabilities, then push only if passing. Use <code>--severity CRITICAL,HIGH --exit-code 1</code> with Trivy. Also scan base images before using them — a vulnerable base image infects all derived images. For Kubernetes, use admission controllers that reject images with critical vulnerabilities.</p>",
               },
               {
-                question: "What is Falco and what security use cases does it cover?",
-                solution: "<p>Falco is a CNCF runtime security tool that monitors system calls and kernel events to detect suspicious behavior. It runs as a kernel module or eBPF probe and evaluates activity against rules. Common use cases: detecting a shell spawning in a container (<code>spawned process with name sh in container</code>), reading sensitive files (<code>read /etc/shadow from container</code>), outbound network connections to suspicious IPs, privilege escalation attempts, and unexpected binary execution. Falco can send alerts to SIEM systems (Splunk, ELK), trigger webhooks, or use Kubernetes admission controllers to block malicious activity. It's essential for runtime threat detection — scanning images catches known vulnerabilities, but Falco catches active exploitation.</p>",
+                question:
+                  "What is Falco and what security use cases does it cover?",
+                solution:
+                  "<p>Falco is a CNCF runtime security tool that monitors system calls and kernel events to detect suspicious behavior. It runs as a kernel module or eBPF probe and evaluates activity against rules. Common use cases: detecting a shell spawning in a container (<code>spawned process with name sh in container</code>), reading sensitive files (<code>read /etc/shadow from container</code>), outbound network connections to suspicious IPs, privilege escalation attempts, and unexpected binary execution. Falco can send alerts to SIEM systems (Splunk, ELK), trigger webhooks, or use Kubernetes admission controllers to block malicious activity. It's essential for runtime threat detection — scanning images catches known vulnerabilities, but Falco catches active exploitation.</p>",
               },
               {
-                question: "What is a .dockerignore file and why is it critical for security?",
-                solution: "<p>The .dockerignore file specifies patterns to exclude from the build context sent to the Docker daemon. Without it, you risk: (1) <strong>Secret leakage</strong>: <code>.env</code> files, AWS credentials, and private keys in the build context get copied into the image (if COPY . . is used). (2) <strong>Large build context</strong>: sending 500MB of node_modules to the daemon every build. (3) <strong>Incorrect builds</strong>: copying host-compiled binaries (e.g., macOS node_modules) into a Linux container. Essential entries: <code>.git</code>, <code>node_modules</code>, <code>.env*</code>, <code>*.log</code>, <code>coverage/</code>, <code>.github/</code>. In multi-stage builds, .dockerignore is even more critical because builder stages often use <code>COPY . .</code> — a missing .dockerignore entry could leak secrets into the final image.</p>",
+                question:
+                  "What is a .dockerignore file and why is it critical for security?",
+                solution:
+                  "<p>The .dockerignore file specifies patterns to exclude from the build context sent to the Docker daemon. Without it, you risk: (1) <strong>Secret leakage</strong>: <code>.env</code> files, AWS credentials, and private keys in the build context get copied into the image (if COPY . . is used). (2) <strong>Large build context</strong>: sending 500MB of node_modules to the daemon every build. (3) <strong>Incorrect builds</strong>: copying host-compiled binaries (e.g., macOS node_modules) into a Linux container. Essential entries: <code>.git</code>, <code>node_modules</code>, <code>.env*</code>, <code>*.log</code>, <code>coverage/</code>, <code>.github/</code>. In multi-stage builds, .dockerignore is even more critical because builder stages often use <code>COPY . .</code> — a missing .dockerignore entry could leak secrets into the final image.</p>",
               },
               {
-                question: "How does the user namespace (userns) improve container security?",
-                solution: "<p>The user namespace maps UIDs inside the container to different UIDs on the host. The critical security benefit: a process that is root (UID 0) inside the container can be mapped to a non-root UID (e.g., 100000) on the host. If an attacker breaks out of the container namespace, they gain only the privileges of that non-root user on the host — not root. This is the most important defense-in-depth mechanism for containers. Enable with <code>docker run --userns=host</code> (for user namespace remapping configured in dockerd) or in Kubernetes with <code>securityContext.runAsUser</code> and <code>securityContext.fsGroup</code>. User namespaces dramatically reduce the impact of container escapes.</p>",
+                question:
+                  "How does the user namespace (userns) improve container security?",
+                solution:
+                  "<p>The user namespace maps UIDs inside the container to different UIDs on the host. The critical security benefit: a process that is root (UID 0) inside the container can be mapped to a non-root UID (e.g., 100000) on the host. If an attacker breaks out of the container namespace, they gain only the privileges of that non-root user on the host — not root. This is the most important defense-in-depth mechanism for containers. Enable with <code>docker run --userns=host</code> (for user namespace remapping configured in dockerd) or in Kubernetes with <code>securityContext.runAsUser</code> and <code>securityContext.fsGroup</code>. User namespaces dramatically reduce the impact of container escapes.</p>",
               },
               {
-                question: "What is the read-only root filesystem flag and why use it?",
-                solution: "<p><code>--read-only</code> makes the container's root filesystem read-only, preventing any writes. This stops attackers from writing malicious binaries or modifying system files even if they compromise the container. For applications that need to write temporary files, use <code>--tmpfs /tmp:rw,noexec,nosuid,size=100m</code> to mount a writable tmpfs at /tmp. For application logs, mount a writable volume. The combination of read-only root + tmpfs for temp files means the container's attack surface is dramatically reduced — there's no way to persist changes or install new software. In Kubernetes, set <code>securityContext.readOnlyRootFilesystem: true</code>.</p>",
+                question:
+                  "What is the read-only root filesystem flag and why use it?",
+                solution:
+                  "<p><code>--read-only</code> makes the container's root filesystem read-only, preventing any writes. This stops attackers from writing malicious binaries or modifying system files even if they compromise the container. For applications that need to write temporary files, use <code>--tmpfs /tmp:rw,noexec,nosuid,size=100m</code> to mount a writable tmpfs at /tmp. For application logs, mount a writable volume. The combination of read-only root + tmpfs for temp files means the container's attack surface is dramatically reduced — there's no way to persist changes or install new software. In Kubernetes, set <code>securityContext.readOnlyRootFilesystem: true</code>.</p>",
               },
             ],
 
@@ -216186,52 +220728,73 @@ echo "  • Reliability: Health checks + restart policies"
 
             questions: [
               {
-                question: "What is the most important factor for Docker build performance, and how do you optimize it?",
-                solution: "<p>The most important factor is <strong>layer ordering to maximize cache reuse</strong>. Docker caches layers based on the instruction content and file changes. When a layer changes, all subsequent layers are rebuilt. The optimization is to order instructions from <strong>least-changing to most-changing</strong>. Copy dependency manifests (package.json, go.mod, requirements.txt) and run installation commands BEFORE copying source code. This way, the expensive <code>npm ci</code> or <code>go mod download</code> layer is cached across 90%+ of builds—only re-executing when dependencies change. For Node.js: copy package.json → RUN npm ci → COPY source → RUN build. For Go: copy go.mod → RUN go mod download → COPY source → go build. Use BuildKit's <code>--mount=type=cache</code> to persist package caches across builds even when layers are invalidated.</p>",
+                question:
+                  "What is the most important factor for Docker build performance, and how do you optimize it?",
+                solution:
+                  "<p>The most important factor is <strong>layer ordering to maximize cache reuse</strong>. Docker caches layers based on the instruction content and file changes. When a layer changes, all subsequent layers are rebuilt. The optimization is to order instructions from <strong>least-changing to most-changing</strong>. Copy dependency manifests (package.json, go.mod, requirements.txt) and run installation commands BEFORE copying source code. This way, the expensive <code>npm ci</code> or <code>go mod download</code> layer is cached across 90%+ of builds—only re-executing when dependencies change. For Node.js: copy package.json → RUN npm ci → COPY source → RUN build. For Go: copy go.mod → RUN go mod download → COPY source → go build. Use BuildKit's <code>--mount=type=cache</code> to persist package caches across builds even when layers are invalidated.</p>",
               },
               {
-                question: "How do multi-stage builds reduce image size? Give an example.",
-                solution: "<p>Multi-stage builds use multiple <code>FROM</code> instructions, each starting a fresh filesystem. The builder stage contains all the tools needed to compile the application (Go compiler, Node with TypeScript, Maven with JDK). The final stage copies only the runtime artifacts from the builder, discarding everything else. Example: Go app with <code>FROM golang:1.22-alpine AS builder</code> (850MB) that compiles the binary, then <code>FROM scratch</code> (0 bytes) that copies only the binary (8MB). The final image is 8MB—99% reduction. The intermediate builder layers never appear in the final image. This also improves security: compilers, package managers, and source code aren't in the production image.</p>",
+                question:
+                  "How do multi-stage builds reduce image size? Give an example.",
+                solution:
+                  "<p>Multi-stage builds use multiple <code>FROM</code> instructions, each starting a fresh filesystem. The builder stage contains all the tools needed to compile the application (Go compiler, Node with TypeScript, Maven with JDK). The final stage copies only the runtime artifacts from the builder, discarding everything else. Example: Go app with <code>FROM golang:1.22-alpine AS builder</code> (850MB) that compiles the binary, then <code>FROM scratch</code> (0 bytes) that copies only the binary (8MB). The final image is 8MB—99% reduction. The intermediate builder layers never appear in the final image. This also improves security: compilers, package managers, and source code aren't in the production image.</p>",
               },
               {
-                question: "What is the difference between Alpine, Distroless, and Scratch? When would you choose each?",
-                solution: "<p><strong>Alpine</strong> (~7MB) uses musl libc and includes a shell (sh) and package manager (apk). Best for most production workloads—small enough for security, but you can <code>docker exec</code> for debugging. <strong>Distroless</strong> (~2-20MB) has no shell or package manager but includes runtime libraries (SSL certs, libc). Security-focused—used by Google for production services. You can't exec into it, which reduces attack surface. <strong>Scratch</strong> (0 bytes) is empty—no OS, no shell, no libraries. Only works for statically-linked binaries (Go with CGO_ENABLED=0, Rust). Choose Alpine for debuggability, Distroless for security-critical services, Scratch for Go/Rust when you want the absolute smallest image and don't need debugging.</p>",
+                question:
+                  "What is the difference between Alpine, Distroless, and Scratch? When would you choose each?",
+                solution:
+                  "<p><strong>Alpine</strong> (~7MB) uses musl libc and includes a shell (sh) and package manager (apk). Best for most production workloads—small enough for security, but you can <code>docker exec</code> for debugging. <strong>Distroless</strong> (~2-20MB) has no shell or package manager but includes runtime libraries (SSL certs, libc). Security-focused—used by Google for production services. You can't exec into it, which reduces attack surface. <strong>Scratch</strong> (0 bytes) is empty—no OS, no shell, no libraries. Only works for statically-linked binaries (Go with CGO_ENABLED=0, Rust). Choose Alpine for debuggability, Distroless for security-critical services, Scratch for Go/Rust when you want the absolute smallest image and don't need debugging.</p>",
               },
               {
-                question: "How do you prevent secrets from being baked into images?",
-                solution: "<p>Never use <code>ARG</code> for secrets—ARG values are stored in image metadata and visible via <code>docker history</code>. Use BuildKit's <code>--mount=type=secret</code> for build-time secrets: <code>RUN --mount=type=secret,id=npm_token npm ci</code>, and build with <code>docker build --secret id=npm_token,src=./.npmrc</code>. The secret is only available in-memory during that RUN instruction and leaves no trace. For runtime secrets, use orchestrator secrets (Docker Swarm secrets, Kubernetes secrets) mounted as files—never environment variables. Environment variables are visible in <code>docker inspect</code>, container logs, and can be read from /proc of a compromised container. Always use <code>.dockerignore</code> to exclude .env files from the build context.</p>",
+                question:
+                  "How do you prevent secrets from being baked into images?",
+                solution:
+                  "<p>Never use <code>ARG</code> for secrets—ARG values are stored in image metadata and visible via <code>docker history</code>. Use BuildKit's <code>--mount=type=secret</code> for build-time secrets: <code>RUN --mount=type=secret,id=npm_token npm ci</code>, and build with <code>docker build --secret id=npm_token,src=./.npmrc</code>. The secret is only available in-memory during that RUN instruction and leaves no trace. For runtime secrets, use orchestrator secrets (Docker Swarm secrets, Kubernetes secrets) mounted as files—never environment variables. Environment variables are visible in <code>docker inspect</code>, container logs, and can be read from /proc of a compromised container. Always use <code>.dockerignore</code> to exclude .env files from the build context.</p>",
               },
               {
-                question: "What resource limits should you set on containers and why?",
-                solution: "<p>Set <strong>memory limits</strong> (<code>--memory=\"512m\"</code>) to prevent a single container from exhausting host memory and triggering OOM killer on other containers. Set <strong>CPU limits</strong> (<code>--cpus=\"0.5\"</code>) to ensure fair scheduling and prevent noisy neighbors. Set <strong>process limits</strong> (<code>--pids-limit=100</code>) to prevent fork bomb DoS attacks. Set <strong>log rotation</strong> (<code>--log-opt max-size=10m --log-opt max-file=3</code>) to prevent disk space exhaustion. These limits are security controls as much as performance controls—they contain the blast radius of a compromised container or a bug causing resource exhaustion. In Kubernetes, set both <code>requests</code> (scheduling) and <code>limits</code> (enforcement).</p>",
+                question:
+                  "What resource limits should you set on containers and why?",
+                solution:
+                  '<p>Set <strong>memory limits</strong> (<code>--memory="512m"</code>) to prevent a single container from exhausting host memory and triggering OOM killer on other containers. Set <strong>CPU limits</strong> (<code>--cpus="0.5"</code>) to ensure fair scheduling and prevent noisy neighbors. Set <strong>process limits</strong> (<code>--pids-limit=100</code>) to prevent fork bomb DoS attacks. Set <strong>log rotation</strong> (<code>--log-opt max-size=10m --log-opt max-file=3</code>) to prevent disk space exhaustion. These limits are security controls as much as performance controls—they contain the blast radius of a compromised container or a bug causing resource exhaustion. In Kubernetes, set both <code>requests</code> (scheduling) and <code>limits</code> (enforcement).</p>',
               },
               {
                 question: "What is a health check and why is it important?",
-                solution: "<p>A health check tells the orchestrator whether a container is functioning correctly. <strong>Liveness probes</strong> determine if a container should be restarted (e.g., deadlocked application). <strong>Readiness probes</strong> determine if a container should receive traffic (e.g., still warming up, database connection not ready). In Docker: <code>HEALTHCHECK --interval=30s CMD curl -f http://localhost/ || exit 1</code>. In Kubernetes: <code>livenessProbe</code> and <code>readinessProbe</code>. Health checks enable self-healing—unhealthy containers are automatically restarted or removed from load balancers. Without them, a crashed container stays running (or in the load balancer) until manually intervened, causing downtime.</p>",
+                solution:
+                  "<p>A health check tells the orchestrator whether a container is functioning correctly. <strong>Liveness probes</strong> determine if a container should be restarted (e.g., deadlocked application). <strong>Readiness probes</strong> determine if a container should receive traffic (e.g., still warming up, database connection not ready). In Docker: <code>HEALTHCHECK --interval=30s CMD curl -f http://localhost/ || exit 1</code>. In Kubernetes: <code>livenessProbe</code> and <code>readinessProbe</code>. Health checks enable self-healing—unhealthy containers are automatically restarted or removed from load balancers. Without them, a crashed container stays running (or in the load balancer) until manually intervened, causing downtime.</p>",
               },
               {
-                question: "How do you analyze and debug Docker image size issues?",
-                solution: "<p>Use <code>dive</code> to analyze image layers interactively—it shows each layer's size, which files were added, and highlights wasted space (e.g., files added in one layer and deleted in another). <code>docker history --no-trunc</code> shows each layer's command and size. For specific files, use <code>docker run --rm myapp du -sh /path</code> or <code>docker export</code> then analyze the tar. Common issues: package manager cache not cleaned in the same layer, multiple RUN commands that should be chained, unnecessary files (test fixtures, documentation) copied from build context, and using full base images instead of slim variants. Also check that <code>.dockerignore</code> excludes node_modules, .git, and other large directories from the build context.</p>",
+                question:
+                  "How do you analyze and debug Docker image size issues?",
+                solution:
+                  "<p>Use <code>dive</code> to analyze image layers interactively—it shows each layer's size, which files were added, and highlights wasted space (e.g., files added in one layer and deleted in another). <code>docker history --no-trunc</code> shows each layer's command and size. For specific files, use <code>docker run --rm myapp du -sh /path</code> or <code>docker export</code> then analyze the tar. Common issues: package manager cache not cleaned in the same layer, multiple RUN commands that should be chained, unnecessary files (test fixtures, documentation) copied from build context, and using full base images instead of slim variants. Also check that <code>.dockerignore</code> excludes node_modules, .git, and other large directories from the build context.</p>",
               },
               {
                 question: "What is BuildKit and how does it improve builds?",
-                solution: "<p>BuildKit is Docker's modern build engine (enabled by default in Docker 23+). Improvements: (1) <strong>Parallel stage execution</strong>—independent stages run simultaneously, reducing total build time. (2) <strong>Cache mounts</strong> (<code>--mount=type=cache</code>)—persistent directories across builds even when layers are invalidated, so package managers only download new packages. (3) <strong>Remote cache</strong> (<code>--cache-from type=registry</code>)—CI builds can pull cached layers from registry, making ephemeral runners fast. (4) <strong>Secret mounts</strong> (<code>--mount=type=secret</code>)—secrets available during build without being stored in layers. (5) <strong>Better multi-platform builds</strong> (<code>docker buildx</code>). Enable with <code>DOCKER_BUILDKIT=1</code> or via daemon config.</p>",
+                solution:
+                  "<p>BuildKit is Docker's modern build engine (enabled by default in Docker 23+). Improvements: (1) <strong>Parallel stage execution</strong>—independent stages run simultaneously, reducing total build time. (2) <strong>Cache mounts</strong> (<code>--mount=type=cache</code>)—persistent directories across builds even when layers are invalidated, so package managers only download new packages. (3) <strong>Remote cache</strong> (<code>--cache-from type=registry</code>)—CI builds can pull cached layers from registry, making ephemeral runners fast. (4) <strong>Secret mounts</strong> (<code>--mount=type=secret</code>)—secrets available during build without being stored in layers. (5) <strong>Better multi-platform builds</strong> (<code>docker buildx</code>). Enable with <code>DOCKER_BUILDKIT=1</code> or via daemon config.</p>",
               },
               {
-                question: "How do you optimize Docker builds for CI/CD pipelines?",
-                solution: "<p>CI/CD optimization: (1) <strong>Use BuildKit with remote cache</strong>: <code>docker buildx build --cache-from type=registry,ref=myrepo/cache --cache-to type=registry,ref=myrepo/cache,mode=max</code>. First build pushes cache; subsequent builds pull it. (2) <strong>Maximize layer caching</strong>: copy dependency manifests before source code. (3) <strong>Use .dockerignore</strong> to reduce build context size. (4) <strong>Use multi-stage builds</strong> to keep final images small and build layers separate. (5) <strong>Parallelize independent builds</strong> across different CI jobs (e.g., frontend and backend). (6) <strong>Use Docker Build Cloud or GitHub Actions caching</strong> for faster builds. (7) <strong>Consider build arguments</strong> to vary builds (e.g., dev vs prod) without duplicating Dockerfiles.</p>",
+                question:
+                  "How do you optimize Docker builds for CI/CD pipelines?",
+                solution:
+                  "<p>CI/CD optimization: (1) <strong>Use BuildKit with remote cache</strong>: <code>docker buildx build --cache-from type=registry,ref=myrepo/cache --cache-to type=registry,ref=myrepo/cache,mode=max</code>. First build pushes cache; subsequent builds pull it. (2) <strong>Maximize layer caching</strong>: copy dependency manifests before source code. (3) <strong>Use .dockerignore</strong> to reduce build context size. (4) <strong>Use multi-stage builds</strong> to keep final images small and build layers separate. (5) <strong>Parallelize independent builds</strong> across different CI jobs (e.g., frontend and backend). (6) <strong>Use Docker Build Cloud or GitHub Actions caching</strong> for faster builds. (7) <strong>Consider build arguments</strong> to vary builds (e.g., dev vs prod) without duplicating Dockerfiles.</p>",
               },
               {
-                question: "What is the difference between COPY and ADD in Dockerfile?",
-                solution: "<p><code>COPY</code> copies files from the build context into the image. It's simple, predictable, and should be preferred for most cases. <code>ADD</code> has additional features: (1) <strong>URL support</strong>—can download files from URLs. (2) <strong>Automatic tar extraction</strong>—if source is a local tar archive, it's extracted into the destination. Because of these features, ADD is less predictable and can lead to unexpected behavior (e.g., downloading a file that changes URL content between builds). Best practice: use COPY for local files, use RUN with curl or wget for downloading remote files (and clean up after), avoid automatic tar extraction—explicitly extract with RUN tar. The exception: ADD is useful for copying local tar archives when extraction is desired.</p>",
+                question:
+                  "What is the difference between COPY and ADD in Dockerfile?",
+                solution:
+                  "<p><code>COPY</code> copies files from the build context into the image. It's simple, predictable, and should be preferred for most cases. <code>ADD</code> has additional features: (1) <strong>URL support</strong>—can download files from URLs. (2) <strong>Automatic tar extraction</strong>—if source is a local tar archive, it's extracted into the destination. Because of these features, ADD is less predictable and can lead to unexpected behavior (e.g., downloading a file that changes URL content between builds). Best practice: use COPY for local files, use RUN with curl or wget for downloading remote files (and clean up after), avoid automatic tar extraction—explicitly extract with RUN tar. The exception: ADD is useful for copying local tar archives when extraction is desired.</p>",
               },
               {
-                question: "How do you optimize Node.js Docker images specifically?",
-                solution: "<p>Node.js optimization: (1) <strong>Multi-stage builds</strong>: separate deps, builder, and production stages. (2) <strong>Use <code>npm ci --omit=dev</code></strong> in production stage—installs only production dependencies, excluding TypeScript, testing, and linting tools. (3) <strong>Copy package.json before source code</strong> to cache npm ci layer. (4) <strong>Use <code>npm cache clean --force</code></strong> in same layer to remove ~50MB cache. (5) <strong>Use Alpine or distroless base</strong> (node:20-alpine is ~180MB vs node:20 at ~1GB). (6) <strong>Set <code>NODE_ENV=production</code></strong> to optimize module loading. (7) <strong>Use <code>--mount=type=cache,target=/root/.npm</code></strong> for persistent npm cache across builds. (8) <strong>Run as non-root user</strong> (adduser, USER). Result: 1.2GB → 180MB image size, 10x faster builds on code changes.</p>",
+                question:
+                  "How do you optimize Node.js Docker images specifically?",
+                solution:
+                  "<p>Node.js optimization: (1) <strong>Multi-stage builds</strong>: separate deps, builder, and production stages. (2) <strong>Use <code>npm ci --omit=dev</code></strong> in production stage—installs only production dependencies, excluding TypeScript, testing, and linting tools. (3) <strong>Copy package.json before source code</strong> to cache npm ci layer. (4) <strong>Use <code>npm cache clean --force</code></strong> in same layer to remove ~50MB cache. (5) <strong>Use Alpine or distroless base</strong> (node:20-alpine is ~180MB vs node:20 at ~1GB). (6) <strong>Set <code>NODE_ENV=production</code></strong> to optimize module loading. (7) <strong>Use <code>--mount=type=cache,target=/root/.npm</code></strong> for persistent npm cache across builds. (8) <strong>Run as non-root user</strong> (adduser, USER). Result: 1.2GB → 180MB image size, 10x faster builds on code changes.</p>",
               },
               {
                 question: "How do you optimize Go Docker images specifically?",
-                solution: "<p>Go optimization: (1) <strong>Multi-stage builds</strong> with builder stage using <code>golang:alpine</code> and final stage using <code>scratch</code>. (2) <strong>Set <code>CGO_ENABLED=0</code></strong> to produce a statically-linked binary with no libc dependency—can run on scratch. (3) <strong>Use <code>-ldflags=\"-w -s\"</code></strong> to strip debug info and symbol table, reducing binary size by 20-30%. (4) <strong>Use <code>--mount=type=cache,target=/go/pkg/mod</code></strong> for persistent module cache. (5) <strong>Use <code>--mount=type=cache,target=/root/.cache/go-build</code></strong> for persistent build cache. (6) <strong>Copy only the binary to final stage</strong>—no source code, no Go toolchain. (7) <strong>Copy SSL certs from builder</strong> if your app makes HTTPS calls. Result: 850MB → 8-15MB image size, near-instant builds on code changes (only go build runs).</p>",
+                solution:
+                  '<p>Go optimization: (1) <strong>Multi-stage builds</strong> with builder stage using <code>golang:alpine</code> and final stage using <code>scratch</code>. (2) <strong>Set <code>CGO_ENABLED=0</code></strong> to produce a statically-linked binary with no libc dependency—can run on scratch. (3) <strong>Use <code>-ldflags="-w -s"</code></strong> to strip debug info and symbol table, reducing binary size by 20-30%. (4) <strong>Use <code>--mount=type=cache,target=/go/pkg/mod</code></strong> for persistent module cache. (5) <strong>Use <code>--mount=type=cache,target=/root/.cache/go-build</code></strong> for persistent build cache. (6) <strong>Copy only the binary to final stage</strong>—no source code, no Go toolchain. (7) <strong>Copy SSL certs from builder</strong> if your app makes HTTPS calls. Result: 850MB → 8-15MB image size, near-instant builds on code changes (only go build runs).</p>',
               },
             ],
 
@@ -217460,52 +222023,75 @@ echo "  • Multi-arch: buildx creates manifest lists"
 
             questions: [
               {
-                question: "What is the difference between a Docker registry and a repository?",
-                solution: "<p>A <strong>registry</strong> is a storage system that hosts multiple repositories—it's the server or service (e.g., Docker Hub, AWS ECR). A <strong>repository</strong> is a collection of related images within a registry (e.g., <code>ubuntu</code> is a repository with tags like 22.04, 20.04). The full image name includes both: <code>docker.io/library/ubuntu:22.04</code> where <code>docker.io</code> is the registry, <code>library/ubuntu</code> is the repository, and <code>22.04</code> is the tag. Registries can host thousands of repositories. The registry implements the OCI Distribution Specification and manages authentication, storage, and replication. Repositories are logical groupings within a registry.</p>",
+                question:
+                  "What is the difference between a Docker registry and a repository?",
+                solution:
+                  "<p>A <strong>registry</strong> is a storage system that hosts multiple repositories—it's the server or service (e.g., Docker Hub, AWS ECR). A <strong>repository</strong> is a collection of related images within a registry (e.g., <code>ubuntu</code> is a repository with tags like 22.04, 20.04). The full image name includes both: <code>docker.io/library/ubuntu:22.04</code> where <code>docker.io</code> is the registry, <code>library/ubuntu</code> is the repository, and <code>22.04</code> is the tag. Registries can host thousands of repositories. The registry implements the OCI Distribution Specification and manages authentication, storage, and replication. Repositories are logical groupings within a registry.</p>",
               },
               {
-                question: "Why is using the :latest tag considered an anti-pattern in production?",
-                solution: "<p>The <code>:latest</code> tag is mutable—it points to different images over time. When you deploy <code>myapp:latest</code> to production, you don't know which version you're running. If you deploy twice, you may get different images. Rollback is impossible because you don't know what <code>:latest</code> was yesterday. The proper approach is to use <strong>immutable tags</strong> like Git commit SHAs (<code>myapp:a1b2c3d</code>) or semantic versions (<code>myapp:1.2.3</code>). Store the exact tag used for each deployment in your deployment configuration. For convenience, you can still update <code>:latest</code> for development, but never reference it in production manifests.</p>",
+                question:
+                  "Why is using the :latest tag considered an anti-pattern in production?",
+                solution:
+                  "<p>The <code>:latest</code> tag is mutable—it points to different images over time. When you deploy <code>myapp:latest</code> to production, you don't know which version you're running. If you deploy twice, you may get different images. Rollback is impossible because you don't know what <code>:latest</code> was yesterday. The proper approach is to use <strong>immutable tags</strong> like Git commit SHAs (<code>myapp:a1b2c3d</code>) or semantic versions (<code>myapp:1.2.3</code>). Store the exact tag used for each deployment in your deployment configuration. For convenience, you can still update <code>:latest</code> for development, but never reference it in production manifests.</p>",
               },
               {
-                question: "How do you authenticate to AWS ECR in a CI/CD pipeline?",
-                solution: "<p>Use IAM roles with OIDC (OpenID Connect) integration rather than storing long-term credentials. For GitHub Actions: use <code>aws-actions/configure-aws-credentials</code> with OIDC, then <code>aws ecr get-login-password</code> to get a 12-hour token. For GitLab CI: use the built-in AWS integration with OIDC. For Jenkins: use the AWS credentials plugin with an IAM role attached to the EC2 instance. The recommended pattern is to use the <code>ecr-login</code> credential helper—configure <code>~/.docker/config.json</code> with <code>{\"credsStore\": \"ecr-login\"}</code>. Docker will automatically call the helper to get short-lived tokens without manual login steps.</p>",
+                question:
+                  "How do you authenticate to AWS ECR in a CI/CD pipeline?",
+                solution:
+                  '<p>Use IAM roles with OIDC (OpenID Connect) integration rather than storing long-term credentials. For GitHub Actions: use <code>aws-actions/configure-aws-credentials</code> with OIDC, then <code>aws ecr get-login-password</code> to get a 12-hour token. For GitLab CI: use the built-in AWS integration with OIDC. For Jenkins: use the AWS credentials plugin with an IAM role attached to the EC2 instance. The recommended pattern is to use the <code>ecr-login</code> credential helper—configure <code>~/.docker/config.json</code> with <code>{"credsStore": "ecr-login"}</code>. Docker will automatically call the helper to get short-lived tokens without manual login steps.</p>',
               },
               {
-                question: "How do you implement image retention policies to manage registry storage?",
-                solution: "<p>For cloud registries, use built-in lifecycle policies. In AWS ECR, create lifecycle rules to expire images older than N days or keep only the latest N images: <code>aws ecr put-lifecycle-policy</code> with rules like <code>\"countNumber\": 10</code>. In Azure ACR, use retention policies with <code>az acr config retention update</code>. For self-hosted Harbor, use retention rules in the UI. For the open-source Docker Registry, implement scheduled jobs that query the API, identify old tags, delete them, then run garbage collection. Always test retention policies in dev first—permanent deletion is irreversible. Typical strategy: keep all images for 30 days, keep weekly snapshots for 6 months, keep monthly for 1 year.</p>",
+                question:
+                  "How do you implement image retention policies to manage registry storage?",
+                solution:
+                  '<p>For cloud registries, use built-in lifecycle policies. In AWS ECR, create lifecycle rules to expire images older than N days or keep only the latest N images: <code>aws ecr put-lifecycle-policy</code> with rules like <code>"countNumber": 10</code>. In Azure ACR, use retention policies with <code>az acr config retention update</code>. For self-hosted Harbor, use retention rules in the UI. For the open-source Docker Registry, implement scheduled jobs that query the API, identify old tags, delete them, then run garbage collection. Always test retention policies in dev first—permanent deletion is irreversible. Typical strategy: keep all images for 30 days, keep weekly snapshots for 6 months, keep monthly for 1 year.</p>',
               },
               {
-                question: "What is a manifest list and how does it enable multi-architecture support?",
-                solution: "<p>A manifest list (fat manifest) is a JSON file that references multiple platform-specific manifests. When you pull an image tag that points to a manifest list, the Docker client selects the appropriate manifest for your platform (e.g., amd64, arm64, arm/v7). This enables a single tag like <code>myapp:latest</code> to work seamlessly across different architectures. Create manifest lists with <code>docker buildx build --platform linux/amd64,linux/arm64 --push .</code>. The buildx command builds each architecture, creates the manifest list, and pushes everything. Use <code>docker manifest inspect myapp:latest</code> to see the manifest list structure. Cloud registries (ECR, GCR, ACR) and Docker Hub all support manifest lists.</p>",
+                question:
+                  "What is a manifest list and how does it enable multi-architecture support?",
+                solution:
+                  "<p>A manifest list (fat manifest) is a JSON file that references multiple platform-specific manifests. When you pull an image tag that points to a manifest list, the Docker client selects the appropriate manifest for your platform (e.g., amd64, arm64, arm/v7). This enables a single tag like <code>myapp:latest</code> to work seamlessly across different architectures. Create manifest lists with <code>docker buildx build --platform linux/amd64,linux/arm64 --push .</code>. The buildx command builds each architecture, creates the manifest list, and pushes everything. Use <code>docker manifest inspect myapp:latest</code> to see the manifest list structure. Cloud registries (ECR, GCR, ACR) and Docker Hub all support manifest lists.</p>",
               },
               {
-                question: "How do you set up a private Docker registry with authentication?",
-                solution: "<p>Run the official registry:2 image with environment variables for authentication. Create an htpasswd file: <code>docker run --entrypoint htpasswd httpd:2 -Bbn myuser mypassword > auth/htpasswd</code>. Mount the auth directory and set environment variables: <code>docker run -d -p 5000:5000 -v $(pwd)/auth:/auth -e REGISTRY_AUTH=htpasswd -e REGISTRY_AUTH_HTPASSWD_REALM='Registry Realm' -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd registry:2</code>. For TLS, mount certificates and set <code>REGISTRY_HTTP_TLS_CERTIFICATE</code> and <code>REGISTRY_HTTP_TLS_KEY</code>. For production, use a managed service (ECR, GCR, ACR) or a feature-rich self-hosted option like Harbor (which adds vulnerability scanning, replication, and UI).</p>",
+                question:
+                  "How do you set up a private Docker registry with authentication?",
+                solution:
+                  "<p>Run the official registry:2 image with environment variables for authentication. Create an htpasswd file: <code>docker run --entrypoint htpasswd httpd:2 -Bbn myuser mypassword > auth/htpasswd</code>. Mount the auth directory and set environment variables: <code>docker run -d -p 5000:5000 -v $(pwd)/auth:/auth -e REGISTRY_AUTH=htpasswd -e REGISTRY_AUTH_HTPASSWD_REALM='Registry Realm' -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd registry:2</code>. For TLS, mount certificates and set <code>REGISTRY_HTTP_TLS_CERTIFICATE</code> and <code>REGISTRY_HTTP_TLS_KEY</code>. For production, use a managed service (ECR, GCR, ACR) or a feature-rich self-hosted option like Harbor (which adds vulnerability scanning, replication, and UI).</p>",
               },
               {
-                question: "What is Docker Content Trust and how does it improve supply chain security?",
-                solution: "<p>Docker Content Trust (DCT) enables image signing using Notary (based on The Update Framework, TUF). When <code>DOCKER_CONTENT_TRUST=1</code> is set, Docker only pulls images signed by trusted publishers. Publishers sign images when pushing. DCT prevents man-in-the-middle attacks (tampered images) and ensures images come from trusted sources. For stronger security, use Cosign (Sigstore) which integrates with OCI registries, supports keyless signing with OIDC, and provides transparency logs. In Kubernetes, admission controllers can verify signatures before deployment. DCT and Cosign address supply chain attacks where an attacker compromises a registry or network to inject malicious images.</p>",
+                question:
+                  "What is Docker Content Trust and how does it improve supply chain security?",
+                solution:
+                  "<p>Docker Content Trust (DCT) enables image signing using Notary (based on The Update Framework, TUF). When <code>DOCKER_CONTENT_TRUST=1</code> is set, Docker only pulls images signed by trusted publishers. Publishers sign images when pushing. DCT prevents man-in-the-middle attacks (tampered images) and ensures images come from trusted sources. For stronger security, use Cosign (Sigstore) which integrates with OCI registries, supports keyless signing with OIDC, and provides transparency logs. In Kubernetes, admission controllers can verify signatures before deployment. DCT and Cosign address supply chain attacks where an attacker compromises a registry or network to inject malicious images.</p>",
               },
               {
-                question: "How do you manage image tags in a monorepo with multiple services?",
-                solution: "<p>In a monorepo, each service needs its own repository and tagging strategy. Use a naming convention like <code>myregistry.com/service-name:commit-sha</code>. In CI, build each service separately, tag with the same commit SHA, and push. For deployment, use the commit SHA to reference the exact image for each service. Example: <code>docker build -t myregistry.com/frontend:$ {COMMIT_SHA} -f frontend/Dockerfile ./frontend</code> and similarly for backend. Use matrix builds to parallelize. For versioned releases, tag with semantic version plus service name: <code>myregistry.com/frontend:1.2.3</code> and <code>myregistry.com/backend:1.2.3</code>. Maintain a manifest file that maps service to image tag for the release.</p>",
+                question:
+                  "How do you manage image tags in a monorepo with multiple services?",
+                solution:
+                  "<p>In a monorepo, each service needs its own repository and tagging strategy. Use a naming convention like <code>myregistry.com/service-name:commit-sha</code>. In CI, build each service separately, tag with the same commit SHA, and push. For deployment, use the commit SHA to reference the exact image for each service. Example: <code>docker build -t myregistry.com/frontend:$ {COMMIT_SHA} -f frontend/Dockerfile ./frontend</code> and similarly for backend. Use matrix builds to parallelize. For versioned releases, tag with semantic version plus service name: <code>myregistry.com/frontend:1.2.3</code> and <code>myregistry.com/backend:1.2.3</code>. Maintain a manifest file that maps service to image tag for the release.</p>",
               },
               {
-                question: "What is the purpose of registry garbage collection and how do you perform it?",
-                solution: "<p>Registry garbage collection removes unreferenced blobs—layers that are no longer referenced by any manifest (tag). When you delete a tag, the underlying blobs remain until garbage collection runs. To perform garbage collection on the open-source Docker Registry: stop the registry, run <code>docker run --rm -v /var/lib/registry:/var/lib/registry registry:2 garbage-collect /etc/docker/registry/config.yml</code>, then restart. For cloud registries, garbage collection is automatic when you delete tags—no manual intervention needed. Regular garbage collection prevents storage bloat. Schedule it monthly or when storage usage exceeds thresholds. Always test in staging first.</p>",
+                question:
+                  "What is the purpose of registry garbage collection and how do you perform it?",
+                solution:
+                  "<p>Registry garbage collection removes unreferenced blobs—layers that are no longer referenced by any manifest (tag). When you delete a tag, the underlying blobs remain until garbage collection runs. To perform garbage collection on the open-source Docker Registry: stop the registry, run <code>docker run --rm -v /var/lib/registry:/var/lib/registry registry:2 garbage-collect /etc/docker/registry/config.yml</code>, then restart. For cloud registries, garbage collection is automatic when you delete tags—no manual intervention needed. Regular garbage collection prevents storage bloat. Schedule it monthly or when storage usage exceeds thresholds. Always test in staging first.</p>",
               },
               {
-                question: "How do you implement a registry mirror for air-gapped environments?",
-                solution: "<p>A registry mirror acts as a pull-through cache. Configure the Docker daemon with <code>{\"registry-mirrors\": [\"https://mirror.example.com\"]}</code> in /etc/docker/daemon.json. Then run a registry in proxy mode: <code>docker run -d -p 5000:5000 -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io registry:2</code>. The first pull goes to Docker Hub and caches the image; subsequent pulls come from the mirror. For air-gapped environments (no internet), use a full replica: pre-populate the mirror by pulling all required images and pushing to the internal registry. Use tools like <code>skopeo</code> or <code>docker pull/push</code> scripts to sync images. Harbor supports replication rules to sync from a source registry to a target.</p>",
+                question:
+                  "How do you implement a registry mirror for air-gapped environments?",
+                solution:
+                  '<p>A registry mirror acts as a pull-through cache. Configure the Docker daemon with <code>{"registry-mirrors": ["https://mirror.example.com"]}</code> in /etc/docker/daemon.json. Then run a registry in proxy mode: <code>docker run -d -p 5000:5000 -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io registry:2</code>. The first pull goes to Docker Hub and caches the image; subsequent pulls come from the mirror. For air-gapped environments (no internet), use a full replica: pre-populate the mirror by pulling all required images and pushing to the internal registry. Use tools like <code>skopeo</code> or <code>docker pull/push</code> scripts to sync images. Harbor supports replication rules to sync from a source registry to a target.</p>',
               },
               {
-                question: "What is the difference between Docker Hub, GitHub Container Registry, and a cloud provider registry?",
-                solution: "<p><strong>Docker Hub</strong>: The default public registry. Offers official images, community repositories, free tier with limits, and paid plans for private repos. Best for open-source and development. <strong>GitHub Container Registry (GHCR)</strong>: Integrated with GitHub, uses GitHub packages, supports fine-grained permissions via GitHub teams, and has seamless GitHub Actions integration. Best for GitHub-centric workflows. <strong>Cloud provider registries (ECR, GCR, ACR)</strong>: Managed services with IAM integration, vulnerability scanning, geo-replication, and SLA guarantees. Best for production workloads on that cloud. All support OCI images, but differ in authentication (IAM vs tokens), pricing, and features. Choose based on your CI/CD platform and cloud provider.</p>",
+                question:
+                  "What is the difference between Docker Hub, GitHub Container Registry, and a cloud provider registry?",
+                solution:
+                  "<p><strong>Docker Hub</strong>: The default public registry. Offers official images, community repositories, free tier with limits, and paid plans for private repos. Best for open-source and development. <strong>GitHub Container Registry (GHCR)</strong>: Integrated with GitHub, uses GitHub packages, supports fine-grained permissions via GitHub teams, and has seamless GitHub Actions integration. Best for GitHub-centric workflows. <strong>Cloud provider registries (ECR, GCR, ACR)</strong>: Managed services with IAM integration, vulnerability scanning, geo-replication, and SLA guarantees. Best for production workloads on that cloud. All support OCI images, but differ in authentication (IAM vs tokens), pricing, and features. Choose based on your CI/CD platform and cloud provider.</p>",
               },
               {
                 question: "How do you secure a private Docker registry?",
-                solution: "<p>Registry security includes: (1) <strong>Authentication</strong>: Use htpasswd, LDAP, or OIDC. For cloud, use IAM roles. (2) <strong>Authorization</strong>: Implement least-privilege—read-only for production, read-write for CI, read for auditors. (3) <strong>TLS</strong>: Always enable HTTPS—never expose a registry without TLS. (4) <strong>Image scanning</strong>: Enable scan-on-push to detect vulnerabilities. (5) <strong>Immutable tags</strong>: Prevent overwriting production images. (6) <strong>Network access</strong>: Restrict to VPC/internal network; use VPN or service mesh for external access. (7) <strong>Audit logging</strong>: Enable access logs for compliance. (8) <strong>Image signing</strong>: Use DCT or Cosign to verify image provenance. Harbor provides all these features in a self-hosted package.</p>",
+                solution:
+                  "<p>Registry security includes: (1) <strong>Authentication</strong>: Use htpasswd, LDAP, or OIDC. For cloud, use IAM roles. (2) <strong>Authorization</strong>: Implement least-privilege—read-only for production, read-write for CI, read for auditors. (3) <strong>TLS</strong>: Always enable HTTPS—never expose a registry without TLS. (4) <strong>Image scanning</strong>: Enable scan-on-push to detect vulnerabilities. (5) <strong>Immutable tags</strong>: Prevent overwriting production images. (6) <strong>Network access</strong>: Restrict to VPC/internal network; use VPN or service mesh for external access. (7) <strong>Audit logging</strong>: Enable access logs for compliance. (8) <strong>Image signing</strong>: Use DCT or Cosign to verify image provenance. Harbor provides all these features in a self-hosted package.</p>",
               },
             ],
 
@@ -217523,7 +222109,7 @@ echo "  • Multi-arch: buildx creates manifest lists"
               "https://docs.docker.com/registry/garbage-collection/",
               "https://docs.docker.com/registry/recipes/mirror/",
             ],
-          }
+          },
         ],
       },
     ],
@@ -217636,7 +222222,8 @@ print(x, y)          # 9 5`,
                   "<p>Python supports multiple assignment in a single line: <code>x, y, z = 1, 2, 3</code>. You can also assign the same value to multiple variables: <code>a = b = c = 0</code>. This also enables a clean swap without a temporary variable: <code>x, y = y, x</code>.</p>",
               },
               {
-                question: "What is the difference between dynamic typing and static typing?",
+                question:
+                  "What is the difference between dynamic typing and static typing?",
                 solution:
                   "<p>In statically typed languages like Java or C++, you must declare the type of a variable before using it (e.g., <code>int age = 25;</code>), and the type cannot change. In dynamically typed languages like Python, the type is inferred at runtime and can change. Static typing catches type errors at compile time; dynamic typing is more flexible but moves type errors to runtime.</p>",
               },
@@ -217647,7 +222234,6 @@ print(x, y)          # 9 5`,
               "https://www.w3schools.com/python/python_variables.asp",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  2. INDENTATION RULES
@@ -217729,7 +222315,8 @@ else:
             ],
             questions: [
               {
-                question: "Why does Python use indentation instead of curly braces?",
+                question:
+                  "Why does Python use indentation instead of curly braces?",
                 solution:
                   "<p>Python was designed with readability as a core goal. By enforcing indentation, Python code is visually consistent — any Python code you read will have the same structure. This eliminates disagreements about brace style and makes code easier to scan. Guido van Rossum (Python's creator) believed readable code is better code.</p>",
               },
@@ -217751,7 +222338,7 @@ else:
               {
                 question: "Does indentation matter inside strings?",
                 solution:
-                  "<p>No. Indentation only matters for code blocks, not inside string literals. A multi-line string (using triple quotes <code>\"\"\"</code>) will include any leading spaces literally as part of the string content — Python does not strip them. So if you indent a multi-line string for visual consistency, those spaces become part of the string value.</p>",
+                  '<p>No. Indentation only matters for code blocks, not inside string literals. A multi-line string (using triple quotes <code>"""</code>) will include any leading spaces literally as part of the string content — Python does not strip them. So if you indent a multi-line string for visual consistency, those spaces become part of the string value.</p>',
               },
             ],
             links: [
@@ -217760,7 +222347,6 @@ else:
               "https://www.w3schools.com/python/python_syntax.asp",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  3. COMMENTS
@@ -217842,17 +222428,20 @@ print(add(3, 5))   # 8`,
             ],
             questions: [
               {
-                question: "What symbol is used for single-line comments in Python?",
+                question:
+                  "What symbol is used for single-line comments in Python?",
                 solution:
                   "<p>The hash symbol <code>#</code> is used for single-line comments. Any text on a line after <code>#</code> is completely ignored by the Python interpreter. You can place a comment on its own line or at the end of a code line (called an inline comment).</p>",
               },
               {
-                question: "Does Python have a multi-line comment syntax like /* */ in other languages?",
+                question:
+                  "Does Python have a multi-line comment syntax like /* */ in other languages?",
                 solution:
-                  "<p>No, Python does not have a dedicated multi-line comment syntax. The common workaround is to use multiple <code>#</code> lines one after another. Some developers use triple-quoted strings (<code>\"\"\"...\"\"\"</code>) as block comments, but strictly speaking, these are string literals, not comments — Python evaluates them but discards the result since it is not assigned to anything.</p>",
+                  '<p>No, Python does not have a dedicated multi-line comment syntax. The common workaround is to use multiple <code>#</code> lines one after another. Some developers use triple-quoted strings (<code>"""..."""</code>) as block comments, but strictly speaking, these are string literals, not comments — Python evaluates them but discards the result since it is not assigned to anything.</p>',
               },
               {
-                question: "What is a docstring and how is it different from a comment?",
+                question:
+                  "What is a docstring and how is it different from a comment?",
                 solution:
                   "<p>A docstring (documentation string) is a triple-quoted string placed immediately after a <code>def</code> or <code>class</code> statement. Unlike comments (which are stripped out), docstrings are stored as the <code>__doc__</code> attribute of the function or class and can be retrieved at runtime using <code>help()</code>. Comments are for developers reading the code; docstrings are for users of the function/class.</p>",
               },
@@ -217868,7 +222457,6 @@ print(add(3, 5))   # 8`,
               "https://www.w3schools.com/python/python_comments.asp",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  4. DATA TYPES
@@ -218000,7 +222588,8 @@ print(f"Name: {name}, Age: {age}, GPA: {gpa}, Passed: {passed}")`,
                   "<p>It raises a <code>ValueError: invalid literal for int() with base 10: 'abc'</code>. The <code>int()</code> function can only convert strings that contain valid numeric characters. Converting <code>'42'</code> works fine, but <code>'abc'</code> or <code>'3.14'</code> will fail (for <code>'3.14'</code> you need <code>float()</code> first, then <code>int()</code>). Always wrap conversions in <code>try/except</code> when dealing with user input.</p>",
               },
               {
-                question: "What values are considered False in Python (falsy values)?",
+                question:
+                  "What values are considered False in Python (falsy values)?",
                 solution:
                   "<p>In Python, the following values evaluate to <code>False</code> when used in a boolean context: <code>0</code> (int zero), <code>0.0</code> (float zero), <code>''</code> (empty string), <code>None</code>, <code>[]</code> (empty list), <code>{}</code> (empty dict), <code>()</code> (empty tuple). Everything else is <code>True</code>. This is useful in conditions like <code>if name:</code> to check that a string is not empty.</p>",
               },
@@ -218016,7 +222605,6 @@ print(f"Name: {name}, Age: {age}, GPA: {gpa}, Passed: {passed}")`,
               "https://www.w3schools.com/python/python_datatypes.asp",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  5. OPERATORS
@@ -218151,7 +222739,6 @@ print(10 < x < 20)   # True — Python allows this directly`,
             ],
           },
 
-
           // ─────────────────────────────────────────────
           //  6. INPUT / OUTPUT
           // ─────────────────────────────────────────────
@@ -218234,14 +222821,15 @@ else:
                   "<p><code>print()</code> is a built-in function that outputs values to the standard output (usually the terminal or console). It can accept multiple arguments separated by commas, and by default separates them with a space and adds a newline at the end. You can customise both behaviours using the <code>sep</code> and <code>end</code> keyword arguments.</p>",
               },
               {
-                question: "Why must you convert the result of input() to int or float?",
+                question:
+                  "Why must you convert the result of input() to int or float?",
                 solution:
                   "<p>The <code>input()</code> function always returns a string (<code>str</code>), regardless of what the user typed. So even if a user types <code>25</code>, Python stores it as the string <code>'25'</code>, not the integer <code>25</code>. If you try to do arithmetic with it directly, you get a <code>TypeError</code>. Always wrap it: <code>age = int(input(...))</code> or <code>price = float(input(...))</code>.</p>",
               },
               {
                 question: "What are f-strings and why are they useful?",
                 solution:
-                  "<p>An f-string (formatted string literal) is a string prefixed with <code>f</code> that allows you to embed Python expressions directly inside curly braces <code>{}</code>. For example, <code>f\"Hello {name}, you are {age} years old\"</code> automatically inserts the values of <code>name</code> and <code>age</code>. F-strings are the modern, recommended way to format strings in Python 3.6+ — they are more readable and faster than <code>.format()</code> or <code>%</code> formatting.</p>",
+                  '<p>An f-string (formatted string literal) is a string prefixed with <code>f</code> that allows you to embed Python expressions directly inside curly braces <code>{}</code>. For example, <code>f"Hello {name}, you are {age} years old"</code> automatically inserts the values of <code>name</code> and <code>age</code>. F-strings are the modern, recommended way to format strings in Python 3.6+ — they are more readable and faster than <code>.format()</code> or <code>%</code> formatting.</p>',
               },
               {
                 question: "How do you print without moving to a new line?",
@@ -218260,7 +222848,6 @@ else:
               "https://realpython.com/python-f-strings/",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  7. LOOPS
@@ -218384,7 +222971,8 @@ print(f"Total: {total}")`,
             ],
             questions: [
               {
-                question: "What is the difference between a for loop and a while loop?",
+                question:
+                  "What is the difference between a for loop and a while loop?",
                 solution:
                   "<p>A <code>for</code> loop is used when you know in advance how many times to repeat (e.g., iterate over a list, or a <code>range()</code>). A <code>while</code> loop is used when you repeat based on a condition and don't know ahead of time how many iterations are needed. As a rule of thumb: if you have a sequence to iterate over, use <code>for</code>; if you're waiting for something to change, use <code>while</code>.</p>",
               },
@@ -218624,12 +223212,14 @@ for i, g in enumerate(grades, start=1):
             ],
             questions: [
               {
-                question: "What is a list in Python and how is it different from an array?",
+                question:
+                  "What is a list in Python and how is it different from an array?",
                 solution:
                   "<p>A Python list is an ordered, mutable sequence that can hold items of <em>any</em> data type — even mixed types in the same list. Unlike arrays in languages like Java or C, you do not need to declare a fixed size or a single type. Python lists grow and shrink dynamically. The closest equivalent in JavaScript is an array, but Python lists have richer built-in methods and support more flexible slicing syntax.</p>",
               },
               {
-                question: "What is the difference between positive and negative indexing?",
+                question:
+                  "What is the difference between positive and negative indexing?",
                 solution:
                   "<p>Positive indexing starts from 0 at the beginning of the list — <code>list[0]</code> is the first item, <code>list[1]</code> is the second, and so on. Negative indexing starts from -1 at the end — <code>list[-1]</code> is the last item, <code>list[-2]</code> is the second last. Negative indexing is very convenient when you want to access items from the end without knowing the list's length.</p>",
               },
@@ -218639,7 +223229,8 @@ for i, g in enumerate(grades, start=1):
                   "<p>Slicing extracts a sub-list using the syntax <code>list[start:stop:step]</code>. The <code>start</code> index is included, the <code>stop</code> index is excluded. All three are optional — omitting <code>start</code> defaults to 0, omitting <code>stop</code> defaults to the end, omitting <code>step</code> defaults to 1. A step of <code>-1</code> reverses the list. Slicing always returns a new list — the original is never modified.</p>",
               },
               {
-                question: "What is the difference between append() and extend()?",
+                question:
+                  "What is the difference between append() and extend()?",
                 solution:
                   "<p><code>append()</code> adds its argument as a single item to the end of the list. If you append a list, that list becomes one element (a nested list). <code>extend()</code> takes an iterable and adds each of its items individually to the end. For example: <code>[1,2].append([3,4])</code> gives <code>[1, 2, [3, 4]]</code>, while <code>[1,2].extend([3,4])</code> gives <code>[1, 2, 3, 4]</code>.</p>",
               },
@@ -218649,7 +223240,8 @@ for i, g in enumerate(grades, start=1):
                   "<p><code>sort()</code> is a list method that modifies the list <em>in place</em> and returns <code>None</code>. The original list is permanently changed. <code>sorted()</code> is a built-in function that takes any iterable and returns a <em>new</em> sorted list, leaving the original unchanged. Use <code>sort()</code> when you want to sort the list itself; use <code>sorted()</code> when you need to preserve the original order.</p>",
               },
               {
-                question: "What is the difference between reverse() and [::-1]?",
+                question:
+                  "What is the difference between reverse() and [::-1]?",
                 solution:
                   "<p><code>reverse()</code> is a list method that reverses the list <em>in place</em> — modifying the original and returning <code>None</code>. The slice <code>[::-1]</code> returns a <em>new</em> reversed list without touching the original. If you want to reverse and keep the original intact, use slicing. If memory efficiency matters and you do not need the original order, use <code>reverse()</code>.</p>",
               },
@@ -218675,7 +223267,6 @@ for i, g in enumerate(grades, start=1):
               "https://www.w3schools.com/python/python_lists.asp",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  2. STRINGS
@@ -218876,12 +223467,14 @@ print(check_palindrome("python"))`,
                   "<p><code>split()</code> splits a string into a list of <em>substrings</em> based on a separator (whitespace by default). For example, <code>'hello world'.split()</code> gives <code>['hello', 'world']</code>. <code>list()</code> splits a string into a list of individual <em>characters</em>: <code>list('hello')</code> gives <code>['h', 'e', 'l', 'l', 'o']</code>. Use <code>split()</code> for words/tokens and <code>list()</code> when you need to work with each character.</p>",
               },
               {
-                question: "Why is join() called on the separator string instead of the list?",
+                question:
+                  "Why is join() called on the separator string instead of the list?",
                 solution:
                   "<p>This is a deliberate Python design choice. <code>join()</code> is a string method because the separator is a string, and the method needs to know what string to insert between items. The syntax is <code>separator.join(list)</code>. For example, <code>', '.join(['a', 'b', 'c'])</code> gives <code>'a, b, c'</code>. It can feel unintuitive at first, but it is consistent — the method belongs to the string type that is doing the joining.</p>",
               },
               {
-                question: "What does replace() do if the target substring is not found?",
+                question:
+                  "What does replace() do if the target substring is not found?",
                 solution:
                   "<p>If the substring to replace is not found in the string, <code>replace()</code> simply returns a copy of the original string unchanged — it does not raise an error. For example, <code>'hello'.replace('z', 'x')</code> returns <code>'hello'</code>. This makes it safe to call without checking whether the substring exists first.</p>",
               },
@@ -218891,12 +223484,14 @@ print(check_palindrome("python"))`,
                   "<p>Use the <code>in</code> keyword: <code>if 'world' in 'hello world':</code> returns <code>True</code>. For case-insensitive checking, convert both sides to the same case first: <code>if 'world' in text.lower():</code>. Other useful methods include <code>str.startswith('prefix')</code> and <code>str.endswith('suffix')</code> for checking the beginning or end of a string.</p>",
               },
               {
-                question: "What is the difference between lower() and casefold()?",
+                question:
+                  "What is the difference between lower() and casefold()?",
                 solution:
                   "<p>Both convert a string to lowercase, but <code>casefold()</code> is more aggressive and handles special Unicode characters correctly for case-insensitive comparisons. For example, the German letter <code>ß</code> becomes <code>ss</code> with <code>casefold()</code> but stays as <code>ß</code> with <code>lower()</code>. For standard English text, they behave identically. Use <code>casefold()</code> when building applications that handle international characters.</p>",
               },
               {
-                question: "How do you split a string into individual characters?",
+                question:
+                  "How do you split a string into individual characters?",
                 solution:
                   "<p>There are two common approaches. First, <code>list('Python')</code> returns <code>['P', 'y', 't', 'h', 'o', 'n']</code>. Second, you can iterate directly over a string with a <code>for</code> loop: <code>for char in 'Python': print(char)</code>. You can also use a list comprehension: <code>[c for c in 'Python']</code>. Calling <code>split()</code> without arguments will NOT split into characters — it splits by whitespace into words.</p>",
               },
@@ -218906,7 +223501,8 @@ print(check_palindrome("python"))`,
                   "<p>Beyond the core methods covered here, the most commonly used ones are: <code>strip()</code> / <code>lstrip()</code> / <code>rstrip()</code> — remove whitespace from edges. <code>startswith()</code> / <code>endswith()</code> — check string edges. <code>find()</code> — returns index of first match or -1. <code>count()</code> — counts occurrences. <code>capitalize()</code> — first letter uppercase, rest lowercase. <code>title()</code> — capitalises first letter of each word. <code>isdigit()</code> / <code>isalpha()</code> / <code>isalnum()</code> — check character types.</p>",
               },
               {
-                question: "What is an f-string and how is it related to strings?",
+                question:
+                  "What is an f-string and how is it related to strings?",
                 solution:
                   "<p>An f-string (formatted string literal) is a string prefixed with <code>f</code> that allows you to embed Python expressions directly inside curly braces <code>{}</code>. For example: <code>f'Hello {name}, you are {age} years old'</code>. It is the modern recommended way (Python 3.6+) to build strings that include variable values. You can also format numbers inside them: <code>f'{price:.2f}'</code> formats a float to 2 decimal places.</p>",
               },
@@ -219074,12 +223670,14 @@ for dept, employees in company.items():
             ],
             questions: [
               {
-                question: "What is a dictionary in Python and how does it work internally?",
+                question:
+                  "What is a dictionary in Python and how does it work internally?",
                 solution:
                   "<p>A dictionary is a hash map — it stores key-value pairs and uses a hash function to convert each key into an index in an internal array. This is why key lookup is O(1) on average. When two keys produce the same hash (collision), Python handles it with open addressing. Keys must be <em>hashable</em> (immutable), so strings, numbers, and tuples can be keys, but lists cannot.</p>",
               },
               {
-                question: "What is the difference between dict['key'] and dict.get('key')?",
+                question:
+                  "What is the difference between dict['key'] and dict.get('key')?",
                 solution:
                   "<p><code>dict['key']</code> raises a <code>KeyError</code> if the key does not exist — use it when you are certain the key is present. <code>dict.get('key')</code> returns <code>None</code> by default (or a custom default you provide as the second argument) if the key is missing — never raises an error. In interview code and production code, <code>get()</code> is safer and preferred when a key's existence is uncertain.</p>",
               },
@@ -219120,7 +223718,6 @@ for dept, employees in company.items():
               "https://docs.python.org/3/library/collections.html#collections.Counter",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  2. SETS
@@ -219256,7 +223853,8 @@ print(dedupe_ordered(data))   # [3, 1, 4, 5, 9, 2, 6]`,
                   "<p>A set is an unordered collection of unique hashable elements backed by a hash table. Use a set when: (1) you need to remove duplicates from a list, (2) you need fast O(1) membership testing (<code>in</code> check), or (3) you need to perform set algebra (union, intersection, difference). Do not use a set when order matters or when you need to store duplicate values — use a list instead.</p>",
               },
               {
-                question: "What is the difference between remove() and discard()?",
+                question:
+                  "What is the difference between remove() and discard()?",
                 solution:
                   "<p>Both remove an element from a set. The difference is in error handling: <code>remove(x)</code> raises a <code>KeyError</code> if <code>x</code> is not in the set. <code>discard(x)</code> does nothing if <code>x</code> is absent — it never raises an error. In most cases, <code>discard()</code> is the safer choice because you don't need to check membership before removing.</p>",
               },
@@ -219266,22 +223864,26 @@ print(dedupe_ordered(data))   # [3, 1, 4, 5, 9, 2, 6]`,
                   "<p><code>{}</code> creates an empty <em>dictionary</em>, not an empty set — because dictionaries were added to Python's syntax first. To create an empty set you must use <code>set()</code>. This is a very common beginner mistake. Once you have a non-empty set, the <code>{1, 2, 3}</code> syntax works correctly — the ambiguity only exists with empty braces.</p>",
               },
               {
-                question: "What is the time complexity of 'in' for a set vs a list?",
+                question:
+                  "What is the time complexity of 'in' for a set vs a list?",
                 solution:
                   "<p>Membership testing with <code>in</code> is O(1) average for a set (hash-based lookup) and O(n) for a list (linear scan). This means for large collections, a set can be dramatically faster. For example, checking 1 million items: a list might take seconds, while a set takes microseconds. This is why converting a list to a set before repeated membership checks is a common optimisation in interview solutions.</p>",
               },
               {
-                question: "What is the difference between union and update on sets?",
+                question:
+                  "What is the difference between union and update on sets?",
                 solution:
                   "<p><code>A | B</code> or <code>A.union(B)</code> returns a <em>new</em> set containing all elements from both sets — neither original is modified. <code>A.update(B)</code> (or <code>A |= B</code>) modifies set <code>A</code> <em>in place</em> by adding all elements from <code>B</code>. The same pattern applies to intersection: <code>intersection()</code> returns new, <code>intersection_update()</code> modifies in place.</p>",
               },
               {
-                question: "Can a set contain a list or another set as an element?",
+                question:
+                  "Can a set contain a list or another set as an element?",
                 solution:
                   "<p>No. Set elements must be <em>hashable</em> (immutable). Lists are mutable and therefore not hashable — attempting <code>my_set.add([1, 2])</code> raises a <code>TypeError: unhashable type: 'list'</code>. For the same reason, you cannot have a set of sets. If you need a set of sequences, use tuples instead of lists: <code>my_set.add((1, 2))</code> works fine because tuples are immutable.</p>",
               },
               {
-                question: "How do sets help in the 'two sum' and 'duplicate detection' problems?",
+                question:
+                  "How do sets help in the 'two sum' and 'duplicate detection' problems?",
                 solution:
                   "<p>For <strong>duplicate detection</strong>: iterate through the list and check <code>if item in seen_set</code> before adding — O(n) total. For <strong>two sum</strong>: for each number, check if its complement (<code>target - num</code>) is already in a set — O(n) with O(n) space. Without a set, both problems would require nested loops at O(n²). Sets make these linear-time solutions possible.</p>",
               },
@@ -219292,7 +223894,6 @@ print(dedupe_ordered(data))   # [3, 1, 4, 5, 9, 2, 6]`,
               "https://www.w3schools.com/python/python_sets.asp",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  3. LOOPS
@@ -219424,7 +224025,8 @@ for i, (name, score) in enumerate(zip(names, scores), start=1):
                   "<p>A <code>for</code> loop is used when you know what you are iterating over — a list, a range, a string, etc. It automatically handles the iteration state. A <code>while</code> loop is used when you repeat based on a condition and the number of iterations is not known in advance. As a rule: if you can naturally express iteration as 'for each item in X', use <code>for</code>; if you're waiting for a condition to change, use <code>while</code>.</p>",
               },
               {
-                question: "What does range() return and is it memory efficient?",
+                question:
+                  "What does range() return and is it memory efficient?",
                 solution:
                   "<p><code>range()</code> does not return a list — it returns a lazy <em>range object</em> that generates numbers on demand. This is extremely memory efficient: <code>range(1_000_000)</code> uses a tiny fixed amount of memory regardless of size, whereas <code>list(range(1_000_000))</code> allocates memory for one million integers. In a loop, Python requests one value at a time from the range object, so always prefer <code>range()</code> over <code>list(range())</code> when you just need to iterate.</p>",
               },
@@ -219455,7 +224057,6 @@ for i, (name, score) in enumerate(zip(names, scores), start=1):
               "https://docs.python.org/3/library/functions.html#func-range",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  4. CONDITIONAL STATEMENTS
@@ -219559,7 +224160,8 @@ print(result)    # big`,
             ],
             questions: [
               {
-                question: "What is the difference between if/elif/else and multiple if statements?",
+                question:
+                  "What is the difference between if/elif/else and multiple if statements?",
                 solution:
                   "<p>With <code>if/elif/else</code>, only the <em>first</em> matching branch executes — once a condition is true, the rest are skipped. With multiple separate <code>if</code> statements, <em>every</em> condition is evaluated independently and multiple blocks can run. For mutually exclusive conditions (like grade ranges), always use <code>elif</code> — it's more efficient and avoids unexpected multiple matches.</p>",
               },
@@ -219590,7 +224192,6 @@ print(result)    # big`,
               "https://peps.python.org/pep-0634/",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  5. FUNCTIONS
@@ -219736,7 +224337,8 @@ print(counter(5))   # 7`,
             ],
             questions: [
               {
-                question: "What is the difference between parameters and arguments?",
+                question:
+                  "What is the difference between parameters and arguments?",
                 solution:
                   "<p><em>Parameters</em> are the variable names listed in the function definition: <code>def greet(name):</code> — <code>name</code> is a parameter. <em>Arguments</em> are the actual values passed when calling the function: <code>greet('Alice')</code> — <code>'Alice'</code> is an argument. Positional arguments match by position; keyword arguments match by name: <code>greet(name='Alice')</code>.</p>",
               },
@@ -219751,12 +224353,14 @@ print(counter(5))   # 7`,
                   "<p><code>*args</code> collects any number of extra <em>positional</em> arguments into a tuple. <code>**kwargs</code> collects any number of extra <em>keyword</em> arguments into a dictionary. The names <code>args</code> and <code>kwargs</code> are conventions — the <code>*</code> and <code>**</code> syntax is what matters. They are often used together to write flexible wrapper functions that pass all arguments through to another function: <code>def wrapper(*args, **kwargs): original(*args, **kwargs)</code>.</p>",
               },
               {
-                question: "What does a function return if there is no return statement?",
+                question:
+                  "What does a function return if there is no return statement?",
                 solution:
                   "<p>Python implicitly returns <code>None</code>. Any function that reaches the end without a <code>return</code> statement (or has a bare <code>return</code> with no value) returns <code>None</code>. This is a common source of bugs: <code>result = my_list.sort()</code> stores <code>None</code> because <code>sort()</code> modifies in place and returns nothing. Always check whether a method returns a value or modifies in place.</p>",
               },
               {
-                question: "What is a lambda function and when should you use it?",
+                question:
+                  "What is a lambda function and when should you use it?",
                 solution:
                   "<p>A lambda is an anonymous one-expression function: <code>lambda args: expression</code>. It is syntactic sugar for a simple function defined inline. Use lambdas as short throwaway functions, especially as arguments to <code>sort(key=...)</code>, <code>map()</code>, and <code>filter()</code>. Avoid lambdas when the logic is complex — a named <code>def</code> is more readable and testable. In interviews, lambdas commonly appear in sorting: <code>items.sort(key=lambda x: x[1])</code>.</p>",
               },
@@ -219772,7 +224376,6 @@ print(counter(5))   # 7`,
               "https://realpython.com/python-lambda/",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  6. LIST COMPREHENSION
@@ -219887,17 +224490,20 @@ print(passing)  # ['Alice', 'Carol']`,
             ],
             questions: [
               {
-                question: "What is list comprehension and how is it different from a regular loop?",
+                question:
+                  "What is list comprehension and how is it different from a regular loop?",
                 solution:
                   "<p>List comprehension is a compact syntax for creating a list: <code>[expr for item in iterable]</code>. It is equivalent to a <code>for</code> loop with <code>append()</code> but runs faster (the loop is implemented in C internally), is more readable once you are familiar with the syntax, and expresses the intent — 'build a list' — directly. The trade-off is that very complex comprehensions can become hard to read; in those cases a regular loop is clearer.</p>",
               },
               {
-                question: "What is the difference between filtering (if at the end) and ternary (if/else on the expression)?",
+                question:
+                  "What is the difference between filtering (if at the end) and ternary (if/else on the expression)?",
                 solution:
                   "<p>Filtering: <code>[x for x in lst if x > 0]</code> — the <code>if</code> at the end decides whether an item is <em>included</em> at all. Items that fail the condition are dropped. Ternary: <code>[x if x > 0 else 0 for x in lst]</code> — every item is always included, but its <em>value</em> is transformed based on the condition. You can also combine both: <code>[x*2 if x > 0 else 0 for x in lst if x != -99]</code>.</p>",
               },
               {
-                question: "What is a generator expression and how does it differ from list comprehension?",
+                question:
+                  "What is a generator expression and how does it differ from list comprehension?",
                 solution:
                   "<p>A generator expression uses parentheses instead of brackets: <code>(x**2 for x in range(n))</code>. It is <em>lazy</em> — it generates values one at a time on demand and does not build the entire list in memory. This makes it ideal for large data sets or when you only need to iterate once (e.g., <code>sum(x**2 for x in range(1_000_000))</code> never allocates a million-item list). If you need to access elements multiple times or by index, use a list comprehension instead.</p>",
               },
@@ -219918,7 +224524,6 @@ print(passing)  # ['Alice', 'Carol']`,
               "https://peps.python.org/pep-0202/",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  7. BUILT-IN FUNCTIONS (VERY IMPORTANT)
@@ -220071,27 +224676,32 @@ print(record)   # {'id': 101, 'name': 'Alice', 'score': 95}`,
             ],
             questions: [
               {
-                question: "What is the difference between sorted() and list.sort()?",
+                question:
+                  "What is the difference between sorted() and list.sort()?",
                 solution:
                   "<p><code>sorted(iterable)</code> is a built-in function that works on <em>any</em> iterable and returns a <em>new</em> sorted list — the original is unchanged. <code>list.sort()</code> is a list method that sorts the list <em>in place</em> and returns <code>None</code>. Use <code>sorted()</code> when you need a new sorted copy; use <code>sort()</code> when you want to modify the list and save memory. Both accept <code>key=</code> and <code>reverse=</code> arguments.</p>",
               },
               {
-                question: "How does the key parameter work in sorted(), min(), and max()?",
+                question:
+                  "How does the key parameter work in sorted(), min(), and max()?",
                 solution:
                   "<p>The <code>key</code> parameter accepts a function that is applied to each element before comparison. The element is sorted/compared <em>based on the return value of key(element)</em>, but the original elements are returned — not the key values. For example, <code>sorted(words, key=len)</code> sorts by string length but returns the original words. A lambda is commonly used: <code>key=lambda x: x[1]</code> sorts by the second element of each tuple.</p>",
               },
               {
-                question: "Why should you use enumerate() instead of range(len())?",
+                question:
+                  "Why should you use enumerate() instead of range(len())?",
                 solution:
                   "<p><code>enumerate(lst)</code> is more Pythonic, readable, and less error-prone than <code>for i in range(len(lst)): item = lst[i]</code>. It directly gives you both the index and the value, avoids off-by-one errors, and works on any iterable (not just indexable sequences). It also signals clearly to the reader that both the index and the value are being used — which <code>range(len())</code> does not convey as clearly.</p>",
               },
               {
-                question: "What happens when the lists passed to zip() have different lengths?",
+                question:
+                  "What happens when the lists passed to zip() have different lengths?",
                 solution:
                   "<p><code>zip()</code> stops at the <em>shortest</em> list — extra elements from longer lists are silently ignored. If you need to zip lists of different lengths and fill the missing values, use <code>itertools.zip_longest(list1, list2, fillvalue=None)</code>. This is an important edge case to mention in interviews when processing data from multiple sources that might not always be aligned.</p>",
               },
               {
-                question: "How do you sort a list of objects by multiple criteria?",
+                question:
+                  "How do you sort a list of objects by multiple criteria?",
                 solution:
                   "<p>Return a tuple from the <code>key</code> function — Python compares tuples element by element. For example, <code>sorted(students, key=lambda s: (s.grade, s.name))</code> sorts by grade first, then by name alphabetically for ties. To sort one key ascending and another descending, negate numeric keys: <code>key=lambda s: (-s.score, s.name)</code> sorts by score descending, then name ascending.</p>",
               },
@@ -220107,7 +224717,6 @@ print(record)   # {'id': 101, 'name': 'Alice', 'score': 95}`,
               "https://docs.python.org/3/library/functions.html#sorted",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  8. STACK & QUEUE (Python Way)
@@ -220254,7 +224863,8 @@ print(bfs(graph, 1))   # [1, 2, 3, 4, 5, 6]`,
                   "<p>Use a list as a stack: push the starting node, then loop while the stack is non-empty — pop a node, process it, and push its unvisited neighbours. Because you push and pop from the same end, the most recently added neighbour is processed first — giving depth-first behaviour. This iterative DFS is equivalent to recursive DFS, but avoids Python's recursion limit for very deep graphs.</p>",
               },
               {
-                question: "What is collections.deque and what other operations does it support?",
+                question:
+                  "What is collections.deque and what other operations does it support?",
                 solution:
                   "<p><code>deque</code> (double-ended queue) supports O(1) operations on both ends: <code>append()</code> (right), <code>appendleft()</code> (left), <code>pop()</code> (right), <code>popleft()</code> (left). It also supports a <code>maxlen</code> parameter — when full, adding to one end automatically removes from the other. This makes it perfect for sliding window problems: <code>deque(maxlen=k)</code> maintains a fixed-size window automatically.</p>",
               },
@@ -220270,7 +224880,6 @@ print(bfs(graph, 1))   # [1, 2, 3, 4, 5, 6]`,
               "https://realpython.com/queue-in-python/",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  9. TUPLES
@@ -220447,7 +225056,8 @@ print(count_islands(g))   # 3`,
                   "<p>Tuple unpacking (also called destructuring) assigns the elements of a tuple directly to multiple variables in one statement: <code>name, age = ('Alice', 25)</code>. It is useful for: swapping variables without a temp variable (<code>a, b = b, a</code>), unpacking function return values (<code>q, r = divmod(17, 5)</code>), iterating over lists of tuples (<code>for name, score in records:</code>), and the extended <code>*</code> syntax for collecting remaining elements. It makes code more readable and expressive.</p>",
               },
               {
-                question: "Why can tuples be used as dictionary keys but not lists?",
+                question:
+                  "Why can tuples be used as dictionary keys but not lists?",
                 solution:
                   "<p>Dictionary keys must be <em>hashable</em> — their hash value must never change during their lifetime. Tuples are immutable, so their hash value is fixed — Python can safely compute and cache it. Lists are mutable — you could change a list after using it as a key, which would corrupt the dictionary's internal hash table. This is why Python raises <code>TypeError: unhashable type: 'list'</code> when you try to use a list as a dict key or add it to a set.</p>",
               },
@@ -220641,17 +225251,20 @@ print(is_anagram("listen", "silent"))   # True`,
             ],
             questions: [
               {
-                question: "What is Counter and what makes it different from a regular dict?",
+                question:
+                  "What is Counter and what makes it different from a regular dict?",
                 solution:
                   "<p><code>Counter</code> is a dict subclass where values are intended to be counts (integers). Key differences: accessing a missing key returns <code>0</code> instead of raising <code>KeyError</code>; it provides <code>most_common(n)</code> for top-n elements; and it supports arithmetic operators (<code>+</code>, <code>-</code>, <code>&</code>, <code>|</code>) for combining counters. These features make it the standard tool for any frequency-counting or histogram problem in interviews.</p>",
               },
               {
-                question: "What is the difference between defaultdict and a regular dict with get()?",
+                question:
+                  "What is the difference between defaultdict and a regular dict with get()?",
                 solution:
                   "<p><code>dict.get(key, default)</code> returns a default value but does <em>not</em> insert the key into the dict. <code>defaultdict</code> actually <em>creates and stores</em> the default value the first time a missing key is accessed. This means after <code>dd['x'] += 1</code>, the key <code>'x'</code> exists with value 1 — no separate initialisation needed. The factory is called once per missing key, so <code>defaultdict(list)</code> creates a fresh empty list for each new key, not the same shared list.</p>",
               },
               {
-                question: "Why is deque's popleft() O(1) but list's pop(0) is O(n)?",
+                question:
+                  "Why is deque's popleft() O(1) but list's pop(0) is O(n)?",
                 solution:
                   "<p>A Python list is backed by a contiguous array. Removing the first element requires shifting every remaining element one position to the left — O(n) work. A <code>deque</code> is a doubly-linked list of fixed-size blocks. Removing from either end only requires updating a pointer — O(1). For any FIFO queue, BFS, or sliding window pattern where you remove from the front, always use <code>deque</code> over a list.</p>",
               },
@@ -220666,7 +225279,8 @@ print(is_anagram("listen", "silent"))   # True`,
                   "<p>Counter arithmetic is useful for comparing frequency distributions. <code>A & B</code> (intersection) gives the minimum count for shared elements — used in 'minimum character deletions to make anagram' type problems. <code>A - B</code> removes matching counts — used to find what's 'left over' after one counter cancels another. <code>A | B</code> gives the maximum counts — useful for merging frequency requirements. Note that <code>-</code> and <code>&</code> drop non-positive results, while <code>subtract()</code> allows negative counts.</p>",
               },
               {
-                question: "How do you build a graph adjacency list using defaultdict?",
+                question:
+                  "How do you build a graph adjacency list using defaultdict?",
                 solution:
                   "<p>Use <code>defaultdict(list)</code> or <code>defaultdict(set)</code>. For each edge <code>(u, v)</code>, simply do <code>graph[u].append(v)</code> — no need to check if <code>u</code> already has a list. For undirected graphs, add both directions: <code>graph[u].append(v); graph[v].append(u)</code>. Using <code>set</code> instead of <code>list</code> prevents duplicate edges. This pattern is used in virtually every graph BFS/DFS problem.</p>",
               },
@@ -220677,7 +225291,6 @@ print(is_anagram("listen", "silent"))   # True`,
               "https://docs.python.org/3/library/collections.html#collections.Counter",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  2. HEAP / PRIORITY QUEUE
@@ -220836,27 +225449,32 @@ print(kth_largest([3,2,1,5,6,4], 2))   # 5`,
                   "<p>A heap is a complete binary tree stored as an array where each parent is smaller (min-heap) or larger (max-heap) than its children. Key complexities: <code>heapify()</code> — O(n) to build from a list. <code>heappush()</code> — O(log n) to insert. <code>heappop()</code> — O(log n) to remove the minimum. Peek at minimum via <code>heap[0]</code> — O(1). <code>nsmallest(k, iterable)</code> — O(n log k). These complexities make heaps ideal when you need repeated access to the minimum/maximum element.</p>",
               },
               {
-                question: "Why does Python only have a min-heap and how do you simulate a max-heap?",
+                question:
+                  "Why does Python only have a min-heap and how do you simulate a max-heap?",
                 solution:
                   "<p>Python's <code>heapq</code> only provides a min-heap. To simulate a max-heap, <em>negate all values</em> before pushing: <code>heappush(heap, -val)</code>. When popping, negate back: <code>val = -heappop(heap)</code>. For tuples, negate the priority: <code>heappush(heap, (-score, item))</code>. This trick works because negating reverses the ordering — the largest positive value becomes the smallest (most negative), so the heap always pops the original largest first.</p>",
               },
               {
-                question: "What is the difference between heapq.nsmallest() and repeatedly calling heappop()?",
+                question:
+                  "What is the difference between heapq.nsmallest() and repeatedly calling heappop()?",
                 solution:
                   "<p>For one-time retrieval of k smallest from an unsorted list, <code>heapq.nsmallest(k, iterable)</code> is often faster and simpler — it uses heapify + k pops internally (O(n + k log n)) and can fall back to sorted() for small k. Repeatedly calling <code>heappop()</code> on a pre-heapified list is better when you are processing the heap incrementally (e.g., adding new elements between pops). Use <code>nsmallest/nlargest</code> for one-shot queries, manual push/pop for dynamic priority queues.</p>",
               },
               {
-                question: "How does storing (priority, data) tuples in a heap work?",
+                question:
+                  "How does storing (priority, data) tuples in a heap work?",
                 solution:
                   "<p>Python compares tuples lexicographically — first by index 0, then index 1 if equal. So <code>(1, 'task_a')</code> < <code>(2, 'task_b')</code> and the heap orders by the first element (priority). This pattern lets you attach any data to a heap element while controlling the ordering. If two priorities are equal and the data is not comparable (e.g., custom objects), add a tie-breaking counter as the second element: <code>(priority, counter, data)</code>.</p>",
               },
               {
-                question: "How do you find the Kth largest element efficiently?",
+                question:
+                  "How do you find the Kth largest element efficiently?",
                 solution:
                   "<p>Maintain a <em>min-heap of size k</em>. Heapify the first k elements, then for each remaining element: if it is larger than the heap's minimum (<code>heap[0]</code>), replace the minimum with <code>heapreplace()</code>. After processing all elements, <code>heap[0]</code> is the kth largest — it is the smallest among the k largest values seen. This is O(n log k) time and O(k) space, much better than sorting (O(n log n)) when k << n.</p>",
               },
               {
-                question: "What is the difference between heappushpop() and heapreplace()?",
+                question:
+                  "What is the difference between heappushpop() and heapreplace()?",
                 solution:
                   "<p><code>heappushpop(heap, item)</code> pushes the item then pops and returns the smallest — equivalent to push then pop but faster. If item is smaller than the current minimum, it just returns item directly. <code>heapreplace(heap, item)</code> pops and returns the smallest, then pushes item — the heap size stays the same. It raises <code>IndexError</code> on empty heaps. <code>heapreplace</code> is slightly faster because it skips a size check. Use <code>heapreplace</code> in the 'kth largest' sliding heap pattern.</p>",
               },
@@ -220867,7 +225485,6 @@ print(kth_largest([3,2,1,5,6,4], 2))   # 5`,
               "https://docs.python.org/3/library/heapq.html#basic-examples",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  3. RECURSION BASICS
@@ -221022,17 +225639,20 @@ print(min_coins(11, (1, 5, 6, 9)))   # 2  (5+6)`,
             ],
             questions: [
               {
-                question: "What are the two essential parts of every recursive function?",
+                question:
+                  "What are the two essential parts of every recursive function?",
                 solution:
                   "<p>Every recursive function must have: (1) a <strong>base case</strong> — the condition that stops the recursion and returns a value directly without calling itself again. Without a base case, the function calls itself infinitely, exhausting the call stack. (2) a <strong>recursive case</strong> — where the function calls itself with a <em>simpler or smaller</em> input, progressing toward the base case. The problem must get strictly simpler with each recursive call.</p>",
               },
               {
-                question: "What is the call stack and how does recursion use it?",
+                question:
+                  "What is the call stack and how does recursion use it?",
                 solution:
                   "<p>The call stack is a region of memory where Python stores information about active function calls — local variables, the return address, and the current state. Each recursive call adds a new <em>stack frame</em> to the top of the call stack. When a base case is hit, frames are resolved from top to bottom (the stack 'unwinds'). Python's default recursion limit is 1000 — exceeding it raises <code>RecursionError: maximum recursion depth exceeded</code>. This is why deep recursion (e.g., on a 10,000-item list) should use iteration instead.</p>",
               },
               {
-                question: "What is memoization and how does it improve recursion?",
+                question:
+                  "What is memoization and how does it improve recursion?",
                 solution:
                   "<p>Memoization is caching the result of a function call so it is only computed once. Without memoization, <code>fib(n)</code> has exponential O(2^n) time because it recalculates the same subproblems repeatedly. With memoization, each unique input is computed once and stored — reducing to O(n) time. The cleanest Python way is <code>@functools.lru_cache(maxsize=None)</code>, which automatically caches results without any manual dict management.</p>",
               },
@@ -221042,12 +225662,14 @@ print(min_coins(11, (1, 5, 6, 9)))   # 2  (5+6)`,
                   "<p>Use recursion when the problem has a naturally recursive structure: tree traversals, divide-and-conquer, backtracking, generating permutations/subsets. Recursion is cleaner to read but uses O(depth) stack space and risks stack overflow. Use iteration when: the problem is a simple loop, the input is very large (deep recursion), or you need explicit control over the stack. In Python specifically, prefer iteration for anything with depth > ~500 since Python does not optimise tail calls.</p>",
               },
               {
-                question: "What is the time complexity of naive fibonacci recursion and how is it improved?",
+                question:
+                  "What is the time complexity of naive fibonacci recursion and how is it improved?",
                 solution:
                   "<p>Naive recursive fibonacci is O(2^n) time — each call branches into two, creating an exponential tree of redundant calculations. <code>fib(50)</code> would require over a trillion calls. With memoization (<code>@lru_cache</code>), each value is computed exactly once — O(n) time and O(n) space. With a bottom-up iterative approach using two variables, it is O(n) time and O(1) space — the most efficient. For an interview, mention all three and their trade-offs.</p>",
               },
               {
-                question: "What is backtracking and how does it relate to recursion?",
+                question:
+                  "What is backtracking and how does it relate to recursion?",
                 solution:
                   "<p>Backtracking is a recursive technique that incrementally builds a solution and abandons ('backtracks') a path as soon as it determines the current partial solution cannot lead to a valid answer. It explores a decision tree using recursion: at each step, try a choice, recurse, then <em>undo</em> the choice before trying the next one. Classic backtracking problems include generating permutations, combinations, subsets, N-Queens, and Sudoku solver. The key pattern: <code>choose → explore → unchoose</code>.</p>",
               },
@@ -221058,7 +225680,6 @@ print(min_coins(11, (1, 5, 6, 9)))   # 2  (5+6)`,
               "https://realpython.com/lru-cache-python/",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  4. LAMBDA FUNCTIONS
@@ -221186,17 +225807,20 @@ print(product)   # 120`,
             ],
             questions: [
               {
-                question: "What is a lambda function and what are its limitations?",
+                question:
+                  "What is a lambda function and what are its limitations?",
                 solution:
                   "<p>A lambda is an anonymous function defined in a single expression: <code>lambda params: expr</code>. Limitations: (1) only one expression — no statements, no assignments, no loops. (2) Cannot include docstrings or multiple lines. (3) Harder to test and debug because it has no name in stack traces. (4) PEP 8 recommends against assigning a lambda to a variable — use <code>def</code> instead for named functions. Use lambdas only as throwaway inline arguments to higher-order functions.</p>",
               },
               {
-                question: "When should you use a lambda vs a regular def function?",
+                question:
+                  "When should you use a lambda vs a regular def function?",
                 solution:
                   "<p>Use a lambda when: the function is simple (one expression), it is used in only one place, and it is passed inline as a <code>key=</code>, <code>map()</code>, or <code>filter()</code> argument. Use a regular <code>def</code> when: the logic is complex, the function is reused, you need a docstring or type hints, or readability matters. In interviews, lambdas are idiomatic for sort keys; in production code, named functions are almost always clearer.</p>",
               },
               {
-                question: "How do you sort by multiple criteria using a lambda?",
+                question:
+                  "How do you sort by multiple criteria using a lambda?",
                 solution:
                   "<p>Return a tuple from the key function: <code>sorted(lst, key=lambda x: (x[1], x[0]))</code>. Python compares tuples lexicographically — first by the first element, then by the second for ties. To sort one field ascending and another descending, negate the numeric field: <code>key=lambda x: (-x.score, x.name)</code> sorts by score descending, then name ascending. This tuple trick replaces the need for a custom comparator in most interview problems.</p>",
               },
@@ -221206,7 +225830,8 @@ print(product)   # 120`,
                   "<p><code>functools.cmp_to_key</code> converts an old-style comparison function (returning negative/0/positive) into a key function. You need it when the comparison is not reducible to a simple key — for example, the 'largest number' problem where you compare string concatenations <code>a+b</code> vs <code>b+a</code>. A regular lambda key cannot express this because there is no simple value to extract — you need to compare pairs of elements. In that case, define a comparator and wrap it with <code>cmp_to_key</code>.</p>",
               },
               {
-                question: "What is the difference between map()/filter() and list comprehensions?",
+                question:
+                  "What is the difference between map()/filter() and list comprehensions?",
                 solution:
                   "<p>Both achieve the same result. <code>map(lambda x: x**2, lst)</code> is equivalent to <code>[x**2 for x in lst]</code>. <code>filter(lambda x: x>0, lst)</code> is equivalent to <code>[x for x in lst if x>0]</code>. In Python 3, <code>map()</code> and <code>filter()</code> return lazy iterators (memory efficient for large data). List comprehensions are generally preferred in Python code for readability. In interviews, either approach is acceptable — use whichever you can write faster and more confidently.</p>",
               },
@@ -221217,7 +225842,6 @@ print(product)   # 120`,
               "https://docs.python.org/3/library/functools.html#functools.cmp_to_key",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  5. SORTING (Important for DSA)
@@ -221367,7 +225991,8 @@ print(find_min_arrows([[10,16],[2,8],[1,6],[7,12]]))   # 2`,
             ],
             questions: [
               {
-                question: "What sorting algorithm does Python use and what is its complexity?",
+                question:
+                  "What sorting algorithm does Python use and what is its complexity?",
                 solution:
                   "<p>Python uses <strong>Timsort</strong>, a hybrid of merge sort and insertion sort developed by Tim Peters. Worst case: O(n log n) time. Best case: O(n) when the data is already sorted or nearly sorted. Space: O(n) auxiliary. Timsort is a <em>stable</em> sort — equal elements maintain their relative order. This stability is crucial when sorting by multiple keys sequentially or when the original order matters for ties.</p>",
               },
@@ -221382,12 +226007,14 @@ print(find_min_arrows([[10,16],[2,8],[1,6],[7,12]]))   # 2`,
                   "<p>Pass <code>reverse=True</code>: <code>sorted(lst, reverse=True)</code> or <code>lst.sort(reverse=True)</code>. For custom keys, you can negate numeric values: <code>key=lambda x: -x.score</code> sorts by score descending. For multi-key sorts with mixed directions, use negation for numeric descending fields: <code>key=lambda x: (-x.score, x.name)</code> — score descending, name ascending. For string fields, there is no direct negation; use <code>cmp_to_key</code> for complex mixed-direction requirements.</p>",
               },
               {
-                question: "Why is sorting intervals by start time such a common interview pattern?",
+                question:
+                  "Why is sorting intervals by start time such a common interview pattern?",
                 solution:
                   "<p>Most interval problems (merge intervals, meeting rooms, minimum platforms, activity selection) require you to process intervals in chronological order. Sorting by start time lets you make a single linear pass with a greedy algorithm — compare each interval to only the previous one (or the last merged interval). Without sorting, you would need O(n²) comparisons. The pattern is: <code>intervals.sort(key=lambda x: x[0])</code> then a single loop — O(n log n) total.</p>",
               },
               {
-                question: "How do you sort a string or sort the characters of a string?",
+                question:
+                  "How do you sort a string or sort the characters of a string?",
                 solution:
                   "<p>Strings are immutable in Python so you cannot sort them in place. Convert to a sorted list, then join: <code>''.join(sorted(s))</code> gives the characters in alphabetical order. For descending: <code>''.join(sorted(s, reverse=True))</code>. This is commonly used in anagram detection: two strings are anagrams if and only if <code>sorted(s1) == sorted(s2)</code> — though <code>Counter(s1) == Counter(s2)</code> is O(n) vs O(n log n) for the sorted approach.</p>",
               },
@@ -221398,7 +226025,6 @@ print(find_min_arrows([[10,16],[2,8],[1,6],[7,12]]))   # 2`,
               "https://docs.python.org/3/library/functools.html#functools.cmp_to_key",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  6. TWO-POINTER / ITERATION TRICKS
@@ -221579,12 +226205,14 @@ print(trap([0,1,0,2,1,0,1,3,2,1,2,1]))   # 6`,
             ],
             questions: [
               {
-                question: "What is the two-pointer technique and when should you use it?",
+                question:
+                  "What is the two-pointer technique and when should you use it?",
                 solution:
                   "<p>The two-pointer technique uses two index variables to traverse a data structure simultaneously, reducing O(n²) solutions to O(n). Use opposite-direction pointers when the array is sorted and you are looking for a pair with a target sum or checking symmetry. Use same-direction (slow/fast) pointers when partitioning arrays in-place — removing elements, moving zeros, finding cycle in linked list. The key insight: moving pointers strategically based on conditions eliminates the need for nested loops.</p>",
               },
               {
-                question: "Why does two-pointer work on sorted arrays for the two-sum problem?",
+                question:
+                  "Why does two-pointer work on sorted arrays for the two-sum problem?",
                 solution:
                   "<p>With a sorted array, the sum of the two outermost pointers tells you which direction to move. If <code>arr[left] + arr[right] < target</code>, the sum is too small — increasing left (moving right) increases the sum. If the sum is too large, decreasing right (moving left) decreases it. Since every move strictly progresses toward the target and each pointer moves at most n steps total, the algorithm is O(n). This reasoning only works because the array is sorted — on unsorted arrays, use a hash map instead.</p>",
               },
@@ -221594,12 +226222,14 @@ print(trap([0,1,0,2,1,0,1,3,2,1,2,1]))   # 6`,
                   "<p>The slow pointer marks the 'write position' — where the next valid element should go. The fast pointer scans forward. When fast finds a valid element, it is written to slow's position, and slow advances. This processes the entire array in one pass without extra space. Classic uses: remove duplicates from sorted array, move zeros, remove element by value. In linked lists, the fast pointer moves twice per step — used to detect cycles and find the middle node.</p>",
               },
               {
-                question: "How does zip(nums, nums[1:]) work for adjacent comparisons?",
+                question:
+                  "How does zip(nums, nums[1:]) work for adjacent comparisons?",
                 solution:
                   "<p><code>zip(lst, lst[1:])</code> creates pairs of consecutive elements: <code>(lst[0],lst[1]), (lst[1],lst[2]), ...</code>. This is the Pythonic way to compare adjacent elements without index arithmetic. For example, checking if a list is sorted: <code>all(a <= b for a, b in zip(lst, lst[1:]))</code>. It avoids off-by-one errors and is more readable than <code>for i in range(len(lst)-1): if lst[i] ...</code>. Works on strings too: <code>zip(s, s[1:])</code>.</p>",
               },
               {
-                question: "How do you handle duplicates in two-pointer problems?",
+                question:
+                  "How do you handle duplicates in two-pointer problems?",
                 solution:
                   "<p>After finding a valid pair/triplet, skip over duplicate values by advancing the pointer while the next value equals the current: <code>while left < right and nums[left] == nums[left+1]: left += 1</code>. In the outer loop of 3-sum, skip the outer duplicate: <code>if i > 0 and nums[i] == nums[i-1]: continue</code>. Always skip <em>after</em> processing the match, not before — and guard with <code>left < right</code> to avoid index errors. Forgetting duplicate handling is one of the most common mistakes in interval and two-pointer problems.</p>",
               },
@@ -221610,7 +226240,6 @@ print(trap([0,1,0,2,1,0,1,3,2,1,2,1]))   # 6`,
               "https://docs.python.org/3/library/functions.html#zip",
             ],
           },
-
 
           // ─────────────────────────────────────────────
           //  7. STRING & LIST TRICKS — PREFIX SUMS & SLIDING WINDOW
@@ -221815,22 +226444,26 @@ print(num_subarrays_product_less_k([10,5,2,6], 100))   # 8`,
                   "<p>A prefix sum array stores cumulative totals: <code>prefix[i]</code> = sum of elements from index 0 to i-1. Once built in O(n), any subarray sum <code>[l, r]</code> = <code>prefix[r+1] - prefix[l]</code> is answered in O(1). Without prefix sums, each range sum query would require O(n) recomputation. This is invaluable for problems asking: 'how many subarrays sum to k?', 'find a subarray with a given sum', or 'sum of all subarrays in a range'.</p>",
               },
               {
-                question: "How does the 'subarray sum equals k' problem use prefix sums with a hash map?",
+                question:
+                  "How does the 'subarray sum equals k' problem use prefix sums with a hash map?",
                 solution:
                   "<p>Track the running prefix sum as you iterate. For each position, check if <code>prefix_sum - k</code> was seen before — if so, the subarray between that earlier position and the current one has sum exactly k. Use a dictionary mapping <code>prefix_sum → count</code> to handle multiple occurrences. Initialise with <code>{0: 1}</code> to handle subarrays starting at index 0. This reduces the problem from O(n²) (nested loops) to O(n) with O(n) space.</p>",
               },
               {
-                question: "What is the sliding window technique and when do you use fixed vs variable size?",
+                question:
+                  "What is the sliding window technique and when do you use fixed vs variable size?",
                 solution:
                   "<p>Sliding window maintains a contiguous subarray by tracking left and right boundaries. <strong>Fixed size</strong>: when k (window size) is given — compute the first window, then add the new right element and subtract the leaving left element each step. <strong>Variable size</strong>: when finding the longest/shortest window satisfying a constraint — expand right to grow, shrink by advancing left when the constraint is violated. The key decision: fixed window when k is given explicitly; variable window when the problem says 'longest', 'shortest', or 'at most k'.</p>",
               },
               {
-                question: "How do you decide between sliding window and two pointers?",
+                question:
+                  "How do you decide between sliding window and two pointers?",
                 solution:
                   "<p>They are closely related — sliding window is a specific application of two pointers on contiguous subarrays. Use <strong>sliding window</strong> when the problem involves a contiguous subarray/substring with a sum, count, or frequency constraint. Use <strong>two pointers</strong> when working with sorted arrays looking for pairs/triplets summing to a target, or when you need to partition an array. The distinction is subtle: sliding window almost always involves tracking a window state (sum, character counts); two pointers typically just compare or manipulate the values at the two positions.</p>",
               },
               {
-                question: "What is the template for variable-size sliding window?",
+                question:
+                  "What is the template for variable-size sliding window?",
                 solution:
                   "<p>The standard template: initialise <code>left = 0</code>, a window state (dict, sum, etc.), and result. Loop <code>right</code> from 0 to n-1: (1) add <code>s[right]</code> to window state. (2) While the window violates the constraint: remove <code>s[left]</code> from state, increment left. (3) Update result with current valid window (<code>right - left + 1</code>). This guarantees each element is added and removed at most once — O(n) total. The 'while' vs 'if' choice: use 'while' to shrink to valid; use 'if' when you only need to maintain a fixed size.</p>",
               },
@@ -223574,8 +228207,7 @@ echo "✅ Demo complete"`,
                   "<p>When you run <code>docker compose up</code>, Compose automatically creates a user-defined bridge network named <code>PROJECTNAME_default</code> and connects all services to it. Because it's a user-defined bridge (not the default docker0 bridge), Docker's embedded DNS server at 127.0.0.11 is active — all services can reach each other by their <strong>service name</strong> as the hostname. A service named <code>postgres</code> is reachable as <code>postgres:5432</code> from any other service in the project — no IP addresses, no links, no configuration needed. For more complex topologies, define custom networks in the top-level <code>networks:</code> key and assign services to specific networks using the service-level <code>networks:</code> key. A service assigned to multiple networks (like an API tier that needs to reach both the frontend reverse proxy and the backend database) bridges those network segments. The <code>internal: true</code> flag on a network removes the default route out — containers on that network have no internet access. Compose namespaces everything: networks become <code>PROJECT_NETWORKNAME</code>, visible in <code>docker network ls</code>. Running <code>docker compose down</code> removes the networks; <code>docker compose down -v</code> also removes volumes.</p>",
               },
               {
-                question:
-                  "What are Compose profiles and when do you use them?",
+                question: "What are Compose profiles and when do you use them?",
                 solution:
                   "<p>Profiles let you define optional services in a single Compose file that are <em>only</em> started when that profile is explicitly activated. Services without a <code>profiles:</code> key are always started — these are your core application services. Services with <code>profiles: [dev]</code> only start when you pass <code>--profile dev</code> or set <code>COMPOSE_PROFILES=dev</code>. A service can belong to multiple profiles: <code>profiles: [dev, debug]</code>. The primary use cases: (1) Dev tooling — MailHog (fake SMTP server), Adminer (database GUI), documentation servers. These are useful in development but must not run in production. (2) Debug tools — pgAdmin, Redis Commander, application profilers. (3) Optional infrastructure — monitoring stack (Prometheus + Grafana), feature-flag services, extra workers. Before profiles existed, the pattern was maintaining separate override files for dev tooling. Profiles are cleaner because everything lives in one file, and developers just activate the profiles they need. Profile services also participate in dependency resolution: if a profiled service depends_on a core service, that dependency is respected when the profile is activated. You can also target a profiled service directly: <code>docker compose --profile dev up -d adminer</code>.</p>",
               },
@@ -223623,7 +228255,7 @@ echo "✅ Demo complete"`,
               "https://docs.docker.com/compose/environment-variables/",
               "https://docs.docker.com/compose/production/",
             ],
-          }
+          },
         ],
       },
     ],
@@ -223676,20 +228308,24 @@ mkdir -p /tmp/myproject/src/components
 cp -rv ./src/ ./backup/
 
 # Find a file by name
-find /etc -name "*.conf" 2>/dev/null`
+find /etc -name "*.conf" 2>/dev/null`,
             ],
             questions: [
               {
-                question: "What is the difference between an absolute and relative path?",
-                solution: "<p>An <strong>absolute path</strong> always starts from the root directory (<code>/</code>) and specifies the full path regardless of your current location. Example: <code>/home/ubuntu/app/index.js</code>. A <strong>relative path</strong> is relative to your current working directory. Example: <code>./app/index.js</code> or <code>../logs/</code>. Use <code>pwd</code> to find your current directory when using relative paths.</p>"
+                question:
+                  "What is the difference between an absolute and relative path?",
+                solution:
+                  "<p>An <strong>absolute path</strong> always starts from the root directory (<code>/</code>) and specifies the full path regardless of your current location. Example: <code>/home/ubuntu/app/index.js</code>. A <strong>relative path</strong> is relative to your current working directory. Example: <code>./app/index.js</code> or <code>../logs/</code>. Use <code>pwd</code> to find your current directory when using relative paths.</p>",
               },
               {
                 question: "What does the `-p` flag do in `mkdir`?",
-                solution: "<p>The <code>-p</code> flag (parents) tells mkdir to create all necessary parent directories if they don't exist, without throwing an error. For example, <code>mkdir -p a/b/c</code> creates all three directories in one command. Without <code>-p</code>, mkdir would fail if <code>a/b</code> doesn't already exist.</p>"
+                solution:
+                  "<p>The <code>-p</code> flag (parents) tells mkdir to create all necessary parent directories if they don't exist, without throwing an error. For example, <code>mkdir -p a/b/c</code> creates all three directories in one command. Without <code>-p</code>, mkdir would fail if <code>a/b</code> doesn't already exist.</p>",
               },
               {
                 question: "What's the difference between `rm -r` and `rmdir`?",
-                solution: "<p><code>rmdir</code> can only remove <strong>empty</strong> directories — it will fail if the directory contains any files or subdirectories. <code>rm -r</code> (recursive) removes the directory and all of its contents, including nested files and subdirectories. <code>rm -rf</code> adds the <code>-f</code> (force) flag to suppress prompts — use with extreme caution.</p>"
+                solution:
+                  "<p><code>rmdir</code> can only remove <strong>empty</strong> directories — it will fail if the directory contains any files or subdirectories. <code>rm -r</code> (recursive) removes the directory and all of its contents, including nested files and subdirectories. <code>rm -rf</code> adds the <code>-f</code> (force) flag to suppress prompts — use with extreme caution.</p>",
               },
             ],
             links: [
@@ -223739,16 +228375,18 @@ sed -i 's/DEBUG=true/DEBUG=false/g' .env
 awk -F ':' '{print $1}' /etc/passwd
 
 # Sort unique IP addresses from access log
-awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -10`
+awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -10`,
             ],
             questions: [
               {
                 question: "Explain what `grep -v` does.",
-                solution: "<p><code>grep -v</code> inverts the match — it prints all lines that do <strong>NOT</strong> match the given pattern. For example, <code>grep -v 'debug' app.log</code> shows all log lines except debug messages. It's useful for filtering out noise when searching for specific content.</p>"
+                solution:
+                  "<p><code>grep -v</code> inverts the match — it prints all lines that do <strong>NOT</strong> match the given pattern. For example, <code>grep -v 'debug' app.log</code> shows all log lines except debug messages. It's useful for filtering out noise when searching for specific content.</p>",
               },
               {
                 question: "What is the purpose of the pipe `|` operator?",
-                solution: "<p>The pipe operator (<code>|</code>) connects the <strong>stdout</strong> of one command to the <strong>stdin</strong> of the next. This allows you to chain small, focused commands into powerful pipelines. Example: <code>ps aux | grep nginx | awk '{print $2}'</code> — lists all processes, filters for nginx, then extracts just the PIDs. This composability is a core philosophy of Unix/Linux.</p>"
+                solution:
+                  "<p>The pipe operator (<code>|</code>) connects the <strong>stdout</strong> of one command to the <strong>stdin</strong> of the next. This allows you to chain small, focused commands into powerful pipelines. Example: <code>ps aux | grep nginx | awk '{print $2}'</code> — lists all processes, filters for nginx, then extracts just the PIDs. This composability is a core philosophy of Unix/Linux.</p>",
               },
             ],
             links: [
@@ -223801,16 +228439,18 @@ pkill -f "node server.js"
 watch -n 2 free -h
 
 # Check system load averages
-uptime`
+uptime`,
             ],
             questions: [
               {
                 question: "What is a zombie process?",
-                solution: "<p>A zombie process is a process that has completed execution but still has an entry in the process table because its parent hasn't read its exit status yet (hasn't called <code>wait()</code>). Zombie processes don't consume CPU or memory, but they occupy a slot in the process table. They appear as <code>Z</code> in <code>ps</code> output. You typically can't kill them directly — you need to kill or signal the parent process to reap them.</p>"
+                solution:
+                  "<p>A zombie process is a process that has completed execution but still has an entry in the process table because its parent hasn't read its exit status yet (hasn't called <code>wait()</code>). Zombie processes don't consume CPU or memory, but they occupy a slot in the process table. They appear as <code>Z</code> in <code>ps</code> output. You typically can't kill them directly — you need to kill or signal the parent process to reap them.</p>",
               },
               {
                 question: "What is the difference between SIGTERM and SIGKILL?",
-                solution: "<p><strong>SIGTERM (signal 15)</strong> is the default kill signal. It asks the process to terminate gracefully — the process can catch this signal, clean up resources, flush buffers, and then exit. Most well-behaved applications respond to SIGTERM. <strong>SIGKILL (signal 9)</strong> is immediate and unconditional — the kernel forcibly terminates the process with no chance for cleanup. This can lead to data corruption or incomplete transactions. Always try SIGTERM first; use SIGKILL only as a last resort.</p>"
+                solution:
+                  "<p><strong>SIGTERM (signal 15)</strong> is the default kill signal. It asks the process to terminate gracefully — the process can catch this signal, clean up resources, flush buffers, and then exit. Most well-behaved applications respond to SIGTERM. <strong>SIGKILL (signal 9)</strong> is immediate and unconditional — the kernel forcibly terminates the process with no chance for cleanup. This can lead to data corruption or incomplete transactions. Always try SIGTERM first; use SIGKILL only as a last resort.</p>",
               },
             ],
             links: [
@@ -223860,16 +228500,20 @@ find /var/www/html -type f -exec chmod 644 {} \\;
 ls -la /etc/passwd
 
 # Add yourself to the docker group
-sudo usermod -aG docker $USER`
+sudo usermod -aG docker $USER`,
             ],
             questions: [
               {
-                question: "What does the permission `777` imply, and why is it dangerous?",
-                solution: "<p><code>chmod 777</code> grants <strong>full read, write, and execute permissions</strong> to the owner, group, AND all other users on the system. This is dangerous because: (1) Any user on the system can modify or delete the file. (2) Any user can execute malicious scripts. (3) For web servers, it allows web processes to write arbitrary files. The principle of least privilege dictates you should only grant the minimum permissions necessary.</p>"
+                question:
+                  "What does the permission `777` imply, and why is it dangerous?",
+                solution:
+                  "<p><code>chmod 777</code> grants <strong>full read, write, and execute permissions</strong> to the owner, group, AND all other users on the system. This is dangerous because: (1) Any user on the system can modify or delete the file. (2) Any user can execute malicious scripts. (3) For web servers, it allows web processes to write arbitrary files. The principle of least privilege dictates you should only grant the minimum permissions necessary.</p>",
               },
               {
-                question: "How do you recursively apply permissions to a directory?",
-                solution: "<p>Use the <code>-R</code> (recursive) flag: <code>chmod -R 755 /var/www/html</code>. However, be careful — applying <code>755</code> to all files in a web directory is wrong, because files should be <code>644</code> while directories should be <code>755</code>. The correct approach is: <code>find /var/www/html -type d -exec chmod 755 {} \\;</code> for directories and <code>find /var/www/html -type f -exec chmod 644 {} \\;</code> for files.</p>"
+                question:
+                  "How do you recursively apply permissions to a directory?",
+                solution:
+                  "<p>Use the <code>-R</code> (recursive) flag: <code>chmod -R 755 /var/www/html</code>. However, be careful — applying <code>755</code> to all files in a web directory is wrong, because files should be <code>644</code> while directories should be <code>755</code>. The correct approach is: <code>find /var/www/html -type d -exec chmod 755 {} \\;</code> for directories and <code>find /var/www/html -type f -exec chmod 644 {} \\;</code> for files.</p>",
               },
             ],
             links: [
@@ -223917,16 +228561,19 @@ sudo apt install -y git curl wget vim htop
 sudo apt-mark hold nginx
 
 # Check which package provides a command
-dpkg -S $(which curl)`
+dpkg -S $(which curl)`,
             ],
             questions: [
               {
-                question: "What is the difference between `apt remove` and `apt purge`?",
-                solution: "<p><code>apt remove</code> uninstalls the package binary but leaves behind configuration files (in <code>/etc/</code> and elsewhere). This is useful if you want to reinstall later with the same config. <code>apt purge</code> completely removes the package AND all its configuration files. Use purge when you want a completely clean slate.</p>"
+                question:
+                  "What is the difference between `apt remove` and `apt purge`?",
+                solution:
+                  "<p><code>apt remove</code> uninstalls the package binary but leaves behind configuration files (in <code>/etc/</code> and elsewhere). This is useful if you want to reinstall later with the same config. <code>apt purge</code> completely removes the package AND all its configuration files. Use purge when you want a completely clean slate.</p>",
               },
               {
                 question: "Why must you run `apt update` before `apt install`?",
-                solution: "<p><code>apt update</code> refreshes the local package index cache — it downloads the latest list of available packages and their versions from the configured repositories. Without running <code>apt update</code> first, apt may try to install from outdated package lists, resulting in 'package not found' errors or installing old versions. <code>apt update</code> doesn't actually install or upgrade anything — it only updates the local cache.</p>"
+                solution:
+                  "<p><code>apt update</code> refreshes the local package index cache — it downloads the latest list of available packages and their versions from the configured repositories. Without running <code>apt update</code> first, apt may try to install from outdated package lists, resulting in 'package not found' errors or installing old versions. <code>apt update</code> doesn't actually install or upgrade anything — it only updates the local cache.</p>",
               },
             ],
             links: [
@@ -224012,16 +228659,18 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="$BACKUP_DIR/$(basename $SOURCE)_$TIMESTAMP.tar.gz"
 
 tar -czf "$BACKUP_FILE" "$SOURCE"
-echo "Backup created: $BACKUP_FILE ($(du -sh $BACKUP_FILE | cut -f1))"`
+echo "Backup created: $BACKUP_FILE ($(du -sh $BACKUP_FILE | cut -f1))"`,
             ],
             questions: [
               {
                 question: "What is the shebang line and why is it important?",
-                solution: "<p>The shebang (<code>#!</code>) is the first line of a script that tells the OS which interpreter to use. Common examples: <code>#!/bin/bash</code> for bash, <code>#!/usr/bin/env python3</code> for Python. Without it, the system doesn't know how to execute the file. <code>#!/usr/bin/env bash</code> is preferred over <code>#!/bin/bash</code> because it searches the PATH for bash, making the script more portable across systems where bash may be installed in different locations.</p>"
+                solution:
+                  "<p>The shebang (<code>#!</code>) is the first line of a script that tells the OS which interpreter to use. Common examples: <code>#!/bin/bash</code> for bash, <code>#!/usr/bin/env python3</code> for Python. Without it, the system doesn't know how to execute the file. <code>#!/usr/bin/env bash</code> is preferred over <code>#!/bin/bash</code> because it searches the PATH for bash, making the script more portable across systems where bash may be installed in different locations.</p>",
               },
               {
                 question: "What does `set -euo pipefail` do?",
-                solution: "<p><ul><li><code>-e</code>: Exit immediately if any command fails (returns non-zero exit code).</li><li><code>-u</code>: Treat unset variables as errors. This catches typos in variable names like <code>$USERR</code> instead of silently using empty strings.</li><li><code>-o pipefail</code>: A pipeline fails if any command in it fails. Without this, <code>false | true</code> returns success because the last command (<code>true</code>) succeeded.</li></ul>Together, they constitute 'strict mode' and catch subtle bugs that would otherwise silently produce wrong results.</p>"
+                solution:
+                  "<p><ul><li><code>-e</code>: Exit immediately if any command fails (returns non-zero exit code).</li><li><code>-u</code>: Treat unset variables as errors. This catches typos in variable names like <code>$USERR</code> instead of silently using empty strings.</li><li><code>-o pipefail</code>: A pipeline fails if any command in it fails. Without this, <code>false | true</code> returns success because the last command (<code>true</code>) succeeded.</li></ul>Together, they constitute 'strict mode' and catch subtle bugs that would otherwise silently produce wrong results.</p>",
               },
             ],
             links: [
@@ -224076,16 +228725,18 @@ curl -o /dev/null -s -w "Connect: %{time_connect}s Total: %{time_total}s\\n" htt
 ss -tnp | grep ESTABLISHED
 
 # DNS resolution check
-dig +short api.example.com`
+dig +short api.example.com`,
             ],
             questions: [
               {
                 question: "What does `netstat -tulpn` show you?",
-                solution: "<p>It shows all network sockets: <code>-t</code> = TCP, <code>-u</code> = UDP, <code>-l</code> = listening sockets only, <code>-p</code> = show PID and process name, <code>-n</code> = show numeric addresses (don't resolve hostnames). This command is essential for checking which services are listening on which ports. Note: <code>netstat</code> is deprecated; the modern replacement is <code>ss -tulpn</code> which is faster.</p>"
+                solution:
+                  "<p>It shows all network sockets: <code>-t</code> = TCP, <code>-u</code> = UDP, <code>-l</code> = listening sockets only, <code>-p</code> = show PID and process name, <code>-n</code> = show numeric addresses (don't resolve hostnames). This command is essential for checking which services are listening on which ports. Note: <code>netstat</code> is deprecated; the modern replacement is <code>ss -tulpn</code> which is faster.</p>",
               },
               {
                 question: "What is the purpose of the `/etc/hosts` file?",
-                solution: "<p><code>/etc/hosts</code> is a local hostname-to-IP mapping file that is checked <strong>before</strong> DNS. You can add entries to override DNS resolution locally. Common uses: (1) Pointing a domain to a local IP during development: <code>127.0.0.1 api.myapp.local</code>. (2) Blocking sites by pointing them to 0.0.0.0. (3) In containerized environments, Docker and Kubernetes inject container hostnames here. On Linux, resolution order is controlled by <code>/etc/nsswitch.conf</code>.</p>"
+                solution:
+                  "<p><code>/etc/hosts</code> is a local hostname-to-IP mapping file that is checked <strong>before</strong> DNS. You can add entries to override DNS resolution locally. Common uses: (1) Pointing a domain to a local IP during development: <code>127.0.0.1 api.myapp.local</code>. (2) Blocking sites by pointing them to 0.0.0.0. (3) In containerized environments, Docker and Kubernetes inject container hostnames here. On Linux, resolution order is controlled by <code>/etc/nsswitch.conf</code>.</p>",
               },
             ],
             links: [
@@ -224160,16 +228811,19 @@ ssh -L 5432:rds.example.com:5432 -N -f ubuntu@bastion.example.com
 psql -h localhost -U myuser -d mydb
 
 # Run command on remote server without interactive shell
-ssh ubuntu@server 'systemctl restart nginx && systemctl status nginx'`
+ssh ubuntu@server 'systemctl restart nginx && systemctl status nginx'`,
             ],
             questions: [
               {
                 question: "How does public key authentication work?",
-                solution: "<p>Public key authentication uses asymmetric cryptography: (1) You generate a key pair — a <strong>private key</strong> (stays on your machine, secret) and a <strong>public key</strong> (shared with servers). (2) Your public key is added to <code>~/.ssh/authorized_keys</code> on the server. (3) When you connect, the server sends a random challenge encrypted with your public key. (4) Only you can decrypt it with your private key and respond correctly. (5) The server verifies the response and grants access. This eliminates password transmission over the network.</p>"
+                solution:
+                  "<p>Public key authentication uses asymmetric cryptography: (1) You generate a key pair — a <strong>private key</strong> (stays on your machine, secret) and a <strong>public key</strong> (shared with servers). (2) Your public key is added to <code>~/.ssh/authorized_keys</code> on the server. (3) When you connect, the server sends a random challenge encrypted with your public key. (4) Only you can decrypt it with your private key and respond correctly. (5) The server verifies the response and grants access. This eliminates password transmission over the network.</p>",
               },
               {
-                question: "What is local port forwarding and when would you use it?",
-                solution: "<p>Local port forwarding (<code>ssh -L local_port:target_host:target_port user@jump_host</code>) creates a tunnel: traffic sent to <code>local_port</code> on your machine is forwarded through the SSH connection to <code>target_host:target_port</code>. Use cases: (1) Access a database (e.g., RDS on port 5432) that's only reachable from a bastion/jump host. (2) Access internal web services from your developer machine. (3) Securely access services behind a firewall. Example: <code>ssh -L 5432:internal-db:5432 -N admin@bastion</code>.</p>"
+                question:
+                  "What is local port forwarding and when would you use it?",
+                solution:
+                  "<p>Local port forwarding (<code>ssh -L local_port:target_host:target_port user@jump_host</code>) creates a tunnel: traffic sent to <code>local_port</code> on your machine is forwarded through the SSH connection to <code>target_host:target_port</code>. Use cases: (1) Access a database (e.g., RDS on port 5432) that's only reachable from a bastion/jump host. (2) Access internal web services from your developer machine. (3) Securely access services behind a firewall. Example: <code>ssh -L 5432:internal-db:5432 -N admin@bastion</code>.</p>",
               },
             ],
             links: [
@@ -224223,16 +228877,18 @@ docker system prune -af
 find / -type f -printf "%s %p\\n" 2>/dev/null | sort -rn | head -10 | awk '{printf "%.1fMB %s\\n", $1/1024/1024, $2}'
 
 # Check inodes (inode exhaustion can fill disk too)
-df -i`
+df -i`,
             ],
             questions: [
               {
                 question: "What is the difference between `df` and `du`?",
-                solution: "<p><code>df</code> (disk free) shows <strong>filesystem-level</strong> statistics — how much space is used and available on each mounted filesystem/partition. It reads from the filesystem metadata. <code>du</code> (disk usage) walks the directory tree and calculates the actual size of files and directories. The numbers can differ slightly because df counts filesystem overhead (e.g., reserved blocks). Use <code>df -h</code> for an overview and <code>du -sh dir/</code> to drill into what's consuming space.</p>"
+                solution:
+                  "<p><code>df</code> (disk free) shows <strong>filesystem-level</strong> statistics — how much space is used and available on each mounted filesystem/partition. It reads from the filesystem metadata. <code>du</code> (disk usage) walks the directory tree and calculates the actual size of files and directories. The numbers can differ slightly because df counts filesystem overhead (e.g., reserved blocks). Use <code>df -h</code> for an overview and <code>du -sh dir/</code> to drill into what's consuming space.</p>",
               },
               {
                 question: "What does mounting a filesystem mean in Linux?",
-                solution: "<p>Mounting makes a storage device or filesystem <strong>accessible at a specific directory path</strong> (the mount point) within the existing directory tree. For example, <code>mount /dev/sdb1 /mnt/data</code> makes the contents of the partition <code>/dev/sdb1</code> accessible at <code>/mnt/data/</code>. In Linux, everything is part of one unified directory tree — physical disks, USB drives, network shares, and even virtual filesystems like <code>/proc</code> and <code>/sys</code> are accessed through mount points.</p>"
+                solution:
+                  "<p>Mounting makes a storage device or filesystem <strong>accessible at a specific directory path</strong> (the mount point) within the existing directory tree. For example, <code>mount /dev/sdb1 /mnt/data</code> makes the contents of the partition <code>/dev/sdb1</code> accessible at <code>/mnt/data/</code>. In Linux, everything is part of one unified directory tree — physical disks, USB drives, network shares, and even virtual filesystems like <code>/proc</code> and <code>/sys</code> are accessed through mount points.</p>",
               },
             ],
             links: [
@@ -225210,494 +229866,655 @@ function singleNumberIII(nums) {
 // maxSumK([2,1,5,1,3,2], 3) => 9  (5+1+3)
 // longestSubarray([3,1,2,7,4,2,1,1,5], 8) => 4`,
               `// maxSubArray([-2,1,-3,4,-1,2,1,-5,4]) => 6  ([4,-1,2,1])
-// subarraySum([1,1,1], 2) => 2`
+// subarraySum([1,1,1], 2) => 2`,
             ],
             questions: [
               {
                 question: "When do you use Two Pointers vs Sliding Window?",
-                solution: "<p>Use <strong>Two Pointers</strong> when the array is sorted and you need pairs/triplets summing to a target — pointers converge from both ends. Use <strong>Sliding Window</strong> for contiguous subarrays satisfying a condition (max sum, longest with constraint). Fixed-size window: add right, remove left at distance k. Variable window: expand right, shrink left while constraint violated.</p>"
+                solution:
+                  "<p>Use <strong>Two Pointers</strong> when the array is sorted and you need pairs/triplets summing to a target — pointers converge from both ends. Use <strong>Sliding Window</strong> for contiguous subarrays satisfying a condition (max sum, longest with constraint). Fixed-size window: add right, remove left at distance k. Variable window: expand right, shrink left while constraint violated.</p>",
               },
               {
-                question: "What is the time complexity of the sliding window approach?",
-                solution: "<p>O(n) — each element is added to the window once and removed at most once, so the total work is O(2n) = O(n) regardless of inner while-loop iterations. This is the key advantage over O(n²) brute force nested loops.</p>"
+                question:
+                  "What is the time complexity of the sliding window approach?",
+                solution:
+                  "<p>O(n) — each element is added to the window once and removed at most once, so the total work is O(2n) = O(n) regardless of inner while-loop iterations. This is the key advantage over O(n²) brute force nested loops.</p>",
               },
               {
-                question: "How does Kadane's algorithm decide to start a new subarray?",
-                solution: "<p>At each index: <code>cur = Math.max(nums[i], cur + nums[i])</code>. If <code>cur + nums[i] &lt; nums[i]</code>, the accumulated sum is negative — it hurts more than it helps, so start fresh from <code>nums[i]</code>. Otherwise extend the current subarray. This greedy decision is optimal because a negative prefix can never contribute to a maximum suffix.</p>"
+                question:
+                  "How does Kadane's algorithm decide to start a new subarray?",
+                solution:
+                  "<p>At each index: <code>cur = Math.max(nums[i], cur + nums[i])</code>. If <code>cur + nums[i] &lt; nums[i]</code>, the accumulated sum is negative — it hurts more than it helps, so start fresh from <code>nums[i]</code>. Otherwise extend the current subarray. This greedy decision is optimal because a negative prefix can never contribute to a maximum suffix.</p>",
               },
               {
-                question: "How do prefix sums combine with hash maps to solve 'subarray sum = k'?",
-                solution: "<p>Key insight: if <code>prefix[j] - prefix[i] = k</code>, then the subarray <code>i..j</code> sums to k. Rearrange: <code>prefix[i] = prefix[j] - k</code>. As you build the prefix sum left to right, check if <code>currentSum - k</code> has been seen before in the map. This converts an O(n²) problem to O(n).</p>"
-              }
+                question:
+                  "How do prefix sums combine with hash maps to solve 'subarray sum = k'?",
+                solution:
+                  "<p>Key insight: if <code>prefix[j] - prefix[i] = k</code>, then the subarray <code>i..j</code> sums to k. Rearrange: <code>prefix[i] = prefix[j] - k</code>. As you build the prefix sum left to right, check if <code>currentSum - k</code> has been seen before in the map. This converts an O(n²) problem to O(n).</p>",
+              },
             ],
             links: [
               "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
               "https://leetcode.com/problems/maximum-average-subarray-i/",
               "https://leetcode.com/problems/maximum-subarray/",
-              "https://leetcode.com/problems/subarray-sum-equals-k/"
-            ]
+              "https://leetcode.com/problems/subarray-sum-equals-k/",
+            ],
           },
           {
-            "topic": "Strings",
-            "tags": ["dsa", "strings"],
-            "explanation": "<div>\n<p style=\"line-height:1.75;margin-top:1.5rem;\">Master these 14 string patterns to ace any DSA interview at Google, Meta, or top-tier companies. Each pattern covers the core idea, when to use it, and key LeetCode problems.</p>\n\n<!-- ==================== PATTERN RECOGNITION GUIDE ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">🧭 Pattern Recognition Guide</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Read the problem → spot the signal word/phrase → jump to the right pattern.</p>\n\n<table style=\"width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;\">\n  <thead>\n    <tr style=\"background:rgba(124,106,247,0.15);\">\n      <th style=\"padding:10px 14px;text-align:left;border:1px solid #2a2a3e;font-weight:700;color:#c4b5fd;\">Signal in Problem</th>\n      <th style=\"padding:10px 14px;text-align:left;border:1px solid #2a2a3e;font-weight:700;color:#c4b5fd;\">Pattern to Use</th>\n      <th style=\"padding:10px 14px;text-align:left;border:1px solid #2a2a3e;font-weight:700;color:#c4b5fd;\">Example LeetCode</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr style=\"background:rgba(255,255,255,0.02);\"><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"valid palindrome\", \"reverse string\", \"check if palindrome after removal\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#7c6af7;font-weight:600;\">Two Pointers (converging)</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 125, 680, 5</td></tr>\n    <tr><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"longest substring without repeating\", \"at most k distinct chars\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#f7c06a;font-weight:600;\">Sliding Window (variable)</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 3, 340, 159</td></tr>\n    <tr style=\"background:rgba(255,255,255,0.02);\"><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"find all anagrams\", \"permutation in string\", \"minimum window substring\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#f7c06a;font-weight:600;\">Sliding Window + HashMap</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 438, 567, 76</td></tr>\n    <tr><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"group anagrams\", \"two strings are anagrams\", \"character frequency\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#5cf5c8;font-weight:600;\">HashMap / Freq Count</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 49, 242, 383</td></tr>\n    <tr style=\"background:rgba(255,255,255,0.02);\"><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"check if substring exists\", \"count occurrences of pattern\", \"repeated substring\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#60a5fa;font-weight:600;\">KMP / Z-Algorithm</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 28, 214, 459</td></tr>\n    <tr><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"longest common prefix\", \"words with prefix\", \"autocomplete\", \"wildcard word search\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e879f9;font-weight:600;\">Trie</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 208, 212, 211</td></tr>\n    <tr style=\"background:rgba(255,255,255,0.02);\"><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"valid parentheses\", \"decode string\", \"remove adjacent duplicates\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#fbbf24;font-weight:600;\">Stack-Based</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 20, 394, 1249</td></tr>\n    <tr><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"edit distance\", \"longest common subsequence\", \"interleaving string\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#f87171;font-weight:600;\">DP on Strings</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 72, 1143, 97</td></tr>\n    <tr style=\"background:rgba(255,255,255,0.02);\"><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"longest palindromic substring\", \"palindrome partitioning\", \"min cuts\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#fb923c;font-weight:600;\">Palindrome DP / Expand</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 5, 131, 132</td></tr>\n    <tr><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"remove k digits to make smallest\", \"task scheduler\", \"reorganize string\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#34d399;font-weight:600;\">Greedy on Strings</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 402, 621, 767</td></tr>\n    <tr style=\"background:rgba(255,255,255,0.02);\"><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"generate all permutations\", \"all valid IPs\", \"all valid parentheses\", \"word break all\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#a3e635;font-weight:600;\">Backtracking</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 17, 22, 93, 140</td></tr>\n    <tr><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"words with no common letters\", \"max product of disjoint substrings\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#38bdf8;font-weight:600;\">Bit Masking</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 318, 828</td></tr>\n    <tr style=\"background:rgba(255,255,255,0.02);\"><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;\">\"repeated substring of length k\", \"duplicate substrings\", \"find all pattern positions fast\"</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#c4b5fd;font-weight:600;\">Rolling Hash (Rabin-Karp)</td><td style=\"padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;\">LC 459, 1044, 28</td></tr>\n  </tbody>\n</table>\n\n<div style=\"margin-top:1.25rem;padding:0.85rem 1rem;border-left:3px solid #7c6af7;background:rgba(124,106,247,0.06);border-radius:0 6px 6px 0;\">\n  <strong style=\"color:#c4b5fd;\">🔑 Decision flowchart:</strong>\n  <span style=\"color:#c4c0d4;line-height:1.8;display:block;margin-top:0.4rem;\">\n    Palindrome check? → Two Pointers &nbsp;|&nbsp;\n    Contiguous substring with constraint? → Sliding Window &nbsp;|&nbsp;\n    Frequency / group by chars? → HashMap &nbsp;|&nbsp;\n    Pattern matching? → KMP or Z-Algo &nbsp;|&nbsp;\n    Prefix search / word dict? → Trie &nbsp;|&nbsp;\n    Brackets / nesting? → Stack &nbsp;|&nbsp;\n    Optimal over substrings? → DP &nbsp;|&nbsp;\n    All arrangements? → Backtracking &nbsp;|&nbsp;\n    Char set membership O(1)? → Bit Mask\n  </span>\n</div>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 1: TWO POINTERS ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">1. Two Pointers on Strings</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Use two indices converging from both ends. Classic for palindrome detection, in-place reversal, and comparing from both ends. Signal: \"is palindrome\", \"reverse\", \"check with one deletion allowed\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Valid Palindrome (LC 125)</h4>\n<pre><code class=\"language-javascript\">// KEY: skip non-alphanumeric, compare lowercased chars from both ends.\nfunction isPalindrome(s) {\n  let l = 0, r = s.length - 1;\n  while (l < r) {\n    while (l < r && !isAlnum(s[l])) l++;\n    while (l < r && !isAlnum(s[r])) r--;\n    if (s[l].toLowerCase() !== s[r].toLowerCase()) return false;\n    l++; r--;\n  }\n  return true;\n}\nconst isAlnum = c => /[a-zA-Z0-9]/.test(c);</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Valid Palindrome II — One Deletion Allowed (LC 680)</h4>\n<pre><code class=\"language-javascript\">// KEY: when mismatch, try skipping EITHER l or r.\n// If either remaining window is a palindrome → true.\nfunction validPalindrome(s) {\n  const check = (l, r) => {\n    while (l < r) { if (s[l] !== s[r]) return false; l++; r--; }\n    return true;\n  };\n  let l = 0, r = s.length - 1;\n  while (l < r) {\n    if (s[l] !== s[r]) return check(l + 1, r) || check(l, r - 1);\n    l++; r--;\n  }\n  return true;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Longest Palindromic Substring — Expand Around Center (LC 5)</h4>\n<pre><code class=\"language-javascript\">// KEY: every palindrome has a center. Try each char (odd) and\n// each pair (even) as center, expand while chars match.\nfunction longestPalindrome(s) {\n  let res = '';\n  const expand = (l, r) => {\n    while (l >= 0 && r < s.length && s[l] === s[r]) { l--; r++; }\n    return s.slice(l + 1, r);\n  };\n  for (let i = 0; i < s.length; i++) {\n    const odd  = expand(i, i);\n    const even = expand(i, i + 1);\n    if (odd.length  > res.length) res = odd;\n    if (even.length > res.length) res = even;\n  }\n  return res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Reverse Words in a String (LC 151)</h4>\n<pre><code class=\"language-javascript\">// KEY: split on whitespace (handles multiple spaces), reverse, rejoin.\n// In-place O(1) space variant: reverse whole string → reverse each word.\nfunction reverseWords(s) {\n  return s.trim().split(/\\s+/).reverse().join(' ');\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 2: SLIDING WINDOW ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">2. Sliding Window on Strings</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Maintain a window of characters, expanding right and shrinking left when a constraint breaks. O(n) for most substring problems. Signal: \"longest/shortest substring with property X\", \"all anagrams\", \"minimum window\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Longest Substring Without Repeating Characters (LC 3)</h4>\n<pre><code class=\"language-javascript\">// KEY: map stores the LAST SEEN index of each char.\n// When duplicate found, jump left to just after the previous occurrence.\nfunction lengthOfLongestSubstring(s) {\n  const last = new Map();\n  let l = 0, max = 0;\n  for (let r = 0; r < s.length; r++) {\n    if (last.has(s[r])) l = Math.max(l, last.get(s[r]) + 1);\n    last.set(s[r], r);\n    max = Math.max(max, r - l + 1);\n  }\n  return max;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Longest Substring with At Most K Distinct Characters (LC 340)</h4>\n<pre><code class=\"language-javascript\">// KEY: freq map tracks window. When map.size > k, shrink from left\n// until exactly k distinct remain.\nfunction lengthOfLongestSubstringKDistinct(s, k) {\n  const freq = new Map();\n  let l = 0, max = 0;\n  for (let r = 0; r < s.length; r++) {\n    freq.set(s[r], (freq.get(s[r]) || 0) + 1);\n    while (freq.size > k) {\n      freq.set(s[l], freq.get(s[l]) - 1);\n      if (freq.get(s[l]) === 0) freq.delete(s[l]);\n      l++;\n    }\n    max = Math.max(max, r - l + 1);\n  }\n  return max;\n}\n// LC 159 (at most 2 distinct): same pattern with k = 2.</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Permutation in String (LC 567)</h4>\n<pre><code class=\"language-javascript\">// KEY: fixed window of size s1.length. Track \"matches\" counter:\n// how many of the 26 buckets have window freq === needed freq.\nfunction checkInclusion(s1, s2) {\n  if (s1.length > s2.length) return false;\n  const need = new Array(26).fill(0), win = new Array(26).fill(0);\n  const a = 97;\n  for (const c of s1) need[c.charCodeAt(0) - a]++;\n  let matches = need.filter(x => x === 0).length; // buckets we don't need\n  const k = s1.length;\n  for (let r = 0; r < s2.length; r++) {\n    const ri = s2.charCodeAt(r) - a;\n    win[ri]++;\n    if (win[ri] === need[ri])     matches++;\n    if (win[ri] === need[ri] + 1) matches--;  // went over\n    if (r >= k) {\n      const li = s2.charCodeAt(r - k) - a;\n      if (win[li] === need[li])     matches--;\n      if (win[li] === need[li] + 1) matches++; // back under\n      win[li]--;\n    }\n    if (matches === 26) return true;\n  }\n  return false;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Find All Anagrams in a String (LC 438)</h4>\n<pre><code class=\"language-javascript\">// KEY: same as LC 567 but collect all start indices.\nfunction findAnagrams(s, p) {\n  const res = [], need = new Array(26).fill(0), win = new Array(26).fill(0);\n  const a = 97;\n  for (const c of p) need[c.charCodeAt(0) - a]++;\n  let have = 0, required = need.filter(x => x > 0).length;\n  for (let r = 0; r < s.length; r++) {\n    const ri = s.charCodeAt(r) - a;\n    win[ri]++;\n    if (win[ri] === need[ri]) have++;\n    if (r >= p.length) {\n      const li = s.charCodeAt(r - p.length) - a;\n      if (win[li] === need[li]) have--;\n      win[li]--;\n    }\n    if (have === required) res.push(r - p.length + 1);\n  }\n  return res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Minimum Window Substring (LC 76) — HARD</h4>\n<pre><code class=\"language-javascript\">// KEY: expand right until window covers all of t.\n// Shrink left to minimize window while it stays valid.\nfunction minWindow(s, t) {\n  const need = new Map();\n  for (const c of t) need.set(c, (need.get(c) || 0) + 1);\n  const win = new Map();\n  let have = 0, required = need.size, l = 0, res = '';\n  for (let r = 0; r < s.length; r++) {\n    win.set(s[r], (win.get(s[r]) || 0) + 1);\n    if (need.has(s[r]) && win.get(s[r]) === need.get(s[r])) have++;\n    while (have === required) {\n      if (!res || r - l + 1 < res.length) res = s.slice(l, r + 1);\n      win.set(s[l], win.get(s[l]) - 1);\n      if (need.has(s[l]) && win.get(s[l]) < need.get(s[l])) have--;\n      l++;\n    }\n  }\n  return res;\n}</code></pre>\n\n<p style=\"line-height:1.75;margin-top:1rem;padding:0.75rem 1rem;border-left:3px solid #7c6af7;background:rgba(124,106,247,0.06);\">\n  <strong>Senior tip:</strong> \"Exactly K\" distinct problems → f(exactly k) = f(at-most k) − f(at-most k−1). Converts exact-count windows into two at-most passes.\n</p>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 3: HASHMAP ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">3. HashMap / Frequency Count</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Frequency maps answer \"are these anagrams?\", \"which character is missing?\", \"how often does X appear?\". Signal: anagram check, grouping, character frequency comparison.</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Valid Anagram (LC 242)</h4>\n<pre><code class=\"language-javascript\">// KEY: frequency difference. Add for s, subtract for t.\n// Any non-zero entry at end → not anagram.\nfunction isAnagram(s, t) {\n  if (s.length !== t.length) return false;\n  const cnt = new Array(26).fill(0);\n  const a = 97;\n  for (let i = 0; i < s.length; i++) {\n    cnt[s.charCodeAt(i) - a]++;\n    cnt[t.charCodeAt(i) - a]--;\n  }\n  return cnt.every(x => x === 0);\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Group Anagrams (LC 49)</h4>\n<pre><code class=\"language-javascript\">// Sorted key: O(k log k) per word. Freq-signature key: O(k) — faster.\nfunction groupAnagrams(strs) {\n  const map = new Map();\n  for (const s of strs) {\n    const key = [...s].sort().join('');\n    if (!map.has(key)) map.set(key, []);\n    map.get(key).push(s);\n  }\n  return [...map.values()];\n}\n\n// O(n·k) freq-based key (avoids sort):\nfunction groupAnagramsFast(strs) {\n  const map = new Map();\n  for (const s of strs) {\n    const cnt = new Array(26).fill(0);\n    for (const c of s) cnt[c.charCodeAt(0) - 97]++;\n    const key = cnt.join(',');\n    if (!map.has(key)) map.set(key, []);\n    map.get(key).push(s);\n  }\n  return [...map.values()];\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">First Non-Repeating Character (LC 387)</h4>\n<pre><code class=\"language-javascript\">// KEY: two-pass. Count freq in pass 1, find first freq=1 in pass 2.\nfunction firstUniqChar(s) {\n  const cnt = new Array(26).fill(0);\n  const a = 97;\n  for (const c of s) cnt[c.charCodeAt(0) - a]++;\n  for (let i = 0; i < s.length; i++)\n    if (cnt[s.charCodeAt(i) - a] === 1) return i;\n  return -1;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Ransom Note (LC 383)</h4>\n<pre><code class=\"language-javascript\">// KEY: magazine freq must be >= ransomNote freq for every char.\nfunction canConstruct(ransomNote, magazine) {\n  const cnt = new Array(26).fill(0);\n  const a = 97;\n  for (const c of magazine) cnt[c.charCodeAt(0) - a]++;\n  for (const c of ransomNote)\n    if (--cnt[c.charCodeAt(0) - a] < 0) return false;\n  return true;\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 4: PREFIX HASH ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">4. Prefix Hashing (Polynomial Rolling Hash)</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Pre-compute cumulative string hashes so any substring hash is O(1). Combine with binary search for duplicate substring detection. Signal: \"duplicate substring of length k\", \"equal substrings at different positions\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Prefix Hash Template</h4>\n<pre><code class=\"language-javascript\">// KEY: hash(s[l..r]) = (h[r+1] - h[l] * pow[r-l+1]) mod MOD.\nfunction buildPrefixHash(s, BASE = 31, MOD = 1_000_000_007n) {\n  const n = s.length;\n  const h   = new Array(n + 1).fill(0n);\n  const pow = new Array(n + 1).fill(1n);\n  const b = BigInt(BASE), m = BigInt(MOD);\n  for (let i = 0; i < n; i++) {\n    h[i + 1]   = (h[i] * b + BigInt(s.charCodeAt(i) - 96)) % m;\n    pow[i + 1] = pow[i] * b % m;\n  }\n  // getHash(l, r): [l, r] inclusive, 0-indexed\n  return (l, r) => (h[r + 1] - h[l] * pow[r - l + 1] % m + m * m) % m;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Longest Duplicate Substring (LC 1044) — HARD</h4>\n<pre><code class=\"language-javascript\">// KEY: binary search on length L. For each L, check if any substring\n// of length L appears twice using rolling hash + Set. O(n log n) total.\nfunction longestDupSubstring(s) {\n  const n = s.length;\n  const BASE = 31n, MOD = 2_305_843_009_213_693_951n; // Mersenne prime\n  const h = new Array(n + 1).fill(0n), pw = new Array(n + 1).fill(1n);\n  for (let i = 0; i < n; i++) {\n    h[i+1]  = (h[i] * BASE + BigInt(s.charCodeAt(i) - 96)) % MOD;\n    pw[i+1] = pw[i] * BASE % MOD;\n  }\n  const getH = (l, r) => (h[r+1] - h[l] * pw[r-l+1] % MOD + MOD * 2n) % MOD;\n  const check = len => {\n    const seen = new Set();\n    for (let i = 0; i + len <= n; i++) {\n      const hv = getH(i, i + len - 1);\n      if (seen.has(hv)) return i;\n      seen.add(hv);\n    }\n    return -1;\n  };\n  let lo = 1, hi = n - 1, start = -1, resLen = 0;\n  while (lo <= hi) {\n    const mid = (lo + hi) >> 1;\n    const idx = check(mid);\n    if (idx !== -1) { start = idx; resLen = mid; lo = mid + 1; }\n    else hi = mid - 1;\n  }\n  return start === -1 ? '' : s.slice(start, start + resLen);\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 5: KMP ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">5. KMP — Knuth-Morris-Pratt</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Pattern matching in O(n + m). The failure function (LPS array) encodes how far to back-track without re-comparing. Signal: \"find first/all occurrences of pattern\", \"shortest palindrome\", \"repeated substring period\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Build LPS (Failure Function) + Full KMP Search</h4>\n<pre><code class=\"language-javascript\">// LPS[i] = length of longest proper prefix of pattern[0..i]\n// that is also a suffix. Lets us skip re-comparisons on mismatch.\nfunction buildLPS(pattern) {\n  const lps = [0];\n  let len = 0, i = 1;\n  while (i < pattern.length) {\n    if (pattern[i] === pattern[len])   { lps[i++] = ++len; }\n    else if (len > 0)                  { len = lps[len - 1]; }\n    else                               { lps[i++] = 0; }\n  }\n  return lps;\n}\n\n// Returns all start indices of pattern in text — O(n + m).\nfunction kmpSearch(text, pattern) {\n  const lps = buildLPS(pattern);\n  const res = [];\n  let i = 0, j = 0;\n  while (i < text.length) {\n    if (text[i] === pattern[j]) { i++; j++; }\n    if (j === pattern.length) {\n      res.push(i - j);\n      j = lps[j - 1];\n    } else if (i < text.length && text[i] !== pattern[j]) {\n      j > 0 ? j = lps[j - 1] : i++;\n    }\n  }\n  return res; // LC 28: return res[0] ?? -1\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Shortest Palindrome (LC 214) — HARD</h4>\n<pre><code class=\"language-javascript\">// KEY: build s + '#' + reverse(s). LPS of last char = length of longest\n// palindromic prefix. Prepend the remaining suffix reversed.\nfunction shortestPalindrome(s) {\n  const rev = s.split('').reverse().join('');\n  const t = s + '#' + rev;\n  const lps = buildLPS(t);\n  const longest = lps[t.length - 1];\n  return rev.slice(0, s.length - longest) + s;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Repeated Substring Pattern (LC 459)</h4>\n<pre><code class=\"language-javascript\">// KEY: period = n - lps[n-1]. If period divides n, s is a repetition.\nfunction repeatedSubstringPattern(s) {\n  const lps = buildLPS(s);\n  const n = s.length, period = n - lps[n - 1];\n  return period !== n && n % period === 0;\n}\n// Trick: (s + s).slice(1, -1).includes(s) — same O(n) logic under the hood.</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 6: Z-ALGORITHM ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">6. Z-Algorithm</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Z[i] = length of the longest substring starting from i that is also a prefix of the string. Equivalent power to KMP, but easier to implement. Signal: same as KMP — pattern matching, prefix queries.</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Build Z-Array + Pattern Search</h4>\n<pre><code class=\"language-javascript\">function buildZ(s) {\n  const z = new Array(s.length).fill(0);\n  let l = 0, r = 0;\n  for (let i = 1; i < s.length; i++) {\n    if (i < r) z[i] = Math.min(r - i, z[i - l]);\n    while (i + z[i] < s.length && s[z[i]] === s[i + z[i]]) z[i]++;\n    if (i + z[i] > r) { l = i; r = i + z[i]; }\n  }\n  return z;\n}\n\n// Find all occurrences of pattern in text:\n// Concatenate \"pattern#text\", build Z.\n// Any position i > m where Z[i] === m → match at i - m - 1 in text.\nfunction zSearch(text, pattern) {\n  const s = pattern + '#' + text;\n  const z = buildZ(s);\n  const m = pattern.length, res = [];\n  for (let i = m + 1; i < s.length; i++)\n    if (z[i] === m) res.push(i - m - 1);\n  return res;\n}</code></pre>\n\n<p style=\"line-height:1.75;margin-top:1rem;padding:0.75rem 1rem;border-left:3px solid #60a5fa;background:rgba(96,165,250,0.06);\">\n  <strong>KMP vs Z-Algorithm:</strong> Both are O(n + m). Z-array is often easier to reason about in interviews — build one concatenated string, check Z values. KMP's failure function is harder to derive on a whiteboard but slightly more space-efficient. Z-algorithm also extends more naturally to suffix comparison problems.\n</p>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 7: TRIE ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">7. Trie (Prefix Tree)</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">A tree where each path from root represents a string. Optimal for prefix search, autocomplete, and word dictionaries. Each insert/search is O(m) for word length m. Signal: \"words that start with\", \"implement search with wildcards\", \"word search in grid\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Trie Implementation (LC 208)</h4>\n<pre><code class=\"language-javascript\">class TrieNode {\n  constructor() {\n    this.children = {};\n    this.isEnd = false;\n  }\n}\n\nclass Trie {\n  constructor() { this.root = new TrieNode(); }\n\n  insert(word) {\n    let node = this.root;\n    for (const c of word) {\n      if (!node.children[c]) node.children[c] = new TrieNode();\n      node = node.children[c];\n    }\n    node.isEnd = true;\n  }\n\n  search(word) {\n    let node = this.root;\n    for (const c of word) {\n      if (!node.children[c]) return false;\n      node = node.children[c];\n    }\n    return node.isEnd;\n  }\n\n  startsWith(prefix) {\n    let node = this.root;\n    for (const c of prefix) {\n      if (!node.children[c]) return false;\n      node = node.children[c];\n    }\n    return true;\n  }\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Word Search II — Trie + DFS (LC 212) — HARD</h4>\n<pre><code class=\"language-javascript\">// KEY: build Trie from word list. DFS on grid, traverse Trie simultaneously.\n// Prune: if no Trie path exists → stop early. Delete used leaf nodes.\nfunction findWords(board, words) {\n  const root = new TrieNode();\n  for (const w of words) {\n    let n = root;\n    for (const c of w) { if (!n.children[c]) n.children[c] = new TrieNode(); n = n.children[c]; }\n    n.word = w;\n  }\n  const res = [], m = board.length, n = board[0].length;\n  const dfs = (r, c, node) => {\n    const ch = board[r][c];\n    if (ch === '#' || !node.children[ch]) return;\n    const next = node.children[ch];\n    if (next.word) { res.push(next.word); next.word = null; } // avoid dups\n    board[r][c] = '#';\n    for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]])\n      if (r+dr>=0 && r+dr<m && c+dc>=0 && c+dc<n) dfs(r+dr, c+dc, next);\n    board[r][c] = ch;\n    if (!Object.keys(next.children).length) delete node.children[ch]; // prune\n  };\n  for (let r = 0; r < m; r++)\n    for (let c = 0; c < n; c++) dfs(r, c, root);\n  return res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Add and Search Word — Wildcard '.' (LC 211)</h4>\n<pre><code class=\"language-javascript\">// KEY: '.' matches any char → try ALL children at that depth via DFS.\nclass WordDictionary {\n  constructor() { this.root = new TrieNode(); }\n  addWord(word) {\n    let n = this.root;\n    for (const c of word) {\n      if (!n.children[c]) n.children[c] = new TrieNode();\n      n = n.children[c];\n    }\n    n.isEnd = true;\n  }\n  search(word) { return this._dfs(word, 0, this.root); }\n  _dfs(word, i, node) {\n    if (i === word.length) return node.isEnd;\n    const c = word[i];\n    if (c !== '.') return node.children[c] ? this._dfs(word, i+1, node.children[c]) : false;\n    for (const child of Object.values(node.children))\n      if (this._dfs(word, i + 1, child)) return true;\n    return false;\n  }\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 8: STACK-BASED ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">8. Stack-Based String Problems</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">A stack naturally models nesting, bracket matching, and \"undo\" operations on characters. Signal: \"valid parentheses\", \"decode string\", \"remove adjacent duplicates\", \"minimum remove to make valid\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Valid Parentheses (LC 20)</h4>\n<pre><code class=\"language-javascript\">// KEY: push open brackets. On close, check if top matches. Empty at end = valid.\nfunction isValid(s) {\n  const stack = [], match = { ')':'(', ']':'[', '}':'{' };\n  for (const c of s) {\n    if ('([{'.includes(c)) stack.push(c);\n    else if (stack.pop() !== match[c]) return false;\n  }\n  return stack.length === 0;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Decode String (LC 394)</h4>\n<pre><code class=\"language-javascript\">// KEY: two stacks — one for counts, one for strings built so far.\n// On '[': push current string and count onto stacks, reset both.\n// On ']': pop and repeat current string k times, append to previous.\nfunction decodeString(s) {\n  const countStack = [], strStack = [];\n  let cur = '', k = 0;\n  for (const c of s) {\n    if ('0123456789'.includes(c)) {\n      k = k * 10 + +c;\n    } else if (c === '[') {\n      countStack.push(k); strStack.push(cur);\n      k = 0; cur = '';\n    } else if (c === ']') {\n      cur = strStack.pop() + cur.repeat(countStack.pop());\n    } else {\n      cur += c;\n    }\n  }\n  return cur;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Remove All Adjacent Duplicates (LC 1047 + LC 1209)</h4>\n<pre><code class=\"language-javascript\">// LC 1047 — remove pairs of adjacent duplicates.\n// KEY: stack as output. Pop if top === current char.\nfunction removeDuplicates(s) {\n  const stack = [];\n  for (const c of s)\n    stack.length && stack.at(-1) === c ? stack.pop() : stack.push(c);\n  return stack.join('');\n}\n\n// LC 1209 — remove k adjacent duplicates.\n// KEY: stack stores [char, count]. When count reaches k → pop.\nfunction removeDuplicatesK(s, k) {\n  const stack = [];\n  for (const c of s) {\n    if (stack.length && stack.at(-1)[0] === c) {\n      stack.at(-1)[1]++;\n      if (stack.at(-1)[1] === k) stack.pop();\n    } else {\n      stack.push([c, 1]);\n    }\n  }\n  return stack.map(([c, n]) => c.repeat(n)).join('');\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Minimum Remove to Make Valid Parentheses (LC 1249)</h4>\n<pre><code class=\"language-javascript\">// KEY: stack holds INDICES of unmatched '('.\n// Pass 1: match ')' to stack top; unmatched ')' cleared in place.\n// Pass 2: indices still in stack are unmatched '(' → clear them.\nfunction minRemoveToMakeValid(s) {\n  const arr = s.split(''), stack = [];\n  for (let i = 0; i < arr.length; i++) {\n    if (arr[i] === '(')      stack.push(i);\n    else if (arr[i] === ')') stack.length ? stack.pop() : (arr[i] = '');\n  }\n  for (const i of stack) arr[i] = '';\n  return arr.join('');\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 9: DP ON STRINGS ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">9. Dynamic Programming on Strings</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">String DP usually involves a 2D table dp[i][j] over two strings or a window dp[i][i+len] over one. Define the state precisely, write the recurrence, then optimize space. Signal: \"edit distance\", \"longest common subsequence\", \"interleaving\", \"wildcard matching\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Longest Common Subsequence (LC 1143)</h4>\n<pre><code class=\"language-javascript\">// dp[i][j] = LCS of s1[0..i-1] and s2[0..j-1].\n// Match: dp[i-1][j-1] + 1.  No match: max(dp[i-1][j], dp[i][j-1]).\nfunction longestCommonSubsequence(s1, s2) {\n  const m = s1.length, n = s2.length;\n  const dp = Array.from({length: m + 1}, () => new Array(n + 1).fill(0));\n  for (let i = 1; i <= m; i++)\n    for (let j = 1; j <= n; j++)\n      dp[i][j] = s1[i-1] === s2[j-1]\n        ? dp[i-1][j-1] + 1\n        : Math.max(dp[i-1][j], dp[i][j-1]);\n  return dp[m][n];\n}\n\n// Space-optimised to O(n) — rolling two rows:\nfunction lcsSO(s1, s2) {\n  let prev = new Array(s2.length + 1).fill(0);\n  for (const c1 of s1) {\n    const cur = [0];\n    for (let j = 1; j <= s2.length; j++)\n      cur[j] = c1 === s2[j-1] ? prev[j-1] + 1 : Math.max(prev[j], cur[j-1]);\n    prev = cur;\n  }\n  return prev[s2.length];\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Edit Distance — Levenshtein (LC 72)</h4>\n<pre><code class=\"language-javascript\">// dp[i][j] = min ops to convert w1[0..i-1] to w2[0..j-1].\n// Same char: dp[i-1][j-1].  Diff: 1 + min(replace, delete, insert).\nfunction minDistance(w1, w2) {\n  const m = w1.length, n = w2.length;\n  const dp = Array.from({length: m + 1}, (_, i) =>\n    Array.from({length: n + 1}, (_, j) => i + j));\n  for (let i = 1; i <= m; i++)\n    for (let j = 1; j <= n; j++)\n      dp[i][j] = w1[i-1] === w2[j-1]\n        ? dp[i-1][j-1]\n        : 1 + Math.min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]);\n  return dp[m][n];\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Wildcard Matching (LC 44) — HARD</h4>\n<pre><code class=\"language-javascript\">// dp[i][j] = can pattern[0..j-1] match s[0..i-1]?\n// '*' matches empty OR any sequence: dp[i][j] = dp[i-1][j] || dp[i][j-1]\n// '?' or same char: dp[i][j] = dp[i-1][j-1]\nfunction isMatch(s, p) {\n  const m = s.length, n = p.length;\n  const dp = Array.from({length: m + 1}, () => new Array(n + 1).fill(false));\n  dp[0][0] = true;\n  for (let j = 1; j <= n; j++) dp[0][j] = p[j-1] === '*' && dp[0][j-1];\n  for (let i = 1; i <= m; i++)\n    for (let j = 1; j <= n; j++)\n      dp[i][j] = p[j-1] === '*'\n        ? dp[i-1][j] || dp[i][j-1]\n        : (p[j-1] === '?' || p[j-1] === s[i-1]) && dp[i-1][j-1];\n  return dp[m][n];\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Interleaving String (LC 97) — HARD</h4>\n<pre><code class=\"language-javascript\">// dp[i][j] = can s1[0..i-1] and s2[0..j-1] interleave to form s3[0..i+j-1]?\nfunction isInterleave(s1, s2, s3) {\n  const m = s1.length, n = s2.length;\n  if (m + n !== s3.length) return false;\n  let dp = new Array(n + 1).fill(false);\n  for (let i = 0; i <= m; i++)\n    for (let j = 0; j <= n; j++) {\n      const k = i + j;\n      if (i === 0 && j === 0)  dp[j] = true;\n      else if (i === 0)         dp[j] = dp[j-1] && s2[j-1] === s3[k-1];\n      else if (j === 0)         dp[j] = dp[j]   && s1[i-1] === s3[k-1];\n      else dp[j] = (dp[j]   && s1[i-1] === s3[k-1]) ||\n                   (dp[j-1] && s2[j-1] === s3[k-1]);\n    }\n  return dp[n];\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 10: PALINDROME DP ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">10. Palindrome DP</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Two approaches: (1) expand around center O(n²) / Manacher O(n), (2) DP table isPalin[i][j]. Used for partitioning, counting, and minimum cuts. Signal: \"palindrome partition\", \"min cuts\", \"count palindromic substrings\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Count Palindromic Substrings (LC 647)</h4>\n<pre><code class=\"language-javascript\">// KEY: expand around every center (odd + even). Count each valid expansion.\nfunction countSubstrings(s) {\n  let count = 0;\n  const expand = (l, r) => {\n    while (l >= 0 && r < s.length && s[l] === s[r]) { count++; l--; r++; }\n  };\n  for (let i = 0; i < s.length; i++) {\n    expand(i, i);     // odd\n    expand(i, i + 1); // even\n  }\n  return count;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Palindrome Partitioning (LC 131)</h4>\n<pre><code class=\"language-javascript\">// KEY: precompute isPalin[i][j] with DP, then backtrack all partitions.\n// isPalin[i][j] = s[i]===s[j] && isPalin[i+1][j-1].\nfunction partition(s) {\n  const n = s.length;\n  const isPalin = Array.from({length: n}, () => new Array(n).fill(false));\n  for (let i = n - 1; i >= 0; i--)\n    for (let j = i; j < n; j++)\n      isPalin[i][j] = s[i] === s[j] && (j - i <= 2 || isPalin[i+1][j-1]);\n  const res = [], path = [];\n  const bt = start => {\n    if (start === n) { res.push([...path]); return; }\n    for (let end = start; end < n; end++) {\n      if (isPalin[start][end]) {\n        path.push(s.slice(start, end + 1));\n        bt(end + 1);\n        path.pop();\n      }\n    }\n  };\n  bt(0);\n  return res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Minimum Cut Palindrome Partitioning (LC 132) — HARD</h4>\n<pre><code class=\"language-javascript\">// KEY: cuts[i] = min cuts for s[0..i].\n// If s[0..i] is a palindrome → 0 cuts. Else try all split points j.\nfunction minCut(s) {\n  const n = s.length;\n  const isPalin = Array.from({length: n}, () => new Array(n).fill(false));\n  for (let i = n - 1; i >= 0; i--)\n    for (let j = i; j < n; j++)\n      isPalin[i][j] = s[i] === s[j] && (j - i <= 2 || isPalin[i+1][j-1]);\n  const cuts = Array.from({length: n}, (_, i) => i);\n  for (let i = 1; i < n; i++) {\n    if (isPalin[0][i]) { cuts[i] = 0; continue; }\n    for (let j = 1; j <= i; j++)\n      if (isPalin[j][i]) cuts[i] = Math.min(cuts[i], cuts[j-1] + 1);\n  }\n  return cuts[n - 1];\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 11: GREEDY ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">11. Greedy on Strings</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Make the locally optimal choice at each character. Prove via exchange argument. Signal: \"make lexicographically smallest\", \"remove k characters\", \"rearrange without adjacent repeats\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Remove K Digits to Make Smallest Number (LC 402)</h4>\n<pre><code class=\"language-javascript\">// KEY: monotonic increasing stack. Pop when top > current and k > 0.\nfunction removeKdigits(num, k) {\n  const stack = [];\n  for (const d of num) {\n    while (k > 0 && stack.length && stack.at(-1) > d) { stack.pop(); k--; }\n    stack.push(d);\n  }\n  while (k--) stack.pop();\n  const res = stack.join('').replace(/^0+/, '');\n  return res || '0';\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Largest Number (LC 179)</h4>\n<pre><code class=\"language-javascript\">// KEY: custom comparator — compare concatenations ab vs ba.\nfunction largestNumber(nums) {\n  const res = nums.map(String).sort((a, b) => (b + a).localeCompare(a + b)).join('');\n  return res[0] === '0' ? '0' : res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Reorganize String (LC 767)</h4>\n<pre><code class=\"language-javascript\">// KEY: if max freq > ceil(n/2) → impossible.\n// Greedy: fill even indices first (0,2,4,...) then odd — no adjacent repeats.\nfunction reorganizeString(s) {\n  const freq = new Array(26).fill(0), a = 97;\n  for (const c of s) freq[c.charCodeAt(0) - a]++;\n  if (Math.max(...freq) > Math.ceil(s.length / 2)) return '';\n  const res = [];\n  let idx = 0;\n  for (let i = 0; i < 26; i++) {\n    while (freq[i] > 0) {\n      if (idx >= s.length) idx = 1;\n      res[idx] = String.fromCharCode(a + i);\n      idx += 2; freq[i]--;\n    }\n  }\n  return res.join('');\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Task Scheduler (LC 621)</h4>\n<pre><code class=\"language-javascript\">// KEY: math formula. Dominant task forms (fMax-1) blocks of (n+1).\n// Answer = max(tasks.length, (fMax-1)*(n+1) + countOfFMax).\nfunction leastInterval(tasks, n) {\n  const freq = new Array(26).fill(0);\n  for (const t of tasks) freq[t.charCodeAt(0) - 65]++;\n  const fMax = Math.max(...freq);\n  const countMax = freq.filter(f => f === fMax).length;\n  return Math.max(tasks.length, (fMax - 1) * (n + 1) + countMax);\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 12: BACKTRACKING ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">12. Backtracking on Strings</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Explore all possibilities via DFS, pruning invalid branches early. Signal: \"generate all permutations/combinations\", \"all valid IPs\", \"all valid parentheses\", \"word break all solutions\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Letter Combinations of Phone Number (LC 17)</h4>\n<pre><code class=\"language-javascript\">function letterCombinations(digits) {\n  if (!digits) return [];\n  const map = {'2':'abc','3':'def','4':'ghi','5':'jkl',\n               '6':'mno','7':'pqrs','8':'tuv','9':'wxyz'};\n  const res = [];\n  const bt = (i, path) => {\n    if (i === digits.length) { res.push(path); return; }\n    for (const c of map[digits[i]]) bt(i + 1, path + c);\n  };\n  bt(0, '');\n  return res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Generate Valid Parentheses (LC 22)</h4>\n<pre><code class=\"language-javascript\">// KEY: add '(' if open < n. Add ')' if close < open.\nfunction generateParenthesis(n) {\n  const res = [];\n  const bt = (s, open, close) => {\n    if (s.length === 2 * n) { res.push(s); return; }\n    if (open  < n)    bt(s + '(', open + 1, close);\n    if (close < open) bt(s + ')', open, close + 1);\n  };\n  bt('', 0, 0);\n  return res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Restore IP Addresses (LC 93)</h4>\n<pre><code class=\"language-javascript\">// KEY: backtrack with exactly 4 segments.\n// Prune: segment > 255, leading zero (except \"0\" itself).\nfunction restoreIpAddresses(s) {\n  const res = [];\n  const bt = (start, parts) => {\n    if (parts.length === 4 && start === s.length) { res.push(parts.join('.')); return; }\n    if (parts.length === 4 || start === s.length) return;\n    for (let len = 1; len <= 3; len++) {\n      const seg = s.slice(start, start + len);\n      if (seg.length > 1 && seg[0] === '0') break;\n      if (+seg > 255) break;\n      bt(start + len, [...parts, seg]);\n    }\n  };\n  bt(0, []);\n  return res;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Word Break II (LC 140) — HARD</h4>\n<pre><code class=\"language-javascript\">// KEY: backtrack + memoize. memo maps start index → all valid sentences\n// from that position. Avoids exponential recomputation.\nfunction wordBreak(s, wordDict) {\n  const set = new Set(wordDict), memo = new Map();\n  const bt = start => {\n    if (memo.has(start)) return memo.get(start);\n    if (start === s.length) return [''];\n    const res = [];\n    for (let end = start + 1; end <= s.length; end++) {\n      const word = s.slice(start, end);\n      if (set.has(word))\n        for (const rest of bt(end))\n          res.push(word + (rest ? ' ' + rest : ''));\n    }\n    memo.set(start, res);\n    return res;\n  };\n  return bt(0);\n}</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 13: BIT MASKING ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">13. Bit Masking on Strings</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Represent the 26-letter alphabet as a bitmask. XOR, AND, OR give O(1) set intersection/union/membership. Signal: \"words with no common letters\", \"maximum product of distinct word lengths\", \"count unique chars\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Maximum Product of Word Lengths (LC 318)</h4>\n<pre><code class=\"language-javascript\">// KEY: encode each word as a 26-bit mask.\n// Two words share no letters iff (mask[i] & mask[j]) === 0.\nfunction maxProduct(words) {\n  const masks = words.map(w =>\n    [...w].reduce((m, c) => m | 1 << (c.charCodeAt(0) - 97), 0)\n  );\n  let max = 0;\n  for (let i = 0; i < words.length; i++)\n    for (let j = i + 1; j < words.length; j++)\n      if ((masks[i] & masks[j]) === 0)\n        max = Math.max(max, words[i].length * words[j].length);\n  return max;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Count Unique Character Contributions (LC 828) — HARD</h4>\n<pre><code class=\"language-javascript\">// KEY: for each char c at index i, contribution =\n// (i - prevOccurrence) * (nextOccurrence - i).\n// Sum over all characters and positions.\nfunction uniqueLetterString(s) {\n  const n = s.length;\n  const prev = new Array(26).fill(-1), last = new Array(26).fill(-1);\n  let sum = 0;\n  for (let i = 0; i < n; i++) {\n    const c = s.charCodeAt(i) - 97;\n    if (last[c] >= 0) sum += (last[c] - prev[c]) * (i - last[c]);\n    prev[c] = last[c]; last[c] = i;\n  }\n  for (let c = 0; c < 26; c++)\n    if (last[c] >= 0) sum += (last[c] - prev[c]) * (n - last[c]);\n  return sum;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Bit Tricks Cheat Sheet for Strings</h4>\n<pre><code class=\"language-javascript\">// Encode word to 26-bit mask:\nconst maskOf = w => [...w].reduce((m,c) => m | 1 << (c.charCodeAt(0)-97), 0);\n\n// Check subset (all chars of a appear in b):\nconst isSubset = (a, b) => (maskOf(a) & maskOf(b)) === maskOf(a);\n\n// Check no common chars:\nconst disjoint = (a, b) => (maskOf(a) & maskOf(b)) === 0;\n\n// Count distinct chars in string:\nconst countDistinct = s => { let m = maskOf(s), c = 0; while(m){m&=m-1;c++;} return c; };\n\n// Toggle char c in mask:  mask ^ (1 << (c - 97))\n// Check if char c is set: mask & (1 << (c - 97))</code></pre>\n\n<hr style=\"margin:2rem 0;\" />\n\n<!-- ==================== PATTERN 14: ROLLING HASH ==================== -->\n<h3 style=\"margin-top:2rem;font-size:1.5rem;font-weight:700;\">14. Rolling Hash (Rabin-Karp)</h3>\n<p style=\"line-height:1.75;margin-top:0.75rem;\">Compute hash of a sliding window in O(1) by removing the leftmost character and adding the rightmost. Enables O(n) average pattern matching and O(n log n) duplicate substring detection. Signal: \"find first occurrence\", \"repeated substrings of length k\".</p>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Rabin-Karp Pattern Matching</h4>\n<pre><code class=\"language-javascript\">// KEY: on hash match, always verify with string compare to handle collisions.\nfunction rabinKarp(text, pattern) {\n  const n = text.length, m = pattern.length;\n  if (m > n) return -1;\n  const BASE = 31, MOD = 1_000_000_007;\n  const pw = (b, e, mod) => { let r=1; while(e--) r=r*b%mod; return r; };\n  let pH = 0, wH = 0, highPow = pw(BASE, m - 1, MOD);\n  for (let i = 0; i < m; i++) {\n    pH = (pH * BASE + pattern.charCodeAt(i) - 96) % MOD;\n    wH = (wH * BASE + text.charCodeAt(i)   - 96) % MOD;\n  }\n  for (let i = 0; i <= n - m; i++) {\n    if (wH === pH && text.slice(i, i + m) === pattern) return i;\n    if (i < n - m)\n      wH = ((wH - (text.charCodeAt(i) - 96) * highPow % MOD + MOD)\n            * BASE + text.charCodeAt(i + m) - 96) % MOD;\n  }\n  return -1;\n}</code></pre>\n\n<h4 style=\"margin-top:1.5rem;font-size:1.25rem;font-weight:600;\">Longest Repeating Substring (LC 1062) — Binary Search + Rolling Hash</h4>\n<pre><code class=\"language-javascript\">// KEY: binary search on length L. For each L, slide a window of\n// size L and check if any hash appears twice. O(n log n) total.\nfunction longestRepeatingSubstring(s) {\n  const n = s.length;\n  const BASE = 26n, MOD = 10n ** 9n + 7n;\n  const check = len => {\n    let h = 0n, pow = 1n;\n    for (let i = 0; i < len; i++) {\n      h = (h * BASE + BigInt(s.charCodeAt(i) - 96)) % MOD;\n      if (i > 0) pow = pow * BASE % MOD;\n    }\n    const seen = new Set([h]);\n    for (let i = len; i < n; i++) {\n      h = (h - BigInt(s.charCodeAt(i - len) - 96) * pow % MOD + MOD) % MOD;\n      h = (h * BASE + BigInt(s.charCodeAt(i) - 96)) % MOD;\n      if (seen.has(h)) return true;\n      seen.add(h);\n    }\n    return false;\n  };\n  let lo = 1, hi = n - 1, res = 0;\n  while (lo <= hi) {\n    const mid = (lo + hi) >> 1;\n    check(mid) ? (res = mid, lo = mid + 1) : hi = mid - 1;\n  }\n  return res;\n}</code></pre>\n\n<p style=\"line-height:1.75;margin-top:1.5rem;padding:0.75rem 1rem;border-left:3px solid #5cf5c8;background:rgba(92,245,200,0.06);\">\n  <strong>Google interview tip:</strong> Always state the pattern name first — \"This is a sliding window problem because...\" — then state complexity, then code. For strings specifically: always clarify the character set (lowercase ASCII → int[26], Unicode → Map) before writing any code.\n</p>\n</div>",
-            "examples": [
-              "// isPalindrome(\"A man, a plan, a canal: Panama\") => true\n// lengthOfLongestSubstring(\"abcabcbb\") => 3\n// minWindow(\"ADOBECODEBANC\", \"ABC\") => \"BANC\"",
-              "// groupAnagrams([\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]) => [[\"eat\",\"tea\",\"ate\"],[\"tan\",\"nat\"],[\"bat\"]]\n// minDistance(\"horse\", \"ros\") => 3\n// longestPalindrome(\"babad\") => \"bab\""
+            topic: "Strings",
+            tags: ["dsa", "strings"],
+            explanation:
+              '<div>\n<p style="line-height:1.75;margin-top:1.5rem;">Master these 14 string patterns to ace any DSA interview at Google, Meta, or top-tier companies. Each pattern covers the core idea, when to use it, and key LeetCode problems.</p>\n\n<!-- ==================== PATTERN RECOGNITION GUIDE ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">🧭 Pattern Recognition Guide</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Read the problem → spot the signal word/phrase → jump to the right pattern.</p>\n\n<table style="width:100%;border-collapse:collapse;margin-top:1rem;font-size:0.85rem;">\n  <thead>\n    <tr style="background:rgba(124,106,247,0.15);">\n      <th style="padding:10px 14px;text-align:left;border:1px solid #2a2a3e;font-weight:700;color:#c4b5fd;">Signal in Problem</th>\n      <th style="padding:10px 14px;text-align:left;border:1px solid #2a2a3e;font-weight:700;color:#c4b5fd;">Pattern to Use</th>\n      <th style="padding:10px 14px;text-align:left;border:1px solid #2a2a3e;font-weight:700;color:#c4b5fd;">Example LeetCode</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr style="background:rgba(255,255,255,0.02);"><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"valid palindrome", "reverse string", "check if palindrome after removal"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#7c6af7;font-weight:600;">Two Pointers (converging)</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 125, 680, 5</td></tr>\n    <tr><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"longest substring without repeating", "at most k distinct chars"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#f7c06a;font-weight:600;">Sliding Window (variable)</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 3, 340, 159</td></tr>\n    <tr style="background:rgba(255,255,255,0.02);"><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"find all anagrams", "permutation in string", "minimum window substring"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#f7c06a;font-weight:600;">Sliding Window + HashMap</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 438, 567, 76</td></tr>\n    <tr><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"group anagrams", "two strings are anagrams", "character frequency"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#5cf5c8;font-weight:600;">HashMap / Freq Count</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 49, 242, 383</td></tr>\n    <tr style="background:rgba(255,255,255,0.02);"><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"check if substring exists", "count occurrences of pattern", "repeated substring"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#60a5fa;font-weight:600;">KMP / Z-Algorithm</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 28, 214, 459</td></tr>\n    <tr><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"longest common prefix", "words with prefix", "autocomplete", "wildcard word search"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e879f9;font-weight:600;">Trie</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 208, 212, 211</td></tr>\n    <tr style="background:rgba(255,255,255,0.02);"><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"valid parentheses", "decode string", "remove adjacent duplicates"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#fbbf24;font-weight:600;">Stack-Based</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 20, 394, 1249</td></tr>\n    <tr><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"edit distance", "longest common subsequence", "interleaving string"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#f87171;font-weight:600;">DP on Strings</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 72, 1143, 97</td></tr>\n    <tr style="background:rgba(255,255,255,0.02);"><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"longest palindromic substring", "palindrome partitioning", "min cuts"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#fb923c;font-weight:600;">Palindrome DP / Expand</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 5, 131, 132</td></tr>\n    <tr><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"remove k digits to make smallest", "task scheduler", "reorganize string"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#34d399;font-weight:600;">Greedy on Strings</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 402, 621, 767</td></tr>\n    <tr style="background:rgba(255,255,255,0.02);"><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"generate all permutations", "all valid IPs", "all valid parentheses", "word break all"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#a3e635;font-weight:600;">Backtracking</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 17, 22, 93, 140</td></tr>\n    <tr><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"words with no common letters", "max product of disjoint substrings"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#38bdf8;font-weight:600;">Bit Masking</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 318, 828</td></tr>\n    <tr style="background:rgba(255,255,255,0.02);"><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#e2e8f0;">"repeated substring of length k", "duplicate substrings", "find all pattern positions fast"</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#c4b5fd;font-weight:600;">Rolling Hash (Rabin-Karp)</td><td style="padding:9px 14px;border:1px solid #2a2a3e;color:#94a3b8;">LC 459, 1044, 28</td></tr>\n  </tbody>\n</table>\n\n<div style="margin-top:1.25rem;padding:0.85rem 1rem;border-left:3px solid #7c6af7;background:rgba(124,106,247,0.06);border-radius:0 6px 6px 0;">\n  <strong style="color:#c4b5fd;">🔑 Decision flowchart:</strong>\n  <span style="color:#c4c0d4;line-height:1.8;display:block;margin-top:0.4rem;">\n    Palindrome check? → Two Pointers &nbsp;|&nbsp;\n    Contiguous substring with constraint? → Sliding Window &nbsp;|&nbsp;\n    Frequency / group by chars? → HashMap &nbsp;|&nbsp;\n    Pattern matching? → KMP or Z-Algo &nbsp;|&nbsp;\n    Prefix search / word dict? → Trie &nbsp;|&nbsp;\n    Brackets / nesting? → Stack &nbsp;|&nbsp;\n    Optimal over substrings? → DP &nbsp;|&nbsp;\n    All arrangements? → Backtracking &nbsp;|&nbsp;\n    Char set membership O(1)? → Bit Mask\n  </span>\n</div>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 1: TWO POINTERS ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">1. Two Pointers on Strings</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Use two indices converging from both ends. Classic for palindrome detection, in-place reversal, and comparing from both ends. Signal: "is palindrome", "reverse", "check with one deletion allowed".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Valid Palindrome (LC 125)</h4>\n<pre><code class="language-javascript">// KEY: skip non-alphanumeric, compare lowercased chars from both ends.\nfunction isPalindrome(s) {\n  let l = 0, r = s.length - 1;\n  while (l < r) {\n    while (l < r && !isAlnum(s[l])) l++;\n    while (l < r && !isAlnum(s[r])) r--;\n    if (s[l].toLowerCase() !== s[r].toLowerCase()) return false;\n    l++; r--;\n  }\n  return true;\n}\nconst isAlnum = c => /[a-zA-Z0-9]/.test(c);</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Valid Palindrome II — One Deletion Allowed (LC 680)</h4>\n<pre><code class="language-javascript">// KEY: when mismatch, try skipping EITHER l or r.\n// If either remaining window is a palindrome → true.\nfunction validPalindrome(s) {\n  const check = (l, r) => {\n    while (l < r) { if (s[l] !== s[r]) return false; l++; r--; }\n    return true;\n  };\n  let l = 0, r = s.length - 1;\n  while (l < r) {\n    if (s[l] !== s[r]) return check(l + 1, r) || check(l, r - 1);\n    l++; r--;\n  }\n  return true;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Longest Palindromic Substring — Expand Around Center (LC 5)</h4>\n<pre><code class="language-javascript">// KEY: every palindrome has a center. Try each char (odd) and\n// each pair (even) as center, expand while chars match.\nfunction longestPalindrome(s) {\n  let res = \'\';\n  const expand = (l, r) => {\n    while (l >= 0 && r < s.length && s[l] === s[r]) { l--; r++; }\n    return s.slice(l + 1, r);\n  };\n  for (let i = 0; i < s.length; i++) {\n    const odd  = expand(i, i);\n    const even = expand(i, i + 1);\n    if (odd.length  > res.length) res = odd;\n    if (even.length > res.length) res = even;\n  }\n  return res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Reverse Words in a String (LC 151)</h4>\n<pre><code class="language-javascript">// KEY: split on whitespace (handles multiple spaces), reverse, rejoin.\n// In-place O(1) space variant: reverse whole string → reverse each word.\nfunction reverseWords(s) {\n  return s.trim().split(/\\s+/).reverse().join(\' \');\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 2: SLIDING WINDOW ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">2. Sliding Window on Strings</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Maintain a window of characters, expanding right and shrinking left when a constraint breaks. O(n) for most substring problems. Signal: "longest/shortest substring with property X", "all anagrams", "minimum window".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Longest Substring Without Repeating Characters (LC 3)</h4>\n<pre><code class="language-javascript">// KEY: map stores the LAST SEEN index of each char.\n// When duplicate found, jump left to just after the previous occurrence.\nfunction lengthOfLongestSubstring(s) {\n  const last = new Map();\n  let l = 0, max = 0;\n  for (let r = 0; r < s.length; r++) {\n    if (last.has(s[r])) l = Math.max(l, last.get(s[r]) + 1);\n    last.set(s[r], r);\n    max = Math.max(max, r - l + 1);\n  }\n  return max;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Longest Substring with At Most K Distinct Characters (LC 340)</h4>\n<pre><code class="language-javascript">// KEY: freq map tracks window. When map.size > k, shrink from left\n// until exactly k distinct remain.\nfunction lengthOfLongestSubstringKDistinct(s, k) {\n  const freq = new Map();\n  let l = 0, max = 0;\n  for (let r = 0; r < s.length; r++) {\n    freq.set(s[r], (freq.get(s[r]) || 0) + 1);\n    while (freq.size > k) {\n      freq.set(s[l], freq.get(s[l]) - 1);\n      if (freq.get(s[l]) === 0) freq.delete(s[l]);\n      l++;\n    }\n    max = Math.max(max, r - l + 1);\n  }\n  return max;\n}\n// LC 159 (at most 2 distinct): same pattern with k = 2.</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Permutation in String (LC 567)</h4>\n<pre><code class="language-javascript">// KEY: fixed window of size s1.length. Track "matches" counter:\n// how many of the 26 buckets have window freq === needed freq.\nfunction checkInclusion(s1, s2) {\n  if (s1.length > s2.length) return false;\n  const need = new Array(26).fill(0), win = new Array(26).fill(0);\n  const a = 97;\n  for (const c of s1) need[c.charCodeAt(0) - a]++;\n  let matches = need.filter(x => x === 0).length; // buckets we don\'t need\n  const k = s1.length;\n  for (let r = 0; r < s2.length; r++) {\n    const ri = s2.charCodeAt(r) - a;\n    win[ri]++;\n    if (win[ri] === need[ri])     matches++;\n    if (win[ri] === need[ri] + 1) matches--;  // went over\n    if (r >= k) {\n      const li = s2.charCodeAt(r - k) - a;\n      if (win[li] === need[li])     matches--;\n      if (win[li] === need[li] + 1) matches++; // back under\n      win[li]--;\n    }\n    if (matches === 26) return true;\n  }\n  return false;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Find All Anagrams in a String (LC 438)</h4>\n<pre><code class="language-javascript">// KEY: same as LC 567 but collect all start indices.\nfunction findAnagrams(s, p) {\n  const res = [], need = new Array(26).fill(0), win = new Array(26).fill(0);\n  const a = 97;\n  for (const c of p) need[c.charCodeAt(0) - a]++;\n  let have = 0, required = need.filter(x => x > 0).length;\n  for (let r = 0; r < s.length; r++) {\n    const ri = s.charCodeAt(r) - a;\n    win[ri]++;\n    if (win[ri] === need[ri]) have++;\n    if (r >= p.length) {\n      const li = s.charCodeAt(r - p.length) - a;\n      if (win[li] === need[li]) have--;\n      win[li]--;\n    }\n    if (have === required) res.push(r - p.length + 1);\n  }\n  return res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Minimum Window Substring (LC 76) — HARD</h4>\n<pre><code class="language-javascript">// KEY: expand right until window covers all of t.\n// Shrink left to minimize window while it stays valid.\nfunction minWindow(s, t) {\n  const need = new Map();\n  for (const c of t) need.set(c, (need.get(c) || 0) + 1);\n  const win = new Map();\n  let have = 0, required = need.size, l = 0, res = \'\';\n  for (let r = 0; r < s.length; r++) {\n    win.set(s[r], (win.get(s[r]) || 0) + 1);\n    if (need.has(s[r]) && win.get(s[r]) === need.get(s[r])) have++;\n    while (have === required) {\n      if (!res || r - l + 1 < res.length) res = s.slice(l, r + 1);\n      win.set(s[l], win.get(s[l]) - 1);\n      if (need.has(s[l]) && win.get(s[l]) < need.get(s[l])) have--;\n      l++;\n    }\n  }\n  return res;\n}</code></pre>\n\n<p style="line-height:1.75;margin-top:1rem;padding:0.75rem 1rem;border-left:3px solid #7c6af7;background:rgba(124,106,247,0.06);">\n  <strong>Senior tip:</strong> "Exactly K" distinct problems → f(exactly k) = f(at-most k) − f(at-most k−1). Converts exact-count windows into two at-most passes.\n</p>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 3: HASHMAP ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">3. HashMap / Frequency Count</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Frequency maps answer "are these anagrams?", "which character is missing?", "how often does X appear?". Signal: anagram check, grouping, character frequency comparison.</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Valid Anagram (LC 242)</h4>\n<pre><code class="language-javascript">// KEY: frequency difference. Add for s, subtract for t.\n// Any non-zero entry at end → not anagram.\nfunction isAnagram(s, t) {\n  if (s.length !== t.length) return false;\n  const cnt = new Array(26).fill(0);\n  const a = 97;\n  for (let i = 0; i < s.length; i++) {\n    cnt[s.charCodeAt(i) - a]++;\n    cnt[t.charCodeAt(i) - a]--;\n  }\n  return cnt.every(x => x === 0);\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Group Anagrams (LC 49)</h4>\n<pre><code class="language-javascript">// Sorted key: O(k log k) per word. Freq-signature key: O(k) — faster.\nfunction groupAnagrams(strs) {\n  const map = new Map();\n  for (const s of strs) {\n    const key = [...s].sort().join(\'\');\n    if (!map.has(key)) map.set(key, []);\n    map.get(key).push(s);\n  }\n  return [...map.values()];\n}\n\n// O(n·k) freq-based key (avoids sort):\nfunction groupAnagramsFast(strs) {\n  const map = new Map();\n  for (const s of strs) {\n    const cnt = new Array(26).fill(0);\n    for (const c of s) cnt[c.charCodeAt(0) - 97]++;\n    const key = cnt.join(\',\');\n    if (!map.has(key)) map.set(key, []);\n    map.get(key).push(s);\n  }\n  return [...map.values()];\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">First Non-Repeating Character (LC 387)</h4>\n<pre><code class="language-javascript">// KEY: two-pass. Count freq in pass 1, find first freq=1 in pass 2.\nfunction firstUniqChar(s) {\n  const cnt = new Array(26).fill(0);\n  const a = 97;\n  for (const c of s) cnt[c.charCodeAt(0) - a]++;\n  for (let i = 0; i < s.length; i++)\n    if (cnt[s.charCodeAt(i) - a] === 1) return i;\n  return -1;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Ransom Note (LC 383)</h4>\n<pre><code class="language-javascript">// KEY: magazine freq must be >= ransomNote freq for every char.\nfunction canConstruct(ransomNote, magazine) {\n  const cnt = new Array(26).fill(0);\n  const a = 97;\n  for (const c of magazine) cnt[c.charCodeAt(0) - a]++;\n  for (const c of ransomNote)\n    if (--cnt[c.charCodeAt(0) - a] < 0) return false;\n  return true;\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 4: PREFIX HASH ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">4. Prefix Hashing (Polynomial Rolling Hash)</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Pre-compute cumulative string hashes so any substring hash is O(1). Combine with binary search for duplicate substring detection. Signal: "duplicate substring of length k", "equal substrings at different positions".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Prefix Hash Template</h4>\n<pre><code class="language-javascript">// KEY: hash(s[l..r]) = (h[r+1] - h[l] * pow[r-l+1]) mod MOD.\nfunction buildPrefixHash(s, BASE = 31, MOD = 1_000_000_007n) {\n  const n = s.length;\n  const h   = new Array(n + 1).fill(0n);\n  const pow = new Array(n + 1).fill(1n);\n  const b = BigInt(BASE), m = BigInt(MOD);\n  for (let i = 0; i < n; i++) {\n    h[i + 1]   = (h[i] * b + BigInt(s.charCodeAt(i) - 96)) % m;\n    pow[i + 1] = pow[i] * b % m;\n  }\n  // getHash(l, r): [l, r] inclusive, 0-indexed\n  return (l, r) => (h[r + 1] - h[l] * pow[r - l + 1] % m + m * m) % m;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Longest Duplicate Substring (LC 1044) — HARD</h4>\n<pre><code class="language-javascript">// KEY: binary search on length L. For each L, check if any substring\n// of length L appears twice using rolling hash + Set. O(n log n) total.\nfunction longestDupSubstring(s) {\n  const n = s.length;\n  const BASE = 31n, MOD = 2_305_843_009_213_693_951n; // Mersenne prime\n  const h = new Array(n + 1).fill(0n), pw = new Array(n + 1).fill(1n);\n  for (let i = 0; i < n; i++) {\n    h[i+1]  = (h[i] * BASE + BigInt(s.charCodeAt(i) - 96)) % MOD;\n    pw[i+1] = pw[i] * BASE % MOD;\n  }\n  const getH = (l, r) => (h[r+1] - h[l] * pw[r-l+1] % MOD + MOD * 2n) % MOD;\n  const check = len => {\n    const seen = new Set();\n    for (let i = 0; i + len <= n; i++) {\n      const hv = getH(i, i + len - 1);\n      if (seen.has(hv)) return i;\n      seen.add(hv);\n    }\n    return -1;\n  };\n  let lo = 1, hi = n - 1, start = -1, resLen = 0;\n  while (lo <= hi) {\n    const mid = (lo + hi) >> 1;\n    const idx = check(mid);\n    if (idx !== -1) { start = idx; resLen = mid; lo = mid + 1; }\n    else hi = mid - 1;\n  }\n  return start === -1 ? \'\' : s.slice(start, start + resLen);\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 5: KMP ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">5. KMP — Knuth-Morris-Pratt</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Pattern matching in O(n + m). The failure function (LPS array) encodes how far to back-track without re-comparing. Signal: "find first/all occurrences of pattern", "shortest palindrome", "repeated substring period".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Build LPS (Failure Function) + Full KMP Search</h4>\n<pre><code class="language-javascript">// LPS[i] = length of longest proper prefix of pattern[0..i]\n// that is also a suffix. Lets us skip re-comparisons on mismatch.\nfunction buildLPS(pattern) {\n  const lps = [0];\n  let len = 0, i = 1;\n  while (i < pattern.length) {\n    if (pattern[i] === pattern[len])   { lps[i++] = ++len; }\n    else if (len > 0)                  { len = lps[len - 1]; }\n    else                               { lps[i++] = 0; }\n  }\n  return lps;\n}\n\n// Returns all start indices of pattern in text — O(n + m).\nfunction kmpSearch(text, pattern) {\n  const lps = buildLPS(pattern);\n  const res = [];\n  let i = 0, j = 0;\n  while (i < text.length) {\n    if (text[i] === pattern[j]) { i++; j++; }\n    if (j === pattern.length) {\n      res.push(i - j);\n      j = lps[j - 1];\n    } else if (i < text.length && text[i] !== pattern[j]) {\n      j > 0 ? j = lps[j - 1] : i++;\n    }\n  }\n  return res; // LC 28: return res[0] ?? -1\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Shortest Palindrome (LC 214) — HARD</h4>\n<pre><code class="language-javascript">// KEY: build s + \'#\' + reverse(s). LPS of last char = length of longest\n// palindromic prefix. Prepend the remaining suffix reversed.\nfunction shortestPalindrome(s) {\n  const rev = s.split(\'\').reverse().join(\'\');\n  const t = s + \'#\' + rev;\n  const lps = buildLPS(t);\n  const longest = lps[t.length - 1];\n  return rev.slice(0, s.length - longest) + s;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Repeated Substring Pattern (LC 459)</h4>\n<pre><code class="language-javascript">// KEY: period = n - lps[n-1]. If period divides n, s is a repetition.\nfunction repeatedSubstringPattern(s) {\n  const lps = buildLPS(s);\n  const n = s.length, period = n - lps[n - 1];\n  return period !== n && n % period === 0;\n}\n// Trick: (s + s).slice(1, -1).includes(s) — same O(n) logic under the hood.</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 6: Z-ALGORITHM ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">6. Z-Algorithm</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Z[i] = length of the longest substring starting from i that is also a prefix of the string. Equivalent power to KMP, but easier to implement. Signal: same as KMP — pattern matching, prefix queries.</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Build Z-Array + Pattern Search</h4>\n<pre><code class="language-javascript">function buildZ(s) {\n  const z = new Array(s.length).fill(0);\n  let l = 0, r = 0;\n  for (let i = 1; i < s.length; i++) {\n    if (i < r) z[i] = Math.min(r - i, z[i - l]);\n    while (i + z[i] < s.length && s[z[i]] === s[i + z[i]]) z[i]++;\n    if (i + z[i] > r) { l = i; r = i + z[i]; }\n  }\n  return z;\n}\n\n// Find all occurrences of pattern in text:\n// Concatenate "pattern#text", build Z.\n// Any position i > m where Z[i] === m → match at i - m - 1 in text.\nfunction zSearch(text, pattern) {\n  const s = pattern + \'#\' + text;\n  const z = buildZ(s);\n  const m = pattern.length, res = [];\n  for (let i = m + 1; i < s.length; i++)\n    if (z[i] === m) res.push(i - m - 1);\n  return res;\n}</code></pre>\n\n<p style="line-height:1.75;margin-top:1rem;padding:0.75rem 1rem;border-left:3px solid #60a5fa;background:rgba(96,165,250,0.06);">\n  <strong>KMP vs Z-Algorithm:</strong> Both are O(n + m). Z-array is often easier to reason about in interviews — build one concatenated string, check Z values. KMP\'s failure function is harder to derive on a whiteboard but slightly more space-efficient. Z-algorithm also extends more naturally to suffix comparison problems.\n</p>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 7: TRIE ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">7. Trie (Prefix Tree)</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">A tree where each path from root represents a string. Optimal for prefix search, autocomplete, and word dictionaries. Each insert/search is O(m) for word length m. Signal: "words that start with", "implement search with wildcards", "word search in grid".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Trie Implementation (LC 208)</h4>\n<pre><code class="language-javascript">class TrieNode {\n  constructor() {\n    this.children = {};\n    this.isEnd = false;\n  }\n}\n\nclass Trie {\n  constructor() { this.root = new TrieNode(); }\n\n  insert(word) {\n    let node = this.root;\n    for (const c of word) {\n      if (!node.children[c]) node.children[c] = new TrieNode();\n      node = node.children[c];\n    }\n    node.isEnd = true;\n  }\n\n  search(word) {\n    let node = this.root;\n    for (const c of word) {\n      if (!node.children[c]) return false;\n      node = node.children[c];\n    }\n    return node.isEnd;\n  }\n\n  startsWith(prefix) {\n    let node = this.root;\n    for (const c of prefix) {\n      if (!node.children[c]) return false;\n      node = node.children[c];\n    }\n    return true;\n  }\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Word Search II — Trie + DFS (LC 212) — HARD</h4>\n<pre><code class="language-javascript">// KEY: build Trie from word list. DFS on grid, traverse Trie simultaneously.\n// Prune: if no Trie path exists → stop early. Delete used leaf nodes.\nfunction findWords(board, words) {\n  const root = new TrieNode();\n  for (const w of words) {\n    let n = root;\n    for (const c of w) { if (!n.children[c]) n.children[c] = new TrieNode(); n = n.children[c]; }\n    n.word = w;\n  }\n  const res = [], m = board.length, n = board[0].length;\n  const dfs = (r, c, node) => {\n    const ch = board[r][c];\n    if (ch === \'#\' || !node.children[ch]) return;\n    const next = node.children[ch];\n    if (next.word) { res.push(next.word); next.word = null; } // avoid dups\n    board[r][c] = \'#\';\n    for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]])\n      if (r+dr>=0 && r+dr<m && c+dc>=0 && c+dc<n) dfs(r+dr, c+dc, next);\n    board[r][c] = ch;\n    if (!Object.keys(next.children).length) delete node.children[ch]; // prune\n  };\n  for (let r = 0; r < m; r++)\n    for (let c = 0; c < n; c++) dfs(r, c, root);\n  return res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Add and Search Word — Wildcard \'.\' (LC 211)</h4>\n<pre><code class="language-javascript">// KEY: \'.\' matches any char → try ALL children at that depth via DFS.\nclass WordDictionary {\n  constructor() { this.root = new TrieNode(); }\n  addWord(word) {\n    let n = this.root;\n    for (const c of word) {\n      if (!n.children[c]) n.children[c] = new TrieNode();\n      n = n.children[c];\n    }\n    n.isEnd = true;\n  }\n  search(word) { return this._dfs(word, 0, this.root); }\n  _dfs(word, i, node) {\n    if (i === word.length) return node.isEnd;\n    const c = word[i];\n    if (c !== \'.\') return node.children[c] ? this._dfs(word, i+1, node.children[c]) : false;\n    for (const child of Object.values(node.children))\n      if (this._dfs(word, i + 1, child)) return true;\n    return false;\n  }\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 8: STACK-BASED ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">8. Stack-Based String Problems</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">A stack naturally models nesting, bracket matching, and "undo" operations on characters. Signal: "valid parentheses", "decode string", "remove adjacent duplicates", "minimum remove to make valid".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Valid Parentheses (LC 20)</h4>\n<pre><code class="language-javascript">// KEY: push open brackets. On close, check if top matches. Empty at end = valid.\nfunction isValid(s) {\n  const stack = [], match = { \')\':\'(\', \']\':\'[\', \'}\':\'{\' };\n  for (const c of s) {\n    if (\'([{\'.includes(c)) stack.push(c);\n    else if (stack.pop() !== match[c]) return false;\n  }\n  return stack.length === 0;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Decode String (LC 394)</h4>\n<pre><code class="language-javascript">// KEY: two stacks — one for counts, one for strings built so far.\n// On \'[\': push current string and count onto stacks, reset both.\n// On \']\': pop and repeat current string k times, append to previous.\nfunction decodeString(s) {\n  const countStack = [], strStack = [];\n  let cur = \'\', k = 0;\n  for (const c of s) {\n    if (\'0123456789\'.includes(c)) {\n      k = k * 10 + +c;\n    } else if (c === \'[\') {\n      countStack.push(k); strStack.push(cur);\n      k = 0; cur = \'\';\n    } else if (c === \']\') {\n      cur = strStack.pop() + cur.repeat(countStack.pop());\n    } else {\n      cur += c;\n    }\n  }\n  return cur;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Remove All Adjacent Duplicates (LC 1047 + LC 1209)</h4>\n<pre><code class="language-javascript">// LC 1047 — remove pairs of adjacent duplicates.\n// KEY: stack as output. Pop if top === current char.\nfunction removeDuplicates(s) {\n  const stack = [];\n  for (const c of s)\n    stack.length && stack.at(-1) === c ? stack.pop() : stack.push(c);\n  return stack.join(\'\');\n}\n\n// LC 1209 — remove k adjacent duplicates.\n// KEY: stack stores [char, count]. When count reaches k → pop.\nfunction removeDuplicatesK(s, k) {\n  const stack = [];\n  for (const c of s) {\n    if (stack.length && stack.at(-1)[0] === c) {\n      stack.at(-1)[1]++;\n      if (stack.at(-1)[1] === k) stack.pop();\n    } else {\n      stack.push([c, 1]);\n    }\n  }\n  return stack.map(([c, n]) => c.repeat(n)).join(\'\');\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Minimum Remove to Make Valid Parentheses (LC 1249)</h4>\n<pre><code class="language-javascript">// KEY: stack holds INDICES of unmatched \'(\'.\n// Pass 1: match \')\' to stack top; unmatched \')\' cleared in place.\n// Pass 2: indices still in stack are unmatched \'(\' → clear them.\nfunction minRemoveToMakeValid(s) {\n  const arr = s.split(\'\'), stack = [];\n  for (let i = 0; i < arr.length; i++) {\n    if (arr[i] === \'(\')      stack.push(i);\n    else if (arr[i] === \')\') stack.length ? stack.pop() : (arr[i] = \'\');\n  }\n  for (const i of stack) arr[i] = \'\';\n  return arr.join(\'\');\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 9: DP ON STRINGS ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">9. Dynamic Programming on Strings</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">String DP usually involves a 2D table dp[i][j] over two strings or a window dp[i][i+len] over one. Define the state precisely, write the recurrence, then optimize space. Signal: "edit distance", "longest common subsequence", "interleaving", "wildcard matching".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Longest Common Subsequence (LC 1143)</h4>\n<pre><code class="language-javascript">// dp[i][j] = LCS of s1[0..i-1] and s2[0..j-1].\n// Match: dp[i-1][j-1] + 1.  No match: max(dp[i-1][j], dp[i][j-1]).\nfunction longestCommonSubsequence(s1, s2) {\n  const m = s1.length, n = s2.length;\n  const dp = Array.from({length: m + 1}, () => new Array(n + 1).fill(0));\n  for (let i = 1; i <= m; i++)\n    for (let j = 1; j <= n; j++)\n      dp[i][j] = s1[i-1] === s2[j-1]\n        ? dp[i-1][j-1] + 1\n        : Math.max(dp[i-1][j], dp[i][j-1]);\n  return dp[m][n];\n}\n\n// Space-optimised to O(n) — rolling two rows:\nfunction lcsSO(s1, s2) {\n  let prev = new Array(s2.length + 1).fill(0);\n  for (const c1 of s1) {\n    const cur = [0];\n    for (let j = 1; j <= s2.length; j++)\n      cur[j] = c1 === s2[j-1] ? prev[j-1] + 1 : Math.max(prev[j], cur[j-1]);\n    prev = cur;\n  }\n  return prev[s2.length];\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Edit Distance — Levenshtein (LC 72)</h4>\n<pre><code class="language-javascript">// dp[i][j] = min ops to convert w1[0..i-1] to w2[0..j-1].\n// Same char: dp[i-1][j-1].  Diff: 1 + min(replace, delete, insert).\nfunction minDistance(w1, w2) {\n  const m = w1.length, n = w2.length;\n  const dp = Array.from({length: m + 1}, (_, i) =>\n    Array.from({length: n + 1}, (_, j) => i + j));\n  for (let i = 1; i <= m; i++)\n    for (let j = 1; j <= n; j++)\n      dp[i][j] = w1[i-1] === w2[j-1]\n        ? dp[i-1][j-1]\n        : 1 + Math.min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]);\n  return dp[m][n];\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Wildcard Matching (LC 44) — HARD</h4>\n<pre><code class="language-javascript">// dp[i][j] = can pattern[0..j-1] match s[0..i-1]?\n// \'*\' matches empty OR any sequence: dp[i][j] = dp[i-1][j] || dp[i][j-1]\n// \'?\' or same char: dp[i][j] = dp[i-1][j-1]\nfunction isMatch(s, p) {\n  const m = s.length, n = p.length;\n  const dp = Array.from({length: m + 1}, () => new Array(n + 1).fill(false));\n  dp[0][0] = true;\n  for (let j = 1; j <= n; j++) dp[0][j] = p[j-1] === \'*\' && dp[0][j-1];\n  for (let i = 1; i <= m; i++)\n    for (let j = 1; j <= n; j++)\n      dp[i][j] = p[j-1] === \'*\'\n        ? dp[i-1][j] || dp[i][j-1]\n        : (p[j-1] === \'?\' || p[j-1] === s[i-1]) && dp[i-1][j-1];\n  return dp[m][n];\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Interleaving String (LC 97) — HARD</h4>\n<pre><code class="language-javascript">// dp[i][j] = can s1[0..i-1] and s2[0..j-1] interleave to form s3[0..i+j-1]?\nfunction isInterleave(s1, s2, s3) {\n  const m = s1.length, n = s2.length;\n  if (m + n !== s3.length) return false;\n  let dp = new Array(n + 1).fill(false);\n  for (let i = 0; i <= m; i++)\n    for (let j = 0; j <= n; j++) {\n      const k = i + j;\n      if (i === 0 && j === 0)  dp[j] = true;\n      else if (i === 0)         dp[j] = dp[j-1] && s2[j-1] === s3[k-1];\n      else if (j === 0)         dp[j] = dp[j]   && s1[i-1] === s3[k-1];\n      else dp[j] = (dp[j]   && s1[i-1] === s3[k-1]) ||\n                   (dp[j-1] && s2[j-1] === s3[k-1]);\n    }\n  return dp[n];\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 10: PALINDROME DP ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">10. Palindrome DP</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Two approaches: (1) expand around center O(n²) / Manacher O(n), (2) DP table isPalin[i][j]. Used for partitioning, counting, and minimum cuts. Signal: "palindrome partition", "min cuts", "count palindromic substrings".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Count Palindromic Substrings (LC 647)</h4>\n<pre><code class="language-javascript">// KEY: expand around every center (odd + even). Count each valid expansion.\nfunction countSubstrings(s) {\n  let count = 0;\n  const expand = (l, r) => {\n    while (l >= 0 && r < s.length && s[l] === s[r]) { count++; l--; r++; }\n  };\n  for (let i = 0; i < s.length; i++) {\n    expand(i, i);     // odd\n    expand(i, i + 1); // even\n  }\n  return count;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Palindrome Partitioning (LC 131)</h4>\n<pre><code class="language-javascript">// KEY: precompute isPalin[i][j] with DP, then backtrack all partitions.\n// isPalin[i][j] = s[i]===s[j] && isPalin[i+1][j-1].\nfunction partition(s) {\n  const n = s.length;\n  const isPalin = Array.from({length: n}, () => new Array(n).fill(false));\n  for (let i = n - 1; i >= 0; i--)\n    for (let j = i; j < n; j++)\n      isPalin[i][j] = s[i] === s[j] && (j - i <= 2 || isPalin[i+1][j-1]);\n  const res = [], path = [];\n  const bt = start => {\n    if (start === n) { res.push([...path]); return; }\n    for (let end = start; end < n; end++) {\n      if (isPalin[start][end]) {\n        path.push(s.slice(start, end + 1));\n        bt(end + 1);\n        path.pop();\n      }\n    }\n  };\n  bt(0);\n  return res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Minimum Cut Palindrome Partitioning (LC 132) — HARD</h4>\n<pre><code class="language-javascript">// KEY: cuts[i] = min cuts for s[0..i].\n// If s[0..i] is a palindrome → 0 cuts. Else try all split points j.\nfunction minCut(s) {\n  const n = s.length;\n  const isPalin = Array.from({length: n}, () => new Array(n).fill(false));\n  for (let i = n - 1; i >= 0; i--)\n    for (let j = i; j < n; j++)\n      isPalin[i][j] = s[i] === s[j] && (j - i <= 2 || isPalin[i+1][j-1]);\n  const cuts = Array.from({length: n}, (_, i) => i);\n  for (let i = 1; i < n; i++) {\n    if (isPalin[0][i]) { cuts[i] = 0; continue; }\n    for (let j = 1; j <= i; j++)\n      if (isPalin[j][i]) cuts[i] = Math.min(cuts[i], cuts[j-1] + 1);\n  }\n  return cuts[n - 1];\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 11: GREEDY ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">11. Greedy on Strings</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Make the locally optimal choice at each character. Prove via exchange argument. Signal: "make lexicographically smallest", "remove k characters", "rearrange without adjacent repeats".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Remove K Digits to Make Smallest Number (LC 402)</h4>\n<pre><code class="language-javascript">// KEY: monotonic increasing stack. Pop when top > current and k > 0.\nfunction removeKdigits(num, k) {\n  const stack = [];\n  for (const d of num) {\n    while (k > 0 && stack.length && stack.at(-1) > d) { stack.pop(); k--; }\n    stack.push(d);\n  }\n  while (k--) stack.pop();\n  const res = stack.join(\'\').replace(/^0+/, \'\');\n  return res || \'0\';\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Largest Number (LC 179)</h4>\n<pre><code class="language-javascript">// KEY: custom comparator — compare concatenations ab vs ba.\nfunction largestNumber(nums) {\n  const res = nums.map(String).sort((a, b) => (b + a).localeCompare(a + b)).join(\'\');\n  return res[0] === \'0\' ? \'0\' : res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Reorganize String (LC 767)</h4>\n<pre><code class="language-javascript">// KEY: if max freq > ceil(n/2) → impossible.\n// Greedy: fill even indices first (0,2,4,...) then odd — no adjacent repeats.\nfunction reorganizeString(s) {\n  const freq = new Array(26).fill(0), a = 97;\n  for (const c of s) freq[c.charCodeAt(0) - a]++;\n  if (Math.max(...freq) > Math.ceil(s.length / 2)) return \'\';\n  const res = [];\n  let idx = 0;\n  for (let i = 0; i < 26; i++) {\n    while (freq[i] > 0) {\n      if (idx >= s.length) idx = 1;\n      res[idx] = String.fromCharCode(a + i);\n      idx += 2; freq[i]--;\n    }\n  }\n  return res.join(\'\');\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Task Scheduler (LC 621)</h4>\n<pre><code class="language-javascript">// KEY: math formula. Dominant task forms (fMax-1) blocks of (n+1).\n// Answer = max(tasks.length, (fMax-1)*(n+1) + countOfFMax).\nfunction leastInterval(tasks, n) {\n  const freq = new Array(26).fill(0);\n  for (const t of tasks) freq[t.charCodeAt(0) - 65]++;\n  const fMax = Math.max(...freq);\n  const countMax = freq.filter(f => f === fMax).length;\n  return Math.max(tasks.length, (fMax - 1) * (n + 1) + countMax);\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 12: BACKTRACKING ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">12. Backtracking on Strings</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Explore all possibilities via DFS, pruning invalid branches early. Signal: "generate all permutations/combinations", "all valid IPs", "all valid parentheses", "word break all solutions".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Letter Combinations of Phone Number (LC 17)</h4>\n<pre><code class="language-javascript">function letterCombinations(digits) {\n  if (!digits) return [];\n  const map = {\'2\':\'abc\',\'3\':\'def\',\'4\':\'ghi\',\'5\':\'jkl\',\n               \'6\':\'mno\',\'7\':\'pqrs\',\'8\':\'tuv\',\'9\':\'wxyz\'};\n  const res = [];\n  const bt = (i, path) => {\n    if (i === digits.length) { res.push(path); return; }\n    for (const c of map[digits[i]]) bt(i + 1, path + c);\n  };\n  bt(0, \'\');\n  return res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Generate Valid Parentheses (LC 22)</h4>\n<pre><code class="language-javascript">// KEY: add \'(\' if open < n. Add \')\' if close < open.\nfunction generateParenthesis(n) {\n  const res = [];\n  const bt = (s, open, close) => {\n    if (s.length === 2 * n) { res.push(s); return; }\n    if (open  < n)    bt(s + \'(\', open + 1, close);\n    if (close < open) bt(s + \')\', open, close + 1);\n  };\n  bt(\'\', 0, 0);\n  return res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Restore IP Addresses (LC 93)</h4>\n<pre><code class="language-javascript">// KEY: backtrack with exactly 4 segments.\n// Prune: segment > 255, leading zero (except "0" itself).\nfunction restoreIpAddresses(s) {\n  const res = [];\n  const bt = (start, parts) => {\n    if (parts.length === 4 && start === s.length) { res.push(parts.join(\'.\')); return; }\n    if (parts.length === 4 || start === s.length) return;\n    for (let len = 1; len <= 3; len++) {\n      const seg = s.slice(start, start + len);\n      if (seg.length > 1 && seg[0] === \'0\') break;\n      if (+seg > 255) break;\n      bt(start + len, [...parts, seg]);\n    }\n  };\n  bt(0, []);\n  return res;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Word Break II (LC 140) — HARD</h4>\n<pre><code class="language-javascript">// KEY: backtrack + memoize. memo maps start index → all valid sentences\n// from that position. Avoids exponential recomputation.\nfunction wordBreak(s, wordDict) {\n  const set = new Set(wordDict), memo = new Map();\n  const bt = start => {\n    if (memo.has(start)) return memo.get(start);\n    if (start === s.length) return [\'\'];\n    const res = [];\n    for (let end = start + 1; end <= s.length; end++) {\n      const word = s.slice(start, end);\n      if (set.has(word))\n        for (const rest of bt(end))\n          res.push(word + (rest ? \' \' + rest : \'\'));\n    }\n    memo.set(start, res);\n    return res;\n  };\n  return bt(0);\n}</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 13: BIT MASKING ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">13. Bit Masking on Strings</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Represent the 26-letter alphabet as a bitmask. XOR, AND, OR give O(1) set intersection/union/membership. Signal: "words with no common letters", "maximum product of distinct word lengths", "count unique chars".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Maximum Product of Word Lengths (LC 318)</h4>\n<pre><code class="language-javascript">// KEY: encode each word as a 26-bit mask.\n// Two words share no letters iff (mask[i] & mask[j]) === 0.\nfunction maxProduct(words) {\n  const masks = words.map(w =>\n    [...w].reduce((m, c) => m | 1 << (c.charCodeAt(0) - 97), 0)\n  );\n  let max = 0;\n  for (let i = 0; i < words.length; i++)\n    for (let j = i + 1; j < words.length; j++)\n      if ((masks[i] & masks[j]) === 0)\n        max = Math.max(max, words[i].length * words[j].length);\n  return max;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Count Unique Character Contributions (LC 828) — HARD</h4>\n<pre><code class="language-javascript">// KEY: for each char c at index i, contribution =\n// (i - prevOccurrence) * (nextOccurrence - i).\n// Sum over all characters and positions.\nfunction uniqueLetterString(s) {\n  const n = s.length;\n  const prev = new Array(26).fill(-1), last = new Array(26).fill(-1);\n  let sum = 0;\n  for (let i = 0; i < n; i++) {\n    const c = s.charCodeAt(i) - 97;\n    if (last[c] >= 0) sum += (last[c] - prev[c]) * (i - last[c]);\n    prev[c] = last[c]; last[c] = i;\n  }\n  for (let c = 0; c < 26; c++)\n    if (last[c] >= 0) sum += (last[c] - prev[c]) * (n - last[c]);\n  return sum;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Bit Tricks Cheat Sheet for Strings</h4>\n<pre><code class="language-javascript">// Encode word to 26-bit mask:\nconst maskOf = w => [...w].reduce((m,c) => m | 1 << (c.charCodeAt(0)-97), 0);\n\n// Check subset (all chars of a appear in b):\nconst isSubset = (a, b) => (maskOf(a) & maskOf(b)) === maskOf(a);\n\n// Check no common chars:\nconst disjoint = (a, b) => (maskOf(a) & maskOf(b)) === 0;\n\n// Count distinct chars in string:\nconst countDistinct = s => { let m = maskOf(s), c = 0; while(m){m&=m-1;c++;} return c; };\n\n// Toggle char c in mask:  mask ^ (1 << (c - 97))\n// Check if char c is set: mask & (1 << (c - 97))</code></pre>\n\n<hr style="margin:2rem 0;" />\n\n<!-- ==================== PATTERN 14: ROLLING HASH ==================== -->\n<h3 style="margin-top:2rem;font-size:1.5rem;font-weight:700;">14. Rolling Hash (Rabin-Karp)</h3>\n<p style="line-height:1.75;margin-top:0.75rem;">Compute hash of a sliding window in O(1) by removing the leftmost character and adding the rightmost. Enables O(n) average pattern matching and O(n log n) duplicate substring detection. Signal: "find first occurrence", "repeated substrings of length k".</p>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Rabin-Karp Pattern Matching</h4>\n<pre><code class="language-javascript">// KEY: on hash match, always verify with string compare to handle collisions.\nfunction rabinKarp(text, pattern) {\n  const n = text.length, m = pattern.length;\n  if (m > n) return -1;\n  const BASE = 31, MOD = 1_000_000_007;\n  const pw = (b, e, mod) => { let r=1; while(e--) r=r*b%mod; return r; };\n  let pH = 0, wH = 0, highPow = pw(BASE, m - 1, MOD);\n  for (let i = 0; i < m; i++) {\n    pH = (pH * BASE + pattern.charCodeAt(i) - 96) % MOD;\n    wH = (wH * BASE + text.charCodeAt(i)   - 96) % MOD;\n  }\n  for (let i = 0; i <= n - m; i++) {\n    if (wH === pH && text.slice(i, i + m) === pattern) return i;\n    if (i < n - m)\n      wH = ((wH - (text.charCodeAt(i) - 96) * highPow % MOD + MOD)\n            * BASE + text.charCodeAt(i + m) - 96) % MOD;\n  }\n  return -1;\n}</code></pre>\n\n<h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Longest Repeating Substring (LC 1062) — Binary Search + Rolling Hash</h4>\n<pre><code class="language-javascript">// KEY: binary search on length L. For each L, slide a window of\n// size L and check if any hash appears twice. O(n log n) total.\nfunction longestRepeatingSubstring(s) {\n  const n = s.length;\n  const BASE = 26n, MOD = 10n ** 9n + 7n;\n  const check = len => {\n    let h = 0n, pow = 1n;\n    for (let i = 0; i < len; i++) {\n      h = (h * BASE + BigInt(s.charCodeAt(i) - 96)) % MOD;\n      if (i > 0) pow = pow * BASE % MOD;\n    }\n    const seen = new Set([h]);\n    for (let i = len; i < n; i++) {\n      h = (h - BigInt(s.charCodeAt(i - len) - 96) * pow % MOD + MOD) % MOD;\n      h = (h * BASE + BigInt(s.charCodeAt(i) - 96)) % MOD;\n      if (seen.has(h)) return true;\n      seen.add(h);\n    }\n    return false;\n  };\n  let lo = 1, hi = n - 1, res = 0;\n  while (lo <= hi) {\n    const mid = (lo + hi) >> 1;\n    check(mid) ? (res = mid, lo = mid + 1) : hi = mid - 1;\n  }\n  return res;\n}</code></pre>\n\n<p style="line-height:1.75;margin-top:1.5rem;padding:0.75rem 1rem;border-left:3px solid #5cf5c8;background:rgba(92,245,200,0.06);">\n  <strong>Google interview tip:</strong> Always state the pattern name first — "This is a sliding window problem because..." — then state complexity, then code. For strings specifically: always clarify the character set (lowercase ASCII → int[26], Unicode → Map) before writing any code.\n</p>\n</div>',
+            examples: [
+              '// isPalindrome("A man, a plan, a canal: Panama") => true\n// lengthOfLongestSubstring("abcabcbb") => 3\n// minWindow("ADOBECODEBANC", "ABC") => "BANC"',
+              '// groupAnagrams(["eat","tea","tan","ate","nat","bat"]) => [["eat","tea","ate"],["tan","nat"],["bat"]]\n// minDistance("horse", "ros") => 3\n// longestPalindrome("babad") => "bab"',
             ],
-            "questions": [
+            questions: [
               {
-                "question": "When do you use Two Pointers vs Sliding Window on strings?",
-                "solution": "<p>Use <strong>Two Pointers (converging)</strong> when comparing characters from both ends — palindrome checks, reversals. Pointers move toward each other and the array/string is typically processed as-is. Use <strong>Sliding Window</strong> for contiguous substrings satisfying a constraint — longest without repeating, minimum window covering a set. Window expands right and shrinks left. Key signal: \"longest/shortest substring with property X\" → sliding window; \"palindrome\", \"reverse\" → two pointers.</p>"
+                question:
+                  "When do you use Two Pointers vs Sliding Window on strings?",
+                solution:
+                  '<p>Use <strong>Two Pointers (converging)</strong> when comparing characters from both ends — palindrome checks, reversals. Pointers move toward each other and the array/string is typically processed as-is. Use <strong>Sliding Window</strong> for contiguous substrings satisfying a constraint — longest without repeating, minimum window covering a set. Window expands right and shrinks left. Key signal: "longest/shortest substring with property X" → sliding window; "palindrome", "reverse" → two pointers.</p>',
               },
               {
-                "question": "How does the KMP failure function (LPS) eliminate re-comparison?",
-                "solution": "<p>LPS[i] = length of the longest proper prefix of <code>pattern[0..i]</code> that is also a suffix. On mismatch at position j in the pattern, instead of restarting at j=0, jump to <code>j = lps[j-1]</code>. This reuses the already-matched prefix — we know those characters align — so each character in the text is visited at most twice: once by i advancing, and once by j back-tracking. Total: O(n + m).</p>"
+                question:
+                  "How does the KMP failure function (LPS) eliminate re-comparison?",
+                solution:
+                  "<p>LPS[i] = length of the longest proper prefix of <code>pattern[0..i]</code> that is also a suffix. On mismatch at position j in the pattern, instead of restarting at j=0, jump to <code>j = lps[j-1]</code>. This reuses the already-matched prefix — we know those characters align — so each character in the text is visited at most twice: once by i advancing, and once by j back-tracking. Total: O(n + m).</p>",
               },
               {
-                "question": "What is the 'exactly K distinct' trick and why does it work?",
-                "solution": "<p>For substrings with <em>exactly</em> K distinct characters: <code>f(exactly k) = f(at-most k) − f(at-most k−1)</code>. The at-most-k function is solvable in O(n) with a shrinking sliding window. Subtracting removes all windows with fewer than k distinct chars, leaving only those with exactly k. This converts an exact-count problem (hard) into two at-most problems (easy) — a universal string interview trick.</p>"
+                question:
+                  "What is the 'exactly K distinct' trick and why does it work?",
+                solution:
+                  "<p>For substrings with <em>exactly</em> K distinct characters: <code>f(exactly k) = f(at-most k) − f(at-most k−1)</code>. The at-most-k function is solvable in O(n) with a shrinking sliding window. Subtracting removes all windows with fewer than k distinct chars, leaving only those with exactly k. This converts an exact-count problem (hard) into two at-most problems (easy) — a universal string interview trick.</p>",
               },
               {
-                "question": "When would you reach for a Trie over a HashMap for string problems?",
-                "solution": "<p>Use a <strong>Trie</strong> when: (1) you need prefix matching — \"find all words starting with 'pre'\", (2) you're searching a 2D grid for multiple words simultaneously (Word Search II — shared prefix paths avoid redundant DFS), (3) you need lexicographic ordering, or (4) you need to support wildcard queries efficiently. Use a <strong>HashMap</strong> when you only need exact match lookups — O(k) per word in both cases, but Trie enables prefix pruning that a HashMap cannot.</p>"
-              }
+                question:
+                  "When would you reach for a Trie over a HashMap for string problems?",
+                solution:
+                  "<p>Use a <strong>Trie</strong> when: (1) you need prefix matching — \"find all words starting with 'pre'\", (2) you're searching a 2D grid for multiple words simultaneously (Word Search II — shared prefix paths avoid redundant DFS), (3) you need lexicographic ordering, or (4) you need to support wildcard queries efficiently. Use a <strong>HashMap</strong> when you only need exact match lookups — O(k) per word in both cases, but Trie enables prefix pruning that a HashMap cannot.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://leetcode.com/problems/valid-palindrome/",
               "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
               "https://leetcode.com/problems/minimum-window-substring/",
               "https://leetcode.com/problems/implement-trie-prefix-tree/",
               "https://leetcode.com/problems/edit-distance/",
-              "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/"
-            ]
-          }
-        ]
-      }
-    ]
+              "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/",
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
-    "id": 15,
-    "category": "aws",
-    "themeBgColor": "#232f3e",
-    "textColor": "#ffffff",
-    "topicColor": "#ff9900",
-    "lightColor": "#fafafa",
-    "type": [
+    id: 15,
+    category: "aws",
+    themeBgColor: "#232f3e",
+    textColor: "#ffffff",
+    topicColor: "#ff9900",
+    lightColor: "#fafafa",
+    type: [
       {
-        "id": 1,
-        "label": "Beginner",
-        "concepts": [
+        id: 1,
+        label: "Beginner",
+        concepts: [
           {
-            "topic": "VPC Core Concepts",
-            "tags": ["AWS", "VPC", "Networking", "Subnet", "Route Table", "IGW", "NAT"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\">\n    <strong>Amazon Virtual Private Cloud (Amazon VPC)</strong> lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways. In short, VPC gives you your own private, secure data centre inside AWS's public cloud.\n  </p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Components of a VPC</h4>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">A complete VPC consists of the following key parts:</p>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">IP Address Range (CIDR block):</span> When you create a VPC, you must specify a private IPv4 address range, e.g. <code>10.0.0.0/16</code>. This determines the total number of IP addresses available for resources inside the VPC.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Subnets:</span> Subnets are subdivisions of the VPC's IP range. Think of a subnet as a network partition within a single Availability Zone. There are two types: <ul style=\"margin-top: 0.25rem; margin-left: 1.5rem; list-style-type: disc;\"><li><span style=\"font-weight: 600;\">Public Subnet:</span> Resources have public IPs and can communicate directly with the internet via an <strong>Internet Gateway (IGW)</strong>. Typically used for load balancers.</li><li><span style=\"font-weight: 600;\">Private Subnet:</span> Resources have no public IPs and cannot be reached directly from the internet. They access the internet via a <strong>NAT Gateway</strong> for security.</li></ul></li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Route Tables:</span> A route table contains a set of rules (routes) that determine where network traffic from your VPC is directed. Every subnet must be associated with a route table.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Internet Gateway (IGW):</span> A horizontally scaled, redundant, and highly available VPC component that allows communication between your VPC and the internet. It provides NAT for instances in public subnets.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">NAT Gateway:</span> A managed AWS service that allows resources in private subnets to access the internet, but prevents the internet from initiating connections to those resources. It is the key to secure outbound-only access.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. Security Controls: Security Groups vs. Network ACLs</h4>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">VPC provides two layers of security to control traffic:</p>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security Group:</span> An <strong>instance-level</strong> <strong>stateful</strong> virtual firewall. It controls inbound and outbound traffic for associated resources. Stateful means that if you allow an inbound request, the response traffic is automatically allowed regardless of outbound rules. Security groups are primarily \"allow\" rules.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Network ACL (NACL):</span> A <strong>subnet-level</strong> <strong>stateless</strong> firewall. Stateless means you must define rules for both inbound and outbound traffic separately. NACLs support both allow and deny rules and are evaluated in numerical order.</li>\n  </ol>\n  <p style=\"line-height: 1.75; margin-top: 0.75rem;\">In TechJet's architecture, security groups are chained to create a trust model. For example, only traffic from the \"ALB security group\" is allowed to reach the \"ECS task security group\"—this is more secure and flexible than relying on IP addresses, because ECS task IPs change with every deployment.</p>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"VPC is a logically isolated network in AWS where you can launch resources. Its core components include CIDR blocks, subnets, route tables, Internet Gateways, and NAT Gateways. Subnets are divided into public and private—public for internet-facing components like ALBs, private for internal resources like ECS tasks and RDS. VPC security is enforced by Security Groups (stateful, instance-level) and Network ACLs (stateless, subnet-level). Security Groups are the primary tool for fine-grained access control.\"</div>\n</div>",
-            "examples": [
-              "# AWS VPC CLI Examples\n# Create VPC\naws ec2 create-vpc --cidr-block 10.0.0.0/16\n\n# Create subnets\naws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.1.0/24 --availability-zone us-east-1a\naws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.10.0/24 --availability-zone us-east-1a\n\n# Create and attach Internet Gateway\naws ec2 create-internet-gateway\naws ec2 attach-internet-gateway --internet-gateway-id igw-xxx --vpc-id vpc-xxx\n\n# Create public route table and add route to IGW\naws ec2 create-route-table --vpc-id vpc-xxx\naws ec2 create-route --route-table-id rtb-xxx --destination-cidr-block 0.0.0.0/0 --gateway-id igw-xxx\naws ec2 associate-route-table --subnet-id subnet-xxx --route-table-id rtb-xxx\n\n# Create NAT Gateway (requires Elastic IP)\naws ec2 allocate-address --domain vpc\naws ec2 create-nat-gateway --subnet-id subnet-xxx --allocation-id eipalloc-xxx\n\n# Create private route table with NAT gateway route\naws ec2 create-route --route-table-id rtb-private --destination-cidr-block 0.0.0.0/0 --nat-gateway-id nat-xxx"
+            topic: "VPC Core Concepts",
+            tags: [
+              "AWS",
+              "VPC",
+              "Networking",
+              "Subnet",
+              "Route Table",
+              "IGW",
+              "NAT",
             ],
-            "questions": [
-              {
-                "question": "What is AWS VPC and what are its core components?",
-                "solution": "<p>AWS VPC is a logically isolated virtual network. Its core components are: CIDR block (IP range), subnets (public/private), route tables (traffic routing), Internet Gateway (internet access for public subnets), and NAT Gateway (outbound-only internet access for private subnets).</p>"
-              },
-              {
-                "question": "What is the difference between a public and a private subnet?",
-                "solution": "<p><strong>Public subnet</strong> resources have public IPs and route traffic through an Internet Gateway—used for ALB, bastion hosts. <strong>Private subnet</strong> resources have no public IPs and route through a NAT Gateway—used for ECS tasks and RDS to prevent direct internet exposure.</p>"
-              },
-              {
-                "question": "How do Security Groups differ from Network ACLs?",
-                "solution": "<p><strong>Security Groups</strong> are stateful, instance-level firewalls that only support allow rules. <strong>Network ACLs</strong> are stateless, subnet-level firewalls that support both allow and deny rules and are evaluated in priority order.</p>"
-              },
-              {
-                "question": "Why are ECS tasks and RDS placed in private subnets in TechJet?",
-                "solution": "<p>It's a defence-in-depth strategy: (1) routing—no IGW route means internet traffic cannot reach them; (2) no public IPs means they cannot be directly addressed; (3) security groups further filter internal traffic. This ensures that even if the ALB is compromised, the backend and data layer are not directly accessible.</p>"
-              }
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">\n    <strong>Amazon Virtual Private Cloud (Amazon VPC)</strong> lets you provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define. You have complete control over your virtual networking environment, including selection of your own IP address range, creation of subnets, and configuration of route tables and network gateways. In short, VPC gives you your own private, secure data centre inside AWS\'s public cloud.\n  </p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Core Components of a VPC</h4>\n  <p style="line-height: 1.75; margin-top: 1rem;">A complete VPC consists of the following key parts:</p>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">IP Address Range (CIDR block):</span> When you create a VPC, you must specify a private IPv4 address range, e.g. <code>10.0.0.0/16</code>. This determines the total number of IP addresses available for resources inside the VPC.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Subnets:</span> Subnets are subdivisions of the VPC\'s IP range. Think of a subnet as a network partition within a single Availability Zone. There are two types: <ul style="margin-top: 0.25rem; margin-left: 1.5rem; list-style-type: disc;"><li><span style="font-weight: 600;">Public Subnet:</span> Resources have public IPs and can communicate directly with the internet via an <strong>Internet Gateway (IGW)</strong>. Typically used for load balancers.</li><li><span style="font-weight: 600;">Private Subnet:</span> Resources have no public IPs and cannot be reached directly from the internet. They access the internet via a <strong>NAT Gateway</strong> for security.</li></ul></li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Route Tables:</span> A route table contains a set of rules (routes) that determine where network traffic from your VPC is directed. Every subnet must be associated with a route table.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Internet Gateway (IGW):</span> A horizontally scaled, redundant, and highly available VPC component that allows communication between your VPC and the internet. It provides NAT for instances in public subnets.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">NAT Gateway:</span> A managed AWS service that allows resources in private subnets to access the internet, but prevents the internet from initiating connections to those resources. It is the key to secure outbound-only access.</li>\n  </ol>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Security Controls: Security Groups vs. Network ACLs</h4>\n  <p style="line-height: 1.75; margin-top: 1rem;">VPC provides two layers of security to control traffic:</p>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Security Group:</span> An <strong>instance-level</strong> <strong>stateful</strong> virtual firewall. It controls inbound and outbound traffic for associated resources. Stateful means that if you allow an inbound request, the response traffic is automatically allowed regardless of outbound rules. Security groups are primarily "allow" rules.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Network ACL (NACL):</span> A <strong>subnet-level</strong> <strong>stateless</strong> firewall. Stateless means you must define rules for both inbound and outbound traffic separately. NACLs support both allow and deny rules and are evaluated in numerical order.</li>\n  </ol>\n  <p style="line-height: 1.75; margin-top: 0.75rem;">In TechJet\'s architecture, security groups are chained to create a trust model. For example, only traffic from the "ALB security group" is allowed to reach the "ECS task security group"—this is more secure and flexible than relying on IP addresses, because ECS task IPs change with every deployment.</p>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "VPC is a logically isolated network in AWS where you can launch resources. Its core components include CIDR blocks, subnets, route tables, Internet Gateways, and NAT Gateways. Subnets are divided into public and private—public for internet-facing components like ALBs, private for internal resources like ECS tasks and RDS. VPC security is enforced by Security Groups (stateful, instance-level) and Network ACLs (stateless, subnet-level). Security Groups are the primary tool for fine-grained access control."</div>\n</div>',
+            examples: [
+              "# AWS VPC CLI Examples\n# Create VPC\naws ec2 create-vpc --cidr-block 10.0.0.0/16\n\n# Create subnets\naws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.1.0/24 --availability-zone us-east-1a\naws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.10.0/24 --availability-zone us-east-1a\n\n# Create and attach Internet Gateway\naws ec2 create-internet-gateway\naws ec2 attach-internet-gateway --internet-gateway-id igw-xxx --vpc-id vpc-xxx\n\n# Create public route table and add route to IGW\naws ec2 create-route-table --vpc-id vpc-xxx\naws ec2 create-route --route-table-id rtb-xxx --destination-cidr-block 0.0.0.0/0 --gateway-id igw-xxx\naws ec2 associate-route-table --subnet-id subnet-xxx --route-table-id rtb-xxx\n\n# Create NAT Gateway (requires Elastic IP)\naws ec2 allocate-address --domain vpc\naws ec2 create-nat-gateway --subnet-id subnet-xxx --allocation-id eipalloc-xxx\n\n# Create private route table with NAT gateway route\naws ec2 create-route --route-table-id rtb-private --destination-cidr-block 0.0.0.0/0 --nat-gateway-id nat-xxx",
             ],
-            "links": [
+            questions: [
+              {
+                question: "What is AWS VPC and what are its core components?",
+                solution:
+                  "<p>AWS VPC is a logically isolated virtual network. Its core components are: CIDR block (IP range), subnets (public/private), route tables (traffic routing), Internet Gateway (internet access for public subnets), and NAT Gateway (outbound-only internet access for private subnets).</p>",
+              },
+              {
+                question:
+                  "What is the difference between a public and a private subnet?",
+                solution:
+                  "<p><strong>Public subnet</strong> resources have public IPs and route traffic through an Internet Gateway—used for ALB, bastion hosts. <strong>Private subnet</strong> resources have no public IPs and route through a NAT Gateway—used for ECS tasks and RDS to prevent direct internet exposure.</p>",
+              },
+              {
+                question: "How do Security Groups differ from Network ACLs?",
+                solution:
+                  "<p><strong>Security Groups</strong> are stateful, instance-level firewalls that only support allow rules. <strong>Network ACLs</strong> are stateless, subnet-level firewalls that support both allow and deny rules and are evaluated in priority order.</p>",
+              },
+              {
+                question:
+                  "Why are ECS tasks and RDS placed in private subnets in TechJet?",
+                solution:
+                  "<p>It's a defence-in-depth strategy: (1) routing—no IGW route means internet traffic cannot reach them; (2) no public IPs means they cannot be directly addressed; (3) security groups further filter internal traffic. This ensures that even if the ALB is compromised, the backend and data layer are not directly accessible.</p>",
+              },
+            ],
+            links: [
               "https://docs.aws.amazon.com/vpc/",
-              "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html"
-            ]
+              "https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html",
+            ],
           },
           {
-            "topic": "ECR (Elastic Container Registry)",
-            "tags": ["AWS", "ECR", "Docker", "Container", "Registry", "Image"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Elastic Container Registry (Amazon ECR)</strong> is a fully managed Docker container registry that makes it easy to store, manage, and deploy Docker images, Open Container Initiative (OCI) images, and OCI-compatible artifacts. Think of it as AWS's own private, secure, and IAM-integrated version of Docker Hub.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Features of ECR</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security & Integration:</span> Deeply integrated with IAM for fine-grained permissions. Supports image scanning for vulnerabilities.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">High Availability & Scalability:</span> Fully managed, no need to run your own registry server.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Lifecycle Policies:</span> Automatically clean up old images to save storage costs.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Immutable Tags:</span> Prevents overwriting an existing tag—each tag (e.g., <code>2c76d40</code>) permanently points to a specific image version, enabling reliable rollbacks and traceability.</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ECR is AWS's managed Docker registry. It solves the operational overhead of self-hosted registries and provides IAM-based access control. Key features include vulnerability scanning, lifecycle policies, and immutable tags. Immutable tags are crucial for reproducible builds and safe rollbacks—we tag images with the Git commit SHA and enable immutability so every build is uniquely identified.\"</div>\n</div>",
-            "examples": [
-              "# Authenticate Docker to ECR\naws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 697858908497.dkr.ecr.us-east-1.amazonaws.com\n\n# Create repository with immutable tags\naws ecr create-repository --repository-name techjet-api-dev --image-tag-mutability IMMUTABLE --encryption-configuration encryptionType=KMS\n\n# Build, tag, and push\ndocker build -t techjet-api:2c76d40 .\ndocker tag techjet-api:2c76d40 697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\ndocker push 697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\n\n# List images\naws ecr list-images --repository-name techjet-api-dev\n\n# Set lifecycle policy (keep last 5 images)\naws ecr put-lifecycle-policy --repository-name techjet-api-dev --lifecycle-policy-text '{\"rules\":[{\"rulePriority\":1,\"description\":\"Keep last 5\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":5},\"action\":{\"type\":\"expire\"}}]}'"
+            topic: "ECR (Elastic Container Registry)",
+            tags: ["AWS", "ECR", "Docker", "Container", "Registry", "Image"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>Amazon Elastic Container Registry (Amazon ECR)</strong> is a fully managed Docker container registry that makes it easy to store, manage, and deploy Docker images, Open Container Initiative (OCI) images, and OCI-compatible artifacts. Think of it as AWS\'s own private, secure, and IAM-integrated version of Docker Hub.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Key Features of ECR</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Security & Integration:</span> Deeply integrated with IAM for fine-grained permissions. Supports image scanning for vulnerabilities.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">High Availability & Scalability:</span> Fully managed, no need to run your own registry server.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Lifecycle Policies:</span> Automatically clean up old images to save storage costs.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Immutable Tags:</span> Prevents overwriting an existing tag—each tag (e.g., <code>2c76d40</code>) permanently points to a specific image version, enabling reliable rollbacks and traceability.</li>\n  </ol>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "ECR is AWS\'s managed Docker registry. It solves the operational overhead of self-hosted registries and provides IAM-based access control. Key features include vulnerability scanning, lifecycle policies, and immutable tags. Immutable tags are crucial for reproducible builds and safe rollbacks—we tag images with the Git commit SHA and enable immutability so every build is uniquely identified."</div>\n</div>',
+            examples: [
+              '# Authenticate Docker to ECR\naws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 697858908497.dkr.ecr.us-east-1.amazonaws.com\n\n# Create repository with immutable tags\naws ecr create-repository --repository-name techjet-api-dev --image-tag-mutability IMMUTABLE --encryption-configuration encryptionType=KMS\n\n# Build, tag, and push\ndocker build -t techjet-api:2c76d40 .\ndocker tag techjet-api:2c76d40 697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\ndocker push 697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\n\n# List images\naws ecr list-images --repository-name techjet-api-dev\n\n# Set lifecycle policy (keep last 5 images)\naws ecr put-lifecycle-policy --repository-name techjet-api-dev --lifecycle-policy-text \'{"rules":[{"rulePriority":1,"description":"Keep last 5","selection":{"tagStatus":"any","countType":"imageCountMoreThan","countNumber":5},"action":{"type":"expire"}}]}\'',
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What is Amazon ECR and what is its primary use?",
-                "solution": "<p>Amazon ECR is a fully managed container image registry. Its primary use is to securely store, manage, and deploy Docker and OCI images, with IAM-based permissions and integration with other AWS services.</p>"
+                question: "What is Amazon ECR and what is its primary use?",
+                solution:
+                  "<p>Amazon ECR is a fully managed container image registry. Its primary use is to securely store, manage, and deploy Docker and OCI images, with IAM-based permissions and integration with other AWS services.</p>",
               },
               {
-                "question": "What are immutable tags and why are they important?",
-                "solution": "<p>Immutable tags prevent overwriting an existing tag—each tag is permanently bound to a specific image digest. This ensures traceability (a tag always means the same code) and safe rollbacks (you know exactly what you're rolling back to).</p>"
+                question: "What are immutable tags and why are they important?",
+                solution:
+                  "<p>Immutable tags prevent overwriting an existing tag—each tag is permanently bound to a specific image digest. This ensures traceability (a tag always means the same code) and safe rollbacks (you know exactly what you're rolling back to).</p>",
               },
               {
-                "question": "How does TechJet push images to ECR securely from GitHub Actions?",
-                "solution": "<p>It uses OIDC federation: GitHub Actions obtains a short-lived JWT token and assumes an IAM role via <code>AssumeRoleWithWebIdentity</code>. No long-term credentials are stored. The role has minimal permissions (ECR push, ECS update).</p>"
-              }
+                question:
+                  "How does TechJet push images to ECR securely from GitHub Actions?",
+                solution:
+                  "<p>It uses OIDC federation: GitHub Actions obtains a short-lived JWT token and assumes an IAM role via <code>AssumeRoleWithWebIdentity</code>. No long-term credentials are stored. The role has minimal permissions (ECR push, ECS update).</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/ecr/",
-              "https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html"
-            ]
+              "https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html",
+            ],
           },
           {
-            "topic": "ECS and Fargate",
-            "tags": ["AWS", "ECS", "Fargate", "Container", "Orchestration", "Serverless"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Elastic Container Service (Amazon ECS)</strong> is a highly scalable, fast container orchestration service that lets you run, stop, and manage Docker containers on AWS. ECS offers two launch types: <strong>EC2</strong> (you manage the cluster of EC2 instances) and <strong>Fargate</strong> (serverless—no EC2 instances to manage, just define your task).</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Concepts</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Cluster:</span> Logical grouping of tasks/services. With Fargate, it's a management boundary.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Task Definition:</span> A JSON blueprint describing container(s), CPU, memory, ports, environment variables, and secrets.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Task:</span> A running instance of a task definition.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Service:</span> Manages a desired number of tasks, supports load balancing, rolling updates, and auto-recovery.</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ECS is AWS's container orchestrator; Fargate is its serverless compute engine. With Fargate, you only define the task (CPU, memory, image) and AWS handles all infrastructure. The key abstractions are Task Definition (blueprint), Task (running instance), and Service (manages tasks, health checks, and deployments). Fargate dramatically simplifies operations and lets teams focus on code.\"</div>\n</div>",
-            "examples": [
-              "# Register a task definition (Fargate)\naws ecs register-task-definition \\\n  --family techjet-api-dev-task \\\n  --network-mode awsvpc \\\n  --requires-compatibilities FARGATE \\\n  --cpu 1024 --memory 2048 \\\n  --execution-role-arn arn:aws:iam::697858908497:role/ecsTaskExecutionRole \\\n  --task-role-arn arn:aws:iam::697858908497:role/techjet-ecs-task-role \\\n  --container-definitions '[{\"name\":\"techjet-api\",\"image\":\"697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40\",\"portMappings\":[{\"containerPort\":3000}],\"secrets\":[{\"name\":\"DB_PASSWORD\",\"valueFrom\":\"arn:aws:secretsmanager:us-east-1:697858908497:secret:techjet/dev/app:DB_PASSWORD::\"}],\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-group\":\"/ecs/techjet-api\",\"awslogs-region\":\"us-east-1\"}}}]'\n\n# Create a service (Fargate)\naws ecs create-service \\\n  --cluster techjet-dev-cluster \\\n  --service-name techjet-api-dev-task-service \\\n  --task-definition techjet-api-dev-task \\\n  --launch-type FARGATE \\\n  --desired-count 1 \\\n  --network-configuration '{\"awsvpcConfiguration\":{\"subnets\":[\"subnet-0f47f97edf94019fe\",\"subnet-08bc7fe069afab1bf\"],\"securityGroups\":[\"sg-006d3c7ac37904657\"],\"assignPublicIp\":\"DISABLED\"}}' \\\n  --load-balancers '[{\"targetGroupArn\":\"arn:aws:elasticloadbalancing:us-east-1:697858908497:targetgroup/techjet-api-tg/xxx\",\"containerName\":\"techjet-api\",\"containerPort\":3000}]'\n\n# Update service (deploy new revision)\naws ecs update-service --cluster techjet-dev-cluster --service techjet-api-dev-task-service --task-definition techjet-api-dev-task --force-new-deployment\n\n# ECS Exec into running container\naws ecs execute-command --cluster techjet-dev-cluster --task <task-id> --container techjet-api --interactive --command \"/bin/sh\""
+            topic: "ECS and Fargate",
+            tags: [
+              "AWS",
+              "ECS",
+              "Fargate",
+              "Container",
+              "Orchestration",
+              "Serverless",
             ],
-            "questions": [
-              {
-                "question": "What is Amazon ECS and what are its two launch types?",
-                "solution": "<p>Amazon ECS is a container orchestration service. The two launch types are <strong>EC2</strong> (you manage the cluster) and <strong>Fargate</strong> (serverless, AWS manages the infrastructure).</p>"
-              },
-              {
-                "question": "What is the difference between Task Definition, Task, and Service?",
-                "solution": "<p><strong>Task Definition</strong> is the blueprint (image, resources, environment). <strong>Task</strong> is a running instance of that blueprint. <strong>Service</strong> manages a set of tasks, ensures desired count, and handles rolling updates.</p>"
-              },
-              {
-                "question": "How does ECS securely get secrets from Secrets Manager?",
-                "solution": "<p>The task definition references the secret ARN in the <code>secrets</code> field. During task launch, the <strong>ecsTaskExecutionRole</strong> is used to call Secrets Manager and inject the plaintext value as an environment variable.</p>"
-              },
-              {
-                "question": "What is ECS Exec and why is it useful?",
-                "solution": "<p>ECS Exec allows you to run commands or get an interactive shell inside a running container using <code>aws ecs execute-command</code>. It's useful for debugging without SSH access to the host (especially on Fargate).</p>"
-              }
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>Amazon Elastic Container Service (Amazon ECS)</strong> is a highly scalable, fast container orchestration service that lets you run, stop, and manage Docker containers on AWS. ECS offers two launch types: <strong>EC2</strong> (you manage the cluster of EC2 instances) and <strong>Fargate</strong> (serverless—no EC2 instances to manage, just define your task).</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Core Concepts</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Cluster:</span> Logical grouping of tasks/services. With Fargate, it\'s a management boundary.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Task Definition:</span> A JSON blueprint describing container(s), CPU, memory, ports, environment variables, and secrets.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Task:</span> A running instance of a task definition.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Service:</span> Manages a desired number of tasks, supports load balancing, rolling updates, and auto-recovery.</li>\n  </ol>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "ECS is AWS\'s container orchestrator; Fargate is its serverless compute engine. With Fargate, you only define the task (CPU, memory, image) and AWS handles all infrastructure. The key abstractions are Task Definition (blueprint), Task (running instance), and Service (manages tasks, health checks, and deployments). Fargate dramatically simplifies operations and lets teams focus on code."</div>\n</div>',
+            examples: [
+              '# Register a task definition (Fargate)\naws ecs register-task-definition \\\n  --family techjet-api-dev-task \\\n  --network-mode awsvpc \\\n  --requires-compatibilities FARGATE \\\n  --cpu 1024 --memory 2048 \\\n  --execution-role-arn arn:aws:iam::697858908497:role/ecsTaskExecutionRole \\\n  --task-role-arn arn:aws:iam::697858908497:role/techjet-ecs-task-role \\\n  --container-definitions \'[{"name":"techjet-api","image":"697858908497.dkr.ecr.us-east-1.amazonaws.com/techjet-api-dev:2c76d40","portMappings":[{"containerPort":3000}],"secrets":[{"name":"DB_PASSWORD","valueFrom":"arn:aws:secretsmanager:us-east-1:697858908497:secret:techjet/dev/app:DB_PASSWORD::"}],"logConfiguration":{"logDriver":"awslogs","options":{"awslogs-group":"/ecs/techjet-api","awslogs-region":"us-east-1"}}}]\'\n\n# Create a service (Fargate)\naws ecs create-service \\\n  --cluster techjet-dev-cluster \\\n  --service-name techjet-api-dev-task-service \\\n  --task-definition techjet-api-dev-task \\\n  --launch-type FARGATE \\\n  --desired-count 1 \\\n  --network-configuration \'{"awsvpcConfiguration":{"subnets":["subnet-0f47f97edf94019fe","subnet-08bc7fe069afab1bf"],"securityGroups":["sg-006d3c7ac37904657"],"assignPublicIp":"DISABLED"}}\' \\\n  --load-balancers \'[{"targetGroupArn":"arn:aws:elasticloadbalancing:us-east-1:697858908497:targetgroup/techjet-api-tg/xxx","containerName":"techjet-api","containerPort":3000}]\'\n\n# Update service (deploy new revision)\naws ecs update-service --cluster techjet-dev-cluster --service techjet-api-dev-task-service --task-definition techjet-api-dev-task --force-new-deployment\n\n# ECS Exec into running container\naws ecs execute-command --cluster techjet-dev-cluster --task <task-id> --container techjet-api --interactive --command "/bin/sh"',
             ],
-            "links": [
+            questions: [
+              {
+                question:
+                  "What is Amazon ECS and what are its two launch types?",
+                solution:
+                  "<p>Amazon ECS is a container orchestration service. The two launch types are <strong>EC2</strong> (you manage the cluster) and <strong>Fargate</strong> (serverless, AWS manages the infrastructure).</p>",
+              },
+              {
+                question:
+                  "What is the difference between Task Definition, Task, and Service?",
+                solution:
+                  "<p><strong>Task Definition</strong> is the blueprint (image, resources, environment). <strong>Task</strong> is a running instance of that blueprint. <strong>Service</strong> manages a set of tasks, ensures desired count, and handles rolling updates.</p>",
+              },
+              {
+                question:
+                  "How does ECS securely get secrets from Secrets Manager?",
+                solution:
+                  "<p>The task definition references the secret ARN in the <code>secrets</code> field. During task launch, the <strong>ecsTaskExecutionRole</strong> is used to call Secrets Manager and inject the plaintext value as an environment variable.</p>",
+              },
+              {
+                question: "What is ECS Exec and why is it useful?",
+                solution:
+                  "<p>ECS Exec allows you to run commands or get an interactive shell inside a running container using <code>aws ecs execute-command</code>. It's useful for debugging without SSH access to the host (especially on Fargate).</p>",
+              },
+            ],
+            links: [
               "https://docs.aws.amazon.com/ecs/",
               "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html",
-              "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html"
-            ]
+              "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html",
+            ],
           },
           {
-            "topic": "ALB (Application Load Balancer)",
-            "tags": ["AWS", "ALB", "Load Balancer", "HTTP", "HTTPS", "Target Group"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Application Load Balancer (ALB)</strong> is a Layer 7 (application layer) load balancer that understands HTTP/HTTPS. It can route traffic based on URL path, host header, query string, and other HTTP attributes—making it ideal for microservices.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Features</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Advanced Request Routing:</span> Route based on path, host, headers, or query parameters.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">TLS Termination (SSL Offloading):</span> Decrypts HTTPS traffic at the ALB, offloading CPU-intensive crypto from backend services.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Target Groups:</span> Logical sets of targets (EC2, IP, Lambda, ECS tasks) that receive traffic. Health checks ensure only healthy targets are used.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Sticky Sessions:</span> Route requests from the same client to the same target.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. ALB in TechJet</h4>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">The ALB is the single entry point. It redirects HTTP to HTTPS, terminates TLS using a wildcard certificate, and forwards to the target group that contains healthy ECS tasks.</p>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ALB is AWS's Layer 7 load balancer that routes based on HTTP content. It provides TLS termination, path-based routing, and target group health checks. In TechJet, ALB is the public face—it terminates HTTPS and forwards to ECS tasks only if they pass health checks.\"</div>\n</div>",
-            "examples": [
-              "# Create target group\naws elbv2 create-target-group --name techjet-api-tg --protocol HTTP --port 3000 --vpc-id vpc-xxx --health-check-path /health\n\n# Create ALB (internet-facing)\naws elbv2 create-load-balancer --name techjet-dev-alb --subnets subnet-xxx subnet-yyy --security-groups sg-xxx --scheme internet-facing --type application\n\n# Create HTTPS listener with certificate\naws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:... --protocol HTTPS --port 443 --certificates CertificateArn=arn:aws:acm:... --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:.../techjet-api-tg\n\n# Create HTTP to HTTPS redirect listener\naws elbv2 create-listener --load-balancer-arn ... --protocol HTTP --port 80 --default-actions Type=redirect,RedirectConfig='{Protocol=HTTPS,Port=443,StatusCode=HTTP_301}'"
+            topic: "ALB (Application Load Balancer)",
+            tags: [
+              "AWS",
+              "ALB",
+              "Load Balancer",
+              "HTTP",
+              "HTTPS",
+              "Target Group",
             ],
-            "questions": [
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>Application Load Balancer (ALB)</strong> is a Layer 7 (application layer) load balancer that understands HTTP/HTTPS. It can route traffic based on URL path, host header, query string, and other HTTP attributes—making it ideal for microservices.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Key Features</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Advanced Request Routing:</span> Route based on path, host, headers, or query parameters.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">TLS Termination (SSL Offloading):</span> Decrypts HTTPS traffic at the ALB, offloading CPU-intensive crypto from backend services.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Target Groups:</span> Logical sets of targets (EC2, IP, Lambda, ECS tasks) that receive traffic. Health checks ensure only healthy targets are used.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Sticky Sessions:</span> Route requests from the same client to the same target.</li>\n  </ol>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. ALB in TechJet</h4>\n  <p style="line-height: 1.75; margin-top: 1rem;">The ALB is the single entry point. It redirects HTTP to HTTPS, terminates TLS using a wildcard certificate, and forwards to the target group that contains healthy ECS tasks.</p>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "ALB is AWS\'s Layer 7 load balancer that routes based on HTTP content. It provides TLS termination, path-based routing, and target group health checks. In TechJet, ALB is the public face—it terminates HTTPS and forwards to ECS tasks only if they pass health checks."</div>\n</div>',
+            examples: [
+              "# Create target group\naws elbv2 create-target-group --name techjet-api-tg --protocol HTTP --port 3000 --vpc-id vpc-xxx --health-check-path /health\n\n# Create ALB (internet-facing)\naws elbv2 create-load-balancer --name techjet-dev-alb --subnets subnet-xxx subnet-yyy --security-groups sg-xxx --scheme internet-facing --type application\n\n# Create HTTPS listener with certificate\naws elbv2 create-listener --load-balancer-arn arn:aws:elasticloadbalancing:... --protocol HTTPS --port 443 --certificates CertificateArn=arn:aws:acm:... --default-actions Type=forward,TargetGroupArn=arn:aws:elasticloadbalancing:.../techjet-api-tg\n\n# Create HTTP to HTTPS redirect listener\naws elbv2 create-listener --load-balancer-arn ... --protocol HTTP --port 80 --default-actions Type=redirect,RedirectConfig='{Protocol=HTTPS,Port=443,StatusCode=HTTP_301}'",
+            ],
+            questions: [
               {
-                "question": "What is an ALB and on which OSI layer does it operate?",
-                "solution": "<p>ALB is an Application Load Balancer operating at Layer 7. It routes based on HTTP/HTTPS content like URL path, headers, and query strings.</p>"
+                question:
+                  "What is an ALB and on which OSI layer does it operate?",
+                solution:
+                  "<p>ALB is an Application Load Balancer operating at Layer 7. It routes based on HTTP/HTTPS content like URL path, headers, and query strings.</p>",
               },
               {
-                "question": "What is a Target Group and what role does it play?",
-                "solution": "<p>A Target Group is a logical grouping of targets (e.g., ECS tasks). Listeners forward traffic to target groups, which perform health checks and only route to healthy targets.</p>"
+                question: "What is a Target Group and what role does it play?",
+                solution:
+                  "<p>A Target Group is a logical grouping of targets (e.g., ECS tasks). Listeners forward traffic to target groups, which perform health checks and only route to healthy targets.</p>",
               },
               {
-                "question": "What is TLS termination and why do it on the ALB?",
-                "solution": "<p>TLS termination means decrypting HTTPS at the ALB. It offloads CPU-intensive encryption/decryption from backend services and centralises certificate management.</p>"
-              }
+                question: "What is TLS termination and why do it on the ALB?",
+                solution:
+                  "<p>TLS termination means decrypting HTTPS at the ALB. It offloads CPU-intensive encryption/decryption from backend services and centralises certificate management.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/elasticloadbalancing/",
-              "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html"
-            ]
+              "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html",
+            ],
           },
           {
-            "topic": "RDS (Relational Database Service)",
-            "tags": ["AWS", "RDS", "PostgreSQL", "Database", "Managed Service"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Relational Database Service (Amazon RDS)</strong> is a managed relational database service that automates time‑consuming administrative tasks such as hardware provisioning, database setup, patching, and backups.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Benefits</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Managed Service:</span> AWS handles OS patches, automated backups, point‑in‑time recovery, and automatic failover (with Multi‑AZ).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Multiple Engines:</span> Supports PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Easy Scaling:</span> Vertical scaling (change instance type) and horizontal scaling (read replicas).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security:</span> VPC isolation, IAM, encryption at rest (KMS) and in transit (SSL).</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. TechJet RDS Configuration</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>Engine:</strong> PostgreSQL 18.3</li>\n    <li><strong>Instance:</strong> db.t3.micro (dev)</li>\n    <li><strong>Storage:</strong> 50 GiB gp3, autoscaling to 100 GiB</li>\n    <li><strong>Encryption:</strong> KMS‑encrypted at rest</li>\n    <li><strong>Network:</strong> Private subnet, no public IP</li>\n    <li><strong>Password:</strong> Managed by RDS and rotated in Secrets Manager</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"RDS is a managed relational database service that automates backups, patching, and high availability. It supports multiple engines and integrates with VPC, IAM, and KMS. In TechJet, RDS is placed in a private subnet with encrypted storage, and its credentials are securely retrieved via Secrets Manager—a key part of defence in depth.\"</div>\n</div>",
-            "examples": [
-              "# Create PostgreSQL instance (dev)\naws rds create-db-instance \\\n  --db-instance-identifier techjet-dev-rds-postgres \\\n  --db-instance-class db.t3.micro \\\n  --engine postgres --engine-version 18.3 \\\n  --allocated-storage 50 --max-allocated-storage 100 \\\n  --storage-type gp3 --storage-encrypted --kms-key-id arn:aws:kms:... \\\n  --master-username techjet_admin --manage-master-user-password \\\n  --vpc-security-group-ids sg-xxx --db-subnet-group-name techjet-dev-db-subnet-group \\\n  --backup-retention-period 7 --no-multi-az\n\n# Retrieve managed password from Secrets Manager\naws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:...:secret:rds!db-xxx\n\n# Create DB subnet group\naws rds create-db-subnet-group --db-subnet-group-name techjet-dev-db-subnet-group --db-subnet-group-description \"subnet group\" --subnet-ids subnet-xxx subnet-yyy"
+            topic: "RDS (Relational Database Service)",
+            tags: ["AWS", "RDS", "PostgreSQL", "Database", "Managed Service"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>Amazon Relational Database Service (Amazon RDS)</strong> is a managed relational database service that automates time‑consuming administrative tasks such as hardware provisioning, database setup, patching, and backups.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Key Benefits</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Managed Service:</span> AWS handles OS patches, automated backups, point‑in‑time recovery, and automatic failover (with Multi‑AZ).</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Multiple Engines:</span> Supports PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Easy Scaling:</span> Vertical scaling (change instance type) and horizontal scaling (read replicas).</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Security:</span> VPC isolation, IAM, encryption at rest (KMS) and in transit (SSL).</li>\n  </ol>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. TechJet RDS Configuration</h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Engine:</strong> PostgreSQL 18.3</li>\n    <li><strong>Instance:</strong> db.t3.micro (dev)</li>\n    <li><strong>Storage:</strong> 50 GiB gp3, autoscaling to 100 GiB</li>\n    <li><strong>Encryption:</strong> KMS‑encrypted at rest</li>\n    <li><strong>Network:</strong> Private subnet, no public IP</li>\n    <li><strong>Password:</strong> Managed by RDS and rotated in Secrets Manager</li>\n  </ul>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "RDS is a managed relational database service that automates backups, patching, and high availability. It supports multiple engines and integrates with VPC, IAM, and KMS. In TechJet, RDS is placed in a private subnet with encrypted storage, and its credentials are securely retrieved via Secrets Manager—a key part of defence in depth."</div>\n</div>',
+            examples: [
+              '# Create PostgreSQL instance (dev)\naws rds create-db-instance \\\n  --db-instance-identifier techjet-dev-rds-postgres \\\n  --db-instance-class db.t3.micro \\\n  --engine postgres --engine-version 18.3 \\\n  --allocated-storage 50 --max-allocated-storage 100 \\\n  --storage-type gp3 --storage-encrypted --kms-key-id arn:aws:kms:... \\\n  --master-username techjet_admin --manage-master-user-password \\\n  --vpc-security-group-ids sg-xxx --db-subnet-group-name techjet-dev-db-subnet-group \\\n  --backup-retention-period 7 --no-multi-az\n\n# Retrieve managed password from Secrets Manager\naws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:...:secret:rds!db-xxx\n\n# Create DB subnet group\naws rds create-db-subnet-group --db-subnet-group-name techjet-dev-db-subnet-group --db-subnet-group-description "subnet group" --subnet-ids subnet-xxx subnet-yyy',
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What is Amazon RDS and what administrative tasks does it automate?",
-                "solution": "<p>RDS is a managed database service that automates hardware provisioning, database setup, patching, automated backups, point‑in‑time recovery, and failover.</p>"
+                question:
+                  "What is Amazon RDS and what administrative tasks does it automate?",
+                solution:
+                  "<p>RDS is a managed database service that automates hardware provisioning, database setup, patching, automated backups, point‑in‑time recovery, and failover.</p>",
               },
               {
-                "question": "How does TechJet secure its RDS instance?",
-                "solution": "<p>It uses multiple layers: (1) placed in a private subnet with no public IP, (2) security group restricts access to ECS tasks only, (3) password managed by Secrets Manager and rotated automatically, (4) storage encrypted with KMS.</p>"
+                question: "How does TechJet secure its RDS instance?",
+                solution:
+                  "<p>It uses multiple layers: (1) placed in a private subnet with no public IP, (2) security group restricts access to ECS tasks only, (3) password managed by Secrets Manager and rotated automatically, (4) storage encrypted with KMS.</p>",
               },
               {
-                "question": "Why can't developers connect directly to RDS from their laptops?",
-                "solution": "<p>Because the RDS instance is in a private subnet with no internet gateway route—it has no public IP and is not reachable from the internet. This is a deliberate security measure to prevent direct exposure.</p>"
-              }
+                question:
+                  "Why can't developers connect directly to RDS from their laptops?",
+                solution:
+                  "<p>Because the RDS instance is in a private subnet with no internet gateway route—it has no public IP and is not reachable from the internet. This is a deliberate security measure to prevent direct exposure.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/rds/",
-              "https://aws.amazon.com/rds/postgresql/"
-            ]
+              "https://aws.amazon.com/rds/postgresql/",
+            ],
           },
           {
-            "topic": "IAM (Identity and Access Management)",
-            "tags": ["AWS", "IAM", "Security", "Authentication", "Authorization", "Role"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>AWS Identity and Access Management (IAM)</strong> is the core security service that controls who can access which AWS resources and under what conditions. It manages <em>who</em> (identity) can do <em>what</em> (action) on <em>which</em> resource.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Concepts</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">User:</span> A person or application with long‑term credentials.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Group:</span> A collection of users for easier permission management.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Role:</span> An identity with no long‑term credentials; it provides temporary credentials that can be <strong>assumed</strong> by trusted entities (services, users, or external identities). Roles are the best practice for granting permissions.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Policy:</span> A JSON document that defines permissions (Allow/Deny) for specific actions on specific resources.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. Three Roles in TechJet</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">GitHub Actions deploy role (CI):</span> Trusted by GitHub's OIDC provider. Has minimal permissions: push to ECR, update ECS service. Cannot read secrets or modify networking.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">ecsTaskExecutionRole:</span> Used by the ECS agent <em>before</em> the container starts. Pulls images, writes logs, and retrieves secrets from Secrets Manager.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">techjet-ecs-task-role:</span> Used by the <em>running application code</em>. Grants permissions needed at runtime (KMS, Cognito, SES).</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"IAM is the identity and access management service. Its core are Users, Groups, Roles, and Policies. Roles are key because they provide temporary credentials and enable the principle of least privilege. In TechJet, we use three distinct roles to separate concerns—CI for deployment, execution role for container startup, and task role for the running app—so that compromising one doesn't compromise the whole system.\"</div>\n</div>",
-            "examples": [
-              "# Create role trusted by ECS tasks\naws iam create-role --role-name techjet-ecs-task-role --assume-role-policy-document '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"},\"Action\":\"sts:AssumeRole\"}]}'\n\n# Attach inline policy (KMS and Cognito permissions)\naws iam put-role-policy --role-name techjet-ecs-task-role --policy-name TechJetAppPermissions --policy-document '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Action\":[\"kms:Decrypt\",\"kms:GenerateDataKey\"],\"Resource\":\"arn:aws:kms:...\"},{\"Effect\":\"Allow\",\"Action\":[\"cognito-idp:AdminCreateUser\",\"cognito-idp:AdminSetUserPassword\"],\"Resource\":\"*\"}]}'\n\n# Create OIDC role for GitHub Actions (trust policy with GitHub OIDC)\naws iam create-role --role-name github-actions-deploy --assume-role-policy-document '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Federated\":\"arn:aws:iam::697858908497:oidc-provider/token.actions.githubusercontent.com\"},\"Action\":\"sts:AssumeRoleWithWebIdentity\",\"Condition\":{\"StringEquals\":{\"token.actions.githubusercontent.com:aud\":\"sts.amazonaws.com\"},\"StringLike\":{\"token.actions.githubusercontent.com:sub\":\"repo:your-org/techjet-api:*\"}}}]}'"
+            topic: "IAM (Identity and Access Management)",
+            tags: [
+              "AWS",
+              "IAM",
+              "Security",
+              "Authentication",
+              "Authorization",
+              "Role",
             ],
-            "questions": [
-              {
-                "question": "What is AWS IAM and what are its main components?",
-                "solution": "<p>IAM is the security service for managing access to AWS resources. Its main components are Users, Groups, Roles (temporary credentials), and Policies (permission documents).</p>"
-              },
-              {
-                "question": "Why are Roles more secure than Users for applications?",
-                "solution": "<p>Roles do not have long‑term credentials—they provide temporary credentials that are rotated automatically. This eliminates the risk of hard‑coding or leaking static access keys.</p>"
-              },
-              {
-                "question": "How does GitHub Actions authenticate to AWS without storing keys?",
-                "solution": "<p>It uses OIDC federation. GitHub issues a JWT, which the workflow exchanges for temporary AWS credentials by assuming an IAM role via <code>AssumeRoleWithWebIdentity</code>.</p>"
-              },
-              {
-                "question": "What is the difference between ecsTaskExecutionRole and techjet-ecs-task-role?",
-                "solution": "<p><strong>ecsTaskExecutionRole</strong> is used by the ECS agent to pull images, write logs, and retrieve secrets before the container starts. <strong>techjet-ecs-task-role</strong> is used by the application code inside the container for runtime AWS calls (KMS, Cognito, SES). They have different permission sets.</p>"
-              }
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>AWS Identity and Access Management (IAM)</strong> is the core security service that controls who can access which AWS resources and under what conditions. It manages <em>who</em> (identity) can do <em>what</em> (action) on <em>which</em> resource.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Core Concepts</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">User:</span> A person or application with long‑term credentials.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Group:</span> A collection of users for easier permission management.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Role:</span> An identity with no long‑term credentials; it provides temporary credentials that can be <strong>assumed</strong> by trusted entities (services, users, or external identities). Roles are the best practice for granting permissions.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Policy:</span> A JSON document that defines permissions (Allow/Deny) for specific actions on specific resources.</li>\n  </ol>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Three Roles in TechJet</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">GitHub Actions deploy role (CI):</span> Trusted by GitHub\'s OIDC provider. Has minimal permissions: push to ECR, update ECS service. Cannot read secrets or modify networking.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">ecsTaskExecutionRole:</span> Used by the ECS agent <em>before</em> the container starts. Pulls images, writes logs, and retrieves secrets from Secrets Manager.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">techjet-ecs-task-role:</span> Used by the <em>running application code</em>. Grants permissions needed at runtime (KMS, Cognito, SES).</li>\n  </ol>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "IAM is the identity and access management service. Its core are Users, Groups, Roles, and Policies. Roles are key because they provide temporary credentials and enable the principle of least privilege. In TechJet, we use three distinct roles to separate concerns—CI for deployment, execution role for container startup, and task role for the running app—so that compromising one doesn\'t compromise the whole system."</div>\n</div>',
+            examples: [
+              '# Create role trusted by ECS tasks\naws iam create-role --role-name techjet-ecs-task-role --assume-role-policy-document \'{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ecs-tasks.amazonaws.com"},"Action":"sts:AssumeRole"}]}\'\n\n# Attach inline policy (KMS and Cognito permissions)\naws iam put-role-policy --role-name techjet-ecs-task-role --policy-name TechJetAppPermissions --policy-document \'{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Action":["kms:Decrypt","kms:GenerateDataKey"],"Resource":"arn:aws:kms:..."},{"Effect":"Allow","Action":["cognito-idp:AdminCreateUser","cognito-idp:AdminSetUserPassword"],"Resource":"*"}]}\'\n\n# Create OIDC role for GitHub Actions (trust policy with GitHub OIDC)\naws iam create-role --role-name github-actions-deploy --assume-role-policy-document \'{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Federated":"arn:aws:iam::697858908497:oidc-provider/token.actions.githubusercontent.com"},"Action":"sts:AssumeRoleWithWebIdentity","Condition":{"StringEquals":{"token.actions.githubusercontent.com:aud":"sts.amazonaws.com"},"StringLike":{"token.actions.githubusercontent.com:sub":"repo:your-org/techjet-api:*"}}}]}\'',
             ],
-            "links": [
+            questions: [
+              {
+                question: "What is AWS IAM and what are its main components?",
+                solution:
+                  "<p>IAM is the security service for managing access to AWS resources. Its main components are Users, Groups, Roles (temporary credentials), and Policies (permission documents).</p>",
+              },
+              {
+                question:
+                  "Why are Roles more secure than Users for applications?",
+                solution:
+                  "<p>Roles do not have long‑term credentials—they provide temporary credentials that are rotated automatically. This eliminates the risk of hard‑coding or leaking static access keys.</p>",
+              },
+              {
+                question:
+                  "How does GitHub Actions authenticate to AWS without storing keys?",
+                solution:
+                  "<p>It uses OIDC federation. GitHub issues a JWT, which the workflow exchanges for temporary AWS credentials by assuming an IAM role via <code>AssumeRoleWithWebIdentity</code>.</p>",
+              },
+              {
+                question:
+                  "What is the difference between ecsTaskExecutionRole and techjet-ecs-task-role?",
+                solution:
+                  "<p><strong>ecsTaskExecutionRole</strong> is used by the ECS agent to pull images, write logs, and retrieve secrets before the container starts. <strong>techjet-ecs-task-role</strong> is used by the application code inside the container for runtime AWS calls (KMS, Cognito, SES). They have different permission sets.</p>",
+              },
+            ],
+            links: [
               "https://docs.aws.amazon.com/iam/",
-              "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html"
-            ]
+              "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html",
+            ],
           },
           {
-            "topic": "KMS (Key Management Service)",
-            "tags": ["AWS", "KMS", "Encryption", "Security", "Key Management"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>AWS Key Management Service (AWS KMS)</strong> is a managed service that makes it easy to create and control the encryption keys used to encrypt your data. It integrates with many AWS services to provide built‑in encryption.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Concepts</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Customer Master Key (CMK):</span> The primary key resource in KMS. It is a logical container for key material, used to generate, encrypt, and decrypt data keys.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Data Key:</span> A symmetric key generated by KMS, used to encrypt large data. The data key itself is encrypted by the CMK (envelope encryption).</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. KMS in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>ECR images:</strong> Encrypted at rest using KMS.</li>\n    <li><strong>Secrets Manager:</strong> All secrets are encrypted with a KMS key.</li>\n    <li><strong>RDS storage:</strong> Database volumes and snapshots are encrypted with KMS.</li>\n    <li><strong>Application‑level envelope encryption:</strong> Per‑tenant data encryption keys (DEKs) are generated and protected by a KMS CMK.</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"KMS is a managed key management service that provides centralised control over encryption keys. It uses the concept of Customer Master Keys (CMKs) and Data Keys for envelope encryption. In TechJet, KMS is the foundation of our data encryption strategy—it encrypts ECR images, RDS storage, Secrets Manager, and application‑level per‑tenant data, ensuring that only authorised services can decrypt sensitive information.\"</div>\n</div>",
-            "examples": [
-              "# Create a symmetric CMK\naws kms create-key --description \"TechJet Dev KMS Key\" --key-usage ENCRYPT_DECRYPT --origin AWS_KMS\n\n# Create alias for easier reference\naws kms create-alias --alias-name alias/techjet-dev-kms-key --target-key-id arn:aws:kms:...\n\n# Generate a data key (envelope encryption)\naws kms generate-data-key --key-id alias/techjet-dev-kms-key --key-spec AES_256\n\n# Encrypt small data directly with CMK\naws kms encrypt --key-id alias/techjet-dev-kms-key --plaintext \"my-secret-data\"\n\n# Decrypt\naws kms decrypt --ciphertext-blob fileb://path/to/encrypted-blob.bin"
+            topic: "KMS (Key Management Service)",
+            tags: ["AWS", "KMS", "Encryption", "Security", "Key Management"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>AWS Key Management Service (AWS KMS)</strong> is a managed service that makes it easy to create and control the encryption keys used to encrypt your data. It integrates with many AWS services to provide built‑in encryption.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Core Concepts</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Customer Master Key (CMK):</span> The primary key resource in KMS. It is a logical container for key material, used to generate, encrypt, and decrypt data keys.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Data Key:</span> A symmetric key generated by KMS, used to encrypt large data. The data key itself is encrypted by the CMK (envelope encryption).</li>\n  </ol>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. KMS in TechJet</h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>ECR images:</strong> Encrypted at rest using KMS.</li>\n    <li><strong>Secrets Manager:</strong> All secrets are encrypted with a KMS key.</li>\n    <li><strong>RDS storage:</strong> Database volumes and snapshots are encrypted with KMS.</li>\n    <li><strong>Application‑level envelope encryption:</strong> Per‑tenant data encryption keys (DEKs) are generated and protected by a KMS CMK.</li>\n  </ul>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "KMS is a managed key management service that provides centralised control over encryption keys. It uses the concept of Customer Master Keys (CMKs) and Data Keys for envelope encryption. In TechJet, KMS is the foundation of our data encryption strategy—it encrypts ECR images, RDS storage, Secrets Manager, and application‑level per‑tenant data, ensuring that only authorised services can decrypt sensitive information."</div>\n</div>',
+            examples: [
+              '# Create a symmetric CMK\naws kms create-key --description "TechJet Dev KMS Key" --key-usage ENCRYPT_DECRYPT --origin AWS_KMS\n\n# Create alias for easier reference\naws kms create-alias --alias-name alias/techjet-dev-kms-key --target-key-id arn:aws:kms:...\n\n# Generate a data key (envelope encryption)\naws kms generate-data-key --key-id alias/techjet-dev-kms-key --key-spec AES_256\n\n# Encrypt small data directly with CMK\naws kms encrypt --key-id alias/techjet-dev-kms-key --plaintext "my-secret-data"\n\n# Decrypt\naws kms decrypt --ciphertext-blob fileb://path/to/encrypted-blob.bin',
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What is AWS KMS and what is its primary use?",
-                "solution": "<p>AWS KMS is a managed service for creating and controlling encryption keys. It is used to encrypt data at rest in many AWS services and to enable envelope encryption in applications.</p>"
+                question: "What is AWS KMS and what is its primary use?",
+                solution:
+                  "<p>AWS KMS is a managed service for creating and controlling encryption keys. It is used to encrypt data at rest in many AWS services and to enable envelope encryption in applications.</p>",
               },
               {
-                "question": "What is the difference between a CMK and a Data Key?",
-                "solution": "<p>A <strong>CMK</strong> is the master key stored in KMS. A <strong>Data Key</strong> is a symmetric key generated by KMS, used for actual data encryption. The Data Key itself is encrypted by the CMK (envelope encryption).</p>"
+                question:
+                  "What is the difference between a CMK and a Data Key?",
+                solution:
+                  "<p>A <strong>CMK</strong> is the master key stored in KMS. A <strong>Data Key</strong> is a symmetric key generated by KMS, used for actual data encryption. The Data Key itself is encrypted by the CMK (envelope encryption).</p>",
               },
               {
-                "question": "What does KMS encrypt in TechJet's architecture?",
-                "solution": "<p>KMS encrypts ECR images, Secrets Manager secrets, RDS storage, and application‑level per‑tenant data keys (DEKs) used for PHI encryption.</p>"
-              }
+                question: "What does KMS encrypt in TechJet's architecture?",
+                solution:
+                  "<p>KMS encrypts ECR images, Secrets Manager secrets, RDS storage, and application‑level per‑tenant data keys (DEKs) used for PHI encryption.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/kms/",
-              "https://docs.aws.amazon.com/kms/latest/developerguide/overview.html"
-            ]
+              "https://docs.aws.amazon.com/kms/latest/developerguide/overview.html",
+            ],
           },
           {
-            "topic": "Secrets Manager",
-            "tags": ["AWS", "Secrets Manager", "Security", "Credentials", "Rotation"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>AWS Secrets Manager</strong> is a service specifically designed to securely store, retrieve, and rotate secrets like database credentials, API keys, and OAuth tokens. It eliminates the need to hard‑code credentials in code or configuration files.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Features</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Secure Storage:</span> All secrets are encrypted with KMS.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Fine‑grained Access Control:</span> IAM policies control who can access which secrets.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Automatic Rotation:</span> Secrets can be rotated regularly, reducing the risk of stale credentials. RDS integration allows automatic password rotation.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Audit & Monitoring:</span> All access is logged in CloudTrail.</li>\n  </ol>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"Secrets Manager is a managed service for storing and rotating secrets. It uses KMS for encryption and IAM for access control. In TechJet, it's used to manage the RDS master password—the application retrieves it at startup via the ecsTaskExecutionRole, so no credentials are ever stored in code, images, or config files.\"</div>\n</div>",
-            "examples": [
-              "# Create a secret (JSON object)\naws secretsmanager create-secret --name techjet/dev/app --description \"App secrets\" --secret-string '{\"DB_USERNAME\":\"techjet_admin\",\"DB_PASSWORD\":\"S3cureP@ssw0rd!\",\"API_KEY\":\"abc123\"}'\n\n# Retrieve secret value\naws secretsmanager get-secret-value --secret-id techjet/dev/app\n\n# Update secret (new version)\naws secretsmanager put-secret-value --secret-id techjet/dev/app --secret-string '{\"DB_USERNAME\":\"techjet_admin\",\"DB_PASSWORD\":\"N3wS3cureP@ssw0rd!\"}'\n\n# Configure rotation (requires a Lambda rotation function)\naws secretsmanager rotate-secret --secret-id techjet/dev/app --rotation-lambda-arn arn:aws:lambda:... --rotation-rules AutomaticallyAfterDays=30"
+            topic: "Secrets Manager",
+            tags: [
+              "AWS",
+              "Secrets Manager",
+              "Security",
+              "Credentials",
+              "Rotation",
             ],
-            "questions": [
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>AWS Secrets Manager</strong> is a service specifically designed to securely store, retrieve, and rotate secrets like database credentials, API keys, and OAuth tokens. It eliminates the need to hard‑code credentials in code or configuration files.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Key Features</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Secure Storage:</span> All secrets are encrypted with KMS.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Fine‑grained Access Control:</span> IAM policies control who can access which secrets.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Automatic Rotation:</span> Secrets can be rotated regularly, reducing the risk of stale credentials. RDS integration allows automatic password rotation.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Audit & Monitoring:</span> All access is logged in CloudTrail.</li>\n  </ol>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "Secrets Manager is a managed service for storing and rotating secrets. It uses KMS for encryption and IAM for access control. In TechJet, it\'s used to manage the RDS master password—the application retrieves it at startup via the ecsTaskExecutionRole, so no credentials are ever stored in code, images, or config files."</div>\n</div>',
+            examples: [
+              '# Create a secret (JSON object)\naws secretsmanager create-secret --name techjet/dev/app --description "App secrets" --secret-string \'{"DB_USERNAME":"techjet_admin","DB_PASSWORD":"S3cureP@ssw0rd!","API_KEY":"abc123"}\'\n\n# Retrieve secret value\naws secretsmanager get-secret-value --secret-id techjet/dev/app\n\n# Update secret (new version)\naws secretsmanager put-secret-value --secret-id techjet/dev/app --secret-string \'{"DB_USERNAME":"techjet_admin","DB_PASSWORD":"N3wS3cureP@ssw0rd!"}\'\n\n# Configure rotation (requires a Lambda rotation function)\naws secretsmanager rotate-secret --secret-id techjet/dev/app --rotation-lambda-arn arn:aws:lambda:... --rotation-rules AutomaticallyAfterDays=30',
+            ],
+            questions: [
               {
-                "question": "What is AWS Secrets Manager and what problem does it solve?",
-                "solution": "<p>It is a managed service for storing and rotating secrets. It solves the problem of hard‑coding credentials in code by providing a secure, auditable, and centralised store.</p>"
+                question:
+                  "What is AWS Secrets Manager and what problem does it solve?",
+                solution:
+                  "<p>It is a managed service for storing and rotating secrets. It solves the problem of hard‑coding credentials in code by providing a secure, auditable, and centralised store.</p>",
               },
               {
-                "question": "How does Secrets Manager protect stored secrets?",
-                "solution": "<p>It uses KMS for encryption at rest, TLS for transport encryption, IAM for fine‑grained access control, and CloudTrail for audit logging.</p>"
+                question: "How does Secrets Manager protect stored secrets?",
+                solution:
+                  "<p>It uses KMS for encryption at rest, TLS for transport encryption, IAM for fine‑grained access control, and CloudTrail for audit logging.</p>",
               },
               {
-                "question": "How does TechJet retrieve the database password from Secrets Manager?",
-                "solution": "<p>The ECS task definition references the secret ARN in the <code>secrets</code> field. During task launch, the ecsTaskExecutionRole calls <code>GetSecretValue</code>, and the value is injected as an environment variable into the container.</p>"
-              }
+                question:
+                  "How does TechJet retrieve the database password from Secrets Manager?",
+                solution:
+                  "<p>The ECS task definition references the secret ARN in the <code>secrets</code> field. During task launch, the ecsTaskExecutionRole calls <code>GetSecretValue</code>, and the value is injected as an environment variable into the container.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/secretsmanager/",
-              "https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html"
-            ]
+              "https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html",
+            ],
           },
           {
-            "topic": "CloudWatch Monitoring & Logs",
-            "tags": ["AWS", "CloudWatch", "Monitoring", "Logs", "Metrics", "Alarms"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon CloudWatch</strong> is AWS's native monitoring and observability service. It collects and provides access to <strong>Metrics</strong> and <strong>Logs</strong> from AWS resources, applications, and services.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Core Functions</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Metrics:</span> Performance data (CPU, memory, request count) collected from AWS services.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Logs:</span> Centralised storage of logs from applications and AWS services (e.g., ECS container logs in Log Groups).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Alarms:</span> Trigger actions (SNS notifications, Auto Scaling) based on metric thresholds.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Dashboards:</span> Customisable visualisations for real‑time monitoring.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. CloudWatch in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>Container logs:</strong> ECS tasks send stdout/stderr to CloudWatch Logs (<code>/ecs/techjet-api</code>).</li>\n    <li><strong>ECS metrics:</strong> CPU and memory utilisation are automatically collected.</li>\n    <li><strong>ALB metrics:</strong> Request counts, latency, and HTTP error rates are monitored.</li>\n    <li><strong>Audit:</strong> CloudTrail logs are often integrated with CloudWatch for alerting.</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"CloudWatch is AWS's monitoring and observability platform. It collects metrics, stores logs, and allows you to set alarms. In TechJet, we use CloudWatch Logs to aggregate application logs from ECS tasks, making it easy to debug and trace issues. We also use metrics and alarms to proactively monitor the health of our services.\"</div>\n</div>",
-            "examples": [
-              "# Create a log group\naws logs create-log-group --log-group-name /ecs/techjet-api\n\n# Put custom metric\naws cloudwatch put-metric-data --namespace \"TechJet/API\" --metric-name \"RequestLatency\" --value 125.5 --unit Milliseconds\n\n# Get CPU utilisation for ECS service\naws cloudwatch get-metric-statistics --namespace AWS/ECS --metric-name CPUUtilization --dimensions Name=ClusterName,Value=techjet-dev-cluster Name=ServiceName,Value=techjet-api-dev-task-service --start-time 2026-07-18T00:00:00Z --end-time 2026-07-18T01:00:00Z --period 300 --statistics Average\n\n# Filter logs for errors\naws logs filter-log-events --log-group-name /ecs/techjet-api --filter-pattern 'ERROR' --start-time 1742227200000 --end-time 1742313600000\n\n# Create CPU alarm (>80%)\naws cloudwatch put-metric-alarm --alarm-name techjet-api-high-cpu --metric-name CPUUtilization --namespace AWS/ECS --statistic Average --period 300 --evaluation-periods 2 --threshold 80 --comparison-operator GreaterThanThreshold --dimensions Name=ClusterName,Value=techjet-dev-cluster Name=ServiceName,Value=techjet-api-dev-task-service --alarm-actions arn:aws:sns:...:techjet-alerts"
+            topic: "CloudWatch Monitoring & Logs",
+            tags: [
+              "AWS",
+              "CloudWatch",
+              "Monitoring",
+              "Logs",
+              "Metrics",
+              "Alarms",
             ],
-            "questions": [
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>Amazon CloudWatch</strong> is AWS\'s native monitoring and observability service. It collects and provides access to <strong>Metrics</strong> and <strong>Logs</strong> from AWS resources, applications, and services.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Core Functions</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Metrics:</span> Performance data (CPU, memory, request count) collected from AWS services.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Logs:</span> Centralised storage of logs from applications and AWS services (e.g., ECS container logs in Log Groups).</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Alarms:</span> Trigger actions (SNS notifications, Auto Scaling) based on metric thresholds.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Dashboards:</span> Customisable visualisations for real‑time monitoring.</li>\n  </ol>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. CloudWatch in TechJet</h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Container logs:</strong> ECS tasks send stdout/stderr to CloudWatch Logs (<code>/ecs/techjet-api</code>).</li>\n    <li><strong>ECS metrics:</strong> CPU and memory utilisation are automatically collected.</li>\n    <li><strong>ALB metrics:</strong> Request counts, latency, and HTTP error rates are monitored.</li>\n    <li><strong>Audit:</strong> CloudTrail logs are often integrated with CloudWatch for alerting.</li>\n  </ul>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "CloudWatch is AWS\'s monitoring and observability platform. It collects metrics, stores logs, and allows you to set alarms. In TechJet, we use CloudWatch Logs to aggregate application logs from ECS tasks, making it easy to debug and trace issues. We also use metrics and alarms to proactively monitor the health of our services."</div>\n</div>',
+            examples: [
+              '# Create a log group\naws logs create-log-group --log-group-name /ecs/techjet-api\n\n# Put custom metric\naws cloudwatch put-metric-data --namespace "TechJet/API" --metric-name "RequestLatency" --value 125.5 --unit Milliseconds\n\n# Get CPU utilisation for ECS service\naws cloudwatch get-metric-statistics --namespace AWS/ECS --metric-name CPUUtilization --dimensions Name=ClusterName,Value=techjet-dev-cluster Name=ServiceName,Value=techjet-api-dev-task-service --start-time 2026-07-18T00:00:00Z --end-time 2026-07-18T01:00:00Z --period 300 --statistics Average\n\n# Filter logs for errors\naws logs filter-log-events --log-group-name /ecs/techjet-api --filter-pattern \'ERROR\' --start-time 1742227200000 --end-time 1742313600000\n\n# Create CPU alarm (>80%)\naws cloudwatch put-metric-alarm --alarm-name techjet-api-high-cpu --metric-name CPUUtilization --namespace AWS/ECS --statistic Average --period 300 --evaluation-periods 2 --threshold 80 --comparison-operator GreaterThanThreshold --dimensions Name=ClusterName,Value=techjet-dev-cluster Name=ServiceName,Value=techjet-api-dev-task-service --alarm-actions arn:aws:sns:...:techjet-alerts',
+            ],
+            questions: [
               {
-                "question": "What is Amazon CloudWatch and what are its main functions?",
-                "solution": "<p>CloudWatch is a monitoring service that collects metrics, stores logs, and triggers alarms. Its main functions are Metrics (performance data), Logs (centralised logging), Alarms (threshold‑based notifications), and Dashboards (visualisation).</p>"
+                question:
+                  "What is Amazon CloudWatch and what are its main functions?",
+                solution:
+                  "<p>CloudWatch is a monitoring service that collects metrics, stores logs, and triggers alarms. Its main functions are Metrics (performance data), Logs (centralised logging), Alarms (threshold‑based notifications), and Dashboards (visualisation).</p>",
               },
               {
-                "question": "How do developers view logs from TechJet's ECS tasks?",
-                "solution": "<p>ECS tasks are configured with the <code>awslogs</code> driver, sending logs to CloudWatch Logs. Developers can view them via the CloudWatch console, AWS CLI (<code>aws logs filter-log-events</code>), or the ECS service's Logs tab.</p>"
+                question:
+                  "How do developers view logs from TechJet's ECS tasks?",
+                solution:
+                  "<p>ECS tasks are configured with the <code>awslogs</code> driver, sending logs to CloudWatch Logs. Developers can view them via the CloudWatch console, AWS CLI (<code>aws logs filter-log-events</code>), or the ECS service's Logs tab.</p>",
               },
               {
-                "question": "What actions can CloudWatch Alarms trigger?",
-                "solution": "<p>Alarms can send notifications via SNS (email, SMS, HTTP), trigger Auto Scaling actions, stop/reboot EC2 instances, or invoke Systems Manager Automation runbooks.</p>"
-              }
+                question: "What actions can CloudWatch Alarms trigger?",
+                solution:
+                  "<p>Alarms can send notifications via SNS (email, SMS, HTTP), trigger Auto Scaling actions, stop/reboot EC2 instances, or invoke Systems Manager Automation runbooks.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/cloudwatch/",
-              "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html"
-            ]
+              "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html",
+            ],
           },
           {
-            "topic": "Cognito – User Authentication",
-            "tags": ["AWS", "Cognito", "Authentication", "User Pool", "Identity", "OAuth"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Cognito</strong> is an identity management service for web and mobile apps. It provides user registration, sign‑in, access control, and federation with social and enterprise identity providers.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Two Core Components</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">User Pool:</span> A user directory that handles <strong>authentication</strong> (sign‑up, sign‑in) and issues JWT tokens. It acts as an identity provider (IdP).</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Identity Pool:</span> Handles <strong>authorisation</strong>—it exchanges tokens from a User Pool (or external IdP) for temporary AWS credentials, enabling frontend apps to access AWS services directly.</li>\n  </ol>\n  <p style=\"line-height: 1.75; margin-top: 0.75rem;\">In short: <strong>User Pool = who you are; Identity Pool = what you can do.</strong></p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. Cognito in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>User management:</strong> TechJet uses Admin APIs (<code>AdminCreateUser</code>, <code>AdminSetUserPassword</code>) to invite users and manage accounts.</li>\n    <li><strong>Authentication:</strong> Users log in via the User Pool, and the application validates the JWT tokens.</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"Amazon Cognito is AWS's identity management service. It consists of a <strong>User Pool</strong> (authentication, user directory) and an <strong>Identity Pool</strong> (authorisation, temporary AWS credentials). In TechJet, we use the User Pool to manage user identities and the Admin APIs for invite flows and account management.\"</div>\n</div>",
-            "examples": [
-              "# Create a User Pool\naws cognito-idp create-user-pool --pool-name techjet-user-pool --auto-verified-attributes email --policies '{\"PasswordPolicy\":{\"MinimumLength\":8,\"RequireUppercase\":true,\"RequireLowercase\":true,\"RequireNumbers\":true,\"RequireSymbols\":true}}'\n\n# Create an App Client (no client secret for web apps)\naws cognito-idp create-user-pool-client --user-pool-id us-east-1_xxxxxx --client-name techjet-web-app --no-generate-secret --explicit-auth-flows ALLOW_USER_PASSWORD_AUTH ALLOW_REFRESH_TOKEN_AUTH\n\n# Admin create user (invite flow)\naws cognito-idp admin-create-user --user-pool-id us-east-1_xxxxxx --username newuser@example.com --user-attributes Name=email,Value=newuser@example.com Name=email_verified,Value=true --message-action SUPPRESS\n\n# Admin set password\naws cognito-idp admin-set-user-password --user-pool-id us-east-1_xxxxxx --username newuser@example.com --password \"TemporaryP@ssw0rd!\" --permanent\n\n# Verify JWT tokens (typically done in backend code using a JWT verifier library)"
+            topic: "Cognito – User Authentication",
+            tags: [
+              "AWS",
+              "Cognito",
+              "Authentication",
+              "User Pool",
+              "Identity",
+              "OAuth",
             ],
-            "questions": [
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>Amazon Cognito</strong> is an identity management service for web and mobile apps. It provides user registration, sign‑in, access control, and federation with social and enterprise identity providers.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Two Core Components</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">User Pool:</span> A user directory that handles <strong>authentication</strong> (sign‑up, sign‑in) and issues JWT tokens. It acts as an identity provider (IdP).</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Identity Pool:</span> Handles <strong>authorisation</strong>—it exchanges tokens from a User Pool (or external IdP) for temporary AWS credentials, enabling frontend apps to access AWS services directly.</li>\n  </ol>\n  <p style="line-height: 1.75; margin-top: 0.75rem;">In short: <strong>User Pool = who you are; Identity Pool = what you can do.</strong></p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Cognito in TechJet</h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>User management:</strong> TechJet uses Admin APIs (<code>AdminCreateUser</code>, <code>AdminSetUserPassword</code>) to invite users and manage accounts.</li>\n    <li><strong>Authentication:</strong> Users log in via the User Pool, and the application validates the JWT tokens.</li>\n  </ul>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "Amazon Cognito is AWS\'s identity management service. It consists of a <strong>User Pool</strong> (authentication, user directory) and an <strong>Identity Pool</strong> (authorisation, temporary AWS credentials). In TechJet, we use the User Pool to manage user identities and the Admin APIs for invite flows and account management."</div>\n</div>',
+            examples: [
+              '# Create a User Pool\naws cognito-idp create-user-pool --pool-name techjet-user-pool --auto-verified-attributes email --policies \'{"PasswordPolicy":{"MinimumLength":8,"RequireUppercase":true,"RequireLowercase":true,"RequireNumbers":true,"RequireSymbols":true}}\'\n\n# Create an App Client (no client secret for web apps)\naws cognito-idp create-user-pool-client --user-pool-id us-east-1_xxxxxx --client-name techjet-web-app --no-generate-secret --explicit-auth-flows ALLOW_USER_PASSWORD_AUTH ALLOW_REFRESH_TOKEN_AUTH\n\n# Admin create user (invite flow)\naws cognito-idp admin-create-user --user-pool-id us-east-1_xxxxxx --username newuser@example.com --user-attributes Name=email,Value=newuser@example.com Name=email_verified,Value=true --message-action SUPPRESS\n\n# Admin set password\naws cognito-idp admin-set-user-password --user-pool-id us-east-1_xxxxxx --username newuser@example.com --password "TemporaryP@ssw0rd!" --permanent\n\n# Verify JWT tokens (typically done in backend code using a JWT verifier library)',
+            ],
+            questions: [
               {
-                "question": "What is Amazon Cognito and what are its two main components?",
-                "solution": "<p>Cognito is an identity management service. Its two main components are <strong>User Pool</strong> (authentication, user directory, issues JWT) and <strong>Identity Pool</strong> (authorisation, exchanges tokens for AWS credentials).</p>"
+                question:
+                  "What is Amazon Cognito and what are its two main components?",
+                solution:
+                  "<p>Cognito is an identity management service. Its two main components are <strong>User Pool</strong> (authentication, user directory, issues JWT) and <strong>Identity Pool</strong> (authorisation, exchanges tokens for AWS credentials).</p>",
               },
               {
-                "question": "How does TechJet use Cognito's Admin APIs?",
-                "solution": "<p>TechJet uses <code>AdminCreateUser</code> and <code>AdminSetUserPassword</code> to implement a user invitation flow: an admin pre‑creates a user in the User Pool, sets a temporary password, and the system sends an invitation email (via SES).</p>"
+                question: "How does TechJet use Cognito's Admin APIs?",
+                solution:
+                  "<p>TechJet uses <code>AdminCreateUser</code> and <code>AdminSetUserPassword</code> to implement a user invitation flow: an admin pre‑creates a user in the User Pool, sets a temporary password, and the system sends an invitation email (via SES).</p>",
               },
               {
-                "question": "What is the difference between User Pool and Identity Pool?",
-                "solution": "<p><strong>User Pool</strong> is the identity provider that authenticates users and issues tokens. <strong>Identity Pool</strong> takes those tokens (or tokens from other providers) and grants temporary AWS credentials to access services like S3 or DynamoDB directly from the frontend.</p>"
-              }
+                question:
+                  "What is the difference between User Pool and Identity Pool?",
+                solution:
+                  "<p><strong>User Pool</strong> is the identity provider that authenticates users and issues tokens. <strong>Identity Pool</strong> takes those tokens (or tokens from other providers) and grants temporary AWS credentials to access services like S3 or DynamoDB directly from the frontend.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/cognito/",
-              "https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"
-            ]
+              "https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html",
+            ],
           },
           {
-            "topic": "SES – Simple Email Service",
-            "tags": ["AWS", "SES", "Email", "Transactional Email", "SaaS"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>Amazon Simple Email Service (Amazon SES)</strong> is a cloud‑based email sending and receiving service designed to help applications send transactional emails (e.g., password resets, order confirmations), marketing emails, and notifications at scale.</p>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">1. Key Advantages</h4>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">High Deliverability & Scalability:</span> Leverages AWS's infrastructure to handle from a few to millions of emails per day.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Cost‑effective:</span> Pay‑as‑you‑go pricing, no upfront costs.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Security & Compliance:</span> TLS encryption, DKIM/SPF support, and integration with IAM.</li>\n    <li style=\"margin-top: 0.5rem;\"><span style=\"font-weight: 600;\">Easy Integration:</span> Via AWS SDK, SMTP, or CLI.</li>\n  </ol>\n  <h4 style=\"margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;\">2. SES in TechJet</h4>\n  <ul style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;\">\n    <li><strong>User invitations:</strong> After a user is created via Cognito Admin API, the backend sends an invitation email via SES.</li>\n    <li><strong>Password reset:</strong> SES sends password reset links to users.</li>\n    <li><strong>Notification emails:</strong> Business notifications (e.g., document status changes).</li>\n  </ul>\n  <div style=\"margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"Amazon SES is a cloud email service for sending and receiving emails. It is cost‑effective, scalable, and integrates well with IAM. In TechJet, SES is used for all user‑facing email communications—especially transactional emails like user invitations and password resets, forming a key part of the user onboarding flow alongside Cognito.\"</div>\n</div>",
-            "examples": [
-              "# Verify email identity\naws ses verify-email-identity --email-address noreply@gettechjet.com\n\n# Send a simple email\naws ses send-email --from noreply@gettechjet.com --destination \"ToAddresses=newuser@example.com\" --message '{\"Subject\":{\"Data\":\"Welcome to TechJet\"},\"Body\":{\"Text\":{\"Data\":\"Please set your password...\"},\"Html\":{\"Data\":\"<html><body><p>Please <a href=\\\"https://app.gettechjet.com/set-password?token=xxx\\\">click here</a></p></body></html>\"}}}'\n\n# Create a template and send templated email\naws ses create-template --template '{\"TemplateName\":\"UserInvitation\",\"SubjectPart\":\"Welcome to TechJet!\",\"TextPart\":\"Hello {{name}}, please click the link...\",\"HtmlPart\":\"<html><body><p>Hello {{name}}, please <a href='{{link}}'>click here</a></p></body></html>\"}'\n\naws ses send-templated-email --source noreply@gettechjet.com --destination \"ToAddresses=newuser@example.com\" --template UserInvitation --template-data '{\"name\":\"New User\",\"link\":\"https://app.gettechjet.com/set-password?token=xxx\"}'"
+            topic: "SES – Simple Email Service",
+            tags: ["AWS", "SES", "Email", "Transactional Email", "SaaS"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>Amazon Simple Email Service (Amazon SES)</strong> is a cloud‑based email sending and receiving service designed to help applications send transactional emails (e.g., password resets, order confirmations), marketing emails, and notifications at scale.</p>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Key Advantages</h4>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">High Deliverability & Scalability:</span> Leverages AWS\'s infrastructure to handle from a few to millions of emails per day.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Cost‑effective:</span> Pay‑as‑you‑go pricing, no upfront costs.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Security & Compliance:</span> TLS encryption, DKIM/SPF support, and integration with IAM.</li>\n    <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Easy Integration:</span> Via AWS SDK, SMTP, or CLI.</li>\n  </ol>\n  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. SES in TechJet</h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>User invitations:</strong> After a user is created via Cognito Admin API, the backend sends an invitation email via SES.</li>\n    <li><strong>Password reset:</strong> SES sends password reset links to users.</li>\n    <li><strong>Notification emails:</strong> Business notifications (e.g., document status changes).</li>\n  </ul>\n  <div style="margin-top: 1rem; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "Amazon SES is a cloud email service for sending and receiving emails. It is cost‑effective, scalable, and integrates well with IAM. In TechJet, SES is used for all user‑facing email communications—especially transactional emails like user invitations and password resets, forming a key part of the user onboarding flow alongside Cognito."</div>\n</div>',
+            examples: [
+              '# Verify email identity\naws ses verify-email-identity --email-address noreply@gettechjet.com\n\n# Send a simple email\naws ses send-email --from noreply@gettechjet.com --destination "ToAddresses=newuser@example.com" --message \'{"Subject":{"Data":"Welcome to TechJet"},"Body":{"Text":{"Data":"Please set your password..."},"Html":{"Data":"<html><body><p>Please <a href=\\"https://app.gettechjet.com/set-password?token=xxx\\">click here</a></p></body></html>"}}}\'\n\n# Create a template and send templated email\naws ses create-template --template \'{"TemplateName":"UserInvitation","SubjectPart":"Welcome to TechJet!","TextPart":"Hello {{name}}, please click the link...","HtmlPart":"<html><body><p>Hello {{name}}, please <a href=\'{{link}}\'>click here</a></p></body></html>"}\'\n\naws ses send-templated-email --source noreply@gettechjet.com --destination "ToAddresses=newuser@example.com" --template UserInvitation --template-data \'{"name":"New User","link":"https://app.gettechjet.com/set-password?token=xxx"}\'',
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What is Amazon SES and what use cases does it cover?",
-                "solution": "<p>Amazon SES is a cloud email service. It covers transactional emails (confirmations, password resets), marketing emails, and general notifications.</p>"
+                question:
+                  "What is Amazon SES and what use cases does it cover?",
+                solution:
+                  "<p>Amazon SES is a cloud email service. It covers transactional emails (confirmations, password resets), marketing emails, and general notifications.</p>",
               },
               {
-                "question": "How does TechJet integrate SES with Cognito for user onboarding?",
-                "solution": "<p>When an admin creates a user via Cognito's Admin API, the backend triggers an SES email containing a welcome link and temporary password. This completes the invitation flow and gives the user access to the platform.</p>"
-              }
+                question:
+                  "How does TechJet integrate SES with Cognito for user onboarding?",
+                solution:
+                  "<p>When an admin creates a user via Cognito's Admin API, the backend triggers an SES email containing a welcome link and temporary password. This completes the invitation flow and gives the user access to the platform.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/ses/",
-              "https://aws.amazon.com/ses/"
-            ]
-          }
-        ]
+              "https://aws.amazon.com/ses/",
+            ],
+          },
+        ],
       },
       {
-        "id": 2,
-        "label": "Advance",
-        "concepts": [
+        id: 2,
+        label: "Advance",
+        concepts: [
           {
-            "topic": "IAM Policy Evaluation Logic (Deep Dive)",
-            "tags": ["AWS", "IAM", "Policy", "Evaluation", "Advanced"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\">Understanding how AWS evaluates IAM policies is critical for building secure and correctly functioning systems. The evaluation follows a strict and deterministic order:</p>\n  <ol style=\"margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;\">\n    <li style=\"margin-top: 0.5rem;\"><strong>Deny Overrides:</strong> If any applicable policy (identity-based or resource-based) contains an explicit <code>Deny</code> for the requested action, the request is immediately denied. This is the most important rule—deny always wins.</li>\n    <li style=\"margin-top: 0.5rem;\"><strong>Allow Evaluation:</strong> If no explicit deny is found, the request is allowed if <em>any</em> applicable policy (including identity-based, resource-based, and service control policies) provides an explicit <code>Allow</code>.</li>\n    <li style=\"margin-top: 0.5rem;\"><strong>Implicit Deny:</strong> If there is no explicit allow and no explicit deny, the request is implicitly denied (default deny).</li>\n  </ol>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">In addition, policies are evaluated in a specific combination: <strong>identity-based policies</strong> (attached to IAM user/group/role) are evaluated alongside <strong>resource-based policies</strong> (e.g., S3 bucket policy, KMS key policy) and <strong>permissions boundaries</strong> (which cap the maximum permissions a role can have). Service Control Policies (SCPs) in AWS Organizations also apply as a top-level restriction.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"IAM evaluation follows a strict order: explicit Deny overrides all, then explicit Allow grants access, otherwise it's implicitly denied. When troubleshooting permission issues, always check for explicit Deny statements first. Also consider the interaction between identity-based, resource-based, and permission boundary policies—the effective permissions are the intersection of all applicable policies.\"</div>\n</div>",
-            "examples": [
-              "# Example: S3 bucket policy with explicit Deny\naws s3api put-bucket-policy --bucket my-bucket --policy '{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Deny\",\"Principal\":\"*\",\"Action\":\"s3:PutObject\",\"Resource\":\"arn:aws:s3:::my-bucket/*\",\"Condition\":{\"IpAddress\":{\"aws:SourceIp\":\"192.168.0.1/32\"}}}]}'\n\n# Example: Permission boundary that limits a role to S3 read-only\naws iam put-role-permissions-boundary --role-name my-role --permissions-boundary arn:aws:iam::...:policy/S3ReadOnlyAccess"
+            topic: "IAM Policy Evaluation Logic (Deep Dive)",
+            tags: ["AWS", "IAM", "Policy", "Evaluation", "Advanced"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">Understanding how AWS evaluates IAM policies is critical for building secure and correctly functioning systems. The evaluation follows a strict and deterministic order:</p>\n  <ol style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: number;">\n    <li style="margin-top: 0.5rem;"><strong>Deny Overrides:</strong> If any applicable policy (identity-based or resource-based) contains an explicit <code>Deny</code> for the requested action, the request is immediately denied. This is the most important rule—deny always wins.</li>\n    <li style="margin-top: 0.5rem;"><strong>Allow Evaluation:</strong> If no explicit deny is found, the request is allowed if <em>any</em> applicable policy (including identity-based, resource-based, and service control policies) provides an explicit <code>Allow</code>.</li>\n    <li style="margin-top: 0.5rem;"><strong>Implicit Deny:</strong> If there is no explicit allow and no explicit deny, the request is implicitly denied (default deny).</li>\n  </ol>\n  <p style="line-height: 1.75; margin-top: 1rem;">In addition, policies are evaluated in a specific combination: <strong>identity-based policies</strong> (attached to IAM user/group/role) are evaluated alongside <strong>resource-based policies</strong> (e.g., S3 bucket policy, KMS key policy) and <strong>permissions boundaries</strong> (which cap the maximum permissions a role can have). Service Control Policies (SCPs) in AWS Organizations also apply as a top-level restriction.</p>\n  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "IAM evaluation follows a strict order: explicit Deny overrides all, then explicit Allow grants access, otherwise it\'s implicitly denied. When troubleshooting permission issues, always check for explicit Deny statements first. Also consider the interaction between identity-based, resource-based, and permission boundary policies—the effective permissions are the intersection of all applicable policies."</div>\n</div>',
+            examples: [
+              '# Example: S3 bucket policy with explicit Deny\naws s3api put-bucket-policy --bucket my-bucket --policy \'{"Version":"2012-10-17","Statement":[{"Effect":"Deny","Principal":"*","Action":"s3:PutObject","Resource":"arn:aws:s3:::my-bucket/*","Condition":{"IpAddress":{"aws:SourceIp":"192.168.0.1/32"}}}]}\'\n\n# Example: Permission boundary that limits a role to S3 read-only\naws iam put-role-permissions-boundary --role-name my-role --permissions-boundary arn:aws:iam::...:policy/S3ReadOnlyAccess',
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What is the order of IAM policy evaluation?",
-                "solution": "<p>The order is: 1) Explicit Deny → 2) Explicit Allow → 3) Implicit Deny. Deny always overrides Allow. All policy types (identity, resource, SCP, permissions boundary) are considered.</p>"
+                question: "What is the order of IAM policy evaluation?",
+                solution:
+                  "<p>The order is: 1) Explicit Deny → 2) Explicit Allow → 3) Implicit Deny. Deny always overrides Allow. All policy types (identity, resource, SCP, permissions boundary) are considered.</p>",
               },
               {
-                "question": "What is a permissions boundary and how does it affect evaluation?",
-                "solution": "<p>A permissions boundary is a policy that defines the maximum permissions an IAM role can have. Even if an identity-based policy allows an action, the boundary can restrict it. Effective permissions are the intersection of the identity-based policy and the boundary.</p>"
-              }
+                question:
+                  "What is a permissions boundary and how does it affect evaluation?",
+                solution:
+                  "<p>A permissions boundary is a policy that defines the maximum permissions an IAM role can have. Even if an identity-based policy allows an action, the boundary can restrict it. Effective permissions are the intersection of the identity-based policy and the boundary.</p>",
+              },
             ],
-            "links": [
-              "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html"
-            ]
+            links: [
+              "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html",
+            ],
           },
           {
-            "topic": "VPC Flow Logs and Network Monitoring",
-            "tags": ["AWS", "VPC", "Flow Logs", "Monitoring", "Advanced"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>VPC Flow Logs</strong> is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow logs can be published to Amazon CloudWatch Logs or Amazon S3. They provide valuable insights for network troubleshooting, security analysis, and compliance auditing.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">A flow log record is a series of fields, including: version, account ID, interface ID, source IP, destination IP, source port, destination port, protocol, number of packets, number of bytes, start time, end time, action (ACCEPT/REJECT), and log status. You can create flow logs at three levels: VPC, subnet, or network interface.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">Advanced use cases: <br/>- <strong>Security analysis:</strong> Detect unusual traffic patterns (e.g., port scanning, DDoS).<br/>- <strong>Network optimisation:</strong> Identify underutilised or overutilised resources.<br/>- <strong>Compliance:</strong> Retain network traffic logs for audits.<br/>- <strong>Cost attribution:</strong> Analyse data transfer patterns.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"VPC Flow Logs capture IP traffic metadata at the network interface level. They are essential for troubleshooting connectivity issues, detecting security threats, and auditing network access. They can be stored in CloudWatch Logs or S3, and are often combined with Athena for querying large datasets.\"</div>\n</div>",
-            "examples": [
-              "# Create a flow log for a VPC (publish to CloudWatch Logs)\naws ec2 create-flow-logs --resource-ids vpc-xxx --resource-type VPC --traffic-type ALL --log-destination-type cloud-write-logs --log-destination arn:aws:logs:...:log-group:my-flow-logs\n\n# Create a flow log for a subnet (publish to S3)\naws ec2 create-flow-logs --resource-ids subnet-xxx --resource-type Subnet --traffic-type REJECT --log-destination-type s3 --log-destination arn:aws:s3:::my-bucket/flow-logs/\n\n# Query flow logs in CloudWatch Logs Insights\nfields @timestamp, srcAddr, dstAddr, srcPort, dstPort, action\n| filter action = \"REJECT\"\n| stats count() by srcAddr, dstAddr\n| sort count desc"
+            topic: "VPC Flow Logs and Network Monitoring",
+            tags: ["AWS", "VPC", "Flow Logs", "Monitoring", "Advanced"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>VPC Flow Logs</strong> is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow logs can be published to Amazon CloudWatch Logs or Amazon S3. They provide valuable insights for network troubleshooting, security analysis, and compliance auditing.</p>\n  <p style="line-height: 1.75; margin-top: 1rem;">A flow log record is a series of fields, including: version, account ID, interface ID, source IP, destination IP, source port, destination port, protocol, number of packets, number of bytes, start time, end time, action (ACCEPT/REJECT), and log status. You can create flow logs at three levels: VPC, subnet, or network interface.</p>\n  <p style="line-height: 1.75; margin-top: 1rem;">Advanced use cases: <br/>- <strong>Security analysis:</strong> Detect unusual traffic patterns (e.g., port scanning, DDoS).<br/>- <strong>Network optimisation:</strong> Identify underutilised or overutilised resources.<br/>- <strong>Compliance:</strong> Retain network traffic logs for audits.<br/>- <strong>Cost attribution:</strong> Analyse data transfer patterns.</p>\n  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "VPC Flow Logs capture IP traffic metadata at the network interface level. They are essential for troubleshooting connectivity issues, detecting security threats, and auditing network access. They can be stored in CloudWatch Logs or S3, and are often combined with Athena for querying large datasets."</div>\n</div>',
+            examples: [
+              '# Create a flow log for a VPC (publish to CloudWatch Logs)\naws ec2 create-flow-logs --resource-ids vpc-xxx --resource-type VPC --traffic-type ALL --log-destination-type cloud-write-logs --log-destination arn:aws:logs:...:log-group:my-flow-logs\n\n# Create a flow log for a subnet (publish to S3)\naws ec2 create-flow-logs --resource-ids subnet-xxx --resource-type Subnet --traffic-type REJECT --log-destination-type s3 --log-destination arn:aws:s3:::my-bucket/flow-logs/\n\n# Query flow logs in CloudWatch Logs Insights\nfields @timestamp, srcAddr, dstAddr, srcPort, dstPort, action\n| filter action = "REJECT"\n| stats count() by srcAddr, dstAddr\n| sort count desc',
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are VPC Flow Logs and what levels can they be enabled at?",
-                "solution": "<p>VPC Flow Logs capture IP traffic metadata. They can be enabled at the VPC, subnet, or network interface level. They capture source/destination IP, port, protocol, packets, bytes, and action (ACCEPT/REJECT).</p>"
+                question:
+                  "What are VPC Flow Logs and what levels can they be enabled at?",
+                solution:
+                  "<p>VPC Flow Logs capture IP traffic metadata. They can be enabled at the VPC, subnet, or network interface level. They capture source/destination IP, port, protocol, packets, bytes, and action (ACCEPT/REJECT).</p>",
               },
               {
-                "question": "How can you use VPC Flow Logs for security monitoring?",
-                "solution": "<p>You can analyse flow logs to detect unusual traffic patterns such as port scanning, DDoS attacks, or communication with known malicious IPs. Also, by filtering on REJECT actions, you can see which traffic is being blocked by security groups or NACLs.</p>"
-              }
+                question:
+                  "How can you use VPC Flow Logs for security monitoring?",
+                solution:
+                  "<p>You can analyse flow logs to detect unusual traffic patterns such as port scanning, DDoS attacks, or communication with known malicious IPs. Also, by filtering on REJECT actions, you can see which traffic is being blocked by security groups or NACLs.</p>",
+              },
             ],
-            "links": [
-              "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html"
-            ]
+            links: [
+              "https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html",
+            ],
           },
           {
-            "topic": "ECS Capacity Providers and Auto Scaling",
-            "tags": ["AWS", "ECS", "Capacity Provider", "Auto Scaling", "Advanced"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>ECS Capacity Providers</strong> are a way to manage the infrastructure that your ECS tasks run on. They allow you to define how capacity should be supplied—either via Fargate (serverless) or via an Auto Scaling Group (ASG) of EC2 instances. By using capacity providers, you can combine different launch types and even use <strong>mixed capacity</strong> strategies.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">For EC2-backed clusters, you can associate a capacity provider with an Auto Scaling Group and configure <strong>managed scaling</strong>. ECS can then automatically scale the ASG based on the resource needs of your tasks, ensuring that you have enough capacity to run your services without over‑provisioning.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">Key features: <br/>- <strong>Managed scaling:</strong> ECS can adjust the ASG size based on task demand.<br/>- <strong>Managed termination protection:</strong> ECS can protect instances that are running tasks from being terminated prematurely.<br/>- <strong>Weighted capacity:</strong> You can assign weights to different instance types to favour spot instances or certain families.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"ECS Capacity Providers abstract the underlying infrastructure. They allow you to use Fargate and EC2 in the same cluster, and enable automatic scaling of EC2 instances based on task placement needs. For cost optimisation, you can use a capacity provider with a mixed instance policy to include spot instances.\"</div>\n</div>",
-            "examples": [
-              "# Create an Auto Scaling Group and capacity provider\naws ecs create-capacity-provider --name my-ec2-provider --auto-scaling-group-provider '{\"autoScalingGroupArn\":\"arn:aws:autoscaling:...\",\"managedScaling\":{\"status\":\"ENABLED\",\"targetCapacity\":80,\"minimumScalingStepSize\":1,\"maximumScalingStepSize\":10}}'\n\n# Associate the capacity provider with a cluster\naws ecs put-cluster-capacity-providers --cluster my-cluster --capacity-providers my-ec2-provider FARGATE --default-capacity-provider-strategy '{\"capacityProvider\":\"FARGATE\",\"weight\":1,\"base\":1}'\n\n# Create a service that uses the capacity provider (with weight)\naws ecs create-service --cluster my-cluster --service-name my-service --task-definition my-task --desired-count 5 --capacity-provider-strategy '[{\"capacityProvider\":\"my-ec2-provider\",\"weight\":1,\"base\":2},{\"capacityProvider\":\"FARGATE\",\"weight\":0}]'"
+            topic: "ECS Capacity Providers and Auto Scaling",
+            tags: [
+              "AWS",
+              "ECS",
+              "Capacity Provider",
+              "Auto Scaling",
+              "Advanced",
             ],
-            "questions": [
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>ECS Capacity Providers</strong> are a way to manage the infrastructure that your ECS tasks run on. They allow you to define how capacity should be supplied—either via Fargate (serverless) or via an Auto Scaling Group (ASG) of EC2 instances. By using capacity providers, you can combine different launch types and even use <strong>mixed capacity</strong> strategies.</p>\n  <p style="line-height: 1.75; margin-top: 1rem;">For EC2-backed clusters, you can associate a capacity provider with an Auto Scaling Group and configure <strong>managed scaling</strong>. ECS can then automatically scale the ASG based on the resource needs of your tasks, ensuring that you have enough capacity to run your services without over‑provisioning.</p>\n  <p style="line-height: 1.75; margin-top: 1rem;">Key features: <br/>- <strong>Managed scaling:</strong> ECS can adjust the ASG size based on task demand.<br/>- <strong>Managed termination protection:</strong> ECS can protect instances that are running tasks from being terminated prematurely.<br/>- <strong>Weighted capacity:</strong> You can assign weights to different instance types to favour spot instances or certain families.</p>\n  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "ECS Capacity Providers abstract the underlying infrastructure. They allow you to use Fargate and EC2 in the same cluster, and enable automatic scaling of EC2 instances based on task placement needs. For cost optimisation, you can use a capacity provider with a mixed instance policy to include spot instances."</div>\n</div>',
+            examples: [
+              '# Create an Auto Scaling Group and capacity provider\naws ecs create-capacity-provider --name my-ec2-provider --auto-scaling-group-provider \'{"autoScalingGroupArn":"arn:aws:autoscaling:...","managedScaling":{"status":"ENABLED","targetCapacity":80,"minimumScalingStepSize":1,"maximumScalingStepSize":10}}\'\n\n# Associate the capacity provider with a cluster\naws ecs put-cluster-capacity-providers --cluster my-cluster --capacity-providers my-ec2-provider FARGATE --default-capacity-provider-strategy \'{"capacityProvider":"FARGATE","weight":1,"base":1}\'\n\n# Create a service that uses the capacity provider (with weight)\naws ecs create-service --cluster my-cluster --service-name my-service --task-definition my-task --desired-count 5 --capacity-provider-strategy \'[{"capacityProvider":"my-ec2-provider","weight":1,"base":2},{"capacityProvider":"FARGATE","weight":0}]\'',
+            ],
+            questions: [
               {
-                "question": "What is an ECS Capacity Provider and why is it useful?",
-                "solution": "<p>A Capacity Provider is a resource that defines how compute capacity is supplied to an ECS cluster. It allows you to use Fargate, EC2 Auto Scaling Groups, or a mix. It enables managed scaling, where ECS adjusts the EC2 instance count based on task requirements.</p>"
+                question:
+                  "What is an ECS Capacity Provider and why is it useful?",
+                solution:
+                  "<p>A Capacity Provider is a resource that defines how compute capacity is supplied to an ECS cluster. It allows you to use Fargate, EC2 Auto Scaling Groups, or a mix. It enables managed scaling, where ECS adjusts the EC2 instance count based on task requirements.</p>",
               },
               {
-                "question": "How does managed scaling work with capacity providers?",
-                "solution": "<p>ECS monitors the cluster's capacity and task placement. If there are pending tasks that cannot be placed due to insufficient capacity, ECS will increase the desired count of the ASG. If there is excess capacity, it will decrease it. This is done by adjusting the ASG's desired capacity based on the target utilisation (e.g., 80%).</p>"
-              }
+                question:
+                  "How does managed scaling work with capacity providers?",
+                solution:
+                  "<p>ECS monitors the cluster's capacity and task placement. If there are pending tasks that cannot be placed due to insufficient capacity, ECS will increase the desired count of the ASG. If there is excess capacity, it will decrease it. This is done by adjusting the ASG's desired capacity based on the target utilisation (e.g., 80%).</p>",
+              },
             ],
-            "links": [
-              "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html"
-            ]
+            links: [
+              "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html",
+            ],
           },
           {
-            "topic": "RDS Read Replicas and Performance Insights",
-            "tags": ["AWS", "RDS", "Read Replica", "Performance", "Advanced"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>RDS Read Replicas</strong> are used to offload read traffic from the primary database instance. They are asynchronous replicas of the primary instance, and you can promote a read replica to a standalone primary if needed. Read replicas are particularly useful for applications with high read‑to‑write ratios (e.g., reporting, analytics, dashboard).</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">However, there are important constraints: <br/>- Replication lag can occur (especially for write‑heavy workloads).<br/>- Read replicas do not handle write traffic; the primary must still handle all writes.<br/>- You can have up to 15 read replicas per primary (for most engines).<br/>- Cross‑region read replicas are possible, aiding disaster recovery and global applications.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\"><strong>RDS Performance Insights</strong> is a monitoring tool that helps you quickly assess the load on your database and determine when and where to take action. It displays a dashboard that shows the average active sessions (AAS) for your database, broken down by wait events, SQL statements, and users. This is invaluable for identifying performance bottlenecks and optimising queries.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"RDS Read Replicas are used to scale read capacity and improve application performance by distributing read queries. They are asynchronous copies. Performance Insights helps you identify the root cause of database performance issues by visualising database load, wait events, and top SQL queries. Both are essential for scaling and optimising relational databases in production.\"</div>\n</div>",
-            "examples": [
-              "# Create a read replica from a primary instance\naws rds create-db-instance-read-replica --db-instance-identifier my-read-replica --source-db-instance-identifier my-primary-db --db-instance-class db.r5.large\n\n# Promote a read replica to primary (in case of failover)\naws rds promote-read-replica --db-instance-identifier my-read-replica\n\n# Enable Performance Insights on an existing instance\naws rds modify-db-instance --db-instance-identifier my-primary-db --enable-performance-insights --performance-insights-retention-period 31 --apply-immediately"
+            topic: "RDS Read Replicas and Performance Insights",
+            tags: ["AWS", "RDS", "Read Replica", "Performance", "Advanced"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>RDS Read Replicas</strong> are used to offload read traffic from the primary database instance. They are asynchronous replicas of the primary instance, and you can promote a read replica to a standalone primary if needed. Read replicas are particularly useful for applications with high read‑to‑write ratios (e.g., reporting, analytics, dashboard).</p>\n  <p style="line-height: 1.75; margin-top: 1rem;">However, there are important constraints: <br/>- Replication lag can occur (especially for write‑heavy workloads).<br/>- Read replicas do not handle write traffic; the primary must still handle all writes.<br/>- You can have up to 15 read replicas per primary (for most engines).<br/>- Cross‑region read replicas are possible, aiding disaster recovery and global applications.</p>\n  <p style="line-height: 1.75; margin-top: 1rem;"><strong>RDS Performance Insights</strong> is a monitoring tool that helps you quickly assess the load on your database and determine when and where to take action. It displays a dashboard that shows the average active sessions (AAS) for your database, broken down by wait events, SQL statements, and users. This is invaluable for identifying performance bottlenecks and optimising queries.</p>\n  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "RDS Read Replicas are used to scale read capacity and improve application performance by distributing read queries. They are asynchronous copies. Performance Insights helps you identify the root cause of database performance issues by visualising database load, wait events, and top SQL queries. Both are essential for scaling and optimising relational databases in production."</div>\n</div>',
+            examples: [
+              "# Create a read replica from a primary instance\naws rds create-db-instance-read-replica --db-instance-identifier my-read-replica --source-db-instance-identifier my-primary-db --db-instance-class db.r5.large\n\n# Promote a read replica to primary (in case of failover)\naws rds promote-read-replica --db-instance-identifier my-read-replica\n\n# Enable Performance Insights on an existing instance\naws rds modify-db-instance --db-instance-identifier my-primary-db --enable-performance-insights --performance-insights-retention-period 31 --apply-immediately",
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are RDS Read Replicas and when should you use them?",
-                "solution": "<p>RDS Read Replicas are asynchronous copies of the primary database used for read‑only workloads. They are ideal for applications with many read queries (e.g., reporting, analytics) to offload the primary instance.</p>"
+                question:
+                  "What are RDS Read Replicas and when should you use them?",
+                solution:
+                  "<p>RDS Read Replicas are asynchronous copies of the primary database used for read‑only workloads. They are ideal for applications with many read queries (e.g., reporting, analytics) to offload the primary instance.</p>",
               },
               {
-                "question": "What is RDS Performance Insights and how does it help?",
-                "solution": "<p>Performance Insights is a monitoring tool that shows database load, wait events, and top SQL. It helps you quickly identify performance bottlenecks and optimise queries without deep database expertise.</p>"
-              }
+                question:
+                  "What is RDS Performance Insights and how does it help?",
+                solution:
+                  "<p>Performance Insights is a monitoring tool that shows database load, wait events, and top SQL. It helps you quickly identify performance bottlenecks and optimise queries without deep database expertise.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html",
-              "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html"
-            ]
+              "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html",
+            ],
           },
           {
-            "topic": "KMS Key Rotation and CloudTrail Integration",
-            "tags": ["AWS", "KMS", "Key Rotation", "CloudTrail", "Advanced"],
-            "explanation": "<div>\n  <p style=\"line-height: 1.75; margin-top: 1.5rem;\"><strong>KMS Key Rotation</strong> is the practice of periodically changing the cryptographic material used by your Customer Master Keys (CMKs). AWS KMS supports automatic key rotation for <strong>AWS managed keys</strong> (like <code>aws/rds</code>, <code>aws/s3</code>) annually. For <strong>customer managed CMKs</strong>, you can enable automatic rotation (once per year) or perform manual rotation (creating new key material and aliases).</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\">When you rotate a CMK, the <strong>key ID</strong> remains the same, but the backing key material changes. AWS KMS retains old key material to decrypt data encrypted under previous versions. This allows seamless rotation without re‑encrypting all data.</p>\n  <p style=\"line-height: 1.75; margin-top: 1rem;\"><strong>CloudTrail integration</strong> with KMS: All KMS API calls (e.g., <code>GenerateDataKey</code>, <code>Decrypt</code>, <code>Encrypt</code>) are logged in CloudTrail. This provides a complete audit trail of who used which key and when, which is crucial for compliance (e.g., HIPAA, PCI). You can monitor for unusual decryption activity or unauthorised key usage.</p>\n  <div style=\"margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;\"><strong>🎯 Interview Answer:</strong> \"KMS key rotation reduces the risk of key compromise. Automatic rotation is available for customer‑managed CMKs with a yearly schedule. CloudTrail logs all KMS activity, enabling security auditing and anomaly detection. When rotating, old key material is kept for decryption, so no data re‑encryption is needed.\"</div>\n</div>",
-            "examples": [
-              "# Enable automatic yearly rotation for a customer-managed CMK\naws kms enable-key-rotation --key-id arn:aws:kms:...\n\n# Check rotation status\naws kms get-key-rotation-status --key-id arn:aws:kms:...\n\n# View CloudTrail events for KMS decryption\naws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,AttributeValue=Decrypt --start-time 2026-07-01T00:00:00Z --end-time 2026-07-18T23:59:59Z\n\n# Create a CloudTrail trail to log KMS events to S3\naws cloudtrail create-trail --name my-kms-trail --s3-bucket-name my-audit-bucket --include-global-service-events\naws cloudtrail start-logging --name my-kms-trail"
+            topic: "KMS Key Rotation and CloudTrail Integration",
+            tags: ["AWS", "KMS", "Key Rotation", "CloudTrail", "Advanced"],
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;"><strong>KMS Key Rotation</strong> is the practice of periodically changing the cryptographic material used by your Customer Master Keys (CMKs). AWS KMS supports automatic key rotation for <strong>AWS managed keys</strong> (like <code>aws/rds</code>, <code>aws/s3</code>) annually. For <strong>customer managed CMKs</strong>, you can enable automatic rotation (once per year) or perform manual rotation (creating new key material and aliases).</p>\n  <p style="line-height: 1.75; margin-top: 1rem;">When you rotate a CMK, the <strong>key ID</strong> remains the same, but the backing key material changes. AWS KMS retains old key material to decrypt data encrypted under previous versions. This allows seamless rotation without re‑encrypting all data.</p>\n  <p style="line-height: 1.75; margin-top: 1rem;"><strong>CloudTrail integration</strong> with KMS: All KMS API calls (e.g., <code>GenerateDataKey</code>, <code>Decrypt</code>, <code>Encrypt</code>) are logged in CloudTrail. This provides a complete audit trail of who used which key and when, which is crucial for compliance (e.g., HIPAA, PCI). You can monitor for unusual decryption activity or unauthorised key usage.</p>\n  <div style="margin-top: 1rem; background: #fef9c3; border-left: 4px solid #eab308; padding: 1rem; border-radius: 4px; font-size: 0.9rem;"><strong>🎯 Interview Answer:</strong> "KMS key rotation reduces the risk of key compromise. Automatic rotation is available for customer‑managed CMKs with a yearly schedule. CloudTrail logs all KMS activity, enabling security auditing and anomaly detection. When rotating, old key material is kept for decryption, so no data re‑encryption is needed."</div>\n</div>',
+            examples: [
+              "# Enable automatic yearly rotation for a customer-managed CMK\naws kms enable-key-rotation --key-id arn:aws:kms:...\n\n# Check rotation status\naws kms get-key-rotation-status --key-id arn:aws:kms:...\n\n# View CloudTrail events for KMS decryption\naws cloudtrail lookup-events --lookup-attributes AttributeKey=EventName,AttributeValue=Decrypt --start-time 2026-07-01T00:00:00Z --end-time 2026-07-18T23:59:59Z\n\n# Create a CloudTrail trail to log KMS events to S3\naws cloudtrail create-trail --name my-kms-trail --s3-bucket-name my-audit-bucket --include-global-service-events\naws cloudtrail start-logging --name my-kms-trail",
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What is KMS key rotation and how does it work?",
-                "solution": "<p>Key rotation replaces the cryptographic material of a CMK while keeping the same key ID. AWS KMS retains old material for decryption. You can enable automatic yearly rotation or perform manual rotation. This improves security without the need to re‑encrypt all data.</p>"
+                question: "What is KMS key rotation and how does it work?",
+                solution:
+                  "<p>Key rotation replaces the cryptographic material of a CMK while keeping the same key ID. AWS KMS retains old material for decryption. You can enable automatic yearly rotation or perform manual rotation. This improves security without the need to re‑encrypt all data.</p>",
               },
               {
-                "question": "How can you monitor KMS usage for security auditing?",
-                "solution": "<p>All KMS API calls are logged in CloudTrail. You can create trails to send logs to S3 or CloudWatch Logs. You can also set up CloudWatch alarms to detect unusual decryption patterns or unauthorised key usage.</p>"
-              }
+                question:
+                  "How can you monitor KMS usage for security auditing?",
+                solution:
+                  "<p>All KMS API calls are logged in CloudTrail. You can create trails to send logs to S3 or CloudWatch Logs. You can also set up CloudWatch alarms to detect unusual decryption patterns or unauthorised key usage.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html",
-              "https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html"
-            ]
-          }
-        ]
-      }
-    ]
-  }
+              "https://docs.aws.amazon.com/kms/latest/developerguide/logging-using-cloudtrail.html",
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];

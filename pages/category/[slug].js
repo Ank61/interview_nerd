@@ -80,6 +80,7 @@ export async function getStaticPaths() {
     "go",
     "dsa",
     "aws",
+    "AI"
   ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },

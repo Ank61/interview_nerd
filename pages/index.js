@@ -1414,9 +1414,43 @@ export default function Home() {
                 </CardContent>
               </Card>
             </motion.div>
+
+            {/* AI Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.1 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push("/category/AI")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-violet-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-50/50 to-fuchsia-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-violet-100 to-fuchsia-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <Brain className="w-12 h-12 text-violet-600" />
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-violet-700 transition-colors">
+                      AI
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-violet-600 mb-3 group-hover:scale-110 transition-transform">
+                    25+
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                    LLMs, Prompt Engineering, ML & AI concepts
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section >
+
 
       {/* MCQ Practice Section with Carousel */}
       < section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16" >
