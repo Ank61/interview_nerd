@@ -228,7 +228,7 @@ export default function Learn({
                   onClick={() => router.push(`/category/${category}`)}
                   className="hover:text-gray-700 transition-colors"
                 >
-                  {category[0].toUpperCase() + category.slice(1)}
+                  {category[0]?.toUpperCase() + category?.slice(1)}
                 </button>
                 <span>/</span>
                 <span className="text-gray-900 font-medium">{topic}</span>
@@ -641,22 +641,34 @@ export default function Learn({
 
 export async function getStaticPaths() {
   const dbPaths = prepareData.reduce((acc, item) => {
-    return [
-      ...acc,
-      ...item.type.flatMap((typeItem) =>
-        typeItem.concepts.map((conceptItem) => ({
-          params: { slug: [item.category, conceptItem.topic] },
-        }))
-      ),
-    ];
+    // Guard against missing or malformed data
+    if (!item || !item.type) return acc;
+    const paths = item.type.flatMap((typeItem) =>
+      (typeItem.concepts || [])
+        .map((conceptItem) => {
+          const category = item.category || "";
+          const topic = conceptItem && conceptItem.topic ? String(conceptItem.topic) : "";
+          if (!category || !topic) return null;
+          return { params: { slug: [category, topic] } };
+        })
+        .filter(Boolean)
+    );
+    return [...acc, ...paths];
   }, []);
 
   // Add linux paths from separate data file
-  const linuxPaths = linuxPrepareData.type.flatMap((typeItem) =>
-    typeItem.concepts.map((conceptItem) => ({
-      params: { slug: [linuxPrepareData.category, conceptItem.topic] },
-    }))
-  );
+  const linuxPaths = (linuxPrepareData && linuxPrepareData.type)
+    ? linuxPrepareData.type.flatMap((typeItem) =>
+        (typeItem.concepts || [])
+          .map((conceptItem) => {
+            const category = linuxPrepareData.category || "";
+            const topic = conceptItem && conceptItem.topic ? String(conceptItem.topic) : "";
+            if (!category || !topic) return null;
+            return { params: { slug: [category, topic] } };
+          })
+          .filter(Boolean)
+      )
+    : [];
 
   const allPaths = [...dbPaths, ...linuxPaths];
   const uniquePaths = allPaths.filter(
