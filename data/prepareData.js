@@ -140786,7 +140786,7 @@ low | low e r | low est | n e w e r | n e w est
             ],
           },
           {
-            topic: "Inference: Prompt to Output",
+            topic: "Inference Prompt to Output",
             tags: ["high-frequency", "must-know", "latency"],
             explanation: `<div>
   <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -140922,7 +140922,7 @@ TPOT   Time Per Output Token  (a.k.a. inter-token latency)
 E2E    Total latency  =  TTFT + (TPOT x number_of_output_tokens)
 
 THROUGHPUT
-       Total tokens/second across ALL concurrent requests.
+       Total tokens/second across ALL concurrent requests.b
        Trades off AGAINST per-user latency: bigger batches raise
        throughput and raise individual latency. Serving is tuned
        for one or the other, and you must decide which you need.
@@ -170158,7 +170158,7 @@ async function expireStaleApprovals() {
               "https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview",
             ],
           },
-           {
+          {
             topic: "Error Handling & Retries",
             tags: ["high-frequency", "must-know", "reliability"],
             explanation: `<div>
@@ -171272,7 +171272,7 @@ async function costReport(days = 7) {
               "https://langchain-ai.github.io/langgraph/concepts/low_level/",
             ],
           },
-           {
+          {
             topic: "Reflection & Self-Critique",
             tags: ["must-know", "quality", "judgement"],
             explanation: `<div>
@@ -174601,7 +174601,7 @@ async function setHealthCheck(evalRun, productionSignals) {
               "https://arxiv.org/abs/2306.05685",
             ],
           },
-            {
+          {
             topic: "Retrieval Metrics (Precision, Recall@k, MRR)",
             tags: ["high-frequency", "must-know", "rag", "measurement"],
             explanation: `<div>
@@ -175739,7 +175739,7 @@ async function answerWithGate(question, sources, { threshold = 0.9 } = {}) {
               "https://arxiv.org/abs/2305.14251",
             ],
           },
-                    {
+          {
             topic: "Answer Relevance & Correctness",
             tags: ["high-frequency", "must-know", "measurement", "grading"],
             explanation: `<div>
@@ -176893,7 +176893,7 @@ const prevention = {
               "https://arxiv.org/abs/2311.05232",
             ],
           },
-           {
+          {
             topic: "LLM-as-a-Judge",
             tags: ["high-frequency", "must-know", "measurement", "bias"],
             explanation: `<div>
@@ -239704,7 +239704,7 @@ nest info                   # versions - paste this into bug reports`,
               "https://docs.nestjs.com/recipes/swc",
             ],
           },
-           {
+          {
             topic: "Project Structure Conventions",
             tags: ["project-structure", "feature-modules", "core-module", "shared-module", "barrel-files"],
             explanation: `<div>
@@ -241327,7 +241327,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
               "https://docs.nestjs.com/middleware",
             ],
           },
-           {
+          {
             topic: "Middleware",
             tags: ["middleware", "middleware-consumer", "for-routes", "exclude", "execution-context"],
             explanation: `<div>
@@ -241805,7 +241805,7 @@ export class ApiKeyGuard implements CanActivate {
               "https://nodejs.org/api/async_context.html",
             ],
           },
-           {
+          {
             topic: "Guards",
             tags: ["guards", "canactivate", "execution-context", "reflector", "authorization"],
             explanation: `<div>
@@ -242959,7 +242959,7 @@ export class ErrorLogInterceptor implements NestInterceptor {
               "https://docs.nestjs.com/faq/request-lifecycle",
             ],
           },
-           {
+          {
             topic: "Pipes",
             tags: ["pipes", "validation", "transformation", "validationpipe", "argumentmetadata"],
             explanation: `<div>
@@ -243507,7 +243507,7 @@ describe('ParseDateRangePipe', () => {
               "https://docs.nestjs.com/faq/request-lifecycle",
             ],
           },
-            {
+          {
             topic: "Exception Filters",
             tags: ["exception-filters", "httpexception", "catch", "argumentshost", "error-handling"],
             explanation: `<div>
@@ -244050,7 +244050,7 @@ export class CoreModule {}`,
               "https://docs.nestjs.com/faq/request-lifecycle",
             ],
           },
-           {
+          {
             topic: "Binding Scopes (APP_GUARD vs useGlobalX)",
             tags: ["binding", "app-guard", "app-pipe", "app-interceptor", "app-filter", "global-enhancers"],
             explanation: `<div>
@@ -244568,7 +244568,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
               "https://docs.nestjs.com/faq/request-lifecycle",
             ],
           },
-           {
+          {
             topic: "Reflector & Custom Metadata",
             tags: ["reflector", "setmetadata", "getallandoverride", "roles", "public"],
             explanation: `<div>
@@ -245129,7 +245129,7 @@ it('writes what the guard reads', () => {
               "https://github.com/rbuckton/reflect-metadata",
             ],
           },
-           {
+          {
             topic: "Custom Decorators",
             tags: ["custom-decorators", "createparamdecorator", "applydecorators", "currentuser", "composition"],
             explanation: `<div>
