@@ -190084,13 +190084,7 @@ function readyToDesign(req) {
               "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
             ],
           },
-        ],
-      },
-      {
-        id: 2,
-        label: "Advance",
-        concepts: [
-          {
+                    {
             topic: "Enterprise RAG Reference Architecture",
             tags: ["high-frequency", "must-know", "design", "system-design"],
             explanation: `<div>
@@ -193536,4462 +193530,7 @@ const metrics = {
               "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After",
             ],
           },
-        ],
-      },
-      {
-        id: 2,
-        label: "Advance",
-        concepts: [
-          {
-            topic: "Fallbacks, Retries & Circuit Breakers",
-            tags: ["high-frequency", "must-know", "reliability", "incidents"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "The model API starts returning 429s and timeouts. What does your system do?"</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    The question names two failures deliberately, because <strong>they need opposite responses</strong> — and treating them the same is how a small provider problem becomes your outage.
-  </p>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  429 - YOU ARE OVER THE LIMIT.
-    The system is telling you to send LESS. Retrying
-    immediately sends MORE. Back off, respect Retry-After,
-    and reduce concurrency.
-
-  TIMEOUT - AMBIGUOUS, and the dangerous one.
-    You do not know whether it succeeded. If the call had a
-    side effect, a blind retry may do it twice.
-
-  500 / 503 - transient. Retry with backoff and jitter.
-
-  400 - NEVER RETRY. It will fail identically three times
-    and you have tripled the latency of an error.
-
-FIRST STEP IS ALWAYS: CLASSIFY THE FAILURE. One retry policy
-for everything is the mistake.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Retries Are What Turn A Problem Into An Outage
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  The provider slows down. Every request times out. Every
-  client retries. Now you are sending THREE TIMES the
-  traffic to a system that was already struggling, and it
-  gets worse - which causes more timeouts, which causes more
-  retries.
-
-THREE THINGS STOP THIS:
-
-  JITTER. Exponential backoff alone makes every client
-    retry at the SAME moment - you have synchronised the
-    stampede rather than removed it. The randomness is the
-    part that matters.
-
-  A RETRY BUDGET. Cap retries as a FRACTION of total
-    traffic - say 10%. Once you exceed it, stop retrying
-    entirely until it recovers. This is the technique most
-    people do not know, and it is what stops retries
-    becoming the majority of your load during an incident.
-
-  A CIRCUIT BREAKER. See below.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Why A Circuit Breaker Matters More Here Than Usual
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Because model calls are <strong>slow</strong>. During an outage, every request sits waiting for a thirty-second timeout, and each one occupies a worker, a connection and some memory the whole time. Your own service runs out of capacity and falls over <em>before the provider recovers</em> — so you have turned someone else's degradation into your own outage.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    A breaker converts <strong>slow failures into fast ones</strong>. After enough failures it opens, and subsequent calls fail immediately instead of waiting — which frees your capacity to serve whatever you <em>can</em> still serve, and stops you hammering a struggling provider.
-  </p>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  CLOSED     normal. Count failures.
-  OPEN       fail fast, immediately, for a cooling period.
-  HALF-OPEN  let a FEW requests through to test recovery.
-             If they succeed, close. If not, open again.
-
-TRIP IT PER PROVIDER, PER MODEL AND PER REGION - not one
-breaker for everything. One model being unavailable should
-not stop you calling a different one.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Ladder: Prefer The Smallest Change
-  </h4>
-
-  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li style="margin-top: 0.5rem;"><strong>Retry the same target</strong> — for transient errors only, with jitter, within the budget.</li>
-    <li style="margin-top: 0.5rem;"><strong>Same model, another region.</strong> Identical behaviour, so nothing about your output changes. Always try this before anything else.</li>
-    <li style="margin-top: 0.5rem;"><strong>Same provider, a different model.</strong> A known quality delta, which you should have measured in advance.</li>
-    <li style="margin-top: 0.5rem;"><strong>A different provider</strong> — the largest behavioural change, and only for routes you have evaluated on both.</li>
-    <li style="margin-top: 0.5rem;"><strong>Degrade.</strong> The underrated option — see below.</li>
-    <li style="margin-top: 0.5rem;"><strong>Fail honestly</strong>, with a message that says what happened and when to try again.</li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Degrading Beats Failing, And People Forget It Exists
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    If generation is unavailable, <strong>retrieval usually still works</strong>. Returning the three most relevant document passages with their titles and links — clearly labelled as a fallback — is genuinely useful. It is most of what the person wanted, and it beats an error page decisively.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Other degradations worth having ready: a smaller and faster model, skipping reranking, fewer retrieved chunks, or a cached answer marked as possibly out of date. <strong>Decide these in advance</strong>, because during an incident nobody is designing anything.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Async Is The Best Defence
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Worth saying because it reframes the problem: for anything that is not answering a person in real time, a provider outage should mean <strong>the queue backs up and drains later</strong>, not that anything fails. Ingestion, backfills and batch work should be entirely unaffected by a twenty-minute outage. That converts a reliability problem into a latency problem, which is a much better problem to have.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "The model API starts returning 429s and timeouts. What
-   does your system do?"
-
-WHAT THE INTERVIEWER IS TESTING
-  Whether you know that 429s and timeouts need OPPOSITE
-  responses, and whether you understand that your own retries
-  are usually what turns a provider problem into your outage.
-  The retry budget and the "degrade rather than fail" option
-  are the two things that mark out someone who has been on
-  call for this.
-
-WEAK ANSWER
-  "We would retry with exponential backoff, and if it keeps
-   failing, fall back to a secondary provider and return an
-   error to the user if that also fails."
-  Why it is weak: one policy for two different failures.
-  Backoff without jitter synchronises the stampede. No
-  circuit breaker, so slow failures exhaust your own
-  capacity. And no degraded mode.
-
-STRONG ANSWER (about 75 seconds)
-  "Those two need OPPOSITE responses, so the first step is
-   always to classify the failure. A 429 means I am over the
-   limit - the system is telling me to send LESS, so
-   retrying immediately sends more. I back off, respect
-   Retry-After, and REDUCE concurrency. A timeout is
-   ambiguous - I do not know whether it succeeded, so if the
-   call had a side effect a blind retry may do it twice, and
-   that needs an idempotency key. A 500 is transient and
-   worth retrying. A 400 I never retry, because it will fail
-   identically and I have just tripled the latency of an
-   error.
-
-   The thing that actually causes outages is my own retries.
-   The provider slows down, everything times out, everything
-   retries, and now I am sending three times the traffic to a
-   system that was already struggling. Three things stop
-   that. JITTER - exponential backoff alone makes every
-   client retry at the same moment, so the randomness is the
-   part that matters. A RETRY BUDGET, capping retries at
-   about 10% of total traffic and stopping entirely above
-   that, which is what keeps retries from becoming the
-   majority of my load. And a CIRCUIT BREAKER.
-
-   The breaker matters more here than in a normal service
-   because model calls are SLOW. During an outage every
-   request occupies a worker for thirty seconds waiting for a
-   timeout, and my own service falls over before the provider
-   recovers. The breaker converts slow failures into fast
-   ones. I would trip it per provider, per model and per
-   region, so one model being down does not stop me calling
-   another.
-
-   Then a ladder that prefers the smallest change: retry,
-   same model in another region - identical behaviour so
-   nothing about my output moves - same provider different
-   model, then a different provider, and only for routes I
-   have evaluated on both.
-
-   And the option people forget: DEGRADE RATHER THAN FAIL. If
-   generation is down, retrieval usually still works, so I
-   return the three most relevant passages with links,
-   labelled as a fallback. That is most of what the person
-   wanted and it beats an error page. I would decide those
-   degradations in advance, because nobody designs anything
-   during an incident."
-
-FOLLOW-UPS TO EXPECT
-  "Why not retry a 429 immediately?"
-      -> it means send less. Retrying sends more and deepens
-         the problem.
-  "What is a retry budget?"
-      -> a cap on retries as a fraction of total traffic, so
-         retries cannot become the majority of your load.
-  "Why does jitter matter?"
-      -> backoff alone synchronises every client to retry at
-         the same instant. The randomness spreads them.
-  "What if a timeout happened after a side effect?"
-      -> idempotency key, or query the downstream system
-         before retrying. Never guess.
-
-RED FLAGS
-  One retry policy for all errors.
-  Backoff without jitter.
-  No circuit breaker, so slow failures exhaust your workers.
-  Never considering a degraded response.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// STEP ONE IS ALWAYS TO CLASSIFY. One policy for everything is
-// the mistake - 429s and timeouts need OPPOSITE responses.
-
-function classify(err) {
-  // YOU ARE OVER THE LIMIT. The system is telling you to send LESS.
-  if (err.status === 429) return "over_limit";
-  // AMBIGUOUS - it may have SUCCEEDED. The dangerous one.
-  if (err.name === "TimeoutError" || err.code === "ETIMEDOUT")
-    return "ambiguous";
-  if (err.status >= 500) return "transient";
-  // Will fail identically. Retrying triples the latency of an error.
-  if (err.status >= 400) return "permanent";
-  if (err.code === "ECONNRESET") return "transient";
-  return "unknown";
-}
-
-async function callModel(request, ctx) {
-  let attempt = 0;
-  while (true) {
-    try {
-      return await withTimeout(provider.call(request), ctx.timeoutMs);
-    } catch (err) {
-      const kind = classify(err);
-      attempt++;
-
-      if (kind === "permanent") throw err;             // never retry
-
-      if (kind === "over_limit") {
-        // DO NOT just retry - that sends MORE to something asking
-        // for less. Reduce concurrency AND wait the time you were
-        // told to wait.
-        await concurrency.reduce(0.5);
-        await sleep(err.retryAfterMs || backoff(attempt));
-        if (attempt > 2) throw err;
-        continue;
-      }
-
-      if (kind === "ambiguous") {
-        // It may have succeeded. If this call had a side effect, a
-        // blind retry does it twice.
-        if (request.hasSideEffect && !request.idempotencyKey) {
-          throw new AmbiguousFailure("cannot safely retry - no " +
-                                     "idempotency key");
-        }
-        // Safe to retry: idempotent, or keyed.
-      }
-
-      if (attempt > 2) throw err;
-      // BUDGET CHECK before spending a retry - see the next example.
-      if (!await retryBudget.tryConsume()) throw err;
-      await sleep(backoff(attempt));
-    }
-  }
-}
-
-// JITTER IS THE PART THAT MATTERS. Plain exponential backoff makes
-// every client retry at the SAME instant - you have synchronised
-// the stampede rather than removed it.
-function backoff(attempt) {
-  const base = Math.min(1000 * Math.pow(2, attempt), 20_000);
-  return Math.random() * base;      // full jitter
-}`,
-              `// THE TECHNIQUE MOST PEOPLE DO NOT KNOW: A RETRY BUDGET.
-
-// The problem: the provider slows down, everything times out,
-// everything retries, and now you are sending 3x the traffic to a
-// system that was already struggling.
-class RetryBudget {
-  // Cap retries as a FRACTION of total traffic. Once exceeded, stop
-  // retrying ENTIRELY until it recovers.
-  constructor(redis, { ratio = 0.1, windowSeconds = 60 }) { ... }
-
-  async recordRequest() {
-    await this.redis.incr(this.key("requests"));
-  }
-
-  async tryConsume() {
-    const [requests, retries] = await this.redis.mget(
-      this.key("requests"), this.key("retries"));
-
-    // During a healthy period this is never hit. During an
-    // incident it is what stops retries becoming the MAJORITY of
-    // your load and deepening the outage.
-    if (Number(retries) >= Number(requests) * this.ratio) {
-      metrics.increment("retry.budget_exhausted");
-      return false;
-    }
-    await this.redis.incr(this.key("retries"));
-    return true;
-  }
-}
-
-// A CIRCUIT BREAKER. It matters MORE here than in a normal service
-// because model calls are SLOW.
-class Breaker {
-  // CLOSED -> counting failures
-  // OPEN -> fail fast, immediately, for a cooling period
-  // HALF_OPEN -> let a few through to test recovery
-  constructor({ failureThreshold = 5, cooldownMs = 30_000,
-                halfOpenProbes = 3 }) { this.state = "CLOSED"; ... }
-
-  async call(fn) {
-    if (this.state === "OPEN") {
-      if (clock.now() < this.openUntil) {
-        // THE WHOLE POINT: fail in a millisecond instead of
-        // occupying a worker for 30 seconds. That is what keeps
-        // YOUR service alive while the provider is down.
-        throw new CircuitOpen(this.name);
-      }
-      this.state = "HALF_OPEN"; this.probes = 0;
-    }
-
-    try {
-      const result = await fn();
-      this.onSuccess();
-      return result;
-    } catch (err) {
-      this.onFailure(err);
-      throw err;
-    }
-  }
-
-  onFailure(err) {
-    // A 400 is not the provider being unhealthy - it is my bad
-    // request. Counting it would trip the breaker on my own bug.
-    if (classify(err) === "permanent") return;
-    this.failures++;
-    if (this.failures >= this.failureThreshold) {
-      this.state = "OPEN";
-      this.openUntil = clock.now() + this.cooldownMs;
-      alerts.fire("circuit_open", { target: this.name });
-    }
-  }
-}
-
-// PER PROVIDER, PER MODEL, PER REGION - not one breaker for
-// everything. One model being unavailable should not stop you
-// calling a different one.
-const breakers = new Map();   // key: provider + ":" + model + ":" + region`,
-              `// THE LADDER. Prefer the SMALLEST change - each step down alters
-// behaviour more.
-
-async function callWithLadder(request, ctx) {
-  // 1. RETRY THE SAME TARGET - transient only, jittered, within
-  //    budget. Handled inside callModel above.
-
-  // 2. SAME MODEL, ANOTHER REGION. Identical behaviour, so nothing
-  //    about your output moves. ALWAYS TRY THIS FIRST.
-  for (const region of ctx.regions) {
-    const b = breakerFor(ctx.provider, ctx.model, region);
-    if (b.state === "OPEN") continue;              // skip, do not wait
-    try { return await b.call(() => call(request, { region })); }
-    catch (err) { if (classify(err) === "permanent") throw err; }
-  }
-
-  // 3. SAME PROVIDER, A DIFFERENT MODEL. A KNOWN quality delta,
-  //    measured in advance - not discovered during the incident.
-  if (ctx.fallbackModel) {
-    try {
-      const out = await call(adaptFor(request, ctx.fallbackModel),
-                             { model: ctx.fallbackModel });
-      // NEVER SILENTLY DEGRADE. Mark it so callers and dashboards
-      // know quality is not normal.
-      return { ...out, degraded: "fallback_model" };
-    } catch {}
-  }
-
-  // 4. A DIFFERENT PROVIDER - the largest behavioural change, and
-  //    ONLY for routes evaluated on both. (See multi-provider
-  //    failover.)
-  if (ctx.altProvider && ctx.route.evaluatedOnAlt) {
-    try {
-      const out = await callAlt(request, ctx.altProvider);
-      return { ...out, degraded: "fallback_provider" };
-    } catch {}
-  }
-
-  // 5. DEGRADE. THE OPTION PEOPLE FORGET.
-  return degradedResponse(request, ctx);
-}
-
-// GENERATION IS DOWN, BUT RETRIEVAL USUALLY IS NOT.
-async function degradedResponse(request, ctx) {
-  const chunks = await retrieve(request.question, ctx.session);
-  if (chunks.length) {
-    return {
-      degraded: "retrieval_only",
-      // Most of what the person wanted, and decisively better than
-      // an error page.
-      message: "Our assistant is temporarily unavailable, but here " +
-               "are the most relevant documents:",
-      sources: chunks.slice(0, 3).map(c => ({
-        title: c.title, excerpt: c.text.slice(0, 300), link: c.url }))
-    };
-  }
-
-  const cached = await cache.getStale(request);
-  if (cached) return { degraded: "stale_cache", ...cached,
-                       note: "This answer may be out of date." };
-
-  // 6. FAIL HONESTLY - say what happened and when to try again.
-  return { error: "The assistant is temporarily unavailable. " +
-                  "Please try again in a few minutes.",
-           retryAfterSeconds: 300 };
-}
-
-// DECIDE THESE IN ADVANCE. Nobody designs a degraded mode during an
-// incident.`,
-              `// ASYNC IS THE BEST DEFENCE, and it reframes the whole problem.
-
-const asyncAdvantage = {
-  interactive: "a 20-minute outage is 20 minutes of user-visible " +
-               "failure, degraded responses and complaints",
-  async: "a 20-minute outage is a queue that gets deeper and then " +
-         "drains. NOTHING FAILS.",
-  // A reliability problem becomes a latency problem, which is a
-  // much better problem to have.
-  rule: "anything not answering a person in real time should be a " +
-        "job, not a request"
-};
-
-// So during an outage, bulk work simply pauses.
-async function embedWorker(job) {
-  const b = breakerFor("provider", "embed-model", "eu");
-  if (b.state === "OPEN") {
-    // Do NOT fail the job. Requeue it with a delay and let the
-    // backlog build - it drains later and nobody notices.
-    throw new RetryableError("circuit open - will retry");
-  }
-  return b.call(() => embed(job.chunks));
-}
-
-// TIMEOUTS - set them DELIBERATELY, and shorter than the caller's.
-const timeouts = {
-  // Two different timeouts for streaming, and people set only one.
-  timeToFirstTokenMs: 10_000,   // if nothing has arrived, it is stuck
-  totalMs: 60_000,              // overall ceiling
-  // Must be SHORTER than whatever is calling you, or your caller
-  // gives up first and your work is wasted.
-  rule: "each layer's timeout < the layer above it"
-};
-
-// TEST IT. Inject failures deliberately in staging - most of this
-// code is never exercised until the incident it was written for.
-const chaosTests = [
-  { name: "provider returns 429s", inject: "429 with retry-after: 5",
-    expect: ["concurrency reduced", "no retry storm",
-             "budget not exhausted"] },
-  { name: "provider is slow", inject: "30s latency on every call",
-    expect: ["breaker opens within ~5 failures",
-             "requests fail FAST, workers not exhausted",
-             "degraded responses served"] },
-  { name: "provider returns 400s", inject: "400 on every call",
-    expect: ["NO retries", "breaker does NOT open - this is my bug"] },
-  { name: "one region down", inject: "eu-west fails",
-    expect: ["failover to another region", "no behaviour change"] },
-  { name: "recovery", inject: "fail for 60s then recover",
-    expect: ["half-open probes", "breaker closes", "no flapping"] }
-];
-
-const monitor = ["error rate BY TYPE", "retry rate and budget usage",
-                 "breaker state per target", "degraded response rate",
-                 "time to recovery", "queue depth during outages"];`,
-            ],
-            questions: [
-              {
-                question:
-                  "The model API starts returning 429s and timeouts. What does your system do?",
-                solution: `<p>Those two need <strong>opposite responses</strong>, so the first step is always to classify. A <strong>429 means I am over the limit</strong> — the system is telling me to send less, so retrying immediately sends more. I back off, respect <code>Retry-After</code>, and <em>reduce</em> concurrency. A <strong>timeout is ambiguous</strong> — I do not know whether it succeeded, so if the call had a side effect a blind retry may do it twice. A 500 is transient and worth retrying; a 400 I never retry.</p>
-             <p>The thing that actually causes outages is <strong>my own retries</strong>. Three things stop that: <strong>jitter</strong>, because backoff alone synchronises every client; a <strong>retry budget</strong> capping retries at a fraction of traffic; and a <strong>circuit breaker</strong>, which matters more here because model calls are slow.</p>
-             <p>Then a ladder that prefers the smallest change, ending in <strong>degrade rather than fail</strong>.</p>`,
-              },
-              {
-                question:
-                  "Why do 429s and timeouts need opposite responses?",
-                solution:
-                  "<p>Because they mean different things. A <strong>429 is an explicit instruction to send less traffic</strong> — the provider is telling you that you have exceeded a limit. Retrying immediately does the exact opposite of what was asked and makes the situation worse for you and for everyone else sharing that capacity. The correct response is to wait the amount specified in <code>Retry-After</code>, and crucially to <em>reduce your concurrency</em>, since the root cause is that you are pushing too hard. A <strong>timeout tells you nothing about whether the work happened</strong>. The request may have completed successfully and the response may simply have been lost or slow — which makes it the dangerous one, because if the call had a side effect, a blind retry performs it twice. For a read-only model call a retry is harmless. For anything that sends, charges or writes, you need an idempotency key so the downstream system recognises the repeat, or a way to query whether the action already occurred. Treating both with one policy — usually \"retry three times with backoff\" — is how a rate-limit signal turns into a retry storm and a timeout turns into a duplicate action.</p>",
-              },
-              {
-                question:
-                  "Why does jitter matter more than backoff?",
-                solution:
-                  "<p>Because exponential backoff alone <strong>synchronises the stampede rather than removing it</strong>. Consider a hundred clients that all fail at roughly the same moment during a provider blip. With pure exponential backoff they all wait one second, then all retry at the same instant; they all fail again, all wait two seconds, and all retry together again. You have not spread the load out — you have converted a continuous overload into a series of coordinated spikes, each of which is worse than the original traffic. The randomness is what actually solves it: with full jitter, each client waits a random duration up to the backoff ceiling, so the retries spread smoothly across the window and the provider sees a gentle ramp rather than a wall. It costs nothing to implement — one multiplication by a random number — and it is the single most valuable line in a retry implementation. It is also the detail most commonly missing, because \"exponential backoff\" is the phrase everyone remembers while the jitter is treated as an optimisation rather than as the point.</p>",
-              },
-              {
-                question:
-                  "What is a retry budget and why is it useful?",
-                solution: `<p>A cap on retries expressed as a <strong>fraction of total traffic</strong> — typically around ten percent — rather than as a per-request limit. Once retries exceed that share within a window, you stop retrying entirely until it recovers.</p>
-             <p>Per-request limits do not protect you during an incident. Three retries each sounds modest, but if every request is failing then every request retries three times and you are suddenly sending <strong>four times the traffic</strong> to a system that was already struggling. The retry budget makes that impossible: retries can never become the majority of your load, because the budget runs out first.</p>
-             <p>Two things make it work well. Enforce it <strong>globally</strong>, in a shared store, since per-process budgets multiply by the number of processes. And <strong>alert when it is exhausted</strong>, because that is a strong signal you are in an incident rather than seeing occasional noise.</p>
-             <p>During healthy operation it never triggers, so it costs nothing.</p>`,
-              },
-              {
-                question:
-                  "Why does a circuit breaker matter more for model calls than for a normal service?",
-                solution:
-                  "<p>Because <strong>model calls are slow</strong>, so failures are expensive in a way they are not for a fast internal service. During a provider outage every request sits waiting for a thirty-second timeout, and for that entire time it holds a worker, a connection and some memory. With enough concurrent requests your own service exhausts its capacity and starts failing everything — including requests that had nothing to do with the model. You have converted someone else's degradation into your own outage, and your service stays down until the provider recovers even if you could have served other traffic. A breaker fixes this by <strong>converting slow failures into fast ones</strong>: once it opens, calls fail in a millisecond instead of occupying a worker for thirty seconds, which frees capacity for everything you can still serve, and stops you piling requests onto a struggling provider. Two implementation notes: trip it <strong>per provider, model and region</strong> rather than globally, so one unavailable model does not block calls to others; and <strong>do not count 400s as failures</strong>, or your own bad request will trip the breaker on a healthy provider.</p>",
-              },
-              {
-                question:
-                  "Walk through the fallback ladder.",
-                solution: `<p>Six rungs, ordered so each step changes behaviour as little as possible:</p>
-             <ol>
-               <li><strong>Retry the same target</strong> — transient errors only, jittered, within the retry budget.</li>
-               <li><strong>Same model, another region.</strong> Identical model, so nothing about your output changes and no re-evaluation is needed. Always try this before anything else.</li>
-               <li><strong>Same provider, a different model</strong> — a known quality delta you measured in advance, not discovered during the incident.</li>
-               <li><strong>A different provider</strong> — the largest behavioural change, and only for routes you have evaluated on both.</li>
-               <li><strong>Degrade</strong> — retrieval-only results, a stale cached answer, or a reduced feature set.</li>
-               <li><strong>Fail honestly</strong>, saying what happened and when to try again.</li>
-             </ol>
-             <p>Two rules apply throughout: skip a rung immediately if its breaker is open rather than waiting for it to fail, and <strong>mark the response as degraded</strong> whenever you are below rung two, so callers and dashboards know quality is not normal.</p>`,
-              },
-              {
-                question:
-                  "What does degrading rather than failing look like?",
-                solution:
-                  "<p>The key observation is that <strong>generation being unavailable does not mean retrieval is</strong>. Your vector store, your database and your search are all still running — only the model provider is down. So instead of an error page, return the three most relevant passages with their titles, a short excerpt and a link, clearly labelled as a fallback: <em>our assistant is temporarily unavailable, but here are the most relevant documents.</em> That is most of what the person actually wanted, and it beats an error decisively. Other degradations worth having ready: a smaller and faster model that may be on different capacity; skipping reranking to reduce the number of calls; fewer retrieved chunks to shorten prompts; or serving a stale cached answer with an explicit note that it may be out of date. The important part is to <strong>decide these in advance and implement them before you need them</strong>, because during an incident nobody is designing anything — they are looking for a switch to flip. A degraded mode that exists only as a good intention is the same as not having one.</p>",
-              },
-              {
-                question:
-                  "Why is async processing the best defence against provider outages?",
-                solution:
-                  "<p>Because it converts a <strong>reliability problem into a latency problem</strong>, which is a far better problem to have. For anything that is not answering a person in real time — ingestion, embedding backfills, re-indexing, batch classification, evaluation runs — a twenty-minute provider outage should mean the queue gets deeper and then drains. Nothing fails, nobody is notified, and the only consequence is that work finishes slightly later. Compare that with the same outage hitting a synchronous path, where it is twenty minutes of user-visible errors, degraded responses and support tickets. The design rule that follows is the one from orchestration: <em>anything not answering a person in real time should be a job, not a request</em>. Two implementation details make it hold. Workers must treat an open circuit as a <strong>retryable condition that requeues the job</strong>, not as a failure that sends it to the dead letter queue. And queues need enough retention and depth headroom to absorb the backlog — an outage that overflows your queue turns a graceful pause into data loss, which is worse than the outage.</p>",
-              },
-              {
-                question:
-                  "How should timeouts be set?",
-                solution: `<p>Deliberately, and <strong>shorter at each layer going down</strong>. If your API gives a client sixty seconds, the model call inside it must time out sooner — otherwise the client gives up first, your work is wasted, and you may still be holding a worker for something nobody is waiting for.</p>
-             <p>For streaming there are <strong>two timeouts, and people set only one</strong>:</p>
-             <ul>
-               <li><strong>Time to first token</strong> — if nothing has arrived in ten seconds, the request is stuck and waiting longer will not help.</li>
-               <li><strong>Total duration</strong> — an overall ceiling, since a stream can trickle indefinitely.</li>
-             </ul>
-             <p>Set them from your own latency data rather than by intuition — around the p99 of successful calls, with headroom — because a timeout tighter than your normal tail turns healthy slow requests into failures and triggers retries you did not need.</p>
-             <p>And remember timeouts interact with the breaker: overly generous timeouts are exactly what exhausts your workers during an outage.</p>`,
-              },
-              {
-                question:
-                  "What should never be retried?",
-                solution:
-                  "<p>Three things. <strong>A 400-class error</strong> — a malformed request, an invalid parameter, a context that exceeds the limit — will fail identically every time, so retrying it three times simply triples the latency of an error and wastes quota. <strong>An authentication failure</strong>, for the same reason: the credential will not become valid on the second attempt, and retrying can trigger lockouts. And <strong>anything with a side effect and no idempotency key</strong>, because a timeout leaves you unable to tell whether it already happened, so a retry risks sending an email twice or charging a card twice; the correct response there is to check with the downstream system or pause and ask a human, never to guess. There is a fourth worth mentioning: <strong>do not retry when the retry budget is exhausted</strong>, even for genuinely transient errors, because at that point you are in an incident and additional retries are making it worse rather than better. Classifying errors properly is what makes all of this possible, which is why it is the first step rather than an optimisation.</p>",
-              },
-              {
-                question:
-                  "How do you test any of this?",
-                solution: `<p>By injecting failures deliberately in staging, because <strong>most of this code is never exercised until the incident it was written for</strong> — and that is a bad moment to discover a bug in your fallback path.</p>
-             <p>The scenarios worth automating:</p>
-             <ul>
-               <li><strong>Sustained 429s</strong> — assert concurrency reduces, no retry storm develops, and the budget behaves.</li>
-               <li><strong>High latency on every call</strong> — assert the breaker opens quickly, requests then fail fast, and workers are not exhausted.</li>
-               <li><strong>Sustained 400s</strong> — assert nothing is retried and the breaker does <em>not</em> open, since this is your bug rather than provider ill-health.</li>
-               <li><strong>One region failing</strong> — assert failover with no behaviour change.</li>
-               <li><strong>Fail then recover</strong> — assert half-open probes work and the breaker closes without flapping.</li>
-             </ul>
-             <p>Run them regularly rather than once, since a refactor can silently remove a fallback path and nothing else will notice.</p>`,
-              },
-              {
-                question:
-                  "What would you monitor during and after an incident like this?",
-                solution:
-                  "<p>Six things, and the first is the one that makes the rest interpretable. <strong>Error rate by type</strong> — 429s, timeouts, 500s and 400s separately, because they mean completely different things and an aggregate error rate tells you nothing about what to do. <strong>Retry rate and budget consumption</strong>, which tells you whether you are amplifying the problem. <strong>Circuit breaker state per target</strong>, so you can see at a glance which provider, model and region are affected. <strong>Degraded response rate</strong>, since that is the honest measure of user impact — far better than raw error count, because a degraded answer is not a failure. <strong>Time to recovery</strong>, measured from first failure to breaker closing, which is the number to improve after the fact. And <strong>queue depth during the outage</strong>, confirming that async work paused rather than failed. Afterwards, the most valuable review question is usually whether your <em>own</em> retries extended the incident — a retry budget that hit its ceiling is strong evidence that they did, and it is the most common self-inflicted cause of a long outage.</p>",
-              },
-            ],
-            links: [
-              "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
-              "https://docs.anthropic.com/en/api/errors",
-              "https://martinfowler.com/bliki/CircuitBreaker.html",
-              "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/",
-            ],
-          },
-            {
-            topic: "Multi-Provider Failover",
-            tags: ["high-frequency", "must-know", "reliability", "judgement"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "How do you fail over to a second model provider without changing the product behaviour?"</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    Answer the premise honestly first: <strong>you cannot, fully.</strong> A different model behaves differently, and no amount of engineering makes it behave identically. So the goal is not to eliminate the difference — it is to <strong>know what the difference is, bound it, and be honest about it.</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    Saying that first is the strongest move here, because the interviewer is checking whether you will over-promise on something that reliably surprises teams during an outage.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What Actually Changes When You Switch Provider
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  REFUSAL BEHAVIOUR - the big one. Different things get
-    refused. Questions your product answers fine on the
-    primary may be declined on the fallback, and things you
-    expected to be refused may not be. Your safety results
-    move in BOTH directions.
-
-  TOOL CALLING - different shapes, different willingness to
-    call, different parallel-call behaviour. An agent can
-    behave quite differently.
-
-  STRUCTURED OUTPUT - different support and different
-    reliability. Code that assumed valid JSON may now be
-    parsing failures.
-
-  PROMPT SENSITIVITY - your prompt was tuned for the
-    primary. The same words produce different results.
-
-  CONTEXT LIMITS AND TOKENISERS - different token counts, so
-    a prompt that fits on one may not fit on the other, and
-    your costs change.
-
-  STYLE, LENGTH AND FORMATTING - visible to users
-    immediately.
-
-  LATENCY PROFILE - your p95 changes.
-
-NOTICE THAT MOST OF THESE ARE INVISIBLE UNTIL SOMETHING
-BREAKS. That is why the work happens BEFORE the incident.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Prefer The Smallest Change: Most Outages Do Not Need Another Provider
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  1. SAME MODEL, ANOTHER REGION.
-     Identical model, identical behaviour, no evaluation
-     needed, nothing to explain to anyone.
-     THIS HANDLES MOST REAL OUTAGES. Do it first, and for
-     many products it is the ONLY failover you need.
-
-  2. SAME PROVIDER, SMALLER OR OLDER MODEL.
-     A known delta you measured in advance. Cheap to
-     maintain because the prompt format and tool shapes are
-     the same.
-
-  3. A DIFFERENT PROVIDER.
-     The largest change, and the most expensive to maintain -
-     a second prompt variant, a second evaluation run, a
-     second set of quirks to learn.
-
-MOST TEAMS SHOULD STOP AT 1 AND 2. Reaching for
-cross-provider failover is often over-engineering, and
-saying so is a better answer than describing an elaborate
-system nobody maintains.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Work Happens Before The Incident
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    If you do maintain a second provider, the failover path is only as good as the preparation:
-  </p>
-
-  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li style="margin-top: 0.5rem;"><strong>Keep a prompt variant for the fallback</strong>, tuned separately. One prompt for two providers means one of them is running an untuned prompt.</li>
-    <li style="margin-top: 0.5rem;"><strong>Run your evaluation suite against the fallback regularly</strong> — not once at setup. Both providers ship model updates, so an untested fallback rots quietly.</li>
-    <li style="margin-top: 0.5rem;"><strong>Know the delta as a number.</strong> "The fallback scores 78% against the primary's 85%, and refuses more on the HR category" is a usable sentence during an incident. "It should be fine" is not.</li>
-    <li style="margin-top: 0.5rem;"><strong>Exercise the path on purpose</strong> — send a small percentage of live traffic to the fallback regularly, or run a scheduled game day. A failover path that has never run in production will not work when you need it.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Never Degrade Silently
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-The worst outcome is not an outage. It is quietly serving
-worse answers for six hours while every dashboard is green.
-
-WHEN YOU ARE ON THE FALLBACK, THE SYSTEM SHOULD KNOW:
-
-  MARK the responses as degraded, internally at minimum.
-  ALERT that you are running on the fallback - that is an
-    incident, not a routine event.
-  DISABLE features that depend on the primary's
-    capabilities. If the fallback's structured output is
-    unreliable, turn OFF the feature that needs it rather
-    than shipping broken JSON to users.
-  CONSIDER REDUCING SCOPE - for an agent, dropping to
-    read-only during a failover is often the right call,
-    because tool-calling behaviour is exactly what differs
-    most.
-  TRACK the cost, because the fallback may be more
-    expensive and a long outage can quietly multiply your
-    bill.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Two Details People Miss
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    <strong>Switching mid-conversation.</strong> The message history is portable, but the behaviour is not — so a conversation that changes provider halfway through visibly changes personality, and any structured state it was maintaining may break. Prefer to fail over at <em>conversation boundaries</em> and let in-flight sessions finish on the primary where you can.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    <strong>Failing back.</strong> Do not switch back on the first successful call, or you will flap between providers while the primary is still unstable — which is worse than either state. Use half-open probing, require sustained success, and ramp gradually.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "How do you fail over to a second model provider without
-   changing the product behaviour?"
-
-WHAT THE INTERVIEWER IS TESTING
-  Whether you accept the premise uncritically. The honest
-  answer is that you cannot fully, and the useful skill is
-  knowing what changes, measuring it in advance, and not
-  degrading silently. They are also watching for whether you
-  over-engineer this - most outages are solved by another
-  region.
-
-WEAK ANSWER
-  "We would use an abstraction layer so we can switch
-   providers seamlessly, with automatic failover when the
-   primary is unavailable, so the product behaviour stays
-   consistent."
-  Why it is weak: it accepts a false premise. "Seamlessly"
-  and "consistent" are exactly what does not happen, and a
-  team that believes this will be surprised mid-incident.
-
-STRONG ANSWER (about 75 seconds)
-  "Honestly, you cannot do it fully - a different model
-   behaves differently, and no abstraction layer changes
-   that. So the goal is to KNOW the difference, bound it, and
-   not hide it.
-
-   What actually changes: REFUSAL BEHAVIOUR most of all, so
-   questions my product answers fine may be declined on the
-   fallback and vice versa. Tool calling shapes and
-   willingness. Structured output reliability, so code that
-   assumed valid JSON may start seeing parse failures. Prompt
-   sensitivity, because my prompt was tuned for the primary.
-   Token counts and context limits. Style and length, which
-   users see immediately. And the latency profile.
-
-   So I would prefer the SMALLEST change. Same model in
-   another region first - identical behaviour, no evaluation
-   needed, and that handles most real outages. Then same
-   provider, a smaller or older model, which is a known delta
-   and cheap to maintain because the prompt format is the
-   same. A different provider is the largest change and the
-   most expensive to maintain, and honestly most teams should
-   stop before it.
-
-   If I do maintain one, the work happens BEFORE the
-   incident: a separate prompt variant for the fallback, my
-   eval suite run against it REGULARLY rather than once
-   because both providers ship updates, and the delta known
-   as a number - 'the fallback scores 78 against 85 and
-   refuses more on HR questions' is usable during an
-   incident. And I would exercise the path deliberately, with
-   a small percentage of live traffic or a scheduled game
-   day, because a failover path that has never run in
-   production will not work.
-
-   The rule I care most about is NEVER DEGRADE SILENTLY. The
-   worst outcome is not an outage - it is serving worse
-   answers for six hours while every dashboard is green. So
-   mark responses as degraded, alert that we are on the
-   fallback, disable features that depend on capabilities the
-   fallback lacks rather than shipping broken output, and for
-   an agent consider dropping to read-only, because tool
-   calling is exactly what differs most."
-
-FOLLOW-UPS TO EXPECT
-  "Can you really keep behaviour identical?"
-      -> no. Same model another region, yes. Different
-         provider, no - and pretending otherwise is the
-         mistake.
-  "What breaks first?"
-      -> refusal behaviour and structured output. Both fail
-         quietly.
-  "How do you know the fallback still works?"
-      -> run the eval suite against it on a schedule, and
-         send it a trickle of real traffic.
-  "When do you fail back?"
-      -> not on the first success. Half-open probes,
-         sustained success, then ramp - otherwise you flap.
-
-RED FLAGS
-  Claiming seamless switching.
-  No prompt variant for the fallback.
-  Never testing the fallback path.
-  Silent degradation with no alert.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// ANSWER THE PREMISE HONESTLY FIRST. You cannot keep behaviour
-// identical across providers - so KNOW the difference instead.
-
-const whatChanges = {
-  // THE BIG ONE, and it moves in BOTH directions.
-  refusalBehaviour:
-    "questions my product answers fine on the primary may be " +
-    "declined on the fallback - and things I expected refused may " +
-    "not be. My safety results move both ways.",
-
-  toolCalling:
-    "different block shapes, different willingness to call, " +
-    "different parallel-call behaviour. An agent can behave quite " +
-    "differently.",
-
-  structuredOutput:
-    "different support and different reliability. Code that assumed " +
-    "valid JSON may start seeing parse failures.",
-
-  promptSensitivity:
-    "my prompt was TUNED for the primary. The same words produce " +
-    "different results.",
-
-  tokenisers:
-    "different token counts, so a prompt that fits on one may not " +
-    "fit on the other - and my costs change.",
-
-  styleAndLength: "users see this immediately",
-  latencyProfile: "my p95 changes"
-};
-// MOST OF THESE ARE INVISIBLE UNTIL SOMETHING BREAKS, which is why
-// the work happens BEFORE the incident.
-
-// PREFER THE SMALLEST CHANGE. Most outages never need another
-// provider.
-const ladder = [
-  { step: 1, action: "same model, another region",
-    behaviourDelta: "NONE - identical model",
-    evalNeeded: false,
-    note: "handles most real outages. For many products this is the " +
-          "ONLY failover you need." },
-  { step: 2, action: "same provider, smaller or older model",
-    behaviourDelta: "known, measured in advance",
-    evalNeeded: true,
-    note: "cheap to maintain - same prompt format, same tool shapes" },
-  { step: 3, action: "a different provider",
-    behaviourDelta: "LARGE",
-    evalNeeded: "regularly, not once",
-    cost: "a second prompt variant, a second eval run, a second set " +
-          "of quirks to learn",
-    note: "most teams should stop before this. Saying so is a better " +
-          "answer than describing a system nobody maintains." }
-];`,
-              `// THE WORK HAPPENS BEFORE THE INCIDENT.
-
-// 1. A SEPARATE PROMPT VARIANT. One prompt for two providers means
-//    one of them is running an untuned prompt.
-const prompts = {
-  primary: { version: "p14", text: PRIMARY_PROMPT,
-             lastEvaluated: "2026-08-14", score: 0.85 },
-  fallback: { version: "f9", text: FALLBACK_PROMPT,
-              // Differences that had to be tuned separately:
-              differences: [
-                "more explicit about citing sources - it omits them " +
-                  "otherwise",
-                "removed 'think step by step' - it made answers " +
-                  "longer with no quality gain",
-                "stricter JSON instruction - structured output is " +
-                  "less reliable here"
-              ],
-              lastEvaluated: "2026-08-14", score: 0.78 }
-};
-
-// 2. RUN THE EVAL SUITE AGAINST THE FALLBACK ON A SCHEDULE. Not
-//    once at setup - BOTH providers ship model updates, so an
-//    untested fallback rots quietly.
-async function weeklyFallbackCheck() {
-  const primary = await evaluate(GOLDEN_SET, { provider: "primary" });
-  const fallback = await evaluate(GOLDEN_SET, { provider: "fallback" });
-
-  const report = {
-    overallDelta: fallback.overall - primary.overall,
-    // PER CATEGORY, because that is where the useful detail is.
-    byCategory: Object.keys(primary.byCategory).map(cat => ({
-      category: cat,
-      primary: primary.byCategory[cat],
-      fallback: fallback.byCategory[cat],
-      delta: fallback.byCategory[cat] - primary.byCategory[cat]
-    })),
-    // The two that break quietly.
-    refusalDelta: fallback.refusalRate - primary.refusalRate,
-    schemaValidRate: fallback.schemaValidRate
-  };
-
-  // 3. KNOW THE DELTA AS A NUMBER. This sentence is usable during
-  //    an incident. "It should be fine" is not.
-  report.summary =
-    "Fallback scores " + pct(fallback.overall) + " vs primary " +
-    pct(primary.overall) + ". Refuses " + pct(report.refusalDelta) +
-    " more on HR questions. Schema compliance " +
-    pct(fallback.schemaValidRate) + ".";
-
-  if (report.overallDelta < -0.15)
-    await alerts.fire("fallback_quality_degraded", report);
-  return report;
-}
-
-// 4. EXERCISE THE PATH ON PURPOSE. A failover path that has never
-//    run in production will not work when you need it.
-const shadowTraffic = {
-  percentToFallback: 0.01,          // a trickle, continuously
-  gameDay: "monthly - force a failover in production for 30 minutes",
-  // What this catches that evals do not: expired credentials,
-  // missing quota on the fallback account, a network path nobody
-  // opened, and config drift.
-  catches: ["credentials", "quota", "networking", "config drift"]
-};`,
-              `// NEVER DEGRADE SILENTLY. The worst outcome is not an outage - it
-// is serving worse answers for six hours while every dashboard is
-// green.
-
-async function callWithProviderFailover(request, ctx) {
-  const primary = breakerFor("primary", ctx.model, ctx.region);
-
-  if (primary.state !== "OPEN") {
-    try { return await primary.call(() => callPrimary(request)); }
-    catch (err) { if (classify(err) === "permanent") throw err; }
-  }
-
-  // STEP 1 FIRST: same model, another region. No behaviour change,
-  // nothing to declare.
-  for (const region of ctx.otherRegions) {
-    const b = breakerFor("primary", ctx.model, region);
-    if (b.state === "OPEN") continue;
-    try { return await b.call(() => callPrimary(request, { region })); }
-    catch {}
-  }
-
-  // ONLY NOW the fallback provider - and everything about the
-  // system now knows we are degraded.
-  if (!ctx.route.evaluatedOnFallback) {
-    // A route never evaluated on the fallback should DEGRADE
-    // instead, not silently switch to unknown behaviour.
-    return degradedResponse(request, ctx);
-  }
-
-  await incidentState.set("running_on_fallback", true);
-  await alerts.fire("failover_to_secondary_provider", {
-    route: ctx.route.name,
-    knownDelta: FALLBACK_DELTA[ctx.route.name]     // the number
-  });
-
-  const out = await callFallback(
-    { ...request, system: prompts.fallback.text },  // the TUNED variant
-    ctx);
-
-  return { ...out,
-           degraded: "fallback_provider",           // marked, always
-           qualityNote: "answered using our secondary system" };
-}
-
-// DISABLE WHAT THE FALLBACK CANNOT DO RELIABLY, rather than
-// shipping broken output.
-function featuresOnFallback(ctx) {
-  return {
-    // If structured output is unreliable there, turn the feature OFF
-    // rather than sending users malformed JSON.
-    structuredExport: FALLBACK_CAPS.structuredOutputReliable,
-    // Tool calling is exactly what differs most, so for an agent,
-    // dropping to read-only during a failover is often right.
-    agentActions: false,
-    agentReadOnly: true,
-    citations: true,
-    longContext: FALLBACK_CAPS.contextWindow >= ctx.neededTokens
-  };
-}
-
-// AND TRACK THE COST. The fallback may be more expensive, and a
-// long outage can quietly multiply the bill.
-await costs.tag({ provider: "fallback", incident: incidentId });`,
-              `// TWO DETAILS PEOPLE MISS.
-
-// A. SWITCHING MID-CONVERSATION. The messages are portable; the
-//    BEHAVIOUR is not.
-async function chooseProvider(session, ctx) {
-  // A conversation that changes provider halfway through visibly
-  // changes personality - different length, different tone,
-  // different willingness to answer. Users notice, and any
-  // structured state it was maintaining may break.
-  if (session.turnCount > 0 && session.provider) {
-    const b = breakerFor(session.provider, ctx.model, ctx.region);
-    // Let in-flight conversations FINISH on the provider they
-    // started with, where that is still possible.
-    if (b.state !== "OPEN") return session.provider;
-  }
-  // Fail over at CONVERSATION BOUNDARIES by preference.
-  return pickHealthyProvider(ctx);
-}
-
-// B. FAILING BACK. Do NOT switch back on the first success, or you
-//    flap between providers while the primary is still unstable -
-//    which is worse than either state.
-class FailbackController {
-  async shouldReturnToPrimary() {
-    if (this.state !== "on_fallback") return false;
-
-    // Half-open: send a few probes, not real traffic.
-    const probes = await Promise.allSettled(
-      Array.from({ length: 5 }, () => healthProbe("primary")));
-    const ok = probes.filter(p => p.status === "fulfilled").length;
-    if (ok < 5) { this.consecutiveGoodChecks = 0; return false; }
-
-    // Require SUSTAINED success, not one good moment.
-    this.consecutiveGoodChecks++;
-    if (this.consecutiveGoodChecks < 3) return false;   // ~3 minutes
-
-    return true;
-  }
-
-  async rampBack() {
-    // Gradual, not a switch. If it fails at 10% you have only
-    // affected 10%.
-    for (const pct of [0.1, 0.5, 1.0]) {
-      await routing.setPrimaryShare(pct);
-      await sleep(120_000);
-      if (await errorRate("primary") > 0.02) {
-        await routing.setPrimaryShare(0);              // back off
-        this.consecutiveGoodChecks = 0;
-        return { rampedBack: false, at: pct };
-      }
-    }
-    await incidentState.set("running_on_fallback", false);
-    return { rampedBack: true };
-  }
-}
-
-// IS IT EVEN WORTH IT? Be honest.
-function isCrossProviderFailoverWorthIt(product) {
-  if (product.sameProviderMultiRegionAvailable && !product.criticalPath)
-    return { verdict: "NO - region failover plus graceful " +
-                      "degradation covers this. Cross-provider is " +
-                      "over-engineering." };
-  if (!product.canMaintainTwoPromptVariants)
-    return { verdict: "NO - an unmaintained fallback is worse than " +
-                      "none, because you will trust it" };
-  if (product.contractualUptime && product.revenuePerHour > 10_000)
-    return { verdict: "YES - and budget the ongoing eval work" };
-  return { verdict: "probably not - start with regions and degradation" };
-}`,
-            ],
-            questions: [
-              {
-                question:
-                  "How do you fail over to a second model provider without changing the product behaviour?",
-                solution: `<p>Honestly, <strong>you cannot do it fully</strong> — a different model behaves differently and no abstraction layer changes that. So the goal is to <em>know</em> the difference, bound it, and not hide it.</p>
-             <p>What changes: <strong>refusal behaviour</strong> most of all, tool calling shapes and willingness, structured output reliability, prompt sensitivity since my prompt was tuned for the primary, token counts and context limits, style and length, and the latency profile.</p>
-             <p>So I prefer the smallest change: <strong>same model in another region first</strong> — identical behaviour, no evaluation needed, and that handles most real outages. Then same provider with a different model. A different provider is the largest change and most teams should stop before it.</p>
-             <p>And the rule I care most about: <strong>never degrade silently.</strong></p>`,
-              },
-              {
-                question:
-                  "Why is 'seamless provider switching' a false premise?",
-                solution:
-                  "<p>Because the thing you are switching is <em>the model</em>, and the model is where the behaviour lives. An abstraction layer normalises the request format, the authentication and the error handling — all of which are the easy parts. It cannot normalise what the model does with your prompt. Concretely, the same words produce different answer lengths, different tone, different willingness to refuse, different tool-calling choices and different reliability on structured output. Your prompt was tuned against the primary, so on the fallback it is an untuned prompt. Even token counts differ, so a request that fits comfortably on one may exceed the context limit on the other, and your cost per request changes. Accepting the premise uncritically is dangerous rather than merely inaccurate: a team that believes switching is seamless will not maintain a second prompt variant, will not evaluate the fallback, and will discover all of this during an incident when nobody has time to investigate. Saying <em>you cannot, fully — here is what changes and here is how I bound it</em> is both more truthful and more useful, and it is what an experienced interviewer is listening for.</p>",
-              },
-              {
-                question:
-                  "What changes first and most damagingly when you switch provider?",
-                solution: `<p><strong>Refusal behaviour and structured output</strong> — and both fail quietly, which is what makes them dangerous.</p>
-             <ul>
-               <li><strong>Refusals move in both directions.</strong> Questions your product answers perfectly well on the primary may be declined on the fallback, which users experience as the assistant suddenly becoming unhelpful. And things you relied on being refused may not be, which is a safety regression appearing mid-incident.</li>
-               <li><strong>Structured output reliability differs.</strong> Code that has assumed valid JSON for a year starts seeing parse failures — and if the failure handling was never exercised, that becomes a second outage inside the first.</li>
-             </ul>
-             <p>After those: tool-calling shapes and willingness, which can make an agent behave quite differently; prompt sensitivity; and context limits.</p>
-             <p>Style and length change too, and users notice immediately — but that is cosmetic. The two above cause real breakage, and neither raises an error when it happens.</p>`,
-              },
-              {
-                question:
-                  "Why prefer another region over another provider?",
-                solution:
-                  "<p>Because it is the <strong>same model</strong>, so there is <em>no</em> behavioural change — identical weights, identical prompt, identical tool behaviour, identical refusal characteristics. Nothing needs re-evaluating, nothing needs a second prompt variant, and there is nothing to declare to users or to your own dashboards. It is the only failover that genuinely delivers what the question asks for. It also handles most real outages: provider incidents are frequently regional or capacity-related rather than global, so a second region resolves them. That combination — full behavioural fidelity and broad coverage — makes it the obvious first rung, and for a great many products it is the <em>only</em> failover worth maintaining. The next rung down, same provider with a smaller or older model, is also relatively cheap because the prompt format, tool shapes and streaming behaviour are unchanged, so only quality shifts and you can measure that once. Cross-provider failover sits at the bottom precisely because it changes everything at once, and the honest recommendation for most teams is to stop before reaching it.</p>",
-              },
-              {
-                question:
-                  "What preparation does a real cross-provider fallback require?",
-                solution: `<p>Four things, all done before the incident:</p>
-             <ul>
-               <li><strong>A separate prompt variant</strong>, tuned for the fallback. One prompt shared across two providers means one of them is running an untuned prompt, and that is usually a larger quality drop than the model difference itself.</li>
-               <li><strong>Your evaluation suite run against the fallback on a schedule</strong>, not once at setup. Both providers ship model updates, so an untested fallback rots quietly and you find out at the worst moment.</li>
-               <li><strong>The delta known as a number</strong> — "the fallback scores 78 against 85 and refuses more on HR questions" is a sentence someone can act on during an incident. "It should be fine" is not.</li>
-               <li><strong>The path exercised deliberately</strong> — a small trickle of live traffic continuously, or a scheduled game day.</li>
-             </ul>
-             <p>That last one catches what evaluations cannot: expired credentials, missing quota on the fallback account, a network path nobody opened, and configuration drift.</p>`,
-              },
-              {
-                question:
-                  "Why is silent degradation worse than an outage?",
-                solution:
-                  "<p>Because an outage is <em>visible</em>. Everyone knows, someone is paged, users see an error and try again later, and the incident ends when it ends. Silent degradation means the system continues serving answers that are quietly worse for six hours while every dashboard stays green — no errors, no alerts, normal latency, normal throughput. Users act on those answers. Support tickets arrive days later and nobody connects them to the provider incident that was resolved on Tuesday. And because there is no signal, nobody makes the decision they would have made knowingly, such as pausing a feature or telling customers. So the rule is that <strong>when you are on the fallback, the system should know it</strong>: mark responses as degraded at least internally, fire an alert because running on a fallback is an incident rather than a routine event, and surface it on the dashboards you actually watch. It is also the right moment to be explicit with users where it matters — a brief note that the assistant is operating in reduced mode costs very little and buys a great deal of trust when the answers are visibly shorter or more cautious.</p>",
-              },
-              {
-                question:
-                  "What should you disable while running on a fallback?",
-                solution: `<p>Anything that depends on a capability the fallback does not match. Rather than shipping broken output, turn the feature off:</p>
-             <ul>
-               <li><strong>Structured output features</strong>, if the fallback's schema compliance is unreliable. Better to disable an export than to hand users malformed JSON.</li>
-               <li><strong>Agent actions</strong> — dropping an agent to <em>read-only</em> during a failover is often the right call, because tool calling is precisely what differs most between providers and an agent making different tool choices is a bigger risk than a slower answer.</li>
-               <li><strong>Long-context features</strong>, if the fallback's window is smaller and your prompt would not fit.</li>
-             </ul>
-             <p>This is a decision to make and encode <em>in advance</em>, as a capability map per provider that the code reads — because during an incident nobody is going to work out which features are safe.</p>
-             <p>And track the <strong>cost</strong>, since the fallback may be more expensive and a long outage can quietly multiply the bill.</p>`,
-              },
-              {
-                question:
-                  "What happens if you switch provider mid-conversation?",
-                solution:
-                  "<p>The message history transfers fine — it is just text — but the <strong>behaviour does not</strong>, so the assistant visibly changes personality partway through a conversation. Answer length shifts, tone shifts, formatting shifts, and it may become more or less willing to answer the kind of question it was happily handling two turns ago. Users find that disconcerting in a way they do not find a brief error, because it reads as the system being unreliable rather than temporarily unavailable. There are functional risks too: if the conversation involved tool calls, the message history contains tool blocks in the primary's format, and if it was maintaining structured state that state may not survive. So the preference is to <strong>fail over at conversation boundaries</strong> — let in-flight sessions finish on the provider they started with, where that provider is still responding at all, and route <em>new</em> conversations to the fallback. Pin the provider on the session so this happens by default rather than per request. If the primary is genuinely unavailable mid-conversation, switching is better than failing, but it is worth telling the user something changed.</p>",
-              },
-              {
-                question:
-                  "When and how do you fail back to the primary?",
-                solution: `<p>Not on the first successful call, or you will <strong>flap</strong> between providers while the primary is still unstable — and flapping is worse than either state, because half your traffic gets one behaviour and half gets the other, and your metrics become meaningless.</p>
-             <p>The sequence:</p>
-             <ul>
-               <li><strong>Half-open probing</strong> — send a few synthetic health probes rather than real traffic, and require all of them to succeed.</li>
-               <li><strong>Sustained success</strong> — several consecutive good checks over a few minutes, not one good moment.</li>
-               <li><strong>Ramp gradually</strong> — ten percent, then fifty, then full, watching the error rate at each stage. If it fails at ten percent, only ten percent of users were affected and you can retreat immediately.</li>
-             </ul>
-             <p>Only clear the degraded state once the ramp completes, so the alert and any disabled features stay in place until you are genuinely back.</p>
-             <p>Manual failback is a defensible choice too — automatic failover with human-approved failback avoids flapping entirely.</p>`,
-              },
-              {
-                question:
-                  "Is cross-provider failover always worth building?",
-                solution:
-                  "<p>No, and saying so is usually the more valuable answer. It carries real ongoing cost: a second prompt variant to maintain, a second evaluation run every time either provider updates, a second set of quirks and failure modes to learn, and a capability map to keep current. Teams underestimate the <em>maintenance</em> rather than the build. And there is a specific trap — an <strong>unmaintained fallback is worse than none</strong>, because you will trust it and route production traffic to something nobody has evaluated in eight months. For most products the right answer is same-provider multi-region failover plus a well-designed degraded mode, which covers the overwhelming majority of real incidents at a fraction of the ongoing cost. Cross-provider genuinely earns its place when there is a contractual uptime commitment with penalties, when the revenue per hour of downtime is large, or when a regulator or customer requires demonstrable provider independence. Then it is worth doing properly — with the evaluation budget explicitly allocated, not assumed. Being able to say <em>here is when I would and would not build this</em> is a stronger answer than describing an elaborate system.</p>",
-              },
-              {
-                question:
-                  "What does a game day for this look like?",
-                solution:
-                  "<p>You force a failover in production, on purpose, on a schedule — typically monthly and during working hours when the team is watching. Route real traffic to the fallback for twenty or thirty minutes, then fail back through the normal ramp. The reason it matters is that <strong>evaluation suites cannot catch the operational failures</strong>: expired credentials on the fallback account, quota that was never requested or has since lapsed, a network path or firewall rule nobody opened, configuration drift after a refactor, or a fallback prompt referencing a tool that no longer exists. Every one of those is invisible until you actually route traffic, and every one of them turns a smooth failover into a second outage. Things to check during it: that the alert fires, that responses are marked degraded, that the correct features get disabled, that the cost is attributed to the fallback, and that the failback ramp behaves. A continuous trickle of shadow traffic — around one percent — is a good complement, since it catches credential and quota problems the moment they appear rather than up to a month later.</p>",
-              },
-              {
-                question:
-                  "What would you monitor around provider failover?",
-                solution: `<p>Six things, and the first two are the ones that make an incident legible:</p>
-             <ul>
-               <li><strong>Which provider is serving traffic</strong>, as a first-class metric on the main dashboard — not something you infer from logs.</li>
-               <li><strong>Degraded response rate</strong>, so the impact is visible as a number rather than as an absence of errors.</li>
-               <li><strong>Quality delta on the fallback</strong>, from the scheduled evaluation runs, tracked over time so you notice it drifting after a model update.</li>
-               <li><strong>Cost by provider</strong>, tagged to the incident, since the fallback may be more expensive and a long outage should not surprise finance.</li>
-               <li><strong>Time on fallback</strong> per incident, and time to fail back.</li>
-               <li><strong>Failback attempts that were aborted</strong>, which tells you the primary is still unstable.</li>
-             </ul>
-             <p>And alert on <em>entering</em> the fallback rather than only on errors, because the whole point is that the fallback path produces no errors while quietly changing what users receive.</p>`,
-              },
-            ],
-            links: [
-              "https://docs.anthropic.com/en/api/errors",
-              "https://docs.anthropic.com/en/docs/about-claude/model-deprecations",
-              "https://martinfowler.com/bliki/CircuitBreaker.html",
-              "https://aws.amazon.com/builders-library/static-stability-using-availability-zones/",
-            ],
-          },
-          {
-            topic: "Data Flow & PII Boundaries",
-            tags: ["high-frequency", "must-know", "design", "privacy"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "Draw where customer data travels, and which components are allowed to see raw data."</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    The word <strong>draw</strong> is doing the work. This is a mapping exercise, and the useful way to do it is not to draw boxes for services — it is to draw <strong>zones defined by what data they are allowed to see</strong>, and then look at every arrow that crosses a zone boundary.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>Every boundary crossing is a control point.</strong> That single reframing turns a vague architecture diagram into a security document.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Zones
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  1. SOURCE - the systems of record. Sees everything, and
-     already has its own access controls.
-
-  2. INGESTION AND PROCESSING - parsing, chunking,
-     embedding. Sees raw content, including anything the
-     source contained.
-
-  3. INDEX - the vector store, chunks, metadata.
-     REMEMBER: embeddings are a DERIVED COPY of the text,
-     not an anonymised summary of it.
-
-  4. SERVING - retrieval, prompt assembly, the model call.
-
-  5. EXTERNAL - the model provider, third-party tools, MCP
-     servers, any hosted service.
-
-  6. OBSERVABILITY - logs, traces, evaluation sets, caches.
-     THE ZONE PEOPLE FORGET, and usually the weakest
-     controlled one - while holding exactly the same content
-     as zone 1.
-
-DRAWING ZONE 6 AT ALL IS WHAT MAKES THIS DIAGRAM USEFUL.
-Everyone draws 1 to 5. Almost nobody draws the logging
-system, and that is where the finding usually is.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Five Questions For Every Arrow That Crosses A Boundary
-  </h4>
-
-  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li style="margin-top: 0.5rem;"><strong>What actually crosses?</strong> Whole records, or a few fields?</li>
-    <li style="margin-top: 0.5rem;"><strong>Does it need to?</strong> The most valuable question — see minimisation below.</li>
-    <li style="margin-top: 0.5rem;"><strong>Is it redacted or tokenised</strong>, and if not, why not?</li>
-    <li style="margin-top: 0.5rem;"><strong>Where does it come to rest, and for how long?</strong></li>
-    <li style="margin-top: 0.5rem;"><strong>Who can read it there?</strong> This is where the observability zone usually fails.</li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Minimisation Beats Protection
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-The instinct is "how do I protect this data in transit and
-at rest". The better question is: DOES THIS COMPONENT NEED
-THIS DATA AT ALL?
-
-  The model needs the customer's holiday balance and their
-  manager's name.
-
-  It does not need their national insurance number, home
-  address, date of birth, salary or bank details - which is
-  what you send if you pass the whole employee record
-  because that is what the function returned.
-
-SEND A FIELD, NOT A ROW. SEND AN ID, NOT A RECORD.
-
-Data you never sent cannot leak, cannot be logged, cannot
-end up in an eval set, and does not need deleting later. It
-is the cheapest control there is and it is almost always
-available, because the record was passed whole out of
-convenience rather than necessity.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Crossings That Matter Most
-  </h4>
-
-  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li style="margin-top: 0.5rem;"><strong>Into the model provider.</strong> The first question in any review: which region, what retention, is it used for training. Know the answer before you are asked.</li>
-    <li style="margin-top: 0.5rem;"><strong>Into logs and traces.</strong> The leak people forget. Logging prompts copies every retrieved chunk into a system whose access control is usually much weaker than the source system's — so support engineers end up able to read HR records.</li>
-    <li style="margin-top: 0.5rem;"><strong>Into the evaluation set.</strong> Production failures become test cases, so real customer data lands in a git repository, on every laptop, forever.</li>
-    <li style="margin-top: 0.5rem;"><strong>Into third-party tooling.</strong> Observability platforms and MCP servers see your prompts too, and they are a second external zone people do not draw.</li>
-    <li style="margin-top: 0.5rem;"><strong>Out to the user</strong> — the output boundary, where the check is whether this <em>particular</em> user should see this content.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Tokenisation: The Technique Worth Knowing
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    When a value must be <em>present</em> but does not need to be <em>understood</em>, replace it before it leaves your zone and map it back on the way out. A customer name becomes <code>CUSTOMER_1</code>, an account number becomes <code>ACCT_1</code>. The model reasons about the structure perfectly well, the provider never receives the real value, and your logs and eval sets contain the placeholder rather than the person.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    It works when the identity does not affect the reasoning. It does not work when the value itself matters — a date, an amount, or anything the answer depends on. And you have to reverse it carefully, including in streamed output.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Derived Data Is Still The Data
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Mark these on the diagram explicitly, because they are the things people forget when a deletion request arrives: <strong>embeddings</strong> (text can be partially reconstructed from them), summaries, cached answers, agent memory, and evaluation cases. Each is a copy of the original in a different shape, sitting in a different zone with different access control.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "Draw where customer data travels, and which components are
-   allowed to see raw data."
-
-WHAT THE INTERVIEWER IS TESTING
-  Whether you can produce the document a security review
-  actually wants. Most people draw the happy path - source,
-  index, model - and stop. The signal is drawing the
-  OBSERVABILITY zone, and asking whether each component needs
-  the data at all rather than how to encrypt it.
-
-WEAK ANSWER
-  "Customer data flows from our source systems into the
-   vector database, then to the LLM at query time. We encrypt
-   data in transit and at rest and restrict access to
-   authorised services."
-  Why it is weak: it is the happy path only. Nothing about
-  logs, traces, eval sets or caches, which is where the data
-  actually spreads. And encryption is not the interesting
-  control here - minimisation is.
-
-STRONG ANSWER (about 75 seconds)
-  "I would draw it as ZONES defined by what data each is
-   allowed to see, not as boxes for services - because then
-   every arrow crossing a zone boundary is a control point.
-
-   Six zones. SOURCE systems. INGESTION AND PROCESSING, which
-   sees raw content. The INDEX, and I would note that
-   embeddings are a DERIVED COPY of the text, not an
-   anonymised summary. SERVING. EXTERNAL, which is the model
-   provider plus any third-party tools and MCP servers. And
-   OBSERVABILITY - logs, traces, eval sets and caches - which
-   is the zone people never draw and usually the weakest
-   controlled one, while holding exactly the same content as
-   the source.
-
-   For every crossing I would ask five things: what actually
-   crosses, does it NEED to, is it redacted or tokenised,
-   where does it come to rest and for how long, and who can
-   read it there.
-
-   The most valuable of those is the second one, because
-   MINIMISATION BEATS PROTECTION. The model needs a holiday
-   balance and a manager's name. It does not need the
-   national insurance number, home address and salary that
-   come with the whole employee record - which is what gets
-   sent, because passing the record whole was convenient.
-   Data I never sent cannot leak, cannot be logged, cannot
-   end up in an eval set and does not need deleting later.
-
-   The crossings I would look at hardest: into the model
-   provider - region, retention, training use. Into LOGS AND
-   TRACES, which is the leak people forget, because logging
-   prompts copies restricted content into a system with much
-   weaker access control. Into the EVAL SET, which puts real
-   customer data in a git repo forever. And out to the user.
-
-   Where a value must be present but does not need to be
-   understood, I would TOKENISE it - a name becomes
-   CUSTOMER_1 - and map it back on the way out.
-
-   The deliverable is one page: the zones, the arrows, and a
-   table of what crosses each boundary. That is usually the
-   document a security review wants and does not have."
-
-FOLLOW-UPS TO EXPECT
-  "Which crossing worries you most?"
-      -> into logs and traces. Same content, weaker access
-         control, and nobody thinks of it as a data store.
-  "Are embeddings personal data?"
-      -> treat them as such. Text can be partially
-         reconstructed, so the vector store is a derived
-         copy.
-  "When does redaction not work?"
-      -> when the model needs the value to reason. Then
-         tokenise if identity is irrelevant, or minimise
-         what you send.
-  "What does a deletion request cover?"
-      -> every zone. Source, chunks, embeddings, summaries,
-         caches, memory, traces and eval cases.
-
-RED FLAGS
-  Drawing only the happy path.
-  No observability zone.
-  Leading with encryption rather than minimisation.
-  Treating embeddings as anonymous.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// DRAW ZONES, NOT SERVICES. Then every arrow crossing a boundary
-// is a control point.
-
-const zones = {
-  1: { name: "SOURCE", holds: "everything",
-       examples: ["SharePoint", "the HR system", "the orders database"],
-       controls: "their own, already in place" },
-
-  2: { name: "INGESTION / PROCESSING", holds: "raw content",
-       examples: ["parsers", "chunker", "embedding worker"],
-       note: "sees whatever the source contained, including anything " +
-             "nobody realised was in there" },
-
-  3: { name: "INDEX", holds: "DERIVED COPIES",
-       examples: ["vector store", "chunk table", "metadata"],
-       // Not an anonymised summary. Text can be partially
-       // reconstructed from an embedding.
-       note: "embeddings ARE the data, in a different shape" },
-
-  4: { name: "SERVING", holds: "transient assembled context",
-       examples: ["retrieval", "prompt builder", "the model client"] },
-
-  5: { name: "EXTERNAL", holds: "whatever you send it",
-       examples: ["the model provider", "MCP servers",
-                  "a hosted reranker", "any third-party tool"] },
-
-  6: { name: "OBSERVABILITY", holds: "THE SAME CONTENT AS ZONE 1",
-       examples: ["logs", "traces", "the eval set", "caches",
-                  "agent memory"],
-       // THE ZONE PEOPLE NEVER DRAW, and usually the weakest
-       // controlled - while holding exactly what zone 1 holds.
-       note: "support engineers can often read all of this" }
-};
-
-// FIVE QUESTIONS FOR EVERY CROSSING.
-const crossingQuestions = [
-  "What actually crosses - whole records, or a few fields?",
-  "DOES IT NEED TO? (the most valuable one)",
-  "Is it redacted or tokenised, and if not, why not?",
-  "Where does it come to rest, and for how long?",
-  "Who can read it there?"
-];
-
-// THE DELIVERABLE: one page, zones + arrows + a table.
-const boundaryTable = [
-  { from: 2, to: 3, crosses: "chunk text + embeddings",
-    minimised: "no - full text by design", retention: "until deleted",
-    readableBy: "the app service account, and any engineer with " +
-                "database access" },
-  { from: 4, to: 5, crosses: "assembled prompt incl. retrieved chunks",
-    minimised: "yes - only the top 5 chunks, only needed fields",
-    retention: "provider's policy - CHECK THIS", readableBy: "provider" },
-  { from: 4, to: 6, crosses: "question + retrieved chunk ids",
-    // Redacted at CAPTURE, not later.
-    minimised: "YES - ids not content, question redacted",
-    retention: "30 days", readableBy: "the platform team only" }
-];`,
-              `// MINIMISATION BEATS PROTECTION. The cheapest control there is.
-
-// WHAT USUALLY HAPPENS - the record is passed whole because that
-// is what the function returned.
-async function badContext(employeeId) {
-  const employee = await db.employees.get(employeeId);
-  return { employee };
-  // Now the prompt - and therefore the provider, the logs, the
-  // traces and possibly the eval set - contains:
-  //   nationalInsuranceNumber, homeAddress, dateOfBirth, salary,
-  //   bankAccount, emergencyContact, medicalNotes
-  // None of which the model needed to answer "how much leave do I
-  // have left".
-}
-
-// WHAT SHOULD HAPPEN. Send a FIELD, not a ROW.
-async function goodContext(employeeId, questionType) {
-  const needed = FIELDS_BY_QUESTION[questionType];
-  //   "leave"     -> ["holidayBalance", "managerName", "startDate"]
-  //   "expenses"  -> ["costCentre", "approverName"]
-  const employee = await db.employees.get(employeeId, { fields: needed });
-  return employee;
-}
-// Data you never sent cannot leak, cannot be logged, cannot end up
-// in an eval set, and does not need deleting later.
-
-// TOKENISATION - when a value must be PRESENT but does not need to
-// be UNDERSTOOD.
-function tokenise(text) {
-  const map = new Map();
-  let n = 0;
-  const replaced = text
-    .replace(/\\b[A-Z][a-z]+ [A-Z][a-z]+\\b/g, (name) => {
-      if (!map.has(name)) map.set(name, "CUSTOMER_" + (++n));
-      return map.get(name);
-    })
-    .replace(/\\bACC-\\d{6,}\\b/g, (acc) => {
-      if (!map.has(acc)) map.set(acc, "ACCT_" + (++n));
-      return map.get(acc);
-    });
-  return { replaced, map };
-}
-
-async function answerTokenised(question, context) {
-  const { replaced, map } = tokenise(context);
-  // The provider never receives the real values, and neither do the
-  // logs or the eval set. The model reasons about the STRUCTURE
-  // perfectly well.
-  const answer = await model.complete(question, replaced);
-  return detokenise(answer, map);      // map back on the way out
-}
-
-const tokenisationLimits = {
-  worksWhen: "identity does not affect the reasoning - names, " +
-             "account numbers, email addresses",
-  failsWhen: "the VALUE matters - a date, an amount, a policy " +
-             "number the answer depends on",
-  watchOut: "reversing it in STREAMED output, and partial tokens " +
-            "split across chunks"
-};`,
-              `// THE CROSSINGS THAT MATTER MOST - and the one people forget.
-
-// 1. INTO THE MODEL PROVIDER. The first question in any review.
-const providerCrossing = {
-  region: "eu-west - confirm processing region, not just billing",
-  retention: "check the actual number, in the contract",
-  usedForTraining: "no - confirm in writing",
-  whatCrosses: "the assembled prompt: system prompt, retrieved " +
-               "chunks, the user's question, tool definitions",
-  // People forget tool RESULTS also cross - a tool that returns a
-  // full customer record sends it to the provider on the next turn.
-  alsoCrosses: "tool results, which are often full records"
-};
-
-// 2. INTO LOGS AND TRACES. THE LEAK PEOPLE FORGET.
-function logInteraction(interaction) {
-  // WRONG - and extremely common. This copies every retrieved chunk
-  // into a system whose access control is far weaker than the
-  // source system's. Support engineers can now read HR records.
-  //   logger.info("qa", { prompt: interaction.fullPrompt,
-  //                       answer: interaction.answer });
-
-  // RIGHT - ids and metadata, not content. Redacted AT CAPTURE,
-  // because retrofitting redaction across data already written and
-  // copied does not work.
-  logger.info("qa", {
-    questionRedacted: redactPii(interaction.question),
-    retrievedChunkIds: interaction.sources.map(s => s.id),   // ids
-    answerHash: hash(interaction.answer),
-    promptVersion: interaction.promptVersion,
-    userId: interaction.userId,          // so deletion can find it
-    tokens: interaction.tokens, ms: interaction.ms
-  });
-}
-
-// 3. INTO THE EVAL SET. Real customer data into a git repo, on
-//    every laptop, forever.
-async function captureFailureAsTestCase(interaction) {
-  await pendingCases.insert({
-    // Strip on the way IN, never "we will clean it up later".
-    question: redactPii(interaction.question),
-    retrievedChunkIds: interaction.sources.map(s => s.id),
-    // Keep a REFERENCE, not a copy, so deletion works and the file
-    // does not become a data store.
-    interactionRef: interaction.id,
-    subjectIds: interaction.subjectIds     // so erasure can find it
-  });
-}
-
-// 4. INTO THIRD-PARTY TOOLING - a second external zone nobody
-//    draws.
-const thirdPartyCrossings = [
-  { tool: "hosted observability", sees: "full prompts and answers",
-    question: "is this acceptable under our data policy?" },
-  { tool: "third-party MCP server", sees: "whatever the tool call " +
-    "contains, plus our credentials" },
-  { tool: "hosted reranker", sees: "the query and every candidate " +
-    "chunk" },
-  { tool: "an eval platform", sees: "the whole test set" }
-];`,
-              `// DERIVED DATA IS STILL THE DATA. Mark it on the diagram, because
-// this is what gets forgotten when a deletion request arrives.
-
-const derivedCopies = {
-  embeddings: "text can be partially reconstructed - the vector " +
-              "store is a derived copy, not an anonymised summary",
-  chunks: "literally the text, split up",
-  summaries: "a lossy copy, still personal data",
-  cachedAnswers: "contains whatever the answer contained",
-  agentMemory: "facts extracted about a person, by definition",
-  evalCases: "in a git repo, cloned to every laptop",
-  traces: "the fullest copy of all, usually",
-  backups: "of all of the above"
-};
-
-// SO ERASURE HAS TO CROSS EVERY ZONE.
-async function eraseSubject(subjectId) {
-  const docs = await db.documents.find({ subjectId });
-  const chunks = await db.chunks.find({ docId: { $in: docs.map(d => d.id) } });
-
-  await db.documents.deleteMany({ subjectId });           // zone 1/3
-  await db.chunks.deleteMany({ docId: { $in: docs.map(d => d.id) } });
-  await vectorStore.deleteByIds(chunks.map(c => c.embeddingId));  // zone 3
-  await summaries.deleteMany({ subjectId });              // zone 3
-  await memoryStore.deleteMany({ subjectId });            // zone 6
-  await responseCache.invalidateBySubject(subjectId);     // zone 6
-  await evalSet.removeCasesReferencing(subjectId);        // zone 6
-  await traces.redactSubject(subjectId);                  // zone 6
-  await audit.log({ action: "subject_erased", subjectId });
-  // Zone 5 - the provider - is governed by their retention policy,
-  // which is why you check it BEFORE choosing a provider.
-}
-
-// TENANT AND REGION ARE ZONE BOUNDARIES TOO.
-const otherBoundaries = {
-  tenant: "a tenant boundary is a zone boundary. Enforce it at the " +
-          "database with row-level security so a forgotten filter " +
-          "fails closed rather than leaking across customers.",
-  region: "which zones sit in which region? A vector store in one " +
-          "region and a model endpoint in another is a data " +
-          "transfer, and someone will ask about it.",
-  environment: "production data in a staging environment is a " +
-               "crossing people never draw and frequently make"
-};
-
-// THE ONE-PAGE DELIVERABLE, which is usually what a security review
-// wants and does not have.
-const deliverable = {
-  page1: "the zone diagram, with every arrow labelled",
-  table: "for each crossing: what, why, minimised?, redacted?, " +
-         "where it lands, retention, who can read it",
-  appendix: "the derived-copy list, and what erasure covers"
-};`,
-            ],
-            questions: [
-              {
-                question:
-                  "Draw where customer data travels, and which components are allowed to see raw data.",
-                solution: `<p>I would draw it as <strong>zones defined by what data each is allowed to see</strong>, not as boxes for services — because then every arrow crossing a zone boundary is a control point.</p>
-             <p>Six zones: <strong>source</strong> systems; <strong>ingestion and processing</strong>, which sees raw content; the <strong>index</strong>, noting that embeddings are a <em>derived copy</em> rather than an anonymised summary; <strong>serving</strong>; <strong>external</strong>, meaning the model provider plus third-party tools and MCP servers; and <strong>observability</strong> — logs, traces, eval sets and caches — which is the zone people never draw and usually the weakest controlled, while holding exactly the same content as the source.</p>
-             <p>For every crossing: what crosses, does it <em>need</em> to, is it redacted, where does it land and for how long, and who can read it there.</p>`,
-              },
-              {
-                question:
-                  "Why draw zones rather than services?",
-                solution:
-                  "<p>Because a service diagram tells you what talks to what, and a zone diagram tells you <em>what is allowed to see what</em> — which is the question a security review is actually asking. Once you group components by data sensitivity, the boundaries become visible, and <strong>every arrow crossing a boundary is a control point</strong> that needs a decision: what crosses, is it minimised, is it redacted, where does it land, who can read it. A service diagram hides all of that, because an arrow between two boxes looks identical whether it carries an ID or a full customer record. Zones also make the <em>missing</em> things obvious. When you draw them properly you notice that logs, traces and the eval set form a zone of their own — one holding the same content as the source systems, usually with far weaker access control, and typically not on anyone's diagram at all. That is where the finding usually is. It is also the format that produces the deliverable a review wants: one page with zones, labelled arrows, and a table of what crosses each boundary.</p>",
-              },
-              {
-                question:
-                  "Which zone do people forget, and why does it matter?",
-                solution: `<p><strong>Observability</strong> — logs, traces, evaluation sets, caches and agent memory. Everyone draws source, index, serving and provider. Almost nobody draws the logging system, and that is where the problem usually lives.</p>
-             <p>It matters because it holds <em>the same content as the source systems</em> with much weaker controls:</p>
-             <ul>
-               <li>Logging prompts copies every retrieved chunk into a platform any engineer can search — so support engineers end up able to read HR records.</li>
-               <li>Traces are often the fullest copy of all, including tool arguments and results.</li>
-               <li>Eval sets built from production failures put real customer data into a git repository, cloned onto every laptop, indefinitely.</li>
-               <li>Caches hold whatever the answers held.</li>
-             </ul>
-             <p>None of these feel like data stores, which is exactly why they escape the retention policy, the access review and the deletion process.</p>`,
-              },
-              {
-                question:
-                  "Why is minimisation more valuable than encryption here?",
-                solution:
-                  "<p>Because encryption protects data you are still holding, whereas minimisation means you never held it. The instinct is to ask <em>how do I protect this data in transit and at rest</em>, and the better question is <strong>does this component need this data at all</strong>. In practice the answer is usually no: a model answering \"how much leave do I have left\" needs a holiday balance and a manager's name, and what it typically receives is the entire employee record — national insurance number, home address, date of birth, salary, bank details — because someone passed the record whole out of convenience rather than necessity. Every one of those fields then travels to the provider, into your logs, into your traces, and possibly into an eval set. <strong>Data you never sent cannot leak, cannot be logged, cannot end up in a test file, and does not need deleting later.</strong> It is the cheapest control available and almost always achievable, because the over-sharing was accidental. Encryption still matters, of course — it is just table stakes rather than the interesting part of this design, and leading with it signals you have not looked at what is actually being sent.</p>",
-              },
-              {
-                question:
-                  "Are embeddings personal data?",
-                solution:
-                  "<p>Treat them as such. Text can be <strong>partially reconstructed</strong> from its embedding — there is published research on inverting embeddings back into approximate source text — so a vector store is a <em>derived copy</em> of your documents rather than an anonymised pile of numbers. That has four practical consequences worth marking on the diagram. The vector store belongs in a <strong>controlled zone</strong>, not treated as harmless infrastructure. It needs <strong>encryption and access control</strong>, including operational access, since an engineer with read access to that database effectively has read access to the corpus. You need to be deliberate about <strong>which third parties receive embeddings</strong>, because sending them to a hosted service is sending your content in a different shape. And a <strong>deletion request covers them</strong>: removing the source document while leaving its vectors behind neither satisfies the obligation nor stops your assistant surfacing content from a document that no longer exists. This one genuinely surprises people, and raising it unprompted signals you have thought about the whole pipeline rather than the parts that look like data.</p>",
-              },
-              {
-                question:
-                  "What is tokenisation and when does it work?",
-                solution: `<p>Replacing sensitive values with placeholders before they leave your zone, and mapping them back on the way out. A customer name becomes <code>CUSTOMER_1</code>, an account number becomes <code>ACCT_1</code>. The provider never receives the real value, and neither do your logs or your eval set — but the model reasons about the structure perfectly well, because it does not need to know who the person is to work out what the policy says about them.</p>
-             <p>It works when <strong>identity does not affect the reasoning</strong>: names, account numbers, email addresses, employee IDs.</p>
-             <p>It fails when the <strong>value itself matters</strong> — a date, an amount, a policy number the answer depends on. Masking those degrades the answer, because the model cannot reason about something it cannot see.</p>
-             <p>Two things to watch: reversing it correctly in <strong>streamed</strong> output, where a token may be split across chunks; and keeping the mapping short-lived, since the map itself is sensitive.</p>`,
-              },
-              {
-                question:
-                  "Which boundary crossing would you scrutinise hardest?",
-                solution:
-                  "<p>Two, for different reasons. <strong>Into the model provider</strong>, because it is the first thing any review asks about and the answers are contractual rather than technical: which region processing actually happens in (not just where you are billed), what the retention period is, and whether your data is used for training. Know those before you are asked, and remember that <em>tool results</em> cross this boundary too — a tool returning a full customer record sends it to the provider on the next turn, which people rarely account for. And <strong>into logs and traces</strong>, because it is the one nobody thinks about and it is usually the largest exposure by volume. Logging prompts for debugging copies restricted content into a system with much weaker access control than the source, and it happens by default rather than by decision. The fix there is to log <strong>identifiers rather than content</strong> — the retrieved chunk IDs rather than the chunk text, a redacted question rather than the raw one — and to redact <em>at capture</em>, because retrofitting redaction across data that has already been written, copied and shared does not work.</p>",
-              },
-              {
-                question:
-                  "What does a deletion request actually have to reach?",
-                solution: `<p>Every zone, which is why the diagram is worth having before the request arrives:</p>
-             <ul>
-               <li><strong>Source and index</strong> — the document, its chunks, and its <strong>embeddings</strong>.</li>
-               <li><strong>Derived artefacts</strong> — summaries, agent memory, cached answers.</li>
-               <li><strong>Observability</strong> — traces, logs, and any <strong>evaluation cases</strong> built from a production failure involving that person. The eval set is the one that is genuinely awkward, because it may be committed to a repository and cloned widely.</li>
-               <li><strong>Backups</strong>, which have their own timeline and usually their own policy.</li>
-               <li><strong>The provider</strong>, governed by their retention terms — which is precisely why you check those before choosing one.</li>
-             </ul>
-             <p>The design decision that makes this tractable is recording a <strong>subject or source identifier on every derived artefact</strong>, so erasure is a query rather than an archaeology exercise. Retrofitting that is painful; adding it at ingestion is trivial.</p>`,
-              },
-              {
-                question:
-                  "Are there boundaries beyond the obvious data zones?",
-                solution:
-                  "<p>Three that people miss. The <strong>tenant boundary</strong> in a multi-customer product is a zone boundary of its own, and the strongest way to enforce it is at the database with row-level security, so a developer forgetting a filter fails closed rather than leaking across customers. The <strong>region boundary</strong>: which zones sit in which geography, because a vector store in one region and a model endpoint in another constitutes a data transfer, and someone will ask about it — the common trap is assuming the billing region and the processing region are the same. And the <strong>environment boundary</strong>, which is the most frequently crossed and least often drawn: production data copied into staging so someone can debug, or a developer running an eval set with real customer content on a laptop. That crossing usually has no controls at all because nobody thinks of it as a data flow. Drawing it forces the conversation about whether you need synthetic or anonymised data for non-production work, which is generally the right answer and much easier to arrange before the first incident than after it.</p>",
-              },
-              {
-                question:
-                  "How does redaction interact with answer quality?",
-                solution:
-                  "<p>There is a real trade-off, and pretending otherwise leads to a system that is private and useless. A model cannot reason about a value it cannot see, so masking a date makes it unable to calculate an entitlement, and masking an amount makes it unable to check a threshold. Aggressive redaction produces answers that are vague, hedged, or quietly wrong — and the degradation is hard to trace afterwards, because the logs show a sensible-looking prompt with placeholders in it. So the sequence matters: <strong>minimise first</strong>, since sending fewer fields removes the question entirely; then <strong>tokenise</strong> where identity is irrelevant but presence is needed, which preserves reasoning; and only then <strong>redact</strong>, accepting that some capability is being given up. Two practical notes. Measure it — run your evaluation set with and without redaction, because the cost is usually larger than expected. And check the redactor's own false positive rate, since a naive detector will happily mangle order references and product codes that merely look like identifiers, degrading answers for no privacy benefit at all.</p>",
-              },
-              {
-                question:
-                  "What is the deliverable from this exercise?",
-                solution: `<p><strong>One page</strong>, and it is usually the document a security review wants and does not have:</p>
-             <ul>
-               <li><strong>The zone diagram</strong>, with every arrow labelled.</li>
-               <li><strong>A table of crossings</strong> — for each one: what crosses, why it needs to, whether it is minimised, whether it is redacted or tokenised, where it comes to rest, the retention period, and who can read it there.</li>
-               <li><strong>A derived-copy list</strong> — embeddings, summaries, caches, memory, eval cases — and what a deletion request covers in each.</li>
-             </ul>
-             <p>Write it for someone who is not an AI engineer, in plain language, with the actual retention numbers rather than "as per policy".</p>
-             <p>The exercise of producing it is where the value is: filling in the "does it need to?" column is what surfaces the over-sharing, and filling in "who can read it there?" is what surfaces the observability problem.</p>`,
-              },
-              {
-                question:
-                  "How would you use this diagram once it exists?",
-                solution:
-                  "<p>In three places. As the <strong>opening document for a security review</strong>, which converts a long exploratory conversation into a focused one — reviewers ask about specific crossings rather than about the system in general, and they trust a team that has already mapped it. As a <strong>design gate</strong>: any change that adds a new arrow — a new third-party tool, a hosted reranker, a new logging destination, an MCP server — requires answering the five questions before it ships, which catches the accidental crossings that otherwise accumulate quietly. And as the <strong>basis for the deletion path</strong>, since the derived-copy list is exactly what an erasure routine has to cover, and testing that routine against the diagram is how you find the vector store you forgot. It is also worth revisiting it after any incident, because incidents almost always reveal a crossing that was not on the map. The thing that keeps it useful is treating it as a living document rather than a launch artefact — a diagram that is eighteen months out of date is worse than none, because people trust it.</p>",
-              },
-            ],
-            links: [
-              "https://gdpr-info.eu/art-5-gdpr/",
-              "https://arxiv.org/abs/2310.06816",
-              "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
-              "https://www.nist.gov/itl/ai-risk-management-framework",
-            ],
-          },
-          {
-            topic: "Batch vs Real-Time Pipelines",
-            tags: ["must-know", "design", "cost", "architecture"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "Which parts of your AI workload should be batch, and what does that save you?"</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    First, a distinction people blur: <strong>async is not the same as batch.</strong> Async means "not inside the request". Batch means "many items together, later, at lower priority". Plenty of work is async and not batched — an agent run, a single document ingestion. Batch is a further step, and it is the step that saves money.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What Batch Actually Saves — Four Things
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  1. MONEY. Providers offer batch endpoints at a
-     substantial discount - commonly around HALF price - in
-     exchange for accepting a slower turnaround. On a
-     million-chunk embedding job that is a real number, and
-     it is the thing people forget exists.
-
-  2. RATE LIMIT PRESSURE. Batch work often runs against
-     SEPARATE limits, so it stops competing with your
-     interactive traffic for the same quota. That alone can
-     be worth more than the discount, because it is what
-     stops a backfill degrading the product.
-
-  3. THROUGHPUT. Fewer round trips, better packing, less
-     per-request overhead.
-
-  4. OPERATIONAL SIMPLICITY. No per-request failure handling
-     in a user-facing path. A failed item is retried in the
-     next run and nobody notices.
-
-THE DECIDING QUESTION IS ALWAYS THE SAME:
-HOW STALE CAN THIS BE?
-  seconds -> real time
-  minutes -> incremental micro-batches
-  hours   -> batch
-That one question settles most of these decisions.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What To Batch
-  </h4>
-
-  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li style="margin-top: 0.5rem;"><strong>Embedding a corpus.</strong> The obvious one, and the largest single line on most bills.</li>
-    <li style="margin-top: 0.5rem;"><strong>Classifying or enriching a backlog</strong> — tagging documents, extracting metadata, scoring tickets.</li>
-    <li style="margin-top: 0.5rem;"><strong>Re-processing after a change.</strong> A new chunking strategy or embedding model means re-running everything, which is pure batch work.</li>
-    <li style="margin-top: 0.5rem;"><strong>Scheduled summaries and digests.</strong></li>
-    <li style="margin-top: 0.5rem;"><strong>Evaluation runs</strong> — hundreds of cases times several runs each, needed by morning rather than now.</li>
-    <li style="margin-top: 0.5rem;"><strong>Anything triggered by a schedule rather than a person.</strong></li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Interesting Middle: Precompute The Answer
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-The move people miss. IF YOU KNOW THE QUESTION IN ADVANCE,
-ANSWER IT IN ADVANCE.
-
-  a daily digest per team
-  the answers to your top 200 support questions
-  a summary per document, generated at ingest
-  a "what changed this week" briefing
-
-This turns a REAL-TIME COST into a BATCH COST at half the
-price, and a LATENCY PROBLEM into a LOOKUP. The user gets an
-instant answer and you paid batch rates for it.
-
-IT ONLY WORKS WHEN:
-  the questions are genuinely predictable
-  the answer is stable for the period between runs
-  and the answer is not personalised - or you precompute
-  PER AUDIENCE, with each recipient's permissions applied
-
-That last condition is where it goes wrong: one precomputed
-digest sent to two hundred people, built with a service
-account's access, is a data leak.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Pattern Worth Naming: Batch The Expensive Part
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Most workloads are not entirely batch or entirely real time. The useful split is to <strong>do the expensive work ahead of time and keep the cheap work in the request</strong>.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    In RAG, that is exactly what already happens: embedding the corpus is batch, and retrieval plus a short generation is real time. The same logic extends — generate a summary per document at ingest so answers can cite it, pre-extract structured metadata, pre-compute the entity graph. Every piece of work you move out of the request path is cheaper and faster.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Incremental Micro-Batching Usually Beats A Nightly Job
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    A nightly run means your index is up to twenty-four hours stale, and it produces a large spike of load at 2am. Running <strong>small batches every few minutes</strong> gets most of the packing and cost benefit with a freshness window of minutes, spreads the load evenly, and fails in small pieces rather than one large one.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Use a true nightly batch when you genuinely want the discounted batch endpoint, since those trade turnaround for price. Otherwise micro-batching is usually the better default.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Batch Needs More Monitoring, Not Less
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    The failure mode is specific and quiet: <strong>a nightly job stops working and nobody notices for a week</strong>, because there is no user waiting and no error page. Meanwhile the index goes stale, or four thousand documents never get indexed, and it looks like the assistant has simply become worse at answering questions.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    So alert on <em>absence</em> — the job did not run, the run produced fewer items than usual, the oldest unprocessed item is older than expected. Real-time systems tell you when they break. Batch systems do not.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "Which parts of your AI workload should be batch, and what
-   does that save you?"
-
-WHAT THE INTERVIEWER IS TESTING
-  Whether you know batch endpoints exist and roughly what
-  they save, and whether you think about staleness tolerance
-  as the deciding variable. The precomputation idea is the
-  one that marks out someone who has optimised a real bill.
-
-WEAK ANSWER
-  "Ingestion and embedding should be batch since they are not
-   user-facing, while question answering has to be real time
-   because the user is waiting."
-  Why it is weak: correct and shallow. It does not say what
-  batch SAVES, misses precomputation entirely, and treats it
-  as a binary when the interesting cases are in the middle.
-
-STRONG ANSWER (about 60 seconds)
-  "First, async is not the same as batch. Async means not in
-   the request; batch means many items together, later, at
-   lower priority. Batch is the further step and it is the
-   one that saves money.
-
-   It saves four things. MONEY - provider batch endpoints are
-   commonly around half price, which on a million-chunk
-   embedding job is a real number and is the thing people
-   forget exists. RATE LIMIT PRESSURE, because batch often
-   runs against separate limits so it stops competing with
-   interactive traffic - and that can be worth more than the
-   discount, since it is what stops a backfill degrading the
-   product. THROUGHPUT. And operational simplicity, because a
-   failed item just gets retried next run.
-
-   The deciding question is always HOW STALE CAN THIS BE -
-   seconds means real time, minutes means incremental
-   micro-batches, hours means batch.
-
-   So: embedding a corpus, enriching a backlog, re-processing
-   after a chunking or model change, scheduled digests, and
-   evaluation runs.
-
-   The move people miss is PRECOMPUTATION. If I know the
-   question in advance, I answer it in advance - a daily
-   digest, the top two hundred support questions, a summary
-   per document at ingest. That turns a real-time cost into a
-   batch cost at half price AND a latency problem into a
-   lookup. The condition is that the questions are
-   predictable and the answer is stable - and if it is
-   personalised I precompute PER AUDIENCE with each
-   recipient's permissions, because one digest built with a
-   service account and sent to two hundred people is a data
-   leak.
-
-   Two practical points. Incremental MICRO-BATCHING usually
-   beats a nightly job - most of the benefit, freshness in
-   minutes, and load spread out. And batch needs MORE
-   monitoring than real time, because the failure is silent:
-   a job stops and nobody notices for a week, and it looks
-   like the assistant just got worse."
-
-FOLLOW-UPS TO EXPECT
-  "What is the deciding factor?"
-      -> staleness tolerance. Seconds, minutes or hours.
-  "What does a batch endpoint actually save?"
-      -> commonly around half the token cost, plus separate
-         rate limits, in exchange for slower turnaround.
-  "When is precomputation wrong?"
-      -> unpredictable questions, unstable answers, or
-         personalised content precomputed once for many
-         readers.
-  "What goes wrong with batch?"
-      -> silent failure. Alert on absence, not just errors.
-
-RED FLAGS
-  Treating async and batch as the same thing.
-  Not knowing batch pricing exists.
-  Missing precomputation.
-  No monitoring plan for a job with no user waiting.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// ASYNC IS NOT BATCH. People blur these.
-
-const distinction = {
-  sync:  "inside the request. A person is waiting.",
-  async: "not in the request. One item, processed soon, " +
-         "individually - an agent run, one document ingested.",
-  batch: "MANY items together, LATER, at LOWER priority - and " +
-         "usually at a lower price."
-};
-// Batch is the further step, and it is the one that saves money.
-
-// THE DECIDING QUESTION, EVERY TIME:
-function decidePipeline(workload) {
-  //   seconds -> real time
-  //   minutes -> incremental micro-batches
-  //   hours   -> batch
-  if (workload.stalenessToleranceSeconds < 60) return "real-time";
-  if (workload.stalenessToleranceSeconds < 900) return "micro-batch";
-  return "batch";
-}
-
-// WHAT BATCH SAVES - four things, and the second is often worth
-// more than the first.
-const savings = {
-  money: {
-    // The thing people forget exists.
-    what: "provider batch endpoints are commonly around half price",
-    example: {
-      chunks: 1_000_000, avgTokens: 400,
-      realTimeCostGbp: 160,
-      batchCostGbp: 80,
-      note: "and that is one re-index. You will do several."
-    }
-  },
-  rateLimitPressure: {
-    what: "batch often runs against SEPARATE limits, so it stops " +
-          "competing with interactive traffic for the same quota",
-    // This is what actually stops a backfill degrading the product.
-    worth: "frequently more than the discount"
-  },
-  throughput: "fewer round trips, better packing, less per-request " +
-              "overhead",
-  operationalSimplicity: "a failed item is retried in the next run " +
-                         "and nobody notices - no per-request failure " +
-                         "handling in a user-facing path"
-};
-
-const batchThese = [
-  "embedding a corpus - the largest single line on most bills",
-  "classifying or enriching a backlog",
-  "re-processing after a chunking or embedding model change",
-  "scheduled summaries and digests",
-  "evaluation runs - hundreds of cases times several runs",
-  "anything triggered by a schedule rather than a person"
-];`,
-              `// THE MOVE PEOPLE MISS: PRECOMPUTE THE ANSWER.
-// If you know the question in advance, answer it in advance.
-
-async function precomputeCommonAnswers() {
-  // Mine the top questions from real traffic - not from
-  // imagination.
-  const top = await analytics.topQuestions({ days: 90, limit: 200 });
-
-  const jobs = top.map(q => ({
-    question: q.text,
-    // Only worth it if the answer is STABLE between runs.
-    stable: q.sourceDocs.every(d => d.changeFrequencyDays > 30)
-  })).filter(j => j.stable);
-
-  // Submitted to the BATCH endpoint - roughly half price, results
-  // by morning.
-  const results = await provider.batch.submit(jobs.map(toRequest));
-
-  for (const r of results) {
-    await answerCache.set(canonicalKey(r.question), r.answer, {
-      precomputed: true,
-      sourceVersions: r.sourceVersions,     // so an update invalidates
-      generatedAt: clock.now()
-    });
-  }
-}
-// Turns a REAL-TIME COST into a BATCH COST at half price, AND a
-// latency problem into a lookup. The user gets an instant answer.
-
-// THE CONDITION THAT MATTERS: if it is personalised, precompute
-// PER AUDIENCE with each recipient's permissions.
-async function precomputeDigests() {
-  // WRONG - one digest, built with a service account that can read
-  // everything, sent to 200 people. That is a data leak, not an
-  // optimisation.
-  //   const digest = await summarise({ scope: "all" });
-  //   await email.sendBulk(await allEmployees(), digest);
-
-  // RIGHT - one per recipient, scoped to what THEY may see.
-  for (const person of await allEmployees()) {
-    const theirs = await search("changes since yesterday", {
-      filter: { allowedGroups: { $in: await groupsOf(person.id) },
-                updatedAt: { $gt: yesterday() } }
-    });
-    if (!theirs.length) continue;
-    await queueBatch({ recipient: person.id, chunks: theirs });
-  }
-  // 200 digests, not one. Slower, batch-priced, and correct.
-}
-
-// WHEN PRECOMPUTATION IS WRONG:
-const precomputeLimits = {
-  unpredictableQuestions: "long tail, conversational, follow-ups",
-  unstableAnswers: "stock levels, live status, anything 'current'",
-  personalised: "unless precomputed PER AUDIENCE",
-  lowVolume: "precomputing 200 answers nobody asks is just waste"
-};`,
-              `// THE PATTERN WORTH NAMING: BATCH THE EXPENSIVE PART, SERVE THE
-// CHEAP PART.
-
-// Most workloads are not entirely one or the other. RAG already
-// does this - embedding the corpus is batch, retrieval plus a short
-// generation is real time.
-const splitByCost = {
-  batchAhead: [
-    "embed every chunk",
-    // Generated once at ingest, then available to every answer for
-    // free.
-    "generate a summary per document",
-    "extract structured metadata - dates, entities, doc type",
-    "pre-compute the entity graph",
-    "classify each document by topic and sensitivity"
-  ],
-  atRequestTime: [
-    "retrieve", "rerank the top 30", "generate a short answer"
-  ],
-  principle: "every piece of work moved out of the request path is " +
-             "cheaper AND faster"
-};
-
-// DOCUMENT SUMMARIES AT INGEST - a concrete example of the pattern.
-async function ingestWithSummary(doc) {
-  const chunks = chunkByStructure(doc);
-  // One batch call per document, at batch prices, once.
-  const summary = await batchQueue.add("summarise", {
-    text: doc.text.slice(0, 20_000) });
-  await db.documents.upsert({ ...doc, summary });
-  return chunks;
-}
-// Now every answer that cites this document can use the summary for
-// context, and you never pay for it again.
-
-// INCREMENTAL MICRO-BATCHING USUALLY BEATS A NIGHTLY JOB.
-const nightlyVsMicro = {
-  nightly: {
-    freshness: "up to 24 hours stale",
-    load: "a large spike at 2am",
-    failure: "one big failure - the whole night is lost",
-    useWhen: "you genuinely want the discounted batch endpoint, " +
-             "which trades turnaround for price"
-  },
-  microBatch: {
-    interval: "every 2-5 minutes",
-    freshness: "minutes",
-    load: "spread evenly",
-    failure: "small pieces, easy to retry",
-    // Most of the packing and throughput benefit, far better
-    // freshness. Usually the right default.
-    useWhen: "almost always, unless the batch discount is the point"
-  }
-};
-
-async function microBatchEmbed() {
-  const pending = await queue.take("embed", { max: 200, waitMs: 5000 });
-  if (!pending.length) return;
-  const vectors = await embedBatch(pending.map(p => p.text));  // one call
-  await index.upsertMany(pending, vectors);
-}`,
-              `// BATCH NEEDS MORE MONITORING THAN REAL TIME, because the failure
-// is SILENT. No user is waiting and no error page appears.
-
-const theFailureMode = {
-  what: "a nightly job stops working and nobody notices for a week",
-  why: "there is no user complaining and no error page",
-  symptom: "the index goes stale, or 4,000 documents never get " +
-           "indexed - and it looks like the assistant has simply " +
-           "become worse at answering questions",
-  // Weeks get spent tuning prompts and retrieval for a problem that
-  // is a cron job that stopped firing.
-  cost: "you debug the wrong layer"
-};
-
-// SO ALERT ON ABSENCE, not just on errors. Real-time systems tell
-// you when they break. Batch systems do not.
-async function batchHealthChecks() {
-  return {
-    // 1. DID IT RUN AT ALL? The check people forget.
-    didNotRun: await jobs.find({
-      name: "nightly-reindex",
-      lastSuccessAt: { $lt: hoursAgo(30) }          // expected daily
-    }),
-
-    // 2. Did it process a plausible NUMBER of items? A run that
-    //    "succeeded" with 3 documents instead of 4,000 is a failure
-    //    that reports success.
-    suspiciouslySmall: await jobs.lastRun("nightly-reindex")
-      .then(r => r.itemsProcessed < r.rollingAverage * 0.5),
-
-    // 3. END-TO-END LAG - the number a user actually experiences.
-    oldestUnprocessed: await queue.oldestMessageAge("ingest.embed"),
-
-    // 4. Did the OUTPUT arrive? For a digest, the absence of an
-    //    email is the only symptom.
-    digestsSent: await email.countSince("digest", hoursAgo(24)),
-
-    // 5. Silent data loss.
-    dlqDepth: await queue.depth("ingest.dlq"),
-
-    // 6. And the direct check that catches everything above.
-    indexedVsSource: {
-      source: await sourceSystem.documentCount(),
-      indexed: await db.documents.count(),
-      // A widening gap is the clearest single signal.
-      gap: null
-    }
-  };
-}
-
-// SCHEDULING: batch work should YIELD to interactive traffic.
-const scheduling = {
-  window: "off-peak where the business allows",
-  priority: "bulk lane, reserved capacity for interactive",
-  pausable: "the first response to an incident is often to stop the " +
-            "background work - make that one switch",
-  costCap: "a per-run ceiling, so a runaway backfill is bounded"
-};`,
-            ],
-            questions: [
-              {
-                question:
-                  "Which parts of your AI workload should be batch, and what does that save you?",
-                solution: `<p>First, <strong>async is not the same as batch</strong>. Async means not in the request; batch means many items together, later, at lower priority. Batch is the further step and it is the one that saves money.</p>
-             <p>It saves four things: <strong>money</strong>, since provider batch endpoints are commonly around half price; <strong>rate limit pressure</strong>, because batch often runs against separate limits so it stops competing with interactive traffic — often worth more than the discount; <strong>throughput</strong>; and <strong>operational simplicity</strong>.</p>
-             <p>The deciding question is always <strong>how stale can this be</strong> — seconds means real time, minutes means micro-batches, hours means batch.</p>
-             <p>So: embedding a corpus, enriching a backlog, re-processing after a model change, scheduled digests, and evaluation runs. Plus the move people miss — <strong>precomputation</strong>.</p>`,
-              },
-              {
-                question:
-                  "What is the difference between async and batch?",
-                solution:
-                  "<p>Async means the work is <strong>not inside the request</strong> — you accept it, return a handle, and process it soon, usually one item at a time. An agent run is async. Ingesting a single uploaded document is async. Batch means <strong>many items processed together, later, at lower priority</strong>, and usually at a lower price. So batch is a further step beyond async, and the distinction matters because the benefits are different. Async buys you <em>reliability and user experience</em>: the request does not time out, a deploy does not kill the work, and someone can come back to it later. Batch buys you <em>cost and throughput</em>: provider discounts, better packing, fewer round trips, and separate rate limits. You can be async without being batched and get none of the cost benefit, which is what most systems do by default. The practical implication is that if you already moved something to a queue for reliability reasons, it is worth asking whether it could also be grouped and sent to a batch endpoint — that is often a straightforward change and a large saving on the biggest line of your bill.</p>",
-              },
-              {
-                question:
-                  "What is the deciding question for batch versus real time?",
-                solution: `<p><strong>How stale can this be?</strong> Everything else follows from the answer:</p>
-             <ul>
-               <li><strong>Seconds</strong> — real time. Someone is waiting, or the data changes constantly.</li>
-               <li><strong>Minutes</strong> — incremental micro-batches. Small groups processed every few minutes, which is usually the right default.</li>
-               <li><strong>Hours</strong> — true batch, and you can use the discounted endpoints.</li>
-             </ul>
-             <p>The important part is that this is a <strong>business decision, not an engineering one</strong>. How quickly a newly uploaded policy needs to become searchable is a question for the people who will use it, and the answer is often much more relaxed than engineers assume — "within the hour" is usually fine, and that single answer unlocks the batch discount.</p>
-             <p>Asking it explicitly also prevents the opposite error: building a real-time pipeline for something nobody needed instantly, and paying full price for the privilege.</p>`,
-              },
-              {
-                question:
-                  "What does a provider batch endpoint actually save?",
-                solution:
-                  "<p>Two things, and the second is often worth more than the first. <strong>Cost</strong>: batch endpoints are commonly priced at around half of real-time rates, in exchange for accepting a slower turnaround — typically hours rather than seconds. On a million-chunk embedding job that is a meaningful number, and since you will re-index several times over a system's life it compounds. <strong>Separate rate limits</strong>: batch work usually runs against a different quota, which means it stops competing with your interactive traffic for the same capacity. That is frequently the bigger win, because competing for one shared quota is exactly how a nightly backfill degrades the live product — and no amount of internal prioritisation fully solves it if both workloads draw from the same pool. Two practical notes. The turnaround is a <em>commitment</em>, not a guarantee of speed, so batch is unsuitable for anything with a deadline you cannot slip. And you still need failure handling for individual items within a batch, since a large submission will usually come back with some failures that need retrying in the next run.</p>",
-              },
-              {
-                question:
-                  "What is precomputation and when is it the right move?",
-                solution: `<p>If you know the question in advance, answer it in advance. A daily digest per team, the answers to your top two hundred support questions, a summary generated per document at ingest, a weekly "what changed" briefing.</p>
-             <p>It is unusually good value because it converts <strong>two problems at once</strong>: a real-time cost becomes a batch cost at roughly half price, and a latency problem becomes a lookup. The user gets an instant answer and you paid the cheapest possible rate for it.</p>
-             <p>Three conditions have to hold:</p>
-             <ul>
-               <li>The questions are <strong>genuinely predictable</strong> — mine them from real traffic rather than imagination.</li>
-               <li>The answer is <strong>stable</strong> for the period between runs, so the source documents are not changing daily.</li>
-               <li>It is <strong>not personalised</strong> — or you precompute <em>per audience</em>, with each recipient's permissions applied.</li>
-             </ul>
-             <p>That last one is where it goes wrong, and it is a data leak rather than a quality problem.</p>`,
-              },
-              {
-                question:
-                  "How can precomputation become a data leak?",
-                solution:
-                  "<p>By building one artefact with broad access and sending it to many people. The classic case is a nightly digest: the job legitimately needs wide read access in order to summarise what changed, so it runs as a service account that can see everything, produces <em>one</em> digest, and emails it to two hundred employees. Every recipient is now reading content that was selected using the service account's permissions rather than their own — so someone in marketing receives a summary of a confidential board document. Nothing failed, no access control was bypassed at the storage layer, and it will not appear in any test. The rule that fixes it: <strong>the job may run with broad read access, but the output must be built per recipient with that recipient's permissions</strong>. Two hundred digests, not one — slower, and correct. Batch pricing makes that far more affordable than it sounds, which is a nice consequence. The same reasoning applies to any precomputed artefact with a mixed audience: a shared report, a channel summary, a dashboard. If the readers have different access, either scope to the narrowest reader or generate per reader.</p>",
-              },
-              {
-                question:
-                  "What is the 'batch the expensive part' pattern?",
-                solution:
-                  "<p>Most workloads are not entirely batch or entirely real time — the useful split is to do the <strong>expensive work ahead of time and keep the cheap work in the request</strong>. RAG already embodies this: embedding the whole corpus is batch, and retrieval plus a short generation is real time, which is why RAG is affordable at all. The insight is that the same logic extends further than people usually take it. Generate a <strong>summary per document at ingest</strong>, so every future answer can use it for free rather than re-deriving context each time. Pre-extract <strong>structured metadata</strong> — dates, entities, document type, sensitivity — so retrieval can filter on it instead of the model inferring it at request time. Pre-compute an entity graph if you need one. Pre-classify documents by topic. Each of those moves work out of the request path, where it is paid for on every query at full price, into a one-off batch job at half price. The general principle worth stating: <strong>every piece of work you move out of the request path is both cheaper and faster</strong>, which is a rare direction for a trade-off to run.</p>",
-              },
-              {
-                question:
-                  "Why does micro-batching usually beat a nightly job?",
-                solution: `<p>Because a nightly run has three drawbacks and only one real advantage:</p>
-             <ul>
-               <li><strong>Freshness</strong> — your index can be up to twenty-four hours stale, which for a policy document that changed this morning is a wrong answer all day.</li>
-               <li><strong>Load shape</strong> — a large spike at 2am, which you must provision for and which can trip provider limits.</li>
-               <li><strong>Failure size</strong> — one big failure loses the whole night, and you find out in the morning.</li>
-             </ul>
-             <p>Small batches every few minutes give you most of the packing and throughput benefit, a freshness window measured in minutes, load spread evenly, and failures that are small and easy to retry.</p>
-             <p>The one thing a true nightly batch buys you is the <strong>discounted batch endpoint</strong>, which trades turnaround for price. So the honest rule: micro-batch by default, and use scheduled batch when the discount is specifically what you are after — typically for a large one-off re-index.</p>`,
-              },
-              {
-                question:
-                  "Why does batch need more monitoring than real time?",
-                solution:
-                  "<p>Because the failure is <strong>silent</strong>. A real-time system tells you when it breaks — users see errors, dashboards go red, someone is paged. A batch job that stops running produces no errors at all, because it is not running. There is nobody waiting and nothing to fail. So a nightly re-index can stop firing and go unnoticed for a week, during which the index drifts steadily out of date, or four thousand documents quietly never make it in. And the symptom that eventually surfaces is not \"the batch job is broken\" — it is <strong>\"the assistant has got worse at answering questions\"</strong>, which sends the team off tuning prompts and retrieval for a problem that is a cron job that stopped. That is weeks of effort spent on the wrong layer. The response is to <strong>alert on absence rather than on errors</strong>: the job has not succeeded within its expected window, the last run processed far fewer items than usual, the oldest unprocessed item is older than expected, or the expected output never arrived. Those checks are cheap and they are the only thing that will tell you.</p>",
-              },
-              {
-                question:
-                  "What batch checks would you actually implement?",
-                solution: `<p>Six, and the first two catch most of it:</p>
-             <ul>
-               <li><strong>Did it run at all?</strong> Alert if the last success is older than the expected interval plus a margin. The check people forget.</li>
-               <li><strong>Did it process a plausible number of items?</strong> A run that "succeeded" with three documents instead of four thousand is a failure reporting success — compare against a rolling average.</li>
-               <li><strong>End-to-end lag</strong> — the age of the oldest unprocessed item, which is the number a user actually experiences.</li>
-               <li><strong>Did the output arrive?</strong> For a digest, the absence of an email is the only symptom there will ever be.</li>
-               <li><strong>Dead letter queue depth</strong>, where silent data loss accumulates.</li>
-               <li><strong>Indexed count versus source count</strong> — a widening gap is the clearest single signal that something is being dropped.</li>
-             </ul>
-             <p>That last one is worth having regardless, because it catches every failure above without needing to know which one occurred.</p>`,
-              },
-              {
-                question:
-                  "How should batch work be scheduled so it does not affect the product?",
-                solution:
-                  "<p>Four things. Run it in an <strong>off-peak window</strong> where the business allows, which is free and removes most of the contention. Put it in a <strong>bulk priority lane</strong> with reserved capacity for interactive traffic, so batch borrows only spare quota and <em>yields</em> when headroom shrinks rather than competing — this matters even off-peak, because someone is always working. Make it <strong>pausable with one switch</strong>, since the first response to a production incident is very often to stop the background work, and that should not require a deploy or a code change. And set a <strong>cost ceiling per run</strong>, so a runaway backfill is bounded — a re-index that loops or reprocesses the same documents is a real way to produce a surprising invoice overnight. Using an actual provider batch endpoint helps here too, because separate rate limits mean the contention largely disappears by construction. The metric that proves it is working is <strong>interactive latency during a backfill</strong>: if it does not move while a large job runs, the isolation is genuinely in place rather than theoretical.</p>",
-              },
-              {
-                question:
-                  "Give a concrete example of the batch and real-time split for a RAG system.",
-                solution: `<p><strong>Batch, ahead of time:</strong> parse and chunk every document; embed all chunks via the batch endpoint at roughly half price; generate a short summary per document; extract structured metadata such as dates, owner, document type and sensitivity; and classify by topic. All of this runs on ingest and on a schedule, and every item is paid for once.</p>
-             <p><strong>Real time, in the request:</strong> embed the query — one small call — retrieve, rerank the top thirty, assemble the prompt, and generate a short answer.</p>
-             <p><strong>Precomputed:</strong> the top two hundred known questions, answered nightly at batch prices and served as an instant lookup; plus per-team daily digests, generated <em>per recipient</em>.</p>
-             <p>The effect is that the expensive, repeatable work happens once at the cheapest rate, while the request path does only what genuinely depends on the question. That is what makes the per-query cost small enough to be viable at volume.</p>`,
-              },
-            ],
-            links: [
-              "https://docs.anthropic.com/en/docs/build-with-claude/batch-processing",
-              "https://docs.anthropic.com/en/api/rate-limits",
-              "https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/",
-              "https://docs.anthropic.com/en/docs/build-with-claude/embeddings",
-            ],
-          },
-                    {
-            topic: "Scalability & Load Patterns",
-            tags: ["high-frequency", "must-know", "scaling", "cost"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "Traffic goes from 100 to 100,000 requests a day. What breaks first and what do you change?"</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    Do the arithmetic before answering, because it changes the whole shape of the response.
-  </p>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  100,000 a day is about 1.2 per second on average.
-
-  But traffic is not uniform. Enterprise usage lands in
-  roughly 8 working hours, with a Monday-morning peak, so
-  the real shape is more like 3.5/sec average during the day
-  and maybe 10-15/sec at the peak.
-
-THAT IS STILL NOT A LOT. Ten requests a second is a modest
-web service.
-
-SO YOUR SERVERS ARE NOT WHAT BREAKS. Saying that clearly is
-the strongest opening, because the instinct is to talk about
-horizontal scaling and Kubernetes, and the actual failures
-are somewhere else entirely.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What Breaks First, In Order
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  1. THE PROVIDER RATE LIMIT.
-     Almost always first, and long before your own
-     infrastructure notices anything. You do not control it
-     and you cannot scale it.
-
-  2. COST.
-     1000x the traffic is 1000x the bill. At 100 a day
-     nobody looked at cost per request. At 100,000 it is the
-     main constraint. Two pence a request is 2 pounds a day
-     and then 2,000 pounds a day.
-
-  3. THE THING YOU DID PER REQUEST THAT YOU SHOULD NOT HAVE.
-     Re-embedding the same query, re-reading config,
-     fetching a policy document on every call. Free at 100 a
-     day, ruinous at 100,000.
-
-  4. CONNECTION POOLS AND FILE DESCRIPTORS. Boring, ordinary
-     and real - especially with long-lived model calls
-     holding connections open.
-
-  5. ANYTHING UNBOUNDED PER REQUEST. Retries without a
-     budget, context that grows, an agent loop with a
-     generous cap.
-
-  6. YOUR TEAM. 1000x traffic is 1000x the edge cases,
-     support tickets and complaints. This one is genuinely
-     underrated.
-
-NOTE WHAT IS NOT ON THIS LIST: the vector store. At a
-million chunks and ten queries a second it is nowhere near
-its limits, and people expect it to be the bottleneck.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Load Pattern Matters More Than The Total
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Enterprise traffic is spiky in predictable ways: Monday morning, the hour after an all-hands announcement, month-end, the day a new policy is published. <strong>Peak to average can easily be ten to one.</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    So design for the peak, not the average — and remember that your <em>own</em> batch jobs are part of the load. A backfill that starts at 9am is a self-inflicted peak on top of the real one.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What You Change, In Order Of Value
-  </h4>
-
-  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li style="margin-top: 0.5rem;"><strong>Measure first.</strong> Where is the time and money actually going? It is almost always concentrated — a small number of routes produce most of the cost, and one pipeline stage produces most of the latency.</li>
-    <li style="margin-top: 0.5rem;"><strong>Prompt caching.</strong> The biggest cost lever with essentially no risk, and it needs only that you order the prompt with the stable part first.</li>
-    <li style="margin-top: 0.5rem;"><strong>Right-size the model per route.</strong> Most traffic is simple. Sending every request to your strongest model is usually where the money goes.</li>
-    <li style="margin-top: 0.5rem;"><strong>Move everything you can out of the request path</strong> — async, batch, precompute.</li>
-    <li style="margin-top: 0.5rem;"><strong>Rate limits and quotas</strong>, so one user or one batch job cannot consume the whole quota.</li>
-    <li style="margin-top: 0.5rem;"><strong>Then scale your own services</strong>, which is usually the easy part and rarely the problem.</li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Load Testing An AI System Is Different
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-You cannot just point a load generator at it. You would
-spend real money and hit the provider's rate limit within
-seconds, which tells you nothing about your own system.
-
-SPLIT IT IN TWO:
-
-  TEST YOUR INFRASTRUCTURE with a stubbed provider that
-  returns a canned response after a realistic delay. Now you
-  can push it hard and find your connection pool limits,
-  your memory behaviour and your queue behaviour.
-
-  TEST THE PROVIDER PATH SEPARATELY, at a realistic rate,
-  to measure latency and confirm your concurrency limiter
-  behaves.
-
-And test the DEGRADED path deliberately - what happens when
-you are at the limit is the thing you actually want to know.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Decide In Advance What You Drop
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Under load you want graceful degradation rather than failure, and the order should be a decision rather than an improvisation: drop reranking first, then reduce the number of retrieved chunks, then switch to a smaller model, then shed the lowest-priority traffic. Each step costs a little quality and buys a lot of capacity.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Where The Answer Genuinely Changes
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    At around a million requests a day the architecture starts to matter differently: provisioned or dedicated capacity from the provider rather than shared rate limits, a gateway becomes necessary rather than optional, self-hosting a small model for the highest-volume simple routes becomes worth pricing, and the vector store may finally need attention. <strong>Being able to say where the threshold is</strong> is what makes the "you do not need to change much" answer credible rather than naive.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "Traffic goes from 100 to 100,000 requests a day. What
-   breaks first and what do you change?"
-
-WHAT THE INTERVIEWER IS TESTING
-  Whether you do the arithmetic, and whether you know that
-  the bottleneck in an AI system is almost never your own
-  compute. The expected wrong answer is a lecture about
-  horizontal scaling. The right answer starts with the
-  provider rate limit and the bill.
-
-WEAK ANSWER
-  "We would scale horizontally behind a load balancer, add
-   caching, move to a managed vector database, and use
-   autoscaling to handle the increased load."
-  Why it is weak: no arithmetic, so no sense that 100,000 a
-  day is about 10 requests a second at peak. It scales the
-  part that was never the bottleneck, and misses cost
-  entirely - which is the constraint that actually bites.
-
-STRONG ANSWER (about 75 seconds)
-  "First the arithmetic. 100,000 a day is about 1.2 a second
-   averaged, but enterprise traffic lands in about eight
-   working hours with a Monday-morning peak, so realistically
-   3 to 4 a second in the day and maybe 10 to 15 at peak.
-   That is a modest web service - MY SERVERS ARE NOT WHAT
-   BREAKS.
-
-   What breaks first is THE PROVIDER RATE LIMIT, long before
-   my own infrastructure notices, and I cannot scale it.
-   Second is COST - 1000x traffic is 1000x the bill, and at
-   100 a day nobody looked at cost per request. Two pence a
-   request is two pounds a day and then two thousand. Third
-   is whatever I did per-request that I should not have -
-   re-embedding the same query, re-reading config on every
-   call. Free at 100 a day. Then connection pools, then
-   anything unbounded like retries without a budget. And
-   honestly, my team - a thousand times the traffic is a
-   thousand times the edge cases and support tickets.
-
-   Notice the vector store is not on that list. At a million
-   chunks and ten queries a second it is nowhere near its
-   limits, and that is where people expect the bottleneck to
-   be.
-
-   What I would change, in order: MEASURE first, because cost
-   and latency are always concentrated in a few routes and
-   one stage. Then PROMPT CACHING, which is the biggest cost
-   lever with no risk. Then RIGHT-SIZE THE MODEL PER ROUTE,
-   because most traffic is simple and sending everything to
-   the strongest model is usually where the money goes. Then
-   move work out of the request path - async, batch,
-   precompute. Then rate limits so one user or one backfill
-   cannot take the whole quota. And only then scale my own
-   services, which is the easy part.
-
-   One thing I would flag: the load PATTERN matters more than
-   the total. Peak to average is often ten to one, and my own
-   batch jobs are part of the load - a backfill starting at
-   9am is a self-inflicted peak."
-
-FOLLOW-UPS TO EXPECT
-  "Why not the vector store?"
-      -> a million chunks is about 6GB and fits in memory.
-         Ten queries a second is nothing for it.
-  "How would you load test this?"
-      -> stub the provider to test your own infrastructure,
-         and test the provider path separately at a
-         realistic rate. Hammering it just burns money and
-         hits the limit.
-  "When does the architecture genuinely change?"
-      -> around a million a day: provisioned capacity, a
-         gateway becomes necessary, self-hosting small routes
-         becomes worth pricing.
-  "What do you drop under load?"
-      -> reranking, then fewer chunks, then a smaller model,
-         then shed low-priority traffic. Decided in advance.
-
-RED FLAGS
-  No arithmetic.
-  Scaling compute that was never the bottleneck.
-  Not mentioning cost.
-  Assuming the vector database is the problem.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// DO THE ARITHMETIC FIRST. It changes the whole shape of the
-// answer.
-
-const sizing = {
-  requestsPerDay: 100_000,
-  naiveAverage: 100_000 / 86_400,          // 1.2/sec - misleading
-
-  // Enterprise traffic is not uniform. It lands in ~8 working
-  // hours, with a Monday-morning peak.
-  workingHours: 8,
-  daytimeAverage: 100_000 / (8 * 3600),    // ~3.5/sec
-  peakToAverageRatio: 3,                   // often more
-  peakPerSecond: 10.5,
-
-  // THE CONCLUSION WORTH SAYING OUT LOUD:
-  verdict: "10-15 requests a second at peak is a MODEST WEB " +
-           "SERVICE. My servers are not what breaks."
-};
-
-// WHAT ACTUALLY BREAKS, IN ORDER.
-const breaksFirst = [
-  { rank: 1, what: "THE PROVIDER RATE LIMIT",
-    why: "you hit it long before your own infrastructure notices, " +
-         "and you cannot scale it",
-    fix: "a global concurrency limiter, priority classes, batch " +
-         "endpoints for bulk work, and ask for a limit increase" },
-
-  { rank: 2, what: "COST",
-    why: "1000x traffic is 1000x the bill. Nobody looked at cost " +
-         "per request at 100 a day.",
-    maths: "2p/request = 2 GBP/day -> 2,000 GBP/day",
-    fix: "prompt caching, model right-sizing, shorter prompts" },
-
-  { rank: 3, what: "THE PER-REQUEST WORK YOU SHOULD NOT HAVE DONE",
-    examples: ["re-embedding the same query text every call",
-               "re-reading config or a policy document per request",
-               "a synchronous lookup that could have been cached",
-               "loading the full customer record to use two fields"],
-    why: "invisible at 100 a day, ruinous at 100,000" },
-
-  { rank: 4, what: "CONNECTION POOLS AND FILE DESCRIPTORS",
-    why: "boring, ordinary, and real - long-lived model calls hold " +
-         "connections open far longer than a normal HTTP request" },
-
-  { rank: 5, what: "ANYTHING UNBOUNDED PER REQUEST",
-    examples: ["retries with no budget", "context that grows",
-               "an agent loop with a generous step cap"] },
-
-  { rank: 6, what: "YOUR TEAM",
-    why: "1000x traffic is 1000x the edge cases, support tickets " +
-         "and complaints. Genuinely underrated." }
-];
-
-// AND WHAT IS **NOT** ON THE LIST, which is where people expect
-// the bottleneck:
-const notTheProblem = {
-  vectorStore: "1M chunks is ~6GB and fits in memory. 10 qps is " +
-               "nothing for it.",
-  yourApiServers: "10 rps is a modest service",
-  theDatabase: "unless you are opening a connection per request"
-};`,
-              `// THE LOAD PATTERN MATTERS MORE THAN THE TOTAL.
-
-const loadShape = {
-  // Peak to average is often 10:1 in enterprise products.
-  mondayMorning: "3-4x normal - everyone catching up",
-  afterAnAllHands: "10x for twenty minutes - one announcement " +
-                   "mentioning the assistant",
-  monthEnd: "2x for three days - finance and reporting",
-  newPolicyPublished: "5x on the day",
-  quietPeriod: "0.2x - August, and after 6pm",
-
-  // AND THE ONE PEOPLE FORGET:
-  selfInflicted: "YOUR OWN BATCH JOBS ARE PART OF THE LOAD. A " +
-                 "backfill starting at 9am is a self-inflicted peak " +
-                 "on top of the real one."
-};
-
-// SO: DESIGN FOR THE PEAK, AND KEEP YOUR OWN WORK OUT OF IT.
-const scheduling = {
-  interactive: "reserved capacity, never yields",
-  backfills: "off-peak windows, bulk lane, yields to interactive",
-  evaluationRuns: "overnight",
-  rule: "if a job can wait, it waits until the peak has passed"
-};
-
-// DECIDE IN ADVANCE WHAT YOU DROP UNDER LOAD. Improvising this
-// during a spike is how you make it worse.
-const degradationLadder = [
-  { step: 1, drop: "reranking",
-    costs: "a little retrieval quality",
-    buys: "one model call per request removed - often 300ms and a " +
-          "third of the per-request cost" },
-  { step: 2, drop: "retrieved chunks from 8 to 4",
-    costs: "occasionally an incomplete answer",
-    buys: "much shorter prompts, so cheaper AND faster prefill" },
-  { step: 3, drop: "the strong model, switch to the small one",
-    costs: "measurable quality on hard questions",
-    buys: "large cost and latency reduction" },
-  { step: 4, drop: "low-priority traffic entirely",
-    costs: "some users queue or wait",
-    buys: "the interactive path stays healthy" }
-];
-
-// Wire it to a signal, not to a person noticing.
-async function currentMode() {
-  const headroom = await quota.headroomRatio();
-  if (headroom > 0.4) return "full";
-  if (headroom > 0.2) return "no-rerank";
-  if (headroom > 0.1) return "no-rerank-small-model";
-  return "shed-low-priority";
-}`,
-              `// WHAT YOU CHANGE, IN ORDER OF VALUE. MEASURE FIRST.
-
-// 1. MEASURE. Cost and latency are ALWAYS concentrated.
-async function whereIsTheMoneyGoing(days = 7) {
-  const rows = await usage.query({ days, groupBy: ["route"] });
-  const total = sum(rows.map(r => r.costGbp));
-
-  return rows
-    .sort((a, b) => b.costGbp - a.costGbp)
-    .map(r => ({ route: r.route, costGbp: r.costGbp,
-                 share: r.costGbp / total,
-                 callsPerDay: r.calls,
-                 pencePerCall: (r.costGbp * 100) / r.calls }))
-    .slice(0, 10);
-  // Typically 2-3 routes are 70-80% of the bill, and one of them is
-  // usually doing something it should not - a huge context, an
-  // agent loop, or the strong model on a trivial task.
-}
-
-// 2. PROMPT CACHING - the biggest lever, essentially no risk. It
-//    only requires ordering the prompt correctly.
-const promptStructure = {
-  // STABLE FIRST - this is what gets cached and reused.
-  system: SYSTEM_PROMPT + TOOL_DEFINITIONS + STABLE_POLICY_TEXT,
-  // VARIABLE LAST.
-  messages: [...history, { role: "user", content: question }]
-};
-
-// 3. RIGHT-SIZE THE MODEL PER ROUTE. Usually where the money is:
-//    most traffic is simple and all of it goes to the strong model.
-const routing = {
-  classify_intent:   { model: "small",  share: 0.30 },
-  faq_lookup:        { model: "small",  share: 0.35 },
-  document_qa:       { model: "strong", share: 0.30 },
-  complex_analysis:  { model: "strong", share: 0.05 }
-};
-// Moving 65% of traffic to a small model is often a bigger saving
-// than every other optimisation combined - but it needs an EVAL to
-// confirm the small model is good enough per route, not a guess.
-
-// 4. MOVE WORK OUT OF THE REQUEST PATH.
-const moveOut = ["embeddings for the corpus -> batch",
-                 "document summaries -> at ingest",
-                 "the top 200 questions -> precomputed nightly",
-                 "enrichment and classification -> batch"];
-
-// 5. RATE LIMITS AND QUOTAS so one user or one backfill cannot
-//    consume the whole provider quota.
-
-// 6. ONLY THEN scale your own services - which is the easy part and
-//    rarely the problem.`,
-              `// LOAD TESTING AN AI SYSTEM IS DIFFERENT. You cannot just point a
-// load generator at it - you would spend real money and hit the
-// provider limit in seconds, learning nothing about your own code.
-
-// SPLIT IT IN TWO.
-
-// A. TEST YOUR OWN INFRASTRUCTURE with a stubbed provider.
-const stubProvider = {
-  async complete(req) {
-    // Realistic timing, so queueing and connection behaviour is
-    // exercised properly.
-    await sleep(gaussian({ mean: 1800, stdDev: 600 }));
-    return { text: CANNED_RESPONSE,
-             usage: { input_tokens: 3200, output_tokens: 180 } };
-  }
-};
-// NOW you can push it to 100x and find what actually breaks:
-const infraFindings = [
-  "connection pool exhausted at 40 concurrent - model calls hold " +
-    "connections much longer than normal HTTP requests",
-  "memory grows with concurrent streams - each holds a buffer",
-  "the queue consumer could not keep up above 25/sec",
-  "the tracing exporter became the bottleneck at high volume"
-];
-
-// B. TEST THE PROVIDER PATH SEPARATELY, at a realistic rate.
-const providerTest = {
-  rate: "at and slightly above your expected peak - NOT 100x",
-  measures: ["p50/p95/p99 latency under real conditions",
-             "does the concurrency limiter hold the line",
-             "429 behaviour and whether backoff works",
-             "actual cost per request, which is often higher than " +
-               "the estimate"],
-  cost: "budget for it - this test costs real money, and that is a " +
-        "reason to run it deliberately rather than not at all"
-};
-
-// C. AND TEST THE DEGRADED PATH ON PURPOSE. What happens AT the
-//    limit is the thing you actually want to know.
-const degradedTests = [
-  "force the quota to zero headroom - does it degrade or fail?",
-  "force 429s - does concurrency reduce, or does it retry-storm?",
-  "start a backfill during peak - does interactive latency move?"
-];
-
-// WHERE THE ANSWER GENUINELY CHANGES - being able to name the
-// threshold is what makes 'you do not need to change much'
-// credible rather than naive.
-const atOneMillionPerDay = {
-  requestsPerSecondPeak: "~100",
-  changes: [
-    "provisioned or dedicated capacity instead of shared rate limits",
-    "a gateway becomes necessary rather than optional - you need " +
-      "cost attribution and central budgets",
-    "self-hosting a small model for the highest-volume simple " +
-      "routes becomes worth PRICING (not necessarily doing)",
-    "the vector store may finally need attention - sharding, " +
-      "replicas, or a dedicated service",
-    "regional deployment for latency and residency"
-  ]
-};`,
-            ],
-            questions: [
-              {
-                question:
-                  "Traffic goes from 100 to 100,000 requests a day. What breaks first and what do you change?",
-                solution: `<p>First the arithmetic. 100,000 a day is about 1.2 a second averaged, but enterprise traffic lands in roughly eight working hours with a Monday-morning peak — so realistically three to four a second during the day and maybe ten to fifteen at peak. <strong>That is a modest web service. My servers are not what breaks.</strong></p>
-             <p>What breaks first is <strong>the provider rate limit</strong>, long before my own infrastructure notices, and I cannot scale it. Second is <strong>cost</strong> — 1000× traffic is 1000× the bill. Third is whatever I did per-request that I should not have. Then connection pools, anything unbounded, and honestly my team.</p>
-             <p>What I change, in order: measure first, prompt caching, right-size the model per route, move work out of the request path, rate limits — and only then scale my own services.</p>`,
-              },
-              {
-                question:
-                  "Why is the provider rate limit the first thing to break?",
-                solution:
-                  "<p>Because it is a hard ceiling you neither control nor can scale, and it sits much lower than most people's infrastructure limits. Your own API service will handle ten or fifteen requests a second without noticing — that is an ordinary web service load — but a provider rate limit is a fixed contractual number, shared across <em>everything</em> you run against that account. So you hit it while your CPU graphs are flat and your dashboards look healthy, which is confusing the first time. It is also worse than it appears because the limit is shared with your batch work: a backfill and the interactive product draw from the same pool, so your own background jobs can consume the ceiling and make the live product fail. The responses are the ones from rate limiting and orchestration: a <strong>global concurrency limiter</strong> rather than per-process caps, <strong>priority classes</strong> reserving capacity for interactive traffic, moving bulk work to <strong>batch endpoints</strong> which often have separate limits, and simply <strong>asking the provider for a higher limit</strong>, which is frequently available and which teams forget to do.</p>",
-              },
-              {
-                question:
-                  "Why does cost become the main constraint at this scale?",
-                solution: `<p>Because it scales linearly with traffic while nobody was watching it. At a hundred requests a day, cost per request is irrelevant — two pence a request is two pounds a day and it never appears in a conversation. At a hundred thousand, the same two pence is <strong>two thousand pounds a day</strong>, and it becomes the constraint that shapes every design decision.</p>
-             <p>The reason it bites specifically at this transition is that the early system was built without cost discipline, because there was no reason for it:</p>
-             <ul>
-               <li>Every route goes to the strongest model, because it was easiest.</li>
-               <li>Prompts contain more context than they need.</li>
-               <li>Nothing is cached, because the hit rate did not matter.</li>
-               <li>Work happens per-request that could have happened once.</li>
-             </ul>
-             <p>None of those were wrong at a hundred a day. All of them are wrong at a hundred thousand, and fixing them is usually where the first large saving comes from — before any infrastructure change.</p>`,
-              },
-              {
-                question:
-                  "What per-request work becomes a problem at scale?",
-                solution:
-                  "<p>Anything you did because it was free when volume was low. The recurring examples: <strong>re-embedding the same query text</strong> on every call rather than caching it; <strong>re-reading configuration or a policy document</strong> per request instead of loading it once; a <strong>synchronous lookup</strong> that could have been cached or precomputed; <strong>loading a whole customer record</strong> to use two fields, which costs a database round trip and inflates the prompt; and generating a document summary at query time that could have been generated once at ingest. Each of these is genuinely invisible at a hundred requests a day — nobody profiles a system that runs a hundred times — and each becomes a meaningful line item at a hundred thousand. The reason this is worth calling out as its own category rather than folding into \"cost\" is that these are <em>free wins</em>: you are not trading quality for money, you are removing work that produces no value. It is also why the first step is to measure rather than to optimise, because these tend to be obvious the moment you look at a trace with per-step timings and token counts.</p>",
-              },
-              {
-                question:
-                  "Why is the vector store usually not the bottleneck?",
-                solution:
-                  "<p>Because the numbers are much smaller than people assume. A million chunks at 1536 dimensions is roughly six gigabytes of vectors, which fits comfortably in memory on a single machine, and an approximate nearest-neighbour index over that returns results in tens of milliseconds. Ten or fifteen queries per second against it is nowhere near a limit — that is a tiny fraction of what a single well-configured instance handles. So at this scale, Postgres with pgvector genuinely suffices, and reaching for a distributed vector database is solving a problem you do not have while adding a system to operate. The reason people expect it to be the bottleneck is that it feels like the exotic component, and exotic components feel fragile. In practice the boring parts — the provider limit, the bill, a connection pool — are what actually constrain you. It is worth naming <em>where</em> that changes, though, because it makes the claim credible: around ten million chunks a single instance starts to strain, and sustained high query rates or multi-region requirements are the other triggers. Below that, leave it alone.</p>",
-              },
-              {
-                question:
-                  "Why does the load pattern matter more than the daily total?",
-                solution: `<p>Because you have to provision and rate-limit for the <strong>peak</strong>, and in enterprise products peak-to-average is often ten to one. A hundred thousand requests spread evenly is one a second; the same total concentrated into working hours with a Monday-morning surge is fifteen a second at the top.</p>
-             <p>The spikes are predictable and worth naming:</p>
-             <ul>
-               <li>Monday morning, as everyone catches up.</li>
-               <li>The twenty minutes after an all-hands where someone mentions the assistant.</li>
-               <li>Month-end for anything finance-related.</li>
-               <li>The day a new policy is published.</li>
-             </ul>
-             <p>And the one people forget: <strong>your own batch jobs are part of the load</strong>. A backfill that starts at 9am is a self-inflicted peak stacked on top of the real one, which is why bulk work belongs in an off-peak window and in a lane that yields.</p>`,
-              },
-              {
-                question:
-                  "What do you change first, and why in that order?",
-                solution:
-                  "<p><strong>Measure first</strong>, because cost and latency are always concentrated and optimising blind wastes effort — typically two or three routes account for most of the bill, and one pipeline stage accounts for most of the latency. Then <strong>prompt caching</strong>, because it is the largest cost lever available with essentially no risk and no quality trade, requiring only that you order the prompt with the stable part first. Then <strong>right-size the model per route</strong>, which is usually where the money actually is: most traffic is simple classification or lookup, and sending all of it to your strongest model is the single most common source of overspend — though this one needs an evaluation per route rather than a guess. Then <strong>move work out of the request path</strong> into batch and precomputation. Then <strong>rate limits and quotas</strong>, so one user or one backfill cannot take the whole provider quota. And <strong>only then scale your own services</strong>, which is the easy part and rarely the problem. The ordering is deliberate: each step is cheaper and lower-risk than the one after it, and the first three often remove the need for the rest.</p>",
-              },
-              {
-                question:
-                  "How do you load test an AI system?",
-                solution: `<p>Not by pointing a load generator at it, because you would spend real money and hit the provider's rate limit within seconds — learning nothing about your own code. <strong>Split it in two:</strong></p>
-             <ul>
-               <li><strong>Test your own infrastructure with a stubbed provider</strong> that returns a canned response after a realistic delay. Now you can push to a hundred times peak and find what genuinely breaks — connection pool exhaustion, memory growth from concurrent streams, queue consumers falling behind, a tracing exporter becoming the bottleneck.</li>
-               <li><strong>Test the provider path separately</strong>, at and slightly above expected peak, to measure real latency percentiles, confirm the concurrency limiter holds, and check that 429 handling backs off rather than storms.</li>
-             </ul>
-             <p>Then test the <strong>degraded path deliberately</strong> — force zero headroom, force 429s, start a backfill during peak — because what happens <em>at</em> the limit is the thing you actually want to know, and it is the part nobody exercises until it happens in production.</p>`,
-              },
-              {
-                question:
-                  "What would you drop under load, and in what order?",
-                solution:
-                  "<p>Decided in advance and wired to a signal, not improvised while a spike is happening. <strong>Reranking first</strong> — it removes an entire model call per request, often around three hundred milliseconds and a meaningful share of per-request cost, at the price of somewhat worse ordering. <strong>Then fewer retrieved chunks</strong>, from eight to four, which shortens prompts substantially and therefore makes requests both cheaper and faster, occasionally at the cost of a less complete answer. <strong>Then switch to a smaller model</strong>, which is a large saving with a measurable quality cost on hard questions. <strong>Then shed low-priority traffic</strong> — queue it, or return a degraded response — so the interactive path stays healthy. Two things make this work in practice. Tie the mode to a <strong>measured signal</strong> such as remaining quota headroom, so it engages automatically rather than waiting for someone to notice. And <strong>mark responses as degraded</strong>, at least internally, so you know afterwards which answers were produced in reduced mode — otherwise a quality dip during a busy week looks like a model regression and you go looking in the wrong place.</p>",
-              },
-              {
-                question:
-                  "At what point does the architecture genuinely need to change?",
-                solution: `<p>Around a million requests a day — roughly a hundred per second at peak — several things stop being optional:</p>
-             <ul>
-               <li><strong>Provisioned or dedicated capacity</strong> from the provider, rather than shared rate limits you are constantly negotiating around.</li>
-               <li><strong>A gateway becomes necessary</strong> rather than nice to have, because you need cost attribution, central budgets and a single failover policy.</li>
-               <li><strong>Self-hosting a small model</strong> for the highest-volume simple routes becomes worth <em>pricing</em> — not necessarily doing, but the arithmetic changes enough to justify the exercise.</li>
-               <li><strong>The vector store may finally need attention</strong> — replicas, sharding, or a dedicated service.</li>
-               <li><strong>Regional deployment</strong>, usually driven by latency or data residency.</li>
-             </ul>
-             <p>Being able to name that threshold is what makes the earlier "you do not need to change much" answer credible rather than naive — it shows the recommendation is based on where the limits actually are, not on avoiding work.</p>`,
-              },
-              {
-                question:
-                  "Why is 'your team' on the list of things that break?",
-                solution:
-                  "<p>Because a thousandfold increase in traffic is also a thousandfold increase in edge cases, and that load lands on people rather than on servers. At a hundred requests a day you see a handful of unusual inputs a week and someone handles them personally. At a hundred thousand you meet every strange document format, every ambiguous question phrasing, every user who found a way to confuse the assistant — and you meet them daily. Support tickets scale with usage, and so do complaints, escalations, and requests for exceptions. The failures that were rare enough to ignore become routine enough to need a process. It is genuinely underrated because it does not appear on any dashboard, and it is often what actually limits how fast a team can grow a product. The practical responses are the ones that reduce human load rather than machine load: <strong>capture feedback with full context</strong> so triage is cheap, <strong>cluster complaints by cause</strong> so two hundred tickets become five problems, <strong>turn every recurring failure into a test case</strong> so it cannot come back, and make sure someone owns the triage rather than it being everyone's job in principle and nobody's in practice.</p>",
-              },
-              {
-                question:
-                  "What would you look at first when you actually get there?",
-                solution:
-                  "<p>A cost breakdown by route and a latency breakdown by pipeline stage, over a representative week. Both are almost always <strong>concentrated</strong>, and knowing where means you fix the right thing rather than the interesting thing. On cost, expect two or three routes to account for most of the bill, and expect at least one of them to be doing something it should not — the strong model on a trivial classification, a much larger context than needed, or an agent loop where a single call would do. On latency, expect one stage to dominate, usually reranking or the model's prefill on a long prompt. Alongside those, look at the <strong>per-route call volume</strong>, because the cheapest route at high volume can outweigh the expensive one at low volume, and people optimise the expensive one by instinct. Then check the boring things that only appear at scale: connection pool utilisation, queue depth and age, and the rate of 429s from the provider. That set takes an afternoon to assemble and it will tell you the next three things to do, in order.</p>",
-              },
-            ],
-            links: [
-              "https://docs.anthropic.com/en/api/rate-limits",
-              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
-              "https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/",
-              "https://github.com/pgvector/pgvector",
-            ],
-          },
-          {
-            topic: "Latency Budget (TTFT, p95)",
-            tags: ["high-frequency", "must-know", "performance", "ux"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "The product needs sub-3-second responses. How do you budget latency across the pipeline?"</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    Before budgeting anything, ask what "three seconds" means — because it is three different numbers and the answer changes completely depending on which one they mean.
-  </p>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  TIME TO FIRST TOKEN - when something appears on screen.
-  TIME TO COMPLETE ANSWER - when it finishes.
-  AND: p50, p95 or p99?
-
-IF YOU STREAM, TTFT IS THE NUMBER THAT MATTERS and the total
-can be much longer.
-
-  A 6-second answer that starts appearing in 800ms FEELS
-  fast.
-  A 3-second answer that appears all at once FEELS slow.
-
-That reframing is often the entire answer to this question -
-you can meet "sub-3-second" without making the pipeline
-faster at all, by streaming.
-
-AND ALWAYS BUDGET ON p95, NOT THE AVERAGE. The average hides
-exactly the experience that generates complaints.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Write The Budget Down As A Table
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-Every stage gets a number, they sum to less than the target,
-and you leave headroom. A worked example for RAG:
-
-  auth and rate limit check         5 ms
-  input guardrails                 60 ms
-  embed the query                  40 ms
-  vector search                    60 ms
-  rerank 30 candidates            300 ms   <- often the
-                                              biggest
-                                              non-model cost
-  build the prompt                 10 ms
-  model: time to first token      700 ms
-  ------------------------------------------
-  TIME TO FIRST TOKEN           ~1,175 ms
-
-  then generation streams for another 1.5-4 seconds
-  depending on the answer length
-
-BUDGET AT p95 FOR EACH STAGE, not the average, or the parts
-add up to a number the system never actually achieves.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Where The Time Actually Goes
-  </h4>
-
-  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li style="margin-top: 0.5rem;"><strong>Prefill scales with input length.</strong> The model has to process your whole prompt before producing anything, so a long context costs TTFT directly. Halving the prompt is one of the most effective latency changes available.</li>
-    <li style="margin-top: 0.5rem;"><strong>Output length dominates total time.</strong> Generation is roughly linear in tokens produced, so asking for a shorter answer is the single biggest lever on completion time — and it usually improves the answer too.</li>
-    <li style="margin-top: 0.5rem;"><strong>Reranking is frequently the largest non-model cost</strong>, and it is easy to forget it is a model call of its own.</li>
-    <li style="margin-top: 0.5rem;"><strong>Guardrails add up.</strong> A check on the input and another on the output, each a model call, can quietly be a third of your budget.</li>
-    <li style="margin-top: 0.5rem;"><strong>Retries double things.</strong> One retry inside your budget means the p99 is at least twice the p50.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Levers, In Order Of Impact
-  </h4>
-
-  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li style="margin-top: 0.5rem;"><strong>Stream.</strong> Converts a total-time problem into a TTFT problem. Usually the cheapest and largest perceived win.</li>
-    <li style="margin-top: 0.5rem;"><strong>Shorten the prompt.</strong> Fewer chunks, smaller chunks, less boilerplate — prefill time falls proportionally.</li>
-    <li style="margin-top: 0.5rem;"><strong>Prompt caching</strong>, which cuts prefill on the stable prefix dramatically.</li>
-    <li style="margin-top: 0.5rem;"><strong>Ask for a shorter answer.</strong> The biggest lever on completion time, and free.</li>
-    <li style="margin-top: 0.5rem;"><strong>Parallelise</strong> anything independent — retrieval and a metadata lookup should not be sequential.</li>
-    <li style="margin-top: 0.5rem;"><strong>Smaller model</strong> on the routes that do not need the strong one.</li>
-    <li style="margin-top: 0.5rem;"><strong>Rerank fewer candidates</strong>, or drop reranking on latency-critical routes.</li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Why The Tail Is Long, And What Makes It Worse
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    AI systems have unusually heavy tails because <strong>output length varies</strong> — the same question can produce fifty tokens or five hundred — and because a <strong>retry doubles the request</strong>. Add cold caches, provider variance, and a long-context request that takes far longer to prefill, and your p99 can be several times your p50.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Which leads to the point worth raising unprompted: <strong>if you have a hard latency budget, you probably should not have an agent.</strong> An agent's latency is unbounded by design — each step is another model call. If the product needs three seconds, the design needs to be a fixed pipeline with a known number of calls.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Measure Per Stage Or You Are Guessing
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    You cannot budget what you have not measured. Instrument every stage as a span, record p50 and p95 per stage, and look at the breakdown before optimising anything — because in practice <strong>one stage usually dominates</strong>, and it is often not the one people assume.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "The product needs sub-3-second responses. How do you
-   budget latency across the pipeline?"
-
-WHAT THE INTERVIEWER IS TESTING
-  Whether you interrogate the requirement before accepting
-  it, and whether you know that streaming changes what the
-  requirement even means. Then whether you can produce an
-  actual budget with numbers rather than a list of
-  optimisations.
-
-WEAK ANSWER
-  "We would optimise each component, use a faster model,
-   cache aggressively, and monitor latency to make sure we
-   stay under three seconds."
-  Why it is weak: no definition of what three seconds means,
-  no per-stage numbers, no p95, and no mention of streaming -
-  which is usually the answer.
-
-STRONG ANSWER (about 75 seconds)
-  "First I would ask what three seconds means, because it is
-   three different numbers. TIME TO FIRST TOKEN, time to the
-   COMPLETE answer, and at which percentile. If we stream,
-   TTFT is the number that matters and the total can be much
-   longer - a six-second answer that starts appearing in 800
-   milliseconds feels fast, and a three-second answer that
-   appears all at once feels slow. So streaming often meets
-   the requirement without making the pipeline faster at all.
-
-   Then I would write the budget as a table with a number per
-   stage, at p95 rather than average, summing to less than
-   the target with headroom. For a RAG pipeline: auth and
-   rate limiting 5ms, input guardrails 60, embed the query
-   40, vector search 60, rerank 300 - often the biggest
-   non-model cost - prompt assembly 10, and model TTFT 700.
-   That is about 1.2 seconds to first token, and then
-   generation streams for another one and a half to four
-   seconds depending on length.
-
-   Knowing where the time goes matters. PREFILL SCALES WITH
-   INPUT LENGTH, so a long context costs TTFT directly and
-   halving the prompt is one of the most effective changes
-   available. OUTPUT LENGTH dominates total time, so asking
-   for a shorter answer is the biggest lever on completion
-   and it is free. And guardrails add up - an input check and
-   an output check are two more model calls.
-
-   Levers in order: stream, shorten the prompt, prompt
-   caching, ask for a shorter answer, parallelise anything
-   independent, smaller model where the route allows, and
-   rerank fewer candidates.
-
-   One thing I would raise unprompted: AI tails are heavy,
-   because output length varies and a single retry doubles
-   the request. So p99 can be several times p50. And IF THERE
-   IS A HARD LATENCY BUDGET, THE DESIGN PROBABLY SHOULD NOT
-   BE AN AGENT - agent latency is unbounded by design, so it
-   needs to be a fixed pipeline with a known number of
-   calls."
-
-FOLLOW-UPS TO EXPECT
-  "Which single change helps most?"
-      -> streaming, for perceived latency. Then shortening
-         the prompt, because prefill is proportional to
-         input length.
-  "Why p95 rather than average?"
-      -> the average hides the experience that generates
-         complaints, and AI tails are unusually heavy.
-  "What makes the tail bad?"
-      -> variable output length, retries doubling the
-         request, cold caches, and long-context requests.
-  "Can an agent meet a 3-second budget?"
-      -> not reliably. Its latency is unbounded by design.
-         Use a fixed pipeline.
-
-RED FLAGS
-  Not asking what three seconds means.
-  No per-stage numbers.
-  Budgeting on the average.
-  Never mentioning streaming.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// FIRST: ASK WHAT "3 SECONDS" MEANS. It is three different
-// numbers, and the answer changes completely.
-
-const whatDoesItMean = {
-  timeToFirstToken: "when something appears on screen",
-  timeToComplete: "when it finishes",
-  percentile: "p50, p95 or p99?",
-
-  // THE REFRAMING THAT IS OFTEN THE WHOLE ANSWER:
-  streamingChangesIt:
-    "a 6-second answer that starts appearing in 800ms FEELS fast. " +
-    "A 3-second answer that appears all at once FEELS slow. So " +
-    "streaming can meet 'sub-3-second' WITHOUT making the pipeline " +
-    "faster at all."
-};
-
-// THEN WRITE THE BUDGET AS A TABLE. Numbers per stage, at p95,
-// summing to less than the target, with headroom.
-const latencyBudget = {
-  target: { timeToFirstTokenMs: 1500, totalMs: 6000, at: "p95" },
-
-  stages: [
-    { name: "auth + rate limit",     budgetMs: 5,   measuredP95: 4 },
-    { name: "input guardrails",      budgetMs: 60,  measuredP95: 71 },
-    { name: "embed query",           budgetMs: 40,  measuredP95: 38 },
-    { name: "vector search",         budgetMs: 60,  measuredP95: 54 },
-    // OFTEN THE BIGGEST NON-MODEL COST, and easy to forget it is a
-    // model call of its own.
-    { name: "rerank 30 candidates",  budgetMs: 300, measuredP95: 340 },
-    { name: "build prompt",          budgetMs: 10,  measuredP95: 8 },
-    { name: "model TTFT",            budgetMs: 700, measuredP95: 812 }
-  ],
-
-  get totalBudget() { return sum(this.stages.map(s => s.budgetMs)); },
-  get totalMeasured() { return sum(this.stages.map(s => s.measuredP95)); },
-  // 1175 budgeted, 1327 measured -> over. And you can see EXACTLY
-  // which stages to attack: rerank and model TTFT.
-  headroomMs: 1500 - 1327
-};
-
-// BUDGET AT p95 PER STAGE, not the average - or the parts sum to a
-// number the system never actually achieves.
-function budgetCheck(budget) {
-  return budget.stages
-    .filter(s => s.measuredP95 > s.budgetMs)
-    .map(s => ({ stage: s.name, over: s.measuredP95 - s.budgetMs,
-                 share: s.measuredP95 / budget.totalMeasured }));
-}`,
-              `// WHERE THE TIME ACTUALLY GOES. Two facts explain most of it.
-
-const whereTimeGoes = {
-  // FACT 1: the model must process your ENTIRE prompt before
-  // producing a single token. So a long context costs TTFT
-  // DIRECTLY.
-  prefill: {
-    scalesWith: "INPUT length",
-    affects: "time to first token",
-    example: { prompt2k: "~350ms", prompt8k: "~900ms",
-               prompt30k: "~2.8s" },
-    // One of the most effective latency changes available.
-    lever: "halve the prompt and you roughly halve prefill"
-  },
-
-  // FACT 2: generation is roughly linear in tokens produced.
-  decode: {
-    scalesWith: "OUTPUT length",
-    affects: "total time",
-    example: "at ~60 tokens/sec, a 500-token answer is ~8 seconds",
-    // The biggest lever on completion time, and it is free - and it
-    // usually makes the answer better too.
-    lever: "ask for a shorter answer"
-  },
-
-  guardrails: "an input check AND an output check are two more " +
-              "model calls - quietly a third of your budget",
-  retries: "one retry inside the budget means p99 is at least 2x p50"
-};
-
-// THE LEVERS, IN ORDER OF IMPACT.
-const levers = [
-  { rank: 1, lever: "STREAM",
-    effect: "converts a total-time problem into a TTFT problem",
-    cost: "none - and it is usually the largest perceived win" },
-
-  { rank: 2, lever: "SHORTEN THE PROMPT",
-    how: "fewer chunks (8 -> 4), smaller chunks, less boilerplate",
-    effect: "prefill falls proportionally" },
-
-  { rank: 3, lever: "PROMPT CACHING",
-    effect: "cuts prefill on the stable prefix dramatically",
-    requires: "stable content FIRST in the prompt" },
-
-  { rank: 4, lever: "ASK FOR A SHORTER ANSWER",
-    how: "an explicit instruction, plus a max_tokens ceiling",
-    effect: "the biggest lever on COMPLETION time, and free" },
-
-  { rank: 5, lever: "PARALLELISE INDEPENDENT WORK",
-    example: "retrieval and a metadata lookup should not be " +
-             "sequential" },
-
-  { rank: 6, lever: "SMALLER MODEL where the route allows" },
-
-  { rank: 7, lever: "RERANK FEWER CANDIDATES, or drop reranking on " +
-                    "latency-critical routes" }
-];
-
-// PARALLELISE - a common easy win.
-async function gatherContext(question, session) {
-  // Sequential: 40 + 60 + 25 = 125ms. Parallel: ~60ms.
-  const [queryVec, userMeta, recentContext] = await Promise.all([
-    embedCached(question),
-    db.users.getPreferences(session.userId),
-    conversationStore.recent(session.id)
-  ]);
-  return { queryVec, userMeta, recentContext };
-}`,
-              `// STREAMING IS USUALLY THE ANSWER. And it has TWO timeouts, not
-// one - people set only the total.
-
-async function answerStreaming(question, session, res) {
-  const t0 = clock.now();
-
-  // Do everything before the model call as fast as possible - this
-  // is ALL pre-first-token time and the user sees nothing yet.
-  const chunks = await retrieveAndRerank(question, session);
-  const prompt = buildPrompt(question, chunks);
-
-  // PERCEIVED LATENCY TRICK: send the SOURCES first. The user has
-  // something to read while generation starts.
-  res.write(sse("sources", chunks.map(c => ({ title: c.title,
-                                              link: c.url }))));
-
-  const stream = await model.stream(prompt, {
-    // Keep the answer short - the biggest lever on completion time.
-    max_tokens: 400,
-    system: prompt.system + "\\nBe concise. Answer in under 150 words."
-  });
-
-  let firstToken = null;
-  for await (const token of stream) {
-    if (!firstToken) {
-      firstToken = clock.now();
-      metrics.observe("ttft_ms", firstToken - t0);    // THE number
-    }
-    res.write(sse("token", token));
-  }
-  metrics.observe("total_ms", clock.now() - t0);
-}
-
-// TWO TIMEOUTS FOR STREAMING:
-const streamTimeouts = {
-  // If nothing has arrived, the request is stuck and waiting longer
-  // will not help.
-  timeToFirstTokenMs: 8_000,
-  // A stream can trickle indefinitely.
-  totalMs: 45_000,
-  // And each layer's timeout must be SHORTER than the layer above,
-  // or your caller gives up first and the work is wasted.
-  rule: "inner timeout < outer timeout"
-};
-
-// PERCEIVED LATENCY IS NOT THE SAME AS MEASURED LATENCY.
-const perceivedTricks = [
-  "stream - the big one",
-  "show the retrieved SOURCES before the answer starts generating",
-  "show a real step label ('searching policies...') rather than a " +
-    "spinner",
-  "render markdown progressively rather than at the end",
-  "for anything genuinely long, return a run id and let them come " +
-    "back"
-];`,
-              `// WHY THE TAIL IS HEAVY, AND WHY AN AGENT CANNOT MEET A HARD
-// BUDGET.
-
-const tailCauses = {
-  // The same question can produce 50 tokens or 500.
-  variableOutputLength: "the single biggest cause - and it is why " +
-                        "p99 can be several times p50",
-  retries: "one retry doubles the request. A retry inside your " +
-           "budget guarantees a heavy tail.",
-  coldCache: "a prompt-cache miss means full prefill",
-  longContextRequests: "a user pasting a large document",
-  providerVariance: "their p99 is your p99",
-  queueing: "at peak, waiting for a concurrency slot"
-};
-
-// MEASURE p50 AND p95 PER STAGE. You cannot budget what you have
-// not measured - and in practice ONE STAGE DOMINATES, usually not
-// the one people assume.
-function latencyReport(spans) {
-  return Object.entries(groupBy(spans, s => s.name)).map(([name, xs]) => ({
-    stage: name,
-    p50: percentile(xs.map(x => x.ms), 50),
-    p95: percentile(xs.map(x => x.ms), 95),
-    p99: percentile(xs.map(x => x.ms), 99),
-    shareOfP95: percentile(xs.map(x => x.ms), 95) / totalP95,
-    // A stage whose p99 is far above its p95 is where the tail
-    // lives - usually the model call or a retry path.
-    tailRatio: percentile(xs.map(x => x.ms), 99) /
-               percentile(xs.map(x => x.ms), 50)
-  })).sort((a, b) => b.shareOfP95 - a.shareOfP95);
-}
-
-// THE POINT WORTH RAISING UNPROMPTED:
-const agentsAndLatency = {
-  problem: "an agent's latency is UNBOUNDED BY DESIGN - each step " +
-           "is another model call, and the number of steps is " +
-           "decided at runtime",
-  maths: "3 steps x 2s = 6s. 8 steps = 16s. And you cannot predict " +
-         "which you will get.",
-  // If the product needs 3 seconds, this is the design decision.
-  conclusion: "IF THERE IS A HARD LATENCY BUDGET, THE DESIGN SHOULD " +
-              "NOT BE AN AGENT. Use a fixed pipeline with a known " +
-              "number of calls.",
-  ifYouMustHaveOne: [
-    "cap steps hard - 3, not 10",
-    "stream the intermediate steps so the user sees progress",
-    "return partial results at the budget rather than an error",
-    "or make it async: return a run id and notify when done"
-  ]
-};
-
-// AND DEGRADE ON LATENCY, not just on load.
-async function answerWithinBudget(question, session, budgetMs) {
-  const deadline = clock.now() + budgetMs;
-  const chunks = await search(question, session);
-
-  // Only rerank if there is time for it.
-  const top = (deadline - clock.now()) > 400
-    ? await rerank(question, chunks, { k: 8 })
-    : chunks.slice(0, 5);          // skip it, accept worse ordering
-
-  return model.stream(buildPrompt(question, top), {
-    max_tokens: (deadline - clock.now()) > 3000 ? 500 : 200
-  });
-}`,
-            ],
-            questions: [
-              {
-                question:
-                  "The product needs sub-3-second responses. How do you budget latency across the pipeline?",
-                solution: `<p>First I would ask what three seconds <em>means</em>, because it is three different numbers: <strong>time to first token</strong>, time to the complete answer, and at which percentile. If we stream, TTFT is the number that matters and the total can be much longer — a six-second answer that starts appearing in 800ms feels fast, and a three-second answer that appears all at once feels slow. So streaming often meets the requirement without making the pipeline faster at all.</p>
-             <p>Then I write the budget as a table, at <strong>p95 rather than average</strong>, summing to less than the target with headroom: auth 5ms, guardrails 60, embed 40, search 60, rerank 300, prompt assembly 10, model TTFT 700 — about 1.2 seconds to first token, then generation streams.</p>`,
-              },
-              {
-                question:
-                  "Why does streaming change what the requirement means?",
-                solution:
-                  "<p>Because it separates <em>responsiveness</em> from <em>completion</em>, and users judge responsiveness. A six-second answer that begins appearing after 800 milliseconds feels fast, because there is immediate evidence the system is working and the reader starts consuming content while the rest arrives. A three-second answer delivered all at once feels slow, because for three seconds nothing happens at all. So the same measured latency produces opposite impressions depending on whether you stream. That is why the first move is to ask which number the requirement refers to: very often \"sub-three-second\" is a proxy for \"it should not feel slow\", and streaming satisfies it <strong>without making the pipeline faster at all</strong> — which is a far cheaper answer than optimising every stage. It also changes what you optimise: with streaming, everything before the first token matters enormously and everything after it matters much less, so effort concentrates on retrieval, reranking and prefill rather than on total generation time. The caveat worth stating is that streaming does not help anything that must wait for the complete answer, such as an output guardrail or an action.</p>",
-              },
-              {
-                question:
-                  "Why budget on p95 rather than the average?",
-                solution: `<p>Because the average hides exactly the experience that generates complaints, and AI systems have unusually heavy tails.</p>
-             <p>A system averaging 1.5 seconds can easily have a p95 of four seconds and a p99 of nine. The average looks like a success; one user in twenty is having a bad time, and one in a hundred is having a very bad time. Those are the people who complain, and no amount of a good average persuades them otherwise.</p>
-             <p>The tails are heavy here for specific reasons:</p>
-             <ul>
-               <li><strong>Output length varies</strong> — the same question can produce fifty tokens or five hundred.</li>
-               <li><strong>A single retry doubles the request.</strong></li>
-               <li>Cold prompt caches mean full prefill.</li>
-               <li>A user pasting a large document produces a much longer prefill.</li>
-             </ul>
-             <p>Budget every stage at p95 too, not just the total — otherwise the parts sum to a number the system never actually achieves.</p>`,
-              },
-              {
-                question:
-                  "Where does the time actually go in a RAG pipeline?",
-                solution:
-                  "<p>Two facts explain most of it. <strong>Prefill scales with input length</strong>: the model must process your entire prompt before emitting a single token, so a long context costs time-to-first-token directly and proportionally. That makes shortening the prompt one of the most effective latency changes available, and it is why sending eight chunks instead of four is a latency decision as much as a quality one. <strong>Decode scales with output length</strong>: generation is roughly linear in tokens produced, so total time is dominated by how much the model writes — a five-hundred-token answer takes several times as long as a hundred-token one. Beyond those: <strong>reranking is frequently the largest non-model cost</strong> in the pipeline and it is easy to forget it is a model call of its own, often three hundred milliseconds or more. <strong>Guardrails add up</strong>, since an input check and an output check are two further model calls and can quietly consume a third of the budget. And embedding and vector search, which people expect to be significant, are usually tens of milliseconds and not worth optimising.</p>",
-              },
-              {
-                question:
-                  "What are the levers, in order of impact?",
-                solution: `<ol>
-               <li><strong>Stream.</strong> Converts a total-time problem into a TTFT problem. Cheapest and largest perceived win.</li>
-               <li><strong>Shorten the prompt</strong> — fewer chunks, smaller chunks, less boilerplate. Prefill falls proportionally.</li>
-               <li><strong>Prompt caching</strong>, which cuts prefill on the stable prefix dramatically and needs only that you order the prompt correctly.</li>
-               <li><strong>Ask for a shorter answer</strong> — an explicit instruction plus a <code>max_tokens</code> ceiling. The biggest lever on completion time, it is free, and it usually improves the answer.</li>
-               <li><strong>Parallelise</strong> anything independent — retrieval and a metadata lookup should not be sequential.</li>
-               <li><strong>Smaller model</strong> on routes that do not need the strong one.</li>
-               <li><strong>Rerank fewer candidates</strong>, or drop reranking on latency-critical routes.</li>
-             </ol>
-             <p>Note the first four cost nothing in infrastructure. Measure the per-stage breakdown before doing any of it, because one stage usually dominates and it is often not the expected one.</p>`,
-              },
-              {
-                question:
-                  "Can an agent meet a hard latency budget?",
-                solution:
-                  "<p>Not reliably, and this is worth raising unprompted because it is a design decision rather than a tuning problem. <strong>An agent's latency is unbounded by design</strong>: each step is another model call, and the number of steps is decided at runtime based on what the agent finds. Three steps at two seconds each is six seconds; eight steps is sixteen; and you cannot predict in advance which you will get for a given request. So if the product genuinely requires three seconds, the right answer is a <strong>fixed pipeline with a known number of calls</strong> — which you can budget, measure and hold to a p95. If an agent is genuinely necessary, there are three mitigations, all imperfect. <strong>Cap the steps hard</strong> — three rather than ten — accepting reduced capability. <strong>Stream the intermediate steps</strong> so the user sees progress rather than a spinner, which changes the perceived experience substantially. And <strong>return the best partial result</strong> when the budget is reached rather than an error. Or make it explicitly asynchronous: return a run identifier and notify when it completes, which is honest about what the system is doing.</p>",
-              },
-              {
-                question:
-                  "How do you measure latency properly?",
-                solution:
-                  "<p><strong>Per stage, as spans, at multiple percentiles</strong> — because you cannot budget what you have not measured, and in practice one stage usually dominates while people optimise a different one. Instrument every step: auth, guardrails, embedding, search, reranking, prompt assembly, time to first token, and total generation. Record p50, p95 and p99 for each, plus each stage's share of the total p95 so you know where to look first. Two derived numbers are especially useful. The <strong>tail ratio</strong> per stage — p99 divided by p50 — tells you where the variance lives, and a stage whose p99 is far above its p95 is usually the model call or a retry path rather than something structural. And the <strong>gap between budgeted and measured</strong> per stage turns the budget from a document into a working tool, since it names exactly which stages are over. For streaming, measure time-to-first-token as a first-class metric separate from total, because they are optimised differently and conflating them hides the thing users actually feel.</p>",
-              },
-              {
-                question:
-                  "What perceived-latency techniques are worth using?",
-                solution: `<p>Several, and they are usually cheaper than making the system faster:</p>
-             <ul>
-               <li><strong>Stream</strong> — the big one.</li>
-               <li><strong>Show the retrieved sources before the answer starts.</strong> They are available a second before generation begins, so the user has something to read immediately and it also builds trust by showing what the answer is based on.</li>
-               <li><strong>Show a real step label</strong> — "searching policies…" — rather than a spinner. Honest progress feels far shorter than an indeterminate wait.</li>
-               <li><strong>Render markdown progressively</strong> rather than buffering until the end, so formatting appears as it arrives.</li>
-               <li><strong>For genuinely long work, return a run ID</strong> and let the user come back, rather than holding them on a loading screen.</li>
-             </ul>
-             <p>The principle is that people tolerate waiting far better when they can see something happening and can tell how far along it is. Perceived latency and measured latency are different metrics, and the product is judged on the first.</p>`,
-              },
-              {
-                question:
-                  "How does streaming complicate timeouts?",
-                solution:
-                  "<p>It requires <strong>two timeouts rather than one</strong>, and people usually set only the total. <strong>Time to first token</strong> is the one that detects a stuck request: if nothing has arrived after eight or ten seconds, the call is not going to recover and waiting longer only consumes a worker. <strong>Total duration</strong> is a separate ceiling, because a stream can trickle slowly for a very long time without ever technically stalling, and without a cap you have an unbounded request. Setting only the total means a hung request occupies resources for the full duration; setting only the first-token timeout means a slow trickle runs forever. Two related points. Each layer's timeout must be <strong>shorter than the layer above it</strong>, or your caller gives up first and all the work is wasted — including the tokens you already paid for. And streaming interacts with output guardrails, since you have already sent the beginning before you can check the whole answer: the usual resolution is to stream text but never stream an <em>action</em>, and to buffer fully on the small number of high-stakes routes where a wrong answer matters more than perceived speed.</p>",
-              },
-              {
-                question:
-                  "What would you cut first if you were over budget?",
-                solution:
-                  "<p>Look at the measured breakdown rather than guessing, but the usual order is predictable. <strong>Reranking</strong> is typically the largest non-model cost and removing it recovers three hundred milliseconds or more at the price of somewhat worse ordering — and reranking fewer candidates, say fifteen instead of thirty, is a middle option that keeps most of the benefit. Then <strong>fewer retrieved chunks</strong>, which shortens the prompt and therefore reduces prefill directly, so it helps time-to-first-token twice over. Then a <strong>shorter maximum answer length</strong>, which is free and usually improves quality. Then a <strong>smaller model</strong> on routes where evaluation shows it is good enough. Then <strong>consolidate guardrails</strong> — running the input and output checks as fewer calls, or dropping the ones that catch almost nothing. What I would resist cutting is anything that affects correctness silently, such as the permission re-check or citation verification, because those are cheap and the failure they prevent is much worse than a slow response. It is also worth making the cuts <strong>dynamic</strong> — skip reranking only when the remaining budget is tight — rather than removing them permanently.</p>",
-              },
-              {
-                question:
-                  "How do you keep the latency budget from drifting over time?",
-                solution: `<p>Treat it like any other regression risk, because it drifts silently as features are added — one more guardrail, two more chunks, a slightly longer system prompt, and six months later it is two seconds slower with no single change to blame.</p>
-             <ul>
-               <li><strong>Put the budget in code as a test.</strong> Run a fixed set of representative requests in CI and fail the build if a stage exceeds its allocation.</li>
-               <li><strong>Alert on p95 by stage</strong>, not just overall, so you can see which stage moved.</li>
-               <li><strong>Review the budget table when adding anything to the request path</strong> — a new check must come with a number and something to remove if it does not fit.</li>
-               <li><strong>Watch prompt length as a metric</strong>, since it grows quietly and drives prefill directly.</li>
-             </ul>
-             <p>The habit that matters most is requiring a latency number in the design of any new feature that sits in the request path, so the trade-off is made deliberately rather than discovered later.</p>`,
-              },
-              {
-                question:
-                  "What would you tell a product owner who asks for one second?",
-                solution:
-                  "<p>Ask what they are actually optimising for, then show the arithmetic. One second to <em>first token</em> is achievable with streaming, a short prompt, prompt caching and no reranking — so if the goal is \"it should feel instant\", that is a real conversation with a real answer. One second to a <em>complete</em> answer is a different matter: generation alone for a useful reply takes longer than that, so meeting it would mean very short answers, a small model, and no retrieval-heavy context — which is a materially different product. Laying out the budget table makes this concrete rather than argumentative: here is what each stage costs, here is what we would have to remove, and here is the quality you would be trading. Very often the outcome is that they wanted responsiveness rather than completion, and streaming plus a sources-first display satisfies it entirely. Where the requirement is genuine — a typeahead or an autocomplete — the honest answer is that it is a different design: a small fast model, aggressive caching, and no agent or reranking in the path.</p>",
-              },
-            ],
-            links: [
-              "https://docs.anthropic.com/en/docs/build-with-claude/streaming",
-              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
-              "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
-              "https://docs.anthropic.com/en/docs/about-claude/models",
-            ],
-          },
-           {
-            topic: "POC to Production",
-            tags: ["high-frequency", "must-know", "process", "shipping"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "A notebook demo works great. What has to change before it serves real users?"</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    Start with the honest framing, because it sets up everything else: <strong>the demo proved the idea is possible. It did not prove the idea is shippable.</strong> Those are very different claims, and the second one is most of the work.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What A Notebook Quietly Assumes
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  ONE USER - you - who knows exactly what to ask
-  DATA YOU HAND-PICKED, and probably cleaned up first
-  PERMISSIONS DO NOT EXIST
-  LATENCY DOES NOT MATTER - you waited, and did not mind
-  COST DOES NOT MATTER - a few dozen calls
-  FAILURE DOES NOT MATTER - you re-ran the cell
-  NOBODY IS ATTACKING IT
-  NOTHING CHANGES - the documents are frozen
-  CORRECTNESS WAS JUDGED BY EYE, ONCE, on examples you
-    invented
-
-Every one of those is false in production, and each one is a
-piece of engineering.
-
-THAT LIST IS THE ANSWER TO THE QUESTION. Work through it and
-you have named everything that has to change.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Uncomfortable Part: The Model And The Prompt Are The Easy Bits
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    The POC was about choosing a model and writing a prompt. Those are usually the <em>least</em> of the remaining work. What is left is ingestion, permissions, evaluation, serving, reliability, cost control, observability, security and operations — and most of that is ordinary software engineering rather than anything AI-specific.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Saying this plainly is what stops a stakeholder concluding that because the demo took two weeks, production will take three.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What Has To Change
-  </h4>
-
-  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li style="margin-top: 0.5rem;"><strong>Evaluation.</strong> The single biggest item. In the notebook you judged by eye on questions you thought of. You need a golden set, a bar agreed in advance, and a run in CI — because without it you cannot change the prompt again without gambling.</li>
-    <li style="margin-top: 0.5rem;"><strong>The data pipeline.</strong> Hand-loaded files become continuous ingestion: connectors, incremental sync, deletions, permission changes, a queue, restartability, and parsing that survives real documents rather than the three clean PDFs you tested with.</li>
-    <li style="margin-top: 0.5rem;"><strong>Permissions.</strong> They did not exist in the notebook. In an enterprise product this is usually the largest single engineering item.</li>
-    <li style="margin-top: 0.5rem;"><strong>Serving.</strong> An API with authentication, streaming, async for anything long, rate limits, timeouts — instead of a synchronous cell that ran once.</li>
-    <li style="margin-top: 0.5rem;"><strong>Reliability.</strong> Retries with jitter, fallbacks, circuit breakers, and a defined degraded mode.</li>
-    <li style="margin-top: 0.5rem;"><strong>Cost control.</strong> Attribution, budgets, caps and caching, because nobody metered the notebook.</li>
-    <li style="margin-top: 0.5rem;"><strong>Observability.</strong> Traces that record the retrieved chunks, per-stage latency, cost per request, and captured feedback.</li>
-    <li style="margin-top: 0.5rem;"><strong>Security.</strong> Injection, output escaping, secrets out of the notebook, an audit trail.</li>
-    <li style="margin-top: 0.5rem;"><strong>Operations.</strong> On-call, an incident process, deploys that do not lose in-flight work, and a plan for model deprecation.</li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Demo Gap
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-A POC's apparent quality is inflated, and it is worth
-knowing exactly how:
-
-  YOU CHOSE THE DOCUMENTS. Clean, text-based, well
-  structured. The real corpus has scans, tables, three
-  undated versions of the same policy, and things nobody has
-  opened since 2019.
-
-  YOU CHOSE THE QUESTIONS. You wrote them knowing what the
-  documents contained. Real users ask short, vague questions
-  about things you never covered.
-
-  YOU JUDGED THE ANSWERS. Once, by eye, wanting it to work.
-
-SO REAL QUALITY IS USUALLY MUCH LOWER THAN THE DEMO
-SUGGESTED - and the worst time to discover that is after
-building all the infrastructure around it.
-
-THE FIX: TEST ON REAL DATA AND REAL QUESTIONS FIRST, before
-you build anything else.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Order That Saves The Most Time
-  </h4>
-
-  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li style="margin-top: 0.5rem;"><strong>Write the golden set first</strong>, before any refactoring. Even fifty cases. Otherwise you cannot tell whether the rewrite broke anything.</li>
-    <li style="margin-top: 0.5rem;"><strong>Point it at the real corpus.</strong> Not the sample. This is where most POCs die, and finding out in week one is a scoping conversation rather than a failed project.</li>
-    <li style="margin-top: 0.5rem;"><strong>Then permissions</strong>, because they touch ingestion, retrieval, caching and evaluation, and retrofitting them is painful.</li>
-    <li style="margin-top: 0.5rem;"><strong>Then serving, reliability and operations</strong>, which are well-understood engineering.</li>
-  </ol>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    And <strong>keep three things from the POC</strong>: the prompt as a starting point, the examples as your first golden-set cases, and — most valuable — the knowledge of what the model can and cannot do on this task.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "A notebook demo works great. What has to change before it
-   serves real users?"
-
-WHAT THE INTERVIEWER IS TESTING
-  Whether you know how much is left. Almost everyone can
-  build the demo now, and the gap between a demo and a
-  product is where AI projects actually fail. They are also
-  listening for whether you know the model and the prompt are
-  the easy part.
-
-WEAK ANSWER
-  "We would need to productionise it - add error handling,
-   deploy it properly, scale the infrastructure and add
-   monitoring."
-  Why it is weak: generic software advice. Nothing about
-  evaluation, permissions, the messy real corpus, or the fact
-  that the demo's quality was inflated by hand-picked data.
-
-STRONG ANSWER (about 90 seconds)
-  "The honest framing first: the demo proved the idea is
-   POSSIBLE, not that it is SHIPPABLE. And the useful way to
-   list what changes is to name what the notebook quietly
-   ASSUMED - one user, who was me, and who knew what to ask.
-   Data I hand-picked and probably cleaned. No permissions.
-   Latency did not matter because I waited. Cost did not
-   matter because it was a few dozen calls. Failure did not
-   matter because I re-ran the cell. Nobody was attacking it.
-   Nothing changed. And correctness was judged by eye, once,
-   on questions I invented. Every one of those is false in
-   production and each is a piece of engineering.
-
-   The biggest item is EVALUATION - a golden set, a bar
-   agreed in advance, and a run in CI. Without it I cannot
-   change the prompt again without gambling, so the product
-   stops improving. Then the DATA PIPELINE: hand-loaded files
-   become continuous ingestion with connectors, incremental
-   sync, deletions, permission changes and parsing that
-   survives real documents. Then PERMISSIONS, which did not
-   exist in the notebook and are usually the largest single
-   engineering item. Then serving, reliability, cost control,
-   observability, security and operations.
-
-   The uncomfortable part is that the model choice and the
-   prompt - the things the POC was actually about - are the
-   LEAST of what is left. Most of the remaining work is
-   ordinary software engineering.
-
-   I would also flag THE DEMO GAP. I chose the documents, I
-   chose the questions knowing what was in them, and I judged
-   the answers wanting it to work. So real quality is usually
-   much lower, and the worst time to find that out is after
-   building all the infrastructure. So the order matters:
-   golden set first, then point it at the REAL corpus, then
-   permissions, then the rest. Most POCs die on the real
-   corpus, and discovering that in week one is a scoping
-   conversation rather than a failed project."
-
-FOLLOW-UPS TO EXPECT
-  "What is the single biggest item?"
-      -> evaluation, because without it you cannot change
-         anything safely and the product stops improving.
-  "What usually kills a POC?"
-      -> the real corpus. Scans, tables, undated duplicates,
-         and knowledge that was never written down.
-  "How long does production take?"
-      -> the demo took two weeks; production is typically
-         three to six months, and most of it is not AI work.
-  "What would you keep from the POC?"
-      -> the prompt as a starting point, the examples as
-         golden-set cases, and what you learned about the
-         model's limits on this task.
-
-RED FLAGS
-  Generic "productionise it" advice.
-  No mention of evaluation or permissions.
-  Not knowing the demo's quality was inflated.
-  Assuming the model and prompt are the remaining work.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// WORK THROUGH WHAT THE NOTEBOOK ASSUMED. That list IS the answer.
-
-const notebookAssumptions = {
-  users: { assumed: "one - me", reality: "5,000 people who did not " +
-           "write the prompt and do not know what it can do",
-           work: "an API, auth, sessions, rate limits, onboarding" },
-
-  data: { assumed: "3 clean PDFs I picked",
-          reality: "100,000 documents including scans, spreadsheets, " +
-                   "three undated versions of the same policy",
-          work: "connectors, incremental sync, OCR, deletions, a queue" },
-
-  permissions: { assumed: "none existed",
-                 reality: "everyone sees different documents",
-                 work: "ACL mirroring, query-time filtering, " +
-                       "re-verification, permission-keyed caching",
-                 // Usually the largest single item in an enterprise
-                 // build, and it did not exist at all in the demo.
-                 note: "THE BIG ONE" },
-
-  latency: { assumed: "I waited 12 seconds and did not mind",
-             reality: "a p95 budget and someone watching a cursor",
-             work: "streaming, a latency budget, parallelising stages" },
-
-  cost: { assumed: "a few dozen calls",
-          reality: "60,000 queries a month",
-          work: "attribution, budgets, caps, caching" },
-
-  failure: { assumed: "I re-ran the cell",
-             reality: "429s, timeouts, provider outages",
-             work: "retries with jitter, fallbacks, circuit breakers, " +
-                   "a degraded mode" },
-
-  security: { assumed: "nobody was attacking it",
-              reality: "injection through documents, output handling",
-              work: "sanitisation, escaping, least privilege, audit" },
-
-  change: { assumed: "the documents were frozen",
-            reality: "they change daily and some get deleted",
-            work: "freshness, versioning, purge paths" },
-
-  correctness: { assumed: "I looked at 10 answers and they seemed fine",
-                 reality: "you cannot change the prompt without " +
-                          "knowing what you broke",
-                 work: "a golden set, an agreed bar, CI",
-                 note: "THE BIGGEST ITEM" }
-};
-
-// THE UNCOMFORTABLE PART:
-const whatIsLeft = {
-  modelChoice: "mostly done, and the easiest decision",
-  prompt: "a starting point - it will change, but it exists",
-  // Everything else, and most of it is ordinary software
-  // engineering rather than anything AI-specific.
-  everythingElse: "ingestion, permissions, evaluation, serving, " +
-                  "reliability, cost, observability, security, ops"
-};`,
-              `// THE DEMO GAP. A POC's apparent quality is inflated in three
-// specific ways, and it is worth knowing exactly how.
-
-const whyTheDemoLookedBetter = {
-  youChoseTheDocuments: {
-    demo: "3 clean, text-based, well-structured PDFs",
-    reality: ["scanned images with no text layer",
-              "answers living inside merged table cells",
-              "three undated versions of the same policy",
-              "files nobody has opened since 2019",
-              "a spreadsheet where the real data is on sheet 4"],
-    effect: "parsing quality collapses, and everything downstream " +
-            "inherits it"
-  },
-
-  youChoseTheQuestions: {
-    demo: "'What is the annual leave entitlement for full-time " +
-          "employees?' - written KNOWING what the documents said",
-    reality: "'holidays?' - short, vague, misspelled, and often " +
-             "about something you never covered",
-    effect: "retrieval performs much worse on real queries"
-  },
-
-  youJudgedTheAnswers: {
-    demo: "you read 10 answers, once, WANTING IT TO WORK",
-    reality: "someone who knows the real policy reads it and spots " +
-             "that it quoted the 2023 version",
-    effect: "the measured quality was never measured at all"
-  }
-};
-
-// SO DO THIS FIRST, BEFORE BUILDING ANYTHING ELSE.
-async function realityCheck() {
-  // 1. Point it at the REAL corpus, not the sample. Most POCs die
-  //    here, and week one is the cheap time to find out.
-  const sample = await sourceSystem.randomSample(200);
-  const parsed = await Promise.all(sample.map(parse));
-  console.table({
-    needsOcr: parsed.filter(p => !p.hasTextLayer).length,
-    tableHeavy: parsed.filter(p => p.tableRatio > 0.3).length,
-    undatedDuplicates: findNearDuplicates(parsed).length,
-    emptyAfterParsing: parsed.filter(p => p.text.length < 200).length
-  });
-
-  // 2. Get REAL questions from the people who will use it, not from
-  //    your imagination. 30 minutes with 5 people gives you 50.
-  const realQuestions = await collectFromUsers({ people: 5, each: 10 });
-
-  // 3. Run them and read the answers HONESTLY.
-  const results = await Promise.all(realQuestions.map(q => answer(q)));
-  return {
-    // Expect this to be well below what the demo suggested. That is
-    // the point of doing it now rather than in month three.
-    lookedRight: results.filter(r => r.acceptable).length / results.length,
-    // The most informative number: how many real questions the
-    // documents simply cannot answer.
-    unanswerable: results.filter(r => r.noSourceFound).length
-  };
-}`,
-              `// THE ORDER THAT SAVES THE MOST TIME. Evaluation first, real data
-// second, permissions third.
-
-const productionOrder = [
-  { step: 1, do: "WRITE THE GOLDEN SET",
-    why: "before ANY refactoring. Even 50 cases. Otherwise you " +
-         "cannot tell whether the rewrite broke something - and you " +
-         "will refactor a lot.",
-    from: "your POC examples, plus real questions from real users",
-    include: ["common easy", "known hard", "SHOULD SAY I DO NOT KNOW",
-              "multi-part", "out of scope"] },
-
-  { step: 2, do: "POINT IT AT THE REAL CORPUS",
-    why: "this is where most POCs die. Week one is the cheap time " +
-         "to find out; month three is a failed project.",
-    output: "either a working plan, or an honest conversation about " +
-            "fixing the documents first" },
-
-  { step: 3, do: "PERMISSIONS",
-    why: "they touch ingestion, retrieval, caching AND evaluation. " +
-         "Retrofitting them means revisiting all four.",
-    firstQuestion: "where do permissions live today, and can I read " +
-                   "them programmatically? If the answer is 'people " +
-                   "just know', that is an organisational blocker, " +
-                   "not an engineering task." },
-
-  { step: 4, do: "SERVING, RELIABILITY, COST, OBSERVABILITY, OPS",
-    why: "well-understood engineering, and safe to do once the three " +
-         "above are settled" }
-];
-
-// KEEP THREE THINGS FROM THE POC.
-const keepFromPoc = {
-  prompt: "a starting point - it will change, but you are not " +
-          "beginning from nothing",
-  examples: "your first golden-set cases, already written",
-  // The most valuable and least tangible.
-  knowledge: "what the model CAN and CANNOT do on this specific " +
-             "task - which questions it handles well, where it " +
-             "hedges, where it invents"
-};
-
-// AND THROW AWAY THE CODE. The notebook was a thinking tool, not a
-// draft implementation - and porting cells into services usually
-// carries the assumptions with them.
-const throwAway = ["hardcoded file paths", "the sample data",
-                   "synchronous everything", "keys in the notebook",
-                   "the 'it worked when I ran it' structure"];`,
-              `// WHAT TO TELL STAKEHOLDERS, and how to be specific about why.
-
-const timelineConversation = {
-  theirModel: "the demo took two weeks, so production is a month",
-  reality: "typically three to six months, and MOST OF IT IS NOT AI " +
-           "WORK",
-
-  // Be specific rather than vague - vague estimates get argued with.
-  breakdown: [
-    { item: "evaluation set and harness", weeks: 2,
-      note: "must come first" },
-    { item: "real-corpus ingestion: connectors, parsing, OCR, " +
-            "incremental sync, deletions", weeks: 6,
-      note: "the biggest unknown - depends entirely on the documents" },
-    { item: "permissions: mirroring, filtering, re-verification",
-      weeks: 4, note: "skip this only if everyone sees everything" },
-    { item: "serving, streaming, async, rate limits", weeks: 3 },
-    { item: "reliability, fallbacks, degraded modes", weeks: 2 },
-    { item: "observability, cost attribution, feedback capture",
-      weeks: 2 },
-    { item: "security review and remediation", weeks: 2 },
-    { item: "rollout, monitoring, iteration", weeks: 3 }
-  ],
-
-  // The honest scoping move, and usually the right recommendation.
-  betterOption: {
-    scope: "ONE well-owned document source, ONE team, public " +
-           "documents only, no per-user permissions",
-    weeks: 6,
-    gets: ["real users and real feedback in six weeks",
-           "proof the documents can answer questions at all",
-           "one permission model to get right later, not five",
-           "the argument for the next source"],
-    // And say explicitly what is NOT in it, in writing, so a narrow
-    // first version reads as a plan rather than under-delivery.
-    notIncluded: ["other sources", "per-user permissions",
-                  "the mobile app", "multi-language"]
-  }
-};
-
-// THE SENTENCE WORTH HAVING READY:
-const framing =
-  "The demo proved this is possible. What is left is proving it is " +
-  "reliable, safe, affordable and correct for five thousand people " +
-  "instead of one - and most of that is ordinary engineering rather " +
-  "than AI work.";`,
-            ],
-            questions: [
-              {
-                question:
-                  "A notebook demo works great. What has to change before it serves real users?",
-                solution: `<p>The honest framing first: <strong>the demo proved the idea is possible, not that it is shippable.</strong> And the useful way to list what changes is to name what the notebook quietly <em>assumed</em> — one user, who was me and who knew what to ask; data I hand-picked and probably cleaned; no permissions; latency did not matter because I waited; cost did not matter; failure did not matter because I re-ran the cell; nobody was attacking it; nothing changed; and correctness was judged by eye, once, on questions I invented.</p>
-             <p>Every one of those is false in production and each is a piece of engineering. The biggest item is <strong>evaluation</strong>, then the <strong>data pipeline</strong>, then <strong>permissions</strong>.</p>
-             <p>The uncomfortable part is that the model choice and the prompt — what the POC was about — are the <em>least</em> of what is left.</p>`,
-              },
-              {
-                question:
-                  "Why is evaluation the biggest item?",
-                solution:
-                  "<p>Because without it you cannot change anything safely, and that means the product stops improving. In the notebook you judged quality by eye, on ten answers, to questions you wrote yourself while knowing what the documents contained. That tells you the model <em>can</em> do the task; it tells you nothing about whether a change makes things better or worse. So the first time you need to edit the prompt — and you will, constantly — you are gambling. In practice what happens is that someone gets burned once, the prompt becomes untouchable, and the system is frozen at whatever it was on launch day. It also blocks the things you will definitely need to do later: upgrading the model when a better one arrives, changing the chunking strategy, adding a reranker. Each of those becomes a two-week argument instead of a ten-minute number. So the golden set is not a quality-assurance nicety, it is the thing that makes the system <em>changeable</em> — which over a year is worth far more than the launch score. And it has to come first, before the refactoring, or you cannot tell whether the rewrite broke something.</p>",
-              },
-              {
-                question:
-                  "What is the demo gap?",
-                solution: `<p>The three ways a POC's apparent quality is inflated, all of which you did without noticing:</p>
-             <ul>
-               <li><strong>You chose the documents.</strong> Three clean, text-based, well-structured files. The real corpus has scanned images with no text layer, answers buried in merged table cells, three undated versions of the same policy, and files nobody has opened since 2019.</li>
-               <li><strong>You chose the questions</strong>, and wrote them <em>knowing what the documents said</em>. Real users type "holidays?" and ask about things you never covered.</li>
-               <li><strong>You judged the answers</strong> — once, by eye, wanting it to work.</li>
-             </ul>
-             <p>So real quality is usually much lower than the demo suggested, and the worst possible time to discover that is <em>after</em> building all the infrastructure around it.</p>
-             <p>The fix is cheap: point it at the real corpus and at real user questions in week one, before anything else gets built.</p>`,
-              },
-              {
-                question:
-                  "What usually kills a POC on the way to production?",
-                solution:
-                  "<p><strong>The real corpus.</strong> The demo ran on documents someone selected because they were good examples, and the production corpus is whatever the organisation has actually accumulated. In practice that means a meaningful proportion of scanned PDFs with no text layer, so you need an OCR pipeline you did not plan for and the quality is materially worse. It means answers living inside tables and diagrams that parse into nonsense. It means several undated versions of the same policy, which is a correctness problem no retrieval tuning solves. And sometimes it means the knowledge was never written down at all — the documents are stale scaffolding and the real answers live in people's heads, which is not an engineering problem. Any of those can change the project from \"build a RAG system\" to \"first, someone needs to fix the documents\", which is a very different conversation and one that belongs at the start. That is why the recommendation is always to open twenty real files and run fifty real questions in the first week: it costs a day and it is the highest-value day in the project.</p>",
-              },
-              {
-                question:
-                  "Why are permissions such a large item?",
-                solution:
-                  "<p>Because they did not exist at all in the notebook and they touch four separate parts of the system. <strong>Ingestion</strong> has to read each document's access groups from the source and store them as metadata. <strong>Retrieval</strong> has to filter by the current user's groups inside the query. <strong>Caching</strong> has to include permissions in the key, or the cache becomes an access control bypass. And <strong>evaluation</strong> has to run per role, because permissions are frequently correct for one role and wrong for another. On top of that, permissions <em>go stale</em> — people change teams daily — so you need re-verification of the final results against the source system, which is another moving part. That is why retrofitting is painful: you end up revisiting all four areas, and the cache bug in particular is invisible in testing. The question to ask before any of it, though, is organisational rather than technical: <em>where do permissions live today, and can I read them programmatically?</em> If the honest answer is that people just know who can see what, then per-user filtering is not buildable until someone does that work, and surfacing that early is worth more than any code.</p>",
-              },
-              {
-                question:
-                  "What order would you do the work in?",
-                solution: `<ol>
-               <li><strong>Write the golden set</strong> — before any refactoring. Even fifty cases, drawn from your POC examples plus real questions from real users. You will rewrite a lot of code, and without this you cannot tell whether you broke it.</li>
-               <li><strong>Point it at the real corpus.</strong> Not the sample. This is where most POCs die, and week one is the cheap time to find out.</li>
-               <li><strong>Permissions</strong>, because they touch ingestion, retrieval, caching and evaluation, so doing them later means revisiting all four.</li>
-               <li><strong>Then serving, reliability, cost control, observability, security and operations</strong> — well-understood engineering that is safe to do once the three above are settled.</li>
-             </ol>
-             <p>The logic is to front-load the things that could <em>invalidate the project</em> — bad documents, unavailable permission data — and defer the things that are merely work. Discovering a blocker in week one is a scoping conversation; discovering it in month three is a failure.</p>`,
-              },
-              {
-                question:
-                  "What would you keep from the POC, and what would you throw away?",
-                solution:
-                  "<p><strong>Keep three things.</strong> The <em>prompt</em>, as a starting point — it will change substantially, but you are not beginning from nothing. The <em>examples</em>, which become your first golden-set cases and are already written. And most valuable, the <em>knowledge</em> of what the model can and cannot do on this specific task: which question types it handles well, where it hedges, where it invents, whether it needs the context laid out a particular way. That understanding is genuinely hard to acquire and it transfers completely. <strong>Throw away the code.</strong> A notebook is a thinking tool, not a draft implementation, and porting cells into services tends to carry the assumptions across with them — hardcoded paths, the sample data, synchronous everything, keys in the file, and a structure that only works because you ran the cells in order. The temptation to \"just wrap the notebook in an API\" is strong because it looks like a shortcut, and it produces a service that inherits every one of the notebook's assumptions while looking production-shaped, which is worse than starting cleanly.</p>",
-              },
-              {
-                question:
-                  "How do you explain the timeline to a stakeholder?",
-                solution: `<p>With a specific breakdown, because a vague estimate gets argued with and a specific one gets discussed. Their mental model is that the demo took two weeks so production is a month; the reality is typically three to six months, and the useful thing to say is <strong>most of it is not AI work</strong>.</p>
-             <p>So: evaluation harness two weeks, real-corpus ingestion six (the biggest unknown, entirely dependent on the documents), permissions four, serving three, reliability two, observability two, security review two, rollout three.</p>
-             <p>Then offer the alternative, which is usually the right recommendation: <strong>one well-owned source, one team, public documents only, no per-user permissions — six weeks.</strong> That gets real users and real feedback quickly, proves the documents can answer questions, and leaves one permission model to solve rather than five.</p>
-             <p>State in writing what is <em>not</em> included, so a narrow first version reads as a plan rather than as under-delivery.</p>`,
-              },
-              {
-                question:
-                  "What changes about serving the model call itself?",
-                solution:
-                  "<p>The notebook made one synchronous call and printed the result. Production needs several things around that. <strong>An API with authentication</strong> and a session, since identity now matters for retrieval and tools. <strong>Streaming</strong>, because a twelve-second wait you tolerated alone is unacceptable to a user watching a cursor — and streaming often satisfies a latency requirement without making anything faster. <strong>Async</strong> for anything that runs long or pauses for approval, which means run records, a queue and checkpointing rather than a blocked function. <strong>Rate limits and quotas</strong>, both inbound so one user cannot consume everything and outbound so a batch job cannot exhaust your provider quota. <strong>Timeouts</strong>, set deliberately and shorter at each layer. And <strong>concurrency control</strong> against the provider's rate limit, enforced globally rather than per process. None of this is difficult individually; the point is that the notebook's single synchronous call has become a small distributed system, and that is a large share of the remaining work even before you consider reliability or observability.</p>",
-              },
-              {
-                question:
-                  "What observability does a production AI system need that a notebook does not?",
-                solution: `<p>Four things, and the first is the one that makes debugging possible at all:</p>
-             <ul>
-               <li><strong>Traces recording the retrieved chunks</strong> and the actual prompt sent. When someone reports a bad answer, those two facts end most investigations immediately — and without them you are guessing. In a notebook you could just look at the variables.</li>
-               <li><strong>Per-stage latency</strong>, so you can see which part of the pipeline is slow rather than only that the whole thing is.</li>
-               <li><strong>Cost per request</strong>, attributed by feature and user, because "the bill went up" is otherwise unanswerable.</li>
-               <li><strong>Captured feedback with full context</strong> — thumbs, rephrase, escalation — so production failures become golden-set cases.</li>
-             </ul>
-             <p>The framing worth keeping: in a notebook you <em>are</em> the observability, because you can inspect anything at any point. In production you can only see what you decided to record, and retrofitting it after the first incident is much harder.</p>`,
-              },
-              {
-                question:
-                  "Why are the model and the prompt the easy part?",
-                solution:
-                  "<p>Because they are the parts the POC already solved, and because they are the parts that a good provider has made straightforward. Choosing a model is a short evaluation, and the prompt exists — it will change, but iterating on a prompt is fast, cheap and low-risk work with a tight feedback loop. What remains is ingestion pipelines that survive real documents, permission mirroring and query-time filtering, an evaluation harness and golden set, an API with streaming and async, retries and fallbacks and circuit breakers, cost attribution and budgets, tracing and feedback capture, injection defences and output escaping, and the operational apparatus of on-call, incident process and deploys that do not lose in-flight work. Almost all of that is <strong>ordinary software engineering</strong> — queues, databases, access control, observability — applied to a system that happens to call a model. Saying this plainly matters for two reasons: it sets an honest expectation with stakeholders who saw a two-week demo, and it tells you who you need on the team, which is usually solid backend engineers rather than more people tuning prompts.</p>",
-              },
-              {
-                question:
-                  "What is the fastest honest route to production?",
-                solution:
-                  "<p>Narrow the scope hard and ship something real in about six weeks: <strong>one well-owned document source, one team of users, public documents only, no per-user permissions</strong>. Include hybrid retrieval, citations, a fifty-case golden set in CI, feedback capture and basic observability. Exclude everything else explicitly and in writing. That works because it front-loads the genuine unknowns — can these documents answer real questions, will these users find it useful — while deferring the largest engineering item, which is permissions. You get real users giving real feedback within six weeks rather than opinions, one permission model to solve later instead of five, and if it works, evidence rather than enthusiasm as the argument for the next source. The two conditions that make it honest: pick a source where the documents are actually good and someone owns them, and be explicit that per-user permissions are the next phase rather than pretending they are not needed. A narrow first version framed as a deliberate plan lands very differently from one that looks like a shortfall, so the exclusions list matters as much as the scope.</p>",
-              },
-            ],
-            links: [
-              "https://hamel.dev/blog/posts/evals/",
-              "https://www.anthropic.com/engineering/building-effective-agents",
-              "https://docs.anthropic.com/en/docs/test-and-evaluate/develop-tests",
-              "https://arxiv.org/abs/2005.11401",
-            ],
-          },
-          {
-            topic: "Token Cost Model",
-            tags: ["high-frequency", "must-know", "cost", "fundamentals"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>THE INTERVIEW QUESTION: "How are you charged for LLM usage, and why are input and output tokens priced differently?"</strong>
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    The first half is straightforward: you pay per token, counted separately for input and output, at different rates. Output typically costs several times more than input.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    The second half is where a good answer separates itself, because <strong>there is a real hardware reason</strong> and most people do not know it.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Why Output Costs More: Prefill Versus Decode
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  INPUT (prefill) IS PROCESSED IN PARALLEL.
-    The whole prompt goes through the model in essentially
-    one pass. Every token can be handled at the same time,
-    because they are all already known. That parallelises
-    beautifully on a GPU - it is compute-bound and the
-    hardware is busy doing useful work.
-
-  OUTPUT (decode) IS GENERATED ONE TOKEN AT A TIME.
-    Each token needs a full forward pass through the model,
-    and it CANNOT START until the previous token exists -
-    because it depends on it. So there is no parallelism
-    within a single request.
-
-    Worse, each of those passes reloads the model weights
-    from memory to produce ONE token. That makes it
-    MEMORY-BANDWIDTH-BOUND, and the hardware spends most of
-    its time moving data rather than computing.
-
-SO A TOKEN OF OUTPUT GENUINELY COSTS MORE TO PRODUCE THAN A
-TOKEN OF INPUT. THE PRICING REFLECTS PHYSICS, NOT MARGIN.
-
-AND IT EXPLAINS LATENCY TOO:
-  prefill is fast per token -> a long prompt costs TTFT
-  decode is slow per token  -> a long answer costs total time
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What Actually Counts As A Token
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Roughly four characters, or about three quarters of a word, in English. Code and non-English text are less efficient — the same meaning takes more tokens. And <strong>different providers tokenise differently</strong>, so identical text is a different count and therefore a different price, which is one reason a provider comparison based on the headline per-million rate can be misleading.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What You Are Charged For That People Forget
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-  THE ENTIRE CONVERSATION, EVERY TURN. The model is
-    stateless, so the full history is re-sent each time.
-    Turn 20 pays for turns 1 to 19 again.
-
-  THE SYSTEM PROMPT, on every single call.
-
-  TOOL DEFINITIONS, on every single call - names,
-    descriptions and full schemas. Twenty tools is a
-    standing overhead on every request.
-
-  RETRIEVED CHUNKS, which are usually the largest part of
-    the input in a RAG system.
-
-  TOOL RESULTS, going back in as input on the next turn.
-
-  REASONING OR THINKING TOKENS where the model produces
-    them - these are OUTPUT tokens you pay for and may
-    never see.
-
-  FAILED AND RETRIED CALLS. A retry is a second full
-    request.
-
-THE CONVERSATION ONE IS THE BIGGEST SURPRISE: because every
-turn re-sends everything, the TOTAL cost of a conversation
-grows roughly with the SQUARE of its length.
-    </code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    The Levers On Price Itself
-  </h4>
-
-  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li style="margin-top: 0.5rem;"><strong>Prompt caching.</strong> Cached input is read at a large discount, because the expensive prefill work has already been done. The requirement is that the stable content comes <em>first</em> in the prompt.</li>
-    <li style="margin-top: 0.5rem;"><strong>Batch endpoints.</strong> Commonly around half price, in exchange for accepting a slower turnaround.</li>
-    <li style="margin-top: 0.5rem;"><strong>Model tier.</strong> A small model can be ten to twenty times cheaper than a large one, which usually dwarfs every other optimisation — provided evaluation shows it is good enough for that route.</li>
-    <li style="margin-top: 0.5rem;"><strong>Committed or provisioned capacity</strong>, once volume is predictable.</li>
-  </ul>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Embeddings are priced completely differently — input only, and roughly an order of magnitude cheaper — which is why embedding a large corpus is usually a smaller line than people fear, while <em>querying</em> is the ongoing cost.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    What This Means For Design
-  </h4>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    Two direct consequences. <strong>Output length is the most expensive thing per token you control</strong>, so "be concise" is a cost instruction as much as a quality one — and a <code>max_tokens</code> ceiling is a budget control. <strong>Input length is the largest volume</strong>, so in RAG the number and size of retrieved chunks is usually the biggest single lever on the bill.
-  </p>
-
-  <p style="line-height: 1.75; margin-top: 1.0rem;">
-    And for agents: each step re-sends the accumulated context, so <strong>cost grows faster than linearly in the number of steps</strong>. An eight-step agent is not eight times a single call — it is considerably more.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    How This Comes Up In Interviews
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-text">
-THE QUESTION
-  "How are you charged for LLM usage, and why are input and
-   output tokens priced differently?"
-
-WHAT THE INTERVIEWER IS TESTING
-  The "why" specifically. Anyone can say output costs more.
-  Knowing that prefill parallelises and decode does not - and
-  that decode is memory-bandwidth-bound - shows you
-  understand what the hardware is doing, and it explains
-  latency at the same time.
-
-WEAK ANSWER
-  "You pay per token for input and output, and output costs
-   more because generating text is more computationally
-   expensive than reading it."
-  Why it is weak: the second half is a restatement dressed as
-  an explanation. It also misses everything about what
-  actually accumulates - conversation history, tool
-  definitions, retries.
-
-STRONG ANSWER (about 60 seconds)
-  "You pay per token, counted separately for input and
-   output, with output typically several times more.
-
-   The reason is how the model processes each. INPUT IS
-   PREFILL and it happens IN PARALLEL - the whole prompt goes
-   through in essentially one pass, because every token is
-   already known, so it parallelises well on a GPU and is
-   compute-bound. OUTPUT IS DECODE, one token at a time, and
-   each token needs a full forward pass that CANNOT START
-   until the previous token exists. So there is no
-   parallelism within a request, and each pass reloads the
-   model weights to produce a single token - which makes it
-   MEMORY-BANDWIDTH-BOUND. So a token of output genuinely
-   costs more to produce. The pricing reflects physics rather
-   than margin.
-
-   That also explains latency: prefill is fast per token so a
-   long PROMPT costs time-to-first-token, and decode is slow
-   per token so a long ANSWER costs total time.
-
-   What people forget they are paying for: the ENTIRE
-   CONVERSATION every turn, because the model is stateless,
-   so turn 20 pays for turns 1 to 19 again - which means the
-   total cost of a conversation grows roughly with the SQUARE
-   of its length. Plus the system prompt and all tool
-   definitions on every call, retrieved chunks, tool results
-   coming back as input, reasoning tokens you pay for and may
-   not see, and retries.
-
-   The levers on price itself are prompt caching, batch
-   endpoints at around half price, and model tier - a small
-   model can be ten to twenty times cheaper, which usually
-   dwarfs everything else.
-
-   For design that means output length is the most expensive
-   thing per token, so being concise is a cost control - and
-   in RAG, the number of retrieved chunks is usually the
-   biggest single lever on the bill."
-
-FOLLOW-UPS TO EXPECT
-  "Why does an agent cost more than the number of steps
-   suggests?"
-      -> each step re-sends the accumulated context, so cost
-         grows faster than linearly.
-  "What is a token?"
-      -> about four characters in English. Code and other
-         languages are less efficient, and providers
-         tokenise differently.
-  "What is the cheapest way to cut cost?"
-      -> prompt caching, then fewer retrieved chunks, then
-         model right-sizing per route.
-  "Are embeddings expensive?"
-      -> no - input only, roughly an order of magnitude
-         cheaper. Querying is the ongoing cost, not indexing.
-
-RED FLAGS
-  Explaining "why" by restating that generation is harder.
-  Not knowing conversation history is re-sent.
-  Forgetting tool definitions are per-call.
-  Ignoring reasoning tokens and retries.
-    </code></pre>
-  </div>
-</div>`,
-            examples: [
-              `// WHY OUTPUT COSTS MORE. There is a real hardware reason, and it
-// explains latency at the same time.
-
-const prefillVsDecode = {
-  prefill: {
-    what: "processing the input prompt",
-    // Every token is ALREADY KNOWN, so they can all be processed
-    // at once.
-    parallel: true,
-    bound: "COMPUTE-bound - the GPU is busy doing useful maths",
-    speed: "thousands of tokens per second",
-    // A long PROMPT costs time-to-first-token.
-    latencyEffect: "affects TTFT"
-  },
-
-  decode: {
-    what: "generating the output, one token at a time",
-    // Token N+1 depends on token N, so it CANNOT start early.
-    // No parallelism within a single request.
-    parallel: false,
-    // Each pass reloads the model weights to produce ONE token.
-    // The hardware spends most of its time moving data.
-    bound: "MEMORY-BANDWIDTH-bound",
-    speed: "tens of tokens per second",
-    // A long ANSWER costs total time.
-    latencyEffect: "affects total duration"
-  },
-
-  conclusion: "a token of output genuinely costs more to PRODUCE. " +
-              "The pricing reflects physics, not margin."
-};
-
-// AND THE SAME FACTS EXPLAIN THE LATENCY BUDGET:
-const latencyConsequence = {
-  longPrompt: "slow to FIRST token, then normal speed after",
-  longAnswer: "fast to first token, then a long tail of generation",
-  // Which is why streaming helps so much: it hides decode time but
-  // not prefill time.
-  streamingHides: "decode, not prefill"
-};
-
-// WHAT COUNTS AS A TOKEN.
-const tokenBasics = {
-  english: "~4 characters, or ~0.75 words",
-  code: "less efficient - punctuation and indentation cost tokens",
-  otherLanguages: "often 2-3x more tokens for the same meaning",
-  // One reason a headline per-million comparison between providers
-  // can mislead.
-  providersDiffer: "identical text is a different COUNT and " +
-                   "therefore a different PRICE"
-};`,
-              `// WHAT YOU ARE CHARGED FOR THAT PEOPLE FORGET.
-
-function whatYouActuallySend(turn) {
-  return {
-    systemPrompt: 800,        // EVERY call
-    // Names, descriptions AND full schemas. 20 tools is a standing
-    // overhead on every single request.
-    toolDefinitions: 2_400,   // EVERY call
-    retrievedChunks: 4_000,   // usually the largest part in RAG
-    // THE BIG SURPRISE. The model is stateless, so the whole
-    // history is re-sent. Turn 20 pays for turns 1-19 again.
-    conversationHistory: turn * 450,
-    toolResults: 600,         // come back in as INPUT next turn
-    userQuestion: 30
-  };
-}
-
-// SO THE TOTAL COST OF A CONVERSATION GROWS ROUGHLY WITH THE SQUARE
-// OF ITS LENGTH.
-function conversationCost(turns, pricePerMillionIn = 2.50) {
-  let total = 0;
-  for (let t = 1; t <= turns; t++) {
-    const input = sum(Object.values(whatYouActuallySend(t)));
-    total += (input / 1_000_000) * pricePerMillionIn;
-  }
-  return total;
-}
-// 5 turns  -> ~5p
-// 20 turns -> ~35p     (not 4x the 5-turn cost - about 7x)
-// 50 turns -> ~1.60    (not 10x - about 32x)
-
-// AND THE ONES THAT ARE INVISIBLE ON A BILL:
-const easilyMissed = {
-  reasoningTokens: "where the model produces internal reasoning, " +
-                   "those are OUTPUT tokens you pay for and may " +
-                   "never see in the response",
-  retries: "a retry is a SECOND FULL REQUEST at full price",
-  failedCalls: "a call that errors after prefill may still be " +
-               "charged for the input",
-  evalRuns: "200 cases x 3 runs x 5 criteria in CI, on every pull " +
-            "request, is a real line item nobody budgeted",
-  agentSteps: "each step re-sends the accumulated context"
-};
-
-// AGENTS: cost grows FASTER than the step count.
-function agentCost(steps, baseInput = 6_000, perStepGrowth = 1_200) {
-  let total = 0;
-  for (let s = 0; s < steps; s++) {
-    total += baseInput + (s * perStepGrowth);   // context accumulates
-  }
-  return total;
-}
-// 1 step  ->  6,000 tokens
-// 8 steps -> 81,600 tokens - NOT 48,000. About 13x a single call,
-//            not 8x.`,
-              `// THE LEVERS ON PRICE ITSELF, in order of impact.
-
-const levers = {
-  modelTier: {
-    saving: "10-20x between a small and a large model",
-    // Usually dwarfs every other optimisation combined.
-    note: "the biggest lever by far - but it needs an EVAL per " +
-          "route to confirm the small model is good enough, not a " +
-          "guess",
-    apply: "route classification, routing and simple lookups to the " +
-           "small model; keep the strong one for genuine reasoning"
-  },
-
-  promptCaching: {
-    saving: "cached input is read at a large discount, because the " +
-            "expensive prefill work has already been done",
-    // The only requirement, and the common mistake.
-    requires: "STABLE CONTENT FIRST in the prompt. Put anything " +
-              "variable near the front and the cache never hits.",
-    ideal: "a long system prompt, tool definitions and stable " +
-           "policy documents - exactly the parts you re-send every " +
-           "call anyway"
-  },
-
-  batchEndpoints: {
-    saving: "commonly around half price",
-    cost: "slower turnaround - hours, not seconds",
-    apply: "embedding a corpus, enrichment, evaluation runs, " +
-           "nightly digests"
-  },
-
-  shorterOutputs: {
-    saving: "output is the most expensive thing per token",
-    how: "an explicit instruction to be concise, plus a max_tokens " +
-         "ceiling",
-    bonus: "usually improves the answer as well"
-  },
-
-  fewerChunks: {
-    saving: "in RAG, retrieved chunks are usually the LARGEST part " +
-            "of the input, so 8 -> 4 is a big change",
-    cost: "occasionally a less complete answer - measure it"
-  }
-};
-
-// EMBEDDINGS ARE PRICED COMPLETELY DIFFERENTLY.
-const embeddingCost = {
-  pricing: "INPUT ONLY, and roughly an order of magnitude cheaper " +
-           "than generation input",
-  consequence: "embedding a large corpus is usually a SMALLER line " +
-               "than people fear",
-  example: { chunks: 1_000_000, avgTokens: 400,
-             totalTokens: 400_000_000,
-             atPointOnePerMillion: "40 GBP - ONE OFF" },
-  // The ongoing cost is QUERYING, not indexing. People optimise the
-  // wrong one.
-  realCost: "querying, not indexing"
-};
-
-// RERANKERS are often priced per document or per token - cheap per
-// call, but it runs on 30 candidates per query, so check it.`,
-              `// WHAT THIS MEANS FOR DESIGN. Two direct consequences.
-
-// 1. OUTPUT IS THE MOST EXPENSIVE THING PER TOKEN. So being concise
-//    is a COST CONTROL, not just a style preference.
-const outputControls = {
-  instruction: "Answer in under 150 words unless the question " +
-               "requires more detail.",
-  // A ceiling is a budget control, not just a safety net.
-  maxTokens: 400,
-  effect: "halving the answer length halves the most expensive part " +
-          "of the bill AND the largest part of total latency"
-};
-
-// 2. INPUT IS THE LARGEST VOLUME. In RAG, the chunks dominate.
-const inputBreakdown = {
-  systemPrompt: 800,        // 12%  - cacheable
-  toolDefinitions: 0,       //  0%  - no tools on this route
-  retrievedChunks: 4_000,   // 62%  <- THE BIGGEST LEVER
-  history: 1_600,           // 25%
-  question: 30,
-  total: 6_430
-};
-// So k=8 -> k=4 removes ~2,000 tokens, about 30% of the input, on
-// EVERY request. That is usually a bigger saving than anything you
-// can do to the prompt wording.
-
-// PUT THE TWO TOGETHER FOR A PER-REQUEST FIGURE.
-function costPerRequest({ inputTokens, outputTokens,
-                          pricePerMillionIn = 2.50,
-                          pricePerMillionOut = 12.00,
-                          cachedInputFraction = 0 }) {
-  const fresh = inputTokens * (1 - cachedInputFraction);
-  const cached = inputTokens * cachedInputFraction;
-  const inCost = (fresh / 1e6) * pricePerMillionIn +
-                 (cached / 1e6) * pricePerMillionIn * 0.1;  // discounted
-  const outCost = (outputTokens / 1e6) * pricePerMillionOut;
-  return { inCost, outCost, totalPence: (inCost + outCost) * 100 };
-}
-
-// Note what this shows: even though OUTPUT is ~5x the price per
-// token, INPUT usually dominates the bill because there is so much
-// more of it.
-const typical = costPerRequest({ inputTokens: 6_430, outputTokens: 350 });
-// input:  1.61p   (~79%)
-// output: 0.42p   (~21%)
-// -> the instinct to shorten answers is right for LATENCY, and
-//    shortening the CONTEXT is right for COST.
-
-// AND ALWAYS SANITY-CHECK THE UNITS. Prices are per MILLION tokens,
-// and the most common estimating error is being out by 1000x.`,
-            ],
-            questions: [
-              {
-                question:
-                  "How are you charged for LLM usage, and why are input and output tokens priced differently?",
-                solution: `<p>You pay per token, counted separately for input and output, with output typically several times more.</p>
-             <p>The reason is how the model processes each. <strong>Input is prefill and happens in parallel</strong> — the whole prompt goes through in essentially one pass, because every token is already known, so it parallelises well on a GPU and is compute-bound. <strong>Output is decode, one token at a time</strong>, and each token needs a full forward pass that cannot start until the previous token exists. So there is no parallelism within a request, and each pass reloads the model weights to produce a single token, which makes it <strong>memory-bandwidth-bound</strong>. A token of output genuinely costs more to produce — the pricing reflects physics rather than margin.</p>
-             <p>That also explains latency: a long prompt costs time-to-first-token, and a long answer costs total time.</p>`,
-              },
-              {
-                question:
-                  "Explain prefill and decode in more detail.",
-                solution: `<p>They are two different phases with different hardware characteristics:</p>
-             <ul>
-               <li><strong>Prefill</strong> processes your input prompt. Every token is already known, so the whole sequence can be processed together in essentially one pass. That parallelises extremely well on a GPU, so it is <em>compute-bound</em> — the hardware is busy doing useful arithmetic — and it runs at thousands of tokens per second.</li>
-               <li><strong>Decode</strong> generates the output one token at a time. Token N+1 depends on token N, so it cannot begin until N exists — there is no parallelism available <em>within</em> a request. And each pass reloads the model weights from memory in order to produce a single token, so it is <em>memory-bandwidth-bound</em>: the hardware spends most of its time moving data rather than computing. It runs at tens of tokens per second.</li>
-             </ul>
-             <p>That difference explains both the pricing and the latency profile — which is also why streaming helps so much: it hides decode time, but not prefill time.</p>`,
-              },
-              {
-                question:
-                  "What are you charged for that people forget?",
-                solution:
-                  "<p>Six things. <strong>The entire conversation, every turn</strong> — the model is stateless, so the full history is re-sent with each request, and turn twenty pays for turns one to nineteen all over again. <strong>The system prompt</strong>, on every call. <strong>Tool definitions</strong> — names, descriptions and full schemas — also on every call, so twenty tools is a standing overhead on every request whether or not any is used. <strong>Retrieved chunks</strong>, which are usually the largest single part of the input in a RAG system. <strong>Tool results</strong>, which come back in as input on the next turn. And <strong>reasoning tokens</strong> where the model produces them, which are <em>output</em> tokens you pay for and may never see in the response. Plus <strong>retries</strong> — a retry is a second full request at full price, so a system retrying aggressively during an incident is running up a bill as well as deepening the outage. The conversation one is the biggest surprise, because it means the total cost of a conversation grows roughly with the <em>square</em> of its length rather than linearly.</p>",
-              },
-              {
-                question:
-                  "Why does a long conversation cost more than people expect?",
-                solution:
-                  "<p>Because the model is <strong>stateless</strong>, so every turn re-sends the entire history. Turn two pays for turn one again; turn twenty pays for the previous nineteen. Since each turn's input grows with the conversation, the <em>total</em> cost across a conversation grows roughly with the <strong>square</strong> of its length — a twenty-turn conversation is not four times a five-turn one, it is closer to seven times, and a fifty-turn conversation is around thirty times rather than ten. This is invisible during development, where you test with three-turn exchanges, and it becomes the dominant cost in any product where people have long sessions. The mitigations are the short-term memory techniques: a rolling summary plus recent turns verbatim, or structured state extraction, so the conversation is compressed rather than accumulated. Prompt caching helps with the stable prefix but not with the growing history, since that changes every turn. It is also worth capping conversation length in the product — starting a fresh session is often better for both cost and answer quality than carrying forty turns of context.</p>",
-              },
-              {
-                question:
-                  "Why does an agent cost more than its step count suggests?",
-                solution: `<p>Because <strong>each step re-sends the accumulated context</strong>, which has grown with every previous step. The model's reasoning and each tool result are appended to the conversation, so step eight carries everything from steps one to seven.</p>
-             <p>Working it through with round numbers: if a single call is six thousand input tokens and each step adds roughly twelve hundred, then eight steps is about eighty-two thousand tokens rather than forty-eight thousand — about <strong>thirteen times a single call, not eight</strong>.</p>
-             <p>Two consequences follow:</p>
-             <ul>
-               <li>A <strong>token budget matters more than a step cap</strong>, because steps are a poor proxy for cost.</li>
-               <li><strong>Compressing tool results</strong> before they enter the context is a cost control as well as a quality one, since raw results inflate every subsequent step.</li>
-             </ul>
-             <p>It is also why the difference between a pipeline and an agent in a cost estimate is often an order of magnitude rather than a factor of five.</p>`,
-              },
-              {
-                question:
-                  "How does prompt caching change the cost?",
-                solution:
-                  "<p>Cached input is read at a substantial discount, because the expensive prefill work has already been done — the provider has processed that prefix once and can reuse the result rather than recomputing it. That makes it the highest-value cost lever with essentially no quality risk, and it is particularly valuable because the content it applies to is exactly what you re-send on every single call: a long system prompt, tool definitions, and any stable document context. The one requirement is <strong>ordering</strong>: the stable content must come first in the prompt and the variable content last. Putting anything that changes near the front means the cache never hits, and that is the common implementation mistake — someone interpolates a timestamp or a user name into the system prompt and quietly destroys the whole benefit. Two further notes: caches have a lifetime, so low-traffic routes may miss more often than expected; and it does not help with growing conversation history, since that changes every turn. It is the first thing to reach for and the easiest to get subtly wrong.</p>",
-              },
-              {
-                question:
-                  "What is the biggest single lever on cost?",
-                solution:
-                  "<p><strong>Model tier</strong> — a small model can be ten to twenty times cheaper than a large one, which usually dwarfs every other optimisation combined. If most of your traffic is classification, routing or straightforward lookups, moving those routes to a small model can cut the bill by more than half in one change. The condition is that it must be justified by <strong>evaluation per route</strong> rather than by assumption: run your golden set on both models for that route and confirm the smaller one meets the bar. That is why it is not the <em>first</em> thing to do — prompt caching is easier and carries no quality risk — but it is the largest. After that: <strong>fewer retrieved chunks</strong>, since in RAG they are typically the biggest part of the input; <strong>shorter outputs</strong>, which is free and usually improves the answer; and <strong>batch endpoints</strong> at around half price for anything that can tolerate delay. What is worth noting is that these are largely independent, so they compound — and the combination of caching, right-sizing and fewer chunks routinely takes a bill down by an order of magnitude without changing the architecture.</p>",
-              },
-              {
-                question:
-                  "Are embeddings a significant cost?",
-                solution: `<p>Usually much less than people fear. Embeddings are priced <strong>input only</strong> and roughly an order of magnitude cheaper than generation input, so embedding a large corpus is typically a modest one-off.</p>
-             <p>A worked example: a hundred thousand documents producing a million chunks at four hundred tokens each is four hundred million tokens — which at typical embedding prices is a few tens of pounds, once. Re-embedding on updates is a small fraction of that per month.</p>
-             <p>The consequence is that people often optimise the wrong thing:</p>
-             <ul>
-               <li><strong>Indexing is cheap</strong> and one-off.</li>
-               <li><strong>Querying is the ongoing cost</strong>, and it scales with usage.</li>
-             </ul>
-             <p>So chunking more finely, or re-embedding after a strategy change, is rarely a budget problem — whereas the per-query generation cost is what actually determines the monthly bill. Rerankers are worth checking separately, since they run on every query across many candidates.</p>`,
-              },
-              {
-                question:
-                  "What is a token, practically speaking?",
-                solution:
-                  "<p>Roughly four characters, or about three quarters of a word, in English. So a thousand words is around thirteen hundred tokens, and a typical A4 page of text is five to six hundred. Two practical caveats matter. <strong>Code and non-English text are less efficient</strong> — punctuation, indentation and unusual character sequences all consume tokens, and many languages take two or three times as many tokens for the same meaning, which is a real cost and context-window consideration for a multilingual product. And <strong>different providers tokenise differently</strong>, so identical text produces a different count on each, which means the same request genuinely costs a different amount even before you compare headline rates. That is one reason a provider comparison based purely on the per-million price can mislead by a meaningful margin, and why a fair comparison uses <em>your actual content</em> run through each tokeniser. For estimating, the four-characters heuristic is fine; for a decision that matters, count the tokens properly with the provider's own tokeniser rather than approximating.</p>",
-              },
-              {
-                question:
-                  "What does the token model imply for how you design a prompt?",
-                solution:
-                  "<p>Two things directly. <strong>Output is the most expensive thing per token</strong>, so an instruction to be concise plus a <code>max_tokens</code> ceiling is a cost control rather than a style preference — and shortening answers usually improves them, so it is a rare optimisation with no downside. <strong>Input is the largest volume</strong>, so in a RAG system the number and size of retrieved chunks is typically the single biggest lever on the bill: going from eight chunks to four can remove around thirty percent of the input on every request. Beyond those, the ordering matters — stable content first so prompt caching can work — and tool definitions should be pruned and exposed conditionally, since they are sent on every call whether used or not. The slightly counter-intuitive point worth making: even though output costs several times more <em>per token</em>, input usually dominates the actual bill because there is so much more of it. So the instinct to shorten answers is correct for latency, and shortening the <em>context</em> is where the money is.</p>",
-              },
-              {
-                question:
-                  "What cost is easy to overlook entirely?",
-                solution: `<p>Four that rarely appear in an estimate:</p>
-             <ul>
-               <li><strong>Retries.</strong> A retry is a second full request at full price. A system retrying aggressively during a provider incident is running up a bill as well as deepening the outage — which is part of why retry budgets matter.</li>
-               <li><strong>Your evaluation suite.</strong> Two hundred cases, three runs each, five criteria judged separately is three thousand calls <em>per pull request</em>. That is a genuine line item, and it is the one that quietly makes teams stop running their evals.</li>
-               <li><strong>Reasoning tokens</strong>, where the model produces internal reasoning — billed as output, and you may never see them.</li>
-               <li><strong>Failed calls</strong>, which can still be charged for the input that was processed before the failure.</li>
-             </ul>
-             <p>The first two are the ones that surprise teams, because neither appears in a per-request calculation and both scale with development activity rather than with users.</p>`,
-              },
-              {
-                question:
-                  "How would you explain the cost model to a finance team?",
-                solution:
-                  "<p>In their units, not tokens. Convert everything to <strong>cost per request</strong> and <strong>cost per active user per month</strong>, because those are the numbers that can be compared against value and against a subscription price. Say that you are charged by the amount of text going in and coming out, that text coming out costs several times more than text going in, and that the largest driver of the bill is how much background material each question carries — which is a design choice you control. Then give them three things: the current cost per request, the projected monthly total at expected volume, and the sensitivity — what happens if usage doubles, or if answers get longer, or if a feature becomes agentic. That last one matters most, because the honest finding is usually that the architecture choice moves the bill by an order of magnitude while prompt tuning moves it by a few percent. And commit to attribution: being able to answer \"which team and which feature\" when the bill moves is what turns a worrying number into a manageable one.</p>",
-              },
-            ],
-            links: [
-              "https://docs.anthropic.com/en/docs/about-claude/pricing",
-              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
-              "https://docs.anthropic.com/en/docs/build-with-claude/token-counting",
-              "https://docs.anthropic.com/en/docs/build-with-claude/batch-processing",
-            ],
-          },
-        ],
-      },
-      {
-        id: 2,
-        label: "Advance",
-        concepts: [
-          {
+             {
             topic: "Estimating Cost Per Request And Per User",
             tags: ["high-frequency", "must-know", "cost", "estimation"],
             explanation: `<div>
@@ -198539,6 +194078,3262 @@ const deliverable = {
               "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
               "https://docs.anthropic.com/en/docs/build-with-claude/token-counting",
               "https://docs.anthropic.com/en/docs/build-with-claude/batch-processing",
+            ],
+          },
+              {
+            topic: "Estimating Cost Per Request And Per User",
+            tags: ["high-frequency", "must-know", "cost", "estimation"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "Estimate the monthly cost of a RAG assistant for 1,000 daily users. Show your reasoning."</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    "Show your reasoning" is the whole instruction. The number is not the point — <strong>the method is</strong>, and stating your assumptions out loud so the interviewer can correct one is exactly what they are looking for.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Method: Assumptions, Per Request, Multiply, Sanity Check
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+STEP 1 - USAGE. Say the assumptions out loud.
+
+  1,000 daily users, but not all of them active.
+  Assume 40% daily active            -> 400
+  5 questions each per day           -> 2,000/day
+  22 working days                    -> ~44,000/month
+
+  NOT ALL 1,000 ARE ACTIVE is the assumption people skip,
+  and it changes the answer by more than two.
+
+STEP 2 - TOKENS PER REQUEST. Build it up, do not guess.
+
+  system prompt                800
+  retrieved chunks  8 x 500  4,000   <- the biggest part
+  conversation history       1,000
+  the question                  30
+  ------------------------------------
+  INPUT                      5,830
+  OUTPUT                       350
+
+STEP 3 - PRICE IT. Say the rates are illustrative.
+
+  input   5,830 / 1M x 2.50  = 1.46p
+  output    350 / 1M x 12.00 = 0.42p
+  rerank 30 candidates       ~0.30p
+  embed the query            ~0.01p
+  ------------------------------------
+  ~2.2p PER QUESTION
+
+STEP 4 - MULTIPLY.
+  44,000 x 2.2p = ~970 GBP/month
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Then The Bits People Forget
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Initial embedding</strong> of the corpus — a one-off, and usually far smaller than people fear. A million chunks at four hundred tokens is around forty pounds, once.</li>
+    <li style="margin-top: 0.5rem;"><strong>Re-embedding on updates</strong> — a couple of percent of the corpus a month is pounds, not hundreds.</li>
+    <li style="margin-top: 0.5rem;"><strong>Your evaluation suite in CI.</strong> Two hundred cases, three runs, several criteria — this genuinely runs into hundreds of pounds a month if you are shipping often, and nobody budgets it.</li>
+    <li style="margin-top: 0.5rem;"><strong>Retries and failed calls.</strong> Add ten percent.</li>
+    <li style="margin-top: 0.5rem;"><strong>Infrastructure</strong> — database, vector store, workers. A few hundred pounds.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Total: roughly £1,400 to £1,700 a month</strong>, of which the model calls are about two thirds.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Sanity Check It, Out Loud
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>£970 divided by 400 active users is about £2.40 per active user per month.</strong> Does that feel right? If the assistant saves each person twenty minutes a month, it is obviously worth it. If it is an optional convenience nobody asked for, it may not be.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    That check matters because it catches order-of-magnitude errors — and the most common estimating mistake by far is being out by a factor of a thousand, because <strong>prices are quoted per million tokens</strong>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Most Valuable Part: Sensitivity
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+A single number is a guess. A number with sensitivities is
+a decision tool.
+
+  ADOPTION DOUBLES                    -> ~2x. Linear, fine.
+
+  ANSWERS ARE 3x LONGER               -> +0.85p/question
+                                         -> +375/month
+
+  FEWER CHUNKS: 8 -> 4                -> -0.5p/question
+                                         -> -220/month
+                                         AND faster
+
+  PROMPT CACHING on the system prompt -> -10-15% of input
+
+  SMALL MODEL on 60% of traffic       -> roughly HALVES it
+
+  IT BECOMES AN AGENT, 5 steps        -> NOT 5x.
+    Context accumulates each step, so more like 8-10x.
+    ~970 becomes ~8,000-9,000/month.
+
+THAT LAST ONE IS THE HEADLINE FINDING. The architecture
+decision moves the bill by an ORDER OF MAGNITUDE, while
+prompt tuning moves it by a few percent. Say that.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What People Get Wrong
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Assuming all users are active.</strong> Daily active is usually a fraction, and it changes the answer by more than two.</li>
+    <li style="margin-top: 0.5rem;"><strong>Forgetting conversation history is re-sent</strong> on every turn.</li>
+    <li style="margin-top: 0.5rem;"><strong>Forgetting the system prompt and tool definitions</strong> are charged on every call.</li>
+    <li style="margin-top: 0.5rem;"><strong>Using the average and ignoring the distribution.</strong> A small number of heavy users generate a disproportionate share, which matters enormously if you are pricing per seat.</li>
+    <li style="margin-top: 0.5rem;"><strong>Being out by 1,000×</strong> because prices are per million.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "Estimate the monthly cost of a RAG assistant for 1,000
+   daily users. Show your reasoning."
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you can do a structured estimate under pressure,
+  state assumptions rather than hiding them, and know which
+  variable actually dominates. They may deliberately give you
+  a vague brief to see whether you ask or assume.
+
+WEAK ANSWER
+  "It depends on a lot of factors, but roughly a few thousand
+   pounds a month depending on usage and which model you
+   use."
+  Why it is weak: no method, no assumptions, no breakdown, no
+  sensitivity. It is the answer of someone who has never had
+  to justify a bill.
+
+STRONG ANSWER (about 90 seconds)
+  "I will state assumptions as I go so you can correct any.
+
+   USAGE: 1,000 daily users, but not all active - assume 40%
+   daily active, so 400, at 5 questions each, is 2,000 a day
+   and about 44,000 a month over 22 working days.
+
+   TOKENS PER REQUEST, built up: system prompt 800, eight
+   retrieved chunks at 500 each is 4,000, conversation
+   history around 1,000, the question 30 - so about 5,800
+   input and 350 output.
+
+   PRICE, using illustrative mid-tier rates of 2.50 per
+   million in and 12 out: input is 1.46p, output 0.42p,
+   reranking about 0.3p, embedding the query is negligible.
+   CALL IT 2.2p A QUESTION.
+
+   MULTIPLY: 44,000 times 2.2p is about 970 pounds a month.
+   Plus the one-off corpus embedding, which is only about 40
+   pounds - people expect that to be huge and it is not - the
+   eval suite in CI, which genuinely runs to hundreds a month
+   if you ship often, retries at maybe 10%, and
+   infrastructure. So 1,400 to 1,700 all in.
+
+   SANITY CHECK: that is about 2.40 per active user per
+   month. If it saves each person twenty minutes, obviously
+   worth it.
+
+   The most useful part is the SENSITIVITY. Doubling adoption
+   is linear. Tripling answer length adds about 375 a month.
+   Cutting chunks from eight to four saves 220 and is also
+   faster. A small model on the 60% of traffic that is simple
+   roughly halves it. And IF IT BECOMES AN AGENT WITH FIVE
+   STEPS IT IS NOT 5x - context accumulates each step, so
+   more like 8 to 10x, and 970 becomes 8,000 to 9,000.
+
+   That is the headline: the ARCHITECTURE decision moves this
+   by an order of magnitude, and prompt tuning moves it by a
+   few percent."
+
+FOLLOW-UPS TO EXPECT
+  "What dominates?"
+      -> input tokens, and within them the retrieved chunks.
+         Output costs more per token but there is far less
+         of it.
+  "What would you change first?"
+      -> prompt caching, then fewer chunks, then model
+         right-sizing per route.
+  "What if a few users are very heavy?"
+      -> the average misleads. Model the distribution, and
+         cap per-user spend if you are pricing per seat.
+  "How confident is that number?"
+      -> a range, not a point. The assumptions I would
+         validate first are active-user rate and answer
+         length.
+
+RED FLAGS
+  "It depends" with no structure.
+  No stated assumptions.
+  Assuming all 1,000 users are active.
+  A point estimate with no sensitivity.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// SHOW THE WORKING. State assumptions so they can be corrected -
+// that is the point of the exercise.
+
+const assumptions = {
+  totalUsers: 1_000,
+  // THE ONE PEOPLE SKIP, and it changes the answer by more than 2x.
+  dailyActiveRate: 0.40,
+  questionsPerActiveUserPerDay: 5,
+  workingDaysPerMonth: 22,
+
+  // Built up, not guessed.
+  tokensPerRequest: {
+    systemPrompt: 800,
+    retrievedChunks: 8 * 500,      // 4,000 - the biggest part
+    conversationHistory: 1_000,    // averaged over a session
+    question: 30,
+    get input() { return 5_830; },
+    output: 350
+  },
+
+  // SAY THESE ARE ILLUSTRATIVE. The method is what matters.
+  pricePerMillionInput: 2.50,
+  pricePerMillionOutput: 12.00,
+  rerankCostPerQueryPence: 0.30
+};
+
+function estimate(a) {
+  const activeUsers = a.totalUsers * a.dailyActiveRate;          // 400
+  const queriesPerDay = activeUsers * a.questionsPerActiveUserPerDay;
+  const queriesPerMonth = queriesPerDay * a.workingDaysPerMonth; // 44,000
+
+  const inputPence  = (a.tokensPerRequest.input  / 1e6) *
+                       a.pricePerMillionInput * 100;             // 1.46p
+  const outputPence = (a.tokensPerRequest.output / 1e6) *
+                       a.pricePerMillionOutput * 100;            // 0.42p
+  const perQuery = inputPence + outputPence + a.rerankCostPerQueryPence
+                   + 0.01;                                       // ~2.19p
+
+  return {
+    activeUsers, queriesPerMonth,
+    perQueryPence: perQuery,
+    monthlyModelGbp: (queriesPerMonth * perQuery) / 100,          // ~965
+    // NOTE THE SPLIT: output costs 5x more PER TOKEN, but input
+    // dominates the bill because there is 17x more of it.
+    inputShare: inputPence / perQuery                             // ~67%
+  };
+}
+
+// SANITY CHECK OUT LOUD - it catches order-of-magnitude errors.
+function sanityCheck(result) {
+  const perActiveUserPerMonth = result.monthlyModelGbp / result.activeUsers;
+  return {
+    perActiveUserPerMonth,                    // ~2.40
+    question: "If this saves each person 20 minutes a month, is " +
+              "2.40 obviously worth it? Yes.",
+    // THE MOST COMMON ESTIMATING ERROR, by a distance.
+    watchFor: "prices are per MILLION tokens - being out by 1000x " +
+              "is the classic mistake"
+  };
+}`,
+              `// THEN THE BITS PEOPLE FORGET. Two of these surprise in opposite
+// directions.
+
+const otherCosts = {
+  // SMALLER than people expect. Embeddings are input-only and
+  // roughly an order of magnitude cheaper than generation.
+  initialCorpusEmbedding: {
+    documents: 100_000, chunksPerDoc: 10, tokensPerChunk: 400,
+    totalTokens: 400_000_000,
+    pricePerMillion: 0.10,
+    oneOffGbp: 40,
+    note: "people expect this to be huge. It is not. INDEXING is " +
+          "cheap; QUERYING is the ongoing cost."
+  },
+
+  reEmbedding: {
+    corpusChurnPerMonth: 0.02,
+    monthlyGbp: 0.80
+  },
+
+  // BIGGER than people expect, and never in the estimate.
+  evalSuiteInCi: {
+    cases: 200, runsPerCase: 3, criteriaPerCase: 5,
+    callsPerRun: 3_000,
+    pullRequestsPerMonth: 60,
+    // Judge calls are small but there are a lot of them.
+    monthlyGbp: 220,
+    note: "THIS is the line nobody budgets, and it is the reason " +
+          "teams quietly stop running their evals"
+  },
+
+  retriesAndFailures: { uplift: 0.10, monthlyGbp: 97 },
+
+  infrastructure: {
+    postgresWithPgvector: 120, redis: 40, workers: 80, storage: 15,
+    observability: 60,
+    monthlyGbp: 315
+  }
+};
+
+function totalMonthly(modelGbp) {
+  const total = modelGbp + otherCosts.reEmbedding.monthlyGbp
+              + otherCosts.evalSuiteInCi.monthlyGbp
+              + otherCosts.retriesAndFailures.monthlyGbp
+              + otherCosts.infrastructure.monthlyGbp;
+  return {
+    modelCalls: modelGbp,                    // ~965
+    everythingElse: total - modelGbp,        // ~633
+    totalGbp: total,                         // ~1,600
+    plusOneOff: otherCosts.initialCorpusEmbedding.oneOffGbp,
+    // Give a RANGE, not a point. A point estimate implies a
+    // precision you do not have.
+    honestRange: "1,400 - 1,700 per month, plus ~40 one-off"
+  };
+}`,
+              `// THE MOST VALUABLE PART: SENSITIVITY. A single number is a guess;
+// a number with sensitivities is a decision tool.
+
+function sensitivity(base) {
+  return [
+    { change: "adoption doubles (80% daily active)",
+      effect: "+100%", monthlyGbp: base * 2,
+      note: "linear and predictable - the easy case" },
+
+    { change: "answers are 3x longer (350 -> 1,050 tokens)",
+      effect: "+0.85p per query", monthlyGbp: base + 375,
+      note: "and 3x the generation latency" },
+
+    { change: "retrieved chunks 8 -> 4",
+      effect: "-0.50p per query", monthlyGbp: base - 220,
+      // A rare case where the cost saving and the latency win point
+      // the same way.
+      note: "AND faster - measure the quality cost on your eval set" },
+
+    { change: "prompt caching on the system prompt + tool defs",
+      effect: "-10 to -15% of input", monthlyGbp: base * 0.90,
+      note: "no quality risk at all - just order the prompt with " +
+            "stable content first" },
+
+    { change: "small model on the 60% of traffic that is simple",
+      effect: "roughly halves it", monthlyGbp: base * 0.55,
+      note: "the biggest lever - but it needs an EVAL per route, " +
+            "not a guess" },
+
+    // THE HEADLINE FINDING.
+    { change: "it becomes an agent with 5 steps",
+      // NOT 5x. Context accumulates at every step, so each step
+      // costs more than the last.
+      effect: "8-10x, NOT 5x", monthlyGbp: base * 9,
+      note: "965 becomes ~8,700. THE ARCHITECTURE DECISION MOVES " +
+            "THIS BY AN ORDER OF MAGNITUDE, while prompt tuning " +
+            "moves it by a few percent." }
+  ];
+}
+
+// WHY THE AGENT NUMBER IS NOT 5x:
+function agentTokens(steps, base = 5_830, growthPerStep = 1_400) {
+  let total = 0;
+  for (let s = 0; s < steps; s++) total += base + s * growthPerStep;
+  return total;
+}
+// 1 step  ->  5,830
+// 5 steps -> 43,150   (not 29,150 - each step re-sends the
+//                      accumulated context AND the tool results)
+
+// SO THE ADVICE THAT FOLLOWS FROM THE NUMBERS:
+const recommendations = [
+  "prompt caching first - free, no quality risk",
+  "then chunks 8 -> 4, measured against the eval set",
+  "then model right-sizing per route, with an eval per route",
+  "and think very hard before making this agentic - that is the " +
+    "decision that changes the order of magnitude"
+];`,
+              `// WHAT PEOPLE GET WRONG, AND WHY THE DISTRIBUTION MATTERS.
+
+const commonErrors = {
+  allUsersActive: {
+    wrong: "1,000 users x 5 questions = 5,000/day",
+    right: "40% daily active x 5 = 2,000/day",
+    // Changes the answer by more than 2x before you start.
+    impact: "2.5x overestimate"
+  },
+  forgettingHistory: {
+    wrong: "counting only the question and the chunks",
+    right: "the whole conversation is re-sent every turn",
+    impact: "underestimates by 20-40% on multi-turn products"
+  },
+  forgettingPerCallOverhead: {
+    wrong: "ignoring the system prompt and tool definitions",
+    right: "both are charged on EVERY call",
+    impact: "underestimates by ~15%"
+  },
+  perMillion: {
+    wrong: "2.50 per thousand tokens",
+    right: "2.50 per MILLION tokens",
+    // The classic, and the reason to sanity-check per user.
+    impact: "1000x error - catch it with the per-user check"
+  },
+  usingTheAverage: "see below"
+};
+
+// THE DISTRIBUTION MATTERS MORE THAN THE AVERAGE - especially if
+// you are pricing per seat.
+const usageDistribution = {
+  // Typical shape in an internal tool.
+  light:  { share: 0.70, questionsPerDay: 2,  costShare: 0.28 },
+  medium: { share: 0.25, questionsPerDay: 8,  costShare: 0.40 },
+  heavy:  { share: 0.05, questionsPerDay: 40, costShare: 0.32 },
+
+  // 5% of users generate a third of the cost. The average hides
+  // this completely.
+  implication: "if you sell this per seat with unlimited use, your " +
+               "margin depends on the tail - and a single power " +
+               "user can cost 20x an average one",
+  mitigations: ["per-user daily spend caps",
+                "fair-use limits above a threshold",
+                "usage-based pricing tiers",
+                "monitor the top 20 users by spend"]
+};
+
+// AND MAKE THE ESTIMATE DEFENSIBLE: give the FORMULA, not just the
+// number, so it can be re-run when an assumption changes.
+const deliverable = {
+  formula: "monthly = users x activeRate x questionsPerDay x " +
+           "workingDays x (inputTokens x inPrice + outputTokens x " +
+           "outPrice + rerank)",
+  // A point estimate implies a precision you do not have.
+  range: "1,400 - 1,700 per month",
+  assumptionsToValidateFirst: [
+    "daily active rate - the biggest single uncertainty",
+    "average answer length",
+    "how many turns a typical conversation runs to"
+  ],
+  reviewAfter: "two weeks of real traffic, with attribution on"
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "Estimate the monthly cost of a RAG assistant for 1,000 daily users. Show your reasoning.",
+                solution: `<p>I will state assumptions so you can correct any.</p>
+             <p><strong>Usage:</strong> 1,000 users but not all active — assume 40% daily active, so 400, at 5 questions each is 2,000 a day, about 44,000 a month.</p>
+             <p><strong>Tokens per request:</strong> system prompt 800, eight chunks at 500 each is 4,000, history ~1,000, question 30 — so ~5,800 input, 350 output.</p>
+             <p><strong>Price</strong> at illustrative rates of £2.50/M in and £12/M out: input 1.46p, output 0.42p, reranking ~0.3p. Call it <strong>2.2p a question</strong>.</p>
+             <p><strong>Multiply:</strong> 44,000 × 2.2p ≈ <strong>£970/month</strong>. Plus the one-off corpus embedding (~£40 — smaller than people expect), the eval suite in CI (hundreds if you ship often), retries at ~10%, and infrastructure. <strong>£1,400–1,700 all in.</strong></p>
+             <p><strong>Sanity check:</strong> ~£2.40 per active user per month.</p>`,
+              },
+              {
+                question:
+                  "What is the method for an estimate like this?",
+                solution: `<p>Four steps, done out loud:</p>
+             <ol>
+               <li><strong>Usage assumptions</strong>, stated explicitly so they can be corrected — total users, what fraction are actually active, questions each, working days.</li>
+               <li><strong>Tokens per request, built up rather than guessed</strong> — system prompt, retrieved chunks, conversation history, the question, and expected output length.</li>
+               <li><strong>Price it</strong>, saying the rates are illustrative, and include reranking and query embedding.</li>
+               <li><strong>Multiply, then add the extras</strong> — corpus embedding, eval runs, retries, infrastructure.</li>
+             </ol>
+             <p>Then <strong>sanity check per user</strong>, because that is what catches an order-of-magnitude error, and finish with <strong>sensitivities</strong>.</p>
+             <p>The instruction was "show your reasoning", so stating assumptions is not a hedge — it is the answer. An interviewer who disagrees with one can correct it, and you re-run the arithmetic in ten seconds because the structure is there.</p>`,
+              },
+              {
+                question:
+                  "Which assumption do people most often get wrong?",
+                solution:
+                  "<p><strong>That all the users are active.</strong> \"A thousand daily users\" usually means a thousand people with access, and in an internal tool the daily active fraction is typically somewhere between a quarter and a half. Assuming everyone uses it every day overestimates the bill by more than two before you have done any other arithmetic, and it is the single largest source of error in these estimates. The related mistake is assuming a flat rate of questions per person — usage is heavily skewed, with most people asking occasionally and a small group asking constantly. Two things follow. In the estimate, state the active rate as an <em>assumption</em> so the interviewer can correct it, and flag it as the number you would validate first from real traffic, because it dominates the uncertainty. And in the design, remember that the skew matters for anything priced per seat: a small proportion of heavy users can generate a third of the cost, so the average user figure is a poor basis for a per-seat price without a fair-use cap behind it.</p>",
+              },
+              {
+                question:
+                  "What dominates the cost in this estimate?",
+                solution:
+                  "<p><strong>Input tokens, and within them the retrieved chunks.</strong> That is slightly counter-intuitive because output is priced several times higher per token — but there is roughly seventeen times more input than output in a typical RAG request, so input ends up as about two thirds of the per-query cost. Within the input, eight chunks at five hundred tokens each is four thousand of the five thousand eight hundred, so the retrieved context alone is around seventy percent of the input and nearly half the total. That tells you where to look first: <strong>reducing the number or size of chunks is the biggest single lever available</strong>, and it improves latency at the same time since prefill scales with input length. The system prompt and tool definitions are smaller but they are paid on every call, which makes them the ideal candidate for prompt caching. And it means the instinct to shorten <em>answers</em> — while correct for latency, since decode dominates total time — is not where the money is. Cost lives in the context; latency lives in the output.</p>",
+              },
+              {
+                question:
+                  "Why is the agent scenario the headline finding?",
+                solution: `<p>Because it moves the answer by an <strong>order of magnitude</strong>, while every prompt-level optimisation moves it by a few percent.</p>
+             <p>And crucially it is <strong>not five times for five steps</strong>. Each step re-sends the accumulated context — the model's previous reasoning plus every tool result — so step five carries far more than step one. Working it through with round numbers, five steps is around forty-three thousand tokens rather than twenty-nine thousand, and once you add the extra output at each step the realistic multiplier is more like eight to ten.</p>
+             <p>So £970 a month becomes closer to £8,700.</p>
+             <p>That is worth saying explicitly because it reframes the whole conversation: <strong>the architecture decision is the cost decision</strong>. Deciding whether something needs to be agentic matters more financially than any amount of prompt tuning — and it is the kind of finding a stakeholder can act on.</p>`,
+              },
+              {
+                question:
+                  "Why give sensitivities rather than a single number?",
+                solution:
+                  "<p>Because a single number is a guess, and a number with sensitivities is a decision tool. Nobody can predict adoption or average answer length precisely, so a point estimate implies a confidence you do not have and invites an argument about whether it is right. Sensitivities move the conversation to something more useful: <em>here is what happens if adoption doubles — linear, fine; if answers get three times longer — plus £375; if we cut chunks from eight to four — minus £220 and faster; if we route simple traffic to a small model — roughly halved; if this becomes agentic — nearly ten times</em>. That immediately tells a stakeholder which decisions matter and which do not, and it tells the engineering team where to spend effort. It also protects you: when usage turns out different from your assumption, you have already shown how the number moves rather than being wrong. The practical form is to give the <strong>formula rather than just the total</strong>, plus a range, plus the two or three assumptions you would validate first from real traffic.</p>",
+              },
+              {
+                question:
+                  "Why is the corpus embedding cost smaller than people expect?",
+                solution:
+                  "<p>Because embeddings are priced <strong>input only</strong> and roughly an order of magnitude cheaper than generation input. A hundred thousand documents producing a million chunks at four hundred tokens each is four hundred million tokens, which at typical embedding rates is around forty pounds — <em>once</em>. Re-embedding a couple of percent of the corpus each month is under a pound. People consistently expect this to be a major line item and it is usually a rounding error next to the query cost. The consequence is that teams often optimise the wrong thing: worrying about chunk counts for indexing cost, or hesitating over a re-chunking strategy because of the re-embedding bill, when neither matters financially. <strong>Indexing is cheap and one-off; querying is the ongoing cost and scales with usage.</strong> It is worth saying in an estimate because it is a genuinely useful correction — it frees the team to re-index whenever the strategy improves, which is exactly what you want them to feel able to do. The one caveat is a very large corpus with frequent full re-processing, where it becomes worth using batch endpoints for the further discount.</p>",
+              },
+              {
+                question:
+                  "What cost is usually missing from these estimates entirely?",
+                solution: `<p>The <strong>evaluation suite running in CI</strong>. Two hundred cases, three runs each for stability, and several criteria judged separately is around three thousand judge calls <em>per pull request</em>. At sixty pull requests a month that is a real line item — comfortably into the hundreds of pounds — and it appears in nobody's per-request calculation because it scales with development activity rather than with users.</p>
+             <p>It matters beyond the number, because this is the cost that quietly makes teams <strong>stop running their evals</strong>, which is far more expensive in the long run than the bill itself.</p>
+             <p>The mitigations are the usual ones: rules-first grading so most cases never reach a judge, caching by case and prompt version, a fast subset on every pull request with the full set nightly, and a cheaper model for the mechanical criteria.</p>
+             <p>Also commonly missing: <strong>retries</strong> — add around ten percent — and failed calls that are still charged for input.</p>`,
+              },
+              {
+                question:
+                  "How does the usage distribution change the picture?",
+                solution:
+                  "<p>Substantially, and the average hides it. A typical internal tool has something like seventy percent light users asking a couple of questions a day, twenty-five percent medium users, and five percent heavy users asking forty or more — which means <strong>five percent of users can generate around a third of the cost</strong>. For a total budget that mostly averages out, so the estimate stands. Where it matters enormously is <strong>pricing</strong>: if you sell this per seat with unlimited usage, your margin depends entirely on that tail, and a single power user can cost twenty times an average one. A per-seat price set from the average user is a bet on the distribution staying stable, which it will not once people discover the tool is useful. So the mitigations are worth naming: per-user daily spend caps, fair-use limits above a threshold, usage-based tiers, and monitoring the top twenty users by spend so the tail is visible rather than a surprise. It is also worth modelling the distribution explicitly rather than a single average when the number is going to inform a commercial decision.</p>",
+              },
+              {
+                question:
+                  "What would you change first based on this estimate?",
+                solution: `<p>In order of value against risk:</p>
+             <ol>
+               <li><strong>Prompt caching</strong> on the system prompt and tool definitions — roughly ten to fifteen percent of the input cost, no quality risk at all, and it needs only that the stable content comes first in the prompt.</li>
+               <li><strong>Chunks from eight to four</strong> — around £220 a month and it makes responses faster, since prefill scales with input length. Measure the quality cost on the golden set rather than assuming it is free.</li>
+               <li><strong>Model right-sizing per route</strong> — potentially halves the bill if most traffic is simple, and it is the biggest single lever. But it needs an evaluation <em>per route</em> confirming the smaller model meets the bar, not a guess.</li>
+             </ol>
+             <p>And the one that is not an optimisation but a decision: <strong>think hard before making this agentic</strong>, because that is the change that moves the number by an order of magnitude rather than a percentage.</p>`,
+              },
+              {
+                question:
+                  "How confident should you be in a number like this?",
+                solution:
+                  "<p>Confident in the <em>method</em>, and explicit that the number is a range. I would quote fourteen hundred to seventeen hundred a month rather than a single figure, and name the assumptions carrying the most uncertainty: the <strong>daily active rate</strong>, which is the biggest by a distance and can move the answer by more than two; the <strong>average answer length</strong>; and <strong>how many turns a typical conversation runs to</strong>, since history is re-sent every turn. All three are cheap to validate — two weeks of real traffic with cost attribution enabled settles them — so I would present the estimate as something to <em>revisit</em> rather than something to plan against permanently. What makes it defensible is giving the <strong>formula rather than just the total</strong>, so anyone can re-run it when an assumption changes, and stating the sensitivities so the shape of the uncertainty is visible. That is also the honest position: an estimate before launch is a planning tool, and the actual number comes from attribution in production, which is one more argument for building attribution in from the start.</p>",
+              },
+              {
+                question:
+                  "How would you present this to a stakeholder?",
+                solution:
+                  "<p>Three numbers and one decision. The numbers: <strong>cost per question</strong> — about 2p; <strong>cost per active user per month</strong> — about £2.40; and the <strong>monthly total</strong> as a range, £1,400 to £1,700. The per-user figure is the one that lands, because it can be weighed directly against value: if the assistant saves someone twenty minutes a month, £2.40 is obviously worth it, and that comparison ends the conversation far more effectively than a total. Then the decision: <strong>if this becomes agentic, the bill is closer to £9,000</strong>, so that architectural choice is worth deliberate discussion rather than being made incidentally by an engineer. Alongside those, offer the sensitivities so they can see which of their own decisions moves the number — doubling adoption is linear and fine, longer answers cost real money, and routing simple traffic to a smaller model roughly halves it. And commit to attribution, so that when the bill moves you can say which team and which feature caused it. That commitment is often what makes a finance team comfortable approving something whose cost scales with usage.</p>",
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/about-claude/pricing",
+              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
+              "https://docs.anthropic.com/en/docs/build-with-claude/token-counting",
+              "https://docs.anthropic.com/en/docs/build-with-claude/batch-processing",
+            ],
+          },
+           {
+            topic: "Prompt Caching & Context Reduction",
+            tags: ["high-frequency", "must-know", "cost", "optimisation"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "Your prompts are huge and repetitive. What are the concrete ways to cut that cost?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The word <em>repetitive</em> and the word <em>huge</em> point at two different fixes, and a good answer separates them: <strong>cache the repetitive part, and cut the part that cannot be cached.</strong>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    First, Measure What Is Actually In There
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Before optimising anything, get the breakdown in tokens. A
+typical RAG request:
+
+  system prompt          800   12%   <- cacheable
+  tool definitions     2,400   ...   <- cacheable
+  retrieved chunks     4,000   62%   <- THE BIGGEST PART
+  conversation history 1,000   25%   <- changes every turn
+  the question            30
+
+People start rewriting the system prompt because it is the
+part they can see and edit. It is usually 12% of the input,
+and it is the part that CACHES WELL - so it is close to free
+already.
+
+THE CHUNKS ARE THE MONEY.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Half One: Prompt Caching
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The provider caches the <em>processed state</em> of a prefix of your prompt. On the next call with the same prefix, that prefill work is reused instead of redone, and you are charged a much lower rate for those tokens.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE ONE RULE: STABLE CONTENT FIRST, VARIABLE CONTENT LAST.
+
+  It caches a PREFIX. Anything that changes invalidates
+  everything after it. So one variable value near the front
+  destroys the entire benefit.
+
+WHAT BELONGS IN THE CACHED PREFIX:
+  the system prompt
+  tool definitions
+  few-shot examples
+  stable reference documents
+
+WHAT SILENTLY BREAKS IT:
+  a timestamp or "today's date" in the system prompt
+  the user's name interpolated early
+  tool definitions that vary per request
+  reordering the prompt between calls
+  a framework that assembles the prompt differently each
+    time
+
+TWO THINGS TO KNOW:
+  CACHE ENTRIES EXPIRE, typically in minutes - so a
+    low-traffic route may never hit.
+  WRITING THE CACHE COSTS SLIGHTLY MORE than an uncached
+    call - so caching a prefix used once is a small LOSS.
+    It pays off from the second use.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Half Two: Context Reduction — The Concrete List
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>Fewer chunks.</strong> Eight to four removes roughly a third of the input on every request. The single biggest line, and it makes responses faster too.</li>
+    <li style="margin-top: 0.5rem;"><strong>Smaller chunks.</strong> If your chunks are 800 tokens and the answer needs 200, you are paying four times over. Better chunking beats more chunking.</li>
+    <li style="margin-top: 0.5rem;"><strong>Retrieve wide, send narrow.</strong> Fetch 30 candidates, rerank, and send only the top 4. Reranking is cheap compared with sending everything.</li>
+    <li style="margin-top: 0.5rem;"><strong>Compress the retrieved text.</strong> Use a small model to pull only the relevant sentences from each chunk before it enters the big prompt. You pay a little on a cheap model to save a lot on an expensive one.</li>
+    <li style="margin-top: 0.5rem;"><strong>Trim the conversation.</strong> A rolling summary plus the last few turns verbatim, or a small structured state object — instead of re-sending everything forever.</li>
+    <li style="margin-top: 0.5rem;"><strong>Prune tool definitions.</strong> They are prompt text, sent on every call. Expose only the tools relevant to this request.</li>
+    <li style="margin-top: 0.5rem;"><strong>Strip boilerplate from chunks.</strong> Headers, footers, navigation and legal notices repeated on every page of every document are pure waste, and they retrieve badly too.</li>
+    <li style="margin-top: 0.5rem;"><strong>Deduplicate.</strong> Near-identical chunks in the same prompt cost tokens and add nothing.</li>
+    <li style="margin-top: 0.5rem;"><strong>Audit the system prompt.</strong> Defensive instructions accumulate over months, and much of it is dead text nobody validated. Delete a line, run the eval, see if anything moves.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Every Reduction Needs An Eval Check
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Cutting context is free money right up until it is not. Fewer chunks means a higher chance the answer was not retrieved; a shorter history means losing a constraint the user gave three turns ago. <strong>Each cut goes through the golden set, compared per category</strong> — because the damage usually lands on one question type rather than across the board.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The failure to avoid: shipping four reductions at once, watching cost halve, and discovering three weeks later that multi-part questions stopped working.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    They Compound
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    These are largely independent, so they multiply rather than add. Caching the prefix, halving the chunks, compressing what remains and trimming the history can take a prompt from six thousand tokens to under two — which is a bigger change than switching model tiers, without touching quality if you measure as you go.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "Your prompts are huge and repetitive. What are the
+   concrete ways to cut that cost?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you know prompt caching exists and what its ONE
+  rule is, and whether you can produce a specific list rather
+  than "shorten the prompt". The tell for someone who has
+  actually done this is knowing that the retrieved chunks -
+  not the system prompt - are where the tokens are.
+
+WEAK ANSWER
+  "We would shorten the system prompt, remove unnecessary
+   instructions, and use a smaller context window to reduce
+   token usage."
+  Why it is weak: it optimises the 12% that already caches
+  well, ignores the 62% that does not, and never mentions
+  prompt caching at all.
+
+STRONG ANSWER (about 75 seconds)
+  "First I would get the breakdown in tokens, because people
+   optimise the part they can see. In a typical RAG request
+   the system prompt is maybe 12% and the RETRIEVED CHUNKS
+   are around 62%. The chunks are the money.
+
+   Then two separate fixes for two separate problems. For the
+   REPETITIVE part, prompt caching: the provider caches the
+   processed state of a prefix, so that prefill work is
+   reused and those tokens are charged at a much lower rate.
+   The ONE RULE is stable content first, variable content
+   last - it caches a PREFIX, so one changing value near the
+   front destroys the whole benefit. A timestamp in the
+   system prompt or a user name interpolated early is the
+   classic way to break it silently. Two caveats: entries
+   expire in minutes so low-traffic routes miss, and writing
+   the cache costs slightly more than a normal call, so it
+   pays off from the second use.
+
+   For the part that CANNOT be cached, a concrete list in
+   order of value. Fewer chunks - eight to four removes about
+   a third of the input on every request and makes it faster.
+   Smaller chunks, because if they are 800 tokens and the
+   answer needs 200 I am paying four times over. Retrieve
+   thirty and rerank down to four rather than sending ten.
+   Compress the retrieved text with a small model - pay a
+   little on a cheap model to save a lot on an expensive one.
+   Trim the conversation to a rolling summary plus recent
+   turns. Prune tool definitions, which are prompt text sent
+   every call. Strip boilerplate headers and footers. And
+   audit the system prompt, because defensive instructions
+   accumulate and much of it is dead text nobody validated.
+
+   Every one of those goes through the golden set, compared
+   per category, because cutting context is free money right
+   up until it is not - and the damage usually lands on one
+   question type rather than everywhere.
+
+   They compound, so caching plus halving the chunks plus
+   compression can take six thousand tokens to under two,
+   which is a bigger change than switching model tiers."
+
+FOLLOW-UPS TO EXPECT
+  "What is the one rule for prompt caching?"
+      -> stable content first. It caches a prefix, so
+         anything variable near the front invalidates
+         everything after it.
+  "When does prompt caching lose money?"
+      -> when the prefix is used once, because writing the
+         cache costs slightly more than an uncached call.
+  "Which reduction is biggest?"
+      -> fewer retrieved chunks. They are usually most of the
+         input.
+  "How do you know you cut too far?"
+      -> the golden set, compared per category. It shows up
+         in one category first, not in the average.
+
+RED FLAGS
+  Optimising the system prompt and ignoring the chunks.
+  Not knowing prompt caching exists.
+  Not knowing the prefix rule.
+  Cutting context with no evaluation.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// MEASURE FIRST. People optimise the part they can SEE and EDIT,
+// which is usually the smallest part.
+
+function promptBreakdown(request) {
+  return {
+    systemPrompt:        { tokens: 800,   share: 0.12, cacheable: true },
+    toolDefinitions:     { tokens: 2_400, share: 0.00, cacheable: true },
+    retrievedChunks:     { tokens: 4_000, share: 0.62, cacheable: false },
+    conversationHistory: { tokens: 1_000, share: 0.25, cacheable: false },
+    question:            { tokens: 30,    share: 0.01, cacheable: false }
+  };
+  // THE CHUNKS ARE THE MONEY. The system prompt is ~12% AND it
+  // caches well, so it is close to free already.
+}
+
+// HALF ONE: PROMPT CACHING. ONE RULE - STABLE FIRST, VARIABLE LAST.
+const goodPrompt = {
+  // This whole block is one stable prefix. Cached after the first
+  // call, then charged at a fraction of the rate.
+  system: [
+    SYSTEM_INSTRUCTIONS,      // 800 tokens, never changes
+    TOOL_DEFINITIONS,         // 2,400 tokens, never changes
+    FEW_SHOT_EXAMPLES,        // 1,200 tokens, never changes
+    STABLE_POLICY_REFERENCE   // 3,000 tokens, changes monthly
+  ].join("\\n\\n"),
+  cacheControl: { type: "ephemeral" },   // mark the cache breakpoint
+
+  // Everything variable comes AFTER the breakpoint.
+  messages: [...history, { role: "user", content: question }]
+};
+
+// WHAT SILENTLY BREAKS IT. Each of these puts something variable
+// EARLY, so the prefix never matches and you get zero benefit
+// while believing caching is on.
+const cacheKillers = {
+  timestamp: "You are a helpful assistant. Today is 2026-08-18." ,
+  userName: "You are helping Priya Sharma with...",
+  perRequestTools: "tool definitions filtered differently each call",
+  reordering: "a framework that assembles the prompt in a different " +
+              "order depending on which fields are populated",
+  // Subtle: trailing whitespace or a version string that changes.
+  invisibleDrift: "a build hash appended to the system prompt"
+};
+
+// TWO CAVEATS WORTH KNOWING:
+const cacheEconomics = {
+  expiry: "entries live minutes, not hours - a low-traffic route " +
+          "may never hit, so measure the hit rate per route",
+  writeCost: "creating the cache entry costs SLIGHTLY MORE than a " +
+             "normal call, so caching a prefix used ONCE is a small " +
+             "LOSS. It pays off from the second use.",
+  measure: "the usage response reports cache CREATION and cache " +
+           "READ tokens separately - watch both"
+};`,
+              `// HALF TWO: CONTEXT REDUCTION. The concrete list, in order of
+// value.
+
+// 1. FEWER CHUNKS - the single biggest line.
+const chunkCount = {
+  before: { k: 8, tokens: 4_000 },
+  after:  { k: 4, tokens: 2_000 },
+  saves: "~34% of total input on EVERY request",
+  bonus: "faster too - prefill scales with input length",
+  // But measure it. This is the one most likely to cost quality.
+  check: "run the golden set, compare PER CATEGORY - multi-document " +
+         "questions suffer first"
+};
+
+// 2. SMALLER CHUNKS. If the chunk is 800 tokens and the answer
+//    needs 200, you are paying four times over.
+const chunkSize = {
+  problem: "800-token chunks retrieved 8 at a time = 6,400 tokens, " +
+           "of which maybe 1,600 is relevant",
+  fix: "chunk on structure at 300-400 tokens, so each chunk is " +
+       "closer to one idea",
+  // Better chunking beats more chunking, and it improves retrieval
+  // precision at the same time.
+  note: "this is a chunking-strategy change, so re-index and re-eval"
+};
+
+// 3. RETRIEVE WIDE, SEND NARROW.
+async function retrieveAndTrim(question, session) {
+  const candidates = await hybridSearch(question, { k: 30 });  // cheap
+  const ranked = await rerank(question, candidates, { k: 4 });  // cheap
+  return ranked;   // only 4 reach the expensive model
+}
+
+// 4. COMPRESS THE RETRIEVED TEXT. Pay a little on a CHEAP model to
+//    save a lot on an EXPENSIVE one.
+async function compressChunks(question, chunks) {
+  const compressed = await Promise.all(chunks.map(c =>
+    smallModel.complete({
+      system: "Extract ONLY the sentences relevant to the question. " +
+              "Copy them exactly. If nothing is relevant, return " +
+              "an empty string.",
+      user: "Question: " + question + "\\n\\nPassage:\\n" + c.text
+    })));
+  return compressed.filter(t => t.trim().length > 0);
+}
+// 4 chunks x 500 tokens -> maybe 4 x 150 = 600 tokens into the big
+// model, for the price of 4 small-model calls. Typically a 3-4x
+// reduction on the largest part of the prompt.
+
+// 5. TRIM THE CONVERSATION - a rolling summary plus recent turns.
+// 6. PRUNE TOOL DEFINITIONS - they are prompt text, sent EVERY call.
+// 7. STRIP BOILERPLATE from chunks at INGEST, not at query time.
+function stripBoilerplate(text) {
+  return text
+    .replace(/^.*CONFIDENTIAL.*$/gm, "")
+    .replace(/^Page \\d+ of \\d+$/gm, "")
+    .replace(/^.*\\| Acme Corp \\| .*$/gm, "")     // repeated header
+    .replace(/This document is subject to[\\s\\S]{0,400}$/m, "");
+  // Repeated on every page of every document. Pure waste, and it
+  // hurts retrieval quality too.
+}`,
+              `// EVERY REDUCTION NEEDS AN EVAL CHECK. Cutting context is free
+// money right up until it is not.
+
+async function evaluateReduction(name, change) {
+  const before = await evaluate(GOLDEN_SET, currentSystem);
+  const after  = await evaluate(GOLDEN_SET, applyChange(change));
+
+  return {
+    change: name,
+    tokensSaved: change.tokensSaved,
+    monthlySavingGbp: (change.tokensSaved / 1e6) * PRICE_IN *
+                      QUERIES_PER_MONTH,
+
+    overall: { before: before.overall, after: after.overall },
+
+    // THE CHECK THAT MATTERS. The damage lands on ONE category, not
+    // across the board, so an overall number hides it.
+    byCategory: Object.keys(before.byCategory).map(cat => ({
+      category: cat,
+      delta: mean(after.byCategory[cat].map(r => r.passRate)) -
+             mean(before.byCategory[cat].map(r => r.passRate))
+    })).filter(c => c.delta < -0.03),
+
+    verdict: "ship it if no category dropped more than a few points"
+  };
+}
+
+// WHAT TYPICALLY BREAKS, PER REDUCTION:
+const expectedDamage = {
+  fewerChunks: "multi-document questions first - the answer needed " +
+               "facts from three sources and you sent four chunks",
+  smallerChunks: "questions needing surrounding context - the chunk " +
+                 "has the sentence but not the heading that says " +
+                 "which product it applies to",
+  compression: "nuance and qualifiers - the small model drops the " +
+               "'except for contractors' clause",
+  trimmedHistory: "constraints the user gave several turns ago - " +
+                  "'email only, not phone'",
+  prunedTools: "requests that needed a tool you stopped exposing",
+  shorterSystemPrompt: "edge-case behaviour someone added an " +
+                       "instruction for after an incident"
+};
+
+// THE FAILURE TO AVOID: shipping four reductions at once, watching
+// cost halve, and finding out three weeks later that multi-part
+// questions stopped working.
+const discipline = "one change, one eval run, one decision";`,
+              `// THEY COMPOUND. These are largely independent, so they multiply
+// rather than add.
+
+const compounding = {
+  start: { input: 6_230, costPence: 1.56 },
+
+  steps: [
+    { do: "prompt caching on system + tools (3,200 tokens)",
+      // Cached tokens are charged at a fraction of the normal rate.
+      newInput: 6_230, effectivePence: 1.09, saving: "30%" },
+
+    { do: "chunks 8 -> 4", newInput: 4_230, effectivePence: 0.79 },
+
+    { do: "compress the 4 chunks (2,000 -> 600)",
+      newInput: 2_830, effectivePence: 0.57,
+      note: "plus 4 small-model calls, ~0.04p - still well ahead" },
+
+    { do: "rolling summary instead of full history (1,000 -> 300)",
+      newInput: 2_130, effectivePence: 0.46 },
+
+    { do: "prune tool definitions from 20 tools to 6",
+      newInput: 2_130, effectivePence: 0.44,
+      note: "cached anyway, but it also improves tool selection" }
+  ],
+
+  end: { input: 2_130, costPence: 0.44 },
+  // A bigger change than switching model tiers - and with no
+  // quality cost IF you measured at each step.
+  reduction: "~72% of the input cost"
+};
+
+// ORDER OF ATTACK:
+const order = [
+  "1. PROMPT CACHING - free, no quality risk, just reorder the " +
+     "prompt. Do this before anything else.",
+  "2. FEWER CHUNKS - the biggest single line. Measure per category.",
+  "3. COMPRESSION - good ratio, costs a small model call, watch for " +
+     "dropped qualifiers.",
+  "4. HISTORY TRIMMING - matters most on long conversations.",
+  "5. TOOL PRUNING - small on cost, but it improves tool SELECTION.",
+  "6. SYSTEM PROMPT AUDIT - smallest saving, and worth doing anyway " +
+     "because dead instructions cause odd behaviour."
+];
+
+// AUDIT THE SYSTEM PROMPT PROPERLY: delete a line, run the eval,
+// see if anything moves. Most defensive instructions were added
+// after an incident and never validated.
+async function auditSystemPrompt(lines) {
+  const results = [];
+  for (const line of lines) {
+    const withoutIt = lines.filter(l => l !== line).join("\\n");
+    const score = await evaluate(GOLDEN_SET, { system: withoutIt });
+    results.push({ line, scoreWithout: score.overall,
+                   safeToRemove: score.overall >= BASELINE - 0.01 });
+  }
+  return results.filter(r => r.safeToRemove);
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "Your prompts are huge and repetitive. What are the concrete ways to cut that cost?",
+                solution: `<p>First I would get the breakdown in tokens, because people optimise the part they can see. In a typical RAG request the system prompt is maybe 12% and the <strong>retrieved chunks are around 62%</strong>. The chunks are the money.</p>
+             <p>Then two fixes for two problems. For the <strong>repetitive</strong> part, prompt caching — the provider caches the processed state of a prefix, and the one rule is <strong>stable content first, variable content last</strong>, because it caches a prefix and one changing value near the front destroys the benefit.</p>
+             <p>For the part that <strong>cannot</strong> be cached: fewer chunks, smaller chunks, retrieve wide and send narrow, compress the retrieved text with a small model, trim the conversation, prune tool definitions, strip boilerplate, and audit the system prompt.</p>
+             <p>Every one goes through the golden set, compared per category.</p>`,
+              },
+              {
+                question:
+                  "What is the one rule for prompt caching, and what breaks it?",
+                solution: `<p><strong>Stable content first, variable content last.</strong> The provider caches a <em>prefix</em>, so anything that changes invalidates everything after it — which means a single variable value near the front destroys the entire benefit while you believe caching is enabled.</p>
+             <p>What breaks it silently:</p>
+             <ul>
+               <li>A <strong>timestamp or "today's date"</strong> in the system prompt — the classic one.</li>
+               <li>The <strong>user's name</strong> interpolated early.</li>
+               <li><strong>Tool definitions filtered differently</strong> per request.</li>
+               <li>A framework that <strong>assembles the prompt in a different order</strong> depending on which fields are populated.</li>
+               <li>A build hash or version string appended to the system prompt.</li>
+             </ul>
+             <p>The way to catch it is to look at the usage response, which reports cache creation and cache read tokens separately. If you are only ever seeing creation, your prefix is not stable.</p>`,
+              },
+              {
+                question:
+                  "When does prompt caching actually lose you money?",
+                solution:
+                  "<p>When the prefix is used <strong>once</strong>. Writing a cache entry costs slightly more than an ordinary uncached call, because the provider has to store the processed state as well as compute it. So the first call is a small loss and the benefit starts from the second use — which means caching a prompt that is genuinely unique per request is strictly worse than not caching. The related trap is <strong>expiry</strong>: cache entries live for minutes rather than hours, so a low-traffic route may write the cache, never get a hit before it expires, and write it again — paying the premium repeatedly for no benefit. That is worth checking per route rather than assuming, and the usage response gives you the numbers directly since creation and read tokens are reported separately. The practical rule: cache prefixes that are <em>large</em> and <em>frequently reused</em> — a long system prompt with tool definitions on a busy route is ideal. For a rarely-used endpoint with a short system prompt, it is not worth the complexity and may cost slightly more.</p>",
+              },
+              {
+                question:
+                  "Which context reduction gives the biggest saving?",
+                solution:
+                  "<p><strong>Fewer retrieved chunks.</strong> In a typical RAG prompt the chunks are around sixty percent of the input, so going from eight to four removes roughly a third of the total on every single request — and it makes responses faster as well, since prefill scales with input length. It is a rare change that improves cost and latency together. The reason it is not automatic is that it is also the change most likely to cost quality: fewer chunks means a higher chance the answer was not among them. So it needs measuring, and specifically <strong>per category</strong>, because the damage is concentrated rather than spread — multi-document questions suffer first, since an answer needing facts from three sources becomes impossible when you send four chunks and two of them are near-duplicates. The way to have both is to <strong>retrieve wide and send narrow</strong>: fetch thirty candidates, rerank them, and send only the best four. Reranking is cheap relative to what you save by not sending twenty passages to the expensive model, so the quality cost of fewer chunks is much smaller than it would be without a reranker.</p>",
+              },
+              {
+                question:
+                  "How does compressing retrieved context work, and what does it cost?",
+                solution: `<p>You use a <strong>small, cheap model</strong> to extract only the sentences relevant to the question from each retrieved chunk, then send the extracts to the large model instead of the full passages. Four chunks of five hundred tokens might become four extracts of a hundred and fifty — a three or four times reduction on the largest part of the prompt.</p>
+             <p>The economics work because you are <strong>paying a little on a cheap model to save a lot on an expensive one</strong>, and the small model's task is easy: copy the relevant sentences, do not summarise.</p>
+             <p>Two costs to be honest about:</p>
+             <ul>
+               <li><strong>Latency</strong> — extra calls, though they parallelise across chunks.</li>
+               <li><strong>Dropped qualifiers.</strong> The small model can lose an "except for contractors" clause, which turns a correct answer into a wrong one.</li>
+             </ul>
+             <p>So instruct it to copy exactly rather than paraphrase, and check the eval for answers that became <em>more confident and less accurate</em>.</p>`,
+              },
+              {
+                question:
+                  "Why audit the system prompt even though it is a small share?",
+                solution:
+                  "<p>Because the saving is not the main reason. System prompts accumulate defensive instructions over months — each one added after an incident, in a hurry, and never validated afterwards. Nobody removes them because nobody knows which ones are load-bearing. The result is a long prompt where much of the text is doing nothing, and some of it is actively causing problems: over-cautious instructions produce over-refusal, contradictory instructions produce inconsistent behaviour, and stale instructions reference tools or policies that no longer exist. The audit method is straightforward and worth doing properly: <strong>remove one line, run the golden set, see if anything moves</strong>. Most lines turn out to be safe to delete. That gives you a shorter prompt, better cache economics, and — usually the bigger win — fewer odd behaviours. On cost specifically, the system prompt caches well, so it is close to free already; the honest framing is that this is a <em>quality and maintainability</em> exercise with a small cost benefit attached, rather than the other way round.</p>",
+              },
+              {
+                question:
+                  "Why must every reduction go through the golden set?",
+                solution:
+                  "<p>Because cutting context is free money right up until it is not, and the point where it stops being free is invisible without measurement. Each reduction has a specific failure mode: fewer chunks breaks multi-document questions; smaller chunks lose the surrounding context that says which product a rule applies to; compression drops qualifiers; a trimmed history loses the constraint someone gave three turns ago; pruned tools break the requests that needed them. None of those show up as a general decline — they land on one category, which is why <strong>comparing per category rather than overall</strong> is the important discipline. An overall score can rise slightly while one category collapses. The failure to avoid is the common one: shipping four reductions together because they all seem obviously fine, watching the bill halve, and discovering three weeks later that multi-part questions stopped working — at which point you cannot tell which change did it. One change, one eval run, one decision. It is slower, and it is the only way to keep the savings without paying for them somewhere you are not looking.</p>",
+              },
+              {
+                question:
+                  "Do these techniques add up or multiply?",
+                solution: `<p>They largely <strong>multiply</strong>, because they act on different parts of the prompt and are mostly independent. Working through a realistic sequence:</p>
+             <ul>
+               <li>Prompt caching on the system prompt and tool definitions — around 30% off the effective input cost.</li>
+               <li>Chunks from eight to four — another large cut on what remains.</li>
+               <li>Compressing those four chunks — a further three-to-four times reduction on the biggest remaining block.</li>
+               <li>A rolling summary instead of the full history.</li>
+               <li>Pruned tool definitions.</li>
+             </ul>
+             <p>That can take a prompt from around six thousand tokens to under two, which is roughly a seventy percent reduction in input cost — <strong>a bigger change than switching model tiers</strong>, and achievable with no quality loss if you measure at each step.</p>
+             <p>Which is why the order matters: start with caching because it is free and carries no quality risk, then the chunks because they are the biggest, then compression.</p>`,
+              },
+              {
+                question:
+                  "What is the right order to attack this in?",
+                solution:
+                  "<p><strong>Prompt caching first</strong>, because it is free, carries no quality risk whatsoever, and requires nothing more than reordering the prompt so stable content comes first. There is no reason to do anything else before it. <strong>Fewer chunks second</strong>, because it is the biggest single line and it improves latency at the same time — measured per category. <strong>Compression third</strong>, since the ratio is good and the cost is a few cheap model calls, though it needs watching for dropped qualifiers. <strong>History trimming fourth</strong>, which matters most in products with long conversations and barely at all in single-shot ones. <strong>Tool pruning fifth</strong> — the cost saving is small since tool definitions cache well, but it measurably improves tool <em>selection</em> accuracy, which is a quality win worth having anyway. And the <strong>system prompt audit last</strong>, which yields the least money and is still worth doing because dead instructions cause strange behaviour. The general principle: do the changes with no quality risk before the ones that trade quality for cost, and measure between each so you know which change caused what.</p>",
+              },
+              {
+                question:
+                  "Where does boilerplate stripping fit, and why does it matter beyond cost?",
+                solution:
+                  "<p>It belongs at <strong>ingest, not query time</strong>, and it matters for retrieval quality as much as for tokens. Enterprise documents are full of repeated furniture: a confidentiality banner on every page, page numbers, a company header, a four-hundred-word legal notice at the foot of every document. If that survives into your chunks, you pay for it on every retrieval <em>and</em> it degrades the index, because chunks become more similar to each other than they should be — every chunk shares the same boilerplate, which dilutes the signal that distinguishes them and makes retrieval noticeably worse. Stripping it at ingest fixes both problems once, for every future query, which is a much better trade than handling it at query time. It is also cheap: a handful of regular expressions plus whatever your parser can identify structurally. The related point is <strong>deduplication</strong> — near-identical chunks in the same prompt cost tokens and add nothing, so removing them at context-assembly time is a small easy win that also improves the answer, since the model is not seeing the same fact three times and treating it as three sources.</p>",
+              },
+              {
+                question:
+                  "Does context reduction help with anything besides cost?",
+                solution: `<p>Yes, in three ways, which is why it is usually the first thing to reach for:</p>
+             <ul>
+               <li><strong>Latency.</strong> Prefill scales with input length, so halving the prompt roughly halves time-to-first-token. Cost and speed improve together, which is rare.</li>
+               <li><strong>Answer quality.</strong> Long contexts suffer from lost-in-the-middle effects, and irrelevant passages actively distract the model. Sending four good chunks often produces a <em>better</em> answer than sending ten mixed ones — so the reduction can be a quality improvement rather than a trade.</li>
+               <li><strong>Headroom.</strong> A shorter prompt leaves room for the conversation to grow before you hit the window, which matters in multi-turn products.</li>
+             </ul>
+             <p>The nuance is that this only holds up to a point — cut too far and you lose the information needed to answer. Which is the argument for measuring per category rather than assuming either that less is always worse or that less is always better.</p>`,
+              },
+              {
+                question:
+                  "How would you present the savings from this work?",
+                solution:
+                  "<p>As a table of changes with three columns: <strong>tokens saved, monthly saving, and quality impact from the eval</strong>. That makes each change a decision rather than a claim, and it shows the ones that were free — caching, deduplication, boilerplate stripping — separately from the ones that traded a little quality for money. Give the cumulative figure as a percentage of input cost, since that is the number stakeholders can compare against the total bill. Two things worth including. The <strong>latency improvement</strong> alongside the cost saving, because halving the prompt also halves time-to-first-token and that is a user-facing benefit people will care about more than the money. And an explicit note on <strong>what was measured and found unaffected</strong>, so nobody has to take on trust that quality survived — \"per-category scores unchanged except multi-document, which fell two points and remains above bar\" is a far more convincing statement than \"quality was maintained\". If a change did cost quality and you shipped it anyway, say so and say why the trade was worth it.</p>",
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
+              "https://docs.anthropic.com/en/docs/build-with-claude/token-counting",
+              "https://arxiv.org/abs/2307.03172",
+              "https://docs.anthropic.com/en/docs/about-claude/pricing",
+            ],
+          },
+          {
+            topic: "Model Routing (Small vs Large Model)",
+            tags: ["high-frequency", "must-know", "cost", "architecture"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "How would you route easy requests to a cheap model and hard ones to an expensive model?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    This is the <strong>biggest single cost lever available</strong> — a small model can be ten to twenty times cheaper — and it usually dwarfs every prompt optimisation combined. But the interesting part is not the routing mechanism.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>The hard part is knowing what "easy" means, and that answer has to come from evaluation rather than intuition.</strong>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Four Strategies, Cheapest First
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+1. STATIC ROUTING BY REQUEST TYPE.  <- start here
+   You already know which endpoint was called.
+   Classification, tagging, routing -> small.
+   Document Q&A, reasoning          -> large.
+   No classifier, deterministic, free, and it captures most
+   of the available saving.
+
+2. RULE-BASED ON FEATURES.
+   Input length, whether tools are needed, whether it is a
+   known FAQ, the user's tier. Still deterministic and
+   still free.
+
+3. A CLASSIFIER CALL.
+   A small model decides. Costs one extra small call, adds
+   latency, and introduces MISROUTES. Only worth it when
+   the category genuinely cannot be determined from the
+   request shape.
+
+4. CASCADE - try small, escalate if it fails.
+   Self-correcting, and the most interesting one. See below.
+
+MOST TEAMS JUMP TO 3. Strategy 1 is free, has no failure
+mode, and typically covers 60-70% of traffic.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Cascade Pattern
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Try the small model, check the answer with something cheap, and escalate to the large model only if the check fails. The economics work surprisingly well: if eighty percent pass, you pay for eighty percent small calls plus twenty percent of <em>both</em> — still far cheaper than sending everything to the large model.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE CHECK IS THE WHOLE DESIGN. It must be CHEAP and
+RELIABLE, or you have added cost and latency for nothing.
+
+GOOD CHECKS - deterministic, free, and trustworthy:
+  did the output match the schema?
+  do the cited quotes exist in the sources?
+  did the model say it could not answer?
+  did it refuse?
+  are the required facts present?
+
+BAD CHECK:
+  asking a large model whether the small model's answer is
+  good - you have now paid for the large model anyway, so
+  you may as well have used it in the first place.
+
+AND THE COST TO WATCH: escalation adds LATENCY, because the
+small call happened first and was wasted. A cascade with a
+40% escalation rate is slower than just using the large
+model, even though it is cheaper.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How You Decide Which Routes Can Use The Small Model
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Run the golden set for that category on both models and compare.</strong> That is the entire answer, and it is what makes the decision defensible rather than a guess.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Do it <em>per route</em>, not overall — a small model may be indistinguishable on classification and clearly worse on multi-document reasoning, and an aggregate score hides both facts. And re-run it when models change, because the boundary moves: small models improve faster than large ones, so a route that needed the strong model last year often does not now.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Goes Wrong
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Misroutes.</strong> A hard question sent to a weak model does not error — it produces a confident, plausible, wrong answer. That is the failure mode, and it is silent.</li>
+    <li style="margin-top: 0.5rem;"><strong>Two prompts to maintain.</strong> Prompts are model-specific, so you now have two variants and two evaluation runs, and they drift apart.</li>
+    <li style="margin-top: 0.5rem;"><strong>Inconsistency.</strong> The same user asking similar questions gets noticeably different styles depending on which route fired.</li>
+    <li style="margin-top: 0.5rem;"><strong>Nobody revisits the boundaries.</strong> The routing table is set once and left, while the models underneath keep changing.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When Not To Bother
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    At low volume the saving does not justify two prompts, two eval sets and a routing layer to maintain. And where every request is quality-critical — a legal or medical context — the honest answer is that the strong model everywhere is the right call and you find your savings elsewhere.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "How would you route easy requests to a cheap model and
+   hard ones to an expensive model?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you reach for the simple deterministic version
+  first, and whether you know that "which requests are easy"
+  is an EVALUATION question rather than a design question.
+  The cascade pattern and the silent-misroute failure are the
+  two details that mark out experience.
+
+WEAK ANSWER
+  "We would use a classifier to assess the complexity of each
+   request and route simple ones to a smaller model to save
+   cost."
+  Why it is weak: jumps straight to the most complex option,
+  adds a call and a failure mode, and says nothing about how
+  you decide what "simple" means or how you would know it
+  was working.
+
+STRONG ANSWER (about 75 seconds)
+  "This is the biggest single cost lever - a small model can
+   be ten to twenty times cheaper - so it usually dwarfs
+   every prompt optimisation combined. But the hard part is
+   not the routing, it is knowing what EASY means, and that
+   has to come from evaluation.
+
+   I would start with STATIC ROUTING BY REQUEST TYPE, because
+   I usually already know: classification and tagging go
+   small, document Q&A and reasoning go large. No classifier,
+   deterministic, free, no failure mode - and it typically
+   covers most of the available saving. Then rules on
+   features - input length, whether tools are needed, whether
+   it is a known FAQ. A CLASSIFIER CALL only if the category
+   genuinely cannot be determined from the request shape,
+   because it adds a call, latency and misroutes.
+
+   The interesting option is a CASCADE: try the small model,
+   check the answer cheaply, escalate if it fails. If 80%
+   pass you pay 80% small plus 20% of both, which is still
+   far cheaper. The check is the whole design - it has to be
+   cheap and reliable, so deterministic ones: schema valid,
+   the cited quote exists, the model said it could not
+   answer. The bad version is asking a large model whether
+   the small one's answer is good, because you have paid for
+   the large model anyway.
+
+   How I decide which routes can use the small model: RUN THE
+   GOLDEN SET FOR THAT CATEGORY ON BOTH AND COMPARE. Per
+   route, not overall, because a small model can be
+   indistinguishable on classification and clearly worse on
+   multi-document reasoning.
+
+   The failure mode I would watch is that a MISROUTE IS
+   SILENT - a hard question on a weak model produces a
+   confident wrong answer, not an error. So I would track
+   per-route quality continuously, not just at launch. And
+   I would re-run the comparison when models change, because
+   small models improve faster and the boundary moves."
+
+FOLLOW-UPS TO EXPECT
+  "How do you know which requests are easy?"
+      -> the golden set, per category, on both models. Not
+         intuition.
+  "What is wrong with a classifier?"
+      -> a call, latency and misroutes - for a decision you
+         can usually make from the request shape for free.
+  "What makes a cascade work or fail?"
+      -> the check. Cheap and deterministic works; asking a
+         big model to judge defeats the point.
+  "What is the failure mode?"
+      -> silent. A weak model on a hard question gives a
+         confident wrong answer rather than an error.
+
+RED FLAGS
+  Starting with a classifier.
+  Deciding "easy" by intuition rather than evaluation.
+  No per-route quality monitoring.
+  Never revisiting the boundaries as models change.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// START WITH STATIC ROUTING. Free, deterministic, no failure mode,
+// and it usually captures most of the saving.
+
+const routes = {
+  // ~30% of traffic. A small model is indistinguishable here.
+  classify_intent:   { model: "small",  evidence: "eval: 0.97 vs 0.97" },
+  extract_metadata:  { model: "small",  evidence: "eval: 0.94 vs 0.95" },
+  summarise_ticket:  { model: "small",  evidence: "eval: 0.89 vs 0.92" },
+  // ~35% of traffic.
+  faq_lookup:        { model: "small",  evidence: "eval: 0.91 vs 0.93" },
+
+  // ~30%. Measurably worse on the small model - keep it large.
+  document_qa:       { model: "strong", evidence: "eval: 0.71 vs 0.86" },
+  // ~5%. Not close.
+  multi_doc_analysis:{ model: "strong", evidence: "eval: 0.52 vs 0.83" }
+};
+// I ALREADY KNOW WHICH ENDPOINT WAS CALLED. No classifier needed,
+// nothing to get wrong, and 65% of traffic moves to a model that
+// costs a fraction as much.
+
+function pickModel(requestType) {
+  return routes[requestType]?.model ?? "strong";   // unknown -> strong
+}
+
+// THEN RULES ON FEATURES - still deterministic, still free.
+function pickModelWithRules(req) {
+  if (routes[req.type]) return routes[req.type].model;
+
+  // Long inputs need the stronger model's reasoning over more
+  // context.
+  if (req.inputTokens > 20_000) return "strong";
+  // Tool use is where small models diverge most.
+  if (req.needsTools) return "strong";
+  // A known FAQ with a cached-quality answer.
+  if (req.matchesKnownFaq) return "small";
+  if (req.userTier === "enterprise" && req.type === "document_qa")
+    return "strong";
+
+  return "strong";
+}
+
+// ONLY REACH FOR A CLASSIFIER IF THE CATEGORY GENUINELY CANNOT BE
+// DETERMINED FROM THE REQUEST SHAPE - because it adds a call,
+// latency, and a new failure mode.
+async function classifierRouting(question) {
+  const c = await smallModel.structured({
+    schema: { type: "object", properties: {
+      complexity: { enum: ["simple", "complex"] },
+      confidence: { type: "number" } },
+      required: ["complexity", "confidence"] },
+    system: "Is this a simple lookup or does it need reasoning " +
+            "across multiple sources?",
+    user: question
+  });
+  // Route conservatively when unsure - a misroute is silent and
+  // expensive in quality terms.
+  return (c.complexity === "simple" && c.confidence > 0.8)
+    ? "small" : "strong";
+}`,
+              `// THE CASCADE. Try small, check cheaply, escalate if it fails.
+// THE CHECK IS THE WHOLE DESIGN.
+
+async function cascade(question, sources, testCase) {
+  const small = await smallModel.answer(question, sources);
+
+  const check = cheapCheck(small, sources);
+  if (check.ok) {
+    metrics.increment("cascade.small_sufficed");
+    return { ...small, model: "small" };
+  }
+
+  // Escalate. Note we have ALREADY paid for the small call and
+  // ALREADY spent its latency.
+  metrics.increment("cascade.escalated", { reason: check.reason });
+  const large = await largeModel.answer(question, sources);
+  return { ...large, model: "strong", escalatedBecause: check.reason };
+}
+
+// GOOD CHECKS: deterministic, free, and trustworthy.
+function cheapCheck(answer, sources) {
+  // 1. Did it match the schema?
+  if (answer.schema && !answer.schema.valid)
+    return { ok: false, reason: "schema" };
+
+  // 2. Do the cited quotes actually exist? A string match.
+  for (const c of answer.citations || []) {
+    const src = sources.find(s => s.id === c.sourceId);
+    if (!src || !normalise(src.text).includes(normalise(c.quote)))
+      return { ok: false, reason: "bad_citation" };
+  }
+
+  // 3. Did the model itself say it could not answer? The single
+  //    most useful signal, and it is free.
+  if (saysCannotAnswer(answer.text))
+    return { ok: false, reason: "model_declined" };
+
+  // 4. Are the required facts present, where we know them?
+  if (answer.expectedFacts &&
+      !answer.expectedFacts.every(f => answer.text.includes(f)))
+    return { ok: false, reason: "missing_facts" };
+
+  return { ok: true };
+}
+
+// THE BAD CHECK:
+//   const verdict = await largeModel.judge(small.text);
+// You have now paid for the large model anyway, so you may as well
+// have used it in the first place. This defeats the entire pattern.
+
+// THE ECONOMICS - and the latency cost people forget.
+function cascadeEconomics({ escalationRate, smallPence, largePence,
+                            smallMs, largeMs }) {
+  const cost = smallPence + escalationRate * largePence;
+  const latency = smallMs + escalationRate * largeMs;
+  return {
+    costPence: cost,                       // e.g. 0.2 + 0.2*2.0 = 0.6p
+    vsAlwaysLarge: cost / largePence,      // 30% of the cost
+    avgLatencyMs: latency,
+    // THE TRAP: a cascade with a high escalation rate is SLOWER
+    // than just using the large model, even though it is cheaper.
+    slowerThanAlwaysLarge: latency > largeMs,
+    breakEvenEscalationRate: 1 - (smallPence / largePence)
+  };
+}`,
+              `// HOW YOU DECIDE WHICH ROUTES CAN USE THE SMALL MODEL.
+// This is the whole answer, and it makes the decision defensible.
+
+async function compareModelsPerRoute(goldenSet) {
+  const byCategory = groupBy(goldenSet, c => c.category);
+
+  return Promise.all(Object.entries(byCategory).map(async ([cat, cases]) => {
+    // Same cases, same conditions, same judge - change ONE thing.
+    const small  = await evaluate(cases, { model: SMALL, prompt: PROMPT_SMALL });
+    const strong = await evaluate(cases, { model: STRONG, prompt: PROMPT_STRONG });
+
+    const delta = strong.overall - small.overall;
+    return {
+      category: cat,
+      smallScore: small.overall,
+      strongScore: strong.overall,
+      delta,
+      costRatio: 0.06,                      // small is ~6% of the price
+      trafficShare: TRAFFIC_SHARE[cat],
+
+      // The decision, with the reason attached.
+      verdict: delta < 0.02 ? "USE SMALL - indistinguishable"
+             : delta < 0.05 ? "small is close - worth it if this " +
+                              "category is high volume"
+             : "USE STRONG - measurably worse on the small model",
+
+      // What it is worth, so the trade is explicit.
+      monthlySavingIfSmall: TRAFFIC_SHARE[cat] * QUERIES_PER_MONTH *
+                            (LARGE_PENCE - SMALL_PENCE) / 100
+    };
+  }));
+}
+
+// PER ROUTE, NOT OVERALL. An aggregate hides both facts.
+const whyPerRoute = {
+  overall: "small scores 0.84 vs strong 0.89 - looks like a 5 point " +
+           "loss, so you keep the strong model everywhere",
+  perRoute: [
+    "classification:      0.97 vs 0.97  -> identical, move it",
+    "faq lookup:          0.91 vs 0.93  -> close, move it",
+    "document Q&A:        0.71 vs 0.86  -> keep strong",
+    "multi-doc analysis:  0.52 vs 0.83  -> keep strong, not close"
+  ],
+  conclusion: "65% of traffic moves at no measurable cost. The " +
+              "aggregate said no; the breakdown said yes for most " +
+              "of the volume."
+};
+
+// AND RE-RUN IT WHEN MODELS CHANGE. The boundary MOVES - small
+// models improve faster than large ones, so a route that needed the
+// strong model last year often does not now.
+const revisitTriggers = ["a new model version on either tier",
+                         "a prompt change",
+                         "a new question category appearing in traffic",
+                         "quarterly, as a habit"];`,
+              `// WHAT GOES WRONG. The failure mode is SILENT.
+
+const failureModes = {
+  silentMisroute: {
+    what: "a hard question routed to the weak model",
+    // It does not error. It produces a fluent, confident, wrong
+    // answer that looks exactly like a good one.
+    symptom: "none - it looks like a normal answer",
+    detect: "per-route quality monitoring, continuously - not just " +
+            "at launch",
+    // Which is why routing accuracy needs its own golden set.
+    mitigate: "route conservatively when unsure; unknown types go " +
+              "to the strong model"
+  },
+
+  twoPrompts: {
+    what: "prompts are model-specific, so you maintain two variants",
+    cost: "two eval runs on every change, and they drift apart",
+    mitigate: "keep the small-model prompt DELIBERATELY simpler - " +
+              "resist porting every instruction across"
+  },
+
+  inconsistency: {
+    what: "the same user gets noticeably different styles depending " +
+          "on which route fired",
+    mitigate: "align tone and format instructions across both " +
+              "prompts, and keep answer length similar"
+  },
+
+  staleBoundaries: {
+    what: "the routing table is set once and never revisited",
+    cost: "you keep paying for the strong model on routes the small " +
+          "one can now handle",
+    mitigate: "re-run the comparison on every model release"
+  }
+};
+
+// MONITOR PER ROUTE, CONTINUOUSLY.
+const routingMetrics = {
+  trafficByModel: "what share actually went small - if it is far " +
+                  "from your estimate, the routing is wrong",
+  qualityByRoute: "per-route pass rate, tracked over time - a drop " +
+                  "in ONE route is the signal",
+  escalationRate: "for cascades - rising means the small model is " +
+                  "struggling, or the traffic mix shifted",
+  costSaved: "against always-strong, so the value is visible",
+  // The honest one.
+  misrouteRate: "sample small-model answers and grade them - what " +
+                "share should have gone to the strong model?"
+};
+
+// WHEN NOT TO BOTHER:
+const skipIt = {
+  lowVolume: "under a few thousand requests a day, the saving does " +
+             "not justify two prompts, two eval sets and a routing " +
+             "layer to maintain",
+  qualityCritical: "legal, medical, financial advice - the strong " +
+                   "model everywhere is the right call, and you find " +
+                   "savings in caching and context reduction instead",
+  uniformDifficulty: "if every request genuinely needs reasoning, " +
+                     "there is nothing to route"
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "How would you route easy requests to a cheap model and hard ones to an expensive model?",
+                solution: `<p>This is the <strong>biggest single cost lever</strong> — a small model can be ten to twenty times cheaper — but the hard part is not the routing, it is knowing what "easy" means, and that has to come from evaluation.</p>
+             <p>I would start with <strong>static routing by request type</strong>, because I usually already know which endpoint was called: classification and tagging go small, document Q&A and reasoning go large. No classifier, deterministic, free, and it typically covers most of the available saving. Then rules on features. A <strong>classifier call</strong> only if the category genuinely cannot be determined from the request shape.</p>
+             <p>The interesting option is a <strong>cascade</strong> — try small, check cheaply, escalate if it fails. And the decision about which routes qualify comes from running the golden set <em>per category</em> on both models.</p>`,
+              },
+              {
+                question:
+                  "Why start with static routing rather than a classifier?",
+                solution:
+                  "<p>Because you usually already know the answer for free. The request arrived at a particular endpoint, or carries a type field, or came from a specific part of the product — so the category is determined by the request shape, and no inference is needed. Static routing is <strong>deterministic, costs nothing, adds no latency, and has no failure mode</strong>. A classifier adds all three: an extra model call, extra latency on every request, and a new way to be wrong. And misroutes are not benign, because a hard question sent to a weak model produces a confident wrong answer rather than an error. In practice static routing captures most of the available saving, because the traffic mix is usually dominated by a few clearly-simple categories — classification, tagging, FAQ lookups — which are exactly the ones you can identify without asking anything. Reach for a classifier only when the category genuinely varies <em>within</em> an endpoint, such as a single chat interface where some questions are trivial and others need reasoning across documents. Even then, route conservatively when the classifier is unsure, and send unknown types to the strong model.</p>",
+              },
+              {
+                question:
+                  "How do you decide which routes can use the small model?",
+                solution: `<p><strong>Run the golden set for that category on both models and compare.</strong> That is the whole answer, and it is what makes the decision defensible rather than a guess.</p>
+             <p>Crucially, do it <strong>per route rather than overall</strong>, because an aggregate hides the useful information in both directions. A realistic example: overall the small model scores 0.84 against 0.89, which looks like a five-point loss and leads you to keep the strong model everywhere. Broken down:</p>
+             <ul>
+               <li>Classification — 0.97 vs 0.97, identical.</li>
+               <li>FAQ lookup — 0.91 vs 0.93, close.</li>
+               <li>Document Q&A — 0.71 vs 0.86, keep strong.</li>
+               <li>Multi-document analysis — 0.52 vs 0.83, not close.</li>
+             </ul>
+             <p>So sixty-five percent of traffic moves at no measurable cost. The aggregate said no; the breakdown said yes for most of the volume.</p>`,
+              },
+              {
+                question:
+                  "How does a cascade work, and what makes it succeed or fail?",
+                solution:
+                  "<p>You try the small model first, run a cheap check on its answer, and escalate to the large model only if the check fails. The economics are better than they look: if eighty percent pass, you pay for eighty percent small calls plus twenty percent of <em>both</em> — around thirty percent of the always-large cost. <strong>The check is the entire design.</strong> It must be cheap and reliable, which means deterministic: did the output match the schema, do the cited quotes actually appear in the sources, did the model say it could not answer, are the required facts present. That last-but-one is the most useful and it is free — a small model declining is a strong, honest signal that this question needs the bigger one. The version that fails is asking a <em>large</em> model to judge the small model's answer, because you have then paid for the large model anyway and may as well have used it directly. The other cost to watch is <strong>latency</strong>: escalation means the small call already happened and was wasted, so a cascade with a high escalation rate can be slower than simply using the large model, even while being cheaper.</p>",
+              },
+              {
+                question:
+                  "What is the failure mode of model routing?",
+                solution:
+                  "<p>It is <strong>silent</strong>, which is what makes it dangerous. A hard question routed to a weak model does not error, time out or refuse — it produces a fluent, confident answer that looks exactly like a good one and is wrong. Nobody notices at the time, the user may act on it, and it will not appear in your error rates or your latency graphs. That is quite different from most infrastructure failures, which announce themselves. Three defences follow. <strong>Route conservatively when unsure</strong> — an unknown request type goes to the strong model, and a low-confidence classifier decision escalates rather than saving money. <strong>Monitor quality per route continuously</strong>, not just at launch, because the traffic mix shifts and a category that was simple in January may not be in June. And <strong>sample small-model answers and grade them</strong>, asking what share should have gone to the strong model — that misroute rate is the number that actually tells you whether the routing is sound. Without it you are relying on users to notice, and for a confidently-wrong answer they frequently do not.</p>",
+              },
+              {
+                question:
+                  "What does maintaining two models actually cost you?",
+                solution: `<p>Three ongoing costs that offset the saving and are worth stating honestly:</p>
+             <ul>
+               <li><strong>Two prompt variants.</strong> Prompts are model-specific, so the small model needs its own — usually simpler, since porting every instruction across tends to confuse a smaller model rather than help it. And they drift apart as changes are made to one and not the other.</li>
+               <li><strong>Two evaluation runs</strong> on every change, which doubles that cost and doubles the time before you can ship.</li>
+               <li><strong>Inconsistency</strong> — the same user asking similar questions gets noticeably different tone, length and formatting depending on which route fired, which reads as unpolished.</li>
+             </ul>
+             <p>The mitigations: keep the small-model prompt deliberately minimal, align tone and length instructions across both, and accept that the routing table needs revisiting rather than being set once.</p>
+             <p>That maintenance burden is exactly why static routing on a handful of clear categories beats a fine-grained scheme.</p>`,
+              },
+              {
+                question:
+                  "Why do the routing boundaries need revisiting?",
+                solution:
+                  "<p>Because <strong>small models improve faster than large ones</strong>, so the boundary moves — usually in your favour. A route that genuinely needed the strong model a year ago is often handled perfectly well by the current small model, and if nobody re-checks, you keep paying ten to twenty times more than necessary on that traffic indefinitely. The routing table is a set of decisions that were correct at the time they were measured, and they quietly expire. So re-run the per-route comparison on a few triggers: a new model version on either tier, a significant prompt change, a new question category appearing in real traffic, and quarterly as a habit even if nothing obvious changed. It is cheap — you already have the golden set and the harness — and the payoff can be substantial, because moving one high-volume category from strong to small is often worth more than every prompt optimisation combined. It can also move the <em>other</em> way occasionally: if the traffic mix in a category shifts toward harder questions, a route that was safely small may no longer be, which is another reason continuous per-route quality monitoring matters alongside the periodic comparison.</p>",
+              },
+              {
+                question:
+                  "When would you not do this at all?",
+                solution:
+                  "<p>Three cases. <strong>Low volume</strong> — under a few thousand requests a day, the saving simply does not justify maintaining two prompts, two evaluation runs and a routing layer, and the engineering time is better spent elsewhere. Do the free things instead: prompt caching and context reduction. <strong>Quality-critical throughout</strong> — for legal, medical or financial advice, the honest answer is that the strong model everywhere is the right call, and being able to say that rather than reaching reflexively for the cheaper option is itself a good signal. Find savings in caching, shorter contexts and batch processing instead. And <strong>uniform difficulty</strong> — if genuinely every request requires reasoning across multiple documents, there is nothing to route, and pretending otherwise just introduces misroutes. It is also worth noting a partial case: you might route only the <em>obviously</em> trivial traffic to a small model — greetings, acknowledgements, simple lookups — while sending everything ambiguous to the strong one. That captures a portion of the saving with almost no risk, and it is a reasonable middle position when the stakes are high but the volume justifies some effort.</p>",
+              },
+              {
+                question:
+                  "What signals suggest a request is 'hard'?",
+                solution: `<p>Useful ones you can evaluate without a model call:</p>
+             <ul>
+               <li><strong>Input length.</strong> Long contexts need stronger reasoning to hold together, and small models degrade faster as context grows.</li>
+               <li><strong>Whether tools are involved.</strong> Tool selection and argument construction is where small models diverge most from large ones.</li>
+               <li><strong>Multi-part questions</strong> — an "and" or a second question mark is a reasonable proxy.</li>
+               <li><strong>Whether several documents were retrieved and disagree</strong>, which needs reconciliation rather than extraction.</li>
+               <li><strong>Whether it matches a known FAQ</strong>, which is a strong signal for <em>easy</em>.</li>
+             </ul>
+             <p>The caution is that all of these are heuristics, and the only way to know whether they correlate with actual quality difference is to check them against the golden set. A signal that feels obviously right — question length, say — often turns out not to predict much.</p>`,
+              },
+              {
+                question:
+                  "How much can routing realistically save?",
+                solution:
+                  "<p>Frequently around half the bill, and sometimes more, which makes it the largest single lever available. The arithmetic: if a small model costs roughly six percent of a large one, and sixty-five percent of your traffic can move, you are paying full price on thirty-five percent plus a rounding error on the rest — so the total drops to somewhere near forty percent of what it was. That dwarfs prompt caching, chunk reduction and every other optimisation put together, which typically yield tens of percent rather than a halving. Two honest qualifications. The saving depends entirely on your <strong>traffic mix</strong> — a product where most requests genuinely need reasoning has far less to gain, so the number comes from your own per-category breakdown rather than from a general claim. And it is offset by real maintenance costs: two prompts, two evaluation runs, and a routing layer to keep current. So the way to present it is with the per-category table showing score delta, traffic share and monthly saving side by side, which makes the trade explicit and stops the decision resting on an assumption about which requests are easy.</p>",
+              },
+              {
+                question:
+                  "How does routing interact with the other cost levers?",
+                solution: `<p>They are largely independent and compound, but the <strong>order matters</strong>:</p>
+             <ol>
+               <li><strong>Prompt caching first</strong> — free, no quality risk, no maintenance.</li>
+               <li><strong>Context reduction second</strong> — biggest saving with no architectural change, and it makes routing more effective too, since a shorter prompt is more likely to be within a small model's comfortable range.</li>
+               <li><strong>Routing third</strong>, because it is the largest lever but the one that requires the most evaluation discipline and ongoing maintenance.</li>
+             </ol>
+             <p>There is a genuine interaction worth noting: reducing context <em>expands</em> the set of routes a small model can handle, because much of the quality gap between tiers shows up on long, noisy contexts. So doing context reduction first can change the answer to "which routes can go small", which is another argument for that ordering.</p>
+             <p>And a caution: do not change two levers at once and attribute the result to either.</p>`,
+              },
+              {
+                question:
+                  "What would you monitor once routing is live?",
+                solution:
+                  "<p>Five things. <strong>Traffic share by model</strong> — if the proportion actually going to the small model is far from your estimate, the routing logic is not doing what you think, and that is worth knowing before you look at anything else. <strong>Quality per route over time</strong>, because the signal you care about is a drop in <em>one</em> route rather than in the aggregate, and traffic mix within a category shifts. <strong>Escalation rate</strong> if you use a cascade — a rising rate means either the small model is struggling or the questions have got harder, and it also affects your latency profile. <strong>Cost saved against always-strong</strong>, so the value of the work stays visible and the maintenance burden is justified. And the honest one: <strong>misroute rate</strong>, obtained by sampling small-model answers and grading them to find what share should have gone to the strong model. That last number is the one that tells you whether the routing is genuinely sound, since the failure is silent and will not surface in error rates. Alert on per-route quality rather than overall, for the same reason the comparison was done per route.</p>",
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/about-claude/models",
+              "https://docs.anthropic.com/en/docs/about-claude/pricing",
+              "https://hamel.dev/blog/posts/evals/",
+              "https://arxiv.org/abs/2305.05176",
+            ],
+          },
+          {
+            topic: "Semantic Caching",
+            tags: ["high-frequency", "must-know", "cost", "risk"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "How does semantic caching work, and when is it dangerous to serve a cached answer?"</strong>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Mechanism
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  1. Embed the incoming question.
+  2. Search a vector index OF PREVIOUSLY ASKED QUESTIONS -
+     not of documents. Two separate indexes.
+  3. If the nearest match is above a similarity threshold,
+     serve its stored answer.
+  4. Otherwise generate normally, and store the new
+     question-answer pair.
+
+THE APPEAL IS REAL: exact-match caching has a poor hit rate,
+because people phrase the same question fifty different
+ways. Semantic matching can turn a 5% hit rate into 40%.
+
+THE PROBLEM IS ALSO REAL, and it is one sentence:
+
+  EMBEDDING SIMILARITY IS NOT ANSWER EQUIVALENCE.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why That Sentence Matters
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Two questions can sit at 0.97 similarity and have COMPLETELY
+DIFFERENT ANSWERS, because the one word that differs is the
+word carrying all the meaning.
+
+  "refund window for DIGITAL goods"
+  "refund window for PHYSICAL goods"          ~0.96
+
+  "can CONTRACTORS claim the travel allowance"
+  "can EMPLOYEES claim the travel allowance"  ~0.97
+
+  "how much leave do I get"
+  "how much leave do I get CARRIED OVER"      ~0.95
+
+  "what is the 2025 threshold"
+  "what is the 2026 threshold"                ~0.98
+
+AND THE WORST CASE - NEGATION:
+  "can I expense alcohol"
+  "can I NOT expense alcohol"                 ~0.98
+  Embeddings handle negation poorly, and the answers are
+  opposites.
+
+The cache cannot tell that the differing word WAS the
+question. And the failure is silent: the user gets a fluent,
+confident answer about something slightly different.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When It Is Dangerous
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Anything with a number, date or eligibility condition.</strong> These are exactly the differences embeddings compress away.</li>
+    <li style="margin-top: 0.5rem;"><strong>Anything naming a different entity</strong> — a different person, order, account or product. "Where is order 8821" and "where is order 9134" are nearly identical questions with entirely different answers.</li>
+    <li style="margin-top: 0.5rem;"><strong>Negations and qualifiers</strong>, which embeddings represent poorly.</li>
+    <li style="margin-top: 0.5rem;"><strong>Personalised answers</strong>, which depend on who is asking.</li>
+    <li style="margin-top: 0.5rem;"><strong>Time-sensitive answers</strong> — anything with "current" or "now" in it.</li>
+    <li style="margin-top: 0.5rem;"><strong>Multi-tenant systems</strong>, where a cache without permissions in the key is an access control bypass — and fuzzy matching makes that worse, because you can no longer reason about which entry will be returned.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When It Is Fine
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Where a near-miss is <strong>cheap and recoverable</strong>: intent classification and routing, where a slightly wrong category is caught downstream; FAQ deflection, where you show a suggested article the user can ignore; and anywhere the user <em>sees the matched question</em> — "showing the answer to: …" — because then a wrong match is visible and self-correcting rather than silent.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Making It Safer
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  A HIGH THRESHOLD - 0.98 or above. And do not trust the
+    number; MEASURE the false match rate.
+
+  AN ENTITY CHECK - the highest-value guard by far. Extract
+    the numbers, dates, names and IDs from both questions
+    and require they MATCH. That single check removes most
+    of the dangerous cases, and it is nearly free.
+
+  NEGATION DETECTION - refuse to match when one question
+    contains a negation and the other does not.
+
+  PERMISSIONS AND TENANT IN THE FILTER, always.
+
+  A SHORT TTL, since a cached answer can go stale.
+
+  SHOW THE MATCHED QUESTION to the user, which converts a
+    silent failure into a visible one.
+
+MEASURE THE FALSE MATCH RATE: sample hits, regenerate fresh,
+compare the FACTS. Above about 1%, it is not worth it.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Honest Recommendation
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    For factual question answering, try <strong>exact caching with normalisation first</strong> — lowercase, strip punctuation, collapse whitespace, sort any parameters. That recovers a surprising amount of the hit rate at <em>zero</em> risk, because two questions only match when they are genuinely the same question typed slightly differently.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Reach for semantic matching only where a near-miss is cheap — and if you must use it on factual content, add the entity check and measure the false-match rate rather than trusting the threshold.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "How does semantic caching work, and when is it dangerous
+   to serve a cached answer?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you can explain the mechanism and then be honest
+  about the risk. Semantic caching is heavily marketed as a
+  cost win, and the failure mode - a confident answer to a
+  slightly different question - is silent, so it needs
+  someone to have thought about it rather than enabled it.
+
+WEAK ANSWER
+  "It embeds the query and finds similar previous queries, so
+   you can reuse answers for questions that mean the same
+   thing, with a similarity threshold to control accuracy."
+  Why it is weak: the mechanism is right and the second half
+  of the question is skipped. "A threshold controls accuracy"
+  is exactly the assumption that fails.
+
+STRONG ANSWER (about 75 seconds)
+  "The mechanism: embed the incoming question, search a
+   vector index OF PREVIOUS QUESTIONS - not of documents - and
+   if the nearest is above a threshold, serve its stored
+   answer. Otherwise generate and store the pair.
+
+   The appeal is real, because exact matching has a poor hit
+   rate when people phrase things fifty ways. But the problem
+   is one sentence: EMBEDDING SIMILARITY IS NOT ANSWER
+   EQUIVALENCE.
+
+   Two questions can be 0.97 similar and have completely
+   different answers, because the one word that differs
+   carries all the meaning. 'Refund window for digital goods'
+   versus 'physical goods'. 'Can contractors claim the travel
+   allowance' versus 'can employees'. '2025 threshold' versus
+   '2026'. And the worst case is NEGATION - 'can I expense
+   alcohol' versus 'can I NOT expense alcohol' embed almost
+   identically and have opposite answers.
+
+   So it is dangerous for anything with a number, date or
+   eligibility condition, anything naming a different entity -
+   'where is order 8821' versus '9134' - negations,
+   personalised answers, and multi-tenant systems, where the
+   cache is an access control bypass and fuzzy matching makes
+   it worse because you cannot reason about which entry comes
+   back.
+
+   It is fine where a near-miss is cheap and recoverable:
+   intent classification, routing, FAQ deflection where you
+   show a suggested article, or anywhere the user SEES the
+   matched question, which turns a silent failure into a
+   visible one.
+
+   To make it safer, the highest-value guard is an ENTITY
+   CHECK - extract numbers, dates, names and IDs from both
+   questions and require they match. That removes most of the
+   dangerous cases and it is nearly free. Plus a high
+   threshold, negation detection, permissions in the filter,
+   and MEASURING the false match rate rather than trusting
+   the threshold.
+
+   Honestly though, for factual Q&A I would try exact caching
+   with normalisation first - lowercase, strip punctuation -
+   which recovers a lot of the hit rate at zero risk."
+
+FOLLOW-UPS TO EXPECT
+  "Why is negation the worst case?"
+      -> embeddings represent it poorly, so the two questions
+         are extremely close and the answers are opposites.
+  "What is the single best safeguard?"
+      -> an entity check. Require numbers, dates, names and
+         ids to match before serving.
+  "How do you know the threshold is right?"
+      -> you do not. Sample hits, regenerate fresh, compare
+         the facts, and measure the false match rate.
+  "Where is it genuinely safe?"
+      -> where a near-miss is cheap: classification, routing,
+         FAQ suggestions, or anywhere the match is shown.
+
+RED FLAGS
+  Skipping the danger half of the question.
+  Treating the threshold as sufficient.
+  No entity or negation handling.
+  Forgetting permissions in a fuzzy cache.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THE MECHANISM. Note it is a vector search over PREVIOUS
+// QUESTIONS, not over documents - two separate indexes.
+
+async function semanticCacheLookup(question, session,
+                                   { threshold = 0.98 } = {}) {
+  const vec = await embedCached(question);
+
+  const near = await questionCacheIndex.search(vec, {
+    k: 1,
+    filter: {
+      // PERMISSIONS ARE NOT OPTIONAL - and they matter MORE here
+      // than in an exact cache, because with fuzzy matching you
+      // cannot reason about which entry will come back.
+      tenantId: session.tenantId,
+      groups: { $in: await groupsOf(session.userId) },
+      promptVersion: PROMPT_VERSION,
+      modelVersion: MODEL_VERSION,
+      expiresAt: { $gt: clock.now() }
+    }
+  });
+
+  if (!near[0] || near[0].score < threshold) return null;
+
+  // The threshold alone is NOT enough. See the guards below.
+  if (!passesGuards(question, near[0].question)) {
+    metrics.increment("semantic_cache.guard_blocked");
+    return null;
+  }
+
+  metrics.increment("semantic_cache.hit");
+  return { ...near[0].answer, matchedQuestion: near[0].question,
+           score: near[0].score };
+}
+
+async function answerWithSemanticCache(question, session) {
+  const hit = await semanticCacheLookup(question, session);
+  if (hit) {
+    // SHOW THE MATCHED QUESTION. This converts a SILENT failure
+    // into a VISIBLE one the user can reject.
+    return { ...hit, note: "Showing the answer to: " + hit.matchedQuestion };
+  }
+
+  const fresh = await generate(question, await retrieve(question, session));
+  await questionCacheIndex.insert({
+    question, embedding: await embedCached(question), answer: fresh,
+    tenantId: session.tenantId,
+    groups: await groupsOf(session.userId),
+    entities: extractEntities(question),        // for the guard
+    promptVersion: PROMPT_VERSION, modelVersion: MODEL_VERSION,
+    expiresAt: clock.now() + 24 * HOUR          // short TTL
+  });
+  return fresh;
+}`,
+              `// WHY THE THRESHOLD IS NOT ENOUGH:
+// EMBEDDING SIMILARITY IS NOT ANSWER EQUIVALENCE.
+
+const dangerousPairs = [
+  { a: "what is the refund window for digital goods",
+    b: "what is the refund window for physical goods",
+    similarity: 0.96, answersDiffer: true,
+    why: "one word carries the entire distinction" },
+
+  { a: "can contractors claim the travel allowance",
+    b: "can employees claim the travel allowance",
+    similarity: 0.97, answersDiffer: true,
+    why: "eligibility conditions are exactly what embeddings blur" },
+
+  { a: "how much leave do I get",
+    b: "how much leave do I get carried over",
+    similarity: 0.95, answersDiffer: true },
+
+  { a: "what is the 2025 threshold",
+    b: "what is the 2026 threshold",
+    similarity: 0.98, answersDiffer: true,
+    why: "NUMBERS AND DATES barely move the embedding" },
+
+  { a: "where is order INV-2024-8821",
+    b: "where is order INV-2024-9134",
+    similarity: 0.99, answersDiffer: true,
+    why: "DIFFERENT ENTITY, near-identical question" },
+
+  // THE WORST CASE.
+  { a: "can I expense alcohol",
+    b: "can I not expense alcohol",
+    similarity: 0.98, answersDiffer: "OPPOSITE",
+    why: "embeddings represent NEGATION poorly, and the answers " +
+         "are opposites" }
+];
+
+// THE HIGHEST-VALUE GUARD, BY FAR: AN ENTITY CHECK.
+// Nearly free, and it removes most of the dangerous cases above.
+function extractEntities(q) {
+  return {
+    numbers: (q.match(/\\b\\d+(?:\\.\\d+)?\\b/g) || []),
+    years: (q.match(/\\b(19|20)\\d{2}\\b/g) || []),
+    ids: (q.match(/\\b[A-Z]{2,}-[\\w-]+\\b/g) || []),
+    // Nouns that commonly carry the distinction.
+    qualifiers: KNOWN_QUALIFIERS.filter(w =>
+      q.toLowerCase().includes(w))   // digital, physical, contractor,
+                                     // employee, full-time, part-time...
+  };
+}
+
+function passesGuards(newQ, cachedQ) {
+  const a = extractEntities(newQ), b = extractEntities(cachedQ);
+
+  // Numbers, years, ids and qualifiers must MATCH EXACTLY.
+  if (!sameSet(a.numbers, b.numbers)) return false;
+  if (!sameSet(a.years, b.years)) return false;
+  if (!sameSet(a.ids, b.ids)) return false;
+  if (!sameSet(a.qualifiers, b.qualifiers)) return false;
+
+  // NEGATION: refuse to match if one has a negation and the other
+  // does not.
+  if (hasNegation(newQ) !== hasNegation(cachedQ)) return false;
+
+  return true;
+}
+
+function hasNegation(q) {
+  return /\\b(not|never|cannot|can't|without|except|unless|no)\\b/i.test(q);
+}`,
+              `// WHEN IT IS DANGEROUS, AND WHEN IT IS FINE.
+
+const dangerous = {
+  numbersDatesEligibility: "exactly the differences embeddings " +
+                           "compress away",
+  differentEntities: "'where is order 8821' vs '9134' - 0.99 " +
+                     "similar, completely different answers",
+  negationsAndQualifiers: "represented poorly by embeddings",
+  personalisedAnswers: "depend on WHO is asking, not just what",
+  timeSensitive: "anything with 'current', 'now', 'latest'",
+  multiTenant: "a cache without permissions in the key is an access " +
+               "control bypass - and FUZZY matching makes it worse, " +
+               "because you cannot reason about which entry returns"
+};
+
+const fine = {
+  intentClassification: "a near-miss routes slightly differently and " +
+                        "is caught downstream",
+  routing: "same - recoverable",
+  faqDeflection: "you show a SUGGESTED article the user can ignore",
+  // THE PATTERN THAT MAKES IT SAFE ANYWHERE:
+  userSeesTheMatch: "'Showing the answer to: <matched question>' " +
+                    "converts a SILENT failure into a VISIBLE one " +
+                    "the user can reject"
+};
+
+// MEASURE THE FALSE MATCH RATE. Do not trust the threshold.
+async function auditSemanticCache(sampleSize = 100) {
+  const hits = await cacheLog.sample({ type: "semantic", n: sampleSize });
+
+  const checked = await Promise.all(hits.map(async h => {
+    // Generate FRESH for the new question and compare the FACTS -
+    // not the wording, which will always differ.
+    const fresh = await generate(h.question,
+                                 await retrieve(h.question, h.session));
+    return {
+      question: h.question,
+      matchedTo: h.matchedQuestion,
+      similarity: h.score,
+      factsDiffer: compareFacts(h.servedAnswer, fresh)
+    };
+  }));
+
+  const falseMatchRate = checked.filter(c => c.factsDiffer).length /
+                         checked.length;
+
+  return {
+    falseMatchRate,
+    // Users were served a confident answer to a DIFFERENT question.
+    examples: checked.filter(c => c.factsDiffer).slice(0, 10),
+    verdict: falseMatchRate > 0.01
+      ? "NOT WORTH IT - raise the threshold, add guards, or stop " +
+        "using semantic caching for this content"
+      : "acceptable - compare the saving against this risk"
+  };
+}`,
+              `// THE HONEST RECOMMENDATION: TRY EXACT CACHING WITH NORMALISATION
+// FIRST. It recovers a lot of the hit rate at ZERO risk.
+
+function normalisedKey(question, session) {
+  const normalised = question
+    .toLowerCase()
+    .replace(/[?!.,;:'"]/g, "")        // punctuation
+    .replace(/\\s+/g, " ")
+    .replace(/^(hi|hey|hello|please|could you|can you)\\s+/i, "")
+    .replace(/\\b(pls|plz)\\b/g, "please")
+    .trim();
+
+  return hash([
+    normalised,
+    session.tenantId,
+    (await groupsOf(session.userId)).sort().join(","),
+    PROMPT_VERSION, MODEL_VERSION
+  ].join("|"));
+}
+// "How many holidays do I get?" and "how many holidays do i get"
+// and "How many holidays do I get" now share a key.
+//
+// TWO QUESTIONS MATCH ONLY IF THEY ARE GENUINELY THE SAME QUESTION
+// TYPED SLIGHTLY DIFFERENTLY. Zero false-match risk.
+
+// TYPICAL HIT RATES, for the trade-off:
+const hitRates = {
+  exactRaw: "~5% - almost useless",
+  exactNormalised: "~15-20% - a real improvement, no risk",
+  semanticAt098: "~30% - plus a false-match rate to measure",
+  semanticAt095: "~45% - and a false-match rate that is usually " +
+                 "unacceptable for factual content"
+};
+
+// AND REMEMBER WHAT ELSE IS AVAILABLE BEFORE REACHING FOR THIS:
+const cheaperSaferWins = [
+  "PROMPT CACHING - large saving, zero risk, no matching involved",
+  "RETRIEVAL caching keyed by permission group - often a better hit " +
+    "rate than answer caching, because many differently-worded " +
+    "questions retrieve the SAME documents, and it still generates " +
+    "a fresh answer",
+  "PRECOMPUTING the top 200 known questions at batch prices, then " +
+    "serving them by exact match"
+];
+// That last one is the honest alternative to semantic caching for
+// FAQ-style traffic: you get the hit rate without the fuzzy
+// matching, because you decided the question list in advance.
+
+// IF YOU DO SHIP IT, THE CONFIGURATION THAT SURVIVES REVIEW:
+const safeConfig = {
+  threshold: 0.98,
+  entityGuard: true,          // the highest-value check
+  negationGuard: true,
+  permissionsInFilter: true,
+  ttlHours: 24,
+  showMatchedQuestion: true,  // makes failures visible
+  excludeCategories: ["pricing", "eligibility", "dates", "personal"],
+  auditSampleWeekly: 100
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does semantic caching work, and when is it dangerous to serve a cached answer?",
+                solution: `<p><strong>The mechanism:</strong> embed the incoming question, search a vector index <em>of previous questions</em> — not of documents — and if the nearest is above a similarity threshold, serve its stored answer. Otherwise generate and store the pair.</p>
+             <p>The appeal is real, because exact matching has a poor hit rate when people phrase things fifty ways. But the problem is one sentence: <strong>embedding similarity is not answer equivalence.</strong></p>
+             <p>Two questions can be 0.97 similar and have completely different answers, because the one word that differs carries all the meaning — digital versus physical goods, contractors versus employees, 2025 versus 2026. The worst case is <strong>negation</strong>: "can I expense alcohol" and "can I <em>not</em> expense alcohol" embed almost identically and have opposite answers.</p>`,
+              },
+              {
+                question:
+                  "Why is 'embedding similarity is not answer equivalence' the key insight?",
+                solution:
+                  "<p>Because it explains why a threshold cannot solve the problem. Embeddings capture overall topical meaning, and they compress away exactly the small distinctions that determine an answer. Two questions about the refund window differ by one adjective — digital or physical — and are ninety-six percent similar, while having entirely different answers. Two questions about a travel allowance differ by who is asking about, contractors or employees, and that is precisely the eligibility condition the answer hinges on. A year changes from 2025 to 2026 and the embedding barely moves. So the failure is not that the matching is <em>bad</em> — it is doing exactly what it was designed to do, which is to find topically similar text. The mismatch is between what the embedding measures and what you actually need to know, which is whether the <em>answer</em> is the same. And the failure is silent: the user receives a fluent, confident, well-sourced answer about something slightly different, with no signal that anything went wrong. That combination — a systematic blind spot plus an invisible failure — is why it needs guards beyond a threshold rather than careful tuning of the threshold.</p>",
+              },
+              {
+                question:
+                  "Why is negation the worst case?",
+                solution: `<p>Because embeddings represent it poorly while the answers are <em>opposites</em> — the largest possible divergence combined with the smallest possible embedding distance.</p>
+             <p>"Can I expense alcohol" and "can I <strong>not</strong> expense alcohol" share almost every token, cover exactly the same topic, and sit around 0.98 similarity. A threshold set to catch genuine paraphrases will happily match them, and the cached answer is the reverse of the truth.</p>
+             <p>The same applies to other reversal words — <em>except</em>, <em>unless</em>, <em>without</em>, <em>other than</em> — which are short, common, and carry the entire meaning of the question.</p>
+             <p>The mitigation is a specific guard rather than a better threshold: <strong>refuse to match when one question contains a negation and the other does not</strong>. It is a simple pattern check, it costs nothing, and it removes a class of failure that no amount of threshold tuning would catch.</p>`,
+              },
+              {
+                question:
+                  "What is the single most valuable safeguard?",
+                solution:
+                  "<p>An <strong>entity check</strong> — extract the numbers, dates, identifiers and known qualifiers from both questions and require that they match exactly before serving a cached answer. It removes most of the genuinely dangerous cases in one cheap step, because those cases share a common shape: the questions are topically identical and differ only in a specific value. \"Where is order INV-2024-8821\" and \"where is order INV-2024-9134\" are around 0.99 similar and have completely different answers, and no threshold will ever separate them — but comparing the extracted identifiers takes microseconds and blocks the match immediately. The same guard catches years, amounts, and the qualifier words that carry eligibility distinctions: digital versus physical, contractor versus employee, full-time versus part-time. Those qualifiers are worth curating as a list for your own domain, since they are the words that repeatedly turn out to be the whole question. Combined with a negation check, this is far more effective than raising the threshold, because it targets the specific failure mode rather than tightening a measure that was never sensitive to it.</p>",
+              },
+              {
+                question:
+                  "Where is semantic caching genuinely safe?",
+                solution: `<p>Where a near-miss is <strong>cheap and recoverable</strong>:</p>
+             <ul>
+               <li><strong>Intent classification and routing.</strong> A slightly wrong category is usually caught downstream, and the cost is one misroute rather than a wrong fact.</li>
+               <li><strong>FAQ deflection</strong>, where you show a <em>suggested</em> article the user can read or ignore — the framing makes an imperfect match acceptable.</li>
+               <li><strong>Anywhere the user sees the matched question</strong> — "showing the answer to: …" — which is the pattern that makes it safe almost anywhere, because it converts a silent failure into a visible one the user can reject.</li>
+             </ul>
+             <p>That last point is worth emphasising: the danger is not really the wrong match, it is that the wrong match is <em>invisible</em>. Displaying what was matched costs nothing, gives the user the information they need to spot the error, and turns semantic caching from a hidden risk into an ordinary suggestion feature.</p>`,
+              },
+              {
+                question:
+                  "How do you know whether the threshold is right?",
+                solution:
+                  "<p>You measure the <strong>false-match rate</strong> rather than trusting the number. Take a sample of cache hits, regenerate the answer fresh for the new question, and compare the <em>facts</em> — not the wording, which will always differ. The proportion where the facts diverge is the rate at which users were served a confident answer to a different question. Above roughly one percent, the trade is usually not worth it for factual content, because the cost saved is modest and each false match is a user acting on wrong information. Two things make this audit worth doing properly. Look at the <strong>examples</strong>, not just the rate, because the failures cluster — you will typically find they are all entity mismatches or all negations, which tells you which guard to add rather than suggesting you tune the threshold. And <strong>re-run it after any change</strong> to the embedding model, the threshold, the guards or the content mix, since all of those move the boundary. The general point: a similarity threshold feels like a safety control and is actually just a knob, and the only way to know where to set it is to measure the thing you care about.</p>",
+              },
+              {
+                question:
+                  "Why does a semantic cache make the permissions problem worse?",
+                solution:
+                  "<p>Because with exact matching you can at least reason about what will be returned — the same question string produces the same entry. With fuzzy matching you cannot: a user's question may match <em>any</em> sufficiently similar cached question, including one asked by someone with completely different access. So a cache without tenant and permission groups in the filter is an access control bypass, and the set of answers it might leak is larger and less predictable than with an exact cache. It is also harder to test, since the matching depends on embedding proximity rather than on an exact key you can construct in a test case. The fix is the same in principle — put the tenant and the user's permission groups into the <em>filter</em> of the vector search, not just into the key — but it needs to be enforced at the index level so that a match against another tenant's entry is impossible rather than merely unlikely. Caching by permission <em>group</em> rather than individual user keeps the hit rate usable while staying correct. And this is another argument for a short TTL, since a permission change should not leave old answers reachable.</p>",
+              },
+              {
+                question:
+                  "What would you try before reaching for semantic caching?",
+                solution: `<p>Three things, all safer:</p>
+             <ul>
+               <li><strong>Exact caching with normalisation.</strong> Lowercase, strip punctuation, collapse whitespace, remove leading pleasantries. That takes the raw exact-match hit rate from around five percent to fifteen or twenty, at <em>zero</em> false-match risk, because two questions only match when they are genuinely the same question typed differently.</li>
+               <li><strong>Retrieval caching keyed by permission group.</strong> Often a better hit rate than answer caching, because many differently-worded questions retrieve the same documents — and it still generates a fresh answer, so there is no risk of serving the wrong facts.</li>
+               <li><strong>Precomputing the top known questions</strong> at batch prices and serving them by exact match. For FAQ-style traffic this is the honest alternative: you get the hit rate without fuzzy matching, because you decided the question list in advance.</li>
+             </ul>
+             <p>And prompt caching, which is a larger saving than any of these with no matching involved at all.</p>`,
+              },
+              {
+                question:
+                  "What hit rate can you actually expect?",
+                solution:
+                  "<p>Roughly: raw exact matching gets around five percent, which is almost useless; exact matching with normalisation gets fifteen to twenty percent at no risk; semantic matching at a strict threshold around 0.98 gets perhaps thirty percent; and loosening to 0.95 might reach forty-five percent — with a false-match rate that is usually unacceptable for factual content. Those numbers depend heavily on your traffic, so treat them as shape rather than as figures: a product where people ask a small set of recurring questions will do far better than one with long, conversational, unique queries. The important framing is that the <strong>marginal</strong> gain from semantic over normalised-exact is smaller than it first appears — perhaps ten to fifteen points — and that is what you are buying the false-match risk for. Whether that trade is worth it depends on what a wrong answer costs, which is why the decision differs so much between FAQ deflection and policy questions. It is also worth checking whether the hit rate is low because your users genuinely ask varied questions, in which case the honest answer is to accept it rather than loosening the matching until answers start crossing contexts.</p>",
+              },
+              {
+                question:
+                  "How does a semantic cache go stale, and what do you do about it?",
+                solution: `<p>The same way any answer cache does, with an extra wrinkle. The underlying documents change, so the stored answer becomes wrong — and because the entry is matched fuzzily, it can be served to a <em>wider</em> range of questions than an exact cache would, so one stale answer reaches more people.</p>
+             <p>Three controls:</p>
+             <ul>
+               <li><strong>Key on what the answer depends on</strong> — include the source document versions, prompt version and model version in the entry, and invalidate when any changes. This is better than a TTL because it is exact.</li>
+               <li><strong>A short TTL as a backstop</strong> — hours rather than days, since semantic entries are riskier than exact ones.</li>
+               <li><strong>Active invalidation</strong> on document update, deleting entries whose sources changed.</li>
+             </ul>
+             <p>Also wire <strong>negative feedback to eviction</strong>: when someone reports a cached answer as wrong, remove it immediately and alert with the number of times it was already served, since the fuzzy matching means the blast radius is larger than you would expect.</p>`,
+              },
+              {
+                question:
+                  "What configuration would survive a review?",
+                solution:
+                  "<p>A strict one, with the guards doing the work rather than the threshold. <strong>Threshold at 0.98 or above.</strong> <strong>Entity guard on</strong> — numbers, years, identifiers and domain qualifiers must match exactly. <strong>Negation guard on.</strong> <strong>Tenant and permission groups in the vector search filter</strong>, not merely in the key. <strong>Prompt and model version in the filter</strong>, so a change invalidates automatically and evaluation runs are never served from cache. <strong>A short TTL</strong>, measured in hours. <strong>The matched question shown to the user</strong>, which converts silent failures into visible ones. <strong>Excluded categories</strong> for anything involving pricing, eligibility, dates or personal data — decided explicitly rather than left to the threshold. And a <strong>weekly audit</strong> sampling around a hundred hits to measure the false-match rate, with an alert if it rises. The reason to present it as a configuration rather than a design is that it makes the decisions reviewable: someone can ask why a category is excluded or why the threshold is where it is, and each answer has a measurement behind it rather than a preference.</p>",
+              },
+              {
+                question:
+                  "How would you explain the risk to a product owner who wants it enabled?",
+                solution:
+                  "<p>With a concrete example rather than an explanation of embeddings. Something like: <em>the system may answer \"what is the refund window for digital goods\" using the answer it gave someone who asked about physical goods, because to the matching system those questions are ninety-six percent identical — and the customer will not know, because the answer will look completely normal.</em> That lands immediately, whereas \"embedding similarity is not answer equivalence\" does not. Then give them the trade in numbers: the additional hit rate over safe normalised exact matching is perhaps ten to fifteen points, worth a specific amount per month, against a measured false-match rate. And offer the alternatives that get most of the benefit safely — normalised exact caching, retrieval caching, and precomputing the known FAQ questions at batch prices. If they still want it, propose the strict configuration with the entity guard and the visible matched question, restricted to categories where a near-miss is recoverable, plus a weekly audit. Framing it as \"here is where it is safe and here is where it is not\" is far more useful than a flat objection.</p>",
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/build-with-claude/embeddings",
+              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
+              "https://redis.io/docs/latest/develop/interact/search-and-query/",
+              "https://arxiv.org/abs/2005.11401",
+            ],
+          },
+            {
+            topic: "Batch Processing",
+            tags: ["must-know", "cost", "infrastructure"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "Which workloads can use batch APIs, and what discount and trade-off do you get?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A batch API is not a queue you run — it is a <strong>service-level commitment from the provider</strong>. You submit a set of requests, they process them within a stated window, and you collect the results.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE DISCOUNT
+  Commonly around 50% off both input and output. Check the
+  current pricing, but that is the order of magnitude.
+
+THE TRADE-OFF
+  Turnaround - typically "within 24 hours". And note the
+  word WITHIN: it is a COMMITMENT, not a guarantee of
+  speed. It might return in twenty minutes or take the full
+  window, and YOU CANNOT DEPEND ON IT BEING FAST.
+
+THE BENEFIT PEOPLE FORGET
+  SEPARATE, USUALLY HIGHER RATE LIMITS. Batch work stops
+  competing with your interactive traffic for the same
+  quota - and for many teams that is worth MORE than the
+  discount, because it is what stops a backfill degrading
+  the live product.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Which Workloads Fit
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Embedding a corpus</strong> — the obvious one, and usually the largest single job.</li>
+    <li style="margin-top: 0.5rem;"><strong>Classification or enrichment of a backlog</strong> — tagging documents, extracting metadata, scoring tickets.</li>
+    <li style="margin-top: 0.5rem;"><strong>Re-processing after a change</strong> — a new chunking strategy or embedding model means running everything again.</li>
+    <li style="margin-top: 0.5rem;"><strong>Evaluation runs</strong> — hundreds of cases times several runs, needed by morning rather than now.</li>
+    <li style="margin-top: 0.5rem;"><strong>Scheduled summaries and digests.</strong></li>
+    <li style="margin-top: 0.5rem;"><strong>Precomputing answers</strong> to known questions.</li>
+    <li style="margin-top: 0.5rem;"><strong>Synthetic data and labelling</strong> for evaluation or fine-tuning.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Which Cannot
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  ANYTHING INTERACTIVE. Obviously.
+
+  ANYTHING WITH A DEADLINE YOU CANNOT SLIP. "Within 24
+  hours" means you must be able to tolerate 24 hours.
+
+  ANYTHING WHERE THE INPUT DEPENDS ON A PREVIOUS OUTPUT.
+  A chain needs multiple rounds - submit, wait, submit
+  again - so a three-step chain could take three days. Some
+  work is still worth doing this way; most is not.
+
+  AGENT LOOPS, by definition. The next step is decided by
+  the previous result.
+
+  NO STREAMING, so nothing where a user is watching.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Mechanics That Actually Bite
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>Set a custom ID on every request.</strong> Results come back keyed by it, and without one you cannot match a result to its input. This is the mistake people make on their first batch job.</li>
+    <li style="margin-top: 0.5rem;"><strong>Handle partial failures.</strong> A large submission usually returns with <em>some</em> items failed. You need per-item error handling and a resubmission path, not an all-or-nothing assumption.</li>
+    <li style="margin-top: 0.5rem;"><strong>Respect the size limits</strong> on a single batch, and chunk your work accordingly.</li>
+    <li style="margin-top: 0.5rem;"><strong>Track state per item</strong>, not per batch — pending, submitted, succeeded, failed, retried — so a resubmission does not redo work you have already paid for.</li>
+    <li style="margin-top: 0.5rem;"><strong>Keep idempotency in mind</strong> if a resubmission could duplicate a side effect.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Structurally it is a job pipeline in which one stage is <em>wait for the provider</em>. Submit, poll for status, download results, reconcile, resubmit the failures.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Sometimes The Discount Is Not The Point
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Worth saying, because it changes when you would reach for it. If a nightly re-index keeps saturating your shared rate limit and degrading the interactive product, moving it to the batch endpoint fixes that <em>even if the money were identical</em> — because it removes the contention entirely rather than managing it with priority classes and concurrency limiters.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    It Fails Silently — Monitor Accordingly
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Nobody is waiting for a batch job, so when it stops working there is no error page and no complaint. Alert on <strong>absence</strong>: the job did not submit, the results were never collected, the item count came back far below the rolling average, the oldest pending item is older than expected. A nightly enrichment that quietly stopped a fortnight ago looks exactly like the model getting worse.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "Which workloads can use batch APIs, and what discount and
+   trade-off do you get?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you know batch endpoints exist at all - a lot of
+  teams never look - and whether you understand the trade
+  precisely. The detail that marks out experience is knowing
+  that "within 24 hours" is a commitment rather than a speed,
+  and that the separate rate limits are often worth more than
+  the discount.
+
+WEAK ANSWER
+  "Batch APIs let you process large volumes of requests more
+   cheaply, so we would use them for any bulk processing that
+   is not time-sensitive."
+  Why it is weak: no number for the discount, no precision
+  about the trade-off, nothing about the mechanics that
+  actually cause problems, and it misses the rate-limit
+  benefit entirely.
+
+STRONG ANSWER (about 60 seconds)
+  "A batch API is a service-level commitment rather than a
+   queue I run - I submit a set of requests, the provider
+   processes them within a stated window, and I collect the
+   results.
+
+   The discount is commonly around 50% off input and output.
+   The trade-off is turnaround, typically 'within 24 hours' -
+   and the word WITHIN matters, because it is a commitment
+   not a guarantee of speed. It might come back in twenty
+   minutes or take the full window, so I cannot depend on it
+   being fast.
+
+   The benefit people forget is SEPARATE, USUALLY HIGHER RATE
+   LIMITS. Batch work stops competing with interactive
+   traffic for the same quota, and for many teams that is
+   worth more than the discount - it is what stops a nightly
+   backfill degrading the live product.
+
+   Workloads that fit: embedding a corpus, classification and
+   enrichment of a backlog, re-processing after a chunking or
+   model change, evaluation runs, scheduled digests, and
+   precomputing answers to known questions.
+
+   What cannot: anything interactive, anything with a
+   deadline I cannot slip, and anything where the input
+   depends on a previous output - a chain needs multiple
+   rounds, so a three-step chain could take three days. Agent
+   loops by definition.
+
+   The mechanics that actually bite: SET A CUSTOM ID on every
+   request, because results come back keyed by it and without
+   one you cannot match results to inputs - that is the
+   first-batch-job mistake. Handle PARTIAL FAILURES, because
+   a large submission usually returns with some items failed.
+   And track state PER ITEM so a resubmission does not redo
+   work you already paid for.
+
+   One more thing: batch fails SILENTLY, because nobody is
+   waiting. So I would alert on absence - the job did not
+   run, or the item count came back far below average."
+
+FOLLOW-UPS TO EXPECT
+  "What exactly is the trade-off?"
+      -> turnaround, and it is a commitment not a speed. You
+         must tolerate the full window.
+  "When is the discount not the point?"
+      -> when the separate rate limits are what you need,
+         because batch stops competing with interactive
+         traffic.
+  "What breaks on your first batch job?"
+      -> forgetting custom ids, and assuming it is all-or-
+         nothing rather than handling partial failures.
+  "Can you batch a multi-step chain?"
+      -> only as multiple rounds, so the latency multiplies.
+         Usually not worth it.
+
+RED FLAGS
+  Not knowing batch endpoints exist.
+  Treating the window as a speed rather than a limit.
+  Missing the rate-limit benefit.
+  No partial-failure handling.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// A BATCH API IS A SERVICE-LEVEL COMMITMENT, not a queue you run.
+
+const batchApi = {
+  discount: "commonly ~50% off BOTH input and output",
+  turnaround: "typically 'within 24 hours'",
+  // THE WORD 'WITHIN' MATTERS. It is a commitment, not a speed.
+  // It might return in 20 minutes or take the full window.
+  precision: "you cannot depend on it being fast",
+  // THE BENEFIT PEOPLE FORGET, and often worth more than the money.
+  rateLimits: "SEPARATE, usually higher - batch work stops " +
+              "competing with interactive traffic for the same quota",
+  noStreaming: true
+};
+
+// THE SHAPE: submit -> poll -> collect -> reconcile -> resubmit.
+async function runBatch(items) {
+  // 1. SET A CUSTOM ID ON EVERY REQUEST. Results come back keyed by
+  //    it, and WITHOUT ONE YOU CANNOT MATCH RESULTS TO INPUTS.
+  //    This is the mistake people make on their first batch job.
+  const requests = items.map(item => ({
+    custom_id: item.id,                     // NOT optional
+    params: { model: MODEL, max_tokens: 500,
+              messages: [{ role: "user", content: buildPrompt(item) }] }
+  }));
+
+  // 3. Respect the size limit - chunk the work.
+  const batches = chunk(requests, MAX_BATCH_SIZE);
+
+  for (const b of batches) {
+    const submitted = await provider.batches.create({ requests: b });
+    // 4. TRACK STATE PER ITEM, not per batch - so a resubmission
+    //    does not redo work you have already paid for.
+    await db.batchItems.markSubmitted(b.map(r => r.custom_id),
+                                      submitted.id);
+  }
+}
+
+async function collectResults(batchId) {
+  const status = await provider.batches.retrieve(batchId);
+  if (status.processing_status !== "ended") return { done: false };
+
+  const results = await provider.batches.results(batchId);
+
+  // 2. HANDLE PARTIAL FAILURES. A large submission usually returns
+  //    with SOME items failed. It is not all-or-nothing.
+  const succeeded = [], failed = [];
+  for await (const r of results) {
+    if (r.result.type === "succeeded") succeeded.push({
+      id: r.custom_id, output: r.result.message });
+    else failed.push({ id: r.custom_id, error: r.result.error });
+  }
+
+  await db.batchItems.markSucceeded(succeeded);
+  await db.batchItems.markFailed(failed);
+
+  return { done: true, succeeded: succeeded.length,
+           failed: failed.length,
+           // Resubmit only the failures, and only if the error is
+           // retryable - a malformed request will fail identically.
+           toRetry: failed.filter(f => isRetryable(f.error)) };
+}`,
+              `// WHICH WORKLOADS FIT, AND WHICH CANNOT.
+
+const fits = {
+  embedCorpus: { items: 1_000_000, why: "the largest single job most " +
+                 "teams run, and entirely deadline-free" },
+  enrichBacklog: { why: "tagging, metadata extraction, scoring - " +
+                   "each item independent" },
+  reprocessAfterChange: { why: "a new chunking strategy or embedding " +
+                          "model means running everything again" },
+  evaluationRuns: { why: "200 cases x 3 runs x several criteria, " +
+                    "needed by morning rather than now" },
+  scheduledDigests: true,
+  precomputeKnownAnswers: { why: "the top 200 questions, answered " +
+                            "nightly at half price and served as an " +
+                            "instant lookup" },
+  syntheticData: true
+};
+
+const cannot = {
+  interactive: "obviously",
+  hardDeadline: "'within 24 hours' means you must tolerate 24 hours",
+
+  // THE ONE WORTH EXPLAINING.
+  chains: {
+    problem: "if step 2's input depends on step 1's OUTPUT, you need " +
+             "multiple rounds - submit, wait, submit again",
+    cost: "a three-step chain could take three DAYS",
+    verdict: "occasionally worth it for a very large one-off job. " +
+             "Usually not."
+  },
+
+  agentLoops: "by definition - the next step is decided by the " +
+              "previous result",
+  streaming: "not available, so nothing user-facing"
+};
+
+// COST, WORKED. Embedding a corpus is the canonical case.
+const embeddingJob = {
+  chunks: 1_000_000, avgTokens: 400, totalTokens: 400_000_000,
+  realTime: { pricePerMillion: 0.10, gbp: 40 },
+  batch:    { pricePerMillion: 0.05, gbp: 20 },
+  saving: 20,
+  // On its own, hardly worth the complexity. But:
+  realReason: "it does NOT consume the interactive rate limit, so " +
+              "the assistant stays responsive while it runs"
+};
+
+// A GENERATION JOB IS WHERE THE MONEY IS.
+const enrichmentJob = {
+  documents: 100_000,
+  tokensPerDoc: { in: 2_000, out: 200 },
+  realTimeGbp: 100_000 * ((2000/1e6)*2.50 + (200/1e6)*12.00),   // 740
+  batchGbp: 370,
+  saving: 370
+};`,
+              `// SOMETIMES THE DISCOUNT IS NOT THE POINT.
+
+const whyElseYouWouldUseIt = {
+  scenario: "the nightly re-index keeps saturating the shared rate " +
+            "limit and the interactive assistant starts erroring",
+
+  withoutBatch: [
+    "a global concurrency limiter with priority classes",
+    "reserved capacity for interactive traffic",
+    "bulk work that yields when headroom shrinks",
+    "monitoring to prove the reservation is holding"
+  ],
+
+  withBatch: "the batch endpoint has its OWN limits, so the " +
+             "contention disappears entirely rather than being " +
+             "managed",
+
+  // Worth saying explicitly, because it changes WHEN you reach for
+  // it.
+  conclusion: "this would be worth doing EVEN IF THE MONEY WERE " +
+              "IDENTICAL"
+};
+
+// IT FAILS SILENTLY. Nobody is waiting, so there is no error page.
+async function batchHealthChecks() {
+  return {
+    // 1. DID IT SUBMIT AT ALL? The check people forget.
+    didNotSubmit: await batchJobs.find({
+      name: "nightly-enrichment",
+      lastSubmittedAt: { $lt: hoursAgo(30) } }),
+
+    // 2. Were the results ever COLLECTED? A job can complete at the
+    //    provider and the collection step never run.
+    submittedButNotCollected: await batchJobs.find({
+      status: "submitted", submittedAt: { $lt: hoursAgo(30) } }),
+
+    // 3. A plausible item count? A run that "succeeded" with 40
+    //    items instead of 40,000 is a failure reporting success.
+    suspiciouslySmall: await batchJobs.lastRun("nightly-enrichment")
+      .then(r => r.itemsProcessed < r.rollingAverage * 0.5),
+
+    // 4. Are failures accumulating quietly?
+    failureRate: await batchItems.failureRate({ days: 7 }),
+    permanentlyFailed: await batchItems.count({ status: "failed",
+                                                retries: { $gte: 3 } }),
+
+    // 5. The direct check that catches everything above.
+    oldestPending: await batchItems.oldestPendingAge()
+  };
+}
+// A nightly enrichment that quietly stopped a fortnight ago looks
+// EXACTLY like the model getting worse - and teams spend weeks
+// tuning prompts before checking the cron job.`,
+              `// BATCH IS A JOB PIPELINE WHERE ONE STAGE IS "WAIT FOR THE
+// PROVIDER". Track state PER ITEM.
+
+const itemStates = ["pending", "submitted", "succeeded", "failed",
+                    "permanently_failed"];
+
+async function batchPipelineTick() {
+  // 1. SUBMIT what is pending, in provider-sized chunks.
+  const pending = await db.batchItems.find({ status: "pending",
+                                             limit: MAX_BATCH_SIZE });
+  if (pending.length >= MIN_BATCH_SIZE || oldestIsStale(pending)) {
+    await runBatch(pending);
+  }
+
+  // 2. POLL submitted batches. Do not busy-wait - this is a
+  //    scheduled tick, not a loop.
+  for (const job of await db.batchJobs.find({ status: "submitted" })) {
+    const result = await collectResults(job.providerBatchId);
+    if (!result.done) continue;
+
+    // 3. RESUBMIT only retryable failures, and cap the attempts so a
+    //    permanently malformed item does not cycle forever.
+    for (const item of result.toRetry) {
+      const attempts = await db.batchItems.incrementRetries(item.id);
+      await db.batchItems.setStatus(item.id,
+        attempts >= 3 ? "permanently_failed" : "pending");
+    }
+    await db.batchJobs.setStatus(job.id, "completed");
+  }
+}
+
+// WHY PER-ITEM STATE MATTERS: without it, a resubmission redoes
+// work you already PAID FOR - which on a 100,000-item job is a real
+// number.
+
+// AND COMBINE IT WITH THE OTHER LEVERS. They compound.
+const compounding = {
+  base: "100,000 documents enriched in real time, strong model: 740",
+  plusBatch: "370",
+  plusSmallModel: "~45  (the small model handles enrichment fine - " +
+                  "confirmed on the eval set)",
+  plusPromptCaching: "~38  (the instruction block is identical " +
+                     "across all 100,000 items)",
+  // From 740 to under 40, on a job that is entirely deadline-free.
+  note: "batch + right-sizing + caching is the standard combination " +
+        "for bulk work"
+};
+
+// SCHEDULING: even with separate limits, be considerate.
+const scheduling = {
+  window: "off-peak where it makes no difference to you",
+  pausable: "one switch - the first response to an incident is " +
+            "often to stop background work",
+  costCeiling: "per run, so a runaway resubmission loop is bounded"
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "Which workloads can use batch APIs, and what discount and trade-off do you get?",
+                solution: `<p>A batch API is a <strong>service-level commitment</strong> rather than a queue I run — I submit a set of requests, the provider processes them within a stated window, and I collect results.</p>
+             <p>The discount is commonly around <strong>50% off input and output</strong>. The trade-off is turnaround, typically "within 24 hours" — and the word <em>within</em> matters, because it is a commitment, not a guarantee of speed.</p>
+             <p>The benefit people forget is <strong>separate, usually higher rate limits</strong>, so batch work stops competing with interactive traffic — often worth more than the discount.</p>
+             <p>Fits: embedding a corpus, enrichment of a backlog, re-processing after a change, evaluation runs, scheduled digests, precomputing answers. Cannot: anything interactive, anything with a hard deadline, and anything where the input depends on a previous output.</p>`,
+              },
+              {
+                question:
+                  "Why does the word 'within' matter in the turnaround commitment?",
+                solution:
+                  "<p>Because it is a <strong>ceiling, not a speed</strong>, and treating it as a speed is how teams build something fragile. A twenty-four-hour commitment means the provider undertakes to finish within that window — it may return in twenty minutes when load is light, or take the full day when it is not, and you have no way to predict which. So any design that assumes \"it usually comes back in an hour so we can run it at 6am and have results by 7\" will eventually break on the day it takes eighteen hours, and that failure lands somewhere downstream that was not expecting it. The practical implication is that batch is suitable only for work where you can genuinely tolerate the <em>full</em> window: if a digest must go out at 8am, submitting the previous evening is not sufficient unless there is a fallback path. It also affects how you build the pipeline — you poll for completion on a schedule rather than waiting, you track per-item state so a slow batch does not block other work, and you have a defined behaviour for the case where results arrive after the point at which they were useful.</p>",
+              },
+              {
+                question:
+                  "When is the rate-limit benefit worth more than the discount?",
+                solution: `<p>Whenever your bulk work is competing with interactive traffic for the same provider quota — which is common, and it is the situation where a nightly re-index makes the live assistant start erroring at 2am.</p>
+             <p>Without batch, solving that means real engineering: a global concurrency limiter, priority classes with reserved capacity for interactive traffic, bulk work that yields when headroom shrinks, and monitoring to prove the reservation is holding.</p>
+             <p>With batch, the contention <strong>disappears</strong> rather than being managed, because the batch endpoint has its own limits.</p>
+             <p>So it is worth saying explicitly that you would move a job to batch <em>even if the money were identical</em>. That reframes when you reach for it: not only when you want the discount, but whenever a background workload is threatening the foreground one — which is a reliability decision rather than a cost one.</p>`,
+              },
+              {
+                question:
+                  "What breaks on someone's first batch job?",
+                solution:
+                  "<p>Two things, reliably. <strong>Forgetting custom IDs.</strong> Results come back keyed by an identifier you supply on each request, and if you did not set one you cannot match a result to its input — you have a pile of outputs and no way to know which document each belongs to. On a hundred-thousand-item job that means paying twice. It feels optional in the API and it is not. <strong>Assuming it is all-or-nothing.</strong> A large submission almost always returns with <em>some</em> items failed — malformed input, content that triggered a refusal, transient errors — so the collection step needs per-item error handling and a resubmission path rather than a check for overall success. Related to both: <strong>track state per item rather than per batch</strong>, so a resubmission only reprocesses the failures instead of redoing work you already paid for. The general shape to keep in mind is that batch is a job pipeline where one stage happens to be \"wait for the provider\", and it needs the same per-item state tracking as any other job pipeline.</p>",
+              },
+              {
+                question:
+                  "Can you batch a multi-step chain?",
+                solution:
+                  "<p>Only as <strong>multiple rounds</strong>, and the latency multiplies. If step two's input depends on step one's <em>output</em>, you must submit the first batch, wait for it to complete, then build and submit the second — so a three-step chain could take three days rather than one. Occasionally that is acceptable for a very large one-off job where nobody is waiting and the saving is substantial, such as a multi-pass enrichment across a whole corpus. Usually it is not, because the operational complexity of orchestrating several rounds with per-item state across days outweighs a fifty percent discount. <strong>Agent loops are excluded by definition</strong>, since the next step is decided by the previous result — that is what makes them agents. The useful reframing is to look for the parts of a chain that are <em>independent</em> and batch those while keeping the dependent parts real-time: in a RAG pipeline, embedding and document summarisation are independent and belong in batch, while retrieval and generation are per-query. Most workloads have that structure, and splitting on it gets most of the saving without the multi-round problem.</p>",
+              },
+              {
+                question:
+                  "How do you handle partial failures?",
+                solution: `<p>Expect them, and design the collection step around them rather than treating them as an exception:</p>
+             <ul>
+               <li><strong>Read results per item</strong>, checking each one's status rather than the batch's overall status.</li>
+               <li><strong>Classify the error.</strong> A malformed request will fail identically on resubmission, so it goes straight to permanently-failed; a transient error is worth retrying.</li>
+               <li><strong>Cap the retries</strong> — around three — so an item that always fails does not cycle through every run forever, quietly consuming budget.</li>
+               <li><strong>Update per-item state</strong>, so resubmission only picks up the failures and you never pay twice for a successful item.</li>
+               <li><strong>Surface permanently-failed items</strong> somewhere a human will look, because they usually indicate a parsing or data problem worth fixing at the source.</li>
+             </ul>
+             <p>That last point matters: a steady trickle of permanent failures is the batch equivalent of a dead letter queue, and it accumulates silently unless someone is watching the count.</p>`,
+              },
+              {
+                question:
+                  "Why does batch need more monitoring than real-time work?",
+                solution:
+                  "<p>Because <strong>nobody is waiting for it</strong>, so failure produces no signal at all. A real-time path that breaks generates errors, alerts and complaints within minutes. A nightly enrichment job that stops submitting produces silence — no error page, no user report, nothing on a latency dashboard — and it can go unnoticed for weeks. Worse, the eventual symptom is misleading: documents stop being enriched, retrieval quality drifts down, and what surfaces is \"the assistant has got worse\", which sends the team off tuning prompts and retrieval for a problem that is a scheduled job that stopped firing. So you have to alert on <strong>absence rather than errors</strong>: the job did not submit within its expected window; a batch was submitted but the results were never collected, which is a genuinely common failure since collection is a separate step; the item count came back far below its rolling average, meaning a run that \"succeeded\" with forty items instead of forty thousand; and the oldest pending item is older than expected. Alongside those, the direct check that catches everything: compare the count of processed items against the count of source items and watch the gap.</p>",
+              },
+              {
+                question:
+                  "What does the saving actually look like on a real job?",
+                solution: `<p>It depends heavily on whether the job is embedding or generation, and people usually estimate the wrong one.</p>
+             <p><strong>Embedding a corpus</strong> — a million chunks at four hundred tokens is four hundred million tokens, roughly £40 in real time and £20 in batch. A £20 saving that is hardly worth the complexity on its own. The real reason to batch it is that it does not consume the interactive rate limit.</p>
+             <p><strong>Generation work is where the money is.</strong> Enriching a hundred thousand documents at two thousand input and two hundred output tokens each is around £740 in real time and £370 in batch — and that <em>is</em> worth the complexity.</p>
+             <p>And the levers compound: batch, plus a small model where evaluation shows it is sufficient, plus prompt caching on the identical instruction block across every item, can take that £740 to under £40.</p>
+             <p>That combination — batch, right-sizing and caching — is the standard treatment for bulk work.</p>`,
+              },
+              {
+                question:
+                  "How does batch fit into the wider pipeline?",
+                solution:
+                  "<p>As a <strong>job pipeline where one stage is \"wait for the provider\"</strong>. The loop runs on a schedule rather than continuously: submit whatever is pending in provider-sized chunks, poll any outstanding batches for completion, collect and reconcile results, requeue retryable failures, and mark the rest permanently failed. Everything else you already know about job pipelines applies — per-item state, restartability, backpressure, a cap on retries, and a dead-letter equivalent for items that never succeed. Two design points that are specific to batch. There is a <strong>batching decision</strong>: submit when you have enough items to make a full batch, or when the oldest pending item has waited too long, whichever comes first — otherwise a slow trickle of work sits forever waiting for a full batch. And it composes with the rest of the ingestion pipeline as its own stage: fetch, parse and chunk stay as ordinary queues, and embedding becomes a batch stage with a different rhythm. That separation is worth keeping because the stages have completely different failure modes and turnaround expectations.</p>",
+              },
+              {
+                question:
+                  "What should you not use batch for, beyond the obvious?",
+                solution: `<p>Three cases beyond \"anything a user is waiting for\":</p>
+             <ul>
+               <li><strong>Anything with a deadline you cannot slip.</strong> If a digest must be sent at 8am, batch is only safe with a real-time fallback for the day it takes the full window.</li>
+               <li><strong>Chained work</strong>, where each dependency adds a full round trip — a three-step chain becomes three days.</li>
+               <li><strong>Small jobs.</strong> The operational complexity of submit, poll, collect, reconcile and resubmit is fixed, so for a few hundred items the saving does not repay it. Just run them normally.</li>
+             </ul>
+             <p>There is also a subtler one: <strong>anything you will want to iterate on quickly</strong>. If you are still tuning the prompt for an enrichment job, a twenty-four-hour feedback loop is painful — develop against a small real-time sample, then run the full job in batch once the prompt is settled.</p>`,
+              },
+              {
+                question:
+                  "How do you decide whether a workload should move to batch?",
+                solution:
+                  "<p>Two questions. <strong>Can it tolerate the full window?</strong> Not the typical turnaround — the full commitment, on the worst day. If yes, it is a candidate. If no, it stays real-time or needs a fallback. <strong>Is it big enough to repay the complexity?</strong> Submit, poll, collect, reconcile and resubmit is a real pipeline with per-item state, so a few hundred items is not worth it while a hundred thousand clearly is. If both answers are yes, then look at the two benefits and weigh them separately: the discount, which is straightforward arithmetic on your token volume, and the <strong>rate-limit separation</strong>, which is a reliability benefit and is often the deciding factor even when the money is marginal. It is also worth checking whether the work is <em>independent per item</em>, since that is what makes batching possible at all — chained work needs multiple rounds and usually is not worth it. And if the answer is yes on all counts, combine it with the other levers at the same time: bulk work is exactly where batch, model right-sizing and prompt caching compound best.</p>",
+              },
+              {
+                question:
+                  "What health checks would you put on a batch job?",
+                solution: `<p>Five, all of which detect <em>absence</em> rather than errors:</p>
+             <ul>
+               <li><strong>Did it submit?</strong> Alert if the last submission is older than the expected interval plus a margin.</li>
+               <li><strong>Were results collected?</strong> A batch can complete at the provider while your collection step never runs — a genuinely common failure, because submission and collection are separate.</li>
+               <li><strong>Was the item count plausible?</strong> Compare against a rolling average. A run that succeeded with forty items instead of forty thousand is a failure reporting success.</li>
+               <li><strong>Are permanent failures accumulating?</strong> The batch equivalent of a dead letter queue, and it needs someone actually looking.</li>
+               <li><strong>How old is the oldest pending item?</strong> The number that reflects real end-to-end lag.</li>
+             </ul>
+             <p>Plus the direct check that catches all of them together: <strong>processed count versus source count</strong>, with an alert on a widening gap.</p>`,
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/build-with-claude/batch-processing",
+              "https://docs.anthropic.com/en/docs/about-claude/pricing",
+              "https://docs.anthropic.com/en/api/rate-limits",
+              "https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/",
+            ],
+          },
+          {
+            topic: "Embedding & Vector DB Cost",
+            tags: ["must-know", "cost", "infrastructure", "rag"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "What drives vector database cost, and how do you keep it from growing without limit?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Separate two costs that get conflated, because they behave completely differently.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  EMBEDDING COST - one-off, per chunk, and CHEAP.
+    Input-only pricing, roughly an order of magnitude below
+    generation. A million chunks is tens of pounds, once.
+
+  STORAGE AND SERVING COST - ONGOING, and driven by how
+    much you keep in memory.
+
+PEOPLE WORRY ABOUT THE FIRST AND ARE SURPRISED BY THE
+SECOND. Indexing is cheap. HOLDING the index is what costs,
+and it never stops.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Actually Drives The Cost
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE CORE FORMULA:
+  vectors x dimensions x bytes-per-value
+
+  1,000,000 x 1,536 x 4 bytes = ~6 GB of raw vectors
+
+THEN ADD:
+  INDEX OVERHEAD. An approximate-nearest-neighbour graph
+    adds substantial memory on top - often 1.5x to 2x the
+    raw vectors. So 6 GB becomes 9-12 GB.
+
+  MEMORY, NOT DISK. ANN indexes want to be in RAM to serve
+    queries quickly, and MEMORY IS THE EXPENSIVE RESOURCE.
+    That is the real driver.
+
+  REPLICAS. For availability and throughput - and they
+    multiply everything above.
+
+  METADATA AND ORIGINAL TEXT, if stored alongside. Often
+    larger than the vectors themselves.
+
+  THE PRICING MODEL. Managed services charge per vector,
+    per pod, per GB or per query, and the shapes differ
+    enormously - so the same workload can cost very
+    different amounts depending on which you picked.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How It Grows Without Limit
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Every one of these is something a team does without noticing:
+  </p>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Nobody deletes anything.</strong> Documents are superseded, the old chunks stay, and the index only ever grows. This is the biggest cause by far — and it damages answer quality too, because stale content still gets retrieved.</li>
+    <li style="margin-top: 0.5rem;"><strong>Re-indexing leaves a second copy.</strong> A new chunking strategy is applied, the new vectors are written, and the old ones are never removed.</li>
+    <li style="margin-top: 0.5rem;"><strong>Chunk overlap.</strong> Twenty percent overlap is twenty percent more vectors, forever, for the same content.</li>
+    <li style="margin-top: 0.5rem;"><strong>Over-chunking.</strong> Halving the chunk size doubles the vector count.</li>
+    <li style="margin-top: 0.5rem;"><strong>Every source gets added and none removed</strong>, including sources nobody ever queries.</li>
+    <li style="margin-top: 0.5rem;"><strong>Test and staging indexes</strong> sharing production capacity.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Controls
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>A deletion path that actually works</strong>, and is tested. Supersede and remove rather than append. This is the control, not an optimisation — everything else is marginal if the index only grows.</li>
+    <li style="margin-top: 0.5rem;"><strong>Quantisation.</strong> The biggest technical lever: storing vectors as int8 rather than float32 cuts memory by four times, and binary quantisation far more, at a modest recall cost you can measure and often recover with a rescoring pass.</li>
+    <li style="margin-top: 0.5rem;"><strong>Fewer dimensions.</strong> Many embedding models support truncation — 1536 down to 768 halves storage for a small quality cost. Measure it on your own retrieval set.</li>
+    <li style="margin-top: 0.5rem;"><strong>Chunk deliberately.</strong> Fewer, well-formed chunks with modest overlap means fewer vectors and usually better retrieval.</li>
+    <li style="margin-top: 0.5rem;"><strong>Do not index what nobody asks about.</strong> A lot of corpora contain material that will never be queried.</li>
+    <li style="margin-top: 0.5rem;"><strong>Tier it.</strong> Recent and frequently-retrieved content in memory, archives on disk or in a separate cold index.</li>
+    <li style="margin-top: 0.5rem;"><strong>Separate environments</strong>, so staging never shares production capacity.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Keep The Scale Honest
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    At typical enterprise scale — one to five million vectors — <strong>this is a small cost</strong>, often a few hundred pounds a month, and Postgres with pgvector handles it comfortably. It becomes significant somewhere past tens of millions of vectors, or when you need replicas across regions.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    So the honest answer to "how do you keep it from growing without limit" is usually not a clever compression technique. It is: <strong>delete things, and know why every source is in there.</strong>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "What drives vector database cost, and how do you keep it
+   from growing without limit?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you know the cost is MEMORY rather than storage or
+  embedding calls, and whether you can size it. The second
+  half is really asking about operational discipline -
+  deletion - rather than about compression tricks.
+
+WEAK ANSWER
+  "Vector databases charge based on the number of vectors and
+   the dimensions, so we would reduce dimensions and delete
+   old data to control costs."
+  Why it is weak: it has the formula but misses index
+  overhead and that the binding constraint is memory. And it
+  never asks whether the cost is significant at all, which
+  for most enterprise systems it is not.
+
+STRONG ANSWER (about 75 seconds)
+  "First I would separate two things people conflate.
+   EMBEDDING cost is one-off, per chunk, and cheap -
+   input-only pricing, so a million chunks is tens of pounds
+   once. STORAGE AND SERVING is ongoing, and that is what
+   people are surprised by. Indexing is cheap; HOLDING the
+   index is what costs.
+
+   The formula is vectors times dimensions times bytes - a
+   million vectors at 1536 dimensions in float32 is about 6
+   GB. Then add INDEX OVERHEAD, because an ANN graph adds
+   often 1.5 to 2x on top, so call it 9 to 12 GB. And the
+   binding constraint is that ANN indexes want to be IN
+   MEMORY to serve queries quickly, so MEMORY is the
+   expensive resource - not disk. Replicas multiply all of
+   it, and metadata and stored text are often larger than the
+   vectors.
+
+   How it grows without limit - and every one of these is
+   something a team does without noticing. NOBODY DELETES
+   ANYTHING, which is the biggest cause by far and also
+   damages answer quality, because stale content still gets
+   retrieved. Re-indexing leaves a second copy. Chunk overlap
+   at 20% is 20% more vectors forever. Over-chunking doubles
+   the count. Every source gets added and none removed. And
+   staging shares production capacity.
+
+   The controls, in order: a DELETION PATH THAT WORKS and is
+   tested - that is the control, everything else is marginal
+   if the index only grows. Then QUANTISATION, which is the
+   biggest technical lever - int8 cuts memory 4x at a modest
+   recall cost you can measure. Then fewer dimensions, since
+   many models support truncation. Then chunk deliberately,
+   do not index what nobody asks about, and tier cold data.
+
+   I would also keep the scale honest: at one to five million
+   vectors this is a few hundred pounds a month and pgvector
+   handles it. It matters past tens of millions."
+
+FOLLOW-UPS TO EXPECT
+  "Is the embedding cost significant?"
+      -> no. Input-only pricing, one-off, tens of pounds for
+         a million chunks. Querying is the ongoing cost.
+  "What is the biggest technical lever?"
+      -> quantisation. 4x from int8, far more from binary,
+         with a measurable recall cost.
+  "Why does the index only ever grow?"
+      -> because nobody built a deletion path, and
+         re-indexing leaves copies behind.
+  "When does this actually matter?"
+      -> past tens of millions of vectors, or with
+         multi-region replicas. Below that it is small.
+
+RED FLAGS
+  Thinking the cost is embedding calls.
+  Forgetting index overhead and that memory is the
+  constraint.
+  Reaching for compression before deletion.
+  Not knowing whether the cost is significant at their scale.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// SEPARATE THE TWO COSTS. People worry about the first and are
+// surprised by the second.
+
+const embeddingCost = {
+  chunks: 1_000_000, avgTokens: 400, totalTokens: 400_000_000,
+  // Input-only pricing, roughly an order of magnitude below
+  // generation.
+  pricePerMillionTokens: 0.10,
+  oneOffGbp: 40,
+  reEmbedOnUpdates: "2% of the corpus a month -> under 1 GBP",
+  verdict: "CHEAP AND ONE-OFF. Indexing is not the problem."
+};
+
+const storageAndServingCost = {
+  // THE FORMULA.
+  vectors: 1_000_000,
+  dimensions: 1_536,
+  bytesPerValue: 4,                 // float32
+  rawGb: (1_000_000 * 1_536 * 4) / 1e9,        // ~6.1 GB
+
+  // THEN ADD INDEX OVERHEAD. An ANN graph stores neighbour lists
+  // per node - often 1.5x to 2x the raw vectors.
+  indexOverheadMultiplier: 1.8,
+  withIndexGb: 11,
+
+  // AND THE BINDING CONSTRAINT: ANN indexes want to be IN MEMORY to
+  // serve queries quickly. MEMORY IS THE EXPENSIVE RESOURCE, not
+  // disk.
+  mustBeInMemory: true,
+
+  // Multiplies everything above.
+  replicas: 2,
+  totalMemoryGb: 22,
+
+  // Often LARGER than the vectors themselves, and forgotten.
+  metadataAndText: "chunk text at ~1.5 KB each = 1.5 GB, plus " +
+                   "metadata and ACL groups",
+
+  verdict: "ONGOING, and driven by how much you keep in memory"
+};
+
+// AND THE PRICING MODEL MATTERS AS MUCH AS THE SIZE.
+const pricingShapes = {
+  perVector: "simple, and punishes over-chunking directly",
+  perPodOrPerNode: "step-function - you pay for the next tier well " +
+                   "before you fill the current one",
+  perGbOfMemory: "closest to the underlying reality",
+  perQuery: "decouples storage from usage - good for a large cold " +
+            "index, bad for a hot one",
+  selfHostedPgvector: "you pay for the machine. At a few million " +
+                      "vectors that is one modest instance."
+};
+// The SAME workload can cost very different amounts depending on
+// which shape you picked, so compare on YOUR numbers rather than on
+// the headline rate.`,
+              `// HOW IT GROWS WITHOUT LIMIT. Every one of these is something a
+// team does without noticing.
+
+const growthCauses = {
+  // THE BIGGEST BY FAR.
+  nobodyDeletes: {
+    what: "documents are superseded, the old chunks stay",
+    growth: "monotonic - the index only ever goes up",
+    // And it is not only a cost problem.
+    alsoBreaks: "answer quality, because stale content still gets " +
+                "retrieved and confidently quoted"
+  },
+
+  reindexLeavesCopies: {
+    what: "a new chunking strategy is applied, new vectors written, " +
+          "old ones never removed",
+    growth: "doubles the index in one afternoon",
+    fix: "replace within a transaction, keyed by document id"
+  },
+
+  chunkOverlap: {
+    what: "20% overlap means 20% more vectors, forever, for the " +
+          "same content",
+    // Worth being deliberate about rather than defaulting to a
+    // large overlap because it felt safer.
+    fix: "modest overlap, and measure whether more actually helps"
+  },
+
+  overChunking: {
+    what: "halving the chunk size DOUBLES the vector count",
+    fix: "chunk on structure, not on a small fixed size"
+  },
+
+  everySourceAdded: {
+    what: "new sources get connected and none get removed - " +
+          "including ones nobody has ever queried",
+    fix: "track retrieval counts PER SOURCE and prune the dead ones"
+  },
+
+  sharedEnvironments: {
+    what: "staging and test indexes on production capacity",
+    fix: "separate instances, and a TTL on test indexes"
+  }
+};
+
+// FIND THE WASTE. This query is usually surprising.
+async function indexAudit() {
+  return {
+    totalVectors: await index.count(),
+    // Superseded documents whose chunks are still present.
+    orphanedChunks: await db.chunks.count({
+      docId: { $nin: await db.documents.activeIds() } }),
+    // Sources that have never been retrieved.
+    deadSources: await db.sources.find({ retrievalCount30d: 0 }),
+    // Near-duplicate chunks - often the same boilerplate repeated
+    // across every document.
+    duplicateClusters: await findNearDuplicates({ threshold: 0.98 }),
+    vectorsPerSource: await db.chunks.groupBy("source"),
+    // The trend that matters more than the absolute number.
+    growthPerMonth: await metrics.trend("vector_count", { months: 6 })
+  };
+}`,
+              `// THE CONTROLS, IN ORDER. Deletion first - everything else is
+// marginal if the index only grows.
+
+// 1. A DELETION PATH THAT WORKS, AND IS TESTED.
+async function replaceDocument(docId, newChunks) {
+  await db.transaction(async tx => {
+    const old = await tx.chunks.find({ docId });
+    // REPLACE, do not append. This one line is the difference
+    // between a stable index and one that doubles every year.
+    await tx.chunks.deleteMany({ docId });
+    await vectorStore.deleteByIds(old.map(c => c.embeddingId));
+    await tx.chunks.insertMany(newChunks);
+    await vectorStore.upsertMany(newChunks);
+  });
+}
+
+test("re-indexing does not leave orphans", async () => {
+  const before = await vectorStore.count();
+  await replaceDocument("doc-1", makeChunks(10));
+  await replaceDocument("doc-1", makeChunks(8));
+  // 8, not 18.
+  expect(await vectorStore.count()).toBe(before + 8);
+});
+
+// 2. QUANTISATION - the biggest technical lever.
+const quantisation = {
+  float32: { bytesPerValue: 4, gb: 6.1, recall: "baseline" },
+  int8:    { bytesPerValue: 1, gb: 1.5,
+             recall: "typically a small drop, and often recoverable " +
+                     "with a rescoring pass over the top candidates" },
+  binary:  { bitsPerValue: 1, gb: 0.19,
+             recall: "a larger drop - viable as a FIRST-STAGE filter " +
+                     "with exact rescoring of the top few hundred" },
+  // The pattern that makes aggressive quantisation safe:
+  rescore: "search the quantised index for 200 candidates, then " +
+           "rescore those against full-precision vectors. Most of " +
+           "the memory saving, most of the recall."
+};
+
+// 3. FEWER DIMENSIONS. Many models support truncation.
+const dimensionReduction = {
+  from: 1_536, to: 768,
+  storageSaving: "50%",
+  // MEASURE IT on your own retrieval set - the quality cost varies
+  // by domain and is often smaller than expected.
+  check: "recall@20 and recall@5 on the labelled retrieval set, " +
+         "before and after"
+};
+
+// 6. TIER IT. Not everything needs to be in memory.
+const tiering = {
+  hot: "the last 2 years, and anything retrieved in the last 90 " +
+       "days -> in-memory ANN index",
+  cold: "archives -> on-disk index or a separate cheaper store, " +
+        "searched only when the hot tier returns nothing",
+  effect: "often 70% of the corpus moves to cold at no user-visible " +
+          "cost"
+};`,
+              `// KEEP THE SCALE HONEST. This is a small cost at typical
+// enterprise scale.
+
+const scaleReality = {
+  typical: {
+    vectors: "1-5 million",
+    memoryGb: "10-50",
+    // One modest instance.
+    monthlyGbp: "150-500",
+    verdict: "SMALL. pgvector on one Postgres instance handles this " +
+             "comfortably, and it gives you joins with your metadata " +
+             "and ACLs for free."
+  },
+  significant: {
+    vectors: "50 million+",
+    orAnyOf: ["multi-region replicas", "very high query rates",
+              "strict latency requirements at scale"],
+    verdict: "now it is worth real engineering - quantisation, " +
+             "tiering, sharding, or a dedicated service"
+  }
+};
+
+// SO THE HONEST ANSWER TO "HOW DO YOU STOP IT GROWING" IS USUALLY
+// NOT A COMPRESSION TECHNIQUE.
+const honestAnswer = [
+  "DELETE THINGS - a tested deletion path is the actual control",
+  "know WHY every source is in the index, and prune the ones " +
+    "nobody queries",
+  "replace on re-index rather than appending",
+  "be deliberate about chunk size and overlap, because both " +
+    "multiply the vector count directly",
+  "and only then reach for quantisation and dimension reduction"
+];
+
+// WHAT TO MONITOR.
+const metrics = {
+  vectorCount: "over time - the TREND matters more than the number",
+  bytesPerVector: "including index overhead - it drifts as the " +
+                  "index fragments",
+  memoryUtilisation: "the binding constraint",
+  queryLatencyVsIndexSize: "the curve tells you when you are " +
+                           "approaching a limit",
+  costPerMillionVectors: "so a pricing-model change is visible",
+  // The one that catches waste.
+  vectorsPerSource: "and retrieval count per source - a source with " +
+                    "200,000 vectors and zero retrievals in 90 days " +
+                    "is pure cost"
+};
+
+// AND SIZE IT BEFORE YOU CHOOSE ANYTHING.
+function sizeIt({ documents, pagesPerDoc, chunksPerPage, dimensions,
+                  bytesPerValue = 4, indexOverhead = 1.8, replicas = 2 }) {
+  const vectors = documents * pagesPerDoc * chunksPerPage;
+  const rawGb = (vectors * dimensions * bytesPerValue) / 1e9;
+  return {
+    vectors, rawGb,
+    withIndexGb: rawGb * indexOverhead,
+    totalMemoryGb: rawGb * indexOverhead * replicas,
+    // Do this BEFORE picking a managed service, because the pricing
+    // shapes differ enormously at the same size.
+    note: "compare providers on THIS number, not on the headline rate"
+  };
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What drives vector database cost, and how do you keep it from growing without limit?",
+                solution: `<p>First, separate two things people conflate. <strong>Embedding cost is one-off, per chunk, and cheap</strong> — input-only pricing, so a million chunks is tens of pounds once. <strong>Storage and serving is ongoing</strong>, and that is what surprises people. Indexing is cheap; <em>holding</em> the index is what costs.</p>
+             <p>The formula is vectors × dimensions × bytes — a million at 1536 dimensions in float32 is about 6GB. Then add <strong>index overhead</strong>, often 1.5–2× on top. And the binding constraint is that ANN indexes want to be <strong>in memory</strong>, so memory is the expensive resource, not disk. Replicas multiply everything.</p>
+             <p>It grows without limit mainly because <strong>nobody deletes anything</strong>. So the control is a tested deletion path — everything else is marginal if the index only grows.</p>`,
+              },
+              {
+                question:
+                  "Why is the embedding cost not the thing to worry about?",
+                solution:
+                  "<p>Because it is priced <strong>input-only</strong> and roughly an order of magnitude below generation, and it is a one-off per chunk. A million chunks at four hundred tokens each is four hundred million tokens, which comes to tens of pounds — <em>once</em>. Re-embedding a couple of percent of the corpus each month is under a pound. So the entire indexing operation, which feels like the big scary number, is a rounding error against almost any other line in an AI system's budget. This matters practically, because the misconception makes teams hesitant about things they should do freely: re-chunking when they find a better strategy, upgrading the embedding model, or indexing an additional source. None of those are financially significant. What <em>is</em> ongoing is holding the index in memory to serve queries, and separately the per-query generation cost, which scales with usage. So the framing worth carrying is that <strong>indexing is cheap and one-off; serving is what costs, and it never stops</strong> — and if someone is optimising their embedding spend, they are almost certainly looking at the wrong line.</p>",
+              },
+              {
+                question:
+                  "Why is memory the binding constraint rather than storage?",
+                solution: `<p>Because approximate-nearest-neighbour indexes need to be resident in RAM to serve queries at the latencies people expect. A graph index works by traversing neighbour links, and if that graph is on disk every hop is a random read — which turns a sub-hundred-millisecond query into something far slower.</p>
+             <p>So the cost driver is not how many gigabytes you are storing, it is how many gigabytes you must keep <strong>in memory</strong>, and memory is expensive.</p>
+             <p>Two consequences follow:</p>
+             <ul>
+               <li><strong>Index overhead matters more than it looks.</strong> A graph index adds neighbour lists per node, often 1.5 to 2 times the raw vectors — so 6GB of vectors becomes 10 or 12GB of memory.</li>
+               <li><strong>Replicas multiply it.</strong> Two replicas for availability doubles the bill.</li>
+             </ul>
+             <p>It also explains why <strong>quantisation</strong> is the biggest technical lever: it attacks memory directly, which is the resource you are actually paying for.</p>`,
+              },
+              {
+                question:
+                  "What causes a vector index to grow without limit?",
+                solution:
+                  "<p><strong>Nobody deletes anything</strong> — by a large margin the biggest cause. Documents get superseded, the source system's copy is updated, and the old chunks and their vectors stay in the index because nothing was built to remove them. Growth becomes monotonic, and it is not only a cost problem: stale content still gets retrieved and confidently quoted, so answer quality degrades at the same time. After that: <strong>re-indexing that appends rather than replaces</strong>, which can double the index in an afternoon when someone applies a new chunking strategy. <strong>Chunk overlap</strong>, where twenty percent overlap means twenty percent more vectors forever for the same content. <strong>Over-chunking</strong>, since halving the chunk size doubles the vector count directly. <strong>Sources that are added and never removed</strong>, including ones nobody has ever queried — worth auditing, because the retrieval count per source is often surprising. And <strong>test and staging indexes</strong> quietly sharing production capacity. Every one of those is something a competent team does without noticing, which is why an index audit is usually worth an afternoon.</p>",
+              },
+              {
+                question:
+                  "What is the biggest technical lever on cost?",
+                solution: `<p><strong>Quantisation</strong> — storing vectors at lower precision, which attacks memory directly:</p>
+             <ul>
+               <li><strong>float32 to int8</strong> cuts memory by four times, at a small recall cost that is usually acceptable and measurable.</li>
+               <li><strong>Binary quantisation</strong> goes much further — over thirty times — with a larger recall drop.</li>
+             </ul>
+             <p>The pattern that makes even aggressive quantisation safe is <strong>rescoring</strong>: search the quantised index to retrieve a few hundred candidates quickly and cheaply, then rescore those against full-precision vectors before reranking. You keep most of the memory saving and recover most of the recall, because the quantised search only has to get the right documents into the candidate pool rather than order them perfectly.</p>
+             <p>Alongside it, <strong>dimension reduction</strong> — many embedding models support truncation, so 1536 to 768 halves storage. Both need measuring on your own labelled retrieval set, since the quality cost varies by domain and is often smaller than expected.</p>`,
+              },
+              {
+                question:
+                  "Why is deletion the control rather than compression?",
+                solution:
+                  "<p>Because compression gives you a one-time multiple while unchecked growth is <em>unbounded</em>. Quantising to int8 buys you four times, which sounds substantial — but an index that doubles every year eats that in two years and keeps going. If nothing is ever removed, every optimisation is a delay rather than a fix. So the first question is not \"how do we store this more efficiently\" but \"why does this only ever grow\", and the answer is almost always that no deletion path was built: documents are upserted rather than replaced, superseded versions are never purged, and re-indexing appends. Building and <em>testing</em> that path — replace within a transaction keyed by document ID, remove the vectors along with the chunks, and assert in a test that re-indexing twice leaves one copy rather than two — is the control. It also fixes a quality problem at the same time, since stale chunks are a real source of wrong answers. Once growth is bounded and matched to the actual corpus, compression becomes a sensible optimisation rather than a way of buying time.</p>",
+              },
+              {
+                question:
+                  "How significant is this cost, really?",
+                solution:
+                  "<p>At typical enterprise scale, <strong>small</strong> — and being able to say so is part of a good answer. One to five million vectors is roughly ten to fifty gigabytes including index overhead and a replica, which is one modest instance and a few hundred pounds a month. Postgres with pgvector handles it comfortably, and it has the advantage that your chunks, metadata and access-control groups live in the same database, so permission filtering is a normal indexed condition rather than a metadata filter in a separate service you have to keep in sync. It becomes genuinely significant past tens of millions of vectors, or when you need multi-region replicas, very high query rates, or strict latency guarantees at scale — at which point quantisation, tiering, sharding or a dedicated service start to earn their keep. Naming that threshold is what makes the \"it is small\" claim credible rather than naive. The practical implication is that for most teams, the vector database is not where the money is: the per-query generation cost dominates, and effort spent on prompt caching or model routing pays far better.</p>",
+              },
+              {
+                question:
+                  "How does the pricing model of a managed service affect this?",
+                solution: `<p>Enormously — the same workload can cost very different amounts depending on which shape you picked:</p>
+             <ul>
+               <li><strong>Per vector</strong> — simple, and it punishes over-chunking and overlap directly, since both multiply the count.</li>
+               <li><strong>Per pod or per node</strong> — a step function, so you pay for the next tier well before you have filled the current one. Sizing matters more here than anywhere else.</li>
+               <li><strong>Per gigabyte of memory</strong> — closest to the underlying reality, and the easiest to reason about.</li>
+               <li><strong>Per query</strong> — decouples storage from usage, which is good for a large cold index and poor for a hot one.</li>
+               <li><strong>Self-hosted</strong> — you pay for the machine, which at a few million vectors is one modest instance.</li>
+             </ul>
+             <p>So the comparison has to be run on <strong>your own numbers</strong> rather than on headline rates. Size the index first — vectors, dimensions, overhead, replicas — and then price each option against that figure, because a service that looks cheap at one scale can be the most expensive at another.</p>`,
+              },
+              {
+                question:
+                  "What does tiering look like for a vector index?",
+                solution:
+                  "<p>Keeping <strong>hot data in memory and cold data cheaper</strong>. The hot tier is what people actually query: recent documents, and anything retrieved in the last few months. The cold tier is archives — superseded policy versions you must retain, old projects, historical records — held in an on-disk index or a separate cheaper store, and searched only when the hot tier returns nothing useful. In many corpora that moves the majority of the content out of memory at no user-visible cost, because retrieval is heavily skewed toward recent and active material. Two things make it work. You need <strong>retrieval statistics per document or per source</strong> to decide what is cold, which means logging what gets retrieved rather than guessing. And you need a defined <strong>fallback path</strong>: if the hot search finds nothing above a score threshold, query the cold tier, accepting the extra latency for the small fraction of queries that need it. It is more machinery than quantisation, so it is worth doing at larger scale rather than at a few million vectors — but for a corpus with a long historical tail it can be the single biggest saving available.</p>",
+              },
+              {
+                question:
+                  "How would you audit an existing index for waste?",
+                solution: `<p>Five queries, and the results are usually surprising:</p>
+             <ul>
+               <li><strong>Orphaned chunks</strong> — vectors whose document is no longer active. Direct evidence of a missing deletion path.</li>
+               <li><strong>Vectors per source, alongside retrieval count per source.</strong> A source with two hundred thousand vectors and zero retrievals in ninety days is pure cost, and there is usually at least one.</li>
+               <li><strong>Near-duplicate clusters</strong> — often the same boilerplate header or legal footer repeated across every document, which wastes vectors and degrades retrieval.</li>
+               <li><strong>Growth rate over six months</strong>, which matters more than the absolute number because it tells you whether the problem is bounded.</li>
+               <li><strong>Bytes per vector including overhead</strong>, which drifts upward as an index fragments.</li>
+             </ul>
+             <p>Then check the boring one: are staging or test indexes sharing production capacity? That is frequently a meaningful share and it is invisible until someone looks.</p>`,
+              },
+              {
+                question:
+                  "How do chunking decisions affect vector cost?",
+                solution:
+                  "<p>Directly and permanently, because the vector count is a mechanical function of your chunking. <strong>Halving the chunk size doubles the number of vectors</strong> for the same content, and that doubling is paid every month forever, not once. <strong>Overlap is the same</strong> — twenty percent overlap is twenty percent more vectors, indefinitely, for content you already have. Neither is wrong, but both should be deliberate decisions rather than defaults chosen because smaller chunks and generous overlap felt safer. The reason this is worth raising is that chunking is usually treated purely as a retrieval-quality decision, and it is also a cost decision with a long tail. In practice the two usually point the same way: <strong>fewer, well-formed chunks split on structure</strong> tend to retrieve better than many small fixed-size ones <em>and</em> cost less, because a chunk that contains one complete idea is both a better retrieval unit and a more efficient use of a vector. So the recommendation is the same either way — chunk on structure with modest overlap, and measure whether more overlap actually improves recall before paying for it permanently.</p>",
+              },
+              {
+                question:
+                  "What would you monitor?",
+                solution:
+                  "<p>Six things, and the trends matter more than the absolute values. <strong>Vector count over time</strong> — the growth curve tells you whether deletion is working, which a single number cannot. <strong>Bytes per vector including index overhead</strong>, which drifts upward as an index fragments and is a signal that a rebuild would help. <strong>Memory utilisation</strong>, since that is the binding constraint and the thing you are actually paying for. <strong>Query latency against index size</strong>, because that curve tells you when you are approaching a limit rather than discovering it during an incident. <strong>Cost per million vectors</strong>, so a pricing-model change or a tier crossing is visible. And the one that catches genuine waste: <strong>vectors per source alongside retrieval count per source</strong>, which reliably surfaces material that is being paid for and never queried. Alerting is worth setting on the growth <em>rate</em> rather than a threshold — an index that grows five percent a month is fine, and one that grows five percent a week means something is appending rather than replacing, and you want to know now rather than in six months.</p>",
+              },
+            ],
+            links: [
+              "https://github.com/pgvector/pgvector",
+              "https://docs.anthropic.com/en/docs/build-with-claude/embeddings",
+              "https://www.pinecone.io/learn/vector-database/",
+              "https://arxiv.org/abs/1603.09320",
             ],
           },
         ],
@@ -275583,6 +274378,1533 @@ describe.each([
               "https://docs.nestjs.com/fundamentals/testing",
               "https://martinfowler.com/eaaCatalog/unitOfWork.html",
               "https://typeorm.io/custom-repository",
+            ],
+          },
+           {
+            topic: "Multi-Tenancy Strategies",
+            tags: ["multi-tenancy", "rls", "schema-per-tenant", "isolation", "als"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Three approaches, trading isolation against operational cost. The question behind the question is always: <span style="font-weight: 600;">what happens if the filter is forgotten once?</span>
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">1. Row-level (shared everything)</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    One database, one schema, a <code>tenant_id</code> column on every table.
+  </p>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Cheapest.</span> One connection pool, one migration run, thousands of tenants.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Weakest isolation.</span> One missing <code>WHERE tenant_id</code> leaks another customer's data.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Noisy neighbours.</span> One tenant's heavy query slows everyone.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Per-tenant restore is hard</span> &mdash; their rows are interleaved with everyone else's.</li>
+  </ul>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The mitigation that matters is <span style="font-weight: 600;">Postgres row-level security</span>. With RLS enabled, the database itself enforces the filter, so forgetting it in application code returns nothing rather than everything. Application-level filtering alone is one code review away from a breach.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">2. Schema-per-tenant</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    One database, a schema per tenant, same tables in each. You set <code>search_path</code> per request.
+  </p>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Real isolation</span> without a database each. Per-tenant backup and restore is straightforward.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Migrations multiply.</span> 500 tenants is 500 runs, and a partial failure leaves them on different versions.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Postgres struggles past a few thousand schemas</span> &mdash; catalog bloat and slow planning.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Cross-tenant reporting becomes painful</span> &mdash; a UNION over 500 schemas.</li>
+  </ul>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Good fit for tens to low hundreds of business customers. Bad fit for consumer scale.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">3. Database-per-tenant</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Strongest isolation.</span> Separate credentials, separate backups, per-tenant residency and encryption keys.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Most expensive.</span> Every tenant needs a pool, so 100 tenants at 5 connections is 500 &mdash; connections become the binding constraint long before CPU.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Migrations and monitoring multiply.</span></li>
+  </ul>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Justified by compliance, data residency, or enterprise contracts &mdash; rarely by engineering preference.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Carrying the tenant through the request</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Resolve the tenant once (subdomain, header, or a JWT claim) and put it in <code>AsyncLocalStorage</code>. Every layer can then read it without threading a parameter through fifteen method signatures.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Prefer the <span style="font-weight: 600;">JWT claim</span> over a header. A client-supplied <code>X-Tenant-Id</code> is a request to be that tenant, not proof of it &mdash; and treating it as proof is a complete authorisation bypass.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Request-scoped providers are the alternative but make every consumer request-scoped too, which is a real performance cost.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Enforcement, not discipline</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Whatever the strategy, the filter must be applied somewhere that <span style="font-weight: 600;">cannot be forgotten</span>: RLS in the database, a Prisma client extension, or a repository layer that is the only thing allowed to query. \"Everyone remembers to add the where clause\" is not a security model.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Gotchas</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Trusting a client header</span> for tenant identity.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">A cached value keyed without the tenant</span> &mdash; a cross-tenant leak through Redis.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Background jobs</span> &mdash; no request, so no ALS context. Pass the tenant in the payload.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">RLS bypassed by the table owner</span> &mdash; connect as a role without <code>BYPASSRLS</code>.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Connection-per-tenant with a pooler</span> &mdash; <code>search_path</code> set on one request applies to the next.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Unique constraints</span> must include <code>tenant_id</code>, or one tenant blocks another's email.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Row-level tenancy done so the filter CANNOT be forgotten.
+// ===== 1. RESOLVE THE TENANT - from the TOKEN, not a header =====
+@Injectable()
+export class TenantMiddleware implements NestMiddleware {
+  constructor(private readonly als: AsyncLocalStorage<TenantContext>) {}
+  use(req: Request, _res: Response, next: () => void) {
+    // The tenant comes from the VERIFIED JWT claim. A client-supplied
+    // X-Tenant-Id header is a REQUEST to be that tenant, not proof of
+    // it - trusting it is a complete authorisation bypass, and it is
+    // the single most common multi-tenancy vulnerability.
+    const tenantId = (req as any).user?.tenantId;
+    if (!tenantId) throw new UnauthorizedException();
+    this.als.run({ tenantId }, () => next());
+  }
+}
+// ===== 2. ENFORCE IT IN THE DATABASE - Postgres RLS =====
+/*
+    ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+    CREATE POLICY tenant_isolation ON orders
+      USING (tenant_id = current_setting('app.tenant_id')::uuid);
+  Now a query with no WHERE clause returns THIS TENANT'S ROWS ONLY.
+  Forgetting the filter returns nothing instead of everything - the
+  failure mode flips from a data breach to a bug report.
+  TWO TRAPS:
+    - The table OWNER bypasses RLS by default. The app must connect as
+      a role that is not the owner and does not have BYPASSRLS, or the
+      policy is decorative.
+    - FORCE ROW LEVEL SECURITY makes it apply to the owner too.
+*/
+// Set the tenant on the connection for each request/transaction:
+await manager.query("SELECT set_config('app.tenant_id', $1, true)", [tenantId]);
+// The third argument (true) makes it TRANSACTION-LOCAL. Without it the
+// setting persists on the pooled connection and the NEXT request -
+// possibly a different tenant - inherits it.
+// ===== 3. BELT AND BRACES - a Prisma client extension =====
+export const tenantExtension = (getTenantId: () => string) =>
+  Prisma.defineExtension({
+    query: {
+      $allModels: {
+        async findMany({ args, query }) {
+          args.where = { ...args.where, tenantId: getTenantId() };
+          return query(args);
+        },
+        async create({ args, query }) {
+          args.data = { ...args.data, tenantId: getTenantId() };
+          return query(args);
+        },
+      },
+    },
+  });
+// NOTE: this does NOT cover $queryRaw, which bypasses extensions
+// entirely. RLS does cover it - which is why the database-level control
+// is the one that actually protects you.
+// ===== 4. SCHEMA CONSTRAINTS =====
+/*
+    -- WRONG: one tenant registering alice@x.com blocks every other
+    -- tenant from having a user with that address.
+    CREATE UNIQUE INDEX ON users (email);
+    -- RIGHT: uniqueness is PER TENANT.
+    CREATE UNIQUE INDEX ON users (tenant_id, email);
+    -- And index tenant_id FIRST in composite indexes, since it is an
+    -- equality filter present in every single query.
+    CREATE INDEX ON orders (tenant_id, created_at DESC);
+*/`,
+              `// Schema-per-tenant and database-per-tenant: the operational reality.
+// ===== SCHEMA-PER-TENANT: set search_path per request =====
+@Injectable({ scope: Scope.REQUEST })
+export class TenantConnectionService {
+  constructor(
+    private readonly dataSource: DataSource,
+    @Inject(REQUEST) private readonly req: Request,
+  ) {}
+  async withTenantSchema<T>(fn: (m: EntityManager) => Promise<T>): Promise<T> {
+    const schema = 'tenant_' + (this.req as any).user.tenantId;
+    return this.dataSource.transaction(async (manager) => {
+      // Transaction-scoped: SET LOCAL reverts on commit/rollback.
+      // Plain SET would persist on the POOLED CONNECTION and leak into
+      // whichever request borrows it next - a silent cross-tenant read.
+      await manager.query('SET LOCAL search_path TO ' + schema);
+      return fn(manager);
+    });
+  }
+}
+// The schema name is interpolated because identifiers cannot be
+// parameterised - so it MUST be validated against a strict allowlist
+// (/^tenant_[0-9a-f-]+$/) or it is SQL injection.
+/*
+  MIGRATIONS ARE THE REAL COST
+  500 tenants = 500 migration runs. What goes wrong:
+    - Partial failure leaves tenants on DIFFERENT schema versions, and
+      the app must tolerate both until it is fixed.
+    - Runtime is now minutes, so the deploy window grows.
+    - You need a per-tenant migration STATUS table to know where you are.
+  Standard approach: migrate the "template" schema, then loop tenants
+  with a bounded concurrency, recording success per tenant and making
+  the job resumable. Never run all 500 in parallel - that is 500
+  connections and a table lock storm.
+  Postgres also degrades past a few thousand schemas: catalog bloat,
+  slow query planning, and pg_dump becoming impractical.
+*/
+// ===== DATABASE-PER-TENANT: a pool per tenant =====
+@Injectable()
+export class TenantDataSourceRegistry implements OnModuleDestroy {
+  private readonly pools = new Map<string, DataSource>();
+  async get(tenantId: string): Promise<DataSource> {
+    const existing = this.pools.get(tenantId);
+    if (existing) return existing;
+    const config = await this.registry.lookup(tenantId);   // from a
+                                                           // control-plane DB
+    const ds = new DataSource({
+      type: 'postgres',
+      url: config.url,
+      poolSize: 3,        // SMALL. This is the binding constraint:
+                          // 100 tenants x 5 connections = 500, which
+                          // most instances refuse. Connections run out
+                          // long before CPU does.
+      entities: [/* ... */],
+    });
+    await ds.initialize();
+    this.pools.set(tenantId, ds);
+    return ds;
+  }
+  // Idle pools must be EVICTED, or a long-tail of rarely-active tenants
+  // holds connections permanently.
+  async onModuleDestroy() {
+    await Promise.all([...this.pools.values()].map((d) => d.destroy()));
+  }
+}
+/*
+  ===== CHOOSING =====
+  ROW-LEVEL     thousands of tenants, consumer SaaS, cost-sensitive.
+                MUST be paired with RLS. Application filtering alone is
+                one forgotten WHERE clause away from a breach.
+  SCHEMA        tens to low hundreds of business customers. Real
+                isolation, easy per-tenant restore, migrations multiply.
+  DATABASE      compliance, data residency, per-tenant encryption keys,
+                or an enterprise contract that demands it. Justified by
+                requirements, not by engineering preference.
+  HYBRID is common and defensible: row-level for the self-serve tier,
+  a dedicated database for enterprise customers who pay for it.
+  ===== THINGS THAT LEAK ACROSS TENANTS =====
+    - Cache keys without the tenant: cache.get('user:' + id)   WRONG
+                                     cache.get(tenant + ':user:' + id)
+    - Background jobs - no request, so no ALS context. Put the tenant in
+      the job PAYLOAD and re-establish the context in the processor.
+    - Search indexes, file storage paths, rate-limit counters, metrics
+      labels - every one of them needs the tenant in the key.
+*/`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the three multi-tenancy strategies and their trade-offs?",
+                solution:
+                  "<p><strong>Row-level</strong> &mdash; one database, a <code>tenant_id</code> column. Cheapest, scales to thousands of tenants, weakest isolation: one missing <code>WHERE</code> leaks another customer's data.</p><p><strong>Schema-per-tenant</strong> &mdash; one database, a schema each. Real isolation and easy per-tenant restore, but migrations multiply and Postgres degrades past a few thousand schemas.</p><p><strong>Database-per-tenant</strong> &mdash; strongest isolation, separate credentials and backups, but each needs a connection pool, so connections become the binding constraint well before CPU.</p><p>The axis is <strong>isolation versus operational cost</strong>. Hybrids are common and defensible: row-level for self-serve, a dedicated database for enterprise customers who pay for it.</p>",
+              },
+              {
+                question:
+                  "Why is row-level tenancy risky without RLS?",
+                solution:
+                  "<p>Because the isolation depends entirely on every query remembering <code>WHERE tenant_id = ?</code>. One forgotten filter &mdash; in a new endpoint, a raw query, a report, a background job &mdash; and one customer sees another's data.</p><p>The failure is silent: the query succeeds and returns <em>more</em> data than it should, so nothing errors and tests written per-tenant still pass.</p><p>Postgres row-level security moves enforcement into the database:</p><pre><code class=\"language-sql\">CREATE POLICY tenant_isolation ON orders\n  USING (tenant_id = current_setting('app.tenant_id')::uuid);</code></pre><p>Now forgetting the filter returns <strong>nothing</strong> instead of everything. The failure mode flips from a breach to a bug report, which is the entire point.</p>",
+              },
+              {
+                question:
+                  "What are the traps when enabling RLS?",
+                solution:
+                  "<p>Three, each of which silently disables it.</p><p><strong>The table owner bypasses RLS by default.</strong> If the app connects as the role that created the tables, the policy does nothing. Connect as a separate role without <code>BYPASSRLS</code>, or add <code>FORCE ROW LEVEL SECURITY</code>.</p><p><strong>The setting must be transaction-local.</strong> <code>set_config('app.tenant_id', $1, true)</code> &mdash; the <code>true</code> matters. Without it the value persists on the <strong>pooled connection</strong>, so the next request inherits it, possibly for a different tenant.</p><p><strong>Superusers bypass everything</strong>, so migrations run as superuser see all rows &mdash; fine, but do not test the policy that way.</p><p>Always verify with an actual cross-tenant query in a test, rather than trusting the policy exists.</p>",
+              },
+              {
+                question:
+                  "How do you carry the tenant through the request?",
+                solution:
+                  "<p>Resolve it once at the edge, then <strong>AsyncLocalStorage</strong>.</p><p>ALS keeps a value alive across every <code>await</code> in the same async chain, so a repository five levels deep reads the tenant without it being threaded through fifteen signatures.</p><pre><code class=\"language-typescript\">this.als.run({ tenantId }, () =&gt; next());</code></pre><p>The alternative is a request-scoped provider, which works but makes every consumer request-scoped too &mdash; a real performance cost, since Nest then instantiates that subtree per request.</p><p>Critically, resolve the tenant from a <strong>verified JWT claim</strong>, not a client header. And remember background jobs have no request: put the tenant in the job payload and re-establish the ALS context in the processor.</p>",
+              },
+              {
+                question:
+                  "Why can't you trust an X-Tenant-Id header?",
+                solution:
+                  "<p>Because a client-supplied header is a <em>request</em> to be that tenant, not proof of it. Anyone can change it.</p><p>If the tenant comes from the header, a legitimate authenticated user changes one value and reads another customer's entire dataset &mdash; a complete authorisation bypass that requires no exploit, just curl.</p><p>The tenant must come from something the server signed: a <strong>JWT claim</strong>, or a session record it looked up server-side.</p><p>Subdomain routing is acceptable only if the token is also validated against that subdomain &mdash; otherwise a valid token for tenant A works against tenant B's hostname.</p><p>This is the most common multi-tenancy vulnerability, and it usually enters through an internal tool where the header was convenient and nobody revisited it.</p>",
+              },
+              {
+                question:
+                  "What breaks when you set search_path on a pooled connection?",
+                solution:
+                  "<p>It <strong>persists</strong> for whoever borrows that connection next.</p><p>A plain <code>SET search_path TO tenant_a</code> is a session setting. When the request finishes, the connection returns to the pool <em>still pointing at tenant A</em> &mdash; and the next request, for tenant B, silently queries tenant A's schema.</p><pre><code class=\"language-sql\">SET LOCAL search_path TO tenant_a;   -- reverts on commit/rollback</code></pre><p><code>SET LOCAL</code> inside a transaction is the fix, which means every tenant-scoped operation must run in a transaction.</p><p>Note also that the schema name cannot be parameterised &mdash; identifiers never can &mdash; so it must be validated against a strict allowlist pattern, or you have SQL injection in the tenant resolver.</p>",
+              },
+              {
+                question:
+                  "How do you run migrations with schema-per-tenant?",
+                solution:
+                  "<p>Migrate a template schema, then loop the tenants &mdash; with bounded concurrency and per-tenant status tracking.</p><p>What makes it hard:</p><ul><li><strong>Partial failure</strong> leaves tenants on different versions, so the application must tolerate both until it is fixed.</li><li><strong>Runtime</strong> grows with tenant count &mdash; 500 tenants is a deploy window measured in minutes.</li><li><strong>Resumability</strong> is essential, which means recording success per tenant somewhere.</li></ul><p>Never run all of them in parallel: that is one connection per tenant plus a lock storm.</p><p>This operational weight is the honest argument against schema-per-tenant, and it is the answer interviewers are usually probing for &mdash; the isolation benefit is obvious, the migration cost is what people underestimate.</p>",
+              },
+              {
+                question:
+                  "What is the binding constraint on database-per-tenant?",
+                solution:
+                  "<p><strong>Connections</strong>, not CPU or storage.</p><p>Every tenant needs its own pool. At 100 tenants with a modest pool of five, that is 500 connections from one application instance &mdash; multiplied by every replica.</p><p>Mitigations: keep per-tenant pools very small (2&ndash;3), <strong>evict idle pools</strong> so a long tail of rarely-active tenants does not hold connections permanently, and put a pooler in front.</p><p>There is a startup cost too: creating a pool on first request adds latency, so the first request per tenant per instance is slow.</p><p>This is why database-per-tenant is usually justified by a requirement &mdash; compliance, data residency, per-tenant encryption keys, an enterprise contract &mdash; rather than chosen for its architecture.</p>",
+              },
+              {
+                question:
+                  "What leaks across tenants outside the database?",
+                solution:
+                  "<p>Everything keyed by an identifier that is not tenant-scoped:</p><ul><li><strong>Cache keys</strong> &mdash; <code>cache.get('user:' + id)</code> serves tenant A's cached object to tenant B. Prefix with the tenant.</li><li><strong>Background jobs</strong> &mdash; no request, so no ALS context; the tenant must be in the payload.</li><li><strong>Search indexes</strong> &mdash; one index for everyone means one missing filter leaks.</li><li><strong>File storage paths</strong>, rate-limit counters, metrics labels, webhook targets.</li><li><strong>A singleton DataLoader</strong> &mdash; caches across requests, so it crosses tenants too.</li></ul><p>The database gets the attention because it is obvious. These are where the real incidents come from, because each one is added later by someone who was not thinking about tenancy.</p>",
+              },
+              {
+                question:
+                  "How do unique constraints change in a shared schema?",
+                solution:
+                  "<p>They must include the tenant, or one tenant's data blocks another's.</p><pre><code class=\"language-sql\">CREATE UNIQUE INDEX ON users (email);              -- wrong\nCREATE UNIQUE INDEX ON users (tenant_id, email);   -- right</code></pre><p>With the first, tenant A registering <code>alice@x.com</code> stops every other tenant from having a user with that address &mdash; and it surfaces as a confusing \"already exists\" error for a record the customer cannot see.</p><p>The same applies to any business-level uniqueness: invoice numbers, slugs, SKUs.</p><p>Indexing follows the same logic: <code>tenant_id</code> goes <strong>first</strong> in composite indexes, since it is an equality filter present in every query, and the leading column is what drives the index.</p>",
+              },
+              {
+                question:
+                  "How do you test tenant isolation?",
+                solution:
+                  "<p>With tests that <strong>try to break it</strong>, not tests that use one tenant.</p><ul><li>Seed two tenants, authenticate as A, and assert every list endpoint returns none of B's records &mdash; parameterise it across endpoints so new ones are covered.</li><li>Fetch B's record <em>by ID</em> as A and assert a 404, not a 403: confirming existence is itself a leak.</li><li>Assert the RLS policy directly, connecting as the application role rather than the owner.</li><li>Test the background-job path, which is the one that usually lacks context.</li></ul><p>Best of all, make it structural &mdash; a test that fails if a new table lacks <code>tenant_id</code> or an RLS policy. Isolation enforced by review decays; enforced by a failing build, it does not.</p>",
+              },
+              {
+                question:
+                  "Summarise multi-tenancy in thirty seconds.",
+                solution:
+                  "<p>\"Three strategies on an isolation-versus-cost axis. Row-level with a <code>tenant_id</code> column is cheapest and scales to thousands, but one forgotten <code>WHERE</code> is a breach &mdash; so I pair it with Postgres RLS, which makes a missing filter return nothing instead of everything.</p><p>Schema-per-tenant gives real isolation and easy per-tenant restore, at the cost of running migrations N times and Postgres degrading past a few thousand schemas. Database-per-tenant is strongest but connections become the binding constraint long before CPU.</p><p>The tenant is resolved once from a <strong>verified JWT claim</strong> &mdash; never a client header, which is just a request to be that tenant &mdash; and carried in AsyncLocalStorage so nothing has to thread it through.</p><p>And enforcement has to live somewhere it cannot be forgotten: RLS, a client extension, or a repository layer. Plus the non-database leaks &mdash; cache keys, job payloads, search indexes &mdash; which is where the real incidents come from.\"</p>",
+              },
+            ],
+            links: [
+              "https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
+              "https://docs.nestjs.com/fundamentals/injection-scopes",
+              "https://nodejs.org/api/async_context.html",
+              "https://www.prisma.io/docs/orm/prisma-client/client-extensions/query",
+              "https://docs.nestjs.com/techniques/database",
+            ],
+          },
+          {
+            topic: "Read Replicas & Serverless",
+            tags: ["replicas", "read-write-splitting", "replication-lag", "serverless", "pgbouncer"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Two scaling patterns that both break the assumption underneath every ORM: one database, one long-lived process.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Read/write splitting</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Writes go to the primary, reads go to replicas. Most applications are read-heavy, so this is the cheapest way to add capacity.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code class="language-typescript">
+replication: {
+  master: { url: primaryUrl },
+  slaves: [{ url: replica1 }, { url: replica2 }],
+}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    TypeORM routes automatically: writes and anything inside a transaction go to master, plain reads round-robin the replicas. Prisma has no built-in equivalent &mdash; you use its read-replica extension or two clients.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Replication lag</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Replicas are behind by anywhere from milliseconds to seconds. So this sequence is broken:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code class="language-typescript">
+await repo.save(profile);          // primary
+const fresh = await repo.findOne(); // replica - may not have it yet
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The user updates their profile, the page reloads, and they see the old value. Then it fixes itself, so it gets reported as \"flaky\" and closed.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The fix is <span style="font-weight: 600;">read-your-own-writes</span>: after a write, pin that user's reads to the primary for a short window. Simplest implementation is a flag in the request context, or a short Redis key per user.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Lag also spikes under load &mdash; exactly when you added replicas to cope. Monitor it and be able to route all reads back to the primary.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">What must not go to a replica</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Reads inside a transaction</span> &mdash; correctly routed to master, but it means a read-only transaction burns a primary connection.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Read-then-write</span> &mdash; checking a balance on a replica and then debiting is a race.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Anything the user just changed.</span></li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Auth and permission checks</span> &mdash; a revoked token still valid on a lagging replica is a security issue.</li>
+  </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Serverless: the opposite problem</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Pooling assumes a long-lived process. A Lambda has one per <span style="font-weight: 600;">instance</span>, and 100 concurrent invocations means 100 pools of one. Postgres forks a process per connection, so the bottleneck becomes connection <span style="font-weight: 600;">churn</span> rather than query load.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Three rules:
+  </p>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Create the client outside the handler</span> so warm invocations reuse it. Inside the handler you open a connection per request.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Do not disconnect after each invocation</span> &mdash; you destroy the reuse you just set up.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Use an external pooler</span> &mdash; PgBouncer, RDS Proxy, or the provider's HTTP driver.</li>
+  </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Poolers change the rules</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    PgBouncer in <span style="font-weight: 600;">transaction mode</span> hands a different backend per transaction. So prepared statements, <code>SET</code>, advisory locks, <code>LISTEN/NOTIFY</code> and temp tables all break &mdash; anything relying on session state.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    That is why Prisma needs <code>?pgbouncer=true</code>, which disables prepared statements. Session mode keeps them but gives up most of the multiplexing benefit.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Cold starts</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Nest's bootstrap plus a query engine binary is real latency. Cache the bootstrapped app between invocations, keep the bundle small, and prefer a driver without a native binary.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Gotchas</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Assuming a read after a write sees it.</span></li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Not counting replicas</span> in the connection budget.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Migrations against a replica</span> &mdash; it is read-only; the error is confusing.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;"><code>$disconnect()</code> per Lambda invocation.</span></li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Prepared statements behind a transaction-mode pooler.</span></li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">No lag monitoring</span> &mdash; you discover it from a support ticket.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Read/write splitting, and the read-your-own-writes problem.
+// ===== TypeORM routes automatically =====
+TypeOrmModule.forRootAsync({
+  useFactory: (c: ConfigService) => ({
+    type: 'postgres' as const,
+    replication: {
+      master: { url: c.getOrThrow('DATABASE_URL') },
+      slaves: [
+        { url: c.getOrThrow('REPLICA_1_URL') },
+        { url: c.getOrThrow('REPLICA_2_URL') },
+      ],
+    },
+    // Each entry has its OWN pool. Budget accordingly: 3 databases x
+    // 10 connections x 8 replicas = 240 connections, not 80.
+    poolSize: 10,
+  }),
+  inject: [ConfigService],
+});
+// Writes -> master. Plain reads -> round-robin the slaves.
+// Anything inside a transaction -> master, correctly, but note that a
+// READ-ONLY transaction therefore burns a PRIMARY connection.
+// Force the primary when you need current data:
+await this.dataSource
+  .createQueryBuilder(UserEntity, 'u')
+  .setQueryRunner(this.dataSource.createQueryRunner('master'))
+  .where('u.id = :id', { id })
+  .getOne();
+// ===== THE BUG THIS CREATES =====
+async updateProfile(id: string, dto: UpdateDto) {
+  await this.users.update(id, dto);            // PRIMARY
+  return this.users.findOneBy({ id });         // REPLICA - stale!
+}
+// The user saves their name, the response shows the OLD name, and a
+// second later it is correct. It gets reported as "flaky", cannot be
+// reproduced locally (no replica), and is closed as not-a-bug.
+// FIX A: return what you wrote. No second read at all.
+async updateProfileA(id: string, dto: UpdateDto) {
+  await this.users.update(id, dto);
+  return { id, ...dto };
+}
+// FIX B: read-your-own-writes - pin this USER to the primary briefly.
+@Injectable()
+export class ReadPreferenceService {
+  constructor(private readonly redis: Redis) {}
+  async pinToPrimary(userId: string, ms = 5000) {
+    await this.redis.set('rw:' + userId, '1', 'PX', ms);
+  }
+  async mustUsePrimary(userId: string) {
+    return (await this.redis.exists('rw:' + userId)) === 1;
+  }
+}
+// 5 seconds covers normal lag. Per-user, so one user's write does not
+// push everyone else onto the primary.
+/*
+  WHAT MUST NEVER READ FROM A REPLICA
+    - Read-then-write: checking a balance on a replica and then
+      debiting is a race against lag AND against other writers.
+    - Auth and permission checks: a token revoked 200ms ago is still
+      valid on a lagging replica. That is a security issue, not a UX one.
+    - Anything the user just changed.
+    - Uniqueness checks before an insert - rely on the constraint instead.
+  AND MONITOR LAG:
+      SELECT now() - pg_last_xact_replay_timestamp() AS lag;
+  Lag SPIKES UNDER LOAD - exactly when you added replicas to cope. Have
+  a switch to route all reads back to the primary, and alert before the
+  support tickets arrive.
+*/`,
+              `// Serverless: connection lifecycle, poolers, cold starts.
+// ===== THE CORE PROBLEM =====
+/*
+  Pooling assumes a LONG-LIVED PROCESS. A Lambda has one pool per
+  INSTANCE, and 100 concurrent invocations = 100 instances = 100 pools.
+  Postgres forks a PROCESS per connection, so the bottleneck becomes
+  connection CHURN, not query load. You exhaust max_connections with
+  traffic your database could easily have served.
+*/
+// ===== WRONG - a new client per invocation =====
+export const handler = async (event) => {
+  const prisma = new PrismaClient();          // new pool EVERY invocation
+  const users = await prisma.user.findMany();
+  await prisma.$disconnect();                 // and destroys it again
+  return users;
+};
+// Full connect/disconnect cycle per request. On Postgres that is a
+// forked process created and torn down for every single call.
+// ===== RIGHT - module scope, reused by warm invocations =====
+const prisma = new PrismaClient();            // OUTSIDE the handler.
+                                              // Survives across warm
+                                              // invocations of the same
+                                              // instance.
+let cachedApp: INestApplication;
+export const handler = async (event) => {
+  if (!cachedApp) {                           // Nest bootstrap is
+    cachedApp = await NestFactory.create(AppModule);   // EXPENSIVE -
+    await cachedApp.init();                   // cache it, do not repeat
+  }                                           // it per invocation
+  return cachedApp.getHttpAdapter().getInstance()(event);
+};
+// Do NOT call $disconnect() at the end - that destroys exactly the
+// reuse you just set up.
+// ===== AND STILL USE A POOLER =====
+// DATABASE_URL=postgresql://...?pgbouncer=true&connection_limit=1
+//
+//   connection_limit=1   each instance needs only one; the pooler
+//                        does the multiplexing
+//   pgbouncer=true       REQUIRED - disables prepared statements
+/*
+  WHY PGBOUNCER BREAKS THINGS - TRANSACTION MODE
+  Transaction mode hands you a DIFFERENT backend connection per
+  transaction. That is what makes multiplexing work, and it breaks
+  everything that relies on SESSION STATE:
+    - Prepared statements   -> "prepared statement s0 already exists"
+    - SET / SET LOCAL       -> applies to a connection you may not keep
+    - Advisory locks        -> released or held on the wrong session
+    - LISTEN / NOTIFY       -> silently never fires
+    - Temp tables           -> vanish
+  SESSION mode keeps all of it, but a client holds a backend for its
+  whole session - which gives up most of the benefit.
+  This is exactly why schema-per-tenant search_path juggling and
+  serverless poolers are a bad combination.
+*/
+// ===== COLD STARTS =====
+/*
+  What costs you:
+    - Nest bootstrap: building the DI graph, resolving every module.
+    - A native query engine binary (Prisma historically) - large and
+      slow to load. Recent versions offer a pure-TS client.
+    - Bundle size - keep it small; use webpack/esbuild, and avoid
+      importing modules the handler does not need.
+    - The first database connection, if not warmed.
+  Mitigations: cache the bootstrapped app (above), lazy-load heavy
+  modules with LazyModuleLoader, and use provisioned concurrency if the
+  latency genuinely matters.
+  Or consider whether Nest is the right fit for the workload at all -
+  a DI framework designed for a long-lived server pays its startup cost
+  on every cold start.
+*/
+// ===== A NOTE ON MIGRATIONS =====
+// Never point migrations at a replica - it is READ-ONLY, and the error
+// ("cannot execute CREATE TABLE in a read-only transaction") does not
+// mention replication, so it wastes an afternoon. Keep the migration
+// DATABASE_URL separate from the read URL.`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does read/write splitting work in TypeORM?",
+                solution:
+                  "<p>Configure a <code>replication</code> block with one <code>master</code> and a list of <code>slaves</code>. TypeORM routes automatically:</p><ul><li>Writes &rarr; master</li><li>Plain reads &rarr; round-robin across replicas</li><li><strong>Anything inside a transaction</strong> &rarr; master</li></ul><p>That last rule is correct for consistency but has a cost: a read-only transaction consumes a <em>primary</em> connection, so wrapping reads in transactions unnecessarily undoes the benefit.</p><p>Force the primary explicitly with a <code>'master'</code> query runner when you need current data.</p><p>Prisma has no built-in equivalent &mdash; you use its read-replica extension or instantiate two clients and choose per query.</p>",
+              },
+              {
+                question:
+                  "What is replication lag and what bug does it cause?",
+                solution:
+                  "<p>Replicas apply changes asynchronously, so they trail the primary by milliseconds to seconds.</p><p>The classic bug is <strong>read-your-own-writes</strong>:</p><pre><code class=\"language-typescript\">await repo.update(id, dto);         // primary\nreturn repo.findOneBy({ id });      // replica - stale</code></pre><p>The user saves their profile, the response shows the old value, and a second later it is correct.</p><p>What makes it expensive is the reporting: it cannot be reproduced locally, where there is no replica, so it is filed as flaky and closed. It resurfaces as \"sometimes my changes don't save\", which is a much scarier ticket.</p><p>Lag also <strong>spikes under load</strong> &mdash; precisely when the replicas were supposed to help.</p>",
+              },
+              {
+                question:
+                  "How do you fix read-your-own-writes?",
+                solution:
+                  "<p>Two approaches, cheapest first.</p><p><strong>Return what you wrote</strong> rather than re-reading. Removes the problem entirely, and is right more often than people expect.</p><p><strong>Pin the user to the primary</strong> for a short window after a write &mdash; a Redis key with a 5-second TTL, checked before choosing a data source.</p><pre><code class=\"language-typescript\">await redis.set('rw:' + userId, '1', 'PX', 5000);</code></pre><p>Per-user matters: a global flag pushes everyone onto the primary whenever anyone writes.</p><p>Postgres also supports waiting for a replica to catch up to a specific LSN, which is exact but couples your code to replication internals. The TTL approach is usually the right trade.</p>",
+              },
+              {
+                question:
+                  "What should never read from a replica?",
+                solution:
+                  "<ul><li><strong>Read-then-write</strong> &mdash; checking a balance on a replica and then debiting races both the lag and other writers.</li><li><strong>Auth and permission checks</strong> &mdash; a token revoked 200ms ago is still valid on a lagging replica. That is a security issue, not a UX one.</li><li><strong>Anything the user just changed.</strong></li><li><strong>Uniqueness checks before an insert</strong> &mdash; rely on the constraint instead, which is the correct answer regardless of replicas.</li></ul><p>The general rule: replicas are for <strong>reads where slightly stale is acceptable</strong> &mdash; listings, search, dashboards, reports. Anything where staleness changes a decision belongs on the primary.</p>",
+              },
+              {
+                question:
+                  "Why is connection pooling a problem in serverless?",
+                solution:
+                  "<p>Because pooling assumes one long-lived process, and serverless gives you many short-lived ones.</p><p>Each Lambda <em>instance</em> has its own pool. A hundred concurrent invocations means a hundred pools, and since Postgres forks a process per connection, the bottleneck becomes connection <strong>churn</strong> rather than query load &mdash; you exhaust <code>max_connections</code> with traffic the database could easily have served.</p><p>Three rules: create the client at <strong>module scope</strong> so warm invocations reuse it; do <strong>not</strong> call <code>$disconnect()</code> at the end of a handler, which destroys that reuse; and put an external pooler in front &mdash; PgBouncer, RDS Proxy, or an HTTP driver.</p>",
+              },
+              {
+                question:
+                  "Why does PgBouncer in transaction mode break prepared statements?",
+                solution:
+                  "<p>Because it hands out a <strong>different backend connection per transaction</strong>. That multiplexing is the whole point &mdash; and it means anything relying on session state breaks.</p><p>A prepared statement is created on one backend; the next statement may land on another that has never seen it, producing errors like <em>prepared statement already exists</em> or <em>does not exist</em>.</p><p>The same applies to <code>SET</code>, advisory locks, <code>LISTEN/NOTIFY</code> and temp tables.</p><p>Hence Prisma's <code>?pgbouncer=true</code>, which disables prepared statements. <strong>Session mode</strong> preserves all of it but holds a backend for the client's whole session, giving up most of the benefit.</p><p>Worth knowing because it also rules out <code>search_path</code>-based schema-per-tenant behind a transaction-mode pooler.</p>",
+              },
+              {
+                question:
+                  "How do you reduce cold starts for Nest in Lambda?",
+                solution:
+                  "<p><strong>Cache the bootstrapped app</strong> in module scope so only the first invocation on an instance pays for building the DI graph:</p><pre><code class=\"language-typescript\">let cachedApp: INestApplication;\nif (!cachedApp) { cachedApp = await NestFactory.create(AppModule); await cachedApp.init(); }</code></pre><p>Then: keep the bundle small with esbuild or webpack, avoid importing modules the handler does not need, lazy-load heavy ones with <code>LazyModuleLoader</code>, and prefer a driver without a native binary.</p><p>Provisioned concurrency works if the latency genuinely matters and you accept the cost.</p><p>The honest addition: a DI framework built for a long-lived server pays its startup cost on every cold start, so for a latency-critical function it is worth asking whether Nest is the right tool at all.</p>",
+              },
+              {
+                question:
+                  "How do replicas change your connection budget?",
+                solution:
+                  "<p>Each replica has its <strong>own</strong> <code>max_connections</code>, and your application opens a separate pool to each &mdash; so the total is multiplied by the number of endpoints, not shared.</p><p>Three databases at 10 connections each, across eight replicas, is 240 connections rather than 80.</p><p>Sizing usually differs by role: read traffic is heavier, so bigger replica pools and a smaller primary pool is often right. But remember the primary still serves all writes <em>and</em> every read inside a transaction.</p><p>Also count the extras against the primary's budget: migrations, background workers, and any read-your-own-writes traffic you route there deliberately.</p>",
+              },
+              {
+                question:
+                  "How do you monitor replication lag?",
+                solution:
+                  "<p>On Postgres, from the replica:</p><pre><code class=\"language-sql\">SELECT now() - pg_last_xact_replay_timestamp() AS lag;</code></pre><p>Or on the primary, compare LSN positions in <code>pg_stat_replication</code> to get byte lag as well as time lag.</p><p>Export it as a gauge and alert on it, because it <strong>spikes under load</strong> &mdash; exactly when the replicas were supposed to be helping, and exactly when stale reads are most visible.</p><p>Have a <strong>switch</strong> that routes all reads back to the primary. It is the only mitigation available mid-incident, and you want it to be a config flag rather than a deploy.</p><p>Without monitoring, lag is discovered from a support ticket describing a UI bug, which is a slow and expensive path to a database problem.</p>",
+              },
+              {
+                question:
+                  "What happens if you point migrations at a replica?",
+                solution:
+                  "<p>They fail, with an error that does not mention replication: <em>cannot execute CREATE TABLE in a read-only transaction</em>.</p><p>Replicas are physically read-only, so every DDL statement is rejected. The message sends people looking at permissions and transaction settings rather than at which host they connected to.</p><p>Prevent it structurally: keep a separate <code>MIGRATION_DATABASE_URL</code> that always points at the primary, and never derive it from the read URL.</p><p>The same class of mistake catches background jobs that write &mdash; if a worker inherits the read configuration, its writes fail in production only, since staging often has no replica at all. That asymmetry is why replication bugs reach production so reliably.</p>",
+              },
+              {
+                question:
+                  "When are read replicas the wrong solution?",
+                solution:
+                  "<p>When the problem is not read <strong>capacity</strong>.</p><ul><li><strong>Slow queries</strong> &mdash; a missing index is slow on a replica too. You have doubled your infrastructure to run the same bad query elsewhere.</li><li><strong>Write-heavy load</strong> &mdash; replicas do not help, and they add replication overhead to the primary.</li><li><strong>N+1</strong> &mdash; you have distributed the round trips, not removed them.</li><li><strong>Strong consistency requirements</strong> &mdash; if most reads must be current, you will pin them to the primary anyway.</li></ul><p>Cheaper things to try first: fix indexes, add caching, remove N+1, paginate properly.</p><p>Replicas are the right answer when the primary is genuinely saturated by read volume that is already efficient &mdash; and they bring real complexity, so they should be a considered step rather than a reflex.</p>",
+              },
+              {
+                question:
+                  "Summarise replicas and serverless in thirty seconds.",
+                solution:
+                  "<p>\"Read/write splitting sends writes to the primary and reads to replicas &mdash; TypeORM does it via <code>replication</code>, and transactions correctly go to master, so a read-only transaction still burns a primary connection.</p><p>The catch is lag. A read straight after a write can miss it, which surfaces as a UI bug that cannot be reproduced locally. I fix it by returning what I wrote, or pinning that user to the primary for a few seconds via Redis. Auth checks and read-then-write never touch a replica.</p><p>Serverless is the opposite problem: pooling assumes a long-lived process, and each instance has its own pool, so the database drowns in connection churn. The client goes at module scope, never <code>$disconnect()</code> per invocation, and a pooler in front.</p><p>And PgBouncer in transaction mode breaks prepared statements, <code>SET</code>, advisory locks and <code>LISTEN/NOTIFY</code> &mdash; which is why Prisma needs <code>pgbouncer=true</code>.\"</p>",
+              },
+            ],
+            links: [
+              "https://typeorm.io/data-source-options",
+              "https://www.prisma.io/docs/orm/prisma-client/setup-and-configuration/read-replicas",
+              "https://www.pgbouncer.org/features.html",
+              "https://www.postgresql.org/docs/current/warm-standby.html",
+              "https://docs.nestjs.com/faq/serverless",
+            ],
+          },
+          {
+            topic: "Passport Integration",
+            tags: ["passport", "authguard", "passportstrategy", "validate", "auth"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Passport handles the mechanics of an auth scheme &mdash; parsing the header, verifying the signature. <code>@nestjs/passport</code> wraps each strategy as a guard so it fits the request lifecycle.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">The three pieces</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">A strategy class</span> extending <code>PassportStrategy(Strategy, 'name')</code>.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">A <code>validate()</code> method</span> &mdash; your code, called after the strategy's own checks pass.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;"><code>AuthGuard('name')</code></span> applied to a controller or route.</li>
+  </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">validate() and req.user</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    This is the part interviewers ask about. <span style="font-weight: 600;">Whatever <code>validate()</code> returns becomes <code>req.user</code></span>, and Passport attaches it for you.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code class="language-typescript">
+async validate(payload: JwtPayload) {
+  return { userId: payload.sub, email: payload.email, roles: payload.roles };
+}
+// req.user === that object, and @CurrentUser() reads it
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Returning <code>null</code> or <code>false</code> produces a 401. Throwing gives you control of the message.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Keep it small. It runs on <span style="font-weight: 600;">every request</span>, so a database lookup here is a query per request &mdash; sometimes worth it for revocation checks, but a deliberate choice rather than a default.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">What validate() means per strategy</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">JWT</span> &mdash; the signature and expiry are <em>already verified</em>. You get a decoded payload and decide what the user object looks like. Do not re-verify.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Local</span> &mdash; you get <code>(username, password)</code> and must check them yourself. This is where the password comparison lives.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">OAuth</span> &mdash; you get tokens and a profile, and typically find-or-create a local user.</li>
+  </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Guard order</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Guards run in order, so <code>AuthGuard</code> must come before <code>RolesGuard</code> &mdash; otherwise roles are checked before <code>req.user</code> exists, and every request is denied.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Global auth with opt-out</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Prefer a <span style="font-weight: 600;">global</span> <code>AuthGuard</code> with a <code>@Public()</code> decorator to skip it. Defaulting to protected means a new endpoint is secure until someone deliberately opens it &mdash; the reverse means forgetting a decorator leaves it exposed.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Subclass <code>AuthGuard('jwt')</code>, read the <code>IS_PUBLIC</code> metadata with <code>Reflector</code>, and return <code>true</code> early.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Is Passport necessary?</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    For plain JWT, a hand-written guard using <code>JwtService.verifyAsync</code> is about fifteen lines and easier to follow. Passport earns its place when you need several strategies, or OAuth providers where the flow is genuinely fiddly.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Being able to say that &mdash; and why you chose either &mdash; is a better answer than reciting the setup.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Gotchas</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Returning the whole user entity</span> from <code>validate()</code> &mdash; password hash included, and it ends up in logs.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Forgetting the strategy in <code>providers</code></span> &mdash; \"Unknown authentication strategy\".</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;"><code>ignoreExpiration: true</code></span> &mdash; accepts expired tokens forever.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Guard order</span> &mdash; roles checked before authentication.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">A database call in <code>validate()</code></span> unnoticed &mdash; a query on every request.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Two strategies registered under the same name</span> &mdash; the second silently wins.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Strategies, and what validate() means in each one.
+// ===== JWT: the signature is ALREADY verified before validate runs =====
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(config: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: config.getOrThrow('JWT_SECRET'),
+      ignoreExpiration: false,       // NEVER true. It accepts expired
+                                     // tokens forever, which silently
+                                     // removes your entire expiry model.
+      audience: 'api.example.com',   // check aud and iss too - a token
+      issuer: 'auth.example.com',    // minted for another service of
+                                     // yours should not work here
+    });
+  }
+  // Called ONLY after the signature and expiry check pass. Do not
+  // re-verify anything - just decide what the user object is.
+  async validate(payload: JwtPayload) {
+    // WHATEVER THIS RETURNS BECOMES req.user.
+    return {
+      userId: payload.sub,
+      email: payload.email,
+      roles: payload.roles ?? [],
+    };
+    // Return a SMALL object. Returning the full entity puts the password
+    // hash on req.user, where it reaches logs, error reports and any
+    // handler that serialises the request.
+  }
+}
+// ===== LOCAL: here you DO the checking yourself =====
+@Injectable()
+export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
+  constructor(private readonly auth: AuthService) {
+    super({ usernameField: 'email' });    // default is 'username'
+  }
+  async validate(email: string, password: string) {
+    const user = await this.auth.verifyCredentials(email, password);
+    if (!user) throw new UnauthorizedException('Invalid credentials');
+    return { userId: user.id, email: user.email };
+  }
+  // Returning null/false gives a generic 401. Throwing lets you control
+  // the message - but keep it generic: "invalid credentials", never
+  // "no such user", which turns login into an account enumeration oracle.
+}
+// ===== the guard, and where req.user comes from =====
+@Controller('auth')
+export class AuthController {
+  @UseGuards(AuthGuard('local'))
+  @Post('login')
+  login(@Req() req) {
+    return this.auth.issueTokens(req.user);   // set by LocalStrategy
+  }
+}
+// A named subclass reads better and avoids typo'd strategy strings:
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {}
+// ===== the decorator that reads req.user =====
+export const CurrentUser = createParamDecorator(
+  (data: keyof AuthUser | undefined, ctx: ExecutionContext) => {
+    const user = ctx.switchToHttp().getRequest().user;
+    return data ? user?.[data] : user;
+  },
+);
+// @CurrentUser() user: AuthUser     /  @CurrentUser('userId') id: string
+// ===== registration - forget this and you get =====
+// "Unknown authentication strategy 'jwt'"
+@Module({
+  imports: [PassportModule, JwtModule.registerAsync({ /* ... */ })],
+  providers: [AuthService, JwtStrategy, LocalStrategy],   // <- REQUIRED
+})
+export class AuthModule {}`,
+              `// Global auth with opt-out, guard order, and the hand-rolled alternative.
+// ===== SECURE BY DEFAULT - global guard, explicit @Public() =====
+export const IS_PUBLIC_KEY = 'isPublic';
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {
+  constructor(private readonly reflector: Reflector) { super(); }
+  canActivate(context: ExecutionContext) {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),        // method first...
+      context.getClass(),          // ...then controller
+    ]);
+    if (isPublic) return true;
+    return super.canActivate(context);
+  }
+  // Override to control the error, e.g. distinguishing expired from invalid
+  handleRequest(err: any, user: any, info: any) {
+    if (info?.name === 'TokenExpiredError') {
+      throw new UnauthorizedException('Token expired');   // lets the client
+                                                          // know to refresh
+    }
+    if (err || !user) throw err || new UnauthorizedException();
+    return user;
+  }
+}
+@Module({
+  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
+})
+export class AppModule {}
+/*
+  WHY GLOBAL-WITH-OPT-OUT, NOT PER-ROUTE @UseGuards
+  Per-route: forgetting the decorator leaves an endpoint WIDE OPEN, and
+  nothing fails - tests pass, review misses it, and you find out from a
+  security report.
+  Global: forgetting @Public() makes an endpoint return 401, which
+  someone notices in about a minute.
+  Both are one missing decorator. Only one fails SAFE.
+*/
+// ===== GUARD ORDER MATTERS =====
+@UseGuards(JwtAuthGuard, RolesGuard)     // correct
+@UseGuards(RolesGuard, JwtAuthGuard)     // BROKEN - RolesGuard reads
+                                          // req.user before it exists,
+                                          // so every request is denied
+@Roles('admin')
+@Get('admin')
+adminOnly() {}
+// Execution order overall: global guards -> controller -> method.
+// So a global JwtAuthGuard always runs before a route-level RolesGuard,
+// which is exactly what you want.
+// ===== THE HAND-ROLLED ALTERNATIVE =====
+// For plain JWT, this is the whole thing - no Passport, no strategy
+// class, no magic about where req.user comes from:
+@Injectable()
+export class SimpleJwtGuard implements CanActivate {
+  constructor(
+    private readonly jwt: JwtService,
+    private readonly reflector: Reflector,
+  ) {}
+  async canActivate(ctx: ExecutionContext) {
+    if (this.reflector.getAllAndOverride(IS_PUBLIC_KEY, [ctx.getHandler(), ctx.getClass()])) {
+      return true;
+    }
+    const req = ctx.switchToHttp().getRequest();
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) throw new UnauthorizedException();
+    try {
+      const payload = await this.jwt.verifyAsync(token, {
+        secret: this.config.getOrThrow('JWT_SECRET'),
+        audience: 'api.example.com',
+        issuer: 'auth.example.com',
+      });
+      req.user = { userId: payload.sub, email: payload.email, roles: payload.roles };
+      return true;
+    } catch {
+      throw new UnauthorizedException();
+    }
+  }
+}
+/*
+  WHEN PASSPORT EARNS ITS PLACE
+  - Several strategies (jwt + local + api-key + refresh).
+  - OAuth providers, where the redirect/callback/token-exchange dance is
+    genuinely fiddly and the strategy packages are well tested.
+  - SAML, LDAP, and other protocols you do not want to implement.
+  WHEN IT DOES NOT
+  - A single JWT scheme. The guard above is ~20 lines, has no hidden
+    behaviour, and does not require knowing that validate()'s RETURN
+    VALUE is what silently becomes req.user.
+  Being able to say this - and why you chose either - is a better
+  interview answer than reciting the setup.
+*/`,
+            ],
+            questions: [
+              {
+                question:
+                  "What does validate() return and where does it go?",
+                solution:
+                  "<p>Whatever it returns becomes <strong><code>req.user</code></strong>. Passport attaches it to the request automatically after the guard passes.</p><pre><code class=\"language-typescript\">async validate(payload: JwtPayload) {\n  return { userId: payload.sub, email: payload.email, roles: payload.roles };\n}\n// req.user === that object</code></pre><p>Returning <code>null</code> or <code>false</code> produces a 401; throwing lets you control the message.</p><p>This is the single most-asked Passport question, because the mechanism is <em>implicit</em> &mdash; nothing in your code assigns <code>req.user</code>, and there is no type checking on its shape.</p><p>Keep the object small: it flows into every handler, every log line and every error report.</p>",
+              },
+              {
+                question:
+                  "Should validate() hit the database?",
+                solution:
+                  "<p>Only deliberately, because it runs on <strong>every request</strong>.</p><p><strong>Against:</strong> a lookup per request is real load, and the JWT already contains the claims you need &mdash; which is the entire point of a stateless token.</p><p><strong>For:</strong> it is how you detect a user deleted, banned or with changed roles since the token was issued. Without it, a revoked user stays valid until expiry.</p><p>The middle ground is the usual answer: keep <code>validate()</code> free of I/O, use short access-token lifetimes (10&ndash;15 minutes), and check a <strong>Redis denylist</strong> for revoked token IDs &mdash; one fast in-memory lookup rather than a database round trip.</p>",
+              },
+              {
+                question:
+                  "What does validate() mean for JWT versus Local?",
+                solution:
+                  "<p>Different points in the flow.</p><p><strong>JWT</strong> &mdash; by the time <code>validate()</code> runs, the strategy has <em>already</em> verified the signature and expiry. You receive a decoded payload and decide what the user object is. Re-verifying is a common redundancy and a sign of misunderstanding.</p><p><strong>Local</strong> &mdash; you receive <code>(username, password)</code> raw and must check them yourself. This is where <code>bcrypt.compare</code> lives.</p><p><strong>OAuth</strong> &mdash; you receive tokens and a provider profile, and typically find-or-create a local user.</p><p>So the name is slightly misleading: for JWT it is really \"shape the user object\", and only for Local is it genuinely validation.</p>",
+              },
+              {
+                question:
+                  "Why does guard order matter?",
+                solution:
+                  "<p>Because guards run in sequence, and a <code>RolesGuard</code> reads <code>req.user</code> &mdash; which does not exist until <code>AuthGuard</code> has run.</p><pre><code class=\"language-typescript\">@UseGuards(JwtAuthGuard, RolesGuard)     // correct\n@UseGuards(RolesGuard, JwtAuthGuard)     // every request denied</code></pre><p>Reversed, the roles guard sees <code>undefined</code> and denies everything &mdash; which at least fails safe, though it looks like a broken auth system.</p><p>The overall order is <strong>global &rarr; controller &rarr; method</strong>, so a globally registered <code>JwtAuthGuard</code> always runs before a route-level <code>RolesGuard</code>. That is another argument for the global-guard approach: correct ordering stops being something each developer has to remember.</p>",
+              },
+              {
+                question:
+                  "Why prefer a global AuthGuard with @Public()?",
+                solution:
+                  "<p>Because of how each approach <strong>fails</strong>.</p><p>Per-route <code>@UseGuards</code>: forgetting the decorator leaves an endpoint <strong>wide open</strong>. Nothing errors, tests pass, review misses it, and you learn about it from a security report.</p><p>Global guard with <code>@Public()</code>: forgetting the decorator returns <strong>401</strong>, which someone notices in about a minute.</p><p>Both are one missing decorator. Only one fails safe.</p><pre><code class=\"language-typescript\">{ provide: APP_GUARD, useClass: JwtAuthGuard }</code></pre><p>Implement it by subclassing <code>AuthGuard('jwt')</code>, reading the metadata with <code>reflector.getAllAndOverride</code> across handler and class, and returning <code>true</code> early for public routes.</p>",
+              },
+              {
+                question:
+                  "Why should validate() not return the full user entity?",
+                solution:
+                  "<p>Because <code>req.user</code> spreads. It is read by handlers, serialised into logs, included in error reports, and often echoed into responses.</p><p>Returning the entity puts the <strong>password hash</strong> on that object &mdash; and while a hash is not a password, having it in log aggregation is a real finding, and it makes offline cracking possible if the logs leak.</p><p>It also puts unbounded data on every request: relations, internal flags, soft-delete columns.</p><pre><code class=\"language-typescript\">return { userId: payload.sub, email: payload.email, roles: payload.roles };</code></pre><p>Return the minimum the application needs. If a handler needs the full record, let it load one deliberately &mdash; then the cost and the exposure are both visible at the call site.</p>",
+              },
+              {
+                question:
+                  "What does 'Unknown authentication strategy' mean?",
+                solution:
+                  "<p>The strategy class was never registered as a provider, so its constructor never ran &mdash; and the constructor is what registers it with Passport under its name.</p><pre><code class=\"language-typescript\">providers: [AuthService, JwtStrategy, LocalStrategy]   // required</code></pre><p>Merely defining the class does nothing; Nest must instantiate it.</p><p>Two related cases. The strategy is registered in a module that is never imported &mdash; same symptom. And two strategies sharing a name, where the second registration silently overwrites the first, producing the wrong behaviour rather than an error.</p><p>The error only appears at request time, not boot, which is why it typically shows up in a deployed environment rather than during development.</p>",
+              },
+              {
+                question:
+                  "Why is ignoreExpiration: true dangerous?",
+                solution:
+                  "<p>Because it accepts <strong>expired tokens forever</strong>. Every token you have ever issued remains valid permanently.</p><p>That removes the entire expiry model &mdash; the main mitigation for a stolen token, and the reason short-lived access tokens plus refresh rotation work at all.</p><p>It usually gets set while debugging (\"my token keeps expiring in tests\") and is never removed, because nothing fails afterwards. There is no error, no warning, and the application behaves better than before.</p><p>The legitimate use is narrow: a <strong>refresh</strong> endpoint that must read an expired access token to identify the user &mdash; and even then only on that route, with the refresh token itself fully validated.</p>",
+              },
+              {
+                question:
+                  "How do you handle multiple strategies on one route?",
+                solution:
+                  "<p><code>AuthGuard</code> accepts an array, and it succeeds if <strong>any</strong> strategy succeeds:</p><pre><code class=\"language-typescript\">@UseGuards(AuthGuard(['jwt', 'api-key']))</code></pre><p>Useful when an endpoint serves both user sessions and machine clients.</p><p>Two things to be careful about. <code>req.user</code> has a <strong>different shape</strong> depending on which strategy won, so downstream code must handle both &mdash; give each strategy a discriminator field rather than hoping.</p><p>And authorisation usually differs: an API key often should not do everything a user can. So the guard passing is not the end of it; the roles or scopes check must account for the credential type.</p><p>If the behaviours diverge much, separate endpoints are clearer than one route with two identities.</p>",
+              },
+              {
+                question:
+                  "Do you actually need Passport?",
+                solution:
+                  "<p>For a single JWT scheme, no. A guard using <code>JwtService.verifyAsync</code> is about twenty lines, has no implicit behaviour, and does not require knowing that <code>validate()</code>'s return value silently becomes <code>req.user</code>.</p><p>Passport earns its place with:</p><ul><li><strong>Several strategies</strong> &mdash; jwt, local, api-key, refresh.</li><li><strong>OAuth providers</strong>, where the redirect and token-exchange dance is fiddly and the strategy packages are well tested.</li><li><strong>SAML, LDAP</strong> and protocols you should not implement yourself.</li></ul><p>Passport also brings a large dependency surface and, for many teams, a layer of indirection nobody fully understands.</p><p>The good interview answer is having a position and a reason &mdash; not reciting the setup, which everyone can do.</p>",
+              },
+              {
+                question:
+                  "How do you customise the error a failed guard returns?",
+                solution:
+                  "<p>Override <code>handleRequest</code> in a subclass of <code>AuthGuard</code>:</p><pre><code class=\"language-typescript\">handleRequest(err, user, info) {\n  if (info?.name === 'TokenExpiredError') throw new UnauthorizedException('Token expired');\n  if (err || !user) throw err || new UnauthorizedException();\n  return user;\n}</code></pre><p>The <code>info</code> argument carries the underlying reason &mdash; <code>TokenExpiredError</code>, <code>JsonWebTokenError</code>, <code>NoAuthTokenError</code>.</p><p>Distinguishing <em>expired</em> from <em>invalid</em> is genuinely useful: the client knows to attempt a refresh rather than sending the user back to login.</p><p>What not to leak: on the <strong>login</strong> path, keep messages generic. \"No such user\" versus \"wrong password\" turns your login form into an account enumeration oracle.</p>",
+              },
+              {
+                question:
+                  "Summarise Passport in NestJS in thirty seconds.",
+                solution:
+                  "<p>\"A strategy class extends <code>PassportStrategy(Strategy, 'name')</code>, and <code>AuthGuard('name')</code> applies it. The key mechanism is that <strong>whatever <code>validate()</code> returns becomes <code>req.user</code></strong> &mdash; nothing in your code assigns it.</p><p>For JWT, <code>validate()</code> runs <em>after</em> the signature and expiry are checked, so it just shapes the user object; for Local, it does the credential check itself. I return a minimal object &mdash; user id, email, roles &mdash; never the entity, because <code>req.user</code> ends up in logs.</p><p>I register it as a <strong>global</strong> guard with a <code>@Public()</code> opt-out, because forgetting the decorator then returns 401 rather than leaving an endpoint open. And guard order matters: auth before roles, or roles reads <code>req.user</code> before it exists.</p><p>Honestly, for a single JWT scheme a hand-written guard is twenty lines and clearer. Passport earns its place with several strategies or OAuth.\"</p>",
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/recipes/passport",
+              "https://docs.nestjs.com/guards",
+              "https://www.passportjs.org/concepts/authentication/strategies/",
+              "https://github.com/mikenicholson/passport-jwt",
+              "https://docs.nestjs.com/security/authentication",
+            ],
+          },
+           {
+            topic: "JWT — Access, Refresh, Rotation & Revocation",
+            tags: ["jwt", "refresh-token", "rotation", "rs256", "revocation", "security"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A JWT is a signed, readable claim set. Signed means it cannot be tampered with; <span style="font-weight: 600;">readable means it is not secret</span> &mdash; anyone with the token can decode the payload.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">The two-token flow</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Access token</span> &mdash; short-lived (10&ndash;15 min), sent with every request, verified with no database call.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Refresh token</span> &mdash; long-lived (7&ndash;30 days), used only against <code>/auth/refresh</code>, and <span style="font-weight: 600;">stored server-side</span> so it can be revoked.</li>
+  </ul>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The whole design is a compromise: statelessness is fast but unrevocable, so you accept a short window of unrevocability on the access token and keep real state for the refresh token.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Rotation and reuse detection</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <span style="font-weight: 600;">Rotation</span>: every refresh issues a new refresh token and invalidates the old one.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <span style="font-weight: 600;">Reuse detection</span> is what makes rotation valuable. If an already-used refresh token appears again, either it was stolen or the thief has already used it &mdash; you cannot tell which, so <span style="font-weight: 600;">revoke the entire family</span> and force re-login.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Without reuse detection, a stolen refresh token works for its full lifetime and nothing ever notices. With it, the theft is detected the moment either party refreshes.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Store a <span style="font-weight: 600;">hash</span> of the refresh token, not the token &mdash; a leaked database should not hand out sessions.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Storage: the real question</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">localStorage</span> &mdash; readable by any JavaScript on the page. One XSS, or one compromised npm package, and the token is exfiltrated.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">httpOnly cookie</span> &mdash; unreadable by JavaScript, so XSS cannot steal it. But cookies are sent automatically, which enables CSRF, so it needs <code>SameSite</code> and usually a CSRF token.</li>
+  </ul>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Prefer the cookie. CSRF is a solved problem with well-known defences; XSS token theft gives an attacker a token they can use from anywhere, for as long as it lives.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    \"JWTs must go in a header\" is a habit, not a requirement.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">HS256 vs RS256</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <span style="font-weight: 600;">HS256</span> is symmetric &mdash; one secret signs and verifies, so every verifier can also <em>mint</em> tokens. Fine for a single service.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <span style="font-weight: 600;">RS256</span> is asymmetric &mdash; a private key signs, a public key verifies. Services can verify without being able to forge, and the public key can be published via JWKS. Use it once more than one service verifies tokens.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Always pin the algorithm on verification. Accepting whatever the token's header claims is the classic <code>alg: none</code> vulnerability.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Revocation</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    You cannot un-sign a token. Options: keep access tokens short and accept the window; keep a Redis <span style="font-weight: 600;">denylist</span> of revoked <code>jti</code> values with a TTL matching expiry; or store a <code>tokenVersion</code> per user and bump it on logout-everywhere.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    A denylist is one in-memory lookup per request &mdash; far cheaper than a database call, and it makes \"log out all devices\" actually work.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Gotchas</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Sensitive data in the payload</span> &mdash; it is base64, not encrypted.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">No <code>aud</code>/<code>iss</code> check</span> &mdash; a token for another of your services works here.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Refresh tokens stored in plaintext.</span></li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Long-lived access tokens</span> \"for convenience\".</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Roles baked in without a version</span> &mdash; a demoted admin keeps access until expiry.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Rotation without reuse detection</span> &mdash; the churn, none of the benefit.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Access + refresh with rotation and reuse detection.
+@Injectable()
+export class AuthService {
+  constructor(
+    private readonly jwt: JwtService,
+    private readonly config: ConfigService,
+    private readonly redis: Redis,
+    @InjectRepository(RefreshTokenEntity)
+    private readonly tokens: Repository<RefreshTokenEntity>,
+  ) {}
+  async issueTokens(user: AuthUser, familyId = randomUUID()) {
+    const jti = randomUUID();
+    const accessToken = await this.jwt.signAsync(
+      { sub: user.id, email: user.email, roles: user.roles, ver: user.tokenVersion },
+      {
+        secret: this.config.getOrThrow('JWT_ACCESS_SECRET'),
+        expiresIn: '15m',              // SHORT. This window is how long a
+                                       // stolen access token is usable.
+        audience: 'api.example.com',   // set aud and iss, and CHECK them
+        issuer: 'auth.example.com',    // on verify - otherwise a token
+                                       // minted for another of your
+                                       // services is accepted here
+        jwtid: jti,                    // needed for denylist revocation
+      },
+    );
+    const refreshToken = await this.jwt.signAsync(
+      { sub: user.id, family: familyId },
+      { secret: this.config.getOrThrow('JWT_REFRESH_SECRET'), expiresIn: '7d' },
+    );
+    // Store a HASH. A leaked database must not hand out live sessions.
+    await this.tokens.save({
+      userId: user.id,
+      family: familyId,
+      tokenHash: await argon2.hash(refreshToken),
+      expiresAt: new Date(Date.now() + 7 * 864e5),
+      usedAt: null,
+    });
+    return { accessToken, refreshToken };
+  }
+  // ===== ROTATION + REUSE DETECTION =====
+  async refresh(presented: string) {
+    const payload = await this.jwt.verifyAsync(presented, {
+      secret: this.config.getOrThrow('JWT_REFRESH_SECRET'),
+    });
+    const record = await this.findByHash(payload.family, presented);
+    if (!record) throw new UnauthorizedException();
+    // THE CRITICAL CHECK. An already-used token means either it was
+    // stolen and replayed, or the thief used it first and the real user
+    // is now presenting a dead token. You CANNOT TELL WHICH - so treat
+    // it as a breach and kill the whole family.
+    if (record.usedAt) {
+      await this.tokens.update(
+        { family: payload.family },
+        { revokedAt: new Date() },
+      );
+      this.logger.warn('Refresh token reuse detected for user ' + payload.sub);
+      throw new UnauthorizedException('Session revoked - please log in again');
+    }
+    record.usedAt = new Date();
+    await this.tokens.save(record);
+    // Same family, so the chain stays traceable and one reuse kills all
+    // descendants.
+    return this.issueTokens(await this.users.findAuthUser(payload.sub), payload.family);
+  }
+  async logoutEverywhere(userId: string) {
+    await this.users.increment({ id: userId }, 'tokenVersion', 1);  // kills
+                                                     // every access token
+                                                     // whose ver is stale
+    await this.tokens.update({ userId }, { revokedAt: new Date() });
+  }
+}
+/*
+  WITHOUT reuse detection, rotation is theatre: a stolen refresh token
+  works for its full 7 days and nothing notices.
+  WITH it, theft is detected the moment EITHER party refreshes - usually
+  within minutes - and the legitimate user gets an unexpected logout,
+  which is the correct outcome.
+*/`,
+              `// Storage, algorithms, revocation - the decisions behind the code.
+// ===== httpOnly COOKIE, not localStorage =====
+res.cookie('refresh_token', refreshToken, {
+  httpOnly: true,     // JavaScript CANNOT read it. This is the point:
+                      // XSS cannot exfiltrate what it cannot read.
+  secure: true,       // HTTPS only. Without it the cookie crosses the
+                      // network in plaintext on any http:// request.
+  sameSite: 'lax',    // 'strict' breaks OAuth redirects and any inbound
+                      // link that should arrive logged in.
+                      // 'none' REQUIRES secure and re-enables CSRF.
+  path: '/auth/refresh',   // sent ONLY to the refresh endpoint - so it
+                           // is not attached to every API call, and one
+                           // leaky log cannot capture it
+  maxAge: 7 * 864e5,
+});
+/*
+  THE ACTUAL TRADE-OFF
+  localStorage:
+     Readable by ANY JavaScript on the page. One XSS, one compromised
+     npm dependency, one bad third-party script - the token is
+     exfiltrated and usable from the attacker's machine for its full
+     lifetime.
+  httpOnly cookie:
+     XSS cannot read it. But cookies are sent AUTOMATICALLY, which
+     enables CSRF - so you need SameSite and, for state-changing
+     requests, a CSRF token.
+  Choose the cookie. CSRF is a solved problem with well-understood
+  defences. XSS token theft hands an attacker a portable credential.
+  "JWTs go in a header" is a habit, not a requirement.
+  Common pattern: refresh token in an httpOnly cookie scoped to
+  /auth/refresh, access token held in MEMORY only (a JS variable, not
+  localStorage) and re-fetched on page load. XSS can then use the token
+  while the page is open, but cannot persist it.
+*/
+// ===== HS256 vs RS256 =====
+/*
+  HS256 - symmetric. ONE secret both signs and verifies.
+     Consequence: every service that can VERIFY can also MINT. Sharing
+     the secret with five services means five services can forge admin
+     tokens, and a leak anywhere is a total compromise.
+     Fine for a single monolith.
+  RS256 - asymmetric. Private key signs, PUBLIC key verifies.
+     Services verify without being able to forge. The public key can be
+     published at /.well-known/jwks.json, so rotation does not require
+     redeploying every consumer.
+     Use it as soon as more than one service verifies tokens.
+  ALWAYS PIN THE ALGORITHM:
+*/
+await this.jwt.verifyAsync(token, {
+  secret,
+  algorithms: ['RS256'],       // WITHOUT THIS, some libraries trust the
+                               // token's own alg header - the classic
+                               // "alg: none" forgery, and the
+                               // RS256-verified-as-HS256 attack where
+                               // the PUBLIC key is used as an HMAC secret
+  audience: 'api.example.com',
+  issuer: 'auth.example.com',
+});
+// ===== REVOCATION - three levels =====
+// 1. SHORT LIFETIMES. Simplest. Accept a 15-minute window.
+// 2. REDIS DENYLIST of revoked jti - one in-memory lookup per request,
+//    with a TTL matching the token's own expiry so it self-cleans.
+async revokeAccessToken(jti: string, exp: number) {
+  const ttl = exp - Math.floor(Date.now() / 1000);
+  if (ttl > 0) await this.redis.set('deny:' + jti, '1', 'EX', ttl);
+}
+// in the guard:
+if (await this.redis.exists('deny:' + payload.jti)) {
+  throw new UnauthorizedException('Token revoked');
+}
+// 3. TOKEN VERSION per user - one integer, bumped on
+//    logout-everywhere / password change / role change. The token
+//    carries "ver"; if it does not match, reject. Cheap, and it makes
+//    role changes take effect immediately instead of at expiry.
+/*
+  WHAT NEVER GOES IN A PAYLOAD
+  The payload is BASE64, not encrypted. Anyone holding the token reads
+  it - paste it into jwt.io and it is all there.
+    NO: passwords, PII beyond a user id, internal IDs you would not
+        expose, permission details that reveal your authorisation model.
+    YES: sub, roles, tenant id, token version, jti, exp/iat/aud/iss.
+  Also keep it small - it is sent on EVERY request, and a fat payload
+  with 50 permissions is bytes on the wire forever.
+*/`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why two tokens instead of one?",
+                solution:
+                  "<p>They solve opposite problems.</p><p>An <strong>access token</strong> is verified on every request, so it must be stateless and fast &mdash; which means it cannot be revoked. Keeping it short (10&ndash;15 minutes) bounds how long a stolen one is useful.</p><p>A <strong>refresh token</strong> is used rarely, only against <code>/auth/refresh</code>, so it can be <strong>stored server-side</strong> and revoked &mdash; and it is long-lived so users are not logged out every fifteen minutes.</p><p>One long-lived token would mean either a database check on every request (defeating the point of JWT) or an unrevocable credential valid for weeks.</p><p>The split lets you have both: speed on the hot path, control on the cold one.</p>",
+              },
+              {
+                question:
+                  "What is refresh token rotation and reuse detection?",
+                solution:
+                  "<p><strong>Rotation</strong>: each refresh issues a new refresh token and invalidates the old one, so a token is single-use.</p><p><strong>Reuse detection</strong> is what makes rotation worth doing. If an already-used token is presented again, either it was stolen and replayed, or the thief used it first and the real user now holds a dead token. <strong>You cannot tell which</strong> &mdash; so revoke the whole family and force re-login.</p><pre><code class=\"language-typescript\">if (record.usedAt) { await revokeFamily(payload.family); throw new UnauthorizedException(); }</code></pre><p>Without detection, rotation is theatre: a stolen token works for its full lifetime and nothing notices. With it, theft is detected the moment either party refreshes.</p>",
+              },
+              {
+                question:
+                  "localStorage or httpOnly cookie?",
+                solution:
+                  "<p><strong>httpOnly cookie</strong>, in almost all cases.</p><p><code>localStorage</code> is readable by any JavaScript on the page. One XSS, one compromised npm dependency, one bad third-party script, and the token is exfiltrated and usable from the attacker's machine for its full lifetime.</p><p>An <code>httpOnly</code> cookie cannot be read by JavaScript at all. The cost is that cookies are sent automatically, which enables CSRF &mdash; a well-understood problem solved by <code>SameSite</code> plus a CSRF token on state-changing requests.</p><p>The comparison is not symmetric: CSRF lets an attacker make requests <em>as</em> the user from their browser; stolen tokens are portable credentials.</p><p>Common pattern: refresh token in a cookie scoped to <code>/auth/refresh</code>, access token in <strong>memory only</strong>, re-fetched on page load.</p>",
+              },
+              {
+                question:
+                  "Explain the cookie flags.",
+                solution:
+                  "<ul><li><strong><code>httpOnly</code></strong> &mdash; JavaScript cannot read it. The whole point: XSS cannot exfiltrate it.</li><li><strong><code>secure</code></strong> &mdash; HTTPS only. Without it, one <code>http://</code> request sends the cookie in plaintext.</li><li><strong><code>sameSite</code></strong> &mdash; <code>lax</code> is the practical default; <code>strict</code> breaks OAuth redirects and inbound links that should arrive logged in; <code>none</code> requires <code>secure</code> and re-enables CSRF, so it needs a CSRF token.</li><li><strong><code>path</code></strong> &mdash; scope the refresh cookie to <code>/auth/refresh</code> so it is not attached to every API call.</li><li><strong><code>domain</code></strong> &mdash; leave it unset unless you need subdomain sharing; setting it widens exposure to every subdomain.</li></ul><p>The one people get wrong is <code>sameSite: 'none'</code> added to fix a cross-origin problem, quietly removing the CSRF protection.</p>",
+              },
+              {
+                question:
+                  "HS256 or RS256?",
+                solution:
+                  "<p><strong>HS256</strong> is symmetric: one secret both signs and verifies. So every service that can verify can also <strong>mint</strong> tokens &mdash; share it with five services and any one of them (or any leak from one) can forge admin tokens. Fine for a single monolith.</p><p><strong>RS256</strong> is asymmetric: a private key signs, a public key verifies. Services verify without being able to forge, and the public key can be published at a JWKS endpoint so key rotation does not require redeploying every consumer.</p><p>Rule: HS256 for one service; <strong>RS256 as soon as a second service verifies tokens</strong>, and always for anything third parties consume.</p><p>The migration is awkward later, so if microservices are plausible, start with RS256.</p>",
+              },
+              {
+                question:
+                  "What is the alg: none vulnerability?",
+                solution:
+                  "<p>A JWT header declares its own algorithm. A naive verifier <em>trusts</em> that header &mdash; so an attacker sets <code>alg: none</code>, strips the signature, and the token is accepted.</p><p>The subtler variant: a token signed with HS256 using the server's <strong>public</strong> RSA key as the HMAC secret. If the verifier reads <code>alg</code> from the token, it validates &mdash; and the public key is, by definition, public.</p><pre><code class=\"language-typescript\">await jwt.verifyAsync(token, { secret, algorithms: ['RS256'] });</code></pre><p>Always <strong>pin</strong> the expected algorithm on verification.</p><p>Modern libraries mostly default to safe behaviour, but this is worth stating explicitly &mdash; it is the canonical example of why you validate <em>how</em> a token was signed, not just <em>that</em> it was.</p>",
+              },
+              {
+                question:
+                  "How do you revoke a JWT?",
+                solution:
+                  "<p>You cannot un-sign one, so you add state back &mdash; at one of three levels:</p><ul><li><strong>Short lifetimes.</strong> Accept a 15-minute window. Simplest, and often enough.</li><li><strong>A Redis denylist</strong> of revoked <code>jti</code> values, with a TTL matching the token's own expiry so it self-cleans. One in-memory lookup per request &mdash; far cheaper than a database call.</li><li><strong>A <code>tokenVersion</code> per user</strong>, embedded as a claim and bumped on logout-everywhere, password change, or role change. One integer, and it makes role changes take effect immediately.</li></ul><p>Most systems want the version approach plus short lifetimes; the denylist adds per-token granularity when you need to kill one session rather than all.</p><p>Note this means the system is no longer purely stateless &mdash; which is the honest cost of revocation.</p>",
+              },
+              {
+                question:
+                  "What must never go in a JWT payload?",
+                solution:
+                  "<p>Anything secret. The payload is <strong>base64, not encrypted</strong> &mdash; paste any token into jwt.io and read it.</p><p>So: no passwords, no PII beyond a user id, no internal identifiers you would not expose, no permission details that reveal your authorisation model to an attacker.</p><p>Signing protects <em>integrity</em>, not confidentiality. That distinction is the single most common JWT misunderstanding.</p><p>Keep it <strong>small</strong> too: it is sent on every request, so fifty embedded permissions cost bytes forever and can overflow header size limits at proxies.</p><p>Reasonable contents: <code>sub</code>, roles, tenant id, token version, <code>jti</code>, and the standard <code>exp</code>/<code>iat</code>/<code>aud</code>/<code>iss</code>.</p>",
+              },
+              {
+                question:
+                  "Why check aud and iss?",
+                solution:
+                  "<p>Because without them, a token minted for one of your services is accepted by another.</p><p>If your internal admin tool and your public API share a signing key and neither checks <code>aud</code>, a token issued for the low-privilege service works against the high-privilege one. The signature is perfectly valid &mdash; it was just never meant for that audience.</p><pre><code class=\"language-typescript\">{ audience: 'api.example.com', issuer: 'auth.example.com' }</code></pre><p>The same applies to third-party identity providers: a Google ID token for someone else's app is validly signed by Google, and only the <code>aud</code> check stops you accepting it.</p><p>Set both when signing and <strong>verify both</strong> when validating &mdash; setting without checking is the common half-measure.</p>",
+              },
+              {
+                question:
+                  "A user's role is revoked. When does it take effect?",
+                solution:
+                  "<p>If roles are baked into the token and nothing else changes, <strong>at expiry</strong> &mdash; so a demoted admin keeps admin access for up to fifteen minutes. On a long-lived token, hours.</p><p>Three fixes:</p><ul><li><strong>Token version</strong> &mdash; bump it on any role change; stale tokens are rejected immediately. Cheapest and usually right.</li><li><strong>Denylist</strong> that user's active <code>jti</code> values in Redis.</li><li><strong>Look up roles per request</strong> rather than trusting the claim &mdash; correct, but a query on every request, which gives up the main benefit of JWT.</li></ul><p>Whichever you pick, be explicit about the window. \"Role changes take effect within 15 minutes\" is a legitimate design decision; not knowing there <em>is</em> a window is not.</p>",
+              },
+              {
+                question:
+                  "How do you handle refresh in a browser with multiple tabs?",
+                solution:
+                  "<p>Carefully &mdash; because rotation plus concurrency is a false-positive machine.</p><p>Three tabs hit a 401 simultaneously and all three refresh. The first rotates the token; the other two present an <strong>already-used</strong> token, reuse detection fires, and the user is logged out for no reason.</p><p>Mitigations:</p><ul><li><strong>Serialise refresh in the client</strong> &mdash; one in-flight refresh, queue the rest, via a shared promise or a BroadcastChannel lock. The primary fix.</li><li><strong>A short grace window</strong> server-side &mdash; accept the previous token for a few seconds, returning the same new pair.</li></ul><p>Being aware of this is a good signal: it is exactly the kind of problem that only appears in production, and it makes the security feature look like a bug.</p>",
+              },
+              {
+                question:
+                  "Summarise the JWT flow in thirty seconds.",
+                solution:
+                  "<p>\"A short-lived access token &mdash; 15 minutes, verified statelessly on every request &mdash; and a long-lived refresh token stored server-side as a <strong>hash</strong>, used only against the refresh endpoint.</p><p>Refresh rotates: a new token each time, old one invalidated. The part that matters is <strong>reuse detection</strong> &mdash; if a used token reappears, I cannot tell theft from replay, so I revoke the whole family and force re-login. Without that, rotation is theatre.</p><p>Storage: httpOnly, secure, SameSite cookie scoped to the refresh path, with the access token in memory. localStorage means one XSS hands over a portable credential.</p><p>HS256 for a single service; RS256 once anything else verifies, because with HS256 every verifier can also mint. And always pin the algorithm on verify, and check <code>aud</code> and <code>iss</code>.</p><p>Revocation is a Redis denylist keyed on <code>jti</code>, plus a token version per user so a role change or logout-everywhere takes effect immediately.\"</p>",
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/security/authentication",
+              "https://datatracker.ietf.org/doc/html/rfc8725",
+              "https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html",
+              "https://auth0.com/docs/secure/tokens/refresh-tokens/refresh-token-rotation",
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie",
+            ],
+          },
+           {
+            topic: "Sessions — express-session, Redis Store & Cookie Flags",
+            tags: ["sessions", "express-session", "redis", "cookies", "csrf"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A session stores state <span style="font-weight: 600;">server-side</span> and gives the browser only an opaque ID in a cookie. The opposite trade-off to JWT: a lookup per request, in exchange for instant revocation.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Setup</h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code class="language-typescript">
+app.use(session({
+  store: new RedisStore({ client: redis, prefix: 'sess:' }),
+  secret: config.getOrThrow('SESSION_SECRET'),
+  resave: false,
+  saveUninitialized: false,
+  cookie: { httpOnly: true, secure: true, sameSite: 'lax', maxAge: 864e5 },
+}));
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The <span style="font-weight: 600;">default store is in-memory</span>. It leaks, it does not survive a restart, and with more than one replica a user is logged in on one pod and out on the next. It is for development only, and it warns you.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <code>saveUninitialized: false</code> matters: without it, every anonymous visitor &mdash; including every bot &mdash; creates a stored session.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Why Redis</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;">Shared across replicas, so no sticky sessions needed.</li>
+    <li style="margin-top: 0.4rem;">Survives deploys.</li>
+    <li style="margin-top: 0.4rem;">Native TTL, so expiry is automatic rather than a cleanup job.</li>
+    <li style="margin-top: 0.4rem;">Deleting a key logs someone out <span style="font-weight: 600;">immediately</span> &mdash; the thing JWT cannot do.</li>
+  </ul>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The cost is a dependency on the hot path: if Redis is down, everyone is logged out.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Cookie flags</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">httpOnly</span> &mdash; JavaScript cannot read it, so XSS cannot steal the session ID.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">secure</span> &mdash; HTTPS only. Behind a proxy you also need <code>app.set('trust proxy', 1)</code>, or Express thinks the connection is HTTP and never sets the cookie.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">sameSite</span> &mdash; <code>lax</code> is the practical default. <code>strict</code> breaks OAuth callbacks and inbound links. <code>none</code> requires <code>secure</code> and reopens CSRF.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">maxAge</span> &mdash; keep it aligned with the store's TTL, or one expires while the other does not.</li>
+  </ul>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The <code>trust proxy</code> point causes a specific, maddening bug: everything works locally and no cookie is ever set in production.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Session fixation</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    If an attacker can set a victim's session ID <em>before</em> login and you keep that ID afterwards, the attacker's session is now authenticated.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Call <code>req.session.regenerate()</code> on login. It is one line, it is routinely forgotten, and it is a classic interview follow-up.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">CSRF</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Cookies are sent automatically, so a form on another site can act as the logged-in user. <code>SameSite=Lax</code> blocks most of it &mdash; cross-site POSTs do not carry the cookie &mdash; but add a CSRF token for state-changing requests if you support <code>sameSite: 'none'</code> or older browsers.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Sessions or JWT?</h4>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Sessions for a first-party web app: revocation is trivial, the cookie is opaque, and \"log out all devices\" is a <code>DELETE</code>.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    JWT for mobile clients, third-party APIs, or several services that must verify without sharing a session store.
+  </p>
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    \"Sessions do not scale\" is outdated &mdash; a Redis lookup is sub-millisecond, and JWT with a denylist ends up doing the same lookup anyway.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Gotchas</h4>
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">The default MemoryStore in production.</span></li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Missing <code>trust proxy</code></span> with <code>secure: true</code>.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">No <code>regenerate()</code> on login</span> &mdash; session fixation.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Storing large objects</span> in the session &mdash; it is fetched and written on every request.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Mutating a nested property</span> with <code>resave: false</code> &mdash; the change is not detected or saved.</li>
+    <li style="margin-top: 0.4rem;"><span style="font-weight: 600;">Redirecting before the session is saved</span> &mdash; a race that loses the login.</li>
+  </ul>
+</div>`,
+            examples: [
+              `// Production session setup, and the two flags that break deploys.
+// main.ts
+import session from 'express-session';
+import { RedisStore } from 'connect-redis';
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService);
+  const redis = app.get('REDIS_CLIENT');
+  // REQUIRED behind a load balancer / ingress / Cloudflare.
+  // Without it Express sees the INTERNAL hop as http, decides the
+  // connection is insecure, and silently REFUSES to set a cookie
+  // marked secure: true.
+  // Symptom: works perfectly locally, no cookie is ever set in
+  // production, and nothing logs an error.
+  app.set('trust proxy', 1);
+  app.use(
+    session({
+      store: new RedisStore({
+        client: redis,
+        prefix: 'sess:',
+        ttl: 86400,          // KEEP ALIGNED with cookie.maxAge, or the
+                             // store expires while the browser still
+                             // sends a now-dangling cookie
+      }),
+      secret: config.getOrThrow('SESSION_SECRET'),   // signs the cookie
+                                                     // so the ID cannot
+                                                     // be tampered with
+      name: 'sid',           // not 'connect.sid' - no need to advertise
+                             // the stack
+      resave: false,         // do not rewrite an unchanged session on
+                             // every request
+      saveUninitialized: false,   // do NOT store a session for anonymous
+                                  // visitors. With true, every bot and
+                                  // every health check creates a Redis
+                                  // key, and the store fills with empty
+                                  // sessions.
+      rolling: true,         // refresh maxAge on activity - "idle
+                             // timeout" rather than absolute
+      cookie: {
+        httpOnly: true,      // XSS cannot read the session id
+        secure: config.get('NODE_ENV') === 'production',
+        sameSite: 'lax',     // blocks cross-site POSTs, allows normal
+                             // inbound navigation
+        maxAge: 86400_000,
+        path: '/',
+      },
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
+  await app.listen(3000);
+}
+/*
+  THE DEFAULT STORE IS IN-MEMORY
+  It leaks (nothing evicts expired sessions), it does not survive a
+  restart, and with more than one replica a user is logged in on pod A
+  and logged out on pod B - which presents as "random logouts" and gets
+  blamed on everything except the session store.
+  express-session prints a warning about this. It is worth taking
+  literally.
+*/`,
+              `// Fixation, save races, and choosing between sessions and JWT.
+// ===== SESSION FIXATION - regenerate on login =====
+@Post('login')
+async login(@Req() req: Request, @Body() dto: LoginDto) {
+  const user = await this.auth.verifyCredentials(dto.email, dto.password);
+  if (!user) throw new UnauthorizedException('Invalid credentials');
+  // THE ATTACK: if an attacker can fix a victim's session id before
+  // login - via a link with a session param, a subdomain cookie, or an
+  // XSS on a sibling app - and you KEEP that id afterwards, the
+  // attacker's session becomes an AUTHENTICATED one.
+  await new Promise<void>((resolve, reject) =>
+    req.session.regenerate((err) => (err ? reject(err) : resolve())),
+  );
+  // New id, old data discarded. One line, routinely forgotten, and a
+  // standard interview follow-up.
+  req.session.userId = user.id;
+  req.session.roles = user.roles;
+  // Store IDs, not objects. The session is FETCHED AND WRITTEN on every
+  // request - a fat session is a per-request serialisation cost, and
+  // the copy goes stale the moment the user record changes.
+  // MUST save before responding/redirecting, or you race: the browser
+  // follows the redirect and arrives before Redis has the session.
+  await new Promise<void>((resolve, reject) =>
+    req.session.save((err) => (err ? reject(err) : resolve())),
+  );
+  return { ok: true };
+}
+@Post('logout')
+async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  await new Promise<void>((resolve) => req.session.destroy(() => resolve()));
+  res.clearCookie('sid');      // destroy() removes the STORE entry;
+                               // clear the cookie too so the browser
+                               // stops sending a dead id
+  return { ok: true };
+}
+// ===== LOG OUT EVERYWHERE - trivial with sessions =====
+async logoutAllDevices(userId: string) {
+  // Keep an index of a user's session ids as you create them:
+  //   redis.sadd('user-sessions:' + userId, sessionId)
+  const ids = await this.redis.smembers('user-sessions:' + userId);
+  if (ids.length) {
+    await this.redis.del(...ids.map((id) => 'sess:' + id));
+    await this.redis.del('user-sessions:' + userId);
+  }
+}
+// This is the ONE-LINE version of what JWT needs a denylist and a
+// token-version column to achieve.
+/*
+  ===== THE resave: false TRAP =====
+    req.session.cart.items.push(item);    // NOT detected, NOT saved
+  express-session compares a shallow snapshot, so a mutation NESTED
+  inside an object is invisible. Reassign the top-level property:
+    req.session.cart = { ...req.session.cart, items: [...items, item] };
+  This is the source of "my session changes randomly do not persist".
+  ===== SESSIONS vs JWT =====
+  SESSIONS
+    + Revocation is instant - DELETE the key.
+    + The cookie is OPAQUE - no data leaks to the client.
+    + Change roles/permissions and the next request sees it.
+    + Session data can be as large as you like (within reason).
+    - A store lookup per request.
+    - Redis is on the hot path: if it is down, everyone is logged out.
+    - Cookies mean CSRF (mitigated by SameSite).
+  JWT
+    + No lookup - verify the signature and go.
+    + Works across services with no shared store.
+    + Natural for mobile and third-party API clients.
+    - Cannot be revoked without adding state back.
+    - Payload is readable by the client.
+    - Role changes wait for expiry.
+  MY DEFAULT: sessions for a first-party web app; JWT for mobile,
+  third-party APIs, or several services verifying independently.
+  "Sessions do not scale" is outdated - a Redis lookup is
+  sub-millisecond, and a JWT setup with a denylist plus a token-version
+  check ends up doing exactly the same lookup, having given up
+  revocation simplicity to get there.
+*/`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why must you never use the default session store in production?",
+                solution:
+                  "<p>The default is <code>MemoryStore</code>, and it fails three ways:</p><ul><li><strong>It leaks.</strong> Nothing evicts expired sessions, so memory grows until the process dies.</li><li><strong>It does not survive a restart.</strong> Every deploy logs everyone out.</li><li><strong>It is per-process.</strong> With more than one replica, a user is logged in on pod A and out on pod B.</li></ul><p>That third one is the worst in practice: it presents as intermittent random logouts, which gets blamed on the load balancer, the client, or the auth code &mdash; anything but the session store.</p><p><code>express-session</code> prints a warning about this at startup, and it is worth taking literally.</p>",
+              },
+              {
+                question:
+                  "Why does secure: true break behind a load balancer?",
+                solution:
+                  "<p>Because the load balancer terminates TLS and forwards over plain HTTP internally. Express sees an insecure connection, and with <code>secure: true</code> it <strong>refuses to set the cookie</strong>.</p><pre><code class=\"language-typescript\">app.set('trust proxy', 1);</code></pre><p>That tells Express to trust <code>X-Forwarded-Proto</code> from one proxy hop, so it correctly sees the original request as HTTPS.</p><p>The bug is memorable because of how it presents: everything works locally, and in production <strong>no cookie is ever set</strong>, with no error anywhere &mdash; the response simply lacks a <code>Set-Cookie</code> header.</p><p>Set the hop count rather than <code>true</code> where you can; blindly trusting the header lets a client spoof its protocol and IP.</p>",
+              },
+              {
+                question:
+                  "What is session fixation and how do you prevent it?",
+                solution:
+                  "<p>If an attacker can make a victim use a <strong>known</strong> session ID before logging in, and the application keeps that ID afterwards, the attacker's session becomes authenticated.</p><p>Fixing the ID is possible via a link carrying a session parameter, a cookie set from a sibling subdomain, or an XSS on a related app.</p><pre><code class=\"language-typescript\">req.session.regenerate(cb);   // new id, old data discarded</code></pre><p>Call it <strong>on login</strong>, before storing the user. One line, routinely forgotten, and a standard interview follow-up.</p><p>Regenerate on privilege change too &mdash; assuming an admin role or completing step-up authentication &mdash; for the same reason.</p>",
+              },
+              {
+                question:
+                  "What do resave and saveUninitialized do?",
+                solution:
+                  "<p><code>resave: false</code> &mdash; do not rewrite an unchanged session on every request. Without it, every request is a Redis write, which is pure load.</p><p><code>saveUninitialized: false</code> &mdash; do not store a session that was never modified. With <code>true</code>, <strong>every anonymous visitor</strong>, every bot, and every health check creates a stored session, filling the store with empty records.</p><p>Both should be <code>false</code> for a login-based app.</p><p><code>saveUninitialized: true</code> has one legitimate use: anonymous state such as a guest cart that must exist before login. Even then, scope it deliberately rather than enabling it globally.</p>",
+              },
+              {
+                question:
+                  "Why doesn't a nested session change persist?",
+                solution:
+                  "<p>Because with <code>resave: false</code>, <code>express-session</code> detects changes by comparing a <strong>shallow</strong> snapshot. A mutation nested inside an object is invisible.</p><pre><code class=\"language-typescript\">req.session.cart.items.push(item);          // not saved\n\nreq.session.cart = { ...req.session.cart, items: [...items, item] };  // saved</code></pre><p>This is the source of \"my session changes randomly don't persist\" &mdash; randomly, because top-level assignments in the same handler <em>do</em> save, which makes it look intermittent.</p><p>Either reassign the top-level property, or call <code>req.session.save()</code> explicitly after a nested change.</p><p>The cleanest habit is to treat session data as immutable and replace properties wholesale.</p>",
+              },
+              {
+                question:
+                  "Why must you save the session before redirecting?",
+                solution:
+                  "<p>Because the write to the store is asynchronous. <code>express-session</code> normally saves when the response ends &mdash; but if you redirect, the browser can follow it and issue the next request <strong>before Redis has the session</strong>.</p><p>The result: the user logs in successfully, is redirected to the dashboard, and arrives logged out.</p><pre><code class=\"language-typescript\">await new Promise((res, rej) =&gt; req.session.save((e) =&gt; (e ? rej(e) : res())));\nreturn { redirectTo: '/dashboard' };</code></pre><p>It is a genuine race, so it is intermittent, worse under load, and effectively impossible to reproduce locally where Redis answers instantly.</p><p>Explicitly <code>save()</code> before any redirect, and in OAuth callbacks, which are the classic case.</p>",
+              },
+              {
+                question:
+                  "How do you implement 'log out all devices'?",
+                solution:
+                  "<p>Keep an index of a user's session IDs and delete them:</p><pre><code class=\"language-typescript\">redis.sadd('user-sessions:' + userId, sessionId);   // on login\n\nconst ids = await redis.smembers('user-sessions:' + userId);\nawait redis.del(...ids.map((id) =&gt; 'sess:' + id));</code></pre><p>Effective immediately &mdash; the next request from any device finds no session.</p><p>Remember to clean the index when a session expires naturally, or it grows forever; a TTL on the set members, or pruning on read, handles it.</p><p>This is worth contrasting with JWT, where the same feature needs a denylist <em>and</em> a token-version column, and still leaves a window until access tokens expire. It is the clearest practical argument for sessions.</p>",
+              },
+              {
+                question:
+                  "Do you still need CSRF protection with SameSite?",
+                solution:
+                  "<p><code>SameSite=Lax</code> blocks most of it: cross-site POST, PUT and DELETE requests do not carry the cookie, and browsers now default to Lax.</p><p>You still want a CSRF token when:</p><ul><li>You use <code>sameSite: 'none'</code> for a cross-origin frontend &mdash; that fully reopens CSRF.</li><li>You must support older browsers that ignore <code>SameSite</code>.</li><li>A state-changing action is reachable by <strong>GET</strong>, which Lax permits for top-level navigation. (The real fix is not using GET for that.)</li><li>Defence in depth is required by a compliance regime.</li></ul><p>The pattern is the double-submit cookie or a synchroniser token &mdash; and Nest has no built-in, so it is <code>csurf</code>'s successors or a small custom guard.</p>",
+              },
+              {
+                question:
+                  "What should and should not go in the session?",
+                solution:
+                  "<p><strong>Store:</strong> the user ID, roles or a permission version, tenant ID, CSRF secret, and small flow state such as an OAuth <code>state</code> value.</p><p><strong>Do not store:</strong> whole user objects, query results, carts with full product details, anything large.</p><p>Two reasons. The session is <strong>fetched and deserialised on every request</strong> and written whenever it changes, so a fat session is a per-request cost multiplied by every request.</p><p>And a copied user object goes <strong>stale</strong> the moment the record changes &mdash; you get one source of truth in the database and another in Redis, disagreeing.</p><p>Rule of thumb: store identifiers, load data. A few hundred bytes is healthy; kilobytes means something belongs elsewhere.</p>",
+              },
+              {
+                question:
+                  "What happens if Redis goes down?",
+                solution:
+                  "<p>Everyone is logged out, and depending on the store's error handling, requests may fail outright.</p><p>That is the honest cost of sessions: the store is on the <strong>hot path</strong> for every authenticated request, so its availability is your application's availability.</p><p>Mitigations: run Redis with replication and automatic failover (Sentinel or a managed cluster); ensure the client retries with backoff rather than failing instantly on a blip; and make sure a store error returns 503, not a silent 401 that dumps every user at the login page.</p><p>What you should <strong>not</strong> do is fall back to unauthenticated access.</p><p>JWT degrades more gracefully here &mdash; a genuine point in its favour &mdash; though a JWT setup with a Redis denylist has exactly the same dependency.</p>",
+              },
+              {
+                question:
+                  "Sessions or JWT — how do you choose?",
+                solution:
+                  "<p><strong>Sessions</strong> for a first-party web app. Revocation is a <code>DELETE</code>, the cookie is opaque so nothing leaks to the client, role changes take effect on the next request, and the session can hold whatever you need.</p><p><strong>JWT</strong> for mobile clients, third-party API consumers, or several services that must verify independently without sharing a store.</p><p>\"Sessions don't scale\" is outdated: a Redis lookup is sub-millisecond, and a JWT system with a denylist plus a token-version check performs the <em>same</em> lookup &mdash; having given up revocation simplicity to get there.</p><p>Hybrids are common: sessions for the web app, JWT for the public API. The mistake is choosing JWT for statelessness and then adding a denylist, a version column and a refresh-token table &mdash; at which point you have rebuilt sessions with extra steps.</p>",
+              },
+              {
+                question:
+                  "Summarise sessions in thirty seconds.",
+                solution:
+                  "<p>\"State lives server-side and the browser holds only an opaque signed ID. In production that means a Redis store &mdash; the default is in-memory, which leaks, dies on restart, and breaks across replicas.</p><p>Cookie flags: <code>httpOnly</code> so XSS cannot read the ID, <code>secure</code> with <code>app.set('trust proxy', 1)</code> or no cookie is ever set behind a load balancer, and <code>sameSite: 'lax'</code>, which blocks most CSRF. <code>resave</code> and <code>saveUninitialized</code> both false.</p><p><code>regenerate()</code> on login to prevent session fixation, and <code>save()</code> before redirecting, or the browser arrives before Redis has the session.</p><p>The payoff versus JWT is revocation: deleting the key logs someone out instantly, and 'log out all devices' is a set of keys to delete. The cost is a lookup per request and Redis being on the hot path.\"</p>",
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/techniques/session",
+              "https://github.com/expressjs/session",
+              "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite",
+              "https://github.com/redis/connect-redis",
             ],
           },
         ]
