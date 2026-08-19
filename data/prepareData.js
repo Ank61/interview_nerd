@@ -145649,7 +145649,7 @@ RIGHT: { "reasoning": ..., "answer": ... }
             ],
           },
           {
-            topic: "Structured Output / JSON Schema",
+            topic: "Structured Output (JSON Schema)",
             tags: ["high-frequency", "must-know", "engineering"],
             explanation: `<div>
   <p style="line-height: 1.75; margin-top: 1.5rem;">
