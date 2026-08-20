@@ -197336,6 +197336,7259 @@ function sizeIt({ documents, pagesPerDoc, chunksPerPage, dimensions,
               "https://arxiv.org/abs/1603.09320",
             ],
           },
+          {
+            topic: "Self-Hosting vs API Break-Even",
+            tags: ["high-frequency", "must-know", "cost", "infrastructure"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "At what point does self-hosting an open model become cheaper than paying per token?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Two things to say up front. <strong>The break-even is far higher than people expect</strong> — usually millions of requests a month rather than hundreds of thousands. And <strong>the token cost comparison is the least important part of the decision</strong>, because the real reasons people self-host are rarely financial.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Naive Calculation, And Why It Is Wrong
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  "A GPU instance is about 2 dollars an hour, so 1,440 a
+   month. We pay 2p a request, so break-even is 72,000
+   requests. We do 150,000. Self-hosting halves our bill."
+
+FOUR THINGS THAT ARE WRONG WITH IT:
+
+  UTILISATION. You pay 24/7. Your traffic is eight working
+  hours with a peak. Real utilisation is often 15-25%, so
+  most of what you rent is idle - and that is the single
+  biggest error in the estimate.
+
+  REDUNDANCY. One instance is not production. Two minimum,
+  ideally across zones. Double everything.
+
+  PEAK, NOT AVERAGE. You size for the busiest hour, and
+  then run that capacity all the time.
+
+  PEOPLE. Someone has to run it - inference server tuning,
+  driver issues, model updates, capacity planning, on-call.
+  This is usually the LARGEST hidden cost and it never
+  appears in the spreadsheet.
+
+Redo it honestly and the break-even moves by roughly an
+order of magnitude.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why Self-Hosting Actually Happens
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    In practice the decision is almost never won on cost. The genuine reasons:
+  </p>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>Data cannot leave the network.</strong> A regulatory or contractual requirement. This is reason number one by a distance, and when it applies the cost comparison is irrelevant — there is no alternative.</li>
+    <li style="margin-top: 0.5rem;"><strong>A fine-tuned model</strong> you cannot host with a provider.</li>
+    <li style="margin-top: 0.5rem;"><strong>Predictable cost.</strong> A fixed monthly bill instead of a usage-based one, which some finance teams strongly prefer even when it is higher.</li>
+    <li style="margin-top: 0.5rem;"><strong>No rate limits you do not control</strong>, and no deprecation forced on you — your model version stays exactly as it is.</li>
+    <li style="margin-top: 0.5rem;"><strong>Latency</strong>, where a local model with no network hop genuinely matters.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Notice that four of those five are <em>not about money</em>. Which is why leading with the break-even arithmetic misses the actual conversation.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Quality Question Nobody Puts In The Spreadsheet
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    An open model you can afford to host is usually behind the frontier. So it is not a cost-for-cost comparison, it is <strong>cost-for-quality</strong> — and the only way to know the gap is to run <em>your</em> golden set on both.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Sometimes the gap is negligible, because your task is classification or extraction where open models are strong. Sometimes it is large, on multi-step reasoning or long context. That measurement should come <em>before</em> the cost model, because if quality does not hold, the cost question never arises.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When It Clearly Loses
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Spiky traffic.</strong> You pay for peak capacity continuously, so the worse your peak-to-average ratio, the worse self-hosting looks.</li>
+    <li style="margin-top: 0.5rem;"><strong>No ML infrastructure experience on the team.</strong> The skills are real and the on-call burden is real.</li>
+    <li style="margin-top: 0.5rem;"><strong>You need frontier capability</strong> or several different models.</li>
+    <li style="margin-top: 0.5rem;"><strong>Low or uncertain volume</strong>, where you would be renting expensive hardware to serve very little.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Middle Options People Forget
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+It is not a binary, and the middle usually wins.
+
+  COMMITTED OR PROVISIONED CAPACITY from your provider.
+    A fixed monthly cost and no operations. This gets you
+    predictable spend - which is often the real motivation -
+    without a GPU fleet.
+
+  A MANAGED OPEN-MODEL ENDPOINT. Someone else hosts the
+    open weights. You get the model choice and none of the
+    infrastructure.
+
+  HYBRID. Self-host a small model for the ONE high-volume
+    simple route, and use the API for everything else. You
+    capture most of the saving against a fraction of the
+    operational burden.
+
+  IN-REGION OR PRIVATE DEPLOYMENT from a cloud provider,
+    which satisfies many data-residency requirements without
+    self-hosting anything.
+
+THAT LAST ONE MATTERS: a lot of "we must self-host for
+compliance" turns out to be satisfiable with a private
+regional deployment, and nobody checked.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "At what point does self-hosting an open model become
+   cheaper than paying per token?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you can do the arithmetic honestly - including
+  utilisation and people - and whether you know that cost is
+  usually not why anyone self-hosts. Someone who answers with
+  a clean break-even number and no mention of idle capacity
+  has not run one.
+
+WEAK ANSWER
+  "Once you reach high enough volume, self-hosting is
+   cheaper - you can calculate the break-even by comparing
+   GPU hourly cost against your monthly token spend."
+  Why it is weak: the calculation ignores utilisation,
+  redundancy and staffing, so it lands at roughly a tenth of
+  the true break-even. And it treats this as a purely
+  financial decision, which it usually is not.
+
+STRONG ANSWER (about 75 seconds)
+  "Two things up front. The break-even is far higher than
+   people expect - usually millions of requests a month
+   rather than hundreds of thousands. And the token cost
+   comparison is the least important part of the decision.
+
+   The naive version says a GPU is two dollars an hour, so
+   1,440 a month, so break-even is 72,000 requests at 2p. It
+   is wrong four ways. UTILISATION - you pay 24/7 and your
+   traffic is eight working hours, so real utilisation is
+   often 15-25% and most of what you rent is idle. That is
+   the biggest error. REDUNDANCY - one instance is not
+   production, so double it. You size for PEAK and run that
+   capacity always. And PEOPLE - someone tunes the inference
+   server, handles driver issues, plans capacity and carries
+   the pager, which is usually the largest hidden cost and
+   never appears in the spreadsheet.
+
+   The reasons people ACTUALLY self-host are mostly not
+   financial. Data that cannot leave the network - that is
+   number one, and when it applies the cost comparison is
+   irrelevant. A fine-tuned model you cannot host elsewhere.
+   Predictable fixed cost, which some finance teams prefer
+   even when it is higher. No rate limits or deprecations
+   imposed on you. Four of those five are not about money.
+
+   And the thing nobody puts in the spreadsheet: an open
+   model you can afford to host is usually behind the
+   frontier, so it is cost-for-QUALITY, not cost-for-cost. I
+   would run my own golden set on both BEFORE building any
+   cost model, because if quality does not hold the cost
+   question never arises.
+
+   Finally it is not binary. Committed capacity from the
+   provider gives predictable spend with no ops. A managed
+   open-model endpoint gives model choice with no
+   infrastructure. Hybrid - self-host one high-volume simple
+   route - captures most of the saving. And a private
+   regional deployment satisfies a lot of 'we must self-host
+   for compliance' requirements that nobody actually checked."
+
+FOLLOW-UPS TO EXPECT
+  "What is the biggest error in the naive calculation?"
+      -> utilisation. You rent 24/7 and use it for eight
+         hours with a peak, so most of it is idle.
+  "What is the real reason teams self-host?"
+      -> data residency. It is a constraint, not an
+         optimisation, and cost does not enter into it.
+  "What would you check first?"
+      -> quality on your own eval set, before any cost
+         model. And whether a private regional deployment
+         already satisfies the requirement.
+  "Is there a middle option?"
+      -> committed capacity, managed open-model endpoints,
+         or hybrid on one route.
+
+RED FLAGS
+  A clean break-even number with no utilisation factor.
+  Forgetting the staffing cost.
+  Treating it as purely financial.
+  Not questioning whether compliance really requires it.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THE NAIVE CALCULATION, AND THE FOUR THINGS WRONG WITH IT.
+
+const naive = {
+  gpuHourlyUsd: 2.00,
+  monthlyGpuUsd: 2.00 * 24 * 30,            // 1,440
+  apiCostPerRequestPence: 2.0,
+  breakEvenRequests: 72_000,
+  ourVolume: 150_000,
+  conclusion: "self-hosting halves our bill"      // WRONG
+};
+
+const honest = {
+  // 1. UTILISATION - the biggest error by far. You rent 24/7; your
+  //    traffic is 8 working hours with a peak.
+  utilisation: 0.20,
+  // 2. REDUNDANCY - one instance is not production.
+  instances: 2,
+  // 3. YOU SIZE FOR PEAK and then run that capacity all the time.
+  peakToAverage: 3,
+
+  // A model worth serving needs serious VRAM. This is not one
+  // cheap GPU.
+  gpusPerInstance: 2,
+  gpuHourlyUsd: 2.00,
+
+  get monthlyComputeUsd() {
+    return this.gpuHourlyUsd * this.gpusPerInstance *
+           this.instances * 24 * 30;                    // 5,760
+  },
+
+  // 4. PEOPLE. Usually the LARGEST hidden cost, and it never
+  //    appears in the spreadsheet.
+  opsFractionOfAnEngineer: 0.25,
+  engineerMonthlyCostUsd: 12_000,
+  get monthlyPeopleUsd() {
+    return this.opsFractionOfAnEngineer * this.engineerMonthlyCostUsd;
+  },                                                    // 3,000
+
+  otherMonthlyUsd: 400,   // storage, networking, monitoring, images
+
+  get totalMonthlyUsd() {
+    return this.monthlyComputeUsd + this.monthlyPeopleUsd +
+           this.otherMonthlyUsd;                        // ~9,160
+  }
+};
+
+// SO THE REAL BREAK-EVEN:
+function breakEven(honest, apiPencePerRequest, usdPerGbp = 1.27) {
+  const monthlyGbp = honest.totalMonthlyUsd / usdPerGbp;   // ~7,210
+  return {
+    requestsPerMonth: (monthlyGbp * 100) / apiPencePerRequest,
+    // ~360,000 - five times the naive number, and that assumes the
+    // self-hosted throughput actually keeps up at peak.
+    naiveSaid: 72_000,
+    factorOff: 5
+  };
+}
+// And at genuinely high volume the API price per request usually
+// falls too, via committed discounts - which pushes it further.`,
+              `// WHY PEOPLE ACTUALLY SELF-HOST. Four of the five are not about
+// money.
+
+const realReasons = {
+  dataResidency: {
+    rank: 1,
+    what: "a regulatory or contractual requirement that data does " +
+          "not leave our network",
+    // When this applies, the cost comparison is IRRELEVANT - there
+    // is no alternative to compare against.
+    note: "a constraint, not an optimisation",
+    // BUT CHECK IT FIRST. See the middle options below.
+    checkFirst: "does a private regional deployment already satisfy " +
+                "this? A lot of 'we must self-host' turns out not to."
+  },
+
+  fineTunedModel: "you trained it; the provider will not host it",
+
+  predictableCost: {
+    what: "a fixed monthly bill instead of usage-based",
+    // Worth taking seriously - some finance teams genuinely prefer
+    // a higher predictable number to a lower variable one.
+    note: "often the real motivation behind a 'cost' conversation"
+  },
+
+  noImposedChanges: "no rate limits you do not control, and no " +
+                    "deprecation forcing you to re-evaluate a model " +
+                    "you had already validated",
+
+  latency: "no network hop - matters for very tight budgets"
+};
+
+// WHEN IT CLEARLY LOSES.
+const clearlyLoses = {
+  spikyTraffic: "you pay for PEAK capacity continuously, so a bad " +
+                "peak-to-average ratio makes this much worse",
+  noMlInfraExperience: "the skills are real, and so is the pager",
+  needFrontierCapability: "open models lag on hard reasoning",
+  needManyModels: "each one is another deployment to run",
+  lowOrUncertainVolume: "renting expensive hardware to serve very " +
+                        "little"
+};
+
+// AND THE QUESTION NOBODY PUTS IN THE SPREADSHEET.
+async function qualityFirst() {
+  // Run YOUR golden set on both, BEFORE building any cost model -
+  // because if quality does not hold, the cost question never
+  // arises.
+  const api = await evaluate(GOLDEN_SET, { model: "frontier-api" });
+  const open = await evaluate(GOLDEN_SET, { model: "open-70b-int8" });
+
+  return {
+    // Per category, because the gap is not uniform.
+    byCategory: compareByCategory(api, open),
+    // Typically: classification and extraction are close;
+    // multi-step reasoning and long context are not.
+    verdict: "if the gap is large on the categories that matter, " +
+             "stop here - this is cost-for-QUALITY, not cost-for-cost"
+  };
+}`,
+              `// IT IS NOT BINARY. The middle usually wins, and people forget
+// these exist.
+
+const middleOptions = {
+  committedCapacity: {
+    what: "provisioned or committed throughput from your provider",
+    gets: ["a fixed monthly cost", "predictable spend",
+           "no rate limit surprises", "NO OPERATIONS AT ALL"],
+    // If the real motivation was budget predictability rather than
+    // absolute cost, this solves it entirely.
+    note: "solves the actual problem in most 'we should self-host " +
+          "to control cost' conversations"
+  },
+
+  managedOpenModel: {
+    what: "a provider hosts the open weights for you",
+    gets: ["model choice", "no infrastructure", "no GPU ops"],
+    lacks: ["data never leaving your network"]
+  },
+
+  privateRegionalDeployment: {
+    what: "a cloud provider's in-region or private deployment",
+    // CHECK THIS BEFORE ANYTHING ELSE if the driver is compliance.
+    gets: ["data residency", "contractual guarantees", "no training " +
+           "on your data", "no self-hosting"],
+    note: "satisfies a LOT of 'we must self-host for compliance' " +
+          "requirements that nobody actually verified"
+  },
+
+  hybrid: {
+    what: "self-host a small model for ONE high-volume simple route; " +
+          "API for everything else",
+    // Captures most of the saving against a fraction of the
+    // operational burden, and the blast radius of getting it wrong
+    // is one route.
+    gets: ["most of the saving", "a bounded ops surface",
+           "a way to learn GPU operations on something low-risk"],
+    example: "classification and tagging on a self-hosted small " +
+             "model; document Q&A on the API"
+  }
+};
+
+// THE DECISION ORDER:
+const decisionOrder = [
+  "1. Is data residency a HARD requirement? If so, check whether a " +
+     "private regional deployment satisfies it before assuming " +
+     "self-hosting.",
+  "2. Does an open model meet the QUALITY bar on my golden set, " +
+     "per category? If not, stop.",
+  "3. Is the real motivation predictable COST? Then committed " +
+     "capacity, not GPUs.",
+  "4. Build the honest cost model - utilisation, redundancy, peak " +
+     "sizing, PEOPLE.",
+  "5. If it still wins, start with HYBRID on one route rather than " +
+     "moving everything."
+];`,
+              `// THE THROUGHPUT SIDE, which the naive calculation ignores
+// entirely.
+
+const throughputReality = {
+  // What matters is not "can it run the model" but "how many
+  // concurrent requests at what tokens/sec".
+  question: "how many concurrent requests can one instance serve at " +
+            "acceptable latency?",
+
+  factors: {
+    modelSize: "a larger model is slower per token AND needs more " +
+               "VRAM per replica",
+    quantisation: "int8 roughly doubles throughput and halves the " +
+                  "memory - often the difference between 2 GPUs " +
+                  "and 1",
+    batching: "continuous batching in a modern inference server " +
+              "improves throughput a lot, but it TRADES per-request " +
+              "latency for it",
+    contextLength: "long prompts consume the KV cache, which limits " +
+                   "concurrency far more than people expect",
+    outputLength: "decode is the slow part, so long answers occupy " +
+                  "a slot for longer"
+  },
+
+  // THE TRAP:
+  sizingTrap: "you size for AVERAGE throughput, then discover the " +
+              "Monday morning peak needs 3x the capacity - and now " +
+              "you run 3x all week"
+};
+
+// SO THE HONEST COMPARISON TABLE:
+function comparisonTable(volume) {
+  return [
+    { option: "API, pay per token",
+      monthlyGbp: volume * 0.02, ops: "none",
+      quality: "frontier", predictable: false,
+      dataLeavesNetwork: true },
+
+    { option: "API with committed capacity",
+      monthlyGbp: "fixed, negotiated", ops: "none",
+      quality: "frontier", predictable: true,
+      dataLeavesNetwork: true },
+
+    { option: "Managed open-model endpoint",
+      monthlyGbp: volume * 0.008, ops: "none",
+      quality: "open-model gap - MEASURE IT", predictable: false,
+      dataLeavesNetwork: true },
+
+    { option: "Self-hosted open model",
+      monthlyGbp: 7_210, ops: "0.25 FTE + on-call",
+      quality: "open-model gap - MEASURE IT", predictable: true,
+      dataLeavesNetwork: false },
+
+    { option: "Hybrid: self-host one route",
+      monthlyGbp: "partial", ops: "0.1 FTE",
+      quality: "per route", predictable: "partly",
+      dataLeavesNetwork: "partly" }
+  ];
+}
+// PRESENT IT AS A TABLE. The decision is rarely about the money
+// column, and a table makes that visible instead of arguable.`,
+            ],
+            questions: [
+              {
+                question:
+                  "At what point does self-hosting an open model become cheaper than paying per token?",
+                solution: `<p>Two things up front. <strong>The break-even is far higher than people expect</strong> — usually millions of requests a month rather than hundreds of thousands. And <strong>the token cost comparison is the least important part of the decision</strong>.</p>
+             <p>The naive version says a GPU is two dollars an hour so break-even is around seventy thousand requests. It is wrong four ways: <strong>utilisation</strong>, because you pay 24/7 and use it for eight hours, so real utilisation is often 15–25%; <strong>redundancy</strong>, since one instance is not production; <strong>peak sizing</strong>, because you provision for the busiest hour and run it always; and <strong>people</strong>, which is usually the largest hidden cost and never appears in the spreadsheet.</p>
+             <p>Redo it honestly and the break-even moves by roughly an order of magnitude.</p>`,
+              },
+              {
+                question:
+                  "What is the biggest error in the naive break-even calculation?",
+                solution:
+                  "<p><strong>Utilisation.</strong> The calculation compares a monthly GPU rental against monthly API spend as though the GPU were busy the whole time — and it is not. You rent it twenty-four hours a day, seven days a week, while your traffic arrives in roughly eight working hours with a pronounced peak. Realistic utilisation for an internal enterprise tool is somewhere between fifteen and twenty-five percent, which means most of what you are paying for is idle silicon. Worse, you cannot size for the average: you have to provision for the <em>peak</em> hour, and then that capacity sits there all week. So a naive calculation that assumes full utilisation understates the true cost by a factor of four or five before you have added anything else. The related errors compound it — one instance is not production, so you need at least two for redundancy, ideally across availability zones, and a model worth serving usually needs more than one GPU per instance. Put those together and the break-even shifts by roughly an order of magnitude, which is the difference between \"we should do this now\" and \"not for years\".</p>",
+              },
+              {
+                question:
+                  "Why is the staffing cost the one that gets forgotten?",
+                solution:
+                  "<p>Because it is not a line item anyone thinks to add, and it is genuinely substantial. Running inference in production means someone tunes the inference server, deals with GPU driver and CUDA issues, plans capacity, manages model updates and rollbacks, monitors throughput and latency, and carries a pager for it. Realistically that is a meaningful fraction of an engineer indefinitely — and at loaded cost, a quarter of an engineer is often <em>larger than the compute bill</em>. It is also the cost that does not shrink with scale in the way compute does, and it comes with an opportunity cost: that person is not building the product. There is a second-order effect too, which is that the skills are specific. A team without ML infrastructure experience will be slower at all of it and will hit problems that a provider's platform team solves invisibly. So the honest framing when presenting a business case is to include a staffing line with a named fraction, and to be clear that it is ongoing rather than a setup cost. Leaving it out is what makes self-hosting proposals look attractive on paper and disappointing in practice.</p>",
+              },
+              {
+                question:
+                  "Why do teams actually self-host, if not for cost?",
+                solution: `<p>Five reasons, and four of them have nothing to do with money:</p>
+             <ul>
+               <li><strong>Data cannot leave the network</strong> — a regulatory or contractual requirement. This is number one by a distance, and when it applies the cost comparison is irrelevant because there is no alternative.</li>
+               <li><strong>A fine-tuned model</strong> you cannot host with a provider.</li>
+               <li><strong>Predictable cost</strong> — a fixed monthly bill rather than a usage-based one, which some finance teams prefer even when it is higher.</li>
+               <li><strong>No imposed changes</strong> — no rate limits you do not control, and no deprecation forcing you to re-validate a model you had already signed off.</li>
+               <li><strong>Latency</strong>, where removing the network hop genuinely matters.</li>
+             </ul>
+             <p>Which is why leading with break-even arithmetic often misses the actual conversation. The useful move is to ask <em>why</em> self-hosting is on the table, because the answer usually points at a different solution.</p>`,
+              },
+              {
+                question:
+                  "What should you check before agreeing that compliance requires self-hosting?",
+                solution:
+                  "<p>Whether a <strong>private or in-region deployment from a cloud provider already satisfies the requirement</strong> — because a great many \"we must self-host for compliance\" positions turn out to be satisfiable that way, and nobody checked. Major providers offer deployments where processing happens in a specified region, under contractual terms covering retention and training use, often within your own cloud tenancy and network boundary. That addresses the substance of most data-residency requirements without a GPU fleet or an ops burden. So the question to ask the security or legal team is precise: is the requirement that <em>data stays in this jurisdiction</em>, that it <em>never reaches a third party</em>, or that it <em>never leaves our own infrastructure</em>? Those are three different constraints with three different solutions, and they are frequently conflated in the initial statement. Getting the exact requirement in writing before designing anything is worth an hour, because the difference between the first and the third is the difference between a configuration choice and a multi-month infrastructure project. And if the third genuinely applies, then self-hosting is a constraint rather than an optimisation and the cost conversation is moot.</p>",
+              },
+              {
+                question:
+                  "Why is this a cost-for-quality comparison rather than cost-for-cost?",
+                solution:
+                  "<p>Because an open model you can realistically afford to host is usually behind the frontier, so you are not comparing two equivalent things. The relevant question is not \"is it cheaper\" but \"is it cheaper <em>for acceptable quality on my task</em>\", and that requires measurement rather than benchmark tables. The gap is also <strong>not uniform</strong>: open models are frequently very close on classification, extraction, tagging and straightforward summarisation, and noticeably behind on multi-step reasoning, long context and complex instruction following. So the answer may well be that half your routes can move and half cannot — which points directly at a hybrid design. The practical implication is ordering: <strong>run your own golden set on both, per category, before building any cost model</strong>. If quality does not hold on the categories that matter, the cost question never arises and you have saved yourself a week of spreadsheet work. And if it does hold, you now have the evidence to defend the decision, which is what a stakeholder will actually ask for.</p>",
+              },
+              {
+                question:
+                  "When does self-hosting clearly lose?",
+                solution: `<p>Four situations:</p>
+             <ul>
+               <li><strong>Spiky traffic.</strong> You provision for the peak and pay for it continuously, so the worse your peak-to-average ratio, the worse self-hosting looks. An internal tool with a Monday-morning surge is close to the worst case.</li>
+               <li><strong>No ML infrastructure experience.</strong> The skills are real, the failure modes are unfamiliar, and someone has to carry the pager.</li>
+               <li><strong>You need frontier capability</strong>, or you need several different models — each of which is another deployment to run.</li>
+               <li><strong>Low or uncertain volume</strong>, where you would be renting expensive hardware to serve very little, and where the answer may change entirely in six months.</li>
+             </ul>
+             <p>That last one matters for timing: self-hosting is a poor early decision because it commits infrastructure and staffing before you know your real volume or your real quality requirements.</p>`,
+              },
+              {
+                question:
+                  "What are the middle options between API and self-hosting?",
+                solution:
+                  "<p>Four, and the middle usually wins. <strong>Committed or provisioned capacity</strong> from your provider gives you a fixed monthly cost and no rate-limit surprises with zero operational burden — and since predictable spend is often the real motivation behind a self-hosting conversation, this frequently solves the actual problem. <strong>A managed open-model endpoint</strong>, where a provider hosts the open weights, gives you model choice and no infrastructure, though your data still leaves your network. <strong>A private or in-region deployment</strong>, which addresses most residency requirements without self-hosting anything. And <strong>hybrid</strong>: self-host a small model for one high-volume simple route — classification, tagging — and use the API for everything else. Hybrid is underrated because it captures a large share of the saving against a fraction of the operational surface, bounds the blast radius of getting it wrong to a single route, and lets a team learn GPU operations on something low-risk before committing further. Presenting these as a menu rather than a binary is usually what moves the conversation forward, because it separates the several different motivations that were bundled into \"should we self-host\".</p>",
+              },
+              {
+                question:
+                  "What does throughput have to do with the cost model?",
+                solution:
+                  "<p>Everything, because the cost model depends on <strong>how many requests one instance can actually serve</strong>, and that is not obvious from the model size. The relevant number is concurrent requests at acceptable latency, and it is driven by several things: model size, quantisation — which roughly doubles throughput at eight-bit and is often the difference between one GPU and two — the inference server's batching strategy, and above all the <strong>KV cache</strong>, since long prompts consume memory per concurrent request and limit concurrency far more than people expect. A RAG system sending six thousand token prompts will support far fewer concurrent requests per GPU than a classification workload sending three hundred. There is also a trade hidden in batching: continuous batching substantially improves throughput but does so by trading per-request latency, so the configuration that makes your cost model work may not meet your latency budget. The trap to name is sizing for average throughput and then discovering that the Monday peak needs three times the capacity — which you then run all week. Benchmark with <em>your</em> prompt shape and concurrency before believing any figure.</p>",
+              },
+              {
+                question:
+                  "How would you structure the decision?",
+                solution: `<p>In five steps, ordered so the cheapest disqualifying checks come first:</p>
+             <ol>
+               <li><strong>Is data residency a hard requirement?</strong> And if so, does a private regional deployment already satisfy it? Get the exact constraint in writing.</li>
+               <li><strong>Does an open model meet the quality bar on my golden set, per category?</strong> If not, stop — there is no cost question.</li>
+               <li><strong>Is the real motivation predictable cost?</strong> Then committed capacity, not GPUs.</li>
+               <li><strong>Build the honest cost model</strong> — utilisation, redundancy, peak sizing, and a staffing line.</li>
+               <li><strong>If it still wins, start hybrid</strong> on one high-volume route rather than moving everything.</li>
+             </ol>
+             <p>Steps one to three frequently end the conversation, and each takes hours rather than weeks. The common failure is starting at step four, producing a spreadsheet that says yes, and discovering the quality gap or the residency alternative afterwards.</p>`,
+              },
+              {
+                question:
+                  "How would you present this to a stakeholder?",
+                solution:
+                  "<p>As a <strong>comparison table with several columns, of which cost is only one</strong> — because the decision is rarely about the money column, and a table makes that visible rather than arguable. The rows: pay-per-token API, API with committed capacity, a managed open-model endpoint, self-hosted, and hybrid on one route. The columns: monthly cost, operational burden in fractions of an engineer, quality against our golden set, whether spend is predictable, and whether data leaves our network. Presented that way, the conversation usually resolves itself — if the concern was predictability, committed capacity answers it; if it was residency, the private deployment row answers it; and if it was genuinely cost, the honest total including staffing usually shows the break-even is far away. Two things to include explicitly. The <strong>staffing line</strong>, because leaving it out is what makes these proposals look better than they are. And the <strong>quality delta per category</strong> from your own evaluation, so the trade is concrete rather than theoretical. If self-hosting still wins, recommend starting hybrid so the commitment is reversible.</p>",
+              },
+              {
+                question:
+                  "What would change your answer over time?",
+                solution:
+                  "<p>Three things, and they move in different directions. <strong>Open models improve faster than frontier models</strong> at the capability levels most enterprise tasks need, so a quality gap that blocks the decision today may close within a year — which argues for re-running the comparison periodically rather than treating a no as permanent. <strong>API prices fall</strong>, and committed-capacity discounts at high volume push the break-even further out, so the financial case for self-hosting tends to weaken rather than strengthen as you grow. And <strong>your own volume and traffic shape</strong> change: a product that becomes genuinely high-volume with steady around-the-clock usage, rather than a spiky eight-hour internal tool, transforms the utilisation figure that dominates the model. There is also a discontinuity worth watching for: if you fine-tune a model and it becomes materially better than a general one on your task, the decision changes from \"cheaper equivalent\" to \"better and different\", which is a much stronger case. The practical advice is to revisit the comparison annually with fresh numbers rather than carrying an old conclusion forward.</p>",
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/about-claude/pricing",
+              "https://docs.vllm.ai/en/latest/",
+              "https://huggingface.co/docs/text-generation-inference/index",
+              "https://docs.anthropic.com/en/api/rate-limits",
+            ],
+          },
+          {
+            topic: "Quantization for Cost & Speed",
+            tags: ["must-know", "cost", "inference", "self-hosting"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "What does quantization do, and what quality do you lose at 8-bit or 4-bit?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Quantisation stores the model's weights at <strong>lower numeric precision</strong> — sixteen bits per value becomes eight, or four. Fewer bits per parameter, so the model takes less memory and runs faster.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    One clarification first, because the word is used for two different things: this is about <em>model weights</em>. Quantising <em>embeddings</em> in a vector store is a separate technique with a similar name and a different purpose.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why It Speeds Things Up — The Bit Worth Knowing
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Generating a token is MEMORY-BANDWIDTH-BOUND, not
+compute-bound. Every single token requires reading the
+model's weights out of memory.
+
+  So HALVE THE BYTES, roughly HALVE THE READING, and you
+  get roughly DOUBLE THE SPEED.
+
+That is why quantisation improves latency and throughput at
+the same time as memory - it is attacking the actual
+bottleneck rather than a secondary one.
+
+AND THE MEMORY EFFECT IS THE ECONOMIC ONE:
+
+  a 70B model at FP16  -> ~140 GB  -> 2+ high-end GPUs
+  the same at INT8     ->  ~70 GB  -> 1 GPU
+  the same at INT4     ->  ~35 GB  -> 1 smaller GPU
+
+THAT IS THE REAL POINT. It is not "slightly cheaper" - it is
+the difference between needing two machines and needing one,
+which changes the whole self-hosting cost model.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What You Actually Lose
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>8-bit: usually negligible.</strong> Modern eight-bit methods are close to lossless on most tasks. This is the safe default, and if you are self-hosting there is rarely a reason not to.</li>
+    <li style="margin-top: 0.5rem;"><strong>4-bit: measurable but often acceptable.</strong> Typically a few percent on general benchmarks — fine for many production tasks, and worth the halving in memory when it lets you fit on one GPU.</li>
+    <li style="margin-top: 0.5rem;"><strong>Below 4-bit: significant.</strong> Interesting research, not a production default.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Degrades First — The Useful Detail
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+The average barely moves. THE EDGES GET WORSE. And the
+edges are where your hard cases live.
+
+  LONG CONTEXT. Performance degrades more at 30k tokens
+    than at 2k, so a benchmark run on short prompts tells
+    you little about a RAG system.
+  MULTI-STEP REASONING. Errors compound across steps, so an
+    agent suffers more than a single-shot task.
+  STRUCTURED OUTPUT ADHERENCE. Schema compliance and exact
+    formatting get slightly less reliable - which matters if
+    downstream code parses it.
+  RARE FACTS. Common knowledge survives; the long tail of
+    specific facts degrades.
+  NON-ENGLISH, and code in less common languages.
+
+SO THE TASKS THAT SUFFER LEAST are classification,
+extraction, tagging and short summarisation - which happen
+to be exactly the routes you would put on a small
+self-hosted model anyway.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Benchmarks Do Not Answer Your Question
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Published quantisation benchmarks measure general capability on short, clean inputs. Your system has six-thousand-token prompts, a specific output schema and a particular domain. <strong>Run your own golden set at each precision</strong>, at your real context length, and compare per category — because the degradation is task-specific and the aggregate hides it.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Where It Matters, And Where It Is Irrelevant
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>It matters enormously if you self-host</strong>, because it determines how many GPUs you need — which is the dominant term in the cost model. <strong>It is irrelevant if you use an API</strong>, because the provider has already made that decision and priced accordingly. Saying that distinction plainly is worth doing, because it tells you whether this question is even in scope for a given architecture.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Methods Worth Naming
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>GPTQ</strong> and <strong>AWQ</strong> are the common post-training methods for serving — they quantise a trained model using a small calibration set, and AWQ in particular tries to protect the weights that matter most. <strong>GGUF</strong> is the format used by llama.cpp for CPU and mixed inference. <strong>bitsandbytes</strong> is the convenient option for loading in eight or four bits directly. The distinction worth knowing is <strong>weight-only</strong> versus <strong>weight-and-activation</strong> quantisation: weight-only is the common, safer choice, while also quantising activations gives more speed and more risk.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "What does quantization do, and what quality do you lose at
+   8-bit or 4-bit?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you know WHY it makes things faster - the
+  memory-bandwidth point - and whether you can give real
+  numbers for the quality cost rather than "some". The detail
+  that marks out experience is knowing WHAT degrades first,
+  because the average barely moves.
+
+WEAK ANSWER
+  "Quantization reduces the precision of model weights to
+   save memory and improve speed, with some quality loss that
+   increases as you go to lower bit widths."
+  Why it is weak: definitionally correct and empty. No
+  mechanism, no numbers, and nothing about which capabilities
+  degrade - which is the part that decides whether you can
+  use it.
+
+STRONG ANSWER (about 60 seconds)
+  "It stores the weights at lower numeric precision - 16 bits
+   per value down to 8 or 4.
+
+   The reason it speeds things up is worth being precise
+   about: generating a token is MEMORY-BANDWIDTH-BOUND, not
+   compute-bound, because every token requires reading the
+   model's weights out of memory. So halve the bytes, halve
+   the reading, roughly double the speed. It attacks the
+   actual bottleneck.
+
+   And the memory effect is the economic one. A 70B model at
+   FP16 is around 140GB, so two or more high-end GPUs. At
+   INT8 it is 70GB - one GPU. At INT4, 35GB. That is not
+   'slightly cheaper', it is the difference between two
+   machines and one, which changes the whole self-hosting
+   cost model.
+
+   On quality: 8-bit is usually near-lossless on most tasks
+   and is the safe default. 4-bit costs a few percent on
+   general benchmarks - often acceptable, and worth it when
+   it gets you onto one GPU. Below 4-bit is research, not
+   production.
+
+   The useful detail is WHAT degrades first, because the
+   average barely moves and THE EDGES GET WORSE. Long context
+   suffers more than short - so a benchmark on 2k prompts
+   tells me little about a RAG system running at 6k.
+   Multi-step reasoning, because errors compound. Structured
+   output adherence, which matters if downstream code parses
+   it. Rare facts, and non-English. What survives best is
+   classification, extraction and tagging - which are exactly
+   the routes I would self-host anyway.
+
+   So I would not trust published benchmarks. I would run my
+   own golden set at each precision, AT MY REAL CONTEXT
+   LENGTH, and compare per category.
+
+   And I would note this only matters if I am self-hosting.
+   On an API the provider has already decided."
+
+FOLLOW-UPS TO EXPECT
+  "Why does it improve speed and not just memory?"
+      -> decode is memory-bandwidth-bound. Fewer bytes to
+         read per token means faster generation.
+  "What degrades first?"
+      -> long context, multi-step reasoning, structured
+         output adherence, rare facts, non-English.
+  "Which precision would you default to?"
+      -> 8-bit. Near-lossless, and it often halves your GPU
+         count. 4-bit only if you need it and have measured.
+  "Is this the same as quantising embeddings?"
+      -> no. Same word, different thing - that is about
+         vector store memory, not inference.
+
+RED FLAGS
+  No mechanism for why it is faster.
+  "Some quality loss" with no numbers.
+  Not knowing which capabilities degrade.
+  Trusting general benchmarks for a specific task.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// WHY IT MAKES THINGS FASTER. The mechanism matters, because it
+// explains why the effect is so large.
+
+const whyItIsFaster = {
+  // Generating a token requires reading ALL the model's weights out
+  // of memory. Every single token.
+  decodeIsMemoryBandwidthBound: true,
+
+  consequence: "halve the bytes -> halve the reading -> roughly " +
+               "double the throughput",
+
+  // It attacks the ACTUAL bottleneck rather than a secondary one,
+  // which is why it helps latency AND memory at once.
+  note: "compare with prefill, which is compute-bound and benefits " +
+        "much less"
+};
+
+// AND THE MEMORY EFFECT IS THE ECONOMIC ONE.
+function memoryFootprint(params, bitsPerWeight) {
+  // Roughly: parameters x bytes per weight, plus overhead for the
+  // KV cache and activations.
+  const gb = (params * (bitsPerWeight / 8)) / 1e9;
+  return { weightsGb: gb, plusKvCacheAndActivations: "add 10-30%" };
+}
+
+const seventyBillion = {
+  fp16: { gb: 140, gpus: "2+ high-end", note: "the baseline" },
+  int8: { gb: 70,  gpus: "1",
+          // THE REAL POINT. Not "slightly cheaper" - one machine
+          // instead of two.
+          note: "halves the GPU count, which halves the dominant " +
+                "term in the self-hosting cost model" },
+  int4: { gb: 35,  gpus: "1 smaller",
+          note: "fits on hardware that could not run it at all before" }
+};
+
+// THE KV CACHE MATTERS TOO, and people forget it.
+const kvCacheNote = {
+  what: "memory held per concurrent request, proportional to " +
+        "context length",
+  why: "quantising the WEIGHTS frees memory that the KV cache can " +
+       "then use - so you get more CONCURRENCY as well as speed",
+  effect: "a RAG system with 6k-token prompts may go from 8 " +
+          "concurrent requests to 20 on the same GPU"
+};
+
+// ONE CLARIFICATION, because the word is overloaded:
+const notTheSameThing = {
+  modelQuantisation: "weights of the MODEL, for inference speed and " +
+                     "GPU count - this topic",
+  embeddingQuantisation: "vectors in the VECTOR STORE, for memory - " +
+                         "a different technique with a similar name"
+};`,
+              `// WHAT YOU ACTUALLY LOSE. Give numbers, not "some".
+
+const qualityByPrecision = {
+  fp16: { loss: "baseline", verdict: "reference" },
+
+  int8: {
+    loss: "usually negligible - close to lossless on most tasks",
+    // If you are self-hosting, there is rarely a reason not to.
+    verdict: "THE SAFE DEFAULT",
+    memoryVsFp16: "50%"
+  },
+
+  int4: {
+    loss: "typically a few percent on general benchmarks",
+    verdict: "often acceptable, and worth it when it gets you onto " +
+             "one GPU",
+    memoryVsFp16: "25%",
+    caveat: "measure on YOUR task at YOUR context length"
+  },
+
+  belowInt4: {
+    loss: "significant",
+    verdict: "research, not a production default"
+  }
+};
+
+// WHAT DEGRADES FIRST. THE AVERAGE BARELY MOVES; THE EDGES GET
+// WORSE - and the edges are where your hard cases live.
+const degradesFirst = [
+  { capability: "LONG CONTEXT",
+    why: "performance falls off more at 30k tokens than at 2k",
+    // So a benchmark run on short prompts tells you almost nothing
+    // about a RAG system.
+    implication: "test at YOUR real prompt length, not at 512 tokens" },
+
+  { capability: "MULTI-STEP REASONING",
+    why: "small errors compound across steps",
+    implication: "an agent suffers much more than a single-shot task" },
+
+  { capability: "STRUCTURED OUTPUT ADHERENCE",
+    why: "schema compliance and exact formatting get slightly less " +
+         "reliable",
+    implication: "matters a lot if downstream code parses the output" },
+
+  { capability: "RARE FACTS",
+    why: "common knowledge survives; the long tail degrades" },
+
+  { capability: "NON-ENGLISH AND UNCOMMON CODE",
+    why: "less represented in training, so less robust to precision " +
+         "loss" }
+];
+
+// SO WHAT SURVIVES BEST:
+const survivesWell = ["classification", "extraction", "tagging",
+                      "short summarisation", "routing"];
+// Which are EXACTLY the routes you would put on a small
+// self-hosted model anyway. That is a convenient alignment worth
+// pointing out.`,
+              `// BENCHMARKS DO NOT ANSWER YOUR QUESTION. Measure your own task.
+
+async function measureQuantisationImpact(goldenSet) {
+  const precisions = ["fp16", "int8", "int4"];
+  const results = {};
+
+  for (const p of precisions) {
+    results[p] = await evaluate(goldenSet, {
+      model: loadModel(MODEL_NAME, { quantisation: p }),
+      // CRITICAL: at YOUR real context length. Published benchmarks
+      // use short clean inputs and tell you little about a
+      // 6,000-token RAG prompt.
+      contextTokens: 6_000
+    });
+  }
+
+  return {
+    // Per CATEGORY, because the degradation is not uniform and the
+    // aggregate hides it.
+    byCategory: Object.keys(results.fp16.byCategory).map(cat => ({
+      category: cat,
+      fp16: mean(results.fp16.byCategory[cat].map(r => r.passRate)),
+      int8: mean(results.int8.byCategory[cat].map(r => r.passRate)),
+      int4: mean(results.int4.byCategory[cat].map(r => r.passRate))
+    })),
+
+    // The specific things to check, because they degrade first.
+    schemaCompliance: precisions.map(p => ({
+      precision: p, rate: results[p].schemaValidRate })),
+    longContextCategory: precisions.map(p => ({
+      precision: p, score: results[p].byCategory["long-document"] })),
+    multiStepCategory: precisions.map(p => ({
+      precision: p, score: results[p].byCategory["multi-document"] })),
+
+    // And the throughput side of the trade.
+    throughput: precisions.map(p => ({
+      precision: p,
+      tokensPerSec: benchmarkThroughput(p),
+      concurrentRequests: benchmarkConcurrency(p, 6_000),
+      gpusNeeded: gpusFor(p)
+    }))
+  };
+}
+
+// A TYPICAL RESULT SHAPE:
+const typicalFindings = {
+  classification: "fp16 0.97, int8 0.97, int4 0.96 -> int4 is fine",
+  extraction:     "fp16 0.94, int8 0.94, int4 0.92 -> int8, maybe int4",
+  documentQa:     "fp16 0.86, int8 0.85, int4 0.79 -> int8 only",
+  multiDocument:  "fp16 0.83, int8 0.81, int4 0.68 -> int8, and " +
+                  "watch it",
+  schemaValid:    "fp16 0.999, int8 0.998, int4 0.981 -> int4 breaks " +
+                  "downstream parsing 2% of the time, which may be " +
+                  "unacceptable"
+};
+// The aggregate would have said "int4 costs about 4 points". The
+// breakdown says int4 is fine for two routes and not for two
+// others - which is a completely different decision.`,
+              `// METHODS, AND WHERE THIS MATTERS AT ALL.
+
+const methods = {
+  gptq: { type: "post-training, weight-only",
+          how: "quantises layer by layer using a small calibration " +
+               "set to minimise error",
+          use: "common for GPU serving" },
+
+  awq: { type: "post-training, weight-only",
+         how: "identifies the weights that matter most and protects " +
+              "them from precision loss",
+         use: "often better quality than GPTQ at the same bit width" },
+
+  gguf: { type: "format, various bit widths",
+          how: "the llama.cpp format, with many quantisation " +
+               "variants",
+          use: "CPU and mixed CPU/GPU inference, local deployment" },
+
+  bitsandbytes: { type: "load-time",
+                  how: "load a model in 8 or 4 bit directly",
+                  use: "convenient, good for experimentation, " +
+                       "generally slower than a purpose-built " +
+                       "quantised artefact" }
+};
+
+// THE DISTINCTION WORTH KNOWING:
+const weightOnlyVsFull = {
+  weightOnly: { quantises: "the weights",
+                keeps: "activations at higher precision",
+                risk: "lower", verdict: "the common, safer choice" },
+  weightAndActivation: { quantises: "both",
+                         gains: "more speed",
+                         risk: "higher quality cost, more sensitive " +
+                               "to outlier activations",
+                         verdict: "worth it only when you have " +
+                                  "measured and need the throughput" }
+};
+
+// WHERE THIS MATTERS - AND WHERE IT IS IRRELEVANT.
+const relevance = {
+  selfHosting: {
+    matters: "ENORMOUSLY",
+    why: "it determines your GPU count, which is the dominant term " +
+         "in the cost model - and GPU count drives redundancy, " +
+         "peak sizing and everything else"
+  },
+  usingAnApi: {
+    matters: "not at all",
+    why: "the provider already made this decision and priced " +
+         "accordingly. You cannot choose it and you do not need to."
+  },
+  // Saying this distinction plainly is worth doing - it tells you
+  // whether the question is even in scope for a given architecture.
+  note: "so the first question is: are we self-hosting? If not, this " +
+        "conversation does not apply."
+};
+
+// THE PRACTICAL RECOMMENDATION:
+const recommendation = [
+  "INT8 as the default when self-hosting - near-lossless and it " +
+    "often halves the GPU count",
+  "INT4 only if you need it to fit the hardware AND you have " +
+    "measured it on your own set at your real context length",
+  "always check SCHEMA COMPLIANCE and LONG-CONTEXT categories " +
+    "specifically, because they degrade first",
+  "and re-measure after any model or inference-server upgrade"
+];`,
+            ],
+            questions: [
+              {
+                question:
+                  "What does quantization do, and what quality do you lose at 8-bit or 4-bit?",
+                solution: `<p>It stores the model's weights at lower numeric precision — sixteen bits per value down to eight or four.</p>
+             <p>The reason it speeds things up is worth being precise about: <strong>generating a token is memory-bandwidth-bound</strong>, because every token requires reading the model's weights out of memory. Halve the bytes, halve the reading, roughly double the speed.</p>
+             <p>And the memory effect is the economic one: a 70B model at FP16 is around 140GB — two or more high-end GPUs — at INT8 it is 70GB, one GPU. That is the difference between two machines and one.</p>
+             <p>On quality: <strong>8-bit is usually near-lossless</strong> and is the safe default. <strong>4-bit costs a few percent</strong> and is often acceptable. Below 4-bit is research, not production.</p>`,
+              },
+              {
+                question:
+                  "Why does quantization improve speed and not just memory?",
+                solution:
+                  "<p>Because <strong>decode is memory-bandwidth-bound rather than compute-bound</strong>. Generating each token requires reading the model's entire weight set out of memory, and the GPU spends most of its time moving data rather than doing arithmetic. So if you halve the bytes per weight, you halve the amount that has to be read per token, and throughput roughly doubles. It is attacking the actual bottleneck rather than a secondary one, which is why the effect is large and reliable rather than marginal. It is worth contrasting this with <strong>prefill</strong>, which processes the whole prompt in parallel and is compute-bound — quantisation helps it much less. So the speedup shows up mainly in generation, which is also where most of the latency in a long answer lives. There is a second-order benefit people miss: freeing weight memory leaves more room for the <strong>KV cache</strong>, which is what limits how many concurrent requests one GPU can serve. For a RAG system with six-thousand-token prompts, that can take you from a handful of concurrent requests to several times as many on the same hardware, which affects throughput as much as the raw token rate does.</p>",
+              },
+              {
+                question:
+                  "What actually degrades, and in what order?",
+                solution: `<p>The average barely moves — <strong>the edges get worse</strong>, and the edges are where your hard cases live:</p>
+             <ul>
+               <li><strong>Long context</strong> degrades more than short. Performance at thirty thousand tokens falls off noticeably more than at two thousand, which means a benchmark run on short prompts tells you very little about a RAG system.</li>
+               <li><strong>Multi-step reasoning</strong>, because small errors compound across steps — so an agent suffers far more than a single-shot task.</li>
+               <li><strong>Structured output adherence</strong>, where schema compliance and exact formatting get slightly less reliable. That matters disproportionately, because downstream code parses it.</li>
+               <li><strong>Rare facts</strong> — common knowledge survives, the long tail degrades.</li>
+               <li><strong>Non-English text and less common programming languages.</strong></li>
+             </ul>
+             <p>What survives best is classification, extraction, tagging and short summarisation — conveniently, exactly the routes you would put on a small self-hosted model anyway.</p>`,
+              },
+              {
+                question:
+                  "Why can't you rely on published quantization benchmarks?",
+                solution:
+                  "<p>Because they measure general capability on short, clean inputs, and your system is neither. Published results typically use standard evaluation sets with prompts of a few hundred tokens, no domain-specific vocabulary, no output schema and no retrieved context — while your production request is a six-thousand-token prompt containing eight retrieved chunks, a system prompt, tool definitions and a requirement to produce parseable JSON. Since <strong>long context is one of the first things to degrade</strong>, a benchmark at five hundred tokens systematically understates the loss you will actually see. The same applies to structured output: a general benchmark does not measure whether schema compliance drops from 99.9% to 98%, which sounds trivial and means downstream parsing fails on one request in fifty. So the answer is to run <strong>your own golden set at each precision, at your real context length, compared per category</strong>. The aggregate result will typically say something like \"four-bit costs about four points\", while the breakdown says it is fine for two routes and unacceptable for two others — which is an entirely different decision and one you can act on.</p>",
+              },
+              {
+                question:
+                  "Which precision would you default to?",
+                solution:
+                  "<p><strong>Eight-bit</strong>, when self-hosting. It is close to lossless on most tasks, it halves memory, it roughly doubles throughput, and it often takes you from needing two GPUs to needing one — which is the change that actually moves the cost model. There is rarely a good reason to serve at full precision if you are running your own inference. <strong>Four-bit</strong> is a deliberate choice rather than a default: take it when it is the difference between fitting on your available hardware and not, and only after measuring on your own evaluation set at your real context length. The specific things to check before accepting it are schema compliance and the long-context and multi-step categories, because those degrade first and they are the ones that break downstream systems rather than just producing slightly worse prose. <strong>Below four-bit</strong> is genuinely interesting research and not a production default — the quality cost is significant enough that you would need an unusual reason. And re-measure after any model upgrade or inference-server change, since quantisation quality varies by method and implementation and the picture does not stay fixed.</p>",
+              },
+              {
+                question:
+                  "Is this the same as quantising embeddings in a vector store?",
+                solution: `<p>No — same word, different technique, different purpose, and it is worth separating them because the overlap in terminology causes confusion.</p>
+             <ul>
+               <li><strong>Model quantisation</strong> reduces the precision of the <em>weights</em>, to cut GPU memory and speed up inference. It only applies if you are running the model yourself.</li>
+               <li><strong>Embedding quantisation</strong> reduces the precision of the <em>vectors</em> in your index — float32 to int8 or binary — to cut the memory your vector database needs. It applies regardless of who runs your model.</li>
+             </ul>
+             <p>They share the underlying idea of trading numeric precision for memory, and they even have a similar safety valve: for embeddings you can search a quantised index and then <em>rescore</em> the top candidates at full precision, recovering most of the recall.</p>
+             <p>But they solve different problems in different parts of the stack, and one is often relevant when the other is entirely out of scope.</p>`,
+              },
+              {
+                question:
+                  "When is this question not relevant at all?",
+                solution:
+                  "<p>When you are using an API. The provider has already chosen how to serve the model — what precision, what inference stack, what batching — and has priced accordingly. You cannot select it, you cannot measure it independently, and you do not need to. So the first thing to establish is whether self-hosting is even on the table, because if it is not, quantisation is an implementation detail of someone else's platform. Saying that plainly is worth doing in an interview, because it demonstrates you know which decisions belong to which architecture rather than reciting everything you know about inference. Where it becomes <strong>enormously</strong> relevant is self-hosting, because it determines your GPU count — and GPU count is the dominant term in the self-hosting cost model, driving not just the compute bill but redundancy, peak sizing and how many machines someone has to operate. Halving the GPU count via eight-bit quantisation can shift a break-even calculation more than any other single decision. So it is the technique that most directly connects to whether self-hosting makes financial sense at all.</p>",
+              },
+              {
+                question:
+                  "What methods should you know by name?",
+                solution: `<p>Four, plus one distinction:</p>
+             <ul>
+               <li><strong>GPTQ</strong> — post-training, weight-only, quantises layer by layer using a small calibration set to minimise error. Common for GPU serving.</li>
+               <li><strong>AWQ</strong> — also post-training and weight-only, but it identifies the weights that matter most and protects them from precision loss, so it often gives better quality at the same bit width.</li>
+               <li><strong>GGUF</strong> — the llama.cpp format with many quantisation variants, used for CPU and mixed CPU/GPU inference and local deployment.</li>
+               <li><strong>bitsandbytes</strong> — load-time quantisation, convenient for experimentation, generally slower than a purpose-built quantised artefact.</li>
+             </ul>
+             <p>The distinction worth knowing is <strong>weight-only versus weight-and-activation</strong> quantisation. Weight-only is the common, safer choice. Quantising activations as well gives more speed and carries more quality risk, particularly because activation outliers are harder to represent at low precision — so it is worth it only when you have measured and genuinely need the throughput.</p>`,
+              },
+              {
+                question:
+                  "How does quantization interact with concurrency?",
+                solution:
+                  "<p>Through the <strong>KV cache</strong>, and this is the part people underrate. Serving concurrent requests requires holding a key-value cache per in-flight request, sized in proportion to context length — so a system sending six-thousand-token prompts consumes far more cache per request than one sending three hundred. That cache competes for the same GPU memory as the weights. Quantising the weights frees memory that the cache can then use, so you get <em>more concurrent requests</em> as well as faster generation, and on a long-context workload the concurrency gain can matter more to your throughput than the raw token-rate improvement. It is the difference between serving a handful of simultaneous RAG queries per GPU and serving several times that. There is a related technique worth naming: <strong>quantising the KV cache itself</strong>, which attacks the same constraint from the other direction and is particularly valuable for long-context serving. The practical implication for a cost model is that you should benchmark concurrency at your <em>real</em> prompt length rather than reading a tokens-per-second figure, because that is what determines how many machines you need at peak.</p>",
+              },
+              {
+                question:
+                  "How would you decide whether four-bit is acceptable?",
+                solution: `<p>By measuring the specific things that break, not the aggregate:</p>
+             <ol>
+               <li><strong>Run the golden set at each precision</strong>, at your real context length, and compare <em>per category</em>.</li>
+               <li><strong>Check schema compliance explicitly</strong> — a drop from 99.9% to 98% sounds trivial and means downstream parsing fails once in fifty requests, which may be unacceptable regardless of the quality score.</li>
+               <li><strong>Check the long-context and multi-step categories</strong> specifically, since they degrade first.</li>
+               <li><strong>Measure the throughput and GPU-count gain</strong>, so the trade is explicit rather than assumed.</li>
+             </ol>
+             <p>Then the decision is concrete: four-bit is acceptable if the categories that matter for your traffic hold up and the hardware saving is real. Often the answer is <strong>mixed</strong> — four-bit for a self-hosted classification route, eight-bit for anything doing document reasoning — which is a perfectly reasonable outcome and follows the same per-route logic as model routing.</p>`,
+              },
+              {
+                question:
+                  "What is the honest summary you would give a stakeholder?",
+                solution:
+                  "<p>That quantisation is a <strong>hardware-count decision with a measurable quality cost</strong>, and that eight-bit is close to free while four-bit is a real trade. Concretely: at eight-bit we halve the memory and roughly double the throughput for a quality difference we could not detect on our evaluation set, and it takes us from two GPUs to one — which is the single biggest lever on the self-hosting bill. At four-bit we halve the memory again, and our own testing shows it costs a few points overall, concentrated in long-document and multi-step questions, with schema compliance dropping slightly, so we would use it only on the simpler routes. That framing works because it presents the trade in the terms the decision actually turns on — machines and measured quality per route — rather than in bit widths. And it comes with a caveat worth stating: this applies only if we self-host. On an API, the provider has already made this choice and it is not a decision available to us, which is one more thing to weigh when deciding whether to self-host in the first place.</p>",
+              },
+              {
+                question:
+                  "Does quantization affect fine-tuned models differently?",
+                solution:
+                  "<p>It can, and it is worth flagging. A fine-tuned model has been adjusted toward a specific task, and some of that adjustment lives in relatively small weight differences — which are exactly what low-precision representation is least able to preserve. So the quality loss from aggressive quantisation may be larger on a fine-tuned model than the general benchmarks would suggest, and it may specifically erode the behaviour you fine-tuned for, which is the worst possible place to lose it. The practical consequence is to <strong>measure on the task you fine-tuned for</strong>, not on a general set, and to be more cautious about four-bit than you would be with a base model. There is also an ordering question worth knowing: quantisation-aware approaches, where the model is trained or adapted with quantisation in mind — such as fine-tuning adapters on top of an already-quantised base — generally hold up better than quantising after the fact. If you are self-hosting a fine-tuned model, that is worth investigating before defaulting to post-training quantisation, because it addresses the problem at the point where it is cheapest to fix.</p>",
+              },
+            ],
+            links: [
+              "https://arxiv.org/abs/2210.17323",
+              "https://arxiv.org/abs/2306.00978",
+              "https://docs.vllm.ai/en/latest/quantization/supported_hardware.html",
+              "https://huggingface.co/docs/transformers/main/en/quantization/overview",
+            ],
+          },
+          {
+            topic: "Latency vs Cost vs Quality Trade-Off",
+            tags: ["high-frequency", "must-know", "judgement", "communication"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "The business wants it faster, cheaper and more accurate. How do you frame that trade-off?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The lazy answer is "pick two". <strong>Do not open with that</strong>, because it is both slightly wrong and unhelpful — it turns a solvable conversation into a refusal.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The useful answer starts somewhere else: <strong>several changes improve two or three of these at once, so find the free wins before negotiating anything.</strong>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Changes That Are Not Trade-Offs At All
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  PROMPT CACHING        cheaper AND faster. Quality
+                        IDENTICAL - it is the same prompt.
+
+  SHORTER PROMPTS       cheaper AND faster, and often
+                        BETTER, because long contexts suffer
+                        from lost-in-the-middle and
+                        irrelevant chunks distract the model.
+
+  BETTER RETRIEVAL      better quality, and it lets you send
+  (reranking)           FEWER chunks - so cheaper and faster
+                        too.
+
+  FIXING BAD CHUNKING   better quality and fewer tokens.
+
+  STREAMING             transforms PERCEIVED latency at
+                        identical cost and quality.
+
+  CACHING (exact)       cheaper and faster on a hit.
+
+SO THE FIRST MOVE IS ALWAYS: FIND THE FREE WINS.
+
+In most systems that has not been done, and it is usually
+worth 30-50% on cost and a similar amount on latency before
+anyone has to give anything up.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Then The Genuine Trade-Offs
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Model size</strong> — quality against both cost and latency. The biggest single dial.</li>
+    <li style="margin-top: 0.5rem;"><strong>Number of retrieved chunks</strong> — recall against cost and latency.</li>
+    <li style="margin-top: 0.5rem;"><strong>Reranking</strong> — quality against latency, mostly.</li>
+    <li style="margin-top: 0.5rem;"><strong>Verification passes</strong> — faithfulness checks and guardrails buy safety at the cost of both.</li>
+    <li style="margin-top: 0.5rem;"><strong>Output length</strong> — completeness against latency and cost.</li>
+    <li style="margin-top: 0.5rem;"><strong>Agent steps</strong> — capability against both, and <em>badly</em>, because cost grows faster than linearly.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Move That Dissolves Most Of The Conflict
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+YOU DO NOT NEED ONE ANSWER FOR ALL TRAFFIC.
+
+  The trade-off is PER ROUTE, not global.
+
+  simple lookups   -> small model, no reranking, few chunks
+                      FAST and CHEAP, and quality is fine
+                      because the task is easy
+
+  hard questions   -> strong model, reranking, verification
+                      SLOWER and DEARER, and worth it
+
+Most "we want all three" conversations are really "we want
+all three on the same setting for every request", and once
+you segment, the conflict largely disappears - because the
+traffic that needs to be cheap and the traffic that needs to
+be accurate are usually not the same traffic.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How To Run The Conversation
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>Get numbers on all three axes.</strong> You cannot negotiate this without them, and most teams have only one — usually cost, because it arrives on an invoice.</li>
+    <li style="margin-top: 0.5rem;"><strong>Ask which is actually binding.</strong> Usually one is a genuine constraint and the other two are preferences dressed as requirements.</li>
+    <li style="margin-top: 0.5rem;"><strong>Ask what an improvement is worth</strong>, in their terms. "What would one second faster be worth?" often reveals that it is worth nothing and quality is everything.</li>
+    <li style="margin-top: 0.5rem;"><strong>Do the free wins.</strong> Then re-measure and see whether there is still a conflict.</li>
+    <li style="margin-top: 0.5rem;"><strong>Present a menu, not a refusal</strong> — options with the delta on each axis, so they choose rather than you declining.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The single most useful question: <strong>"if you could only have one, which?"</strong> It almost always resolves the ambiguity immediately, and the answer is frequently not the one they led with.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Make The Quality Number Mean Something
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    "Three points worse on the golden set" means nothing to a business stakeholder. <strong>Translate it into consequences</strong>: at our volume, three points is roughly sixty additional wrong answers a week, of which maybe eight reach a customer. That is a sentence someone can weigh against £400 a month, and it is the difference between a decision and an argument.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "The business wants it faster, cheaper and more accurate.
+   How do you frame that trade-off?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Communication and judgement more than technique. Can you
+  avoid the reflexive "pick two", find the changes that are
+  genuinely free, and turn a demand into a decision the
+  business can make? This is a consulting skill and it is
+  most of an architect's job.
+
+WEAK ANSWER
+  "There is a trade-off triangle - you can optimise for two
+   of the three but not all three, so we would need to
+   understand their priorities."
+  Why it is weak: it is a refusal wearing a diagram. It is
+  also wrong, because several changes improve two or three at
+  once - and most systems have not made any of them yet.
+
+STRONG ANSWER (about 75 seconds)
+  "I would not open with 'pick two', because it is slightly
+   wrong and it turns a solvable conversation into a
+   refusal.
+
+   Several changes improve two or three of these AT ONCE.
+   Prompt caching is cheaper and faster at identical quality -
+   it is literally the same prompt. Shorter prompts are
+   cheaper and faster and often BETTER, because long contexts
+   suffer from lost-in-the-middle and irrelevant chunks
+   distract the model. Better retrieval improves quality AND
+   lets me send fewer chunks, so it is cheaper and faster
+   too. Streaming transforms perceived latency at identical
+   cost. In most systems none of that has been done, and it
+   is usually worth 30-50% on cost and similar on latency
+   before anyone gives anything up. So THE FIRST MOVE IS
+   ALWAYS TO FIND THE FREE WINS.
+
+   Then there are genuine trade-offs - model size, number of
+   chunks, reranking, verification passes, output length, and
+   agent steps, which are the worst because cost grows faster
+   than linearly.
+
+   The move that dissolves most of the conflict is that THE
+   TRADE-OFF IS PER ROUTE, NOT GLOBAL. Simple lookups get a
+   small model, no reranking, few chunks - fast and cheap,
+   and quality is fine because the task is easy. Hard
+   questions get the strong model and verification. Most 'we
+   want all three' conversations are really 'we want all
+   three on the same setting for every request'.
+
+   For the conversation itself: get numbers on all three
+   axes, because most teams only have cost - it arrives on an
+   invoice. Ask which is actually BINDING, because usually
+   one is a constraint and the others are preferences. And
+   the single most useful question is 'if you could only have
+   one, which?' - the answer is frequently not the one they
+   led with.
+
+   Then I would present a MENU with the delta on each axis
+   rather than a refusal - and translate the quality number
+   into consequences, because 'three points worse' means
+   nothing while 'sixty more wrong answers a week, eight of
+   which reach a customer' is something they can weigh
+   against 400 pounds a month."
+
+FOLLOW-UPS TO EXPECT
+  "Which changes are genuinely free?"
+      -> prompt caching, shorter prompts, better retrieval,
+         streaming, exact caching. Most systems have done
+         none of them.
+  "How do you get them to prioritise?"
+      -> ask which is binding, and ask what an improvement
+         is worth. 'If you could only have one, which?'
+  "How do you present the quality cost?"
+      -> as consequences per week, not as points on an eval
+         set.
+  "What if they insist on all three?"
+      -> segment by route. The traffic that must be cheap
+         and the traffic that must be accurate are usually
+         not the same traffic.
+
+RED FLAGS
+  Opening with "pick two".
+  No awareness that some changes improve two or three.
+  Negotiating without numbers on all three axes.
+  Presenting a refusal rather than a menu.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// DO NOT OPEN WITH "PICK TWO". Several changes improve two or
+// three AT ONCE, and most systems have made none of them.
+
+const freeWins = [
+  { change: "prompt caching",
+    cost: "-30%", latency: "-25% TTFT", quality: "IDENTICAL",
+    why: "it is literally the same prompt - only the prefill work " +
+         "is reused" },
+
+  { change: "shorter prompts (8 chunks -> 4)",
+    cost: "-30%", latency: "-20%", quality: "NEUTRAL OR BETTER",
+    // The counter-intuitive one worth explaining.
+    why: "long contexts suffer from lost-in-the-middle, and " +
+         "irrelevant chunks actively distract the model" },
+
+  { change: "add reranking",
+    cost: "-15% net", latency: "+300ms then -200ms", quality: "+8 pts",
+    why: "better ordering means you can send FEWER chunks, so the " +
+         "rerank call pays for itself in prompt size" },
+
+  { change: "fix bad chunking",
+    cost: "-20%", latency: "-15%", quality: "+5 pts",
+    why: "structure-aware chunks are smaller AND retrieve better" },
+
+  { change: "streaming",
+    cost: "0", latency: "PERCEIVED -70%", quality: "0",
+    why: "a 6s answer that starts in 800ms feels fast; a 3s answer " +
+         "that appears at once feels slow" },
+
+  { change: "exact caching with normalisation",
+    cost: "-15%", latency: "-95% on a hit", quality: "0" }
+];
+// In most systems NONE of these have been done. Together they are
+// usually worth 30-50% on cost and similar on latency BEFORE anyone
+// has to give anything up.
+
+// THEN THE GENUINE TRADE-OFFS.
+const realTradeOffs = [
+  { dial: "model size", quality: "+++", cost: "---", latency: "--",
+    note: "the biggest single dial" },
+  { dial: "retrieved chunks", quality: "++", cost: "--", latency: "-" },
+  { dial: "reranking", quality: "++", cost: "-", latency: "--" },
+  { dial: "verification pass", quality: "++ (safety)", cost: "--",
+    latency: "--" },
+  { dial: "output length", quality: "+ (completeness)", cost: "--",
+    latency: "---" },
+  { dial: "agent steps", quality: "++ (capability)", cost: "-----",
+    latency: "-----",
+    // Cost grows FASTER than linearly, because context accumulates.
+    note: "the worst trade of all - 5 steps is 8-10x, not 5x" }
+];`,
+              `// THE MOVE THAT DISSOLVES MOST OF THE CONFLICT:
+// THE TRADE-OFF IS PER ROUTE, NOT GLOBAL.
+
+const perRouteSettings = {
+  faq_lookup: {
+    share: 0.35,
+    model: "small", chunks: 3, rerank: false, verify: false,
+    maxTokens: 200,
+    result: { latencyMs: 900, pence: 0.3, quality: 0.93 },
+    // Quality is fine BECAUSE THE TASK IS EASY, not because we
+    // compromised.
+    note: "fast AND cheap AND accurate - no trade made"
+  },
+
+  document_qa: {
+    share: 0.50,
+    model: "strong", chunks: 6, rerank: true, verify: false,
+    maxTokens: 400,
+    result: { latencyMs: 2800, pence: 1.9, quality: 0.87 }
+  },
+
+  compliance_question: {
+    share: 0.15,
+    model: "strong", chunks: 10, rerank: true, verify: true,
+    maxTokens: 600,
+    result: { latencyMs: 5200, pence: 4.1, quality: 0.94 },
+    // Slower and dearer ON PURPOSE, and obviously worth it here.
+    note: "the trade is made where the stakes justify it"
+  }
+};
+
+// THE BLENDED RESULT IS BETTER THAN ANY SINGLE SETTING.
+function blended(routes) {
+  const w = k => Object.values(routes)
+    .reduce((s, r) => s + r.share * r.result[k], 0);
+  return { latencyMs: w("latencyMs"), pence: w("pence"),
+           quality: w("quality") };
+}
+// ~2,200ms, ~1.6p, ~0.90 - compared with running EVERYTHING on the
+// compliance setting (5,200ms, 4.1p, 0.94) or everything on the FAQ
+// setting (900ms, 0.3p, but 0.71 on the hard questions).
+
+// MOST "WE WANT ALL THREE" CONVERSATIONS ARE REALLY "WE WANT ALL
+// THREE ON THE SAME SETTING FOR EVERY REQUEST". Once you segment,
+// the conflict largely disappears - because the traffic that needs
+// to be cheap and the traffic that needs to be accurate are usually
+// NOT THE SAME TRAFFIC.`,
+              `// HOW TO RUN THE CONVERSATION. You cannot negotiate without
+// numbers on all three axes, and most teams have only one.
+
+const currentState = {
+  // Most teams have THIS one, because it arrives on an invoice.
+  cost: { pencePerRequest: 2.2, monthlyGbp: 1_320 },
+  // And often not these.
+  latency: { p50Ms: 2_100, p95Ms: 4_800, ttftMs: 1_400 },
+  quality: { goldenSetOverall: 0.87, byCategory: { /* ... */ } }
+};
+
+// THE QUESTIONS THAT ACTUALLY RESOLVE IT:
+const conversation = [
+  { ask: "Which of these is a hard constraint, and which is a " +
+         "preference?",
+    why: "usually ONE is binding and the other two are aspirations " +
+         "dressed as requirements" },
+
+  { ask: "What would one second faster be worth to you?",
+    why: "often reveals it is worth nothing and quality is " +
+         "everything - or that there is a hard limit above which " +
+         "people abandon the request" },
+
+  { ask: "What does a wrong answer cost?",
+    why: "sets how much quality is worth, and it is the same " +
+         "question that determines the architecture" },
+
+  // THE SINGLE MOST USEFUL QUESTION.
+  { ask: "If you could only have ONE, which?",
+    why: "almost always resolves it immediately - and the answer is " +
+         "frequently NOT the one they led with" }
+];
+
+// THEN PRESENT A MENU, NOT A REFUSAL.
+const menu = [
+  { option: "A. Free wins only (caching, shorter prompts, rerank)",
+    cost: "-38%", latency: "-30%", quality: "+3 pts",
+    verdict: "do this regardless - nothing is traded" },
+
+  { option: "B. A + small model on simple routes",
+    cost: "-61%", latency: "-45%", quality: "-1 pt overall",
+    detail: "no change on hard questions; -3 pts on FAQ, which " +
+            "remains above bar" },
+
+  { option: "C. B + drop verification on non-compliance routes",
+    cost: "-68%", latency: "-55%", quality: "-4 pts",
+    // Translate it - see below.
+    consequence: "about 60 more wrong answers a week, of which " +
+                 "roughly 8 reach a customer" },
+
+  { option: "D. Add verification everywhere",
+    cost: "+45%", latency: "+40%", quality: "+3 pts",
+    verdict: "if accuracy is the binding constraint, this is the " +
+             "direction - and it costs, rather than saves" }
+];
+// THEY choose. You are presenting a decision, not declining a
+// request.`,
+              `// MAKE THE QUALITY NUMBER MEAN SOMETHING.
+// "Three points worse on the golden set" means NOTHING to a
+// business stakeholder.
+
+function translateQualityDelta(deltaPoints, volume) {
+  const extraWrongPerMonth = volume.requestsPerMonth * (deltaPoints / 100);
+  return {
+    // The sentence someone can actually weigh against money.
+    perWeek: Math.round(extraWrongPerMonth / 4.3),
+    reachingCustomers: Math.round((extraWrongPerMonth / 4.3) *
+                                  volume.customerFacingShare),
+    escalations: Math.round((extraWrongPerMonth / 4.3) *
+                            volume.escalationRate),
+    // And the comparison that makes it a decision.
+    against: "400 GBP a month saved"
+  };
+}
+// "Three points worse" -> "about 60 more wrong answers a week, of
+//  which roughly 8 reach a customer and 3 become support tickets -
+//  against 400 pounds a month saved."
+//
+// THAT is a decision. The first version is an argument.
+
+// AND TRANSLATE LATENCY THE SAME WAY:
+const latencyTranslation = {
+  bad: "p95 goes from 4.8s to 6.2s",
+  good: "roughly 1 in 20 users waits an extra second and a half. At " +
+        "our abandonment curve that is about 40 abandoned questions " +
+        "a week."
+};
+
+// THE FRAMING SENTENCE FOR A STAKEHOLDER:
+const framing =
+  "Two of these we can improve for free - I can make it about 40% " +
+  "cheaper and 30% faster with no quality cost at all, because " +
+  "nobody has done the caching or trimmed the context yet. Beyond " +
+  "that it becomes a real trade, and it is different for different " +
+  "kinds of question - so let me show you the options with what " +
+  "each one costs on the other axes, and you choose.";
+
+// WHAT NOT TO SAY:
+const doNotSay = [
+  "you can only have two",          // a refusal wearing a diagram
+  "it depends",                     // true and useless
+  "we would need to investigate",   // if you have no numbers, get
+                                    // them first, then have this
+                                    // conversation
+  "that is not technically possible"// it usually is, at a price
+];`,
+            ],
+            questions: [
+              {
+                question:
+                  "The business wants it faster, cheaper and more accurate. How do you frame that trade-off?",
+                solution: `<p>I would <strong>not open with "pick two"</strong>, because it is slightly wrong and it turns a solvable conversation into a refusal.</p>
+             <p>Several changes improve two or three of these <em>at once</em>. Prompt caching is cheaper and faster at identical quality. Shorter prompts are cheaper, faster and often <em>better</em>, because long contexts suffer from lost-in-the-middle. Better retrieval improves quality <em>and</em> lets me send fewer chunks. Streaming transforms perceived latency at zero cost. In most systems none of that has been done, and it is usually worth 30–50% before anyone gives anything up. <strong>So the first move is always to find the free wins.</strong></p>
+             <p>Then the move that dissolves most of the conflict: <strong>the trade-off is per route, not global</strong>. And I would present a menu with the delta on each axis rather than a refusal.</p>`,
+              },
+              {
+                question:
+                  "Why is 'pick two' a bad way to open?",
+                solution:
+                  "<p>Two reasons. It is <strong>slightly wrong</strong>, because several changes genuinely improve two or three axes simultaneously — prompt caching is cheaper and faster at identical quality; shorter prompts are cheaper, faster and often better; adding a reranker improves quality while letting you send fewer chunks, so it pays for itself. Presenting those as impossible is simply inaccurate, and in most systems none of them have been done yet, so there is real headroom before any trade is required. And it is <strong>unhelpful</strong>, because it converts a request into a refusal. A stakeholder asking for all three is not being unreasonable — they are describing what they want, which is their job. Answering with a diagram that says no leaves them with nothing to decide and you looking obstructive. The productive move is to treat it as a prompt to find the free wins first, then to segment by route, and only then to present the genuine trades as a menu with numbers attached. That converts the same conversation from \"you can't have that\" into \"here are four options and what each costs\" — which is the same information, delivered as a decision rather than a rejection.</p>",
+              },
+              {
+                question:
+                  "Which changes genuinely improve more than one axis?",
+                solution: `<p>Six, and most systems have made none of them:</p>
+             <ul>
+               <li><strong>Prompt caching</strong> — cheaper and faster at <em>identical</em> quality, since it is the same prompt with the prefill work reused.</li>
+               <li><strong>Shorter prompts</strong> — cheaper and faster, and often <em>better</em>, because long contexts suffer from lost-in-the-middle and irrelevant chunks distract the model.</li>
+               <li><strong>Adding reranking</strong> — better quality, and because the ordering improves you can send fewer chunks, so it pays for itself in prompt size.</li>
+               <li><strong>Fixing bad chunking</strong> — structure-aware chunks are smaller and retrieve better.</li>
+               <li><strong>Streaming</strong> — transforms perceived latency at identical cost and quality.</li>
+               <li><strong>Exact caching with normalisation</strong> — cheaper and much faster on a hit, zero risk.</li>
+             </ul>
+             <p>Together these are typically worth thirty to fifty percent on cost and a similar amount on latency, with quality flat or improved. That is why the first move is to do them and re-measure before negotiating anything.</p>`,
+              },
+              {
+                question:
+                  "Why does segmenting by route dissolve the conflict?",
+                solution:
+                  "<p>Because most \"we want all three\" conversations are really <em>\"we want all three on the same setting for every request\"</em> — and once you separate the traffic, the conflict largely disappears, since the requests that need to be cheap and the requests that need to be accurate are usually not the same requests. A simple FAQ lookup can use a small model, three chunks, no reranking and no verification: it is fast, cheap, <em>and</em> accurate, because the task is easy — no trade was made at all. A compliance question gets the strong model, ten chunks, reranking and a verification pass: slower and dearer on purpose, and obviously worth it. The blended result across your traffic mix is then better on all three axes than any single global setting could be, which is a genuinely satisfying answer rather than a compromise. Two things make it work: you need per-route <em>evaluation</em> to know which settings are safe where, and you need the routing to be reliable, since a misroute sends a hard question to the fast cheap path and produces a confident wrong answer. But as a framing device it usually turns the conversation around, because it stops treating the system as one dial.</p>",
+              },
+              {
+                question:
+                  "What questions do you ask the business?",
+                solution: `<p>Four, in order:</p>
+             <ol>
+               <li><strong>Which of these is a hard constraint, and which is a preference?</strong> Usually one is genuinely binding — a latency ceiling, a budget cap — and the other two are aspirations phrased as requirements.</li>
+               <li><strong>What would one second faster be worth?</strong> This often reveals that it is worth nothing and quality is everything, or that there is a specific threshold above which people abandon the request.</li>
+               <li><strong>What does a wrong answer cost?</strong> Which sets how much quality is worth, and is the same question that determines the architecture.</li>
+               <li><strong>If you could only have one, which?</strong></li>
+             </ol>
+             <p>That last one is the single most useful question in the whole conversation. It almost always resolves the ambiguity immediately, and <strong>the answer is frequently not the one they led with</strong> — someone who opened by asking for it cheaper will often say, when forced to choose, that accuracy is non-negotiable and the cost concern was really about predictability.</p>`,
+              },
+              {
+                question:
+                  "Why can't you have this conversation without numbers?",
+                solution:
+                  "<p>Because without them you are trading opinions. Most teams have exactly one of the three measured — <strong>cost</strong>, because it arrives on an invoice once a month and someone notices. Latency is often only known as a vague sense that it feels slow, and quality frequently is not measured at all beyond impressions from a demo. So a conversation about improving all three has no baseline on two axes, which means you cannot say what a change would cost or whether it worked. The first task is therefore to establish current numbers on all three: cost per request and per month, p50 and p95 latency including time-to-first-token, and a golden-set score broken down per category. That takes days rather than weeks and it changes the conversation entirely, because now every option can be presented as a delta. It also frequently resolves the disagreement without any engineering — teams routinely discover that latency is fine and the complaint was about one slow route, or that quality is genuinely poor on one category and the cost concern was a distraction. You cannot negotiate a trade-off between three things when you can only see one of them.</p>",
+              },
+              {
+                question:
+                  "How do you make a quality number meaningful to a stakeholder?",
+                solution:
+                  "<p>Translate it into <strong>consequences per week</strong>, because \"three points worse on the golden set\" means nothing to anyone outside the team. At your volume, three points is a specific number of additional wrong answers — say sixty a week — of which some proportion reaches a customer and some becomes a support ticket. So the sentence becomes: <em>this saves £400 a month and produces roughly sixty more wrong answers a week, of which about eight reach a customer and three become tickets.</em> That is something a person can weigh; the percentage is not. Do the same for latency: \"p95 goes from 4.8 to 6.2 seconds\" becomes \"about one in twenty users waits an extra second and a half, which at our abandonment rate is roughly forty abandoned questions a week\". The translation requires knowing your volume, your customer-facing share and your escalation rate, all of which you should have anyway. It is worth the effort because it is the difference between a decision and an argument — and because it makes you a useful participant in the business conversation rather than someone reporting metrics at it.</p>",
+              },
+              {
+                question:
+                  "What are the genuine trade-offs, and which is worst?",
+                solution: `<p>Six dials, and one is much worse than the others:</p>
+             <ul>
+               <li><strong>Model size</strong> — quality against both cost and latency. The biggest single dial.</li>
+               <li><strong>Number of retrieved chunks</strong> — recall against cost and latency.</li>
+               <li><strong>Reranking</strong> — quality against latency, mostly, since it partly pays for itself in prompt size.</li>
+               <li><strong>Verification passes</strong> — faithfulness checking and guardrails buy safety at the cost of both.</li>
+               <li><strong>Output length</strong> — completeness against latency and cost, and it dominates total time.</li>
+               <li><strong>Agent steps</strong> — capability against both, and <em>badly</em>.</li>
+             </ul>
+             <p>Agent steps are the worst by a distance, because cost and latency grow <strong>faster than linearly</strong>: each step re-sends the accumulated context, so five steps is eight to ten times a single call rather than five. That makes "should this be an agent" the single most consequential decision on this list — it moves the numbers by an order of magnitude while the other dials move them by percentages.</p>`,
+              },
+              {
+                question:
+                  "What if they insist on all three with no compromise?",
+                solution:
+                  "<p>Then do the free wins, re-measure, and see whether there is still a conflict — because frequently there is not. Thirty to fifty percent off cost and a similar improvement in latency with quality flat or better is often enough to satisfy the actual requirement, and it costs nothing but engineering time. If a genuine conflict remains after that, <strong>segment by route</strong> and show the blended result, which is usually better on all three axes than any single setting. And if it <em>still</em> remains, present the menu with translated consequences and let them choose — at which point they are making a business decision with real numbers rather than you refusing a request. What I would avoid is either capitulating and quietly degrading quality to hit a cost target, or digging in and saying it is impossible. The former produces a system that fails silently and a team that gets blamed later; the latter ends the conversation. The honest position is that all three <em>can</em> improve substantially, that beyond a point they trade, and that where the trade lands is a decision for the business with engineering providing the numbers.</p>",
+              },
+              {
+                question:
+                  "How would you present the options?",
+                solution: `<p>As a <strong>menu with the delta on each axis</strong>, ordered from free to most costly:</p>
+             <ul>
+               <li><strong>Option A — free wins only</strong>: caching, shorter prompts, reranking. Cost down 38%, latency down 30%, quality up 3 points. <em>Do this regardless; nothing is traded.</em></li>
+               <li><strong>Option B — A plus a small model on simple routes.</strong> Cost down 61%, latency down 45%, quality down 1 point overall — with no change on hard questions.</li>
+               <li><strong>Option C — B plus dropping verification off non-compliance routes.</strong> Cost down 68%, and about sixty more wrong answers a week.</li>
+               <li><strong>Option D — verification everywhere.</strong> Cost up 45%, quality up 3 points — the direction to go if accuracy is the binding constraint.</li>
+             </ul>
+             <p>Including an option that <em>costs more</em> is deliberate: it shows the trade runs both ways, and it gives them a genuine choice rather than a list of degradations.</p>`,
+              },
+              {
+                question:
+                  "How does this trade-off change over time?",
+                solution:
+                  "<p>It gets easier, mostly, and it is worth telling stakeholders that so a no today is not read as a permanent one. Model prices fall and capability at a given price point rises, so a small model that could not handle a route last year often can now — which means <strong>re-running the per-route comparison periodically</strong> is one of the highest-return recurring tasks available. Prompt caching, batch endpoints and similar mechanisms also appear and improve, adding free wins that did not exist when you last looked. On the other side, your own system tends to drift the wrong way: prompts accumulate instructions, chunk counts creep up, someone adds a guardrail, and latency and cost degrade quietly without any single decision to blame. So the practical advice is to treat the three numbers as tracked metrics with alerts rather than something you measure during a negotiation, and to schedule a review — quarterly is reasonable — where you re-run the free-wins checklist and the per-route model comparison. Teams that do that keep finding improvements; teams that treat it as a one-off optimisation slowly get slower and more expensive.</p>",
+              },
+              {
+                question:
+                  "What is the sentence you would actually say to a stakeholder?",
+                solution:
+                  "<p>Something close to: <em>\"Two of these I can improve for free — about forty percent cheaper and thirty percent faster with no quality cost at all, because nobody has done the caching or trimmed the context yet. Beyond that it becomes a real trade, and it is different for different kinds of question, so let me show you the options with what each one costs on the other axes and you choose.\"</em> That sentence does four things at once: it acknowledges the request rather than refusing it, it commits to concrete improvement, it is honest that a limit exists, and it hands the decision back with information attached. It also sets up the per-route framing, which is where most of the remaining conflict resolves. What I would avoid saying is \"you can only have two\", which is a refusal wearing a diagram; \"it depends\", which is true and useless; and \"that is not technically possible\", which usually is not true — it is possible at a price, and quoting the price is far more useful than declining.</p>",
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
+              "https://docs.anthropic.com/en/docs/about-claude/models",
+              "https://hamel.dev/blog/posts/evals/",
+              "https://arxiv.org/abs/2307.03172",
+            ],
+          },
+          {
+            topic: "Tracing LLM & Agent Calls",
+            tags: ["high-frequency", "must-know", "observability", "debugging"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "How do you trace a single user request through retrieval, tools and multiple model calls?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    One user question is not one operation. It becomes an embedding call, a vector search, a rerank, a model call, maybe a tool call, maybe another model call. <strong>When the answer is wrong, you need to see all of it</strong> — and in an AI system the cause is almost never in the code, it is in what went into the prompt.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Structure
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+ONE TRACE ID for the whole request. A SPAN for each
+operation, nested parent to child.
+
+  TRACE  req_8f3a1c   "why was my expense rejected?"
+  |
+  +- SPAN  guardrail.input          12ms   pass
+  +- SPAN  query.rewrite           340ms   1 model call
+  +- SPAN  retrieval                        |
+  |    +- SPAN  embed.query          80ms
+  |    +- SPAN  vector.search       110ms   20 hits
+  |    +- SPAN  rerank              290ms   20 -> 5
+  +- SPAN  llm.answer             2,100ms
+  |    ttft 620ms | in 5,840 (4,100 cached) | out 210
+  +- SPAN  guardrail.output          40ms   pass
+                                  --------
+                                   2,972ms
+
+That is ordinary distributed tracing. THE AI-SPECIFIC PART
+IS WHAT GOES INSIDE THE SPANS.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What A Span Needs For AI Work
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>The prompt that was actually sent</strong> — the assembled text, not the template.</li>
+    <li style="margin-top: 0.5rem;"><strong>Which chunks came back</strong> — IDs, scores, and the document version.</li>
+    <li style="margin-top: 0.5rem;"><strong>Model name and version</strong>, and <strong>prompt version</strong>.</li>
+    <li style="margin-top: 0.5rem;"><strong>Tokens in, out, and cached</strong>, plus the computed cost.</li>
+    <li style="margin-top: 0.5rem;"><strong>Tool name, arguments and result</strong> for every tool span.</li>
+    <li style="margin-top: 0.5rem;"><strong>Latency, and time-to-first-token separately</strong> — for a streaming call those are very different numbers.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Two fields end most investigations: what prompt was actually sent, and which chunks came back.</strong> If you record nothing else, record those. Almost every "the model got it wrong" turns out to be "the right document was never retrieved" or "the prompt did not contain what you assumed it contained".
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Propagation Is The Part That Breaks
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Within one function call the trace ID is easy. IT BREAKS AT
+BOUNDARIES:
+
+  a job pushed onto a QUEUE
+  a WORKER picking it up minutes later
+  an agent run RESUMED after a restart
+  a HANDOFF to another agent
+  a SUB-AGENT with its own loop
+  a WEBHOOK coming back from a slow tool
+
+At every one of those, the trace ID must be carried
+EXPLICITLY in the payload - it does not travel by itself.
+
+The symptom of getting this wrong: traces that stop at the
+queue, and a separate orphan trace for the worker with no
+link between them. You then have two halves of a story and
+no way to join them.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Agents Need Trajectory, Not Just Spans
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    For an agent, the <em>run</em> is the trace and each <em>step</em> is a span, with tool calls as children. What you want to be able to read off is the <strong>trajectory</strong>: what it decided at each step and why, which tools it called with what arguments, and where it went wrong. Agents fail in the middle — step four called the wrong tool because step three's result was misread — and without step-level spans you see only a bad final answer with no visible cause.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Sampling, And The One Rule That Matters
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    At volume you cannot keep full traces for everything — they are large, because they contain prompts. So sample: <strong>100% of errors, 100% of guardrail trips and low-confidence answers, 100% of anything a user gave feedback on, and a small random baseline</strong> of everything else.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    That last one has a sequencing problem: <strong>feedback arrives after the trace decision</strong>. The fix is to return the trace ID with the response, so a thumbs-down can be joined back to the trace — and to buffer briefly before discarding, or accept that you keep a bit more than the minimum. <strong>Feedback with no trace attached is unusable</strong>, and this is the single most common gap in AI observability.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Traces Are Now A Sensitive Data Store
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Your traces contain prompts, retrieved document text and tool results. That means <strong>your tracing platform now holds the same confidential content as your source systems, usually with much weaker access control</strong>. Anyone who can open a trace can read HR documents. Treat it as a data store: restrict access, apply retention, redact at capture, and log who reads it.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "How do you trace a single user request through retrieval,
+   tools and multiple model calls?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you have debugged a real AI system. Anyone can say
+  "trace ID and spans". The signals of experience are knowing
+  WHICH FIELDS end investigations, knowing that propagation
+  breaks at ASYNC BOUNDARIES, and knowing that traces are now
+  a sensitive data store.
+
+WEAK ANSWER
+  "I would use a tracing tool like LangSmith to log each step
+   with a trace ID so I can see the full flow of a request."
+  Why it is weak: names a tool instead of describing what you
+  capture. Says nothing about which fields matter, nothing
+  about async propagation, nothing about linking feedback.
+
+STRONG ANSWER (about 80 seconds)
+  "One trace ID for the request, a span per operation, nested
+   parent to child - guardrail, query rewrite, embed, vector
+   search, rerank, the model call, tool calls, output
+   guardrail. That part is ordinary distributed tracing. THE
+   AI-SPECIFIC PART IS WHAT GOES INSIDE THE SPANS.
+
+   Each span carries the prompt that was ACTUALLY SENT - the
+   assembled text, not the template - which chunks came back
+   with IDs and scores and document versions, the model name
+   AND version, the prompt version, tokens in and out and
+   cached, and for streaming, time-to-first-token separately
+   from total.
+
+   Two fields end most investigations: WHAT PROMPT WAS
+   ACTUALLY SENT, and WHICH CHUNKS CAME BACK. Almost every
+   'the model got it wrong' turns out to be 'the right
+   document was never retrieved' or 'the prompt did not
+   contain what you assumed'.
+
+   The part that actually breaks is PROPAGATION. Within one
+   function the trace ID is easy. It breaks at boundaries - a
+   job on a queue, a worker picking it up later, an agent run
+   resumed after a restart, a handoff, a sub-agent, a webhook
+   from a slow tool. At every one of those the trace ID has
+   to be carried explicitly in the payload. Get it wrong and
+   you have traces that stop at the queue and orphan traces
+   for the worker, which is two halves of a story with no way
+   to join them.
+
+   For agents the run is the trace and each STEP is a span,
+   because agents fail in the middle - step four called the
+   wrong tool because step three's result was misread - and
+   you need the trajectory, not just a bad final answer.
+
+   On sampling: 100% of errors, guardrail trips and
+   low-confidence answers, 100% of anything a user gave
+   feedback on, plus a small random baseline. That last one
+   has a sequencing problem because feedback arrives AFTER
+   the sampling decision, so I return the trace ID with the
+   response and join on it - feedback with no trace attached
+   is unusable, and it is the most common gap I see.
+
+   And I would treat the tracing platform as a SENSITIVE DATA
+   STORE, because it now holds prompts and retrieved document
+   text with usually weaker access control than the source
+   systems."
+
+FOLLOW-UPS TO EXPECT
+  "Which two fields matter most?"
+      -> the assembled prompt, and the retrieved chunk IDs
+         with scores.
+  "Where does propagation break?"
+      -> queues, workers, resumed runs, handoffs,
+         sub-agents, webhooks. Carry it in the payload.
+  "How do you link user feedback to a trace?"
+      -> return the trace ID with the response.
+  "How is this different for an agent?"
+      -> the run is the trace, each step is a span, and you
+         are reading the trajectory.
+
+RED FLAGS
+  Naming a tool instead of describing the fields.
+  No mention of async propagation.
+  Not recording the assembled prompt.
+  No awareness that traces hold sensitive content.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// ONE TRACE ID, A SPAN PER OPERATION. The structure is ordinary
+// distributed tracing - THE AI PART IS WHAT GOES INSIDE THE SPANS.
+
+async function answerQuestion(question, ctx) {
+  const trace = tracer.startTrace({
+    traceId: ctx.traceId ?? newId("req"),
+    userId: ctx.userId,
+    tenantId: ctx.tenantId,
+    // Version everything you might later want to compare across.
+    appVersion: APP_VERSION,
+    promptVersion: PROMPT_VERSION,
+    routeName: "document_qa"
+  });
+
+  const guard = trace.span("guardrail.input");
+  const gv = await checkInput(question);
+  guard.end({ verdict: gv.verdict, rulesTriggered: gv.rules });
+  if (gv.verdict === "block") { trace.end({ outcome: "blocked" }); return; }
+
+  const retrieval = trace.span("retrieval");
+
+  const embedSpan = retrieval.child("embed.query");
+  const vector = await embed(question);
+  embedSpan.end({ model: EMBED_MODEL, dims: vector.length,
+                  tokens: countTokens(question) });
+
+  const searchSpan = retrieval.child("vector.search");
+  const hits = await index.search(vector, { k: 20, filter: ctx.acl });
+  searchSpan.end({
+    k: 20, returned: hits.length,
+    // IDs AND SCORES. Not the text - see the logging topic.
+    chunkIds: hits.map(h => h.id),
+    scores: hits.map(h => round(h.score, 4)),
+    topScore: hits[0]?.score,
+    // The version matters: a chunk that has since been re-indexed
+    // is NOT the chunk the model saw.
+    docVersions: hits.map(h => h.docVersion),
+    filterApplied: ctx.acl
+  });
+
+  const rerankSpan = retrieval.child("rerank");
+  const top = await rerank(question, hits, 5);
+  rerankSpan.end({ model: RERANK_MODEL, in: hits.length, out: top.length,
+                   // Did reranking actually change the order? If not,
+                   // you are paying for nothing.
+                   orderChanged: !sameOrder(hits.slice(0, 5), top) });
+
+  retrieval.end();
+
+  const llm = trace.span("llm.answer");
+  const prompt = buildPrompt(question, top);
+  const res = await model.stream(prompt);
+
+  llm.end({
+    model: MODEL, modelVersion: res.modelVersion,
+    // THE FIELD THAT ENDS MOST INVESTIGATIONS: what was ACTUALLY
+    // sent, assembled - not the template with placeholders.
+    promptSent: redact(prompt),
+    tokensIn: res.usage.input, tokensOut: res.usage.output,
+    tokensCached: res.usage.cacheRead,
+    costPence: cost(res.usage),
+    // For streaming these are VERY different numbers, and only one
+    // of them is what the user experiences.
+    ttftMs: res.ttftMs, totalMs: res.totalMs,
+    stopReason: res.stopReason,
+    finalOutput: redact(res.text)
+  });
+
+  trace.end({ outcome: "ok", totalMs: trace.elapsed() });
+  // RETURN THE TRACE ID. Everything downstream depends on it.
+  return { answer: res.text, traceId: trace.id };
+}`,
+              `// PROPAGATION IS THE PART THAT BREAKS. Within one function the
+// trace ID is easy; it does not travel across boundaries by itself.
+
+const boundariesThatBreakIt = [
+  "a job pushed onto a QUEUE",
+  "a WORKER picking it up minutes later",
+  "an agent run RESUMED after a restart",
+  "a HANDOFF from one agent to another",
+  "a SUB-AGENT running its own loop",
+  "a WEBHOOK coming back from a slow tool"
+];
+// The symptom: traces that stop at the queue, plus orphan traces
+// for the worker with no link between them. Two halves of a story
+// and no way to join them.
+
+// SO CARRY IT EXPLICITLY IN THE PAYLOAD.
+async function enqueueLongJob(request, trace) {
+  const span = trace.span("enqueue");
+  await queue.push({
+    type: "document_analysis",
+    payload: request,
+    // NOT optional. This is the whole point.
+    traceId: trace.id,
+    parentSpanId: span.id,
+    // So the worker knows which config was in force when the
+    // request was made, not when it was picked up.
+    promptVersion: PROMPT_VERSION,
+    enqueuedAtIso: request.receivedAtIso
+  });
+  span.end({ queued: true });
+}
+
+async function worker(job) {
+  // CONTINUE the trace rather than starting a new one.
+  const trace = tracer.continueTrace({
+    traceId: job.traceId,
+    parentSpanId: job.parentSpanId
+  });
+  const span = trace.span("worker.process");
+  span.setAttribute("queueWaitMs", now() - job.enqueuedAtMs);
+  // ... work ...
+  span.end();
+}
+
+// AND FOR AGENT RUNS, THE TRACE ID IS PART OF PERSISTED STATE.
+const runState = {
+  runId: "run_44b2",
+  traceId: "req_8f3a1c",     // survives the restart with the state
+  step: 4,
+  messages: [/* ... */],
+  // A handoff carries it too - the receiving agent CONTINUES the
+  // trace, it does not start a fresh one.
+  handoffFrom: "triage_agent"
+};
+
+// A COMMON MISTAKE WORTH NAMING:
+const mistake = {
+  what: "generating a new trace ID inside a retry",
+  effect: "the retry looks like a separate unrelated request, so " +
+          "you cannot see that the first attempt failed",
+  fix: "same trace, a new SPAN with attempt=2 and the previous " +
+       "error recorded"
+};`,
+              `// AGENTS: THE RUN IS THE TRACE, EACH STEP IS A SPAN.
+// Agents fail in the MIDDLE, so you need the trajectory.
+
+async function runAgent(task, ctx) {
+  const trace = tracer.startTrace({ traceId: ctx.traceId,
+                                    runId: newId("run") });
+  const state = { messages: [{ role: "user", content: task }] };
+
+  for (let step = 1; step <= MAX_STEPS; step++) {
+    const s = trace.span("agent.step", { step });
+
+    const decide = s.child("llm.decide");
+    const res = await model.call({ messages: state.messages,
+                                   tools: TOOLS });
+    decide.end({
+      // WHY it chose what it chose - this is what you read when
+      // step 4 goes wrong because step 3 was misread.
+      reasoning: redact(res.reasoning),
+      toolChosen: res.toolCall?.name ?? null,
+      tokensIn: res.usage.input, tokensOut: res.usage.output,
+      // Context grows every step. Watching this on the trace is how
+      // you notice a run heading for the window limit.
+      contextTokensSoFar: res.usage.input,
+      costPence: cost(res.usage)
+    });
+
+    if (!res.toolCall) { s.end({ terminal: true }); break; }
+
+    const tool = s.child("tool." + res.toolCall.name);
+    let out, err = null;
+    try {
+      out = await callTool(res.toolCall);
+    } catch (e) { err = e; }
+    tool.end({
+      arguments: redact(res.toolCall.arguments),
+      // Truncate - a tool that returns 400 rows should not put 400
+      // rows in every trace.
+      resultPreview: redact(truncate(out, 2_000)),
+      resultBytes: sizeOf(out),
+      error: err?.code ?? null,
+      // The signals that explain a loop.
+      wasRetry: isRetryOf(state, res.toolCall),
+      identicalToPreviousCall: isDuplicate(state, res.toolCall)
+    });
+
+    state.messages.push(...toMessages(res, out, err));
+    s.end({ cumulativeCostPence: trace.costSoFar(),
+            cumulativeMs: trace.elapsed() });
+
+    // These end the run, and the trace should say WHICH one did.
+    if (trace.costSoFar() > COST_LIMIT) {
+      trace.end({ outcome: "cost_limit", atStep: step }); break;
+    }
+  }
+}
+
+// WHAT YOU READ OFF A FAILED AGENT TRACE:
+const readingIt = [
+  "at which STEP did it go wrong (almost never the last one)",
+  "did it call the same tool with the same arguments twice " +
+    "(a loop)",
+  "did a tool return an error the model then ignored",
+  "did context grow until something was pushed out",
+  "did it stop because it finished, or because a LIMIT fired"
+];`,
+              `// SAMPLING, AND THE FEEDBACK SEQUENCING PROBLEM.
+
+const samplingPolicy = {
+  // Keep everything that is already known to be interesting.
+  errors: 1.0,
+  guardrailTripped: 1.0,
+  lowConfidence: 1.0,
+  faithfulnessBelowThreshold: 1.0,
+  slowerThanP99: 1.0,
+  agentHitAStepOrCostLimit: 1.0,
+  // Plus a baseline so you can see normal behaviour and compare.
+  everythingElse: 0.02,
+  // And 100% for a new prompt version or a new route for its first
+  // week, because that is when you need the detail.
+  newVersionWindow: 1.0
+};
+
+// THE SEQUENCING PROBLEM: FEEDBACK ARRIVES AFTER THE SAMPLING
+// DECISION. A thumbs-down comes 20 seconds later, by which time you
+// have already discarded the trace.
+const fixes = {
+  // 1. RETURN THE TRACE ID WITH THE RESPONSE. Non-negotiable.
+  returnTraceId: { answer: "...", traceId: "req_8f3a1c" },
+
+  // 2. Buffer before discarding, so late feedback can rescue it.
+  bufferMinutes: 15,
+
+  // 3. Or accept keeping a bit more than the theoretical minimum -
+  //    storage is cheap compared with an unexplainable complaint.
+  note: "FEEDBACK WITH NO TRACE ATTACHED IS UNUSABLE, and this is " +
+        "the single most common gap in AI observability"
+};
+
+async function recordFeedback(traceId, rating, comment) {
+  await traceStore.pin(traceId);          // never expire this one
+  await feedbackStore.insert({ traceId, rating, comment });
+  // Now a thumbs-down is a clickable link to the exact prompt and
+  // the exact chunks - which is what turns complaints into eval
+  // cases.
+}
+
+// AND TREAT THE TRACING PLATFORM AS A SENSITIVE DATA STORE.
+const traceGovernance = {
+  // It now holds prompts, retrieved document TEXT and tool results -
+  // the same confidential content as your source systems, usually
+  // with much weaker access control.
+  risk: "anyone who can open a trace can read HR documents",
+  controls: [
+    "redact PII AT CAPTURE, not later",
+    "restrict who can view traces, by tenant where possible",
+    "set retention deliberately - 30 days debug, longer only for " +
+      "pinned traces",
+    "LOG ACCESS TO TRACES, because it is a read path into " +
+      "confidential data",
+    "make sure deletion requests reach the trace store too"
+  ]
+};
+
+// THE DEBUGGING WORKFLOW THIS ENABLES:
+const workflow = [
+  "1. user complains, or a thumbs-down arrives",
+  "2. open the trace by ID",
+  "3. read the RETRIEVED CHUNKS - is the answer even in there?",
+  "4. if not, it is a RETRIEVAL problem: check the query, the " +
+     "filter, the scores, the document version",
+  "5. if yes, read the ASSEMBLED PROMPT - was it included, or " +
+     "truncated, or buried in the middle?",
+  "6. if it was there and correct, THEN it is a generation problem",
+  "7. add the case to the golden set either way"
+];
+// Steps 3 and 5 resolve the large majority. That is why those two
+// fields matter more than everything else combined.`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you trace a single user request through retrieval, tools and multiple model calls?",
+                solution: `<p>One <strong>trace ID</strong> for the request, a <strong>span per operation</strong>, nested parent to child — guardrail, query rewrite, embed, vector search, rerank, the model call, tool calls, output guardrail. That part is ordinary distributed tracing. <strong>The AI-specific part is what goes inside the spans.</strong></p>
+             <p>Each span carries the prompt that was <em>actually sent</em>, which chunks came back with IDs and scores, the model and prompt versions, tokens in/out/cached, and time-to-first-token separately from total.</p>
+             <p><strong>Two fields end most investigations: the assembled prompt, and the retrieved chunks.</strong> Almost every "the model got it wrong" turns out to be "the right document was never retrieved".</p>`,
+              },
+              {
+                question:
+                  "Which fields matter most, and why?",
+                solution:
+                  "<p><strong>The prompt that was actually sent, and the chunks that came back.</strong> Everything else is secondary. The reason is that in an AI system the cause of a bad answer is almost never in the code path — it is in what went into the context window. So when someone reports a wrong answer, the first question is \"was the right information even retrieved?\", and the second is \"if it was, did it survive into the prompt?\". Between them those two questions resolve the large majority of investigations, and neither can be answered from metrics or logs that only record success and latency. The prompt field has to be the <em>assembled</em> text, not the template with placeholders — a template tells you nothing about which chunks were interpolated, whether the context was truncated, or where in the prompt the relevant passage landed. The chunk field should carry IDs, similarity scores <em>and</em> document versions, because a chunk that has since been re-indexed is not the chunk the model saw, and without the version you will look at today's text and conclude the answer should have been right. Record those two properly and you can debug; record neither and a tracing setup is decorative.</p>",
+              },
+              {
+                question:
+                  "Where does trace propagation break?",
+                solution: `<p>At every asynchronous boundary, because the trace ID does not travel by itself:</p>
+             <ul>
+               <li>A job pushed onto a <strong>queue</strong></li>
+               <li>A <strong>worker</strong> picking it up minutes later</li>
+               <li>An agent run <strong>resumed</strong> after a restart</li>
+               <li>A <strong>handoff</strong> from one agent to another</li>
+               <li>A <strong>sub-agent</strong> running its own loop</li>
+               <li>A <strong>webhook</strong> coming back from a slow tool</li>
+             </ul>
+             <p>At each one the trace ID must be carried explicitly in the payload, and the receiving side must <em>continue</em> the trace rather than start a new one.</p>
+             <p>The symptom of getting it wrong is distinctive: traces that stop at the queue, plus orphan traces for the worker with nothing linking them. You end up with two halves of a story and no way to join them — which is worse than no tracing, because it looks like coverage.</p>`,
+              },
+              {
+                question:
+                  "How is tracing an agent different?",
+                solution:
+                  "<p>The run is the trace, each <strong>step</strong> is a span, and tool calls are children of the step. The difference in what you are looking for is that <strong>agents fail in the middle</strong> — step four called the wrong tool because step three's result was misread — so a trace that only shows a bad final answer tells you nothing. What you want to read off is the <strong>trajectory</strong>: at each step, what the model decided and why, which tool it called with what arguments, what came back, and how the cumulative cost and context size were moving. The specific things worth recording per step are the model's stated reasoning, whether a tool call is identical to a previous one (which is what a loop looks like), whether a tool returned an error the model then ignored, and the running context token count, because watching that grow is how you spot a run heading toward the window limit. It also matters to record <em>why the run ended</em> — whether it finished, hit a step limit or hit a cost limit — since those look the same from outside and mean completely different things. Without step-level spans, agent debugging is guesswork.</p>",
+              },
+              {
+                question:
+                  "How do you sample traces at volume?",
+                solution: `<p>Keep everything that is already known to be interesting, and a small baseline of the rest:</p>
+             <ul>
+               <li><strong>100%</strong> of errors, guardrail trips, low-confidence answers, faithfulness failures, requests slower than p99, and agent runs that hit a step or cost limit</li>
+               <li><strong>100%</strong> for a new prompt version or a new route during its first week, because that is exactly when you need the detail</li>
+               <li><strong>100%</strong> of anything a user gave feedback on</li>
+               <li><strong>1–2%</strong> random baseline of everything else, so you can see what normal looks like and compare</li>
+             </ul>
+             <p>The baseline matters more than people expect: without it you only ever see failures, and you cannot tell whether a pattern you spot in an error trace is actually unusual.</p>`,
+              },
+              {
+                question:
+                  "What is the sequencing problem with feedback, and how do you fix it?",
+                solution:
+                  "<p><strong>Feedback arrives after the sampling decision.</strong> A user reads the answer and clicks thumbs-down twenty seconds later, or complains the next morning — by which time the trace has been dropped by a 2% sampler. So you have the single most valuable signal in your system, attached to nothing. The fix has three parts. First and non-negotiable: <strong>return the trace ID with the response</strong> and store it alongside the feedback record, so the join is possible at all. Second, buffer traces briefly — fifteen minutes is usually enough for in-session feedback — before applying the sampling drop, so late feedback can rescue one. Third, accept keeping somewhat more than the theoretical minimum, because storage is cheap compared with an unexplainable complaint. Once this works, a thumbs-down becomes a clickable link to the exact prompt and the exact chunks, which is what turns vague complaints into concrete eval cases — and building your golden set out of real failures is far better than inventing questions. <strong>Feedback with no trace attached is unusable</strong>, and it is the most common gap in AI observability by a wide margin.</p>",
+              },
+              {
+                question:
+                  "Why is the tracing platform a security concern?",
+                solution: `<p>Because traces contain prompts, retrieved document text and tool results — which means <strong>your tracing platform now holds the same confidential content as your source systems, usually with much weaker access control</strong>.</p>
+             <p>The concrete failure: retrieval is properly permission-filtered so an employee only ever sees documents they are entitled to, and then every one of those documents is copied into a trace that any engineer with a login can open. Someone who has no access to HR records can read them in a trace.</p>
+             <p>The controls that follow:</p>
+             <ul>
+               <li><strong>Redact at capture</strong>, not afterwards</li>
+               <li><strong>Restrict who can view traces</strong>, scoped by tenant where possible</li>
+               <li><strong>Set retention deliberately</strong> — short for debugging, longer only for pinned traces</li>
+               <li><strong>Log access to traces</strong>, because it is a read path into confidential data</li>
+               <li><strong>Make sure deletion requests reach the trace store</strong></li>
+             </ul>`,
+              },
+              {
+                question:
+                  "What does tracing give you that metrics don't?",
+                solution:
+                  "<p>Metrics tell you <em>that</em> something is wrong; traces tell you <em>what</em>. A dashboard showing that p95 latency rose to six seconds or that faithfulness dropped four points is a signal to investigate — it contains no information about the cause. The trace does, and in an AI system the cause is almost always visible in the retrieved context: the reranker fell back and stopped filtering, a document was re-indexed with worse chunking, a filter is excluding results it should not, or the prompt grew until something important was pushed past the context limit. None of that is inferrable from an aggregate. The two are complementary rather than alternatives: metrics for detection and alerting because they are cheap and continuous, traces for diagnosis because they are expensive and detailed. The practical pairing is that every alert should link to a filtered trace view — an alert saying \"faithfulness dropped on the policy route\" that opens onto the failing traces turns a two-hour investigation into a ten-minute one. Building the alert without that link is the common half-measure, and it is why teams with dashboards still struggle to explain their failures.</p>",
+              },
+              {
+                question:
+                  "What does the debugging workflow actually look like?",
+                solution: `<p>Seven steps, and two of them resolve most cases:</p>
+             <ol>
+               <li>A complaint or a thumbs-down arrives, carrying a trace ID.</li>
+               <li>Open the trace.</li>
+               <li><strong>Read the retrieved chunks — is the answer even in there?</strong></li>
+               <li>If not, it is a <em>retrieval</em> problem: check the rewritten query, the permission filter, the scores, and the document version.</li>
+               <li>If yes, <strong>read the assembled prompt</strong> — was the chunk actually included, or truncated, or buried in the middle where the model tends to lose it?</li>
+               <li>If it was present and correct, only <em>then</em> is it a generation problem — and the fix is a prompt change, a model change, or a verification pass.</li>
+               <li>Add the case to the golden set either way.</li>
+             </ol>
+             <p>Steps three and five settle the large majority. That is precisely why those two fields matter more than everything else combined, and why a trace missing them is not much use.</p>`,
+              },
+              {
+                question:
+                  "What should you record about a streaming call?",
+                solution:
+                  "<p><strong>Time-to-first-token separately from total duration</strong>, because for a streaming response they are very different numbers and only one of them describes what the user experienced. A six-second answer that starts appearing in eight hundred milliseconds feels fast; a three-second answer delivered all at once at the end feels slow. If your trace records only total duration, your latency dashboards will be measuring something the user does not perceive, and your optimisation effort will go to the wrong place. Beyond TTFT, record the stop reason — whether the model finished naturally, hit the token limit, or was cut off — since a truncated answer looks like a quality failure and is actually a configuration one. Record output token count, because output dominates both latency and cost. And for a streaming call that failed part-way, record how much had already been sent, since a partial answer already shown to the user is a different failure mode from one that never started and needs different handling. The general principle is to record the numbers that map onto user experience and onto your latency budget, not just the ones the SDK returns by default.</p>",
+              },
+              {
+                question:
+                  "What is a common mistake with retries and traces?",
+                solution:
+                  "<p>Generating a <strong>new trace ID inside the retry</strong>, which makes the retry look like a separate unrelated request. The consequence is that you cannot see that the first attempt failed — your traces show a successful request and, somewhere else entirely, an orphaned failure, with nothing connecting them. Your success rate looks better than it is, your latency looks better than it is because you are measuring only the successful attempt, and the failure pattern that would have told you a provider was degrading is invisible. The correct handling is to keep the same trace and add a <em>new span</em> for each attempt, tagged with the attempt number, the previous error code and the backoff that was applied. Then a single trace shows the whole story: attempt one failed with a 429 after 200ms, waited 800ms, attempt two succeeded — and the total latency the user actually experienced is the sum, which is what your p95 should reflect. The same principle applies to fallbacks: a failover to a second provider is a new span in the same trace, with the provider recorded, so you can later count how often failover fired and whether quality differed on those requests.</p>",
+              },
+              {
+                question:
+                  "Which standards or tools would you mention?",
+                solution:
+                  "<p><strong>OpenTelemetry</strong> as the underlying standard, since it is what most tracing backends consume and it now has emerging semantic conventions for generative AI — attribute names for model, tokens, and operation type — which is worth adopting so you are not locked into one vendor's schema. On top of that, the LLM-specific platforms: <strong>LangSmith</strong>, <strong>Langfuse</strong>, <strong>Arize Phoenix</strong>, <strong>Braintrust</strong> and similar. What they add over generic tracing is a UI built for this shape of data — prompt and completion rendering, retrieved-chunk display, token and cost roll-ups, dataset creation directly from a trace, and evaluation runs attached to traces. That last capability is the one that matters most in practice, because the natural workflow is to find a failing trace, add it to a dataset with one click, and re-run your evaluation against it. I would be careful, though, about answering this question by naming a tool: the tool is easy to change and the schema is what determines whether you can debug. The right emphasis is what you capture and how you propagate it, with the platform as an implementation choice — and instrumenting through OpenTelemetry keeps that choice reversible.</p>",
+              },
+              {
+                question:
+                  "How would you keep trace volume and cost under control?",
+                solution: `<p>Four levers, applied in order of how much they save relative to what they cost you:</p>
+             <ul>
+               <li><strong>Truncate large fields.</strong> A tool that returns four hundred rows should not put four hundred rows in every trace — store a preview plus the byte size, and a reference if you need the whole thing.</li>
+               <li><strong>Store chunk IDs rather than chunk text</strong> in most spans. You can look the text up when you need it, and it removes the bulk of the volume <em>and</em> most of the sensitive content at once.</li>
+               <li><strong>Tier retention.</strong> Thirty days for routine traces, much longer only for pinned ones — anything with feedback, an error, or a case promoted into an eval set.</li>
+               <li><strong>Sample the uninteresting</strong>, keeping 100% of errors and feedback-linked traces.</li>
+             </ul>
+             <p>The second lever is the one people skip and it is usually the biggest, because it addresses volume and data exposure with a single change.</p>`,
+              },
+            ],
+            links: [
+              "https://opentelemetry.io/docs/specs/semconv/gen-ai/",
+              "https://docs.smith.langchain.com/observability",
+              "https://langfuse.com/docs/tracing",
+              "https://docs.arize.com/phoenix/tracing/llm-traces",
+            ],
+          },
+          {
+            topic: "What To Log (And What Not To)",
+            tags: ["high-frequency", "must-know", "observability", "privacy"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "What do you log for an AI system, and how do you avoid logging sensitive data?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    State the tension first, because everything else follows from it: <strong>the most useful thing to log is the full prompt and the full answer, and that is also the most dangerous thing to log.</strong> Every decision here is navigating that.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Three Purposes, Three Sets Of Rules
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Conflating these is the main mistake, because it forces one
+retention and one access policy onto three different needs.
+
+  OPERATIONAL   latency, errors, tokens, cost, throughput
+                NO CONTENT NEEDED AT ALL
+                weeks | broad access | cheap
+
+  DEBUGGING     needs content, or references to it
+                days-to-weeks | RESTRICTED access | redacted
+
+  AUDIT         evidence of what happened and who did it
+                years | append-only | TIGHTLY controlled
+
+Most teams have one log stream doing all three, which means
+either audit data expires too early or debugging content
+sits around for seven years. SEPARATE THEM.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Always Log — And None Of It Is Content
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Identity and correlation</strong> — request ID, trace ID, user ID, tenant ID, session ID, timestamp.</li>
+    <li style="margin-top: 0.5rem;"><strong>Versions</strong> — model, model version, prompt version, app version, retrieval config. Without these you cannot compare across a change.</li>
+    <li style="margin-top: 0.5rem;"><strong>Cost</strong> — tokens in, out, cached, and computed cost.</li>
+    <li style="margin-top: 0.5rem;"><strong>Latency</strong> — total, and per stage, and TTFT separately.</li>
+    <li style="margin-top: 0.5rem;"><strong>Retrieved chunk IDs and scores</strong> — not the text.</li>
+    <li style="margin-top: 0.5rem;"><strong>Tool names called</strong>, and whether each succeeded.</li>
+    <li style="margin-top: 0.5rem;"><strong>Outcome</strong> — success, error type, guardrail verdicts, refusal reason, cache hit or miss.</li>
+    <li style="margin-top: 0.5rem;"><strong>Feedback</strong> — thumbs, escalation, whether the user retried.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    That list gives you dashboards, alerts, cost attribution and most of your quality signal, and it contains <strong>no confidential text at all</strong>. Which is the point.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Key Technique: Log IDs, Not Content
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+INSTEAD OF:
+  chunks: ["The expense policy states that claims over 500
+           pounds require director approval and must be..."]
+
+LOG:
+  chunkIds:    ["doc_412#c7", "doc_412#c8", "doc_119#c2"]
+  scores:      [0.84, 0.79, 0.71]
+  docVersions: ["v3", "v3", "v1"]
+
+You keep NEARLY ALL the debugging value - you can look the
+text up later IF you are authorised - at a fraction of the
+exposure, and a fraction of the storage.
+
+  the DOCUMENT VERSION matters: a chunk that has since been
+  re-indexed is NOT the chunk the model saw, and without it
+  you will read today's text and conclude wrongly.
+
+Same idea for the answer: store a HASH plus a length, so you
+can tell whether two responses were identical without
+storing either one.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Never Log
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Credentials, API keys, session tokens</strong> — including inside error messages and inside tool arguments, which is where they actually leak.</li>
+    <li style="margin-top: 0.5rem;"><strong>Full retrieved document text</strong> in a general-purpose log.</li>
+    <li style="margin-top: 0.5rem;"><strong>PII you did not need</strong> — and note that a user's <em>question</em> often contains more PII than the answer does.</li>
+    <li style="margin-top: 0.5rem;"><strong>The system prompt on every entry</strong> — it is noise, it is bulk, and it is your IP.</li>
+    <li style="margin-top: 0.5rem;"><strong>Raw request bodies</strong> "just in case", which is how uploaded documents end up in a log aggregator.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Redact At Capture, Not Later
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Once raw content reaches your log platform it has been replicated, indexed, backed up and possibly forwarded to a third party. <strong>Retro-redaction does not work</strong> — you are chasing copies. Redact in the logging layer, before anything is written, so there is no window where the raw value existed.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Point People Miss
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Retrieval is carefully permission-filtered so each employee sees only what they should. Then every retrieved document is copied into a log that <strong>the whole engineering team can search</strong>. You have rebuilt the access-control problem in a system nobody thought to secure — a support engineer with a log-platform login can read HR records they have no entitlement to.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    So: <strong>logs inherit the sensitivity of what they contain, not the sensitivity of the system that wrote them.</strong> Restrict access, scope by tenant, and log who reads the logs.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "What do you log for an AI system, and how do you avoid
+   logging sensitive data?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you can hold both halves at once. Plenty of people
+  can list what to log; fewer can say what NOT to and why
+  retro-redaction fails. The strongest signal is the
+  ID-not-content technique, because it resolves the tension
+  rather than picking a side.
+
+WEAK ANSWER
+  "I would log the request, response, latency, tokens and
+   errors, and make sure to scrub any PII before storing."
+  Why it is weak: "scrub PII" is doing all the work and none
+  of the thinking. It does not say where scrubbing happens,
+  does not distinguish debugging from audit, and casually
+  includes full request and response - which is the dangerous
+  part.
+
+STRONG ANSWER (about 75 seconds)
+  "The tension first: the most useful thing to log is the
+   full prompt and the full answer, and that is also the most
+   dangerous thing to log. Everything else follows from that.
+
+   I would separate THREE PURPOSES, because conflating them
+   is the main mistake. OPERATIONAL - latency, errors,
+   tokens, cost - needs no content at all, keep for weeks,
+   broad access. DEBUGGING needs content or references to it,
+   short retention, restricted access. AUDIT needs evidence,
+   years of retention, append-only, tightly controlled. One
+   stream doing all three means either audit data expires too
+   early or debugging content sits around for seven years.
+
+   What I always log has NO CONTENT in it: request and trace
+   IDs, user and tenant, model version, PROMPT VERSION,
+   tokens in/out/cached, cost, latency per stage, retrieved
+   CHUNK IDS AND SCORES, tool names, outcome, guardrail
+   verdicts, and feedback. That gives me dashboards, alerts,
+   cost attribution and most of my quality signal with no
+   confidential text.
+
+   The key technique is LOG IDS, NOT CONTENT. Instead of the
+   chunk text, I log chunk IDs, scores and document VERSIONS -
+   the version matters because a chunk that has been
+   re-indexed is not the chunk the model saw. I keep nearly
+   all the debugging value, because I can look the text up if
+   I am authorised, at a fraction of the exposure and the
+   storage. Same for the answer: a hash and a length tells me
+   whether two responses were identical without storing
+   either.
+
+   Never: credentials - including in error messages and tool
+   arguments, which is where they actually leak - full
+   document text in a general log, PII I did not need, and
+   the system prompt on every entry.
+
+   And REDACT AT CAPTURE, not later. Once raw content reaches
+   the log platform it has been indexed, backed up and
+   possibly forwarded to a third party, so retro-redaction is
+   chasing copies.
+
+   The point people miss: retrieval is carefully
+   permission-filtered so each employee sees only what they
+   should, and then every retrieved document gets copied into
+   a log the whole engineering team can search. LOGS INHERIT
+   THE SENSITIVITY OF WHAT THEY CONTAIN. So restrict access,
+   scope by tenant, and log who reads the logs."
+
+FOLLOW-UPS TO EXPECT
+  "How do you keep debugging value without the content?"
+      -> log chunk IDs, scores and versions; look the text up
+         when authorised. Hash the answer.
+  "Why redact at capture?"
+      -> once it is in the platform it is replicated and
+         indexed. You cannot chase the copies.
+  "Where do credentials actually leak?"
+      -> error messages and tool call arguments, not the
+         places people guard.
+  "What about deletion requests?"
+      -> they have to reach logs, traces and backups, not
+         just the primary database. Design for it.
+
+RED FLAGS
+  "Scrub PII" with no mechanism or location.
+  Logging full request and response by default.
+  No separation of operational, debug and audit.
+  No awareness that logs bypass retrieval permissions.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THREE PURPOSES, THREE SETS OF RULES. Conflating them is the
+// main mistake - it forces one retention and one access policy
+// onto three different needs.
+
+const logStreams = {
+  operational: {
+    contains: "NO CONTENT AT ALL",
+    fields: ["requestId", "traceId", "route", "model", "tokensIn",
+             "tokensOut", "tokensCached", "costPence", "latencyMs",
+             "ttftMs", "statusCode", "errorType", "cacheHit"],
+    retention: "30-90 days",
+    access: "the whole engineering team",
+    // Cheap, high volume, safe to keep and safe to share.
+    purpose: "dashboards, alerts, cost attribution, capacity"
+  },
+
+  debugging: {
+    contains: "content OR REFERENCES TO IT - prefer references",
+    fields: ["...operational", "assembledPrompt (redacted)",
+             "chunkIds", "scores", "docVersions",
+             "toolArgs (redacted)", "outputHash", "guardrailVerdicts"],
+    retention: "7-30 days, longer only for PINNED traces",
+    access: "RESTRICTED - and scoped by tenant where possible",
+    purpose: "explaining a specific bad answer"
+  },
+
+  audit: {
+    contains: "evidence of what happened and who did it",
+    fields: ["who", "what action", "on which record", "when",
+             "approved by whom", "the exact sources cited",
+             "the model and prompt version in force"],
+    retention: "years, per policy",
+    access: "TIGHTLY controlled, append-only, tamper-evident",
+    purpose: "answering a regulator or an internal investigation"
+  }
+};
+
+// THE FAILURE MODE OF ONE STREAM DOING ALL THREE:
+const conflated = [
+  "audit data expires at 30 days because that was the ops setting",
+  "or debugging content with full document text sits for 7 years " +
+    "because that was the audit setting",
+  "and everyone has access, because operational logs need to be " +
+    "widely readable"
+];`,
+              `// THE KEY TECHNIQUE: LOG IDS, NOT CONTENT.
+
+// WRONG - useful, and the thing that leaks.
+const bad = {
+  chunks: [
+    "The expense policy states that claims over 500 pounds " +
+    "require director approval and must be submitted within..."
+  ],
+  question: "can I claim the 800 pound flight for the Mumbai trip?",
+  answer: "Yes, but claims over 500 require director approval..."
+};
+
+// RIGHT - nearly all the debugging value, a fraction of the
+// exposure and the storage.
+const good = {
+  chunkIds:    ["doc_412#c7", "doc_412#c8", "doc_119#c2"],
+  scores:      [0.84, 0.79, 0.71],
+  // THE VERSION MATTERS. A chunk that has since been re-indexed is
+  // NOT the chunk the model saw - without this you will read
+  // today's text and conclude wrongly.
+  docVersions: ["v3", "v3", "v1"],
+  retrievalFilter: { tenant: "acme", acl: ["finance", "all-staff"] },
+
+  // The question, redacted at capture.
+  questionRedacted: "can I claim the [AMOUNT] flight for the " +
+                    "[LOCATION] trip?",
+  questionTokens: 14,
+
+  // The answer, as a fingerprint rather than text. Enough to tell
+  // whether two responses were identical, without storing either.
+  answerHash: "sha256:4f2a...",
+  answerTokens: 210,
+  answerCitedChunkIds: ["doc_412#c7"]
+};
+
+// AND THE SAME IDEA FOR TOOL CALLS:
+const toolLog = {
+  tool: "lookup_employee",
+  // Not the arguments verbatim - the SHAPE of them.
+  argKeys: ["employeeId", "field"],
+  argsRedacted: { employeeId: "[ID]", field: "manager" },
+  succeeded: true,
+  resultBytes: 412,
+  // A preview only, truncated and redacted, and only in the
+  // DEBUGGING stream.
+  resultPreview: null,
+  latencyMs: 88
+};
+
+// WHAT YOU GIVE UP, HONESTLY:
+const tradeOff = {
+  lost: "you cannot read the exact text straight off the log line",
+  regained: "you can look it up by ID - IF you are authorised, " +
+            "which is the correct behaviour",
+  gained: ["far less sensitive data at rest",
+           "far less storage",
+           "access control that actually means something",
+           "deletion requests become tractable, because you delete " +
+             "the document and the log holds only a dead reference"]
+};`,
+              `// REDACT AT CAPTURE, NOT LATER. Once raw content reaches the log
+// platform it has been replicated, indexed, backed up and possibly
+// forwarded to a third party. RETRO-REDACTION IS CHASING COPIES.
+
+const REDACTORS = [
+  { name: "email",   re: /[\\w.+-]+@[\\w-]+\\.[\\w.]+/g,   to: "[EMAIL]" },
+  { name: "phone",   re: /\\+?\\d[\\d\\s-]{8,}\\d/g,          to: "[PHONE]" },
+  { name: "card",    re: /\\b\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4}\\b/g,
+                     to: "[CARD]" },
+  { name: "money",   re: /[GBP$]\\s?[\\d,]+(\\.\\d{2})?/g,   to: "[AMOUNT]" },
+  { name: "apiKey",  re: /(sk|pk|api)[-_][A-Za-z0-9]{16,}/g, to: "[KEY]" },
+  { name: "bearer",  re: /Bearer\\s+[A-Za-z0-9._-]+/gi,    to: "[TOKEN]" },
+  { name: "empId",   re: /\\bEMP\\d{6}\\b/g,                to: "[EMPID]" }
+];
+
+function redact(text) {
+  if (text == null) return null;
+  let out = String(text), hits = [];
+  for (const r of REDACTORS) {
+    if (r.re.test(out)) hits.push(r.name);
+    out = out.replace(r.re, r.to);
+  }
+  // Record WHAT was redacted, not the values. Useful for two
+  // reasons: you can tell whether redaction is firing at all, and a
+  // sudden change in the pattern is a signal in itself.
+  return { text: out, redactedTypes: hits };
+}
+
+// PUT IT IN THE LOGGING LAYER so nothing can bypass it.
+const logger = {
+  write(entry) {
+    const safe = { ...entry };
+    for (const field of CONTENT_FIELDS) {
+      if (safe[field]) safe[field] = redact(safe[field]).text;
+    }
+    // A denylist as a second line of defence - if a field name looks
+    // like a secret, drop it regardless of content.
+    for (const k of Object.keys(safe)) {
+      if (/password|secret|token|apikey|authorization/i.test(k)) {
+        safe[k] = "[DROPPED]";
+      }
+    }
+    transport.send(safe);
+  }
+};
+
+// WHERE CREDENTIALS ACTUALLY LEAK - not the places people guard.
+const actualLeakPaths = {
+  errorMessages: "a stack trace or a database error containing the " +
+                 "row that caused it, shipped straight to a " +
+                 "third-party log platform",
+  toolArguments: "an agent calling a tool with an auth token in the " +
+                 "arguments, logged verbatim as part of the trace",
+  rawRequestBodies: "logged 'just in case', which is how uploaded " +
+                    "documents end up in a log aggregator",
+  headers: "Authorization headers logged with the request",
+  // AND THE ONE THAT IS SPECIFIC TO AI SYSTEMS:
+  modelEchoes: "the model repeating something sensitive from the " +
+               "context back in its answer, which you then log as " +
+               "'the response'"
+};
+// NOTE: redaction is imperfect and free-text PII gets through.
+// It reduces exposure; it does not eliminate it. WHICH IS WHY
+// ACCESS CONTROL AND SHORT RETENTION STILL MATTER.`,
+              `// THE POINT PEOPLE MISS: LOGS BYPASS RETRIEVAL PERMISSIONS.
+
+const theProblem = {
+  step1: "retrieval is carefully permission-filtered - each " +
+         "employee sees only documents they are entitled to",
+  step2: "every retrieved document is copied into a log",
+  step3: "the log platform is searchable by the whole engineering " +
+         "team, and often by a third-party vendor's staff",
+  result: "a support engineer with a log-platform login can read " +
+          "HR records they have no entitlement to",
+  // THE PRINCIPLE:
+  principle: "LOGS INHERIT THE SENSITIVITY OF WHAT THEY CONTAIN, " +
+             "not the sensitivity of the system that wrote them"
+};
+
+const controls = {
+  minimise: "log IDs not content - this removes most of the " +
+            "problem before any control is needed",
+  restrict: "separate access for the debugging stream; scope by " +
+            "tenant so support for customer A cannot read " +
+            "customer B",
+  retain: "30 days for debug, and pin only what has feedback, an " +
+          "error, or a promotion into an eval set",
+  // A read path into confidential data IS an access event.
+  auditReads: "log who opened which trace, and alert on bulk reads",
+  residency: "check where your log vendor stores data - it may " +
+             "leave the region your documents are not allowed to " +
+             "leave"
+};
+
+// DELETION REQUESTS ARE THE TEST OF WHETHER YOU GOT THIS RIGHT.
+async function handleDeletionRequest(userId) {
+  // Most teams handle the first one and forget the rest.
+  await db.deleteUserData(userId);
+  await vectorStore.deleteByMetadata({ userId });
+  await traceStore.deleteByUser(userId);
+  await logStore.deleteByUser(userId);        // needs userId indexed
+  await feedbackStore.deleteByUser(userId);
+  await cache.invalidateByUser(userId);
+  // And backups - which is why retention windows should be short
+  // enough that backup expiry does the work for you.
+  return { note: "backups expire in 35 days; nothing new is written" };
+}
+// IF YOU LOGGED IDS INSTEAD OF CONTENT, this is far easier: delete
+// the document and the log holds a dead reference rather than a
+// copy of the text.
+
+// A REASONABLE LOG LINE, END TO END:
+const goodLogLine = {
+  ts: "2026-08-19T09:14:02.118Z",
+  requestId: "req_8f3a1c", traceId: "req_8f3a1c", spanId: "sp_04",
+  userId: "u_7712", tenantId: "acme", sessionId: "s_9910",
+  route: "document_qa",
+  model: "claude-opus-5", modelVersion: "2026-05-01",
+  promptVersion: "v14", retrievalConfig: "rc_7",
+  tokensIn: 5_840, tokensCached: 4_100, tokensOut: 210,
+  costPence: 1.9,
+  latencyMs: 2_972, ttftMs: 620,
+  stageMs: { guardrail: 12, rewrite: 340, retrieval: 480,
+             llm: 2_100, outputGuard: 40 },
+  chunkIds: ["doc_412#c7", "doc_412#c8"], topScore: 0.84,
+  docVersions: ["v3", "v3"],
+  toolsCalled: ["lookup_employee"], toolErrors: 0,
+  guardrailInput: "pass", guardrailOutput: "pass",
+  outcome: "ok", cacheHit: false,
+  answerHash: "sha256:4f2a...", answerTokens: 210,
+  citedChunkIds: ["doc_412#c7"],
+  feedback: null
+};
+// Everything you need for dashboards, alerts, cost attribution and
+// most of your quality signal - AND NOT ONE LINE OF CONFIDENTIAL
+// TEXT.`,
+            ],
+            questions: [
+              {
+                question:
+                  "What do you log for an AI system, and how do you avoid logging sensitive data?",
+                solution: `<p>The tension first: <strong>the most useful thing to log is the full prompt and the full answer, and that is also the most dangerous thing to log.</strong> Everything else follows.</p>
+             <p>I separate <strong>three purposes</strong> — operational (no content, weeks, broad access), debugging (content or references, days, restricted), and audit (evidence, years, append-only). Conflating them is the main mistake.</p>
+             <p>What I always log contains no content: IDs, versions, tokens, cost, latency per stage, <strong>chunk IDs and scores</strong>, tool names, outcome, guardrail verdicts, feedback.</p>
+             <p>The key technique is <strong>log IDs, not content</strong> — and <strong>redact at capture, not later</strong>, because once raw content reaches the platform it has been indexed, backed up and possibly forwarded.</p>`,
+              },
+              {
+                question:
+                  "Why separate operational, debugging and audit logs?",
+                solution:
+                  "<p>Because they have genuinely different requirements on every axis, and one stream forced to serve all three will be wrong for at least two of them. <strong>Operational</strong> logging — latency, error rates, token counts, cost, cache hit rates — needs no content at all, should be readable by the whole engineering team, and is fine to keep for a month or three. <strong>Debugging</strong> needs content or references to it, so it should be tightly restricted and kept briefly, with only pinned entries surviving longer. <strong>Audit</strong> needs evidence of what happened and who authorised it, retained for years, append-only and tamper-evident, with access limited to a very small group. Put them in one place and you get one of two failures: either the audit retention wins and you are holding retrieved document text for seven years, or the operational retention wins and your audit evidence expires at thirty days — which you discover during an investigation. The access problem is worse: operational logs need to be widely readable to be useful, so a single stream means everyone can read everything. Separating them costs a little plumbing and resolves all of that.</p>",
+              },
+              {
+                question:
+                  "What is the log-IDs-not-content technique?",
+                solution: `<p>Instead of logging retrieved chunk <em>text</em>, log <strong>chunk IDs, similarity scores and document versions</strong>. You keep nearly all the debugging value — you can look the text up when you need it, if you are authorised — at a fraction of the exposure and a fraction of the storage.</p>
+             <p>The document version is the part people omit and it matters: <strong>a chunk that has since been re-indexed is not the chunk the model saw</strong>. Without the version you will pull up today's text, find it correct, and conclude the model hallucinated when actually it was given something different.</p>
+             <p>The same idea applies to the answer: store a <strong>hash and a token count</strong> rather than the text. That tells you whether two responses were identical, whether output length is drifting, and lets you correlate — without storing anything confidential.</p>
+             <p>It also makes deletion tractable: delete the document, and the log holds a dead reference rather than a copy.</p>`,
+              },
+              {
+                question:
+                  "Why must redaction happen at capture rather than later?",
+                solution:
+                  "<p>Because once raw content reaches your log platform it has already been replicated across nodes, written into a search index, included in backups, and possibly forwarded to a third-party vendor outside your network. Retro-redaction is then chasing copies you cannot enumerate — you can delete the visible record and the value persists in an index segment, a snapshot, or a vendor's storage you have no access to. There is also a window problem: even a fast cleanup job means the raw value existed in a widely-readable system for some period, and that is exactly the period an incident would cover. So redaction belongs in the <strong>logging layer itself</strong>, applied before anything is transmitted, so no code path can bypass it — not in the application code at each call site, where someone will forget. Two practical details make it work better. Record <em>which types</em> were redacted rather than the values, so you can confirm redaction is actually firing and notice if the pattern changes. And add a field-name denylist as a second line of defence, dropping anything called password, secret, token or authorization regardless of content, because that catches the cases your regular expressions do not.</p>",
+              },
+              {
+                question:
+                  "Where do credentials actually leak into logs?",
+                solution: `<p>Not the places people guard. Five paths:</p>
+             <ul>
+               <li><strong>Error messages.</strong> A stack trace or a database error containing the row that caused it, shipped straight to a third-party log platform.</li>
+               <li><strong>Tool call arguments.</strong> An agent calls a tool with a token in the arguments, and the whole call is logged verbatim as part of the trace.</li>
+               <li><strong>Raw request bodies</strong> logged "just in case" — which is how uploaded documents end up in a log aggregator.</li>
+               <li><strong>Headers</strong>, where an Authorization header is logged with the request.</li>
+               <li><strong>Model echoes</strong> — the model repeating something sensitive from its context back in the answer, which you then log as "the response".</li>
+             </ul>
+             <p>That last one is specific to AI systems and is easy to miss: your redaction may cover the input path and not the output path, and the model is perfectly capable of restating a credential it was shown.</p>`,
+              },
+              {
+                question:
+                  "Why do logs bypass your retrieval permissions?",
+                solution:
+                  "<p>Because retrieval filtering and log access control are two separate systems, and only one of them was designed with permissions in mind. You build careful per-user filtering so an employee retrieves only documents they are entitled to — and then every retrieved document is copied into a log that the whole engineering team can search, and often that a third-party vendor's staff can access too. A support engineer with a log-platform login can now read HR records, salary data or customer contracts they have no entitlement to whatsoever. You have faithfully rebuilt the access-control problem in a system nobody thought to secure. The principle to state is that <strong>logs inherit the sensitivity of what they contain, not the sensitivity of the system that wrote them</strong> — a log line containing an HR document is an HR record. The controls follow directly: minimise first by logging IDs rather than content, which removes most of the problem before any control is needed; restrict access to the debugging stream and scope it by tenant so support for one customer cannot read another's; keep retention short; and log who reads the logs, because a read path into confidential data is an access event that deserves recording.</p>",
+              },
+              {
+                question:
+                  "What should never appear in a log?",
+                solution: `<p>Five categories:</p>
+             <ul>
+               <li><strong>Credentials, API keys and session tokens</strong> — including inside error messages and tool arguments, which is where they actually appear.</li>
+               <li><strong>Full retrieved document text</strong> in a general-purpose log stream.</li>
+               <li><strong>PII you did not need.</strong> Worth noting that the user's <em>question</em> often contains more PII than the answer does — people put names, account numbers and medical details into questions.</li>
+               <li><strong>The system prompt on every entry</strong> — it is bulk, it is noise, and it is your intellectual property. Log the prompt <em>version</em> instead and store the prompts themselves in a versioned store.</li>
+               <li><strong>Raw request bodies</strong> logged defensively, which is how uploaded files reach a log aggregator.</li>
+             </ul>
+             <p>The system prompt point is worth making because it is the cheapest win: replacing a two-thousand-token block on every line with a four-character version string cuts volume dramatically and improves debuggability, since a version is what you actually compare across.</p>`,
+              },
+              {
+                question:
+                  "What do you log that gives you quality signal without content?",
+                solution:
+                  "<p>Rather more than people expect. <strong>Guardrail verdicts</strong> on input and output, with the rule that fired. <strong>Whether the answer cited any retrieved chunk at all</strong>, and which ones — an answer citing nothing is a strong hallucination signal and requires no text to detect. <strong>Top similarity score</strong>, since a low top score means retrieval found nothing good and the answer is likely to be poor. <strong>Whether the user retried or rephrased within the session</strong>, which is an implicit negative signal and often more honest than a thumbs-down button nobody clicks. <strong>Escalation to a human</strong>. <strong>Output token count</strong>, because a sudden shift in answer length usually means something changed. <strong>Refusal rate</strong>, which moving in either direction is worth knowing about. And of course explicit feedback. Together these give you a quality dashboard that can be widely shared, alerted on, and broken down by route and prompt version — with no confidential text in it. Then when a metric moves, you go to the restricted debugging stream or the trace for the small number of cases you actually need to read. That layering is the whole design: broad signal without content, narrow detail with it.</p>",
+              },
+              {
+                question:
+                  "How do deletion requests affect logging?",
+                solution: `<p>They are the test of whether you designed this properly, because a deletion request has to reach <strong>every</strong> copy — not just the primary database. That means the database, the vector store, the trace store, the log store, the feedback store, and any cache. Most teams handle the first and forget the rest.</p>
+             <p>Two design consequences follow:</p>
+             <ul>
+               <li><strong>Index user and tenant IDs in your logs</strong>, so deletion by user is possible at all. If you cannot query logs by user, you cannot comply.</li>
+               <li><strong>Keep retention short</strong>, so backup expiry does most of the work for you. It is far easier to say "nothing new is written and backups expire in 35 days" than to attempt surgical deletion inside backup snapshots.</li>
+             </ul>
+             <p>And this is where <strong>logging IDs rather than content pays off directly</strong>: delete the source document and the log holds a dead reference rather than a copy of the text, so compliance becomes a much smaller problem than it would otherwise be.</p>`,
+              },
+              {
+                question:
+                  "Is redaction enough on its own?",
+                solution:
+                  "<p>No, and it is important to say so rather than presenting it as a solved problem. Pattern-based redaction catches structured things well — emails, phone numbers, card numbers, employee IDs, API key formats — and it catches free-text PII poorly. A user writing \"my manager Sarah in the Leeds office said my grievance was rejected\" contains personal data that no regular expression will find, and a model-based redactor will catch more of it but not all, at real latency and cost. So redaction should be understood as <strong>reducing exposure rather than eliminating it</strong>, which means the other controls still have to hold: short retention, restricted access, tenant scoping, minimisation by logging IDs rather than content, and auditing of who reads what. The layering is the point — redaction handles the obvious identifiers, minimisation removes the bulk of the content entirely, access control limits who can see what remains, and retention limits how long any of it exists. Presenting redaction as the whole answer is the weak version of this answer, and an interviewer will usually probe it, because a team that believes their logs are safe because they run a regex is a team that has not had the incident yet.</p>",
+              },
+              {
+                question:
+                  "What does a good log line look like?",
+                solution: `<p>Structured, versioned, and containing no confidential text. The fields:</p>
+             <ul>
+               <li><strong>Correlation</strong> — timestamp, request ID, trace ID, span ID, user, tenant, session, route</li>
+               <li><strong>Versions</strong> — model, model version, prompt version, retrieval config version</li>
+               <li><strong>Cost</strong> — tokens in, cached, out, and computed cost</li>
+               <li><strong>Latency</strong> — total, TTFT, and a breakdown per stage</li>
+               <li><strong>Retrieval</strong> — chunk IDs, top score, document versions</li>
+               <li><strong>Tools</strong> — names called, error count</li>
+               <li><strong>Verdicts</strong> — input and output guardrails, outcome, cache hit</li>
+               <li><strong>Answer fingerprint</strong> — hash, token count, cited chunk IDs</li>
+               <li><strong>Feedback</strong>, once it arrives</li>
+             </ul>
+             <p>That supports dashboards, alerting, cost attribution per tenant, regression comparison across prompt versions, and most quality analysis — with not one line of confidential text in it. The version fields are the ones most often missing, and without them you cannot answer "did this get worse after the change", which is the question you will ask most often.</p>`,
+              },
+              {
+                question:
+                  "How would you summarise the principle in one sentence?",
+                solution:
+                  "<p><strong>Log everything about the request and as little as possible of its content — and where you need the content, log a reference to it rather than a copy.</strong> That single sentence resolves the tension the question is built on, because it is not a compromise between usefulness and safety but a way of getting most of both. The operational and quality signal lives in metadata: versions, tokens, latencies, scores, IDs, verdicts, outcomes. The confidential material lives in the source systems where it is already governed, and the log points at it. When you genuinely need to read the text — a specific complaint, a specific failing trace — you look it up through a path that checks whether you are entitled to see it, which is the correct behaviour and the one you would want if it were your own record being read. Add to that: redact at capture so there is never a raw window, separate the three logging purposes so retention and access can differ, and remember that a deletion request has to reach the log store too. Everything else in this topic is an application of those four ideas.</p>",
+              },
+            ],
+            links: [
+              "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+              "https://opentelemetry.io/docs/specs/semconv/gen-ai/",
+              "https://cloud.google.com/dlp/docs/deidentify-sensitive-data",
+              "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-erasure/",
+            ],
+          },
+          {
+            topic: "Token & Cost Monitoring",
+            tags: ["high-frequency", "must-know", "observability", "cost"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "How do you track spend per feature, per tenant and per user in near real time?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Start with what does not work, because it is what most teams try first. <strong>The provider dashboard is useless for this.</strong> It gives you one number per day per API key. It cannot tell you which feature, which customer, or which user — and those are the only three questions anyone actually asks.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    So <strong>the attribution has to happen in your code, at the call site.</strong> Nobody can reconstruct it afterwards.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Compute The Cost Where The Call Happens
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Every model response comes back with a usage object. Multiply
+it by a price table, TAG IT WITH DIMENSIONS, and emit it as a
+metric - at the moment of the call, in one shared wrapper that
+nothing can bypass.
+
+  THE DIMENSIONS YOU NEED:
+
+    feature / route      "which part of the product"
+    tenantId             "which customer"
+    userId               "which person"
+    model + version      "what were we paying for"
+    promptVersion        "did a change move the cost"
+    callKind             llm | embedding | rerank | guardrail
+    cached               true | false
+    environment          prod | staging
+    traceId              so a number links back to a request
+
+Without these, you have a total. WITH them, you have answers.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Near Real Time Means A Metrics Store, Not Log Scraping
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Emit a <strong>counter</strong> that aggregates on write. Scraping logs and summing them later is too slow to alert on and gets expensive fast at volume. Keep the per-request detail in your logs for investigation, and keep the rolled-up counters for dashboards and alerts. <strong>Two different stores, two different jobs.</strong>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Three Questions You Must Answer In Under A Minute
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>What did this feature cost yesterday</strong>, and is that going up?</li>
+    <li style="margin-top: 0.5rem;"><strong>Which tenant costs the most per seat?</strong> Not per month — <em>per seat</em>, because the biggest customer should cost the most in total and that tells you nothing.</li>
+    <li style="margin-top: 0.5rem;"><strong>Which user is an outlier</strong>, and is it a person or a script?</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    If your setup cannot answer those three, it is not a cost monitoring system — it is a bill.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Cost Per Unit Of Value, Not Just Total
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Total spend rising is not automatically bad — it may just mean people are using the product. The numbers that mean something are <strong>cost per tenant per seat</strong>, <strong>cost per resolved ticket</strong>, <strong>cost per active user</strong>. Those hold steady when growth is healthy and move when something has actually broken.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Alert On Burn Rate, Not On The Daily Total
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+A daily total alert tells you TOMORROW. By then a runaway
+agent loop has run all night.
+
+  ALERT ON: this hour's spend versus the same hour last week
+  ALERT ON: any single tenant above N x their 7-day average
+  ALERT ON: any single RUN above a cost ceiling, DURING the run
+  ALERT ON: cost per request moving, even when total is flat -
+            that is the one that catches a silent prompt bloat
+
+And enforce, not just observe: per-tenant quotas, and a
+cumulative budget check INSIDE an agent loop rather than after
+it.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Two Things People Forget
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>The non-LLM costs.</strong> Embeddings, reranking, the vector database, and guardrail model calls. A dashboard that tracks only the main generation call routinely misses a third of the spend, and it is the third that grows quietly.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Cached tokens as their own dimension.</strong> If you fold them into the input count, your cache looks free and you cannot prove it is working — or notice the day it stops.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Your Number Will Not Match The Invoice
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    And that is fine. Cache accounting, rounding, committed discounts, free tiers and requests that consumed tokens then failed all cause drift. <strong>Reconcile monthly, track the drift as a percentage, and investigate if it exceeds a few percent.</strong> Your number is for <em>attribution</em>; the invoice is for <em>billing</em>. Say that plainly rather than pretending they will agree.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "How do you track spend per feature, per tenant and per user
+   in near real time?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you understand that attribution is YOUR job, not the
+  provider's - and whether you have actually had to answer
+  "which customer is costing us money" under pressure. The
+  detail that shows experience is cost PER SEAT rather than per
+  tenant, and alerting on burn rate rather than daily totals.
+
+WEAK ANSWER
+  "I would track token usage per request and build a dashboard
+   showing cost broken down by user and feature, with alerts if
+   spend goes above a threshold."
+  Why it is weak: describes the outcome without the mechanism.
+  No dimensions, no mention that the provider dashboard cannot
+  do this, no burn-rate alerting, and a daily threshold alert
+  fires the morning after the damage.
+
+STRONG ANSWER (about 75 seconds)
+  "First, what does not work: THE PROVIDER DASHBOARD IS USELESS
+   FOR THIS. It gives one number per day per API key. It cannot
+   say which feature, which customer or which user - which are
+   the only three questions anyone asks. So the attribution has
+   to happen IN MY CODE, AT THE CALL SITE, because nobody can
+   reconstruct it later.
+
+   Every response returns a usage object. In one shared wrapper
+   that nothing can bypass, I multiply it by a price table and
+   emit a counter tagged with: feature, tenant, user, model and
+   version, PROMPT VERSION, call kind - llm, embedding, rerank
+   or guardrail - whether it was cached, environment, and the
+   trace ID.
+
+   Near real time means a METRICS STORE that aggregates on
+   write, not scraping logs and summing later - that is too
+   slow to alert on and expensive at volume. Per-request detail
+   stays in logs for investigation.
+
+   Then I would check it can answer three questions in under a
+   minute: what did this feature cost yesterday; which tenant
+   costs most PER SEAT - per seat, because the biggest customer
+   should cost the most in total and that tells you nothing;
+   and which user is an outlier, person or script.
+
+   I would track cost per unit of VALUE, not just total - cost
+   per seat, per resolved ticket - because total spend rising
+   just means people are using it.
+
+   For alerting: burn rate, not daily totals. A daily alert
+   tells me tomorrow, by which time a runaway agent loop has
+   run all night. So this hour versus the same hour last week,
+   any tenant above a multiple of their own average, and a
+   cumulative budget check INSIDE an agent run rather than
+   after it. Plus cost per request moving while the total is
+   flat, which is what catches silent prompt bloat.
+
+   Two things people forget: the NON-LLM costs - embeddings,
+   reranking, vector DB, guardrail calls, which is often a
+   third of the bill - and tracking CACHED tokens separately,
+   or the cache looks free and you cannot tell the day it
+   stops working.
+
+   And my number will not match the invoice, because of cache
+   accounting, rounding, discounts and failed calls that still
+   consumed tokens. I would reconcile monthly and track the
+   drift. Mine is for attribution, theirs is for billing."
+
+FOLLOW-UPS TO EXPECT
+  "Why not use the provider dashboard?"
+      -> one number per day per key. No feature, tenant or
+         user dimension, and it cannot be added afterwards.
+  "What would you alert on?"
+      -> burn rate versus the same hour last week, per-tenant
+         multiples, in-run agent budgets, and cost per request
+         while total is flat.
+  "Which costs get missed?"
+      -> embeddings, reranking, vector DB, guardrail calls.
+  "Why won't it match the bill?"
+      -> cache accounting, rounding, discounts, failed calls.
+         Reconcile monthly and track the drift percentage.
+
+RED FLAGS
+  Assuming the provider gives you attribution.
+  No dimensions listed.
+  Daily-total alerting.
+  Only counting the main generation call.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THE PROVIDER DASHBOARD CANNOT DO THIS. Attribution happens at
+// the call site, in ONE wrapper that nothing can bypass.
+
+const PRICES = {
+  // A price table is CONFIG, not code - prices change, and you
+  // need to recompute historicals when they do.
+  "claude-opus-5":   { inPer1k: 0.0012, cachedPer1k: 0.00012,
+                       outPer1k: 0.006 },
+  "claude-haiku-4-5":{ inPer1k: 0.0001, cachedPer1k: 0.00001,
+                       outPer1k: 0.0005 },
+  "embed-v3":        { inPer1k: 0.00002, outPer1k: 0 },
+  "rerank-v2":       { perCall: 0.0002 },
+  priceTableVersion: "pt_2026_08"   // store WHICH prices you used
+};
+
+function costPence(model, usage) {
+  const p = PRICES[model];
+  if (p.perCall) return p.perCall * 100;
+  const uncached = usage.input - (usage.cacheRead ?? 0);
+  return 100 * (
+    (uncached / 1000) * p.inPer1k +
+    ((usage.cacheRead ?? 0) / 1000) * p.cachedPer1k +
+    (usage.output / 1000) * p.outPer1k
+  );
+}
+
+// ONE WRAPPER. Every model, embedding, rerank and guardrail call
+// goes through it - otherwise a route quietly stops being counted.
+async function trackedCall({ model, request, ctx, callKind }) {
+  const started = nowMs();
+  const res = await provider.call(model, request);
+  const pence = costPence(model, res.usage);
+
+  // A COUNTER that aggregates ON WRITE. Not a log line to be
+  // scraped and summed later - that is too slow to alert on and
+  // expensive at volume.
+  metrics.increment("ai.cost.pence", pence, {
+    feature: ctx.route,            // which part of the product
+    tenantId: ctx.tenantId,        // which customer
+    userId: ctx.userId,            // which person
+    model, modelVersion: res.modelVersion,
+    promptVersion: ctx.promptVersion,   // did a change move cost?
+    callKind,                      // llm | embedding | rerank | guardrail
+    cached: (res.usage.cacheRead ?? 0) > 0,
+    environment: ENV
+  });
+
+  // Tokens as separate counters, because you will want to know
+  // WHY cost moved - more requests, or bigger ones?
+  metrics.increment("ai.tokens.in",     res.usage.input,        tags);
+  metrics.increment("ai.tokens.cached", res.usage.cacheRead ?? 0, tags);
+  metrics.increment("ai.tokens.out",    res.usage.output,       tags);
+  metrics.increment("ai.calls", 1, tags);
+
+  // Per-request detail goes to LOGS, for investigation. Two stores,
+  // two jobs.
+  logger.write({ traceId: ctx.traceId, pence, ...tags,
+                 latencyMs: nowMs() - started,
+                 priceTableVersion: PRICES.priceTableVersion });
+
+  return res;
+}
+
+// THE COST PEOPLE FORGET: everything that is not the main call.
+const oftenMissed = ["embeddings on every query",
+                     "embeddings on every re-index",
+                     "the reranker",
+                     "input and output guardrail model calls",
+                     "query rewriting", "the vector DB itself"];
+// Together these are routinely a THIRD of the bill, and the third
+// that grows quietly.`,
+              `// THE THREE QUESTIONS. If you cannot answer these in under a
+// minute, you have a bill, not a monitoring system.
+
+const queries = {
+  // 1. WHAT DID THIS FEATURE COST, AND IS IT GOING UP?
+  perFeature: {
+    metric: "ai.cost.pence",
+    groupBy: ["feature"],
+    window: "1d",
+    compareTo: "same day last week"
+  },
+
+  // 2. WHICH TENANT COSTS MOST PER SEAT?
+  //    PER SEAT - not per month. The biggest customer SHOULD cost
+  //    the most in total, and that tells you nothing at all.
+  perTenantPerSeat: {
+    numerator: "sum(ai.cost.pence) by tenantId over 30d",
+    denominator: "seats(tenantId)",
+    // This is the number that identifies a customer who is
+    // unprofitable, which is a business decision, not an alert.
+    surfaces: "a tenant on a flat per-seat plan burning 5x the mean"
+  },
+
+  // 3. WHICH USER IS AN OUTLIER - AND IS IT A PERSON OR A SCRIPT?
+  perUser: {
+    metric: "sum(ai.cost.pence) by userId over 1d",
+    flag: "above p99 of the tenant",
+    thenCheck: ["requests per minute", "identical prompts repeated",
+                "activity outside working hours"]
+  }
+};
+
+// COST PER UNIT OF VALUE, NOT JUST TOTAL.
+const valueMetrics = {
+  // Total spend rising is NOT automatically bad - it may just mean
+  // people are using the product. These hold steady when growth is
+  // healthy, and move when something has actually broken.
+  costPerSeatPence:          "spend / active seats",
+  costPerResolvedTicketPence:"spend / tickets closed without escalation",
+  costPerActiveUserPence:    "spend / DAU",
+  costPerRequestPence:       "spend / requests",
+  // The last one is the leading indicator - see the alerts below.
+  note: "if total is flat and cost-per-request is climbing, usage " +
+        "is falling and something is getting more expensive at once"
+};
+
+// AND THE SPLIT THAT EXPLAINS EVERY MOVE:
+function explainCostChange(period) {
+  return {
+    requests:        delta("ai.calls", period),
+    tokensPerRequest:delta("ai.tokens.in", period) / delta("ai.calls", period),
+    outputPerRequest:delta("ai.tokens.out", period) / delta("ai.calls", period),
+    cacheHitRate:    ratio("ai.tokens.cached", "ai.tokens.in", period),
+    modelMix:        breakdown("ai.cost.pence", "model", period),
+    // Cost went up. Was it MORE requests, BIGGER requests, LONGER
+    // answers, a cache that stopped working, or a routing change?
+    // Those are five different problems with five different fixes.
+    verdict: "one of these five moved"
+  };
+}`,
+              `// ALERT ON BURN RATE, NOT DAILY TOTALS. A daily total alert tells
+// you TOMORROW - by which time a runaway agent loop has run all
+// night.
+
+const alerts = [
+  { name: "hourly burn rate",
+    expr: "sum(ai.cost.pence) over 1h > 3 x same_hour_last_week",
+    // Catches the overnight loop while it is still running.
+    severity: "page" },
+
+  { name: "tenant spike",
+    expr: "sum(ai.cost.pence) by tenantId over 1h > 5 x " +
+          "tenant_7d_hourly_avg",
+    // Compare a tenant against THEMSELVES. A global threshold
+    // permanently alerts on your biggest customer.
+    severity: "ticket" },
+
+  { name: "cost per request climbing while total is flat",
+    expr: "ai.cost.pence / ai.calls > 1.3 x 7d_avg",
+    // THE ONE THAT CATCHES SILENT PROMPT BLOAT. Someone added
+    // instructions, or chunk count crept from 5 to 9, and total
+    // spend has not moved because traffic dipped.
+    severity: "ticket" },
+
+  { name: "cache hit rate collapsed",
+    expr: "ai.tokens.cached / ai.tokens.in < 0.4 for 30m",
+    // A prompt edit above the cache breakpoint invalidates
+    // everything, and the only symptom is the bill.
+    severity: "ticket" },
+
+  { name: "single user outlier",
+    expr: "sum(ai.cost.pence) by userId over 1h > p99 x 10",
+    severity: "ticket" }
+];
+
+// AND ENFORCE, NOT JUST OBSERVE.
+async function checkTenantQuota(tenantId) {
+  const spent = await metrics.sum("ai.cost.pence",
+                                  { tenantId }, "30d");
+  const cap = await quotas.get(tenantId);
+  if (spent > cap.hard)  return { action: "block" };
+  if (spent > cap.soft)  return { action: "downgrade_to_small_model" };
+  if (spent > cap.warn)  { notifyAccountOwner(tenantId); }
+  return { action: "allow" };
+}
+
+// AGENT RUNS NEED A BUDGET CHECKED *DURING* THE RUN.
+async function runWithBudget(task, ctx) {
+  let spentPence = 0;
+  for (let step = 1; step <= MAX_STEPS; step++) {
+    const res = await trackedCall({ /* ... */ });
+    spentPence += costPence(MODEL, res.usage);
+    // Checked INSIDE the loop. Checking after the run means you
+    // find out what it cost once you have already paid it.
+    if (spentPence > ctx.runBudgetPence) {
+      metrics.increment("ai.run.budget_exceeded", 1, { route: ctx.route });
+      return { stopped: "budget", spentPence, atStep: step };
+    }
+  }
+}`,
+              `// YOUR NUMBER WILL NOT MATCH THE INVOICE. Say so plainly rather
+// than pretending it will.
+
+const reconciliation = {
+  whyItDrifts: [
+    "CACHE ACCOUNTING - what counts as a cache read, and when a " +
+      "cache entry expired mid-window",
+    "ROUNDING at the provider, per call, across millions of calls",
+    "COMMITTED DISCOUNTS and volume tiers applied at invoice time",
+    "FREE TIER allowances",
+    "FAILED CALLS that consumed tokens before erroring - you may " +
+      "not have recorded usage for a request that threw",
+    "BATCH discounts settling on a different day",
+    "requests from a key you did not instrument (staging, a " +
+      "script, someone's notebook)"
+  ],
+
+  process: {
+    frequency: "monthly",
+    compute: "sum(ai.cost.pence) per API key per month",
+    against: "the provider invoice line for that key",
+    track: "driftPercent, as a time series",
+    // A stable 2% drift is fine. A drift that CHANGES is the
+    // signal - it usually means an uninstrumented call path
+    // appeared.
+    investigateIf: "driftPercent moves by more than a couple of " +
+                   "points month on month"
+  },
+
+  // THE FRAMING THAT MATTERS:
+  framing: "MY NUMBER IS FOR ATTRIBUTION. THE INVOICE IS FOR " +
+           "BILLING. They answer different questions and they do " +
+           "not need to agree to the penny."
+};
+
+// A REASONABLE COST DASHBOARD:
+const dashboard = {
+  headline: ["spend today vs same day last week",
+             "spend month-to-date vs forecast",
+             "cost per request (7d trend)"],
+
+  breakdowns: [
+    "by FEATURE - where the money goes",
+    "by CALL KIND - llm vs embedding vs rerank vs guardrail, " +
+      "because this is where the forgotten third shows up",
+    "by MODEL - is routing working, or is everything on the big one",
+    "by TENANT per seat - who is unprofitable",
+    "by PROMPT VERSION - did the last change cost anything"
+  ],
+
+  efficiency: ["cache hit rate", "tokens in per request",
+               "tokens out per request", "share routed to small model",
+               "batch share"],
+
+  // And the reconciliation panel, so nobody re-derives the drift
+  // every month in a spreadsheet.
+  finance: ["computed vs invoiced, per key", "drift %", "forecast"]
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you track spend per feature, per tenant and per user in near real time?",
+                solution: `<p>Start with what does not work: <strong>the provider dashboard is useless for this.</strong> One number per day per API key — it cannot say which feature, which customer or which user, and that cannot be reconstructed afterwards.</p>
+             <p>So the attribution happens <strong>in my code, at the call site</strong>. One shared wrapper multiplies the returned usage by a price table and emits a counter tagged with feature, tenant, user, model and version, prompt version, call kind, whether it was cached, and the trace ID.</p>
+             <p>Near real time means a <strong>metrics store that aggregates on write</strong>, not log scraping — per-request detail stays in logs for investigation.</p>
+             <p>And I alert on <strong>burn rate, not daily totals</strong>, because a daily alert tells you the morning after.</p>`,
+              },
+              {
+                question:
+                  "Why can't you use the provider's usage dashboard?",
+                solution:
+                  "<p>Because it reports at the wrong grain. It gives you spend per day per API key, and possibly per model — which answers \"how much did we spend\" and none of the questions anyone actually asks. It cannot tell you that the summarisation feature costs four times the search feature, that one customer is burning five times the average per seat, or that a single user account is running a script overnight. Those distinctions exist only inside your application, in the request context, and the provider has no visibility into them. The critical consequence is that this is <strong>not something you can add later</strong>: if you did not tag the call when you made it, the information is gone, and no amount of after-the-fact analysis will recover which feature a given token belonged to. Some teams try to work around it by issuing a separate API key per feature, which gives you a crude split and immediately breaks down because you cannot issue a key per tenant or per user. The correct answer is to compute and tag cost at the call site from the very first version of the system — it is roughly twenty lines of code, and retrofitting it after a surprise bill is far more painful than putting it in on day one.</p>",
+              },
+              {
+                question:
+                  "What dimensions do you tag on every call?",
+                solution: `<p>Nine, and each one answers a question you will be asked:</p>
+             <ul>
+               <li><strong>feature / route</strong> — which part of the product</li>
+               <li><strong>tenantId</strong> — which customer</li>
+               <li><strong>userId</strong> — which person</li>
+               <li><strong>model and model version</strong> — what you were paying for</li>
+               <li><strong>promptVersion</strong> — so you can tell whether a change moved the cost</li>
+               <li><strong>callKind</strong> — llm, embedding, rerank or guardrail</li>
+               <li><strong>cached</strong> — true or false</li>
+               <li><strong>environment</strong> — so staging does not pollute production numbers</li>
+               <li><strong>traceId</strong> — so any number links back to a specific request</li>
+             </ul>
+             <p>The two most often missing are <strong>promptVersion</strong> and <strong>callKind</strong>. Without prompt version you cannot attribute a cost change to a deploy. Without call kind you cannot see the embedding, rerank and guardrail spend that makes up a large slice of the bill.</p>`,
+              },
+              {
+                question:
+                  "Why alert on burn rate rather than a daily total?",
+                solution:
+                  "<p>Because a daily total alert tells you <em>tomorrow</em>. If a runaway agent loop starts at eight in the evening, a threshold on daily spend fires when the batch job runs the next morning — by which time it has been looping for twelve hours. The alerts that catch things in time compare short windows against a comparable baseline: <strong>this hour's spend against the same hour last week</strong>, which handles daily and weekly seasonality that a fixed threshold cannot; <strong>each tenant against their own seven-day average</strong>, because a global threshold permanently alerts on your largest customer and tells you nothing; and for agents, a <strong>cumulative budget checked inside the run loop</strong> rather than after it, since checking afterwards means discovering the cost once you have already paid it. There is one more that catches a different failure mode entirely: <strong>cost per request rising while the total stays flat</strong>. That is the signature of silent prompt bloat — someone added instructions, or chunk count crept from five to nine — and it is invisible on a total-spend dashboard because traffic happened to dip at the same time.</p>",
+              },
+              {
+                question:
+                  "What costs do teams routinely miss?",
+                solution: `<p>Everything that is not the main generation call. Specifically:</p>
+             <ul>
+               <li><strong>Query embeddings</strong> — one per request, small individually and constant</li>
+               <li><strong>Re-indexing embeddings</strong> — which spike whenever the corpus is rebuilt and are easy to blame on nothing</li>
+               <li><strong>The reranker</strong>, which is per-document and scales with how many candidates you retrieve</li>
+               <li><strong>Guardrail model calls</strong> on input and output — often two extra model calls per request</li>
+               <li><strong>Query rewriting</strong>, another model call before retrieval even starts</li>
+               <li><strong>The vector database itself</strong>, which is a monthly infrastructure line rather than a per-call one</li>
+             </ul>
+             <p>Together these are routinely <strong>a third of the bill</strong>, and it is the third that grows quietly because nobody is watching it. Tagging <code>callKind</code> on every call is what makes them visible, and a dashboard broken down by call kind is usually the one that produces the surprise.</p>`,
+              },
+              {
+                question:
+                  "Why track cached tokens as a separate dimension?",
+                solution:
+                  "<p>Because if you fold them into the input count, the cache looks free and you lose two things you need. First, you cannot <strong>prove the cache is working</strong> — the cache hit rate is a first-class efficiency metric, and without separate accounting it does not exist. Second, and more importantly, you cannot notice <strong>the day it stops working</strong>. Prompt caching is fragile in a specific way: it depends on a stable prefix, so a single edit above the cache breakpoint invalidates every entry, and the only symptom is that the bill goes up. There is no error, no latency alarm, no failed request — just a quiet three-times increase in input cost that nobody connects to a prompt tweak from last Tuesday. So the cache hit rate deserves its own metric with its own alert: if cached tokens as a share of input tokens drops below a threshold for half an hour, something changed, and you want to know within the hour rather than at the end of the month. It is one of the highest-value alerts in the whole cost setup, because the failure is completely silent and the cost impact is large.</p>",
+              },
+              {
+                question:
+                  "Why cost per seat rather than cost per tenant?",
+                solution: `<p>Because <strong>your biggest customer should cost the most in total</strong> — that is expected, and a ranking by absolute spend just tells you who is biggest, which you already knew.</p>
+             <p>Cost per seat normalises it and surfaces the thing that actually matters: a customer on a flat per-seat plan whose usage pattern makes them <strong>unprofitable</strong>. A tenant with fifty seats burning five times the mean per seat is a business problem — maybe they are using it for a workload you did not price for, maybe they have a script, maybe your pricing model does not fit their use case.</p>
+             <p>The same normalisation logic applies elsewhere: <strong>cost per resolved ticket</strong>, <strong>cost per active user</strong>, <strong>cost per request</strong>. Total spend rising just means people are using the product. These ratios hold steady when growth is healthy and move when something has genuinely broken — which is what you want a metric to do.</p>`,
+              },
+              {
+                question:
+                  "How do you explain a cost increase?",
+                solution:
+                  "<p>By decomposing it, because \"cost went up\" has five distinct causes with five different fixes and you cannot tell them apart from a total. Check, in order: <strong>request count</strong> — more traffic, which is usually good news; <strong>input tokens per request</strong> — bigger prompts, meaning chunk count crept up or someone added instructions; <strong>output tokens per request</strong> — longer answers, often from a prompt change or a raised token limit; <strong>cache hit rate</strong> — which if it collapsed explains a large jump with no other change; and <strong>model mix</strong> — whether routing is still sending simple work to the small model or whether a fallback quietly promoted everything to the expensive one. That last case is worth calling out, because a provider having a bad afternoon can trigger enough failovers that your cost profile changes without any deploy on your side. Having these five as standing dashboard panels means the investigation takes a minute rather than an afternoon, and it also means you can answer the question a finance stakeholder actually asks, which is not \"how much\" but \"why, and will it keep happening\".</p>",
+              },
+              {
+                question:
+                  "Why won't your computed cost match the invoice?",
+                solution: `<p>Several reasons, all legitimate:</p>
+             <ul>
+               <li><strong>Cache accounting</strong> — what the provider counts as a cache read, and how an entry expiring mid-window is billed</li>
+               <li><strong>Rounding</strong> at the provider, per call, across millions of calls</li>
+               <li><strong>Committed discounts and volume tiers</strong> applied at invoice time, not at call time</li>
+               <li><strong>Free tier allowances</strong></li>
+               <li><strong>Failed calls that consumed tokens</strong> before erroring, where your code threw before recording usage</li>
+               <li><strong>Uninstrumented keys</strong> — staging, a script, someone's notebook</li>
+             </ul>
+             <p>So reconcile monthly, per API key, and <strong>track the drift as a percentage time series</strong>. A stable two percent drift is fine and needs no action. A drift that <em>changes</em> is the real signal, and it usually means an uninstrumented call path has appeared.</p>
+             <p>The framing to state plainly: <strong>your number is for attribution, the invoice is for billing.</strong> They answer different questions and do not need to agree to the penny.</p>`,
+              },
+              {
+                question:
+                  "How do you enforce budgets rather than just observe them?",
+                solution:
+                  "<p>Three levels, and they should degrade rather than cut off. At the <strong>tenant level</strong>, a soft cap and a hard cap against a thirty-day window: crossing the warning threshold notifies the account owner, crossing the soft cap downgrades that tenant to a cheaper model or reduces retrieved chunk count, and only the hard cap blocks. Downgrading before blocking matters because a customer who suddenly gets errors will churn, while one who gets slightly less capable answers usually will not notice until you talk to them. At the <strong>user level</strong>, a per-user rate limit catches the script running overnight and the individual outlier, and it should be per tenant rather than global so one customer's heavy user cannot exhaust everyone's headroom. At the <strong>run level</strong>, an agent needs a cumulative cost budget checked <em>inside</em> the loop, since that is where unbounded spend actually comes from — a single run that loops fifty times costs more than a thousand ordinary requests. Every one of these enforcement events should emit its own metric, because the rate at which budgets fire is itself a signal: if soft caps are triggering routinely, your pricing or your prompt sizes are wrong, not your customers.</p>",
+              },
+              {
+                question:
+                  "Why keep metrics and logs in separate stores?",
+                solution:
+                  "<p>Because they answer different questions at different costs. <strong>Metrics</strong> are pre-aggregated counters — cheap to write, cheap to query, fast enough to alert on, and they hold no per-request detail. That is what a dashboard and an alert need: sum of cost by tenant over the last hour, computed in milliseconds regardless of whether you served a thousand requests or ten million. <strong>Logs</strong> hold one entry per request with the full detail, which is what you need when an alert fires and you have to know <em>which</em> requests caused it. Trying to serve both from logs is the common mistake: scraping and summing log lines to build a cost dashboard is slow enough that your alerts lag by minutes, and expensive enough at volume that the observability bill starts competing with the model bill. Trying to serve both from metrics is the opposite mistake — you cannot put a user ID or a trace ID in a metric tag at high cardinality without the metrics store falling over. So the split is deliberate: <strong>bounded-cardinality dimensions in metrics for aggregate questions, unbounded detail in logs for specific ones</strong>, joined by trace ID when you need to move from one to the other.</p>",
+              },
+              {
+                question:
+                  "What would you put on the dashboard?",
+                solution: `<p>Four bands:</p>
+             <ul>
+               <li><strong>Headline</strong> — spend today versus the same day last week, month-to-date against forecast, and cost per request as a seven-day trend.</li>
+               <li><strong>Breakdowns</strong> — by feature, by <em>call kind</em> (this is where the forgotten third shows up), by model (is routing still working, or did everything drift onto the expensive one), by tenant per seat, and by prompt version.</li>
+               <li><strong>Efficiency</strong> — cache hit rate, tokens in per request, tokens out per request, share routed to the small model, share going through batch.</li>
+               <li><strong>Finance</strong> — computed versus invoiced per key, the drift percentage, and the forecast.</li>
+             </ul>
+             <p>The call-kind breakdown is the panel that most often produces a surprise, and the prompt-version breakdown is the one that makes cost regressions attributable to a specific deploy — which is what turns a monthly finance conversation into an engineering fix.</p>`,
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/api/messages",
+              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
+              "https://opentelemetry.io/docs/specs/semconv/gen-ai/",
+              "https://docs.anthropic.com/en/api/rate-limits",
+            ],
+          },
+          {
+            topic: "Latency & Error Monitoring",
+            tags: ["high-frequency", "must-know", "observability", "reliability"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "Which AI-specific metrics do you alert on that a normal web service would not have?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Lead with the sentence that explains why the question exists: <strong>in an AI system, most failures return HTTP 200.</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A truncated answer, unparseable JSON, an unexpected refusal, an answer built on zero retrieved documents — every one of those is a successful response by any normal measure. So a standard error-rate dashboard shows green while the product is broken. Everything below follows from that.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Keep The Ordinary Ones
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Request rate, 5xx rate, p50/p95/p99, saturation, dependency health. None of that goes away. The AI metrics sit <em>on top</em>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Latency Metrics A Web Service Does Not Have
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  TTFT, SEPARATE FROM TOTAL
+    For a streaming answer these diverge completely, and only
+    TTFT maps to what the user perceives. A dashboard tracking
+    only total duration is measuring something nobody feels.
+
+  OUTPUT TOKENS PER SECOND
+    The real throughput number. It degrades independently of
+    TTFT - a provider under load often connects fast and then
+    generates slowly, which total latency alone cannot explain.
+
+  LATENCY PER STAGE
+    retrieval | rerank | generation | guardrail
+    A total-latency alert cannot tell you WHICH one moved, and
+    the fix is different for each.
+
+  OUTPUT LENGTH DISTRIBUTION
+    Output dominates latency. Most p95 latency rises are
+    actually p95 OUTPUT LENGTH rises - and the fix is a prompt
+    change, not more capacity.
+
+  QUEUE DEPTH AND WAIT TIME for async work.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Errors That Return 200
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Truncation rate</strong> — stop reason is the token limit. The answer stops mid-sentence and the HTTP status is 200.</li>
+    <li style="margin-top: 0.5rem;"><strong>Schema / parse failure rate</strong> on structured output. Status 200, unusable body, and downstream code breaks.</li>
+    <li style="margin-top: 0.5rem;"><strong>Refusal rate.</strong> Moving in <em>either</em> direction is a signal — up means over-blocking, down means your guardrails weakened.</li>
+    <li style="margin-top: 0.5rem;"><strong>Empty or low-score retrieval rate.</strong> The model answered with nothing to answer from.</li>
+    <li style="margin-top: 0.5rem;"><strong>Zero-citation rate</strong> — the answer cited none of the retrieved chunks.</li>
+    <li style="margin-top: 0.5rem;"><strong>Guardrail block rate</strong>, input and output, by rule.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Errors That Do Fail, But Differently
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  429 RATE, PER PROVIDER, tracked separately from 5xx.
+    It is a CAPACITY signal, not a bug - and it means something
+    completely different operationally.
+
+  TIMEOUT RATE. For a long generation a timeout is not the
+    same event as a failure, and the right response differs.
+
+  CONTEXT LENGTH ERRORS - and far more useful, the CONTEXT
+    LENGTH DISTRIBUTION AGAINST THE LIMIT, which is a leading
+    indicator. You want to see prompts creeping toward the
+    ceiling weeks before anything breaks.
+
+  TOOL ERROR RATE BY TOOL, and tool timeout rate. One flaky
+    tool degrades every agent that touches it.
+
+  FALLBACK / FAILOVER FIRE RATE. If this is non-zero and
+    nobody noticed, your primary provider is degrading quietly.
+
+  AGENT STEP-COUNT DISTRIBUTION, and the rate of runs hitting
+    a step or cost ceiling. A shift from 3 steps to 6 is a
+    behaviour change, not a capacity problem.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Alert Per Route, Not Globally
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    A global average hides a single broken route completely. If one route out of six has doubled its truncation rate, the blended number moves by a few percent and nothing fires. <strong>Break every AI metric by route, and by tenant where one heavy customer can dominate the aggregate.</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    And alert on <strong>rate of change against a comparable baseline</strong> — same hour last week — rather than fixed thresholds, because these metrics have strong daily and weekly shape.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "Which AI-specific metrics do you alert on that a normal web
+   service would not have?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you know that AI systems fail differently. The whole
+  answer hinges on one insight - most failures return 200 - and
+  a candidate who has run one of these in production will reach
+  for that immediately.
+
+WEAK ANSWER
+  "I would monitor latency, error rates, token usage and model
+   response times, with alerts on p95 latency and any spike in
+   errors."
+  Why it is weak: that is a normal web service dashboard with
+  the word 'token' added. It would show green through a
+  truncation incident, a schema-failure incident, a retrieval
+  outage and a refusal spike.
+
+STRONG ANSWER (about 80 seconds)
+  "The framing first: IN AN AI SYSTEM, MOST FAILURES RETURN
+   HTTP 200. A truncated answer, unparseable JSON, an
+   unexpected refusal, an answer built on zero retrieved
+   documents - all successful responses by any normal measure.
+   So a standard error dashboard shows green while the product
+   is broken. I keep all the usual metrics and add AI ones on
+   top.
+
+   On LATENCY: TTFT separately from total, because for a
+   streaming answer they diverge and only TTFT maps to
+   perceived speed. Output TOKENS PER SECOND, which degrades
+   independently - a loaded provider often connects fast then
+   generates slowly. Latency PER STAGE - retrieval, rerank,
+   generation, guardrail - because a total-latency alert cannot
+   say which one moved. And the OUTPUT LENGTH DISTRIBUTION,
+   because output dominates latency and most p95 latency rises
+   are really p95 output-length rises, where the fix is a
+   prompt change rather than more capacity.
+
+   On the FAILURES THAT RETURN 200: truncation rate from the
+   stop reason. Schema and parse failure rate on structured
+   output. Refusal rate - and moving in EITHER direction is a
+   signal, up means over-blocking, down means guardrails
+   weakened. Empty or low-score retrieval rate. Zero-citation
+   rate. Guardrail block rate by rule.
+
+   On the ones that DO fail but differently: 429 rate per
+   provider tracked apart from 5xx, because it is a capacity
+   signal not a bug. Timeout rate, which for a long generation
+   is a different event from a failure. Context-length errors -
+   and more usefully the context length DISTRIBUTION against
+   the limit, as a leading indicator. Tool error rate BY TOOL.
+   Fallback fire rate, because if that is non-zero and nobody
+   noticed, the primary provider is degrading quietly. And for
+   agents, the STEP-COUNT DISTRIBUTION plus the rate of runs
+   hitting a step or cost ceiling.
+
+   Finally I would alert PER ROUTE, not globally. A global
+   average hides one broken route entirely - it moves the
+   blended number a couple of points and nothing fires. And on
+   rate of change against the same hour last week, because
+   these metrics have strong daily shape."
+
+FOLLOW-UPS TO EXPECT
+  "Why is HTTP status not enough?"
+      -> truncation, parse failure, refusal and empty
+         retrieval all return 200.
+  "Why TTFT separately?"
+      -> for streaming it is what the user feels; total
+         duration is not.
+  "What is a leading indicator here?"
+      -> context length distribution against the limit, and
+         cache hit rate.
+  "Why per route?"
+      -> a global average hides a single broken route.
+
+RED FLAGS
+  A normal web dashboard with 'tokens' added.
+  Only total latency, no TTFT.
+  No 200-status failure modes.
+  Global-only alerting.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THE SENTENCE THAT DRIVES EVERYTHING:
+// IN AN AI SYSTEM, MOST FAILURES RETURN HTTP 200.
+
+const failuresThatLookLikeSuccess = [
+  { failure: "truncated answer",
+    httpStatus: 200,
+    detect: "stopReason === 'max_tokens'",
+    userSees: "an answer that stops mid-sentence" },
+
+  { failure: "unparseable structured output",
+    httpStatus: 200,
+    detect: "JSON.parse throws, or schema validation fails",
+    userSees: "a downstream 500 somewhere else entirely" },
+
+  { failure: "unexpected refusal",
+    httpStatus: 200,
+    detect: "refusal classifier on the output",
+    userSees: "'I cannot help with that' for a normal question" },
+
+  { failure: "answered with nothing retrieved",
+    httpStatus: 200,
+    detect: "chunks.length === 0 || topScore < floor",
+    userSees: "a confident answer with no basis - a hallucination" },
+
+  { failure: "answer cites none of the retrieved chunks",
+    httpStatus: 200,
+    detect: "citedChunkIds.length === 0",
+    userSees: "plausible text that is not grounded in anything" }
+];
+// A STANDARD ERROR-RATE DASHBOARD SHOWS GREEN THROUGH ALL FIVE.
+
+// So instrument the outcome, not just the transport.
+function classifyOutcome(res, retrieval, parsed) {
+  const flags = [];
+  if (res.stopReason === "max_tokens")        flags.push("truncated");
+  if (parsed?.error)                          flags.push("schema_fail");
+  if (looksLikeRefusal(res.text))             flags.push("refusal");
+  if (retrieval.chunks.length === 0)          flags.push("empty_retrieval");
+  if (retrieval.topScore < SCORE_FLOOR)       flags.push("weak_retrieval");
+  if (citedChunkIds(res).length === 0)        flags.push("no_citations");
+
+  flags.forEach(f => metrics.increment("ai.outcome." + f, 1, {
+    route: res.route, tenantId: res.tenantId,
+    model: res.model, promptVersion: res.promptVersion
+  }));
+
+  return flags.length ? "degraded" : "ok";
+}`,
+              `// LATENCY METRICS A NORMAL WEB SERVICE DOES NOT HAVE.
+
+const latencyMetrics = {
+  ttftMs: {
+    why: "for a STREAMING answer, TTFT and total duration diverge " +
+         "completely - and only TTFT maps to what the user feels",
+    // A 6s answer that starts in 800ms feels fast. A 3s answer
+    // delivered all at once feels slow. If you track only total,
+    // your dashboard measures something nobody experiences.
+    alertOn: "p95 by route vs same hour last week"
+  },
+
+  outputTokensPerSecond: {
+    why: "the real throughput number, and it degrades INDEPENDENTLY " +
+         "of TTFT",
+    // A provider under load often connects quickly and then
+    // generates slowly. Total latency rises and TTFT does not, and
+    // without this metric you cannot explain why.
+    alertOn: "p50 dropping below a floor for 10 minutes"
+  },
+
+  stageMs: {
+    stages: ["inputGuardrail", "queryRewrite", "embed", "vectorSearch",
+             "rerank", "generation", "outputGuardrail"],
+    why: "a TOTAL latency alert cannot tell you which stage moved, " +
+         "and the fix is different for every one of them",
+    // rerank slow -> reranker under load
+    // vectorSearch slow -> index grew past memory
+    // generation slow -> provider, or longer outputs
+    alertOn: "any stage above 2x its own 7-day p95"
+  },
+
+  outputTokenDistribution: {
+    why: "OUTPUT DOMINATES LATENCY. Most p95 latency rises are " +
+         "actually p95 OUTPUT LENGTH rises",
+    // And the fix is a prompt change - 'be concise', a lower max
+    // token limit - not more capacity. Teams routinely scale
+    // infrastructure to fix a prompt problem.
+    alertOn: "p95 output tokens up 30% vs 7-day"
+  },
+
+  queue: { depth: "pending async jobs", waitMs: "time before pickup",
+           why: "for batch and long-running work the queue is where " +
+                "latency actually lives" }
+};
+
+// AND SPLIT PERCEIVED FROM ACTUAL:
+const perceived = {
+  ttftMs: 620,          // what the user feels
+  totalMs: 2_972,       // what your APM records
+  // Track both. Optimise the first. Budget with the second.
+};`,
+              `// THE ERRORS THAT DO FAIL - BUT NOT LIKE A WEB SERVICE.
+
+const errorMetrics = [
+  { metric: "ai.provider.429_rate",
+    by: ["provider", "model"],
+    why: "a CAPACITY signal, not a bug. Tracked with 5xx it looks " +
+         "like an outage; tracked separately it tells you to raise " +
+         "limits, spread load or enable batch",
+    action: "if sustained, failover and open a limits request" },
+
+  { metric: "ai.provider.timeout_rate",
+    why: "for a long generation a timeout is a DIFFERENT EVENT " +
+         "from a failure - the request may have partially succeeded " +
+         "and consumed tokens",
+    watch: "timeouts rising while 5xx is flat = provider slowdown" },
+
+  { metric: "ai.context.length_error_rate",
+    // The error itself is the lagging indicator.
+    leadingIndicator: "ai.context.tokens p95 AS A FRACTION OF THE " +
+                      "MODEL LIMIT",
+    why: "you want to see prompts creeping toward the ceiling WEEKS " +
+         "before anything breaks - chunk counts drift up, histories " +
+         "get longer, and one day a long document tips it over",
+    alertOn: "p95 context above 70% of limit" },
+
+  { metric: "ai.tool.error_rate",
+    by: ["toolName"],
+    why: "ONE flaky tool degrades every agent that touches it, and " +
+         "an aggregate tool error rate hides which one",
+    alsoTrack: "ai.tool.timeout_rate, ai.tool.latency p95 by tool" },
+
+  { metric: "ai.fallback.fired",
+    by: ["from", "to", "reason"],
+    // THE QUIET ONE. If this is non-zero and nobody noticed, your
+    // primary provider is degrading and you are silently serving
+    // from the backup - possibly at different quality and cost.
+    why: "a non-zero fallback rate that nobody has looked at is a " +
+         "degradation you are absorbing invisibly",
+    alertOn: "any sustained non-zero rate" },
+
+  { metric: "ai.agent.steps",
+    type: "distribution",
+    why: "a shift from a median of 3 steps to 6 is a BEHAVIOUR " +
+         "change, not a capacity problem - and it shows up as cost " +
+         "and latency long before anyone calls it a bug",
+    alsoTrack: ["ai.agent.hit_step_limit_rate",
+                "ai.agent.hit_cost_limit_rate",
+                "ai.agent.repeated_tool_call_rate"] }
+];`,
+              `// ALERT PER ROUTE, NOT GLOBALLY. A global average hides a single
+// broken route completely.
+
+const whyGlobalFails = {
+  scenario: "6 routes. One route's truncation rate goes from 1% to " +
+            "22%. That route is 8% of traffic.",
+  globalNumber: "1% -> 2.7%",
+  // Nothing fires. The route is badly broken and the dashboard
+  // looks like noise.
+  verdict: "GLOBAL AVERAGES HIDE ROUTE-LEVEL BREAKAGE"
+};
+
+const alertingRules = {
+  dimensions: ["route", "tenantId", "model", "promptVersion"],
+
+  // Compare against a COMPARABLE baseline, not a fixed threshold -
+  // these metrics have strong daily and weekly shape.
+  baseline: "same hour, same weekday, last week",
+
+  rules: [
+    { on: "ai.outcome.truncated / ai.calls", by: "route",
+      fires: "> 2x baseline for 15m", sev: "ticket" },
+    { on: "ai.outcome.schema_fail / ai.calls", by: "route",
+      fires: "> 1% absolute", sev: "page",
+      why: "downstream code is breaking" },
+    { on: "ai.outcome.empty_retrieval / ai.calls", by: "route",
+      fires: "> 2x baseline", sev: "page",
+      why: "retrieval outage looks like nothing else" },
+    { on: "ai.outcome.refusal / ai.calls", by: "route",
+      fires: "moves 2x IN EITHER DIRECTION", sev: "ticket",
+      // Up = over-blocking and users are being turned away.
+      // Down = your guardrails weakened, which is worse.
+      why: "both directions are signals" },
+    { on: "ttftMs p95", by: "route", fires: "> 1.5x baseline",
+      sev: "ticket" },
+    { on: "outputTokensPerSecond p50", fires: "< floor for 10m",
+      sev: "ticket", why: "provider degradation" },
+    { on: "ai.fallback.fired", fires: "any sustained rate",
+      sev: "ticket" },
+    { on: "ai.context.tokens p95 / modelLimit",
+      fires: "> 0.7", sev: "ticket", why: "LEADING indicator" }
+  ],
+
+  // AND THE ONE THAT IS NOT A METRIC AT ALL:
+  fastestSignal: "a spike in thumbs-down. It beats every computed " +
+                 "metric for detecting 'something is wrong' - it " +
+                 "just cannot tell you WHAT, which is why you need " +
+                 "the rest of this list"
+};
+
+// THE DASHBOARD LAYOUT:
+const dashboard = {
+  row1_normal: ["request rate", "5xx rate", "p50/p95/p99 total"],
+  row2_aiLatency: ["TTFT p95 by route", "output tokens/sec",
+                   "stage breakdown", "output length p95"],
+  row3_silentFailures: ["truncation", "schema fail", "refusal",
+                        "empty retrieval", "zero citations"],
+  row4_providers: ["429 by provider", "timeouts", "fallback fires",
+                   "context length vs limit"],
+  row5_agents: ["step distribution", "step-limit hits",
+                "cost-limit hits", "tool error by tool"]
+};
+// Rows 3, 4 and 5 are the ones a normal web service does not have -
+// AND ROW 3 IS THE ONE THAT MATTERS MOST, because every metric in
+// it returns HTTP 200.`,
+            ],
+            questions: [
+              {
+                question:
+                  "Which AI-specific metrics do you alert on that a normal web service would not have?",
+                solution: `<p>The framing first: <strong>in an AI system, most failures return HTTP 200.</strong> A truncated answer, unparseable JSON, an unexpected refusal, an answer built on zero retrieved documents — all successful responses by any normal measure. So a standard error dashboard shows green while the product is broken.</p>
+             <p>On <strong>latency</strong>: TTFT separately from total, output tokens per second, latency per stage, and the output length distribution.</p>
+             <p>On <strong>the failures that return 200</strong>: truncation rate, schema failure rate, refusal rate, empty-retrieval rate, zero-citation rate, guardrail block rate.</p>
+             <p>On <strong>provider behaviour</strong>: 429 rate per provider apart from 5xx, timeout rate, context length against the limit as a leading indicator, tool error rate by tool, fallback fire rate, and agent step distribution.</p>`,
+              },
+              {
+                question:
+                  "Why isn't HTTP status enough for an AI system?",
+                solution:
+                  "<p>Because the interesting failures do not change it. Five common ones all return 200: an answer <strong>truncated</strong> at the token limit, which stops mid-sentence; <strong>unparseable structured output</strong>, where the model returned prose instead of JSON and the failure surfaces as a 500 somewhere else entirely; an <strong>unexpected refusal</strong> to a perfectly normal question; an answer produced with <strong>nothing retrieved</strong>, which is a confident hallucination with no basis; and an answer that <strong>cites none of the retrieved chunks</strong>, which is plausible text that is not grounded. In every case the model call succeeded, the HTTP layer succeeded, and the user got a bad product experience. The implication for monitoring is that you have to instrument the <em>outcome</em>, not just the transport — classify each response against these conditions and emit a metric per condition. That is a small amount of code and it converts an entire class of invisible failure into something you can alert on. Without it, the first signal you get is a support ticket, which is days late and does not tell you how widespread the problem is.</p>",
+              },
+              {
+                question:
+                  "Why track TTFT separately from total latency?",
+                solution: `<p>Because for a streaming response they diverge completely, and <strong>only TTFT maps to what the user perceives</strong>. A six-second answer that starts appearing in eight hundred milliseconds feels fast. A three-second answer delivered all at once at the end feels slow. If your dashboard tracks only total duration, it is measuring something the user does not experience, and your optimisation effort goes to the wrong place.</p>
+             <p>The companion metric is <strong>output tokens per second</strong>, which degrades independently of TTFT. A provider under load often connects quickly and then generates slowly — total latency rises, TTFT does not move, and without a throughput metric you cannot explain the gap.</p>
+             <p>Track all three: TTFT for perceived speed, tokens per second for provider health, and total for your latency budget. They tell you different things and a single number cannot substitute for them.</p>`,
+              },
+              {
+                question:
+                  "Why does output length distribution matter for latency?",
+                solution:
+                  "<p>Because <strong>output dominates total latency</strong> — generation is sequential and each token has to be produced in turn, whereas the input is processed in parallel. That means most p95 latency rises are really <em>p95 output-length rises</em>, and this matters enormously because the fix is completely different. If latency rose because the model is generating longer answers, the correct response is a prompt change — ask for concision, lower the maximum token setting, tighten the output format — and it takes an afternoon. If you instead read the latency graph without the length distribution, the natural conclusion is that you have a capacity problem, and teams routinely scale infrastructure, add replicas or negotiate higher rate limits to fix what was a prompt regression. The pattern is common enough to be worth watching for specifically: someone edits a prompt, answers get twenty percent longer, p95 latency crosses the SLA, and the investigation goes looking at providers and networks. Putting output token count on the same dashboard panel as latency makes the correlation obvious in seconds rather than days.</p>",
+              },
+              {
+                question:
+                  "Why is refusal rate a signal in both directions?",
+                solution: `<p>Because each direction indicates a different problem, and both are worth knowing about.</p>
+             <ul>
+               <li><strong>Refusal rate rising</strong> means over-blocking. Users asking perfectly reasonable questions are being turned away, which they experience as the product not working — and they usually do not report it, they just stop asking. A prompt change, a guardrail tweak, or a model update can all cause this.</li>
+               <li><strong>Refusal rate falling</strong> is arguably worse, because it means your safety behaviour has weakened. Something that used to be declined is now being answered, and nobody chose that.</li>
+             </ul>
+             <p>Both are silent at HTTP level and both are invisible on any conventional dashboard. A model version change is the most common cause of either, which is why refusal rate belongs on the list of metrics you check after every model or prompt deployment — it is one of the cheapest ways to detect that behaviour shifted.</p>`,
+              },
+              {
+                question:
+                  "What counts as a leading indicator here?",
+                solution:
+                  "<p>Two stand out. <strong>Context length as a fraction of the model limit</strong> — track the p95 prompt size against the ceiling, not just the rate of context-length errors. The errors are the lagging indicator; by the time you see them, requests are already failing. The distribution creeping upward is visible weeks earlier: chunk counts drift from five to eight, conversation histories get longer, someone adds a section to the system prompt, and one day a long document tips it over. An alert at seventy percent of the limit gives you time to act deliberately rather than during an incident. The second is <strong>cache hit rate</strong>, which is a leading indicator for cost rather than errors — it collapses silently the moment someone edits a prompt above the cache breakpoint, and the only other symptom is the monthly bill. Both share a useful property: they measure how close you are to a cliff rather than how often you have fallen off it. Most AI monitoring is lagging by nature — a quality metric tells you an answer was already bad — so the handful of genuine leading indicators are worth identifying explicitly and alerting on generously.</p>",
+              },
+              {
+                question:
+                  "Why track 429s separately from 5xx?",
+                solution: `<p>Because they mean completely different things operationally and demand different responses.</p>
+             <p>A <strong>5xx</strong> is a fault — something broke, and you investigate. A <strong>429</strong> is a <em>capacity</em> signal — nothing is broken, you are simply asking for more than your allocation. The response is to raise limits, spread load across keys or regions, shift eligible work to a batch endpoint, or shed low-priority traffic.</p>
+             <p>Blended into a single error rate, a 429 spike looks like an outage and sends people looking for a bug that does not exist. Split out, it tells you exactly what to do.</p>
+             <p>Two companions worth tracking alongside: <strong>timeout rate</strong>, which for a long generation is a different event from a failure — the call may have partially succeeded and consumed tokens — and <strong>fallback fire rate</strong>, because a non-zero rate that nobody has looked at means your primary provider is degrading and you are silently serving from the backup, possibly at different quality and cost.</p>`,
+              },
+              {
+                question:
+                  "Why alert per route rather than globally?",
+                solution:
+                  "<p>Because a global average hides route-level breakage almost perfectly. Take a realistic case: six routes, and one of them sees its truncation rate go from one percent to twenty-two percent. If that route is eight percent of traffic, the global number moves from one percent to under three — well inside normal variation, no alert fires, and the dashboard looks like noise while one part of the product is badly broken. The same arithmetic applies to every metric on the list, and it gets worse the more routes you have, since each additional route dilutes the others further. So every AI metric should be broken by route, and the alerts should evaluate per route rather than on the aggregate. It is worth adding <strong>tenant</strong> as a dimension too, for a different reason: in a multi-tenant system one heavy customer can dominate the aggregate, so a metric that looks stable overall may be entirely driven by one tenant's traffic pattern while everyone else's experience quietly degrades. The cost of this is cardinality in your metrics store, which is why route and tenant belong in metrics and user ID does not.</p>",
+              },
+              {
+                question:
+                  "Why compare against last week rather than a fixed threshold?",
+                solution: `<p>Because these metrics have strong daily and weekly shape, and a fixed threshold is wrong at least half the time.</p>
+             <p>Traffic on a Monday morning does not resemble a Saturday night. Prompt sizes differ between routes that peak at different hours. A latency threshold tuned for the quiet period pages constantly during peak; one tuned for peak stays silent through a genuine overnight problem.</p>
+             <p>Comparing against <strong>the same hour on the same weekday last week</strong> removes both seasonalities at once and turns the alert into what you actually mean — "this is unusual for this time" rather than "this crossed a number someone picked six months ago".</p>
+             <p>Two exceptions where an absolute threshold is right: <strong>schema failure rate</strong>, because any sustained level breaks downstream code regardless of what last week looked like, and <strong>context length against the model limit</strong>, since the limit is a hard boundary and not a relative one.</p>`,
+              },
+              {
+                question:
+                  "What agent-specific metrics would you add?",
+                solution:
+                  "<p>Four. The <strong>step-count distribution</strong>, tracked as a distribution rather than an average — a shift in the median from three steps to six is a behaviour change, and it appears as rising cost and latency long before anyone files it as a bug. The <strong>rate of runs hitting a step limit</strong> and the <strong>rate hitting a cost limit</strong>, kept separate, because they mean different things: step limits usually indicate the agent is looping or the task is under-specified, while cost limits indicate context is growing faster than expected. The <strong>repeated-tool-call rate</strong> — the same tool called with the same arguments twice in one run — which is the clearest machine-detectable signature of a loop and is worth alerting on directly. And <strong>tool error rate broken down by tool</strong>, since one flaky tool degrades every agent that touches it while an aggregate rate hides which one. It is also worth recording <em>why each run ended</em> as a labelled metric — completed, step limit, cost limit, error, user cancelled — because from the outside all of those look like a finished run, and the mix between them shifting is one of the earliest signs that agent behaviour has changed.</p>",
+              },
+              {
+                question:
+                  "What is the fastest signal that something is wrong?",
+                solution:
+                  "<p>A <strong>spike in thumbs-down</strong>, honestly. It beats every computed metric for detecting that something has broken, because users notice things your instrumentation was not designed to catch — a tone change, answers that are technically correct but useless, a formatting regression that makes output unreadable. What it cannot do is tell you <em>what</em> is wrong, which is precisely why you need the rest of the list: the feedback spike says look, and the metrics say where. The practical setup is to alert on feedback rate as a first-class monitor with a short window, and to make the alert link straight into the traces for the negatively-rated requests so the investigation starts with evidence rather than with a question. It is worth being honest about its limitation too — explicit feedback is sparse, so a spike is only detectable at reasonable volume and on routes where users actually click. For low-volume routes, implicit signals like retry-within-session and escalation-to-human fill the same role with denser data. But as a general-purpose \"something changed\" detector, nothing computed is faster.</p>",
+              },
+              {
+                question:
+                  "How would you lay out the dashboard?",
+                solution: `<p>Five rows, with the AI-specific ones grouped so their absence from a normal dashboard is obvious:</p>
+             <ol>
+               <li><strong>Normal service</strong> — request rate, 5xx rate, p50/p95/p99 total latency. Keep all of it.</li>
+               <li><strong>AI latency</strong> — TTFT p95 by route, output tokens per second, per-stage breakdown, output length p95.</li>
+               <li><strong>Silent failures</strong> — truncation, schema failure, refusal, empty retrieval, zero citations.</li>
+               <li><strong>Provider health</strong> — 429s by provider, timeouts, fallback fires, context length against the limit.</li>
+               <li><strong>Agents</strong> — step distribution, step-limit and cost-limit hits, tool error rate by tool.</li>
+             </ol>
+             <p><strong>Row three is the one that matters most</strong>, because every metric in it returns HTTP 200 and therefore appears nowhere on a conventional dashboard. If you build only one of these rows, build that one.</p>`,
+              },
+            ],
+            links: [
+              "https://opentelemetry.io/docs/specs/semconv/gen-ai/",
+              "https://sre.google/sre-book/monitoring-distributed-systems/",
+              "https://docs.anthropic.com/en/api/rate-limits",
+              "https://docs.anthropic.com/en/docs/build-with-claude/streaming",
+            ],
+          },
+          {
+            topic: "User Feedback Capture",
+            tags: ["must-know", "observability", "quality", "product"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "How do you collect thumbs-up/down signal and actually use it?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The word doing the work in that question is <em>actually</em>. Most teams collect feedback and it goes nowhere — a number on a dashboard that nobody can act on. So be honest about the starting point: <strong>explicit feedback is sparse and biased.</strong> Response rates are typically low single-digit percentages, and the people who click are disproportionately annoyed.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    It is still valuable. It just cannot carry a quality programme on its own.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The One Thing That Makes It Usable
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  FEEDBACK WITH NO TRACE ATTACHED IS AN OPINION.
+  FEEDBACK JOINED TO THE EXACT PROMPT AND CHUNKS IS A BUG
+  REPORT.
+
+Return the trace ID with every response and store it with the
+feedback record. That single join is the difference between
+"users say it is bad" and "here are 14 cases where retrieval
+returned the wrong policy document".
+
+Everything else in this topic assumes that join exists.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Make It One Click, Then Ask One Question
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Thumbs is one click, and that is the right cost. Then offer <strong>a short list of reasons</strong> — wrong, incomplete, not relevant, wrong source, too slow, unclear — because free text is rare, unstructured and slow to triage.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>The reason category is what makes feedback actionable.</strong> "Wrong source" points at retrieval. "Incomplete" points at chunking or the output token limit. "Not relevant" points at query understanding. Without it you have a pile of negatives and no idea which subsystem to look at.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Implicit Signals Are Denser And Often Better
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Nobody opts in to these, so you get them on 100% of traffic.
+
+  REPHRASED OR RETRIED in the same session   strong negative
+  ABANDONED before the answer finished       negative
+  ESCALATED to a human                       strong negative
+  ASKED THE SAME THING AGAIN NEXT DAY        negative
+  COPIED the answer                          positive
+  CLICKED A CITATION                          engaged
+  CONVERSATION LENGTH before resolution       inverse quality
+
+The retry signal is the most useful of the lot. Someone
+rephrasing the same question ten seconds later is telling you
+the first answer failed, and they will never click a thumb.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Pipeline That Makes It "Actually Used"
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>Capture</strong> — thumbs plus a reason category, plus implicit signals.</li>
+    <li style="margin-top: 0.5rem;"><strong>Join to the trace</strong>, and pin that trace so it never expires.</li>
+    <li style="margin-top: 0.5rem;"><strong>Triage weekly</strong> into buckets by reason and by route.</li>
+    <li style="margin-top: 0.5rem;"><strong>Reproduce</strong> from the trace.</li>
+    <li style="margin-top: 0.5rem;"><strong>Classify the cause</strong> — retrieval, generation, prompt, or a data problem in the source document.</li>
+    <li style="margin-top: 0.5rem;"><strong>Add it to the golden set.</strong> ← the step everyone skips</li>
+    <li style="margin-top: 0.5rem;"><strong>Fix</strong>, then <strong>verify against the golden set</strong> so you know the fix worked and broke nothing.</li>
+    <li style="margin-top: 0.5rem;"><strong>Close the loop with the user.</strong></li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Step six is the one that matters.</strong> Feedback that does not become a test case means the same bug comes back in three months. And a golden set built from real user failures is worth far more than one you invented at your desk — it contains the questions people actually ask, phrased the way they actually phrase them.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Segment It, Or It Means Nothing
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    An overall thumbs-down rate is nearly useless — it is a single number blending six routes, several tenants and two prompt versions. <strong>Split by route, tenant, prompt version and model version</strong> and the same data tells you where to work. A jump confined to one route after one deploy is a finding; the same jump in the blended number is noise.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Two Warnings
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Close the loop visibly or response rate decays to zero.</strong> People stop clicking when nothing appears to happen. Telling users what changed — even a short release note — is what keeps the signal alive.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Do not wire feedback directly into anything automatic.</strong> It is sparse, biased and gameable — a small number of users can move a metric, and if thumbs-up data feeds fine-tuning or routing you have built an unguarded input. Keep a human between the signal and the change.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "How do you collect thumbs-up/down signal and actually use
+   it?"
+
+WHAT THE INTERVIEWER IS TESTING
+  The word 'actually'. Anyone can add a thumbs widget. The
+  question is whether you know it is sparse and biased, whether
+  you join it to a trace, and whether it ends up in the golden
+  set - which is the step that separates a feedback button from
+  a feedback loop.
+
+WEAK ANSWER
+  "I would add thumbs up and down buttons to each response,
+   store the ratings in a database, and review the negative
+   ones to find patterns and improve the prompts."
+  Why it is weak: no trace join, so the negatives cannot be
+  reproduced. No reason categories, so they cannot be
+  triaged. No implicit signals. And 'review to find patterns'
+  is where most feedback programmes quietly die.
+
+STRONG ANSWER (about 75 seconds)
+  "The honest starting point: EXPLICIT FEEDBACK IS SPARSE AND
+   BIASED - low single-digit response rates, skewed toward
+   annoyed users. Still valuable, but it cannot carry a quality
+   programme alone.
+
+   The one thing that makes it usable is the trace join.
+   FEEDBACK WITH NO TRACE ATTACHED IS AN OPINION; FEEDBACK
+   JOINED TO THE EXACT PROMPT AND CHUNKS IS A BUG REPORT. So I
+   return the trace ID with every response, store it with the
+   feedback, and PIN that trace so sampling never drops it.
+
+   Capture: thumbs is one click. Then ONE structured question -
+   wrong, incomplete, not relevant, wrong source, too slow -
+   because free text is rare and slow to triage, and THE REASON
+   CATEGORY IS WHAT MAKES IT ACTIONABLE. 'Wrong source' points
+   at retrieval. 'Incomplete' points at chunking or the token
+   limit. Without it you have a pile of negatives and no idea
+   which subsystem to open.
+
+   Then IMPLICIT SIGNALS, which are denser because nobody opts
+   in: rephrasing or retrying in the same session - the most
+   useful of the lot, someone re-asking ten seconds later is
+   telling you the answer failed and will never click a thumb -
+   abandoning mid-answer, escalating to a human, copying the
+   answer, clicking a citation.
+
+   The pipeline: capture, join to trace, triage weekly by
+   reason and route, reproduce, classify as retrieval or
+   generation or prompt or a data problem, ADD IT TO THE GOLDEN
+   SET, fix, verify against the golden set, tell the user.
+
+   STEP SIX IS THE ONE EVERYONE SKIPS. Feedback that does not
+   become a test case means the same bug returns in three
+   months - and a golden set built from real failures beats one
+   invented at a desk, because it has the questions people
+   actually ask, phrased how they actually phrase them.
+
+   I would segment everything by route, tenant and prompt
+   version, because a blended thumbs-down rate is nearly
+   useless. And I would keep a human between feedback and any
+   automatic change - it is sparse, biased and gameable."
+
+FOLLOW-UPS TO EXPECT
+  "What makes feedback actionable?"
+      -> the trace join, and the reason category.
+  "What if nobody clicks?"
+      -> implicit signals - retry, abandon, escalate, copy.
+         You get those on 100% of traffic.
+  "What is the step teams skip?"
+      -> promoting the case into the golden set.
+  "Can you fine-tune on thumbs-up data?"
+      -> not naively. It is thin, biased and gameable.
+
+RED FLAGS
+  No trace join.
+  Free text only, no categories.
+  No implicit signals.
+  Feeding feedback straight into an automated change.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THE JOIN IS EVERYTHING.
+// Feedback with no trace = an opinion. Feedback with a trace = a
+// bug report.
+
+// 1. RETURN THE TRACE ID WITH THE RESPONSE. Non-negotiable.
+async function handleQuestion(req, res) {
+  const result = await answerQuestion(req.body.question, ctx);
+  res.json({
+    answer: result.answer,
+    citations: result.citations,
+    traceId: result.traceId    // <- the whole topic depends on this
+  });
+}
+
+// 2. STORE IT WITH THE FEEDBACK, AND PIN THE TRACE.
+async function recordFeedback({ traceId, rating, reason, comment,
+                                userId, tenantId }) {
+  // PIN FIRST. Sampling would otherwise have discarded the trace
+  // before the user finished reading the answer.
+  await traceStore.pin(traceId);
+
+  await feedback.insert({
+    traceId, rating, reason, comment: comment ?? null,
+    userId, tenantId,
+    // Denormalise the dimensions you will segment by, so the
+    // weekly triage query does not need a join to be useful.
+    route: await traceStore.field(traceId, "route"),
+    promptVersion: await traceStore.field(traceId, "promptVersion"),
+    modelVersion: await traceStore.field(traceId, "modelVersion"),
+    receivedAtIso: req.receivedAtIso
+  });
+
+  metrics.increment("ai.feedback", 1,
+    { rating, reason, route, promptVersion });
+}
+
+// 3. ONE CLICK, THEN ONE STRUCTURED QUESTION.
+const feedbackUi = {
+  primary: "thumbs up / thumbs down",       // one click, no dialog
+  followUp: {
+    shownOnlyOn: "thumbs down",
+    prompt: "What went wrong?",
+    // A SHORT LIST. Free text is rare, unstructured and slow to
+    // triage - offer it, but do not rely on it.
+    options: [
+      { id: "wrong",       label: "The answer is wrong",
+        pointsAt: "generation, or a bad source document" },
+      { id: "incomplete",  label: "It missed something",
+        pointsAt: "chunking, retrieval depth, or max output tokens" },
+      { id: "irrelevant",  label: "It did not answer my question",
+        pointsAt: "query understanding / rewriting" },
+      { id: "wrong_source",label: "It used the wrong document",
+        pointsAt: "RETRIEVAL - the highest-signal category" },
+      { id: "too_slow",    label: "Too slow",
+        pointsAt: "latency, not quality" },
+      { id: "unclear",     label: "Hard to understand",
+        pointsAt: "prompt / formatting" }
+    ],
+    optionalFreeText: true
+  }
+};
+// THE REASON CATEGORY IS WHAT MAKES IT ACTIONABLE. Without it you
+// have a pile of negatives and no idea which subsystem to open.`,
+              `// IMPLICIT SIGNALS ARE DENSER. Nobody opts in, so you get them on
+// 100% of traffic - and they are often more honest.
+
+const implicitSignals = {
+  retriedOrRephrased: {
+    detect: "a new question in the same session within 60s whose " +
+            "embedding is close to the previous one",
+    strength: "STRONG NEGATIVE",
+    // THE MOST USEFUL SIGNAL ON THE LIST. Someone re-asking ten
+    // seconds later is telling you the first answer failed - and
+    // they will never click a thumb.
+    note: "far denser than explicit feedback and almost as reliable"
+  },
+
+  abandoned: {
+    detect: "the stream was cancelled, or the session ended, before " +
+            "the answer completed",
+    strength: "negative",
+    caveat: "distinguish 'gave up' from 'got what they needed in " +
+            "the first sentence' - check how much had streamed"
+  },
+
+  escalated: {
+    detect: "clicked 'talk to a human' or opened a ticket after the " +
+            "answer",
+    strength: "STRONG NEGATIVE",
+    note: "and it has a cost attached, which makes it the easiest " +
+          "signal to justify work against"
+  },
+
+  askedAgainLater: {
+    detect: "a near-duplicate question from the same user on a " +
+            "later day",
+    strength: "negative - the first answer did not stick"
+  },
+
+  copied:        { detect: "copy event on the answer",
+                   strength: "POSITIVE - they are using it" },
+  clickedCitation:{ detect: "citation link click",
+                   strength: "engaged, and it means citations work" },
+  conversationLength: { detect: "turns before the session ends",
+                        strength: "inverse quality on a Q&A product" }
+};
+
+// COMBINE THEM INTO ONE VIEW.
+function sessionQualitySignal(session) {
+  let score = 0;
+  if (session.retriedWithin60s)   score -= 3;
+  if (session.escalated)          score -= 3;
+  if (session.abandonedMidStream) score -= 2;
+  if (session.askedAgainNextDay)  score -= 2;
+  if (session.copiedAnswer)       score += 2;
+  if (session.clickedCitation)    score += 1;
+  if (session.explicitRating === "up")   score += 3;
+  if (session.explicitRating === "down") score -= 3;
+  return { score, traceIds: session.traceIds };
+}
+// This gives you a quality signal on EVERY session, not the 2%
+// that clicked - which is what makes trend detection possible at
+// all on low-traffic routes.`,
+              `// THE PIPELINE THAT MAKES IT "ACTUALLY USED".
+// Step 6 is the one everyone skips.
+
+async function weeklyFeedbackTriage(weekStart) {
+  // 3. TRIAGE - by reason and by route, because a blended number
+  //    tells you nothing.
+  const negatives = await feedback.query({
+    rating: "down", since: weekStart
+  });
+
+  const buckets = groupBy(negatives, f => f.route + "/" + f.reason);
+
+  const findings = [];
+  for (const [bucket, items] of Object.entries(buckets)) {
+    if (items.length < 3) continue;   // not yet a pattern
+
+    // 4. REPRODUCE from the trace - the prompt and the chunks are
+    //    right there, so this is minutes not hours.
+    const traces = await Promise.all(
+      items.slice(0, 10).map(i => traceStore.get(i.traceId)));
+
+    // 5. CLASSIFY THE CAUSE. Four buckets, four different fixes.
+    const cause = classifyCause(traces);
+    //   RETRIEVAL   - the right chunk was never returned
+    //   GENERATION  - it was returned and the model ignored it
+    //   PROMPT      - instructions caused the behaviour
+    //   DATA        - the source document itself is wrong or stale
+    //                 (this one is NOT an engineering fix, and it
+    //                  is more common than people expect)
+
+    // 6. ADD TO THE GOLDEN SET. <- THE STEP EVERYONE SKIPS.
+    for (const t of traces) {
+      await goldenSet.add({
+        question: t.question,
+        expectedBehaviour: await humanWritesExpectation(t),
+        category: t.route,
+        // Provenance matters - a case from a real complaint carries
+        // more weight in a review than one someone invented.
+        source: "user_feedback",
+        sourceTraceId: t.id,
+        addedOn: weekStart
+      });
+    }
+
+    findings.push({ bucket, count: items.length, cause,
+                    exampleTraceIds: traces.map(t => t.id) });
+  }
+  return findings;
+}
+
+// 7. FIX, THEN VERIFY AGAINST THE GOLDEN SET - so you know the fix
+//    worked AND broke nothing else.
+// 8. CLOSE THE LOOP WITH THE USER.
+
+const whyStepSixMatters = {
+  without: "the same bug returns in three months, and nobody " +
+           "connects it to the last time",
+  with: "the fix is permanent, because a regression would fail the " +
+        "eval before it ships",
+  // AND THE BIGGER POINT:
+  bonus: "a golden set built from REAL FAILURES beats one invented " +
+         "at a desk - it has the questions people actually ask, " +
+         "phrased the way they actually phrase them, including the " +
+         "typos and the missing context"
+};`,
+              `// SEGMENT IT, OR IT MEANS NOTHING. And two warnings.
+
+// A blended thumbs-down rate is a single number covering six
+// routes, several tenants and two prompt versions. It moves for
+// reasons you cannot see.
+const segmentation = {
+  by: ["route", "tenantId", "promptVersion", "modelVersion",
+       "userSegment"],
+
+  example: {
+    blended: "thumbs-down 4.1% -> 4.6%",
+    // Nothing fires. Looks like noise.
+    split: {
+      "search/v14":        "3.2% -> 3.1%   fine",
+      "policy_qa/v14":     "3.8% -> 11.4%  <- THE FINDING",
+      "summarise/v14":     "5.0% -> 4.9%   fine"
+    },
+    // One route, one deploy, one cause. Invisible in the blend.
+    verdict: "the same data, and only the split version is useful"
+  },
+
+  // Feedback RATE itself is a metric worth alerting on.
+  alerting: "a spike in thumbs-down is the FASTEST quality signal " +
+            "you have - faster than any computed metric. It just " +
+            "cannot tell you WHAT, which is why it links straight " +
+            "to the traces."
+};
+
+// WARNING 1: CLOSE THE LOOP OR THE SIGNAL DIES.
+const responseRateDecay = {
+  cause: "people stop clicking when nothing appears to happen",
+  fix: ["a short release note saying what changed",
+        "an in-product acknowledgement",
+        "for escalated cases, a direct reply"],
+  // This is not a courtesy - it is how you keep the input alive.
+  note: "response rate is itself a health metric. If it is falling, " +
+        "your feedback channel is closing."
+};
+
+// WARNING 2: DO NOT WIRE FEEDBACK INTO ANYTHING AUTOMATIC.
+const doNotAutomate = {
+  why: "it is sparse, biased and GAMEABLE - a small number of users " +
+       "can move the metric",
+  specifically: [
+    "do not fine-tune on thumbs-up data naively - it is thin and " +
+      "skewed, and you will train on whatever a vocal minority " +
+      "liked",
+    "do not auto-route based on feedback scores",
+    "do not auto-promote or auto-rollback a prompt version on " +
+      "feedback alone"
+  ],
+  instead: "keep a HUMAN between the signal and the change. " +
+           "Feedback proposes; evals and people decide.",
+  // And if feedback is visible to other users (ratings, votes),
+  // treat it as untrusted input like any other.
+  alsoNote: "feedback from users is user-supplied data, with all " +
+            "that implies"
+};
+
+// WHAT GOOD LOOKS LIKE AFTER A QUARTER:
+const outcome = {
+  goldenSetGrowth: "+120 cases, all from real failures",
+  triageCadence: "weekly, 45 minutes",
+  causeBreakdown: { retrieval: 0.51, data: 0.22, prompt: 0.18,
+                    generation: 0.09 },
+  // That breakdown is itself the most valuable output - it tells
+  // you where to invest, and 'retrieval' is almost always first.
+  note: "half the complaints about 'the AI' turn out to be " +
+        "retrieval, and a fifth are wrong source documents that no " +
+        "engineering change can fix"
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you collect thumbs-up/down signal and actually use it?",
+                solution: `<p>The honest starting point: <strong>explicit feedback is sparse and biased</strong> — low single-digit response rates, skewed toward annoyed users. Still valuable, but it cannot carry a quality programme alone.</p>
+             <p>The thing that makes it usable is the trace join. <strong>Feedback with no trace attached is an opinion; feedback joined to the exact prompt and chunks is a bug report.</strong> So return the trace ID with every response, store it with the feedback, and pin the trace so sampling never drops it.</p>
+             <p>Capture thumbs in one click, then <strong>one structured reason</strong> — because the reason category is what makes it actionable. Add <strong>implicit signals</strong>, which you get on all traffic.</p>
+             <p>Then the pipeline: triage weekly, reproduce, classify the cause, <strong>add it to the golden set</strong>, fix, verify.</p>`,
+              },
+              {
+                question:
+                  "Why is the trace join the critical piece?",
+                solution:
+                  "<p>Because without it, a thumbs-down is unactionable. You know someone was unhappy at 14:32 and nothing else — not what they asked, not what was retrieved, not what prompt version was live, not what the model was given. You cannot reproduce it, cannot classify it, and cannot fix it. With the join, the same click becomes a complete bug report: here is the exact question, here are the chunks that came back with their scores and document versions, here is the assembled prompt, here is what the model produced. Investigation drops from impossible to a few minutes. There are two implementation details that make it work. <strong>Return the trace ID in the response payload</strong>, so the client can attach it to a feedback event — this is the part teams forget, and retrofitting it is easy but nobody does it until they need it. And <strong>pin the trace when feedback arrives</strong>, because your sampling policy will otherwise have discarded it: feedback arrives after the sampling decision, and a two percent sampler means ninety-eight percent of your feedback points at nothing. Pinning on write, plus a short buffer before dropping traces, resolves it.</p>",
+              },
+              {
+                question:
+                  "Why ask for a reason category rather than free text?",
+                solution: `<p>Because the reason category is what makes feedback <strong>routable to a subsystem</strong>, and free text is rare, inconsistent and slow to triage. A short list — wrong, incomplete, not relevant, wrong source, too slow, unclear — maps almost directly onto causes:</p>
+             <ul>
+               <li><strong>"Wrong source"</strong> → retrieval. The highest-signal category, and often the most common.</li>
+               <li><strong>"It missed something"</strong> → chunking, retrieval depth, or the output token limit.</li>
+               <li><strong>"Did not answer my question"</strong> → query understanding or rewriting.</li>
+               <li><strong>"Too slow"</strong> → latency, not quality at all — and worth separating so it does not pollute your quality numbers.</li>
+             </ul>
+             <p>Offer optional free text as well, since occasionally someone writes something genuinely illuminating. But do not rely on it: most people will not type, and the ones who do write things too varied to aggregate. Without categories you get a pile of negatives and no idea which subsystem to open.</p>`,
+              },
+              {
+                question:
+                  "What implicit signals would you capture, and why do they matter more?",
+                solution:
+                  "<p>They matter because <strong>nobody opts in</strong>, so you get them on a hundred percent of traffic rather than the two percent who click. The most valuable is <strong>rephrase or retry within the session</strong> — a near-duplicate question asked sixty seconds after the last answer is someone telling you clearly that the first attempt failed, and that person will never click a thumb. It is nearly as reliable as explicit feedback and vastly denser. Then <strong>escalation to a human</strong>, which is a strong negative that also has a measurable cost attached, making it the easiest signal to justify engineering work against. <strong>Abandonment mid-stream</strong>, though you have to distinguish giving up from getting what they needed in the first sentence — check how much had streamed. <strong>Asking the same thing again a day later</strong>, meaning the first answer did not stick. On the positive side, <strong>copying the answer</strong> is a good proxy for usefulness, and <strong>clicking a citation</strong> tells you both that the user is engaged and that citations are working. Combined into a per-session score, these give you a quality signal on every session — which is what makes trend detection possible at all on lower-traffic routes.</p>",
+              },
+              {
+                question:
+                  "What is the step teams skip?",
+                solution: `<p><strong>Promoting the case into the golden set.</strong> The usual pipeline runs capture → triage → find pattern → fix, and stops. The fix ships, everyone moves on, and three months later the same bug reappears after an unrelated prompt change — with nobody connecting it to the last time.</p>
+             <p>Adding the case to the evaluation set makes the fix <em>permanent</em>, because a regression would now fail the eval before it ships rather than reaching a user.</p>
+             <p>There is a second benefit that is arguably larger. <strong>A golden set built from real user failures is worth far more than one invented at a desk.</strong> It contains the questions people actually ask, phrased the way they actually phrase them — including the typos, the missing context, the internal jargon and the assumptions you would never have thought to write down. Over a quarter this is the single best source of eval cases you have, and it costs nothing beyond writing down the expected behaviour during triage.</p>`,
+              },
+              {
+                question:
+                  "How do you classify the cause of a negative rating?",
+                solution:
+                  "<p>Into four buckets, because each points at a different fix. <strong>Retrieval</strong> — the right chunk was never returned, so no prompt change would have helped. <strong>Generation</strong> — the right chunk <em>was</em> returned and the model ignored it or misread it. <strong>Prompt</strong> — the instructions caused the behaviour, such as a formatting rule producing something unreadable or an over-cautious instruction producing a refusal. And <strong>data</strong> — the source document itself is wrong, stale or contradictory, which is not an engineering fix at all and belongs with whoever owns the content. That last category is more common than people expect and is worth tracking separately, because a quarter of complaints about \"the AI being wrong\" routinely turn out to be documents that were already wrong. The classification is quick once you have the trace: read the retrieved chunks first — if the answer is not in there, it is retrieval; if it is in there and correct, look at the prompt and then the generation. Over time the <em>distribution</em> across these four buckets becomes the most valuable output of the whole exercise, because it tells you where to invest, and retrieval is almost always first.</p>",
+              },
+              {
+                question:
+                  "Why segment feedback rather than track an overall rate?",
+                solution: `<p>Because a blended rate is a single number covering several routes, multiple tenants and more than one prompt version, and it moves for reasons you cannot see.</p>
+             <p>A realistic example: the overall thumbs-down rate goes from 4.1% to 4.6%. Nothing fires; it looks like noise. Split by route and prompt version, the same data reads: search unchanged, summarise unchanged, and <strong>policy Q&amp;A from 3.8% to 11.4%</strong> — one route, one deploy, one cause. Identical data, and only the split version is useful.</p>
+             <p>So segment by <strong>route, tenant, prompt version and model version</strong> at minimum. Prompt and model version matter especially, because they let you attribute a change to a specific deploy rather than guessing.</p>
+             <p>And treat feedback <em>rate</em> as an alertable metric in its own right — a spike in thumbs-down is the fastest quality signal you have, faster than any computed metric. It just cannot tell you what is wrong, which is why the alert should link straight to the traces.</p>`,
+              },
+              {
+                question:
+                  "What happens if you don't close the loop with users?",
+                solution:
+                  "<p>Response rate decays toward zero, and you lose the channel. People stop clicking when nothing appears to happen — and since the baseline response rate is already low single digits, it does not take much decay to make the signal useless. Closing the loop does not need to be elaborate: a short release note saying what changed, an in-product acknowledgement that the feedback was received, and for escalated cases a direct reply. What matters is that people can see the feedback going somewhere. It is worth treating <strong>response rate as a health metric in its own right</strong> and watching its trend, because a falling rate means your feedback channel is closing and you will notice the quality problems later and later. There is a second-order effect too: teams that visibly act on feedback get better feedback — more specific, more often, and from more thoughtful users — because people learn it is worth the effort. Teams that collect silently get an ever-thinner stream of clicks from the most annoyed users, which is the most biased sample possible and the hardest to act on.</p>",
+              },
+              {
+                question:
+                  "Can you fine-tune on thumbs-up data?",
+                solution: `<p>Not naively, no. Three problems:</p>
+             <ul>
+               <li><strong>It is thin.</strong> Low single-digit response rates mean you have very little data relative to what fine-tuning needs, and what you have is unevenly distributed across routes.</li>
+               <li><strong>It is biased.</strong> The people who click are not representative — you would be training on whatever a small, self-selected and often unusually engaged group liked.</li>
+               <li><strong>It is gameable.</strong> A handful of users can move the numbers, and if that feeds training you have built an unguarded input into your model's behaviour.</li>
+             </ul>
+             <p>The same objection applies to any automatic use: do not auto-route on feedback scores, and do not auto-promote or auto-rollback a prompt version on feedback alone.</p>
+             <p><strong>Keep a human between the signal and the change.</strong> Feedback proposes; evaluations and people decide. Where thumbs-up data <em>is</em> genuinely useful is as a source of candidate examples for a golden set or for few-shot prompts — reviewed by a person first.</p>`,
+              },
+              {
+                question:
+                  "How would you run the weekly triage?",
+                solution:
+                  "<p>As a short, fixed-cadence meeting with a prepared queue — forty-five minutes is realistic. Beforehand, group the week's negatives by <strong>route and reason</strong>, and drop any bucket with fewer than about three items, since below that you are looking at noise rather than a pattern. For each surviving bucket, pull up to ten traces — which is fast, because the prompt and chunks are right there — classify the cause into retrieval, generation, prompt or data, and write down the expected behaviour for a few cases so they can go into the golden set. Output three things: a ranked list of findings with example trace IDs, the new golden-set cases, and the cause distribution for the week. The cause distribution is what you track over time, because it tells you whether your investment is going to the right place. Two habits make this stick. <strong>Keep it timeboxed</strong> — the temptation is to debug live, and that turns a triage into a three-hour session that nobody repeats. And <strong>write the golden-set case during triage</strong>, not later, because \"later\" is where this process reliably dies.</p>",
+              },
+              {
+                question:
+                  "What does the cause distribution usually tell you?",
+                solution:
+                  "<p>That most complaints about \"the AI\" are not about the model. In practice the breakdown tends to land with <strong>retrieval as the largest single cause</strong> — roughly half — followed by <strong>source data problems</strong> at around a fifth, then prompt issues, with pure generation failures the smallest slice. That distribution is genuinely useful because it redirects effort: teams instinctively respond to quality complaints by changing the prompt or reaching for a bigger model, and the data usually says the answer was never retrieved in the first place. The data-problem slice is worth surfacing to stakeholders explicitly, because it is not an engineering fix at all — a stale policy document or two contradictory versions of the same procedure will defeat any model, and the owner of that content needs to know. It also reframes the conversation productively: rather than \"the AI is unreliable\", you can say that half of last month's complaints trace to retrieval and a fifth to documents that were already wrong, with specific examples. That is a finding people can act on, and it is only available because the feedback was joined to traces and classified rather than counted.</p>",
+              },
+              {
+                question:
+                  "Should you trust feedback as an input to anything else?",
+                solution:
+                  "<p>Treat it as <strong>user-supplied data</strong>, with everything that implies. If ratings or comments are visible to other users, they are content you are publishing on someone else's behalf and they need moderation. If free-text feedback is ever fed into a model — summarised for a report, used to generate improvement suggestions — it is untrusted input that could contain instructions, so it should be handled as data rather than passed into a prompt where it might be followed. And if feedback influences anything automatic, it is an attack surface: a small number of coordinated users can move a sparse metric, so anything gated on feedback thresholds can be pushed. None of this means feedback is dangerous to collect; it means the same discipline you apply to any user input applies here too. The practical guidance is simple: aggregate feedback for humans to read, keep free text out of automated model calls unless it is clearly delimited and the system prompt says to treat it as data, and never let a feedback number alone trigger a promotion, rollback or routing change.</p>",
+              },
+            ],
+            links: [
+              "https://hamel.dev/blog/posts/evals/",
+              "https://docs.smith.langchain.com/evaluation/how_to_guides/annotation_queues",
+              "https://langfuse.com/docs/scores/user-feedback",
+              "https://arxiv.org/abs/2306.05685",
+            ],
+          },
+          {
+            topic: "Quality Monitoring In Production",
+            tags: ["high-frequency", "must-know", "observability", "quality"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "How do you know quality is dropping in production before users complain?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The words <em>before users complain</em> are the whole question. They rule out feedback, tickets and escalations as your primary signal — those are all lagging by days. So you need something that <strong>leads</strong>.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    And you cannot simply judge every answer. Running an LLM judge on 100% of traffic often costs more than the product itself and adds latency you cannot afford. <strong>So the answer is a layered system: cheap proxies on all traffic, expensive judges on a sample, and a fixed canary set on a schedule.</strong>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Layer 1 — Structural Proxies, On 100% Of Traffic
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Zero model calls. Milliseconds. Computable on every request -
+and they catch a surprising amount.
+
+  TOP RETRIEVAL SCORE, and the empty-retrieval rate
+  ZERO-CITATION RATE   - the answer cited none of the chunks
+  ANSWER LENGTH distribution
+  REFUSAL RATE, and the "I do not know" rate
+  SCHEMA VALIDITY on structured output
+  TRUNCATION RATE
+  ANSWER-TO-CONTEXT OVERLAP - a cheap entity or n-gram overlap
+    between the answer and the retrieved text. A poor version
+    of groundedness, computed for nothing, and it moves when
+    real groundedness moves.
+
+None of these tells you an answer is CORRECT. All of them tell
+you something CHANGED - which is what you actually need.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Layer 2 — Sampled LLM Judge, Off The Response Path
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Run faithfulness and relevance scoring on <strong>1–5% of traffic, asynchronously</strong>, after the response has already gone to the user. Never in-line: it doubles your latency, doubles your cost, and introduces a dependency that can fail on the critical path.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Sample intelligently — always judge the requests the structural proxies already flagged, plus a random baseline so you can tell what normal looks like.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Layer 3 — The Canary Set (The Important One)
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+The same 50-100 questions, run against PRODUCTION on a
+schedule - hourly is reasonable.
+
+WHY IT IS DIFFERENT FROM EVERYTHING ELSE:
+
+  Every other metric CONFOUNDS a quality change with a
+  traffic change. If your users start asking harder
+  questions this week, your scores drop and NOTHING IS
+  WRONG. You will spend two days looking for a bug that
+  does not exist.
+
+  A FIXED INPUT SET REMOVES THAT CONFOUND ENTIRELY. The
+  input is constant, so any output change is the system.
+
+It is also the only layer that reliably catches a
+provider-side model change, because it is the only one where
+you control the input.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Order By Time-To-Detection
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Canary set — minutes.</strong> Runs on a schedule, no traffic dependency.</li>
+    <li style="margin-top: 0.5rem;"><strong>Structural proxies — minutes.</strong> Computed on every request.</li>
+    <li style="margin-top: 0.5rem;"><strong>Sampled judge — about an hour.</strong> Needs enough sampled requests to be significant.</li>
+    <li style="margin-top: 0.5rem;"><strong>Implicit signals — hours.</strong> Retry rate, escalation rate.</li>
+    <li style="margin-top: 0.5rem;"><strong>Explicit feedback — a day or more.</strong> Fast when it spikes, but sparse.</li>
+    <li style="margin-top: 0.5rem;"><strong>Support tickets — days.</strong> This is "users complained", which the question asked you to beat.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Watch Your Inputs, Not Just Your Outputs
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    A quality drop is often an <em>input</em> change. Track the <strong>distribution of incoming questions</strong>, the <strong>retrieval score distribution</strong>, and the <strong>rate of queries with no good match</strong>. If people start asking about a topic your corpus does not cover, quality falls and nothing in your system is broken — and knowing that immediately saves days.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Honest Caveat
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Production quality monitoring is detection, not measurement.</strong> It tells you something changed and roughly where. It does not tell you whether the system is good — that is what your golden set and offline evaluation are for. Saying that distinction out loud is worth doing, because conflating the two is how teams end up with a judge score they trust more than it deserves.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "How do you know quality is dropping in production before
+   users complain?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you know you cannot judge every answer, and whether
+  you can name signals that LEAD rather than lag. The canary
+  set is the answer that separates people who have run this
+  from people who have read about it.
+
+WEAK ANSWER
+  "I would run an LLM-as-a-judge on production responses to
+   score faithfulness and relevance, and alert if the average
+   score drops."
+  Why it is weak: judging everything is unaffordable and adds
+  latency; judging a sample is right but was not said. And a
+  judge score alone confounds a quality change with a change in
+  what users are asking - so it fires when nothing is wrong and
+  stays quiet when something is.
+
+STRONG ANSWER (about 80 seconds)
+  "The words 'before users complain' rule out feedback and
+   tickets as the primary signal - those lag by days. And I
+   cannot judge every answer, because judging 100% of traffic
+   often costs more than the product and adds latency I cannot
+   afford. SO IT IS A LAYERED SYSTEM.
+
+   LAYER ONE: structural proxies on 100% of traffic, zero model
+   calls, milliseconds. Top retrieval score and empty-retrieval
+   rate. Zero-citation rate. Answer length distribution.
+   Refusal and 'I do not know' rate. Schema validity.
+   Truncation rate. And a cheap entity overlap between the
+   answer and the retrieved text - a poor version of
+   groundedness that costs nothing and moves when the real one
+   moves. None of these says an answer is CORRECT; all of them
+   say something CHANGED, which is what I need.
+
+   LAYER TWO: an LLM judge on 1-5% of traffic, ASYNC, off the
+   response path - never in-line. I would always judge whatever
+   layer one already flagged, plus a random baseline so I know
+   what normal looks like.
+
+   LAYER THREE, and the important one: A FIXED CANARY SET. The
+   same 50-100 questions run against production hourly. It
+   matters because EVERY OTHER METRIC CONFOUNDS A QUALITY
+   CHANGE WITH A TRAFFIC CHANGE - if users start asking harder
+   questions this week, my scores drop and nothing is wrong,
+   and I lose two days looking for a bug that does not exist. A
+   fixed input set removes that confound completely, and it is
+   the only layer that reliably catches a provider-side model
+   change, because it is the only one where I control the
+   input.
+
+   Ordered by time-to-detection: canary minutes, proxies
+   minutes, sampled judge about an hour, implicit signals like
+   retry and escalation hours, explicit feedback a day, tickets
+   days.
+
+   I would also watch INPUTS, not just outputs - the
+   distribution of incoming questions, the retrieval score
+   distribution, and the rate of queries with no good match.
+   Because a quality drop is often people asking about
+   something my corpus does not cover, and knowing that
+   immediately saves days.
+
+   And I would be honest that this is DETECTION, NOT
+   MEASUREMENT. It tells me something changed and roughly
+   where. Whether the system is actually good is what the
+   golden set is for."
+
+FOLLOW-UPS TO EXPECT
+  "Why not judge everything?"
+      -> cost and latency. A judge call per request roughly
+         doubles both.
+  "Why a canary set?"
+      -> it removes the traffic confound. Fixed input means
+         any output change is the system.
+  "What are the cheap proxies?"
+      -> retrieval score, citation rate, length, refusals,
+         schema validity, answer-context overlap.
+  "How would you alert?"
+      -> relative to a same-hour-last-week baseline, per
+         route and per prompt version - never on a global
+         average.
+
+RED FLAGS
+  Judging 100% of traffic.
+  A judge on the critical path.
+  No fixed canary set.
+  Only monitoring outputs, never inputs.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// LAYER 1: STRUCTURAL PROXIES. Zero model calls, milliseconds,
+// computed on 100% of traffic.
+
+function structuralQualitySignals(req, retrieval, res) {
+  const answer = res.text;
+
+  const signals = {
+    // Retrieval health - the single best predictor of a bad answer.
+    topScore: retrieval.topScore,
+    emptyRetrieval: retrieval.chunks.length === 0,
+    weakRetrieval: retrieval.topScore < SCORE_FLOOR,
+    scoreSpread: retrieval.topScore - (retrieval.scores[4] ?? 0),
+
+    // Did the answer actually use what it was given?
+    citedCount: citedChunkIds(res).length,
+    zeroCitations: citedChunkIds(res).length === 0,
+
+    // A POOR MAN'S GROUNDEDNESS. Overlap of capitalised entities
+    // and numbers between the answer and the retrieved text.
+    // Costs nothing, and it MOVES WHEN REAL GROUNDEDNESS MOVES.
+    contextOverlap: entityOverlap(answer, retrieval.text),
+
+    // Behaviour shape - these catch model and prompt changes.
+    answerTokens: res.usage.output,
+    truncated: res.stopReason === "max_tokens",
+    refused: looksLikeRefusal(answer),
+    saidIDoNotKnow: /\\b(i do not know|not in the provided)\\b/i
+                      .test(answer),
+    schemaValid: res.parsed ? validate(res.parsed).ok : null,
+
+    // Format habits, which shift when a model version changes.
+    hasBullets: /^\\s*[-*]\\s/m.test(answer),
+    hasHeadings: /^#{1,3}\\s/m.test(answer)
+  };
+
+  // Emit each as its own metric, dimensioned so it is actually
+  // usable.
+  const tags = { route: req.route, promptVersion: PROMPT_VERSION,
+                 modelVersion: res.modelVersion,
+                 tenantId: req.tenantId };
+  metrics.gauge("q.top_score", signals.topScore, tags);
+  metrics.gauge("q.context_overlap", signals.contextOverlap, tags);
+  metrics.gauge("q.answer_tokens", signals.answerTokens, tags);
+  ["emptyRetrieval","zeroCitations","truncated","refused",
+   "saidIDoNotKnow"].forEach(k => {
+    if (signals[k]) metrics.increment("q." + k, 1, tags);
+  });
+
+  return signals;
+}
+
+// NONE OF THESE SAYS AN ANSWER IS CORRECT.
+// ALL OF THEM SAY SOMETHING CHANGED - which is what you need to
+// detect a drop before anyone complains.
+const whatEachCatches = {
+  topScore:        "corpus changed, embedding model changed, or " +
+                   "people are asking about things you do not have",
+  zeroCitations:   "the model stopped grounding - often a prompt or " +
+                   "model version change",
+  answerTokens:    "verbosity shift - the most reliable early sign " +
+                   "of a model update",
+  refused:         "guardrail or model behaviour moved, in either " +
+                   "direction",
+  contextOverlap:  "groundedness falling, for free",
+  schemaValid:     "downstream code is about to break"
+};`,
+              `// LAYER 2: SAMPLED JUDGE, ASYNC, OFF THE RESPONSE PATH.
+
+async function maybeJudge(traceId, signals, req) {
+  // NEVER IN-LINE. A judge call on the critical path roughly
+  // doubles latency AND cost, and adds a dependency that can fail
+  // in front of the user.
+  const shouldJudge =
+    signals.weakRetrieval ||
+    signals.zeroCitations ||
+    signals.contextOverlap < OVERLAP_FLOOR ||
+    signals.refused ||
+    // Plus a RANDOM BASELINE - without it you only ever see
+    // suspicious requests and cannot tell what normal looks like.
+    Math.random() < 0.02;
+
+  if (!shouldJudge) return;
+  await judgeQueue.push({ traceId, route: req.route,
+                          reason: signals.weakRetrieval ? "flagged"
+                                                        : "baseline" });
+}
+
+// The worker, running well behind the user.
+async function judgeWorker(job) {
+  const t = await traceStore.get(job.traceId);
+
+  const [faithfulness, relevance] = await Promise.all([
+    judge.score({
+      task: "Does every claim in the answer appear in the context?",
+      context: t.retrievedText, answer: t.answer,
+      // Ask for a LABEL plus the unsupported claims, not a 1-10
+      // score - numeric judge scores are noisy and drift.
+      output: { supported: "boolean", unsupportedClaims: "string[]" }
+    }),
+    judge.score({
+      task: "Does the answer address the question that was asked?",
+      question: t.question, answer: t.answer,
+      output: { addresses: "boolean", reason: "string" }
+    })
+  ]);
+
+  metrics.increment("q.judge.faithful",
+    faithfulness.supported ? 1 : 0,
+    { route: job.route, promptVersion: t.promptVersion,
+      modelVersion: t.modelVersion, sample: job.reason });
+
+  // Keep BASELINE and FLAGGED samples separate. Mixing them makes
+  // the aggregate meaningless, because the flagged pool is
+  // deliberately biased toward failures.
+}
+
+const judgeCostReality = {
+  requestsPerDay: 100_000,
+  judgeCallsIfAll: 200_000,        // faithfulness + relevance
+  costIfAllPence: 200_000 * 0.6,   // ~1,200 GBP/day
+  costAt2PercentPence: 4_000 * 0.6,// ~24 GBP/day
+  // THIS is why the answer is "sampled", and saying the number
+  // makes the point better than saying "it is expensive".
+  verdict: "judging everything costs more than the product"
+};`,
+              `// LAYER 3: THE CANARY SET. The one that actually answers the
+// question.
+
+const CANARY_SET = [
+  // 50-100 questions, FIXED, covering every route and every known
+  // failure mode. Never edited casually - editing it resets your
+  // baseline and destroys the comparison.
+  { id: "c001", route: "policy_qa",
+    question: "How many days notice for annual leave?",
+    baseline: { answerHash: "sha256:9c1...", tokens: 148,
+                topScore: 0.87, cited: 2, refused: false,
+                embedding: [/* baseline answer vector */] } }
+  // ... 60 more
+];
+
+// RUN IT AGAINST PRODUCTION ON A SCHEDULE. Hourly is reasonable.
+async function runCanary() {
+  const results = [];
+  for (const c of CANARY_SET) {
+    const r = await productionPipeline(c.question,
+      { route: c.route, canary: true, temperature: 0 });
+
+    results.push({
+      id: c.id,
+      // EXACT MATCH IS TOO BRITTLE - a comma moves and you get a
+      // false alarm every hour. Compare on things that tolerate
+      // harmless variation:
+      similarityToBaseline: cosine(embed(r.answer),
+                                   c.baseline.embedding),
+      tokenDelta: r.usage.output - c.baseline.tokens,
+      topScoreDelta: r.topScore - c.baseline.topScore,
+      citedDelta: citedChunkIds(r).length - c.baseline.cited,
+      refusedChanged: looksLikeRefusal(r.answer) !== c.baseline.refused,
+      schemaValid: r.parsed ? validate(r.parsed).ok : null,
+      formatChanged: formatFingerprint(r.answer) !==
+                     c.baseline.formatFingerprint,
+      modelVersion: r.modelVersion
+    });
+  }
+
+  const summary = {
+    meanSimilarity: mean(results.map(r => r.similarityToBaseline)),
+    belowThreshold: results.filter(r => r.similarityToBaseline < 0.90),
+    meanTokenDelta: mean(results.map(r => r.tokenDelta)),
+    refusalFlips: results.filter(r => r.refusedChanged).length,
+    formatChanges: results.filter(r => r.formatChanged).length
+  };
+
+  // THE SIGNATURE OF A MODEL CHANGE: MANY SMALL SHIFTS AT ONCE -
+  // length, formatting, hedging - rather than one metric
+  // collapsing. So alert on the COMBINATION.
+  if (summary.meanTokenDelta > 25 && summary.formatChanges > 8) {
+    alert("canary: broad behaviour shift - suspect a model update");
+  }
+  if (summary.belowThreshold.length > 5) {
+    alert("canary: " + summary.belowThreshold.length +
+          " answers diverged from baseline");
+  }
+  return summary;
+}
+
+// WHY THIS LAYER IS SPECIAL:
+const theConfound = {
+  problem: "every other metric mixes a QUALITY change with a " +
+           "TRAFFIC change",
+  example: "your judge score drops 6 points on Monday. Did the " +
+           "system get worse, or did a new team start asking " +
+           "harder questions?",
+  cost: "two days of investigation, and the answer is often 'the " +
+        "traffic changed and nothing is wrong'",
+  // FIXED INPUT REMOVES THE CONFOUND ENTIRELY.
+  fix: "the canary input is constant, so ANY output change is the " +
+       "system - and it is the only layer that catches a " +
+       "provider-side model update, because it is the only one " +
+       "where you control the input"
+};`,
+              `// WATCH YOUR INPUTS, NOT JUST YOUR OUTPUTS. And alert properly.
+
+const inputMonitoring = {
+  // A quality drop is very often an INPUT change, and knowing that
+  // in the first ten minutes saves days.
+  questionDistribution: {
+    how: "cluster the week's questions by embedding, compare " +
+         "cluster sizes against last week",
+    catches: "a new team onboarded and is asking about a topic your " +
+             "corpus does not cover"
+  },
+
+  noGoodMatchRate: {
+    how: "share of queries where topScore < floor",
+    // The single most useful input metric. Rising = people are
+    // asking about things you do not have, and NOTHING in your
+    // system is broken.
+    catches: "coverage gaps, before they become complaints"
+  },
+
+  retrievalScoreDistribution: {
+    how: "p50 and p10 of topScore over time",
+    catches: "a re-index that changed chunking, an embedding model " +
+             "change, or corpus growth diluting the index"
+  },
+
+  questionLength: "a shift usually means a new client or " +
+                  "integration is calling you",
+
+  corpusStats: ["document count", "chunk count", "index size",
+                "share of documents not retrieved in 30 days"]
+};
+
+// ALERTING. Never on a global average.
+const alerting = {
+  dimensions: ["route", "promptVersion", "modelVersion", "tenantId"],
+  baseline: "same hour, same weekday, last week",
+
+  rules: [
+    { on: "q.top_score p50", fires: "down 15% vs baseline",
+      why: "retrieval degraded or corpus changed", sev: "page" },
+    { on: "q.zero_citations rate", fires: "2x baseline",
+      why: "the model stopped grounding", sev: "page" },
+    { on: "q.context_overlap p50", fires: "down 20%",
+      why: "cheap groundedness proxy falling", sev: "ticket" },
+    { on: "q.answer_tokens p50", fires: "moves 30% either way",
+      why: "verbosity shift - often a model update", sev: "ticket" },
+    { on: "q.refused rate", fires: "2x IN EITHER DIRECTION",
+      sev: "ticket" },
+    { on: "canary meanSimilarity", fires: "< 0.90", sev: "page" },
+    { on: "q.judge.faithful (baseline sample only)",
+      fires: "down 8 points over 24h", sev: "ticket" },
+    { on: "noGoodMatchRate", fires: "up 50%",
+      why: "COVERAGE GAP, not a bug", sev: "ticket" }
+  ],
+
+  // Every alert links to a FILTERED TRACE VIEW. An alert that
+  // says 'faithfulness dropped on the policy route' and opens
+  // onto the failing traces turns a two-hour investigation into
+  // ten minutes.
+  runbookRule: "no alert without a trace link"
+};
+
+// THE HONEST CAVEAT, worth saying out loud:
+const caveat = {
+  whatThisIs: "DETECTION. It tells you something CHANGED and " +
+              "roughly where.",
+  whatThisIsNot: "MEASUREMENT. Whether the system is actually good " +
+                 "is what your golden set and offline evaluation " +
+                 "are for.",
+  whyItMatters: "conflating them is how teams end up trusting a " +
+                "production judge score more than it deserves - and " +
+                "then tuning the product to please the judge"
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you know quality is dropping in production before users complain?",
+                solution: `<p>The words <em>before users complain</em> rule out feedback and tickets as the primary signal — those lag by days. And I cannot judge every answer, because judging 100% of traffic often costs more than the product and adds unacceptable latency. <strong>So it is a layered system.</strong></p>
+             <ul>
+               <li><strong>Structural proxies on 100% of traffic</strong> — retrieval score, zero-citation rate, answer length, refusal rate, schema validity, and a cheap answer-to-context overlap. Zero model calls.</li>
+               <li><strong>An LLM judge on 1–5%</strong>, async, off the response path.</li>
+               <li><strong>A fixed canary set</strong> run hourly against production — the important one.</li>
+             </ul>
+             <p>The canary matters because <strong>every other metric confounds a quality change with a traffic change</strong>. A fixed input removes that entirely.</p>`,
+              },
+              {
+                question:
+                  "Why can't you just run an LLM judge on everything?",
+                solution:
+                  "<p>Cost and latency, and the numbers make the point better than the adjective. At a hundred thousand requests a day, judging faithfulness and relevance means two hundred thousand extra model calls — which at realistic prices can run to over a thousand pounds a day, frequently more than the product itself costs to operate. On latency, a judge call on the critical path roughly doubles your response time, which is unacceptable for anything interactive and turns a three-second answer into six. There is a third problem people miss: putting a judge in-line adds a <strong>dependency that can fail in front of the user</strong>. If the judge times out or rate-limits, you either block the response or ship it unjudged, and both outcomes are worse than not having it there. So the design is to sample — one to five percent, asynchronously, well behind the user, with results feeding dashboards rather than gating responses. Sample intelligently rather than uniformly: always judge whatever the cheap structural proxies already flagged, and add a small random baseline so you can tell what normal looks like. Keep those two pools separate in your metrics, because the flagged pool is deliberately biased toward failures and mixing them makes the aggregate meaningless.</p>",
+              },
+              {
+                question:
+                  "What are the cheap structural proxies, and what does each catch?",
+                solution: `<p>Seven, all computable in milliseconds with no model call:</p>
+             <ul>
+               <li><strong>Top retrieval score</strong> and empty-retrieval rate — catches a corpus change, an embedding model change, or users asking about things you do not have.</li>
+               <li><strong>Zero-citation rate</strong> — the model stopped grounding, usually after a prompt or model version change.</li>
+               <li><strong>Answer length distribution</strong> — a verbosity shift is the most reliable early sign of a model update.</li>
+               <li><strong>Refusal and "I do not know" rate</strong> — behaviour moved, in either direction.</li>
+               <li><strong>Schema validity</strong> — downstream code is about to break.</li>
+               <li><strong>Truncation rate</strong> — answers being cut off silently.</li>
+               <li><strong>Answer-to-context overlap</strong> — a cheap entity or number overlap between the answer and the retrieved text. A poor version of groundedness, computed for free, and it moves when real groundedness moves.</li>
+             </ul>
+             <p>None of these tells you an answer is <em>correct</em>. All of them tell you something <em>changed</em>, which is exactly what detection requires.</p>`,
+              },
+              {
+                question:
+                  "Why is a fixed canary set so important?",
+                solution:
+                  "<p>Because it is the only layer that removes the <strong>traffic confound</strong>. Every other quality metric mixes together two completely different things: did the system get worse, or did the questions get harder? If a new team onboards on Monday and starts asking about a topic your corpus covers poorly, your judge scores drop, your retrieval scores drop, and your citation rate drops — and nothing in your system is broken. Teams routinely lose two days investigating a bug that does not exist. A canary set of the same fifty to a hundred questions, run against production hourly, has a constant input, so <strong>any change in output is the system</strong>. That single property makes it the fastest and most trustworthy detector you have. It is also the only layer that reliably catches a provider-side model change, precisely because it is the only one where you control the input — every other signal would attribute the shift to your users. The practical requirements are that it covers every route and every known failure mode, that it runs at temperature zero where possible, and that it is <strong>never edited casually</strong>, since editing it resets your baseline and destroys the comparison you built it for.</p>",
+              },
+              {
+                question:
+                  "How do you compare canary results without false alarms?",
+                solution: `<p>Not by exact match — that is far too brittle. A comma moves, a heading changes, and you get an alert every hour until people stop reading them.</p>
+             <p>Compare on things that tolerate harmless variation:</p>
+             <ul>
+               <li><strong>Embedding similarity</strong> between the new answer and the stored baseline answer — the primary signal.</li>
+               <li><strong>Token count delta</strong> — verbosity shifts are highly informative.</li>
+               <li><strong>Retrieval score delta</strong> — separates a retrieval change from a generation change.</li>
+               <li><strong>Citation count delta</strong>, <strong>refusal flips</strong>, <strong>schema validity</strong>, and a <strong>format fingerprint</strong> (does it use bullets, headings, the same structure).</li>
+             </ul>
+             <p>Then alert on the <em>combination</em>, because <strong>the signature of a model change is many small shifts at once</strong> — length, formatting, hedging — rather than one metric collapsing. A rule like "mean token delta above 25 <em>and</em> more than eight format changes" catches a model update reliably while ignoring the ordinary hourly wobble.</p>`,
+              },
+              {
+                question:
+                  "How would you order the layers by time-to-detection?",
+                solution:
+                  "<p>Fastest first: the <strong>canary set in minutes</strong>, because it runs on a schedule with no dependency on traffic arriving. <strong>Structural proxies in minutes</strong> too, since they are computed on every request — though at low volume you need enough requests for a rate to be meaningful. The <strong>sampled judge in about an hour</strong>, because at one to five percent you need time to accumulate enough judged requests for a change to be statistically visible. <strong>Implicit user signals in hours</strong> — retry rate and escalation rate are dense but need aggregation. <strong>Explicit feedback in a day or more</strong>, since it is sparse, although a sharp spike can be faster than anything computed. And <strong>support tickets in days</strong>, which is precisely the \"users complained\" outcome the question asked you to beat. Laying it out this way is useful in an interview because it shows you have thought about detection <em>latency</em> as a property to design for, not just about which metrics exist. It also makes the case for the canary set self-evident: it is both the fastest and the least ambiguous, which is why it is worth building even though it is the layer teams most often skip.</p>",
+              },
+              {
+                question:
+                  "Why monitor inputs and not just outputs?",
+                solution: `<p>Because a quality drop is very often an <strong>input</strong> change, and recognising that in the first ten minutes saves days of chasing a bug that does not exist.</p>
+             <p>Three input metrics earn their place:</p>
+             <ul>
+               <li><strong>The rate of queries with no good match</strong> — the share where the top retrieval score falls below a floor. This is the single most useful input metric: rising means people are asking about things your corpus does not cover, which is a <em>coverage gap</em>, not a bug.</li>
+               <li><strong>The distribution of incoming questions</strong>, clustered by embedding and compared week over week. A new cluster appearing usually means a new team, product or integration started using the system.</li>
+               <li><strong>The retrieval score distribution</strong> over time, which catches a re-index that changed chunking, an embedding model change, or simply corpus growth diluting the index.</li>
+             </ul>
+             <p>The distinction to hold onto is between <em>"we got worse"</em> and <em>"they started asking different things"</em>. Those need completely different responses — one is an engineering fix, the other is a content or scoping decision — and output metrics alone cannot tell them apart.</p>`,
+              },
+              {
+                question:
+                  "How would you alert on these metrics?",
+                solution:
+                  "<p>Relative to a comparable baseline, per route, and never on a global average. The baseline should be <strong>the same hour on the same weekday last week</strong>, because these metrics carry strong daily and weekly shape and a fixed threshold will be wrong half the time. Break every metric by <strong>route, prompt version and model version</strong> — route because a global average hides a single broken route almost perfectly, and the version dimensions because they let you attribute a change to a specific deploy instead of guessing. A few rules worth having by default: top retrieval score down fifteen percent, zero-citation rate at twice baseline, context overlap down twenty percent, answer length moving thirty percent in either direction, refusal rate at twice baseline <em>in either direction</em>, canary mean similarity below a threshold, and the no-good-match rate up fifty percent. One process rule matters as much as the thresholds: <strong>no alert without a trace link</strong>. An alert that says faithfulness dropped on the policy route and opens directly onto the failing traces turns a two-hour investigation into ten minutes, and an alert that just states a number gets acknowledged and ignored.</p>",
+              },
+              {
+                question:
+                  "What is the difference between detection and measurement here?",
+                solution: `<p><strong>Production quality monitoring is detection.</strong> It tells you something changed and roughly where. It is built from proxies, samples and comparisons against yesterday — all of which are good at spotting movement and poor at telling you an absolute truth.</p>
+             <p><strong>Measurement is your golden set and offline evaluation.</strong> That is where you have labelled expectations, a stable input set, and a considered definition of what good means for each category.</p>
+             <p>The distinction matters practically. When a production signal moves, the correct response is not to conclude the system is worse — it is to go and <em>measure</em> on the golden set, which tells you whether the change is better, worse or merely different.</p>
+             <p>Conflating them is how teams end up trusting a production judge score more than it deserves, and then tuning the product to please the judge rather than the user. Saying this out loud in an interview is worth doing, because it shows you know what your instruments can and cannot support.</p>`,
+              },
+              {
+                question:
+                  "How does this interact with prompt and model versioning?",
+                solution:
+                  "<p>Versioning is what makes every one of these signals <em>attributable</em>. If prompt version and model version are dimensions on your quality metrics, then a change in the graph points at a specific deploy, and you can compare the two versions side by side over the same period rather than arguing about whether last Tuesday looked different. Without those dimensions you get a metric that moved and no way to connect it to a cause, which reduces the whole system to a vague sense that something is off. It also enables the most useful view in the whole setup: quality metrics <strong>overlaid with deploy markers</strong>, so a step change lines up visually with the change that caused it. There is a second interaction worth mentioning. Because the canary set runs continuously and is dimensioned by model version, it doubles as your detector for a <em>provider-side</em> change — you will see the model version field shift, or you will see behaviour shift while your own version fields stayed constant, and either way you know it was not you. That combination of stable input plus version dimensions is what turns \"quality feels worse\" into \"behaviour changed at 14:00 on the model side, here are the seventeen canary answers that diverged\".</p>",
+              },
+              {
+                question:
+                  "What would you build first if you had a week?",
+                solution: `<p>In order, because each one is useful on its own:</p>
+             <ol>
+               <li><strong>Structural proxies</strong> on every request — a day's work, no model calls, and they immediately give you retrieval health, citation rate, refusals, truncation and length. This is the highest return per hour of anything on the list.</li>
+               <li><strong>The canary set</strong> — fifty questions with stored baselines, run hourly. Another day or two, and it is the signal you will trust most.</li>
+               <li><strong>Dimensioning</strong> everything by route, prompt version and model version, with deploy markers on the dashboard.</li>
+               <li><strong>The sampled async judge</strong>, last, because it is the most work and the most expensive and the first three will already have caught most of what it would catch.</li>
+             </ol>
+             <p>Notably the judge — the thing most people name first — is the <em>last</em> thing to build. The cheap proxies plus a fixed canary set detect the large majority of real production regressions at a fraction of the cost and complexity.</p>`,
+              },
+              {
+                question:
+                  "What does this system not catch?",
+                solution:
+                  "<p>Several things, and being honest about them is part of a good answer. It does not catch <strong>slow, uniform degradation</strong> that never trips a relative threshold — if quality drifts down two percent a month, every week-over-week comparison looks fine and the only detector is a periodic run against your golden set. It does not catch <strong>problems that were always there</strong>, since everything here is change detection against a baseline that already contains your existing failures. It does not catch <strong>failures on questions nobody asks in your canary set</strong>, which is why canary coverage across routes and known failure modes matters and why you should keep adding real user failures to it. It does not catch <strong>subjective quality</strong> — tone, helpfulness, whether an answer is technically correct but useless — which needs humans. And it does not catch <strong>harm</strong> in the sense of a single very bad answer to a single user, because rates and averages are the wrong instrument for a one-off event; that is what guardrails, feedback and incident response are for. So the honest framing is that this system reliably detects <em>systemic change</em>, and you need offline evaluation for absolute quality and human review for the things no metric represents.</p>",
+              },
+            ],
+            links: [
+              "https://hamel.dev/blog/posts/evals/",
+              "https://docs.ragas.io/en/stable/concepts/metrics/",
+              "https://docs.smith.langchain.com/evaluation/how_to_guides/online_evaluations",
+              "https://arxiv.org/abs/2306.05685",
+            ],
+          },
+          {
+            topic: "Drift & Degradation Detection",
+            tags: ["must-know", "observability", "reliability", "quality"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "The provider silently updates the model. How would you notice the behaviour changed?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Answer the prevention before the detection, because it is the stronger point: <strong>pin the model version.</strong> Use a versioned model identifier, never an alias like "latest". An alias means a third party can deploy to your production system without review, which is not a monitoring problem — it is a change-management one.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Pinning is not sufficient, though. Versions get deprecated on a schedule you do not control, serving infrastructure changes underneath a fixed version, and some variation exists regardless. So you still need detection.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Three Kinds Of Drift, Three Detectors
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  MODEL DRIFT   the provider changed something
+                DETECT WITH: a fixed canary set
+
+  DATA DRIFT    your corpus changed - new documents, a
+                re-index, deletions, a chunking change
+                DETECT WITH: index stats and the retrieval
+                score distribution
+
+  QUERY DRIFT   your users changed - new topics, new
+                phrasing, seasonality
+                DETECT WITH: clustering incoming questions,
+                and the no-good-match rate
+
+They look identical from the outside. All three present as
+"quality got worse". Telling them apart in the first ten
+minutes is most of the job, because the response to each is
+completely different.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What Actually Changes When A Model Updates
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    This is the detail that makes the answer credible. Raw capability rarely moves much. What moves is <strong>behaviour</strong>:
+  </p>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Verbosity</strong> — answers get longer or shorter. The most reliable early signal.</li>
+    <li style="margin-top: 0.5rem;"><strong>Formatting habits</strong> — bullets appear where prose used to be, headings show up, markdown usage shifts.</li>
+    <li style="margin-top: 0.5rem;"><strong>Refusal boundaries</strong> — things that were declined are now answered, or the reverse.</li>
+    <li style="margin-top: 0.5rem;"><strong>Instruction-following strictness</strong> — an instruction that was loosely honoured becomes strictly honoured, or stops being honoured at all.</li>
+    <li style="margin-top: 0.5rem;"><strong>Tool-call argument formatting</strong> and JSON habits — which breaks parsers.</li>
+    <li style="margin-top: 0.5rem;"><strong>Hedging</strong> — more or fewer caveats, which changes how confident the product feels.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    So <strong>the metrics that catch a model change are format and behaviour metrics, not accuracy metrics.</strong> Accuracy usually moves last and least.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Detection Signature
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+A MODEL CHANGE LOOKS LIKE MANY SMALL SHIFTS AT ONCE, not one
+metric collapsing.
+
+  answer length      +18%
+  bullet usage       +30%
+  hedging phrases    +25%
+  refusal rate       -40%
+  canary similarity  0.94 -> 0.89
+  accuracy           unchanged
+
+If ONE metric moves, suspect your own change - a prompt edit,
+a retrieval change, a deploy. IF SIX MOVE TOGETHER AND YOU
+DEPLOYED NOTHING, suspect the model.
+
+That distinction is the actual answer to the question.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Nastiest One: Embedding Model Drift
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    If your embedding model changes, <strong>you cannot mix vectors from two versions in one index</strong> — the geometry is different and similarity scores between them are meaningless. Retrieval quietly gets worse in a way that looks like nothing in particular.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    So: pin the embedding model hard, <strong>store the embedding model version as metadata on every vector</strong>, and alert if more than one version is present. Changing it means a full re-index, which is a planned project rather than an incident.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When You Detect It, Do Not Panic-Rollback
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>Confirm it is the model</strong> — did you deploy anything, and did many metrics move together?</li>
+    <li style="margin-top: 0.5rem;"><strong>Run the golden set</strong> on both versions. This is measurement, and it is the only thing that tells you better, worse or merely different.</li>
+    <li style="margin-top: 0.5rem;"><strong>Decide per route</strong>, because a change that helps summarisation may hurt structured extraction.</li>
+    <li style="margin-top: 0.5rem;"><strong>Fix forward where you can</strong> — often a prompt adjustment absorbs a format change more cheaply than a rollback.</li>
+  </ol>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    And note that <strong>deprecation is the forcing function</strong>. Pinning buys you time, not permanence. Have a standing process: when a new version appears, run the canary and golden sets, produce a diff report, decide on a date.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "The provider silently updates the model. How would you
+   notice the behaviour changed?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Two things. Whether you PIN VERSIONS - because if you do
+  not, the premise of the question is your own fault - and
+  whether you know WHAT actually changes, which is behaviour
+  and format rather than accuracy.
+
+WEAK ANSWER
+  "I would monitor output quality metrics and run periodic
+   evaluations, so if the model changed I would see the scores
+   move and could investigate."
+  Why it is weak: no version pinning, so this was avoidable.
+  And 'quality scores' is the wrong instrument - accuracy
+  usually moves last, so this detects the change days after
+  the format shift already broke a downstream parser.
+
+STRONG ANSWER (about 75 seconds)
+  "First the prevention, because it is the stronger point: PIN
+   THE MODEL VERSION. Use a versioned identifier, never an
+   alias like 'latest'. An alias means a third party can deploy
+   to my production system without review - that is a change
+   management problem, not a monitoring one.
+
+   Pinning is not sufficient, though. Versions get deprecated
+   on a schedule I do not control, and serving infrastructure
+   changes underneath a fixed version. So I still need
+   detection - and the detector is A FIXED CANARY SET, the same
+   50-100 prompts run against production hourly at temperature
+   zero, compared against a stored baseline. It works because
+   the INPUT IS CONSTANT, so any output change is the system.
+
+   The detail that matters is WHAT ACTUALLY CHANGES. Raw
+   capability rarely moves much. What moves is BEHAVIOUR:
+   verbosity - the most reliable early signal - formatting
+   habits like bullets appearing where prose used to be,
+   refusal boundaries, instruction-following strictness,
+   tool-call and JSON formatting which breaks parsers, and
+   hedging. So the metrics that catch a model change are FORMAT
+   AND BEHAVIOUR metrics, not accuracy metrics. Accuracy moves
+   last and least.
+
+   The signature is MANY SMALL SHIFTS AT ONCE rather than one
+   metric collapsing - length up 18%, bullets up 30%, refusals
+   down 40%, canary similarity 0.94 to 0.89, accuracy
+   unchanged. If ONE metric moves I suspect my own change. IF
+   SIX MOVE TOGETHER AND I DEPLOYED NOTHING, I suspect the
+   model.
+
+   I would separate this from the other two drifts, because all
+   three present as 'quality got worse' and need different
+   responses: DATA drift, detected by index stats and the
+   retrieval score distribution, and QUERY drift, detected by
+   clustering incoming questions and the no-good-match rate.
+
+   And the nastiest one is the EMBEDDING model - you cannot mix
+   vectors from two versions in one index, the geometry is
+   different. So I pin it hard, store the embedding version as
+   metadata on every vector, and alert if more than one is
+   present.
+
+   On response: not a panic rollback. Confirm it is the model,
+   run the GOLDEN SET on both versions - that is the
+   measurement - decide per route, and often a prompt
+   adjustment absorbs a format change more cheaply than a
+   rollback."
+
+FOLLOW-UPS TO EXPECT
+  "What if you pinned and it still changed?"
+      -> serving infrastructure changes, and versions get
+         deprecated. Pinning buys time, not permanence.
+  "What actually changes?"
+      -> verbosity, formatting, refusal boundaries,
+         instruction strictness, JSON habits. Not accuracy.
+  "How do you tell model drift from data or query drift?"
+      -> canary set is fixed input, so it isolates the model.
+         Index stats isolate data. Question clustering
+         isolates queries.
+  "Why is the embedding model worse?"
+      -> two versions cannot coexist in one index, and the
+         only fix is a full re-index.
+
+RED FLAGS
+  Using a 'latest' alias.
+  Watching accuracy to detect a model change.
+  No fixed canary set.
+  Not distinguishing the three drift types.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// PREVENTION FIRST. If you use an alias, a third party can deploy
+// to your production system without review.
+
+const modelConfig = {
+  // WRONG - an unreviewed third-party deploy into your product.
+  bad: { model: "claude-latest" },
+
+  // RIGHT - a versioned identifier, changed only by YOUR deploy.
+  good: {
+    model: "claude-opus-5",
+    modelVersion: "2026-05-01",     // pinned and explicit
+    // And record what you actually got back, because the request
+    // and the response can disagree.
+    verifyResponseVersion: true
+  },
+
+  // THE ONE THAT BITES HARDEST.
+  embedding: {
+    model: "embed-v3",
+    version: "2026-01-15",
+    // You CANNOT mix vectors from two versions in one index - the
+    // geometry is different and cross-version similarity is
+    // meaningless. Retrieval quietly gets worse in a way that
+    // looks like nothing in particular.
+    storedAsMetadataOnEveryVector: true,
+    alertIf: "more than one embeddingVersion present in the index",
+    changingItMeans: "A FULL RE-INDEX. A planned project, not an " +
+                     "incident response."
+  }
+};
+
+// PINNING BUYS TIME, NOT PERMANENCE.
+const whyYouStillNeedDetection = [
+  "versions get DEPRECATED on a schedule you do not control",
+  "serving infrastructure changes UNDERNEATH a fixed version",
+  "some run-to-run variation exists regardless",
+  "a fallback provider may serve a different model entirely",
+  "someone changes the config and nobody notices"
+];
+
+// So verify on every response, not just at deploy time.
+function checkVersion(res) {
+  if (res.modelVersion !== EXPECTED_MODEL_VERSION) {
+    metrics.increment("ai.model.version_mismatch", 1,
+      { expected: EXPECTED_MODEL_VERSION, got: res.modelVersion });
+    // Not necessarily an alert on its own - but it must be a
+    // DIMENSION on every quality metric, so a behaviour change can
+    // be attributed to it immediately.
+  }
+  return res.modelVersion;
+}`,
+              `// THREE KINDS OF DRIFT. They look identical from the outside -
+// all three present as "quality got worse".
+
+const drifts = {
+  MODEL: {
+    what: "the provider changed something",
+    detector: "A FIXED CANARY SET - constant input, so any output " +
+              "change is the system",
+    signature: "many small BEHAVIOUR shifts at once, accuracy flat",
+    response: "run the golden set on both versions, decide per route"
+  },
+
+  DATA: {
+    what: "your corpus changed - new documents, a re-index, " +
+          "deletions, a chunking change",
+    detectors: {
+      indexStats: ["vector count over time", "chunk count per doc",
+                   "documents added/removed this week",
+                   "embedding model version distribution"],
+      // THE KEY ONE: if the score distribution shifts, something
+      // about the index changed even if nobody said so.
+      scoreDistribution: "p50 and p10 of topScore over time",
+      canary: "canary retrieval scores move while canary ANSWERS " +
+              "stay similar -> data, not model"
+    },
+    response: "find the indexing change - it is almost always a " +
+              "chunking or pipeline edit nobody flagged"
+  },
+
+  QUERY: {
+    what: "your users changed - new topics, new phrasing, " +
+          "seasonality, a new team onboarded",
+    detectors: {
+      clustering: "cluster the week's questions by embedding, " +
+                  "compare cluster sizes with last week",
+      noGoodMatch: "share of queries with topScore below floor - " +
+                   "THE most useful single input metric",
+      length: "a shift in question length usually means a new " +
+              "client or integration"
+    },
+    // AND CRUCIALLY:
+    response: "this is a COVERAGE GAP, not a bug. The fix is " +
+              "content or scoping, not engineering."
+  }
+};
+
+// TELLING THEM APART IN THE FIRST TEN MINUTES IS MOST OF THE JOB.
+function triageDrift(signals) {
+  const weDeployed = deploys.since("24h").length > 0;
+  const canaryMoved = signals.canary.meanSimilarity < 0.90;
+  const canaryRetrievalMoved = Math.abs(signals.canary.topScoreDelta) > 0.05;
+  const questionMixMoved = signals.queryClusterShift > 0.2;
+
+  if (canaryMoved && !canaryRetrievalMoved && !weDeployed)
+    return "MODEL drift - fixed input, generation changed";
+  if (canaryRetrievalMoved)
+    return "DATA drift - fixed input, RETRIEVAL changed";
+  if (!canaryMoved && questionMixMoved)
+    return "QUERY drift - the system is fine, the traffic changed";
+  if (weDeployed)
+    return "YOUR change - start with the diff";
+  return "inconclusive - widen the window";
+}`,
+              `// WHAT ACTUALLY CHANGES WHEN A MODEL UPDATES.
+// This is the detail that makes the answer credible.
+
+const whatMoves = {
+  // Raw capability rarely moves much. BEHAVIOUR does.
+  verbosity: { signal: "answer token count",
+               note: "THE MOST RELIABLE EARLY SIGNAL - shifts 10-25% " +
+                     "and shows up within an hour of a change" },
+
+  formatting: { signal: "bullet usage, heading usage, markdown rate",
+                note: "bullets appearing where prose used to be. " +
+                      "Harmless-looking, and it breaks UIs that " +
+                      "assumed paragraphs" },
+
+  refusalBoundary: { signal: "refusal rate, in EITHER direction",
+                     note: "things that were declined are now " +
+                           "answered, or the reverse" },
+
+  instructionStrictness: { signal: "schema validity, format " +
+                                   "adherence rate",
+                           note: "an instruction that was loosely " +
+                                 "honoured becomes strict, or stops " +
+                                 "being honoured" },
+
+  toolAndJsonHabits: { signal: "parse failure rate, tool argument " +
+                               "shape",
+                       // THE ONE THAT ACTUALLY BREAKS PRODUCTION.
+                       note: "quoting, escaping and null handling " +
+                             "shift slightly, and a parser that " +
+                             "was tolerant enough yesterday is not " +
+                             "today" },
+
+  hedging: { signal: "count of caveat phrases",
+             note: "more or fewer qualifiers - changes how " +
+                   "confident the product FEELS without changing " +
+                   "whether it is right" },
+
+  accuracy: { signal: "golden set pass rate",
+              // MOVES LAST AND LEAST.
+              note: "which is exactly why watching accuracy is the " +
+                    "WRONG way to detect a model change - by the " +
+                    "time it moves, the format shift broke a parser " +
+                    "days ago" }
+};
+
+// SO BUILD A BEHAVIOUR FINGERPRINT AND COMPARE IT.
+function behaviourFingerprint(answers) {
+  return {
+    medianTokens: median(answers.map(a => a.tokens)),
+    bulletRate: share(answers, a => /^\\s*[-*]\\s/m.test(a.text)),
+    headingRate: share(answers, a => /^#{1,3}\\s/m.test(a.text)),
+    hedgeRate: share(answers, a => HEDGE_RE.test(a.text)),
+    refusalRate: share(answers, a => looksLikeRefusal(a.text)),
+    schemaValidRate: share(answers, a => a.schemaValid),
+    meanSentenceLength: mean(answers.map(a => avgSentenceLen(a.text))),
+    citationRate: share(answers, a => a.citedCount > 0)
+  };
+}
+
+// THE SIGNATURE: MANY SMALL SHIFTS AT ONCE.
+const modelChangeSignature = {
+  medianTokens:  "+18%",
+  bulletRate:    "+30%",
+  hedgeRate:     "+25%",
+  refusalRate:   "-40%",
+  canarySimilarity: "0.94 -> 0.89",
+  goldenSetAccuracy: "unchanged",
+  // IF ONE METRIC MOVES -> suspect your own change.
+  // IF SIX MOVE TOGETHER AND YOU DEPLOYED NOTHING -> the model.
+  rule: "that distinction is the actual answer to the question"
+};`,
+              `// WHEN YOU DETECT IT: DO NOT PANIC-ROLLBACK.
+
+async function respondToModelDrift(evidence) {
+  // 1. CONFIRM IT IS THE MODEL.
+  const ourDeploys = await deploys.since("48h");
+  if (ourDeploys.length) return { next: "check our diff first" };
+  if (evidence.metricsMoved < 3)
+    return { next: "one metric moving is usually OUR change" };
+
+  // 2. RUN THE GOLDEN SET ON BOTH VERSIONS. This is MEASUREMENT -
+  //    the only thing that tells you better, worse or just
+  //    DIFFERENT.
+  const [oldV, newV] = await Promise.all([
+    evaluate(GOLDEN_SET, { modelVersion: PREVIOUS_VERSION }),
+    evaluate(GOLDEN_SET, { modelVersion: CURRENT_VERSION })
+  ]);
+
+  // 3. DECIDE PER ROUTE. A change that helps summarisation can
+  //    hurt structured extraction, and one global verdict hides
+  //    that completely.
+  const perRoute = Object.keys(oldV.byCategory).map(route => ({
+    route,
+    before: oldV.byCategory[route],
+    after: newV.byCategory[route],
+    delta: newV.byCategory[route] - oldV.byCategory[route],
+    verdict: newV.byCategory[route] < oldV.byCategory[route] - 0.03
+             ? "REGRESSED" : "ok"
+  }));
+
+  // 4. FIX FORWARD WHERE YOU CAN. A prompt adjustment often
+  //    absorbs a FORMAT change far more cheaply than a rollback -
+  //    and rollback may not even be available if the old version
+  //    is deprecated.
+  return {
+    perRoute,
+    options: [
+      "adjust the prompt to re-assert the format (cheapest, " +
+        "usually enough for verbosity and bullet changes)",
+      "tighten the output schema and validation",
+      "pin the regressed ROUTES to the old version, migrate the " +
+        "rest",
+      "full rollback (only if broadly worse AND the old version " +
+        "is still available)"
+    ]
+  };
+}
+
+// AND HAVE A STANDING PROCESS, because DEPRECATION IS THE FORCING
+// FUNCTION. Pinning buys time, not permanence.
+const versionUpgradeProcess = [
+  "1. a new version appears -> it goes in the backlog, not into " +
+     "production",
+  "2. run the CANARY set against it, produce a behaviour diff " +
+     "report",
+  "3. run the GOLDEN set against it, per category",
+  "4. shadow it against real traffic for a few days (no user " +
+     "impact)",
+  "5. decide, with a date, and note which prompts need adjusting",
+  "6. canary rollout at 5% -> 25% -> 100%",
+  "7. re-baseline the canary set AFTER the migration completes"
+];
+
+// Step 7 matters: your canary baseline is tied to a model version.
+// Forgetting to re-baseline means every future run alerts forever
+// and people stop reading it.`,
+            ],
+            questions: [
+              {
+                question:
+                  "The provider silently updates the model. How would you notice the behaviour changed?",
+                solution: `<p>First the prevention, because it is the stronger point: <strong>pin the model version.</strong> Use a versioned identifier, never an alias like "latest" — an alias means a third party can deploy to your production system without review, which is a change-management problem rather than a monitoring one.</p>
+             <p>Pinning is not sufficient though: versions get deprecated, and serving infrastructure changes underneath. So the detector is a <strong>fixed canary set</strong> — the same 50–100 prompts run hourly at temperature zero against a stored baseline. It works because the input is constant, so any output change is the system.</p>
+             <p>And what changes is <strong>behaviour, not accuracy</strong>: verbosity, formatting, refusal boundaries, JSON habits. The signature is <strong>many small shifts at once</strong>.</p>`,
+              },
+              {
+                question:
+                  "Why is version pinning the first answer rather than a monitoring answer?",
+                solution:
+                  "<p>Because using a floating alias means you have handed deploy authority over your production system to a third party. Every other change in your stack goes through review, testing and a rollout — and then a model alias lets an entirely different model appear behind the same identifier with no notice, no diff and no approval. That is not a monitoring gap to be instrumented around; it is a change-management decision that should be reversed. Pinning to an explicit version turns a surprise into <em>your</em> scheduled decision: the new version exists, you evaluate it, you decide when to move. It is also worth verifying the version on the response rather than trusting the request, since the two can disagree — a fallback provider, a misconfigured environment or a deprecation can all serve you something other than what you asked for. Record the returned version as a dimension on every quality metric so that any behaviour change is immediately attributable. What pinning does <em>not</em> give you is permanence: versions are deprecated on a schedule you do not control, serving infrastructure changes underneath a fixed version, and some run-to-run variation exists regardless. So pinning buys time, and detection still has to exist.</p>",
+              },
+              {
+                question:
+                  "What actually changes when a model version updates?",
+                solution: `<p>Behaviour, not capability. Six things move, roughly in this order of detectability:</p>
+             <ul>
+               <li><strong>Verbosity</strong> — answers get longer or shorter, typically by ten to twenty-five percent. The most reliable early signal.</li>
+               <li><strong>Formatting habits</strong> — bullets appearing where prose used to be, headings showing up, markdown usage shifting. Harmless-looking, and it breaks UIs that assumed paragraphs.</li>
+               <li><strong>Refusal boundaries</strong>, in either direction.</li>
+               <li><strong>Instruction-following strictness</strong> — an instruction that was loosely honoured becomes strict, or stops being honoured at all.</li>
+               <li><strong>Tool-call and JSON habits</strong> — quoting, escaping and null handling shift slightly, and a parser that was tolerant enough yesterday is not today. <em>This is the one that actually breaks production.</em></li>
+               <li><strong>Hedging</strong> — more or fewer caveats, which changes how confident the product feels.</li>
+             </ul>
+             <p><strong>Accuracy moves last and least</strong> — which is exactly why watching accuracy is the wrong way to detect a model change.</p>`,
+              },
+              {
+                question:
+                  "What is the detection signature of a model change?",
+                solution:
+                  "<p><strong>Many small shifts at once, rather than one metric collapsing.</strong> A realistic picture looks like answer length up eighteen percent, bullet usage up thirty, hedging phrases up twenty-five, refusal rate down forty, canary similarity dropping from 0.94 to 0.89 — and golden-set accuracy essentially unchanged. No single one of those would be alarming on its own; together and simultaneously they are unmistakable. That gives you a very useful triage rule: <strong>if one metric moves, suspect your own change</strong> — a prompt edit, a retrieval config change, a deploy. <strong>If six move together and you deployed nothing, suspect the model.</strong> That distinction is really the substance of the answer, because it converts a vague \"quality feels different\" into an attributable cause within minutes. It also explains why the alerting rule should be a combination rather than a threshold on any individual metric: alerting on \"mean token delta above twenty-five percent <em>and</em> more than eight format changes across the canary set\" catches model updates reliably while ignoring the ordinary hour-to-hour variation that would otherwise make single-metric alerts unusable.</p>",
+              },
+              {
+                question:
+                  "How do you distinguish model drift from data drift and query drift?",
+                solution: `<p>All three present identically as "quality got worse", and telling them apart in the first ten minutes is most of the job — because the responses are completely different.</p>
+             <ul>
+               <li><strong>Model drift</strong>: the canary set — fixed input — shows changed <em>answers</em> while retrieval scores stay stable, and you deployed nothing. The generation side changed.</li>
+               <li><strong>Data drift</strong>: the canary set shows changed <em>retrieval scores</em>. Same questions, different documents coming back — so the index changed, almost always an unflagged chunking or pipeline edit.</li>
+               <li><strong>Query drift</strong>: the canary set is <em>unchanged</em> but production metrics moved. The system is fine; your traffic changed.</li>
+             </ul>
+             <p>That third case is the one worth emphasising, because it is a <strong>coverage gap, not a bug</strong> — the fix is content or scoping, not engineering. The supporting metrics are index statistics and the retrieval score distribution for data drift, and question clustering plus the no-good-match rate for query drift.</p>`,
+              },
+              {
+                question:
+                  "Why is embedding model drift the nastiest case?",
+                solution:
+                  "<p>Because <strong>you cannot mix vectors from two embedding model versions in one index</strong>. The geometry is different, so similarity scores computed between a v1 vector and a v2 vector are meaningless — not wrong in an obvious way, just quietly uninformative. The failure mode is horrible: retrieval gets worse gradually as newly-indexed documents accumulate under the new model, with no error, no exception and no obvious threshold. It looks like general quality decay rather than a specific fault, and teams can chase it for weeks. The defences are three. <strong>Pin the embedding model hard</strong>, with the same discipline as the generation model or more. <strong>Store the embedding model version as metadata on every vector</strong>, and alert if more than one version is ever present in an index — that single check turns an invisible problem into an immediate one. And treat a change as <strong>a full re-index</strong>, which is a planned project with a dual-write or shadow-index migration, not something you do in response to an incident. It is also worth remembering that the query embedding must use the same model as the index; a config drift where the query path updates and the index does not produces exactly this failure.</p>",
+              },
+              {
+                question:
+                  "What do you do once you have detected model drift?",
+                solution: `<p>Not a panic rollback. Four steps:</p>
+             <ol>
+               <li><strong>Confirm it is the model</strong> — check whether you deployed anything in the last 48 hours, and whether several metrics moved together rather than one.</li>
+               <li><strong>Run the golden set on both versions.</strong> This is the measurement step, and it is the only thing that tells you whether the change is better, worse or merely <em>different</em>.</li>
+               <li><strong>Decide per route</strong>, because a change that helps summarisation may hurt structured extraction, and a single global verdict hides that entirely.</li>
+               <li><strong>Fix forward where you can.</strong> A prompt adjustment often absorbs a format change far more cheaply than a rollback — and rollback may not even be available if the previous version is deprecated.</li>
+             </ol>
+             <p>The options ladder runs: re-assert the format in the prompt, tighten output schema and validation, pin only the regressed routes to the old version, and full rollback last.</p>`,
+              },
+              {
+                question:
+                  "Why is deprecation the forcing function?",
+                solution:
+                  "<p>Because pinning buys time, not permanence. Providers retire versions on their own schedule, usually with notice but always with a hard date, and when that date arrives your pinned version stops working — so the migration happens whether or not you were ready. That means the right posture is not \"pin and forget\" but <strong>pin and maintain a standing upgrade process</strong>. A reasonable one: when a new version appears it goes into the backlog rather than into production; run the canary set against it and produce a behaviour diff report; run the golden set against it per category; shadow it against real traffic for a few days with no user impact; decide with a date, noting which prompts need adjusting; then roll out through a canary at five, twenty-five and a hundred percent. There is one step teams forget that causes real pain: <strong>re-baseline the canary set after the migration completes</strong>. Your canary baselines are tied to a model version, so if you migrate and leave the old baselines in place, every hourly run alerts forever, people stop reading the alerts, and you have destroyed the detector you built. Treating the upgrade as a routine quarterly exercise rather than an emergency is what keeps the whole thing sustainable.</p>",
+              },
+              {
+                question:
+                  "How would you detect data drift specifically?",
+                solution: `<p>With index statistics and the retrieval score distribution, both tracked over time rather than checked as absolutes:</p>
+             <ul>
+               <li><strong>Vector count and chunk count per document</strong> — a sudden change in chunks per document means the chunking strategy changed, which is the most common unflagged edit.</li>
+               <li><strong>Documents added and removed this week</strong>, and the share of documents never retrieved in thirty days.</li>
+               <li><strong>Embedding model version distribution</strong> across the index — more than one value is an immediate alert.</li>
+               <li><strong>The p50 and p10 of top retrieval score</strong> over time. This is the key signal: if the score distribution shifts, something about the index changed even if nobody announced it.</li>
+             </ul>
+             <p>The canary set discriminates it cleanly: if canary <em>retrieval scores</em> move while canary <em>answers</em> stay similar, it is data rather than model. That single comparison usually points straight at an indexing pipeline change that was deployed without anyone thinking of it as a quality-affecting change.</p>`,
+              },
+              {
+                question:
+                  "How would you detect query drift, and why does it matter?",
+                solution:
+                  "<p>By <strong>clustering incoming questions by embedding and comparing cluster sizes week over week</strong>, and by tracking the <strong>no-good-match rate</strong> — the share of queries where the top retrieval score falls below a floor. A new cluster appearing, or an existing one growing sharply, usually means a new team, product line or integration started using the system. A shift in question length is a related tell, since it often indicates a different client calling you. It matters because query drift is the one case where <strong>nothing is broken</strong>. If users start asking about a topic your corpus does not cover, every quality metric falls and the correct response is a content or scoping decision, not an engineering investigation. Recognising that in the first ten minutes rather than the third day is worth a great deal, and the canary set is what makes it fast: if the canary is completely stable while production metrics moved, the system did not change and the traffic did. It is also a genuinely useful product signal in its own right — the no-good-match rate rising is an early, quantified statement that people want something you do not have, which is more actionable than most feature requests.</p>",
+              },
+              {
+                question:
+                  "How often should the canary set run, and what does it cost?",
+                solution: `<p><strong>Hourly is a reasonable default</strong>, and the cost is genuinely small. Fifty to a hundred questions an hour is a few thousand requests a day — negligible next to production traffic, and cheaper than almost any other monitoring you could build.</p>
+             <p>A few practical points:</p>
+             <ul>
+               <li><strong>Run it against production</strong>, through the real pipeline, not against a test harness — otherwise it does not exercise the thing you are trying to observe.</li>
+               <li><strong>Temperature zero where possible</strong>, to minimise run-to-run noise and make the comparison meaningful.</li>
+               <li><strong>Tag canary requests</strong> so they can be excluded from your production quality metrics and cost attribution, or they will pollute both.</li>
+               <li><strong>Never edit it casually.</strong> Editing resets your baseline and destroys the comparison you built it for. Add cases deliberately, re-baseline explicitly, and version the set.</li>
+             </ul>
+             <p>Increase the frequency temporarily during a rollout or a suspected incident, and re-baseline after any deliberate model or prompt migration.</p>`,
+              },
+              {
+                question:
+                  "What is the one-sentence version of this?",
+                solution:
+                  "<p><strong>Pin the version so change is your decision, and run a fixed canary set so you notice when it happens anyway — watching behaviour and format, not accuracy.</strong> That sentence contains the three things the question is really asking about. Pinning addresses the premise, because a silent provider update is only possible if you allowed a floating alias, and saying so demonstrates you treat the model as a dependency subject to the same change discipline as any other. The canary set addresses the detection, and it is the right answer specifically because a fixed input removes the confound between a system change and a traffic change that makes every other quality metric ambiguous. And the emphasis on behaviour over accuracy is what signals you have actually lived through one of these, since the common instinct is to watch quality scores — which move last, if at all, and therefore detect the change days after a format shift has already broken a downstream parser. Everything else in this topic is elaboration: the three drift types and how to discriminate them, the embedding-model special case, and the response process that starts with measurement rather than rollback.</p>",
+              },
+            ],
+            links: [
+              "https://docs.anthropic.com/en/docs/about-claude/models",
+              "https://docs.anthropic.com/en/docs/about-claude/model-deprecations",
+              "https://docs.anthropic.com/en/docs/build-with-claude/embeddings",
+              "https://hamel.dev/blog/posts/evals/",
+            ],
+          },
+          {
+            topic: "Deployment: Canary & Shadow Rollout",
+            tags: ["high-frequency", "must-know", "deployment", "reliability"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "How do you roll out a new prompt or model version safely?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Start with the thing most teams get wrong before any rollout mechanics: <strong>treat prompts as versioned deployable artefacts, not config strings edited in a UI.</strong> A prompt change is a code change — it belongs in version control, gets reviewed, carries a version ID, ships through the same pipeline, and can be rolled back.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    If someone can edit the live prompt in a web console, none of the rest of this is possible.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Ladder
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  1. OFFLINE EVAL on the golden set        <- a gate, not a
+                                              formality
+  2. SHADOW on real traffic                <- zero user risk
+  3. CANARY 1% -> 5% -> 25% -> 50% -> 100% <- real risk, real
+                                              signal
+  4. FULL, with the old version still one flag away
+
+Each canary step holds long enough to accumulate statistical
+power, and each has AUTOMATIC rollback criteria defined
+BEFORE the rollout starts - never during it, when someone is
+tired and invested in shipping.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Shadow And Canary Do Different Jobs
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Shadow</strong> — the new version runs on real production requests, in parallel, and its output is <strong>discarded</strong>. Zero user risk. It tells you about outputs, cost and latency against your real traffic distribution. It tells you <em>nothing</em> about user behaviour, because nobody saw it.</li>
+    <li style="margin-top: 0.5rem;"><strong>Canary</strong> — real users get the new version. Real risk, and it is the only way to obtain the user signal shadow cannot give you.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    So: <strong>shadow first to catch everything that does not need a user, canary to get the signal that does.</strong> Shadow costs you double for the shadow window, which is a small price for finding a schema regression before anyone sees it.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    In Shadow, The Disagreements Are The Point
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+Compare cheaply on everything, then look hard at where they
+DIFFER.
+
+  CHEAP, ON ALL SHADOW TRAFFIC
+    length delta, format fingerprint, schema validity,
+    refusal flips, citation count, cost delta, latency delta
+
+  EXPENSIVE, ON THE DISAGREEMENTS ONLY
+    semantic similarity below a threshold -> sample those
+    for a judge, and for HUMAN review
+
+Shadow finds what your golden set did not cover: the real
+query distribution, the odd document, the phrasing nobody
+thought of. That is the entire reason it is worth running.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why AI Rollouts Are Not Normal Deploys
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>A bad prompt "works".</strong> There is no compile error and no failing test. It returns 200 and produces plausible text.</li>
+    <li style="margin-top: 0.5rem;"><strong>The failure is a distribution shift, not a crash</strong> — so you need enough requests to see it, which makes the ramp slower than a normal deploy.</li>
+    <li style="margin-top: 0.5rem;"><strong>Rollback is instant but not restorative.</strong> Flipping the flag stops new damage; it does not unsend the answers already given.</li>
+    <li style="margin-top: 0.5rem;"><strong>Caches must be keyed by version</strong>, or you will serve old-version answers from cache and conclude the new version changed nothing.</li>
+    <li style="margin-top: 0.5rem;"><strong>A new prompt version has a cold prompt cache</strong>, so cost and latency during the ramp look worse than steady state. Do not judge economics on day one.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Sticky Assignment
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Assign by a stable hash of user or session, not per request. Otherwise a conversation changes personality halfway through — different tone, different formatting — which is a worse experience than either version alone and makes your comparison meaningless.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "How do you roll out a new prompt or model version safely?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you treat prompts as deployable artefacts, whether
+  you know shadow and canary do different jobs, and whether
+  your rollback criteria exist BEFORE the rollout. The version-
+  keyed cache detail is the one that marks out someone who has
+  actually done it.
+
+WEAK ANSWER
+  "I would test the new prompt against my evaluation set, then
+   deploy it to a small percentage of users first and monitor
+   the metrics before rolling out fully."
+  Why it is weak: the shape is right and everything specific is
+  missing. No prompt versioning, no shadow stage, no defined
+  rollback criteria, no hold periods, no sticky assignment, and
+  no awareness that a cache will hide the change entirely.
+
+STRONG ANSWER (about 80 seconds)
+  "Before any rollout mechanics: TREAT PROMPTS AS VERSIONED
+   DEPLOYABLE ARTEFACTS, not config strings edited in a UI. A
+   prompt change is a code change - version control, review, a
+   version ID, the same pipeline, and a rollback path. If
+   someone can edit the live prompt in a web console, none of
+   the rest is possible.
+
+   Then a ladder. OFFLINE EVAL on the golden set as a gate.
+   SHADOW. CANARY at 1, 5, 25, 50, 100 percent. Full, with the
+   old version one flag away.
+
+   Shadow and canary do DIFFERENT JOBS. In shadow the new
+   version runs on real production requests in parallel and its
+   output is DISCARDED - zero user risk, and it tells me about
+   outputs, cost and latency against my real traffic
+   distribution. It tells me nothing about user behaviour,
+   because nobody saw it. Canary gives real users the new
+   version - real risk, and the only way to get that signal. So
+   shadow first for everything that does not need a user,
+   canary for what does. Shadow costs double for the window,
+   which is cheap next to finding a schema regression in front
+   of customers.
+
+   In shadow, THE DISAGREEMENTS ARE THE POINT. Compare cheaply
+   on everything - length, format fingerprint, schema validity,
+   refusal flips, cost, latency - then take the cases where
+   semantic similarity is low and put a judge and a human on
+   those. Shadow finds what the golden set did not cover: the
+   real query distribution, the odd document, the phrasing
+   nobody thought of.
+
+   Rollback criteria are defined BEFORE the rollout, never
+   during it when someone is tired and invested in shipping -
+   error rate, schema failure rate, p95 latency, cost per
+   request, the structural quality proxies, and feedback rate,
+   each with a threshold and a hold window, evaluated
+   automatically.
+
+   Three things make this different from a normal deploy. A BAD
+   PROMPT WORKS - no compile error, no failing test, it returns
+   200 and produces plausible text. The failure is a
+   DISTRIBUTION SHIFT, so I need enough requests to see it and
+   the ramp is slower. And CACHES MUST BE KEYED BY VERSION, or
+   I serve old answers from cache and conclude the change did
+   nothing. Also, a new prompt version has a COLD prompt cache,
+   so cost and latency during the ramp look worse than steady
+   state - I would not judge economics on day one.
+
+   Assignment is sticky by user or session hash, or a
+   conversation changes personality halfway through."
+
+FOLLOW-UPS TO EXPECT
+  "What is the difference between shadow and canary?"
+      -> shadow discards output, zero risk, no user signal.
+         Canary serves real users and is the only source of
+         user signal.
+  "What are your rollback criteria?"
+      -> defined before the rollout, automatic, with hold
+         windows. Errors, schema failures, latency, cost,
+         quality proxies, feedback.
+  "What breaks that a normal deploy would not?"
+      -> caches not keyed by version, and a cold prompt
+         cache making early cost look bad.
+  "How fast can you ramp?"
+      -> as fast as you accumulate statistical power - not
+         faster.
+
+RED FLAGS
+  Prompts edited in a console.
+  No shadow stage.
+  Rollback criteria decided during the incident.
+  Per-request assignment instead of sticky.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// PROMPTS ARE DEPLOYABLE ARTEFACTS, NOT CONFIG STRINGS.
+// If someone can edit the live prompt in a web console, nothing
+// below is possible.
+
+const promptArtefact = {
+  id: "policy_qa",
+  version: "v15",
+  // In version control, reviewed, shipped by the same pipeline.
+  sha: "9c1a4f...",
+  author: "reviewed in PR #482",
+  createdAtIso: "2026-08-14T09:00:00Z",
+  // Pinned alongside, because a prompt is only valid against the
+  // model it was evaluated on.
+  modelVersion: "2026-05-01",
+  evalResult: { goldenSetPass: 0.91, previous: 0.88,
+                regressedCategories: [] },
+  status: "shadow"   // draft | shadow | canary | live | retired
+};
+
+// AND EVERY REQUEST RECORDS WHICH VERSION SERVED IT.
+const requestRecord = { promptVersion: "v15", modelVersion: "...",
+                        retrievalConfig: "rc_7" };
+// Without this dimension, no metric can be attributed to a rollout
+// and the whole exercise is guesswork.
+
+// THE ROLLOUT LADDER.
+const ladder = [
+  { stage: "offline_eval",
+    what: "golden set, per category",
+    gate: "no category regresses more than 2 points",
+    // A GATE, not a formality. If it fails, it does not proceed.
+    userImpact: "none" },
+
+  { stage: "shadow",
+    what: "run on real production requests in parallel, DISCARD " +
+          "the output",
+    duration: "24-72h",
+    cost: "2x for the window",
+    finds: "what the golden set did not cover - real query " +
+           "distribution, odd documents, phrasings nobody thought of",
+    userImpact: "NONE - nobody sees it" },
+
+  { stage: "canary",
+    steps: [0.01, 0.05, 0.25, 0.50, 1.00],
+    holdPerStep: "long enough for statistical power, not a fixed " +
+                 "clock",
+    userImpact: "REAL - and it is the only source of user signal" },
+
+  { stage: "full",
+    note: "old version stays deployable behind one flag for at " +
+          "least a week" }
+];`,
+              `// SHADOW: THE DISAGREEMENTS ARE THE POINT.
+
+async function shadowRequest(req, ctx) {
+  // Serve the live version. The user waits only for this.
+  const live = await pipeline(req, { promptVersion: LIVE });
+
+  // Fire the candidate WITHOUT blocking the response.
+  queueMicrotask(async () => {
+    try {
+      const cand = await pipeline(req, { promptVersion: CANDIDATE,
+                                         shadow: true });
+      await recordShadowComparison(req, live, cand, ctx.traceId);
+    } catch (e) {
+      // A shadow failure is a FINDING, not an incident - the
+      // candidate would have errored in front of a user.
+      metrics.increment("shadow.error", 1, { error: e.code });
+    }
+  });
+
+  return live;
+}
+
+async function recordShadowComparison(req, live, cand, traceId) {
+  // CHEAP, ON ALL SHADOW TRAFFIC.
+  const cheap = {
+    tokenDelta: cand.usage.output - live.usage.output,
+    schemaValidBoth: [live.schemaValid, cand.schemaValid],
+    refusalFlip: looksLikeRefusal(cand.text) !==
+                 looksLikeRefusal(live.text),
+    formatChanged: formatFingerprint(cand.text) !==
+                   formatFingerprint(live.text),
+    citationDelta: citedChunkIds(cand).length -
+                   citedChunkIds(live).length,
+    costDeltaPence: cost(cand.usage) - cost(live.usage),
+    latencyDeltaMs: cand.totalMs - live.totalMs,
+    ttftDeltaMs: cand.ttftMs - live.ttftMs
+  };
+  metrics.record("shadow.compare", cheap, { route: req.route });
+
+  // EXPENSIVE, ON THE DISAGREEMENTS ONLY.
+  const similarity = cosine(embed(live.text), embed(cand.text));
+  if (similarity < 0.88) {
+    await disagreementQueue.push({
+      traceId, similarity,
+      // Sample for a judge AND for human review - a judge alone
+      // will not tell you the new answer is subtly less useful.
+      needsHuman: similarity < 0.75
+    });
+  }
+}
+
+// WHAT SHADOW TELLS YOU, AND WHAT IT CANNOT.
+const shadowLimits = {
+  tellsYou: ["schema regressions", "format changes", "cost delta on " +
+             "REAL traffic not golden-set traffic", "latency delta",
+             "refusal flips", "the cases your golden set missed"],
+  // The important limitation, worth saying out loud.
+  cannotTellYou: ["whether users prefer it", "retry rate",
+                  "escalation rate", "thumbs", "task completion"],
+  because: "NOBODY SAW IT. That is exactly why canary exists."
+};`,
+              `// CANARY: DEFINE ROLLBACK CRITERIA BEFORE THE ROLLOUT, NEVER
+// DURING IT.
+
+const rolloutPlan = {
+  candidate: "policy_qa@v15",
+  incumbent: "policy_qa@v14",
+
+  // STICKY ASSIGNMENT. Per-request assignment means a conversation
+  // changes personality halfway through - worse than either
+  // version alone, and it ruins the comparison.
+  assignment: {
+    key: "userId",             // or sessionId for anonymous
+    method: "stable hash into buckets",
+    note: "the same user stays on the same version for the whole " +
+          "rollout"
+  },
+
+  steps: [
+    { share: 0.01, minRequests: 2_000,  minHours: 4 },
+    { share: 0.05, minRequests: 10_000, minHours: 12 },
+    { share: 0.25, minRequests: 40_000, minHours: 24 },
+    { share: 0.50, minRequests: 80_000, minHours: 24 },
+    { share: 1.00 }
+  ],
+  // BOTH conditions must be met. A time-only hold on a quiet route
+  // gives you no statistical power; a request-only hold can pass
+  // during one unrepresentative hour.
+
+  autoRollback: [
+    { metric: "error_rate",        vs: "incumbent", worseBy: "+0.5pp" },
+    { metric: "schema_fail_rate",  vs: "incumbent", worseBy: "+0.2pp",
+      why: "downstream code breaks" },
+    { metric: "p95_latency_ms",    vs: "incumbent", worseBy: "+20%" },
+    { metric: "cost_per_request",  vs: "incumbent", worseBy: "+25%",
+      // But see the cold-cache note below before trusting this on
+      // day one.
+      graceHours: 6 },
+    { metric: "zero_citation_rate",vs: "incumbent", worseBy: "+3pp" },
+    { metric: "refusal_rate",      vs: "incumbent",
+      worseBy: "2x IN EITHER DIRECTION" },
+    { metric: "thumbs_down_rate",  vs: "incumbent", worseBy: "+50%" },
+    { metric: "retry_within_60s",  vs: "incumbent", worseBy: "+30%",
+      why: "denser than thumbs, and it leads" }
+  ],
+
+  // ONE FLAG. Tested regularly, not first used during an incident.
+  killSwitch: "set live_version=v14; takes effect in seconds"
+};
+
+// COMPARE CANARY AGAINST THE CONCURRENT INCUMBENT, not against
+// yesterday - otherwise a Monday-versus-Sunday difference reads as
+// a regression.
+function evaluateStep(step) {
+  const a = metrics.window(step, { promptVersion: "v14" });
+  const b = metrics.window(step, { promptVersion: "v15" });
+  return rolloutPlan.autoRollback.map(r => ({
+    metric: r.metric,
+    incumbent: a[r.metric], candidate: b[r.metric],
+    breached: exceeds(b[r.metric], a[r.metric], r.worseBy)
+  }));
+}`,
+              `// WHAT BREAKS IN AN AI ROLLOUT THAT WOULD NOT IN A NORMAL DEPLOY.
+
+const aiSpecificTraps = {
+  // 1. THE BIG ONE. A cache that is not keyed by version serves
+  //    OLD-VERSION answers to canary users, and you conclude the
+  //    new prompt changed nothing.
+  cacheKeying: {
+    wrong: hash(normalisedQuestion),
+    right: hash(normalisedQuestion + "|" + promptVersion + "|" +
+                modelVersion + "|" + retrievalConfigVersion),
+    symptom: "the canary looks IDENTICAL to the incumbent on every " +
+             "metric, which should always make you suspicious",
+    alsoNote: "a version bump invalidates the whole cache, so hit " +
+              "rate and cost get worse for a while by design"
+  },
+
+  // 2. A NEW PROMPT VERSION HAS A COLD PROMPT CACHE.
+  coldPromptCache: {
+    effect: "input cost and TTFT during the ramp look WORSE than " +
+            "steady state",
+    // So do not judge the economics on day one.
+    handling: "give cost criteria a grace period, and re-measure " +
+              "after the cache warms"
+  },
+
+  // 3. A BAD PROMPT 'WORKS'.
+  noCompileError: {
+    what: "no test fails, no exception, HTTP 200, plausible text",
+    consequence: "your normal deploy gates do not catch it at all - " +
+                 "which is the entire reason this ladder exists"
+  },
+
+  // 4. THE FAILURE IS A DISTRIBUTION SHIFT.
+  statisticalPower: {
+    what: "you are detecting a few percentage points of movement, " +
+          "not a crash",
+    consequence: "the ramp is slower than a code deploy, and a " +
+                 "1% canary on a low-traffic route may NEVER reach " +
+                 "significance - go straight to 10% there"
+  },
+
+  // 5. ROLLBACK IS INSTANT BUT NOT RESTORATIVE.
+  rollback: {
+    stops: "new bad answers",
+    doesNotUndo: "the answers already given, which may be in " +
+                 "someone's ticket, email or decision",
+    consequence: "for anything safety-relevant, scope the blast " +
+                 "radius and consider whether affected users need " +
+                 "telling"
+  },
+
+  // 6. Retrieval config is part of the version.
+  retrievalIsAlsoAVersion: {
+    what: "chunk count, reranking, filters, embedding model",
+    why: "changing them changes behaviour as much as a prompt " +
+         "edit, and they are usually NOT versioned",
+    fix: "give the retrieval config a version ID and treat it the " +
+         "same way"
+  }
+};
+
+// AND AFTERWARDS:
+const afterRollout = [
+  "keep the old version deployable for at least a week",
+  "RE-BASELINE the canary monitoring set against the new version, " +
+    "or it alerts forever and people stop reading it",
+  "record the rollout in the deploy-marker feed so quality graphs " +
+    "line up with it",
+  "add anything shadow surfaced to the golden set"
+];`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you roll out a new prompt or model version safely?",
+                solution: `<p>Before any mechanics: <strong>treat prompts as versioned deployable artefacts, not config strings edited in a UI.</strong> Version control, review, a version ID, the same pipeline, a rollback path. If someone can edit the live prompt in a console, none of the rest is possible.</p>
+             <p>Then a ladder: <strong>offline eval on the golden set as a gate → shadow → canary at 1/5/25/50/100% → full</strong>, with the old version one flag away.</p>
+             <p>Shadow and canary do different jobs — shadow discards output so there is zero user risk but no user signal; canary is the only way to get that signal.</p>
+             <p>Rollback criteria are defined <strong>before</strong> the rollout, with thresholds and hold windows, evaluated automatically.</p>`,
+              },
+              {
+                question:
+                  "Why does prompt versioning come first?",
+                solution:
+                  "<p>Because everything else depends on it. Without a version ID attached to every request, you cannot attribute a metric change to a rollout, cannot compare candidate against incumbent, cannot roll back to a known state, and cannot tell whether the answer someone is complaining about came from the old prompt or the new one. A prompt is not configuration — it is the primary behavioural specification of the system, and a two-word edit can change refusal behaviour, output format or grounding across every request. So it deserves the same treatment as code: it lives in version control, it goes through review, it has a content hash and a version identifier, it ships through the same pipeline, and it is pinned to the model version it was evaluated against. The anti-pattern to name explicitly is the live editing console. Many platforms offer one, it is genuinely convenient during development, and in production it means an unreviewed, untested, unattributable change to system behaviour with no rollback path — which is exactly the class of change every other part of your engineering process exists to prevent. The same argument applies to <strong>retrieval configuration</strong>: chunk count, reranking, filters and embedding model change behaviour as much as a prompt edit and are usually not versioned at all.</p>",
+              },
+              {
+                question:
+                  "What is the difference between shadow and canary?",
+                solution: `<p>They answer different questions and neither substitutes for the other.</p>
+             <ul>
+               <li><strong>Shadow</strong> runs the new version on real production requests in parallel and <strong>discards the output</strong>. Zero user risk. It tells you about outputs, schema validity, format changes, cost and latency — measured against your <em>real</em> traffic distribution rather than your golden set. It tells you <strong>nothing about user behaviour</strong>, because nobody saw it: no thumbs, no retry rate, no escalations, no task completion.</li>
+               <li><strong>Canary</strong> gives real users the new version. Real risk, and it is the <em>only</em> way to obtain user signal.</li>
+             </ul>
+             <p>So the sequence is deliberate: <strong>shadow first for everything that does not need a user, canary for the signal that does.</strong> Shadow costs double for its window, which is trivial next to discovering a schema regression in front of customers. A shadow request that <em>errors</em> is itself a finding — that candidate would have failed in front of someone.</p>`,
+              },
+              {
+                question:
+                  "What do you compare during a shadow run?",
+                solution:
+                  "<p>Cheaply on everything, expensively on the disagreements. The cheap comparisons run on all shadow traffic and cost nothing: output token delta, format fingerprint, schema validity for both versions, refusal flips, citation count delta, cost delta and latency delta including time-to-first-token. Those catch the majority of problems — a schema regression, a formatting change that breaks the UI, a version that is twice as expensive. Then compute semantic similarity between the two answers and treat the <strong>low-similarity cases as the actual output of the exercise</strong>: those are where the versions materially disagree, and they should go into a queue for judge scoring and, for the most divergent, human review. A judge alone is not sufficient here, because the interesting failure is often an answer that is defensible in isolation but subtly less useful — shorter, hedged, missing the caveat that mattered — and a human spots that faster than a rubric does. The reason shadow earns its keep is precisely this: it surfaces what your golden set did not cover, which is the real query distribution, the odd document, and the phrasings nobody thought to write down.</p>",
+              },
+              {
+                question:
+                  "What are your rollback criteria and when do you define them?",
+                solution: `<p><strong>Before the rollout starts</strong> — never during it, when someone is tired, invested in shipping, and inclined to explain away a metric.</p>
+             <p>Each criterion compares candidate against the <em>concurrent</em> incumbent, not against yesterday, with a threshold and a hold window, evaluated automatically:</p>
+             <ul>
+               <li><strong>Error rate</strong> and <strong>schema failure rate</strong> — the latter with a tight threshold, since downstream code breaks.</li>
+               <li><strong>p95 latency</strong> and <strong>cost per request</strong>, the latter with a grace period for the cold cache.</li>
+               <li><strong>Zero-citation rate</strong> and <strong>refusal rate</strong>, the latter alerting in <em>either</em> direction.</li>
+               <li><strong>Thumbs-down rate</strong> and <strong>retry-within-60-seconds</strong> — the retry signal is denser than thumbs and leads it.</li>
+             </ul>
+             <p>The reason for automation is human: a person watching a dashboard at 1% will rationalise a two-point move. A rule that was written down yesterday will not.</p>`,
+              },
+              {
+                question:
+                  "What is the cache trap in an AI rollout?",
+                solution:
+                  "<p>A response cache that is <strong>not keyed by version</strong> will serve old-version answers to canary users, and you will conclude the new prompt changed nothing. The symptom is distinctive and worth recognising: the canary looks <em>identical</em> to the incumbent on every metric — which should always make you suspicious rather than pleased, because two different prompts producing indistinguishable aggregate behaviour is unlikely. The fix is to include prompt version, model version and retrieval config version in the cache key, so a version bump naturally partitions the cache. That has a knock-on effect worth planning for: a version bump effectively invalidates the whole cache, so hit rate falls and cost rises for a period by design, and your cost rollback criterion needs a grace window or it will fire on the first hour of every rollout. The related trap is <strong>prompt caching at the provider</strong>: a new prompt version starts with a cold cache, so input cost and time-to-first-token during the ramp look worse than steady state. Both of these mean the economics of a new version cannot be judged on day one, and reading them as regressions is a common way to reject a version that was actually fine.</p>",
+              },
+              {
+                question:
+                  "Why must assignment be sticky?",
+                solution: `<p>Two reasons, one about the user and one about the data.</p>
+             <p>For the <strong>user</strong>: with per-request assignment, a conversation changes personality halfway through — different tone, different verbosity, different formatting, possibly different refusal behaviour. That is a worse experience than either version alone, and it is the kind of inconsistency people notice and report even when both versions are individually fine.</p>
+             <p>For the <strong>comparison</strong>: session-level signals are what you actually care about — did they retry, did they escalate, did they complete the task — and none of those are attributable if a session spans both versions. You end up with per-request metrics only, which loses exactly the behavioural signal canary exists to provide.</p>
+             <p>So assign with a <strong>stable hash of user ID</strong>, or session ID for anonymous traffic, and hold it for the duration of the rollout rather than re-randomising at each step.</p>`,
+              },
+              {
+                question:
+                  "How fast can you ramp?",
+                solution:
+                  "<p>As fast as you accumulate <strong>statistical power</strong>, and no faster. This is the main way AI rollouts differ from code deploys in tempo: you are not waiting to see whether something crashes, you are waiting to detect a shift of a few percentage points in a noisy metric, and that requires a certain number of requests regardless of how confident anyone feels. So each canary step should have <em>both</em> a minimum request count and a minimum wall-clock hold. Time alone is insufficient on a quiet route, where four hours at one percent might be two hundred requests and detect nothing. Requests alone is insufficient too, because a burst from one unrepresentative hour or one heavy tenant can satisfy the count without covering your normal traffic mix — a hold that spans a full daily cycle is much more informative. A practical consequence: on a low-traffic route, a one percent canary may <em>never</em> reach significance, so start at ten percent there and accept the higher exposure, or rely more heavily on shadow, which uses all your traffic rather than a slice of it. Stating that trade explicitly is better than running a one percent canary for a week and calling the flat result a pass.</p>",
+              },
+              {
+                question:
+                  "What makes a bad prompt harder to catch than a bad code change?",
+                solution: `<p>That <strong>it works</strong>. There is no compile error, no failing test, no exception and no non-200 status. The system returns plausible, well-formatted text — it is simply worse, in a way that only shows up as a distribution shift across many requests.</p>
+             <p>Every gate in a normal deployment pipeline is designed to catch things that <em>fail</em>, and a bad prompt does not fail. That is the entire reason this ladder exists: offline eval to catch it against known cases, shadow to catch it against real traffic without exposure, and canary to catch what only users reveal.</p>
+             <p>It also explains the two design choices that look excessive next to a normal deploy: <strong>automatic rollback criteria written in advance</strong>, because the signal is subtle enough to argue with; and a <strong>slower ramp</strong>, because you need volume to see a few points of movement.</p>`,
+              },
+              {
+                question:
+                  "What does rollback actually undo?",
+                solution:
+                  "<p>New bad answers. Not the ones already given. Flipping the flag takes effect in seconds and stops further exposure, but the answers already produced may be sitting in a customer's inbox, pasted into a ticket, or used to make a decision — and no config change retrieves them. That is a meaningful difference from a normal service incident, where rolling back a bad deploy genuinely restores correct behaviour for everything from that moment on and nothing durable was emitted. The practical consequences are two. During a rollout of anything safety-relevant or externally-facing, you should be able to <strong>scope the blast radius after the fact</strong> — how many requests were served by the bad version, to which users, on which routes — which requires the version dimension on every request and is another reason the versioning discipline comes first. And for genuinely harmful output, rollback is only the containment step; whether affected users need telling is a separate decision that belongs to your incident process rather than your deployment process. Keeping the old version deployable for at least a week after a rollout completes is cheap insurance, since regressions sometimes only become visible once the full traffic mix is on the new version.</p>",
+              },
+              {
+                question:
+                  "What do you do after the rollout completes?",
+                solution: `<p>Four things, and the second is the one people forget:</p>
+             <ol>
+               <li><strong>Keep the old version deployable</strong> for at least a week — some regressions only appear once the full traffic mix is on the new version.</li>
+               <li><strong>Re-baseline the canary monitoring set</strong> against the new version. Baselines are tied to a version, so leaving the old ones in place means every hourly run alerts forever and people stop reading the alerts — destroying the detector you built.</li>
+               <li><strong>Record the rollout as a deploy marker</strong> in your metrics, so quality graphs line up visually with the change that caused them.</li>
+               <li><strong>Add whatever shadow surfaced to the golden set.</strong> The disagreement cases are real, free eval material that your golden set did not previously cover.</li>
+             </ol>
+             <p>That last point closes a useful loop: each rollout makes the next one safer, because the cases that would have slipped through are now gates.</p>`,
+              },
+              {
+                question:
+                  "How is this different from A/B testing an AI change?",
+                solution:
+                  "<p>They overlap and have different purposes. <strong>Canary rollout is a safety mechanism</strong> — the goal is to ship a change you have already decided you want, while limiting exposure if it turns out to be broken. It is asymmetric by design: you are watching for regressions, the criteria are automatic, and the default action on any breach is to roll back. <strong>A/B testing is a measurement exercise</strong> — the goal is to decide which of two versions is better on a business metric, so it needs a proper hypothesis, a predetermined sample size, a fixed duration and a decision rule agreed in advance, and it may well run at a fifty-fifty split for weeks. Confusing them causes two specific errors. Treating a canary as an experiment leads to peeking at results and ramping early because the numbers look good, which is exactly the behaviour that produces false positives. Treating an A/B test as a canary leads to rolling back a variant that dipped for a day, destroying the test. In practice a change often goes through both: canary to establish it is safe, then a held split to establish whether it is actually better on the metric you care about.</p>",
+              },
+            ],
+            links: [
+              "https://docs.smith.langchain.com/prompt_engineering/how_to_guides/manage_prompts_programatically",
+              "https://langfuse.com/docs/prompts/get-started",
+              "https://martinfowler.com/bliki/CanaryRelease.html",
+              "https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching",
+            ],
+          },
+          {
+            topic: "Incident Response For AI Systems",
+            tags: ["must-know", "reliability", "safety", "process"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "The assistant produced a harmful or badly wrong answer. What is your response plan?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Frame it correctly first, because the framing is the insight: <strong>this is not an outage.</strong> Nothing is down. Every dashboard is green, latency is normal, the error rate is zero. Your existing incident tooling will not alert, and your existing runbooks do not apply.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    So the process has to be built for it, and the first thing you need is a <strong>severity scale that distinguishes harmful output from merely wrong output from slow</strong> — because those need completely different responses and treating them the same means either over-reacting to everything or under-reacting to what matters.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Phase 1 — Contain, In Minutes
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+An OPTIONS LADDER, least to most disruptive. Pick by blast
+radius - killing the whole product for one bad answer is
+usually the wrong call, and it is the reflex.
+
+  1. BLOCK the specific pattern - a guardrail rule for that
+     query shape or that output
+  2. DISABLE the affected ROUTE behind a feature flag
+  3. ROLL BACK the prompt or model version
+  4. DEGRADE - switch to a more conservative model, add a
+     verification pass, force citations
+  5. FULL KILL SWITCH
+
+Most real incidents are handled at 1 or 2. Reserve 5 for
+harm that is ongoing and you cannot scope.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Phase 2 — Scope It (This Is The AI-Specific Part)
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    The question everyone will ask within ten minutes is <strong>"how many other people got this?"</strong> — and it is the question a normal incident process has no way to answer, because there was no error to count.
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    This is where tracing pays for itself. From the one reported trace you can find: <strong>who else retrieved the same chunk IDs</strong>, <strong>who asked semantically similar questions</strong> in the window, and <strong>who was served by the same prompt and model version on the same route</strong>. You need a number — "17 users, 3 of them external" — because every subsequent decision depends on it.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Phase 3 — Four Causes, And Read The Chunks First
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Retrieval</strong> — the right document was never returned, or a wrong one was.</li>
+    <li style="margin-top: 0.5rem;"><strong>Data</strong> — the source document itself is wrong, stale or contradictory. Very common, and <em>not an engineering fix</em>.</li>
+    <li style="margin-top: 0.5rem;"><strong>Prompt or model</strong> — behaviour changed, or the instructions permitted it.</li>
+    <li style="margin-top: 0.5rem;"><strong>Guardrail gap</strong> — it should have been caught and was not.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    Read the retrieved chunks before anything else. If the correct information was never retrieved, no amount of prompt analysis will explain the answer.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Phase 4 — The Fix Is Rarely A Code Rollback
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    In a normal incident you revert a commit. Here the fix is usually: <strong>correct or remove a source document and re-index</strong>, <strong>add a guardrail rule</strong>, <strong>adjust the prompt</strong>, or <strong>pin a model version</strong>. That difference is worth saying, because it means your incident process needs people who can change <em>content</em> and <em>configuration</em>, not just deploy code.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Phase 5 — The Postmortem Is Different Too
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+"WHY DID IT HAPPEN" MAY NOT HAVE A CLEAN ANSWER. The model is
+probabilistic, and above temperature zero you may not
+reproduce it reliably at all.
+
+So the action items should be about BOUNDING THE BLAST
+RADIUS, not about fixing the model:
+
+  a guardrail that catches this CLASS of output
+  an approval gate on the action it could have triggered
+  a narrower scope, or a smaller permission
+  a limit that caps how far a single run can go
+  the case added to a PERMANENT SAFETY REGRESSION SUITE
+
+AND RESIST "we will add a line to the prompt" AS THE ONLY
+ACTION. A prompt instruction is a strong preference, not a
+guarantee, and treating it as a control is how the same
+incident happens twice.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What You Need Ready Beforehand
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;">A <strong>kill switch and a route-level flag</strong> that have been tested — not first used during an incident.</li>
+    <li style="margin-top: 0.5rem;">A <strong>severity scale for AI incidents</strong>, agreed in advance.</li>
+    <li style="margin-top: 0.5rem;">A way to <strong>search traces by similarity and by chunk ID</strong>, which is what makes scoping possible at all.</li>
+    <li style="margin-top: 0.5rem;">A named person who can <strong>authorise disabling a feature</strong>, and who can correct a source document.</li>
+    <li style="margin-top: 0.5rem;">A <strong>template for the user-facing message</strong>, written when nobody is panicking.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "The assistant produced a harmful or badly wrong answer.
+   What is your response plan?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you understand this is NOT AN OUTAGE, whether you
+  can SCOPE the blast radius, and whether your action items are
+  about bounding harm rather than promising the model will
+  behave. Anyone can say "roll back" - the scoping step is what
+  shows real experience.
+
+WEAK ANSWER
+  "I would roll back to the previous version, investigate the
+   root cause, fix the prompt to prevent it, and write a
+   postmortem."
+  Why it is weak: no containment ladder, so it reaches for the
+  biggest lever first. No scoping - it never asks who else was
+  affected, which is the first question anyone will ask. And
+  'fix the prompt to prevent it' treats an instruction as a
+  guarantee, which it is not.
+
+STRONG ANSWER (about 85 seconds)
+  "The framing first: THIS IS NOT AN OUTAGE. Nothing is down,
+   every dashboard is green, error rate is zero. My normal
+   incident tooling will not alert and my runbooks do not
+   apply. So I need a severity scale that separates HARMFUL
+   output from merely WRONG output from slow, because those
+   need different responses.
+
+   CONTAIN, in minutes, using an options ladder from least to
+   most disruptive: block the specific pattern with a guardrail
+   rule; disable the affected ROUTE behind a flag; roll back
+   the prompt or model version; degrade to a more conservative
+   model or force a verification pass; and full kill switch
+   last. I would pick by blast radius - killing the whole
+   product for one bad answer is the reflex and usually wrong.
+   Most incidents are handled at step one or two.
+
+   Then SCOPE IT, which is the AI-specific part and the
+   question everyone asks within ten minutes: HOW MANY OTHERS
+   GOT THIS? A normal incident process cannot answer it because
+   there was no error to count. This is where tracing pays for
+   itself - from the one reported trace I find who else
+   retrieved the same CHUNK IDS, who asked semantically similar
+   questions in the window, and who was served by the same
+   prompt and model version on that route. I need a number,
+   because every subsequent decision depends on it.
+
+   TRIAGE into four causes, and READ THE RETRIEVED CHUNKS
+   FIRST: retrieval, where the right document never came back;
+   DATA, where the source document itself is wrong - very
+   common, and not an engineering fix; prompt or model
+   behaviour; or a guardrail gap.
+
+   The FIX IS RARELY A CODE ROLLBACK. It is usually correcting
+   or removing a document and re-indexing, adding a guardrail
+   rule, adjusting a prompt, or pinning a version - which means
+   my incident process needs people who can change CONTENT and
+   CONFIG, not just deploy code.
+
+   And the POSTMORTEM is different. 'Why did it happen' may not
+   have a clean answer, and above temperature zero I may not
+   reproduce it at all. So the action items are about BOUNDING
+   THE BLAST RADIUS - a guardrail for this class of output, an
+   approval gate on the action it could trigger, a narrower
+   permission, a limit - plus the case added to a permanent
+   safety regression suite. I would resist 'we will add a line
+   to the prompt' as the only action, because a prompt
+   instruction is a strong preference, not a control."
+
+FOLLOW-UPS TO EXPECT
+  "How do you find who else was affected?"
+      -> traces: same chunk IDs, similar questions in the
+         window, same prompt and model version on that route.
+  "Why not just roll back immediately?"
+      -> often the cause is a document or a guardrail gap,
+         and rollback fixes neither. Contain by blast radius.
+  "What goes in the postmortem?"
+      -> blast-radius controls, not a promise about model
+         behaviour. And a permanent safety regression case.
+  "What do you need ready in advance?"
+      -> a tested kill switch, an AI severity scale, trace
+         search by similarity, and a named approver.
+
+RED FLAGS
+  Treating it as an outage.
+  No scoping step.
+  Kill switch as the first response.
+  "We added it to the prompt" as the only action item.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THIS IS NOT AN OUTAGE. Nothing is down and every dashboard is
+// green - which is exactly why you need a separate process.
+
+const whyNormalIncidentToolingFails = {
+  errorRate: "0%",
+  p95Latency: "normal",
+  uptime: "100%",
+  alerts: "none fired",
+  // The only signal was a human being unhappy.
+  actualSignal: "one user reported one answer"
+};
+
+// SO YOU NEED A SEVERITY SCALE BUILT FOR THIS.
+const aiSeverity = {
+  SEV1_HARM: {
+    examples: ["harmful, discriminatory or dangerous content",
+               "confidential data disclosed to the wrong user",
+               "an ACTION taken that should not have been - a " +
+                 "refund issued, an email sent, a record changed"],
+    response: "page immediately, contain within minutes, legal and " +
+              "compliance informed",
+    // The action case is the worst, because unlike a bad answer it
+    // changed the world.
+    note: "an agent that DID something is a different severity from " +
+          "an agent that SAID something"
+  },
+  SEV2_MATERIALLY_WRONG: {
+    examples: ["confidently wrong on a decision-relevant question",
+               "fabricated a citation or a policy",
+               "wrong figure in a customer-facing answer"],
+    response: "contain the pattern, scope the blast radius, fix " +
+              "same day"
+  },
+  SEV3_DEGRADED: {
+    examples: ["quality metrics dropped", "unhelpful but not wrong",
+               "over-refusing"],
+    response: "normal engineering queue"
+  },
+  SEV4_SLOW: { response: "ordinary performance work" }
+};
+// Treating all four the same means over-reacting to everything or
+// under-reacting to what matters.
+
+// PHASE 1 - CONTAIN. An options ladder, LEAST to MOST disruptive.
+const containmentLadder = [
+  { level: 1, action: "add a guardrail rule for this query shape " +
+                      "or this output pattern",
+    disruption: "near zero", ttl: "minutes",
+    // Most real incidents end here.
+    use: "a specific, recognisable pattern" },
+
+  { level: 2, action: "disable the affected ROUTE behind a feature " +
+                      "flag",
+    disruption: "one feature", ttl: "minutes",
+    use: "the problem is scoped to one capability" },
+
+  { level: 3, action: "roll back the prompt or model version",
+    disruption: "behaviour changes for everyone on that route",
+    use: "the incident started with a deploy" },
+
+  { level: 4, action: "degrade - conservative model, force a " +
+                      "verification pass, require citations, " +
+                      "lower the confidence threshold for refusal",
+    disruption: "slower and dearer, but still working",
+    use: "you cannot scope it yet but want to keep serving" },
+
+  { level: 5, action: "FULL KILL SWITCH",
+    disruption: "product is off",
+    use: "ongoing harm you cannot scope. NOT the reflex." }
+];
+// Killing the whole product for one bad answer is the instinct and
+// it is usually wrong. PICK BY BLAST RADIUS.`,
+              `// PHASE 2 - SCOPE IT. "How many others got this?" is the first
+// question anyone will ask, and a normal incident process has no
+// way to answer it, because THERE WAS NO ERROR TO COUNT.
+
+async function scopeBlastRadius(reportedTraceId, windowHours = 72) {
+  const t = await traceStore.get(reportedTraceId);
+
+  // 1. WHO ELSE RETRIEVED THE SAME CHUNKS?
+  //    If a poisoned or wrong document is the cause, this is the
+  //    exact affected population.
+  const sameChunks = await traceStore.search({
+    anyChunkId: t.chunkIds, since: hoursAgo(windowHours)
+  });
+
+  // 2. WHO ASKED SOMETHING SEMANTICALLY SIMILAR?
+  //    Catches the same failure reached by different wording.
+  const similarQuestions = await traceStore.searchByEmbedding({
+    vector: embed(t.question), threshold: 0.85,
+    since: hoursAgo(windowHours)
+  });
+
+  // 3. WHO WAS ON THE SAME VERSIONS AND ROUTE?
+  //    If a prompt or model change is the cause, this is the
+  //    population - and it may be everyone.
+  const sameVersion = await traceStore.search({
+    route: t.route, promptVersion: t.promptVersion,
+    modelVersion: t.modelVersion, since: hoursAgo(windowHours)
+  });
+
+  const affected = dedupe([...sameChunks, ...similarQuestions]);
+
+  return {
+    // YOU NEED A NUMBER. Every subsequent decision depends on it -
+    // whether to notify, whether to escalate, whether the kill
+    // switch is proportionate.
+    likelyAffected: affected.length,
+    users: unique(affected.map(a => a.userId)).length,
+    external: affected.filter(a => a.audience === "external").length,
+    tenants: unique(affected.map(a => a.tenantId)),
+    firstSeenIso: min(affected.map(a => a.ts)),
+    // And the one that changes everything:
+    actionsTaken: affected.filter(a => a.toolsCalled?.some(isWriteTool)),
+    sameVersionTotal: sameVersion.length,
+    exampleTraceIds: affected.slice(0, 20).map(a => a.id)
+  };
+}
+// "17 users, 3 of them external, 1 of which triggered a refund" is
+// a completely different incident from "1 user, internal".
+// THIS STEP IS WHY YOU BUILT TRACING.`,
+              `// PHASE 3 - TRIAGE. Four causes, and READ THE CHUNKS FIRST.
+
+async function triageCause(traceId) {
+  const t = await traceStore.get(traceId);
+
+  // ALWAYS START HERE. If the correct information was never
+  // retrieved, no amount of prompt analysis explains the answer.
+  const chunks = await Promise.all(
+    t.chunkIds.map(id => corpus.getChunk(id, t.docVersions)));
+
+  if (!chunks.length || t.topScore < SCORE_FLOOR)
+    return { cause: "RETRIEVAL",
+             detail: "the answer was never in the context",
+             fix: ["check the query rewrite", "check the ACL filter",
+                   "check whether the document exists at all",
+                   "check chunking - the answer may straddle a " +
+                     "boundary"] };
+
+  const supportsAnswer = await checkSupport(t.answer, chunks);
+  if (supportsAnswer.contradicted)
+    return { cause: "DATA",
+             detail: "the SOURCE DOCUMENT itself is wrong, stale or " +
+                     "contradicted by another document",
+             // VERY COMMON, and NOT AN ENGINEERING FIX.
+             fix: ["find the document owner", "correct or retire it",
+                   "re-index", "check for other stale copies"],
+             owner: chunks[0].documentOwner };
+
+  if (!supportsAnswer.grounded)
+    return { cause: "PROMPT_OR_MODEL",
+             detail: "the right content was present and the model " +
+                     "did not use it, or went beyond it",
+             fix: ["check whether the prompt or model version " +
+                     "changed", "force citations",
+                   "add a faithfulness check on this route"] };
+
+  return { cause: "GUARDRAIL_GAP",
+           detail: "it should have been caught on the way out",
+           fix: ["add an output rule for this class",
+                 "and MEASURE THE FALSE POSITIVE RATE of the new " +
+                   "rule before shipping it"] };
+}
+
+// PHASE 4 - THE FIX IS RARELY A CODE ROLLBACK.
+const typicalFixes = {
+  retrieval: "adjust chunking, fix a filter, add the missing " +
+             "document",
+  data:      "CORRECT OR REMOVE A SOURCE DOCUMENT AND RE-INDEX",
+  prompt:    "adjust the prompt, or pin the previous model version",
+  guardrail: "add a rule, with its false-positive rate measured"
+};
+// None of those is 'revert a commit'. Which means your incident
+// process needs people who can change CONTENT and CONFIGURATION,
+// not only people who can deploy code - and that is an on-call
+// staffing decision, not a technical one.`,
+              `// PHASE 5 - THE POSTMORTEM IS DIFFERENT.
+
+const aiPostmortem = {
+  // "Why did it happen" may not have a clean answer.
+  reproducibility: {
+    problem: "above temperature 0 you may not reproduce it at all",
+    doThis: ["re-run the exact prompt at temperature 0 N times",
+             "record the rate - 'it recurred 3 times in 50' IS a " +
+               "finding",
+             "if it never recurs, say so plainly rather than " +
+               "inventing a cause"],
+    // Being honest here is better than a confident wrong root
+    // cause, which leads to the wrong action items.
+    note: "an unreproducible incident is still actionable - you " +
+          "bound it instead of explaining it"
+  },
+
+  // SO THE ACTION ITEMS ARE ABOUT BOUNDING BLAST RADIUS.
+  goodActionItems: [
+    "a guardrail that catches this CLASS of output, with its " +
+      "false-positive rate measured",
+    "an APPROVAL GATE on the action this could have triggered",
+    "a narrower tool permission or a read-only scope",
+    "a limit - steps, cost, records per call - capping how far one " +
+      "run can go",
+    "the case added to a PERMANENT SAFETY REGRESSION SUITE that " +
+      "runs on every prompt and model change",
+    "monitoring for the signal that would have caught it earlier"
+  ],
+
+  weakActionItems: [
+    // The one to resist, because it FEELS like a fix.
+    "we added a line to the prompt telling it not to do that",
+    "we will be more careful",
+    "we will review outputs manually"     // does not scale
+  ],
+  why: "A PROMPT INSTRUCTION IS A STRONG PREFERENCE, NOT A CONTROL. " +
+       "Treating it as a guarantee is how the same incident happens " +
+       "twice.",
+
+  // COMMUNICATION.
+  communication: {
+    affectedUsers: "if scoped and material, tell them - and say " +
+                   "what was wrong, not just that something was",
+    complianceAndLegal: "immediately for SEV1, especially if data " +
+                        "was disclosed or an action was taken",
+    documentOwner: "if the cause was DATA - they need to know their " +
+                   "content is wrong, and they own the fix",
+    honesty: "you cannot promise it will never happen again. You " +
+             "CAN say what you have bounded, and what would now " +
+             "catch it."
+  }
+};
+
+// WHAT YOU NEED READY BEFOREHAND.
+const preparation = [
+  { item: "kill switch AND route-level flags",
+    test: "exercised on a schedule - not first used at 2am" },
+  { item: "an AI severity scale", test: "agreed with legal and " +
+    "product BEFORE an incident, not during one" },
+  { item: "trace search by chunk ID and by embedding similarity",
+    test: "this is what makes scoping possible AT ALL" },
+  { item: "a named approver who can disable a feature",
+    test: "and a named person who can correct a source document" },
+  { item: "a user-facing message template",
+    test: "written when nobody is panicking" },
+  { item: "a safety regression suite",
+    test: "runs on every prompt and model change, and only grows" }
+];`,
+            ],
+            questions: [
+              {
+                question:
+                  "The assistant produced a harmful or badly wrong answer. What is your response plan?",
+                solution: `<p>The framing first: <strong>this is not an outage.</strong> Nothing is down, dashboards are green, error rate is zero — normal incident tooling will not alert and the runbooks do not apply.</p>
+             <ol>
+               <li><strong>Contain</strong> using an options ladder from least to most disruptive: guardrail rule → disable the route → roll back the version → degrade to a conservative model → full kill switch. Pick by blast radius; most incidents end at step one or two.</li>
+               <li><strong>Scope it</strong> — how many others got this? From the reported trace: same chunk IDs, similar questions in the window, same prompt and model version.</li>
+               <li><strong>Triage</strong> into retrieval, data, prompt/model, or guardrail gap — reading the chunks first.</li>
+               <li><strong>Fix</strong>, which is rarely a code rollback.</li>
+               <li><strong>Bound the blast radius</strong> in the postmortem rather than promising the model will behave.</li>
+             </ol>`,
+              },
+              {
+                question:
+                  "Why does it matter that this isn't an outage?",
+                solution:
+                  "<p>Because every assumption your incident process rests on is false here. There is no alert, because nothing errored. There is no dashboard showing red, because latency and error rate are normal. There is no obvious blast radius, because the failure did not produce a countable event. And there is often no reproduction, because the model is probabilistic. An on-call engineer paged into this has none of the usual anchors — they cannot look at a graph and see when it started, cannot diff a deploy and find the cause, and cannot verify a fix by watching the error rate return to zero. That is why the process needs building deliberately rather than inheriting the existing one. The first piece is a <strong>severity scale specific to AI incidents</strong>, agreed in advance with legal and product, that separates harmful output from materially wrong output from merely degraded quality from slow. Those four need genuinely different responses and different people involved, and without the scale you get one of two failure modes: everything gets escalated so nothing does, or a genuinely serious disclosure gets triaged as a quality bug because it arrived through the same channel as a complaint about tone.</p>",
+              },
+              {
+                question:
+                  "Why use a containment ladder rather than the kill switch?",
+                solution: `<p>Because killing the whole product for one bad answer is the reflex and it is usually disproportionate — you turn a scoped problem into a total outage, and you lose the ability to observe the system while you investigate.</p>
+             <p>The ladder, least to most disruptive:</p>
+             <ol>
+               <li><strong>Block the specific pattern</strong> with a guardrail rule for that query shape or output pattern. Near-zero disruption, takes minutes. <em>Most real incidents end here.</em></li>
+               <li><strong>Disable the affected route</strong> behind a feature flag — one capability off, the rest working.</li>
+               <li><strong>Roll back</strong> the prompt or model version, if the incident started with a deploy.</li>
+               <li><strong>Degrade</strong> — a more conservative model, a forced verification pass, required citations. Slower and dearer but still serving.</li>
+               <li><strong>Full kill switch</strong>, reserved for ongoing harm you cannot scope.</li>
+             </ol>
+             <p>The choice is driven by <strong>blast radius</strong>, which is why the scoping step often needs to happen in parallel with containment rather than after it.</p>`,
+              },
+              {
+                question:
+                  "How do you find out who else was affected?",
+                solution:
+                  "<p>Through traces, using three separate searches from the single reported case. First, <strong>who else retrieved the same chunk IDs</strong> — if a wrong, stale or poisoned document is the cause, this gives you the exact affected population rather than an estimate. Second, <strong>who asked semantically similar questions</strong> in the window, found by embedding the reported question and searching traces by similarity — this catches people who hit the same failure through different wording, which the chunk search would miss. Third, <strong>who was served by the same prompt version, model version and route</strong>, which is the relevant population if the cause was a behaviour change rather than a document, and may be everyone. Deduplicate across the three and you have a number, plus a list of example trace IDs. The number is what every subsequent decision hangs on: whether to notify users, whether to escalate to legal, whether the kill switch is proportionate. There is one additional filter worth applying for agentic systems — <strong>which of the affected requests actually took an action</strong>, as opposed to just producing text. An agent that said something wrong and an agent that issued a refund are different incidents, and that distinction should be visible within the first ten minutes.</p>",
+              },
+              {
+                question:
+                  "What are the four causes, and why read the chunks first?",
+                solution: `<p><strong>Retrieval</strong> — the right document was never returned, or a wrong one was. <strong>Data</strong> — the source document itself is wrong, stale or contradicted elsewhere. <strong>Prompt or model</strong> — the behaviour changed, or the instructions permitted it. <strong>Guardrail gap</strong> — it should have been caught on the way out and was not.</p>
+             <p>You read the retrieved chunks first because <strong>if the correct information was never in the context, no amount of prompt analysis will explain the answer.</strong> Starting anywhere else wastes the first thirty minutes.</p>
+             <p>The <strong>data</strong> case deserves emphasis: it is very common, and it is <em>not an engineering fix</em>. The document has an owner, that owner needs to correct or retire it, and you need to re-index and check for other stale copies. Teams routinely spend days tuning prompts against a source document that was simply wrong.</p>`,
+              },
+              {
+                question:
+                  "Why is the fix rarely a code rollback?",
+                solution:
+                  "<p>Because the cause usually is not code. In practice the fix is one of: <strong>correct or remove a source document and re-index</strong>, which is a content operation owned by whoever maintains that document; <strong>add a guardrail rule</strong>, which is configuration; <strong>adjust a prompt</strong> or <strong>pin a model version</strong>, which is a versioned artefact change but not application code; or <strong>tighten a permission or add an approval gate</strong>, which is policy. Reverting a commit fixes almost none of these. That has a concrete staffing implication worth stating in an interview: your incident process needs people who can change <em>content</em> and <em>configuration</em> at speed, not only people who can deploy code — which means the on-call rotation, the access controls and the approval paths need to cover content owners and configuration, not just engineering. It also means your containment levers should be configuration rather than deploys wherever possible, since a guardrail rule you can apply in minutes is worth far more during an incident than one that requires a release. And it explains why \"roll back\" as a first instinct is often ineffective: if the cause was a wrong document, the previous version of your code would have produced the same answer.</p>",
+              },
+              {
+                question:
+                  "What makes an AI postmortem different?",
+                solution: `<p>That <strong>"why did it happen" may not have a clean answer.</strong> The model is probabilistic, and above temperature zero you may not reproduce the failure at all.</p>
+             <p>The honest approach is to re-run the exact prompt at temperature zero a number of times and <strong>record the rate</strong> — "it recurred three times in fifty" is itself a finding, and so is "it never recurred". Saying that plainly is better than inventing a confident root cause, because a wrong root cause produces wrong action items.</p>
+             <p>The consequence is that action items should be about <strong>bounding the blast radius</strong> rather than fixing the model:</p>
+             <ul>
+               <li>a guardrail that catches this <em>class</em> of output, with its false-positive rate measured</li>
+               <li>an approval gate on the action it could have triggered</li>
+               <li>a narrower permission or read-only scope</li>
+               <li>a limit capping how far one run can go</li>
+               <li>the case added to a <strong>permanent safety regression suite</strong></li>
+             </ul>
+             <p>An unreproducible incident is still fully actionable — you bound it instead of explaining it.</p>`,
+              },
+              {
+                question:
+                  "Why resist 'we added it to the prompt' as an action item?",
+                solution:
+                  "<p>Because <strong>a prompt instruction is a strong preference, not a control.</strong> It reduces the probability of a behaviour; it does not eliminate it, and it offers no guarantee under adversarial input, unusual phrasing, long context, or a future model version. Treating it as a fix is how the same incident happens twice — and the second time is worse, because someone will point out that it was supposedly addressed. The reason it is so tempting is that it genuinely <em>feels</em> like a fix: it is fast, it is cheap, you can demonstrate the failing case now passes, and it closes the action item. The discipline is to accept the prompt change as a useful mitigation while insisting it is not the <em>only</em> item. Pair it with something structural — a guardrail that checks the output regardless of what the model intended, an approval gate on the consequential action, a permission that makes the bad outcome impossible rather than merely discouraged, or a limit. The test to apply is simple: <strong>if the model ignored this instruction tomorrow, what would still stop the harm?</strong> If the answer is nothing, the action items are not finished. The same logic rules out \"we will review outputs manually\", which does not scale and quietly stops happening within a month.</p>",
+              },
+              {
+                question:
+                  "What do you need in place before an incident happens?",
+                solution: `<p>Five things, and none of them can be built during the incident:</p>
+             <ol>
+               <li>A <strong>kill switch and route-level feature flags</strong> that have been <em>exercised</em> on a schedule. A kill switch first used at two in the morning is a hypothesis, not a control.</li>
+               <li>An <strong>AI severity scale</strong>, agreed with legal and product in advance.</li>
+               <li><strong>Trace search by chunk ID and by embedding similarity.</strong> This is what makes scoping possible at all — without it you cannot answer the first question anyone asks.</li>
+               <li>A <strong>named approver</strong> who can disable a feature, and a named person who can correct a source document — because the fix is often content, not code.</li>
+               <li>A <strong>user-facing message template</strong>, written when nobody is panicking.</li>
+             </ol>
+             <p>Plus a <strong>safety regression suite</strong> that runs on every prompt and model change and only ever grows. That is what converts each incident into permanent protection rather than a memory.</p>`,
+              },
+              {
+                question:
+                  "Who do you communicate with, and what do you say?",
+                solution:
+                  "<p>Four audiences. <strong>Affected users</strong>, if the scope is known and the impact material — and the message should say what was wrong specifically, not just that something was, because a vague notification generates more anxiety and more support load than a precise one. <strong>Legal and compliance</strong>, immediately for anything involving harmful content, data disclosure or an action taken on someone's behalf; in a regulated setting the notification clock may already be running and that is not a judgement call for the engineer on shift. <strong>The document owner</strong>, if the cause was a data problem — they need to know their content is wrong, they own the fix, and they may have the same error in other places. And <strong>internal stakeholders</strong>, with the blast radius number, because the absence of a number is what turns a scoped incident into an organisational panic. On honesty: you <strong>cannot promise it will never happen again</strong>, and promising it is both untrue and the thing that will be quoted back at you. What you can say is what has been bounded — the guardrail now in place, the permission removed, the approval gate added, the regression test that would catch it — which is a more credible statement and a more useful one.</p>",
+              },
+              {
+                question:
+                  "How does an agent incident differ from a chat incident?",
+                solution: `<p>Because an agent may have <strong>done something</strong> rather than merely said something, and actions do not roll back with a feature flag.</p>
+             <p>That changes the response in three ways:</p>
+             <ul>
+               <li><strong>Containment is more urgent</strong> and should reach for revoking tool permissions early — a read-only downgrade stops further damage instantly while you investigate, and it is far less disruptive than a full shutdown.</li>
+               <li><strong>Scoping must include which runs took write actions</strong>, not just which produced text. The list of records changed, emails sent or refunds issued is a different artefact from the list of affected users, and someone will need it.</li>
+               <li><strong>Remediation may be required</strong> — reversing transactions, retracting messages, correcting records — which is a separate workstream with its own approvals.</li>
+             </ul>
+             <p>It also sharpens the postmortem. The right action item for an agent incident is almost always about <strong>permissions and approval gates</strong> rather than model behaviour: the question is not why it decided to do that, but why it was <em>able</em> to.</p>`,
+              },
+              {
+                question:
+                  "How do you know an AI incident is happening at all?",
+                solution:
+                  "<p>Usually you do not, until someone tells you — which is the uncomfortable honest answer and worth giving. The detection paths, in order of how fast they actually fire: <strong>a spike in thumbs-down or escalations</strong>, which is the fastest automated signal you have for \"something is wrong\" even though it cannot say what; <strong>guardrail block-rate changes</strong>, which can indicate either a new attack pattern or a behaviour shift; the <strong>structural quality proxies</strong> from production monitoring — zero-citation rate, refusal rate, retrieval scores — which catch systemic degradation but not a single bad answer; and the <strong>canary set</strong>, which catches a behaviour change but not a data problem affecting one document. None of these reliably catches a <em>single</em> harmful output to a <em>single</em> user, because rates and averages are the wrong instrument for a one-off event. That is precisely why guardrails matter: for a class of harm you can name in advance, an output check is the only thing that operates per-request. And it is why the reporting path matters — a visible, low-friction way for a user or an internal reviewer to flag an answer, wired to the trace ID, is a genuine part of your detection capability rather than a customer-service nicety.</p>",
+              },
+            ],
+            links: [
+              "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+              "https://www.nist.gov/itl/ai-risk-management-framework",
+              "https://sre.google/sre-book/managing-incidents/",
+              "https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails",
+            ],
+          },
+          {
+            topic: "Observability Tooling (LangSmith, Langfuse, OpenTelemetry)",
+            tags: ["must-know", "observability", "tooling", "experience"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>THE INTERVIEW QUESTION: "What observability tooling have you used for LLM apps and what did it show you?"</strong>
+  </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The second half is the real question. <strong>Answer with findings, not features.</strong> A list of tool capabilities tells an interviewer you read a comparison page; a list of things the tooling actually revealed tells them you shipped something.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Three Layers, Not Three Alternatives
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+  OPENTELEMETRY        the standard and the PORTABILITY layer.
+                       Instrument once, ship anywhere. There
+                       are now GenAI semantic conventions for
+                       model, tokens and operation names.
+
+  LLM PLATFORMS        LangSmith, Langfuse, Arize Phoenix,
+                       Braintrust, W&B Weave. The UI and the
+                       LLM-specific data model.
+
+  YOUR EXISTING APM    Datadog, Grafana, Prometheus. Still
+                       needed - the AI part is one service in
+                       a system.
+
+MOST REAL SETUPS USE ALL THREE. Presenting them as competing
+choices is the giveaway that you have not run one.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What The LLM Platforms Add Over Generic Tracing
+  </h4>
+
+  <ul style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;"><strong>Readable prompt and completion rendering</strong> — not a JSON blob you have to unescape by hand.</li>
+    <li style="margin-top: 0.5rem;"><strong>Retrieved chunks with scores</strong>, displayed as a first-class thing.</li>
+    <li style="margin-top: 0.5rem;"><strong>Token and cost roll-ups</strong> per trace and per run.</li>
+    <li style="margin-top: 0.5rem;"><strong>Dataset creation from a trace</strong> — one click. ← the one that matters</li>
+    <li style="margin-top: 0.5rem;"><strong>Evaluation runs attached to traces</strong>, so a score links to the thing it scored.</li>
+    <li style="margin-top: 0.5rem;"><strong>Prompt versioning and a playground</strong> seeded from a real request.</li>
+    <li style="margin-top: 0.5rem;"><strong>Annotation queues</strong> for human review.</li>
+  </ul>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Trace → dataset is the killer feature.</strong> The natural workflow is: find a failure, click, it is now an eval case. Everything else on that list is convenience; that one changes how the team works, because it makes building a golden set from real failures nearly free.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    What It Actually Showed Me
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+This is the part of the answer that carries weight.
+
+  Most "the model got it wrong" was RETRIEVAL - the right
+    document was never returned. Roughly half.
+
+  One route accounted for most of the COST, and it was not
+    the one anyone assumed.
+
+  Latency was dominated by OUTPUT LENGTH, not the provider.
+    We had been about to scale infrastructure to fix a
+    prompt problem.
+
+  A prompt edit had silently KILLED THE PROMPT CACHE.
+    No error, no latency alarm, just a much larger bill.
+
+  An agent was calling the same tool TWICE with identical
+    arguments on most runs.
+
+  RERANKING WAS NOT CHANGING THE ORDER on a third of
+    queries - we were paying for a no-op.
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Build Or Buy
+  </h4>
+
+  <p style="line-height: 1.75; margin-top: 1.0rem;">
+    <strong>Buy.</strong> The value is in the UI and the workflow, not the storage — and a trace viewer is a quarter of engineering you will then have to maintain forever while it stays worse than the commercial one. Instrument via <strong>OpenTelemetry</strong> so the backend stays replaceable, and the decision is cheap to reverse.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    The Honest Caveats
+  </h4>
+
+  <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;"><strong>Data residency.</strong> These platforms hold your prompts and your retrieved document text. Check where that lands. <strong>Self-hostable options exist — Langfuse and Phoenix — and that is frequently the actual reason to pick one.</strong></li>
+    <li style="margin-top: 0.5rem;"><strong>Cost at volume.</strong> Per-trace pricing gets expensive quickly, which makes sampling and field truncation architectural decisions rather than tuning.</li>
+    <li style="margin-top: 0.5rem;"><strong>Lock-in.</strong> Proprietary SDK instrumentation is hard to unpick. OpenTelemetry conventions are the hedge.</li>
+    <li style="margin-top: 0.5rem;"><strong>They do not tell you what good is.</strong> They show you what happened. Deciding whether it was correct is evaluation, which is a separate discipline.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    How This Comes Up In Interviews
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-text">
+THE QUESTION
+  "What observability tooling have you used for LLM apps and
+   what did it show you?"
+
+WHAT THE INTERVIEWER IS TESTING
+  Whether you have actually operated one. The tell is the
+  second half - findings versus features. Anyone can name three
+  platforms; only someone who used one can say what it revealed
+  that they did not expect.
+
+WEAK ANSWER
+  "I have used LangSmith and Langfuse. They provide tracing,
+   prompt management, evaluation and cost tracking for LLM
+   applications, and integrate easily with LangChain."
+  Why it is weak: a feature list. It answers 'what are these
+  tools' rather than 'what did you learn', which is what was
+  asked. And it does not mention OpenTelemetry, data residency
+  or cost - the three things that decide the choice in a real
+  organisation.
+
+STRONG ANSWER (about 75 seconds)
+  "I would separate three layers, because they are not
+   competing choices and most real setups use all three.
+   OPENTELEMETRY is the standard and the portability layer -
+   instrument once, ship anywhere, and there are now GenAI
+   semantic conventions. The LLM PLATFORMS - LangSmith,
+   Langfuse, Phoenix - give the UI and the LLM-specific data
+   model. And the EXISTING APM stays, because the AI part is
+   one service in a system.
+
+   What the platforms add over generic tracing: readable prompt
+   and completion rendering instead of an escaped JSON blob,
+   retrieved chunks with scores as a first-class object, token
+   and cost roll-ups, prompt versioning, annotation queues -
+   and the one that actually matters, DATASET CREATION FROM A
+   TRACE IN ONE CLICK. Find a failure, click, it is now an eval
+   case. That changes how the team works, because building a
+   golden set from real failures becomes nearly free.
+
+   What it SHOWED me is the more useful half. That most 'the
+   model got it wrong' was RETRIEVAL - roughly half of
+   complaints, the right document was never returned. That one
+   route accounted for most of the cost and it was not the one
+   anyone assumed. That latency was dominated by OUTPUT LENGTH
+   rather than the provider - we were about to scale
+   infrastructure to fix a prompt problem. That a prompt edit
+   had silently killed the prompt cache, with no error and no
+   latency alarm, just a much bigger bill. That an agent was
+   calling the same tool twice with identical arguments on most
+   runs. And that reranking was not changing the order on a
+   third of queries, so we were paying for a no-op.
+
+   On build versus buy: BUY. The value is the UI and the
+   workflow, not the storage, and a trace viewer is a quarter
+   of engineering you then maintain forever.
+
+   The caveats that actually decide it in an organisation: DATA
+   RESIDENCY, because these platforms hold your prompts and
+   retrieved document text - Langfuse and Phoenix are
+   self-hostable and that is often the real reason to pick one.
+   COST at volume, which makes sampling an architectural
+   decision. LOCK-IN, hedged with OpenTelemetry. And that they
+   show you WHAT HAPPENED, not whether it was good - that is
+   evaluation, a separate discipline."
+
+FOLLOW-UPS TO EXPECT
+  "Which single feature matters most?"
+      -> trace to dataset in one click.
+  "Build or buy?"
+      -> buy, instrumented via OTel so it stays replaceable.
+  "What would stop you using a hosted platform?"
+      -> data residency. It holds your document text.
+  "What do these tools not do?"
+      -> tell you whether an answer was good. That is
+         evaluation.
+
+RED FLAGS
+  A feature list with no findings.
+  Treating OTel and LangSmith as alternatives.
+  No mention of data residency.
+  Planning to build your own trace viewer.
+    </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// THREE LAYERS, NOT THREE ALTERNATIVES. Most real setups use all
+// three, and presenting them as competing choices is the giveaway.
+
+const stack = {
+  instrumentation: {
+    what: "OpenTelemetry",
+    role: "the standard AND the PORTABILITY layer - instrument " +
+          "once, ship anywhere",
+    // There are now GenAI semantic conventions, so attribute names
+    // are not vendor-specific.
+    conventions: ["gen_ai.system", "gen_ai.request.model",
+                  "gen_ai.usage.input_tokens",
+                  "gen_ai.usage.output_tokens",
+                  "gen_ai.operation.name"],
+    why: "the backend stays replaceable, which makes the buy " +
+         "decision cheap to reverse"
+  },
+
+  llmPlatform: {
+    options: ["LangSmith", "Langfuse", "Arize Phoenix", "Braintrust",
+              "W&B Weave"],
+    role: "the UI and the LLM-specific DATA MODEL",
+    // This is where the prompt, the chunks and the eval live.
+    note: "you are buying the workflow, not the storage"
+  },
+
+  existingApm: {
+    options: ["Datadog", "Grafana + Prometheus", "New Relic"],
+    role: "the ordinary service - request rates, saturation, " +
+          "dependencies, the rest of the system",
+    why: "THE AI PART IS ONE SERVICE IN A SYSTEM. Dropping your " +
+         "APM because you added an LLM platform is a mistake."
+  }
+};
+
+// AND THE SPLIT OF WHAT GOES WHERE:
+const whereThingsLive = {
+  metrics:  "APM / Prometheus - aggregated, cheap, alertable",
+  traces:   "LLM platform - detailed, sampled, expensive, readable",
+  logs:     "your log platform - per request, redacted, short " +
+            "retention",
+  datasets: "LLM platform - because that is where the trace-to-" +
+            "dataset flow lives",
+  joinedBy: "traceId, everywhere"
+};`,
+              `// WHAT THE LLM PLATFORMS ADD OVER GENERIC TRACING.
+
+const addedValue = [
+  { feature: "prompt and completion RENDERING",
+    vsGeneric: "an OTel span attribute is an escaped JSON blob you " +
+               "unescape by hand at 2am",
+    value: "medium - but you feel it every single time" },
+
+  { feature: "retrieved chunks with SCORES as a first-class object",
+    vsGeneric: "an array attribute you cannot read",
+    value: "high - this is the field that ends most investigations" },
+
+  { feature: "token and cost ROLL-UPS per trace and per run",
+    value: "high for agents, where the cost is spread over 8 spans" },
+
+  { feature: "DATASET CREATION FROM A TRACE, ONE CLICK",
+    // THE KILLER FEATURE.
+    value: "THE one that matters",
+    why: "find a failure -> click -> it is now an eval case. It " +
+         "makes building a golden set from REAL failures nearly " +
+         "free, which changes how the team works rather than just " +
+         "how it debugs" },
+
+  { feature: "evaluation runs ATTACHED to traces",
+    value: "high - a score that links to the thing it scored" },
+
+  { feature: "prompt versioning and a PLAYGROUND seeded from a " +
+             "real request",
+    value: "high - you tweak the prompt against the actual failing " +
+           "input, not a sanitised copy" },
+
+  { feature: "ANNOTATION QUEUES for human review",
+    value: "high once you have humans in the loop, and invisible " +
+           "before that" }
+];
+
+// THE WORKFLOW THAT MATTERS, END TO END:
+const workflow = [
+  "1. thumbs-down arrives, carrying a traceId",
+  "2. open the trace - prompt and chunks are readable",
+  "3. see immediately that chunk 3 was the wrong policy version",
+  "4. CLICK -> add to dataset with the expected behaviour",
+  "5. change the chunking, re-run the eval against the dataset",
+  "6. the case is now a permanent regression test"
+];
+// Step 4 is the whole argument for buying rather than building.
+// Without it, steps 5 and 6 take an afternoon and therefore do not
+// happen.`,
+              `// WHAT IT ACTUALLY SHOWED ME. Findings, not features - this is
+// the half of the answer that carries weight.
+
+const realFindings = [
+  { finding: "most 'the model got it wrong' was RETRIEVAL",
+    detail: "roughly half of all complaints. The right document " +
+            "was never returned, so no prompt change would have " +
+            "helped",
+    // The single most common surprise, and it redirects the whole
+    // improvement plan.
+    consequence: "we stopped tuning prompts and fixed chunking" },
+
+  { finding: "ONE ROUTE accounted for most of the cost",
+    detail: "and it was not the one anyone assumed - a low-traffic " +
+            "internal report generator sending 30k-token prompts",
+    consequence: "one change to that route cut the bill by a third" },
+
+  { finding: "latency was dominated by OUTPUT LENGTH, not the " +
+             "provider",
+    detail: "p95 latency tracked p95 output tokens almost exactly",
+    // We were about to scale infrastructure to fix a PROMPT problem.
+    consequence: "a max-tokens change and a 'be concise' instruction " +
+                 "fixed what we had planned a capacity project for" },
+
+  { finding: "a prompt edit had silently KILLED THE PROMPT CACHE",
+    detail: "someone added a line ABOVE the cache breakpoint, so " +
+            "every entry invalidated",
+    // No error. No latency alarm. Just a much bigger bill.
+    consequence: "cache hit rate is now an alerted metric" },
+
+  { finding: "an agent called the SAME TOOL TWICE with identical " +
+             "arguments on most runs",
+    detail: "visible only in the step spans - the final answer was " +
+            "fine, so nothing flagged it",
+    consequence: "one prompt fix removed ~20% of agent cost" },
+
+  { finding: "RERANKING WAS NOT CHANGING THE ORDER on a third of " +
+             "queries",
+    detail: "we compared pre- and post-rerank ordering in the span",
+    consequence: "we were paying for a no-op on those, and skipping " +
+                 "the rerank when the score spread was already wide " +
+                 "saved both latency and money" }
+];
+
+// THE PATTERN ACROSS ALL SIX:
+const pattern = "every one of these was INVISIBLE at the metric " +
+  "level and OBVIOUS in a trace. That is the argument for tracing " +
+  "in one sentence - metrics tell you something is wrong, traces " +
+  "tell you WHAT, and in an AI system the 'what' is almost always " +
+  "in the retrieved context or the step sequence.";`,
+              `// BUILD VS BUY, AND THE CAVEATS THAT ACTUALLY DECIDE IT.
+
+const buildVsBuy = {
+  verdict: "BUY",
+  why: ["the value is the UI and the WORKFLOW, not the storage",
+        "a trace viewer is a quarter of engineering you then " +
+          "maintain forever, and it stays worse",
+        "the trace-to-dataset flow is the thing you would not " +
+          "build and would then miss"],
+  hedge: "instrument via OPENTELEMETRY so the backend is " +
+         "replaceable - which makes the decision cheap to reverse"
+};
+
+const caveats = {
+  dataResidency: {
+    // THE ONE THAT DECIDES IT IN A REAL ORGANISATION.
+    issue: "these platforms hold your PROMPTS and your RETRIEVED " +
+           "DOCUMENT TEXT - the same confidential content as your " +
+           "source systems",
+    ask: ["where is it stored, and in which region",
+          "who at the vendor can read it",
+          "is it used for training",
+          "what is the deletion path",
+          "does it satisfy the same constraints as the documents " +
+            "themselves"],
+    // Langfuse and Phoenix are self-hostable, and THAT is often the
+    // actual reason a team picks one over another - not features.
+    mitigation: ["self-host (Langfuse, Phoenix)",
+                 "redact at capture", "log chunk IDs not text",
+                 "restrict access and scope by tenant"]
+  },
+
+  costAtVolume: {
+    issue: "per-trace pricing gets expensive fast, and traces are " +
+           "large because they contain prompts",
+    // Which turns sampling and truncation into ARCHITECTURAL
+    // decisions rather than tuning.
+    mitigation: ["sample - 100% of errors and feedback, small " +
+                   "random baseline",
+                 "truncate large tool results",
+                 "store chunk IDs rather than chunk text",
+                 "tier retention: 30 days, pinned traces longer"]
+  },
+
+  lockIn: {
+    issue: "proprietary SDK instrumentation is painful to unpick " +
+           "once it is through the whole codebase",
+    mitigation: "OTel semantic conventions, with the platform as an " +
+                "exporter"
+  },
+
+  whatTheyDoNotDo: {
+    // Worth saying, because it is where people over-trust them.
+    issue: "they show you WHAT HAPPENED. They do not tell you " +
+           "whether it was GOOD.",
+    note: "deciding correctness is EVALUATION - a golden set, " +
+          "graders, a definition of good per category. Related " +
+          "discipline, different problem. Some products do both, " +
+          "which blurs it, but the distinction still matters."
+  }
+};
+
+// A REASONABLE CHOICE MATRIX:
+const choosing = [
+  { need: "data cannot leave our network",
+    pick: "Langfuse or Phoenix, self-hosted" },
+  { need: "we are deep in the LangChain ecosystem",
+    pick: "LangSmith - the integration is the least work" },
+  { need: "evaluation is the primary use, tracing secondary",
+    pick: "Braintrust or Phoenix" },
+  { need: "we already have heavy Datadog/Grafana investment",
+    pick: "OTel into both - the LLM platform for traces and " +
+          "datasets, the existing APM for service metrics" },
+  { need: "minimum lock-in",
+    pick: "OTel instrumentation, any OTel-compatible backend" }
+];`,
+            ],
+            questions: [
+              {
+                question:
+                  "What observability tooling have you used for LLM apps and what did it show you?",
+                solution: `<p>Three layers, not three alternatives — most real setups use all three. <strong>OpenTelemetry</strong> is the standard and portability layer. <strong>LLM platforms</strong> (LangSmith, Langfuse, Phoenix) give the UI and the LLM-specific data model. Your <strong>existing APM</strong> stays, because the AI part is one service in a system.</p>
+             <p>What the platforms add: readable prompt rendering, retrieved chunks with scores, cost roll-ups, prompt versioning, annotation queues — and the one that matters, <strong>dataset creation from a trace in one click.</strong></p>
+             <p>What it showed me is the more useful half: that most "the model got it wrong" was <strong>retrieval</strong>; that one unexpected route dominated cost; that latency tracked <strong>output length</strong>, not the provider; and that a prompt edit had silently killed the cache.</p>`,
+              },
+              {
+                question:
+                  "Why is OpenTelemetry not an alternative to LangSmith?",
+                solution:
+                  "<p>Because they sit at different layers and do different jobs. <strong>OpenTelemetry is instrumentation and a wire format</strong> — it defines how you emit spans, what the attributes are called, and how they travel to a backend. It has no user interface, no prompt rendering and no dataset management. <strong>LangSmith and its peers are backends and workflow tools</strong> — they receive traces and give you a way to read and act on them. The natural architecture uses both: instrument with OpenTelemetry, using the GenAI semantic conventions for model, token counts and operation names, and export to whichever platform you have chosen. That gives you the platform's workflow while keeping the backend replaceable, which is what makes the purchasing decision cheap to reverse. Treating them as competing options is a reliable tell that someone has read a comparison article rather than run a system, and it also leads to a real mistake: instrumenting deeply with a proprietary SDK, which is genuinely painful to unpick once it is threaded through the codebase. The third layer people forget entirely is the <strong>existing APM</strong> — request rates, saturation, dependency health, the rest of the system. An LLM platform does not replace that, and dropping it because you added one is a step backwards.</p>",
+              },
+              {
+                question:
+                  "Which single feature matters most?",
+                solution: `<p><strong>Creating an evaluation dataset from a trace in one click.</strong></p>
+             <p>The other capabilities — readable prompt rendering, chunk display, cost roll-ups, prompt versioning — are all genuine conveniences that you feel every time you debug. But they improve how the team <em>debugs</em>. Trace-to-dataset changes how the team <em>works</em>.</p>
+             <p>The workflow it enables is: a thumbs-down arrives carrying a trace ID, you open the trace, you see immediately that chunk three was the wrong policy version, you click to add it to a dataset with the expected behaviour, you fix the chunking, and you re-run the eval. That case is now a permanent regression test.</p>
+             <p>Without the one-click step, that flow takes an afternoon — and therefore does not happen. Which is precisely why the "add it to the golden set" step is the one teams skip. Making it nearly free is what turns real production failures into a growing eval suite, and a golden set built from real failures is worth far more than one invented at a desk.</p>`,
+              },
+              {
+                question:
+                  "What did tracing actually reveal that you didn't expect?",
+                solution:
+                  "<p>Six things, and the pattern across them is the point. That <strong>most \"the model got it wrong\" was retrieval</strong> — around half of complaints, where the right document was never returned and no prompt change would have helped. That <strong>one route dominated cost</strong>, and it was not the one anyone assumed — a low-traffic internal report generator sending very large prompts, where a single change cut the bill by a third. That <strong>latency tracked output length rather than the provider</strong>, so a capacity project was about to be started to fix what turned out to be a prompt problem. That <strong>a prompt edit had silently killed the prompt cache</strong> by adding a line above the cache breakpoint — no error, no latency alarm, just a much larger bill. That <strong>an agent was calling the same tool twice with identical arguments</strong> on most runs, visible only in the step spans because the final answer was fine. And that <strong>reranking was not changing the order on a third of queries</strong>, so we were paying for a no-op. Every one of those was invisible at the metric level and obvious in a trace, which is the argument for tracing in a sentence: metrics tell you something is wrong, traces tell you what — and in an AI system the what is almost always in the retrieved context or the step sequence.</p>",
+              },
+              {
+                question:
+                  "Build or buy?",
+                solution: `<p><strong>Buy</strong>, and instrument via OpenTelemetry so the choice stays reversible.</p>
+             <p>The reasoning is that the value here is in the <strong>UI and the workflow, not the storage</strong>. Storing spans is a solved problem you could implement in a week. Building a good trace viewer — with prompt rendering, chunk display with scores, cost roll-ups, diffing, dataset creation and an annotation queue — is a quarter of engineering, and then you maintain it forever while it stays worse than the commercial one and nobody is assigned to improve it.</p>
+             <p>The thing teams underestimate is that they would not build the <strong>trace-to-dataset flow</strong>, because it is not obviously necessary until you have used it — and it is the feature that changes how the team works.</p>
+             <p>The hedge is instrumentation: emit OpenTelemetry spans with GenAI semantic conventions and treat the platform as an exporter. Then switching vendors is a configuration change rather than a re-instrumentation project.</p>`,
+              },
+              {
+                question:
+                  "What would stop you using a hosted platform?",
+                solution:
+                  "<p><strong>Data residency</strong>, and it is the consideration that actually decides the choice in most real organisations — far more than features. These platforms hold your prompts and your retrieved document text, which means the tracing backend now contains the same confidential content as your source systems. The questions to ask a vendor are specific: where is the data stored and in which region, who at the vendor can read it, is it used for training, what is the deletion path, and does it satisfy the same constraints that apply to the documents themselves. Very often the answer is that it does not — a corpus that is not permitted to leave a jurisdiction cannot be copied into a trace stored elsewhere, and nobody noticed because tracing was treated as an engineering tool rather than a data flow. That is precisely why <strong>Langfuse and Phoenix being self-hostable is frequently the real reason a team picks one</strong>, not any feature comparison. The mitigations that reduce the problem regardless of vendor are worth applying anyway: redact at capture, store chunk IDs rather than chunk text, restrict access and scope it by tenant, and keep retention short. Logging IDs rather than content removes most of the exposure and most of the volume at the same time.</p>",
+              },
+              {
+                question:
+                  "How does trace cost behave at volume?",
+                solution: `<p>Badly, if you do nothing — because traces are large by nature (they contain prompts and retrieved text) and per-trace pricing scales directly with request volume. It is common for an observability bill to start competing with the model bill, at which point sampling gets applied hastily and the wrong things get dropped.</p>
+             <p>Treat sampling and truncation as <strong>architectural decisions rather than tuning</strong>:</p>
+             <ul>
+               <li><strong>Sample</strong> — 100% of errors, guardrail trips and anything with feedback; a small random baseline for everything else.</li>
+               <li><strong>Truncate</strong> large fields — a tool returning four hundred rows should store a preview and a byte count, not the rows.</li>
+               <li><strong>Store chunk IDs rather than chunk text.</strong> This is the biggest single lever, and it reduces data exposure at the same time.</li>
+               <li><strong>Tier retention</strong> — thirty days for routine traces, longer only for pinned ones.</li>
+             </ul>
+             <p>Doing this deliberately from the start is much easier than retrofitting it after a bill arrives.</p>`,
+              },
+              {
+                question:
+                  "What do these tools not do?",
+                solution:
+                  "<p><strong>They show you what happened. They do not tell you whether it was good.</strong> A trace tells you the exact prompt, the exact chunks and the exact output — which is everything you need to <em>diagnose</em> a failure someone has already identified, and nothing at all about whether the other ten thousand responses that day were correct. Deciding correctness is <strong>evaluation</strong>: a golden set, a definition of good per category, graders, and a process for maintaining them. That is a related but genuinely separate discipline, and the distinction matters because it is where teams over-trust their tooling. Having excellent tracing installed produces a feeling of coverage that is not justified — you can see everything and know nothing about quality. The confusion is compounded by the fact that most of these platforms now include evaluation features, so the boundary looks blurrier than it is; but running an LLM judge from inside your tracing platform is still evaluation, with all the usual questions about judge bias, rubric design and correlation with human judgement. So the honest framing is: observability answers \"what happened on this request\", evaluation answers \"is this system good\", and production quality monitoring is a third thing that answers \"did something change\". Different questions, different instruments.</p>",
+              },
+              {
+                question:
+                  "How would you choose between the platforms?",
+                solution: `<p>By constraints rather than features, because the feature sets converge quickly and the constraints do not:</p>
+             <ul>
+               <li><strong>Data cannot leave our network</strong> → Langfuse or Phoenix, self-hosted. This is the most common deciding factor.</li>
+               <li><strong>Already deep in the LangChain ecosystem</strong> → LangSmith, because the integration is the least work and the tracing is nearly free.</li>
+               <li><strong>Evaluation is the primary use, tracing secondary</strong> → Braintrust or Phoenix.</li>
+               <li><strong>Heavy existing Datadog or Grafana investment</strong> → OpenTelemetry into both, with the LLM platform for traces and datasets and the existing APM for service metrics.</li>
+               <li><strong>Minimum lock-in</strong> → OTel instrumentation into any compatible backend.</li>
+             </ul>
+             <p>Framing the answer this way is more useful than a feature comparison, because it shows you know the decision is usually made on residency, existing investment and team workflow — not on which product has more integrations.</p>`,
+              },
+              {
+                question:
+                  "How do observability tools relate to evaluation tools?",
+                solution:
+                  "<p>They are adjacent and increasingly bundled, but they solve different problems. <strong>Evaluation tooling</strong> — Ragas, DeepEval and similar — computes metrics against a dataset: faithfulness, answer relevance, context precision and recall. It is offline by nature, it needs labelled or reference data, and it answers \"is this configuration good\". <strong>Observability tooling</strong> observes production: what happened on each request, what it cost, how long it took, what came back from retrieval. It is online, it needs no labels, and it answers \"what happened\" and \"did something change\". The blur comes from the fact that most observability platforms now run evaluators over sampled production traces, which is genuinely useful and is exactly the sampled-judge layer of production quality monitoring — but it does not make the two the same discipline. The practical relationship is that observability <em>feeds</em> evaluation: the trace-to-dataset flow is how production failures become eval cases, and evaluation results attached to traces are how a score becomes explicable. A mature setup runs both — offline evaluation against a golden set as a deployment gate, and observability plus sampled online evaluation as the production detector — and uses each to improve the other.</p>",
+              },
+              {
+                question:
+                  "What would you instrument first with limited time?",
+                solution: `<p>The fields, not the platform. In order:</p>
+             <ol>
+               <li><strong>The assembled prompt and the retrieved chunk IDs with scores and document versions.</strong> These two end most investigations, and everything else is secondary.</li>
+               <li><strong>Trace ID returned in the response</strong>, so feedback can be joined — this is the cheapest change with the largest downstream payoff.</li>
+               <li><strong>Version dimensions</strong> — model version, prompt version, retrieval config version — on every span and metric, because without them nothing is attributable to a change.</li>
+               <li><strong>Token counts including cached, and cost</strong>, per call kind.</li>
+               <li><strong>TTFT separately from total latency</strong>, and per-stage timings.</li>
+             </ol>
+             <p>Those five give you the large majority of the value regardless of which backend you pick, and they are all straightforward to emit through OpenTelemetry. Choosing a platform is a decision you can make afterwards, and having instrumented properly makes that choice both easier and reversible.</p>`,
+              },
+              {
+                question:
+                  "What is the honest summary of this topic?",
+                solution:
+                  "<p><strong>Instrument with OpenTelemetry, buy the platform, and judge it by what it reveals rather than what it lists.</strong> The layering matters because it keeps you portable and stops you dropping the APM you still need. Buying matters because the value is the workflow — particularly turning a trace into an eval case in one click — and building a trace viewer is a maintenance commitment that never pays back. And the emphasis on findings over features is not a rhetorical preference: it is the thing that distinguishes a team getting value from a team with a subscription. If you have had tracing installed for six months and cannot name three things it told you that you did not already believe, either it is not instrumented with the right fields or nobody is looking at it. The two constraints that decide the vendor in practice are data residency, because the platform holds your prompts and document text, and cost at volume, which makes sampling an architectural decision rather than a setting. And the limitation to hold onto is that none of these tools tells you whether an answer was <em>good</em> — that is evaluation, and having excellent observability can produce a misleading sense that quality is covered when it is not.</p>",
+              },
+            ],
+            links: [
+              "https://opentelemetry.io/docs/specs/semconv/gen-ai/",
+              "https://docs.smith.langchain.com/observability",
+              "https://langfuse.com/docs/tracing",
+              "https://docs.arize.com/phoenix/tracing/llm-traces",
+            ],
+          },
         ],
       },
     ],

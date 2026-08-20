@@ -29,7 +29,7 @@ import {
   Network,
 } from "lucide-react";
 import { useRouter } from "next/router";
-import { Hash, X, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import { Hash, X, BookOpen, ChevronDown, ChevronUp, Lightbulb } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -436,6 +436,218 @@ function AccordionQuestion({ question, topic, index }) {
   );
 }
 
+/**
+ * Normalises `concept.examples` from prepareData into a single renderable shape.
+ *
+ * prepareData is inconsistent - three real shapes exist in the file, plus junk:
+ *   1. "code string"                        -> the vast majority (~1616 entries)
+ *   2. { language, snippet }                -> a couple of OOP/python entries
+ *   3. { 0: { questions, explanation }, 1: {...} }  -> indexed object, HTML body
+ *   4. {}                                   -> ~50 empty objects (React "Question Set")
+ *
+ * Returns [{ title?, language?, code?, html? }]. Empty objects and blank
+ * strings are dropped, so `length === 0` reliably means "no example to show"
+ * and the button can be hidden entirely.
+ */
+function normalizeExamples(concept) {
+  const raw = concept?.examples;
+  if (!Array.isArray(raw)) return [];
+
+  const out = [];
+  for (const item of raw) {
+    if (typeof item === "string") {
+      if (item.trim()) out.push({ code: item });
+      continue;
+    }
+    if (!item || typeof item !== "object") continue;
+
+    // Shape 2: { language, snippet }
+    if (typeof item.snippet === "string") {
+      if (item.snippet.trim()) {
+        out.push({ language: item.language, code: item.snippet });
+      }
+      continue;
+    }
+
+    // Shape 3: indexed object of { questions, explanation }.
+    // Object.values({}) is [] so shape 4 (junk) falls out here for free.
+    for (const value of Object.values(item)) {
+      if (!value || typeof value !== "object") continue;
+      const title =
+        typeof value.questions === "string" ? value.questions : undefined;
+      const html =
+        typeof value.explanation === "string" ? value.explanation : undefined;
+      if (title || html) out.push({ title, html });
+    }
+  }
+  return out;
+}
+
+/**
+ * "Example" action button for a concept row. Renders nothing when the concept
+ * has no usable example, so rows without examples are not given a dead button.
+ * Mirrors the Learn/Practice button treatment (animated for the first 9 rows).
+ */
+function ExampleButton({ concept, themeColors, index, onOpen }) {
+  const examples = React.useMemo(() => normalizeExamples(concept), [concept]);
+  if (examples.length === 0) return null;
+
+  const handleClick = (e) => {
+    // The parent TableCell navigates to /learn on click - don't trigger that.
+    e.stopPropagation();
+    onOpen(concept, examples);
+  };
+
+  const className =
+    "flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:ml-2";
+  const style = {
+    backgroundColor: themeColors.light,
+    color: themeColors.text,
+  };
+  // currentTarget, not target: hovering the svg child would otherwise style the icon.
+  const onMouseEnter = (e) =>
+    (e.currentTarget.style.backgroundColor = themeColors.bg);
+  const onMouseLeave = (e) =>
+    (e.currentTarget.style.backgroundColor = themeColors.light);
+
+  const inner = (
+    <>
+      <Lightbulb
+        className="mr-2 w-[19px] md:w-[15px]"
+        style={{ color: themeColors.topic }}
+      />
+      Example
+    </>
+  );
+
+  if (index <= 8) {
+    return (
+      <motion.div
+        onClick={handleClick}
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.2 * index,
+          ease: [0, 0.71, 0.2, 1.01],
+        }}
+        className={className}
+        style={style}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        {inner}
+      </motion.div>
+    );
+  }
+
+  return (
+    <div
+      onClick={handleClick}
+      className={className}
+      style={style}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {inner}
+    </div>
+  );
+}
+
+/** Modal showing every example for one concept. */
+function ExampleModal({ isOpen, onClose, concept, examples, topic }) {
+  const themeColors = getThemeColors(topic);
+
+  if (!isOpen || !concept) return null;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          />
+
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed inset-4 z-50 flex items-center justify-center p-4"
+          >
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+              <div className="p-6 overflow-y-auto max-h-[calc(90vh-40px)]">
+                <h3 className="text-lg font-semibold mb-4 text-gray-800 flex justify-between items-start gap-4">
+                  <span>
+                    <span className="block text-xs uppercase tracking-wide text-gray-500 mb-1">
+                      Example
+                    </span>
+                    {concept.topic}
+                  </span>
+                  <button
+                    onClick={onClose}
+                    className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors shrink-0"
+                    aria-label="Close example"
+                  >
+                    <X
+                      className="w-6 h-6 text-gray-600"
+                      style={{ color: themeColors.text }}
+                    />
+                  </button>
+                </h3>
+
+                <div className="flex flex-col gap-5">
+                  {examples.map((example, i) => (
+                    <div
+                      key={i}
+                      className="rounded-lg border overflow-hidden"
+                      style={{ borderColor: themeColors.border }}
+                    >
+                      <div
+                        className="flex items-center justify-between gap-3 px-4 py-2 text-sm font-medium"
+                        style={{
+                          backgroundColor: themeColors.light,
+                          color: themeColors.text,
+                        }}
+                      >
+                        <span>{example.title || `Example ${i + 1}`}</span>
+                        {example.language && (
+                          <span className="text-xs uppercase opacity-70 shrink-0">
+                            {example.language}
+                          </span>
+                        )}
+                      </div>
+
+                      {example.code && (
+                        <pre className="m-0 p-4 overflow-x-auto bg-gray-50 text-[13px] leading-relaxed">
+                          <code className="whitespace-pre">{example.code}</code>
+                        </pre>
+                      )}
+
+                      {example.html && (
+                        <div
+                          className="p-4 prose prose-sm max-w-none overflow-x-auto"
+                          dangerouslySetInnerHTML={{ __html: example.html }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function QuestionModal({ isOpen, onClose, question, topic }) {
   const themeColors = getThemeColors(topic);
   const { processQuestionAnswer } = useGamification();
@@ -545,6 +757,9 @@ export default function BasicTabs({
   const [interviewQues, setInterviewQues] = React.useState([]);
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [exampleConcept, setExampleConcept] = React.useState(null);
+  const [exampleList, setExampleList] = React.useState([]);
+  const [isExampleOpen, setIsExampleOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [isDiagramOpen, setIsDiagramOpen] = React.useState(false);
 
@@ -704,6 +919,18 @@ export default function BasicTabs({
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedQuestion(null);
+  };
+
+  const openExample = (concept, examples) => {
+    setExampleConcept(concept);
+    setExampleList(examples);
+    setIsExampleOpen(true);
+  };
+
+  const closeExample = () => {
+    setIsExampleOpen(false);
+    setExampleConcept(null);
+    setExampleList([]);
   };
 
   const filteredPrepareData = React.useMemo(() => {
@@ -1135,7 +1362,7 @@ export default function BasicTabs({
                                   </motion.div>
                                 ) : (
                                   <div
-                                    onClick={() => {
+                                    onClick={(e) => {
                                       e.stopPropagation();
                                       router.push(
                                         `/test/${topic}/${concept.topic}`,
@@ -1162,6 +1389,12 @@ export default function BasicTabs({
                                     Practice
                                   </div>
                                 )}
+                                <ExampleButton
+                                  concept={concept}
+                                  themeColors={themeColors}
+                                  index={index}
+                                  onOpen={openExample}
+                                />
                               </TableCell>
                             </TableRow>
                           ))
@@ -1394,6 +1627,12 @@ export default function BasicTabs({
                                     Practice
                                   </div>
                                 )}
+                                <ExampleButton
+                                  concept={concept}
+                                  themeColors={themeColors}
+                                  index={index}
+                                  onOpen={openExample}
+                                />
                               </TableCell>
                             </TableRow>
                           ))
@@ -1596,6 +1835,15 @@ export default function BasicTabs({
             isOpen={isModalOpen}
             onClose={closeModal}
             question={selectedQuestion}
+            topic={topic}
+          />
+
+          {/* Concept Example Modal */}
+          <ExampleModal
+            isOpen={isExampleOpen}
+            onClose={closeExample}
+            concept={exampleConcept}
+            examples={exampleList}
             topic={topic}
           />
 
