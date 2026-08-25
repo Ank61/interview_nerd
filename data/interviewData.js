@@ -50737,8 +50737,6 @@ Also make it **queryable** by actor, resource, and time range with proper indexe
     prepareLink: "",
     externallinks: [],
     questions: [
-      // ╔══ RAG — Junior ══════════════════════════════════════════════════════
-      // ─── RAG FUNDAMENTALS ─────────────────────────────────────────────────
       {
         question:
           "What is Retrieval-Augmented Generation (RAG) and what problem does it solve?",
