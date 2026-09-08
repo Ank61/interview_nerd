@@ -2,9 +2,6 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion } from "framer-motion";
 import {
-  BookOpen,
-  User,
-  Settings,
   ArrowLeft,
   Code2,
   Workflow,
@@ -12,7 +9,7 @@ import {
   Cpu,
   Layers,
   Zap,
-  ChevronRight,
+  ArrowRight,
 } from "lucide-react";
 import { goConcepts } from "@/data/goData";
 
@@ -26,22 +23,19 @@ const ICON_MAP = {
   Zap,
 };
 
-// ─── Level → styling ─────────────────────────────────────────────────────────
+// ─── Level → styling (Subtle minimalistic colors) ────────────────────────────
 const LEVEL_STYLES = {
   Beginner: {
-    badge: "bg-green-100 text-green-700 border-green-200",
-    iconBg: "bg-green-100",
-    iconColor: "text-green-600",
+    badge: "bg-green-50 text-green-600 border-green-100",
+    iconColor: "text-green-500",
   },
   Intermediate: {
-    badge: "bg-yellow-100 text-yellow-700 border-yellow-200",
-    iconBg: "bg-yellow-100",
-    iconColor: "text-yellow-600",
+    badge: "bg-amber-50 text-amber-600 border-amber-100",
+    iconColor: "text-amber-500",
   },
   Advanced: {
-    badge: "bg-red-100 text-red-700 border-red-200",
-    iconBg: "bg-red-100",
-    iconColor: "text-red-600",
+    badge: "bg-rose-50 text-rose-600 border-rose-100",
+    iconColor: "text-rose-500",
   },
 };
 
@@ -49,161 +43,79 @@ export default function GoConcepts() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#FAFAFA] text-gray-900 font-sans selection:bg-teal-100">
       <Head>
-        <title>Go Concepts | Go Practice | Interview Nerd</title>
+        <title>Go Concepts | Interview Nerd</title>
         <meta
           name="description"
           content="Learn Go concepts progressively from beginner to advanced"
         />
       </Head>
 
-      {/* ── Header ── */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <div
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <div className="p-2 rounded-lg bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100">
-                  <BookOpen size={24} className="text-teal-600" />
-                </div>
-                <h1 className="hidden lg:block text-xl font-bold text-gray-900">
-                  Interview Nerd
-                </h1>
-              </div>
-
-              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button
-                  onClick={() => router.push("/")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Home
-                </button>
-                <span>/</span>
-                <button
-                  onClick={() => router.push("/go-practice")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Go Practice
-                </button>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">Concepts</span>
-              </nav>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => router.push("/go-practice")}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm rounded-lg border border-teal-200 text-teal-700 bg-teal-50 hover:bg-teal-100 transition-colors"
-              >
-                <ArrowLeft size={16} />
-                Back to Go Practice
-              </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <User size={20} className="text-gray-600" />
-              </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings size={20} className="text-gray-600" />
-              </button>
-            </div>
+      <main className="container mx-auto px-4 py-8 max-w-6xl">
+        {/* ── Minimal Header ── */}
+        <header className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 pb-4 border-b border-gray-200/60 gap-4">
+          <div>
+            <button
+              onClick={() => router.push("/go-practice")}
+              className="group flex items-center text-xs font-medium text-gray-400 hover:text-gray-700 transition-colors mb-3"
+            >
+              <ArrowLeft size={14} className="mr-1 group-hover:-translate-x-1 transition-transform" />
+              Back to Practice
+            </button>
+            <h1 className="text-2xl font-bold tracking-tight">Go Concepts</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              {goConcepts?.length ?? 0} modules to master Golang
+            </p>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* ── Main ── */}
-      <div className="container mx-auto px-4 py-10 max-w-5xl">
-        {/* Page title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-10 text-center"
-        >
-          <div className="flex justify-center mb-4">
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 shadow-xl">
-              <Layers size={40} className="text-white" />
-            </div>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-br from-teal-600 via-emerald-600 to-cyan-600 bg-clip-text text-transparent mb-3">
-            Go Concepts
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            A structured path from beginner to advanced — {goConcepts.length} concept
-            cards covering everything you need for Golang interviews.
-          </p>
-        </motion.div>
-
-        {/* ── Concept cards — driven entirely by goData.js ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {goConcepts.map((concept, i) => {
+        {/* ── Dense Concept Grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {(goConcepts || []).map((concept, i) => {
             const Icon = ICON_MAP[concept.icon] ?? Code2;
             const styles = LEVEL_STYLES[concept.level] ?? LEVEL_STYLES.Beginner;
 
             return (
               <motion.div
                 key={concept.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                whileHover={{ y: -4, scale: 1.01 }}
-                className="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden"
+                transition={{ duration: 0.3, delay: i * 0.04 }}
+                onClick={() => router.push(`/go-practice/concepts/${concept.id}`)}
+                className="group relative bg-white rounded-xl border border-gray-200/70 p-4 cursor-pointer hover:border-teal-300 hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-200 flex items-start gap-4"
               >
-                <div className="p-6 flex-1">
-                  {/* Icon + level badge */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-xl ${styles.iconBg}`}>
-                      <Icon size={22} className={styles.iconColor} />
-                    </div>
+                {/* Minimal Icon */}
+                <div className="mt-0.5 shrink-0">
+                  <Icon size={18} className={styles.iconColor} />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0 pr-6">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-sm font-semibold truncate">
+                      {concept.title}
+                    </h3>
                     <span
-                      className={`text-xs px-3 py-1 rounded-full border font-semibold ${styles.badge}`}
+                      className={`text-[9px] uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded border ${styles.badge} shrink-0`}
                     >
                       {concept.level}
                     </span>
                   </div>
-
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">
-                    {concept.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                  <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
                     {concept.summary}
                   </p>
-
-                  {/* Topic bullets */}
-                  <ul className="space-y-1.5">
-                    {concept.topics.map((topic) => (
-                      <li
-                        key={topic}
-                        className="flex items-center gap-2 text-sm text-gray-700"
-                      >
-                        <ChevronRight
-                          size={13}
-                          className="text-teal-500 shrink-0"
-                        />
-                        {topic}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
 
-                {/* Footer CTA */}
-                <div className="px-6 pb-5">
-                  <button
-                    onClick={() =>
-                      router.push(`/go-practice/concepts/${concept.id}`)
-                    }
-                    className="w-full py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-teal-600 to-emerald-600 text-white hover:from-teal-500 hover:to-emerald-500 shadow hover:shadow-md transition-all duration-200"
-                  >
-                    View Questions →
-                  </button>
+                {/* Hover Indicator */}
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 text-teal-500">
+                  <ArrowRight size={16} />
                 </div>
               </motion.div>
             );
           })}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

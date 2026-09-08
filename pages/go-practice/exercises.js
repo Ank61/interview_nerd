@@ -1,34 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen,
-  User,
-  Settings,
+  ArrowLeft,
+  Code2,
   ChevronRight,
   CheckCircle,
   XCircle,
   RotateCcw,
-  Terminal,
   Lightbulb,
-  ChevronDown,
-  ChevronUp,
-  ArrowLeft,
-  Code2,
+  Terminal,
+  Play,
+  Eye,
+  EyeOff,
 } from "lucide-react";
-import { goExercises } from "@/data/goData";
+import { goConcepts } from "@/data/goData";
 
-// ─── Difficulty badge colours ─────────────────────────────────────────────────
+// ─── Minimal Badge Styles ────────────────────────────────────────────────────
 const DIFFICULTY_BADGE = {
-  Beginner:     "bg-green-100 text-green-700 border-green-200",
-  Intermediate: "bg-yellow-100 text-yellow-700 border-yellow-200",
-  Advanced:     "bg-red-100 text-red-700 border-red-200",
+  Beginner: "bg-green-50 text-green-600 border-green-100",
+  Intermediate: "bg-amber-50 text-amber-600 border-amber-100",
+  Advanced: "bg-rose-50 text-rose-600 border-rose-100",
 };
 
-const DIFFICULTIES = ["All", "Beginner", "Intermediate", "Advanced"];
-
-// ─── Go Answer Checker Algorithm ──────────────────────────────────────────────
+// ─── Go Answer Checker Algorithm (Unchanged) ─────────────────────────────────
 function checkGoAnswer(userCode, solution) {
   const normalize = (s) =>
     s
@@ -43,25 +39,13 @@ function checkGoAnswer(userCode, solution) {
 
   if (userNorm === solNorm) return "correct";
 
-  // Extract Go key constructs from solution
   const patterns = [
-    "func ",
-    "package ",
-    "import ",
-    "for ",
-    "go ",
-    "chan ",
-    "defer ",
-    "return ",
-    "if err",
-    "goroutine",
-    ":=",
-    "var ",
+    "func ", "package ", "import ", "for ", "go ", "chan ", "defer ",
+    "return ", "if err", "goroutine", ":=", "var ",
   ];
   
   const solutionHits = patterns.filter((p) => solNorm.includes(p));
   
-  // If the solution is so simple it doesn't match patterns well, do a basic check
   if (solutionHits.length === 0) {
       if(userNorm.length > 10) return "partial";
       return "wrong";
@@ -74,17 +58,28 @@ function checkGoAnswer(userCode, solution) {
     : "wrong";
 }
 
-
 // ─── Main Component ───────────────────────────────────────────────────────────
-export default function GoExercises() {
+export default function ConceptExercises() {
   const router = useRouter();
+  const { id } = router.query;
 
-  const [selected, setSelected]         = useState(goExercises[0]);
-  const [userCode, setUserCode]         = useState(goExercises[0]?.starterCode || "");
+  const concept = goConcepts.find((c) => String(c.id) === String(id));
+  const exercises = concept?.exercises ?? [];
+
+  const [selected, setSelected] = useState(null);
+  const [userCode, setUserCode] = useState("");
   const [showSolution, setShowSolution] = useState(false);
-  const [showHints, setShowHints]       = useState(false);
-  const [feedback, setFeedback]         = useState(null); // "correct" | "partial" | "wrong" | null
-  const [filter, setFilter]             = useState("All");
+  const [showHints, setShowHints] = useState(false);
+  const [feedback, setFeedback] = useState(null);
+
+  const activeExercise = selected ?? exercises[0] ?? null;
+
+  // Hydration sync
+  useEffect(() => {
+    if (activeExercise && !userCode) {
+      setUserCode(activeExercise.starterCode || "");
+    }
+  }, [activeExercise]);
 
   const selectExercise = (ex) => {
     setSelected(ex);
@@ -95,378 +90,229 @@ export default function GoExercises() {
   };
 
   const handleCheck = () => {
-    setFeedback(checkGoAnswer(userCode, selected.solution));
+    if (!activeExercise) return;
+    setFeedback(checkGoAnswer(userCode, activeExercise.solution));
   };
 
   const handleReset = () => {
-    setUserCode(selected.starterCode || "");
+    setUserCode(activeExercise.starterCode || "");
     setFeedback(null);
     setShowSolution(false);
-    setShowHints(false);
   };
 
-  const filtered =
-    filter === "All"
-      ? goExercises
-      : goExercises.filter((e) => e.difficulty === filter);
+  if (!concept) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#FAFAFA]">
+        <button onClick={() => router.push("/go-practice/concepts")} className="text-sm text-teal-600 hover:underline">
+          ← Back to Concepts
+        </button>
+      </div>
+    );
+  }
 
-  const badgeClass = (ex) =>
-    DIFFICULTY_BADGE[ex.difficulty] ?? DIFFICULTY_BADGE.Beginner;
+  const badgeClass = (ex) => DIFFICULTY_BADGE[ex?.difficulty] ?? DIFFICULTY_BADGE.Beginner;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-screen flex flex-col bg-[#FAFAFA] text-gray-900 font-sans overflow-hidden selection:bg-teal-100">
       <Head>
-        <title>Go Exercises | Go Practice | Interview Nerd</title>
-        <meta
-          name="description"
-          content="Hands-on Go coding exercises for interview preparation"
-        />
+        <title>{concept.title} | Interview Nerd</title>
       </Head>
 
-      {/* ── Header ── */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <div
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <div className="p-2 rounded-lg bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100">
-                  <BookOpen size={24} className="text-teal-600" />
-                </div>
-                <h1 className="hidden lg:block text-xl font-bold text-gray-900">
-                  Interview Nerd
-                </h1>
-              </div>
-
-              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button
-                  onClick={() => router.push("/")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Home
-                </button>
-                <span>/</span>
-                <button
-                  onClick={() => router.push("/go-practice")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Go Practice
-                </button>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">Exercises</span>
-              </nav>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => router.push("/go-practice")}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm rounded-lg border border-teal-200 text-teal-700 bg-teal-50 hover:bg-teal-100 transition-colors"
-              >
-                <ArrowLeft size={16} />
-                Back to Go Practice
-              </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <User size={20} className="text-gray-600" />
-              </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings size={20} className="text-gray-600" />
-              </button>
-            </div>
-          </div>
+      {/* ── Top Navigation Bar (Slim) ── */}
+      <header className="h-12 flex items-center justify-between px-4 border-b border-gray-200/60 bg-white shrink-0">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => router.push("/go-practice/concepts")}
+            className="group flex items-center text-xs font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft size={14} className="mr-1.5 group-hover:-translate-x-1 transition-transform" />
+            Concepts
+          </button>
+          <div className="h-4 w-px bg-gray-200"></div>
+          <h1 className="text-sm font-semibold truncate">{concept.title}</h1>
+        </div>
+        <div className="text-xs text-gray-400 font-medium tracking-wide">
+          {exercises.length} Exercises
         </div>
       </header>
 
-      {/* ── Body ── */}
-      <div className="flex" style={{ minHeight: "calc(100vh - 64px)" }}>
-        {/* ── Left sidebar: exercise list ── */}
-        <aside className="hidden md:flex flex-col w-72 xl:w-80 border-r border-gray-200 bg-white shrink-0">
-          {/* heading */}
-          <div className="px-5 py-4 border-b border-gray-100">
-            <div className="flex items-center gap-2 mb-1">
-              <Code2 size={18} className="text-teal-600" />
-              <h2 className="font-semibold text-gray-900 text-base">
-                Go Exercises
-              </h2>
-            </div>
-            <p className="text-xs text-gray-500">
-              {goExercises.length} challenges available
-            </p>
-          </div>
-
-          {/* difficulty filter */}
-          <div className="px-5 py-3 flex flex-wrap gap-2 border-b border-gray-100">
-            {DIFFICULTIES.map((d) => (
-              <button
-                key={d}
-                onClick={() => setFilter(d)}
-                className={`text-xs px-3 py-1 rounded-full font-medium border transition-colors ${
-                  filter === d
-                    ? "bg-teal-600 text-white border-teal-600"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-teal-400 hover:text-teal-600"
-                }`}
-              >
-                {d}
-              </button>
-            ))}
-          </div>
-
-          {/* exercise list — auto-populated from goData.js */}
-          <div className="flex-1 overflow-y-auto py-3 px-3 space-y-2">
-            {filtered.map((ex) => (
-              <button
-                key={ex.id}
-                onClick={() => selectExercise(ex)}
-                className={`w-full text-left p-3 rounded-xl border transition-all duration-200 group ${
-                  selected.id === ex.id
-                    ? "border-teal-400 bg-teal-50 shadow-sm"
-                    : "border-gray-100 bg-gray-50 hover:border-teal-200 hover:bg-teal-50/50"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <p
-                    className={`font-medium text-sm leading-5 ${
-                      selected.id === ex.id ? "text-teal-900" : "text-gray-800"
-                    }`}
-                  >
-                    {ex.title}
-                  </p>
-                  <ChevronRight
-                    size={14}
-                    className={`mt-0.5 shrink-0 ${
-                      selected.id === ex.id
-                        ? "text-teal-600"
-                        : "text-gray-400"
-                    }`}
-                  />
-                </div>
-                <span
-                  className={`mt-1.5 inline-block text-xs px-2 py-0.5 rounded-full border font-medium ${badgeClass(ex)}`}
+      {/* ── Main IDE Layout ── */}
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        
+        {/* 1. Left Sidebar: Exercise List */}
+        <aside className="w-full md:w-56 lg:w-64 border-r border-gray-200/60 bg-[#FAFAFA] flex flex-col shrink-0 overflow-y-auto">
+          <div className="p-3">
+            <h2 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 px-2">
+              Modules
+            </h2>
+            <div className="space-y-1">
+              {exercises.map((ex) => (
+                <button
+                  key={ex.id}
+                  onClick={() => selectExercise(ex)}
+                  className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center justify-between group ${
+                    activeExercise?.id === ex.id
+                      ? "bg-white border border-teal-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] text-teal-800 font-medium"
+                      : "border border-transparent text-gray-600 hover:bg-gray-100"
+                  }`}
                 >
-                  {ex.difficulty}
-                </span>
-              </button>
-            ))}
+                  <span className="truncate pr-2">{ex.title}</span>
+                  {activeExercise?.id === ex.id && (
+                    <ChevronRight size={14} className="text-teal-500 shrink-0" />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         </aside>
 
-        {/* ── Right panel: editor ── */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-5">
-            {/* Exercise description card */}
-            <motion.div
-              key={selected.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6"
-            >
-              <div className="flex flex-wrap items-center gap-3 mb-3">
-                <span
-                  className={`text-xs px-3 py-1 rounded-full border font-semibold ${badgeClass(selected)}`}
-                >
-                  {selected.difficulty}
+        {/* 2. Middle Panel: Instructions */}
+        <div className="w-full md:w-1/3 lg:w-[30%] border-r border-gray-200/60 bg-white flex flex-col shrink-0 overflow-y-auto">
+          {activeExercise ? (
+            <div className="p-5 lg:p-6 flex flex-col h-full">
+              {/* Badges */}
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${badgeClass(activeExercise)}`}>
+                  {activeExercise.difficulty}
                 </span>
-                {selected.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200"
-                  >
+                {activeExercise.tags?.slice(0, 2).map((tag) => (
+                  <span key={tag} className="text-[10px] px-2 py-0.5 rounded border border-gray-100 bg-gray-50 text-gray-500">
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                {selected.title}
-              </h2>
-              <p className="text-gray-600 leading-relaxed text-sm">
-                {selected.description}
-              </p>
-
-              {/* Hints toggle */}
-              <button
-                onClick={() => setShowHints(!showHints)}
-                className="mt-4 flex items-center gap-2 text-sm text-amber-600 hover:text-amber-700 font-medium transition-colors"
-              >
-                <Lightbulb size={16} />
-                {showHints ? "Hide hints" : "Show hints"}
-                {showHints ? (
-                  <ChevronUp size={14} />
-                ) : (
-                  <ChevronDown size={14} />
-                )}
-              </button>
-
-              <AnimatePresence>
-                {showHints && (
-                  <motion.ol
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="mt-3 space-y-1.5 overflow-hidden"
-                  >
-                    {selected.hints.map((hint, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-2 text-sm text-gray-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2"
-                      >
-                        <span className="font-bold text-amber-600 shrink-0">
-                          {i + 1}.
-                        </span>
-                        {hint}
-                      </li>
-                    ))}
-                  </motion.ol>
-                )}
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Code editor */}
-            <motion.div
-              key={`${selected.id}-editor`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.05 }}
-              className="bg-gray-900 rounded-2xl overflow-hidden shadow-xl border border-gray-700"
-            >
-              {/* Title bar */}
-              <div className="flex items-center justify-between px-4 py-3 bg-gray-800 border-b border-gray-700">
-                <div className="flex items-center gap-3">
-                  <div className="flex gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-red-400" />
-                    <span className="w-3 h-3 rounded-full bg-yellow-400" />
-                    <span className="w-3 h-3 rounded-full bg-green-400" />
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Terminal size={14} className="text-gray-400" />
-                    <span className="text-gray-300 text-xs font-mono">
-                      main.go
-                    </span>
-                  </div>
-                </div>
-                <button
-                  onClick={handleReset}
-                  className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-200 transition-colors"
-                >
-                  <RotateCcw size={13} />
-                  Reset
-                </button>
+              {/* Title & Description */}
+              <h2 className="text-lg font-bold mb-3">{activeExercise.title}</h2>
+              <div className="text-sm text-gray-600 leading-relaxed mb-6 space-y-3">
+                {activeExercise.description}
               </div>
 
-              {/* Textarea */}
-              <textarea
-                value={userCode}
-                onChange={(e) => {
-                  setUserCode(e.target.value);
-                  setFeedback(null);
-                }}
-                placeholder={`package main\n\nfunc main() {\n\t// Code here\n\n}`}
-                spellCheck={false}
-                className="w-full bg-gray-900 text-teal-100 font-mono text-sm leading-6 p-5 resize-none outline-none placeholder-gray-600 min-h-[280px]"
-                rows={16}
-              />
+              {/* Hints Accordion */}
+              {activeExercise.hints && activeExercise.hints.length > 0 && (
+                <div className="mt-auto pt-6 border-t border-gray-100">
+                  <button
+                    onClick={() => setShowHints(!showHints)}
+                    className="flex items-center gap-2 text-xs font-semibold text-amber-600 hover:text-amber-700 transition-colors"
+                  >
+                    <Lightbulb size={14} />
+                    {showHints ? "Hide Hints" : "Need a hint?"}
+                  </button>
+                  
+                  <AnimatePresence>
+                    {showHints && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <ul className="mt-3 space-y-2 border-l-2 border-amber-200 pl-3 py-1">
+                          {activeExercise.hints.map((hint, i) => (
+                            <li key={i} className="text-xs text-gray-600 leading-relaxed">
+                              <span className="font-semibold text-amber-700 mr-1">{i + 1}.</span>
+                              {hint}
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
+            </div>
+          ) : (
+             <div className="p-6 text-sm text-gray-400">Select an exercise...</div>
+          )}
+        </div>
 
-              {/* Actions bar */}
-              <div className="px-4 py-3 bg-gray-800 border-t border-gray-700 flex flex-wrap items-center gap-3">
-                <button
-                  onClick={handleCheck}
-                  disabled={!userCode.trim()}
-                  className="px-5 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors"
-                >
-                  Check Syntax
-                </button>
-                <button
-                  onClick={() => setShowSolution(!showSolution)}
-                  className="px-5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm font-medium transition-colors"
-                >
-                  {showSolution ? "Hide Solution" : "Show Solution"}
-                </button>
+        {/* 3. Right Panel: Code Workspace */}
+        <div className="flex-1 flex flex-col bg-[#0D0D0D] text-gray-300 min-w-0">
+          {/* Editor Header */}
+          <div className="h-10 border-b border-gray-800 bg-[#161616] flex items-center justify-between px-4 shrink-0">
+            <div className="flex items-center gap-2 text-xs font-mono text-gray-400">
+              <Terminal size={14} className="text-teal-500/70" />
+              main.go
+            </div>
+            <div className="flex items-center gap-3">
+              <button onClick={handleReset} className="text-[11px] font-medium text-gray-500 hover:text-gray-300 flex items-center gap-1 transition-colors">
+                <RotateCcw size={12} /> Reset
+              </button>
+              <button 
+                onClick={() => setShowSolution(!showSolution)} 
+                className={`text-[11px] font-medium flex items-center gap-1 transition-colors ${showSolution ? "text-teal-400" : "text-gray-500 hover:text-gray-300"}`}
+              >
+                {showSolution ? <EyeOff size={12} /> : <Eye size={12} />} 
+                {showSolution ? "Hide Solution" : "View Solution"}
+              </button>
+            </div>
+          </div>
 
-                {/* Feedback */}
-                <AnimatePresence>
+          {/* Split Workspace Area */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {/* User Editor */}
+            <textarea
+              value={userCode}
+              onChange={(e) => {
+                setUserCode(e.target.value);
+                setFeedback(null);
+              }}
+              spellCheck={false}
+              className={`w-full bg-transparent text-teal-50/90 font-mono text-[13px] leading-relaxed p-4 resize-none outline-none selection:bg-teal-900/50 ${showSolution ? "h-1/2 border-b border-gray-800" : "flex-1"}`}
+              placeholder="// Write your Go code here..."
+            />
+
+            {/* Solution Pane (Only visible if toggled) */}
+            {showSolution && (
+              <div className="h-1/2 flex flex-col bg-[#111]">
+                <div className="px-4 py-2 border-b border-gray-800 text-[11px] font-mono text-gray-500 uppercase tracking-widest bg-[#161616]">
+                  solution.go
+                </div>
+                <div className="flex-1 overflow-auto p-4">
+                  <pre className="font-mono text-[13px] text-gray-400 leading-relaxed">
+                    {activeExercise?.solution}
+                  </pre>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Action Bar */}
+          <div className="h-14 border-t border-gray-800 bg-[#161616] px-4 flex items-center justify-between shrink-0">
+             
+             {/* Feedback Area */}
+             <div className="flex-1">
+                <AnimatePresence mode="wait">
                   {feedback && (
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium ${
-                        feedback === "correct"
-                          ? "bg-green-500/20 text-green-300 border border-green-500/30"
-                          : feedback === "partial"
-                          ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
-                          : "bg-red-500/20 text-red-300 border border-red-500/30"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      className={`flex items-center gap-2 text-xs font-medium ${
+                        feedback === "correct" ? "text-green-400" : 
+                        feedback === "partial" ? "text-amber-400" : "text-rose-400"
                       }`}
                     >
-                      {feedback === "correct" ? (
-                        <CheckCircle size={16} />
-                      ) : (
-                        <XCircle size={16} />
-                      )}
-                      {feedback === "correct"
-                        ? "Perfect! 🎉"
-                        : feedback === "partial"
-                        ? "Partially correct — review hints"
-                        : "Not quite — check the instructions again"}
+                      {feedback === "correct" ? <CheckCircle size={14} /> : <XCircle size={14} />}
+                      {feedback === "correct" ? "Compilation successful. Tests passed!" : 
+                       feedback === "partial" ? "Syntax looks okay, but logic is missing." : 
+                       "Incorrect structure. Review the hints."}
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-            </motion.div>
+             </div>
 
-            {/* Solution panel */}
-            <AnimatePresence>
-              {showSolution && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="bg-gray-900 rounded-2xl overflow-hidden border border-teal-700 shadow-xl">
-                    <div className="flex items-center gap-2 px-4 py-3 bg-gray-800 border-b border-teal-800">
-                      <Code2 size={14} className="text-teal-400" />
-                      <span className="text-teal-300 text-xs font-mono font-semibold">
-                        Solution
-                      </span>
-                    </div>
-                    <pre className="text-teal-200 font-mono text-sm leading-6 p-5 overflow-x-auto whitespace-pre-wrap">
-                      {selected.solution}
-                    </pre>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Mobile exercise list */}
-            <div className="md:hidden bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
-              <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-3">
-                Other Exercises
-              </p>
-              <div className="space-y-2">
-                {goExercises
-                  .filter((e) => e.id !== selected.id)
-                  .map((ex) => (
-                    <button
-                      key={ex.id}
-                      onClick={() => selectExercise(ex)}
-                      className="w-full text-left p-3 rounded-xl border border-gray-100 bg-gray-50 hover:border-teal-200 hover:bg-teal-50/50 transition-all"
-                    >
-                      <p className="font-medium text-sm text-gray-800">
-                        {ex.title}
-                      </p>
-                      <span
-                        className={`mt-1 inline-block text-xs px-2 py-0.5 rounded-full border font-medium ${badgeClass(ex)}`}
-                      >
-                        {ex.difficulty}
-                      </span>
-                    </button>
-                  ))}
-              </div>
-            </div>
+             {/* Run Button */}
+            <button
+              onClick={handleCheck}
+              disabled={!userCode.trim()}
+              className="flex items-center gap-2 px-5 py-2 rounded shadow-sm bg-teal-600 hover:bg-teal-500 disabled:opacity-50 disabled:hover:bg-teal-600 text-white text-xs font-semibold transition-all"
+            >
+              <Play size={14} fill="currentColor" />
+              Run Code
+            </button>
           </div>
-        </main>
+        </div>
       </div>
     </div>
   );
