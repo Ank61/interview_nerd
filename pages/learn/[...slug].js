@@ -19,6 +19,7 @@ import {
 import { useRouter } from "next/router";
 import { prepareData } from "@/data/prepareData";
 import { linuxPrepareData } from "@/data/linuxPrepareData";
+import { awsServiceCategories } from "@/data/awsServices";
 import { motion } from "framer-motion";
 
 export default function Learn({
@@ -122,7 +123,7 @@ export default function Learn({
   }, [hydrated, explanation]);
 
   React.useEffect(() => {
-    const categoryData = prepareData.find(
+    const categoryData = [...awsServiceCategories, ...prepareData].find(
       (item) => item.category.toLowerCase() === category?.toLowerCase()
     );
 
@@ -670,7 +671,21 @@ export async function getStaticPaths() {
       )
     : [];
 
-  const allPaths = [...dbPaths, ...linuxPaths];
+  // Add AWS service paths from the per-service data files
+  const awsPaths = awsServiceCategories.flatMap((item) =>
+    (item.type || []).flatMap((typeItem) =>
+      (typeItem.concepts || [])
+        .map((conceptItem) => {
+          const category = item.category || "";
+          const topic = conceptItem && conceptItem.topic ? String(conceptItem.topic) : "";
+          if (!category || !topic) return null;
+          return { params: { slug: [category, topic] } };
+        })
+        .filter(Boolean)
+    )
+  );
+
+  const allPaths = [...dbPaths, ...linuxPaths, ...awsPaths];
   const uniquePaths = allPaths.filter(
     (path, index, self) =>
       index ===
@@ -697,18 +712,23 @@ export async function getStaticProps({ params }) {
   let category = "";
   let example = "";
 
-  // Check linuxPrepareData first if category is linux
-  if (categorySlug === "linux") {
-    linuxPrepareData.type.forEach((typeItem) => {
+  // linux and the AWS services live in separate data files; check those first
+  const separateData =
+    categorySlug === "linux"
+      ? linuxPrepareData
+      : awsServiceCategories.find((item) => item.category === categorySlug) ||
+        null;
+  if (separateData) {
+    separateData.type.forEach((typeItem) => {
       typeItem.concepts.forEach((conceptItem, index) => {
         if (conceptItem.topic === selected) {
-          category = linuxPrepareData.category;
+          category = separateData.category;
           themeColor = {
-            category: linuxPrepareData.category,
-            themeBgColor: linuxPrepareData.themeBgColor,
-            textColor: linuxPrepareData.textColor,
-            topicColor: linuxPrepareData.topicColor,
-            lightColor: linuxPrepareData.lightColor,
+            category: separateData.category,
+            themeBgColor: separateData.themeBgColor,
+            textColor: separateData.textColor,
+            topicColor: separateData.topicColor,
+            lightColor: separateData.lightColor,
           };
           explanation = conceptItem.explanation || "";
           const next = typeItem.concepts[index + 1];

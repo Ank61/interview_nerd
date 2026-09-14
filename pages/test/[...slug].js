@@ -18,6 +18,7 @@ import {
   BookCheck,
 } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
+import { awsServiceCategories } from "@/data/awsServices";
 
 export default function Component() {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function Component() {
     const selected = topic[topic.length - 1];
     setTopicSelected(topic[topic.length - 1]);
     let themeColor;
-    const matchingTopics = prepareData.flatMap((item) => {
+    const matchingTopics = [...awsServiceCategories, ...prepareData].flatMap((item) => {
       return item.type.flatMap((typeItem) =>
         typeItem.concepts.filter((conceptItem, index) => {
           if (conceptItem.topic === selected) {

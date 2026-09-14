@@ -9,6 +9,7 @@ import {
   Star,
 } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
+import { awsServiceCategories } from "@/data/awsServices";
 
 const TopicSidebar = ({ currentTopic, category, theme }) => {
   const router = useRouter();
@@ -69,7 +70,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
   }, []);
 
   useEffect(() => {
-    const categoryData = prepareData.find(
+    const categoryData = [...awsServiceCategories, ...prepareData].find(
       (item) => item.category.toLowerCase() === category?.toLowerCase()
     );
 
