@@ -80,7 +80,6 @@ export async function getStaticPaths() {
     "linux",
     "go",
     "dsa",
-    "aws",
     "AI"
   ];
   // One category page per AWS service (data/aws/*.js)

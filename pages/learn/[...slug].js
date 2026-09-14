@@ -151,7 +151,7 @@ export default function Learn({
   const currentTopics = allTopics.slice(startIndex, startIndex + topicsPerPage);
 
   const handleTopicClick = (selectedTopic) => {
-    router.push(`/learn/${category}/${selectedTopic}`);
+    router.push(`/learn/${category}/${encodeURIComponent(selectedTopic)}`);
     // Close sidebar on mobile after selection
     if (!isLargeScreen) {
       setSidebarOpen(false);
@@ -620,7 +620,7 @@ export default function Learn({
                     {nextTopic && (
                       <Button
                         onClick={() =>
-                          router.push(`/learn/${category}/${nextTopic}`)
+                          router.push(`/learn/${category}/${encodeURIComponent(nextTopic)}`)
                         }
                         variant="outline"
                         className="text-md w-full py-3 px-6 border-gray-300 hover:bg-gray-50 transition-colors duration-200"
@@ -650,7 +650,7 @@ export async function getStaticPaths() {
           const category = item.category || "";
           const topic = conceptItem && conceptItem.topic ? String(conceptItem.topic) : "";
           if (!category || !topic) return null;
-          return { params: { slug: [category, topic] } };
+          return { params: { slug: [category, encodeURIComponent(topic)] } };
         })
         .filter(Boolean)
     );
@@ -665,7 +665,7 @@ export async function getStaticPaths() {
             const category = linuxPrepareData.category || "";
             const topic = conceptItem && conceptItem.topic ? String(conceptItem.topic) : "";
             if (!category || !topic) return null;
-            return { params: { slug: [category, topic] } };
+            return { params: { slug: [category, encodeURIComponent(topic)] } };
           })
           .filter(Boolean)
       )
@@ -679,7 +679,7 @@ export async function getStaticPaths() {
           const category = item.category || "";
           const topic = conceptItem && conceptItem.topic ? String(conceptItem.topic) : "";
           if (!category || !topic) return null;
-          return { params: { slug: [category, topic] } };
+          return { params: { slug: [category, encodeURIComponent(topic)] } };
         })
         .filter(Boolean)
     )
@@ -704,7 +704,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const slug = params.slug;
-  const selected = slug[slug.length - 1];
+  const selected = decodeURIComponent(slug[slug.length - 1]);
   const categorySlug = slug[0];
   let themeColor = {};
   let nextTopic = null;
