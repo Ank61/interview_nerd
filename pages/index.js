@@ -1389,7 +1389,7 @@ export default function Home() {
               transition={{ duration: 0.5, delay: 1.0 }}
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/aws")}
+              onClick={() => router.push("/aws")}
               className="cursor-pointer group"
             >
               <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-yellow-300 relative overflow-hidden">

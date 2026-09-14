@@ -50,6 +50,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { linuxPrepareData } from "@/data/linuxPrepareData";
+import { awsServiceCategories } from "@/data/awsServices";
 // import { dsaPrepareData } from "@/data/dsaPrepareData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
@@ -82,7 +83,9 @@ export async function getStaticPaths() {
     "aws",
     "AI"
   ];
-  const paths = topics.map((topic) => ({
+  // One category page per AWS service (data/aws/*.js)
+  const awsTopics = awsServiceCategories.map((item) => item.category);
+  const paths = [...topics, ...awsTopics].map((topic) => ({
     params: { slug: topic },
   }));
   return {
@@ -93,11 +96,17 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  // For linux, use the separate linuxPrepareData to avoid the 8MB prepareData file size limit
+  // The old combined "aws" category is now a service picker at /aws
+  if (slug === "aws") {
+    return { redirect: { destination: "/aws", permanent: false } };
+  }
+  // linux and the AWS services live in their own data files to keep them
+  // independent of the very large prepareData bundle (8MB static-props limit)
   const topicPrepareData =
     slug === "linux"
       ? linuxPrepareData
-      : prepareData.find((item) => item.category === slug);
+      : awsServiceCategories.find((item) => item.category === slug) ||
+        prepareData.find((item) => item.category === slug);
   const topicInterviewData = interviewData.filter(
     (item) => item.topic === slug,
   );
