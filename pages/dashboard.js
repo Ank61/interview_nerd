@@ -25,6 +25,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+
 export default function Dashboard({
   initialRecentActivity = [],
   initialStudyStats = null,
