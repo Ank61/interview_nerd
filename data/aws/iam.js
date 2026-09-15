@@ -4483,7 +4483,7 @@ aws iam get-service-last-accessed-details --job-id $JOB \\
           ],
         },
         {
-          topic: "Policy Evaluation Logic — Explicit Deny > Explicit Allow > Implicit Deny",
+          topic: "Policy Evaluation Logic — Explicit Deny & Explicit Allow & Implicit Deny",
           tags: ["aws", "iam", "policy evaluation", "scp", "rcp", "boundary", "session policy", "deny"],
           explanation: `<div>
 <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -5988,7 +5988,7 @@ aws organizations list-parents --child-id 222233334444
           ],
         },
         {
-          topic: "Federated Identity — SAML, OIDC & AssumeRoleWith*",
+          topic: "Federated Identity — SAML, OIDC & AssumeRoleWith",
           tags: ["aws", "iam", "federation", "saml", "oidc", "sts", "web identity", "cognito"],
           explanation: `<div>
 <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -6760,7 +6760,7 @@ aws events put-targets --rule analyzer-public-finding \\
           ],
         },
         {
-          topic: "Wildcard Risk — Why Action:* and Resource:* Are Instant Red Flags",
+          topic: "Wildcard Risk",
           tags: ["aws", "iam", "least privilege", "wildcards", "policy review", "security"],
           explanation: `<div>
 <p style="line-height: 1.75; margin-top: 1.5rem;">

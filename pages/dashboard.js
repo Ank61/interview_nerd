@@ -14,16 +14,12 @@ import {
   Calendar,
   Clock,
   BarChart3,
-  ArrowLeft,
   Trophy,
-  Zap,
   CheckCircle,
-  Home,
   User,
   Settings,
-  Container,
-  ArrowRight,
 } from "lucide-react";
+
 
 export default function Dashboard({
   initialRecentActivity = [],
