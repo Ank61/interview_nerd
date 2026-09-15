@@ -44,7 +44,7 @@ export const awsServiceCategories = [
 export const awsServices = [
   {
     name: "EC2",
-    slug: "AWS EC2",
+    slug: "AWS ECS",
     group: "Compute",
     icon: "Server",
     description: "Virtual servers: AMIs, instance types, EBS, Auto Scaling and pricing models.",
