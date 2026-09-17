@@ -7,9 +7,11 @@
  *  - awsServiceCategories: the per-service category data objects that live in
  *    data/aws/*.js (kept out of the very large prepareData.js bundle).
  *
- * S3, SQS and SNS already have rich categories inside prepareData.js
- * ("AWS S3", "AWS SQS", "AWS SNS"), so their cards link to those instead of
- * duplicating the content here.
+ * S3 still has its category inside prepareData.js ("AWS S3"), so its card links
+ * there instead of duplicating the content. SQS and SNS now live in
+ * data/aws/sqs.js and data/aws/sns.js; the older, much smaller "AWS SQS" entry
+ * still in prepareData.js is shadowed, because getStaticProps checks
+ * awsServiceCategories first.
  */
 import { awsEc2 } from "@/data/aws/ec2";
 import { awsIam } from "@/data/aws/iam";
@@ -24,6 +26,8 @@ import { awsEventBridge } from "@/data/aws/eventbridge";
 import { awsSecretsManager } from "@/data/aws/secretsManager";
 import { awsEcs } from "@/data/aws/ecs";
 import { awsCodePipeline } from "@/data/aws/codepipeline";
+import { awsSqs } from "@/data/aws/sqs";
+import { awsSns } from "@/data/aws/sns";
 
 export const awsServiceCategories = [
   awsEc2,
@@ -39,6 +43,8 @@ export const awsServiceCategories = [
   awsSecretsManager,
   awsEcs,
   awsCodePipeline,
+  awsSqs,
+  awsSns,
 ];
 
 export const awsServices = [
