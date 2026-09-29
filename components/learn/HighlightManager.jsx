@@ -5,7 +5,7 @@ import {
   Trash2,
   Check,
   RotateCcw,
-  CloudCheck,
+  Cloud,
   CloudUpload,
   Sparkles,
   Info,
@@ -442,7 +442,7 @@ export default function HighlightManager({
                 </span>
               ) : isAuthenticated ? (
                 <span className="flex items-center gap-1.5 text-emerald-600" title="Saved to cloud database">
-                  <CloudCheck size={15} />
+                  <Cloud size={15} />
                   <span className="hidden sm:inline">Saved in DB</span>
                 </span>
               ) : (
