@@ -28,6 +28,7 @@ import { awsEcs } from "@/data/aws/ecs";
 import { awsCodePipeline } from "@/data/aws/codepipeline";
 import { awsSqs } from "@/data/aws/sqs";
 import { awsSns } from "@/data/aws/sns";
+import { awsContainers } from "@/data/aws/containers";
 
 export const awsServiceCategories = [
   awsEc2,
@@ -45,6 +46,7 @@ export const awsServiceCategories = [
   awsCodePipeline,
   awsSqs,
   awsSns,
+  awsContainers,
 ];
 
 export const awsServices = [
@@ -176,7 +178,7 @@ export const awsServices = [
   },
   {
     name: "ECS / EKS / Fargate",
-    slug: "AWS ECS",
+    slug: "AWS Containers",
     group: "Containers",
     icon: "Container",
     description: "Container orchestration and serverless capacity: tasks, services, pods and roles.",
