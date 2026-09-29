@@ -310594,7 +310594,7 @@ Cache-Control: max-age=60
             ],
           },
           {
-            topic: "net/http Server",
+            topic: "net http Server",
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -310925,7 +310925,7 @@ func main() {
             ],
           },
           {
-            topic: "Handler / HandlerFunc",
+            topic: "Handler HandlerFunc",
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -311484,7 +311484,7 @@ func main() {
             ],
           },
           {
-            topic: "Request / Response",
+            topic: "Request and Response",
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">

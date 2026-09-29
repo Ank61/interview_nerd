@@ -15,12 +15,16 @@ import {
   Home,
   User,
   Settings,
+  Highlighter,
 } from "lucide-react";
 import { useRouter } from "next/router";
 import { prepareData } from "@/data/prepareData";
 import { linuxPrepareData } from "@/data/linuxPrepareData";
 import { awsServiceCategories } from "@/data/awsServices";
 import { motion } from "framer-motion";
+import { useHighlights } from "@/hooks/useHighlights";
+import HighlightManager from "@/components/learn/HighlightManager";
+
 
 export default function Learn({
   topic,
@@ -31,7 +35,11 @@ export default function Learn({
   example,
 }) {
   const router = useRouter();
+  const contentRef = React.useRef(null);
+  const highlightProps = useHighlights(category, topic);
+
   const [hydrated, setHydrated] = React.useState(false);
+
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [isLargeScreen, setIsLargeScreen] = React.useState(false);
   const [isTablet, setIsTablet] = React.useState(false);
@@ -237,7 +245,22 @@ export default function Learn({
             </div>
 
             {/* Right side - Actions */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <button
+                onClick={() => highlightProps.setIsEditMode(!highlightProps.isEditMode)}
+                className={`px-3 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-sm font-medium ${
+                  highlightProps.isEditMode
+                    ? "bg-indigo-600 text-white shadow-md ring-2 ring-indigo-300"
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200"
+                }`}
+                title="Toggle Highlight Pen Mode"
+              >
+                <Highlighter size={16} />
+                <span className="hidden sm:inline">
+                  {highlightProps.isEditMode ? "Edit Mode ON" : "Highlight Pen"}
+                </span>
+              </button>
+
               <Button
                 onClick={() => router.push(`/test/${topic}`)}
                 style={{
@@ -548,13 +571,16 @@ export default function Learn({
           {/* Main Content Area */}
           <div className="flex-1 overflow-x-hidden">
             <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-6">
+              {/* Highlight Toolbar & Manager */}
+              <HighlightManager containerRef={contentRef} {...highlightProps} />
+
               <motion.article
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
                 className="bg-white rounded-xl shadow-sm border border-gray-200/50 overflow-hidden"
               >
-                <div className="p-6 sm:p-8">
+                <div className="p-6 sm:p-8" ref={contentRef}>
                   <h1
                     className="text-2xl md:text-3xl font-bold tracking-tight mb-6"
                     style={{ color: theme.textColor }}
