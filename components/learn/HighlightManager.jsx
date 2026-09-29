@@ -13,6 +13,7 @@ import {
   Palette,
   Eye,
   Pencil,
+  AlertTriangle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -33,6 +34,15 @@ export default function HighlightManager({
   const [selectionPopover, setSelectionPopover] = useState(null); // { x, y, text, prefix, suffix }
   const [activeHighlightPopover, setActiveHighlightPopover] = useState(null); // { id, x, y, text, color }
   const [toastMessage, setToastMessage] = useState(null);
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    onConfirm: null,
+    confirmText: "Confirm",
+    cancelText: "Cancel",
+    type: "danger",
+  });
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -258,6 +268,98 @@ export default function HighlightManager({
         )}
       </AnimatePresence>
 
+      {/* Custom Confirmation Modal */}
+      <AnimatePresence>
+        {confirmModal.isOpen && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+            />
+
+            {/* Modal Content Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ type: "spring", duration: 0.3, bounce: 0.1 }}
+              className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 overflow-hidden"
+            >
+              {/* Decorative top color bar */}
+              <div
+                className={`absolute top-0 left-0 right-0 h-1.5 ${
+                  confirmModal.type === "danger"
+                    ? "bg-gradient-to-r from-red-500 via-rose-500 to-pink-500"
+                    : "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                }`}
+              />
+
+              <div className="flex items-start gap-4 pt-1">
+                {/* Icon */}
+                <div
+                  className={`p-3 rounded-2xl flex-shrink-0 ${
+                    confirmModal.type === "danger"
+                      ? "bg-red-50 text-red-600 border border-red-100"
+                      : "bg-indigo-50 text-indigo-600 border border-indigo-100"
+                  }`}
+                >
+                  {confirmModal.type === "danger" ? (
+                    <AlertTriangle size={24} />
+                  ) : (
+                    <Info size={24} />
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg font-bold text-gray-900 leading-snug">
+                    {confirmModal.title}
+                  </h3>
+                  <p className="mt-1.5 text-sm text-gray-600 leading-relaxed">
+                    {confirmModal.message}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
+                  className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Modal Actions */}
+              <div className="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
+                <button
+                  onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
+                  className="px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  {confirmModal.cancelText || "Cancel"}
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (confirmModal.onConfirm) confirmModal.onConfirm();
+                    setConfirmModal((prev) => ({ ...prev, isOpen: false }));
+                  }}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-white shadow-lg transition-all flex items-center gap-2 ${
+                    confirmModal.type === "danger"
+                      ? "bg-red-600 hover:bg-red-700 shadow-red-500/20 active:scale-95"
+                      : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-500/20 active:scale-95"
+                  }`}
+                >
+                  {confirmModal.type === "danger" && <Trash2 size={16} />}
+                  <span>{confirmModal.confirmText || "Confirm"}</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Main Highlight Toolbar */}
       <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 border border-gray-200/80 shadow-sm transition-all duration-300">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -297,7 +399,7 @@ export default function HighlightManager({
             </div>
           </div>
 
-          {/* Center section: Color Selection Palette (Always visible or in edit mode) */}
+          {/* Center section: Color Selection Palette */}
           <div className="flex items-center gap-2 overflow-x-auto py-1">
             <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider hidden md:inline">
               Color:
@@ -310,7 +412,6 @@ export default function HighlightManager({
                     key={c.id}
                     onClick={() => {
                       setSelectedColor(c);
-                      // If user has active selection, highlight immediately with this color
                       if (selectionPopover) {
                         triggerHighlight(c);
                       }
@@ -352,14 +453,22 @@ export default function HighlightManager({
               )}
             </div>
 
-            {/* Clear All button */}
+            {/* Clear All button with Custom Site Confirmation Dialog */}
             {highlights.length > 0 && (
               <button
                 onClick={() => {
-                  if (window.confirm("Are you sure you want to clear all highlights for this topic?")) {
-                    clearAllHighlights();
-                    showToast("All highlights cleared!");
-                  }
+                  setConfirmModal({
+                    isOpen: true,
+                    title: "Clear All Highlights?",
+                    message: "Are you sure you want to remove all highlights for this topic? This action cannot be undone.",
+                    confirmText: "Clear All",
+                    cancelText: "Cancel",
+                    type: "danger",
+                    onConfirm: () => {
+                      clearAllHighlights();
+                      showToast("All highlights cleared!");
+                    },
+                  });
                 }}
                 className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                 title="Clear all highlights"
@@ -497,3 +606,4 @@ export default function HighlightManager({
     </div>
   );
 }
+
