@@ -105,7 +105,7 @@ const AdvancedAnalytics = ({ compact = false }) => {
               <p className="text-2xl font-bold text-blue-900">
                 {Math.round(analytics.performance.overallAccuracy * 100)}%
               </p>
-              <p className="text-xs text-blue-700">Accuracy</p>
+              <p className="text-xs text-brand">Accuracy</p>
             </div>
             <div className="text-center p-3 bg-green-50 rounded-lg">
               <p className="text-2xl font-bold text-green-900">
@@ -187,9 +187,9 @@ const AdvancedAnalytics = ({ compact = false }) => {
             {/* Key Metrics Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <Activity className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <Activity className="w-8 h-8 text-brand mx-auto mb-2" />
                 <p className="text-2xl font-bold text-blue-900">{analytics.overview.questionsAnswered}</p>
-                <p className="text-sm text-blue-700">Questions Answered</p>
+                <p className="text-sm text-brand">Questions Answered</p>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <Clock className="w-8 h-8 text-green-600 mx-auto mb-2" />
@@ -260,7 +260,7 @@ const AdvancedAnalytics = ({ compact = false }) => {
         {activeTab === 'performance' && (
           <div className="space-y-6">
             <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Target className="w-4 h-4 text-blue-600" />
+              <Target className="w-4 h-4 text-brand" />
               Performance Analysis
             </h4>
 
@@ -416,7 +416,7 @@ const AdvancedAnalytics = ({ compact = false }) => {
                   <p className="text-2xl font-bold text-blue-900">
                     {Math.round(analytics.learning.retentionAnalysis.retentionRate * 100)}%
                   </p>
-                  <p className="text-sm text-blue-700">Retention Rate</p>
+                  <p className="text-sm text-brand">Retention Rate</p>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-lg">
                   <p className="text-2xl font-bold text-green-900">
@@ -445,9 +445,9 @@ const AdvancedAnalytics = ({ compact = false }) => {
             {/* Session Analysis */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <Calendar className="w-8 h-8 text-brand mx-auto mb-2" />
                 <p className="text-2xl font-bold text-blue-900">{analytics.engagement.totalSessions}</p>
-                <p className="text-sm text-blue-700">Total Sessions</p>
+                <p className="text-sm text-brand">Total Sessions</p>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <Clock className="w-8 h-8 text-green-600 mx-auto mb-2" />
@@ -504,7 +504,7 @@ const AdvancedAnalytics = ({ compact = false }) => {
         {activeTab === 'predictions' && (
           <div className="space-y-6">
             <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-blue-600" />
+              <TrendingUp className="w-4 h-4 text-brand" />
               Predictive Insights
             </h4>
 
@@ -513,19 +513,19 @@ const AdvancedAnalytics = ({ compact = false }) => {
               <h5 className="font-medium text-blue-900 mb-3">Level Progression Forecast</h5>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <p className="text-sm text-blue-700">Current Level</p>
+                  <p className="text-sm text-brand">Current Level</p>
                   <p className="text-2xl font-bold text-blue-900">
                     {analytics.predictions.levelProgression.currentLevel}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-blue-700">XP Needed</p>
+                  <p className="text-sm text-brand">XP Needed</p>
                   <p className="text-2xl font-bold text-blue-900">
                     {analytics.predictions.levelProgression.xpNeeded}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-blue-700">Days to Next Level</p>
+                  <p className="text-sm text-brand">Days to Next Level</p>
                   <p className="text-2xl font-bold text-blue-900">
                     {analytics.predictions.levelProgression.daysToNextLevel}
                   </p>

@@ -128,12 +128,12 @@ const AIRecommendations = ({ compact = false }) => {
           {/* Study plan highlight */}
           {recommendations.studyPlan && (
             <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
-              <Clock className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <Clock className="w-4 h-4 text-brand mt-0.5 flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-blue-900">
                   Daily Goal: {recommendations.studyPlan.dailyGoal.questions} questions
                 </p>
-                <p className="text-xs text-blue-700 mt-1">
+                <p className="text-xs text-brand mt-1">
                   Best time: {recommendations.studyPlan.optimalStudyTime}
                 </p>
               </div>
@@ -182,7 +182,7 @@ const AIRecommendations = ({ compact = false }) => {
                     <div className="flex-shrink-0">
                       {tip.type === 'streak' && <Zap className="w-5 h-5 text-orange-600" />}
                       {tip.type === 'progress' && <TrendingUp className="w-5 h-5 text-green-600" />}
-                      {tip.type === 'performance' && <Target className="w-5 h-5 text-blue-600" />}
+                      {tip.type === 'performance' && <Target className="w-5 h-5 text-brand" />}
                     </div>
                     <div className="flex-1">
                       <p className="font-medium text-gray-900">{tip.message}</p>
@@ -203,11 +203,11 @@ const AIRecommendations = ({ compact = false }) => {
                 <p className="text-sm text-purple-700">Focus Areas</p>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <BookOpen className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <BookOpen className="w-8 h-8 text-brand mx-auto mb-2" />
                 <p className="text-2xl font-bold text-blue-900">
                   {recommendations.suggestedQuestions?.reduce((acc, curr) => acc + curr.questions.length, 0) || 0}
                 </p>
-                <p className="text-sm text-blue-700">Suggested Questions</p>
+                <p className="text-sm text-brand">Suggested Questions</p>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <TrendingUp className="w-8 h-8 text-green-600 mx-auto mb-2" />
@@ -270,7 +270,7 @@ const AIRecommendations = ({ compact = false }) => {
         {activeTab === 'studyPlan' && recommendations.studyPlan && (
           <div className="space-y-6">
             <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-blue-600" />
+              <Clock className="w-4 h-4 text-brand" />
               Personalized Study Plan
             </h4>
             

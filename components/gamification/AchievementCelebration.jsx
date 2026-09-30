@@ -175,7 +175,7 @@ const AchievementCelebration = ({
                 variant="ghost"
                 size="sm"
                 onClick={onClose}
-                className="absolute top-2 right-2 text-white hover:bg-white hover:bg-opacity-20"
+                className="absolute top-2 right-2 text-white hover:bg-surface hover:bg-opacity-20"
               >
                 <X className="w-4 h-4" />
               </Button>

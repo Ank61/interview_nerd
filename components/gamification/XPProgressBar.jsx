@@ -24,7 +24,7 @@ const XPProgressBar = ({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <motion.div
-            className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full text-white font-bold"
+            className="flex items-center justify-center w-10 h-10 rounded-full text-neutral-950 font-bold bg-brand"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >

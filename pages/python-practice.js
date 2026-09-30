@@ -43,7 +43,7 @@ export default function PythonPractice() {
       </Head>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
@@ -52,7 +52,7 @@ export default function PythonPractice() {
                 onClick={() => router.push("/")}
               >
                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                  <Code2 size={24} className="text-blue-600" />
+                  <Code2 size={24} className="text-brand" />
                 </div>
                 <div>
                   <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -112,7 +112,7 @@ export default function PythonPractice() {
             className="group"
           >
             <Card
-              className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-blue-100 bg-white overflow-hidden relative"
+              className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-blue-100 bg-surface overflow-hidden relative"
               onClick={() => router.push("/python-practice/path-learning")}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -180,7 +180,7 @@ export default function PythonPractice() {
                   </div>
                 </div>
                 <Button
-                  className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full mt-6 bg-brand hover:bg-brand/90 text-neutral-950 font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={(e) => {
                     e.stopPropagation();
                     router.push("/python-practice/path-learning");
@@ -202,7 +202,7 @@ export default function PythonPractice() {
             className="group"
           >
             <Card
-              className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-purple-100 bg-white overflow-hidden relative"
+              className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-purple-100 bg-surface overflow-hidden relative"
               onClick={() => router.push("/python-practice/testing")}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -270,7 +270,7 @@ export default function PythonPractice() {
                   </div>
                 </div>
                 <Button
-                  className="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full mt-6 bg-brand hover:bg-brand/90 text-neutral-950 font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={(e) => {
                     e.stopPropagation();
                     router.push("/python-practice/testing");
@@ -326,7 +326,7 @@ export default function PythonPractice() {
 //       </Head>
 
 //       {/* Header */}
-//       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+//       <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
 //         <div className="w-full px-4 sm:px-6 lg:px-8">
 //           <div className="flex items-center justify-between h-16">
 //             <div className="flex items-center space-x-8">
@@ -335,7 +335,7 @@ export default function PythonPractice() {
 //                 onClick={() => router.push("/")}
 //               >
 //                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-//                   <Code2 size={24} className="text-blue-600" />
+//                   <Code2 size={24} className="text-brand" />
 //                 </div>
 //                 <div>
 //                   <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -387,7 +387,7 @@ export default function PythonPractice() {
 //             className="group"
 //           >
 //             <Card
-//               className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-blue-100 bg-white overflow-hidden relative"
+//               className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-blue-100 bg-surface overflow-hidden relative"
 //               onClick={() => router.push("/python-practice/path-learning")}
 //             >
 //               <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -413,7 +413,7 @@ export default function PythonPractice() {
 //                   Learn Python step by step through carefully organized topics. Track your progress and build expertise systematically.
 //                 </p>
 //                 <Button
-//                   className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
+//                   className="w-full mt-6 bg-brand hover:bg-brand/90 text-neutral-950 font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
 //                   onClick={(e) => {
 //                     e.stopPropagation();
 //                     router.push("/python-practice/path-learning");
@@ -435,7 +435,7 @@ export default function PythonPractice() {
 //             className="group"
 //           >
 //             <Card
-//               className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-purple-100 bg-white overflow-hidden relative"
+//               className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-purple-100 bg-surface overflow-hidden relative"
 //               onClick={() => router.push("/python-practice/testing")}
 //             >
 //               <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -461,7 +461,7 @@ export default function PythonPractice() {
 //                   Challenge yourself with practice tests that simulate real-world scenarios and interview questions.
 //                 </p>
 //                 <Button
-//                   className="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
+//                   className="w-full mt-6 bg-brand hover:bg-brand/90 text-neutral-950 font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
 //                   onClick={(e) => {
 //                     e.stopPropagation();
 //                     router.push("/python-practice/testing");

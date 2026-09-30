@@ -22,14 +22,14 @@ export default function SQLPracticeMode() {
   const router = useRouter();
 
   return (
-    <div className="h-screen flex flex-col bg-[#FAFAFA] text-gray-900 font-sans overflow-hidden selection:bg-indigo-100">
+    <div className="h-screen flex flex-col bg-gray-50 text-gray-900 font-sans overflow-hidden selection:bg-indigo-100">
       <Head>
         <title>SQL Practice - Choose Your Mode | Interview Nerd</title>
         <meta name="description" content="Choose between Path Learning and Testing modes for SQL practice" />
       </Head>
 
       {/* ── Top Navigation Bar (Slim) ── */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-gray-200/60 bg-white shrink-0">
+      <header className="h-12 flex items-center justify-between px-4 border-b border-gray-200/60 bg-surface shrink-0">
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push("/")}
@@ -74,7 +74,7 @@ export default function SQLPracticeMode() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             whileHover={{ y: -2 }}
-            className="group cursor-pointer flex flex-col h-full bg-white border border-gray-200/80 rounded-xl hover:border-indigo-300 hover:shadow-[0_4px_20px_-4px_rgba(99,102,241,0.1)] transition-all overflow-hidden"
+            className="group cursor-pointer flex flex-col h-full bg-surface border border-gray-200/80 rounded-xl hover:border-indigo-300 hover:shadow-[0_4px_20px_-4px_rgba(99,102,241,0.1)] transition-all overflow-hidden"
             onClick={() => router.push("/sql-practice/path-learning")}
           >
             <div className="p-6 flex-1 flex flex-col">
@@ -122,7 +122,7 @@ export default function SQLPracticeMode() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             whileHover={{ y: -2 }}
-            className="group cursor-pointer flex flex-col h-full bg-white border border-gray-200/80 rounded-xl hover:border-pink-300 hover:shadow-[0_4px_20px_-4px_rgba(236,72,153,0.1)] transition-all overflow-hidden"
+            className="group cursor-pointer flex flex-col h-full bg-surface border border-gray-200/80 rounded-xl hover:border-pink-300 hover:shadow-[0_4px_20px_-4px_rgba(236,72,153,0.1)] transition-all overflow-hidden"
             onClick={() => router.push("/sql-practice/testing")}
           >
             <div className="p-6 flex-1 flex flex-col">

@@ -82,7 +82,7 @@ const GamificationOnboarding = ({
           <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-lg">
             <h4 className="font-semibold text-gray-900 mb-2">Your Current Progress:</h4>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+              <div className="w-12 h-12 bg-brand rounded-full flex items-center justify-center text-neutral-950 font-bold">
                 {userLevel}
               </div>
               <div className="flex-1">
@@ -123,7 +123,7 @@ const GamificationOnboarding = ({
                 <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
                   2
                 </div>
-                <p className="text-xs text-blue-700 mt-1">Freeze</p>
+                <p className="text-xs text-brand mt-1">Freeze</p>
               </div>
             </div>
             <p className="text-sm text-orange-800">
@@ -134,11 +134,11 @@ const GamificationOnboarding = ({
           <div className="bg-purple-50 p-4 rounded-lg">
             <h4 className="font-semibold text-purple-900 mb-2">🎯 Daily Challenges</h4>
             <div className="space-y-2">
-              <div className="flex items-center justify-between p-2 bg-white rounded border">
+              <div className="flex items-center justify-between p-2 bg-surface rounded border">
                 <span className="text-sm">Answer 5 JavaScript questions</span>
                 <Badge variant="outline">3/5</Badge>
               </div>
-              <div className="flex items-center justify-between p-2 bg-white rounded border">
+              <div className="flex items-center justify-between p-2 bg-surface rounded border">
                 <span className="text-sm">Maintain 80% accuracy</span>
                 <Badge variant="default">Complete</Badge>
               </div>
@@ -166,9 +166,9 @@ const GamificationOnboarding = ({
             
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-200">
               <div className="text-center">
-                <Target className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <Target className="w-8 h-8 text-brand mx-auto mb-2" />
                 <h5 className="font-semibold text-blue-900">Sharp Shooter</h5>
-                <p className="text-xs text-blue-700">90% accuracy streak</p>
+                <p className="text-xs text-brand">90% accuracy streak</p>
                 <Badge variant="secondary" className="mt-2">In Progress</Badge>
               </div>
             </div>
@@ -271,7 +271,7 @@ const GamificationOnboarding = ({
             <h4 className="font-semibold text-gray-900 mb-2">📊 Your Learning Insights</h4>
             <div className="grid grid-cols-3 gap-3 text-center text-sm">
               <div>
-                <p className="font-bold text-blue-600">85%</p>
+                <p className="font-bold text-brand">85%</p>
                 <p className="text-xs text-gray-600">Accuracy</p>
               </div>
               <div>
@@ -298,19 +298,19 @@ const GamificationOnboarding = ({
             <h4 className="font-semibold text-gray-900 mb-3">🚀 Quick Start Tips</h4>
             <div className="space-y-2">
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">1</div>
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center text-neutral-950 text-xs font-bold">1</div>
                 <p className="text-sm">Start with a daily challenge to earn bonus XP</p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">2</div>
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center text-neutral-950 text-xs font-bold">2</div>
                 <p className="text-sm">Answer questions consistently to build your streak</p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">3</div>
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center text-neutral-950 text-xs font-bold">3</div>
                 <p className="text-sm">Check your dashboard regularly for AI recommendations</p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">4</div>
+                <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center text-neutral-950 text-xs font-bold">4</div>
                 <p className="text-sm">Add friends to compete and stay motivated</p>
               </div>
             </div>
@@ -361,7 +361,7 @@ const GamificationOnboarding = ({
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+          className="bg-surface rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
         >
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
@@ -384,7 +384,7 @@ const GamificationOnboarding = ({
                 variant="ghost"
                 size="sm"
                 onClick={onSkip}
-                className="text-white hover:bg-white hover:bg-opacity-20"
+                className="text-white hover:bg-surface hover:bg-opacity-20"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -398,7 +398,7 @@ const GamificationOnboarding = ({
               </div>
               <div className="w-full bg-blue-800 bg-opacity-30 rounded-full h-2">
                 <motion.div
-                  className="bg-white h-2 rounded-full"
+                  className="bg-surface h-2 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${((currentStep + 1) / onboardingSteps.length) * 100}%` }}
                   transition={{ duration: 0.3 }}

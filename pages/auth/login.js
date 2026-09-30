@@ -110,7 +110,7 @@ export default function Login() {
       {/* Back to Home Button */}
       <Link
         href="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors font-medium"
+        className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-brand transition-colors font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Home
@@ -122,7 +122,7 @@ export default function Login() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Card className="border border-gray-200 shadow-lg bg-white">
+          <Card className="border border-gray-200 shadow-lg bg-surface">
             <CardHeader className="space-y-1 text-center pb-6">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -136,18 +136,18 @@ export default function Login() {
                     height="32"
                     fill="none"
                     viewBox="0 0 48 48"
-                    className="text-blue-600"
+                    className="text-brand"
                   >
                     <circle
                       cx="24"
                       cy="24"
                       r="24"
-                      fill="#2563eb"
+                      fill="#D4FF4F"
                       fillOpacity="0.08"
                     />
                     <path
                       d="M24 14v12l8 4"
-                      stroke="#2563eb"
+                      stroke="#D4FF4F"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -220,7 +220,7 @@ export default function Login() {
                     <div className="w-full border-t border-gray-200" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-4 text-gray-500 font-medium">
+                    <span className="bg-surface px-4 text-gray-500 font-medium">
                       Or continue with email
                     </span>
                   </div>
@@ -244,7 +244,7 @@ export default function Login() {
                     placeholder="Enter your email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="h-12 border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg transition-all duration-300"
+                    className="h-12 border-2 border-gray-200 focus:border-brand/60 focus:ring-brand/50 rounded-lg transition-all duration-300"
                     required
                   />
                 </div>
@@ -263,7 +263,7 @@ export default function Login() {
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="h-12 border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg transition-all duration-300 pr-12"
+                      className="h-12 border-2 border-gray-200 focus:border-brand/60 focus:ring-brand/50 rounded-lg transition-all duration-300 pr-12"
                       required
                     />
                     <Button
@@ -285,7 +285,7 @@ export default function Login() {
                 <div className="flex items-center justify-between">
                   <Link
                     href="/forgot-password"
-                    className="text-sm text-blue-600 hover:text-blue-700 hover:underline font-medium transition-colors"
+                    className="text-sm text-brand hover:text-brand hover:underline font-medium transition-colors"
                   >
                     Forgot your password?
                   </Link>
@@ -293,7 +293,7 @@ export default function Login() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="w-full h-12 text-neutral-950 font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 bg-brand hover:bg-brand/90"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -316,7 +316,7 @@ export default function Login() {
                 <span className="text-gray-600">Dont have an account? </span>
                 <Link
                   href="/auth/signup"
-                  className="text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors"
+                  className="text-brand hover:text-brand font-semibold hover:underline transition-colors"
                 >
                   Create one now
                 </Link>

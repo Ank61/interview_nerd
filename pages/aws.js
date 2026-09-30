@@ -97,7 +97,7 @@ export default function AwsServices() {
   }, [query, group]);
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-surface text-gray-900">
       <header className="border-b border-gray-100">
         <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4 sm:px-6">
           <button
@@ -129,7 +129,7 @@ export default function AwsServices() {
               key={g}
               onClick={() => setGroup(g)}
               className={`rounded-full px-3 py-1 text-xs transition-colors ${group === g
-                  ? "bg-gray-900 text-white"
+                  ? "bg-gray-900 text-neutral-950"
                   : "text-gray-500 hover:bg-gray-100"
                 }`}
             >

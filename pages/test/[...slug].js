@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import * as React from "react";
 import { useRouter } from "next/router";
 import hljs from "highlight.js";
-import "highlight.js/styles/default.css";
+import "highlight.js/styles/github-dark.css";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -18,6 +18,7 @@ import {
   BookCheck,
 } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
+import { darkenTheme } from "@/lib/themeUtils";
 import { awsServiceCategories } from "@/data/awsServices";
 
 export default function Component() {
@@ -44,14 +45,14 @@ export default function Component() {
       return item.type.flatMap((typeItem) =>
         typeItem.concepts.filter((conceptItem, index) => {
           if (conceptItem.topic === selected) {
-            themeColor = {
+            themeColor = darkenTheme({
               category: item.category,
               themeBgColor: item.themeBgColor,
               textColor: item.textColor,
               topicColor: item.topicColor,
               lightColor: item?.lightColor || item.themeBgColor,
               lightTail: item?.lightTail || "",
-            };
+            });
           }
           return conceptItem.topic === selected;
         })
@@ -84,7 +85,7 @@ export default function Component() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Custom Header matching learn page */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -96,12 +97,12 @@ export default function Component() {
                 <div
                   className="p-2 rounded-lg"
                   style={{
-                    backgroundColor: themeColor?.lightColor || "#f3f4f6",
+                    backgroundColor: themeColor?.lightColor || "#17171a",
                   }}
                 >
                   <BookOpen
                     size={24}
-                    style={{ color: themeColor?.textColor || "#374151" }}
+                    style={{ color: themeColor?.textColor || "#dddde1" }}
                   />
                 </div>
                 <div>
@@ -200,8 +201,8 @@ export default function Component() {
                 opacity: 1,
                 y: showExplanation ? -120 : 0,
                 backgroundColor: showExplanation
-                  ? themeColor?.lightColor || "#f3f4f6"
-                  : "#ffffff",
+                  ? themeColor?.lightColor || "#17171a"
+                  : "#111113",
               }}
               transition={{
                 type: "spring",
@@ -209,13 +210,13 @@ export default function Component() {
                 delay: 0.01,
               }}
               style={{
-                borderColor: themeColor?.themeBgColor || "#e5e7eb",
+                borderColor: themeColor?.themeBgColor || "#232327",
               }}
             >
               <motion.div className="w-full flex items-center justify-center mx-auto p-3 sm:p-4">
                 <span
                   className="text-sm sm:text-base font-medium"
-                  style={{ color: themeColor?.textColor || "#374151" }}
+                  style={{ color: themeColor?.textColor || "#dddde1" }}
                 >
                   {showExplanation ? "Hide Solution" : "Show Solution"}
                 </span>
@@ -227,12 +228,12 @@ export default function Component() {
                   {showExplanation ? (
                     <ChevronUp
                       className="h-4 w-4"
-                      style={{ color: themeColor?.textColor || "#374151" }}
+                      style={{ color: themeColor?.textColor || "#dddde1" }}
                     />
                   ) : (
                     <ChevronDown
                       className="h-4 w-4"
-                      style={{ color: themeColor?.textColor || "#374151" }}
+                      style={{ color: themeColor?.textColor || "#dddde1" }}
                     />
                   )}
                 </motion.div>
@@ -249,7 +250,7 @@ export default function Component() {
                   delay: 0.2,
                 }}
                 className="mt-1 p-4 sm:p-6 bg-muted rounded-md overflow-hidden cursor-pointer w-full max-w-4xl"
-                style={{ backgroundColor: themeColor?.lightColor || "#f3f4f6" }}
+                style={{ backgroundColor: themeColor?.lightColor || "#17171a" }}
               >
                 <div
                   className="w-full prose prose-sm sm:prose max-w-none"

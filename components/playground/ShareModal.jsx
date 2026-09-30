@@ -230,7 +230,7 @@ const ShareModal = ({
             {/* Code Preview */}
             <div className="space-y-2">
               <Label>Code Preview</Label>
-              <div className="bg-gray-900 text-gray-100 p-4 rounded-lg max-h-40 overflow-y-auto">
+              <div className="bg-neutral-900 text-neutral-100 p-4 rounded-lg max-h-40 overflow-y-auto">
                 <pre className="text-sm font-mono whitespace-pre-wrap">
                   {code.substring(0, 500)}
                   {code.length > 500 && '...'}

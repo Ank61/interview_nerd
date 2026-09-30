@@ -5,7 +5,30 @@ import * as gtag from '../lib/gtag';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
+import { Inter_Tight, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
 import "@/styles/globals.css";
+
+const fontSans = Inter_Tight({ subsets: ["latin"], display: "swap" });
+const fontMono = JetBrains_Mono({ subsets: ["latin"], display: "swap" });
+const fontSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  display: "swap",
+});
+
+const muiTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: { main: "#D4FF4F", contrastText: "#0a0a0a" },
+    background: { default: "#0a0a0a", paper: "#111113" },
+    divider: "rgba(255, 255, 255, 0.08)",
+    text: { primary: "#ededef", secondary: "#a1a1aa" },
+  },
+  typography: { fontFamily: fontSans.style.fontFamily },
+  shape: { borderRadius: 12 },
+});
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
@@ -35,7 +58,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0f172a" />
+        <meta name="theme-color" content="#0a0a0a" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Interview Nerd" />
@@ -61,14 +84,25 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
           `,
         }}
       />
+      <style jsx global>{`
+        :root {
+          --font-sans: ${fontSans.style.fontFamily};
+          --font-mono: ${fontMono.style.fontFamily};
+          --font-serif: ${fontSerif.style.fontFamily};
+        }
+      `}</style>
       <SessionProvider session={session}>
+        {/* The Tailwind palette is remapped to the dark theme (see
+            tailwind.config.js), so the legacy `dark:` variants stay off. */}
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          forcedTheme="light"
+          enableColorScheme={false}
           disableTransitionOnChange
         >
-          <Component {...pageProps} />
+          <MuiThemeProvider theme={muiTheme}>
+            <Component {...pageProps} />
+          </MuiThemeProvider>
         </ThemeProvider>
       </SessionProvider>
     </>

@@ -59,7 +59,7 @@ export default function CategoryTopicsPage() {
             </Head>
 
             {/* Header - Matching testing.js */}
-            <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+            <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center space-x-8">
@@ -68,7 +68,7 @@ export default function CategoryTopicsPage() {
                                 onClick={() => router.push("/")}
                             >
                                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                                    <BookOpen size={24} className="text-blue-600" />
+                                    <BookOpen size={24} className="text-brand" />
                                 </div>
                                 <div>
                                     <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -144,7 +144,7 @@ export default function CategoryTopicsPage() {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="bg-surface divide-y divide-gray-200">
                                     {categoryQuestions.length > 0 ? (
                                         categoryQuestions.map((question, index) => (
                                             <motion.tr

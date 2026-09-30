@@ -186,7 +186,7 @@ export default function SharedCode() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-surface border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -291,7 +291,7 @@ export default function SharedCode() {
                     <span>Forked from</span>
                     <Link 
                       href={`/playground/share/${shareData.forkedFrom.shareId}`}
-                      className="text-blue-600 hover:underline font-medium"
+                      className="text-brand hover:underline font-medium"
                     >
                       {shareData.forkedFrom.title}
                     </Link>

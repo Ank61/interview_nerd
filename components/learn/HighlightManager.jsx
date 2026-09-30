@@ -191,7 +191,7 @@ export default function HighlightManager({
               "in-app-highlight transition-all duration-200 cursor-pointer inline rounded px-1 py-0.5 font-medium shadow-sm hover:opacity-90 hover:ring-2 hover:ring-offset-1 hover:ring-indigo-400";
             mark.setAttribute("data-highlight-id", h.id || h.highlightId);
             mark.style.backgroundColor = h.color || "#fef08a";
-            mark.style.color = h.textColor || "#1f2937";
+            mark.style.color = h.textColor || "#ededef";
             mark.style.borderBottom = `2px solid ${h.borderColor || "rgba(0,0,0,0.2)"}`;
             mark.title = "Click highlight to view options";
 
@@ -260,7 +260,7 @@ export default function HighlightManager({
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-20 right-6 z-[100] bg-gray-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 border border-gray-700"
+            className="fixed top-20 right-6 z-[100] bg-gray-900 text-neutral-950 text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 border border-gray-700"
           >
             <Sparkles size={14} className="text-yellow-400" />
             <span>{toastMessage}</span>
@@ -278,7 +278,7 @@ export default function HighlightManager({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
-              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm"
             />
 
             {/* Modal Content Card */}
@@ -287,7 +287,7 @@ export default function HighlightManager({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
               transition={{ type: "spring", duration: 0.3, bounce: 0.1 }}
-              className="relative z-10 w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 overflow-hidden"
+              className="relative z-10 w-full max-w-md bg-surface rounded-2xl shadow-2xl border border-gray-100 p-6 overflow-hidden"
             >
               {/* Decorative top color bar */}
               <div
@@ -345,10 +345,10 @@ export default function HighlightManager({
                     if (confirmModal.onConfirm) confirmModal.onConfirm();
                     setConfirmModal((prev) => ({ ...prev, isOpen: false }));
                   }}
-                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-white shadow-lg transition-all flex items-center gap-2 ${
+                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-neutral-950 shadow-lg transition-all flex items-center gap-2 ${
                     confirmModal.type === "danger"
                       ? "bg-red-600 hover:bg-red-700 shadow-red-500/20 active:scale-95"
-                      : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-500/20 active:scale-95"
+                      : "bg-brand hover:bg-brand/90 shadow-indigo-500/20 active:scale-95"
                   }`}
                 >
                   {confirmModal.type === "danger" && <Trash2 size={16} />}
@@ -361,7 +361,7 @@ export default function HighlightManager({
       </AnimatePresence>
 
       {/* Main Highlight Toolbar */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 border border-gray-200/80 shadow-sm transition-all duration-300">
+      <div className="bg-surface/90 backdrop-blur-md rounded-2xl p-3 border border-gray-200/80 shadow-sm transition-all duration-300">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Left section: Mode Toggle & Status */}
           <div className="flex items-center gap-3">
@@ -373,7 +373,7 @@ export default function HighlightManager({
               }}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 ${
                 isEditMode
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-200 hover:bg-indigo-700 ring-2 ring-indigo-400"
+                  ? "bg-brand text-neutral-950 shadow-md shadow-indigo-200 hover:bg-brand/90 ring-2 ring-indigo-400"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200"
               }`}
             >
@@ -510,7 +510,7 @@ export default function HighlightManager({
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
-            className="highlight-popover fixed z-[90] transform -translate-x-1/2 -translate-y-full mb-3 bg-gray-900 text-white rounded-2xl shadow-2xl p-2 flex items-center gap-2 border border-gray-700/80 backdrop-blur-md"
+            className="highlight-popover fixed z-[90] transform -translate-x-1/2 -translate-y-full mb-3 bg-gray-900 text-neutral-950 rounded-2xl shadow-2xl p-2 flex items-center gap-2 border border-gray-700/80 backdrop-blur-md"
             style={{
               left: `${selectionPopover.x}px`,
               top: `${selectionPopover.y}px`,
@@ -550,7 +550,7 @@ export default function HighlightManager({
             initial={{ opacity: 0, scale: 0.9, y: 5 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 5 }}
-            className="highlight-popover fixed z-[95] transform -translate-x-1/2 -translate-y-full mb-2 bg-white text-gray-800 rounded-2xl shadow-2xl p-2.5 flex items-center gap-2 border border-gray-200"
+            className="highlight-popover fixed z-[95] transform -translate-x-1/2 -translate-y-full mb-2 bg-surface text-gray-800 rounded-2xl shadow-2xl p-2.5 flex items-center gap-2 border border-gray-200"
             style={{
               left: `${activeHighlightPopover.x}px`,
               top: `${activeHighlightPopover.y}px`,

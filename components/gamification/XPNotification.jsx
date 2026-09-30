@@ -66,7 +66,7 @@ const XPNotification = ({
             animate={{ scale: 1, rotate: 0 }}
             exit={{ scale: 0, rotate: 180 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl"
+            className="bg-surface rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* XP Gained */}
@@ -249,7 +249,7 @@ const XPNotification = ({
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
               onClick={handleComplete}
-              className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="mt-6 px-6 py-2 bg-brand text-neutral-950 rounded-lg font-semibold hover:bg-brand/90 transition-colors"
             >
               Continue
             </motion.button>

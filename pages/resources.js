@@ -34,7 +34,7 @@ export default function Resources() {
       title: "Linux Fundamentals",
       description:
         "Essential Linux commands and concepts for developers and system administrators.",
-      icon: <Terminal className="w-6 h-6 text-blue-600" />,
+      icon: <Terminal className="w-6 h-6 text-brand" />,
       color: "blue",
       slug: "linux-fundamentals",
     },
@@ -95,7 +95,7 @@ export default function Resources() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header matching category page style */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -142,7 +142,7 @@ export default function Resources() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-white pt-16 pb-12 sm:pt-20 sm:pb-16">
+        <section className="bg-surface pt-16 pb-12 sm:pt-20 sm:pb-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
               Developer Resources

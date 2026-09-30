@@ -93,14 +93,14 @@ function AccordionQuestion({ question, topic, index }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.1 }}
-      className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
+      className="bg-surface border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
     >
       <button
         onClick={toggleAccordion}
         className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200"
       >
         <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+          <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-neutral-950 font-semibold text-sm bg-brand">
             {index + 1}
           </div>
           <div className="flex-1">
@@ -141,7 +141,7 @@ function AccordionQuestion({ question, topic, index }) {
             <div className="px-6 pb-6">
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
                 <div className="flex items-center gap-2 mb-3">
-                  <CheckCircle className="w-5 h-5 text-blue-600" />
+                  <CheckCircle className="w-5 h-5 text-brand" />
                   <h4 className="font-semibold text-blue-900">Answer</h4>
                 </div>
                 <p className="text-blue-800 leading-relaxed">
@@ -168,7 +168,7 @@ function TopicCard({ concept, isLearned, onToggleLearned, topicName }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-blue-300"
+      className="bg-surface border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-blue-300"
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
@@ -436,7 +436,7 @@ export default function S3Page() {
                 placeholder="Search topics..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 pr-4 py-3 text-base border-2 border-gray-200 focus:border-blue-500 rounded-xl shadow-sm"
+                className="pl-12 pr-4 py-3 text-base border-2 border-gray-200 focus:border-brand/60 rounded-xl shadow-sm"
               />
               <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             </div>
@@ -446,7 +446,7 @@ export default function S3Page() {
               <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-blue-600" />
+                    <Zap className="w-5 h-5 text-brand" />
                     Beginner Progress
                   </CardTitle>
                 </CardHeader>
@@ -482,11 +482,11 @@ export default function S3Page() {
 
             {/* Topics Tabs */}
             <TAB defaultValue="Beginner" value={level} className="w-auto">
-              <TabsList className="grid w-full grid-cols-2 bg-white border-2 border-gray-200 rounded-xl p-1">
+              <TabsList className="grid w-full grid-cols-2 bg-surface border-2 border-gray-200 rounded-xl p-1">
                 <TabsTrigger
                   value="Beginner"
                   onClick={() => setLevel("Beginner")}
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white rounded-lg transition-all duration-200"
+                  className=" data-[state=active]:text-neutral-950 rounded-lg transition-all duration-200 data-[state=active]:bg-brand"
                 >
                   <Zap className="w-4 h-4 mr-2" />
                   Beginner Topics
@@ -494,7 +494,7 @@ export default function S3Page() {
                 <TabsTrigger
                   value="Advance"
                   onClick={() => setLevel("Advance")}
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white rounded-lg transition-all duration-200"
+                  className=" data-[state=active]:text-neutral-950 rounded-lg transition-all duration-200 data-[state=active]:bg-brand"
                 >
                   <Star className="w-4 h-4 mr-2" />
                   Advanced Topics
@@ -554,7 +554,7 @@ export default function S3Page() {
             <Card className="border-2 border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
               <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-3">
-                  <Target className="w-6 h-6 text-blue-600" />
+                  <Target className="w-6 h-6 text-brand" />
                   Interview Questions
                 </CardTitle>
                 <CardDescription>

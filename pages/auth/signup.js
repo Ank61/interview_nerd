@@ -182,7 +182,7 @@ export default function Signup() {
       {/* Back to Home Button */}
       <Link
         href="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors font-medium"
+        className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-brand transition-colors font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Home
@@ -194,7 +194,7 @@ export default function Signup() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Card className="border border-gray-200 shadow-lg bg-white">
+          <Card className="border border-gray-200 shadow-lg bg-surface">
             <CardHeader className="space-y-1 text-center pb-6">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -203,9 +203,9 @@ export default function Signup() {
                 className="flex items-center justify-center gap-3 mb-6"
               >
                 <div className="p-2 rounded-lg bg-blue-50">
-                  <svg width="32" height="32" fill="none" viewBox="0 0 48 48" className="text-blue-600">
-                    <circle cx="24" cy="24" r="24" fill="#2563eb" fillOpacity="0.08" />
-                    <path d="M24 14v12l8 4" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg width="32" height="32" fill="none" viewBox="0 0 48 48" className="text-brand">
+                    <circle cx="24" cy="24" r="24" fill="#D4FF4F" fillOpacity="0.08" />
+                    <path d="M24 14v12l8 4" stroke="#D4FF4F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <span className="font-bold text-xl text-gray-900">Interview Nerd</span>
@@ -265,7 +265,7 @@ export default function Signup() {
                     <div className="w-full border-t border-gray-200" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-4 text-gray-500 font-medium">Or create account with email</span>
+                    <span className="bg-surface px-4 text-gray-500 font-medium">Or create account with email</span>
                   </div>
                 </div>
               </motion.div>
@@ -285,7 +285,7 @@ export default function Signup() {
                     placeholder="Enter your full name"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    className="h-12 border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg transition-all duration-300"
+                    className="h-12 border-2 border-gray-200 focus:border-brand/60 focus:ring-brand/50 rounded-lg transition-all duration-300"
                     required
                   />
                 </div>
@@ -298,7 +298,7 @@ export default function Signup() {
                     placeholder="Enter your email address"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
-                    className="h-12 border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg transition-all duration-300"
+                    className="h-12 border-2 border-gray-200 focus:border-brand/60 focus:ring-brand/50 rounded-lg transition-all duration-300"
                     required
                   />
                 </div>
@@ -312,7 +312,7 @@ export default function Signup() {
                       placeholder="Create a strong password"
                       value={formData.password}
                       onChange={(e) => handleInputChange("password", e.target.value)}
-                      className="h-12 border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg transition-all duration-300 pr-12"
+                      className="h-12 border-2 border-gray-200 focus:border-brand/60 focus:ring-brand/50 rounded-lg transition-all duration-300 pr-12"
                       required
                     />
                     <Button
@@ -340,7 +340,7 @@ export default function Signup() {
                       placeholder="Confirm your password"
                       value={formData.confirmPassword}
                       onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                      className="h-12 border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-lg transition-all duration-300 pr-12"
+                      className="h-12 border-2 border-gray-200 focus:border-brand/60 focus:ring-brand/50 rounded-lg transition-all duration-300 pr-12"
                       required
                     />
                     <Button
@@ -368,11 +368,11 @@ export default function Signup() {
                   />
                   <Label htmlFor="terms" className="text-sm text-gray-600 leading-relaxed">
                     I agree to the{" "}
-                    <Link href="/terms" className="text-blue-600 hover:text-blue-700 hover:underline font-medium transition-colors">
+                    <Link href="/terms" className="text-brand hover:text-brand hover:underline font-medium transition-colors">
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/privacy" className="text-blue-600 hover:text-blue-700 hover:underline font-medium transition-colors">
+                    <Link href="/privacy" className="text-brand hover:text-brand hover:underline font-medium transition-colors">
                       Privacy Policy
                     </Link>
                   </Label>
@@ -380,7 +380,7 @@ export default function Signup() {
 
                 <Button
                   type="submit"
-                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  className="w-full h-12 text-neutral-950 font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 bg-brand hover:bg-brand/90"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -401,7 +401,7 @@ export default function Signup() {
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
                 <span className="text-gray-600">Already have an account? </span>
-                <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors">
+                <Link href="/auth/login" className="text-brand hover:text-brand font-semibold hover:underline transition-colors">
                   Sign in here
                 </Link>
               </motion.div>

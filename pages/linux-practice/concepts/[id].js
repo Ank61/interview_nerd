@@ -133,7 +133,7 @@ export default function LinuxConceptDetail() {
       </Head>
 
       <div className="min-h-screen flex flex-col bg-gray-50">
-        <header className="border-b border-gray-200 bg-white sticky top-0 z-30 shadow-sm">
+        <header className="border-b border-gray-200 bg-surface sticky top-0 z-30 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
@@ -154,7 +154,7 @@ export default function LinuxConceptDetail() {
         </header>
 
         <div className="flex flex-1 overflow-hidden h-[calc(100vh-64px)] flex-col md:flex-row">
-          <aside className="w-full md:w-80 border-r border-gray-200 bg-white flex flex-col">
+          <aside className="w-full md:w-80 border-r border-gray-200 bg-surface flex flex-col">
             <div className="p-4 border-b border-gray-100 bg-gray-50/50">
               <h2 className="font-bold text-gray-900">{concept.title}</h2>
               <p className="text-sm text-gray-500 mt-1">
@@ -173,7 +173,7 @@ export default function LinuxConceptDetail() {
                       setSelected("overview");
                       setFeedback(null);
                     }}
-                    className="w-full text-left p-3 rounded-lg border border-gray-200 bg-white hover:border-gray-300 transition-all font-medium flex justify-between text-sm items-center"
+                    className="w-full text-left p-3 rounded-lg border border-gray-200 bg-surface hover:border-gray-300 transition-all font-medium flex justify-between text-sm items-center"
                   >
                     <span className="flex items-center gap-2 text-gray-700">
                       <BookOpen size={16} /> Study Guide
@@ -187,7 +187,7 @@ export default function LinuxConceptDetail() {
                     <button
                       key={ex.id}
                       onClick={() => selectExercise(ex)}
-                      className="w-full text-left p-3 rounded-lg border border-gray-200 bg-white hover:border-gray-300 transition-all"
+                      className="w-full text-left p-3 rounded-lg border border-gray-200 bg-surface hover:border-gray-300 transition-all"
                     >
                       <p className="font-medium text-sm text-gray-900 flex items-center justify-between">
                         {ex.title}
@@ -210,7 +210,7 @@ export default function LinuxConceptDetail() {
                   className={`w-full text-left p-3 rounded-xl border transition-all duration-200 mb-4 ${
                     activeMode === "overview"
                       ? "border-orange-400 bg-orange-50 shadow-sm"
-                      : "border-gray-100 bg-white hover:border-orange-200 hover:bg-orange-50/50"
+                      : "border-gray-100 bg-surface hover:border-orange-200 hover:bg-orange-50/50"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -244,7 +244,7 @@ export default function LinuxConceptDetail() {
                   className={`w-full text-left p-3 rounded-xl border transition-all duration-200 ${
                     activeMode?.id === ex.id
                       ? "border-orange-400 bg-orange-50 shadow-sm"
-                      : "border-gray-100 bg-white hover:border-orange-200 hover:bg-orange-50/50"
+                      : "border-gray-100 bg-surface hover:border-orange-200 hover:bg-orange-50/50"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -283,7 +283,7 @@ export default function LinuxConceptDetail() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8"
+                  className="bg-surface rounded-2xl border border-gray-200 shadow-sm p-6 sm:p-8"
                 >
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">
                     Module Overview
@@ -300,7 +300,7 @@ export default function LinuxConceptDetail() {
                           {concept.interview_questions_summary.map((q, i) => (
                             <div
                               key={i}
-                              className="bg-white border border-gray-200 shadow-sm rounded-xl p-4 text-gray-700 flex items-start gap-3 hover:border-purple-200 transition-colors"
+                              className="bg-surface border border-gray-200 shadow-sm rounded-xl p-4 text-gray-700 flex items-start gap-3 hover:border-purple-200 transition-colors"
                             >
                               <div className="bg-purple-100 text-purple-600 w-6 h-6 rounded-full flex items-center justify-center font-bold shrink-0 mt-0.5 text-sm">
                                 {i + 1}
@@ -317,7 +317,7 @@ export default function LinuxConceptDetail() {
                         <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2 mb-4 p-2 bg-emerald-50 rounded-lg text-emerald-900 w-fit">
                           <FileCheck size={20} className="text-emerald-600" /> Best Practices
                         </h3>
-                        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                        <div className="bg-surface border border-gray-200 rounded-xl overflow-hidden shadow-sm">
                           {concept.best_practices_checklist.map((p, i) => (
                             <div key={i} className={`flex items-start gap-3 p-4 text-gray-700 ${i !== concept.best_practices_checklist.length - 1 ? 'border-b border-gray-100' : ''}`}>
                               <CheckCircle size={18} className="text-emerald-500 shrink-0 mt-0.5" />
@@ -353,7 +353,7 @@ export default function LinuxConceptDetail() {
                           {concept.optimization_techniques.map((t, i) => (
                             <div
                               key={i}
-                              className="bg-white border border-gray-200 shadow-sm rounded-xl p-5 relative overflow-hidden group hover:border-cyan-300 transition-all"
+                              className="bg-surface border border-gray-200 shadow-sm rounded-xl p-5 relative overflow-hidden group hover:border-cyan-300 transition-all"
                             >
                               <div className="absolute top-0 right-0 bg-cyan-100 text-cyan-700 text-xs font-bold px-3 py-1 rounded-bl-lg">
                                 {t.savings}
@@ -390,7 +390,7 @@ export default function LinuxConceptDetail() {
                             </p>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                              <div className="bg-white/60 border border-amber-100 rounded-xl p-4">
+                              <div className="bg-surface/60 border border-amber-100 rounded-xl p-4">
                                 <h4 className="text-sm font-bold text-amber-900 mb-3 flex items-center gap-2">
                                   <CheckCircle size={16} className="text-amber-600" /> Requirements
                                </h4>
@@ -403,7 +403,7 @@ export default function LinuxConceptDetail() {
                                   ))}
                                 </ul>
                               </div>
-                              <div className="bg-white/60 border border-amber-100 rounded-xl p-4">
+                              <div className="bg-surface/60 border border-amber-100 rounded-xl p-4">
                                 <h4 className="text-sm font-bold text-amber-900 mb-3 flex items-center gap-2">
                                   <TrendingUp size={16} className="text-amber-600" /> Success Metrics
                                 </h4>
@@ -423,7 +423,7 @@ export default function LinuxConceptDetail() {
                                 <h4 className="text-base font-bold text-gray-900 mb-4">Implementation Phases</h4>
                                 <div className="space-y-3">
                                   {concept.bonus_challenge.phases.map((p, i) => (
-                                    <div key={i} className="bg-white border border-amber-200 rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center gap-4">
+                                    <div key={i} className="bg-surface border border-amber-200 rounded-xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center gap-4">
                                       <div className="bg-amber-100 text-amber-700 w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">
                                         {p.phase}
                                       </div>
@@ -461,7 +461,7 @@ export default function LinuxConceptDetail() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+                  className="bg-surface rounded-2xl border border-gray-200 p-6 shadow-sm"
                 >
                   <div className="flex justify-between items-start mb-2">
                     <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
@@ -505,7 +505,7 @@ export default function LinuxConceptDetail() {
                       <button
                         onClick={() => setShowCommands(!showCommands)}
                         className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
-                          showCommands ? "text-blue-700" : "text-blue-600 hover:text-blue-700"
+                          showCommands ? "text-brand" : "text-brand hover:text-brand"
                         }`}
                       >
                         <Terminal size={16} />
@@ -575,7 +575,7 @@ export default function LinuxConceptDetail() {
                                 key={i}
                                 className="flex items-start gap-2 text-sm text-blue-800 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2"
                               >
-                                <span className="font-mono text-blue-700">$ {cmd}</span>
+                                <span className="font-mono text-brand">$ {cmd}</span>
                               </li>
                             ))}
                           </ul>
@@ -659,8 +659,8 @@ export default function LinuxConceptDetail() {
                       exit={{ opacity: 0, height: 0 }}
                       className="overflow-hidden"
                     >
-                      <div className="bg-gray-900 rounded-xl p-5 relative">
-                        <div className="absolute top-0 right-0 bg-gray-800 text-gray-400 px-3 py-1 text-xs rounded-bl-lg font-mono">
+                      <div className="bg-neutral-900 rounded-xl p-5 relative">
+                        <div className="absolute top-0 right-0 bg-neutral-800 text-neutral-400 px-3 py-1 text-xs rounded-bl-lg font-mono">
                           Solution
                         </div>
                         <pre className="text-sm text-green-400 font-mono overflow-x-auto mt-2">

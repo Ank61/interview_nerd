@@ -63,7 +63,7 @@ const BadgeDisplay = ({ badges = [], showAll = false, limit = 6 }) => {
                   </div>
 
                   {/* Tooltip */}
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-neutral-950 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
                     <div className="font-semibold">{badge.name}</div>
                     <div className="text-gray-300">{badge.description}</div>
                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
@@ -82,7 +82,7 @@ const BadgeDisplay = ({ badges = [], showAll = false, limit = 6 }) => {
             Achievements ({badges.length})
           </h4>
           {badges.length > limit && !showAll && (
-            <button className="text-xs text-blue-600 hover:text-blue-700 font-medium">
+            <button className="text-xs text-brand hover:text-brand font-medium">
               View All
             </button>
           )}
@@ -108,7 +108,7 @@ const BadgeDisplay = ({ badges = [], showAll = false, limit = 6 }) => {
                 </div>
 
                 {/* Tooltip */}
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-neutral-950 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
                   <div className="font-semibold">{badge.name}</div>
                   <div className="text-gray-300">{badge.description}</div>
                   <div className="text-gray-400 capitalize">{badge.rarity}</div>
@@ -150,7 +150,7 @@ const BadgeDisplay = ({ badges = [], showAll = false, limit = 6 }) => {
                       <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${getRarityColor(badge.rarity)} flex items-center justify-center text-white text-sm shadow-md group-hover:shadow-lg transition-all group-hover:scale-110`}>
                         {badge.icon}
                       </div>
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-neutral-950 text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
                         {badge.name}
                       </div>
                     </div>

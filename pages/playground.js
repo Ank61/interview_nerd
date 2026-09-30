@@ -39,7 +39,7 @@ export default function PlaygroundMode() {
       </Head>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -86,7 +86,7 @@ export default function PlaygroundMode() {
       </header>
 
       {/* Main Content */}
-      <div className="bg-white py-16">
+      <div className="bg-surface py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             {/* Title Section */}
@@ -116,7 +116,7 @@ export default function PlaygroundMode() {
                 className="group"
               >
                 <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-yellow-100 bg-white overflow-hidden relative"
+                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-yellow-100 bg-surface overflow-hidden relative"
                   onClick={() => router.push("/js-practice/path-learning")}
                 >
                   {/* Decorative gradient overlay */}
@@ -197,7 +197,7 @@ export default function PlaygroundMode() {
                 className="group"
               >
                 <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-orange-100 bg-white overflow-hidden relative"
+                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-orange-100 bg-surface overflow-hidden relative"
                   onClick={() => router.push("/js-practice/testing")}
                 >
                   {/* Decorative gradient overlay */}
@@ -332,7 +332,7 @@ export default function PlaygroundMode() {
 //       </Head>
 
 //       {/* Header */}
-//       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+//       <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
 //         <div className="w-full px-4 sm:px-6 lg:px-8">
 //           <div className="flex items-center justify-between h-16">
 //             {/* Left side - Logo and Navigation */}
@@ -379,7 +379,7 @@ export default function PlaygroundMode() {
 //       </header>
 
 //       {/* Main Content */}
-//       <div className="bg-white py-16">
+//       <div className="bg-surface py-16">
 //         <div className="container mx-auto px-4">
 //           <div className="max-w-6xl mx-auto">
 //             {/* Title Section */}
@@ -409,7 +409,7 @@ export default function PlaygroundMode() {
 //                 className="group"
 //               >
 //                 <Card
-//                   className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-yellow-100 bg-white overflow-hidden relative"
+//                   className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-yellow-100 bg-surface overflow-hidden relative"
 //                   onClick={() => router.push("/js-practice/path-learning")}
 //                 >
 //                   {/* Decorative gradient overlay */}
@@ -490,7 +490,7 @@ export default function PlaygroundMode() {
 //                 className="group"
 //               >
 //                 <Card
-//                   className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-orange-100 bg-white overflow-hidden relative"
+//                   className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-orange-100 bg-surface overflow-hidden relative"
 //                   onClick={() => router.push("/js-practice/testing")}
 //                 >
 //                   {/* Decorative gradient overlay */}
@@ -960,7 +960,7 @@ export default function PlaygroundMode() {
 // //   return (
 // //     <div className="min-h-screen bg-gray-50">
 // //       {/* Header */}
-// //       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+// //       <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
 // //         <nav className="w-full px-4 sm:px-6 lg:px-8">
 // //           <div className="flex items-center justify-between h-16">
 // //             <div
@@ -1209,7 +1209,7 @@ export default function PlaygroundMode() {
 // //                         <p className="text-sm text-green-800 mb-2">
 // //                           <strong>Solution:</strong>
 // //                         </p>
-// //                         <code className="text-sm font-mono bg-white p-2 rounded border block text-gray-900">
+// //                         <code className="text-sm font-mono bg-surface p-2 rounded border block text-gray-900">
 // //                           {selectedQuestion.solution}
 // //                         </code>
 // //                       </div>
@@ -1310,7 +1310,7 @@ export default function PlaygroundMode() {
 // //                       <h4 className="font-medium text-gray-900 mb-2">
 // //                         Console Output:
 // //                       </h4>
-// //                       <pre className="bg-gray-900 text-green-400 p-3 rounded text-sm whitespace-pre-wrap">
+// //                       <pre className="bg-neutral-900 text-green-400 p-3 rounded text-sm whitespace-pre-wrap">
 // //                         {output}
 // //                       </pre>
 // //                     </div>

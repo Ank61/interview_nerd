@@ -258,7 +258,7 @@ export default function TestingMode() {
             </Head>
 
             {/* Header */}
-            <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+            <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center space-x-8">
@@ -525,7 +525,7 @@ export default function TestingMode() {
                                                 <p className="text-sm text-green-800 mb-2">
                                                     <strong>Solution:</strong>
                                                 </p>
-                                                <pre className="text-sm font-mono bg-white p-2 rounded border overflow-x-auto text-gray-900">
+                                                <pre className="text-sm font-mono bg-surface p-2 rounded border overflow-x-auto text-gray-900">
                                                     {selectedQuestion.solution}
                                                 </pre>
                                             </div>

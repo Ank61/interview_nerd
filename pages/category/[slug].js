@@ -192,7 +192,7 @@ function PaginationComponent({
       transition={{ duration: 0.3 }}
       className="flex items-center justify-center mt-8 mb-4"
     >
-      <div className="flex items-center bg-white rounded-xl shadow-lg border border-gray-100 p-2 gap-1">
+      <div className="flex items-center bg-surface rounded-xl shadow-lg border border-gray-100 p-2 gap-1">
         {/* Previous Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -276,7 +276,7 @@ function PaginationComponent({
             color: currentPage === totalPages ? "#9CA3AF" : themeColors.text,
             backgroundColor:
               currentPage === totalPages ? "transparent" : themeColors.bg,
-            // border: `1px solid ${currentPage === totalPages ? "#E5E7EB" : themeColors.border}`,
+            // border: `1px solid ${currentPage === totalPages ? "#232327" : themeColors.border}`,
           }}
         >
           <span className="hidden sm:inline">Next</span>
@@ -323,7 +323,7 @@ function AccordionQuestion({ question, topic, index }) {
         delay: index * 0.1,
         ease: [0, 0.71, 0.2, 1.01],
       }}
-      className={`rounded-lg border bg-white shadow-sm overflow-hidden border-gray-200
+      className={`rounded-lg border bg-surface shadow-sm overflow-hidden border-gray-200
       }`}
     >
       {/* Header */}
@@ -390,7 +390,7 @@ function AccordionQuestion({ question, topic, index }) {
                   Answer:
                 </h4>
                 <div
-                  className="p-3 rounded-md bg-white border border-gray-200"
+                  className="p-3 rounded-md bg-surface border border-gray-200"
                   style={{
                     backgroundColor: themeColors.light,
                     borderColor: themeColors.border,
@@ -589,7 +589,7 @@ function ExampleModal({ isOpen, onClose, concept, examples, topic }) {
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed inset-4 z-50 flex items-center justify-center p-4"
           >
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            <div className="bg-surface rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-40px)]">
                 <h3 className="text-lg font-semibold mb-4 text-gray-800 flex justify-between items-start gap-4">
                   <span>
@@ -701,7 +701,7 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed inset-4 z-50 flex items-center justify-center p-4"
           >
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            <div className="bg-surface rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
                 {/* Question */}
                 <div className="mb-6">
@@ -996,7 +996,7 @@ export default function BasicTabs({
       ))}
 
       {/* New Custom Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -1007,11 +1007,11 @@ export default function BasicTabs({
               >
                 <div
                   className="p-2 rounded-lg"
-                  style={{ backgroundColor: themeColors?.light || "#f3f4f6" }}
+                  style={{ backgroundColor: themeColors?.light || "#17171a" }}
                 >
                   <BookOpen
                     size={24}
-                    style={{ color: themeColors?.text || "#374151" }}
+                    style={{ color: themeColors?.text || "#dddde1" }}
                   />
                 </div>
                 <div>
@@ -1087,7 +1087,7 @@ export default function BasicTabs({
           </div>
         )}
         {/* Main Content Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-surface rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <Box sx={{ width: "auto" }}>
             <Box>
               <MuiTabs
@@ -1146,11 +1146,11 @@ export default function BasicTabs({
                   <SearchIcon className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-300" />
                 </div>
                 <Tabs defaultValue="Beginner" value={level} className="w-auto">
-                  <TabsList className="grid w-full grid-cols-2 bg-white border">
+                  <TabsList className="grid w-full grid-cols-2 bg-surface border">
                     <TabsTrigger
                       value="Beginner"
                       onClick={() => setLevel("Beginner")}
-                      className={`bg-white ${topic === "Javascript"
+                      className={`bg-surface ${topic === "Javascript"
                         ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                         : topic === "React"
                           ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
@@ -1176,7 +1176,7 @@ export default function BasicTabs({
                     <TabsTrigger
                       value="Advance"
                       onClick={() => setLevel("Advance")}
-                      className={`bg-white ${topic === "Javascript"
+                      className={`bg-surface ${topic === "Javascript"
                         ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                         : topic === "React"
                           ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
@@ -1550,15 +1550,15 @@ export default function BasicTabs({
                                     }
                                     className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${topic === "Javascript"
-                                        ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                        ? " text-Javascript-text bg-surface hover:bg-Javascript-bg"
                                         : topic === "React"
-                                          ? "text-React-text bg-white hover:bg-React-bg "
+                                          ? "text-React-text bg-surface hover:bg-React-bg "
                                           : topic === "Node"
-                                            ? "text-Node-text bg-white hover:bg-Node-bg "
+                                            ? "text-Node-text bg-surface hover:bg-Node-bg "
                                             : topic === "Typescript"
-                                              ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                              ? "text-Typescript-text bg-surface hover:bg-Typescript-bg "
                                               : topic === "AWS S3"
-                                                ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                                ? "text-AWS-text bg-surface hover:bg-AWS-bg "
                                                 : ""
                                       } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -1682,11 +1682,11 @@ export default function BasicTabs({
                 value={interviewSelection}
                 className="w-auto mt-2"
               >
-                <TabsList className="grid w-full grid-cols-3 bg-white border">
+                <TabsList className="grid w-full grid-cols-3 bg-surface border">
                   <TabsTrigger
                     value="Junior"
                     onClick={() => setInterviewSelection("Junior")}
-                    className={`bg-white ${topic === "Javascript"
+                    className={`bg-surface ${topic === "Javascript"
                       ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                       : topic === "React"
                         ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
@@ -1712,7 +1712,7 @@ export default function BasicTabs({
                   <TabsTrigger
                     value="Mid"
                     onClick={() => setInterviewSelection("Mid")}
-                    className={`bg-white ${topic === "Javascript"
+                    className={`bg-surface ${topic === "Javascript"
                       ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                       : topic === "React"
                         ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
@@ -1738,7 +1738,7 @@ export default function BasicTabs({
                   <TabsTrigger
                     value="Senior"
                     onClick={() => setInterviewSelection("Senior")}
-                    className={`bg-white ${topic === "Javascript"
+                    className={`bg-surface ${topic === "Javascript"
                       ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                       : topic === "React"
                         ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
@@ -1881,7 +1881,7 @@ export default function BasicTabs({
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
                   className="fixed inset-4 z-50 flex items-center justify-center p-0"
                 >
-                  <div className="bg-white rounded-xl shadow-2xl w-full h-full max-w-6xl max-h-[90vh] flex flex-col">
+                  <div className="bg-surface rounded-xl shadow-2xl w-full h-full max-w-6xl max-h-[90vh] flex flex-col">
                     <div className="p-4 border-b border-gray-200 flex justify-between items-center">
                       <h3 className="text-lg font-semibold text-gray-800">
                         {topic.charAt(0).toUpperCase() + topic.slice(1)} -

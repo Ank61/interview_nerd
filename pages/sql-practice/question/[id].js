@@ -246,7 +246,7 @@ export default function SQLQuestionPage() {
       </Head>
 
       {/* Header - Matching testing.js */}
-      <header className="bg-white border-b border-gray-200 shadow-sm flex-shrink-0">
+      <header className="bg-surface border-b border-gray-200 shadow-sm flex-shrink-0">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
@@ -255,7 +255,7 @@ export default function SQLQuestionPage() {
                 onClick={() => router.push("/")}
               >
                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                  <BookOpen size={24} className="text-blue-600" />
+                  <BookOpen size={24} className="text-brand" />
                 </div>
                 <div>
                   <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -309,7 +309,7 @@ export default function SQLQuestionPage() {
         {/* Left Panel - Question Description */}
         <div
           style={{ width: `${leftWidth}%` }}
-          className="bg-white border-r border-gray-200 overflow-y-auto"
+          className="bg-surface border-r border-gray-200 overflow-y-auto"
         >
           <div className="p-6">
             {/* Back Button & Title */}
@@ -370,7 +370,7 @@ export default function SQLQuestionPage() {
                       {table.columns.map((column, index) => (
                         <div
                           key={index}
-                          className="text-sm text-gray-700 font-mono bg-white px-3 py-1.5 rounded border border-gray-200"
+                          className="text-sm text-gray-700 font-mono bg-surface px-3 py-1.5 rounded border border-gray-200"
                         >
                           {column}
                         </div>
@@ -414,7 +414,7 @@ export default function SQLQuestionPage() {
                   <p className="text-sm text-green-800 mb-2">
                     <strong>Expected Solution:</strong>
                   </p>
-                  <code className="text-sm font-mono bg-white p-3 rounded border border-green-200 block text-gray-900">
+                  <code className="text-sm font-mono bg-surface p-3 rounded border border-green-200 block text-gray-900">
                     {question.expectedQuery}
                   </code>
                 </div>
@@ -433,7 +433,7 @@ export default function SQLQuestionPage() {
         {/* Right Panel - Editor & Results */}
         <div
           style={{ width: `${100 - leftWidth}%` }}
-          className="flex flex-col bg-white"
+          className="flex flex-col bg-surface"
         >
           {/* Top - Editor */}
           <div
@@ -458,7 +458,7 @@ export default function SQLQuestionPage() {
                   size="sm"
                   onClick={executeQuery}
                   disabled={loading || !query.trim()}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                  className="bg-brand hover:bg-brand/90 text-neutral-950"
                 >
                   <Play className="w-4 h-4 mr-1" />
                   Run
@@ -479,7 +479,7 @@ export default function SQLQuestionPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="-- Write your SQL query here..."
-                className="w-full h-full p-4 bg-gray-50 text-gray-900 font-mono text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder-gray-400"
+                className="w-full h-full p-4 bg-gray-50 text-gray-900 font-mono text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand/50 resize-none placeholder-gray-400"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
                     e.preventDefault();
@@ -507,7 +507,7 @@ export default function SQLQuestionPage() {
                 Query Result
               </span>
             </div>
-            <div className="flex-1 overflow-auto p-4 bg-white">
+            <div className="flex-1 overflow-auto p-4 bg-surface">
               {submissionResult && (
                 <div
                   className={`mb-4 p-4 rounded-lg border ${submissionResult.isCorrect
@@ -570,7 +570,7 @@ export default function SQLQuestionPage() {
                           ))}
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200 bg-white">
+                      <tbody className="divide-y divide-gray-200 bg-surface">
                         {result.data.map((row, rowIndex) => (
                           <tr key={rowIndex} className="hover:bg-gray-50">
                             {result.columns.map((column, colIndex) => (

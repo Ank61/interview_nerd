@@ -71,7 +71,7 @@ export default function PythonPracticeTesting() {
             </Head>
 
             {/* Header */}
-            <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+            <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center space-x-8">
@@ -80,7 +80,7 @@ export default function PythonPracticeTesting() {
                                 onClick={() => router.push("/")}
                             >
                                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                                    <BookOpen size={24} className="text-blue-600" />
+                                    <BookOpen size={24} className="text-brand" />
                                 </div>
                                 <div>
                                     <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -143,7 +143,7 @@ export default function PythonPracticeTesting() {
                             <select
                                 value={difficultyFilter}
                                 onChange={(e) => setDifficultyFilter(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
+                                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/60 bg-surface"
                             >
                                 <option value="all">All Difficulties</option>
                                 <option value="easy">Easy</option>
@@ -156,7 +156,7 @@ export default function PythonPracticeTesting() {
                         <select
                             value={categoryFilter}
                             onChange={(e) => setCategoryFilter(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white"
+                            className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand/60 bg-surface"
                         >
                             {categories.map(cat => (
                                 <option key={cat} value={cat}>
@@ -196,7 +196,7 @@ export default function PythonPracticeTesting() {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="bg-surface divide-y divide-gray-200">
                                     {filteredQuestions.length > 0 ? (
                                         filteredQuestions.map((question, index) => (
                                             <motion.tr

@@ -26,7 +26,7 @@ export default function ResourceTopic() {
                 </Head>
 
                 {/* Header */}
-                <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+                <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                     <div className="w-full px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between h-16">
                             <div className="flex items-center space-x-8">
@@ -97,7 +97,7 @@ export default function ResourceTopic() {
             </Head>
 
             {/* Header */}
-            <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+            <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center space-x-8">
@@ -439,7 +439,7 @@ export default function ResourceTopic() {
 //             </Head>
 
 //             {/* Header */}
-//             <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+//             <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
 //                 <div className="w-full px-4 sm:px-6 lg:px-8">
 //                     <div className="flex items-center justify-between h-16">
 //                         <div className="flex items-center space-x-8">
@@ -503,7 +503,7 @@ export default function ResourceTopic() {
 //                                     <CardContent>
 //                                         <div className="space-y-3">
 //                                             {cat.commands.map(({ cmd, desc, ex }) => (
-//                                                 <div key={cmd} className="p-3 rounded-lg border border-gray-200 bg-white">
+//                                                 <div key={cmd} className="p-3 rounded-lg border border-gray-200 bg-surface">
 //                                                     <div className="flex items-center justify-between">
 //                                                         <code className="font-mono text-sm text-gray-900">{cmd}</code>
 //                                                         <Badge variant="outline" className="text-xs">{cat.name}</Badge>

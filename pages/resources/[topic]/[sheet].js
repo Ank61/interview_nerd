@@ -37,7 +37,7 @@ export default function SheetPage() {
                 </Head>
 
                 {/* Header */}
-                <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+                <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                     <div className="w-full px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between h-16">
                             <div className="flex items-center space-x-8">
@@ -98,7 +98,7 @@ export default function SheetPage() {
             </Head>
 
             {/* Header */}
-            <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+            <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center space-x-8">
@@ -180,7 +180,7 @@ export default function SheetPage() {
                                             </div>
                                             <p className="text-gray-700 mb-3">{command.desc}</p>
                                             {command.ex && (
-                                                <div className="bg-gray-900 text-gray-100 rounded-lg p-4 relative group">
+                                                <div className="bg-neutral-900 text-neutral-100 rounded-lg p-4 relative group">
                                                     <div className="flex items-start justify-between">
                                                         <code className="text-sm font-mono flex-1 break-all">
                                                             {command.ex}

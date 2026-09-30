@@ -38,7 +38,7 @@ export default function MongoDBPracticeMode() {
       </Head>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -85,7 +85,7 @@ export default function MongoDBPracticeMode() {
       </header>
 
       {/* Main Content */}
-      <div className="bg-white py-16 flex-1 flex flex-col items-center justify-center">
+      <div className="bg-surface py-16 flex-1 flex flex-col items-center justify-center">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             {/* Title Section */}
@@ -115,7 +115,7 @@ export default function MongoDBPracticeMode() {
                 className="group"
               >
                 <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-green-100 bg-white overflow-hidden relative"
+                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-green-100 bg-surface overflow-hidden relative"
                   onClick={() => router.push("/mongodb-practice/path-learning")}
                 >
                   {/* Decorative gradient overlay */}
@@ -196,7 +196,7 @@ export default function MongoDBPracticeMode() {
                 className="group"
               >
                 <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-teal-100 bg-white overflow-hidden relative"
+                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-teal-100 bg-surface overflow-hidden relative"
                   onClick={() => router.push("/mongodb-practice/testing")}
                 >
                   {/* Decorative gradient overlay */}

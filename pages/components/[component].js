@@ -213,7 +213,7 @@ const componentData = {
       "Learn modern DevOps practices, containerization, and continuous integration/deployment pipelines.",
     iconName: "Server",
     color: "bg-blue-50 border-blue-200",
-    iconColor: "text-blue-600",
+    iconColor: "text-brand",
     topics: [
       {
         name: "Docker & Containers",
@@ -383,7 +383,7 @@ export default function ComponentPage({ componentData, componentName }) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      {/* <header className="bg-white border-b border-gray-200">
+      {/* <header className="bg-surface border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <Button
@@ -412,7 +412,7 @@ export default function ComponentPage({ componentData, componentName }) {
         </div>
       </header> */}
 
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -423,9 +423,9 @@ export default function ComponentPage({ componentData, componentName }) {
               >
                 <div
                   className="p-2 rounded-lg"
-                  style={{ backgroundColor: "#f3f4f6" }}
+                  style={{ backgroundColor: "#17171a" }}
                 >
-                  <BookOpen size={24} style={{ color: "#374151" }} />
+                  <BookOpen size={24} style={{ color: "#dddde1" }} />
                 </div>
                 <div>
                   <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -500,7 +500,7 @@ export default function ComponentPage({ componentData, componentName }) {
                     <p className="text-sm text-gray-600 leading-relaxed">
                       {topic.description}
                     </p>
-                    <div className="mt-4 flex items-center text-blue-600 text-sm font-medium">
+                    <div className="mt-4 flex items-center text-brand text-sm font-medium">
                       <BookOpen className="w-4 h-4 mr-1" />
                       Start Learning
                     </div>
@@ -513,13 +513,13 @@ export default function ComponentPage({ componentData, componentName }) {
 
         {/* Stats Section */}
         {/* <div className="mt-16 max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="bg-surface rounded-lg border border-gray-200 p-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">
               Component Overview
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600 mb-2">
+                <div className="text-3xl font-bold text-brand mb-2">
                   {componentData.topics.length}
                 </div>
                 <div className="text-sm text-gray-600">Major Topics</div>

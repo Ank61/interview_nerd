@@ -43,7 +43,7 @@ export default function GoConcepts() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-gray-900 font-sans selection:bg-teal-100">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans selection:bg-teal-100">
       <Head>
         <title>Go Concepts | Interview Nerd</title>
         <meta
@@ -83,7 +83,7 @@ export default function GoConcepts() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.04 }}
                 onClick={() => router.push(`/go-practice/concepts/${concept.id}`)}
-                className="group relative bg-white rounded-xl border border-gray-200/70 p-4 cursor-pointer hover:border-teal-300 hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-200 flex items-start gap-4"
+                className="group relative bg-surface rounded-xl border border-gray-200/70 p-4 cursor-pointer hover:border-teal-300 hover:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-all duration-200 flex items-start gap-4"
               >
                 {/* Minimal Icon */}
                 <div className="mt-0.5 shrink-0">

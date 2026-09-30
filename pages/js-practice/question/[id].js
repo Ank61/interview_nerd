@@ -260,7 +260,7 @@ export default function JSQuestionPage() {
             </Head>
 
             {/* Header */}
-            <header className="bg-white border-b border-gray-200 shadow-sm flex-shrink-0">
+            <header className="bg-surface border-b border-gray-200 shadow-sm flex-shrink-0">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center space-x-8">
@@ -312,7 +312,7 @@ export default function JSQuestionPage() {
                 {/* Left Panel - Question Description */}
                 <div
                     style={{ width: `${leftWidth}%` }}
-                    className="bg-white border-r border-gray-200 overflow-y-auto"
+                    className="bg-surface border-r border-gray-200 overflow-y-auto"
                 >
                     <div className="p-6">
                         {/* Title */}
@@ -354,13 +354,13 @@ export default function JSQuestionPage() {
                                             <div className="space-y-2">
                                                 <div>
                                                     <span className="text-xs font-semibold text-gray-600">Input:</span>
-                                                    <code className="block mt-1 text-sm font-mono bg-white px-3 py-2 rounded border border-gray-200 text-gray-900">
+                                                    <code className="block mt-1 text-sm font-mono bg-surface px-3 py-2 rounded border border-gray-200 text-gray-900">
                                                         {example.input}
                                                     </code>
                                                 </div>
                                                 <div>
                                                     <span className="text-xs font-semibold text-gray-600">Output:</span>
-                                                    <code className="block mt-1 text-sm font-mono bg-white px-3 py-2 rounded border border-gray-200 text-gray-900">
+                                                    <code className="block mt-1 text-sm font-mono bg-surface px-3 py-2 rounded border border-gray-200 text-gray-900">
                                                         {example.output}
                                                     </code>
                                                 </div>
@@ -385,13 +385,13 @@ export default function JSQuestionPage() {
                                     {question.timeComplexity && (
                                         <div className="text-sm">
                                             <span className="font-semibold text-blue-900">Time Complexity:</span>
-                                            <code className="ml-2 text-blue-700">{question.timeComplexity}</code>
+                                            <code className="ml-2 text-brand">{question.timeComplexity}</code>
                                         </div>
                                     )}
                                     {question.spaceComplexity && (
                                         <div className="text-sm">
                                             <span className="font-semibold text-blue-900">Space Complexity:</span>
-                                            <code className="ml-2 text-blue-700">{question.spaceComplexity}</code>
+                                            <code className="ml-2 text-brand">{question.spaceComplexity}</code>
                                         </div>
                                     )}
                                 </div>
@@ -437,7 +437,7 @@ export default function JSQuestionPage() {
                                     <p className="text-sm font-semibold text-green-800 mb-2">
                                         Expected Solution:
                                     </p>
-                                    <pre className="text-sm font-mono bg-white p-3 rounded border border-green-200 overflow-x-auto text-gray-900 whitespace-pre-wrap">
+                                    <pre className="text-sm font-mono bg-surface p-3 rounded border border-green-200 overflow-x-auto text-gray-900 whitespace-pre-wrap">
                                         {question.solution}
                                     </pre>
                                 </div>
@@ -456,7 +456,7 @@ export default function JSQuestionPage() {
                 {/* Right Panel - Editor & Results */}
                 <div
                     style={{ width: `${100 - leftWidth}%` }}
-                    className="flex flex-col bg-white"
+                    className="flex flex-col bg-surface"
                 >
                     {/* Top - Editor */}
                     <div
@@ -530,7 +530,7 @@ export default function JSQuestionPage() {
                         <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex-shrink-0">
                             <span className="text-sm font-semibold text-gray-700">Test Results</span>
                         </div>
-                        <div className="flex-1 overflow-auto p-4 bg-white">
+                        <div className="flex-1 overflow-auto p-4 bg-surface">
                             {submissionResult && (
                                 <div className={`mb-4 p-4 rounded-lg border ${submissionResult.isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
                                     <div className="flex items-center gap-2 mb-2">
@@ -608,7 +608,7 @@ export default function JSQuestionPage() {
                             {result && result.output && (
                                 <div className="mt-4">
                                     <h4 className="text-sm font-semibold text-gray-700 mb-2">Console Output:</h4>
-                                    <div className="bg-gray-900 rounded-lg p-4">
+                                    <div className="bg-neutral-900 rounded-lg p-4">
                                         <pre className="text-sm text-green-400 font-mono whitespace-pre-wrap">
                                             {result.output}
                                         </pre>

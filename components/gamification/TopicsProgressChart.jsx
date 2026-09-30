@@ -109,9 +109,9 @@ const TopicsProgressChart = ({ userId }) => {
               totalConcepts,
               percentage: Math.round(percentage * 10) / 10, // Round to 1 decimal
               config: config || {
-                color: '#F3F4F6',
+                color: '#17171a',
                 darkColor: '#6B7280',
-                textColor: '#374151',
+                textColor: '#dddde1',
                 icon: '📚'
               }
             };
@@ -228,7 +228,7 @@ const TopicsProgressChart = ({ userId }) => {
               <div className="relative">
                 <div 
                   className="w-full rounded-full h-4 border border-gray-200"
-                  style={{ backgroundColor: '#F9FAFB' }}
+                  style={{ backgroundColor: '#111113' }}
                 >
                   <motion.div
                     initial={{ width: 0 }}
@@ -287,10 +287,10 @@ const TopicsProgressChart = ({ userId }) => {
         >
           <div className="grid grid-cols-2 gap-4 text-center">
             <div className="p-3 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-brand">
                 {topicsData.reduce((sum, item) => sum + item.learnedCount, 0)}
               </div>
-              <div className="text-sm text-blue-700 font-medium">
+              <div className="text-sm text-brand font-medium">
                 Total Concepts Learned
               </div>
             </div>

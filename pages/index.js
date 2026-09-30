@@ -1,7 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
+import { Inter_Tight, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import react from "../images/react.png";
 import next from "../images/next.png";
 import node from "../images/node_logo.png";
@@ -14,2321 +18,1392 @@ import js from "../images/js_logo.png";
 import ts from "../images/ts.png";
 import rabbitmq from "../images/rabitt.png";
 import aws from "../images/aws.png";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
   ArrowRight,
-  Star,
-  Users,
-  BookOpen,
-  TrendingUp,
-  Menu,
-  X,
-  MonitorCog,
-  DatabaseZap,
-  Database,
-  Workflow,
-  FileCode2,
-  FileCode,
-  CheckCircle,
-  Target,
-  Award,
-  Zap,
-  Github,
-  Twitter,
-  Linkedin,
-  Mail,
-  Code,
-  Play,
+  ArrowUpRight,
+  Binary,
   Brain,
   ChevronDown,
-  Settings,
-  Trophy,
-  Container,
+  Cloud,
+  Code,
   Code2,
-  FileText,
+  Container,
+  Database,
+  DatabaseZap,
+  FileCode2,
+  Menu,
+  MonitorCog,
+  Play,
+  Quote,
+  Sparkles,
   Terminal,
+  Workflow,
+  X,
 } from "lucide-react";
-// import snippetsData from "../data/snippets.json";
-import { useSession, signOut } from "next-auth/react";
-import { useState, useEffect, useRef } from "react";
 
-export default function Home() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobileToolsOpen, setIsMobileToolsOpen] = useState(false);
-  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+const display = Inter_Tight({ subsets: ["latin"], display: "swap" });
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  display: "swap",
+});
+const mono = JetBrains_Mono({ subsets: ["latin"], display: "swap" });
 
-  // Auto-scroll for MCQ carousel
+const ACCENT = "#D4FF4F";
+
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+// ---------------------------------------------------------------------------
+// Content
+// ---------------------------------------------------------------------------
+
+const TOOLS = [
+  {
+    name: "JavaScript Playground",
+    href: "/playground",
+    icon: Code,
+    desc: "Run JS in the browser with real-time output and adaptive challenges.",
+  },
+  {
+    name: "SQL Practice",
+    href: "/sql-practice",
+    icon: DatabaseZap,
+    desc: "Write real queries against realistic datasets.",
+  },
+  {
+    name: "MongoDB Practice",
+    href: "/mongodb-practice",
+    icon: Database,
+    desc: "Queries and aggregation pipelines, hands-on.",
+  },
+  {
+    name: "Python Practice",
+    href: "/python-practice",
+    icon: FileCode2,
+    desc: "In-browser Python, beginner to advanced.",
+  },
+  {
+    name: "Docker Practice",
+    href: "/docker-practice",
+    icon: Container,
+    desc: "Write Dockerfiles and learn container concepts.",
+  },
+  {
+    name: "Go Practice",
+    href: "/go-practice",
+    icon: Code2,
+    desc: "Goroutines, channels and real interviewer questions.",
+  },
+  {
+    name: "Linux Practice",
+    href: "/linux-practice",
+    icon: Terminal,
+    desc: "Commands, permissions and shell scripting.",
+  },
+];
+
+const TOPICS = [
+  { name: "JavaScript", href: "/category/Javascript", img: js, count: "52", desc: "ES6+, async/await, closures, prototypes" },
+  { name: "Next.js", href: "/category/Next", img: next, count: "64", desc: "Routing, SSR, API routes" },
+  { name: "React", href: "/category/React", img: react, count: "40", desc: "Hooks, state, context, JSX" },
+  { name: "Node.js", href: "/category/Node", img: node, count: "52", desc: "Express, async, event loop" },
+  { name: "TypeScript", href: "/category/Typescript", img: ts, count: "30", desc: "Types, interfaces, generics" },
+  { name: "SQL", href: "/category/SQL", icon: Database, count: "45", desc: "Queries, joins, indexing" },
+  { name: "RabbitMQ", href: "/category/RabbitMQ", img: rabbitmq, count: "28", desc: "Queues, exchanges, routing" },
+  { name: "OOP", href: "/category/OOP", icon: Code, count: "35", desc: "Inheritance, polymorphism, patterns" },
+  { name: "Python", href: "/category/python", img: python, count: "15", desc: "Data structures, problem-solving" },
+  { name: "Redis", href: "/category/redis", img: redis, count: "25", desc: "Caching, in-memory storage" },
+  { name: "NestJS", href: "/category/nest", img: nest, count: "45", desc: "Modules, DI, backend architecture" },
+  { name: "Docker", href: "/category/docker", img: docker, count: "20", desc: "Containers, orchestration, deploys" },
+  { name: "Golang", href: "/category/go", text: "Go", count: "30+", desc: "Goroutines, channels, concurrency" },
+  { name: "Linux", href: "/linux-practice", icon: Terminal, count: "32+", desc: "Commands, scripting, SSH, sysadmin" },
+  { name: "DSA Sheet", href: "/category/dsa", icon: Binary, count: "32+", desc: "Data structures & algorithms" },
+  { name: "AWS", href: "/aws", img: aws, count: "32+", desc: "Amazon Web Services" },
+  { name: "AI", href: "/category/AI", icon: Brain, count: "25+", desc: "LLMs, prompting, ML concepts" },
+];
+
+const MCQS = [
+  { name: "JavaScript", category: "Javascript", img: js, questions: 400, topics: "ES6+, async, closures" },
+  { name: "TypeScript", category: "Typescript", img: ts, questions: 400, topics: "Types, interfaces, generics" },
+  { name: "React", category: "React", img: react, questions: 348, topics: "Hooks, state, components" },
+  { name: "Node.js", category: "Node", img: node, questions: 200, topics: "Express, APIs, middleware" },
+  { name: "SQL", category: "SQL", icon: Database, questions: 400, topics: "Queries, joins, optimization" },
+  { name: "MongoDB", category: "MongoDB", img: mongodb, questions: 400, topics: "Aggregation, queries, schema" },
+  { name: "OOP", category: "OOP", icon: Code, questions: 400, topics: "Classes, inheritance, polymorphism" },
+];
+
+const ADVANCED = [
+  { name: "System Design", href: "/components/SystemDesign", icon: MonitorCog, count: "+38", desc: "Scalability, architecture patterns and distributed systems" },
+  { name: "Database Design", href: "/components/Database", icon: DatabaseZap, count: "+42", desc: "SQL, NoSQL, indexing and optimization strategies" },
+  { name: "AWS", href: "/components/AWS", icon: Cloud, count: "+45", desc: "EC2, S3, Lambda, CloudFormation and more" },
+  { name: "DevOps & CI/CD", href: "/components/DevOps", icon: Workflow, count: "+35", desc: "Docker, Kubernetes, Jenkins and deployment strategies" },
+];
+
+const STEPS = [
+  { title: "Learn", desc: "Handpicked questions for every major stack, with clear, expert-written answers." },
+  { title: "Practice", desc: "Seven live sandboxes. Write real code, run real queries, get instant feedback." },
+  { title: "Test", desc: "2,500+ MCQs to pressure-test what you know before the interviewer does." },
+  { title: "Track", desc: "Watch your progress, spot weak areas and keep your streak alive." },
+];
+
+const TESTIMONIALS = [
+  { name: "Priya S.", role: "Frontend Engineer", quote: "The questions are spot on and the explanations are super clear. Helped me land my dream job!" },
+  { name: "Alex T.", role: "Full Stack Developer", quote: "I love the real-world scenarios. It's like practicing for the real thing!" },
+  { name: "Samir K.", role: "Software Engineer", quote: "The progress tracking kept me motivated. Highly recommend!" },
+];
+
+const DAILY_QUESTIONS = [
+  { topic: "React", href: "/category/React", q: "Why does React need a key on list items, and what breaks when you use the index?" },
+  { topic: "JavaScript", href: "/category/Javascript", q: "What's the difference between == and ===, and is == ever the right choice?" },
+  { topic: "Node.js", href: "/category/Node", q: "Walk through the phases of the Node.js event loop. Where do promise callbacks run?" },
+  { topic: "SQL", href: "/category/SQL", q: "When can a LEFT JOIN return more rows than the left table has?" },
+  { topic: "System Design", href: "/components/SystemDesign", q: "How would you design a URL shortener that handles 10k writes per second?" },
+  { topic: "TypeScript", href: "/category/Typescript", q: "interface vs type: when does the difference actually matter?" },
+  { topic: "Redis", href: "/category/redis", q: "How would you use Redis to rate-limit an API per user?" },
+  { topic: "Docker", href: "/category/docker", q: "Why do layer order and .dockerignore matter for build speed?" },
+  { topic: "Python", href: "/category/python", q: "List vs generator: what's the difference, and when does it matter?" },
+  { topic: "Next.js", href: "/category/Next", q: "When would you choose SSR over static generation in Next.js?" },
+  { topic: "Golang", href: "/category/go", q: "What happens when you send on an unbuffered channel with no receiver?" },
+  { topic: "OOP", href: "/category/OOP", q: "Composition or inheritance: which do you reach for first, and why?" },
+];
+
+const HEADLINE = [
+  [{ w: "Interview-ready," }],
+  [{ w: "one" }, { w: "question", accent: true }],
+  [{ w: "at" }, { w: "a" }, { w: "time." }],
+];
+
+// ---------------------------------------------------------------------------
+// Pieces
+// ---------------------------------------------------------------------------
+
+function HeroOrb({ className = "" }) {
+  const mountRef = useRef(null);
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPage((prev) => (prev + 1) % 2); // 2 pages total (7 items, 4 per page)
-    }, 10000);
+    const mount = mountRef.current;
+    if (!mount) return;
+    let disposed = false;
+    let cleanup = () => {};
 
-    return () => clearInterval(interval);
+    import("three")
+      .then((THREE) => {
+        if (disposed) return;
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+        const small = window.innerWidth < 768;
+
+        let renderer;
+        try {
+          renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            powerPreference: "low-power",
+          });
+        } catch {
+          return; // No WebGL: the hero still works without the orb.
+        }
+        const pixelRatio = Math.min(window.devicePixelRatio, 2);
+        renderer.setPixelRatio(pixelRatio);
+        renderer.domElement.style.width = "100%";
+        renderer.domElement.style.height = "100%";
+        mount.appendChild(renderer.domElement);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+        camera.position.z = 7;
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        // Points on a Fibonacci sphere.
+        const count = small ? 1400 : 2600;
+        const positions = new Float32Array(count * 3);
+        const rand = new Float32Array(count);
+        const golden = Math.PI * (3 - Math.sqrt(5));
+        for (let i = 0; i < count; i++) {
+          const y = 1 - (i / (count - 1)) * 2;
+          const r = Math.sqrt(1 - y * y);
+          const theta = golden * i;
+          positions[i * 3] = Math.cos(theta) * r * 1.6;
+          positions[i * 3 + 1] = y * 1.6;
+          positions[i * 3 + 2] = Math.sin(theta) * r * 1.6;
+          rand[i] = Math.random();
+        }
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute(
+          "position",
+          new THREE.BufferAttribute(positions, 3)
+        );
+        geometry.setAttribute("aRand", new THREE.BufferAttribute(rand, 1));
+
+        const material = new THREE.ShaderMaterial({
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          uniforms: {
+            uTime: { value: 0 },
+            uPixelRatio: { value: pixelRatio },
+            uBase: { value: new THREE.Color("#a3a3a3") },
+            uGlow: { value: new THREE.Color(ACCENT) },
+          },
+          vertexShader: /* glsl */ `
+            uniform float uTime;
+            uniform float uPixelRatio;
+            attribute float aRand;
+            varying float vGlow;
+            varying float vRand;
+            void main() {
+              vec3 n = normalize(position);
+              vec3 dir = normalize(vec3(sin(uTime * 0.21), 0.55, cos(uTime * 0.17)));
+              float wave = sin(dot(n, dir) * 7.0 - uTime * 1.6);
+              float glow = smoothstep(0.72, 1.0, wave);
+              vec3 p = position + n * (glow * 0.14 + aRand * 0.03);
+              vGlow = glow;
+              vRand = aRand;
+              vec4 mv = modelViewMatrix * vec4(p, 1.0);
+              gl_PointSize = (12.0 + glow * 20.0) * uPixelRatio / -mv.z;
+              gl_Position = projectionMatrix * mv;
+            }
+          `,
+          fragmentShader: /* glsl */ `
+            uniform vec3 uBase;
+            uniform vec3 uGlow;
+            varying float vGlow;
+            varying float vRand;
+            void main() {
+              float d = length(gl_PointCoord - 0.5);
+              if (d > 0.5) discard;
+              float a = smoothstep(0.5, 0.0, d);
+              vec3 c = mix(uBase, uGlow, vGlow);
+              gl_FragColor = vec4(c, a * (0.4 + vRand * 0.25 + vGlow * 0.6));
+            }
+          `,
+        });
+        group.add(new THREE.Points(geometry, material));
+
+        // A thin orbit with a small satellite.
+        const ringPts = [];
+        for (let i = 0; i < 128; i++) {
+          const a = (i / 128) * Math.PI * 2;
+          ringPts.push(new THREE.Vector3(Math.cos(a) * 2.35, 0, Math.sin(a) * 2.35));
+        }
+        const ringGeo = new THREE.BufferGeometry().setFromPoints(ringPts);
+        const ringMat = new THREE.LineBasicMaterial({
+          color: 0xffffff,
+          transparent: true,
+          opacity: 0.1,
+        });
+        const orbit = new THREE.Group();
+        orbit.rotation.set(1.15, 0, 0.35);
+        orbit.add(new THREE.LineLoop(ringGeo, ringMat));
+        const satGeo = new THREE.SphereGeometry(0.045, 16, 16);
+        const satMat = new THREE.MeshBasicMaterial({ color: ACCENT });
+        const satellite = new THREE.Mesh(satGeo, satMat);
+        orbit.add(satellite);
+        group.add(orbit);
+
+        const resize = () => {
+          const { clientWidth: w, clientHeight: h } = mount;
+          if (!w || !h) return;
+          renderer.setSize(w, h, false);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+        };
+        resize();
+        const ro = new ResizeObserver(resize);
+        ro.observe(mount);
+
+        const pointer = { x: 0, y: 0 };
+        const onPointer = (e) => {
+          pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+          pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+        };
+        window.addEventListener("pointermove", onPointer, { passive: true });
+
+        const startTime = performance.now();
+        let raf = 0;
+        let visible = true;
+        const render = () => {
+          const t = (performance.now() - startTime) / 1000;
+          material.uniforms.uTime.value = t;
+          group.rotation.y += (t * 0.08 + pointer.x * 0.35 - group.rotation.y) * 0.05;
+          group.rotation.x += (pointer.y * 0.2 - group.rotation.x) * 0.05;
+          satellite.position.set(Math.cos(t * 0.6) * 2.35, 0, Math.sin(t * 0.6) * 2.35);
+          renderer.render(scene, camera);
+        };
+        const loop = () => {
+          render();
+          raf = requestAnimationFrame(loop);
+        };
+        const start = () => {
+          if (!raf && visible && !document.hidden) raf = requestAnimationFrame(loop);
+        };
+        const stop = () => {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        };
+
+        let io;
+        const onVisibility = () => (document.hidden ? stop() : start());
+        if (reduceMotion) {
+          render();
+        } else {
+          io = new IntersectionObserver(([entry]) => {
+            visible = entry.isIntersecting;
+            visible ? start() : stop();
+          });
+          io.observe(mount);
+          document.addEventListener("visibilitychange", onVisibility);
+          start();
+        }
+
+        cleanup = () => {
+          stop();
+          io?.disconnect();
+          ro.disconnect();
+          document.removeEventListener("visibilitychange", onVisibility);
+          window.removeEventListener("pointermove", onPointer);
+          geometry.dispose();
+          material.dispose();
+          ringGeo.dispose();
+          ringMat.dispose();
+          satGeo.dispose();
+          satMat.dispose();
+          renderer.dispose();
+          renderer.domElement.remove();
+        };
+      })
+      .catch(() => {});
+
+    return () => {
+      disposed = true;
+      cleanup();
+    };
+  }, []);
+
+  return <div ref={mountRef} aria-hidden="true" className={className} />;
+}
+
+function Magnetic({ children, className = "" }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (
+      !el ||
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+    const xTo = gsap.quickTo(el, "x", { duration: 0.6, ease: "power3" });
+    const yTo = gsap.quickTo(el, "y", { duration: 0.6, ease: "power3" });
+    const move = (e) => {
+      const r = el.getBoundingClientRect();
+      xTo((e.clientX - (r.left + r.width / 2)) * 0.3);
+      yTo((e.clientY - (r.top + r.height / 2)) * 0.3);
+    };
+    const leave = () => {
+      xTo(0);
+      yTo(0);
+    };
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerleave", leave);
+    return () => {
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerleave", leave);
+    };
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <nav className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                <BookOpen size={24} className="text-blue-600" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900 md:hidden lg:block">
-                  Interview Nerd
-                </h1>
-                {/* <p className="text-sm text-gray-500 hidden sm:block">
-                  Master Tech Interviews
-                </p> */}
-              </div>
-            </div>
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link
-                href="/resources"
-                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Resources
-              </Link>
-              <a
-                href="#features"
-                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
-              >
-                Features
-              </a>
-              <a
-                href="#snippets"
-                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
-              >
-                Snippets
-              </a>
-              <a
-                href="#categories"
-                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
-              >
-                Categories
-              </a>
+    <div ref={ref} className={`inline-block ${className}`}>
+      {children}
+    </div>
+  );
+}
 
-              {/* Tools Dropdown */}
+function trackSpotlight(e) {
+  const r = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty("--x", `${e.clientX - r.left}px`);
+  e.currentTarget.style.setProperty("--y", `${e.clientY - r.top}px`);
+}
+
+function LogoChip({ item, size = 40 }) {
+  const Icon = item.icon;
+  return (
+    <span
+      className="flex shrink-0 items-center justify-center rounded-xl bg-neutral-100 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105"
+      style={{ width: size, height: size }}
+    >
+      {item.img ? (
+        <Image
+          src={item.img}
+          alt=""
+          width={size * 0.6}
+          height={size * 0.6}
+          className="object-contain"
+        />
+      ) : Icon ? (
+        <Icon className="text-neutral-900" style={{ width: size * 0.5, height: size * 0.5 }} />
+      ) : (
+        <span className="text-sm font-bold text-[#00ADD8]">{item.text}</span>
+      )}
+    </span>
+  );
+}
+
+function SectionHeader({ index, label, title, children }) {
+  return (
+    <div data-reveal className="mb-12 grid gap-6 md:mb-16 md:grid-cols-12 md:items-end">
+      <div className="md:col-span-7">
+        <p className={`${mono.className} mb-4 text-xs uppercase tracking-[0.2em] text-neutral-500`}>
+          <span className="text-[#D4FF4F]">{index}</span> / {label}
+        </p>
+        <h2 className="text-4xl font-semibold leading-[1.05] tracking-tight text-neutral-50 md:text-5xl lg:text-6xl">
+          {title}
+        </h2>
+      </div>
+      {children && (
+        <p className="max-w-md text-base leading-relaxed text-neutral-400 md:col-span-5 md:justify-self-end">
+          {children}
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+
+export default function Home() {
+  const { data: session } = useSession();
+  const rootRef = useRef(null);
+  const mcqSectionRef = useRef(null);
+  const mcqViewportRef = useRef(null);
+  const mcqTrackRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [daily, setDaily] = useState(null);
+
+  // Pick the question of the day on the client so it follows the visitor's date.
+  useEffect(() => {
+    const now = new Date();
+    const dayOfYear = Math.floor(
+      (now - new Date(now.getFullYear(), 0, 0)) / 86400000
+    );
+    setDaily(DAILY_QUESTIONS[dayOfYear % DAILY_QUESTIONS.length]);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useIsoLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const mm = gsap.matchMedia(rootRef);
+
+    // Pinned horizontal MCQ rail. Created first so triggers below it
+    // are measured with the pin spacing in place.
+    mm.add(
+      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+      () => {
+        const track = mcqTrackRef.current;
+        const viewport = mcqViewportRef.current;
+        const distance = () => {
+          const cs = getComputedStyle(viewport);
+          const inner =
+            viewport.clientWidth -
+            parseFloat(cs.paddingLeft) -
+            parseFloat(cs.paddingRight);
+          return Math.max(0, track.scrollWidth - inner);
+        };
+        gsap.to(track, {
+          x: () => -distance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: mcqSectionRef.current,
+            start: "top top",
+            end: () => `+=${distance()}`,
+            pin: true,
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+            onUpdate: (self) =>
+              gsap.set(".mcq-progress", { scaleX: self.progress }),
+          },
+        });
+      }
+    );
+
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap
+        .timeline({ defaults: { ease: "expo.out" } })
+        .to(".hero-word", { y: 0, duration: 1.2, stagger: 0.07 })
+        .to(".hero-fade", { opacity: 1, y: 0, duration: 1, stagger: 0.1 }, "-=0.8");
+
+      gsap.utils.toArray("[data-reveal]").forEach((el) => {
+        gsap.from(el, {
+          y: 40,
+          opacity: 0,
+          duration: 1.1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        });
+      });
+
+      gsap.utils.toArray("[data-stagger]").forEach((el) => {
+        gsap.from(el.children, {
+          y: 28,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.06,
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+        });
+      });
+
+      gsap.utils.toArray("[data-count]").forEach((el) => {
+        const end = Number(el.dataset.count);
+        const suffix = el.dataset.suffix || "";
+        const counter = { v: 0 };
+        gsap.to(counter, {
+          v: end,
+          duration: 2,
+          ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 90%", once: true },
+          onUpdate: () => {
+            el.textContent =
+              Math.round(counter.v).toLocaleString("en-US") + suffix;
+          },
+        });
+      });
+
+      gsap.to(".cta-glow", {
+        scale: 1.25,
+        opacity: 0.32,
+        duration: 3,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+    });
+
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+    return () => mm.revert();
+  }, []);
+
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
+  return (
+    <div
+      ref={rootRef}
+      className={`${display.className} landing relative min-h-screen overflow-x-clip bg-[#0A0A0A] text-neutral-200 antialiased selection:bg-[#D4FF4F] selection:text-neutral-950`}
+    >
+      <Head>
+        <title>Interview Nerd | Master Tech Interviews</title>
+      </Head>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Navigation                                                          */}
+      {/* ------------------------------------------------------------------ */}
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
+        <nav
+          className={`mx-auto max-w-6xl rounded-2xl border transition-all duration-500 ${
+            scrolled || isMobileMenuOpen
+              ? "border-white/10 bg-neutral-950/70 shadow-2xl shadow-black/40 backdrop-blur-xl"
+              : "border-transparent bg-transparent"
+          }`}
+        >
+          <div className="flex h-14 items-center justify-between px-4">
+            <Link href="/" className="flex items-center gap-2.5" onClick={closeMenu}>
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#D4FF4F]">
+                <span className={`${mono.className} text-[11px] font-bold text-neutral-950`}>
+                  IN
+                </span>
+              </span>
+              <span className="text-[15px] font-semibold tracking-tight text-neutral-50">
+                Interview Nerd
+              </span>
+            </Link>
+
+            <div className="hidden items-center gap-1 md:flex">
               <div
                 className="relative"
-                onMouseEnter={() => setIsToolsDropdownOpen(true)}
-                onMouseLeave={() => setIsToolsDropdownOpen(false)}
+                onMouseEnter={() => setIsToolsOpen(true)}
+                onMouseLeave={() => setIsToolsOpen(false)}
               >
-                <button className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-blue-50">
-                  <Settings className="w-4 h-4" />
-                  <span>Tools</span>
+                <button
+                  onClick={() => setIsToolsOpen((o) => !o)}
+                  aria-expanded={isToolsOpen}
+                  className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm text-neutral-400 transition-colors hover:text-neutral-50"
+                >
+                  Practice
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${isToolsDropdownOpen ? "rotate-180" : ""
-                      }`}
+                    className={`h-3.5 w-3.5 transition-transform duration-300 ${isToolsOpen ? "rotate-180" : ""}`}
                   />
                 </button>
-                {isToolsDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
-                    <div className="py-3">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push("/sql-practice")}
-                        className="w-full justify-start text-gray-600 hover:text-indigo-700 hover:bg-indigo-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
-                      >
-                        <DatabaseZap className="w-5 h-5 text-indigo-700" />
-                        <div className="text-left">
-                          <div className="font-medium">SQL Query Practice</div>
-                        </div>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push("/mongodb-practice")}
-                        className="w-full justify-start text-gray-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
-                      >
-                        <Database className="w-5 h-5 text-green-700" />
-                        <div className="text-left">
-                          <div className="font-medium">
-                            MongoDB Query Practice
-                          </div>
-                        </div>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push("/python-practice")}
-                        className="w-full justify-start text-gray-600 hover:text-yellow-700 hover:bg-yellow-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
-                      >
-                        <FileCode2 className="w-5 h-5 text-yellow-700" />
-                        <div className="text-left">
-                          <div className="font-medium">Python Practice</div>
-                        </div>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push("/playground")}
-                        className="w-full justify-start text-gray-600 hover:text-purple-700 hover:bg-purple-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
-                      >
-                        <Code className="w-5 h-5 text-purple-700" />
-                        <div className="text-left">
-                          <div className="font-medium">
-                            JavaScript Playground
-                          </div>
-                        </div>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push("/docker-practice")}
-                        className="w-full justify-start text-gray-600 hover:text-cyan-700 hover:bg-cyan-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
-                      >
-                        <Container className="w-5 h-5 text-cyan-600" />
-                        <div className="text-left">
-                          <div className="font-medium">Docker Practice</div>
-                        </div>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push("/go-practice")}
-                        className="w-full justify-start text-gray-600 hover:text-teal-700 hover:bg-teal-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
-                      >
-                        <Code2 className="w-5 h-5 text-teal-600" />
-                        <div className="text-left">
-                          <div className="font-medium">Go Practice</div>
-                        </div>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push("/linux-practice")}
-                        className="w-full justify-start text-gray-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
-                      >
-                        <Terminal className="w-5 h-5 text-green-600" />
-                        <div className="text-left">
-                          <div className="font-medium">Linux Practice</div>
-                        </div>
-                      </Button>
-                    </div >
-                  </div >
-                )
-                }
-              </div >
-
-              <a
-                href="#testimonials"
-                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
-              >
-                Testimonials
+                <div
+                  className={`absolute left-1/2 top-full w-[460px] -translate-x-1/2 pt-3 transition-all duration-300 ${
+                    isToolsOpen
+                      ? "visible translate-y-0 opacity-100"
+                      : "invisible -translate-y-1 opacity-0"
+                  }`}
+                >
+                  <div className="grid grid-cols-2 gap-1 rounded-2xl border border-white/10 bg-neutral-950/95 p-2 shadow-2xl backdrop-blur-xl">
+                    {TOOLS.map((tool) => {
+                      const Icon = tool.icon;
+                      return (
+                        <Link
+                          key={tool.href}
+                          href={tool.href}
+                          className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-white/5"
+                        >
+                          <Icon className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500 transition-colors group-hover:text-[#D4FF4F]" />
+                          <span>
+                            <span className="block text-sm font-medium text-neutral-100">
+                              {tool.name}
+                            </span>
+                            <span className="mt-0.5 block text-xs leading-snug text-neutral-500">
+                              {tool.desc}
+                            </span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+              <a href="#categories" className="rounded-lg px-3 py-2 text-sm text-neutral-400 transition-colors hover:text-neutral-50">
+                Topics
               </a>
-              {
-                session ? (
-                  <>
+              <a href="#mcq" className="rounded-lg px-3 py-2 text-sm text-neutral-400 transition-colors hover:text-neutral-50">
+                MCQs
+              </a>
+              <Link href="/resources" className="rounded-lg px-3 py-2 text-sm text-neutral-400 transition-colors hover:text-neutral-50">
+                Resources
+              </Link>
+            </div>
+
+            <div className="hidden items-center gap-2 md:flex">
+              {session ? (
+                <>
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="rounded-lg px-3 py-2 text-sm text-neutral-400 transition-colors hover:text-neutral-50"
+                  >
+                    Logout
+                  </button>
+                  <Link
+                    href="/dashboard"
+                    className="rounded-lg bg-neutral-50 px-4 py-2 text-sm font-medium text-neutral-950 transition-colors hover:bg-[#D4FF4F]"
+                  >
+                    Dashboard
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/login" className="rounded-lg px-3 py-2 text-sm text-neutral-400 transition-colors hover:text-neutral-50">
+                    Log in
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="rounded-lg bg-neutral-50 px-4 py-2 text-sm font-medium text-neutral-950 transition-colors hover:bg-[#D4FF4F]"
+                  >
+                    Get started
+                  </Link>
+                </>
+              )}
+            </div>
+
+            <button
+              onClick={() => setIsMobileMenuOpen((o) => !o)}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+              className="-mr-2 rounded-lg p-2 text-neutral-300 md:hidden"
+            >
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+
+          {isMobileMenuOpen && (
+            <div className="max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-white/10 px-4 pb-5 pt-4 md:hidden">
+              <p className={`${mono.className} mb-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500`}>
+                Practice
+              </p>
+              <div className="grid grid-cols-2 gap-1">
+                {TOOLS.map((tool) => {
+                  const Icon = tool.icon;
+                  return (
                     <Link
-                      href="/dashboard"
-                      className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
+                      key={tool.href}
+                      href={tool.href}
+                      onClick={closeMenu}
+                      className="flex items-center gap-2 rounded-lg px-2 py-2.5 text-sm text-neutral-300 hover:bg-white/5"
                     >
-                      Dashboard
+                      <Icon className="h-4 w-4 text-neutral-500" />
+                      {tool.name.replace(" Practice", "").replace(" Playground", "")}
                     </Link>
-                    <Button
-                      size="sm"
-                      className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
-                      onClick={() => signOut({ callbackUrl: "/" })}
+                  );
+                })}
+              </div>
+              <div className="mt-4 flex flex-col border-t border-white/10 pt-3">
+                <a href="#categories" onClick={closeMenu} className="py-2.5 text-sm text-neutral-300">Topics</a>
+                <a href="#mcq" onClick={closeMenu} className="py-2.5 text-sm text-neutral-300">MCQs</a>
+                <Link href="/resources" onClick={closeMenu} className="py-2.5 text-sm text-neutral-300">Resources</Link>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-4">
+                {session ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        closeMenu();
+                        signOut({ callbackUrl: "/" });
+                      }}
+                      className="rounded-lg border border-white/10 py-2.5 text-sm text-neutral-300"
                     >
                       Logout
-                    </Button>
+                    </button>
+                    <Link href="/dashboard" onClick={closeMenu} className="rounded-lg bg-neutral-50 py-2.5 text-center text-sm font-medium text-neutral-950">
+                      Dashboard
+                    </Link>
                   </>
                 ) : (
                   <>
-                    <Link
-                      href="/auth/login"
-                      className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
-                    >
-                      Login
+                    <Link href="/auth/login" onClick={closeMenu} className="rounded-lg border border-white/10 py-2.5 text-center text-sm text-neutral-300">
+                      Log in
                     </Link>
-                    <Button
-                      size="sm"
-                      onClick={() => router.push("/auth/signup")}
-                      className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
-                    >
-                      Get Started
-                    </Button>
-                    {/* <Link
-                    href="/auth/signup"
-                    className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
-                  >
-                    Signup
-                  </Link> */}
+                    <Link href="/auth/signup" onClick={closeMenu} className="rounded-lg bg-neutral-50 py-2.5 text-center text-sm font-medium text-neutral-950">
+                      Get started
+                    </Link>
                   </>
-                )
-              }
-            </div >
-
-            {/* Mobile Menu Button */}
-            < div className="md:hidden" >
-              <button
-                onClick={toggleMobileMenu}
-                className="text-gray-600 hover:text-blue-600 transition-all duration-200 p-2"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
                 )}
-              </button>
-            </div >
-          </div >
+              </div>
+            </div>
+          )}
+        </nav>
+      </header>
 
-          {/* Mobile Navigation Menu */}
-          {
-            isMobileMenuOpen && (
-              <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
-                <div className="container mx-auto px-4 py-4 space-y-4">
-                  <a
-                    href="#features"
-                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Features
-                  </a>
-                  <a
-                    href="#snippets"
-                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Snippets
-                  </a>
-                  <a
-                    href="#categories"
-                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Categories
-                  </a>
-                  <div className="border-t border-gray-200 pt-4">
-                    <button
-                      onClick={() => setIsMobileToolsOpen(!isMobileToolsOpen)}
-                      className="w-full text-left text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 font-medium flex items-center justify-between"
+      <main>
+        {/* ---------------------------------------------------------------- */}
+        {/* Hero                                                              */}
+        {/* ---------------------------------------------------------------- */}
+        <section className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-28 md:pt-32">
+          <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden="true" />
+          <HeroOrb className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[420px] -translate-x-1/2 opacity-60 md:left-auto md:right-[-8%] md:top-1/2 md:h-[min(62vw,760px)] md:w-[min(62vw,760px)] md:-translate-y-1/2 md:translate-x-0 md:opacity-100" />
+
+          <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <Link
+              href="/linux-practice"
+              className="hero-fade group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1 pl-1 pr-3 text-xs text-neutral-400 backdrop-blur transition-colors hover:border-white/20 hover:text-neutral-200"
+            >
+              <span className="rounded-full bg-[#D4FF4F] px-2 py-0.5 font-medium text-neutral-950">
+                New
+              </span>
+              Go &amp; Linux sandboxes are live
+              <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+
+            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-neutral-50">
+              {HEADLINE.map((line, i) => (
+                <span key={i} className="block overflow-hidden pb-[0.1em]">
+                  {line.map(({ w, accent }, j) => (
+                    <span
+                      key={j}
+                      className={`hero-word inline-block ${
+                        accent ? `${serif.className} font-normal tracking-[-0.02em] text-[#D4FF4F]` : ""
+                      }`}
                     >
-                      <span className="flex items-center gap-2">
-                        <Settings className="w-4 h-4" />
-                        Tools
-                      </span>
-                      <ChevronDown
-                        className={`w-4 h-4 transition-transform duration-200 ${isMobileToolsOpen ? "rotate-180" : ""
-                          }`}
-                      />
-                    </button>
-                    {isMobileToolsOpen && (
-                      <div className="pl-6 space-y-2 mt-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            // session
-                            // ?
-                            router.push("/sql-practice");
-                            // : router.push("/auth/login");
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="w-full justify-start text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2 py-2"
-                        >
-                          <DatabaseZap className="w-4 h-4" />
-                          SQL Practice
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            // session
-                            // ? router.push("/mongodb-practice")
-                            router.push("/mongodb-practice");
-                            // : router.push("/auth/login");
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
-                        >
-                          <Database className="w-4 h-4" />
-                          MongoDB Practice
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            // session
-                            // ?
-                            router.push("/python-practice");
-                            // : router.push("/auth/login");
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="w-full justify-start text-yellow-600 hover:text-yellow-700 font-medium flex items-center gap-2 py-2"
-                        >
-                          <FileCode2 className="w-4 h-4" />
-                          Python Practice
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            router.push("/playground");
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="w-full justify-start text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 py-2"
-                        >
-                          <Code className="w-4 h-4" />
-                          JavaScript Playground
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            router.push("/docker-practice");
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="w-full justify-start text-cyan-600 hover:text-cyan-700 font-medium flex items-center gap-2 py-2"
-                        >
-                          <Container className="w-4 h-4" />
-                          Docker Practice
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            router.push("/go-practice");
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="w-full justify-start text-teal-600 hover:text-teal-700 font-medium flex items-center gap-2 py-2"
-                        >
-                          <Code2 className="w-4 h-4" />
-                          Go Practice
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            router.push("/linux-practice");
-                            setIsMobileMenuOpen(false);
-                          }}
-                          className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
-                        >
-                          <Terminal className="w-4 h-4" />
-                          Linux Practice
-                        </Button>
-                      </div >
-                    )
-                    }
-                  </div >
-                  <Link
-                    href="/resources"
-                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Resources
-                  </Link>
-                  <a
-                    href="#testimonials"
-                    className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Testimonials
-                  </a>
-                  <div className="border-t border-gray-200 pt-4">
-                    {session ? (
-                      <div className="space-y-2">
-                        <Link
-                          href="/dashboard"
-                          className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center font-medium"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          Dashboard
-                        </Link>
-                        <Button
-                          size="sm"
-                          className="w-full bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                          onClick={() => {
-                            signOut({ callbackUrl: "/" });
-                            setIsMobileMenuOpen(false);
-                          }}
-                        >
-                          Logout
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="space-y-2">
-                        <Link
-                          href="/auth/login"
-                          className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          Login
-                        </Link>
-                        <Link
-                          href="/auth/signup"
-                          className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          Signup
-                        </Link>
-                      </div>
-                    )}
-                  </div>
-                </div >
-              </div >
-            )}
-        </nav >
-      </header >
-
-      {/* Hero Section */}
-      < section className="container mx-auto px-4 py-16" >
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <svg
-                width="16"
-                height="16"
-                fill="none"
-                viewBox="0 0 48 48"
-                className="text-blue-600"
-              >
-                <circle
-                  cx="24"
-                  cy="24"
-                  r="24"
-                  fill="#2563eb"
-                  fillOpacity="0.08"
-                />
-                <path
-                  d="M24 14v12l8 4"
-                  stroke="#2563eb"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              Ace Your Next Interview
-            </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
-              Master Tech Interviews with
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {" "}
-                Confidence
-              </span>
+                      {w}
+                      {j < line.length - 1 ? " " : ""}
+                    </span>
+                  ))}
+                </span>
+              ))}
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-8">
-              Your comprehensive platform for acing technical interviews.
-              Practice with
-              <span className="font-semibold text-gray-800">
-                {" "}
-                500+ curated questions
-              </span>
-              , real-world scenarios, and expert solutions across all major tech
-              stacks.
+
+            <p className="hero-fade mt-8 max-w-xl text-lg leading-relaxed text-neutral-400">
+              500+ curated questions, 2,500+ MCQs and seven live coding
+              sandboxes across every stack interviewers actually ask about.
             </p>
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 mb-8">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>500+ Interview Questions</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Real Company Scenarios</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Progress Tracking</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Expert Solutions</span>
-              </div>
+
+            <div className="hero-fade mt-10 flex flex-wrap items-center gap-3">
+              <Magnetic>
+                <Link
+                  href="/category/Javascript"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[#D4FF4F] px-6 py-3.5 text-sm font-semibold text-neutral-950 transition-shadow hover:shadow-[0_0_40px_-6px_rgba(212,255,79,0.6)]"
+                >
+                  Start practicing
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Magnetic>
+              <a
+                href="#categories"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-sm font-medium text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/5"
+              >
+                Explore topics
+              </a>
             </div>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Button
-              size="lg"
-              onClick={() => router.push("/category/Javascript")}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            {/* Question of the day */}
+            <Link
+              href={daily?.href || "/category/Javascript"}
+              className={`hero-fade group mt-14 block max-w-md rounded-2xl border border-white/10 bg-neutral-900/60 p-5 backdrop-blur-md transition-colors hover:border-white/20`}
             >
-              Start Free Trial <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => {
-                const categoriesSection = document.getElementById("categories");
-                categoriesSection?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="border-2 border-gray-300 text-gray-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-300"
-            >
-              Explore Topics
-            </Button>
-          </motion.div>
-        </div>
-      </section >
-
-      {/* Code Playground Feature Section */}
-      < section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16" >
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <div className="inline-flex items-center gap-2 bg-white/10 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-                <Zap className="w-4 h-4" />
-                New Feature: AI-Powered Learning
+              <div className="mb-3 flex items-center justify-between">
+                <span className={`${mono.className} flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-neutral-500`}>
+                  <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-[#D4FF4F]" />
+                  Question of the day
+                </span>
+                <span className="text-xs text-neutral-500">{daily?.topic}</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Interactive Learning Platform
-              </h2>
-              <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-                Practice coding with our interactive playground and SQL practice
-                module featuring adaptive difficulty, real-time feedback, and
-                comprehensive datasets across multiple programming languages.
+              <p
+                className={`min-h-[3.25rem] text-[15px] leading-relaxed text-neutral-100 transition-opacity duration-500 ${
+                  daily ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                {daily?.q || DAILY_QUESTIONS[0].q}
               </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <Code className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    JavaScript Playground
-                  </h3>
-                  <p className="text-blue-100 text-sm mb-4">
-                    Practice JavaScript with real-time code execution,
-                    interactive challenges, and AI-powered recommendations
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push("/playground")}
-                    className="bg-white text-purple-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    <Play className="mr-2 w-4 h-4" />
-                    Practice Javascript
-                  </Button>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <DatabaseZap className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    SQL Practice
-                  </h3>
-                  <p className="text-blue-100 text-sm mb-4">
-                    Master SQL with interactive queries, real datasets,
-                    realistic datasets and comprehensive practice questions
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={
-                      () =>
-                        // session
-                        //   ?
-                        router.push("/sql-practice")
-                      // : router.push("/auth/login")
-                    }
-                    className="bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    <DatabaseZap className="mr-2 w-4 h-4" />
-                    Practice SQL
-                  </Button>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <Database className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    MongoDB Practice
-                  </h3>
-                  <p className="text-blue-100 text-sm mb-4">
-                    Learn MongoDB queries and aggregation pipelines with
-                    hands-on practice using realistic datasets and complex
-                    operations
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push("/mongodb-practice")}
-                    className="bg-white text-green-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    <Database className="mr-2 w-4 h-4" />
-                    Practice MongoDB
-                  </Button>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <FileCode2 className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Python Practice
-                  </h3>
-                  <p className="text-blue-100 text-sm mb-4">
-                    Master Python programming with interactive code execution,
-                    beginner to advanced questions, and instant feedback
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push("/python-practice")}
-                    className="bg-white text-yellow-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    <FileCode2 className="mr-2 w-4 h-4" />
-                    Practice Python
-                  </Button>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <Container className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Docker Practice
-                  </h3>
-                  <p className="text-blue-100 text-sm mb-4">
-                    Write Dockerfiles, learn container concepts and nail Docker
-                    interview questions
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push("/docker-practice")}
-                    className="bg-white text-cyan-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    <Container className="mr-2 w-4 h-4" />
-                    Practice Docker
-                  </Button>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <Code2 className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Go Practice
-                  </h3>
-                  <p className="text-blue-100 text-sm mb-4">
-                    Master Golang from the ground up with interactive exercises and real-world interviewer questions
-                  </p>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push("/go-practice")}
-                    className="bg-white text-teal-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    <Code2 className="mr-2 w-4 h-4" />
-                    Practice Go
-                  </Button>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm h-full flex flex-col justify-between">
-                  <div>
-                    <Terminal className="w-12 h-12 text-white mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-white mb-2">
-                      Linux Practice
-                    </h3>
-                    <p className="text-blue-100 text-sm mb-4">
-                      Master Linux command line, file permissions, and shell scripting with interactive environments
-                    </p>
-                  </div>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push("/linux-practice")}
-                    className="bg-white text-orange-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
-                  >
-                    <Terminal className="mr-2 w-4 h-4" />
-                    Practice Linux
-                  </Button>
-                </div>
-              </motion.div>
-            </div >
-          </div >
-        </div >
-      </section >
-
-      {/* Tech Stacks Section */}
-      < section id="categories" className="container mx-auto px-4 py-16" >
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Choose Your Tech Stack
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Select from our comprehensive collection of programming languages
-              and frameworks
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/Javascript")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-yellow-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/50 to-orange-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={js} width={48} height={48} alt="Javascript" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-700 transition-colors">
-                      JavaScript
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-yellow-600 mb-3 group-hover:scale-110 transition-transform">
-                    52
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    ES6+, Async/Await, Closures, Prototypes
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/Next")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-gray-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-slate-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-gray-100 to-slate-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={next} width={48} height={48} alt="Next.js" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
-                      Next.js
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-gray-600 mb-3 group-hover:scale-110 transition-transform">
-                    64
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Routing, SSR, API routes, and more
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/React")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-blue-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={react} width={48} height={48} alt="React" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
-                      React.js
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-blue-600 mb-3 group-hover:scale-110 transition-transform">
-                    40
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Hooks, State Management, Context, JSX
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/Node")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-green-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={node} width={48} height={48} alt="Node.js" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">
-                      Node.js
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-green-600 mb-3 group-hover:scale-110 transition-transform">
-                    52
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Express, async, event loop, and more
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/Typescript")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-blue-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={ts} width={48} height={48} alt="TypeScript" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
-                      TypeScript
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-blue-600 mb-3 group-hover:scale-110 transition-transform">
-                    30
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Types, interfaces, generics, and more
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/SQL")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-indigo-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="#4f46e5"
-                        className="w-12 h-12"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
-                        />
-                      </svg>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors">
-                      SQL
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-indigo-600 mb-3 group-hover:scale-110 transition-transform">
-                    45
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Queries, joins, indexing, and optimization
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/RabbitMQ")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-orange-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-red-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl pr-2 pl-2 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image
-                        src={rabbitmq}
-                        width={60}
-                        height={60}
-                        alt="rabbitmq"
-                      />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors">
-                      RabbitMQ
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-orange-600 mb-3 group-hover:scale-110 transition-transform">
-                    28
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Message queues, exchanges, and routing
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/OOP")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-purple-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="#9333ea"
-                        className="w-12 h-12"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
-                        />
-                      </svg>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-700 transition-colors">
-                      OOP
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-purple-600 mb-3 group-hover:scale-110 transition-transform">
-                    35
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Classes, inheritance, polymorphism, and design patterns
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/python")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-yellow-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-30/50 to-yellow-30/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-yellow-50 to-yellow-50 rounded-2xl pr-1 pl-1 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={python} width={80} height={80} alt="python" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-700 transition-colors">
-                      Python
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-yellow-600 mb-3 group-hover:scale-110 transition-transform">
-                    15
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Data structures, algorithms, and problem-solving
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/redis")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-red-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-30/50 to-red-30/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-red-50 to-red-50 rounded-2xl pr-1 pl-1 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={redis} width={80} height={80} alt="python" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-700 transition-colors">
-                      Redis
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-red-600 mb-3 group-hover:scale-110 transition-transform">
-                    25
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Redis caching and in-memory data storage
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/nest")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-red-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-30/50 to-red-30/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-red-50 to-red-50 rounded-2xl pr-4 pl-4 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={nest} width={50} height={50} alt="nest" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-700 transition-colors">
-                      Nest
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-[#f40057] mb-3 group-hover:scale-110 transition-transform">
-                    45
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    NestJS, TypeScript, and backend development
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/docker")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-blue-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-30/50 to-blue-30/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl pr-4 pl-4 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={docker} width={50} height={50} alt="docker" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
-                      Docker
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-[#007bff] mb-3 group-hover:scale-110 transition-transform">
-                    20
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Containerization, orchestration, and deployment
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Go Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/go")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-teal-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-50/50 to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 40 40"
-                        className="w-12 h-12"
-                        fill="none"
-                      >
-                        <rect width="40" height="40" rx="8" fill="#00ACD7" fillOpacity="0.12" />
-                        <text
-                          x="50%"
-                          y="54%"
-                          dominantBaseline="middle"
-                          textAnchor="middle"
-                          fontSize="22"
-                          fontWeight="bold"
-                          fontFamily="'Arial', sans-serif"
-                          fill="#00ACD7"
-                        >
-                          Go
-                        </text>
-                      </svg>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-teal-700 transition-colors">
-                      Golang
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-teal-600 mb-3 group-hover:scale-110 transition-transform">
-                    30+
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Goroutines, channels, interfaces & concurrency
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Linux Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/linux-practice")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-green-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="#16a34a"
-                        className="w-12 h-12"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
-                        />
-                      </svg>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">
-                      Linux
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-green-600 mb-3 group-hover:scale-110 transition-transform">
-                    32+
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Commands, scripting, networking, SSH & sysadmin
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* DSA Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/dsa")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-green-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="#16a34a"
-                        className="w-12 h-12"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
-                        />
-                      </svg>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">
-                      DSA Sheet
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-green-600 mb-3 group-hover:scale-110 transition-transform">
-                    32+
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Data Structure & Algorithm
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* AWS Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/aws")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-yellow-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/50 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                 <div className="bg-gradient-to-br from-yellow-50 to-yellow-50 rounded-2xl pr-4 pl-4 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={aws} width={50} height={50} alt="aws" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-700 transition-colors">
-                      AWS
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-yellow-600 mb-3 group-hover:scale-110 transition-transform">
-                    32+
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    Amazon Web Services
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* AI Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.1 }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/category/AI")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-violet-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-violet-50/50 to-fuchsia-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-violet-100 to-fuchsia-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Brain className="w-12 h-12 text-violet-600" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-violet-700 transition-colors">
-                      AI
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center relative z-10">
-                  <div className="text-3xl font-bold text-violet-600 mb-3 group-hover:scale-110 transition-transform">
-                    25+
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                    LLMs, Prompt Engineering, ML & AI concepts
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-sm text-neutral-400 transition-colors group-hover:text-[#D4FF4F]">
+                Answer it
+                <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </span>
+            </Link>
           </div>
-        </div>
-      </section >
+        </section>
 
-
-      {/* MCQ Practice Section with Carousel */}
-      < section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16" >
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 bg-white/10 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <Trophy className="w-4 h-4" />
-              Test Your Knowledge
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              MCQ Practice Tests
-            </h2>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Challenge yourself with multiple-choice questions across various
-              technologies. Track your progress and master every topic!
-            </p>
-          </motion.div>
-
-          <div className="relative px-24">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[
-                {
-                  name: "JavaScript",
-                  category: "Javascript",
-                  color: "from-yellow-100 to-orange-100",
-                  icon: js,
-                  questions: 400,
-                  topics: "ES6+, Async, Closures",
-                },
-                {
-                  name: "TypeScript",
-                  category: "Typescript",
-                  color: "from-blue-100 to-indigo-100",
-                  icon: ts,
-                  questions: 400,
-                  topics: "Types, Interfaces, Generics",
-                },
-                {
-                  name: "React",
-                  category: "React",
-                  color: "from-cyan-100 to-blue-100",
-                  icon: react,
-                  questions: 348,
-                  topics: "Hooks, State, Components",
-                },
-                {
-                  name: "Node.js",
-                  category: "Node",
-                  color: "from-green-100 to-emerald-100",
-                  icon: node,
-                  questions: 200,
-                  topics: "Express, APIs, Middleware",
-                },
-                {
-                  name: "SQL",
-                  category: "SQL",
-                  color: "from-orange-100 to-red-100",
-                  icon: "🗄️",
-                  questions: 400,
-                  topics: "Queries, Joins, Optimization",
-                },
-                {
-                  name: "MongoDB",
-                  category: "MongoDB",
-                  color: "from-green-100 to-teal-100",
-                  icon: mongodb,
-                  questions: 400,
-                  topics: "Aggregation, Queries, Schema",
-                },
-                {
-                  name: "OOP",
-                  category: "OOP",
-                  color: "from-purple-100 to-pink-100",
-                  icon: "🎯",
-                  questions: 400,
-                  topics: "Classes, Inheritance, Polymorphism",
-                },
-              ]
-                .slice(currentPage * 4, currentPage * 4 + 4)
-                .map((tech, index) => (
-                  <motion.div
-                    key={tech.category}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    whileHover={{ scale: 1.05, y: -5 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() =>
-                      router.push(`/practice-mcq/${tech.category}`)
-                    }
-                    className="cursor-pointer group"
-                  >
-                    <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
-                      <div
-                        className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
-                      />
-                      <CardHeader className="pb-4 relative z-10">
-                        <div className="flex flex-col items-center text-center">
-                          <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                            {tech.name === "SQL" ? (
-                              <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="#4f46e5"
-                                  className="w-12 h-12"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
-                                  />
-                                </svg>
-                              </div>
-                            ) : tech.name === "SQL" ? (
-                              <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="#4f46e5"
-                                  className="w-12 h-12"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
-                                  />
-                                </svg>
-                              </div>
-                            ) : tech.name === "OOP" ? (
-                              <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth={1.5}
-                                  stroke="#9333ea"
-                                  className="w-12 h-12"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
-                                  />
-                                </svg>
-                              </div>
-                            ) : (
-                              <div
-                                className={`bg-gradient-to-br ${tech.color} rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}
-                              >
-                                <Image
-                                  src={tech.icon}
-                                  width={48}
-                                  height={48}
-                                  alt={tech.name}
-                                />
-                              </div>
-                            )}
-                          </div>
-                          <CardTitle className="text-xl font-bold text-gray-900 mb-0">
-                            {tech.name}
-                          </CardTitle>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="pt-0 text-center relative z-10">
-                        <div className="flex items-center justify-center gap-4 mb-0">
-                          <div className="flex items-center gap-1 text-gray-600">
-                            <FileText className="w-4 h-4" />
-                            <span className="text-sm font-semibold">
-                              {tech.questions} MCQs
-                            </span>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
-                          {tech.topics}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-            </div>
-
-            {/* Page Indicators */}
-            <div className="flex justify-center gap-2 mt-8">
-              {[0, 1].map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${currentPage === page
-                    ? "bg-white w-8"
-                    : "bg-white/30 hover:bg-white/60"
-                    }`}
-                  aria-label={`Go to page ${page + 1}`}
-                />
+        {/* ---------------------------------------------------------------- */}
+        {/* Logo marquee                                                      */}
+        {/* ---------------------------------------------------------------- */}
+        <section aria-label="Covered technologies" className="border-y border-white/[0.06] py-8">
+          <div className="marquee relative overflow-hidden">
+            <div className="marquee-track flex w-max gap-12">
+              {[...TOPICS, ...TOPICS].map((t, i) => (
+                <Link
+                  key={`${t.name}-${i}`}
+                  href={t.href}
+                  aria-hidden={i >= TOPICS.length}
+                  tabIndex={i >= TOPICS.length ? -1 : undefined}
+                  className="flex items-center gap-3 text-neutral-500 transition-colors hover:text-neutral-100"
+                >
+                  <span className="opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0">
+                    <LogoChip item={t} size={28} />
+                  </span>
+                  <span className="whitespace-nowrap text-lg font-medium tracking-tight">
+                    {t.name}
+                  </span>
+                </Link>
               ))}
             </div>
           </div>
-        </div>
-        {/* </section> */}
-        {/* Bottom CTA */}
-        {/* <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* Stats                                                             */}
+        {/* ---------------------------------------------------------------- */}
+        <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <dl data-stagger className="grid grid-cols-2 gap-y-10 md:grid-cols-4">
+            {[
+              { value: 500, suffix: "+", label: "Interview questions" },
+              { value: 2500, suffix: "+", label: "Multiple-choice questions" },
+              { value: 7, suffix: "", label: "Live coding sandboxes" },
+              { value: TOPICS.length, suffix: "", label: "Topics covered" },
+            ].map((s) => (
+              <div key={s.label} className="border-l border-white/10 pl-5">
+                <dd
+                  data-count={s.value}
+                  data-suffix={s.suffix}
+                  className="text-4xl font-semibold tracking-tight text-neutral-50 md:text-5xl"
+                >
+                  {s.value.toLocaleString("en-US")}
+                  {s.suffix}
+                </dd>
+                <dt className="mt-2 text-sm text-neutral-500">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* Practice bento                                                    */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="practice" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+          <SectionHeader index="01" label="Practice" title={<>Don&apos;t just read it. <span className="text-neutral-500">Run it.</span></>}>
+            Seven in-browser sandboxes with real execution and instant feedback.
+            No setup, no installs.
+          </SectionHeader>
+
+          <div data-stagger className="grid auto-rows-[minmax(190px,auto)] grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {TOOLS.map((tool, i) => {
+              const Icon = tool.icon;
+              const layout =
+                i === 0
+                  ? "sm:col-span-2 lg:row-span-2"
+                  : i === 1 || i === 6
+                    ? "sm:col-span-2"
+                    : "";
+              return (
+                <Link
+                  key={tool.href}
+                  href={tool.href}
+                  onMouseMove={trackSpotlight}
+                  className={`spotlight group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-white/20 ${layout}`}
+                >
+                  <div className="relative z-10 flex items-start justify-between">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
+                      <Icon className="h-5 w-5 text-neutral-300 transition-colors group-hover:text-[#D4FF4F]" />
+                    </span>
+                    <ArrowUpRight className="h-5 w-5 text-neutral-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-neutral-100" />
+                  </div>
+
+                  {i === 0 && (
+                    <div className={`${mono.className} relative z-10 mt-6 flex-1 overflow-hidden rounded-xl border border-white/[0.08] bg-black/40 text-[13px] leading-6`}>
+                      <div className="flex items-center gap-1.5 border-b border-white/[0.06] px-4 py-2.5">
+                        <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-white/10" />
+                        <span className="ml-3 text-xs text-neutral-500">closure.js</span>
+                      </div>
+                      <pre className="overflow-x-auto px-4 py-3 text-neutral-400">
+{`function counter() {
+  let n = 0;
+  return () => ++n;
+}
+
+const next = counter();
+next(); next();
+console.log(`}<span className="text-[#D4FF4F]">next()</span>{`);`}
+                      </pre>
+                      <div className="flex items-center justify-between border-t border-white/[0.06] px-4 py-2.5">
+                        <span className="text-neutral-500">
+                          <span className="text-neutral-600">›</span> 3
+                        </span>
+                        <span className="flex items-center gap-1.5 rounded-md bg-[#D4FF4F] px-2 py-0.5 text-xs font-semibold text-neutral-950">
+                          <Play className="h-3 w-3 fill-current" /> Run
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {i === 1 && (
+                    <pre className={`${mono.className} relative z-10 mt-5 overflow-x-auto rounded-lg border border-white/[0.06] bg-black/30 px-4 py-3 text-[12.5px] leading-6 text-neutral-400`}>
+                      <span className="text-[#D4FF4F]">SELECT</span> name, COUNT(*) <span className="text-[#D4FF4F]">FROM</span> orders{"\n"}
+                      <span className="text-[#D4FF4F]">GROUP BY</span> name <span className="text-[#D4FF4F]">HAVING</span> COUNT(*) &gt; 5;
+                    </pre>
+                  )}
+
+                  {i === 6 && (
+                    <div className={`${mono.className} relative z-10 mt-5 rounded-lg border border-white/[0.06] bg-black/30 px-4 py-3 text-[12.5px] leading-6 text-neutral-400`}>
+                      <span className="text-[#D4FF4F]">~$</span> chmod 755 deploy.sh
+                      <br />
+                      <span className="text-[#D4FF4F]">~$</span> <span className="cursor-blink inline-block h-4 w-2 translate-y-0.5 bg-neutral-300" />
+                    </div>
+                  )}
+
+                  <div className="relative z-10 mt-auto pt-6">
+                    <h3 className="text-lg font-semibold tracking-tight text-neutral-50">
+                      {tool.name}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-neutral-500">
+                      {tool.desc}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* Topics                                                            */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="categories" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+          <SectionHeader index="02" label="Topics" title="Pick a stack. Go deep.">
+            Curated, interview-grade questions with clear explanations for
+            every major language, framework and tool.
+          </SectionHeader>
+
+          <div
+            data-reveal
+            className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {TOPICS.map((t) => (
+              <Link
+                key={t.name}
+                href={t.href}
+                className="group flex items-center gap-4 bg-[#0A0A0A] p-5 transition-colors duration-300 hover:bg-neutral-900"
+              >
+                <LogoChip item={t} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="font-medium text-neutral-100">{t.name}</h3>
+                    <span className={`${mono.className} text-xs text-neutral-500`}>
+                      {t.count}
+                    </span>
+                  </div>
+                  <p className="truncate text-sm text-neutral-500">{t.desc}</p>
+                </div>
+                <ArrowRight className="h-4 w-4 shrink-0 -translate-x-2 text-[#D4FF4F] opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+              </Link>
+            ))}
+            {/* Fill the last row so the grid lines stay even. */}
+            <div className="hidden bg-[#0A0A0A] sm:block" />
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* MCQ rail (pinned horizontal scroll on desktop)                    */}
+        {/* ---------------------------------------------------------------- */}
+        <section
+          id="mcq"
+          ref={mcqSectionRef}
+          className="relative overflow-hidden py-24 lg:flex lg:min-h-screen lg:flex-col lg:justify-center"
         >
-          <Link
-            href="/practice-mcq/Javascript"
-            className="inline-flex items-center gap-2 bg-white text-purple-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
-          >
-            <Trophy className="w-5 h-5" />
-            Explore All MCQ Tests
-            <ArrowRight className="w-5 h-5" />
-          </Link>
-        </motion.div> */}
-        {/* </div> */}
-      </section >
-
-      {/* Major Components Section */}
-      < section className="container mx-auto px-4 py-16 bg-gray-50" >
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Advanced Topics
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto px-4">
-              Master specialized areas and advanced concepts for comprehensive
-              interview preparation
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
-            {/* AWS Questions */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => router.push("/components/AWS")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-orange-200">
-                <CardHeader className="pb-4">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="p-4 mb-4 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 transition-transform duration-300 group-hover:scale-110">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="#df924aff"
-                        className="w-12 h-12"
-                        role="img"
-                        aria-label="Cloud icon"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M3 15a4 4 0 014-4h.167a6.002 6.002 0 0111.73-1.003A5.5 5.5 0 1118.5 20H7a4 4 0 01-4-4z"
-                        />
-                      </svg>
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
-                      AWS Questions
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-orange-600 mb-2">
-                    +45
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    EC2, S3, Lambda, CloudFormation, and more cloud services
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* System Design */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => router.push("/components/SystemDesign")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-purple-200">
-                <CardHeader className="pb-4">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl p-6 mb-4 shadow-md transform transition-transform duration-300 hover:scale-105 flex items-center justify-center">
-                      <MonitorCog className="w-9 h-9 text-purple-800" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
-                      System Design
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-purple-600 mb-2">
-                    +38
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    Scalability, architecture patterns, and distributed systems
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Database Design */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => router.push("/components/Database")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-green-200">
-                <CardHeader className="pb-4">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <DatabaseZap className="w-9 h-9 text-green-600" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
-                      Database Design
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-green-600 mb-2">
-                    +42
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    SQL, NoSQL, indexing, and optimization strategies
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* DevOps & CI/CD */}
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => router.push("/components/DevOps")}
-              className="cursor-pointer group"
-            >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-blue-200">
-                <CardHeader className="pb-4">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <Workflow className="w-9 h-9 text-blue-600" />
-                    </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
-                      DevOps & CI/CD
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-blue-600 mb-2">
-                    +35
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    Docker, Kubernetes, Jenkins, and deployment strategies
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+            <SectionHeader index="03" label="Test yourself" title={<>2,500+ MCQs. <span className="text-neutral-500">Zero guesswork.</span></>}>
+              Timed multiple-choice tests that show exactly where you stand,
+              before the interviewer does.
+            </SectionHeader>
           </div>
-        </div>
-      </section >
 
-      {/* Docker Practice Section */}
-      {/* <section className="container mx-auto px-4 py-12 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.55 }}
+          <div
+            ref={mcqViewportRef}
+            className="no-scrollbar mx-auto w-full max-w-6xl snap-x snap-mandatory overflow-x-auto px-4 sm:px-6 lg:snap-none lg:overflow-visible"
           >
-            <Card className="shadow-lg border border-cyan-100 bg-gradient-to-br from-cyan-50/30 to-blue-50/30 h-fit">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2">
-                  <Container className="w-5 h-5 text-cyan-600" />
-                  Docker Practice
-                </CardTitle>
-                <p className="text-gray-600 text-sm mt-2">
-                  Write Dockerfiles, learn container concepts and nail Docker
-                  interview questions
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => router.push("/docker-practice/concepts")}
-                    className="p-4 rounded-xl border-2 border-cyan-200 bg-white hover:bg-cyan-50 hover:border-cyan-400 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 rounded-lg bg-cyan-100 group-hover:bg-cyan-200 transition-colors">
-                        <Container size={20} className="text-cyan-600" />
-                      </div>
-                      <span className="font-semibold text-gray-900 text-sm">
-                        Learn Concepts
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      Images, containers, networking &amp; Compose
+            <div ref={mcqTrackRef} className="flex w-max gap-4 pb-2">
+              {MCQS.map((m, i) => (
+                <Link
+                  key={m.category}
+                  href={`/practice-mcq/${m.category}`}
+                  onMouseMove={trackSpotlight}
+                  className="spotlight group relative flex h-[300px] w-[280px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-white/20 sm:w-[340px]"
+                >
+                  <div className="relative z-10 flex items-center justify-between">
+                    <LogoChip item={m} size={44} />
+                    <span className={`${mono.className} text-xs text-neutral-600`}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div className="relative z-10 mt-auto">
+                    <p className="text-5xl font-semibold tracking-tight text-neutral-50">
+                      {m.questions}
+                      <span className="ml-1 text-base font-normal text-neutral-500">MCQs</span>
                     </p>
-                  </motion.button>
-
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => router.push("/docker-practice/exercises")}
-                    className="p-4 rounded-xl border-2 border-blue-200 bg-white hover:bg-blue-50 hover:border-blue-400 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 rounded-lg bg-blue-100 group-hover:bg-blue-200 transition-colors">
-                        <Zap size={20} className="text-blue-600" />
-                      </div>
-                      <span className="font-semibold text-gray-900 text-sm">
-                        Dockerfile Exercises
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      Hands-on Dockerfile writing challenges
-                    </p>
-                  </motion.button>
-                </div>
-
-                <button
-                  onClick={() => router.push("/docker-practice")}
-                  className="mt-4 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-cyan-700 bg-cyan-100 hover:bg-cyan-200 transition-colors duration-200"
-                >
-                  View All Docker Practice
-                  <ArrowRight size={16} />
-                </button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </section> */}
-
-      {/* Features Section */}
-      <section id="features" className="container mx-auto px-4 py-16">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Why Choose Interview Nerd?
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Comprehensive features designed to help you succeed in your tech
-              interviews
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
-              onClick={
-                () =>
-                  // session
-                  // ?
-                  router.push("/playground")
-                // : router.push("/auth/login")
-              }
-            >
-              <div className="p-3 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg mb-4">
-                <Code className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2 text-gray-900">
-                JavaScript Playground
-              </h3>
-              <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Interactive JavaScript coding environment with AI-powered
-                adaptive difficulty and real-time feedback.
-              </p>
-              <Badge className="mt-2 bg-purple-100 text-purple-800 text-xs">
-                🆕 New Feature
-              </Badge>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="p-3 bg-blue-50 rounded-lg mb-4">
-                <Star className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2 text-gray-900">
-                Curated Questions
-              </h3>
-              <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Handpicked questions for all major tech stacks and interview
-                rounds.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="p-3 bg-green-50 rounded-lg mb-4">
-                <BookOpen className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2 text-gray-900">
-                Real-World Scenarios
-              </h3>
-              <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Practice with scenarios and problems from top companies.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="p-3 bg-purple-50 rounded-lg mb-4">
-                <TrendingUp className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2 text-gray-900">
-                Track Progress
-              </h3>
-              <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Monitor your improvement and focus on your weak spots.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section
-        id="testimonials"
-        className="container mx-auto px-4 py-16 bg-gray-50"
-      >
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              What Our Users Say
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Join thousands of developers who have successfully landed their
-              dream jobs
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-blue-600 font-semibold text-sm">
-                    PS
-                  </span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Priya S.</p>
-                  <p className="text-sm text-gray-500">Frontend Engineer</p>
-                </div>
-              </div>
-              <p className="text-gray-700 italic leading-relaxed">
-                The questions are spot on and the explanations are super clear.
-                Helped me land my dream job!
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-green-600 font-semibold text-sm">
-                    AT
-                  </span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Alex T.</p>
-                  <p className="text-sm text-gray-500">Full Stack Developer</p>
-                </div>
-              </div>
-              <p className="text-gray-700 italic leading-relaxed">
-                I love the real-world scenarios. Its like practicing for the
-                real thing!
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-purple-600 font-semibold text-sm">
-                    SK
-                  </span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Samir K.</p>
-                  <p className="text-sm text-gray-500">Software Engineer</p>
-                </div>
-              </div>
-              <p className="text-gray-700 italic leading-relaxed">
-                The progress tracking kept me motivated. Highly recommend!
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-
-      {/* CTA Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Ready to Ace Your Interview?
-            </h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-              Join thousands of developers preparing for their dream job with
-              Interview Nerd.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button
-                size="lg"
-                className="bg-blue-600 text-white font-medium px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-              >
-                Get Started Now <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-gray-300 text-gray-700 font-medium px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Browse Categories
-              </Button>
+                    <h3 className="mt-4 text-xl font-semibold tracking-tight text-neutral-100">
+                      {m.name}
+                    </h3>
+                    <p className="mt-1 text-sm text-neutral-500">{m.topics}</p>
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-neutral-400 transition-colors group-hover:text-[#D4FF4F]">
+                      Start test <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Brand Section */}
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-blue-600">
-                  <svg
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 48 48"
-                    className="text-white"
-                  >
-                    <circle
-                      cx="24"
-                      cy="24"
-                      r="24"
-                      fill="#ffffff"
-                      fillOpacity="0.1"
-                    />
-                    <path
-                      d="M24 14v12l8 4"
-                      stroke="#ffffff"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <span className="font-bold text-xl">Interview Nerd</span>
-              </div>
-              <p className="text-gray-300 mb-6 max-w-md">
-                Your comprehensive platform for mastering technical interviews.
-                Practice with curated questions and land your dream job.
-              </p>
-              <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
-                  aria-label="GitHub"
-                >
-                  <Github className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
-                  aria-label="Email"
-                >
-                  <Mail className="w-5 h-5" />
-                </a>
-              </div>
+          <div className="mx-auto mt-10 hidden w-full max-w-6xl px-6 lg:block">
+            <div className="h-px w-full bg-white/10">
+              <div className="mcq-progress h-px origin-left scale-x-0 bg-[#D4FF4F]" />
             </div>
+          </div>
+        </section>
 
-            {/* Quick Links */}
-            <div>
-              <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a
-                    href="#features"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#snippets"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Snippets
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#categories"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Categories
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#testimonials"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Testimonials
-                  </a>
-                </li>
-                <li>
+        {/* ---------------------------------------------------------------- */}
+        {/* Advanced topics                                                   */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="advanced" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+          <SectionHeader index="04" label="Go further" title="The rounds that decide senior offers.">
+            System design, databases, cloud and DevOps: the conversations that
+            separate a good answer from a great one.
+          </SectionHeader>
+
+          <div data-stagger className="border-t border-white/[0.08]">
+            {ADVANCED.map((a, i) => {
+              const Icon = a.icon;
+              return (
+                <Link
+                  key={a.href}
+                  href={a.href}
+                  className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-white/[0.08] py-7 md:grid-cols-[4rem_1fr_1fr_auto] md:gap-8"
+                >
+                  <span className="absolute inset-0 origin-bottom scale-y-0 bg-white/[0.03] transition-transform duration-500 ease-out group-hover:scale-y-100" />
+                  <span className={`${mono.className} relative text-sm text-neutral-600 transition-colors group-hover:text-[#D4FF4F]`}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="relative flex items-center gap-4">
+                    <Icon className="hidden h-5 w-5 text-neutral-500 transition-colors group-hover:text-neutral-100 md:block" />
+                    <span className="text-2xl font-semibold tracking-tight text-neutral-100 transition-transform duration-500 group-hover:translate-x-2 md:text-3xl">
+                      {a.name}
+                    </span>
+                  </span>
+                  <span className="relative hidden text-sm leading-relaxed text-neutral-500 md:block">
+                    {a.desc}
+                  </span>
+                  <span className="relative flex items-center gap-4">
+                    <span className={`${mono.className} text-sm text-neutral-500`}>{a.count}</span>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 transition-all duration-300 group-hover:border-[#D4FF4F] group-hover:bg-[#D4FF4F]">
+                      <ArrowUpRight className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-neutral-950" />
+                    </span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* How it works                                                      */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="features" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+          <SectionHeader index="05" label="How it works" title="A loop that compounds." />
+          <ol data-stagger className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map((s, i) => (
+              <li key={s.title} className="rounded-2xl border border-white/[0.08] p-6">
+                <span className={`${mono.className} text-xs text-[#D4FF4F]`}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-8 text-xl font-semibold tracking-tight text-neutral-50">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-500">{s.desc}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* Testimonials                                                      */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="testimonials" className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+          <SectionHeader index="06" label="Voices" title="Developers who got the offer." />
+          <div data-stagger className="grid gap-3 md:grid-cols-3">
+            {TESTIMONIALS.map((t) => (
+              <figure key={t.name} className="flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.02] p-7">
+                <Quote className="h-5 w-5 text-[#D4FF4F]" />
+                <blockquote className="mt-5 flex-1 text-lg leading-relaxed text-neutral-200">
+                  {t.quote}
+                </blockquote>
+                <figcaption className="mt-8 flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.06] text-xs font-semibold text-neutral-300">
+                    {t.name
+                      .split(" ")
+                      .map((p) => p[0])
+                      .join("")
+                      .replace(".", "")}
+                  </span>
+                  <span>
+                    <span className="block text-sm font-medium text-neutral-100">{t.name}</span>
+                    <span className="block text-xs text-neutral-500">{t.role}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* CTA                                                               */}
+        {/* ---------------------------------------------------------------- */}
+        <section className="px-4 py-24 sm:px-6">
+          <div
+            data-reveal
+            className="relative mx-auto max-w-6xl overflow-hidden rounded-3xl border border-white/[0.08] px-6 py-20 text-center md:py-28"
+          >
+            <div
+              className="cta-glow pointer-events-none absolute left-1/2 top-full h-[480px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D4FF4F] blur-[140px]"
+              style={{ opacity: 0.18 }}
+              aria-hidden="true"
+            />
+            <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden="true" />
+            <div className="relative">
+              <Sparkles className="mx-auto h-6 w-6 text-[#D4FF4F]" />
+              <h2 className="mx-auto mt-6 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight text-neutral-50 md:text-6xl">
+                Your next offer starts with{" "}
+                <span className={`${serif.className} font-normal text-[#D4FF4F]`}>
+                  today&apos;s
+                </span>{" "}
+                question.
+              </h2>
+              <p className="mx-auto mt-6 max-w-lg text-neutral-400">
+                Fifteen minutes a day. Come back tomorrow for a new one.
+              </p>
+              <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+                <Magnetic>
                   <Link
-                    href="/auth/login"
-                    className="text-gray-300 hover:text-white transition-colors"
+                    href={session ? "/dashboard" : "/auth/signup"}
+                    className="group inline-flex items-center gap-2 rounded-full bg-[#D4FF4F] px-7 py-4 text-sm font-semibold text-neutral-950 transition-shadow hover:shadow-[0_0_40px_-6px_rgba(212,255,79,0.6)]"
                   >
-                    Login
+                    {session ? "Go to dashboard" : "Create a free account"}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
-                </li>
+                </Magnetic>
+                <a
+                  href="#categories"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-7 py-4 text-sm font-medium text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/5"
+                >
+                  Browse topics
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* Footer                                                              */}
+      {/* ------------------------------------------------------------------ */}
+      <footer className="border-t border-white/[0.06]">
+        <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <Link href="/" className="flex items-center gap-2.5">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#D4FF4F]">
+                <span className={`${mono.className} text-[11px] font-bold text-neutral-950`}>IN</span>
+              </span>
+              <span className="font-semibold tracking-tight text-neutral-50">Interview Nerd</span>
+            </Link>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-neutral-500">
+              Curated questions, live sandboxes and MCQs to help you walk into
+              every technical interview ready.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-7">
+            <div>
+              <h3 className={`${mono.className} text-[11px] uppercase tracking-[0.2em] text-neutral-500`}>Practice</h3>
+              <ul className="mt-4 space-y-2.5 text-sm">
+                {TOOLS.slice(0, 5).map((t) => (
+                  <li key={t.href}>
+                    <Link href={t.href} className="text-neutral-400 transition-colors hover:text-neutral-50">
+                      {t.name.replace(" Practice", "").replace(" Playground", "")}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
-
-            {/* Categories */}
             <div>
-              <h3 className="font-semibold text-lg mb-4">Popular Topics</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/category/Javascript"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    JavaScript
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/category/React"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    React.js
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/category/Node"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Node.js
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/category/SQL"
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    SQL
-                  </Link>
-                </li>
+              <h3 className={`${mono.className} text-[11px] uppercase tracking-[0.2em] text-neutral-500`}>Topics</h3>
+              <ul className="mt-4 space-y-2.5 text-sm">
+                {TOPICS.slice(0, 5).map((t) => (
+                  <li key={t.href}>
+                    <Link href={t.href} className="text-neutral-400 transition-colors hover:text-neutral-50">
+                      {t.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className={`${mono.className} text-[11px] uppercase tracking-[0.2em] text-neutral-500`}>Platform</h3>
+              <ul className="mt-4 space-y-2.5 text-sm">
+                <li><Link href="/resources" className="text-neutral-400 transition-colors hover:text-neutral-50">Resources</Link></li>
+                <li><a href="#mcq" className="text-neutral-400 transition-colors hover:text-neutral-50">MCQ tests</a></li>
+                <li><Link href="/dashboard" className="text-neutral-400 transition-colors hover:text-neutral-50">Dashboard</Link></li>
+                <li><Link href="/auth/login" className="text-neutral-400 transition-colors hover:text-neutral-50">Log in</Link></li>
               </ul>
             </div>
           </div>
-
-          {/* Bottom Section */}
-          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              &copy; 2025 Interview Nerd. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors text-sm"
-              >
-                Contact
-              </a>
-            </div>
-          </div>
+        </div>
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 border-t border-white/[0.06] px-4 py-6 text-xs text-neutral-600 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <p>&copy; {new Date().getFullYear()} Interview Nerd. All rights reserved.</p>
+          <p className={mono.className}>Built for developers, by developers.</p>
         </div>
       </footer>
-    </div >
+
+      <style jsx global>{`
+        html,
+        body {
+          background: #0a0a0a;
+        }
+        .landing .hero-word {
+          transform: translateY(110%);
+        }
+        .landing .hero-fade {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        .landing .grid-bg {
+          background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+          background-size: 64px 64px;
+          mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+          -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+        }
+        .landing .spotlight::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          transition: opacity 0.4s;
+          background: radial-gradient(
+            420px circle at var(--x, 50%) var(--y, 50%),
+            rgba(212, 255, 79, 0.08),
+            transparent 45%
+          );
+        }
+        .landing .spotlight:hover::before {
+          opacity: 1;
+        }
+        .landing .marquee {
+          mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+        }
+        .landing .marquee-track {
+          animation: marquee 50s linear infinite;
+        }
+        .landing .marquee:hover .marquee-track {
+          animation-play-state: paused;
+        }
+        @keyframes marquee {
+          to {
+            transform: translateX(calc(-50% - 1.5rem));
+          }
+        }
+        .landing .no-scrollbar {
+          scrollbar-width: none;
+        }
+        .landing .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .landing .cursor-blink {
+          animation: blink 1.1s steps(2, start) infinite;
+        }
+        @keyframes blink {
+          to {
+            visibility: hidden;
+          }
+        }
+        .landing .pulse-dot {
+          box-shadow: 0 0 0 0 rgba(212, 255, 79, 0.6);
+          animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+          70% {
+            box-shadow: 0 0 0 8px rgba(212, 255, 79, 0);
+          }
+          100% {
+            box-shadow: 0 0 0 0 rgba(212, 255, 79, 0);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .landing .hero-word,
+          .landing .hero-fade {
+            opacity: 1;
+            transform: none;
+          }
+          .landing .marquee-track,
+          .landing .pulse-dot,
+          .landing .cursor-blink {
+            animation: none;
+          }
+        }
+      `}</style>
+    </div>
   );
 }

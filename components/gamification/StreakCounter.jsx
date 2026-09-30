@@ -45,8 +45,8 @@ const StreakCounter = ({
 
         {freezeTokens > 0 && (
           <div className="flex items-center gap-1 bg-blue-100 px-2 py-1 rounded-full">
-            <Snowflake className="w-3 h-3 text-blue-600" />
-            <span className="text-xs font-medium text-blue-700">{freezeTokens}</span>
+            <Snowflake className="w-3 h-3 text-brand" />
+            <span className="text-xs font-medium text-brand">{freezeTokens}</span>
           </div>
         )}
       </div>

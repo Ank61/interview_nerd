@@ -71,7 +71,7 @@ const CodeEditor = ({
   };
 
   return (
-    <div className={`relative ${isFullscreen ? 'fixed inset-0 z-50 bg-white' : ''} ${className}`}>
+    <div className={`relative ${isFullscreen ? 'fixed inset-0 z-50 bg-surface' : ''} ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between bg-gray-50 px-4 py-2 border-b">
         <div className="flex items-center space-x-2">
@@ -105,7 +105,7 @@ const CodeEditor = ({
       </div>
 
       {/* Editor */}
-      <div className="relative bg-white">
+      <div className="relative bg-surface">
         {/* Syntax highlighted overlay */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <SyntaxHighlighter
@@ -142,12 +142,12 @@ const CodeEditor = ({
           value={code}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="relative z-20 w-full h-full p-4 pl-16 font-mono text-sm leading-6 resize-none border-none outline-none bg-white text-gray-800"
+          className="relative z-20 w-full h-full p-4 pl-16 font-mono text-sm leading-6 resize-none border-none outline-none bg-surface text-gray-800"
           style={{ 
             minHeight: isFullscreen ? 'calc(100vh - 60px)' : '400px',
             tabSize: 2,
-            color: '#1f2937',
-            backgroundColor: 'rgba(255, 255, 255, 0.9)'
+            color: '#ededef',
+            backgroundColor: 'rgba(17, 17, 19, 0.9)'
           }}
           placeholder={`Write your ${language} code here...`}
           spellCheck={false}
