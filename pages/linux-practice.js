@@ -49,7 +49,7 @@ export default function LinuxPracticeMode() {
       </Head>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -97,7 +97,7 @@ export default function LinuxPracticeMode() {
       </header>
 
       {/* Main Content */}
-      <div className="bg-white py-16">
+      <div className="bg-surface py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             {/* Title Section */}
@@ -160,7 +160,7 @@ export default function LinuxPracticeMode() {
                 className="group"
               >
                 <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-green-100 bg-white overflow-hidden relative"
+                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-green-100 bg-surface overflow-hidden relative"
                   onClick={() => router.push("/linux-practice/concepts")}
                 >
                   {/* Hover gradient overlay */}
@@ -255,7 +255,7 @@ export default function LinuxPracticeMode() {
                 className="group"
               >
                 <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-emerald-100 bg-white overflow-hidden relative"
+                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-emerald-100 bg-surface overflow-hidden relative"
                   onClick={() => router.push("/linux-practice/exercises")}
                 >
                   {/* Hover gradient overlay */}
@@ -364,7 +364,7 @@ export default function LinuxPracticeMode() {
                   { title: "Package Management", icon: "📦", desc: "apt, dpkg, snap, yum, dnf" },
                   { title: "Disk & Storage", icon: "💿", desc: "df, du, lsblk, fdisk, mount" },
                 ].map((topic, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                  <div key={i} className="flex items-center gap-3 bg-surface rounded-xl p-3 border border-gray-100 shadow-sm">
                     <span className="text-2xl">{topic.icon}</span>
                     <div>
                       <p className="font-semibold text-gray-900 text-sm">{topic.title}</p>

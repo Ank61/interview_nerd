@@ -43,7 +43,7 @@ export default function MongoDBPathLearning() {
       icon: Filter,
       color: "from-blue-50 to-blue-100",
       borderColor: "border-blue-200",
-      iconColor: "text-blue-700",
+      iconColor: "text-brand",
     },
     "Aggregation Pipeline": {
       keywords: ["aggregate", "$group", "$match", "$project", "$sort", "$limit"],
@@ -209,7 +209,7 @@ export default function MongoDBPathLearning() {
       </Head>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">

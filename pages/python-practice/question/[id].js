@@ -260,7 +260,7 @@ export default function PythonQuestionPage() {
       </Head>
 
       {/* Header - Match SQL page styling */}
-      <header className="bg-white border-b border-gray-200 shadow-sm flex-shrink-0">
+      <header className="bg-surface border-b border-gray-200 shadow-sm flex-shrink-0">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
@@ -269,7 +269,7 @@ export default function PythonQuestionPage() {
                 onClick={() => router.push("/")}
               >
                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                  <BookOpen size={24} className="text-blue-600" />
+                  <BookOpen size={24} className="text-brand" />
                 </div>
                 <div>
                   <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -323,7 +323,7 @@ export default function PythonQuestionPage() {
         {/* Left Panel - Question Description */}
         <div
           style={{ width: `${leftWidth}%` }}
-          className="bg-white border-r border-gray-200 overflow-y-auto"
+          className="bg-surface border-r border-gray-200 overflow-y-auto"
         >
           <div className="p-6">
             {/* Title */}
@@ -418,7 +418,7 @@ export default function PythonQuestionPage() {
                       <p className="text-sm text-green-800 mb-2">
                         <strong>Expected Solution:</strong>
                       </p>
-                      <code className="text-sm font-mono bg-white p-3 rounded border border-green-200 block text-gray-900 whitespace-pre-wrap">
+                      <code className="text-sm font-mono bg-surface p-3 rounded border border-green-200 block text-gray-900 whitespace-pre-wrap">
                         {question.solution}
                       </code>
                     </div>
@@ -439,7 +439,7 @@ export default function PythonQuestionPage() {
         {/* Right Panel - Editor & Results */}
         <div
           style={{ width: `${100 - leftWidth}%` }}
-          className="flex flex-col bg-white"
+          className="flex flex-col bg-surface"
         >
           {/* Top - Editor */}
           <div
@@ -464,7 +464,7 @@ export default function PythonQuestionPage() {
                   size="sm"
                   onClick={handleRunCode}
                   disabled={loading || !code.trim()}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                  className="bg-brand hover:bg-brand/90 text-neutral-950"
                 >
                   <Play className="w-4 h-4 mr-1" />
                   Run
@@ -485,7 +485,7 @@ export default function PythonQuestionPage() {
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="# Write your Python code here..."
-                className="w-full min-h-full p-4 bg-gray-50 text-gray-900 font-mono text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder-gray-400"
+                className="w-full min-h-full p-4 bg-gray-50 text-gray-900 font-mono text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand/50 resize-none placeholder-gray-400"
                 spellCheck="false"
                 style={{ minHeight: "100%" }}
                 onKeyDown={(e) => {
@@ -515,7 +515,7 @@ export default function PythonQuestionPage() {
                 Execution Result
               </span>
             </div>
-            <div className="flex-1 overflow-auto p-4 bg-white">
+            <div className="flex-1 overflow-auto p-4 bg-surface">
               {submissionResult && (
                 <div
                   className={`mb-4 p-4 rounded-lg border ${submissionResult.isCorrect
@@ -561,7 +561,7 @@ export default function PythonQuestionPage() {
               {resultOutput && !error && (
                 <div>
                   <div className="overflow-x-auto rounded-lg border border-gray-200">
-                    <pre className="whitespace-pre-wrap p-4 font-mono text-sm text-gray-900 bg-white">
+                    <pre className="whitespace-pre-wrap p-4 font-mono text-sm text-gray-900 bg-surface">
                       {resultOutput}
                     </pre>
                   </div>

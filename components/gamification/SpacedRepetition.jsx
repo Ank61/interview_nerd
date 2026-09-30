@@ -86,7 +86,7 @@ const SpacedRepetition = ({ compact = false }) => {
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Brain className="w-5 h-5 text-blue-600" />
+            <Brain className="w-5 h-5 text-brand" />
             Spaced Repetition
           </CardTitle>
         </CardHeader>
@@ -106,7 +106,7 @@ const SpacedRepetition = ({ compact = false }) => {
       <Card className="w-full">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Brain className="w-5 h-5 text-blue-600" />
+            <Brain className="w-5 h-5 text-brand" />
             Review Schedule
           </CardTitle>
         </CardHeader>
@@ -161,7 +161,7 @@ const SpacedRepetition = ({ compact = false }) => {
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Brain className="w-6 h-6 text-blue-600" />
+          <Brain className="w-6 h-6 text-brand" />
           Spaced Repetition System
         </CardTitle>
         <div className="flex gap-2 mt-4">
@@ -194,9 +194,9 @@ const SpacedRepetition = ({ compact = false }) => {
                 <p className="text-sm text-yellow-700">Due Tomorrow</p>
               </div>
               <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <Calendar className="w-8 h-8 text-brand mx-auto mb-2" />
                 <p className="text-2xl font-bold text-blue-900">{stats?.dueThisWeek || 0}</p>
-                <p className="text-sm text-blue-700">This Week</p>
+                <p className="text-sm text-brand">This Week</p>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
                 <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
@@ -214,27 +214,27 @@ const SpacedRepetition = ({ compact = false }) => {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
-                    <p className="text-blue-700 font-medium">Questions to Review</p>
+                    <p className="text-brand font-medium">Questions to Review</p>
                     <p className="text-blue-900 text-lg font-bold">
                       {studyPlan.sessionStats.questionsToReview}
                     </p>
                   </div>
                   <div>
-                    <p className="text-blue-700 font-medium">Estimated Time</p>
+                    <p className="text-brand font-medium">Estimated Time</p>
                     <p className="text-blue-900 text-lg font-bold">
                       {studyPlan.sessionStats.estimatedTime} min
                     </p>
                   </div>
                   <div>
-                    <p className="text-blue-700 font-medium">New Questions</p>
+                    <p className="text-brand font-medium">New Questions</p>
                     <p className="text-blue-900 text-lg font-bold">
                       {studyPlan.sessionStats.newQuestions}
                     </p>
                   </div>
                 </div>
                 {studyPlan.studyTips?.length > 0 && (
-                  <div className="mt-3 p-3 bg-white rounded border border-blue-200">
-                    <p className="text-xs text-blue-600 font-medium mb-1">Study Tip:</p>
+                  <div className="mt-3 p-3 bg-surface rounded border border-blue-200">
+                    <p className="text-xs text-brand font-medium mb-1">Study Tip:</p>
                     <p className="text-sm text-blue-800">{studyPlan.studyTips[0]}</p>
                   </div>
                 )}
@@ -246,7 +246,7 @@ const SpacedRepetition = ({ compact = false }) => {
         {activeTab === 'review' && (
           <div className="space-y-4">
             <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <RotateCcw className="w-4 h-4 text-blue-600" />
+              <RotateCcw className="w-4 h-4 text-brand" />
               Questions Due for Review
             </h4>
             {dueQuestions.length > 0 ? (
@@ -353,7 +353,7 @@ const SpacedRepetition = ({ compact = false }) => {
               <div className="flex items-center justify-between p-3 border border-blue-200 rounded-lg bg-blue-50">
                 <div>
                   <p className="font-medium text-blue-900">This Week</p>
-                  <p className="text-sm text-blue-700">Questions due in the next 7 days</p>
+                  <p className="text-sm text-brand">Questions due in the next 7 days</p>
                 </div>
                 <Badge variant="outline" className="border-blue-300 text-blue-800">
                   {stats?.dueThisWeek || 0}
@@ -373,7 +373,7 @@ const SpacedRepetition = ({ compact = false }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 border border-gray-200 rounded-lg">
                 <h5 className="font-medium text-gray-900 mb-2">Total Questions</h5>
-                <p className="text-2xl font-bold text-blue-600">{stats?.totalQuestions || 0}</p>
+                <p className="text-2xl font-bold text-brand">{stats?.totalQuestions || 0}</p>
                 <p className="text-sm text-gray-600">Questions in your review system</p>
               </div>
               

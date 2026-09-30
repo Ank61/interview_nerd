@@ -284,7 +284,7 @@ export default function MongoDBQuestionPage() {
       </Head>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm flex-shrink-0">
+      <header className="bg-surface border-b border-gray-200 shadow-sm flex-shrink-0">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
@@ -347,7 +347,7 @@ export default function MongoDBQuestionPage() {
         {/* Left Panel - Question Description */}
         <div
           style={{ width: `${leftWidth}%` }}
-          className="bg-white border-r border-gray-200 overflow-y-auto"
+          className="bg-surface border-r border-gray-200 overflow-y-auto"
         >
           <div className="p-6">
             {/* Title */}
@@ -415,7 +415,7 @@ export default function MongoDBQuestionPage() {
                             .map((field, idx) => (
                               <div
                                 key={idx}
-                                className="text-sm text-gray-700 font-mono bg-white px-3 py-1.5 rounded border border-gray-200"
+                                className="text-sm text-gray-700 font-mono bg-surface px-3 py-1.5 rounded border border-gray-200"
                               >
                                 {field}
                               </div>
@@ -460,7 +460,7 @@ export default function MongoDBQuestionPage() {
                   <p className="text-sm text-green-800 mb-2">
                     <strong>Expected Solution:</strong>
                   </p>
-                  <code className="text-sm font-mono bg-white p-3 rounded border border-green-200 block text-gray-900 whitespace-pre-wrap">
+                  <code className="text-sm font-mono bg-surface p-3 rounded border border-green-200 block text-gray-900 whitespace-pre-wrap">
                     {question.solution}
                   </code>
                 </div>
@@ -479,7 +479,7 @@ export default function MongoDBQuestionPage() {
         {/* Right Panel - Editor & Results */}
         <div
           style={{ width: `${100 - leftWidth}%` }}
-          className="flex flex-col bg-white"
+          className="flex flex-col bg-surface"
         >
           {/* Top - Editor */}
           <div
@@ -554,7 +554,7 @@ export default function MongoDBQuestionPage() {
                 Query Result
               </span>
             </div>
-            <div className="flex-1 overflow-auto p-4 bg-white">
+            <div className="flex-1 overflow-auto p-4 bg-surface">
               {submissionResult && (
                 <div
                   className={`mb-4 p-4 rounded-lg border ${

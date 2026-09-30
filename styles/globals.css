@@ -4,15 +4,15 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
+    --background: 0 0% 3.9%;
+    --foreground: 240 5% 93%;
+    --card: 240 6% 6.7%;
+    --card-foreground: 240 5% 93%;
+    --popover: 240 6% 6.7%;
+    --popover-foreground: 240 5% 93%;
+    --primary: 75 100% 65%;
+    --primary-foreground: 0 0% 3.9%;
+    --secondary: 240 5% 12%;
     --javascript-bg: #FFF59A;
     --javascript-text: #745b10;
     --javascript-topic: #e4bc40;
@@ -43,17 +43,18 @@
     --awss3-topic: #8B2635;
     --awss3-border: #FFEFEF;
     --awss3-lightBackground: #FFEFEF;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary-foreground: 240 5% 93%;
+    --muted: 240 5% 12%;
+    --muted-foreground: 240 4% 58%;
+    --accent: 240 5% 14%;
+    --accent-foreground: 240 5% 93%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
+    --border: 240 5% 14.5%;
+    --input: 240 5% 16%;
+    --ring: 75 100% 65%;
+    --radius: 0.75rem;
+    color-scheme: dark;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -68,8 +69,39 @@
     @apply border-border;
   }
 
+  html,
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  body {
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  ::selection {
+    background: #d4ff4f;
+    color: #0a0a0a;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2f transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #2a2a2f;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
   }
 }
 
@@ -88,4 +120,16 @@ button:focus div:focus {
 [data-theme-bg][data-state="checked"] {
   background-color: var(--checkbox-bg) !important;
   border-color: var(--checkbox-bg) !important;
+}
+/* Code blocks rendered from lesson HTML (highlight.js) */
+pre code.hljs,
+code.hljs,
+pre:has(> code.hljs) {
+  background: #111113 !important;
+}
+
+pre:has(> code.hljs) {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  overflow: hidden;
 }

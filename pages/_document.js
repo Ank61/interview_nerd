@@ -12,7 +12,7 @@ export default function Document() {
           content="Interview Nerd is a comprehensive platform to master technical interviews with 500+ curated questions and interactive practice for JavaScript, SQL, MongoDB, Python and more."
         />
         <meta name="robots" content="index,follow" />
-        <meta name="theme-color" content="#2563eb" />
+        <meta name="theme-color" content="#0a0a0a" />
         <meta property="og:site_name" content="Interview Nerd" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Interview Nerd | Master Tech Interviews" />

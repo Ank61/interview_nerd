@@ -70,7 +70,7 @@ export default function JSTopicQuestions() {
             </Head>
 
             {/* Header */}
-            <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+            <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center space-x-8">
@@ -161,7 +161,7 @@ export default function JSTopicQuestions() {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
+                                <tbody className="bg-surface divide-y divide-gray-200">
                                     {questions.length > 0 ? (
                                         questions.map((question, index) => (
                                             <motion.tr

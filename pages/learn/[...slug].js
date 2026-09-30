@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import * as React from "react";
 import hljs from "highlight.js";
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/github-dark.css";
 import { Button } from "@/components/ui/button";
 import {
   BookCheck,
@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/router";
 import { prepareData } from "@/data/prepareData";
+import { darkenTheme } from "@/lib/themeUtils";
 import { linuxPrepareData } from "@/data/linuxPrepareData";
 import { awsServiceCategories } from "@/data/awsServices";
 import { motion } from "framer-motion";
@@ -199,7 +200,7 @@ export default function Learn({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* New Custom Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -210,11 +211,11 @@ export default function Learn({
               >
                 <div
                   className="p-2 rounded-lg"
-                  style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
+                  style={{ backgroundColor: theme?.lightColor || "#17171a" }}
                 >
                   <BookOpen
                     size={24}
-                    style={{ color: theme?.textColor || "#374151" }}
+                    style={{ color: theme?.textColor || "#dddde1" }}
                   />
                 </div>
                 <div>
@@ -250,7 +251,7 @@ export default function Learn({
                 onClick={() => highlightProps.setIsEditMode(!highlightProps.isEditMode)}
                 className={`px-3 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-sm font-medium ${
                   highlightProps.isEditMode
-                    ? "bg-indigo-600 text-white shadow-md ring-2 ring-indigo-300"
+                    ? "bg-brand text-neutral-950 shadow-md ring-2 ring-indigo-300"
                     : "bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-200"
                 }`}
                 title="Toggle Highlight Pen Mode"
@@ -303,8 +304,8 @@ export default function Learn({
             }}
             className="fixed z-[60] p-3 rounded-full shadow-lg transition-all duration-200 hover:scale-110 active:scale-95 touch-manipulation left-4 top-20"
             style={{
-              backgroundColor: theme?.themeBgColor || "#f3f4f6",
-              color: theme?.textColor || "#374151",
+              backgroundColor: theme?.themeBgColor || "#17171a",
+              color: theme?.textColor || "#dddde1",
               WebkitTapHighlightColor: "transparent", // Remove tap highlight on iOS
               userSelect: "none", // Prevent text selection
             }}
@@ -336,7 +337,7 @@ export default function Learn({
                   ? "hidden"
                   : ""
               }
-              bg-white border-r border-gray-200 shadow-xl
+              bg-surface border-r border-gray-200 shadow-xl
               
               /* Responsive widths */
               w-80 sm:w-80 md:w-80 lg:w-80 xl:w-80
@@ -366,7 +367,7 @@ export default function Learn({
                   <div className="flex-1 min-w-0">
                     <h3
                       className="font-semibold text-base sm:text-lg leading-tight mb-1"
-                      style={{ color: theme?.textColor || "#374151" }}
+                      style={{ color: theme?.textColor || "#dddde1" }}
                     >
                       {category} Topics
                     </h3>
@@ -386,7 +387,7 @@ export default function Learn({
                     }}
                     className="flex-shrink-0 p-2 rounded-lg hover:bg-gray-100 transition-colors touch-manipulation"
                     style={{
-                      color: theme?.textColor || "#374151",
+                      color: theme?.textColor || "#dddde1",
                       WebkitTapHighlightColor: "transparent",
                       userSelect: "none",
                     }}
@@ -425,13 +426,13 @@ export default function Learn({
                             `}
                             style={{
                               backgroundColor: isActive
-                                ? theme?.lightColor || "#f3f4f6"
-                                : "#f9fafb",
+                                ? theme?.lightColor || "#17171a"
+                                : "#111113",
                               borderColor: isActive
-                                ? theme?.themeBgColor || "#e5e7eb"
+                                ? theme?.themeBgColor || "#232327"
                                 : "transparent",
                               ringColor: isActive
-                                ? theme?.themeBgColor || "#e5e7eb"
+                                ? theme?.themeBgColor || "#232327"
                                 : "transparent",
                               WebkitTapHighlightColor: "transparent",
                               userSelect: "none",
@@ -443,7 +444,7 @@ export default function Learn({
                                   size={16}
                                   className="mt-0.5 flex-shrink-0"
                                   style={{
-                                    color: theme?.textColor || "#374151",
+                                    color: theme?.textColor || "#dddde1",
                                   }}
                                   fill="currentColor"
                                 />
@@ -455,7 +456,7 @@ export default function Learn({
                                   }`}
                                   style={{
                                     color: isActive
-                                      ? theme?.textColor || "#374151"
+                                      ? theme?.textColor || "#dddde1"
                                       : "#4b5563",
                                   }}
                                   title={topicItem.topic}
@@ -469,8 +470,8 @@ export default function Learn({
                                     className="text-xs px-2 py-1 rounded-full font-medium"
                                     style={{
                                       backgroundColor:
-                                        theme?.themeBgColor || "#e5e7eb",
-                                      color: theme?.textColor || "#374151",
+                                        theme?.themeBgColor || "#232327",
+                                      color: theme?.textColor || "#dddde1",
                                     }}
                                   >
                                     {topicItem.label}
@@ -504,7 +505,7 @@ export default function Learn({
                       disabled={currentPage === 0}
                       className="p-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors touch-manipulation"
                       style={{
-                        color: theme?.textColor || "#374151",
+                        color: theme?.textColor || "#dddde1",
                         WebkitTapHighlightColor: "transparent",
                       }}
                     >
@@ -524,7 +525,7 @@ export default function Learn({
                       disabled={currentPage === totalPages - 1}
                       className="p-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 transition-colors touch-manipulation"
                       style={{
-                        color: theme?.textColor || "#374151",
+                        color: theme?.textColor || "#dddde1",
                         WebkitTapHighlightColor: "transparent",
                       }}
                     >
@@ -546,7 +547,7 @@ export default function Learn({
                       <div
                         className="h-2 rounded-full transition-all duration-300"
                         style={{
-                          backgroundColor: theme?.themeBgColor || "#e5e7eb",
+                          backgroundColor: theme?.themeBgColor || "#232327",
                           width: `${((currentPage + 1) / totalPages) * 100}%`,
                         }}
                       />
@@ -578,7 +579,7 @@ export default function Learn({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-xl shadow-sm border border-gray-200/50 overflow-hidden"
+                className="bg-surface rounded-xl shadow-sm border border-gray-200/50 overflow-hidden"
               >
                 <div className="p-6 sm:p-8" ref={contentRef}>
                   <h1
@@ -732,7 +733,7 @@ export async function getStaticProps({ params }) {
   const slug = params.slug;
   const selected = decodeURIComponent(slug[slug.length - 1]);
   const categorySlug = slug[0];
-  let themeColor = {};
+  let themeColor = darkenTheme({});
   let nextTopic = null;
   let explanation = "";
   let category = "";
@@ -749,13 +750,13 @@ export async function getStaticProps({ params }) {
       typeItem.concepts.forEach((conceptItem, index) => {
         if (conceptItem.topic === selected) {
           category = separateData.category;
-          themeColor = {
+          themeColor = darkenTheme({
             category: separateData.category,
             themeBgColor: separateData.themeBgColor,
             textColor: separateData.textColor,
             topicColor: separateData.topicColor,
             lightColor: separateData.lightColor,
-          };
+          });
           explanation = conceptItem.explanation || "";
           const next = typeItem.concepts[index + 1];
           if (next) nextTopic = next.topic;
@@ -770,13 +771,13 @@ export async function getStaticProps({ params }) {
           typeItem.concepts.forEach((conceptItem, index) => {
             if (conceptItem.topic === selected) {
               category = item?.category || selected;
-              themeColor = {
+              themeColor = darkenTheme({
                 category: item.category,
                 themeBgColor: item.themeBgColor,
                 textColor: item.textColor,
                 topicColor: item.topicColor,
                 lightColor: item.lightColor || item.themeBgColor,
-              };
+              });
               explanation = conceptItem.explanation || "";
               const next = typeItem.concepts[index + 1];
               if (next) nextTopic = next.topic;

@@ -143,7 +143,7 @@ export default function Dashboard({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header matching category page structure */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
@@ -153,7 +153,7 @@ export default function Dashboard({
                 onClick={() => router.push("/")}
               >
                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                  <BookOpen size={24} className="text-blue-600" />
+                  <BookOpen size={24} className="text-brand" />
                 </div>
                 <div>
                   <h1 className="hidden lg:block text-xl font-bold text-gray-900">
@@ -179,7 +179,7 @@ export default function Dashboard({
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push("/category/Javascript")}
-                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md transition-all duration-200"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm rounded-lg bg-brand text-neutral-950 hover:bg-brand/90 hover:shadow-md transition-all duration-200"
               >
                 <BookOpen size={16} />
                 <span>Start Learning</span>
@@ -237,7 +237,7 @@ export default function Dashboard({
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-blue-700">
+                          <p className="text-sm font-medium text-brand">
                             Questions Solved
                           </p>
                           <p className="text-3xl font-bold text-blue-900">
@@ -245,7 +245,7 @@ export default function Dashboard({
                           </p>
                         </div>
                         <div className="p-3 bg-blue-200 rounded-full">
-                          <BookOpen className="w-6 h-6 text-blue-700" />
+                          <BookOpen className="w-6 h-6 text-brand" />
                         </div>
                       </div>
                     </CardContent>
@@ -313,7 +313,7 @@ export default function Dashboard({
                     <Card className="shadow-lg h-fit">
                       <CardHeader className="pb-4">
                         <CardTitle className="flex items-center gap-2">
-                          <BarChart3 className="w-5 h-5 text-blue-600" />
+                          <BarChart3 className="w-5 h-5 text-brand" />
                           Learning Paths
                         </CardTitle>
                         <p className="text-gray-600 text-sm mt-2">
@@ -562,13 +562,13 @@ export default function Dashboard({
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="p-3 bg-blue-200 rounded-full">
-                          <Target className="w-6 h-6 text-blue-700" />
+                          <Target className="w-6 h-6 text-brand" />
                         </div>
                         <div className="text-right">
                           <p className="text-2xl font-bold text-blue-900">
                             {masteredTopics}/{totalTopics}
                           </p>
-                          <p className="text-sm text-blue-700">
+                          <p className="text-sm text-brand">
                             Topics Mastered
                           </p>
                         </div>
@@ -584,7 +584,7 @@ export default function Dashboard({
                           ></div>
                         ))}
                       </div>
-                      <p className="text-sm text-blue-600 mt-2">
+                      <p className="text-sm text-brand mt-2">
                         {totalTopics - masteredTopics} more topics to go!
                       </p>
                     </CardContent>
@@ -697,10 +697,10 @@ export default function Dashboard({
                         </div>
                       </div>
                       <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg">
-                        <div className="text-3xl font-bold text-blue-600 mb-2">
+                        <div className="text-3xl font-bold text-brand mb-2">
                           {totalQuestions}
                         </div>
-                        <div className="text-sm text-blue-700 font-medium">
+                        <div className="text-sm text-brand font-medium">
                           Total Questions
                         </div>
                         <div className="text-xs text-blue-500 mt-1">

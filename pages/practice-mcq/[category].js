@@ -235,7 +235,7 @@ export default function PracticeMCQ() {
   if (view === "batches") {
     return (
       <div className="min-h-screen bg-gray-50">
-        <header className="bg-white/80 backdrop-blur-md border-b border-gray-200/50 shadow-sm sticky top-0 z-50">
+        <header className="bg-surface/80 backdrop-blur-md border-b border-gray-200/50 shadow-sm sticky top-0 z-50">
           <div className="w-full px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center space-x-4 sm:space-x-8">
@@ -246,7 +246,7 @@ export default function PracticeMCQ() {
                   <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
                     <BookOpen
                       size={20}
-                      className="sm:w-6 sm:h-6 text-blue-600"
+                      className="sm:w-6 sm:h-6 text-brand"
                     />
                   </div>
                   <div>
@@ -306,8 +306,8 @@ export default function PracticeMCQ() {
                 onClick={() => setDifficultyFilter("all")}
                 className={`px-3 sm:px-4 md:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                   difficultyFilter === "all"
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300"
+                    ? "bg-brand text-neutral-950"
+                    : "bg-surface text-gray-700 border border-gray-200 hover:border-gray-300"
                 }`}
               >
                 <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5 inline mr-1.5" />
@@ -319,7 +319,7 @@ export default function PracticeMCQ() {
                 className={`px-3 sm:px-4 md:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                   difficultyFilter === "easy"
                     ? "bg-green-600 text-white"
-                    : "bg-white text-green-700 border border-green-200 hover:border-green-300"
+                    : "bg-surface text-green-700 border border-green-200 hover:border-green-300"
                 }`}
               >
                 Easy ({stats.easy})
@@ -329,7 +329,7 @@ export default function PracticeMCQ() {
                 className={`px-3 sm:px-4 md:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                   difficultyFilter === "medium"
                     ? "bg-yellow-600 text-white"
-                    : "bg-white text-yellow-700 border border-yellow-200 hover:border-yellow-300"
+                    : "bg-surface text-yellow-700 border border-yellow-200 hover:border-yellow-300"
                 }`}
               >
                 Medium ({stats.medium})
@@ -339,7 +339,7 @@ export default function PracticeMCQ() {
                 className={`px-3 sm:px-4 md:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                   difficultyFilter === "hard"
                     ? "bg-red-600 text-white"
-                    : "bg-white text-red-700 border border-red-200 hover:border-red-300"
+                    : "bg-surface text-red-700 border border-red-200 hover:border-red-300"
                 }`}
               >
                 Hard ({stats.hard})
@@ -386,7 +386,7 @@ export default function PracticeMCQ() {
                             <div
                               className={`relative overflow-hidden rounded-lg border border-gray-200 transition-all duration-200 ${
                                 unlocked
-                                  ? "bg-white hover:shadow-md hover:border-gray-300 cursor-pointer"
+                                  ? "bg-surface hover:shadow-md hover:border-gray-300 cursor-pointer"
                                   : "bg-gray-50 cursor-not-allowed opacity-60"
                               }`}
                               onClick={() => unlocked && startBatch(index)}
@@ -484,7 +484,7 @@ export default function PracticeMCQ() {
                                 <button
                                   className={`w-full py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
                                     unlocked
-                                      ? "bg-gray-900 text-white hover:bg-gray-800"
+                                      ? "bg-gray-900 text-neutral-950 hover:bg-gray-800"
                                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                                   }`}
                                   disabled={!unlocked}
@@ -512,7 +512,7 @@ export default function PracticeMCQ() {
                         className={`p-2 sm:p-2.5 rounded-lg transition-all ${
                           batchPage === 0
                             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                            : "bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-blue-400 shadow-sm"
+                            : "bg-surface border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-blue-400 shadow-sm"
                         }`}
                       >
                         <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -523,11 +523,7 @@ export default function PracticeMCQ() {
                         <button
                           key={i}
                           onClick={() => setBatchPage(i)}
-                          className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg text-xs sm:text-sm font-bold transition-all ${
-                            batchPage === i
-                              ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg scale-110"
-                              : "bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-blue-400"
-                          }`}
+                          className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg text-xs sm:text-sm font-bold transition-all ${ batchPage === i ? " text-neutral-950 shadow-lg scale-110" : "bg-surface border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-blue-400" } bg-brand hover:bg-brand/90`}
                         >
                           {i + 1}
                         </button>
@@ -547,7 +543,7 @@ export default function PracticeMCQ() {
                         className={`p-2 sm:p-2.5 rounded-lg transition-all ${
                           batchPage === Math.ceil(batches.length / 6) - 1
                             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                            : "bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-blue-400 shadow-sm"
+                            : "bg-surface border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-blue-400 shadow-sm"
                         }`}
                       >
                         <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -563,11 +559,11 @@ export default function PracticeMCQ() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl border-2 border-gray-200 p-2 sm:p-4 md:p-6 shadow-lg"
+            className="bg-surface/80 backdrop-blur-sm rounded-xl sm:rounded-2xl border-2 border-gray-200 p-2 sm:p-4 md:p-6 shadow-lg"
           >
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Award className="w-7 h-7 sm:w-6 sm:h-6 text-blue-600" />
+                <Award className="w-7 h-7 sm:w-6 sm:h-6 text-brand" />
                 Overall Progress
               </h2>
               <div className="text-right">
@@ -622,7 +618,7 @@ export default function PracticeMCQ() {
 
             <div className="grid grid-cols-3 gap-3 sm:gap-4 sm:mt-4">
               <div className="text-center p-1 sm:p-2 bg-blue-50 rounded-lg sm:rounded-xl border border-blue-100">
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-brand">
                   <span className="text-xs sm:text-sm text-gray-600 ">
                     Completed
                   </span>
@@ -674,7 +670,7 @@ export default function PracticeMCQ() {
         <div className="text-center">
           <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
             <svg
-              className="w-8 h-8 sm:w-10 sm:h-10 text-blue-600 animate-spin"
+              className="w-8 h-8 sm:w-10 sm:h-10 text-brand animate-spin"
               fill="none"
               viewBox="0 0 24 24"
             >
@@ -715,7 +711,7 @@ export default function PracticeMCQ() {
           transition={{ type: "spring", duration: 0.5 }}
           className="max-w-md w-full"
         >
-          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 text-center border-2 border-gray-100">
+          <div className="bg-surface rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 text-center border-2 border-gray-100">
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -777,13 +773,13 @@ export default function PracticeMCQ() {
             <div className="space-y-3">
               <button
                 onClick={goToBatches}
-                className="w-full py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl sm:rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base active:scale-95"
+                className="w-full py-3 sm:py-4 text-neutral-950 font-bold rounded-xl sm:rounded-2xl transition-all duration-200 shadow-lg hover:shadow-xl text-sm sm:text-base active:scale-95 bg-brand hover:bg-brand/90"
               >
                 View All Batches
               </button>
               <button
                 onClick={retryBatch}
-                className="w-full py-3 sm:py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-xl sm:rounded-2xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 text-sm sm:text-base active:scale-95"
+                className="w-full py-3 sm:py-4 bg-surface border-2 border-gray-300 text-gray-700 font-bold rounded-xl sm:rounded-2xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 text-sm sm:text-base active:scale-95"
               >
                 <RotateCcw className="w-4 h-4 inline mr-2" />
                 Retry This Batch
@@ -797,12 +793,12 @@ export default function PracticeMCQ() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="sticky top-0 bg-white/90 backdrop-blur-md border-b border-gray-200/50 z-50 shadow-sm">
+      <div className="sticky top-0 bg-surface/90 backdrop-blur-md border-b border-gray-200/50 z-50 shadow-sm">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 py-2.5 sm:py-3.5">
           <div className="flex items-center justify-between mb-2 sm:mb-3">
             <button
               onClick={goToBatches}
-              className="flex items-center text-xs sm:text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium"
+              className="flex items-center text-xs sm:text-sm text-gray-600 hover:text-brand transition-colors font-medium"
             >
               <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
               <span className="hidden sm:inline">Back to Batches</span>
@@ -816,7 +812,7 @@ export default function PracticeMCQ() {
               <div className="flex items-center justify-center gap-2 mt-1">
                 <span className="text-[11px] text-gray-500 font-medium">
                   Score:{" "}
-                  <span className="text-blue-600 font-bold">{batchScore}</span>/
+                  <span className="text-brand font-bold">{batchScore}</span>/
                   {Object.keys(batchAnswers).length}
                 </span>
                 {currentQuestion.difficulty && (
@@ -837,7 +833,7 @@ export default function PracticeMCQ() {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${questionProgress}%` }}
-              className="bg-gray-900 h-full rounded-full transition-all duration-300"
+              className="bg-neutral-900 h-full rounded-full transition-all duration-300"
             />
           </div>
         </div>
@@ -851,12 +847,12 @@ export default function PracticeMCQ() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -16 }}
             transition={{ duration: 0.15 }}
-            className="bg-white rounded-lg sm:rounded-xl shadow-md border border-gray-200 overflow-hidden"
+            className="bg-surface rounded-lg sm:rounded-xl shadow-md border border-gray-200 overflow-hidden"
           >
             <div className="p-4 sm:p-5 md:p-6">
               <div className="mb-5 sm:mb-6">
                 <div className="flex flex-wrap items-center gap-2 mb-2.5">
-                  <div className="inline-block bg-gray-900 text-white px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
+                  <div className="inline-block bg-gray-900 text-neutral-950 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
                     Question {currentQuestionIndex + 1}
                   </div>
                   {currentQuestion.difficulty && (
@@ -893,7 +889,7 @@ export default function PracticeMCQ() {
                     }
                   } else {
                     optionClass +=
-                      " bg-white border-gray-300 text-gray-800 hover:border-gray-400 hover:bg-gray-50 active:scale-[0.99] cursor-pointer";
+                      " bg-surface border-gray-300 text-gray-800 hover:border-gray-400 hover:bg-gray-50 active:scale-[0.99] cursor-pointer";
                   }
 
                   return (
@@ -945,7 +941,7 @@ export default function PracticeMCQ() {
                   >
                     <div className="p-4 sm:p-4 md:p-5 bg-gray-50 rounded-lg sm:rounded-xl border border-gray-200">
                       <div className="flex items-start gap-2 sm:gap-3 md:gap-4">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gray-900 rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-neutral-900 rounded-full flex items-center justify-center flex-shrink-0">
                           <svg
                             className="w-3 h-3 sm:w-4 sm:h-4 text-white"
                             fill="currentColor"
@@ -995,7 +991,7 @@ export default function PracticeMCQ() {
                 <button
                   onClick={handleNext}
                   disabled={!showAnswer}
-                  className="flex items-center gap-1.5 px-3 sm:px-3.5 py-2 bg-gray-900 text-white font-semibold rounded-lg hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-150 text-xs sm:text-sm active:scale-95"
+                  className="flex items-center gap-1.5 px-3 sm:px-3.5 py-2 bg-gray-900 text-neutral-950 font-semibold rounded-lg hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-150 text-xs sm:text-sm active:scale-95"
                 >
                   <span>
                     {currentQuestionIndex < currentBatchQuestions.length - 1

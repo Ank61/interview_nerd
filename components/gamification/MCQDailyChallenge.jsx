@@ -205,7 +205,7 @@ export default function MCQDailyChallenge({ className = '' }) {
         className={`${className} border-l-4 hover:shadow-md transition-shadow`}
         style={{
           borderLeftColor: isCompleted ? '#10b981' : '#3b82f6',
-          backgroundColor: 'white',
+          backgroundColor: '#111113',
         }}
       >
         <CardHeader className="pb-3">
@@ -220,7 +220,7 @@ export default function MCQDailyChallenge({ className = '' }) {
                 {isCompleted ? (
                   <Award className="h-5 w-5 text-green-600" />
                 ) : (
-                  <Brain className="h-5 w-5 text-blue-600" />
+                  <Brain className="h-5 w-5 text-brand" />
                 )}
               </div>
               <div>

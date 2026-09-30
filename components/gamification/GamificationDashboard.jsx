@@ -108,7 +108,7 @@ const GamificationDashboard = ({ compact = false, initialData = null }) => {
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-blue-100 rounded-lg">
-                  <TrendingUp className="w-5 h-5 text-blue-600" />
+                  <TrendingUp className="w-5 h-5 text-brand" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Total XP</p>
@@ -215,7 +215,7 @@ const GamificationDashboard = ({ compact = false, initialData = null }) => {
                 <TabsContent value="overview" className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <p className="text-2xl font-bold text-blue-600">
+                      <p className="text-2xl font-bold text-brand">
                         {gamificationData.stats?.totalQuestionsAnswered || 0}
                       </p>
                       <p className="text-sm text-gray-600">Questions Answered</p>

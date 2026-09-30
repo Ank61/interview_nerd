@@ -132,7 +132,7 @@ export default function ActiveChallenge({ topic, className = '' }) {
         className={`${className} border-l-4 hover:shadow-md transition-shadow`}
         style={{
           borderLeftColor: isCompleted ? '#10b981' : themeColors.bg,
-          backgroundColor: 'white',
+          backgroundColor: '#111113',
           borderColor: themeColors.border
         }}
       >

@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { snippetsData } from "@/data/snippetsData";
+import { darkenTheme } from "@/lib/themeUtils";
 import { useState } from "react";
 
 const iconMap = {
@@ -59,7 +60,7 @@ export default function SnippetsPage() {
         const concept = type.concepts.find((c) => c.topic === selectedTopic);
         if (concept) {
           topicData = concept;
-          categoryData = category;
+          categoryData = darkenTheme(category);
           break;
         }
       }
@@ -77,7 +78,7 @@ export default function SnippetsPage() {
       return null;
     }
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-surface">
         {/* Header */}
         <header className="border-b border-gray-100">
           <div className="max-w-4xl mx-auto px-6 py-4">
@@ -124,12 +125,12 @@ export default function SnippetsPage() {
               <div
                 className={`inline-flex items-center justify-center w-12 h-12 rounded-lg`}
                 style={{
-                  backgroundColor: categoryData?.lightColor || "#f3f4f6",
+                  backgroundColor: categoryData?.lightColor || "#17171a",
                 }}
               >
                 <HeaderIcon
                   className={`w-6 h-6`}
-                  style={{ color: categoryData?.textColor || "#374151" }}
+                  style={{ color: categoryData?.textColor || "#dddde1" }}
                 />
               </div>
               <div>
@@ -189,7 +190,7 @@ export default function SnippetsPage() {
                   </button>
                 </div>
                 <div className="relative">
-                  <pre className="bg-gray-900 text-gray-100 p-6 rounded-lg overflow-x-auto text-sm leading-relaxed">
+                  <pre className="bg-neutral-900 text-neutral-100 p-6 rounded-lg overflow-x-auto text-sm leading-relaxed">
                     <code>{example}</code>
                   </pre>
                 </div>
@@ -225,7 +226,7 @@ export default function SnippetsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
       {/* Header */}
       <header className="border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-6 py-4">
@@ -286,11 +287,11 @@ export default function SnippetsPage() {
                         <div className="flex items-center justify-between mb-4">
                           <div
                             className={`inline-flex items-center justify-center w-10 h-10 rounded-lg`}
-                            style={{ backgroundColor: category.lightColor }}
+                            style={{ backgroundColor: darkenTheme(category).lightColor }}
                           >
                             <IconComponent
                               className={`w-5 h-5`}
-                              style={{ color: category.textColor }}
+                              style={{ color: darkenTheme(category).textColor }}
                             />
                           </div>
                           <span className="text-sm text-gray-500">

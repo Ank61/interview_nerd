@@ -10,7 +10,7 @@ export default function Header({ topic, indexSelected }) {
   const themeColors = getThemeColors(topic);
   return (
     <Box
-      className="sticky top-0 z-10 bg-white"
+      className="sticky top-0 z-10 bg-surface"
       sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>

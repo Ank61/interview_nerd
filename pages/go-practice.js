@@ -22,13 +22,13 @@ export default function GoPracticeMode() {
   const router = useRouter();
 
   return (
-    <div className="h-screen flex flex-col bg-[#FAFAFA] text-gray-900 font-sans overflow-hidden selection:bg-teal-100">
+    <div className="h-screen flex flex-col bg-gray-50 text-gray-900 font-sans overflow-hidden selection:bg-teal-100">
       <Head>
         <title>Go Practice - Choose Your Mode | Interview Nerd</title>
       </Head>
 
       {/* ── Top Navigation Bar (Slim) ── */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-gray-200/60 bg-white shrink-0">
+      <header className="h-12 flex items-center justify-between px-4 border-b border-gray-200/60 bg-surface shrink-0">
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push("/")}
@@ -73,7 +73,7 @@ export default function GoPracticeMode() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             whileHover={{ y: -2 }}
-            className="group cursor-pointer flex flex-col h-full bg-white border border-gray-200/80 rounded-xl hover:border-teal-300 hover:shadow-[0_4px_20px_-4px_rgba(20,184,166,0.1)] transition-all overflow-hidden"
+            className="group cursor-pointer flex flex-col h-full bg-surface border border-gray-200/80 rounded-xl hover:border-teal-300 hover:shadow-[0_4px_20px_-4px_rgba(20,184,166,0.1)] transition-all overflow-hidden"
             onClick={() => router.push("/go-practice/concepts")}
           >
             <div className="p-6 flex-1 flex flex-col">

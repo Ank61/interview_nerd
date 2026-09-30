@@ -112,15 +112,15 @@ const PlaygroundStats = ({ userId }) => {
           </div>
           
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+            <div className="text-center p-3 bg-surface rounded-lg shadow-sm">
               <Brain className="w-6 h-6 text-purple-600 mx-auto mb-2" />
               <div className="text-xs text-gray-600">Adaptive AI</div>
             </div>
-            <div className="text-center p-3 bg-white rounded-lg shadow-sm">
-              <Target className="w-6 h-6 text-blue-600 mx-auto mb-2" />
+            <div className="text-center p-3 bg-surface rounded-lg shadow-sm">
+              <Target className="w-6 h-6 text-brand mx-auto mb-2" />
               <div className="text-xs text-gray-600">Real-time Tests</div>
             </div>
-            <div className="text-center p-3 bg-white rounded-lg shadow-sm">
+            <div className="text-center p-3 bg-surface rounded-lg shadow-sm">
               <Award className="w-6 h-6 text-green-600 mx-auto mb-2" />
               <div className="text-xs text-gray-600">XP & Badges</div>
             </div>
@@ -128,7 +128,7 @@ const PlaygroundStats = ({ userId }) => {
 
           <Button 
             onClick={() => router.push('/playground')}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            className=" text-neutral-950 font-medium px-6 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 bg-brand hover:bg-brand/90"
           >
             <Play className="w-4 h-4 mr-2" />
             Start Coding Now
@@ -154,7 +154,7 @@ const PlaygroundStats = ({ userId }) => {
       <CardContent className="space-y-6">
         {/* Quick Stats */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white rounded-lg p-4 shadow-sm">
+          <div className="bg-surface rounded-lg p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-2xl font-bold text-purple-600">{stats.totalCompleted}</p>
@@ -164,10 +164,10 @@ const PlaygroundStats = ({ userId }) => {
             </div>
           </div>
           
-          <div className="bg-white rounded-lg p-4 shadow-sm">
+          <div className="bg-surface rounded-lg p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-2xl font-bold text-blue-600">{stats.successRate}%</p>
+                <p className="text-2xl font-bold text-brand">{stats.successRate}%</p>
                 <p className="text-sm text-gray-600">Success Rate</p>
               </div>
               <TrendingUp className="w-8 h-8 text-blue-400" />
@@ -187,7 +187,7 @@ const PlaygroundStats = ({ userId }) => {
                 key={language}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-white rounded-lg p-3 shadow-sm"
+                className="bg-surface rounded-lg p-3 shadow-sm"
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ const PlaygroundStats = ({ userId }) => {
             </h4>
             <div className="space-y-2 max-h-32 overflow-y-auto">
               {stats.recentActivity.slice(0, 3).map((activity, index) => (
-                <div key={index} className="bg-white rounded-lg p-3 shadow-sm">
+                <div key={index} className="bg-surface rounded-lg p-3 shadow-sm">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-sm">{getLanguageIcon(activity.data.language)}</span>
@@ -261,7 +261,7 @@ const PlaygroundStats = ({ userId }) => {
         </div>
 
         {/* Quick Stats Summary */}
-        <div className="bg-white rounded-lg p-4 shadow-sm">
+        <div className="bg-surface rounded-lg p-4 shadow-sm">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <p className="text-lg font-bold text-gray-900">{stats.totalXPEarned}</p>

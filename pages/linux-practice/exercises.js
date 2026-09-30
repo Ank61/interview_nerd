@@ -144,7 +144,7 @@ export default function LinuxExercises() {
 
       <div className="min-h-screen flex flex-col bg-gray-50">
         {/* Header */}
-        <header className="border-b border-gray-200 bg-white sticky top-0 z-30 shadow-sm">
+        <header className="border-b border-gray-200 bg-surface sticky top-0 z-30 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
@@ -160,7 +160,7 @@ export default function LinuxExercises() {
 
         <div className="flex flex-1 overflow-hidden h-[calc(100vh-64px)] flex-col md:flex-row">
           {/* Sidebar */}
-          <aside className="w-full md:w-96 border-r border-gray-200 bg-white flex flex-col">
+          <aside className="w-full md:w-96 border-r border-gray-200 bg-surface flex flex-col">
             <div className="p-4 border-b border-gray-200 bg-gray-50/50 space-y-4">
               {/* Search */}
               <div className="relative">
@@ -173,7 +173,7 @@ export default function LinuxExercises() {
                   placeholder="Search exercises..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all text-sm"
+                  className="w-full pl-9 pr-4 py-2 bg-surface border border-gray-200 rounded-lg focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none transition-all text-sm"
                 />
               </div>
 
@@ -187,7 +187,7 @@ export default function LinuxExercises() {
                     className={`px-3 py-1 rounded-full text-xs font-medium border whitespace-nowrap transition-colors ${
                       difficultyFilter === diff
                         ? "bg-orange-50 border-orange-200 text-orange-700"
-                        : "bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                        : "bg-surface border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     {diff.charAt(0).toUpperCase() + diff.slice(1)}
@@ -250,7 +250,7 @@ export default function LinuxExercises() {
                     key={activeExercise.id}
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+                    className="bg-surface rounded-2xl border border-gray-200 p-6 shadow-sm"
                   >
                     <div className="flex justify-between items-start mb-2">
                       <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
@@ -294,7 +294,7 @@ export default function LinuxExercises() {
                         <button
                           onClick={() => setShowCommands(!showCommands)}
                           className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
-                            showCommands ? "text-blue-700" : "text-blue-600 hover:text-blue-700"
+                            showCommands ? "text-brand" : "text-brand hover:text-brand"
                           }`}
                         >
                           <Terminal size={16} />
@@ -405,8 +405,8 @@ export default function LinuxExercises() {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                       >
-                        <div className="bg-gray-900 rounded-xl p-5 relative">
-                          <div className="absolute top-0 right-0 bg-gray-800 text-gray-400 px-3 py-1 text-xs rounded-bl-lg font-mono">
+                        <div className="bg-neutral-900 rounded-xl p-5 relative">
+                          <div className="absolute top-0 right-0 bg-neutral-800 text-neutral-400 px-3 py-1 text-xs rounded-bl-lg font-mono">
                             Solution
                           </div>
                           <pre className="text-sm text-green-400 font-mono overflow-x-auto mt-2">

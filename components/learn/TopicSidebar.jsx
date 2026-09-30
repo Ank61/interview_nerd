@@ -149,8 +149,8 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
           onClick={toggleSidebar}
           className="fixed z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 touch-manipulation left-3 sm:left-4 top-20"
           style={{
-            backgroundColor: theme?.themeBgColor || "#f3f4f6",
-            color: theme?.textColor || "#374151",
+            backgroundColor: theme?.themeBgColor || "#17171a",
+            color: theme?.textColor || "#dddde1",
           }}
         >
           <Menu size={18} className="sm:w-5 sm:h-5" />
@@ -172,7 +172,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
           ${isLargeScreen ? 'h-[calc(100vh-80px)]' : 'h-screen'}
           transform transition-all duration-300 ease-in-out z-40
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          bg-white border-r border-gray-200 shadow-xl
+          bg-surface border-r border-gray-200 shadow-xl
           
           /* Responsive widths for different devices */
           w-[85vw] max-w-[300px]
@@ -191,17 +191,17 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
             <div className="flex items-center gap-2 sm:gap-3">
               <div
                 className="p-2 rounded-lg"
-                style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
+                style={{ backgroundColor: theme?.lightColor || "#17171a" }}
               >
                 <BookOpen
                   size={20}
-                  style={{ color: theme?.textColor || "#374151" }}
+                  style={{ color: theme?.textColor || "#dddde1" }}
                 />
               </div>
               <div>
                 <h3
                   className="font-semibold text-base sm:text-lg"
-                  style={{ color: theme?.textColor || "#374151" }}
+                  style={{ color: theme?.textColor || "#dddde1" }}
                 >
                   {category} Topics
                 </h3>
@@ -216,7 +216,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
               onClick={toggleSidebar}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
               style={{
-                color: theme?.textColor || "#374151",
+                color: theme?.textColor || "#dddde1",
               }}
             >
               <X size={18} className="sm:w-5 sm:h-5" />
@@ -240,13 +240,13 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                     `}
                     style={{
                       backgroundColor: isActive
-                        ? theme?.lightColor || "#f3f4f6"
-                        : "#f9fafb",
+                        ? theme?.lightColor || "#17171a"
+                        : "#111113",
                       borderColor: isActive
-                        ? theme?.themeBgColor || "#e5e7eb"
+                        ? theme?.themeBgColor || "#232327"
                         : "transparent",
                       ringColor: isActive
-                        ? theme?.themeBgColor || "#e5e7eb"
+                        ? theme?.themeBgColor || "#232327"
                         : "transparent",
                     }}
                   >
@@ -255,7 +255,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                         <Star
                           size={16}
                           className="mt-0.5 flex-shrink-0"
-                          style={{ color: theme?.textColor || "#374151" }}
+                          style={{ color: theme?.textColor || "#dddde1" }}
                           fill="currentColor"
                         />
                       )}
@@ -265,7 +265,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                             }`}
                           style={{
                             color: isActive
-                              ? theme?.textColor || "#374151"
+                              ? theme?.textColor || "#dddde1"
                               : "#4b5563",
                           }}
                         >
@@ -277,8 +277,8 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                           <span
                             className="text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full"
                             style={{
-                              backgroundColor: theme?.themeBgColor || "#e5e7eb",
-                              color: theme?.textColor || "#374151",
+                              backgroundColor: theme?.themeBgColor || "#232327",
+                              color: theme?.textColor || "#dddde1",
                             }}
                           >
                             {topicItem.label}
@@ -314,12 +314,12 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                       style={{
                         backgroundColor:
                           currentPage === p
-                            ? theme?.themeBgColor || "#e5e7eb"
-                            : theme?.lightColor || "#f3f4f6",
-                        color: theme?.textColor || "#374151",
+                            ? theme?.themeBgColor || "#232327"
+                            : theme?.lightColor || "#17171a",
+                        color: theme?.textColor || "#dddde1",
                         ringColor:
                           currentPage === p
-                            ? theme?.themeBgColor || "#e5e7eb"
+                            ? theme?.themeBgColor || "#232327"
                             : "transparent",
                       }}
                     >
@@ -345,7 +345,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                 <div
                   className="h-2 rounded-full transition-all duration-300"
                   style={{
-                    backgroundColor: theme?.themeBgColor || "#e5e7eb",
+                    backgroundColor: theme?.themeBgColor || "#232327",
                     width: `${((currentPage + 1) / totalPages) * 100}%`,
                   }}
                 />

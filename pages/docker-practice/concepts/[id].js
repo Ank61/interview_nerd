@@ -162,7 +162,7 @@ export default function ConceptExercises() {
       </Head>
 
       {/* ── Header ── */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
@@ -221,7 +221,7 @@ export default function ConceptExercises() {
       {/* ── Body ── */}
       <div className="flex" style={{ minHeight: "calc(100vh - 64px)" }}>
         {/* ── Left sidebar ── */}
-        <aside className="hidden md:flex flex-col w-72 xl:w-80 border-r border-gray-200 bg-white shrink-0">
+        <aside className="hidden md:flex flex-col w-72 xl:w-80 border-r border-gray-200 bg-surface shrink-0">
           {/* Concept info */}
           <div className="px-5 py-4 border-b border-gray-100">
             <div className="flex items-center gap-3 mb-2">
@@ -332,7 +332,7 @@ export default function ConceptExercises() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6"
+                className="bg-surface rounded-2xl border border-gray-200 shadow-sm p-6"
               >
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Study Guide: {concept.title}</h2>
                 <p className="text-gray-600 mb-6">{concept.summary}</p>
@@ -393,7 +393,7 @@ export default function ConceptExercises() {
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {concept.optimization_techniques.map((t, i) => (
-                          <div key={i} className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow relative overflow-hidden group">
+                          <div key={i} className="bg-surface border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow relative overflow-hidden group">
                             <div className="absolute top-0 right-0 bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">
                               {t.savings}
                             </div>
@@ -443,11 +443,11 @@ export default function ConceptExercises() {
                             <h4 className="text-sm font-bold text-amber-900 mb-3">Implementation Phases</h4>
                             <div className="space-y-3">
                               {concept.bonus_challenge.phases.map((p, i) => (
-                                <div key={i} className="bg-white/60 border border-amber-100 rounded-xl p-3 shadow-sm">
+                                <div key={i} className="bg-surface/60 border border-amber-100 rounded-xl p-3 shadow-sm">
                                   <h5 className="text-xs font-bold text-amber-900 mb-1">Phase {p.phase}: {p.name}</h5>
                                   <div className="flex flex-wrap gap-1.5 mt-2">
                                     {p.tasks.map((t, j) => (
-                                      <span key={j} className="text-[10px] bg-white border border-amber-200 text-amber-700 px-2 py-0.5 rounded-full">{t}</span>
+                                      <span key={j} className="text-[10px] bg-surface border border-amber-200 text-amber-700 px-2 py-0.5 rounded-full">{t}</span>
                                     ))}
                                   </div>
                                 </div>
@@ -470,7 +470,7 @@ export default function ConceptExercises() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6"
+                className="bg-surface rounded-2xl border border-gray-200 shadow-sm p-6"
               >
                 <div className="flex flex-wrap items-center gap-3 mb-3">
                   <span
@@ -527,7 +527,7 @@ export default function ConceptExercises() {
                   {activeExercise.commands_to_practice && activeExercise.commands_to_practice.length > 0 && (
                     <button
                       onClick={() => setShowCommands(!showCommands)}
-                      className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${showCommands ? "text-blue-700" : "text-blue-600 hover:text-blue-700"}`}
+                      className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${showCommands ? "text-brand" : "text-brand hover:text-brand"}`}
                     >
                       <Terminal size={16} />
                       {showCommands ? "Hide Commands" : "Commands"}
@@ -601,7 +601,7 @@ export default function ConceptExercises() {
                               key={i}
                               className="flex items-start gap-2 text-sm text-gray-700 bg-blue-50 border border-blue-100 rounded-lg px-3 py-2"
                             >
-                              <span className="font-mono font-medium text-blue-700 bg-white/60 px-1 py-0.5 rounded border border-blue-200">
+                              <span className="font-mono font-medium text-blue-700 bg-surface/60 px-1 py-0.5 rounded border border-blue-200">
                                 {cmd}
                               </span>
                             </li>
@@ -619,10 +619,10 @@ export default function ConceptExercises() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.05 }}
-                className="bg-gray-900 rounded-2xl overflow-hidden shadow-xl border border-gray-700"
+                className="bg-neutral-900 rounded-2xl overflow-hidden shadow-xl border border-neutral-700"
               >
                 {/* Title bar */}
-                <div className="flex items-center justify-between px-4 py-3 bg-gray-800 border-b border-gray-700">
+                <div className="flex items-center justify-between px-4 py-3 bg-neutral-800 border-b border-neutral-700">
                   <div className="flex items-center gap-3">
                     <div className="flex gap-1.5">
                       <span className="w-3 h-3 rounded-full bg-red-400" />
@@ -658,12 +658,12 @@ export default function ConceptExercises() {
                       : `# Write your Dockerfile here...\nFROM `
                   }
                   spellCheck={false}
-                  className="w-full bg-gray-900 text-gray-100 font-mono text-sm leading-6 p-5 resize-none outline-none placeholder-gray-600 min-h-[280px]"
+                  className="w-full bg-neutral-900 text-neutral-100 font-mono text-sm leading-6 p-5 resize-none outline-none placeholder-neutral-600 min-h-[280px]"
                   rows={16}
                 />
 
                 {/* Actions */}
-                <div className="px-4 py-3 bg-gray-800 border-t border-gray-700 flex flex-wrap items-center gap-3">
+                <div className="px-4 py-3 bg-neutral-800 border-t border-neutral-700 flex flex-wrap items-center gap-3">
                   <button
                     onClick={handleCheck}
                     disabled={!userCode.trim()}
@@ -673,7 +673,7 @@ export default function ConceptExercises() {
                   </button>
                   <button
                     onClick={() => setShowSolution(!showSolution)}
-                    className="px-5 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm font-medium transition-colors"
+                    className="px-5 py-2 rounded-lg bg-neutral-700 hover:bg-neutral-600 text-neutral-200 text-sm font-medium transition-colors"
                   >
                     {showSolution ? "Hide Solution" : "Show Solution"}
                   </button>
@@ -716,8 +716,8 @@ export default function ConceptExercises() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="bg-gray-900 rounded-2xl overflow-hidden border border-emerald-700 shadow-xl">
-                      <div className="flex items-center gap-2 px-4 py-3 bg-gray-800 border-b border-emerald-800">
+                    <div className="bg-neutral-900 rounded-2xl overflow-hidden border border-emerald-700 shadow-xl">
+                      <div className="flex items-center gap-2 px-4 py-3 bg-neutral-800 border-b border-emerald-800">
                         <Layers size={14} className="text-emerald-400" />
                         <span className="text-emerald-300 text-xs font-mono font-semibold">
                           Solution — {activeExercise.fileType}
@@ -732,7 +732,7 @@ export default function ConceptExercises() {
               </AnimatePresence>
 
               {/* Mobile exercise list */}
-              <div className="md:hidden bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+              <div className="md:hidden bg-surface rounded-2xl border border-gray-200 shadow-sm p-4">
                 <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-3">
                   Other Sections
                 </p>

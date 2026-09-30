@@ -59,7 +59,7 @@ export default function DockerConcepts() {
       </Head>
 
       {/* ── Header ── */}
-      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-8">
@@ -149,7 +149,7 @@ export default function DockerConcepts() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
                 whileHover={{ y: -4, scale: 1.01 }}
-                className="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden"
+                className="group bg-surface rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden"
               >
                 <div className="p-6 flex-1">
                   {/* Icon + level badge */}
@@ -194,7 +194,7 @@ export default function DockerConcepts() {
                     onClick={() =>
                       router.push(`/docker-practice/concepts/${concept.id}`)
                     }
-                    className="w-full py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:from-cyan-500 hover:to-blue-500 shadow hover:shadow-md transition-all duration-200"
+                    className="w-full py-2.5 rounded-xl text-sm font-semibold text-neutral-950 shadow hover:shadow-md transition-all duration-200 bg-brand hover:bg-brand/90"
                   >
                     View Questions →
                   </button>

@@ -102,7 +102,7 @@ export default function ConceptExercises() {
 
   if (!concept) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#FAFAFA]">
+      <div className="h-screen flex items-center justify-center bg-gray-50">
         <button onClick={() => router.push("/go-practice/concepts")} className="text-sm text-teal-600 hover:underline">
           ← Back to Concepts
         </button>
@@ -113,13 +113,13 @@ export default function ConceptExercises() {
   const badgeClass = (ex) => DIFFICULTY_BADGE[ex?.difficulty] ?? DIFFICULTY_BADGE.Beginner;
 
   return (
-    <div className="h-screen flex flex-col bg-[#FAFAFA] text-gray-900 font-sans overflow-hidden selection:bg-teal-100">
+    <div className="h-screen flex flex-col bg-gray-50 text-gray-900 font-sans overflow-hidden selection:bg-teal-100">
       <Head>
         <title>{concept.title} | Interview Nerd</title>
       </Head>
 
       {/* ── Top Navigation Bar (Slim) ── */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-gray-200/60 bg-white shrink-0">
+      <header className="h-12 flex items-center justify-between px-4 border-b border-gray-200/60 bg-surface shrink-0">
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push("/go-practice/concepts")}
@@ -140,7 +140,7 @@ export default function ConceptExercises() {
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         
         {/* 1. Left Sidebar: Exercise List */}
-        <aside className="w-full md:w-56 lg:w-64 border-r border-gray-200/60 bg-[#FAFAFA] flex flex-col shrink-0 overflow-y-auto">
+        <aside className="w-full md:w-56 lg:w-64 border-r border-gray-200/60 bg-gray-50 flex flex-col shrink-0 overflow-y-auto">
           <div className="p-3">
             <h2 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2 px-2">
               Modules
@@ -152,7 +152,7 @@ export default function ConceptExercises() {
                   onClick={() => selectExercise(ex)}
                   className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center justify-between group ${
                     activeExercise?.id === ex.id
-                      ? "bg-white border border-teal-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] text-teal-800 font-medium"
+                      ? "bg-surface border border-teal-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] text-teal-800 font-medium"
                       : "border border-transparent text-gray-600 hover:bg-gray-100"
                   }`}
                 >
@@ -167,7 +167,7 @@ export default function ConceptExercises() {
         </aside>
 
         {/* 2. Middle Panel: Instructions */}
-        <div className="w-full md:w-1/3 lg:w-[30%] border-r border-gray-200/60 bg-white flex flex-col shrink-0 overflow-y-auto">
+        <div className="w-full md:w-1/3 lg:w-[30%] border-r border-gray-200/60 bg-surface flex flex-col shrink-0 overflow-y-auto">
           {activeExercise ? (
             <div className="p-5 lg:p-6 flex flex-col h-full">
               {/* Badges */}

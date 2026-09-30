@@ -332,7 +332,7 @@ const Leaderboard = () => {
           <CardContent>
             <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
               <div className="flex items-center justify-center w-12">
-                <span className="text-lg font-bold text-blue-600">
+                <span className="text-lg font-bold text-brand">
                   #{leaderboardData.currentUserRank}
                 </span>
               </div>
