@@ -1,7 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// goData.js — Central data file for all Go Practice pages.
-// ─────────────────────────────────────────────────────────────────────────────
-
 export const goConcepts = [
   // ── 1 · Basics & Syntax ──────────────────────────────────────────────────
   {
@@ -8175,7 +8171,6 @@ func main() {
   },
 ];
 
-// ─── Global Exercises (shown on /go-practice/exercises) ─────────────────────
 export const goExercises = [
   {
     id: 1,

@@ -2,22 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Play,
-  RotateCcw,
-  Database,
-  Lightbulb,
-  CheckCircle,
-  XCircle,
-  BookOpen,
-  User,
-  Settings,
-} from "lucide-react";
+import { Play, RotateCcw, Lightbulb, CheckCircle, XCircle, Database } from "lucide-react";
 import MongoExecutor from "@/lib/mongoExecutor";
 import { mongoDatasets, mongoQuestions } from "@/data/mongoDatasets";
 import { useMongoProgress } from "@/hooks/useMongoProgress";
+import { PageShell, SiteNav, mono } from "@/components/landing/shared";
 
 export default function MongoDBQuestionPage() {
   const router = useRouter();
@@ -133,7 +122,7 @@ export default function MongoDBQuestionPage() {
       const cleanedQuery = cleanQuery(query);
       const queryResult = mongoExecutor.executeQuery(
         question.dataset,
-        cleanedQuery
+        cleanedQuery,
       );
       if (queryResult.success) {
         setResult(queryResult);
@@ -157,7 +146,7 @@ export default function MongoDBQuestionPage() {
       const cleanedQuery = cleanQuery(query);
       const executionResult = mongoExecutor.executeQuery(
         question.dataset,
-        cleanedQuery
+        cleanedQuery,
       );
 
       if (executionResult.success) {
@@ -165,7 +154,7 @@ export default function MongoDBQuestionPage() {
         const expectedQuery = question.solution;
         const expectedResult = mongoExecutor.executeQuery(
           question.dataset,
-          expectedQuery
+          expectedQuery,
         );
 
         if (expectedResult.success) {
@@ -191,7 +180,7 @@ export default function MongoDBQuestionPage() {
               // Sort array of objects by their stringified representation
               const normalized = result.map(sortObjectKeys);
               const sorted = normalized.sort((a, b) =>
-                JSON.stringify(a).localeCompare(JSON.stringify(b))
+                JSON.stringify(a).localeCompare(JSON.stringify(b)),
               );
               return JSON.stringify(sorted);
             }
@@ -217,7 +206,7 @@ export default function MongoDBQuestionPage() {
               question.collection,
               question.difficulty,
               query,
-              true
+              true,
             );
             setIsCompleted(true);
           }
@@ -265,129 +254,76 @@ export default function MongoDBQuestionPage() {
 
   if (status === "loading" || !question) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white font-medium">Loading...</p>
+      <PageShell>
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-[#D4FF4F]" />
         </div>
-      </div>
+      </PageShell>
     );
   }
 
   const currentDataset = mongoDatasets[question.dataset];
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <PageShell>
       <Head>
         <title>{question.title} - MongoDB Practice | Interview Nerd</title>
         <meta name="description" content="Practice MongoDB queries" />
       </Head>
 
-      {/* Header */}
-      <header className="bg-surface border-b border-gray-200 shadow-sm flex-shrink-0">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <div
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <div className="p-2 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100">
-                  <BookOpen size={24} className="text-green-600" />
-                </div>
-                <div>
-                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
-                    Interview Nerd
-                  </h1>
-                </div>
-              </div>
-
-              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button
-                  onClick={() => router.push("/")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Home
-                </button>
-                <span>/</span>
-                <button
-                  onClick={() => router.push("/mongodb-practice")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  MongoDB Practice
-                </button>
-                <span>/</span>
-                <button
-                  onClick={() => router.push("/mongodb-practice/testing")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Questions
-                </button>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">
-                  {question.title}
-                </span>
-              </nav>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <User size={20} className="text-gray-600" />
-              </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings size={20} className="text-gray-600" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SiteNav
+        crumbs={[
+          { label: "Topics", href: "/#categories" },
+          { label: "MongoDB Practice", href: "/mongodb-practice" },
+          { label: "Questions", href: "/mongodb-practice/testing" },
+          { label: question.title },
+        ]}
+      />
 
       {/* Main Content - Split Panes */}
-      <div ref={containerRef} className="flex-1 flex overflow-hidden">
+      <div ref={containerRef} className="flex-1 flex overflow-hidden" style={{ marginTop: '4rem' }}>
         {/* Left Panel - Question Description */}
         <div
           style={{ width: `${leftWidth}%` }}
-          className="bg-surface border-r border-gray-200 overflow-y-auto"
+          className="border-r border-white/[0.08] bg-white/[0.02] overflow-y-auto"
         >
           <div className="p-6">
             {/* Title */}
             <div className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-neutral-50 mb-2">
                 {question.id}. {question.title}
               </h1>
               <div className="flex items-center gap-3">
-                <Badge
-                  className={`text-xs font-medium border ${getDifficultyColor(
-                    question.difficulty
-                  )}`}
+                <span
+                  className={`${mono.className} rounded-full border px-3 py-1 text-[11px] ${getDifficultyColor(question.difficulty)}`}
                 >
                   {question.difficulty}
-                </Badge>
-                <span className="text-sm text-gray-600 capitalize">
+                </span>
+                <span className="text-sm text-neutral-400 capitalize">
                   {question.collection}
                 </span>
                 {isCompleted && (
-                  <Badge className="text-xs font-medium border text-green-600 bg-green-50 border-green-200">
-                    <CheckCircle className="w-3 h-3 mr-1" />
+                  <span className="flex items-center gap-1 text-green-400 text-xs">
+                    <CheckCircle className="w-3 h-3" />
                     Completed
-                  </Badge>
+                  </span>
                 )}
               </div>
             </div>
 
             {/* Question Description */}
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">
+              <h3 className="text-sm font-semibold text-neutral-300 mb-2">
                 Description
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-neutral-400 leading-relaxed">
                 {question.question}
               </p>
             </div>
 
             {/* Collections Schema */}
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-neutral-300 mb-3 flex items-center gap-2">
                 <Database className="w-4 h-4" />
                 Collections Schema
               </h3>
@@ -396,18 +332,18 @@ export default function MongoDBQuestionPage() {
                   ([collectionName, docs]) => (
                     <div
                       key={collectionName}
-                      className="bg-gray-50 rounded-lg p-4 border border-gray-200"
+                      className="rounded-lg p-4 border border-white/[0.08] bg-white/[0.02]"
                     >
-                      <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                        <Database className="w-4 h-4 text-green-600" />
+                      <h4 className="font-semibold text-neutral-200 mb-2 flex items-center gap-2">
+                        <Database className="w-4 h-4 text-[#D4FF4F]" />
                         {collectionName}
-                        <Badge variant="secondary" className="text-xs ml-auto">
+                        <span className="text-xs ml-auto text-neutral-500">
                           {docs.length} docs
-                        </Badge>
+                        </span>
                       </h4>
                       {docs.length > 0 && (
                         <div className="space-y-1">
-                          <p className="text-xs text-gray-600 mb-2">
+                          <p className="text-xs text-neutral-500 mb-2">
                             Sample fields:
                           </p>
                           {Object.keys(docs[0])
@@ -415,7 +351,7 @@ export default function MongoDBQuestionPage() {
                             .map((field, idx) => (
                               <div
                                 key={idx}
-                                className="text-sm text-gray-700 font-mono bg-surface px-3 py-1.5 rounded border border-gray-200"
+                                className="text-sm text-neutral-100 font-mono px-3 py-1.5 rounded border border-white/[0.08] bg-neutral-950"
                               >
                                 {field}
                               </div>
@@ -423,44 +359,40 @@ export default function MongoDBQuestionPage() {
                         </div>
                       )}
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>
 
             {/* Hint & Solution */}
             <div className="space-y-3">
-              <Button
-                variant="outline"
-                size="sm"
+              <button
                 onClick={() => setShowHint(!showHint)}
-                className="w-full justify-start border-yellow-200 text-yellow-700 hover:bg-yellow-50"
+                className="w-full flex items-center justify-start gap-2 rounded-lg border border-yellow-500/20 bg-yellow-500/10 px-4 py-2 text-sm text-yellow-300 hover:bg-yellow-500/20 transition-colors"
               >
-                <Lightbulb className="w-4 h-4 mr-2" />
+                <Lightbulb className="w-4 h-4" />
                 {showHint ? "Hide" : "Show"} Hint
-              </Button>
+              </button>
               {showHint && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <p className="text-sm text-yellow-800">
+                <div className="rounded-lg p-4 border border-yellow-500/20 bg-yellow-500/10">
+                  <p className="text-sm text-yellow-200">
                     <strong>💡 Hint:</strong> {question.hint}
                   </p>
                 </div>
               )}
 
-              <Button
-                variant="outline"
-                size="sm"
+              <button
                 onClick={() => setShowSolution(!showSolution)}
-                className="w-full justify-start border-green-200 text-green-700 hover:bg-green-50"
+                className="w-full flex items-center justify-start gap-2 rounded-lg border border-green-500/20 bg-green-500/10 px-4 py-2 text-sm text-green-300 hover:bg-green-500/20 transition-colors"
               >
                 {showSolution ? "Hide" : "Show"} Solution
-              </Button>
+              </button>
               {showSolution && (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <p className="text-sm text-green-800 mb-2">
-                    <strong>Expected Solution:</strong>
+                <div className="rounded-lg p-4 border border-green-500/20 bg-green-500/10">
+                  <p className="text-sm font-semibold text-green-200 mb-2">
+                    Expected Solution:
                   </p>
-                  <code className="text-sm font-mono bg-surface p-3 rounded border border-green-200 block text-gray-900 whitespace-pre-wrap">
+                  <code className="text-sm font-mono p-3 rounded border border-green-500/20 block text-neutral-100 bg-neutral-950 whitespace-pre-wrap">
                     {question.solution}
                   </code>
                 </div>
@@ -473,50 +405,46 @@ export default function MongoDBQuestionPage() {
         <div
           ref={verticalDividerRef}
           onMouseDown={handleVerticalMouseDown}
-          className="w-1 bg-gray-200 hover:bg-green-400 cursor-col-resize transition-colors flex-shrink-0"
+          className="w-1 bg-white/[0.08] hover:bg-[#D4FF4F] cursor-col-resize transition-colors flex-shrink-0"
         />
 
         {/* Right Panel - Editor & Results */}
         <div
           style={{ width: `${100 - leftWidth}%` }}
-          className="flex flex-col bg-surface"
+          className="flex flex-col bg-neutral-950"
         >
           {/* Top - Editor */}
           <div
             style={{ height: `${topHeight}%` }}
-            className="overflow-hidden flex flex-col border-b border-gray-200"
+            className="overflow-hidden flex flex-col border-b border-white/[0.08]"
           >
-            <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
-              <span className="text-sm font-semibold text-gray-700">
+            <div className="px-4 py-3 bg-white/[0.02] border-b border-white/[0.08] flex items-center justify-between flex-shrink-0">
+              <span className="text-sm font-semibold text-neutral-200">
                 MongoDB Query Editor
               </span>
               <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
+                <button
                   onClick={() => setQuery(`db.${question.collection}.find()`)}
-                  className="text-gray-600"
+                  className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/[0.02] text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.05] text-sm transition-colors"
                 >
                   <RotateCcw className="w-4 h-4 mr-1" />
                   Reset
-                </Button>
-                <Button
-                  size="sm"
+                </button>
+                <button
                   onClick={executeQuery}
                   disabled={loading || !query.trim()}
-                  className="bg-green-600 hover:bg-green-700 text-white"
+                  className="px-4 py-1.5 rounded-lg bg-[#D4FF4F] text-neutral-950 text-sm font-semibold hover:shadow-[0_0_20px_-5px_rgba(212,255,79,0.4)] transition-shadow disabled:opacity-50"
                 >
                   <Play className="w-4 h-4 mr-1" />
                   Run
-                </Button>
-                <Button
-                  size="sm"
+                </button>
+                <button
                   onClick={submitSolution}
                   disabled={loading || !query.trim()}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  className="px-4 py-1.5 rounded-lg bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-50"
                 >
                   Submit
-                </Button>
+                </button>
               </div>
             </div>
             <div className="flex-1 overflow-auto p-4">
@@ -525,7 +453,7 @@ export default function MongoDBQuestionPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="// Write your MongoDB query here..."
-                className="w-full min-h-full p-4 bg-gray-50 text-gray-900 font-mono text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none placeholder-gray-400"
+                className="w-full h-full p-4 bg-neutral-900 text-neutral-100 font-mono text-sm rounded-lg border border-white/[0.08] focus:outline-none focus:ring-2 focus:ring-[#D4FF4F]/50 resize-none placeholder-neutral-500"
                 style={{ minHeight: "200px" }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
@@ -541,7 +469,7 @@ export default function MongoDBQuestionPage() {
           <div
             ref={horizontalDividerRef}
             onMouseDown={handleHorizontalMouseDown}
-            className="h-1 bg-gray-200 hover:bg-green-400 cursor-row-resize transition-colors flex-shrink-0"
+            className="h-1 bg-white/[0.08] hover:bg-[#D4FF4F] cursor-row-resize transition-colors flex-shrink-0"
           />
 
           {/* Bottom - Results */}
@@ -549,39 +477,39 @@ export default function MongoDBQuestionPage() {
             style={{ height: `${100 - topHeight}%` }}
             className="overflow-hidden flex flex-col"
           >
-            <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex-shrink-0">
-              <span className="text-sm font-semibold text-gray-700">
+            <div className="px-4 py-3 bg-white/[0.02] border-b border-white/[0.08] flex-shrink-0">
+              <span className="text-sm font-semibold text-neutral-200">
                 Query Result
               </span>
             </div>
-            <div className="flex-1 overflow-auto p-4 bg-surface">
+            <div className="flex-1 overflow-auto p-4 bg-neutral-950">
               {submissionResult && (
                 <div
                   className={`mb-4 p-4 rounded-lg border ${
                     submissionResult.isCorrect
-                      ? "bg-green-50 border-green-200"
-                      : "bg-red-50 border-red-200"
+                      ? "bg-green-500/10 border-green-500/20"
+                      : "bg-red-500/10 border-red-500/20"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-2">
                     {submissionResult.isCorrect ? (
                       <>
-                        <CheckCircle className="w-5 h-5 text-green-600" />
-                        <span className="font-semibold text-green-800">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="font-semibold text-green-300">
                           Accepted! 🎉
                         </span>
                       </>
                     ) : (
                       <>
-                        <XCircle className="w-5 h-5 text-red-600" />
-                        <span className="font-semibold text-red-800">
+                        <XCircle className="w-5 h-5 text-red-400" />
+                        <span className="font-semibold text-red-300">
                           Wrong Answer
                         </span>
                       </>
                     )}
                   </div>
                   {submissionResult.error && (
-                    <p className="text-sm text-red-700 font-mono">
+                    <p className="text-sm text-red-300 font-mono">
                       {submissionResult.error}
                     </p>
                   )}
@@ -589,19 +517,19 @@ export default function MongoDBQuestionPage() {
               )}
 
               {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <XCircle className="w-5 h-5 text-red-600" />
-                    <span className="font-semibold text-red-800">Error</span>
+                    <XCircle className="w-5 h-5 text-red-400" />
+                    <span className="font-semibold text-red-300">Error</span>
                   </div>
-                  <p className="text-sm text-red-700 font-mono">{error}</p>
+                  <p className="text-sm text-red-300 font-mono">{error}</p>
                 </div>
               )}
 
               {result && (
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-neutral-400">
                       {Array.isArray(result.result) ? result.result.length : 1}{" "}
                       document
                       {Array.isArray(result.result) &&
@@ -610,12 +538,12 @@ export default function MongoDBQuestionPage() {
                         : ""}{" "}
                       returned
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-neutral-500">
                       Execution time: {result.executionTime.toFixed(2)}ms
                     </p>
                   </div>
-                  <div className="bg-gray-50 border rounded-lg p-4">
-                    <pre className="text-sm overflow-x-auto whitespace-pre-wrap font-mono text-gray-900">
+                  <div className="rounded-lg border border-white/[0.08] bg-neutral-900 p-4">
+                    <pre className="text-sm overflow-x-auto whitespace-pre-wrap font-mono text-neutral-100">
                       {formatResult(result.result)}
                     </pre>
                   </div>
@@ -623,7 +551,7 @@ export default function MongoDBQuestionPage() {
               )}
 
               {!result && !error && !submissionResult && (
-                <div className="flex items-center justify-center h-full text-gray-400">
+                <div className="flex items-center justify-center h-full text-neutral-600">
                   <p>Run your query to see results here</p>
                 </div>
               )}
@@ -631,6 +559,6 @@ export default function MongoDBQuestionPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

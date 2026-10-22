@@ -1,14 +1,10 @@
-import { useEffect } from "react";
+import * as React from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import Head from "next/head";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 import {
-  BookOpen,
-  User,
-  Settings,
-  ChevronRight,
+  ArrowLeft,
+  ArrowUpRight,
   Search,
   Link,
   BarChart3,
@@ -23,22 +19,20 @@ import {
   GitMerge,
   PanelsTopLeft,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { sqlQuestions } from "@/data/sqlDatasets";
 import { useSQLProgress } from "@/hooks/useSQLProgress";
+import {
+  PageShell,
+  SiteNav,
+  SplitTitle,
+  mono,
+  trackSpotlight,
+  usePageMotion,
+} from "@/components/landing/shared";
 
-export default function SQLPathLearning() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const { progress, getCategoryProgress } = useSQLProgress();
+const DIFFICULTIES = ["Easy", "Medium", "Hard"];
 
-  // useEffect(() => {
-  //     if (status === "unauthenticated") {
-  //         router.push("/auth/login");
-  //     }
-  // }, [status, router]);
-
-  // Get unique categories with question counts
+function buildCategoryList() {
   const categories = {};
   sqlQuestions.forEach((question) => {
     if (!categories[question.category]) {
@@ -54,75 +48,66 @@ export default function SQLPathLearning() {
     categories[question.category][question.difficulty]++;
   });
 
-  const categoryList = Object.values(categories).sort(
-    (a, b) => b.questions.length - a.questions.length
+  return Object.values(categories).sort(
+    (a, b) => b.questions.length - a.questions.length,
   );
+}
 
-  const getCategoryIcon = (category) => {
-    switch (category) {
-      case "SELECT":
-        return BarChart3;
-      case "WHERE":
-        return Search;
-      case "JOIN":
-        return Link;
-      case "GROUP BY":
-        return LineChart;
-      case "ORDER BY":
-        return ArrowUpDown;
-      case "DISTINCT":
-        return Sparkles;
-      case "HAVING":
-        return Target;
-      case "SUBQUERY":
-        return RefreshCw;
-      case "AGGREGATE":
-        return Calculator;
-      case "CASE":
-        return Shuffle;
-      case "DATE":
-        return Calendar;
-      case "UNION":
-        return GitMerge;
-      case "WINDOW":
-        return PanelsTopLeft;
-      default:
-        return BookOpen;
-    }
-  };
+const getCategoryIcon = (category) => {
+  switch (category) {
+    case "SELECT":
+      return BarChart3;
+    case "WHERE":
+      return Search;
+    case "JOIN":
+      return Link;
+    case "GROUP BY":
+      return LineChart;
+    case "ORDER BY":
+      return ArrowUpDown;
+    case "DISTINCT":
+      return Sparkles;
+    case "HAVING":
+      return Target;
+    case "SUBQUERY":
+      return RefreshCw;
+    case "AGGREGATE":
+      return Calculator;
+    case "CASE":
+      return Shuffle;
+    case "DATE":
+      return Calendar;
+    case "UNION":
+      return GitMerge;
+    case "WINDOW":
+      return PanelsTopLeft;
+    default:
+      return BarChart3;
+  }
+};
 
-  const getCategoryColor = (category) => {
-    const colors = {
-      SELECT: "from-blue-50 to-blue-100",
-      WHERE: "from-purple-50 to-purple-100",
-      JOIN: "from-green-50 to-green-100",
-      "GROUP BY": "from-yellow-50 to-yellow-100",
-      "ORDER BY": "from-pink-50 to-pink-100",
-      DISTINCT: "from-indigo-50 to-indigo-100",
-      HAVING: "from-red-50 to-red-100",
-      SUBQUERY: "from-teal-50 to-teal-100",
-      AGGREGATE: "from-orange-50 to-orange-100",
-      CASE: "from-cyan-50 to-cyan-100",
-      DATE: "from-lime-50 to-lime-100",
-      UNION: "from-fuchsia-50 to-fuchsia-100",
-      WINDOW: "from-violet-50 to-violet-100",
-    };
-    return colors[category] || "from-gray-50 to-gray-100";
-  };
+export default function SQLPathLearning() {
+  const { status } = useSession();
+  const { getCategoryProgress } = useSQLProgress();
+  const rootRef = React.useRef(null);
 
-  if (status === "loading") {
+  const categoryList = React.useMemo(buildCategoryList, []);
+  const isLoading = status === "loading";
+
+  usePageMotion(rootRef, [isLoading]);
+
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white font-medium">Loading...</p>
+      <PageShell>
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-[#D4FF4F]" />
         </div>
-      </div>
+      </PageShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <PageShell ref={rootRef}>
       <Head>
         <title>SQL Path Learning - Interview Nerd</title>
         <meta
@@ -131,170 +116,128 @@ export default function SQLPathLearning() {
         />
       </Head>
 
-      {/* Header */}
-      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <div
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                  <BookOpen size={24} className="text-brand" />
-                </div>
-                <div>
-                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
-                    Interview Nerd
-                  </h1>
-                </div>
-              </div>
+      <SiteNav
+        crumbs={[
+          { label: "Topics", href: "/#categories" },
+          { label: "SQL Practice", href: "/sql-practice" },
+          { label: "Path Learning" },
+        ]}
+      />
 
-              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button
-                  onClick={() => router.push("/")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Home
-                </button>
-                <span>/</span>
-                <button
-                  onClick={() => router.push("/sql-practice")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  SQL Practice
-                </button>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">Path Learning</span>
-              </nav>
-            </div>
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden pb-10 pt-24 md:pb-14 md:pt-28">
+          <div
+            className="grid-bg pointer-events-none absolute inset-0"
+            aria-hidden="true"
+          />
 
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <User size={20} className="text-gray-600" />
-              </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings size={20} className="text-gray-600" />
-              </button>
-            </div>
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+            <Link
+              href="/sql-practice"
+              className="hero-fade group mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-3 pr-4 text-xs text-neutral-400 backdrop-blur transition-colors hover:border-white/20 hover:text-neutral-200"
+            >
+              <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-0.5" />
+              Back to SQL Practice
+            </Link>
+
+            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-neutral-50">
+              <span className="block">
+                <SplitTitle text="SQL" />
+              </span>
+              <span className="block">
+                <SplitTitle text="Learning Path" accent />
+              </span>
+            </h1>
+
+            <p className="hero-fade mt-6 max-w-xl text-lg leading-relaxed text-neutral-400">
+              Master SQL concepts step by step. Choose a category to start your
+              learning journey.
+            </p>
           </div>
-        </div>
-      </header>
+        </section>
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 text-center"
-        >
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            SQL Learning Path
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Master SQL concepts step by step. Choose a category to start your
-            learning journey.
-          </p>
-        </motion.div>
+        {/* Categories */}
+        <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+          <div
+            data-stagger
+            className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {categoryList.map((category) => {
+              const Icon = getCategoryIcon(category.name);
+              const total = category.questions.length;
+              const completed = getCategoryProgress(category.name)?.total || 0;
+              const percent =
+                total > 0 ? Math.min(100, (completed / total) * 100) : 0;
 
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Choose Your Learning Path
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categoryList.map((category, index) => {
-              const categoryProgress = getCategoryProgress(category.name);
-              const completedCount = categoryProgress.total || 0;
-              const progressPercent =
-                category.questions.length > 0
-                  ? (completedCount / category.questions.length) * 100
-                  : 0;
               return (
-                <motion.div
+                <Link
                   key={category.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  href={`/sql-practice/path-learning/${encodeURIComponent(
+                    category.name,
+                  )}`}
+                  prefetch={false}
+                  onMouseMove={trackSpotlight}
+                  className="spotlight group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-white/20"
                 >
-                  <Card
-                    className="border-2 border-gray-200 hover:border-indigo-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
-                    onClick={() =>
-                      router.push(
-                        `/sql-practice/path-learning/${encodeURIComponent(
-                          category.name
-                        )}`
-                      )
-                    }
-                  >
-                    <CardContent className="p-6">
-                      {/* Category Header */}
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-12 h-12 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center`}
-                          >
-                            {(() => {
-                              const Icon = getCategoryIcon(category.name);
-                              return (
-                                <Icon className="w-6 h-6 text-indigo-600" />
-                              );
-                            })()}
-                          </div>
-                          <div>
-                            <h3 className="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
-                              {category.name}
-                            </h3>
-                            <p className="text-sm text-gray-500">
-                              {category.questions.length} question
-                              {category.questions.length !== 1 ? "s" : ""}
-                            </p>
-                          </div>
-                        </div>
-                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
-                      </div>
+                  <div className="relative z-10 flex items-start justify-between">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
+                      <Icon className="h-5 w-5 text-neutral-300 transition-colors group-hover:text-[#D4FF4F]" />
+                    </span>
+                    <ArrowUpRight className="h-5 w-5 text-neutral-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-neutral-100" />
+                  </div>
 
-                      <div className="space-y-2">
-                        <div className="flex gap-2">
-                          {category.easy > 0 && (
-                            <Badge className="text-xs font-medium border text-green-600 bg-green-50 border-green-200">
-                              {category.easy} Easy
-                            </Badge>
-                          )}
-                          {category.medium > 0 && (
-                            <Badge className="text-xs font-medium border text-yellow-600 bg-yellow-50 border-yellow-200">
-                              {category.medium} Medium
-                            </Badge>
-                          )}
-                          {category.hard > 0 && (
-                            <Badge className="text-xs font-medium border text-red-600 bg-red-50 border-red-200">
-                              {category.hard} Hard
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
+                  <div className="relative z-10 mt-6">
+                    <h2 className="text-lg font-semibold tracking-tight text-neutral-50">
+                      {category.name}
+                    </h2>
+                    <p className="mt-1.5 text-sm leading-relaxed text-neutral-500">
+                      {category.questions.length} question
+                      {category.questions.length !== 1 ? "s" : ""}
+                    </p>
+                  </div>
 
-                      {/* Progress Bar */}
-                      <div className="mt-4">
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div
-                            className={`h-2 rounded-full bg-gradient-to-r ${getCategoryColor(
-                              category.name
-                            )}`}
-                            style={{ width: `${progressPercent}%` }}
-                          ></div>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {completedCount} / {category.questions.length}{" "}
-                          completed
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                  <div className="relative z-10 mt-5 flex flex-wrap gap-2">
+                    {DIFFICULTIES.filter(
+                      (d) => category[d.toLowerCase()] > 0,
+                    ).map((d) => (
+                      <span
+                        key={d}
+                        className={`${mono.className} rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] text-neutral-300`}
+                      >
+                        {category[d.toLowerCase()]} {d}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="relative z-10 mt-auto pt-6">
+                    <div
+                      className="h-px w-full bg-white/10"
+                      role="progressbar"
+                      aria-valuemin={0}
+                      aria-valuemax={total}
+                      aria-valuenow={completed}
+                      aria-label={`${category.name} progress`}
+                    >
+                      <div
+                        className="h-px bg-[#D4FF4F] transition-[width] duration-1000 ease-out"
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                    <div
+                      className={`${mono.className} mt-3 flex items-center justify-between text-xs text-neutral-500`}
+                    >
+                      <span>
+                        {completed} / {total} completed
+                      </span>
+                    </div>
+                  </div>
+                </Link>
               );
             })}
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      </main>
+    </PageShell>
   );
 }

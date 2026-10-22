@@ -123,30 +123,31 @@ export default function QuestionFeedback({ questionId, className = '' }) {
 
   // Show feedback buttons
   return (
-    <div className={`flex items-center space-x-4 ${className}`}>
-      <p className="text-sm text-muted-foreground">Was this helpful?</p>
-      <div className="flex space-x-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => submitFeedback(true)}
-          disabled={isSubmitting}
-          className="flex items-center space-x-1"
-        >
-          <ThumbsUp className="h-4 w-4" />
-          <span>Yes</span>
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => submitFeedback(false)}
-          disabled={isSubmitting}
-          className="flex items-center space-x-1"
-        >
-          <ThumbsDown className="h-4 w-4" />
-          <span>No</span>
-        </Button>
-      </div>
-    </div>
+    <></>
+    // <div className={`flex items-center space-x-4 ${className}`}>
+    //   <p className="text-sm text-muted-foreground">Was this helpful?</p>
+    //   <div className="flex space-x-2">
+    //     <Button 
+    //       variant="outline" 
+    //       size="sm" 
+    //       onClick={() => submitFeedback(true)}
+    //       disabled={isSubmitting}
+    //       className="flex items-center space-x-1"
+    //     >
+    //       <ThumbsUp className="h-4 w-4" />
+    //       <span>Yes</span>
+    //     </Button>
+    //     <Button 
+    //       variant="outline" 
+    //       size="sm" 
+    //       onClick={() => submitFeedback(false)}
+    //       disabled={isSubmitting}
+    //       className="flex items-center space-x-1"
+    //     >
+    //       <ThumbsDown className="h-4 w-4" />
+    //       <span>No</span>
+    //     </Button>
+    //   </div>
+    // </div>
   );
 }

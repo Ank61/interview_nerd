@@ -1,14 +1,11 @@
-import { useEffect } from "react";
+import * as React from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import Head from "next/head";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 import {
   Code2,
-  User,
-  Settings,
-  ChevronRight,
+  ArrowLeft,
+  ArrowUpRight,
   ListChecks,
   Type,
   Table2,
@@ -20,22 +17,20 @@ import {
   ArrowUpAZ,
   Gauge,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { playgroundQuestions } from "@/data/playgroundQuestions";
 import { useJSProgress } from "@/hooks/useJSProgress";
+import {
+  PageShell,
+  SiteNav,
+  SplitTitle,
+  mono,
+  trackSpotlight,
+  usePageMotion,
+} from "@/components/landing/shared";
 
-export default function JSPathLearning() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const { progress, getTopicProgress } = useJSProgress();
+const DIFFICULTIES = ["Easy", "Medium", "Hard"];
 
-  // useEffect(() => {
-  //     if (status === "unauthenticated") {
-  //         router.push("/auth/login");
-  //     }
-  // }, [status, router]);
-
-  // Get unique topics with question counts
+function buildTopicList() {
   const topics = {};
   const allQuestions = [
     ...(playgroundQuestions.beginner || []),
@@ -44,7 +39,7 @@ export default function JSPathLearning() {
 
   allQuestions.forEach((question) => {
     if (question.tags && question.tags.length > 0) {
-      const mainTag = question.tags[0]; // Use first tag as main topic
+      const mainTag = question.tags[0];
       if (!topics[mainTag]) {
         topics[mainTag] = {
           name: mainTag,
@@ -59,88 +54,79 @@ export default function JSPathLearning() {
     }
   });
 
-  const topicList = Object.values(topics).sort(
-    (a, b) => b.questions.length - a.questions.length
+  return Object.values(topics).sort(
+    (a, b) => b.questions.length - a.questions.length,
   );
+}
 
-  const getTopicIcon = (topic) => {
-    switch (topic) {
-      case "array":
-        return ListChecks;
-      case "string":
-        return Type;
-      case "hash-table":
-        return Table2;
-      case "two-pointers":
-        return Hand;
-      case "stack":
-        return Layers;
-      case "binary-tree":
-        return GitBranch;
-      case "recursion":
-        return RefreshCw;
-      case "traversal":
-        return GitBranch;
-      case "intervals":
-        return Timer;
-      case "sorting":
-        return ArrowUpAZ;
-      case "greedy":
-        return Gauge;
-      default:
-        return Code2;
-    }
+const getTopicIcon = (topic) => {
+  switch (topic) {
+    case "array":
+      return ListChecks;
+    case "string":
+      return Type;
+    case "hash-table":
+      return Table2;
+    case "two-pointers":
+      return Hand;
+    case "stack":
+      return Layers;
+    case "binary-tree":
+      return GitBranch;
+    case "recursion":
+      return RefreshCw;
+    case "traversal":
+      return GitBranch;
+    case "intervals":
+      return Timer;
+    case "sorting":
+      return ArrowUpAZ;
+    case "greedy":
+      return Gauge;
+    default:
+      return Code2;
+  }
+};
+
+const getTopicDisplayName = (topic) => {
+  const displayNames = {
+    array: "Arrays",
+    string: "Strings",
+    "hash-table": "Hash Tables",
+    "two-pointers": "Two Pointers",
+    stack: "Stack",
+    "binary-tree": "Binary Trees",
+    recursion: "Recursion",
+    traversal: "Tree Traversal",
+    intervals: "Intervals",
+    sorting: "Sorting",
+    greedy: "Greedy Algorithms",
   };
+  return displayNames[topic] || topic.charAt(0).toUpperCase() + topic.slice(1);
+};
 
-  const getTopicColor = (topic) => {
-    const colors = {
-      array: "from-blue-50 to-blue-100",
-      string: "from-purple-50 to-purple-100",
-      "hash-table": "from-green-50 to-green-100",
-      "two-pointers": "from-yellow-50 to-yellow-100",
-      stack: "from-pink-50 to-pink-100",
-      "binary-tree": "from-indigo-50 to-indigo-100",
-      recursion: "from-red-50 to-red-100",
-      traversal: "from-teal-50 to-teal-100",
-      intervals: "from-orange-50 to-orange-100",
-      sorting: "from-cyan-50 to-cyan-100",
-      greedy: "from-lime-50 to-lime-100",
-    };
-    return colors[topic] || "from-gray-50 to-gray-100";
-  };
+export default function JSPathLearning() {
+  const { status } = useSession();
+  const { getTopicProgress } = useJSProgress();
+  const rootRef = React.useRef(null);
 
-  const getTopicDisplayName = (topic) => {
-    const displayNames = {
-      array: "Arrays",
-      string: "Strings",
-      "hash-table": "Hash Tables",
-      "two-pointers": "Two Pointers",
-      stack: "Stack",
-      "binary-tree": "Binary Trees",
-      recursion: "Recursion",
-      traversal: "Tree Traversal",
-      intervals: "Intervals",
-      sorting: "Sorting",
-      greedy: "Greedy Algorithms",
-    };
+  const topicList = React.useMemo(buildTopicList, []);
+  const isLoading = status === "loading";
+
+  usePageMotion(rootRef, [isLoading]);
+
+  if (isLoading) {
     return (
-      displayNames[topic] || topic.charAt(0).toUpperCase() + topic.slice(1)
-    );
-  };
-
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-yellow-500 via-orange-500 to-red-500 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-white font-medium">Loading...</p>
+      <PageShell>
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-[#D4FF4F]" />
         </div>
-      </div>
+      </PageShell>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <PageShell ref={rootRef}>
       <Head>
         <title>JavaScript Path Learning - Interview Nerd</title>
         <meta
@@ -149,169 +135,128 @@ export default function JSPathLearning() {
         />
       </Head>
 
-      {/* Header */}
-      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-8">
-              <div
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100">
-                  <Code2 size={24} className="text-yellow-600" />
-                </div>
-                <div>
-                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
-                    Interview Nerd
-                  </h1>
-                </div>
-              </div>
+      <SiteNav
+        crumbs={[
+          { label: "Topics", href: "/#categories" },
+          { label: "JavaScript Practice", href: "/playground" },
+          { label: "Path Learning" },
+        ]}
+      />
 
-              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button
-                  onClick={() => router.push("/")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Home
-                </button>
-                <span>/</span>
-                <button
-                  onClick={() => router.push("/playground")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  JavaScript Practice
-                </button>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">Path Learning</span>
-              </nav>
-            </div>
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden pb-10 pt-24 md:pb-14 md:pt-28">
+          <div
+            className="grid-bg pointer-events-none absolute inset-0"
+            aria-hidden="true"
+          />
 
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <User size={20} className="text-gray-600" />
-              </button>
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings size={20} className="text-gray-600" />
-              </button>
-            </div>
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+            <Link
+              href="/playground"
+              className="hero-fade group mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-3 pr-4 text-xs text-neutral-400 backdrop-blur transition-colors hover:border-white/20 hover:text-neutral-200"
+            >
+              <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-0.5" />
+              Back to JavaScript Practice
+            </Link>
+
+            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-neutral-50">
+              <span className="block">
+                <SplitTitle text="JavaScript" />
+              </span>
+              <span className="block">
+                <SplitTitle text="Learning Path" accent />
+              </span>
+            </h1>
+
+            <p className="hero-fade mt-6 max-w-xl text-lg leading-relaxed text-neutral-400">
+              Master JavaScript concepts step by step. Choose a topic to start
+              your learning journey.
+            </p>
           </div>
-        </div>
-      </header>
+        </section>
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-12 text-center"
-        >
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            JavaScript Learning Path
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Master JavaScript concepts step by step. Choose a topic to start
-            your learning journey.
-          </p>
-        </motion.div>
+        {/* Topics */}
+        <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+          <div
+            data-stagger
+            className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {topicList.map((topic) => {
+              const Icon = getTopicIcon(topic.name);
+              const total = topic.questions.length;
+              const completed = getTopicProgress(topic.name)?.total || 0;
+              const percent =
+                total > 0 ? Math.min(100, (completed / total) * 100) : 0;
 
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Choose Your Learning Path
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topicList.map((topic, index) => {
-              const topicProgress = getTopicProgress(topic.name);
-              const completedCount = topicProgress.total || 0;
-              const progressPercent =
-                topic.questions.length > 0
-                  ? (completedCount / topic.questions.length) * 100
-                  : 0;
               return (
-                <motion.div
+                <Link
                   key={topic.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
+                  href={`/js-practice/path-learning/${encodeURIComponent(
+                    topic.name,
+                  )}`}
+                  prefetch={false}
+                  onMouseMove={trackSpotlight}
+                  className="spotlight group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 transition-colors hover:border-white/20"
                 >
-                  <Card
-                    className="border-2 border-gray-200 hover:border-yellow-400 hover:shadow-lg transition-all duration-300 cursor-pointer group"
-                    onClick={() =>
-                      router.push(
-                        `/js-practice/path-learning/${encodeURIComponent(
-                          topic.name
-                        )}`
-                      )
-                    }
-                  >
-                    <CardContent className="p-6">
-                      {/* Topic Header */}
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-12 h-12 rounded-lg bg-yellow-50 border border-yellow-100 flex items-center justify-center`}
-                          >
-                            {(() => {
-                              const Icon = getTopicIcon(topic.name);
-                              return (
-                                <Icon className="w-6 h-6 text-yellow-600" />
-                              );
-                            })()}
-                          </div>
-                          <div>
-                            <h3 className="text-lg font-bold text-gray-900 group-hover:text-yellow-600 transition-colors">
-                              {getTopicDisplayName(topic.name)}
-                            </h3>
-                            <p className="text-sm text-gray-500">
-                              {topic.questions.length} question
-                              {topic.questions.length !== 1 ? "s" : ""}
-                            </p>
-                          </div>
-                        </div>
-                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-yellow-600 group-hover:translate-x-1 transition-all" />
-                      </div>
+                  <div className="relative z-10 flex items-start justify-between">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
+                      <Icon className="h-5 w-5 text-neutral-300 transition-colors group-hover:text-[#D4FF4F]" />
+                    </span>
+                    <ArrowUpRight className="h-5 w-5 text-neutral-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-neutral-100" />
+                  </div>
 
-                      <div className="space-y-2">
-                        <div className="flex gap-2">
-                          {topic.easy > 0 && (
-                            <Badge className="text-xs font-medium border text-green-600 bg-green-50 border-green-200">
-                              {topic.easy} Easy
-                            </Badge>
-                          )}
-                          {topic.medium > 0 && (
-                            <Badge className="text-xs font-medium border text-yellow-600 bg-yellow-50 border-yellow-200">
-                              {topic.medium} Medium
-                            </Badge>
-                          )}
-                          {topic.hard > 0 && (
-                            <Badge className="text-xs font-medium border text-red-600 bg-red-50 border-red-200">
-                              {topic.hard} Hard
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
+                  <div className="relative z-10 mt-6">
+                    <h2 className="text-lg font-semibold tracking-tight text-neutral-50">
+                      {getTopicDisplayName(topic.name)}
+                    </h2>
+                    <p className="mt-1.5 text-sm leading-relaxed text-neutral-500">
+                      {topic.questions.length} question
+                      {topic.questions.length !== 1 ? "s" : ""}
+                    </p>
+                  </div>
 
-                      {/* Progress Bar */}
-                      <div className="mt-4">
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div
-                            className={`h-2 rounded-full bg-gradient-to-r ${getTopicColor(
-                              topic.name
-                            )}`}
-                            style={{ width: `${progressPercent}%` }}
-                          ></div>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {completedCount} / {topic.questions.length} completed
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                  <div className="relative z-10 mt-5 flex flex-wrap gap-2">
+                    {DIFFICULTIES.filter((d) => topic[d.toLowerCase()] > 0).map(
+                      (d) => (
+                        <span
+                          key={d}
+                          className={`${mono.className} rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] text-neutral-300`}
+                        >
+                          {topic[d.toLowerCase()]} {d}
+                        </span>
+                      ),
+                    )}
+                  </div>
+
+                  <div className="relative z-10 mt-auto pt-6">
+                    <div
+                      className="h-px w-full bg-white/10"
+                      role="progressbar"
+                      aria-valuemin={0}
+                      aria-valuemax={total}
+                      aria-valuenow={completed}
+                      aria-label={`${getTopicDisplayName(topic.name)} progress`}
+                    >
+                      <div
+                        className="h-px bg-[#D4FF4F] transition-[width] duration-1000 ease-out"
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                    <div
+                      className={`${mono.className} mt-3 flex items-center justify-between text-xs text-neutral-500`}
+                    >
+                      <span>
+                        {completed} / {total} completed
+                      </span>
+                    </div>
+                  </div>
+                </Link>
               );
             })}
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      </main>
+    </PageShell>
   );
 }

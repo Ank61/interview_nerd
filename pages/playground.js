@@ -1,278 +1,222 @@
-import { useEffect } from "react";
+import * as React from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Code2,
   GraduationCap,
   Target,
   ArrowRight,
-  BookOpen,
-  User,
-  Settings,
+  CheckCircle,
   Sparkles,
   TrendingUp,
-  CheckCircle,
-  Zap
+  ArrowUpRight,
+  Code2,
+  Zap,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import {
+  PageShell,
+  SiteNav,
+  SplitTitle,
+  trackSpotlight,
+  usePageMotion,
+} from "@/components/landing/shared";
 
 export default function PlaygroundMode() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { status } = useSession();
+  const rootRef = React.useRef(null);
+  const isLoading = status === "loading";
 
-  // Removed authentication check - playground is now public
+  usePageMotion(rootRef, [isLoading]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <PageShell ref={rootRef}>
       <Head>
         <title>JavaScript Playground - Choose Your Mode | Interview Nerd</title>
-        <meta name="description" content="Choose between Path Learning and Testing modes for JavaScript practice" />
+        <meta
+          name="description"
+          content="Choose between Path Learning and Testing modes for JavaScript practice"
+        />
       </Head>
 
-      {/* Header */}
-      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Left side - Logo and Navigation */}
-            <div className="flex items-center space-x-8">
-              <div
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100">
-                  <BookOpen size={24} className="text-yellow-600" />
-                </div>
-                <div>
-                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
-                    Interview Nerd
-                  </h1>
-                </div>
-              </div>
+      <SiteNav
+        crumbs={[
+          { label: "Topics", href: "/#categories" },
+          { label: "JavaScript Practice" },
+        ]}
+      />
 
-              {/* Breadcrumb */}
-              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button
-                  onClick={() => router.push("/")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  Home
-                </button>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">JavaScript Practice</span>
-              </nav>
-            </div>
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden pb-10 pt-24 md:pb-14 md:pt-28">
+          <div
+            className="grid-bg pointer-events-none absolute inset-0"
+            aria-hidden="true"
+          />
 
-            {/* Right side - Actions */}
-            <div className="flex items-center space-x-4">
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <User size={20} className="text-gray-600" />
-              </button>
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-neutral-50">
+              <span className="block">
+                <SplitTitle text="JavaScript" />
+              </span>
+              <span className="block">
+                <SplitTitle text="Practice" accent />
+              </span>
+            </h1>
 
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings size={20} className="text-gray-600" />
-              </button>
-            </div>
+            <p className="hero-fade mt-6 max-w-xl text-lg leading-relaxed text-neutral-400">
+              Select how you want to practice JavaScript. Path Learning offers
+              structured progression, while Testing Mode lets you practice
+              freely.
+            </p>
           </div>
-        </div>
-      </header>
+        </section>
 
-      {/* Main Content */}
-      <div className="bg-surface py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            {/* Title Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
+        {/* Mode Cards */}
+        <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Path Learning Card */}
+            <Link
+              href="/js-practice/path-learning"
+              onMouseMove={trackSpotlight}
+              className="spotlight group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 transition-all duration-300 hover:border-white/20 hover:shadow-2xl"
             >
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-yellow-600 via-orange-600 to-red-600 bg-clip-text text-transparent mb-6">
-                Choose Your Practice Mode
-              </h2>
-              <p className="text-xl text-gradient-to-br from-yellow-600 via-orange-600 to-red-600 max-w-3xl mx-auto leading-relaxed">
-                Select how you want to practice JavaScript. Path Learning offers structured progression,
-                while Testing Mode lets you practice freely.
-              </p>
-            </motion.div>
+              <div className="relative z-10">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#D4FF4F]">
+                    <GraduationCap className="h-7 w-7 text-neutral-950" />
+                  </div>
+                  <ArrowUpRight className="h-6 w-6 text-neutral-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-neutral-100" />
+                </div>
 
-            {/* Mode Cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-              {/* Path Learning Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                className="group"
-              >
-                <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-yellow-100 bg-surface overflow-hidden relative"
-                  onClick={() => router.push("/js-practice/path-learning")}
-                >
-                  {/* Decorative gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/50 to-orange-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <h2 className="text-2xl font-semibold tracking-tight text-neutral-50 mb-2">
+                  Learn Concepts
+                </h2>
+                <p className="text-sm leading-relaxed text-neutral-400 mb-6">
+                  Structured learning with progressive topics
+                </p>
 
-                  <CardHeader className="pb-6 relative z-10">
-                    <div className="flex items-center justify-center mb-6">
-                      <motion.div
-                        className="p-6 rounded-2xl bg-yellow-500 shadow-xl"
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        <GraduationCap size={48} className="text-white" />
-                      </motion.div>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#D4FF4F] flex items-center justify-center mt-0.5">
+                      <CheckCircle size={14} className="text-neutral-950" />
                     </div>
-                    <CardTitle className="text-2xl sm:text-3xl text-center font-bold text-gray-900 mb-2">
-                      Learn Concepts
-                    </CardTitle>
-                    <CardDescription className="text-center text-base text-gray-600">
-                      Structured learning with progressive topics
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6 relative z-10">
-                    <p className="text-gray-700 text-center leading-relaxed">
-                      Master JavaScript step-by-step through carefully organized topics. Track your progress and build expertise systematically.
-                    </p>
-
-                    <div className="space-y-3 bg-yellow-50/50 rounded-xl p-4 border border-yellow-100">
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-yellow-600 flex items-center justify-center mt-0.5">
-                          <CheckCircle size={14} className="text-white" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900 text-sm">Arrays & Strings</p>
-                          <p className="text-xs text-gray-600">Master fundamental data structures</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-yellow-600 flex items-center justify-center mt-0.5">
-                          <TrendingUp size={14} className="text-white" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900 text-sm">Algorithms</p>
-                          <p className="text-xs text-gray-600">Learn sorting, searching, and more</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-yellow-600 flex items-center justify-center mt-0.5">
-                          <Sparkles size={14} className="text-white" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900 text-sm">Advanced Concepts</p>
-                          <p className="text-xs text-gray-600">Trees, graphs, and dynamic programming</p>
-                        </div>
-                      </div>
+                    <div>
+                      <p className="font-semibold text-neutral-50 text-sm">
+                        Arrays & Strings
+                      </p>
+                      <p className="text-xs text-neutral-400">
+                        Master fundamental data structures
+                      </p>
                     </div>
-
-                    <Button
-                      className="w-full mt-6 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        router.push("/js-practice/path-learning");
-                      }}
-                    >
-                      Concepts
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-
-              {/* Testing Mode Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                whileHover={{ scale: 1.02, y: -5 }}
-                className="group"
-              >
-                <Card
-                  className="h-full rounded-2xl hover:shadow-2xl transition-all duration-500 cursor-pointer border-2 border-orange-100 bg-surface overflow-hidden relative"
-                  onClick={() => router.push("/js-practice/testing")}
-                >
-                  {/* Decorative gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-red-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  <CardHeader className="pb-6 relative z-10">
-                    <div className="flex items-center justify-center mb-6">
-                      <motion.div
-                        className="p-6 rounded-2xl bg-orange-500 shadow-xl"
-                        whileHover={{ scale: 1.1, rotate: -5 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        <Target size={48} className="text-white" />
-                      </motion.div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#D4FF4F] flex items-center justify-center mt-0.5">
+                      <TrendingUp size={14} className="text-neutral-950" />
                     </div>
-                    <CardTitle className="text-2xl sm:text-3xl text-center font-bold text-gray-900 mb-2">
-                      Practice Questions
-                    </CardTitle>
-                    <CardDescription className="text-center text-base text-gray-600">
-                      Free practice with all questions available
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6 relative z-10">
-                    <p className="text-gray-700 text-center leading-relaxed">
-                      Practice any question at any time. Perfect for testing your skills and preparing for interviews without restrictions.
-                    </p>
-
-                    <div className="space-y-3 bg-orange-50/50 rounded-xl p-4 border border-orange-100">
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-600 flex items-center justify-center mt-0.5">
-                          <Code2 size={14} className="text-white" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900 text-sm">Full Access</p>
-                          <p className="text-xs text-gray-600">All questions from beginner to advanced</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-600 flex items-center justify-center mt-0.5">
-                          <Zap size={14} className="text-white" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900 text-sm">No Restrictions</p>
-                          <p className="text-xs text-gray-600">No topic requirements or prerequisites</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-600 flex items-center justify-center mt-0.5">
-                          <TrendingUp size={14} className="text-white" />
-                        </div>
-                        <div>
-                          <p className="font-semibold text-gray-900 text-sm">Your Pace</p>
-                          <p className="text-xs text-gray-600">Practice at your own speed and style</p>
-                        </div>
-                      </div>
+                    <div>
+                      <p className="font-semibold text-neutral-50 text-sm">
+                        Algorithms
+                      </p>
+                      <p className="text-xs text-neutral-400">
+                        Learn sorting, searching, and more
+                      </p>
                     </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#D4FF4F] flex items-center justify-center mt-0.5">
+                      <Sparkles size={14} className="text-neutral-950" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-50 text-sm">
+                        Advanced Concepts
+                      </p>
+                      <p className="text-xs text-neutral-400">
+                        Trees, graphs, and dynamic programming
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-                    <Button
-                      className="w-full mt-6 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        router.push("/js-practice/testing");
-                      }}
-                    >
-                      Questions
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </div>
+                <button className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#D4FF4F] px-6 py-3 text-sm font-semibold text-neutral-950 transition-shadow hover:shadow-[0_0_30px_-6px_rgba(212,255,79,0.6)]">
+                  Concepts
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </Link>
+
+            {/* Testing Mode Card */}
+            <Link
+              href="/js-practice/testing"
+              onMouseMove={trackSpotlight}
+              className="spotlight group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 transition-all duration-300 hover:border-white/20 hover:shadow-2xl"
+            >
+              <div className="relative z-10">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#D4FF4F]">
+                    <Target className="h-7 w-7 text-neutral-950" />
+                  </div>
+                  <ArrowUpRight className="h-6 w-6 text-neutral-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-neutral-100" />
+                </div>
+
+                <h2 className="text-2xl font-semibold tracking-tight text-neutral-50 mb-2">
+                  Practice Questions
+                </h2>
+                <p className="text-sm leading-relaxed text-neutral-400 mb-6">
+                  Free practice with all questions available
+                </p>
+
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#D4FF4F] flex items-center justify-center mt-0.5">
+                      <Code2 size={14} className="text-neutral-950" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-50 text-sm">
+                        Full Access
+                      </p>
+                      <p className="text-xs text-neutral-400">
+                        All questions from beginner to advanced
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#D4FF4F] flex items-center justify-center mt-0.5">
+                      <Zap size={14} className="text-neutral-950" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-50 text-sm">
+                        No Restrictions
+                      </p>
+                      <p className="text-xs text-neutral-400">
+                        No topic requirements or prerequisites
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#D4FF4F] flex items-center justify-center mt-0.5">
+                      <TrendingUp size={14} className="text-neutral-950" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-neutral-50 text-sm">
+                        Your Pace
+                      </p>
+                      <p className="text-xs text-neutral-400">
+                        Practice at your own speed and style
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <button className="mt-8 w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#D4FF4F] px-6 py-3 text-sm font-semibold text-neutral-950 transition-shadow hover:shadow-[0_0_30px_-6px_rgba(212,255,79,0.6)]">
+                  Questions
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </Link>
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      </main>
+    </PageShell>
   );
 }
 

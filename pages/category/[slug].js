@@ -1,66 +1,50 @@
-/**
- * Category Page - Optimized for Performance
- *
- * This page uses:
- * 1. Static Generation (getStaticPaths + getStaticProps) for pre-built pages
- * 2. Local data instead of API calls for instant loading
- * 3. ISR (Incremental Static Regeneration) with 1-hour revalidation
- * 4. Client-side search filtering for real-time UX
- *
- * Performance Benefits:
- * - Pages are pre-built at build time
- * - No server-side data fetching on each request
- * - Instant page loads with local data
- * - Reduced server load and faster TTFB
- */
-
 import * as React from "react";
-import PropTypes from "prop-types";
-import { Tabs as MuiTabs } from "@mui/material";
-import Tab from "@mui/material/Tab";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
-import Box from "@mui/material/Box";
+import { marked } from "marked";
 import {
   ArrowLeft,
-  Home,
-  User,
-  Settings,
   BookCheck,
+  BookOpenCheck,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Code,
+  Hash,
+  Lightbulb,
   Network,
+  Search,
+  X,
 } from "lucide-react";
-import { useRouter } from "next/router";
-import { Hash, X, BookOpen, ChevronDown, ChevronUp, Lightbulb } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { BookOpenCheck } from "lucide-react";
-import { Code } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
 import { interviewData } from "@/data/interviewData";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { linuxPrepareData } from "@/data/linuxPrepareData";
 import { awsServiceCategories } from "@/data/awsServices";
-// import { dsaPrepareData } from "@/data/dsaPrepareData";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
+import { getThemeColors } from "@/lib/themeUtils";
 import GamificationDashboard from "@/components/gamification/GamificationDashboard";
 import XPNotification from "@/components/gamification/XPNotification";
 import MCQDailyChallenge from "@/components/gamification/MCQDailyChallenge";
 import QuestionFeedback from "@/components/questions/QuestionFeedback";
 import { useGamification } from "@/hooks/useGamification";
-import { Button } from "@/components/ui/button";
 import DiagramCanvas from "@/components/DiagramCanvas";
+import {
+  PageShell,
+  SiteNav,
+  SplitTitle,
+  mono,
+  trackSpotlight,
+  usePageMotion,
+  useListMotion,
+  useModalBehavior,
+} from "@/components/landing/shared";
+
+// ---------------------------------------------------------------------------
+// Static generation
+// ---------------------------------------------------------------------------
 
 export async function getStaticPaths() {
   const topics = [
@@ -80,7 +64,7 @@ export async function getStaticPaths() {
     "linux",
     "go",
     "dsa",
-    "AI"
+    "AI",
   ];
   // One category page per AWS service (data/aws/*.js)
   const awsTopics = awsServiceCategories.map((item) => item.category);
@@ -105,7 +89,7 @@ export async function getStaticProps({ params }) {
     slug === "linux"
       ? linuxPrepareData
       : awsServiceCategories.find((item) => item.category === slug) ||
-        prepareData.find((item) => item.category === slug);
+      prepareData.find((item) => item.category === slug);
   const topicInterviewData = interviewData.filter(
     (item) => item.topic === slug,
   );
@@ -120,329 +104,38 @@ export async function getStaticProps({ params }) {
   };
 }
 
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
+// ---------------------------------------------------------------------------
+// Constants + helpers
+// ---------------------------------------------------------------------------
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
+const ITEMS_PER_PAGE = 15;
 
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+const TITLES = {
+  dsa: "DSA",
+  go: "Golang",
+  nest: "NestJS",
+  redis: "Redis",
+  docker: "Docker",
+  python: "Python",
+  linux: "Linux",
+  Next: "Next.js",
+  Node: "Node.js",
+  Javascript: "JavaScript",
+  Typescript: "TypeScript",
 };
+const prettyTitle = (topic) =>
+  TITLES[topic] || topic.charAt(0).toUpperCase() + topic.slice(1);
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+const getConceptKey = (t, concept) => `${t}__${concept}`;
 
-function PaginationComponent({
-  currentPage,
-  totalPages,
-  onPageChange,
-  themeColors,
-}) {
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
+const paginate = (items, page) =>
+  items.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+const totalPagesFor = (n) => Math.ceil(n / ITEMS_PER_PAGE);
 
-    if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        for (let i = 1; i <= 4; i++) pages.push(i);
-        pages.push("...");
-        pages.push(totalPages);
-      } else if (currentPage >= totalPages - 2) {
-        pages.push(1);
-        pages.push("...");
-        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
-      } else {
-        pages.push(1);
-        pages.push("...");
-        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
-        pages.push("...");
-        pages.push(totalPages);
-      }
-    }
-    return pages;
-  };
-
-  if (totalPages <= 1) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex items-center justify-center mt-8 mb-4"
-    >
-      <div className="flex items-center bg-surface rounded-xl shadow-lg border border-gray-100 p-2 gap-1">
-        {/* Previous Button */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === 1
-            ? "opacity-40 cursor-not-allowed text-gray-400"
-            : "hover:shadow-md"
-            }`}
-          style={{
-            color: currentPage === 1 ? "#9CA3AF" : themeColors.text,
-            backgroundColor: currentPage === 1 ? "transparent" : themeColors.bg,
-          }}
-        >
-          <ChevronLeft className="w-4 h-4 mr-1.5" />
-          <span className="hidden sm:inline">Previous</span>
-        </motion.button>
-
-        {/* Page Numbers */}
-        <div className="flex items-center gap-1 mx-2">
-          {getPageNumbers().map((page, index) =>
-            page === "..." ? (
-              <span
-                key={`ellipsis-${index}`}
-                className="px-3 py-2 text-sm text-gray-400 font-medium"
-              >
-                ⋯
-              </span>
-            ) : (
-              <motion.button
-                key={page}
-                whileHover={{ scale: currentPage !== page ? 1.1 : 1 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => onPageChange(page)}
-                className={`relative px-3.5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 min-w-[44px] ${currentPage === page
-                  ? "text-white shadow-lg transform scale-105"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-md"
-                  }`}
-                style={{
-                  backgroundColor:
-                    currentPage === page ? themeColors.bg : "transparent",
-                  color:
-                    currentPage === page ? themeColors.topic : themeColors.text,
-                  boxShadow:
-                    currentPage === page
-                      ? `0 4px 12px ${themeColors.bg}40, 0 2px 4px ${themeColors.bg}20`
-                      : "none",
-                  border: `1px solid ${currentPage === page ? themeColors.border : "white"
-                    }`,
-                }}
-              >
-                {currentPage === page && (
-                  <motion.div
-                    layoutId="activePage"
-                    className="absolute inset-0 rounded-lg"
-                    style={{
-                      backgroundColor: themeColors.bg,
-                      // color: themeColors.topic,
-                    }}
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-                <span className="relative z-10">{page}</span>
-              </motion.button>
-            ),
-          )}
-        </div>
-
-        {/* Next Button */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${currentPage === totalPages
-            ? "opacity-40 cursor-not-allowed text-gray-400"
-            : "hover:shadow-md"
-            }`}
-          style={{
-            color: currentPage === totalPages ? "#9CA3AF" : themeColors.text,
-            backgroundColor:
-              currentPage === totalPages ? "transparent" : themeColors.bg,
-            // border: `1px solid ${currentPage === totalPages ? "#232327" : themeColors.border}`,
-          }}
-        >
-          <span className="hidden sm:inline">Next</span>
-          <ChevronRight className="w-4 h-4 ml-1.5" />
-        </motion.button>
-      </div>
-    </motion.div>
-  );
-}
-
-function AccordionQuestion({ question, topic, index }) {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [isAnswered, setIsAnswered] = React.useState(false);
-  const themeColors = getThemeColors(topic);
-  const { processQuestionAnswer } = useGamification();
-
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleAnswer = async (e) => {
-    e.stopPropagation(); // Prevent accordion from toggling
-    if (isAnswered) return;
-
-    const result = await processQuestionAnswer({
-      questionId: question.id || question._id,
-      topic,
-      difficulty: question.difficulty || "medium",
-      isCorrect: true,
-      attempts: 1,
-    });
-
-    if (result) {
-      setIsAnswered(true);
-    }
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.1,
-        ease: [0, 0.71, 0.2, 1.01],
-      }}
-      className={`rounded-lg border bg-surface shadow-sm overflow-hidden border-gray-200
-      }`}
-    >
-      {/* Header */}
-      <div
-        onClick={toggleAccordion}
-        className={`flex items-center justify-between p-4 cursor-pointer transition-colors hover:bg-gray-50`}
-      >
-        <div className="flex-1">
-          <h3
-            className="font-medium text-sm leading-relaxed text-gray-900"
-            style={{ color: themeColors.text }}
-          >
-            {question.question}
-          </h3>
-
-          {/* Tags */}
-          {question.tags && question.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-2">
-              {question.tags.slice(0, 3).map((tag, tagIndex) => (
-                <span
-                  key={tagIndex}
-                  className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700"
-                  style={{
-                    backgroundColor: themeColors.light,
-                    color: themeColors.text,
-                  }}
-                >
-                  <Hash className="w-3 h-3 mr-1" />
-                  {tag.name}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="ml-4 flex items-center">
-          {isOpen ? (
-            <ChevronUp
-              className="w-5 h-5 transition-transform text-gray-500"
-              style={{ color: themeColors.text }}
-            />
-          ) : (
-            <ChevronDown
-              className="w-5 h-5 transition-transform text-gray-500"
-              style={{ color: themeColors.text }}
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Content */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="p-4 ">
-              <div className="mb-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">
-                  Answer:
-                </h4>
-                <div
-                  className="p-3 rounded-md bg-surface border border-gray-200"
-                  style={{
-                    backgroundColor: themeColors.light,
-                    borderColor: themeColors.border,
-                  }}
-                >
-                  {question.solution ? (
-                    <div className="space-y-4">
-                      <div
-                        className="prose prose-sm max-w-none text-sm"
-                        dangerouslySetInnerHTML={{ __html: question.solution }}
-                      />
-                      <div className="pt-2 space-y-3">
-                        {/* <button
-                          onClick={handleAnswer}
-                          disabled={isAnswered}
-                          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
-                            isAnswered
-                              ? "bg-green-100 text-green-700 cursor-not-allowed"
-                              : "bg-green-600 text-white hover:bg-green-700"
-                          }`}
-                          style={{
-                            backgroundColor: isAnswered
-                              ? themeColors.light
-                              : themeColors.bg,
-                            color: isAnswered ? themeColors.text : "white",
-                          }}
-                        >
-                          {isAnswered ? "✓ Answered" : "I've Answered This"}
-                        </button> */}
-
-                        {/* Question Feedback Component */}
-                        <QuestionFeedback
-                          questionId={question.id || question._id}
-                          className="pt-2 border-t border-gray-100"
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <p className="text-gray-500 italic text-sm">
-                      Answer not available yet. This question is under
-                      development.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
+const pill =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3.5 py-1.5 text-xs font-medium text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/5";
+const pillPrimary =
+  "inline-flex items-center gap-1.5 rounded-full bg-[#D4FF4F] px-3.5 py-1.5 text-xs font-semibold text-neutral-950 transition-shadow hover:shadow-[0_0_30px_-6px_rgba(212,255,79,0.6)]";
 
 /**
  * Normalises `concept.examples` from prepareData into a single renderable shape.
@@ -491,312 +184,468 @@ function normalizeExamples(concept) {
   return out;
 }
 
-/**
- * "Example" action button for a concept row. Renders nothing when the concept
- * has no usable example, so rows without examples are not given a dead button.
- * Mirrors the Learn/Practice button treatment (animated for the first 9 rows).
- */
-function ExampleButton({ concept, themeColors, index, onOpen }) {
-  const examples = React.useMemo(() => normalizeExamples(concept), [concept]);
-  if (examples.length === 0) return null;
+// ---------------------------------------------------------------------------
+// Pieces
+// ---------------------------------------------------------------------------
 
-  const handleClick = (e) => {
-    // The parent TableCell navigates to /learn on click - don't trigger that.
-    e.stopPropagation();
-    onOpen(concept, examples);
-  };
-
-  const className =
-    "flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:ml-2";
-  const style = {
-    backgroundColor: themeColors.light,
-    color: themeColors.text,
-  };
-  // currentTarget, not target: hovering the svg child would otherwise style the icon.
-  const onMouseEnter = (e) =>
-    (e.currentTarget.style.backgroundColor = themeColors.bg);
-  const onMouseLeave = (e) =>
-    (e.currentTarget.style.backgroundColor = themeColors.light);
-
-  const inner = (
-    <>
-      <Lightbulb
-        className="mr-2 w-[19px] md:w-[15px]"
-        style={{ color: themeColors.topic }}
-      />
-      Example
-    </>
-  );
-
-  if (index <= 8) {
-    return (
-      <motion.div
-        onClick={handleClick}
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 0.8,
-          delay: 0.2 * index,
-          ease: [0, 0.71, 0.2, 1.01],
-        }}
-        className={className}
-        style={style}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-      >
-        {inner}
-      </motion.div>
-    );
-  }
-
+function Segmented({ options, value, onChange, label, className = "" }) {
   return (
     <div
-      onClick={handleClick}
-      className={className}
-      style={style}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      role="tablist"
+      aria-label={label}
+      className={`no-scrollbar inline-flex max-w-full overflow-x-auto rounded-full border border-white/10 bg-white/[0.03] p-1 ${className}`}
     >
-      {inner}
+      {options.map((o) => {
+        const active = o.value === value;
+        return (
+          <button
+            key={o.value}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            onClick={() => onChange(o.value)}
+            className={`flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300 ${active
+                ? "bg-[#D4FF4F] text-neutral-950"
+                : "text-neutral-400 hover:text-neutral-100"
+              }`}
+          >
+            {o.label}
+            {o.count != null && (
+              <span
+                className={`${mono.className} text-[11px] ${active ? "text-neutral-950/60" : "text-neutral-600"
+                  }`}
+              >
+                {o.count}
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-/** Modal showing every example for one concept. */
-function ExampleModal({ isOpen, onClose, concept, examples, topic }) {
-  const themeColors = getThemeColors(topic);
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  if (totalPages <= 1) return null;
 
-  if (!isOpen || !concept) return null;
+  const pages = [];
+  if (totalPages <= 5) {
+    for (let i = 1; i <= totalPages; i++) pages.push(i);
+  } else if (currentPage <= 3) {
+    for (let i = 1; i <= 4; i++) pages.push(i);
+    pages.push("...", totalPages);
+  } else if (currentPage >= totalPages - 2) {
+    pages.push(1, "...");
+    for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push(1, "...");
+    for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+    pages.push("...", totalPages);
+  }
+
+  const arrow =
+    "flex h-10 items-center gap-1 rounded-full px-3 text-sm text-neutral-300 transition-colors hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent";
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          />
+    <nav
+      aria-label="Pagination"
+      className="mt-8 flex items-center justify-center gap-1"
+    >
+      <button
+        type="button"
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className={arrow}
+      >
+        <ChevronLeft className="h-4 w-4" />
+        <span className="hidden sm:inline">Previous</span>
+      </button>
 
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-4 z-50 flex items-center justify-center p-4"
-          >
-            <div className="bg-surface rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-40px)]">
-                <h3 className="text-lg font-semibold mb-4 text-gray-800 flex justify-between items-start gap-4">
-                  <span>
-                    <span className="block text-xs uppercase tracking-wide text-gray-500 mb-1">
-                      Example
-                    </span>
-                    {concept.topic}
-                  </span>
-                  <button
-                    onClick={onClose}
-                    className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors shrink-0"
-                    aria-label="Close example"
-                  >
-                    <X
-                      className="w-6 h-6 text-gray-600"
-                      style={{ color: themeColors.text }}
-                    />
-                  </button>
-                </h3>
+      <div className="mx-1 flex items-center gap-1">
+        {pages.map((p, i) =>
+          p === "..." ? (
+            <span key={`gap-${i}`} className="px-2 text-neutral-600">
+              …
+            </span>
+          ) : (
+            <button
+              key={p}
+              type="button"
+              onClick={() => onPageChange(p)}
+              aria-current={p === currentPage ? "page" : undefined}
+              className={`${mono.className} h-10 min-w-[40px] rounded-full px-3 text-sm transition-colors duration-300 ${p === currentPage
+                  ? "bg-[#D4FF4F] font-semibold text-neutral-950"
+                  : "text-neutral-400 hover:bg-white/5 hover:text-neutral-100"
+                }`}
+            >
+              {p}
+            </button>
+          ),
+        )}
+      </div>
 
-                <div className="flex flex-col gap-5">
-                  {examples.map((example, i) => (
-                    <div
-                      key={i}
-                      className="rounded-lg border overflow-hidden"
-                      style={{ borderColor: themeColors.border }}
-                    >
-                      <div
-                        className="flex items-center justify-between gap-3 px-4 py-2 text-sm font-medium"
-                        style={{
-                          backgroundColor: themeColors.light,
-                          color: themeColors.text,
-                        }}
-                      >
-                        <span>{example.title || `Example ${i + 1}`}</span>
-                        {example.language && (
-                          <span className="text-xs uppercase opacity-70 shrink-0">
-                            {example.language}
-                          </span>
-                        )}
-                      </div>
-
-                      {example.code && (
-                        <pre className="m-0 p-4 overflow-x-auto bg-gray-50 text-[13px] leading-relaxed">
-                          <code className="whitespace-pre">{example.code}</code>
-                        </pre>
-                      )}
-
-                      {example.html && (
-                        <div
-                          className="p-4 prose prose-sm max-w-none overflow-x-auto"
-                          dangerouslySetInnerHTML={{ __html: example.html }}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+      <button
+        type="button"
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className={arrow}
+      >
+        <span className="hidden sm:inline">Next</span>
+        <ChevronRight className="h-4 w-4" />
+      </button>
+    </nav>
   );
 }
 
-function QuestionModal({ isOpen, onClose, question, topic }) {
-  const themeColors = getThemeColors(topic);
-  const { processQuestionAnswer } = useGamification();
-  const [isAnswered, setIsAnswered] = useState(false);
+function ConceptRow({
+  concept,
+  number,
+  topic,
+  showCheck,
+  checked,
+  onToggle,
+  onOpenExample,
+}) {
+  const examples = React.useMemo(() => normalizeExamples(concept), [concept]);
+  const suffix = `${encodeURIComponent(topic)}/${encodeURIComponent(
+    concept.topic,
+  )}`;
+  const learnHref = `/learn/${suffix}`;
+  const testHref = `/test/${suffix}`;
 
-  if (!isOpen || !question) return null;
+  return (
+    <li
+      data-row
+      onMouseMove={trackSpotlight}
+      className="spotlight group relative overflow-hidden"
+    >
+      <div className="relative z-10 flex flex-col gap-3 px-4 py-4 sm:px-5 md:flex-row md:items-center md:gap-5">
+        <div className="flex min-w-0 flex-1 items-center gap-4">
+          {showCheck && (
+            <Checkbox
+              className="h-5 w-5 shrink-0 rounded-md border-white/25 data-[state=checked]:border-[#D4FF4F] data-[state=checked]:bg-[#D4FF4F] data-[state=checked]:text-neutral-950"
+              checked={checked}
+              onCheckedChange={() => onToggle(concept)}
+              aria-label={`Mark "${concept.topic}" as learned`}
+            />
+          )}
+          <span
+            className={`${mono.className} hidden w-7 shrink-0 text-xs text-neutral-600 transition-colors group-hover:text-[#D4FF4F] sm:block`}
+          >
+            {String(number).padStart(2, "0")}
+          </span>
+          <Link
+            href={learnHref}
+            prefetch={false}
+            className="min-w-0 flex-1 text-[15px] font-medium leading-snug text-neutral-100 transition-transform duration-500 group-hover:translate-x-1"
+          >
+            {concept.topic}
+          </Link>
+        </div>
 
-  const handleAnswer = async () => {
-    if (isAnswered) return;
+        <div className="flex flex-wrap items-center gap-2 pl-0 md:justify-end">
+          <Link href={learnHref} prefetch={false} className={pillPrimary}>
+            <BookOpenCheck className="h-3.5 w-3.5" />
+            Learn
+          </Link>
+          <Link href={testHref} prefetch={false} className={pill}>
+            <Code className="h-3.5 w-3.5" />
+            Practice
+          </Link>
+          {examples.length > 0 && (
+            <button
+              type="button"
+              onClick={() => onOpenExample(concept, examples)}
+              className={pill}
+            >
+              <Lightbulb className="h-3.5 w-3.5" />
+              Example
+            </button>
+          )}
+        </div>
+      </div>
+    </li>
+  );
+}
 
-    const result = await processQuestionAnswer({
-      questionId: question.id,
-      topic,
-      difficulty: question.difficulty || "medium",
-      isCorrect: true,
-      timeSpent: 5,
-      actionType: "question_viewed",
-    });
+function AccordionQuestion({ question, number }) {
+  const [open, setOpen] = React.useState(false);
+  // Mount the answer (and its feedback widget) only once it has been opened.
+  const [everOpened, setEverOpened] = React.useState(false);
 
-    if (result) {
-      setIsAnswered(true);
-    }
+  const toggle = () => {
+    setOpen((o) => !o);
+    setEverOpened(true);
   };
 
   return (
+    <li
+      data-row
+      className="overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] transition-colors hover:border-white/20"
+    >
+      <button
+        type="button"
+        onClick={toggle}
+        aria-expanded={open}
+        className="flex w-full items-start gap-4 p-5 text-left"
+      >
+        <span
+          className={`${mono.className} mt-0.5 hidden w-7 shrink-0 text-xs text-neutral-600 sm:block`}
+        >
+          {String(number).padStart(2, "0")}
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[15px] font-medium leading-relaxed text-neutral-100">
+            {question.question}
+          </span>
+          {question.tags && question.tags.length > 0 && (
+            <span className="mt-2.5 flex flex-wrap gap-1.5">
+              {question.tags.slice(0, 3).map((tag, i) => (
+                <span
+                  key={i}
+                  className={`${mono.className} inline-flex items-center rounded-full border border-white/10 px-2.5 py-0.5 text-[11px] text-neutral-400`}
+                >
+                  <Hash className="mr-0.5 h-3 w-3 text-[#D4FF4F]" />
+                  {tag.name}
+                </span>
+              ))}
+            </span>
+          )}
+        </span>
+        <ChevronDown
+          className={`mt-0.5 h-5 w-5 shrink-0 text-neutral-500 transition-transform duration-500 ${open ? "rotate-180 text-[#D4FF4F]" : ""
+            }`}
+        />
+      </button>
+
+      <div
+        className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
+      >
+        <div className="overflow-hidden">
+          {everOpened && (
+            <div className="border-t border-white/[0.06] px-5 pb-5 pt-5 sm:pl-16">
+              {question.solution ? (
+                <>
+                  <div
+                    className="rich prose prose-invert prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{
+                      __html: marked.parse(question.solution),
+                    }}
+                  />
+                  <QuestionFeedback
+                    questionId={question.id || question._id}
+                    className="mt-5 border-t border-white/[0.06] pt-4"
+                  />
+                </>
+              ) : (
+                <p className="text-sm italic text-neutral-500">
+                  Answer not available yet. This question is under development.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </li>
+  );
+}
+
+/** Backdrop + dialog used by the example and diagram modals. */
+function ModalFrame({ isOpen, onClose, label, className = "max-w-4xl", children }) {
+  useModalBehavior(isOpen, onClose);
+  return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+        <motion.div
+          key="modal"
+          className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             onClick={onClose}
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
           />
-
-          {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label={label}
+            initial={{ opacity: 0, scale: 0.96, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-4 z-50 flex items-center justify-center p-4"
+            exit={{ opacity: 0, scale: 0.96, y: 24 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className={`relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-neutral-950 shadow-2xl shadow-black/60 ${className}`}
           >
-            <div className="bg-surface rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-              <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
-                {/* Question */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3 text-gray-800 flex justify-between items-center">
-                    Question:
-                    <button
-                      onClick={onClose}
-                      className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors"
-                    >
-                      <X
-                        className="w-6 h-6 text-gray-600"
-                        style={{ color: themeColors.text }}
-                      />
-                    </button>
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    {question.question}
-                  </p>
-                </div>
-
-                {/* Answer */}
-                <div>
-                  <h3 className="text-lg font-semibold mb-3 text-gray-800">
-                    Answer:
-                  </h3>
-                  <div
-                    className="p-4 rounded-lg bg-gray-50 border border-gray-200"
-                    style={{
-                      backgroundColor: themeColors.light,
-                      borderColor: themeColors.border,
-                    }}
-                  >
-                    {question.solution ? (
-                      <div
-                        className="prose prose-sm max-w-none"
-                        dangerouslySetInnerHTML={{ __html: question.solution }}
-                      />
-                    ) : (
-                      <p className="text-gray-500 italic">
-                        Answer not available yet. This question is under
-                        development.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+            {children}
           </motion.div>
-        </>
+        </motion.div>
       )}
     </AnimatePresence>
   );
 }
 
-export default function BasicTabs({
+function ModalHeader({ eyebrow, title, onClose, closeLabel }) {
+  return (
+    <div className="flex items-start justify-between gap-4 border-b border-white/[0.08] px-6 py-5">
+      <div className="min-w-0">
+        {eyebrow && (
+          <p className={`${mono.className} mb-1 text-[11px] uppercase tracking-[0.18em] text-[#D4FF4F]`}>
+            {eyebrow}
+          </p>
+        )}
+        <h3 className="text-lg font-semibold tracking-tight text-neutral-50">
+          {title}
+        </h3>
+      </div>
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label={closeLabel}
+        className="shrink-0 rounded-full border border-white/10 p-2 text-neutral-400 transition-colors hover:border-white/30 hover:text-neutral-50"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
+function ExampleModal({ isOpen, onClose, concept, examples }) {
+  return (
+    <ModalFrame isOpen={isOpen && !!concept} onClose={onClose} label="Example">
+      <ModalHeader
+        eyebrow="Example"
+        title={concept?.topic}
+        onClose={onClose}
+        closeLabel="Close example"
+      />
+      <div className="thin-scroll flex flex-col gap-4 overflow-y-auto p-6">
+        {examples.map((example, i) => (
+          <div
+            key={i}
+            className="overflow-hidden rounded-2xl border border-white/[0.08]"
+          >
+            <div className="flex items-center justify-between gap-3 border-b border-white/[0.06] bg-white/[0.03] px-4 py-2.5 text-sm font-medium text-neutral-200">
+              <span>{example.title || `Example ${i + 1}`}</span>
+              {example.language && (
+                <span className={`${mono.className} shrink-0 text-xs text-neutral-500`}>
+                  {example.language}
+                </span>
+              )}
+            </div>
+
+            {example.code && (
+              <pre
+                className={`${mono.className} m-0 overflow-x-auto bg-black/40 p-4 text-[13px] leading-relaxed text-neutral-300`}
+              >
+                <code className="whitespace-pre">{example.code}</code>
+              </pre>
+            )}
+
+            {example.html && (
+              <div
+                className="rich prose prose-invert prose-sm max-w-none overflow-x-auto p-4"
+                dangerouslySetInnerHTML={{ __html: example.html }}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+    </ModalFrame>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+
+export default function CategoryPage({
   topicPrepareData,
   topicInterviewData,
   topic,
 }) {
   const router = useRouter();
-  const [interviewQues, setInterviewQues] = React.useState([]);
-  const [selectedQuestion, setSelectedQuestion] = React.useState(null);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const { data: session } = useSession();
+  const rootRef = React.useRef(null);
+  const listRef = React.useRef(null);
+
+  // Only DiagramCanvas still takes the per-topic palette.
+  const themeColors = getThemeColors(topic);
+  const title = prettyTitle(topic);
+
+  const [tab, setTab] = React.useState("prepare");
+  const [level, setLevel] = React.useState("Beginner");
+  const [interviewSelection, setInterviewSelection] = React.useState("Junior");
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [prepPage, setPrepPage] = React.useState(1);
+  const [interviewPage, setInterviewPage] = React.useState(1);
+  const [learnedConcepts, setLearnedConcepts] = React.useState({});
   const [exampleConcept, setExampleConcept] = React.useState(null);
   const [exampleList, setExampleList] = React.useState([]);
   const [isExampleOpen, setIsExampleOpen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
   const [isDiagramOpen, setIsDiagramOpen] = React.useState(false);
 
-  // Pagination states
-  const [beginnerPage, setBeginnerPage] = React.useState(1);
-  const [advancePage, setAdvancePage] = React.useState(1);
-  const [interviewPage, setInterviewPage] = React.useState(1);
-  const itemsPerPage = 15;
-
-  // Get theme colors for current topic
-  const themeColors = getThemeColors(topic);
-  const themeCSSProps = getThemeCSSProperties(topic);
-
-  const [value, setValue] = React.useState(0);
-  const [interviewSelection, setInterviewSelection] = React.useState("Junior");
-  const [level, setLevel] = React.useState("Beginner");
-  const [indexSelected, setIndexValue] = React.useState(0);
-  const [topicSelected, setTopicSelected] = React.useState("");
-
-  const selectedTopicData = React.useMemo(() => {
-    return topicPrepareData?.type || [];
-  }, [topicPrepareData]);
-
-  const [learnedConcepts, setLearnedConcepts] = React.useState({});
-  const { data: session } = useSession();
-
-  // Gamification integration
   const { processQuestionAnswer, notifications, clearNotification } =
     useGamification();
+
+  // ----- data -------------------------------------------------------------
+
+  const selectedTopicData = React.useMemo(
+    () => topicPrepareData?.type || [],
+    [topicPrepareData],
+  );
+
+  // Keep every level (even when a search empties it) so Beginner/Advance
+  // indexes never shift.
+  const filteredLevels = React.useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return selectedTopicData;
+    return selectedTopicData.map((lvl) => ({
+      ...lvl,
+      concepts:
+        lvl.concepts?.filter((c) => c.topic.toLowerCase().includes(query)) ||
+        [],
+    }));
+  }, [selectedTopicData, searchQuery]);
+
+  const activeConcepts =
+    filteredLevels[level === "Beginner" ? 0 : 1]?.concepts || [];
+  const pagedConcepts = paginate(activeConcepts, prepPage);
+
+  const interviewQues = React.useMemo(
+    () =>
+      topicInterviewData.find((i) => i.categories === interviewSelection) || {},
+    [topicInterviewData, interviewSelection],
+  );
+  const interviewQuestions = interviewQues.questions || [];
+  const pagedQuestions = paginate(interviewQuestions, interviewPage);
+
+  const beginnerCount = selectedTopicData[0]?.concepts?.length || 0;
+  const advanceCount = selectedTopicData[1]?.concepts?.length || 0;
+  const questionCount = topicInterviewData.reduce(
+    (n, d) => n + (d.questions?.length || 0),
+    0,
+  );
+
+  // ----- motion -----------------------------------------------------------
+
+  usePageMotion(rootRef, [topic]);
+  useListMotion(
+    listRef,
+    `${topic}|${tab}|${level}|${interviewSelection}|${tab === "prepare" ? prepPage : interviewPage
+    }`,
+  );
+
+  // ----- effects ----------------------------------------------------------
+
+  // New topic -> fresh search + first page.
+  React.useEffect(() => {
+    setSearchQuery("");
+    setPrepPage(1);
+    setInterviewPage(1);
+  }, [topic]);
 
   React.useEffect(() => {
     const stored = localStorage.getItem("learnedConcepts");
@@ -805,7 +654,23 @@ export default function BasicTabs({
     }
   }, []);
 
-  const getConceptKey = (topic, concept) => `${topic}__${concept}`;
+  React.useEffect(() => {
+    if (!session?.user?.id) return;
+    fetch(`/api/auth/learned-topic?userId=${session.user.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.learnedPrepareTopics)) {
+          const dbLearned = {};
+          data.learnedPrepareTopics.forEach((item) => {
+            dbLearned[getConceptKey(item.topic, item.concept)] = true;
+          });
+          setLearnedConcepts(dbLearned);
+        }
+      })
+      .catch((err) => console.error("Failed to load learned topics", err));
+  }, [session?.user?.id, topic]);
+
+  // ----- handlers ---------------------------------------------------------
 
   const handleLearnedToggle = async (concept) => {
     const key = getConceptKey(topic, concept.topic);
@@ -821,7 +686,6 @@ export default function BasicTabs({
     if (session?.user?.id) {
       try {
         if (!wasChecked) {
-          // Adding - call POST API
           await fetch("/api/auth/learned-topic", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -842,7 +706,6 @@ export default function BasicTabs({
             actionType: "concept_learned",
           });
         } else {
-          // Removing - call DELETE API
           await fetch("/api/auth/learned-topic", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
@@ -859,74 +722,17 @@ export default function BasicTabs({
     }
   };
 
-  React.useEffect(() => {
-    setTopicSelected(topic);
-    const topicIndex = prepareData.findIndex((t) => t.category === topic);
-    setIndexValue(topicIndex);
-  }, [topic]);
-
-  React.useEffect(() => {
-    const filteredTopic = topicInterviewData.filter(
-      (item) => item.categories === interviewSelection,
-    );
-    setInterviewQues(filteredTopic[0] || {});
-    setInterviewPage(1); // Reset to first page when changing interview level
-  }, [interviewSelection, topicInterviewData]);
-
-  // Reset pagination when switching between Beginner/Advance levels
-  React.useEffect(() => {
-    setBeginnerPage(1);
-    setAdvancePage(1);
-  }, [level]);
-
-  // Reset pagination when search query changes
-  React.useEffect(() => {
-    setBeginnerPage(1);
-    setAdvancePage(1);
-  }, [searchQuery]);
-
-  React.useEffect(() => {
-    if (session?.user?.id) {
-      console.log("User.id", session);
-      fetch(`/api/auth/learned-topic?userId=${session.user.id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (Array.isArray(data.learnedPrepareTopics)) {
-            // Map to { [key]: true }
-            const dbLearned = {};
-            data.learnedPrepareTopics.forEach((item) => {
-              dbLearned[getConceptKey(item.topic, item.concept)] = true;
-            });
-            setLearnedConcepts(dbLearned);
-          }
-        });
-    }
-  }, [session?.user?.id, topic]);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const changeLevel = (next) => {
+    setLevel(next);
+    setPrepPage(1);
   };
-
-  const handleQuestionClick = async (question) => {
-    setSelectedQuestion(question);
-    setIsModalOpen(true);
-
-    // Award XP for viewing a question
-    if (session?.user?.id) {
-      await processQuestionAnswer({
-        questionId: question._id || question.id || `q_${Date.now()}`,
-        category: topic,
-        difficulty: question.difficulty || "medium",
-        isCorrect: true,
-        timeSpent: 5,
-        actionType: "question_viewed",
-      });
-    }
+  const changeSearch = (value) => {
+    setSearchQuery(value);
+    setPrepPage(1);
   };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedQuestion(null);
+  const changeInterview = (next) => {
+    setInterviewSelection(next);
+    setInterviewPage(1);
   };
 
   const openExample = (concept, examples) => {
@@ -934,59 +740,19 @@ export default function BasicTabs({
     setExampleList(examples);
     setIsExampleOpen(true);
   };
+  // Keep concept/examples while the exit animation plays.
+  const closeExample = React.useCallback(() => setIsExampleOpen(false), []);
+  const closeDiagram = React.useCallback(() => setIsDiagramOpen(false), []);
 
-  const closeExample = () => {
-    setIsExampleOpen(false);
-    setExampleConcept(null);
-    setExampleList([]);
-  };
+  // ----- render -----------------------------------------------------------
 
-  const filteredPrepareData = React.useMemo(() => {
-    if (!selectedTopicData || selectedTopicData.length === 0) return [];
-
-    if (!searchQuery.trim()) return selectedTopicData;
-
-    return selectedTopicData
-      .map((level) => ({
-        ...level,
-        concepts:
-          level.concepts?.filter((concept) => {
-            const query = searchQuery.toLowerCase();
-            return concept.topic.toLowerCase().includes(query);
-          }) || [],
-      }))
-      .filter((level) => level.concepts.length > 0);
-  }, [selectedTopicData, searchQuery]);
-
-  // Pagination helpers
-  const getPaginatedData = (data, page) => {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
-  };
-
-  const getTotalPages = (dataLength) => {
-    return Math.ceil(dataLength / itemsPerPage);
-  };
-
-  // Paginated data
-  const paginatedBeginnerData = React.useMemo(() => {
-    const beginnerConcepts = filteredPrepareData[0]?.concepts || [];
-    return getPaginatedData(beginnerConcepts, beginnerPage);
-  }, [filteredPrepareData, beginnerPage]);
-
-  const paginatedAdvanceData = React.useMemo(() => {
-    const advanceConcepts = filteredPrepareData[1]?.concepts || [];
-    return getPaginatedData(advanceConcepts, advancePage);
-  }, [filteredPrepareData, advancePage]);
-
-  const paginatedInterviewData = React.useMemo(() => {
-    const questions = interviewQues?.questions || [];
-    return getPaginatedData(questions, interviewPage);
-  }, [interviewQues, interviewPage]);
   return (
-    <>
-      {/* XP Notifications */}
+    <PageShell ref={rootRef}>
+      <Head>
+        <title>{`${title} Interview Questions | Interview Nerd`}</title>
+      </Head>
+
+      {/* XP notifications */}
       {notifications?.map((notification) => (
         <XPNotification
           key={notification.id}
@@ -995,923 +761,245 @@ export default function BasicTabs({
         />
       ))}
 
-      {/* New Custom Header */}
-      <header className="bg-surface border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Left side - Logo and Navigation */}
-            <div className="flex items-center space-x-8">
-              <div
-                className="flex items-center space-x-3 cursor-pointer"
-                onClick={() => router.push("/")}
-              >
-                <div
-                  className="p-2 rounded-lg"
-                  style={{ backgroundColor: themeColors?.light || "#17171a" }}
-                >
-                  <BookOpen
-                    size={24}
-                    style={{ color: themeColors?.text || "#dddde1" }}
-                  />
-                </div>
-                <div>
-                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
-                    Interview Nerd
-                  </h1>
-                </div>
-              </div>
+      <SiteNav
+        crumbs={[{ label: "Topics", href: "/#categories" }, { label: title }]}
+        actions={[
+          {
+            key: "mcq",
+            label: "Practice MCQ",
+            icon: BookCheck,
+            href: `/practice-mcq/${encodeURIComponent(topic)}`,
+            primary: true,
+          },
+          {
+            key: "visual",
+            label: "Visual summary",
+            icon: Network,
+            onClick: () => setIsDiagramOpen(true),
+          },
+        ]}
+      />
 
-              {/* Breadcrumb */}
-              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button
-                  onClick={() => router.push("/")}
-                  className="hover:text-gray-700 transition-colors"
-                >
-                  {/* <Home size={16} className="inline mr-1" /> */}
-                  Home
-                </button>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">
-                  {topic[0].toUpperCase() + topic.slice(1)}
-                </span>
-              </nav>
+      <main>
+        {/* ------------------------------------------------------------ */}
+        {/* Hero                                                          */}
+        {/* ------------------------------------------------------------ */}
+        <section className="relative overflow-hidden pb-14 pt-32 md:pb-20 md:pt-40">
+          <div className="grid-bg pointer-events-none absolute inset-0" aria-hidden="true" />
+
+          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+            <Link
+              href="/#categories"
+              className="hero-fade group mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-3 pr-4 text-xs text-neutral-400 backdrop-blur transition-colors hover:border-white/20 hover:text-neutral-200"
+            >
+              <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-0.5" />
+              All topics
+            </Link>
+
+            <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-neutral-50">
+              <span className="block">
+                <SplitTitle text="Master" />
+              </span>
+              <span className="block">
+                <SplitTitle text={title} accent />
+              </span>
+            </h1>
+
+            <dl
+              data-stagger
+              className="mt-12 grid max-w-2xl grid-cols-3 gap-y-6"
+            >
+              {[
+                { value: beginnerCount, label: "Beginner concepts" },
+                { value: advanceCount, label: "Advanced concepts" },
+                { value: questionCount, label: "Interview questions" },
+              ].map((s) => (
+                <div key={s.label} className="border-l border-white/10 pl-5">
+                  <dd
+                    data-count={s.value}
+                    className="text-3xl font-semibold tracking-tight text-neutral-50 md:text-4xl"
+                  >
+                    {s.value.toLocaleString("en-US")}
+                  </dd>
+                  <dt className="mt-1.5 text-xs text-neutral-500 sm:text-sm">
+                    {s.label}
+                  </dt>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------------------ */}
+        {/* Content                                                       */}
+        {/* ------------------------------------------------------------ */}
+        <section className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+          {session?.user?.id && (
+            <div data-reveal className="mb-6 space-y-4">
+              <GamificationDashboard userId={session.user.id} compact={true} />
+              <MCQDailyChallenge />
             </div>
+          )}
 
-            {/* Right side - Actions */}
-            <div className="flex items-center space-x-4">
-              <Button
-                onClick={() =>
-                  router.push(`/practice-mcq/${encodeURIComponent(topic)}`)
-                }
-                style={{
-                  backgroundColor: themeColors?.bg,
-                  color: themeColors?.text,
-                }}
-                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm hover:shadow-md transition-all duration-200"
-              >
-                <BookCheck size={16} />
-                <span>Practice MCQ</span>
-              </Button>
+          <div className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-4 sm:p-6 md:p-8">
+            <Segmented
+              label="Section"
+              value={tab}
+              onChange={setTab}
+              options={[
+                { value: "prepare", label: "Prepare" },
+                { value: "interview", label: "Interview questions" },
+              ]}
+            />
 
-              <Button
-                onClick={() => setIsDiagramOpen(true)}
-                variant="outline"
-                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm hover:shadow-md transition-all duration-200"
-                style={{
-                  borderColor: themeColors?.border,
-                  color: themeColors?.text,
-                }}
-              >
-                <Network size={16} />
-                <span>Visual Summary</span>
-              </Button>
+            <div ref={listRef} className="mt-8">
+              {tab === "prepare" ? (
+                <>
+                  <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <Segmented
+                      label="Level"
+                      value={level}
+                      onChange={changeLevel}
+                      options={[
+                        {
+                          value: "Beginner",
+                          label: "Beginner",
+                          count: filteredLevels[0]?.concepts?.length ?? 0,
+                        },
+                        {
+                          value: "Advance",
+                          label: "Advance",
+                          count: filteredLevels[1]?.concepts?.length ?? 0,
+                        },
+                      ]}
+                    />
+                    <div className="relative w-full md:max-w-xs">
+                      <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" />
+                      <input
+                        type="search"
+                        value={searchQuery}
+                        onChange={(e) => changeSearch(e.target.value)}
+                        placeholder="Search topics"
+                        aria-label="Search topics"
+                        className="w-full rounded-full border border-white/10 bg-white/[0.03] py-2.5 pl-10 pr-4 text-sm text-neutral-100 placeholder:text-neutral-600 transition-colors focus:border-[#D4FF4F]/60 focus:outline-none"
+                      />
+                    </div>
+                  </div>
 
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <User size={20} className="text-gray-600" />
-              </button>
+                  {pagedConcepts.length > 0 ? (
+                    <ul className="divide-y divide-white/[0.06] overflow-hidden rounded-2xl border border-white/[0.08]">
+                      {pagedConcepts.map((concept, i) => (
+                        <ConceptRow
+                          key={concept.topic}
+                          concept={concept}
+                          number={(prepPage - 1) * ITEMS_PER_PAGE + i + 1}
+                          topic={topic}
+                          showCheck={!!session?.user?.id}
+                          checked={
+                            !!learnedConcepts[getConceptKey(topic, concept.topic)]
+                          }
+                          onToggle={handleLearnedToggle}
+                          onOpenExample={openExample}
+                        />
+                      ))}
+                    </ul>
+                  ) : searchQuery.trim() ? (
+                    <div className="rounded-2xl border border-dashed border-white/10 py-14 text-center">
+                      <Search className="mx-auto mb-3 h-7 w-7 text-neutral-600" />
+                      <p className="text-sm font-medium text-neutral-300">
+                        No topics match “{searchQuery.trim()}”
+                      </p>
+                      <p className="mt-1 text-xs text-neutral-500">
+                        Try a shorter or different keyword.
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="py-14 text-center text-sm text-neutral-500">
+                      No concepts in this level yet.
+                    </p>
+                  )}
 
-              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <Settings size={20} className="text-gray-600" />
-              </button>
+                  <Pagination
+                    currentPage={prepPage}
+                    totalPages={totalPagesFor(activeConcepts.length)}
+                    onPageChange={setPrepPage}
+                  />
+                </>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <Segmented
+                      label="Seniority"
+                      value={interviewSelection}
+                      onChange={changeInterview}
+                      options={["Junior", "Mid", "Senior"].map((v) => ({
+                        value: v,
+                        label: v,
+                        count:
+                          topicInterviewData.find((d) => d.categories === v)
+                            ?.questions?.length ?? 0,
+                      }))}
+                    />
+                  </div>
+
+                  {pagedQuestions.length > 0 ? (
+                    <ul className="flex flex-col gap-3">
+                      {pagedQuestions.map((item, i) => (
+                        <AccordionQuestion
+                          key={`${interviewSelection}-${interviewPage}-${i}`}
+                          question={item}
+                          number={(interviewPage - 1) * ITEMS_PER_PAGE + i + 1}
+                        />
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="rounded-2xl border border-dashed border-white/10 py-14 text-center text-sm text-neutral-500">
+                      No {interviewSelection.toLowerCase()} questions for{" "}
+                      {title} yet.
+                    </p>
+                  )}
+
+                  <Pagination
+                    currentPage={interviewPage}
+                    totalPages={totalPagesFor(interviewQuestions.length)}
+                    onPageChange={setInterviewPage}
+                  />
+                </>
+              )}
             </div>
           </div>
-        </div>
-      </header>
+        </section>
+      </main>
 
-      <Box className="w-full max-w-6xl mx-auto px-4 pt-6">
-        {/* Gamification Components */}
-        {session?.user?.id && (
-          <div className="mb-4 space-y-4">
-            <GamificationDashboard userId={session.user.id} compact={true} />
-            <MCQDailyChallenge />
-          </div>
-        )}
-        {/* Main Content Card */}
-        <div className="bg-surface rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <Box sx={{ width: "auto" }}>
-            <Box>
-              <MuiTabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-                centered
-                sx={{
-                  marginTop: 0,
-                  "& .MuiTabs-indicator": {
-                    backgroundColor: themeColors.bg,
-                  },
-                  "& .MuiTab-root": {
-                    color: themeColors.text,
-                    padding: "16px 24px",
-                    fontSize: "16px",
-                    fontWeight: 600,
-                  },
-                  "& .MuiTab-root.Mui-selected": {
-                    color: themeColors.topic,
-                  },
-                }}
-              >
-                <Tab
-                  sx={{ textTransform: "none" }}
-                  label="Prepare"
-                  {...a11yProps(0)}
-                />
-                <Tab
-                  sx={{ textTransform: "none" }}
-                  label="Interview Questions"
-                  {...a11yProps(1)}
-                />
-                {/* <Tab
-                  sx={{ textTransform: "none" }}
-                  label="Daily Challenge"
-                  onClick={() => router.push("/challenge/daily")}
-                /> */}
-              </MuiTabs>
-            </Box>
-            <CustomTabPanel value={value} index={0}>
-              <div className="pt-2 pl-6 pr-6 pb-6">
-                <div className="relative w-full mb-6">
-                  <Input
-                    type="text"
-                    placeholder="Search topics..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="rounded-lg appearance-none text-[14px] w-full pl-10 border-0 border border-gray-100 bg-transparent focus:border-gray-300 focus:ring-0 focus:outline-none"
-                    style={{
-                      textTransform: "none",
-                      outline: "none",
-                      boxShadow: "none",
-                    }}
-                  />
-                  <SearchIcon className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-300" />
-                </div>
-                <Tabs defaultValue="Beginner" value={level} className="w-auto">
-                  <TabsList className="grid w-full grid-cols-2 bg-surface border">
-                    <TabsTrigger
-                      value="Beginner"
-                      onClick={() => setLevel("Beginner")}
-                      className={`bg-surface ${topic === "Javascript"
-                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                        : topic === "React"
-                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                          : topic === "Node"
-                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                            : topic === "Typescript"
-                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                              : topic === "AWS S3"
-                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                                : ""
-                        }`}
-                      style={
-                        level === "Beginner"
-                          ? {
-                            backgroundColor: themeColors.light,
-                            color: themeColors.text,
-                          }
-                          : {}
-                      }
-                    >
-                      Beginner
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="Advance"
-                      onClick={() => setLevel("Advance")}
-                      className={`bg-surface ${topic === "Javascript"
-                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                        : topic === "React"
-                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                          : topic === "Node"
-                            ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                            : topic === "Typescript"
-                              ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                              : topic === "AWS S3"
-                                ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                                : ""
-                        }`}
-                      style={
-                        level === "Advance"
-                          ? {
-                            backgroundColor: themeColors.light,
-                            color: themeColors.text,
-                          }
-                          : {}
-                      }
-                    >
-                      Advance
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="Beginner" className="mt-5">
-                    <Table>
-                      <TableBody>
-                        {paginatedBeginnerData.length > 0 ? (
-                          paginatedBeginnerData.map((concept, index) => (
-                            <TableRow key={concept.topic}>
-                              {session?.user?.id && (
-                                <TableCell className="text-center">
-                                  <motion.div
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index,
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                  >
-                                    <Checkbox
-                                      className="data-[state=checked]:text-white"
-                                      style={{
-                                        borderColor: themeColors.topic,
-                                        "--radix-checkbox-indicator-color":
-                                          "white",
-                                      }}
-                                      data-theme-bg={themeColors.topic}
-                                      checked={
-                                        !!learnedConcepts[
-                                        getConceptKey(topic, concept.topic)
-                                        ]
-                                      }
-                                      onCheckedChange={() =>
-                                        handleLearnedToggle(concept)
-                                      }
-                                      aria-label="Mark as learned"
-                                    />
-                                  </motion.div>
-                                </TableCell>
-                              )}
-                              <TableCell
-                                className="text-left cursor-pointer font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
-                                style={{ color: themeColors.text }}
-                                onClick={() =>
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`,
-                                  )
-                                }
-                              >
-                                {index <= 8 ? (
-                                  <motion.div
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index,
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                  >
-                                    {concept.topic}
-                                  </motion.div>
-                                ) : (
-                                  <div>{concept.topic}</div>
-                                )}
-                              </TableCell>
-                              <TableCell
-                                className="text-right cursor-pointer md:flex"
-                                onClick={() =>
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`,
-                                  )
-                                }
-                              >
-                                {index <= 8 ? (
-                                  <motion.div
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index,
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                    onClick={() =>
-                                      router.push(
-                                        `/learn/${topic}/${concept.topic}`,
-                                      )
-                                    }
-                                    className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
-                                    style={{
-                                      backgroundColor: themeColors.light,
-                                      color: themeColors.text,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.bg)
-                                    }
-                                    onMouseLeave={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.light)
-                                    }
-                                  >
-                                    <BookOpenCheck
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Learn
-                                  </motion.div>
-                                ) : (
-                                  <div
-                                    onClick={() =>
-                                      router.push(
-                                        `/learn/${topic}/${concept.topic}`,
-                                      )
-                                    }
-                                    className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
-                                    style={{
-                                      backgroundColor: themeColors.light,
-                                      color: themeColors.text,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.bg)
-                                    }
-                                    onMouseLeave={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.light)
-                                    }
-                                  >
-                                    <BookOpenCheck
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Learn
-                                  </div>
-                                )}
-                                {index <= 8 ? (
-                                  <motion.div
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      router.push(
-                                        `/test/${topic}/${concept.topic}`,
-                                      );
-                                    }}
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index,
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                    style={{
-                                      backgroundColor: themeColors.light,
-                                      color: themeColors.text,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.bg)
-                                    }
-                                    onMouseLeave={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.light)
-                                    }
-                                  >
-                                    <Code
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Practice
-                                  </motion.div>
-                                ) : (
-                                  <div
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      router.push(
-                                        `/test/${topic}/${concept.topic}`,
-                                      );
-                                    }}
-                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                    style={{
-                                      backgroundColor: themeColors.light,
-                                      color: themeColors.text,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.bg)
-                                    }
-                                    onMouseLeave={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.light)
-                                    }
-                                  >
-                                    <Code
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Practice
-                                  </div>
-                                )}
-                                <ExampleButton
-                                  concept={concept}
-                                  themeColors={themeColors}
-                                  index={index}
-                                  onOpen={openExample}
-                                />
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        ) : searchQuery.trim() ? (
-                          <TableRow>
-                            <TableCell
-                              colSpan={3}
-                              className="text-center py-8 text-gray-500"
-                            >
-                              <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                              <p className="text-sm font-medium">
-                                No topics found
-                              </p>
-                              <p className="text-xs">
-                                Try adjusting your search terms
-                              </p>
-                            </TableCell>
-                          </TableRow>
-                        ) : null}
-                      </TableBody>
-                    </Table>
-                    {filteredPrepareData[0]?.concepts?.length > 0 && (
-                      <PaginationComponent
-                        currentPage={beginnerPage}
-                        totalPages={getTotalPages(
-                          filteredPrepareData[0]?.concepts?.length || 0,
-                        )}
-                        onPageChange={setBeginnerPage}
-                        themeColors={themeColors}
-                      />
-                    )}
-                  </TabsContent>
-                  <TabsContent value="Advance" className="mt-4">
-                    <Table>
-                      <TableBody>
-                        {paginatedAdvanceData.length > 0 ? (
-                          paginatedAdvanceData.map((concept, index) => (
-                            <TableRow key={concept.topic} className="w-full">
-                              {session?.user?.id && (
-                                <TableCell className="text-center">
-                                  <motion.div
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index, // same stagger effect as text
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                  >
-                                    <Checkbox
-                                      className="data-[state=checked]:text-white"
-                                      style={{
-                                        borderColor: themeColors.topic,
-                                        "--radix-checkbox-indicator-color":
-                                          "white",
-                                      }}
-                                      data-theme-bg={themeColors.topic}
-                                      checked={
-                                        !!learnedConcepts[
-                                        getConceptKey(topic, concept.topic)
-                                        ]
-                                      }
-                                      onCheckedChange={() =>
-                                        handleLearnedToggle(concept)
-                                      }
-                                      aria-label="Mark as learned"
-                                    />
-                                  </motion.div>
-                                </TableCell>
-                              )}
-                              <TableCell
-                                className="text-left font-medium cursor-pointer text-[15px] p-[0px] text-gray-900 md:pl-4"
-                                style={{ color: themeColors.text }}
-                                onClick={() => {
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`,
-                                  );
-                                }}
-                              >
-                                {index <= 8 ? (
-                                  <motion.div
-                                    className="w-full"
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index,
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                  >
-                                    {concept.topic}
-                                  </motion.div>
-                                ) : (
-                                  <div className="w-full">{concept.topic}</div>
-                                )}
-                              </TableCell>
-                              <TableCell
-                                className="text-right cursor-pointer md:flex"
-                                onClick={() =>
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`,
-                                  )
-                                }
-                              >
-                                {index <= 8 ? (
-                                  <motion.div
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index,
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                    onClick={() =>
-                                      router.push(
-                                        `/learn/${topic}/${concept.topic}`,
-                                      )
-                                    }
-                                    className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
-                                    style={{
-                                      backgroundColor: themeColors.light,
-                                      color: themeColors.text,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.bg)
-                                    }
-                                    onMouseLeave={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.light)
-                                    }
-                                  >
-                                    <BookOpenCheck
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Learn
-                                  </motion.div>
-                                ) : (
-                                  <div
-                                    onClick={() =>
-                                      router.push(
-                                        `/learn/${topic}/${concept.topic}`,
-                                      )
-                                    }
-                                    className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                              ${topic === "Javascript"
-                                        ? " text-Javascript-text bg-surface hover:bg-Javascript-bg"
-                                        : topic === "React"
-                                          ? "text-React-text bg-surface hover:bg-React-bg "
-                                          : topic === "Node"
-                                            ? "text-Node-text bg-surface hover:bg-Node-bg "
-                                            : topic === "Typescript"
-                                              ? "text-Typescript-text bg-surface hover:bg-Typescript-bg "
-                                              : topic === "AWS S3"
-                                                ? "text-AWS-text bg-surface hover:bg-AWS-bg "
-                                                : ""
-                                      } 
-                            md:mb-0 md:mr-[3%] md:ml-auto `}
-                                  >
-                                    {" "}
-                                    <BookOpenCheck
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Learn
-                                  </div>
-                                )}
-                                {index <= 8 ? (
-                                  <motion.div
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      router.push(
-                                        `/test/${topic}/${concept.topic}`,
-                                      );
-                                    }}
-                                    initial={{ opacity: 0, scale: 0.5 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                      duration: 0.8,
-                                      delay: 0.2 * index,
-                                      ease: [0, 0.71, 0.2, 1.01],
-                                    }}
-                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                    style={{
-                                      backgroundColor: themeColors.light,
-                                      color: themeColors.text,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.bg)
-                                    }
-                                    onMouseLeave={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.light)
-                                    }
-                                  >
-                                    <Code
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Practice
-                                  </motion.div>
-                                ) : (
-                                  <div
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      router.push(
-                                        `/test/${topic}/${concept.topic}`,
-                                      );
-                                    }}
-                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                    style={{
-                                      backgroundColor: themeColors.light,
-                                      color: themeColors.text,
-                                    }}
-                                    onMouseEnter={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.bg)
-                                    }
-                                    onMouseLeave={(e) =>
-                                    (e.target.style.backgroundColor =
-                                      themeColors.light)
-                                    }
-                                  >
-                                    <Code
-                                      className="mr-2 w-[19px] md:w-[15px]"
-                                      style={{ color: themeColors.topic }}
-                                    />
-                                    Practice
-                                  </div>
-                                )}
-                                <ExampleButton
-                                  concept={concept}
-                                  themeColors={themeColors}
-                                  index={index}
-                                  onOpen={openExample}
-                                />
-                              </TableCell>
-                            </TableRow>
-                          ))
-                        ) : searchQuery.trim() ? (
-                          <TableRow>
-                            <TableCell
-                              colSpan={session?.user?.id ? 3 : 2}
-                              className="text-center py-8 text-gray-500"
-                            >
-                              <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                              <p className="text-sm font-medium">
-                                No topics found
-                              </p>
-                              <p className="text-xs">
-                                Try adjusting your search terms
-                              </p>
-                            </TableCell>
-                          </TableRow>
-                        ) : null}
-                      </TableBody>
-                    </Table>
-                    {filteredPrepareData[1]?.concepts?.length > 0 && (
-                      <PaginationComponent
-                        currentPage={advancePage}
-                        totalPages={getTotalPages(
-                          filteredPrepareData[1]?.concepts?.length || 0,
-                        )}
-                        onPageChange={setAdvancePage}
-                        themeColors={themeColors}
-                      />
-                    )}
-                  </TabsContent>
-                </Tabs>
-              </div>
-            </CustomTabPanel>
-            <CustomTabPanel value={value} index={1}>
-              <Tabs
-                defaultValue="Junior"
-                value={interviewSelection}
-                className="w-auto mt-2"
-              >
-                <TabsList className="grid w-full grid-cols-3 bg-surface border">
-                  <TabsTrigger
-                    value="Junior"
-                    onClick={() => setInterviewSelection("Junior")}
-                    className={`bg-surface ${topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                        : topic === "Node"
-                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                          : topic === "Typescript"
-                            ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                            : topic === "AWS S3"
-                              ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                              : ""
-                      }`}
-                    style={
-                      interviewSelection === "Junior"
-                        ? {
-                          backgroundColor: themeColors.light,
-                          color: themeColors.text,
-                        }
-                        : {}
-                    }
-                  >
-                    Junior
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="Mid"
-                    onClick={() => setInterviewSelection("Mid")}
-                    className={`bg-surface ${topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                        : topic === "Node"
-                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                          : topic === "Typescript"
-                            ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                            : topic === "AWS S3"
-                              ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                              : ""
-                      }`}
-                    style={
-                      interviewSelection === "Mid"
-                        ? {
-                          backgroundColor: themeColors.light,
-                          color: themeColors.text,
-                        }
-                        : {}
-                    }
-                  >
-                    Mid
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="Senior"
-                    onClick={() => setInterviewSelection("Senior")}
-                    className={`bg-surface ${topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                        : topic === "Node"
-                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                          : topic === "Typescript"
-                            ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
-                            : topic === "AWS S3"
-                              ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                              : ""
-                      }`}
-                    style={
-                      interviewSelection === "Senior"
-                        ? {
-                          backgroundColor: themeColors.light,
-                          color: themeColors.text,
-                        }
-                        : {}
-                    }
-                  >
-                    Senior
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="Junior" className="mt-4">
-                  <div className="flex flex-col gap-3">
-                    {paginatedInterviewData.length > 0
-                      ? paginatedInterviewData.map((item, index) => (
-                        <AccordionQuestion
-                          key={index}
-                          question={item}
-                          topic={topic}
-                          index={index}
-                        />
-                      ))
-                      : null}
-                  </div>
-                  {interviewQues?.questions?.length > 0 && (
-                    <PaginationComponent
-                      currentPage={interviewPage}
-                      totalPages={getTotalPages(
-                        interviewQues?.questions?.length || 0,
-                      )}
-                      onPageChange={setInterviewPage}
-                      themeColors={themeColors}
-                    />
-                  )}
-                </TabsContent>
-                <TabsContent value="Mid" className="mt-4">
-                  <div className="flex flex-col gap-3">
-                    {paginatedInterviewData.length > 0
-                      ? paginatedInterviewData.map((item, index) => (
-                        <AccordionQuestion
-                          key={index}
-                          question={item}
-                          topic={topic}
-                          index={index}
-                        />
-                      ))
-                      : null}
-                  </div>
-                  {interviewQues?.questions?.length > 0 && (
-                    <PaginationComponent
-                      currentPage={interviewPage}
-                      totalPages={getTotalPages(
-                        interviewQues?.questions?.length || 0,
-                      )}
-                      onPageChange={setInterviewPage}
-                      themeColors={themeColors}
-                    />
-                  )}
-                </TabsContent>
-                <TabsContent value="Senior" className="mt-4">
-                  <div className="flex flex-col gap-3">
-                    {paginatedInterviewData.length > 0
-                      ? paginatedInterviewData.map((item, index) => (
-                        <AccordionQuestion
-                          key={index}
-                          question={item}
-                          topic={topic}
-                          index={index}
-                        />
-                      ))
-                      : null}
-                  </div>
-                  {interviewQues?.questions?.length > 0 && (
-                    <PaginationComponent
-                      currentPage={interviewPage}
-                      totalPages={getTotalPages(
-                        interviewQues?.questions?.length || 0,
-                      )}
-                      onPageChange={setInterviewPage}
-                      themeColors={themeColors}
-                    />
-                  )}
-                </TabsContent>
-              </Tabs>
-            </CustomTabPanel>
-          </Box>
+      {/* Modals live at shell level so no transformed ancestor can trap them. */}
+      <ExampleModal
+        isOpen={isExampleOpen}
+        onClose={closeExample}
+        concept={exampleConcept}
+        examples={exampleList}
+      />
 
-          {/* Question Modal */}
-          <QuestionModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            question={selectedQuestion}
-            topic={topic}
-          />
-
-          {/* Concept Example Modal */}
-          <ExampleModal
-            isOpen={isExampleOpen}
-            onClose={closeExample}
-            concept={exampleConcept}
-            examples={exampleList}
-            topic={topic}
-          />
-
-          {/* Diagram Canvas */}
-          {/* <DiagramCanvas
-            isOpen={isDiagramOpen}
-            onClose={() => setIsDiagramOpen(false)}
+      <ModalFrame
+        isOpen={isDiagramOpen}
+        onClose={closeDiagram}
+        label={`${title} visual summary`}
+        className="h-[90vh] max-w-6xl"
+      >
+        <ModalHeader
+          title={`${title} · Visual summary`}
+          onClose={closeDiagram}
+          closeLabel="Close visual summary"
+        />
+        <div className="min-h-0 flex-1 overflow-hidden">
+          <DiagramCanvas
             topicData={selectedTopicData}
             topic={topic}
             themeColors={themeColors}
-          /> */}
-
-          <AnimatePresence>
-            {isDiagramOpen && (
-              <>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={() => setIsDiagramOpen(false)}
-                  className="fixed inset-0 bg-black bg-opacity-50 z-50"
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                  className="fixed inset-4 z-50 flex items-center justify-center p-0"
-                >
-                  <div className="bg-surface rounded-xl shadow-2xl w-full h-full max-w-6xl max-h-[90vh] flex flex-col">
-                    <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                      <h3 className="text-lg font-semibold text-gray-800">
-                        {topic.charAt(0).toUpperCase() + topic.slice(1)} -
-                        Visual Summary
-                      </h3>
-                      <button
-                        onClick={() => setIsDiagramOpen(false)}
-                        className="p-1 rounded-full hover:bg-gray-100"
-                      >
-                        <X className="w-5 h-5 text-gray-500" />
-                      </button>
-                    </div>
-                    <div className="flex-1 overflow-hidden">
-                      <div className="w-full h-full">
-                        <DiagramCanvas
-                          topicData={selectedTopicData}
-                          topic={topic}
-                          themeColors={themeColors}
-                          isOpen={isDiagramOpen}
-                          onClose={() => setIsDiagramOpen(false)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+            isOpen={isDiagramOpen}
+            onClose={closeDiagram}
+          />
         </div>
-      </Box>
-    </>
+      </ModalFrame>
+    </PageShell>
   );
 }

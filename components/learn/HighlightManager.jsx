@@ -1,21 +1,94 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { HIGHLIGHT_COLORS } from "@/hooks/useHighlights";
 import {
   Highlighter,
   Trash2,
   Check,
-  RotateCcw,
   Cloud,
   CloudUpload,
-  Sparkles,
   Info,
   X,
-  Palette,
-  Eye,
-  Pencil,
-  AlertTriangle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { mono, useModalBehavior } from "@/components/landing/shared";
+
+// ---------------------------------------------------------------------------
+// Shared style tokens (same vocabulary as the category / topic pages)
+// ---------------------------------------------------------------------------
+
+const EASE = [0.16, 1, 0.3, 1];
+
+const pill =
+  "inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3.5 py-1.5 text-xs font-medium text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/5";
+const pillPrimary =
+  "inline-flex items-center gap-1.5 rounded-full border border-transparent bg-[#D4FF4F] px-3.5 py-1.5 text-xs font-semibold text-neutral-950 transition-shadow hover:shadow-[0_0_30px_-6px_rgba(212,255,79,0.6)]";
+const pillDanger =
+  "inline-flex items-center gap-1.5 rounded-full border border-red-500/20 bg-red-500/10 px-3.5 py-1.5 text-xs font-semibold text-red-300 transition-colors hover:border-red-500/40 hover:bg-red-500/20";
+const iconButton =
+  "shrink-0 rounded-full border border-white/10 p-2 text-neutral-400 transition-colors hover:border-white/30 hover:text-neutral-50";
+const ghostIconButton =
+  "shrink-0 rounded-full p-1.5 text-neutral-500 transition-colors hover:bg-white/5 hover:text-neutral-100";
+const eyebrow = `${mono.className} text-[11px] uppercase tracking-[0.18em]`;
+const floatingSurface =
+  "flex items-center gap-2 rounded-full border border-white/10 bg-neutral-950 p-1.5 shadow-2xl shadow-black/60";
+
+// ---------------------------------------------------------------------------
+// Pieces
+// ---------------------------------------------------------------------------
+
+function Swatch({ color, selected = false, onClick, title, size = "h-6 w-6" }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={title}
+      aria-label={title}
+      aria-pressed={selected}
+      className={`${size} flex shrink-0 items-center justify-center rounded-full transition-transform duration-300 hover:scale-110 ${selected
+          ? "ring-2 ring-[#D4FF4F] ring-offset-2 ring-offset-neutral-950"
+          : ""
+        }`}
+      style={{ backgroundColor: color.bg, border: `1px solid ${color.border}` }}
+    >
+      {selected && (
+        <Check className="h-3 w-3" style={{ color: color.text }} strokeWidth={3} />
+      )}
+    </button>
+  );
+}
+
+/**
+ * Anchors a floating bar centred above a viewport point. The centring lives in
+ * an inline transform on the wrapper so framer-motion's own transform on the
+ * inner element cannot override it.
+ */
+function FloatingBar({ x, y, zIndex, children }) {
+  return (
+    <div
+      className="highlight-popover fixed"
+      style={{
+        left: `${x}px`,
+        top: `${y}px`,
+        zIndex,
+        transform: "translate(-50%, -100%)",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 8 }}
+        transition={{ duration: 0.3, ease: EASE }}
+        className={floatingSurface}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
 
 export default function HighlightManager({
   containerRef,
@@ -43,6 +116,13 @@ export default function HighlightManager({
     cancelText: "Cancel",
     type: "danger",
   });
+
+  // Keep title/message in state while the exit animation plays.
+  const closeConfirm = useCallback(
+    () => setConfirmModal((prev) => ({ ...prev, isOpen: false })),
+    [],
+  );
+  useModalBehavior(confirmModal.isOpen, closeConfirm);
 
   const showToast = (msg) => {
     setToastMessage(msg);
@@ -188,12 +268,12 @@ export default function HighlightManager({
 
             const mark = document.createElement("mark");
             mark.className =
-              "in-app-highlight transition-all duration-200 cursor-pointer inline rounded px-1 py-0.5 font-medium shadow-sm hover:opacity-90 hover:ring-2 hover:ring-offset-1 hover:ring-indigo-400";
+              "in-app-highlight inline cursor-pointer rounded-[5px] px-1 py-0.5 transition-shadow duration-300 hover:ring-2 hover:ring-[#D4FF4F]/50";
             mark.setAttribute("data-highlight-id", h.id || h.highlightId);
             mark.style.backgroundColor = h.color || "#fef08a";
             mark.style.color = h.textColor || "#ededef";
             mark.style.borderBottom = `2px solid ${h.borderColor || "rgba(0,0,0,0.2)"}`;
-            mark.title = "Click highlight to view options";
+            mark.title = "Click to recolor or remove";
 
             // Click listener on highlight
             mark.addEventListener("click", (e) => {
@@ -233,7 +313,7 @@ export default function HighlightManager({
     if (!selectionPopover) return;
     const colorToUse = colorObj || selectedColor;
 
-    const newHl = addHighlight({
+    addHighlight({
       text: selectionPopover.text,
       prefix: selectionPopover.prefix,
       suffix: selectionPopover.suffix,
@@ -248,362 +328,345 @@ export default function HighlightManager({
       window.getSelection().removeAllRanges();
     }
     setSelectionPopover(null);
-    showToast(`Highlighted in ${colorToUse.name}!`);
+    showToast(`Highlighted in ${colorToUse.name}`);
   };
+
+  const isDanger = confirmModal.type === "danger";
 
   return (
     <div className="relative mb-6">
-      {/* Toast Notification */}
+      {/* ---------------------------------------------------------------- */}
+      {/* Toast                                                             */}
+      {/* ---------------------------------------------------------------- */}
       <AnimatePresence>
         {toastMessage && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            key="toast"
+            role="status"
+            aria-live="polite"
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed top-20 right-6 z-[100] bg-gray-900 text-neutral-950 text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xl flex items-center gap-2 border border-gray-700"
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="fixed right-4 top-20 z-[100] flex items-center gap-2.5 rounded-full border border-white/10 bg-neutral-950 px-4 py-2.5 text-xs font-medium text-neutral-200 shadow-2xl shadow-black/60 sm:right-6"
           >
-            <Sparkles size={14} className="text-yellow-400" />
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#D4FF4F]" />
             <span>{toastMessage}</span>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Custom Confirmation Modal */}
+      {/* ---------------------------------------------------------------- */}
+      {/* Confirm dialog (same frame as the example / diagram modals)       */}
+      {/* ---------------------------------------------------------------- */}
       <AnimatePresence>
         {confirmModal.isOpen && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
-              className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm"
+          <motion.div
+            key="confirm"
+            className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              onClick={closeConfirm}
             />
-
-            {/* Modal Content Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              role="alertdialog"
+              aria-modal="true"
+              aria-label={confirmModal.title}
+              initial={{ opacity: 0, scale: 0.96, y: 24 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ type: "spring", duration: 0.3, bounce: 0.1 }}
-              className="relative z-10 w-full max-w-md bg-surface rounded-2xl shadow-2xl border border-gray-100 p-6 overflow-hidden"
+              exit={{ opacity: 0, scale: 0.96, y: 24 }}
+              transition={{ duration: 0.45, ease: EASE }}
+              className="relative flex w-full max-w-md flex-col overflow-hidden rounded-3xl border border-white/10 bg-neutral-950 shadow-2xl shadow-black/60"
             >
-              {/* Decorative top color bar */}
-              <div
-                className={`absolute top-0 left-0 right-0 h-1.5 ${
-                  confirmModal.type === "danger"
-                    ? "bg-gradient-to-r from-red-500 via-rose-500 to-pink-500"
-                    : "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-                }`}
-              />
-
-              <div className="flex items-start gap-4 pt-1">
-                {/* Icon */}
-                <div
-                  className={`p-3 rounded-2xl flex-shrink-0 ${
-                    confirmModal.type === "danger"
-                      ? "bg-red-50 text-red-600 border border-red-100"
-                      : "bg-indigo-50 text-indigo-600 border border-indigo-100"
-                  }`}
-                >
-                  {confirmModal.type === "danger" ? (
-                    <AlertTriangle size={24} />
-                  ) : (
-                    <Info size={24} />
-                  )}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-bold text-gray-900 leading-snug">
+              <div className="flex items-start justify-between gap-4 border-b border-white/[0.08] px-6 py-5">
+                <div className="min-w-0">
+                  <p
+                    className={`${eyebrow} mb-1 ${isDanger ? "text-red-300" : "text-[#D4FF4F]"
+                      }`}
+                  >
+                    {isDanger ? "Warning" : "Confirm"}
+                  </p>
+                  <h3 className="text-lg font-semibold tracking-tight text-neutral-50">
                     {confirmModal.title}
                   </h3>
-                  <p className="mt-1.5 text-sm text-gray-600 leading-relaxed">
-                    {confirmModal.message}
-                  </p>
                 </div>
-
                 <button
-                  onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
-                  className="text-gray-400 hover:text-gray-600 p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+                  type="button"
+                  onClick={closeConfirm}
+                  aria-label="Close"
+                  className={iconButton}
                 >
-                  <X size={18} />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* Modal Actions */}
-              <div className="mt-6 flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
-                <button
-                  onClick={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
-                  className="px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
-                >
+              <p className="px-6 py-5 text-sm leading-relaxed text-neutral-400">
+                {confirmModal.message}
+              </p>
+
+              <div className="flex items-center justify-end gap-2 border-t border-white/[0.08] px-6 py-4">
+                <button type="button" onClick={closeConfirm} className={pill}>
                   {confirmModal.cancelText || "Cancel"}
                 </button>
-
                 <button
+                  type="button"
                   onClick={() => {
                     if (confirmModal.onConfirm) confirmModal.onConfirm();
-                    setConfirmModal((prev) => ({ ...prev, isOpen: false }));
+                    closeConfirm();
                   }}
-                  className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-neutral-950 shadow-lg transition-all flex items-center gap-2 ${
-                    confirmModal.type === "danger"
-                      ? "bg-red-600 hover:bg-red-700 shadow-red-500/20 active:scale-95"
-                      : "bg-brand hover:bg-brand/90 shadow-indigo-500/20 active:scale-95"
-                  }`}
+                  className={isDanger ? pillDanger : pillPrimary}
                 >
-                  {confirmModal.type === "danger" && <Trash2 size={16} />}
-                  <span>{confirmModal.confirmText || "Confirm"}</span>
+                  {isDanger && <Trash2 className="h-3.5 w-3.5" />}
+                  {confirmModal.confirmText || "Confirm"}
                 </button>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main Highlight Toolbar */}
-      <div className="bg-surface/90 backdrop-blur-md rounded-2xl p-3 border border-gray-200/80 shadow-sm transition-all duration-300">
+      {/* ---------------------------------------------------------------- */}
+      {/* Toolbar                                                           */}
+      {/* ---------------------------------------------------------------- */}
+      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-3 sm:p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          {/* Left section: Mode Toggle & Status */}
+          {/* Mode toggle + count */}
           <div className="flex items-center gap-3">
             <button
+              type="button"
+              aria-pressed={!!isEditMode}
               onClick={() => {
                 const nextMode = !isEditMode;
                 setIsEditMode(nextMode);
-                showToast(nextMode ? "Highlight Pen Activated! Select text to highlight." : "Edit mode disabled");
+                showToast(
+                  nextMode
+                    ? "Highlight pen on. Select text to highlight."
+                    : "Highlight pen off",
+                );
               }}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-medium text-xs sm:text-sm transition-all duration-200 ${
-                isEditMode
-                  ? "bg-brand text-neutral-950 shadow-md shadow-indigo-200 hover:bg-brand/90 ring-2 ring-indigo-400"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200"
-              }`}
+              className={isEditMode ? pillPrimary : pill}
             >
-              {isEditMode ? (
-                <>
-                  <Pencil size={16} className="animate-bounce" />
-                  <span>Highlight Pen Mode (ON)</span>
-                </>
-              ) : (
-                <>
-                  <Highlighter size={16} />
-                  <span>Highlight Pen Mode</span>
-                </>
-              )}
+              <Highlighter className="h-3.5 w-3.5" />
+              Highlight pen
+              <span
+                className={`${mono.className} text-[11px] ${isEditMode ? "text-neutral-950/60" : "text-neutral-600"
+                  }`}
+              >
+                {isEditMode ? "On" : "Off"}
+              </span>
             </button>
 
-            {/* Counter badge */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gray-100/80 border border-gray-200 rounded-xl text-xs font-medium text-gray-600">
-              <Sparkles size={13} className="text-amber-500" />
-              <span>
-                {highlights.length} {highlights.length === 1 ? "Highlight" : "Highlights"}
-              </span>
-            </div>
-          </div>
-
-          {/* Center section: Color Selection Palette */}
-          <div className="flex items-center gap-2 overflow-x-auto py-1">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider hidden md:inline">
-              Color:
+            <span
+              className={`${mono.className} hidden text-[11px] text-neutral-500 sm:inline`}
+            >
+              {String(highlights.length).padStart(2, "0")}{" "}
+              {highlights.length === 1 ? "highlight" : "highlights"}
             </span>
-            <div className="flex items-center gap-1.5 bg-gray-50 p-1.5 rounded-xl border border-gray-200">
-              {HIGHLIGHT_COLORS.map((c) => {
-                const isSelected = selectedColor.id === c.id;
-                return (
-                  <button
-                    key={c.id}
-                    onClick={() => {
-                      setSelectedColor(c);
-                      if (selectionPopover) {
-                        triggerHighlight(c);
-                      }
-                    }}
-                    title={`Select ${c.name} highlight pen`}
-                    className={`w-7 h-7 rounded-lg transition-all duration-200 flex items-center justify-center relative ${
-                      isSelected
-                        ? "scale-110 shadow-md ring-2 ring-indigo-500 ring-offset-1"
-                        : "hover:scale-105 opacity-80 hover:opacity-100"
-                    }`}
-                    style={{ backgroundColor: c.bg, border: `1.5px solid ${c.border}` }}
-                  >
-                    {isSelected && <Check size={14} style={{ color: c.text }} strokeWidth={3} />}
-                  </button>
-                );
-              })}
+          </div>
+
+          {/* Colour palette */}
+          <div className="flex min-w-0 items-center gap-3">
+            <span className={`${eyebrow} hidden text-neutral-500 md:inline`}>
+              Color
+            </span>
+            <div className="no-scrollbar flex items-center gap-2 overflow-x-auto rounded-full border border-white/10 bg-white/[0.03] px-2 py-1.5">
+              {HIGHLIGHT_COLORS.map((c) => (
+                <Swatch
+                  key={c.id}
+                  color={c}
+                  selected={selectedColor.id === c.id}
+                  title={`Use ${c.name}`}
+                  onClick={() => {
+                    setSelectedColor(c);
+                    if (selectionPopover) {
+                      triggerHighlight(c);
+                    }
+                  }}
+                />
+              ))}
             </div>
           </div>
 
-          {/* Right section: Storage / Actions */}
-          <div className="flex items-center gap-2">
-            {/* Sync / Save status indicator */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium">
-              {saveStatus === "saving" ? (
-                <span className="flex items-center gap-1.5 text-indigo-600 animate-pulse">
-                  <CloudUpload size={14} />
-                  <span className="hidden sm:inline">Saving...</span>
-                </span>
-              ) : isAuthenticated ? (
-                <span className="flex items-center gap-1.5 text-emerald-600" title="Saved to cloud database">
-                  <Cloud size={15} />
-                  <span className="hidden sm:inline">Saved in DB</span>
-                </span>
-              ) : (
-                <span className="flex items-center gap-1.5 text-amber-600" title="Saved locally (Login to sync to DB)">
-                  <Info size={14} />
-                  <span className="hidden sm:inline">Device Storage</span>
-                </span>
-              )}
-            </div>
+          {/* Save status + clear */}
+          <div className="flex items-center gap-3">
+            {saveStatus === "saving" ? (
+              <span
+                className={`${mono.className} flex animate-pulse items-center gap-1.5 text-[11px] text-[#D4FF4F]`}
+              >
+                <CloudUpload className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Saving…</span>
+              </span>
+            ) : isAuthenticated ? (
+              <span
+                className={`${mono.className} flex items-center gap-1.5 text-[11px] text-green-400`}
+                title="Saved to your account"
+              >
+                <Cloud className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Saved to account</span>
+              </span>
+            ) : (
+              <span
+                className={`${mono.className} flex items-center gap-1.5 text-[11px] text-yellow-300`}
+                title="Saved on this device. Log in to sync across devices."
+              >
+                <Info className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Saved on this device</span>
+              </span>
+            )}
 
-            {/* Clear All button with Custom Site Confirmation Dialog */}
             {highlights.length > 0 && (
               <button
+                type="button"
                 onClick={() => {
                   setConfirmModal({
                     isOpen: true,
-                    title: "Clear All Highlights?",
-                    message: "Are you sure you want to remove all highlights for this topic? This action cannot be undone.",
-                    confirmText: "Clear All",
+                    title: "Clear all highlights?",
+                    message:
+                      "This removes every highlight on this topic. It can't be undone.",
+                    confirmText: "Clear all",
                     cancelText: "Cancel",
                     type: "danger",
                     onConfirm: () => {
                       clearAllHighlights();
-                      showToast("All highlights cleared!");
+                      showToast("All highlights cleared");
                     },
                   });
                 }}
-                className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                className="shrink-0 rounded-full border border-white/10 p-2 text-neutral-400 transition-colors hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-300"
                 title="Clear all highlights"
+                aria-label="Clear all highlights"
               >
-                <Trash2 size={16} />
+                <Trash2 className="h-3.5 w-3.5" />
               </button>
             )}
           </div>
         </div>
 
-        {/* Tip / instructions banner when Edit Mode is active */}
-        {isEditMode && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-xs text-indigo-900 bg-indigo-50/70 px-3 py-2 rounded-xl"
-          >
-            <div className="flex items-center gap-2">
-              <Pencil size={14} className="text-indigo-600" />
-              <span>
-                <strong>Pen mode active:</strong> Select any word or sentence on the page to highlight it. Click an existing highlight to edit or delete it.
-              </span>
-            </div>
-            <button
-              onClick={() => setIsEditMode(false)}
-              className="text-gray-400 hover:text-gray-600 p-1"
+        {/* Hint while the pen is on */}
+        <AnimatePresence initial={false}>
+          {isEditMode && (
+            <motion.div
+              key="pen-hint"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.45, ease: EASE }}
+              className="overflow-hidden"
             >
-              <X size={14} />
-            </button>
-          </motion.div>
-        )}
+              <div className="mt-3 flex items-center justify-between gap-3 border-t border-white/[0.06] pt-3">
+                <p className="text-xs leading-relaxed text-neutral-400">
+                  Select text on the page to highlight it. Click a highlight
+                  to recolor or remove it.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsEditMode(false)}
+                  aria-label="Turn off highlight pen"
+                  className={ghostIconButton}
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Floating Selection Toolbar Popover when user selects text */}
+      {/* ---------------------------------------------------------------- */}
+      {/* Floating bar: new selection                                       */}
+      {/* ---------------------------------------------------------------- */}
       <AnimatePresence>
         {selectionPopover && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 10 }}
-            className="highlight-popover fixed z-[90] transform -translate-x-1/2 -translate-y-full mb-3 bg-gray-900 text-neutral-950 rounded-2xl shadow-2xl p-2 flex items-center gap-2 border border-gray-700/80 backdrop-blur-md"
-            style={{
-              left: `${selectionPopover.x}px`,
-              top: `${selectionPopover.y}px`,
-            }}
+          <FloatingBar
+            key="selection"
+            x={selectionPopover.x}
+            y={selectionPopover.y}
+            zIndex={90}
           >
-            <span className="text-xs font-semibold text-gray-300 pl-2 pr-1 hidden sm:inline">Highlight:</span>
-
-            {/* Quick Color Swatches in Popover */}
-            <div className="flex items-center gap-1.5">
+            <span className={`${eyebrow} hidden pl-2.5 text-neutral-500 sm:inline`}>
+              Highlight
+            </span>
+            <div className="flex items-center gap-1.5 px-1">
               {HIGHLIGHT_COLORS.map((c) => (
-                <button
+                <Swatch
                   key={c.id}
-                  onClick={() => triggerHighlight(c)}
-                  className="w-7 h-7 rounded-lg transition-transform duration-150 hover:scale-125 flex items-center justify-center shadow-sm"
-                  style={{ backgroundColor: c.bg, border: `1.5px solid ${c.border}` }}
+                  color={c}
+                  size="h-7 w-7"
                   title={`Highlight in ${c.name}`}
-                >
-                  <Highlighter size={12} style={{ color: c.text }} />
-                </button>
+                  onClick={() => triggerHighlight(c)}
+                />
               ))}
             </div>
-
             <button
+              type="button"
               onClick={() => setSelectionPopover(null)}
-              className="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 ml-1"
+              aria-label="Dismiss"
+              className={ghostIconButton}
             >
-              <X size={14} />
+              <X className="h-3.5 w-3.5" />
             </button>
-          </motion.div>
+          </FloatingBar>
         )}
       </AnimatePresence>
 
-      {/* Popover when user clicks an existing highlight mark */}
+      {/* ---------------------------------------------------------------- */}
+      {/* Floating bar: existing highlight                                  */}
+      {/* ---------------------------------------------------------------- */}
       <AnimatePresence>
         {activeHighlightPopover && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 5 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 5 }}
-            className="highlight-popover fixed z-[95] transform -translate-x-1/2 -translate-y-full mb-2 bg-surface text-gray-800 rounded-2xl shadow-2xl p-2.5 flex items-center gap-2 border border-gray-200"
-            style={{
-              left: `${activeHighlightPopover.x}px`,
-              top: `${activeHighlightPopover.y}px`,
-            }}
+          <FloatingBar
+            key="active"
+            x={activeHighlightPopover.x}
+            y={activeHighlightPopover.y}
+            zIndex={95}
           >
-            <span className="text-xs font-medium text-gray-500 pl-1 pr-1 border-r border-gray-200">
-              Highlight Options
-            </span>
-
-            {/* Change Color Palette */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2 pl-2 pr-1">
               {HIGHLIGHT_COLORS.map((c) => (
-                <button
+                <Swatch
                   key={c.id}
+                  color={c}
+                  selected={activeHighlightPopover.colorName === c.id}
+                  title={`Change to ${c.name}`}
                   onClick={() => {
                     updateHighlightColor(activeHighlightPopover.id, c);
                     setActiveHighlightPopover(null);
                     showToast(`Color changed to ${c.name}`);
                   }}
-                  className={`w-6 h-6 rounded-md transition-transform hover:scale-110 ${
-                    activeHighlightPopover.colorName === c.id ? "ring-2 ring-indigo-600 ring-offset-1" : ""
-                  }`}
-                  style={{ backgroundColor: c.bg, border: `1px solid ${c.border}` }}
-                  title={`Change to ${c.name}`}
                 />
               ))}
             </div>
 
-            <div className="h-4 w-px bg-gray-200 my-auto" />
+            <span className="h-4 w-px bg-white/10" aria-hidden="true" />
 
-            {/* Remove Highlight Button */}
             <button
+              type="button"
               onClick={() => {
                 removeHighlight(activeHighlightPopover.id);
                 setActiveHighlightPopover(null);
                 showToast("Highlight removed");
               }}
-              className="flex items-center gap-1 text-xs font-semibold text-red-600 hover:bg-red-50 px-2 py-1 rounded-lg transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-red-300 transition-colors hover:bg-red-500/10"
             >
-              <Trash2 size={13} />
-              <span>Remove</span>
+              <Trash2 className="h-3.5 w-3.5" />
+              Remove
             </button>
 
             <button
+              type="button"
               onClick={() => setActiveHighlightPopover(null)}
-              className="p-1 text-gray-400 hover:text-gray-600 rounded-md"
+              aria-label="Dismiss"
+              className={ghostIconButton}
             >
-              <X size={14} />
+              <X className="h-3.5 w-3.5" />
             </button>
-          </motion.div>
+          </FloatingBar>
         )}
       </AnimatePresence>
     </div>
   );
 }
-
