@@ -86,7 +86,24 @@ module.exports = {
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
         serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
       },
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        serif: ["var(--font-serif)", "ui-serif", "Georgia", "serif"],
+      },
       colors: {
+        gray: invertedGray,
+        slate: invertedGray,
+        zinc: invertedGray,
+        ...Object.fromEntries(HUES.map((h) => [h, darkHue(defaultColors[h])])),
+        brand: {
+          DEFAULT: "#D4FF4F",
+          foreground: "#0a0a0a",
+        },
+        surface: {
+          DEFAULT: "#111113",
+          raised: "#17171a",
+        },
         gray: invertedGray,
         slate: invertedGray,
         zinc: invertedGray,

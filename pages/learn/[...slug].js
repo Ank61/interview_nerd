@@ -819,6 +819,7 @@ import {
 } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { darkenTheme } from "@/lib/themeUtils";
+import { darkenTheme } from "@/lib/themeUtils";
 import { linuxPrepareData } from "@/data/linuxPrepareData";
 import { awsServiceCategories } from "@/data/awsServices";
 import { useHighlights } from "@/hooks/useHighlights";
@@ -1302,6 +1303,7 @@ export async function getStaticProps({ params }) {
   const selected = decodeURIComponent(slug[slug.length - 1]);
   const categorySlug = slug[0];
   let themeColor = darkenTheme({});
+  let themeColor = darkenTheme({});
   let nextTopic = null;
   let explanation = "";
   let category = "";
@@ -1319,11 +1321,13 @@ export async function getStaticProps({ params }) {
         if (conceptItem.topic === selected) {
           category = separateData.category;
           themeColor = darkenTheme({
+          themeColor = darkenTheme({
             category: separateData.category,
             themeBgColor: separateData.themeBgColor,
             textColor: separateData.textColor,
             topicColor: separateData.topicColor,
             lightColor: separateData.lightColor,
+          });
           });
           explanation = conceptItem.explanation || "";
           const next = typeItem.concepts[index + 1];
@@ -1340,11 +1344,13 @@ export async function getStaticProps({ params }) {
             if (conceptItem.topic === selected) {
               category = item?.category || selected;
               themeColor = darkenTheme({
+              themeColor = darkenTheme({
                 category: item.category,
                 themeBgColor: item.themeBgColor,
                 textColor: item.textColor,
                 topicColor: item.topicColor,
                 lightColor: item.lightColor || item.themeBgColor,
+              });
               });
               explanation = conceptItem.explanation || "";
               const next = typeItem.concepts[index + 1];

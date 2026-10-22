@@ -272,6 +272,7 @@ export default function HighlightManager({
             mark.setAttribute("data-highlight-id", h.id || h.highlightId);
             mark.style.backgroundColor = h.color || "#fef08a";
             mark.style.color = h.textColor || "#ededef";
+            mark.style.color = h.textColor || "#ededef";
             mark.style.borderBottom = `2px solid ${h.borderColor || "rgba(0,0,0,0.2)"}`;
             mark.title = "Click to recolor or remove";
 
