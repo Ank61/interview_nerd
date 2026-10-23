@@ -6,7 +6,7 @@ import {
   ArrowLeft,
   ArrowUpRight,
   Search,
-  Link,
+  Link as LinkIcon,
   BarChart3,
   LineChart,
   ArrowUpDown,
@@ -133,13 +133,13 @@ export default function SQLPathLearning() {
           />
 
           <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <Link
+            <LinkIcon
               href="/sql-practice"
               className="hero-fade group mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-3 pr-4 text-xs text-neutral-400 backdrop-blur transition-colors hover:border-white/20 hover:text-neutral-200"
             >
               <ArrowLeft className="h-3 w-3 transition-transform group-hover:-translate-x-0.5" />
               Back to SQL Practice
-            </Link>
+            </LinkIcon>
 
             <h1 className="text-[clamp(2.5rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-neutral-50">
               <span className="block">

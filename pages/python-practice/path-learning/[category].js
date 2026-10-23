@@ -202,5 +202,5 @@ export default function PythonCategoryPage() {
           </div>
         </section>
       </main>
-    </PageShell>
+    </PageShell>)
 }
